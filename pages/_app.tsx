@@ -1,11 +1,11 @@
+// @ts-ignore
+
 import React from "react";
 import Head from "next/head";
 import { blue } from "@mui/material/colors";
 
 import Layout from "./layout/Layout";
 import "../styles/global.css";
-
-declare var ACCOUNT_DATA: Object;
 
 function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
   global.ACCOUNT_DATA = {
