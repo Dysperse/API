@@ -5,9 +5,9 @@ import Masonry from "@mui/lab/Masonry";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
-import { Lists } from "./Lists";
-import { RecentItems } from "./RecentItems";
-import { ListItems } from "./ListItems";
+import { Lists } from "../layout/dashboard/Lists";
+import { RecentItems } from "../layout/dashboard/RecentItems";
+import { ListItems } from "../layout/dashboard/ListItems";
 
 dayjs.extend(relativeTime);
 

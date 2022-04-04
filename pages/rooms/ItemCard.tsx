@@ -5,7 +5,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import ItemPopup from "../ItemPopup";
+import ItemPopup from "../../components/ItemPopup";
 
 export function ItemCard({ item }: any) {
   return (

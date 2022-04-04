@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import NoData from "./NoData";
+import NoData from "../../layout/finances/NoData";
 
 export default function Finances() {
   return (

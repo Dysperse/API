@@ -1,4 +1,4 @@
-import Dashboard from "./dashboard/index";
+import Dashboard from "./dashboard";
 
 function Index(): any {
   return <Dashboard />;

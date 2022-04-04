@@ -80,6 +80,7 @@ function ResponsiveDrawer(props: any) {
       >
         <Toolbar />
         {props.children}
+        <Toolbar />
         <FloatingActionButton />
         <BottomNav />
       </Box>

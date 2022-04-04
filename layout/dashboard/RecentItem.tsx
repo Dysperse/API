@@ -2,7 +2,7 @@ import * as React from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import dayjs from "dayjs";
-import ItemPopup from "../ItemPopup";
+import ItemPopup from "../../components/ItemPopup";
 
 export function RecentItem(props: any) {
   return (
