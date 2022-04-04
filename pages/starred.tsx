@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Masonry from "@mui/lab/Masonry";
 import Paper from "@mui/material/Paper";
-import { ItemCard } from "./rooms/ItemCard";
+import { ItemCard } from "../components/rooms/ItemCard";
 
 function Items() {
   const { isLoading, data }: any = useFetch(
