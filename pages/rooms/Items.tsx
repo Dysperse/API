@@ -19,7 +19,7 @@ export function Items() {
       method: "POST",
       body: new URLSearchParams({
         room: index.toString(),
-        token: ACCOUNT_DATA.accessToken.toString()
+        token: global.ACCOUNT_DATA.accessToken.toString()
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     }

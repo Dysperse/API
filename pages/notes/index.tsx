@@ -10,7 +10,15 @@ import Masonry from "@mui/lab/Masonry";
 import Typography from "@mui/material/Typography";
 import NoteModal from "./NoteModal";
 
-function Note({ title, banner, id }: { title: string; banner?: string, id:number }) {
+function Note({
+  title,
+  banner,
+  id
+}: {
+  title: string;
+  banner?: string;
+  id: number;
+}) {
   return (
     <Paper key={Math.random().toString()}>
       <Card>
@@ -40,7 +48,7 @@ function NoteList() {
   const { isLoading, data } = useFetch("https://api.smartlist.tech/v2/notes/", {
     method: "POST",
     body: new URLSearchParams({
-      token: ACCOUNT_DATA.accessToken
+      token: global.ACCOUNT_DATA.accessToken
     }),
     headers: { "Content-Type": "application/x-www-form-urlencoded" }
   });

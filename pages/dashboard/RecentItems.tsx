@@ -13,8 +13,8 @@ export function RecentItems() {
       method: "POST",
       body: new URLSearchParams({
         room: "null",
-        limit: 7,
-        token: ACCOUNT_DATA.accessToken
+        limit: "7",
+        token: global.ACCOUNT_DATA.accessToken
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     }

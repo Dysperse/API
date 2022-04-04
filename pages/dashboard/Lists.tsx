@@ -7,7 +7,7 @@ export function Lists() {
   const { isLoading, data } = useFetch("https://api.smartlist.tech/v2/lists/", {
     method: "POST",
     body: new URLSearchParams({
-      token: ACCOUNT_DATA.accessToken
+      token: global.ACCOUNT_DATA.accessToken
     }),
     headers: { "Content-Type": "application/x-www-form-urlencoded" }
   });
