@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 
 import Masonry from "@mui/lab/Masonry";
 
-import * as dayjs from "dayjs";
-import * as relativeTime from "dayjs/plugin/relativeTime"; // import plugin
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
 import { Lists } from "./Lists";
 import { RecentItems } from "./RecentItems";
 import { ListItems } from "./ListItems";
