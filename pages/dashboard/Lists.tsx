@@ -4,13 +4,16 @@ import Skeleton from "@mui/material/Skeleton";
 import { List } from "./List";
 
 export function Lists() {
-  const { isLoading, data } = useFetch("https://api.smartlist.tech/v2/lists/", {
-    method: "POST",
-    body: new URLSearchParams({
-      token: global.ACCOUNT_DATA.accessToken
-    }),
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-  });
+  const { isLoading, data }: any = useFetch(
+    "https://api.smartlist.tech/v2/lists/",
+    {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.ACCOUNT_DATA.accessToken
+      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    }
+  );
 
   return isLoading ? (
     <div>
@@ -18,8 +21,8 @@ export function Lists() {
     </div>
   ) : (
     <>
-      {data.data.map((list: Object) => (
-        <List {...list} />
+      {data.data.map((list: any) => (
+        <List title={list.title} description={list.description} id={list.id} />
       ))}
     </>
   );
