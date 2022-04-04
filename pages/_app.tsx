@@ -34,6 +34,7 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
     },
     preferences: { homePage: "/app/pages/dashboard.php" }
   };
+  global.ACCOUNT_DATA = ACCOUNT_DATA;
 
   return (
     <>
