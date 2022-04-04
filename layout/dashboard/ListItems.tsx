@@ -31,33 +31,29 @@ export function ListItems({
   );
 
   return isLoading ? (
-    <div>
-      <Skeleton height={200} animation="wave" sx={{ mb: 1 }} />
-    </div>
+    <Skeleton height={200} animation="wave" variant="rectangular" />
   ) : (
-    <>
-      <Card sx={{ mb: 1, width: "100%" }}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          {data.data.map((list: Object) => (
-            <GenerateListItem {...list} />
-          ))}
-          {data.data.length === 0 && (
-            <Box sx={{ textAlign: "center" }}>
-              <img alt="" src={emptyImage} />
-              <Typography sx={{ display: "block" }} variant="h6">
-                No items?!
-              </Typography>
-              <Typography sx={{ display: "block" }}>{emptyText}</Typography>
-              <Typography sx={{ display: "block" }} variant="caption">
-                PRO TIP: Hit the "+" icon to create an item
-              </Typography>
-            </Box>
-          )}
-        </CardContent>
-      </Card>
-    </>
+    <Card sx={{ mb: 1, width: "100%" }}>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {title}
+        </Typography>
+        {data.data.map((list: Object) => (
+          <GenerateListItem {...list} />
+        ))}
+        {data.data.length === 0 && (
+          <Box sx={{ textAlign: "center" }}>
+            <img alt="" src={emptyImage} />
+            <Typography sx={{ display: "block" }} variant="h6">
+              No items?!
+            </Typography>
+            <Typography sx={{ display: "block" }}>{emptyText}</Typography>
+            <Typography sx={{ display: "block" }} variant="caption">
+              PRO TIP: Hit the "+" icon to create an item
+            </Typography>
+          </Box>
+        )}
+      </CardContent>
+    </Card>
   );
 }

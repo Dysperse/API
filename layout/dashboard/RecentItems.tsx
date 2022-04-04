@@ -21,9 +21,12 @@ export function RecentItems() {
   );
 
   return isLoading ? (
-    <div>
-      <Skeleton height={500} animation="wave" sx={{ mb: 1 }} />
-    </div>
+    <Skeleton
+      variant="rectangular"
+      width={"100%"}
+      height={500}
+      animation="wave"
+    />
   ) : (
     <Card>
       <CardContent>

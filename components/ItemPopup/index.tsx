@@ -21,9 +21,9 @@ export default function ItemPopup(props: any) {
     //   .querySelector("meta[name='theme-color']")
     //   .setAttribute("content", open ? "#eee" : "#1565c0");
     if (open) {
-      document.body.classList.add("prevent-scroll");
+      document.documentElement.classList.add("prevent-scroll");
     } else {
-      document.body.classList.remove("prevent-scroll");
+      document.documentElement.classList.remove("prevent-scroll");
     }
     setState(open);
   };

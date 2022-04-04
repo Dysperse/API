@@ -16,9 +16,16 @@ export function Lists() {
   );
 
   return isLoading ? (
-    <div>
-      <Skeleton height={90} animation="wave" sx={{ mb: 1 }} />
-    </div>
+    <>
+      {[1, 1, 1, 1, 1].map((_) => (
+        <Skeleton
+          variant="rectangular"
+          height={100}
+          animation="wave"
+          sx={{ mb: 1, borderRadius: "5px" }}
+        />
+      ))}
+    </>
   ) : (
     <>
       {data.data.map((list: any) => (

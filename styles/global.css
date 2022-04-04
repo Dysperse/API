@@ -8,6 +8,9 @@ html:not(.prevent-scroll),
 body:not(.prevent-scroll) {
   overflow-y: scroll !important;
 }
+.prevent-scroll {
+  overflow: hidden !important;
+}
 img {
   user-select: none;
 }
