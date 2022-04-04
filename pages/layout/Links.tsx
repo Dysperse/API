@@ -17,7 +17,12 @@ import StarBorder from "@mui/icons-material/StarBorder";
 import AddIcon from "@mui/icons-material/Add";
 import RoomIcon from "@mui/icons-material/Room";
 
-function ListItem({ href = "/dashboard", asHref = "/dashboard", text, icon }) {
+function ListItem({
+  href = "/dashboard",
+  asHref = "/dashboard",
+  text,
+  icon
+}: any) {
   return (
     <Link href={href} as={asHref}>
       <ListItemButton>
@@ -28,7 +33,7 @@ function ListItem({ href = "/dashboard", asHref = "/dashboard", text, icon }) {
   );
 }
 
-export function DrawerListItems({ handleDrawerToggle }) {
+export function DrawerListItems({ handleDrawerToggle }: any) {
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {

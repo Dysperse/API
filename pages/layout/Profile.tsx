@@ -15,7 +15,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItem from "@mui/material/ListItem";
-import Settings from './Settings'
+import Settings from "./Settings";
 
 const drawerBleeding = 10;
 
@@ -40,11 +40,7 @@ const Puller = styled(Box)(({ theme }) => ({
 function Accounts() {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-      <ListItem
-        secondaryAction={
-          <Settings />
-        }
-      >
+      <ListItem secondaryAction={<Settings />}>
         <ListItemButton alignItems="flex-start">
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src={ACCOUNT_DATA.image} />
@@ -70,7 +66,7 @@ function Accounts() {
   );
 }
 
-export function ProfileMenu(props: Props) {
+export function ProfileMenu(props: any) {
   const { window } = props;
   const [open, setOpen] = React.useState(false);
 

@@ -10,7 +10,7 @@ import FloatingActionButton from "./FloatingActionButton";
 
 const drawerWidth = 266;
 
-function ResponsiveDrawer(props) {
+function ResponsiveDrawer(props: any) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 

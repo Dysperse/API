@@ -5,12 +5,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { ProfileMenu } from "./Profile";
-import Avatar from "@mui/material/Avatar";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
 import { NotificationsMenu } from "./Notifications";
 
-export function Navbar({ handleDrawerToggle }) {
+export function Navbar({ handleDrawerToggle }: any) {
   return (
     <AppBar position="fixed">
       <Toolbar>
