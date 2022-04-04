@@ -6,10 +6,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { ItemDetails } from "./ItemDetails";
 
-export function ItemActionsDropdown({ itemData }) {
+export function ItemActionsDropdown({ itemData }: { itemData: any }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

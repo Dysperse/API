@@ -7,29 +7,28 @@ import TextField from "@mui/material/TextField";
 
 import { Navbar } from "./Navbar";
 
-export default function ItemPopup(props) {
+export default function ItemPopup(props: any) {
   const [state, setState] = React.useState(false);
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = (open: any) => (event: any) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
-    document.querySelector("meta[name='theme-color']")<HTMLElement>.content = open
-      ? "#eee"
-      : "#1565c0";
-      if(open) {
-        document.body.classList.add("prevent-scroll");
-      }
-      else {
-        document.body.classList.remove("prevent-scroll");
-      }
+    // document!
+    //   .querySelector("meta[name='theme-color']")
+    //   .setAttribute("content", open ? "#eee" : "#1565c0");
+    if (open) {
+      document.body.classList.add("prevent-scroll");
+    } else {
+      document.body.classList.remove("prevent-scroll");
+    }
     setState(open);
   };
 
-  const list = (data) => (
+  const list = (data: any) => (
     <Box
       sx={{
         width: {
@@ -58,7 +57,7 @@ export default function ItemPopup(props) {
           {data.amount}
         </Typography>
         <div>
-          {data.categories.split(",").map((category) => {
+          {data.categories.split(",").map((category: string) => {
             if (category.trim() !== "") {
               return <Chip label={category} sx={{ m: "5px" }} />;
             }
@@ -82,8 +81,8 @@ export default function ItemPopup(props) {
     <React.Fragment key="right">
       <div onClick={toggleDrawer(true)}>{props.children}</div>
       <SwipeableDrawer
+        onOpen={toggleDrawer(true)}
         anchor="right"
-        onOpen={false}
         open={state}
         onClose={toggleDrawer(false)}
       >

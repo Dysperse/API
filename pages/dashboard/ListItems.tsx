@@ -7,7 +7,17 @@ import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
 import { GenerateListItem } from "./GenerateListItem";
 
-export function ListItems({ parent, title, emptyImage, emptyText }) {
+export function ListItems({
+  parent,
+  title,
+  emptyImage,
+  emptyText
+}: {
+  parent: any;
+  title: any;
+  emptyImage: any;
+  emptyText: any;
+}) {
   const { isLoading, data } = useFetch(
     "https://api.smartlist.tech/v2/lists/fetch/",
     {

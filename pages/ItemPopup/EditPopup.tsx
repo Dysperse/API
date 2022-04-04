@@ -8,7 +8,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export function EditPopup({ children, itemData }) {
+export function EditPopup({
+  children,
+  itemData
+}: {
+  children: any;
+  itemData: any;
+}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -53,7 +59,6 @@ export function EditPopup({ children, itemData }) {
             options={["1", "2", "3"]}
             renderInput={(params) => (
               <TextField
-                fullWidth
                 variant="outlined"
                 {...params}
                 margin="dense"

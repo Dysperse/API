@@ -14,12 +14,16 @@ export function DeleteModal() {
 
   const handleClickOpen = () => {
     setOpen(true);
-    document.querySelector("meta[name='theme-color']").content = "#7f7f7f";
+    document!
+      .querySelector("meta[name='theme-color']")!
+      .setAttribute("content", "#7f7f7f");
   };
 
   const handleClose = () => {
     setOpen(false);
-    document.querySelector("meta[name='theme-color']").content = "#eee";
+    document!
+      .querySelector("meta[name='theme-color']")!
+      .setAttribute("content", "#eee");
   };
 
   return (

@@ -11,7 +11,13 @@ import { ItemActionsDropdown } from "./ItemActionsDropdown";
 import { DeleteModal } from "./DeleteModal";
 import { EditPopup } from "./EditPopup";
 
-export function Navbar({ itemData, toggleDrawer }) {
+export function Navbar({
+  itemData,
+  toggleDrawer
+}: {
+  itemData: any;
+  toggleDrawer: any;
+}) {
   return (
     <>
       <AppBar

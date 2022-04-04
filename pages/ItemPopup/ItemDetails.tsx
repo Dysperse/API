@@ -8,20 +8,26 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export function ItemDetails({ children, itemData }) {
+export function ItemDetails({
+  children,
+  itemData
+}: {
+  children: any;
+  itemData: any;
+}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
-    document
-      .querySelector("meta[name='theme-color']")
+    document!
+      .querySelector("meta[name='theme-color']")!
       .setAttribute("content", "#7a7a7a");
   };
 
   const handleClose = () => {
     setOpen(false);
-    document
-      .querySelector("meta[name='theme-color']")
+    document!
+      .querySelector("meta[name='theme-color']")!
       .setAttribute("content", "#eee");
   };
 
