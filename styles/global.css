@@ -1,0 +1,13 @@
+::-webkit-scrollbar {
+  /* display: none; */
+}
+body {
+  overflow-x: hidden;
+}
+html:not(.prevent-scroll),
+body:not(.prevent-scroll) {
+  overflow-y: scroll !important;
+}
+img {
+  user-select: none;
+}

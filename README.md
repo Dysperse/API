@@ -1,2 +1,3 @@
-# Smartlist-React-Dashboard-Test
-Created with CodeSandbox
+# Smartlist Dashboard
+
+# Experimental ReactJS Smartlist Dashboard
