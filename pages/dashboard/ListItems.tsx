@@ -18,7 +18,7 @@ export function ListItems({
   emptyImage: any;
   emptyText: any;
 }) {
-  const { isLoading, data } = useFetch(
+  const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/lists/fetch/",
     {
       method: "POST",
