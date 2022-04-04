@@ -62,8 +62,8 @@ function NoteList() {
     </Masonry>
   ) : (
     <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
-      {data.data.map((list: Object) => (
-        <Note {...list} />
+      {data.data.map((list: any) => (
+        <Note title={list.title} banner={list.banner} id={list.id} />
       ))}
     </Masonry>
   );

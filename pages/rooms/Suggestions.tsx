@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 
 export function Suggestions() {
   const router = useRouter();
-  const { index } = router.query;
+  const { index }: any = router.query;
 
   return (
     <Card sx={{ mb: 2 }}>

@@ -95,7 +95,7 @@ const Transition = React.forwardRef(function Transition(
   return <Grow in={true} ref={ref} {...props} />;
 });
 
-export default function NoteModal(props) {
+export default function NoteModal(props: any) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {

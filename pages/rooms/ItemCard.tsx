@@ -7,7 +7,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import ItemPopup from "../ItemPopup";
 
-export function ItemCard({ item }) {
+export function ItemCard({ item }: any) {
   return (
     <ItemPopup data={item}>
       <Card>
@@ -16,7 +16,7 @@ export function ItemCard({ item }) {
             <Typography>{item.title}</Typography>
             <Typography sx={{ opacity: 0.7 }}>{item.amount}</Typography>
             <Stack direction="row" spacing={1}>
-              {item.categories.split(",").map((category) => {
+              {item.categories.split(",").map((category: string) => {
                 if (category.trim() !== "") return <Chip label={category} />;
               })}
             </Stack>

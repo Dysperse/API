@@ -3,13 +3,11 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import ItemPopup from "../ItemPopup";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 
-export function ItemCard({ item }) {
+export function ItemCard({ item }: any) {
   return (
     <Card>
       <ItemPopup data={item}>

@@ -11,7 +11,7 @@ import { ItemCard } from "./ItemCard";
 
 export function Items() {
   const router = useRouter();
-  const { index } = router.query;
+  const { index }: any = router.query;
 
   const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/items/list/",
@@ -57,7 +57,7 @@ export function Items() {
           </Paper>
         )
       )}
-      {data.data.length == 0 ? (
+      {data.data.length === 0 ? (
         <Paper
           sx={{
             boxShadow: 0,
