@@ -35,7 +35,7 @@ const Puller = styled(Box)(({ theme }) => ({
   left: "calc(50% - 15px)"
 }));
 
-function AddItemOption({ icon, title }) {
+function AddItemOption({ icon, title }: any) {
   return (
     <ListItemButton>
       <ListItemIcon>{icon}</ListItemIcon>
@@ -43,7 +43,7 @@ function AddItemOption({ icon, title }) {
     </ListItemButton>
   );
 }
-function Content({ toggleDrawer }) {
+function Content({ toggleDrawer }: any) {
   return (
     <List
       sx={{ width: "100%", bgcolor: "background.paper" }}
@@ -61,7 +61,7 @@ function Content({ toggleDrawer }) {
   );
 }
 
-export function AddPopup(props: Props) {
+export function AddPopup(props: any) {
   const { window } = props;
   const [open, setOpen] = React.useState(false);
 
