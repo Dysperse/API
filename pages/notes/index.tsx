@@ -45,13 +45,16 @@ function Note({
 }
 
 function NoteList() {
-  const { isLoading, data } = useFetch("https://api.smartlist.tech/v2/notes/", {
-    method: "POST",
-    body: new URLSearchParams({
-      token: global.ACCOUNT_DATA.accessToken
-    }),
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-  });
+  const { isLoading, data }: any = useFetch(
+    "https://api.smartlist.tech/v2/notes/",
+    {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.ACCOUNT_DATA.accessToken
+      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    }
+  );
 
   return isLoading ? (
     <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>

@@ -13,7 +13,7 @@ export function Items() {
   const router = useRouter();
   const { index } = router.query;
 
-  const { isLoading, data } = useFetch(
+  const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/items/list/",
     {
       method: "POST",

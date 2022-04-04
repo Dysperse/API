@@ -7,13 +7,16 @@ import { ItemCard } from "./ItemCard";
 import Masonry from "@mui/lab/Masonry";
 
 function Items() {
-  const { isLoading, data } = useFetch("https://api.smartlist.tech/v2/trash/", {
-    method: "POST",
-    body: new URLSearchParams({
-      token: global.ACCOUNT_DATA.accessToken.toString()
-    }),
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-  });
+  const { isLoading, data }: any = useFetch(
+    "https://api.smartlist.tech/v2/trash/",
+    {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.ACCOUNT_DATA.accessToken.toString()
+      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    }
+  );
 
   return isLoading ? (
     <>

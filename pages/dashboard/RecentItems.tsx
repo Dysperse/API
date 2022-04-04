@@ -7,7 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import { RecentItem } from "./RecentItem";
 
 export function RecentItems() {
-  const { isLoading, data } = useFetch(
+  const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/items/list/",
     {
       method: "POST",

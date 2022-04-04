@@ -7,7 +7,7 @@ import Paper from "@mui/material/Paper";
 import { ItemCard } from "./rooms/ItemCard";
 
 function Items() {
-  const { isLoading, data } = useFetch(
+  const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/items/starred/",
     {
       method: "POST",
