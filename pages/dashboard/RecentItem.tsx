@@ -6,7 +6,7 @@ import ItemPopup from "../ItemPopup";
 
 export function RecentItem(props: any) {
   const capitalizeFirstLetter = (
-    [first, ...rest],
+    [first, ...rest]: any,
     locale = navigator.language
   ) => first.toLocaleUpperCase(locale) + rest.join("");
 
