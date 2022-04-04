@@ -32,7 +32,7 @@ export function ListItems({
 
   return isLoading ? (
     <div>
-      <Skeleton height={200} variant="wave" sx={{ mb: 1 }} />
+      <Skeleton height={200} animation="wave" sx={{ mb: 1 }} />
     </div>
   ) : (
     <>

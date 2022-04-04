@@ -22,7 +22,7 @@ export function RecentItems() {
 
   return isLoading ? (
     <div>
-      <Skeleton height={500} variant="wave" sx={{ mb: 1 }} />
+      <Skeleton height={500} animation="wave" sx={{ mb: 1 }} />
     </div>
   ) : (
     <Card>

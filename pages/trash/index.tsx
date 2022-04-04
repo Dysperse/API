@@ -18,7 +18,11 @@ function Items() {
   return isLoading ? (
     <>
       {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((_) => (
-        <Skeleton height={100} variant="wave" sx={{ mb: 2, borderRadius: 2 }} />
+        <Skeleton
+          height={100}
+          animation="wave"
+          sx={{ mb: 2, borderRadius: 2 }}
+        />
       ))}
     </>
   ) : (

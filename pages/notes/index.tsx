@@ -55,7 +55,7 @@ function NoteList() {
 
   return isLoading ? (
     <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
-      <Skeleton height={90} variant="wave" sx={{ mb: 1 }} />
+      <Skeleton height={90} animation="wave" sx={{ mb: 1 }} />
     </Masonry>
   ) : (
     <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
