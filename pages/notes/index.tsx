@@ -8,7 +8,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardActionArea from "@mui/material/CardActionArea";
 import Masonry from "@mui/lab/Masonry";
 import Typography from "@mui/material/Typography";
-import NoteModal from "./NoteModal";
+import NoteModal from "../../components/NoteModal";
 
 function Note({
   title,

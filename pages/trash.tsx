@@ -3,7 +3,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import { ItemCard } from "./ItemCard";
+import { ItemCard } from "../components/trash/ItemCard";
 import Masonry from "@mui/lab/Masonry";
 
 function Items() {

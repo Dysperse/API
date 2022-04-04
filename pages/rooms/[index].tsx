@@ -1,12 +1,10 @@
-import * as React from "react";
-
 import Box from "@mui/material/Box";
 import Masonry from "@mui/lab/Masonry";
-import { Suggestions } from "./Suggestions";
 
-import { Header } from "./Header";
-import { Toolbar } from "./Toolbar";
-import { Items } from "./Items";
+import { Suggestions } from "../../components/rooms/Suggestions";
+import { Header } from "../../components/rooms/Header";
+import { Toolbar } from "../../components/rooms/Toolbar";
+import { Items } from "../../components/rooms/Items";
 
 function Room() {
   return (
