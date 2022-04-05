@@ -28,7 +28,7 @@ export function Navbar({ handleDrawerToggle }: any) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" sx={{ flexGrow: 1 }} noWrap component="div">
+        <Typography variant="h6" sx={{ flexGrow: 1 }} noWrap>
           {global.ACCOUNT_DATA.houseName}
         </Typography>
         <NotificationsMenu>
