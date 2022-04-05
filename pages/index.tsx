@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-
-const Dashboard = dynamic(() => import("./dashboard"));
+import Dashboard from "./dashboard";
 
 function Index(): any {
   return <Dashboard />;
 }
-
 export default Index;
