@@ -37,28 +37,26 @@ function Items() {
     </>
   ) : (
     <>
-      <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
-        {data.data.map(
-          (item: {
-            id: number;
-            lastUpdated: string;
-            amount: string;
-            sync: string;
-            title: string;
-            categories: string;
-            note: string;
-            star: number;
-            room: string;
-          }) => (
-            <Paper
-              sx={{ boxShadow: 0, p: 0 }}
-              key={(Math.random() + Math.random()).toString()}
-            >
-              <ItemCard item={item} />
-            </Paper>
-          )
-        )}
-      </Masonry>
+      {data.data.map(
+        (item: {
+          id: number;
+          lastUpdated: string;
+          amount: string;
+          sync: string;
+          title: string;
+          categories: string;
+          note: string;
+          star: number;
+          room: string;
+        }) => (
+          <Paper
+            sx={{ boxShadow: 0, p: 0 }}
+            key={(Math.random() + Math.random()).toString()}
+          >
+            <ItemCard item={item} />
+          </Paper>
+        )
+      )}
     </>
   );
 }
@@ -69,7 +67,9 @@ export default function Render() {
       <Typography sx={{ mb: 2 }} variant="h5">
         Trash
       </Typography>
-      <Items />
+      <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
+        <Items />
+      </Masonry>
     </Box>
   );
 }
