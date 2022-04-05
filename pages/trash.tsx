@@ -43,7 +43,10 @@ function Items() {
             star: number;
             room: string;
           }) => (
-            <Paper sx={{ boxShadow: 0, p: 0 }} key={Math.random().toString()}>
+            <Paper
+              sx={{ boxShadow: 0, p: 0 }}
+              key={(Math.random() + Math.random()).toString()}
+            >
               <ItemCard item={item} />
             </Paper>
           )
