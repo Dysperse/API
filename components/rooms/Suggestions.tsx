@@ -13,7 +13,7 @@ export function Suggestions() {
     <Card sx={{ mb: 2 }}>
       <CardContent>
         <Typography variant="h5" sx={{ textTransform: "capitalize", mb: 1 }}>
-          Suggestions
+          Suggestions for {index}
         </Typography>
         <Stack spacing={1} direction="row">
           <Chip label="Chip" />

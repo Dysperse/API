@@ -58,9 +58,8 @@ export default function ItemPopup(props: any) {
         </Typography>
         <div>
           {data.categories.split(",").map((category: string) => {
-            if (category.trim() !== "") {
-              return <Chip label={category} sx={{ m: "5px" }} />;
-            }
+            return category.trim() !== "" &&
+               <Chip label={category} sx={{ m: "5px" }} />;
           })}
         </div>
         <TextField

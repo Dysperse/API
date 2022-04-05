@@ -16,9 +16,12 @@ export function ItemCard({ item }: any) {
             <Typography>{item.title}</Typography>
             <Typography sx={{ opacity: 0.7 }}>{item.amount}</Typography>
             <Stack direction="row" spacing={1}>
-              {item.categories.split(",").map((category: string) => {
-                if (category.trim() !== "") return <Chip label={category} />;
-              })}
+              {item.categories
+                .split(",")
+                .map(
+                  (category: string) =>
+                    category.trim() !== "" && <Chip label={category} />
+                )}
             </Stack>
           </CardContent>
         </CardActionArea>
