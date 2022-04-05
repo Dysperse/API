@@ -26,11 +26,11 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.16.7",
-    "@types/node": "latest",
+    "@types/node": "^17.0.23",
     "@types/react": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
-    "typescript": "latest"
+    "typescript": "^4.6.3"
   },
   "keywords": [],
   "description": ""
