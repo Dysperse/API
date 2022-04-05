@@ -37,7 +37,7 @@ const Puller = styled(Box)(({ theme }) => ({
   left: "calc(50% - 15px)"
 }));
 
-function Accounts() {
+const Accounts = React.memo(function Accounts() {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <ListItem secondaryAction={<Settings />}>
@@ -64,7 +64,7 @@ function Accounts() {
       </ListItem>
     </List>
   );
-}
+});
 
 export function ProfileMenu(props: any) {
   const { window } = props;

@@ -40,8 +40,6 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/plugin/relativeTime.min.js"></script>
         <meta name="theme-color" content={blue[800]} />
         <title>Dashboard &bull; Smartlist</title>
       </Head>

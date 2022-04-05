@@ -1,8 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
 import { AddPopup } from "./AddPopup";
+
+import dynamic from "next/dynamic";
+const AddIcon = dynamic(() => import("@mui/icons-material/Add"));
 
 export default function FloatingActionButtonExtendedSize() {
   return (

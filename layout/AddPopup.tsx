@@ -6,14 +6,14 @@ import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Avatar from "@mui/material/Avatar";
 
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import LabelIcon from "@mui/icons-material/Label";
+
+import dynamic from "next/dynamic";
+const LabelIcon = dynamic(() => import("@mui/icons-material/Label"));
 
 const drawerBleeding = 10;
 
