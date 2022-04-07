@@ -10,7 +10,7 @@ import { BottomNav } from "./BottomNav";
 import FloatingActionButton from "./FloatingActionButton";
 import useWindowDimensions from "./useWindowDimensions";
 
-const drawerWidth = 266;
+const drawerWidth = 300;
 
 function ResponsiveDrawer(props: any) {
   const { window } = props;
@@ -23,7 +23,7 @@ function ResponsiveDrawer(props: any) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const { width } = useWindowDimensions();
+  const { width }: any = useWindowDimensions();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -36,7 +36,7 @@ function ResponsiveDrawer(props: any) {
       >
         <SwipeableDrawer
           container={container}
-          onOpen={true}
+          onOpen={handleDrawerToggle}
           swipeAreaWidth={width > 900 ? 0 : 10}
           variant="temporary"
           open={mobileOpen}

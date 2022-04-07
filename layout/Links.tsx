@@ -17,6 +17,7 @@ const LabelIcon = dynamic(() => import("@mui/icons-material/Label"));
 const ExpandLess = dynamic(() => import("@mui/icons-material/ExpandLess"));
 const ExpandMore = dynamic(() => import("@mui/icons-material/ExpandMore"));
 const StarBorder = dynamic(() => import("@mui/icons-material/StarBorder"));
+const SpaIcon = dynamic(() => import("@mui/icons-material/Spa"));
 
 const ListItem = React.memo(function ListItem({
   href = "/dashboard",
@@ -67,6 +68,7 @@ export function DrawerListItems({ handleDrawerToggle }: any) {
           icon={<LabelIcon />}
         />
         <ListItem text="Meals" icon={<LabelIcon />} />
+        <ListItem text="Eco-friendly tips" icon={<SpaIcon />} />
       </div>
       <div onClick={handleDrawerToggle}>
         <ListSubheader>Rooms</ListSubheader>
