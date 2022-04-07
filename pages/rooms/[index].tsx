@@ -34,7 +34,7 @@ function Room({ params }: any) {
     </Box>
   );
 }
-export function getServerSideProps(context) {
+export function getServerSideProps(context: any) {
   return {
     props: { params: context.params }
   };
