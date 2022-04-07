@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
 import { Navbar } from "./Navbar";
 import { DrawerListItems } from "./Links";
@@ -30,7 +31,7 @@ function ResponsiveDrawer(props: any) {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <Drawer
+        <SwipeableDrawer
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -49,7 +50,7 @@ function ResponsiveDrawer(props: any) {
           }}
         >
           <DrawerListItems handleDrawerToggle={handleDrawerToggle} />
-        </Drawer>
+        </SwipeableDrawer>
         <Drawer
           variant="permanent"
           sx={{
