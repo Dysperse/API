@@ -7,6 +7,8 @@ import "../styles/global.css";
 
 declare var ACCOUNT_DATA: Object;
 
+// serviceWorkerRegistration.register();
+
 function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
   var ACCOUNT_DATA = {
     accessToken:
@@ -39,8 +41,10 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
   return (
     <>
       <Head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="theme-color" content={blue[800]} />
+        <link href="/manifest.webmanifest" rel="manifest" />
         <title>Dashboard &bull; Smartlist</title>
       </Head>
       <Layout>

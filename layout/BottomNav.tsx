@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import { NextLinkComposed } from "next/link";
 
 import dynamic from "next/dynamic";
 const HomeIcon = dynamic(() => import("@mui/icons-material/Home"));
@@ -39,8 +40,22 @@ export function BottomNav() {
           setValue(newValue);
         }}
       >
-        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Finances" icon={<PaymentsIcon />} />
+        <BottomNavigationAction
+          component={NextLinkComposed}
+          to={{
+            pathname: "/dashboard"
+          }}
+          label="Home"
+          icon={<HomeIcon />}
+        />
+        <BottomNavigationAction
+          component={NextLinkComposed}
+          to={{
+            pathname: "/finances"
+          }}
+          label="Finances"
+          icon={<PaymentsIcon />}
+        />
         <BottomNavigationAction label="Search" icon={<SearchIcon />} />
         <BottomNavigationAction label="Items" icon={<ViewAgendaIcon />} />
         <BottomNavigationAction label="Meals" icon={<LunchDiningIcon />} />

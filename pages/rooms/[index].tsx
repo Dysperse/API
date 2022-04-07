@@ -1,12 +1,12 @@
 import Box from "@mui/material/Box";
 import Masonry from "@mui/lab/Masonry";
-
 import { Suggestions } from "../../components/rooms/Suggestions";
 import { Header } from "../../components/rooms/Header";
 import { Toolbar } from "../../components/rooms/Toolbar";
 import { Items } from "../../components/rooms/Items";
 
-function Room() {
+function Room({ params }: any) {
+  const { index }: any = params;
   return (
     <Box
       sx={{
@@ -28,10 +28,16 @@ function Room() {
         }}
       >
         <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
-          <Items />
+          <Items index={index} />
         </Masonry>
       </Box>
     </Box>
   );
 }
+export function getServerSideProps(context) {
+  return {
+    props: { params: context.params }
+  };
+}
+
 export default Room;

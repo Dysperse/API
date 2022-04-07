@@ -3,6 +3,7 @@
 }
 body {
   overflow-x: hidden;
+  font-weight: 600;
 }
 html:not(.prevent-scroll),
 body:not(.prevent-scroll) {

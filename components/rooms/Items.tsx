@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useRouter } from "next/router";
 import useFetch from "react-fetch-hook";
 import Skeleton from "@mui/material/Skeleton";
 import Paper from "@mui/material/Paper";
@@ -9,10 +8,7 @@ import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import { ItemCard } from "./ItemCard";
 
-export function Items() {
-  const router = useRouter();
-  const { index }: any = router.query;
-
+export function Items({ index }: any) {
   const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/items/list/",
     {
