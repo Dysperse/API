@@ -58,8 +58,11 @@ export default function ItemPopup(props: any) {
         </Typography>
         <div>
           {data.categories.split(",").map((category: string) => {
-            return category.trim() !== "" &&
-               <Chip label={category} sx={{ m: "5px" }} />;
+            return (
+              category.trim() !== "" && (
+                <Chip label={category} sx={{ m: "5px" }} />
+              )
+            );
           })}
         </div>
         <TextField
@@ -83,6 +86,7 @@ export default function ItemPopup(props: any) {
         onOpen={toggleDrawer(true)}
         anchor="right"
         open={state}
+        swipeAreaWidth={0}
         onClose={toggleDrawer(false)}
       >
         {list(props.data)}
