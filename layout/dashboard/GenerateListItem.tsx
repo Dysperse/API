@@ -24,7 +24,11 @@ export function GenerateListItem(props: any) {
   };
 
   return (
-    <ListItem key={value} sx={{ py: 0, m: 0 }} disablePadding>
+    <ListItem
+      key={Math.random().toString()}
+      sx={{ py: 0, m: 0 }}
+      disablePadding
+    >
       <ListItemButton
         sx={{ py: 0 }}
         role={undefined}

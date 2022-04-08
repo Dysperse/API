@@ -17,8 +17,9 @@ export function Lists() {
 
   return isLoading ? (
     <>
-      {[1, 1, 1, 1, 1].map((_) => (
+      {[1, 2, 3, 4, 5, 6].map((_, __) => (
         <Skeleton
+          key={__}
           variant="rectangular"
           height={100}
           animation="wave"

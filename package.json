@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+    "post-update": "echo \"codesandbox preview only, need an update\" && npm ci"
   },
   "dependencies": {
     "@editorjs/editorjs": "^2.23.2",
@@ -24,9 +24,9 @@
     "next": "latest",
     "next-compose-plugins": "2.2.1",
     "next-pwa": "5.4.7",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-fetch-hook": "^1.8.5"
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-fetch-hook": "1.9.5"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.16.7",
