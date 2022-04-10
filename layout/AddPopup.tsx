@@ -11,8 +11,9 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
-
+import { CreateItemModal } from "./CreateItemModal";
 import dynamic from "next/dynamic";
+
 const LabelIcon = dynamic(() => import("@mui/icons-material/Label"));
 
 const drawerBleeding = 10;
@@ -37,10 +38,12 @@ const Puller = styled(Box)(({ theme }) => ({
 
 function AddItemOption({ icon, title }: any) {
   return (
-    <ListItemButton>
-      <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText primary={title} />
-    </ListItemButton>
+    <CreateItemModal room={title}>
+      <ListItemButton>
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={title} />
+      </ListItemButton>
+    </CreateItemModal>
   );
 }
 function Content({ toggleDrawer }: any) {

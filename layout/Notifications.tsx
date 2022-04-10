@@ -1,14 +1,18 @@
 import * as React from "react";
+import dynamic from "next/dynamic";
+
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
+const List: any = dynamic(() => import("@mui/material/List"));
+const ListItem: any = dynamic(() => import("@mui/material/ListItem"));
+const Divider: any = dynamic(() => import("@mui/material/Divider"));
+const ListItemText: any = dynamic(() => import("@mui/material/ListItemText"));
+const ListItemAvatar: any = dynamic(() =>
+  import("@mui/material/ListItemAvatar")
+);
+const Avatar: any = dynamic(() => import("@mui/material/Avatar"));
 
 function NotificationsList() {
   return (

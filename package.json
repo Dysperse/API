@@ -26,7 +26,8 @@
     "next-pwa": "5.4.7",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "react-fetch-hook": "1.9.5"
+    "react-fetch-hook": "1.9.5",
+    "swr": "1.2.2"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.16.7",

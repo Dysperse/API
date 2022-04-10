@@ -11,12 +11,6 @@ export default function ItemPopup(props: any) {
   const [state, setState] = React.useState(false);
 
   const toggleDrawer = (open: any) => (event: any) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
     // document!
     //   .querySelector("meta[name='theme-color']")
     //   .setAttribute("content", open ? "#eee" : "#1565c0");
@@ -83,10 +77,10 @@ export default function ItemPopup(props: any) {
     <React.Fragment key="right">
       <div onClick={toggleDrawer(true)}>{props.children}</div>
       <SwipeableDrawer
-        onOpen={toggleDrawer(true)}
-        anchor="right"
+        anchor={"right"}
         open={state}
         swipeAreaWidth={0}
+        onOpen={toggleDrawer(true)}
         onClose={toggleDrawer(false)}
       >
         {list(props.data)}

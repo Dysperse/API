@@ -6,7 +6,7 @@ import { AddPopup } from "./AddPopup";
 import dynamic from "next/dynamic";
 const AddIcon = dynamic(() => import("@mui/icons-material/Add"));
 
-export default function FloatingActionButtonExtendedSize() {
+export function FloatingActionButton() {
   return (
     <Box
       sx={{

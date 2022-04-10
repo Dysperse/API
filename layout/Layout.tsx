@@ -7,7 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { Navbar } from "./Navbar";
 import { DrawerListItems } from "./Links";
 import { BottomNav } from "./BottomNav";
-import FloatingActionButton from "./FloatingActionButton";
+import { FloatingActionButton } from "./FloatingActionButton";
 import useWindowDimensions from "./useWindowDimensions";
 
 const drawerWidth = 300;

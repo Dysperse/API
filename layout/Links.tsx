@@ -11,13 +11,13 @@ import Collapse from "@mui/material/Collapse";
 import Toolbar from "@mui/material/Toolbar";
 
 import dynamic from "next/dynamic";
-const AddIcon = dynamic(() => import("@mui/icons-material/Add"));
-const RoomIcon = dynamic(() => import("@mui/icons-material/Room"));
-const LabelIcon = dynamic(() => import("@mui/icons-material/Label"));
-const ExpandLess = dynamic(() => import("@mui/icons-material/ExpandLess"));
-const ExpandMore = dynamic(() => import("@mui/icons-material/ExpandMore"));
-const StarBorder = dynamic(() => import("@mui/icons-material/StarBorder"));
-const SpaIcon = dynamic(() => import("@mui/icons-material/Spa"));
+const AddIcon: any = dynamic(() => import("@mui/icons-material/Add"));
+const RoomIcon: any = dynamic(() => import("@mui/icons-material/Room"));
+const LabelIcon: any = dynamic(() => import("@mui/icons-material/Label"));
+const ExpandLess: any = dynamic(() => import("@mui/icons-material/ExpandLess"));
+const ExpandMore: any = dynamic(() => import("@mui/icons-material/ExpandMore"));
+const StarBorder: any = dynamic(() => import("@mui/icons-material/StarBorder"));
+const SpaIcon: any = dynamic(() => import("@mui/icons-material/Spa"));
 
 const ListItem = React.memo(function ListItem({
   href = "/dashboard",
@@ -26,7 +26,7 @@ const ListItem = React.memo(function ListItem({
   icon
 }: any) {
   return (
-    <Link href={href} as={asHref}>
+    <Link href={href} as={asHref} replace>
       <ListItemButton>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={text} />

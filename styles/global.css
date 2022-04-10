@@ -7,6 +7,7 @@ body {
 }
 html:not(.prevent-scroll),
 body:not(.prevent-scroll) {
+  scroll-behavior: smooth;
   overflow-y: scroll !important;
 }
 .prevent-scroll {

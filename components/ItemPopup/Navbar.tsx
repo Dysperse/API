@@ -1,15 +1,40 @@
-import * as React from "react";
+import React, { useState } from "react";
+
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import EditIcon from "@mui/icons-material/Edit";
 import Tooltip from "@mui/material/Tooltip";
 import { ItemActionsDropdown } from "./ItemActionsDropdown";
 import { DeleteModal } from "./DeleteModal";
 import { EditPopup } from "./EditPopup";
+
+function StarButton({ defaultValue }: any) {
+  const [star, setStar]: any = useState(defaultValue);
+
+  return (
+    <Tooltip
+      enterDelay={1000}
+      leaveDelay={200}
+      title={star === 0 ? "Star" : "Unstar"}
+    >
+      <IconButton
+        size="large"
+        onClick={() => setStar(star === 0 ? 1 : 0)}
+        aria-label="search"
+        edge="end"
+        color="inherit"
+        sx={{ ml: 1, mr: 0 }}
+      >
+        {star === 0 ? <StarBorderIcon /> : <StarIcon />}
+      </IconButton>
+    </Tooltip>
+  );
+}
 
 export function Navbar({
   itemData,
@@ -52,17 +77,7 @@ export function Navbar({
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
-          <Tooltip enterDelay={1000} leaveDelay={200} title="Star">
-            <IconButton
-              size="large"
-              aria-label="search"
-              edge="end"
-              color="inherit"
-              sx={{ ml: 1, mr: 0 }}
-            >
-              <StarIcon />
-            </IconButton>
-          </Tooltip>
+          <StarButton defaultValue={itemData.star} />
           <EditPopup itemData={itemData}>
             <Tooltip enterDelay={1000} leaveDelay={200} title="Edit">
               <IconButton
