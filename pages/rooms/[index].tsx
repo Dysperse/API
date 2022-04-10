@@ -31,7 +31,7 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
   );
 }
 
-function Suggestions({ room, items }: { room: string; items: Array }) {
+function Suggestions({ room, items }: any) {
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
@@ -87,12 +87,12 @@ function LoadingScreen() {
   return (
     <Box sx={{ p: 3 }}>
       <Skeleton
-        variant="rectangle"
+        variant="rectangular"
         animation="wave"
         sx={{ height: 160, mb: 2, borderRadius: "5px" }}
       />
       <Skeleton
-        variant="rectangle"
+        variant="rectangular"
         animation="wave"
         sx={{ height: 120, mb: 2, borderRadius: "5px" }}
       />
