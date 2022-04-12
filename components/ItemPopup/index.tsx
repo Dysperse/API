@@ -348,10 +348,9 @@ export default function Item({ data, variant }: any) {
   const [drawerState, setDrawerState] = useState(false);
 
   useEffect(() => {
-    if (document.querySelector(`meta[name="theme-color"]`))
-      document!
-        .querySelector(`meta[name="theme-color"]`)
-        .setAttribute("content", drawerState ? "#101010" : blue[800]);
+    document
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute("content", drawerState ? "#101010" : blue[800]);
   });
   return (
     <>

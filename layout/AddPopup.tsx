@@ -6,15 +6,14 @@ import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Drawer from "@mui/material/Drawer";
 
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import { CreateItemModal } from "./CreateItemModal";
-import dynamic from "next/dynamic";
-
-const LabelIcon = dynamic(() => import("@mui/icons-material/Label"));
+import LabelIcon from "@mui/icons-material/Label";
 
 const drawerBleeding = 10;
 
@@ -36,7 +35,7 @@ const Puller = styled(Box)(({ theme }) => ({
   left: "calc(50% - 15px)"
 }));
 
-function AddItemOption({ icon, title }: any) {
+function AddItemOption({ icon, title }: any): JSX.Element {
   return (
     <CreateItemModal room={title}>
       <ListItemButton>
