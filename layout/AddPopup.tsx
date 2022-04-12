@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Drawer from "@mui/material/Drawer";
 
 import List from "@mui/material/List";
@@ -49,13 +48,16 @@ function Content({ toggleDrawer }: any) {
   );
 }
 
-export function AddPopup(props: any) {
+export default function AddPopup(props: any) {
   const { window } = props;
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
+  const iOS =
+    typeof navigator !== "undefined" &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   return (
     <Root>
@@ -70,11 +72,13 @@ export function AddPopup(props: any) {
       />
       <Box onClick={toggleDrawer(true)}>{props.children}</Box>
 
-      <SwipeableDrawer
+      <Drawer
         anchor="bottom"
         open={open}
-        onClose={toggleDrawer(false)}
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
         onOpen={() => {}}
+        onClose={toggleDrawer(false)}
         swipeAreaWidth={drawerBleeding}
         disableSwipeToOpen={false}
         ModalProps={{
@@ -83,7 +87,7 @@ export function AddPopup(props: any) {
       >
         <Typography sx={{ p: 2, color: "text.secondary" }}>Create</Typography>
         <Content toggleDrawer={toggleDrawer} />
-      </SwipeableDrawer>
+      </Drawer>
     </Root>
   );
 }

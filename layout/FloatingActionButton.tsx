@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import { AddPopup } from "./AddPopup";
+import AddPopup from "./AddPopup";
 
 import dynamic from "next/dynamic";
 const AddIcon = dynamic(() => import("@mui/icons-material/Add"));
