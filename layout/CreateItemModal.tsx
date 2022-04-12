@@ -7,6 +7,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Formik, Form } from "formik";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export function CreateItemModal({
   room,
@@ -25,6 +27,21 @@ export function CreateItemModal({
     setOpen(false);
   };
 
+  const [loading, setLoading] = React.useState(true);
+  function setClickLoading() {
+    setLoading(true);
+  }
+
+  const initialValues = {
+    categories: [],
+    title: "",
+    quantity: ""
+  };
+
+  const submit = (values: Object) => {
+    alert(JSON.stringify(values, null, 2));
+  };
+
   return (
     <div>
       <div onClick={handleClickOpen}>{children}</div>
@@ -32,43 +49,75 @@ export function CreateItemModal({
         <DialogTitle>Create Item</DialogTitle>
         <DialogContent>
           <DialogContentText>{room}</DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Item name"
-            type="text"
-            fullWidth
-            variant="outlined"
-          />
-          <TextField
-            margin="dense"
-            id="qty"
-            label="Quantity"
-            type="text"
-            fullWidth
-            variant="outlined"
-          />
-          <Autocomplete
-            multiple
-            id="categories"
-            freeSolo
-            limitTags={5}
-            options={["1", "2", "3"]}
-            renderInput={(params) => (
-              <TextField
-                variant="outlined"
-                {...params}
-                margin="dense"
-                label="Categories"
-              />
+          <Formik initialValues={initialValues} onSubmit={submit}>
+            {({ handleChange, values, setFieldValue }) => (
+              <Form>
+                <TextField
+                  margin="dense"
+                  autoFocus
+                  label="Title"
+                  fullWidth
+                  onChange={handleChange}
+                  disabled={loading}
+                  name="title"
+                  variant="filled"
+                />
+                <TextField
+                  margin="dense"
+                  label="Quantity"
+                  fullWidth
+                  onChange={handleChange}
+                  disabled={loading}
+                  name="quantity"
+                  variant="filled"
+                />
+                <Autocomplete
+                  id="categories"
+                  multiple
+                  name="categories"
+                  freeSolo
+                  disabled={loading}
+                  options={[1, 2, 3]}
+                  onChange={(e, value) => {
+                    console.log(value);
+                    setFieldValue(
+                      "categories",
+                      value !== null ? value : initialValues.categories
+                    );
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      fullWidth
+                      margin="dense"
+                      label="Categories"
+                      name="categories"
+                      variant="filled"
+                      {...params}
+                    />
+                  )}
+                />
+                <LoadingButton
+                  sx={{ mt: 1, float: "right" }}
+                  color="primary"
+                  type="submit"
+                  loading={loading}
+                  onClick={() => setTimeout(setClickLoading, 10)}
+                  variant="outlined"
+                >
+                  Save
+                </LoadingButton>
+                <Button
+                  sx={{ mt: 1, mr: 1, float: "right" }}
+                  color="primary"
+                  type="button"
+                  onClick={() => setLoading(false)}
+                >
+                  Cancel
+                </Button>
+              </Form>
             )}
-          />
+          </Formik>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Save</Button>
-        </DialogActions>
       </Dialog>
     </div>
   );

@@ -31,7 +31,12 @@ export function ListItems({
   );
 
   return isLoading ? (
-    <Skeleton height={200} animation="wave" variant="rectangular" />
+    <Skeleton
+      height={200}
+      animation="wave"
+      variant="rectangular"
+      sx={{ borderRadius: "5px" }}
+    />
   ) : (
     <Card sx={{ mb: 1, width: "100%" }}>
       <CardContent>

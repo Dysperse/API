@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Suspense } from "react";
 
 import { ItemCard } from "../../components/rooms/ItemCard";
+import { Toolbar } from "../../components/rooms/Toolbar";
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
 
@@ -250,6 +251,7 @@ function Room() {
       <Box sx={{ p: 3 }}>
         <Header room={index} itemCount={data.data.length} />
         <Suggestions room={index} items={data.data.length} />
+        <Toolbar />
         <ItemList items={data.data} />
       </Box>
     </Suspense>

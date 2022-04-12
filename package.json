@@ -21,6 +21,7 @@
     "@types/jest": "^27.4.1",
     "@types/react-dom": "^17.0.14",
     "dayjs": "^1.11.0",
+    "formik": "^2.2.9",
     "next": "latest",
     "next-compose-plugins": "2.2.1",
     "next-pwa": "5.4.7",

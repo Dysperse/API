@@ -45,6 +45,7 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="theme-color" content={blue[800]} />
         <link href="/manifest.webmanifest" rel="manifest" />
+        <link href="/logo/48x48.png" rel="shortcut icon" />
         <title>Dashboard &bull; Smartlist</title>
       </Head>
       <Layout>

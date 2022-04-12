@@ -4,13 +4,60 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
+import Skeleton from "@mui/material/Skeleton";
 import { Navbar } from "./Navbar";
 import { DrawerListItems } from "./Links";
 import { BottomNav } from "./BottomNav";
 import { FloatingActionButton } from "./FloatingActionButton";
 import useWindowDimensions from "./useWindowDimensions";
 
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import LabelIcon from "@mui/icons-material/Label";
+import useSWR from "swr";
+
 const drawerWidth = 300;
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+function CustomRooms() {
+  const url = "https://api.smartlist.tech/v2/rooms/";
+
+  const { data, error } = useSWR(url, () =>
+    fetcher(url, {
+      method: "POST",
+      body: new URLSearchParams({
+        token: ACCOUNT_DATA.accessToken
+      })
+    })
+  );
+  if (error) return <div>Failed to load custom rooms</div>;
+  if (!data)
+    return (
+      <div>
+        <Skeleton
+          variant="rectangular"
+          width={"100%"}
+          height={118}
+          animation={false}
+        />
+      </div>
+    );
+
+  // render data
+  return (
+    <>
+      {data.data.map((room) => (
+        <ListItemButton sx={{ pl: 4 }}>
+          <ListItemIcon>
+            <LabelIcon />
+          </ListItemIcon>
+          <ListItemText primary={room.name} />
+        </ListItemButton>
+      ))}
+    </>
+  );
+}
 
 function ResponsiveDrawer(props: any) {
   const { window } = props;
@@ -54,7 +101,10 @@ function ResponsiveDrawer(props: any) {
             }
           }}
         >
-          <DrawerListItems handleDrawerToggle={handleDrawerToggle} />
+          <DrawerListItems
+            customRooms={<CustomRooms />}
+            handleDrawerToggle={handleDrawerToggle}
+          />
         </SwipeableDrawer>
         <Drawer
           variant="permanent"
@@ -73,7 +123,10 @@ function ResponsiveDrawer(props: any) {
           }}
           open
         >
-          <DrawerListItems handleDrawerToggle={handleDrawerToggle} />
+          <DrawerListItems
+            customRooms={<CustomRooms />}
+            handleDrawerToggle={handleDrawerToggle}
+          />
         </Drawer>
       </Box>
       <Box

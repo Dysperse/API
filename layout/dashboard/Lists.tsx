@@ -19,7 +19,7 @@ export function Lists() {
     <>
       {[1, 2, 3, 4, 5, 6].map((_, __) => (
         <Skeleton
-          key={__}
+          key={Math.random().toExponential()}
           variant="rectangular"
           height={100}
           animation="wave"

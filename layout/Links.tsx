@@ -1,5 +1,4 @@
-import * as React from "react";
-import Link from "next/link";
+import React from "react";
 
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
@@ -10,13 +9,13 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import Toolbar from "@mui/material/Toolbar";
 
+import Link from "next/link";
 import dynamic from "next/dynamic";
 const AddIcon: any = dynamic(() => import("@mui/icons-material/Add"));
 const RoomIcon: any = dynamic(() => import("@mui/icons-material/Room"));
 const LabelIcon: any = dynamic(() => import("@mui/icons-material/Label"));
 const ExpandLess: any = dynamic(() => import("@mui/icons-material/ExpandLess"));
 const ExpandMore: any = dynamic(() => import("@mui/icons-material/ExpandMore"));
-const StarBorder: any = dynamic(() => import("@mui/icons-material/StarBorder"));
 const SpaIcon: any = dynamic(() => import("@mui/icons-material/Spa"));
 
 const ListItem = React.memo(function ListItem({
@@ -35,7 +34,7 @@ const ListItem = React.memo(function ListItem({
   );
 });
 
-export function DrawerListItems({ handleDrawerToggle }: any) {
+export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -148,12 +147,7 @@ export function DrawerListItems({ handleDrawerToggle }: any) {
         onClick={handleDrawerToggle}
       >
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
+          {customRooms}
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
               <AddIcon />
