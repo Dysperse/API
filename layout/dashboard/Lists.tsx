@@ -30,7 +30,12 @@ export function Lists() {
   ) : (
     <>
       {data.data.map((list: any) => (
-        <List title={list.title} description={list.description} id={list.id} />
+        <List
+          key={Math.random().toString()}
+          title={list.title}
+          description={list.description}
+          id={list.id}
+        />
       ))}
     </>
   );

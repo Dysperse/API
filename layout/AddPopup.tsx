@@ -21,20 +21,6 @@ const Root = styled("div")(({ theme }) => ({
   height: "100%"
 }));
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800]
-}));
-
-const Puller = styled(Box)(({ theme }) => ({
-  width: 30,
-  height: 6,
-  backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
-  borderRadius: 3,
-  position: "absolute",
-  top: 8,
-  left: "calc(50% - 15px)"
-}));
-
 function AddItemOption({ icon, title }: any): JSX.Element {
   return (
     <CreateItemModal room={title}>
@@ -71,10 +57,6 @@ export function AddPopup(props: any) {
     setOpen(newOpen);
   };
 
-  // This is used only for the example
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
     <Root>
       <CssBaseline />
@@ -89,41 +71,18 @@ export function AddPopup(props: any) {
       <Box onClick={toggleDrawer(true)}>{props.children}</Box>
 
       <SwipeableDrawer
-        container={container}
         anchor="bottom"
         open={open}
         onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
+        onOpen={() => {}}
         swipeAreaWidth={drawerBleeding}
         disableSwipeToOpen={false}
         ModalProps={{
           keepMounted: true
         }}
       >
-        <StyledBox
-          sx={{
-            top: 0,
-            background: "white",
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            visibility: "visible",
-            right: 0,
-            left: 0
-          }}
-        >
-          <Puller />
-          <Typography sx={{ p: 2, color: "text.secondary" }}>Create</Typography>
-        </StyledBox>
-        <StyledBox
-          sx={{
-            px: 2,
-            pb: 2,
-            height: "100%",
-            overflow: "auto"
-          }}
-        >
-          <Content toggleDrawer={toggleDrawer} />
-        </StyledBox>
+        <Typography sx={{ p: 2, color: "text.secondary" }}>Create</Typography>
+        <Content toggleDrawer={toggleDrawer} />
       </SwipeableDrawer>
     </Root>
   );

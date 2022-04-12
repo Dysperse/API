@@ -31,7 +31,7 @@ export function RecentItems() {
       <CardContent>
         <Typography variant="h5">Recently edited</Typography>
         {data.data.map((list: Object) => (
-          <RecentItem item={list} />
+          <RecentItem key={Math.random().toString()} item={list} />
         ))}
       </CardContent>
     </Card>
