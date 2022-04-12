@@ -55,9 +55,6 @@ export default function AddPopup(props: any) {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
-  const iOS =
-    typeof navigator !== "undefined" &&
-    /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   return (
     <Root>
@@ -75,12 +72,7 @@ export default function AddPopup(props: any) {
       <Drawer
         anchor="bottom"
         open={open}
-        disableBackdropTransition={!iOS}
-        disableDiscovery={iOS}
-        onOpen={() => {}}
         onClose={toggleDrawer(false)}
-        swipeAreaWidth={drawerBleeding}
-        disableSwipeToOpen={false}
         ModalProps={{
           keepMounted: true
         }}
