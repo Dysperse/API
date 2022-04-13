@@ -3,19 +3,17 @@ import * as React from "react";
 import dynamic from "next/dynamic";
 import { ProfileMenu } from "./Profile";
 import { NotificationsMenu } from "./Notifications";
+import AppBar from "@mui/material/AppBar";
 
-const AppBar = dynamic(() => import("@mui/material/AppBar"));
-const IconButton = dynamic(() => import("@mui/material/IconButton"));
-const Toolbar = dynamic(() => import("@mui/material/Toolbar"));
-const Typography = dynamic(() => import("@mui/material/Typography"));
-const MenuIcon = dynamic(() => import("@mui/icons-material/Menu"));
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
 
-const NotificationsIcon = dynamic(() =>
-  import("@mui/icons-material/Notifications")
-);
-const SearchIcon = dynamic(() => import("@mui/icons-material/Search"));
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import SearchIcon from "@mui/icons-material/Search";
 
-export function Navbar({ handleDrawerToggle }: any) {
+export function Navbar({ handleDrawerToggle }: any): JSX.Element {
   return (
     <AppBar position="fixed">
       <Toolbar>

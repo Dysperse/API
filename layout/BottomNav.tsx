@@ -2,15 +2,11 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-
-import dynamic from "next/dynamic";
-const HomeIcon = dynamic(() => import("@mui/icons-material/Home"));
-const ViewAgendaIcon = dynamic(() => import("@mui/icons-material/ViewAgenda"));
-const LunchDiningIcon = dynamic(() =>
-  import("@mui/icons-material/LunchDining")
-);
-const PaymentsIcon = dynamic(() => import("@mui/icons-material/Payments"));
-const SearchIcon = dynamic(() => import("@mui/icons-material/Search"));
+import HomeIcon from "@mui/icons-material/Home";
+import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
+import LunchDiningIcon from "@mui/icons-material/LunchDining";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import SearchIcon from "@mui/icons-material/Search";
 
 export function BottomNav() {
   const [value, setValue] = React.useState(0);

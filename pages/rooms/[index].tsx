@@ -15,7 +15,7 @@ import { Suspense } from "react";
 import { ItemCard } from "../../components/rooms/ItemCard";
 import { Toolbar } from "../../components/rooms/Toolbar";
 
-const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
+const fetcher = (u:string, o:any) => fetch(u, o).then((res) => res.json());
 
 function Header({ room, itemCount }: { room: string; itemCount: number }) {
   return (
@@ -131,7 +131,7 @@ function LoadingScreen() {
   );
 }
 
-function ItemList({ items }: { items: string }) {
+function ItemList({ items }: { items: any }) {
   return (
     <Box
       sx={{
@@ -227,7 +227,6 @@ function Room() {
         room: index
       })
     }).then((res) => res.json()),
-    { suspense: true }
   );
 
   const { data, error } = useSWR(

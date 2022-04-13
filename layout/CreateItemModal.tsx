@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
+// import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -74,7 +74,6 @@ export function CreateItemModal({
                 <Autocomplete
                   id="categories"
                   multiple
-                  name="categories"
                   freeSolo
                   disabled={loading}
                   options={[1, 2, 3]}
@@ -87,8 +86,8 @@ export function CreateItemModal({
                   }}
                   renderInput={(params) => (
                     <TextField
-                      fullWidth
                       margin="dense"
+                      sx={{ width: "100%" }}
                       label="Categories"
                       name="categories"
                       variant="filled"

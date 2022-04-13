@@ -18,7 +18,7 @@ import LabelIcon from "@mui/icons-material/Label";
 import useSWR from "swr";
 
 const drawerWidth = 300;
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const fetcher = (u: string, o: any) => fetch(u, o).then((res) => res.json());
 
 function CustomRooms() {
   const url = "https://api.smartlist.tech/v2/rooms/";
@@ -31,7 +31,7 @@ function CustomRooms() {
       })
     })
   );
-  if (error) return <div>Failed to load custom rooms</div>;
+  if (error) return <div>Failed to load room!</div>;
   if (!data)
     return (
       <div>
@@ -43,11 +43,14 @@ function CustomRooms() {
         />
       </div>
     );
-
+  interface Room {
+    name: string;
+    id: number;
+  }
   // render data
   return (
     <>
-      {data.data.map((room) => (
+      {data.data.map((room: Room) => (
         <ListItemButton sx={{ pl: 4 }}>
           <ListItemIcon>
             <LabelIcon />
@@ -59,7 +62,7 @@ function CustomRooms() {
   );
 }
 
-function ResponsiveDrawer(props: any) {
+function ResponsiveDrawer(props: any): JSX.Element {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -81,10 +84,7 @@ function ResponsiveDrawer(props: any) {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <SwipeableDrawer
-          container={container}
-          onOpen={handleDrawerToggle}
-          swipeAreaWidth={width > 900 ? 0 : 10}
+        <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
@@ -105,7 +105,7 @@ function ResponsiveDrawer(props: any) {
             customRooms={<CustomRooms />}
             handleDrawerToggle={handleDrawerToggle}
           />
-        </SwipeableDrawer>
+        </Drawer>
         <Drawer
           variant="permanent"
           sx={{

@@ -3,8 +3,7 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import AddPopup from "./AddPopup";
 
-import dynamic from "next/dynamic";
-const AddIcon = dynamic(() => import("@mui/icons-material/Add"));
+import AddIcon from "@mui/icons-material/Add";
 
 export function FloatingActionButton() {
   return (
