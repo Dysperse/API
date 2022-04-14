@@ -1,8 +1,7 @@
 {
-  "infiniteLoopProtection": true,
-  "hardReloadOnChange": false,
-  "view": "bowser",
-  "container": {
-    "node": "16"
-  }
+	"infiniteLoopProtection": true,
+	"hardReloadOnChange": false,
+	"container": {
+		"node": "16"
+	}
 }

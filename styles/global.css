@@ -1,18 +1,21 @@
 ::-webkit-scrollbar {
-  /* display: none; */
+	/* display: none; */
 }
 body {
-  overflow-x: hidden;
-  font-weight: 600;
+	overflow-x: hidden;
+	font-weight: 600;
 }
 html:not(.prevent-scroll),
 body:not(.prevent-scroll) {
-  scroll-behavior: smooth;
-  overflow-y: scroll !important;
+	scroll-behavior: smooth;
+	overflow-y: scroll !important;
 }
 .prevent-scroll {
-  overflow: hidden !important;
+	overflow: hidden !important;
 }
 img {
-  user-select: none;
+	user-select: none;
+}
+* {
+	font-family: "Outfit", sans-serif !important;
 }
