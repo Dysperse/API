@@ -1,9 +1,10 @@
 {
 	"name": "smartlist-dashboard",
 	"version": "5.0.0",
+	"license": "MIT",
 	"private": false,
 	"scripts": {
-		"dev": "next dev",
+		"dev": "npm i && next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
