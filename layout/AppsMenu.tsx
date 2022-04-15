@@ -53,7 +53,7 @@ const categories = [
 function Products() {
 	const [expanded, setExpanded] = React.useState(1);
 
-	const handleChange = (panel) => {
+	const handleChange = (panel: any) => {
 		setExpanded(panel);
 	};
 

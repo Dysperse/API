@@ -93,7 +93,7 @@ function ListPopup({ listItems, title, id, drawerState, setDrawerState }: any) {
 								<Typography variant="h5">No items yet...</Typography>
 							</Box>
 						) : null}
-						{listItems.data.data.map((item) => (
+						{listItems.data.data.map((item:any) => (
 							<ListItem item={item} />
 						))}
 					</div>
