@@ -50,6 +50,9 @@ export function CreateItemModal({
 			<SwipeableDrawer
 				anchor="bottom"
 				swipeAreaWidth={0}
+				ModalProps={{
+					keepMounted: true
+				}}
 				disableSwipeToOpen={true}
 				PaperProps={{
 					sx: {

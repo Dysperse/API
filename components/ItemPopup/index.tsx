@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import dayjs from "dayjs";
-import Drawer from "@mui/material/Drawer";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
 import { orange, blue } from "@mui/material/colors";
 import { styled, alpha } from "@mui/material/styles";
@@ -48,6 +48,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const StyledMenu = styled((props: any) => (
 	<Menu
 		elevation={0}
+		sx={{ mt: 1 }}
 		anchorOrigin={{
 			vertical: "bottom",
 			horizontal: "right"
@@ -129,7 +130,7 @@ function EditButton({
 					edge="end"
 					color="inherit"
 					aria-label="menu"
-					sx={{ mr: 0.5 }}
+					sx={{ mr: 1 }}
 					onClick={handleClickOpen}
 				>
 					<EditIcon />
@@ -320,7 +321,7 @@ function StarButton({ star, setStar }: any) {
 				edge="end"
 				color="inherit"
 				aria-label="menu"
-				sx={{ mr: 0.5 }}
+				sx={{ mr: 1 }}
 				onClick={() => setStar((s: any) => +!s)}
 			>
 				{star === 1 ? <StarIcon /> : <StarBorderIcon />}
@@ -337,7 +338,7 @@ function DeleteButton({ deleted, setDeleted, setDrawerState, setOpen }: any) {
 				edge="end"
 				color="inherit"
 				aria-label="menu"
-				sx={{ mr: 0.5 }}
+				sx={{ mr: 1 }}
 				onClick={() => {
 					setOpen(true);
 					setDeleted(true);
@@ -403,10 +404,12 @@ export default function Item({ data, variant }: any) {
 				message="Item moved to trash"
 				action={action}
 			/>
-			<Drawer
+			<SwipeableDrawer
+				swipeAreaWidth={0}
 				anchor="right"
 				open={drawerState}
 				onClose={() => setDrawerState(false)}
+				onOpen={() => setDrawerState(true)}
 			>
 				<Box
 					sx={{
@@ -419,7 +422,11 @@ export default function Item({ data, variant }: any) {
 						}
 					}}
 				>
-					<AppBar position="absolute" sx={{ background: "#212121" }}>
+					<AppBar
+						position="absolute"
+						sx={{ background: "#fff", py: 1, color: "#000" }}
+						elevation={0}
+					>
 						<Toolbar>
 							<Tooltip title="Back">
 								<IconButton
@@ -487,7 +494,7 @@ export default function Item({ data, variant }: any) {
 						/>
 					</Box>
 				</Box>
-			</Drawer>
+			</SwipeableDrawer>
 			{deleted ? null : (
 				<>
 					{variant === "list" ? (

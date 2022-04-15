@@ -10,6 +10,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
 import Collapse from "@mui/material/Collapse";
+import { blueGrey } from "@mui/material/colors";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -127,7 +128,14 @@ function ListItem({ item }: any) {
 	);
 }
 
-function ListPopup({ listItems, title, id, drawerState, setDrawerState }: any) {
+function ListPopup({
+	setDeleted,
+	listItems,
+	title,
+	id,
+	drawerState,
+	setDrawerState
+}: any) {
 	return (
 		<SwipeableDrawer
 			anchor="bottom"
@@ -145,7 +153,7 @@ function ListPopup({ listItems, title, id, drawerState, setDrawerState }: any) {
 			}}
 			open={drawerState}
 			onClose={() => setDrawerState(false)}
-			onOpen={() => setDrawerState(false)}
+			onOpen={() => setDrawerState(true)}
 		>
 			<div
 				style={{
@@ -166,6 +174,10 @@ function ListPopup({ listItems, title, id, drawerState, setDrawerState }: any) {
 					size="large"
 					sx={{ textTransform: "none", mb: 3, borderRadius: 100 }}
 					variant="outlined"
+					onClick={() => {
+						setDrawerState(false);
+						setDeleted(true);
+					}}
 				>
 					Delete list
 				</Button>
@@ -230,6 +242,8 @@ export function List({
 			loading: false
 		});
 	};
+
+	const [deleted, setDeleted] = useState(false);
 	return (
 		<>
 			<ListPopup
@@ -238,24 +252,36 @@ export function List({
 				listItems={listItems}
 				drawerState={drawerState}
 				setDrawerState={setDrawerState}
+				setDeleted={setDeleted}
 			/>
-			<Card sx={{ mb: 1, width: "100%" }}>
-				<CardActionArea
-					onClick={() => {
-						setDrawerState(true);
-						getListItems(id);
+			{!deleted ? (
+				<Card
+					sx={{
+						mb: 2,
+						width: "100%",
+						borderRadius: "28px",
+						background: blueGrey[50],
+						boxShadow: 0
 					}}
 				>
-					<CardContent>
-						<Typography gutterBottom variant="h5" component="div">
-							{title}
-						</Typography>
-						<Typography variant="body2" color="text.secondary">
-							{description}
-						</Typography>
-					</CardContent>
-				</CardActionArea>
-			</Card>
+					<CardActionArea
+						sx={{ p: 1 }}
+						onClick={() => {
+							setDrawerState(true);
+							getListItems(id);
+						}}
+					>
+						<CardContent>
+							<Typography gutterBottom variant="h5" component="div">
+								{title}
+							</Typography>
+							<Typography variant="body2" color="text.secondary">
+								{description}
+							</Typography>
+						</CardContent>
+					</CardActionArea>
+				</Card>
+			) : null}
 		</>
 	);
 }

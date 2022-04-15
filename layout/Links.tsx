@@ -13,6 +13,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import Toolbar from "@mui/material/Toolbar";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const AddIcon: any = dynamic(() => import("@mui/icons-material/Add"));
 const RoomIcon: any = dynamic(() => import("@mui/icons-material/Room"));
@@ -20,6 +25,80 @@ const LabelIcon: any = dynamic(() => import("@mui/icons-material/Label"));
 const ExpandLess: any = dynamic(() => import("@mui/icons-material/ExpandLess"));
 const ExpandMore: any = dynamic(() => import("@mui/icons-material/ExpandMore"));
 const SpaIcon: any = dynamic(() => import("@mui/icons-material/Spa"));
+
+function CreateRoom() {
+	const [open, setOpen] = React.useState(false);
+
+	const toggleDrawer = (newOpen: boolean) => () => {
+		setOpen(newOpen);
+	};
+
+	return (
+		<>
+			<ListItemButton sx={{ pl: 4 }} onClick={toggleDrawer(true)}>
+				<ListItemIcon>
+					<AddIcon />
+				</ListItemIcon>
+				<ListItemText primary="Create room" />
+			</ListItemButton>
+			<SwipeableDrawer
+				anchor="bottom"
+				PaperProps={{
+					sx: {
+						width: {
+							sm: "50vw"
+						},
+						borderRadius: "40px 40px 0 0",
+						mx: "auto"
+					}
+				}}
+				open={open}
+				onClose={toggleDrawer(false)}
+				onOpen={toggleDrawer(true)}
+				ModalProps={{
+					keepMounted: true
+				}}
+			>
+				<DialogTitle sx={{ mt: 2, textAlign: "center" }}>
+					Create list
+				</DialogTitle>
+				<Box sx={{ p: 3 }}>
+					<TextField
+						inputRef={(input) => setTimeout(() => input && input.focus(), 100)}
+						margin="dense"
+						label="Room name"
+						fullWidth
+						autoComplete={"off"}
+						name="name"
+						variant="filled"
+					/>
+
+					<LoadingButton
+						sx={{ mt: 1, float: "right" }}
+						color="primary"
+						type="submit"
+						loading={false}
+						// onClick={() => setTimeout(setClickLoading, 10)}
+						variant="outlined"
+					>
+						Create
+					</LoadingButton>
+					<Button
+						sx={{ mt: 1, mr: 1, float: "right" }}
+						color="primary"
+						type="button"
+						onClick={() => {
+							// setLoading(false);
+							// setOpen(false);
+						}}
+					>
+						Back
+					</Button>
+				</Box>
+			</SwipeableDrawer>
+		</>
+	);
+}
 
 const ListItem = React.memo(function ListItem({
 	href = "/dashboard",
@@ -33,6 +112,7 @@ const ListItem = React.memo(function ListItem({
 		<Link href={href} as={asHref} replace>
 			<ListItemButton
 				sx={{
+					borderRadius: "0 20px 20px 0",
 					...(router.asPath === asHref && {
 						backgroundColor: blue[50],
 						transition: "all .2s",
@@ -83,7 +163,8 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 					display: {
 						xs: "none",
 						sm: "block"
-					}
+					},
+					pt: 1
 				}}
 			>
 				<Toolbar />
@@ -184,12 +265,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 			>
 				<List component="div" disablePadding>
 					{customRooms}
-					<ListItemButton sx={{ pl: 4 }}>
-						<ListItemIcon>
-							<AddIcon />
-						</ListItemIcon>
-						<ListItemText primary="Create room" />
-					</ListItemButton>
+					<CreateRoom />
 				</List>
 			</Collapse>
 			<ListSubheader component="div" id="nested-list-subheader">

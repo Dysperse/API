@@ -19,3 +19,6 @@ img {
 * {
 	font-family: "Outfit", sans-serif !important;
 }
+::-webkit-scrollbar {
+	display: none;
+}

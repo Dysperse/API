@@ -9,15 +9,24 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
+import { blue } from "@mui/material/colors";
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
 
 export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 	return (
-		<AppBar position="fixed">
+		<AppBar
+			position="fixed"
+			elevation={0}
+			sx={{
+				color: blue[900],
+				py: 1,
+				background: blue[50]
+			}}
+		>
 			<Toolbar>
-				<Tooltip title="Menu">
+				<Tooltip title="Menu" placement="bottom-start">
 					<IconButton
 						color="inherit"
 						aria-label="open drawer."
@@ -37,23 +46,19 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 							color="inherit"
 							edge="end"
 							size="large"
-							sx={{ mr: 0.5 }}
+							sx={{ mr: 0.8 }}
 						>
 							<NotificationsIcon />
 						</IconButton>
 					</Tooltip>
 				</NotificationsMenu>
 				<Tooltip title="Search">
-					<IconButton color="inherit" edge="end" size="large" sx={{ mr: 0.5 }}>
+					<IconButton color="inherit" edge="end" size="large" sx={{ mr: 0.8 }}>
 						<SearchIcon />
 					</IconButton>
 				</Tooltip>
-				<Tooltip title="Apps">
-					<AppsMenu />
-				</Tooltip>
-				<Tooltip title="My account">
-					<ProfileMenu />
-				</Tooltip>
+				<AppsMenu />
+				<ProfileMenu />
 			</Toolbar>
 		</AppBar>
 	);

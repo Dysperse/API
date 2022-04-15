@@ -118,8 +118,10 @@ function ResponsiveDrawer(props: any): JSX.Element {
 						width: drawerWidth,
 						flexShrink: 0,
 						height: "100px",
+						borderRight: 0,
 						[`& .MuiDrawer-paper`]: {
 							width: drawerWidth,
+							borderRight: 0,
 							zIndex: 1000,
 							height: "100vh",
 							overflowY: "scroll",
@@ -143,8 +145,12 @@ function ResponsiveDrawer(props: any): JSX.Element {
 				}}
 			>
 				<Toolbar />
-				{props.children}
-				<Toolbar />
+				<Box sx={{ py: 1 }}>
+					{props.children}
+					<Box sx={{ display: { sm: "none" } }}>
+						<Toolbar />
+					</Box>
+				</Box>
 				<FloatingActionButton />
 				<BottomNav />
 			</Box>

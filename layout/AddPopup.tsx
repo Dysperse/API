@@ -98,6 +98,7 @@ export default function AddPopup(props: any) {
 
 			<SwipeableDrawer
 				anchor="bottom"
+				swipeAreaWidth={0}
 				PaperProps={{
 					sx: {
 						width: {

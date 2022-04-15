@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Avatar from "@mui/material/Avatar";
@@ -17,14 +18,14 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItem from "@mui/material/ListItem";
 import Settings from "./Settings";
 
-const drawerBleeding = 10;
+const drawerBleeding = 0;
 
 const Root = styled("div")(({ theme }) => ({
 	height: "100%"
 }));
 
 const StyledBox = styled(Box)(({ theme }) => ({
-	backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800]
+	backgroundColor: theme.palette.mode === "light" ? "transparent" : grey[800]
 }));
 
 const Puller = styled(Box)(({ theme }) => ({
@@ -41,7 +42,10 @@ const Accounts = React.memo(function Accounts() {
 	return (
 		<List sx={{ width: "100%", bgcolor: "background.paper" }}>
 			<ListItem secondaryAction={<Settings />}>
-				<ListItemButton alignItems="flex-start">
+				<ListItemButton
+					alignItems="flex-start"
+					sx={{ borderRadius: 100, overflow: "hidden" }}
+				>
 					<ListItemAvatar>
 						<Avatar alt="Remy Sharp" src={ACCOUNT_DATA.image} />
 					</ListItemAvatar>
@@ -89,15 +93,18 @@ export function ProfileMenu(props: any) {
 					}
 				}}
 			/>
-			<IconButton
-				onClick={toggleDrawer(true)}
-				color="inherit"
-				aria-label="open drawer."
-				edge="end"
-			>
-				<Avatar sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}>MG</Avatar>
-			</IconButton>
-
+			<Tooltip title="My account" placement="bottom-end">
+				<IconButton
+					onClick={toggleDrawer(true)}
+					color="inherit"
+					aria-label="open drawer."
+					edge="end"
+				>
+					<Avatar sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}>
+						MG
+					</Avatar>
+				</IconButton>
+			</Tooltip>
 			<SwipeableDrawer
 				container={container}
 				anchor="bottom"

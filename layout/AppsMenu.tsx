@@ -3,6 +3,7 @@ import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import AppsIcon from "@mui/icons-material/Apps";
+import Tooltip from "@mui/material/Tooltip";
 import TipsAndUpdates from "@mui/icons-material/TipsAndUpdates";
 import { green } from "@mui/material/colors";
 
@@ -145,21 +146,29 @@ export function AppsMenu() {
 
 	return (
 		<div>
-			<IconButton
-				color="inherit"
-				edge="end"
-				size="large"
-				sx={{ mr: 0.5 }}
-				onClick={handleClick}
-			>
-				<AppsIcon />
-			</IconButton>
+			<Tooltip title="Apps">
+				<IconButton
+					color="inherit"
+					edge="end"
+					size="large"
+					sx={{ mr: 0.8 }}
+					onClick={handleClick}
+				>
+					<AppsIcon />
+				</IconButton>
+			</Tooltip>
 			<Menu
 				id="demo-positioned-menu"
 				aria-labelledby="demo-positioned-button"
 				anchorEl={anchorEl}
 				open={open}
 				onClose={handleClose}
+				PaperProps={{
+					sx: {
+						borderRadius: "28px",
+						boxShadow: 2
+					}
+				}}
 				anchorOrigin={{
 					vertical: "top",
 					horizontal: "right"
