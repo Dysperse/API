@@ -91,7 +91,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
 					onClose={handleDrawerToggle}
 					onOpen={() => setMobileOpen(true)}
 					ModalProps={{
-						keepMounted: true // Better open performance on mobile.
+						keepMounted: true
 					}}
 					sx={{
 						display: { xs: "block", sm: "none" },
@@ -110,6 +110,9 @@ function ResponsiveDrawer(props: any): JSX.Element {
 				</SwipeableDrawer>
 				<Drawer
 					variant="permanent"
+					ModalProps={{
+						keepMounted: true
+					}}
 					sx={{
 						display: { xs: "none", sm: "block" },
 						width: drawerWidth,

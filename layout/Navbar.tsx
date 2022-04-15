@@ -48,8 +48,12 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 						<SearchIcon />
 					</IconButton>
 				</Tooltip>
-				<AppsMenu />
-				<ProfileMenu />
+				<Tooltip title="Apps">
+					<AppsMenu />
+				</Tooltip>
+				<Tooltip title="My account">
+					<ProfileMenu />
+				</Tooltip>
 			</Toolbar>
 		</AppBar>
 	);

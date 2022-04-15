@@ -1,8 +1,8 @@
-import * as React from "react";
+import React, { useRef, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import Dialog from "@mui/material/Dialog";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 // import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -11,9 +11,11 @@ import { Formik, Form } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 export function CreateItemModal({
+	toggleDrawer,
 	room,
 	children
 }: {
+	toggleDrawer: Function;
 	room: string;
 	children: any;
 }) {
@@ -45,18 +47,42 @@ export function CreateItemModal({
 	return (
 		<div>
 			<div onClick={handleClickOpen}>{children}</div>
-			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle>Create Item</DialogTitle>
+			<SwipeableDrawer
+				anchor="bottom"
+				swipeAreaWidth={0}
+				disableSwipeToOpen={true}
+				PaperProps={{
+					sx: {
+						width: {
+							sm: "50vw"
+						},
+						maxHeight: "80vh",
+						borderRadius: "40px 40px 0 0",
+						mx: "auto"
+					}
+				}}
+				open={open}
+				onClose={handleClose}
+				onOpen={() => setOpen(true)}
+			>
+				<DialogTitle sx={{ mt: 2, textAlign: "center" }}>
+					Create Item
+				</DialogTitle>
 				<DialogContent>
-					<DialogContentText>{room}</DialogContentText>
+					<DialogContentText sx={{ mb: 1, textAlign: "center" }}>
+						{room}
+					</DialogContentText>
 					<Formik initialValues={initialValues} onSubmit={submit}>
 						{({ handleChange, values, setFieldValue }) => (
 							<Form>
 								<TextField
+									inputRef={(input) =>
+										setTimeout(() => input && input.focus(), 100)
+									}
 									margin="dense"
-									autoFocus
 									label="Title"
 									fullWidth
+									autoComplete={"off"}
 									onChange={handleChange}
 									disabled={loading}
 									name="title"
@@ -65,6 +91,7 @@ export function CreateItemModal({
 								<TextField
 									margin="dense"
 									label="Quantity"
+									autoComplete={"off"}
 									fullWidth
 									onChange={handleChange}
 									disabled={loading}
@@ -103,21 +130,24 @@ export function CreateItemModal({
 									onClick={() => setTimeout(setClickLoading, 10)}
 									variant="outlined"
 								>
-									Save
+									Create
 								</LoadingButton>
 								<Button
 									sx={{ mt: 1, mr: 1, float: "right" }}
 									color="primary"
 									type="button"
-									onClick={() => setLoading(false)}
+									onClick={() => {
+										setLoading(false);
+										setOpen(false);
+									}}
 								>
-									Cancel
+									Back
 								</Button>
 							</Form>
 						)}
 					</Formik>
 				</DialogContent>
-			</Dialog>
+			</SwipeableDrawer>
 		</div>
 	);
 }

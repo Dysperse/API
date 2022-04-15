@@ -14,16 +14,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import { CreateItemModal } from "./CreateItemModal";
 import LabelIcon from "@mui/icons-material/Label";
 
-const drawerBleeding = 10;
-
 const Root = styled("div")(({ theme }) => ({
 	height: "100%"
 }));
 
-function AddItemOption({ icon, title }: any): JSX.Element {
+function AddItemOption({ toggleDrawer, icon, title }: any): JSX.Element {
 	return (
-		<CreateItemModal room={title}>
-			<ListItemButton>
+		<CreateItemModal room={title} toggleDrawer={toggleDrawer}>
+			<ListItemButton onClick={() => toggleDrawer(false)}>
 				<ListItemIcon>{icon}</ListItemIcon>
 				<ListItemText primary={title} />
 			</ListItemButton>
@@ -32,18 +30,47 @@ function AddItemOption({ icon, title }: any): JSX.Element {
 }
 function Content({ toggleDrawer }: any) {
 	return (
-		<List
-			sx={{ width: "100%", bgcolor: "background.paper" }}
-			onClick={toggleDrawer()}
-		>
-			<AddItemOption title="Kitchen" icon={<LabelIcon />} />
-			<AddItemOption title="Bathroom" icon={<LabelIcon />} />
-			<AddItemOption title="Bedroom" icon={<LabelIcon />} />
-			<AddItemOption title="Garage" icon={<LabelIcon />} />
-			<AddItemOption title="Living room" icon={<LabelIcon />} />
-			<AddItemOption title="Dining room" icon={<LabelIcon />} />
-			<AddItemOption title="Laundry room" icon={<LabelIcon />} />
-			<AddItemOption title="Storage room" icon={<LabelIcon />} />
+		<List sx={{ width: "100%", bgcolor: "background.paper" }}>
+			<AddItemOption
+				toggleDrawer={toggleDrawer}
+				title="Kitchen"
+				icon={<LabelIcon />}
+			/>
+			<AddItemOption
+				toggleDrawer={toggleDrawer}
+				title="Bathroom"
+				icon={<LabelIcon />}
+			/>
+			<AddItemOption
+				toggleDrawer={toggleDrawer}
+				title="Bedroom"
+				icon={<LabelIcon />}
+			/>
+			<AddItemOption
+				toggleDrawer={toggleDrawer}
+				title="Garage"
+				icon={<LabelIcon />}
+			/>
+			<AddItemOption
+				toggleDrawer={toggleDrawer}
+				title="Living room"
+				icon={<LabelIcon />}
+			/>
+			<AddItemOption
+				toggleDrawer={toggleDrawer}
+				title="Dining room"
+				icon={<LabelIcon />}
+			/>
+			<AddItemOption
+				toggleDrawer={toggleDrawer}
+				title="Laundry room"
+				icon={<LabelIcon />}
+			/>
+			<AddItemOption
+				toggleDrawer={toggleDrawer}
+				title="Storage room"
+				icon={<LabelIcon />}
+			/>
 		</List>
 	);
 }

@@ -11,6 +11,101 @@ import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
 import Collapse from "@mui/material/Collapse";
 
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
+
+function CreateItemButton() {
+	const [open, setOpen] = React.useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	return (
+		<>
+			<Button
+				onClick={handleClickOpen}
+				size="large"
+				disableElevation
+				sx={{ textTransform: "none", mr: 1, mb: 3, borderRadius: 100 }}
+				variant="contained"
+			>
+				Create item
+			</Button>
+			<SwipeableDrawer
+				anchor="bottom"
+				swipeAreaWidth={0}
+				disableSwipeToOpen={true}
+				ModalProps={{
+					keepMounted: true
+				}}
+				PaperProps={{
+					sx: {
+						width: {
+							sm: "50vw"
+						},
+						maxHeight: "80vh",
+						borderRadius: "40px 40px 0 0",
+						mx: "auto"
+					}
+				}}
+				open={open}
+				onClose={handleClose}
+				onOpen={() => setOpen(true)}
+			>
+				<DialogTitle sx={{ textAlign: "center" }} id="alert-dialog-title">
+					<Typography
+						gutterBottom
+						variant="h5"
+						component="div"
+						sx={{ mt: 4, mb: 2 }}
+					>
+						Create item
+					</Typography>
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="alert-dialog-description">
+						<TextField
+							inputRef={(input) =>
+								setTimeout(() => input && input.focus(), 100)
+							}
+							id="name"
+							fullWidth
+							autoComplete="off"
+							margin="dense"
+							label="Item name"
+							variant="filled"
+						/>
+						<TextField
+							autoComplete="off"
+							margin="dense"
+							id="description"
+							fullWidth
+							label="Description"
+							multiline
+							variant="filled"
+						/>
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose}>Cancel</Button>
+					<Button onClick={handleClose} autoFocus>
+						Create
+					</Button>
+				</DialogActions>
+			</SwipeableDrawer>
+		</>
+	);
+}
+
 function ListItem({ item }: any) {
 	const [deleted, setDeleted] = useState(false);
 
@@ -66,10 +161,12 @@ function ListPopup({ listItems, title, id, drawerState, setDrawerState }: any) {
 				>
 					{title}
 				</Typography>
-				<Button size="small" sx={{ mr: 1, mb: 3 }} variant="contained">
-					Create item
-				</Button>
-				<Button size="small" sx={{ mb: 3 }} variant="outlined">
+				<CreateItemButton />
+				<Button
+					size="large"
+					sx={{ textTransform: "none", mb: 3, borderRadius: 100 }}
+					variant="outlined"
+				>
 					Delete list
 				</Button>
 			</div>
@@ -93,7 +190,7 @@ function ListPopup({ listItems, title, id, drawerState, setDrawerState }: any) {
 								<Typography variant="h5">No items yet...</Typography>
 							</Box>
 						) : null}
-						{listItems.data.data.map((item:any) => (
+						{listItems.data.data.map((item: any) => (
 							<ListItem item={item} />
 						))}
 					</div>
