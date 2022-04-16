@@ -371,7 +371,7 @@ export default function Item({ data, variant }: any) {
 			.querySelector(`meta[name="theme-color"]`)!
 			.setAttribute(
 				"content",
-				drawerState ? (width > 900 ? "#808080" : "#eee") : blue[100]
+				drawerState ? (width > 900 ? "#808080" : "#eee") : blue[50]
 			);
 	});
 	const [open, setOpen] = React.useState(false);

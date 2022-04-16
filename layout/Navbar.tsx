@@ -27,7 +27,9 @@ function ElevationScroll(props: any) {
 		threshold: 0,
 		target: window ? window() : undefined
 	});
-
+	document
+		.querySelector(`meta[name="theme-color"]`)!
+		.setAttribute("content", trigger ? blue[50] : "#fff");
 	return React.cloneElement(children, {
 		sx: trigger
 			? {

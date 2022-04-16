@@ -269,15 +269,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 					<CreateRoom />
 				</List>
 			</Collapse>
-			<ListSubheader component="div" id="nested-list-subheader" sx={{pl:2}}>
-				More
+			<ListSubheader component="div" id="nested-list-subheader" sx={{ pl: 2 }}>
+				Other
 			</ListSubheader>
-			<ListItem
-				href="/notes"
-				asHref="/notes"
-				text="Notes"
-				icon={<LabelIcon />}
-			/>
 			<ListItem text="Home maintenance" icon={<LabelIcon />} />
 			<ListItem
 				href="/starred"

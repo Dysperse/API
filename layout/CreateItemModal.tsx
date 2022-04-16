@@ -79,9 +79,9 @@ export function CreateItemModal({
 						{({ handleChange, values, setFieldValue }) => (
 							<Form>
 								<TextField
-									inputRef={(input) =>
-										setTimeout(() => input && input.focus(), 100)
-									}
+									// inputRef={(input) =>
+									// 	setTimeout(() => input && input.focus(), 100)
+									// }
 									margin="dense"
 									label="Title"
 									fullWidth

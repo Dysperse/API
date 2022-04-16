@@ -12,6 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 
+import Tooltip from "@mui/material/Tooltip";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -81,28 +82,33 @@ export function NotificationsMenu(props: any): JSX.Element {
 	};
 
 	return (
-		<React.Fragment key={"right"}>
-			<div onClick={toggleDrawer(true)}>{props.children}</div>
+		<>
+			<div onClick={() => setState(true)}>{props.children}</div>
 			<SwipeableDrawer
 				anchor={"right"}
-				key={"right"}
 				open={state}
-				onOpen={toggleDrawer(true)}
-				onClose={toggleDrawer(false)}
+				onOpen={() => setState(true)}
+				onClose={() => setState(false)}
 			>
 				<Box sx={{ flexGrow: 1, position: "relative" }}>
-					<AppBar position="sticky" sx={{ background: "#212121" }}>
+					<AppBar
+						elevation={0}
+						position="sticky"
+						sx={{ background: "#fff", color: "#404040" }}
+					>
 						<Toolbar>
-							<IconButton
-								size="large"
-								edge="start"
-								color="inherit"
-								onClick={toggleDrawer(false)}
-								aria-label="menu"
-								sx={{ mr: 2 }}
-							>
-								<ChevronLeftIcon />
-							</IconButton>
+							<Tooltip title="Back">
+								<IconButton
+									size="large"
+									edge="start"
+									color="inherit"
+									onClick={() => setState(false)}
+									aria-label="menu"
+									sx={{ mr: 2 }}
+								>
+									<ChevronLeftIcon />
+								</IconButton>
+							</Tooltip>
 							<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 								Notifications
 							</Typography>
@@ -115,7 +121,7 @@ export function NotificationsMenu(props: any): JSX.Element {
 						overflowY: "scroll",
 						width: "500px",
 						maxWidth: "100vw",
-						p: 3
+						px: 3
 					}}
 					role="presentation"
 				>
@@ -123,6 +129,6 @@ export function NotificationsMenu(props: any): JSX.Element {
 					<Toolbar />
 				</Box>
 			</SwipeableDrawer>
-		</React.Fragment>
+		</>
 	);
 }
