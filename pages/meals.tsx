@@ -1,7 +1,9 @@
-import React from "react";
-import FullCalendar from "@fullcalendar/react"; // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 export default function Meals() {
-	return <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />;
-}; 
+	return (
+		<Box sx={{ p: 3 }}>
+			<Typography variant="h5">Meals</Typography>
+		</Box>
+	);
+}
