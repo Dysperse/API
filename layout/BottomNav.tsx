@@ -11,7 +11,11 @@ import SearchIcon from "@mui/icons-material/Search";
 const styles = {
 	borderRadius: "15px",
 	color: "#505050",
-	mr: "1px",
+	px: "0!important",
+	maxWidth: "20vw!important",
+	minWidth: "20vw!important",
+	width: "20vw!important",
+	mr: "-1px",
 	transition: "background .2s",
 	"&:hover": {
 		background: "rgba(200, 200, 200, .5)"
@@ -61,10 +65,10 @@ export function BottomNav() {
 					py: 0.5,
 					px: "3px",
 					height: "auto",
-					backdropFilter: "blur(10px)",
+					backdropFilter: "blur(15px)",
 					borderTopLeftRadius: "15px",
 					borderTopRightRadius: "15px",
-					background: "rgba(200,200,200,.3)"
+					background: "rgba(220,220,220,.9)"
 				}}
 				showLabels
 				onChange={(event, newValue) => {

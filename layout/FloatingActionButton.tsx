@@ -28,7 +28,7 @@ export function FloatingActionButton() {
 					sx={{
 						borderRadius: "20px",
 						textTransform: "none",
-						px: 4,
+						px: 3,
 						boxShadow: 0,
 						fontSize: "15px",
 						background: blue[200],

@@ -36,7 +36,7 @@ export function ListItems({
 			height={200}
 			animation="wave"
 			variant="rectangular"
-			sx={{ borderRadius: "5px" }}
+			sx={{ borderRadius: "28px" }}
 		/>
 	) : (
 		<Card

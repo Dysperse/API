@@ -145,7 +145,14 @@ function ResponsiveDrawer(props: any): JSX.Element {
 				}}
 			>
 				<Toolbar />
-				<Box sx={{ py: 1 }}>
+				<Box
+					sx={{
+						py: {
+							sm: 1,
+							xs: 0.5
+						}
+					}}
+				>
 					{props.children}
 					<Box sx={{ display: { sm: "none" } }}>
 						<Toolbar />

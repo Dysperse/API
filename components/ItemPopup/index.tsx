@@ -41,7 +41,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Formik, Form } from "formik";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
-
+import Collapse from "@mui/material/Collapse";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -405,6 +405,15 @@ export default function Item({ data, variant }: any) {
 				action={action}
 			/>
 			<SwipeableDrawer
+				PaperProps={{
+					sx: {
+						borderRadius: 4,
+						overflow: "hidden!important",
+						mt: "5px",
+						mr: "5px",
+						height: "calc(100vh - 10px)!important"
+					}
+				}}
 				swipeAreaWidth={0}
 				anchor="right"
 				open={drawerState}
@@ -495,9 +504,10 @@ export default function Item({ data, variant }: any) {
 					</Box>
 				</Box>
 			</SwipeableDrawer>
-			{deleted ? null : (
-				<>
-					{variant === "list" ? (
+
+			<>
+				{variant === "list" ? (
+					<Collapse in={!deleted}>
 						<ListItemButton
 							onClick={() => setDrawerState(true)}
 							sx={{ py: 0.1, borderRadius: "10px" }}
@@ -507,40 +517,51 @@ export default function Item({ data, variant }: any) {
 								secondary={dayjs(lastUpdated).fromNow()}
 							/>
 						</ListItemButton>
-					) : (
-						<Card
-							sx={{
-								maxWidth: "100%",
-								mb: 1,
-								...(star === 1 && {
-									background: orange[700],
-									color: "white"
-								})
-							}}
-							onClick={() => setDrawerState(true)}
-						>
-							<CardActionArea>
-								<CardContent>
-									<Typography variant="h6">{title}</Typography>
-									<Typography>{quantity}</Typography>
-									<Stack spacing={2} direction="row" sx={{ mt: 1 }}>
-										{categories.split(",").map((category: string) => {
-											if (category.trim() === "") return false;
-											return (
-												<Chip
-													key={Math.random().toString()}
-													sx={{ pointerEvents: "none" }}
-													label={category}
-												/>
-											);
-										})}
-									</Stack>
-								</CardContent>
-							</CardActionArea>
-						</Card>
-					)}
-				</>
-			)}
+					</Collapse>
+				) : (
+					<>
+						{deleted ? null : (
+							<Card
+								sx={{
+									maxWidth: "100%",
+									position: "relative",
+									mb: 1,
+									...(star === 1 && {
+										background: orange[700],
+										color: "white"
+									})
+								}}
+								onClick={() => setDrawerState(true)}
+							>
+								<CardActionArea>
+									<CardContent>
+										<Typography
+											variant="h6"
+											sx={{ textOverflow: "ellipsis" }}
+											noWrap
+										>
+											{title}
+										</Typography>
+										<Typography>{quantity}</Typography>
+										<Stack spacing={2} direction="row" sx={{ mt: 1 }}>
+											{categories.split(",").map((category: string) => {
+												if (category.trim() === "") return false;
+												return (
+													<Chip
+														key={Math.random().toString()}
+														sx={{ pointerEvents: "none" }}
+														label={category}
+													/>
+												);
+											})}
+										</Stack>
+									</CardContent>
+								</CardActionArea>
+							</Card>
+						)}
+					</>
+				)}
+			</>
 		</>
 	);
 }

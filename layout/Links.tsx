@@ -107,11 +107,12 @@ const ListItem = React.memo(function ListItem({
 	icon
 }: any) {
 	const router = useRouter();
-
+	if (router.asPath) router.asPath = "/dashboard";
 	return (
 		<Link href={href} as={asHref} replace>
 			<ListItemButton
 				sx={{
+					pl: 4,
 					borderRadius: "0 20px 20px 0",
 					...(router.asPath === asHref && {
 						backgroundColor: blue[50],
@@ -164,13 +165,13 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 						xs: "none",
 						sm: "block"
 					},
-					pt: 1
+					pt: 2
 				}}
 			>
 				<Toolbar />
 			</Box>
 			<div onClick={handleDrawerToggle}>
-				<ListSubheader>Home</ListSubheader>
+				<ListSubheader sx={{ ml: 2 }}>Home</ListSubheader>
 				<ListItem text="Overview" icon={<LabelIcon />} />
 				<ListItem
 					href="/finances"
@@ -187,7 +188,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 				{/* <ListItem href="/meals" text="Eco-friendly tips" icon={<SpaIcon />} /> */}
 			</div>
 			<div onClick={handleDrawerToggle}>
-				<ListSubheader>Rooms</ListSubheader>
+				<ListSubheader sx={{ ml: 2 }}>Rooms</ListSubheader>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/kitchen"

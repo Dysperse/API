@@ -195,7 +195,7 @@ function ListPopup({
 				) : (
 					<div style={{ textAlign: "left", display: "block" }}>
 						{listItems.data.data.length === 0 ? (
-							<Box sx={{ textAlign: "center", opacity: ".5" }}>
+							<Box sx={{ textAlign: "center", opacity: ".5", py: 6 }}>
 								<Typography variant="h3" sx={{ mb: 2 }}>
 									¯\_(ツ)_/¯
 								</Typography>

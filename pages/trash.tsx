@@ -29,7 +29,7 @@ function Items() {
               variant="rectangular"
               height={height}
               animation="wave"
-              sx={{ mb: 1, borderRadius: "5px" }}
+              sx={{ mb: 1, borderRadius: "28px" }}
             />
           </Paper>
         );

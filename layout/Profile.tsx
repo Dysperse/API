@@ -100,8 +100,11 @@ export function ProfileMenu(props: any) {
 					aria-label="open drawer."
 					edge="end"
 				>
-					<Avatar sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}>
-						MG
+					<Avatar
+						sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}
+						src={ACCOUNT_DATA.image}
+					>
+						{ACCOUNT_DATA.name}
 					</Avatar>
 				</IconButton>
 			</Tooltip>

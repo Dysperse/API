@@ -25,7 +25,7 @@ export function RecentItems() {
 			width={"100%"}
 			height={500}
 			animation="wave"
-			sx={{ borderRadius: "5px" }}
+			sx={{ borderRadius: "28px" }}
 		/>
 	) : (
 		<Card
@@ -38,7 +38,7 @@ export function RecentItems() {
 		>
 			<CardContent>
 				<Typography variant="h5" sx={{ ml: 1, mb: 1 }}>
-					Recent
+					Recent items
 				</Typography>
 				{data.data.map((list: Object) => (
 					<RecentItem key={Math.random().toString()} item={list} />
