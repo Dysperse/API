@@ -107,7 +107,7 @@ const ListItem = React.memo(function ListItem({
 	icon
 }: any) {
 	const router = useRouter();
-	if (router.asPath) router.asPath = "/dashboard";
+	if (!router.asPath) router.asPath = "/dashboard";
 	return (
 		<Link href={href} as={asHref} replace>
 			<ListItemButton
@@ -171,7 +171,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 				<Toolbar />
 			</Box>
 			<div onClick={handleDrawerToggle}>
-				<ListSubheader sx={{ ml: 2 }}>Home</ListSubheader>
+				<ListSubheader sx={{ pl: 2 }}>Home</ListSubheader>
 				<ListItem text="Overview" icon={<LabelIcon />} />
 				<ListItem
 					href="/finances"
@@ -188,7 +188,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 				{/* <ListItem href="/meals" text="Eco-friendly tips" icon={<SpaIcon />} /> */}
 			</div>
 			<div onClick={handleDrawerToggle}>
-				<ListSubheader sx={{ ml: 2 }}>Rooms</ListSubheader>
+				<ListSubheader sx={{ pl: 2 }}>Rooms</ListSubheader>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/kitchen"
@@ -269,7 +269,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 					<CreateRoom />
 				</List>
 			</Collapse>
-			<ListSubheader component="div" id="nested-list-subheader">
+			<ListSubheader component="div" id="nested-list-subheader" sx={{pl:2}}>
 				More
 			</ListSubheader>
 			<ListItem

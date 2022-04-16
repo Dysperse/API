@@ -44,6 +44,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
+import useWindowDimensions from "../../layout/useWindowDimensions";
 
 const StyledMenu = styled((props: any) => (
 	<Menu
@@ -363,11 +364,15 @@ export default function Item({ data, variant }: any) {
 
 	// onClick={() => setStar((s:any) => +!s)}
 	const [drawerState, setDrawerState] = useState(false);
+	const { width }: any = useWindowDimensions();
 
 	useEffect(() => {
 		document
 			.querySelector(`meta[name="theme-color"]`)!
-			.setAttribute("content", drawerState ? "#101010" : blue[800]);
+			.setAttribute(
+				"content",
+				drawerState ? (width > 900 ? "#808080" : "#eee") : blue[100]
+			);
 	});
 	const [open, setOpen] = React.useState(false);
 
@@ -407,11 +412,11 @@ export default function Item({ data, variant }: any) {
 			<SwipeableDrawer
 				PaperProps={{
 					sx: {
-						borderRadius: 4,
+						borderRadius: { sm: 4 },
 						overflow: "hidden!important",
-						mt: "5px",
-						mr: "5px",
-						height: "calc(100vh - 10px)!important"
+						mt: { sm: "7px" },
+						mr: { sm: "7px" },
+						height: { sm: "calc(100vh - 14px)!important" }
 					}
 				}}
 				swipeAreaWidth={0}

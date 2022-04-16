@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
@@ -11,6 +11,7 @@ import { BottomNav } from "./BottomNav";
 import { FloatingActionButton } from "./FloatingActionButton";
 import useWindowDimensions from "./useWindowDimensions";
 
+import { blue } from "@mui/material/colors";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -65,7 +66,12 @@ function CustomRooms() {
 function ResponsiveDrawer(props: any): JSX.Element {
 	const { window } = props;
 	const [mobileOpen, setMobileOpen] = React.useState(false);
-
+	useEffect(() => {
+		if (document.querySelector(`meta[name="theme-color"]`))
+			document
+				.querySelector(`meta[name="theme-color"]`)!
+				.setAttribute("content", mobileOpen ? "#808080" : blue[100]);
+	});
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
@@ -88,6 +94,13 @@ function ResponsiveDrawer(props: any): JSX.Element {
 					variant="temporary"
 					swipeAreaWidth={width > 992 ? 0 : 10}
 					open={mobileOpen}
+					PaperProps={{
+						sx: {
+							m: "7px",
+							height: "calc(100vh - 14px)!important",
+							borderRadius: 2
+						}
+					}}
 					onClose={handleDrawerToggle}
 					onOpen={() => setMobileOpen(true)}
 					ModalProps={{

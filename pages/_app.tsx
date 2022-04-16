@@ -43,9 +43,9 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
 			<Head>
 				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
-				<meta name="theme-color" content={blue[800]} />
+				<meta name="theme-color" content={blue[100]} />
 				<link
-					href="https://fonts.googleapis.com/css2?family=Outfit&amp;display=optional"
+					href="https://fonts.googleapis.com/css2?family=Outfit"
 					rel="stylesheet"
 				/>
 				<link href="/manifest.webmanifest" rel="manifest" />

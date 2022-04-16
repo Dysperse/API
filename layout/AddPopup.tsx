@@ -6,13 +6,21 @@ import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Grid from "@mui/material/Grid";
 
 import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import { CreateItemModal } from "./CreateItemModal";
-import LabelIcon from "@mui/icons-material/Label";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardContent from "@mui/material/CardContent";
+import MicrowaveIcon from "@mui/icons-material/Microwave";
+import GarageIcon from "@mui/icons-material/Garage";
+import DiningIcon from "@mui/icons-material/Dining";
+import BedroomParentIcon from "@mui/icons-material/BedroomParent";
+import BathroomIcon from "@mui/icons-material/Bathroom";
+import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import LivingIcon from "@mui/icons-material/Living";
 
 const Root = styled("div")(({ theme }) => ({
 	height: "100%"
@@ -20,63 +28,70 @@ const Root = styled("div")(({ theme }) => ({
 
 function AddItemOption({ toggleDrawer, icon, title }: any): JSX.Element {
 	return (
-		<CreateItemModal room={title} toggleDrawer={toggleDrawer}>
-			<ListItemButton onClick={() => toggleDrawer(false)}>
-				<ListItemIcon>{icon}</ListItemIcon>
-				<ListItemText primary={title} />
-			</ListItemButton>
-		</CreateItemModal>
+		<Grid item xs={3}>
+			<CreateItemModal room={title} toggleDrawer={toggleDrawer}>
+				<Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
+					<CardActionArea onClick={() => toggleDrawer(false)}>
+						<CardContent sx={{ p: 1 }}>
+							<Typography variant="h4">{icon}</Typography>
+							<Typography variant="body2">{title}</Typography>
+						</CardContent>
+					</CardActionArea>
+				</Card>
+			</CreateItemModal>
+		</Grid>
 	);
 }
 function Content({ toggleDrawer }: any) {
 	return (
 		<List sx={{ width: "100%", bgcolor: "background.paper" }}>
-			<AddItemOption
-				toggleDrawer={toggleDrawer}
-				title="Kitchen"
-				icon={<LabelIcon />}
-			/>
-			<AddItemOption
-				toggleDrawer={toggleDrawer}
-				title="Bathroom"
-				icon={<LabelIcon />}
-			/>
-			<AddItemOption
-				toggleDrawer={toggleDrawer}
-				title="Bedroom"
-				icon={<LabelIcon />}
-			/>
-			<AddItemOption
-				toggleDrawer={toggleDrawer}
-				title="Garage"
-				icon={<LabelIcon />}
-			/>
-			<AddItemOption
-				toggleDrawer={toggleDrawer}
-				title="Living room"
-				icon={<LabelIcon />}
-			/>
-			<AddItemOption
-				toggleDrawer={toggleDrawer}
-				title="Dining room"
-				icon={<LabelIcon />}
-			/>
-			<AddItemOption
-				toggleDrawer={toggleDrawer}
-				title="Laundry room"
-				icon={<LabelIcon />}
-			/>
-			<AddItemOption
-				toggleDrawer={toggleDrawer}
-				title="Storage room"
-				icon={<LabelIcon />}
-			/>
+			<Grid container sx={{ px: 1 }}>
+				<AddItemOption
+					toggleDrawer={toggleDrawer}
+					title="Kitchen"
+					icon={<MicrowaveIcon />}
+				/>
+				<AddItemOption
+					toggleDrawer={toggleDrawer}
+					title="Bathroom"
+					icon={<BathroomIcon />}
+				/>
+				<AddItemOption
+					toggleDrawer={toggleDrawer}
+					title="Bedroom"
+					icon={<BedroomParentIcon />}
+				/>
+				<AddItemOption
+					toggleDrawer={toggleDrawer}
+					title="Garage"
+					icon={<GarageIcon />}
+				/>
+				<AddItemOption
+					toggleDrawer={toggleDrawer}
+					title="Living room"
+					icon={<LivingIcon />}
+				/>
+				<AddItemOption
+					toggleDrawer={toggleDrawer}
+					title="Dining room"
+					icon={<DiningIcon />}
+				/>
+				<AddItemOption
+					toggleDrawer={toggleDrawer}
+					title="Laundry room"
+					icon={<LocalLaundryServiceIcon />}
+				/>
+				<AddItemOption
+					toggleDrawer={toggleDrawer}
+					title="Storage room"
+					icon={<Inventory2Icon />}
+				/>
+			</Grid>
 		</List>
 	);
 }
 
 export default function AddPopup(props: any) {
-	const { window } = props;
 	const [open, setOpen] = React.useState(false);
 
 	const toggleDrawer = (newOpen: boolean) => () => {
