@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -9,6 +9,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Formik, Form } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Snackbar from "@mui/material/Snackbar";
+import dayjs from "dayjs";
 
 export function CreateItemModal({
 	toggleDrawer,
@@ -39,14 +41,45 @@ export function CreateItemModal({
 		title: "",
 		quantity: ""
 	};
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
+	const handleSnackbarClose = (
+		event: React.SyntheticEvent | Event,
+		reason?: string
+	) => {
+		if (reason === "clickaway") {
+			return;
+		}
 
-	const submit = (values: Object) => {
-		alert(JSON.stringify(values, null, 2));
+		setSnackbarOpen(false);
 	};
-
+	const submit = async (values: {
+		categories: Array<string>;
+		title: string;
+		quantity: string;
+	}) => {
+		const data = await fetch("https://api.smartlist.tech/v2/items/create/", {
+			method: "POST",
+			body: new URLSearchParams({
+				token: ACCOUNT_DATA.accessToken,
+				room: room.toLowerCase(),
+				name: values.title,
+				qty: values.quantity,
+				category: JSON.stringify(values.categories),
+				lastUpdated: dayjs().format("YYYY-M-D h:mm:ss")
+			})
+		});
+		setSnackbarOpen(true);
+		setOpen(false);
+	};
 	return (
 		<div>
 			<div onClick={handleClickOpen}>{children}</div>
+			<Snackbar
+				open={snackbarOpen}
+				autoHideDuration={3000}
+				onClose={handleSnackbarClose}
+				message="Item created!"
+			/>
 			<SwipeableDrawer
 				anchor="bottom"
 				swipeAreaWidth={0}

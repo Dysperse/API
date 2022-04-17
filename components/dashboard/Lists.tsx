@@ -130,7 +130,7 @@ export function Lists() {
 					variant="rectangular"
 					height={100}
 					animation="wave"
-					sx={{ mb: 1, borderRadius: "28px" }}
+					sx={{ mb: 2, borderRadius: "28px" }}
 				/>
 			))}
 		</>

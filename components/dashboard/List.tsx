@@ -139,6 +139,9 @@ function ListPopup({
 	return (
 		<SwipeableDrawer
 			anchor="bottom"
+			sx={{
+				backdropFilter: "blur(10px)"
+			}}
 			swipeAreaWidth={0}
 			disableSwipeToOpen={true}
 			PaperProps={{

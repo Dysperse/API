@@ -112,6 +112,9 @@ export default function AddPopup(props: any) {
 			<Box onClick={toggleDrawer(true)}>{props.children}</Box>
 
 			<SwipeableDrawer
+				sx={{
+					backdropFilter: "blur(20px)"
+				}}
 				anchor="bottom"
 				swipeAreaWidth={0}
 				PaperProps={{
@@ -127,7 +130,10 @@ export default function AddPopup(props: any) {
 				onClose={toggleDrawer(false)}
 				onOpen={toggleDrawer(true)}
 				ModalProps={{
-					keepMounted: true
+					keepMounted: true,
+					sx: {
+						backdropFilter: "blur(20px)"
+					}
 				}}
 			>
 				<Typography sx={{ textAlign: "center", p: 2, color: "text.secondary" }}>

@@ -46,6 +46,15 @@ import Snackbar from "@mui/material/Snackbar";
 import { blueGrey } from "@mui/material/colors";
 import useWindowDimensions from "../../components/useWindowDimensions";
 
+function isJsonString(str:string) {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
+
 const StyledMenu = styled((props: any) => (
 	<Menu
 		elevation={0}
@@ -168,7 +177,11 @@ function EditButton({
 									freeSolo
 									options={[1, 2, 3]}
 									defaultValue={
-										categories.trim() === "" ? [] : categories.split(",")
+										categories.trim() === ""
+											? []
+											: isJsonString(categories)
+											? JSON.parse(categories)
+											: categories.split(",")
 									}
 									onChange={(e, value) => {
 										console.log(value);
