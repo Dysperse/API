@@ -43,7 +43,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
 import Snackbar from "@mui/material/Snackbar";
-import CloseIcon from "@mui/icons-material/Close";
+import { blueGrey } from "@mui/material/colors";
 import useWindowDimensions from "../../layout/useWindowDimensions";
 
 const StyledMenu = styled((props: any) => (
@@ -410,6 +410,10 @@ export default function Item({ data, variant }: any) {
 				action={action}
 			/>
 			<SwipeableDrawer
+				sx={{
+					backdropFilter: "blur(10px)",
+					opacity: "1!important"
+				}}
 				PaperProps={{
 					sx: {
 						borderRadius: { sm: 4 },
@@ -531,6 +535,9 @@ export default function Item({ data, variant }: any) {
 									maxWidth: "100%",
 									position: "relative",
 									mb: 1,
+									boxShadow: 0,
+									borderRadius: "28px",
+									background: blueGrey[50],
 									...(star === 1 && {
 										background: orange[700],
 										color: "white"
@@ -539,7 +546,7 @@ export default function Item({ data, variant }: any) {
 								onClick={() => setDrawerState(true)}
 							>
 								<CardActionArea>
-									<CardContent>
+									<CardContent sx={{ p: 3 }}>
 										<Typography
 											variant="h6"
 											sx={{ textOverflow: "ellipsis" }}

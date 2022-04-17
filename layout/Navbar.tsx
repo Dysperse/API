@@ -10,7 +10,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
-import { blue } from "@mui/material/colors";
+import { blue, blueGrey } from "@mui/material/colors";
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
@@ -28,8 +28,7 @@ function ElevationScroll(props: any) {
 		target: window ? window() : undefined
 	});
 	useEffect(() => {
-		if (document && document
-			.querySelector(`meta[name="theme-color"]`)) {
+		if (document && document.querySelector(`meta[name="theme-color"]`)) {
 			document
 				.querySelector(`meta[name="theme-color"]`)!
 				.setAttribute("content", trigger ? blue[50] : "#fff");
@@ -53,7 +52,7 @@ function ElevationScroll(props: any) {
 						sm: 1,
 						xs: 0.5
 					},
-					borderBottom: "1px solid #eee",
+					borderBottom: "1px solid " + blueGrey[50],
 					transition: "all .2s",
 					background: "#fff"
 			  }
