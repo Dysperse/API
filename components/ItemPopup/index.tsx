@@ -44,7 +44,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
 import Snackbar from "@mui/material/Snackbar";
 import { blueGrey } from "@mui/material/colors";
-import useWindowDimensions from "../../layout/useWindowDimensions";
+import useWindowDimensions from "../../components/useWindowDimensions";
 
 const StyledMenu = styled((props: any) => (
 	<Menu

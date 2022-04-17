@@ -5,9 +5,9 @@ import Paper from "@mui/material/Paper";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
-import { Lists } from "../layout/dashboard/Lists";
-import { RecentItems } from "../layout/dashboard/RecentItems";
-import { ListItems } from "../layout/dashboard/ListItems";
+import { Lists } from "../components/dashboard/Lists";
+import { RecentItems } from "../components/dashboard/RecentItems";
+import { ListItems } from "../components/dashboard/ListItems";
 
 dayjs.extend(relativeTime);
 

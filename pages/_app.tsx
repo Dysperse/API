@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { blue } from "@mui/material/colors";
 
-import Layout from "../layout/Layout";
+import Layout from "../components/Layout";
 import "../styles/global.css";
 
 declare var ACCOUNT_DATA: Object;
