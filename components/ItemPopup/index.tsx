@@ -345,7 +345,7 @@ function StarButton({ id, star, setStar }: any) {
 								id: id.toString(),
 								date: dayjs().format("YYYY-M-D h:mm:ss")
 							})
-						}).then(data => alert(1));
+						})
 						return +!s;
 					})
 				}
