@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
 					rel="stylesheet"
 				/>
 				<link href="/manifest.webmanifest" rel="manifest" />
-				<link href="/logo/48x48.png" rel="shortcut icon" />
+				<link href="/icons/48x48.png" rel="shortcut icon" />
 				<title>Dashboard &bull; Smartlist</title>
 			</Head>
 			<Layout>
