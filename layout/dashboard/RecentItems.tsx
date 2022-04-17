@@ -37,7 +37,7 @@ export function RecentItems() {
 			}}
 		>
 			<CardContent>
-				<Typography variant="h5" sx={{ ml: 1, mb: 1 }}>
+				<Typography variant="h5" sx={{ mb: 1 }}>
 					Recent items
 				</Typography>
 				{data.data.map((list: Object) => (

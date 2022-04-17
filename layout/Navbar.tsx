@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 
 import { ProfileMenu } from "./Profile";
 import { AppsMenu } from "./AppsMenu";
@@ -27,11 +27,14 @@ function ElevationScroll(props: any) {
 		threshold: 0,
 		target: window ? window() : undefined
 	});
-	if (document && document.querySelector(`meta[name="theme-color"]`)) {
-		document
-			.querySelector(`meta[name="theme-color"]`)!
-			.setAttribute("content", trigger ? blue[50] : "#fff");
-	}
+	useEffect(() => {
+		if (document && document
+			.querySelector(`meta[name="theme-color"]`)) {
+			document
+				.querySelector(`meta[name="theme-color"]`)!
+				.setAttribute("content", trigger ? blue[50] : "#fff");
+		}
+	});
 	return React.cloneElement(children, {
 		sx: trigger
 			? {
@@ -67,6 +70,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 							color="inherit"
 							aria-label="open drawer."
 							edge="start"
+							size="large"
 							onClick={handleDrawerToggle}
 							sx={{ mr: 2, display: { sm: "none" } }}
 						>
