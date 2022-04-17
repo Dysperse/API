@@ -5,11 +5,11 @@
 	"private": false,
 	"repository": "https://github.com/ManuTheCoder/Smartlist-React-Dashboard-Test",
 	"scripts": {
-		"dev": "npm i && next dev",
+		"dev": "yarn install && next dev",
 		"build": "next build",
-		"start": "next start",
+		"start": "yarn install && next dev",
 		"lint": "next lint",
-		"post-update": "npm i && npm run dev"
+		"post-update": "yarn i && yarn run dev"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.9.0",
@@ -36,6 +36,6 @@
 		"eslint-config-next": "latest",
 		"typescript": "^4.6.3"
 	},
-	"keywords": [],
+	"keywords": ["Home inventory", "Finance", "Fintech"],
 	"description": "Home inventory and finacne management"
 }

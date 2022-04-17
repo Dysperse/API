@@ -6,7 +6,7 @@ module.exports = withPlugins(
 		[
 			withPWA({
 				pwa: {
-					// mode: "production",
+					mode: "production",
 					dest: "public"
 				}
 			})

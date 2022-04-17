@@ -2,6 +2,7 @@
 	"infiniteLoopProtection": true,
 	"hardReloadOnChange": false,
 	"container": {
-		"node": "16"
+		"node": "16",
+		"port": 3000
 	}
 }

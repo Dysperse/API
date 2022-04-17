@@ -14,19 +14,21 @@ Platform:
   linux x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, lstat '/sandbox/node_modules/flat-cache/node_modules/rimraf'
+  Error: ENOENT: no such file or directory, scandir '/sandbox/node_modules/@editorjs'
 
 npm manifest: 
   {
   	"name": "smartlist-dashboard",
   	"version": "5.0.0",
+  	"license": "MIT",
   	"private": false,
+  	"repository": "https://github.com/ManuTheCoder/Smartlist-React-Dashboard-Test",
   	"scripts": {
-  		"dev": "next dev",
+  		"dev": "yarn i && next dev",
   		"build": "next build",
   		"start": "next start",
   		"lint": "next lint",
-  		"post-update": "npm i && npm run dev"
+  		"post-update": "yarn i && yarn run dev"
   	},
   	"dependencies": {
   		"@emotion/react": "^11.9.0",
@@ -36,9 +38,12 @@ npm manifest:
   		"@mui/material": "^5.6.1",
   		"dayjs": "^1.11.0",
   		"formik": "^2.2.9",
+  		"next": "^12.1.5",
   		"next-compose-plugins": "^2.2.1",
   		"next-pwa": "^5.4.0",
-  		"nextjs": "^0.0.3",
+  		"react": "^18.0.0",
+  		"react-dom": "^18.0.0",
+  		"react-editor-js": "^2.0.6",
   		"react-fetch-hook": "^1.9.5",
   		"swr": "^1.3.0"
   	},
@@ -51,7 +56,7 @@ npm manifest:
   		"typescript": "^4.6.3"
   	},
   	"keywords": [],
-  	"description": ""
+  	"description": "Home inventory and finacne management"
   }
 
 yarn manifest: 
@@ -1004,6 +1009,20 @@ Lockfile:
     dependencies:
       "@date-io/core" "^2.13.1"
   
+  "@editorjs/editorjs@*":
+    "integrity" "sha512-SXWQjxE/ZO6zWvo83U+gfkM9LVJzYOtNkttyXkdfyYALVWiENyxtlej/Jmd1TZ4yWpKwQEICPXz0ceGkzKnJyQ=="
+    "resolved" "https://registry.npmjs.org/@editorjs/editorjs/-/editorjs-2.23.2.tgz"
+    "version" "2.23.2"
+    dependencies:
+      "codex-notifier" "^1.1.2"
+      "codex-tooltip" "^1.0.4"
+      "nanoid" "^3.1.22"
+  
+  "@editorjs/paragraph@*":
+    "integrity" "sha512-z6w5ZR0ru3p/IjxJW/tb7OcSnVttkZukQMIsnBMX1FIKc1BNdr7NwM1YoCyTl4OnC90YfL0xgES6/20/W267pw=="
+    "resolved" "https://registry.npmjs.org/@editorjs/paragraph/-/paragraph-2.8.0.tgz"
+    "version" "2.8.0"
+  
   "@emotion/babel-plugin@^11.7.1":
     "integrity" "sha512-6mGSCWi9UzXut/ZAN6lGFu33wGR3SJisNl3c0tvlmb8XChH1b2SUvxvnOh7hvLpqyRdHHU9AiazV3Cwbk5SXKQ=="
     "resolved" "https://registry.npmjs.org/@emotion/babel-plugin/-/babel-plugin-11.7.2.tgz"
@@ -1270,10 +1289,10 @@ Lockfile:
       "react-transition-group" "^4.4.2"
       "rifm" "^0.12.1"
   
-  "@next/env@12.1.4":
-    "integrity" "sha512-7gQwotJDKnfMxxXd8xJ2vsX5AzyDxO3zou0+QOXX8/unypA6icw5+wf6A62yKZ6qQ4UZHHxS68pb6UV+wNneXg=="
-    "resolved" "https://registry.npmjs.org/@next/env/-/env-12.1.4.tgz"
-    "version" "12.1.4"
+  "@next/env@12.1.5":
+    "integrity" "sha512-+34yUJslfJi7Lyx6ELuN8nWcOzi27izfYnZIC1Dqv7kmmfiBVxgzR3BXhlvEMTKC2IRJhXVs2FkMY+buQe3k7Q=="
+    "resolved" "https://registry.npmjs.org/@next/env/-/env-12.1.5.tgz"
+    "version" "12.1.5"
   
   "@next/eslint-plugin-next@12.1.4":
     "integrity" "sha512-BRy565KVK6Cdy8LHaHTiwctLqBu/RT84RLpESug70BDJzBlV8QBvODyx/j7wGhvYqp9kvstM05lyb6JaTkSCcQ=="
@@ -1282,15 +1301,15 @@ Lockfile:
     dependencies:
       "glob" "7.1.7"
   
-  "@next/swc-linux-x64-gnu@12.1.4":
-    "integrity" "sha512-nM+MA/frxlTLUKLJKorctdI20/ugfHRjVEEkcLp/58LGG7slNaP1E5d5dRA1yX6ISjPcQAkywas5VlGCg+uTvA=="
-    "resolved" "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-12.1.4.tgz"
-    "version" "12.1.4"
+  "@next/swc-linux-x64-gnu@12.1.5":
+    "integrity" "sha512-O2ErUTvCJ6DkNTSr9pbu1n3tcqykqE/ebty1rwClzIYdOgpB3T2MfEPP+K7GhUR87wmN/hlihO9ch7qpVFDGKw=="
+    "resolved" "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-12.1.5.tgz"
+    "version" "12.1.5"
   
-  "@next/swc-linux-x64-musl@12.1.4":
-    "integrity" "sha512-GoRHxkuW4u4yKw734B9SzxJwVdyEJosaZ62P7ifOwcujTxhgBt3y76V2nNUrsSuopcKI2ZTDjaa+2wd5zyeXbA=="
-    "resolved" "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-12.1.4.tgz"
-    "version" "12.1.4"
+  "@next/swc-linux-x64-musl@12.1.5":
+    "integrity" "sha512-1eIlZmlO/VRjxxzUBcVosf54AFU3ltAzHi+BJA+9U/lPxCYIsT+R4uO3QksRzRjKWhVQMRjEnlXyyq5SKJm7BA=="
+    "resolved" "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-12.1.5.tgz"
+    "version" "12.1.5"
   
   "@nodelib/fs.scandir@2.1.5":
     "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="
@@ -1317,6 +1336,25 @@ Lockfile:
     "integrity" "sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw=="
     "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.11.5.tgz"
     "version" "2.11.5"
+  
+  "@react-editor-js/client@2.0.6":
+    "integrity" "sha512-LMMJLAXAwk1kVMy7fxTRFK6OdouvoseqJbmVUygJb2EcfuT84nC9OAtvGEL4vsVLUcnzEV400+F9t5OKa77FGQ=="
+    "resolved" "https://registry.npmjs.org/@react-editor-js/client/-/client-2.0.6.tgz"
+    "version" "2.0.6"
+    dependencies:
+      "@react-editor-js/core" "2.0.6"
+  
+  "@react-editor-js/core@2.0.6":
+    "integrity" "sha512-mvHM2I+gT3AnvFpFhTZI0EFLKD9pRpgXDf286uwv6n6tngwLfnCCmtCbgiGI9ICph2GJvRZfaQubE+MHQ6YV8g=="
+    "resolved" "https://registry.npmjs.org/@react-editor-js/core/-/core-2.0.6.tgz"
+    "version" "2.0.6"
+  
+  "@react-editor-js/server@2.0.6":
+    "integrity" "sha512-soW/bV5auciYr8gEYISWK4fuIblAcc4bcwPuCKnDBj9W9r/nAxMmNgCG+z9rs9Gnroa0Ko3Hzwzs9d5MdOShzg=="
+    "resolved" "https://registry.npmjs.org/@react-editor-js/server/-/server-2.0.6.tgz"
+    "version" "2.0.6"
+    dependencies:
+      "@react-editor-js/core" "2.0.6"
   
   "@rollup/plugin-babel@^5.2.0":
     "integrity" "sha512-WFfdLWU/xVWKeRQnKmIAQULUI7Il0gZnBIH/ZFO069wYIfPu+8zrfp/KMW0atmELoRDq8FbiP3VCss9MhCut7Q=="
@@ -1947,6 +1985,16 @@ Lockfile:
     "integrity" "sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA=="
     "resolved" "https://registry.npmjs.org/clsx/-/clsx-1.1.1.tgz"
     "version" "1.1.1"
+  
+  "codex-notifier@^1.1.2":
+    "integrity" "sha512-DCp6xe/LGueJ1N5sXEwcBc3r3PyVkEEDNWCVigfvywAkeXcZMk9K41a31tkEFBW0Ptlwji6/JlAb49E3Yrxbtg=="
+    "resolved" "https://registry.npmjs.org/codex-notifier/-/codex-notifier-1.1.2.tgz"
+    "version" "1.1.2"
+  
+  "codex-tooltip@^1.0.4":
+    "integrity" "sha512-IuA8LeyLU5p1B+HyhOsqR6oxyFQ11k3i9e9aXw40CrHFTRO2Y1npNBVU3W1SvhKAbUU7R/YikUBdcYFP0RcJag=="
+    "resolved" "https://registry.npmjs.org/codex-tooltip/-/codex-tooltip-1.0.5.tgz"
+    "version" "1.0.5"
   
   "color-convert@^1.9.0":
     "integrity" "sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg=="
@@ -3214,7 +3262,7 @@ Lockfile:
     "resolved" "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz"
     "version" "2.0.0"
   
-  "nanoid@^3.1.30":
+  "nanoid@^3.1.22", "nanoid@^3.1.30":
     "integrity" "sha512-CuHBogktKwpm5g2sRgv83jEy2ijFzBwMoYA60orPDR7ynsLijJDqgsi4RDGj3OJpy3Ieb+LYwiRmIOGyytgITA=="
     "resolved" "https://registry.npmjs.org/nanoid/-/nanoid-3.3.2.tgz"
     "version" "3.3.2"
@@ -3246,33 +3294,28 @@ Lockfile:
       "workbox-webpack-plugin" "^6.3.0"
       "workbox-window" "^6.3.0"
   
-  "next@>=10.2.0", "next@>=9.0.0":
-    "integrity" "sha512-DA4g97BM4Z0nKtDvCTm58RxdvoQyYzeg0AeVbh0N4Y/D8ELrNu47lQeEgRGF8hV4eQ+Sal90zxrJQQG/mPQ8CQ=="
-    "resolved" "https://registry.npmjs.org/next/-/next-12.1.4.tgz"
-    "version" "12.1.4"
+  "next@^12.1.5", "next@>=10.2.0", "next@>=9.0.0":
+    "integrity" "sha512-YGHDpyfgCfnT5GZObsKepmRnne7Kzp7nGrac07dikhutWQug7hHg85/+sPJ4ZW5Q2pDkb+n0FnmLkmd44htIJQ=="
+    "resolved" "https://registry.npmjs.org/next/-/next-12.1.5.tgz"
+    "version" "12.1.5"
     dependencies:
-      "@next/env" "12.1.4"
+      "@next/env" "12.1.5"
       "caniuse-lite" "^1.0.30001283"
       "postcss" "8.4.5"
       "styled-jsx" "5.0.1"
     optionalDependencies:
-      "@next/swc-android-arm-eabi" "12.1.4"
-      "@next/swc-android-arm64" "12.1.4"
-      "@next/swc-darwin-arm64" "12.1.4"
-      "@next/swc-darwin-x64" "12.1.4"
-      "@next/swc-linux-arm-gnueabihf" "12.1.4"
-      "@next/swc-linux-arm64-gnu" "12.1.4"
-      "@next/swc-linux-arm64-musl" "12.1.4"
-      "@next/swc-linux-x64-gnu" "12.1.4"
-      "@next/swc-linux-x64-musl" "12.1.4"
-      "@next/swc-win32-arm64-msvc" "12.1.4"
-      "@next/swc-win32-ia32-msvc" "12.1.4"
-      "@next/swc-win32-x64-msvc" "12.1.4"
-  
-  "nextjs@^0.0.3":
-    "integrity" "sha1-T00daiV76SDZuWSdTZUixySk5UM="
-    "resolved" "https://registry.npmjs.org/nextjs/-/nextjs-0.0.3.tgz"
-    "version" "0.0.3"
+      "@next/swc-android-arm-eabi" "12.1.5"
+      "@next/swc-android-arm64" "12.1.5"
+      "@next/swc-darwin-arm64" "12.1.5"
+      "@next/swc-darwin-x64" "12.1.5"
+      "@next/swc-linux-arm-gnueabihf" "12.1.5"
+      "@next/swc-linux-arm64-gnu" "12.1.5"
+      "@next/swc-linux-arm64-musl" "12.1.5"
+      "@next/swc-linux-x64-gnu" "12.1.5"
+      "@next/swc-linux-x64-musl" "12.1.5"
+      "@next/swc-win32-arm64-msvc" "12.1.5"
+      "@next/swc-win32-ia32-msvc" "12.1.5"
+      "@next/swc-win32-x64-msvc" "12.1.5"
   
   "node-releases@^2.0.2":
     "integrity" "sha512-XxYDdcQ6eKqp/YjI+tb2C5WM2LgjnZrfYg4vgQt49EK268b6gYCHsBLrK2qvJo4FmCtqmKezb0WZFK4fkrZNsg=="
@@ -3537,13 +3580,21 @@ Lockfile:
     dependencies:
       "safe-buffer" "^5.1.0"
   
-  "react-dom@^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@>=16.6.0":
+  "react-dom@^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@^18.0.0", "react-dom@>=16.6.0":
     "integrity" "sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw=="
     "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.0.0.tgz"
     "version" "18.0.0"
     dependencies:
       "loose-envify" "^1.1.0"
       "scheduler" "^0.21.0"
+  
+  "react-editor-js@^2.0.6":
+    "integrity" "sha512-8u47IbhExiFB2kGNdJYlsX5iVlSzac38A3oJ7bmnTz3Lp7Slys1xreoYdG71+KiOcfX0dEgOIavV4e6TJeB5eg=="
+    "resolved" "https://registry.npmjs.org/react-editor-js/-/react-editor-js-2.0.6.tgz"
+    "version" "2.0.6"
+    dependencies:
+      "@react-editor-js/client" "2.0.6"
+      "@react-editor-js/server" "2.0.6"
   
   "react-fast-compare@^2.0.1":
     "integrity" "sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw=="
@@ -3580,7 +3631,7 @@ Lockfile:
       "loose-envify" "^1.4.0"
       "prop-types" "^15.6.2"
   
-  "react@^16.11.0 || ^17.0.0 || ^18.0.0", "react@^17.0.0 || ^18.0.0", "react@^17.0.2", "react@^17.0.2 || ^18.0.0-0", "react@^18.0.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@>=16.8.0 <19.0.0":
+  "react@*", "react@^16.11.0 || ^17.0.0 || ^18.0.0", "react@^17.0.0 || ^18.0.0", "react@^17.0.2", "react@^17.0.2 || ^18.0.0-0", "react@^18.0.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@>=16.8.0 <19.0.0":
     "integrity" "sha512-x+VL6wbT4JRVPm7EGxXhZ8w8LTROaxPXOqhlGyVSrv0sB1jkyFGgXxJ8LVoPRLvPR6/CIZGFmfzqUa2NYeMr2A=="
     "resolved" "https://registry.npmjs.org/react/-/react-18.0.0.tgz"
     "version" "18.0.0"
