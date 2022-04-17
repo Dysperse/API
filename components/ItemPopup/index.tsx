@@ -46,7 +46,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { blueGrey } from "@mui/material/colors";
 import useWindowDimensions from "../../components/useWindowDimensions";
 
-function isJsonString(str:string) {
+function isJsonString(str: string) {
 	try {
 		JSON.parse(str);
 	} catch (e) {
@@ -327,7 +327,7 @@ function ItemActionsMenu({ title, quantity, star }: any) {
 	);
 }
 
-function StarButton({ star, setStar }: any) {
+function StarButton({ id, star, setStar }: any) {
 	return (
 		<Tooltip title={star === 0 ? "Star" : "Unstar"}>
 			<IconButton
@@ -336,7 +336,19 @@ function StarButton({ star, setStar }: any) {
 				color="inherit"
 				aria-label="menu"
 				sx={{ mr: 1 }}
-				onClick={() => setStar((s: any) => +!s)}
+				onClick={() =>
+					setStar((s: any) => {
+						 fetch("https://api.smartlist.tech/v2/items/star/", {
+							method: "POST",
+							body: new URLSearchParams({
+								token: ACCOUNT_DATA.accessToken,
+								id: id.toString(),
+								date: dayjs().format("YYYY-M-D h:mm:ss")
+							})
+						}).then(data => alert(1));
+						return +!s;
+					})
+				}
 			>
 				{star === 1 ? <StarIcon /> : <StarBorderIcon />}
 			</IconButton>
@@ -367,6 +379,7 @@ function DeleteButton({ deleted, setDeleted, setDrawerState, setOpen }: any) {
 
 export default function Item({ data, variant }: any) {
 	const [itemData] = useState(data);
+	const id = data.id;
 	const [title, setTitle] = useState(data.title);
 	const [quantity, setQuantity] = useState(data.amount);
 	const [star, setStar] = useState(itemData.star);
@@ -387,6 +400,7 @@ export default function Item({ data, variant }: any) {
 				drawerState ? (width > 900 ? "#808080" : "#eee") : blue[50]
 			);
 	});
+
 	const [open, setOpen] = React.useState(false);
 
 	const handleClose = (
@@ -472,7 +486,7 @@ export default function Item({ data, variant }: any) {
 								</IconButton>
 							</Tooltip>
 							<Typography sx={{ flexGrow: 1 }}></Typography>
-							<StarButton star={star} setStar={setStar} />
+							<StarButton id={id} star={star} setStar={setStar} />
 							<EditButton
 								title={title}
 								setTitle={setTitle}
