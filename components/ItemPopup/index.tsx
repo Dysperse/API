@@ -137,7 +137,7 @@ function EditButton({
 				qty: values.quantity,
 				category: values.categories
 			})
-		})
+		});
 
 		setLastUpdated(dayjs().format("YYYY-M-D HH:mm:ss"));
 		setTitle(values.title);
@@ -341,7 +341,13 @@ function ItemActionsMenu({ title, quantity, star }: any) {
 	);
 }
 
-function DeleteButton({ deleted, setDeleted, setDrawerState, setOpen }: any) {
+function DeleteButton({
+	id,
+	deleted,
+	setDeleted,
+	setDrawerState,
+	setOpen
+}: any) {
 	return (
 		<Tooltip title="Move to trash">
 			<IconButton
@@ -351,6 +357,14 @@ function DeleteButton({ deleted, setDeleted, setDrawerState, setOpen }: any) {
 				aria-label="menu"
 				sx={{ mr: 1 }}
 				onClick={() => {
+					fetch("https://api.smartlist.tech/v2/items/delete/", {
+						method: "POST",
+						body: new URLSearchParams({
+							token: ACCOUNT_DATA.accessToken,
+							id: id.toString(),
+							date: dayjs().format("YYYY-M-D HH:mm:ss")
+						})
+					});
 					setOpen(true);
 					setDeleted(true);
 					setDrawerState(false);
@@ -483,6 +497,7 @@ export default function Item({ data, variant }: any) {
 								setLastUpdated={setLastUpdated}
 							/>
 							<DeleteButton
+								id={id}
 								deleted={deleted}
 								setOpen={setOpen}
 								setDrawerState={setDrawerState}
