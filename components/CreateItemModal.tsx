@@ -65,7 +65,7 @@ export function CreateItemModal({
 				name: values.title,
 				qty: values.quantity,
 				category: JSON.stringify(values.categories),
-				lastUpdated: dayjs().format("YYYY-M-D h:mm:ss")
+				lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss")
 			})
 		});
 		setSnackbarOpen(true);

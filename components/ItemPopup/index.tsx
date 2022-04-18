@@ -16,8 +16,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import InfoIcon from "@mui/icons-material/Info";
@@ -45,6 +43,7 @@ import Collapse from "@mui/material/Collapse";
 import Snackbar from "@mui/material/Snackbar";
 import { blueGrey } from "@mui/material/colors";
 import useWindowDimensions from "../../components/useWindowDimensions";
+import { StarButton } from "./StarButton";
 
 function isJsonString(str: string) {
 	try {
@@ -102,12 +101,14 @@ const StyledMenu = styled((props: any) => (
 }));
 
 function EditButton({
+	id,
 	title,
 	setTitle,
 	quantity,
 	setQuantity,
 	categories,
-	setCategories
+	setCategories,
+	setLastUpdated
 }: any) {
 	const [open, setOpen] = React.useState(false);
 
@@ -126,6 +127,19 @@ function EditButton({
 	};
 
 	const submit = (values: any) => {
+		fetch("https://api.smartlist.tech/v2/items/edit/", {
+			method: "POST",
+			body: new URLSearchParams({
+				token: ACCOUNT_DATA.accessToken,
+				id: id.toString(),
+				lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss"),
+				name: values.title,
+				qty: values.quantity,
+				category: values.categories
+			})
+		})
+
+		setLastUpdated(dayjs().format("YYYY-M-D HH:mm:ss"));
 		setTitle(values.title);
 		setQuantity(values.quantity);
 		setCategories(values.categories.join(","));
@@ -327,35 +341,6 @@ function ItemActionsMenu({ title, quantity, star }: any) {
 	);
 }
 
-function StarButton({ id, star, setStar }: any) {
-	return (
-		<Tooltip title={star === 0 ? "Star" : "Unstar"}>
-			<IconButton
-				size="large"
-				edge="end"
-				color="inherit"
-				aria-label="menu"
-				sx={{ mr: 1 }}
-				onClick={() =>
-					setStar((s: any) => {
-						 fetch("https://api.smartlist.tech/v2/items/star/", {
-							method: "POST",
-							body: new URLSearchParams({
-								token: ACCOUNT_DATA.accessToken,
-								id: id.toString(),
-								date: dayjs().format("YYYY-M-D h:mm:ss")
-							})
-						})
-						return +!s;
-					})
-				}
-			>
-				{star === 1 ? <StarIcon /> : <StarBorderIcon />}
-			</IconButton>
-		</Tooltip>
-	);
-}
-
 function DeleteButton({ deleted, setDeleted, setDrawerState, setOpen }: any) {
 	return (
 		<Tooltip title="Move to trash">
@@ -488,12 +473,14 @@ export default function Item({ data, variant }: any) {
 							<Typography sx={{ flexGrow: 1 }}></Typography>
 							<StarButton id={id} star={star} setStar={setStar} />
 							<EditButton
+								id={id}
 								title={title}
 								setTitle={setTitle}
 								quantity={quantity}
 								setQuantity={setQuantity}
 								categories={categories}
 								setCategories={setCategories}
+								setLastUpdated={setLastUpdated}
 							/>
 							<DeleteButton
 								deleted={deleted}
