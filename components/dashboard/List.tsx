@@ -35,7 +35,7 @@ function CreateItemButton({ parent }: { parent: number }) {
 	};
 
 	const submit = async (values: { name: string; descripton: string }) => {
-		alert(JSON.stringify(values, null, 2));
+		// alert(JSON.stringify(values, null, 2));
 		fetch("https://api.smartlist.tech/v2/lists/create-item/", {
 			method: "POST",
 			body: new URLSearchParams({
