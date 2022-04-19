@@ -1,13 +1,11 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Grid from "@mui/material/Grid";
-
 import List from "@mui/material/List";
 import { CreateItemModal } from "./CreateItemModal";
 import Card from "@mui/material/Card";
@@ -93,7 +91,14 @@ function Content({ toggleDrawer }: any) {
 
 export default function AddPopup(props: any) {
 	const [open, setOpen] = React.useState(false);
-
+	useEffect(() => {
+		document.documentElement.classList[open ? "add" : "remove"](
+			"prevent-scroll"
+		);
+		document
+			.querySelector(`meta[name="theme-color"]`)!
+			.setAttribute("content", open ? "#808080" : "#fff");
+	});
 	const toggleDrawer = (newOpen: boolean) => () => {
 		setOpen(newOpen);
 	};

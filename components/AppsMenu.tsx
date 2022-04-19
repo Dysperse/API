@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import AppsIcon from "@mui/icons-material/Apps";
 import Tooltip from "@mui/material/Tooltip";
 import TipsAndUpdates from "@mui/icons-material/TipsAndUpdates";
-import { green } from "@mui/material/colors";
+import { green, blue } from "@mui/material/colors";
 
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -37,10 +37,10 @@ const categories = [
 	},
 	{
 		key: 5,
-		bg: green[100],
+		bg: green[200],
 		href: "https://smartlist.tech/discord",
 		label: (
-			<Box sx={{ color: green[800] }}>
+			<Box sx={{ color: green[900] }}>
 				<TipsAndUpdates
 					sx={{ verticalAlign: "middle", mr: 1, transform: "scale(.8)" }}
 				/>
@@ -74,8 +74,9 @@ function Products() {
 						boxShadow: 0,
 						margin: "0!important",
 						borderRadius: "9px",
+						background: "transparent",
 						"&:hover, &.Mui-expanded": {
-							background: category.bg ?? "#e9eef0"
+							background: category.bg ?? blue[200]
 						},
 						transition: "all .2s",
 						"&:before": {
@@ -110,7 +111,7 @@ function Products() {
 							target="_blank"
 							href={category.href}
 							component="button"
-							sx={{ fontSize: "16px" }}
+							sx={{ fontSize: "16px", color: blue[800] }}
 						>
 							{category.label}
 						</Link>
@@ -166,7 +167,8 @@ export function AppsMenu() {
 				PaperProps={{
 					sx: {
 						borderRadius: "28px",
-						boxShadow: 2
+						boxShadow: 0,
+						background: blue[100]
 					}
 				}}
 				anchorOrigin={{

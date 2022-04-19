@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -10,9 +10,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
 import Collapse from "@mui/material/Collapse";
-import { blueGrey } from "@mui/material/colors";
+import { blueGrey, blue } from "@mui/material/colors";
 
-import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -136,6 +135,14 @@ function ListPopup({
 	drawerState,
 	setDrawerState
 }: any) {
+	useEffect(() => {
+		document.documentElement.classList[drawerState ? "add" : "remove"](
+			"prevent-scroll"
+		);
+		document
+			.querySelector(`meta[name="theme-color"]`)!
+			.setAttribute("content", drawerState ? "#808080" : blue[50]);
+	});
 	return (
 		<SwipeableDrawer
 			anchor="bottom"
@@ -175,6 +182,16 @@ function ListPopup({
 				<CreateItemButton />
 				<Button
 					size="large"
+					sx={{ textTransform: "none", mr: 1, mb: 3, borderRadius: 100 }}
+					variant="outlined"
+					onClick={() => {
+						setDrawerState(false);
+					}}
+				>
+					Share
+				</Button>
+				<Button
+					size="large"
 					sx={{ textTransform: "none", mb: 3, borderRadius: 100 }}
 					variant="outlined"
 					onClick={() => {
@@ -182,7 +199,7 @@ function ListPopup({
 						setDeleted(true);
 					}}
 				>
-					Delete list
+					Delete
 				</Button>
 			</div>
 			<Box sx={{ p: 3, textAlign: "center", overflow: "scroll" }}>

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -73,7 +73,14 @@ const Accounts = React.memo(function Accounts() {
 export function ProfileMenu(props: any) {
 	const { window } = props;
 	const [open, setOpen] = React.useState(false);
-
+	useEffect(() => {
+		document.documentElement.classList[open ? "add" : "remove"](
+			"prevent-scroll"
+		);
+		document
+			.querySelector(`meta[name="theme-color"]`)!
+			.setAttribute("content", open ? "#808080" : "#fff");
+	}, [open]);
 	const toggleDrawer = (newOpen: boolean) => () => {
 		setOpen(newOpen);
 	};
@@ -122,9 +129,15 @@ export function ProfileMenu(props: any) {
 				PaperProps={{
 					sx: {
 						width: {
+							xs: "calc(100vw - 20px)",
 							sm: "50vw"
 						},
-						borderRadius: "40px 40px 0 0",
+						mb: "10px",
+						ml: {
+							xs: "10px",
+							sm: "auto"
+						},
+						borderRadius: "15px",
 						mx: "auto"
 					}
 				}}
@@ -132,9 +145,8 @@ export function ProfileMenu(props: any) {
 				<StyledBox
 					sx={{
 						top: 0,
-						background: "white",
-						borderTopLeftRadius: 8,
-						borderTopRightRadius: 8,
+						background: "transparent",
+						borderRadius: 9,
 						visibility: "visible",
 						right: 0,
 						left: 0

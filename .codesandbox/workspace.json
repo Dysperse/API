@@ -22,18 +22,18 @@
       "views": [
         {
           "id": "codesandbox.browser"
+        },
+        {
+          "id": "codesandbox.console"
+        },
+        {
+          "id": "codesandbox.terminal"
         }
       ]
     },
     {
       "open": true,
       "views": [
-        {
-          "id": "codesandbox.terminal"
-        },
-        {
-          "id": "codesandbox.console"
-        },
         {
           "id": "codesandbox.problems"
         }

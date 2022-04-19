@@ -9,34 +9,13 @@ import dayjs from "dayjs";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
 import { orange, blue } from "@mui/material/colors";
-import { styled, alpha } from "@mui/material/styles";
-import Autocomplete from "@mui/material/Autocomplete";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import DeleteIcon from "@mui/icons-material/Delete";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import InfoIcon from "@mui/icons-material/Info";
-import ShareIcon from "@mui/icons-material/Share";
-import ChatIcon from "@mui/icons-material/Chat";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
-import BoltIcon from "@mui/icons-material/Bolt";
-import EditIcon from "@mui/icons-material/Edit";
 import TextField from "@mui/material/TextField";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Formik, Form } from "formik";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
@@ -44,337 +23,9 @@ import Snackbar from "@mui/material/Snackbar";
 import { blueGrey } from "@mui/material/colors";
 import useWindowDimensions from "../../components/useWindowDimensions";
 import { StarButton } from "./StarButton";
-
-function isJsonString(str: string) {
-	try {
-		JSON.parse(str);
-	} catch (e) {
-		return false;
-	}
-	return true;
-}
-
-const StyledMenu = styled((props: any) => (
-	<Menu
-		elevation={0}
-		sx={{ mt: 1 }}
-		anchorOrigin={{
-			vertical: "bottom",
-			horizontal: "right"
-		}}
-		transformOrigin={{
-			vertical: "top",
-			horizontal: "right"
-		}}
-		{...props}
-	/>
-))(({ theme }) => ({
-	"& .MuiPaper-root": {
-		borderRadius: "15px",
-		minWidth: 180,
-		color:
-			theme.palette.mode === "light"
-				? "rgb(55, 65, 81)"
-				: theme.palette.grey[300],
-		boxShadow:
-			"rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-		"& .MuiMenu-list": {
-			padding: "4px"
-		},
-		"& .MuiMenuItem-root": {
-			padding: "10px 15px",
-			borderRadius: "15px",
-			marginBottom: "1px",
-			"& .MuiSvgIcon-root": {
-				fontSize: 25,
-				color: theme.palette.text.secondary,
-				marginRight: theme.spacing(1.9)
-			},
-			"&:active": {
-				backgroundColor: alpha(
-					theme.palette.primary.main,
-					theme.palette.action.selectedOpacity
-				)
-			}
-		}
-	}
-}));
-
-function EditButton({
-	id,
-	title,
-	setTitle,
-	quantity,
-	setQuantity,
-	categories,
-	setCategories,
-	setLastUpdated
-}: any) {
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const initialValues = {
-		categories: [],
-		title: title,
-		quantity: quantity
-	};
-
-	const submit = (values: any) => {
-		fetch("https://api.smartlist.tech/v2/items/edit/", {
-			method: "POST",
-			body: new URLSearchParams({
-				token: ACCOUNT_DATA.accessToken,
-				id: id.toString(),
-				lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss"),
-				name: values.title,
-				qty: values.quantity,
-				category: values.categories
-			})
-		});
-
-		setLastUpdated(dayjs().format("YYYY-M-D HH:mm:ss"));
-		setTitle(values.title);
-		setQuantity(values.quantity);
-		setCategories(values.categories.join(","));
-		handleClose();
-	};
-
-	return (
-		<div>
-			<Tooltip title="Edit">
-				<IconButton
-					size="large"
-					edge="end"
-					color="inherit"
-					aria-label="menu"
-					sx={{ mr: 1 }}
-					onClick={handleClickOpen}
-				>
-					<EditIcon />
-				</IconButton>
-			</Tooltip>
-			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle>Edit item</DialogTitle>
-				<DialogContent>
-					<Formik initialValues={initialValues} onSubmit={submit}>
-						{({ handleChange, values, setFieldValue }) => (
-							<Form>
-								<TextField
-									margin="dense"
-									autoFocus
-									label="Title"
-									fullWidth
-									onChange={handleChange}
-									defaultValue={title}
-									name="title"
-									variant="filled"
-								/>
-								<TextField
-									margin="dense"
-									label="Quantity"
-									fullWidth
-									onChange={handleChange}
-									defaultValue={quantity}
-									name="quantity"
-									variant="filled"
-								/>
-								<Autocomplete
-									id="categories"
-									multiple
-									freeSolo
-									options={[1, 2, 3]}
-									defaultValue={
-										categories.trim() === ""
-											? []
-											: isJsonString(categories)
-											? JSON.parse(categories)
-											: categories.split(",")
-									}
-									onChange={(e, value) => {
-										console.log(value);
-										setFieldValue(
-											"categories",
-											value !== null ? value : initialValues.categories
-										);
-									}}
-									renderInput={(params) => (
-										<TextField
-											margin="dense"
-											label="Categories"
-											name="categories"
-											variant="filled"
-											{...params}
-										/>
-									)}
-								/>
-								<Button
-									sx={{ mt: 1, float: "right" }}
-									color="primary"
-									type="submit"
-								>
-									Save
-								</Button>
-							</Form>
-						)}
-					</Formik>
-				</DialogContent>
-			</Dialog>
-		</div>
-	);
-}
-
-function InfoButton({ title, quantity, star }: any) {
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	return (
-		<>
-			<MenuItem disableRipple onClick={handleClickOpen}>
-				<InfoIcon />
-				View details
-			</MenuItem>
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="alert-dialog-title"
-				aria-describedby="alert-dialog-description"
-			>
-				<DialogTitle id="alert-dialog-title">{"Item information"}</DialogTitle>
-				<DialogContent sx={{ width: "450px", maxWidth: "100vw" }}>
-					<DialogContentText id="alert-dialog-description">
-						<Typography variant="body2">{"Title"}</Typography>
-						<Typography>{title}</Typography>
-						<br />
-						<Typography variant="body2">{"Quantity"}</Typography>
-						<Typography>{quantity}</Typography>
-						<br />
-						<Typography variant="body2">{"Starred"}</Typography>
-						<Typography>{star === 1 ? "Starred" : "Not starred"}</Typography>
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose} autoFocus>
-						Agree
-					</Button>
-				</DialogActions>
-			</Dialog>
-		</>
-	);
-}
-
-function ItemActionsMenu({ title, quantity, star }: any) {
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const open = Boolean(anchorEl);
-	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		setAnchorEl(event.currentTarget);
-	};
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
-
-	return (
-		<>
-			<Tooltip title="More">
-				<IconButton
-					size="large"
-					edge="end"
-					color="inherit"
-					aria-label="menu"
-					onClick={handleClick}
-				>
-					<MoreVertIcon />
-				</IconButton>
-			</Tooltip>
-			<StyledMenu
-				id="basic-menu"
-				anchorEl={anchorEl}
-				open={open}
-				onClose={handleClose}
-				MenuListProps={{
-					"aria-labelledby": "basic-button"
-				}}
-			>
-				<InfoButton title={title} star={star} quantity={quantity} />
-				<MenuItem disableRipple onClick={handleClose}>
-					<ShareIcon /> Share
-				</MenuItem>
-				<MenuItem disableRipple onClick={handleClose}>
-					<ChatIcon />
-					WhatsApp
-				</MenuItem>
-				<MenuItem disableRipple onClick={handleClose}>
-					<AutoAwesomeIcon />
-					Find recipes
-				</MenuItem>
-				<MenuItem disableRipple onClick={handleClose}>
-					<PersonAddIcon />
-					Invite collaborators
-				</MenuItem>
-				<MenuItem disableRipple onClick={handleClose}>
-					<ReceiptLongIcon />
-					Add to list
-				</MenuItem>
-				<MenuItem disableRipple onClick={handleClose}>
-					<BoltIcon />
-					Move to
-				</MenuItem>
-				<MenuItem disableRipple onClick={handleClose}>
-					<QrCodeScannerIcon />
-					Generate QR code
-				</MenuItem>
-			</StyledMenu>
-		</>
-	);
-}
-
-function DeleteButton({
-	id,
-	deleted,
-	setDeleted,
-	setDrawerState,
-	setOpen
-}: any) {
-	return (
-		<Tooltip title="Move to trash">
-			<IconButton
-				size="large"
-				edge="end"
-				color="inherit"
-				aria-label="menu"
-				sx={{ mr: 1 }}
-				onClick={() => {
-					fetch("https://api.smartlist.tech/v2/items/delete/", {
-						method: "POST",
-						body: new URLSearchParams({
-							token: ACCOUNT_DATA.accessToken,
-							id: id.toString(),
-							date: dayjs().format("YYYY-M-D HH:mm:ss")
-						})
-					});
-					setOpen(true);
-					setDeleted(true);
-					setDrawerState(false);
-				}}
-			>
-				<DeleteIcon />
-			</IconButton>
-		</Tooltip>
-	);
-}
+import { EditButton } from "./EditButton";
+import { ItemActionsMenu } from "./ItemActionsMenu";
+import { DeleteButton } from "./DeleteButton";
 
 export default function Item({ data, variant }: any) {
 	const [itemData] = useState(data);
@@ -386,12 +37,14 @@ export default function Item({ data, variant }: any) {
 	const [categories, setCategories] = useState(data.categories);
 	const [note, setNote] = useState(data.note);
 	const [lastUpdated, setLastUpdated] = useState(data.lastUpdated);
-
-	// onClick={() => setStar((s:any) => +!s)}
 	const [drawerState, setDrawerState] = useState(false);
+
 	const { width }: any = useWindowDimensions();
 
 	useEffect(() => {
+		document.documentElement.classList[drawerState ? "add" : "remove"](
+			"prevent-scroll"
+		);
 		document
 			.querySelector(`meta[name="theme-color"]`)!
 			.setAttribute(
@@ -529,15 +182,42 @@ export default function Item({ data, variant }: any) {
 								}
 							})}
 						</Stack>
+
 						<TextField
-							fullWidth
 							multiline
+							fullWidth
+							onBlur={(e) => {
+								// alert(1);
+								setLastUpdated(dayjs().format("YYYY-M-D HH:mm:ss"));
+								setNote(e.target.value);
+								fetch("https://api.smartlist.tech/v2/items/update-note/", {
+									method: "POST",
+									body: new URLSearchParams({
+										token: ACCOUNT_DATA.accessToken,
+										id: id.toString(),
+										date: dayjs().format("YYYY-M-D HH:mm:ss"),
+										content: e.target.value
+									})
+								});
+							}}
+							onKeyUp={(e: any) => {
+								if (e.code === "Enter" && !e.shiftKey) {
+									e.preventDefault();
+									e.target.value = e.target.value.trim();
+									e.target.blur();
+								}
+							}}
+							InputProps={{
+								maxLength: 100,
+								sx: {
+									px: 2.5,
+									py: 1.5,
+									borderRadius: "15px"
+								}
+							}}
 							defaultValue={note}
-							onChange={(e) => setNote(e.target.value)}
 							maxRows={4}
 							placeholder="Click to add note"
-							inputProps={{ maxLength: 100 }}
-							size="small"
 						/>
 					</Box>
 				</Box>
