@@ -208,7 +208,6 @@ export default function Item({ data, variant }: any) {
 								}
 							}}
 							InputProps={{
-								maxLength: 100,
 								sx: {
 									px: 2.5,
 									py: 1.5,
