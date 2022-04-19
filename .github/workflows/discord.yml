@@ -14,4 +14,4 @@ jobs:
         webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
         color: "#123456"
         username: "GitHub"
-        message: "A new version of Smartlist is available! \n Visit https://lab-1.smartlist.tech to view the latest deployment"
+        message: "A new version of Smartlist is available! \n Change description: ${{github.event.head_commit.message}} \n Visit https://lab-1.smartlist.tech to view the latest deployment"

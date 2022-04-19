@@ -11,14 +11,14 @@ import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
 import Collapse from "@mui/material/Collapse";
 import { blueGrey, blue } from "@mui/material/colors";
-
+import { Formik, Form } from "formik";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 
-function CreateItemButton() {
+function CreateItemButton({ parent }: { parent: number }) {
 	const [open, setOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
@@ -29,6 +29,28 @@ function CreateItemButton() {
 		setOpen(false);
 	};
 
+	const initialValues = {
+		name: "",
+		descripton: ""
+	};
+
+	const submit = async (values: { name: string; descripton: string }) => {
+		alert(JSON.stringify(values, null, 2));
+		fetch("https://api.smartlist.tech/v2/lists/create-item/", {
+			method: "POST",
+			body: new URLSearchParams({
+				token: ACCOUNT_DATA.accessToken,
+				parent: parent.toString(),
+				title: values.name,
+				description: values.description
+			})
+		});
+	};
+	const stopPropagationForTab = (event: any) => {
+		if (event.key !== "Esc") {
+			event.stopPropagation();
+		}
+	};
 	return (
 		<>
 			<Button
@@ -42,6 +64,7 @@ function CreateItemButton() {
 			</Button>
 			<SwipeableDrawer
 				anchor="bottom"
+				onKeyDown={stopPropagationForTab}
 				swipeAreaWidth={0}
 				disableSwipeToOpen={true}
 				ModalProps={{
@@ -61,46 +84,77 @@ function CreateItemButton() {
 				onClose={handleClose}
 				onOpen={() => setOpen(true)}
 			>
-				<DialogTitle sx={{ textAlign: "center" }} id="alert-dialog-title">
-					<Typography
-						gutterBottom
-						variant="h5"
-						component="div"
-						sx={{ mt: 4, mb: 2 }}
-					>
-						Create item
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText id="alert-dialog-description">
-						<TextField
-							inputRef={(input) =>
-								setTimeout(() => input && input.focus(), 100)
-							}
-							id="name"
-							fullWidth
-							autoComplete="off"
-							margin="dense"
-							label="Item name"
-							variant="filled"
-						/>
-						<TextField
-							autoComplete="off"
-							margin="dense"
-							id="description"
-							fullWidth
-							label="Description"
-							multiline
-							variant="filled"
-						/>
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose}>Cancel</Button>
-					<Button onClick={handleClose} autoFocus>
-						Create
-					</Button>
-				</DialogActions>
+				<Formik initialValues={initialValues} onSubmit={submit}>
+					{({ handleChange, values, setFieldValue }) => (
+						<Form>
+							<DialogTitle sx={{ textAlign: "center" }} id="alert-dialog-title">
+								<Typography
+									gutterBottom
+									variant="h5"
+									component="div"
+									sx={{ mt: 4, mb: 2 }}
+								>
+									Create item
+								</Typography>
+							</DialogTitle>
+							<DialogContent>
+								<DialogContentText id="alert-dialog-description">
+									<TextField
+										autoFocus
+										id="name"
+										fullWidth
+										autoComplete="off"
+										margin="dense"
+										label="Item name"
+										variant="filled"
+										onChange={handleChange}
+										name="name"
+									/>
+									<TextField
+										onChange={handleChange}
+										name="description"
+										autoComplete="off"
+										margin="dense"
+										id="description"
+										fullWidth
+										label="Description"
+										multiline
+										variant="filled"
+									/>
+								</DialogContentText>
+							</DialogContent>
+							<DialogActions>
+								<Button
+									onClick={handleClose}
+									type="reset"
+									size="large"
+									disableElevation
+									sx={{
+										textTransform: "none",
+										borderRadius: 100
+									}}
+									variant="outlined"
+								>
+									Cancel
+								</Button>
+								<Button
+									onClick={handleClose}
+									type="submit"
+									size="large"
+									disableElevation
+									sx={{
+										textTransform: "none",
+										mr: 1,
+										borderRadius: 100
+									}}
+									variant="contained"
+								>
+									Create
+								</Button>
+							</DialogActions>
+						</Form>
+					)}
+				</Formik>
 			</SwipeableDrawer>
 		</>
 	);
@@ -186,7 +240,7 @@ function ListPopup({
 				>
 					{title}
 				</Typography>
-				<CreateItemButton />
+				<CreateItemButton parent={id} />
 				<Button
 					size="large"
 					sx={{ textTransform: "none", mr: 1, mb: 3, borderRadius: 100 }}
