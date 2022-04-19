@@ -6,12 +6,9 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: Smartlist-App/checkout@master
+    - uses: actions/checkout@v2
     - name: Send message
       uses: Smartlist-App/discord-webhook@v4.0.0
       with:
         webhook-url: ${{ secrets.WEBHOOK_URL }}
-        embed-color: "#06b6d4"
-        username: "GitHub"
-        embed-description: "A new version of Smartlist is available! \n Change description: ${{github.event.head_commit.message}}"
-        embed-footer-text: "Visit https://lab-1.smartlist.tech to view the latest deployment"
+        raw-data: message.json
