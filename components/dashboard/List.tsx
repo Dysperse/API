@@ -18,16 +18,23 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 
-function CreateItemButton({ parent }: { parent: number }) {
+function CreateItemButton({
+	parent,
+	listItems,
+	setListItems
+}: {
+	parent: number;
+	listItems: any;
+	setListItems: any;
+}) {
 	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
+	useEffect(() => {
+		document
+			.querySelector(`meta[name="theme-color"]`)!
+			.setAttribute("content", open ? "#404040" : "#808080");
+	});
+	const handleClickOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	const initialValues = {
 		name: "",
@@ -35,7 +42,6 @@ function CreateItemButton({ parent }: { parent: number }) {
 	};
 
 	const submit = async (values: { name: string; descripton: string }) => {
-		// alert(JSON.stringify(values, null, 2));
 		fetch("https://api.smartlist.tech/v2/lists/create-item/", {
 			method: "POST",
 			body: new URLSearchParams({
@@ -44,7 +50,16 @@ function CreateItemButton({ parent }: { parent: number }) {
 				title: values.name,
 				description: values.description
 			})
-		});
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				let x = listItems.data;
+				x.push(res.data);
+				setListItems({
+					data: x,
+					loading: false
+				});
+			});
 	};
 	const stopPropagationForTab = (event: any) => {
 		if (event.key !== "Esc") {
@@ -63,6 +78,7 @@ function CreateItemButton({ parent }: { parent: number }) {
 				Create item
 			</Button>
 			<SwipeableDrawer
+				sx={{ backdropFilter: "blur(10px)", transition: "all .2s!important" }}
 				anchor="bottom"
 				onKeyDown={stopPropagationForTab}
 				swipeAreaWidth={0}
@@ -73,7 +89,7 @@ function CreateItemButton({ parent }: { parent: number }) {
 				PaperProps={{
 					sx: {
 						width: {
-							sm: "50vw"
+							sm: "45vw"
 						},
 						maxHeight: "80vh",
 						borderRadius: "40px 40px 0 0",
@@ -160,7 +176,7 @@ function CreateItemButton({ parent }: { parent: number }) {
 	);
 }
 
-function ListItem({ item }: any) {
+function ListItem({ item, listItems, setListItems }: any) {
 	const [deleted, setDeleted] = useState(false);
 
 	return (
@@ -170,6 +186,14 @@ function ListItem({ item }: any) {
 					<Checkbox
 						disabled={deleted}
 						onInput={() => {
+							setListItems(
+								(() => {
+									return {
+										loading: false,
+										data: listItems.data.filter((e) => e !== item)
+									};
+								})()
+							);
 							setDeleted(true);
 							fetch("https://api.smartlist.tech/v2/lists/delete-item/", {
 								method: "POST",
@@ -189,6 +213,7 @@ function ListItem({ item }: any) {
 }
 
 function ListPopup({
+	setListItems,
 	setDeleted,
 	listItems,
 	title,
@@ -240,7 +265,11 @@ function ListPopup({
 				>
 					{title}
 				</Typography>
-				<CreateItemButton parent={id} />
+				<CreateItemButton
+					parent={id}
+					setListItems={setListItems}
+					listItems={listItems}
+				/>
 				<Button
 					size="large"
 					sx={{ textTransform: "none", mr: 1, mb: 3, borderRadius: 100 }}
@@ -275,7 +304,7 @@ function ListPopup({
 					</>
 				) : (
 					<div style={{ textAlign: "left", display: "block" }}>
-						{listItems.data.data.length === 0 ? (
+						{listItems.data.length === 0 ? (
 							<Box sx={{ textAlign: "center", opacity: ".5", py: 6 }}>
 								<Typography variant="h3" sx={{ mb: 2 }}>
 									¯\_(ツ)_/¯
@@ -283,8 +312,12 @@ function ListPopup({
 								<Typography variant="h5">No items yet...</Typography>
 							</Box>
 						) : null}
-						{listItems.data.data.map((item: any) => (
-							<ListItem item={item} />
+						{listItems.data.map((item: any) => (
+							<ListItem
+								item={item}
+								listItems={listItems}
+								setListItems={setListItems}
+							/>
 						))}
 					</div>
 				)}
@@ -303,7 +336,7 @@ export function List({
 	id: number;
 }) {
 	const [drawerState, setDrawerState] = React.useState(false);
-	const [listItems, setlistItems] = useState({
+	const [listItems, setListItems] = useState({
 		data: "",
 		loading: true
 	});
@@ -318,8 +351,8 @@ export function List({
 		});
 		const e = await data.json();
 
-		setlistItems({
-			data: e,
+		setListItems({
+			data: e.data,
 			loading: false
 		});
 	};
@@ -334,6 +367,7 @@ export function List({
 				drawerState={drawerState}
 				setDrawerState={setDrawerState}
 				setDeleted={setDeleted}
+				setListItems={setListItems}
 			/>
 			{!deleted ? (
 				<Card
