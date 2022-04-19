@@ -147,7 +147,8 @@ function CreateItemButton({
 									disableElevation
 									sx={{
 										textTransform: "none",
-										borderRadius: 100
+										borderRadius: 100,
+										mb: 1,
 									}}
 									variant="outlined"
 								>
@@ -161,6 +162,7 @@ function CreateItemButton({
 									sx={{
 										textTransform: "none",
 										mr: 1,
+										mb: 1,
 										borderRadius: 100
 									}}
 									variant="contained"
