@@ -8,10 +8,10 @@ jobs:
     steps:
     - uses: Smartlist-App/checkout@master
     - name: Send message
-      uses: Smartlist-App/discord-action@master
+      uses: Smartlist-App/discord-webhook@v4.0.0
       with:
-        webhook_id: ${{ secrets.WEBHOOK_ID }}
-        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-        color: "#06b6d4"
+        webhook-url: ${{ secrets.WEBHOOK_URL }}
+        embed-color: "#06b6d4"
         username: "GitHub"
-        message: "A new version of Smartlist is available! \n Change description: ${{github.event.head_commit.message}} \n Visit https://lab-1.smartlist.tech to view the latest deployment"
+        embed-description: "A new version of Smartlist is available! \n Change description: ${{github.event.head_commit.message}}"
+        embed-footer-text: "Visit https://lab-1.smartlist.tech to view the latest deployment"
