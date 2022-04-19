@@ -1,3 +1,8 @@
 {
-	"embeds": [{ "title": "Hello", "description": "World" }]
+	"embeds": [
+		{
+			"title": "A new version of Smartlist is available!",
+			"description": "Change description: Update files"
+		}
+	]
 }
