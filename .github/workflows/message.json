@@ -2,7 +2,8 @@
 	"embeds": [
 		{
 			"title": "A new version of Smartlist is available!",
-			"description": "Change description: Update files"
+			"description": "Change description: Update files",
+			"color": "#22c55e"
 		}
 	]
 }
