@@ -3,8 +3,7 @@
 		{
 			"title": "A new version of Smartlist is available!",
 			"description": "Change description: Update files",
-			"color": "#22c55e",
-			"footer-text": "Visit https://lab-1.smartlist.tech to view the latest deployment      "
+			"color": "#22c55e"
 		}
 	]
 }
