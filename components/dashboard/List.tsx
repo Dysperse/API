@@ -117,6 +117,13 @@ function ListItem({ item }: any) {
 						disabled={deleted}
 						onInput={() => {
 							setDeleted(true);
+							fetch("https://api.smartlist.tech/v2/lists/delete-item/", {
+								method: "POST",
+								body: new URLSearchParams({
+									token: ACCOUNT_DATA.accessToken,
+									id: item.id
+								})
+							});
 						}}
 					/>
 				}
