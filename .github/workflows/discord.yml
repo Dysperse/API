@@ -1,0 +1,17 @@
+name: discord message
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: Smartlist-App/checkout@master
+    - name: send message
+      uses: Smartlist-App/discord-action@master
+      with:
+        webhook_id: ${{ secrets.WEBHOOK_ID }}
+        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+        color: "#123456"
+        username: "GitHub"
+        message: "A new version of Smartlist is available! Visit https://lab-1.smartlist.tech to view the latest deployment"
