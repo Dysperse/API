@@ -1,4 +1,3 @@
 {
-	"content": "See greeting below",
 	"embeds": [{ "title": "Hello", "description": "World" }]
 }
