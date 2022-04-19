@@ -53,7 +53,7 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
 					<TextField
 						autoFocus
 						margin="dense"
-						autoComplete={false}
+						autoComplete={"off"}
 						id="name"
 						type="text"
 						fullWidth
