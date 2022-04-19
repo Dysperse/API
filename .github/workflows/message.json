@@ -1,11 +1,4 @@
 {
 	"content": "See greeting below",
-	"embeds": [
-		{
-			"color": "#06b6d4",
-			"title": "A new version of Smartlist is available!",
-			"description": "Changes made: ${{github.event.head_commit.message}}",
-			"footer": "Visit https://lab-1.smartlist.tech to view the latest deployment"
-		}
-	]
+	"embeds": [{ "title": "Hello", "description": "World" }]
 }
