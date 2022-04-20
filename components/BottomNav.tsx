@@ -7,6 +7,8 @@ import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import SearchIcon from "@mui/icons-material/Search";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const styles = {
 	borderRadius: "15px",
@@ -42,8 +44,29 @@ const styles = {
 };
 
 export function BottomNav() {
-	const [value, setValue] = React.useState(0);
+	const router = useRouter();
+	let v;
+	switch (router.asPath) {
+		case "/dashboard":
+			v = 0;
+			break;
+		case "/finances":
+			v = 1;
+			break;
+		case "/categories":
+			v = 2;
+			break;
+		case "/meals":
+			v = 3;
+			break;
+		default:
+			v = 0;
+	}
+	const [value, setValue] = React.useState(v);
 
+	const onLink = (href: any) => {
+		router.push(href);
+	};
 	return (
 		<Box
 			sx={{
@@ -72,37 +95,47 @@ export function BottomNav() {
 				}}
 				showLabels
 				onChange={(event, newValue) => {
-					setValue(newValue);
+					router.events.on("routeChangeComplete", () => {
+						setValue(newValue);
+					});
+					router.events.off("routeChangeComplete", () => {
+						setValue(newValue);
+					});
 				}}
 			>
 				<BottomNavigationAction
 					sx={styles}
 					label="Home"
 					disableRipple
+					onClick={() => onLink("/dashboard")}
 					icon={<HomeIcon />}
 				/>
 				<BottomNavigationAction
 					sx={styles}
 					label="Finances"
 					disableRipple
+					onClick={() => onLink("/finances")}
 					icon={<PaymentsIcon />}
 				/>
 				<BottomNavigationAction
 					sx={styles}
 					label="Search"
 					disableRipple
+					onClick={() => onLink("/finances")}
 					icon={<SearchIcon />}
 				/>
 				<BottomNavigationAction
 					sx={styles}
 					label="Items"
 					disableRipple
+					onClick={() => onLink("/categories")}
 					icon={<ViewAgendaIcon />}
 				/>
 				<BottomNavigationAction
 					sx={styles}
 					label="Meals"
 					disableRipple
+					onClick={() => onLink("/meals")}
 					icon={<LunchDiningIcon />}
 				/>
 			</BottomNavigation>

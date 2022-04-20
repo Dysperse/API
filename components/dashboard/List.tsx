@@ -41,7 +41,7 @@ function CreateItemButton({
 		descripton: ""
 	};
 
-	const submit = async (values: { name: string; descripton: string }) => {
+	const submit = async (values: { name: string; description: string }) => {
 		fetch("https://api.smartlist.tech/v2/lists/create-item/", {
 			method: "POST",
 			body: new URLSearchParams({
@@ -148,7 +148,7 @@ function CreateItemButton({
 									sx={{
 										textTransform: "none",
 										borderRadius: 100,
-										mb: 1,
+										mb: 1
 									}}
 									variant="outlined"
 								>

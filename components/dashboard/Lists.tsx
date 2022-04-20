@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "react-fetch-hook";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -12,11 +12,19 @@ import TextField from "@mui/material/TextField";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { blue, blueGrey } from "@mui/material/colors";
 import { List } from "./List";
 
 function CreateListCard() {
-	const [open, setOpen] = React.useState(false);
-
+	const [open, setOpen] = useState(false);
+	useEffect(() => {
+		document.documentElement.classList[open ? "add" : "remove"](
+			"prevent-scroll"
+		);
+		document
+			.querySelector(`meta[name="theme-color"]`)!
+			.setAttribute("content", open ? "#808080" : blue[50]);
+	});
 	const toggleDrawer = (newOpen: boolean) => () => {
 		setOpen(newOpen);
 	};
@@ -30,10 +38,14 @@ function CreateListCard() {
 					borderRadius: "28px",
 					width: "100%",
 					textAlign: "center",
-					background: "#eee"
+					background: blueGrey[100],
+					"& *": { transition: "all .05s !important" }
 				}}
 			>
-				<CardActionArea onClick={toggleDrawer(true)}>
+				<CardActionArea
+					onClick={toggleDrawer(true)}
+					sx={{ transition: "none!important" }}
+				>
 					<CardContent>
 						<AddCircleIcon sx={{ my: 1 }} />
 						<Typography gutterBottom variant="h5" component="div">
@@ -52,6 +64,9 @@ function CreateListCard() {
 						borderRadius: "40px 40px 0 0",
 						mx: "auto"
 					}
+				}}
+				sx={{
+					backdropFilter: "blur(10px)"
 				}}
 				open={open}
 				onClose={toggleDrawer(false)}

@@ -125,10 +125,16 @@ export default function AddPopup(props: any) {
 				PaperProps={{
 					sx: {
 						width: {
-							sm: "50vw"
+							sm: "50vw",
+							xs: "calc(100% - 20px)"
 						},
-						borderRadius: "40px 40px 0 0",
-						mx: "auto"
+						"& *:not(.MuiTouchRipple-child)": {
+							background: "transparent!important"
+						},
+
+						borderRadius: "28px!important",
+						mb: "10px",
+						ml: "10px"
 					}
 				}}
 				open={open}

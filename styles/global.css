@@ -22,3 +22,10 @@ img {
 ::-webkit-scrollbar {
 	display: none;
 }
+
+.MuiTouchRipple-rippleVisible {
+	animation-duration: 0.35s !important;
+}
+.MuiTouchRipple-child {
+	filter: opacity(0.4) !important;
+}
