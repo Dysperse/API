@@ -108,6 +108,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
 						keepMounted: true
 					}}
 					sx={{
+						backdropFilter: "blur(10px)",
 						display: { xs: "block", sm: "none" },
 						"& .MuiDrawer-paper": {
 							boxSizing: "border-box",

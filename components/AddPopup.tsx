@@ -88,6 +88,25 @@ function Content({ toggleDrawer }: any) {
 		</List>
 	);
 }
+function Puller() {
+	return (
+		<Box
+			className="puller"
+			sx={{
+				width: "50px",
+				backgroundColor: "#eee",
+				height: "7px",
+				margin: "auto",
+				borderRadius: 9,
+				mt: 1,
+				position: "absolute",
+				left: "50%",
+				transform: "translateX(-50%)",
+				display: "inline-block"
+			}}
+		/>
+	);
+}
 
 export default function AddPopup(props: any) {
 	const [open, setOpen] = React.useState(false);
@@ -126,15 +145,17 @@ export default function AddPopup(props: any) {
 					sx: {
 						width: {
 							sm: "50vw",
-							xs: "calc(100% - 20px)"
+							xs: "calc(100% - 30px)"
 						},
-						"& *:not(.MuiTouchRipple-child)": {
+						"& *:not(.MuiTouchRipple-child, .puller)": {
 							background: "transparent!important"
 						},
-
 						borderRadius: "28px!important",
-						mb: "10px",
-						ml: "10px"
+						mb: "15px",
+						mx: {
+							sm: "auto",
+							xs: "15px"
+						}
 					}
 				}}
 				open={open}
@@ -147,7 +168,10 @@ export default function AddPopup(props: any) {
 					}
 				}}
 			>
-				<Typography sx={{ textAlign: "center", p: 2, color: "text.secondary" }}>
+				<Puller />
+				<Typography
+					sx={{ textAlign: "center", mt: 3.5, color: "text.secondary" }}
+				>
 					Create
 				</Typography>
 				<Content toggleDrawer={toggleDrawer} />

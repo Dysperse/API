@@ -38,7 +38,7 @@ function CreateItemButton({
 
 	const initialValues = {
 		name: "",
-		descripton: ""
+		description: ""
 	};
 
 	const submit = async (values: { name: string; description: string }) => {
@@ -192,7 +192,7 @@ function ListItem({ item, listItems, setListItems }: any) {
 								(() => {
 									return {
 										loading: false,
-										data: listItems.data.filter((e) => e !== item)
+										data: listItems.data.filter((e: any) => e !== item)
 									};
 								})()
 							);
