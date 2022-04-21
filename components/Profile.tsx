@@ -10,6 +10,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
+import Skeleton from "@mui/material/Skeleton";
 
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -107,12 +108,12 @@ export function ProfileMenu(props: any) {
 					aria-label="open drawer."
 					edge="end"
 				>
-					<Avatar
-						sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}
-						src={ACCOUNT_DATA.image}
-					>
-						{ACCOUNT_DATA.name}
-					</Avatar>
+						<Avatar
+							sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}
+							src={global.ACCOUNT_DATA.image}
+						>
+							{global.ACCOUNT_DATA.name}
+						</Avatar>
 				</IconButton>
 			</Tooltip>
 			<SwipeableDrawer
