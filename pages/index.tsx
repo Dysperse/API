@@ -1,6 +1,6 @@
 import Dashboard from "./dashboard";
 
 function Index(): any {
-  return <Dashboard />;
+	return <Dashboard />;
 }
 export default Index;
