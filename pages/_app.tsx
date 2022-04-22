@@ -73,19 +73,4 @@ function SmartlistApp({
 	);
 }
 
-SmartlistApp.getInitialProps = async (ctx: any) => {
-	if (ctx.req) {
-		console.log(ctx.req.headers);
-		return {
-			bookings: ctx.req.headers
-		};
-	}
-	return "";
-	// const response = await fetch({
-	// 	method: "POST",
-	// 	url: "https://api.smartlist.tech/v2/account/info"
-	// 	// body: ctx.req ? { cookie: ctx.req.headers.cookie } : undefined
-	// });
-};
-
 export default SmartlistApp;
