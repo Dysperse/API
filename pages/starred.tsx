@@ -12,7 +12,7 @@ function Items() {
 		{
 			method: "POST",
 			body: new URLSearchParams({
-				token: global.ACCOUNT_DATA.accessToken.toString()
+				token: global.session && global.session.accessToken
 			}),
 			headers: { "Content-Type": "application/x-www-form-urlencoded" }
 		}

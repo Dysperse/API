@@ -23,7 +23,7 @@ export function DeleteButton({
 					fetch("https://api.smartlist.tech/v2/items/delete/", {
 						method: "POST",
 						body: new URLSearchParams({
-							token: ACCOUNT_DATA.accessToken,
+							token: global.session && global.session.accessToken,
 							id: id.toString(),
 							date: dayjs().format("YYYY-M-D HH:mm:ss")
 						})

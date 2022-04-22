@@ -240,7 +240,7 @@ function Room() {
 		fetch(url, {
 			method: "POST",
 			body: new URLSearchParams({
-				token: ACCOUNT_DATA.accessToken,
+				token: global.session && global.session.accessToken,
 				room: index
 			})
 		}).then((res) => res.json())
@@ -252,7 +252,7 @@ function Room() {
 			fetcher(url, {
 				method: "POST",
 				body: new URLSearchParams({
-					token: ACCOUNT_DATA.accessToken,
+					token: global.session && global.session.accessToken,
 					room: index
 				})
 			}),

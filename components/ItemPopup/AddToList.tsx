@@ -35,7 +35,7 @@ function RoomList() {
 		{
 			method: "POST",
 			body: new URLSearchParams({
-				token: global.ACCOUNT_DATA.accessToken
+				token: global.session && global.session.accessToken
 			}),
 			headers: { "Content-Type": "application/x-www-form-urlencoded" }
 		}

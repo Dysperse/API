@@ -32,6 +32,7 @@ export function CreateItemModal({
 	};
 
 	const [loading, setLoading] = React.useState(false);
+
 	function setClickLoading() {
 		setLoading(true);
 	}
@@ -50,17 +51,21 @@ export function CreateItemModal({
 			return;
 		}
 
+		setLoading(false);
 		setSnackbarOpen(false);
 	};
-	const submit = async (values: {
-		categories: Array<string>;
-		title: string;
-		quantity: string;
-	}) => {
+	const submit = async (
+		values: {
+			categories: Array<string>;
+			title: string;
+			quantity: string;
+		},
+		{ resetForm }: any
+	) => {
 		const data = await fetch("https://api.smartlist.tech/v2/items/create/", {
 			method: "POST",
 			body: new URLSearchParams({
-				token: ACCOUNT_DATA.accessToken,
+				token: session && session.accessToken,
 				room: room.toLowerCase(),
 				name: values.title,
 				qty: values.quantity,
@@ -68,8 +73,11 @@ export function CreateItemModal({
 				lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss")
 			})
 		});
+
 		setSnackbarOpen(true);
+		setLoading(false);
 		setOpen(false);
+		resetForm();
 	};
 	return (
 		<div>
@@ -78,6 +86,7 @@ export function CreateItemModal({
 				open={snackbarOpen}
 				autoHideDuration={3000}
 				onClose={handleSnackbarClose}
+				sx={{ background: "#212121" }}
 				message="Item created!"
 			/>
 			<SwipeableDrawer

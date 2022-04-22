@@ -28,7 +28,7 @@ function CustomRooms() {
 		fetcher(url, {
 			method: "POST",
 			body: new URLSearchParams({
-				token: ACCOUNT_DATA.accessToken
+				token: global.session && global.session.accessToken
 			})
 		})
 	);

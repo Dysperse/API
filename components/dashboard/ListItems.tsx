@@ -24,7 +24,7 @@ export function ListItems({
 		{
 			method: "POST",
 			body: new URLSearchParams({
-				token: global.ACCOUNT_DATA.accessToken,
+				token: global.session && global.session.accessToken,
 				parent: parent
 			}),
 			headers: { "Content-Type": "application/x-www-form-urlencoded" }
