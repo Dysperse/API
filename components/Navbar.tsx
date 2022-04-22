@@ -77,7 +77,11 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 						</IconButton>
 					</Tooltip>
 					<Typography variant="h6" sx={{ flexGrow: 1 }} noWrap>
-						{global.ACCOUNT_DATA.houseName}
+						{global.session ? (
+							global.session.user.houseName
+						) : (
+							<Skeleton width={200} />
+						)}
 					</Typography>
 					<NotificationsMenu>
 						<Tooltip title="Notifications">

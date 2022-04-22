@@ -2,6 +2,7 @@ export {};
 
 declare global {
 	var user: any;
+	var session: any;
 	var ACCOUNT_DATA: {
 		accessToken: string;
 		email: string;

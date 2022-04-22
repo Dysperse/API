@@ -48,10 +48,13 @@ const Accounts = React.memo(function Accounts() {
 					sx={{ borderRadius: 100, overflow: "hidden" }}
 				>
 					<ListItemAvatar>
-						<Avatar alt="Remy Sharp" src={ACCOUNT_DATA.image} />
+						<Avatar
+							alt="Remy Sharp"
+							src={global.session && global.session.user.image}
+						/>
 					</ListItemAvatar>
 					<ListItemText
-						primary={ACCOUNT_DATA.name}
+						primary={global.session && global.session.user.name}
 						secondary={
 							<React.Fragment>
 								<Typography
@@ -60,7 +63,7 @@ const Accounts = React.memo(function Accounts() {
 									variant="body2"
 									color="text.primary"
 								>
-									{ACCOUNT_DATA.email}
+									{global.session && global.session.user.email}
 								</Typography>
 							</React.Fragment>
 						}
@@ -108,12 +111,21 @@ export function ProfileMenu(props: any) {
 					aria-label="open drawer."
 					edge="end"
 				>
+					{global.session ? (
 						<Avatar
 							sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}
-							src={global.ACCOUNT_DATA.image}
+							src={global.session.user.image}
 						>
-							{global.ACCOUNT_DATA.name}
+							{global.session.user.name}
 						</Avatar>
+					) : (
+						<Skeleton
+							variant="circular"
+							animation="wave"
+							width={40}
+							height={40}
+						/>
+					)}
 				</IconButton>
 			</Tooltip>
 			<SwipeableDrawer
