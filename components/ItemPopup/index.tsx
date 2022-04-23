@@ -227,7 +227,7 @@ export default function Item({ data, variant }: any) {
 					<Collapse in={!deleted}>
 						<ListItemButton
 							onClick={() => setDrawerState(true)}
-							sx={{ py: 0.1, borderRadius: "10px" }}
+							sx={{ py: 0.1, borderRadius: "10px", transition: "all .03s" }}
 						>
 							<ListItemText
 								primary={title}
@@ -246,6 +246,7 @@ export default function Item({ data, variant }: any) {
 									boxShadow: 0,
 									borderRadius: "28px",
 									background: blueGrey[50],
+									transition: "all .03s",
 									...(star === 1 && {
 										background: orange[700],
 										color: "white"

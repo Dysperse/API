@@ -4,7 +4,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 
 export default withIronSessionApiRoute(
 	function userRoute(req, res) {
-		res.send(JSON.stringify({ ...req.session["user"] }, null, 2));
+		res.send(JSON.stringify({ ...req.session.user }, null, 2));
 	},
 	{
 		cookieName: "myapp_cookiename",

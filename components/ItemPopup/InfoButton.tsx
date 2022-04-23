@@ -1,6 +1,5 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import InfoIcon from "@mui/icons-material/Info";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -23,7 +22,9 @@ export function InfoButton({ title, quantity, star }: any): JSX.Element {
 	return (
 		<>
 			<MenuItem disableRipple onClick={handleClickOpen}>
-				<InfoIcon />
+				<span style={{ marginRight: "10px" }} class="material-symbols-rounded">
+					info
+				</span>
 				View details
 			</MenuItem>
 			<Dialog

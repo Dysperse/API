@@ -39,7 +39,7 @@ const Puller = styled(Box)(({ theme }) => ({
 	left: "calc(50% - 15px)"
 }));
 
-const Accounts = React.memo(function Accounts() {
+function Accounts() {
 	return (
 		<List sx={{ width: "100%", bgcolor: "background.paper" }}>
 			<ListItem secondaryAction={<Settings />}>
@@ -50,7 +50,7 @@ const Accounts = React.memo(function Accounts() {
 					<ListItemAvatar>
 						<Avatar
 							alt="Remy Sharp"
-							src={global.session && global.session.user.image}
+							src={global.session ? global.session.user.image : null}
 						/>
 					</ListItemAvatar>
 					<ListItemText
@@ -72,7 +72,7 @@ const Accounts = React.memo(function Accounts() {
 			</ListItem>
 		</List>
 	);
-});
+}
 
 export function ProfileMenu(props: any) {
 	const { window } = props;
@@ -138,6 +138,9 @@ export function ProfileMenu(props: any) {
 				disableSwipeToOpen={false}
 				ModalProps={{
 					keepMounted: true
+				}}
+				sx={{
+					backdropFilter: "blur(10px)"
 				}}
 				PaperProps={{
 					sx: {

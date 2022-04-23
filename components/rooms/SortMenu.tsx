@@ -2,6 +2,7 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { blue } from "@mui/material/colors";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
 export function SortMenu() {
@@ -43,6 +44,44 @@ export function SortMenu() {
 				MenuListProps={{
 					"aria-labelledby": "basic-button"
 				}}
+				sx={{
+					transition: "all .2s",
+					// "& *": {
+					// },
+					"& .MuiPaper-root": {
+						borderRadius: "15px",
+						minWidth: 180,
+						boxShadow: 0,
+						background: blue[100],
+
+						color: blue[800],
+						"& .MuiMenu-list": {
+							padding: "4px"
+						},
+						"& .MuiMenuItem-root": {
+							"&:hover": {
+								background: blue[200],
+								color: blue[900],
+								"& .MuiSvgIcon-root": {
+									color: blue[800]
+								}
+							},
+							padding: "10px 15px",
+							borderRadius: "15px",
+							marginBottom: "1px",
+							transition: "all .05s",
+
+							"& .MuiSvgIcon-root": {
+								fontSize: 25,
+								color: blue[700],
+								marginRight: 1.9
+							},
+							"&:active": {
+								background: blue[300]
+							}
+						}
+					}
+				}}
 				anchorOrigin={{
 					vertical: "top",
 					horizontal: "right"
@@ -52,9 +91,15 @@ export function SortMenu() {
 					horizontal: "right"
 				}}
 			>
-				<MenuItem onClick={handleClose}>A-Z</MenuItem>
-				<MenuItem onClick={handleClose}>Z-A</MenuItem>
-				<MenuItem onClick={handleClose}>Last updated</MenuItem>
+				<MenuItem disableRipple onClick={handleClose}>
+					A-Z
+				</MenuItem>
+				<MenuItem disableRipple onClick={handleClose}>
+					Z-A
+				</MenuItem>
+				<MenuItem disableRipple onClick={handleClose}>
+					Last updated
+				</MenuItem>
 			</Menu>
 		</>
 	);

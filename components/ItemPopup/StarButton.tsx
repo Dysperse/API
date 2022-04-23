@@ -36,7 +36,9 @@ export function StarButton({ id, star, setStar }: any) {
 				}
 			>
 				{star === 1 ? (
-					<StarIcon sx={{ color: orange[600] }} />
+					<span class="material-symbols-rounded" style={{ color: orange[600] }}>
+						star_border
+					</span>
 				) : (
 					<StarBorderIcon />
 				)}

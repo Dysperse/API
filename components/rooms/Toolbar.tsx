@@ -11,16 +11,18 @@ export function Toolbar() {
 				placeholder="Search"
 				id="outlined-size-small"
 				size="small"
+				variant="standard"
 				InputProps={{
 					disableUnderline: true,
 					sx: {
 						borderRadius: "20px",
 						border: "0!important",
-						py: 0,
-						px: 1,
+						pb: 0.6,
+						pt: 1,
+						px: 2,
 						background: blueGrey[50],
-						"&:focus": {
-							background: blueGrey[200]
+						"&.Mui-focused": {
+							background: blueGrey[100]
 						}
 					}
 				}}

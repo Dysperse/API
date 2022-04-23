@@ -1,5 +1,4 @@
 import * as React from "react";
-import dynamic from "next/dynamic";
 
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -16,7 +15,6 @@ import Tooltip from "@mui/material/Tooltip";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 function NotificationsList() {
 	return (
@@ -75,12 +73,6 @@ function NotificationsList() {
 export function NotificationsMenu(props: any): JSX.Element {
 	const [state, setState] = React.useState(false);
 
-	const toggleDrawer = (open: boolean) => (
-		event: React.KeyboardEvent | React.MouseEvent
-	) => {
-		setState(open);
-	};
-
 	return (
 		<>
 			<div onClick={() => setState(true)}>{props.children}</div>
@@ -106,7 +98,7 @@ export function NotificationsMenu(props: any): JSX.Element {
 									aria-label="menu"
 									sx={{ mr: 2 }}
 								>
-									<ChevronLeftIcon />
+									<span class="material-symbols-rounded">chevron_left</span>
 								</IconButton>
 							</Tooltip>
 							<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

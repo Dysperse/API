@@ -8,13 +8,10 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import MenuIcon from "@mui/icons-material/Menu";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import { blue, blueGrey } from "@mui/material/colors";
 
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import SearchIcon from "@mui/icons-material/Search";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 function ElevationScroll(props: any) {
@@ -31,20 +28,20 @@ function ElevationScroll(props: any) {
 		if (document && document.querySelector(`meta[name="theme-color"]`)) {
 			document
 				.querySelector(`meta[name="theme-color"]`)!
-				.setAttribute("content", trigger ? blue[50] : "#fff");
+				.setAttribute("content", trigger ? blue[100] : "#fff");
 		}
 	});
 	return React.cloneElement(children, {
 		sx: trigger
 			? {
-					color: blue[900],
+					color: "black",
 					py: {
 						sm: 1,
 						xs: 0.5
 					},
-					borderBottom: "1px solid transparent",
 					transition: "all .2s",
-					background: blue[50]
+					background: "rgba(187, 222, 251, .7)",
+					backdropFilter: "blur(20px)"
 			  }
 			: {
 					color: "#000",
@@ -52,9 +49,9 @@ function ElevationScroll(props: any) {
 						sm: 1,
 						xs: 0.5
 					},
-					borderBottom: "1px solid " + blueGrey[50],
 					transition: "all .2s",
-					background: "#fff"
+					background: "rgba(255,255,255,.5)",
+					backdropFilter: "blur(10px)"
 			  }
 	});
 }
@@ -73,7 +70,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 							onClick={handleDrawerToggle}
 							sx={{ mr: 2, ml: -0.5, display: { sm: "none" } }}
 						>
-							<MenuIcon />
+							<span class="material-symbols-rounded">menu</span>
 						</IconButton>
 					</Tooltip>
 					<Typography variant="h6" sx={{ flexGrow: 1 }} noWrap>
@@ -91,7 +88,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 								size="large"
 								sx={{ mr: 0.8 }}
 							>
-								<NotificationsIcon />
+								<span class="material-symbols-rounded">notifications</span>
 							</IconButton>
 						</Tooltip>
 					</NotificationsMenu>
@@ -103,7 +100,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 								size="large"
 								sx={{ mr: 0.8 }}
 							>
-								<SearchIcon />
+								<span class="material-symbols-rounded">search</span>
 							</IconButton>
 						</Tooltip>
 					</Box>

@@ -15,7 +15,7 @@ export function RecentItems() {
 			body: new URLSearchParams({
 				room: "null",
 				limit: "7",
-				token: global.session && global.session.accessToken
+				token: ACCOUNT_DATA.accessToken
 			})
 		}
 	);

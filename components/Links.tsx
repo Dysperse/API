@@ -1,7 +1,6 @@
 import React from "react";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
 import ListSubheader from "@mui/material/ListSubheader";
@@ -19,13 +18,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-const AddIcon: any = dynamic(() => import("@mui/icons-material/Add"));
-const RoomIcon: any = dynamic(() => import("@mui/icons-material/Room"));
-const LabelIcon: any = dynamic(() => import("@mui/icons-material/Label"));
-const ExpandLess: any = dynamic(() => import("@mui/icons-material/ExpandLess"));
-const ExpandMore: any = dynamic(() => import("@mui/icons-material/ExpandMore"));
-const SpaIcon: any = dynamic(() => import("@mui/icons-material/Spa"));
-
 function CreateRoom() {
 	const [open, setOpen] = React.useState(false);
 
@@ -35,9 +27,12 @@ function CreateRoom() {
 
 	return (
 		<>
-			<ListItemButton sx={{ pl: 4 }} onClick={toggleDrawer(true)}>
+			<ListItemButton
+				sx={{ pl: 4, borderRadius: "0 40px 40px 0" }}
+				onClick={toggleDrawer(true)}
+			>
 				<ListItemIcon>
-					<AddIcon />
+					<span class="material-symbols-rounded">add_location_alt</span>
 				</ListItemIcon>
 				<ListItemText primary="Create room" />
 			</ListItemButton>
@@ -79,7 +74,7 @@ function CreateRoom() {
 						type="submit"
 						loading={false}
 						// onClick={() => setTimeout(setClickLoading, 10)}
-						variant="outlined"
+						variant="rounded"
 					>
 						Create
 					</LoadingButton>
@@ -117,10 +112,10 @@ const ListItem = React.memo(function ListItem({
 					...(router.asPath === asHref && {
 						backgroundColor: blue[50],
 						transition: "all .2s",
-						color: blue[700],
+						color: blue[800],
 						"&:hover": {
 							backgroundColor: blue[100],
-							color: blue[800]
+							color: blue[900]
 						},
 						"& svg": {
 							transition: "all .2s"
@@ -172,18 +167,21 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 			</Box>
 			<div onClick={handleDrawerToggle}>
 				<ListSubheader sx={{ pl: 2 }}>Home</ListSubheader>
-				<ListItem text="Overview" icon={<LabelIcon />} />
+				<ListItem
+					text="Overview"
+					icon={<span class="material-symbols-rounded">home</span>}
+				/>
 				<ListItem
 					href="/finances"
 					asHref="/finances"
 					text="Finances"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">payments</span>}
 				/>
 				<ListItem
 					asHref="/meals"
 					href="/meals"
 					text="Meals"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">lunch_dining</span>}
 				/>
 				{/* <ListItem href="/meals" text="Eco-friendly tips" icon={<SpaIcon />} /> */}
 			</div>
@@ -193,70 +191,77 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 					href="/rooms/[index]"
 					asHref="/rooms/kitchen"
 					text="Kitchen"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">microwave</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/bedroom"
 					text="Bedroom"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">bedroom_parent</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/bathroom"
 					text="Bathroom"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">bathroom</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/garage"
 					text="Garage"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">bathroom</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/dining"
 					text="Dining room"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">dining</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/living-room"
 					text="Living room"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">living</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/laundry-room"
 					text="Laundry room"
-					icon={<LabelIcon />}
+					icon={
+						<span class="material-symbols-rounded">local_laundry_service</span>
+					}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/storage-room"
 					text="Storage room"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">inventory_2</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/camping"
 					text="Camping"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">landscape</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/garden"
 					text="Garden"
-					icon={<LabelIcon />}
+					icon={<span class="material-symbols-rounded">yard</span>}
 				/>
 			</div>
 
-			<ListItemButton onClick={handleClick}>
+			<ListItemButton
+				onClick={handleClick}
+				sx={{ borderRadius: "0 40px 40px 0" }}
+			>
 				<ListItemIcon>
-					<RoomIcon />
+					<span class="material-symbols-rounded">add_location</span>
 				</ListItemIcon>
 				<ListItemText primary="More rooms" />
-				{open ? <ExpandLess /> : <ExpandMore />}
+				<span class="material-symbols-rounded">
+					{open ? "expand_less" : "expand_more"}
+				</span>
 			</ListItemButton>
 			<Collapse
 				in={open}
@@ -272,18 +277,21 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 			<ListSubheader component="div" id="nested-list-subheader" sx={{ pl: 2 }}>
 				Other
 			</ListSubheader>
-			<ListItem text="Home maintenance" icon={<LabelIcon />} />
+			<ListItem
+				text="Home maintenance"
+				icon={<span class="material-symbols-rounded">label</span>}
+			/>
 			<ListItem
 				href="/starred"
 				asHref="/starred"
 				text="Starred items"
-				icon={<LabelIcon />}
+				icon={<span class="material-symbols-rounded">star</span>}
 			/>
 			<ListItem
 				href="/trash"
 				asHref="/trash"
 				text="Trash"
-				icon={<LabelIcon />}
+				icon={<span class="material-symbols-rounded">delete</span>}
 			/>
 		</List>
 	);

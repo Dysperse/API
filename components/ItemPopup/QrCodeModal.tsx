@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
@@ -31,7 +30,7 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
 	return (
 		<>
 			<MenuItem disableRipple onClick={handleClickOpen}>
-				<QrCodeScannerIcon />
+				<span class="material-symbols-rounded">qr_code_scanner</span>
 				Generate QR code
 			</MenuItem>
 			<Dialog

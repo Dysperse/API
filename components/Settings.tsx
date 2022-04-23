@@ -1,5 +1,4 @@
-import * as React from "react";
-
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
@@ -10,125 +9,189 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Slide from "@mui/material/Slide";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import { blue } from "@mui/material/colors";
 import { TransitionProps } from "@mui/material/transitions";
 
-import dynamic from "next/dynamic";
-const SettingsIcon = dynamic(() => import("@mui/icons-material/Settings"));
-const CloseIcon = dynamic(() => import("@mui/icons-material/Close"));
-
 const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement;
-  },
-  ref: React.Ref<unknown>
+	props: TransitionProps & {
+		children: React.ReactElement;
+	},
+	ref: React.Ref<unknown>
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
+	return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function FullScreenDialog() {
-  const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+	const handleClose = () => {
+		setOpen(false);
+	};
 
-  return (
-    <div>
-      <IconButton edge="end" aria-label="comments" onClick={handleClickOpen}>
-        <SettingsIcon />
-      </IconButton>
+	useEffect(() =>
+		document
+			.querySelector(`meta[name="theme-color"]`)!
+			.setAttribute("content", open ? "rgb(230,230,230)" : "#808080")
+	);
 
-      <Dialog
-        fullScreen
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar sx={{ boxShadow: 0, position: "sticky" }}>
-          <Toolbar>
-            <IconButton
-              edge="end"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
-              sx={{ ml: -0.5 }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography sx={{ ml: 4, flex: 1 }} variant="h6" component="div">
-              Settings
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText
-              primary="Appearance"
-              secondary="Current theme: Blue"
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Finances"
-              secondary="Manage your connected bank account"
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Profile"
-              secondary="View and edit your account details"
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Connected apps"
-              secondary="View and edit access to third-party apps"
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Notifications"
-              secondary="If an item's quantity is 10 or less"
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText primary="Developer" secondary="Manage API keys" />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="App"
-              secondary="Download the Smartlist mobile and desktop app"
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Login history"
-              secondary="View previous logins to this account"
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Sync"
-              secondary="Sync your account with up to 3 people"
-            />
-          </ListItem>
-          <Divider />
+	return (
+		<div>
+			<IconButton edge="end" aria-label="comments" onClick={handleClickOpen}>
+				<span class="material-symbols-rounded">settings</span>
+			</IconButton>
 
-          <ListItem button>
-            <ListItemText
-              primary="Sign out"
-              secondary="Sign out of Smartlist and it's related apps"
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText primary="Legal" secondary="Food for lawyers" />
-          </ListItem>
-        </List>
-      </Dialog>
-    </div>
-  );
+			<Dialog
+				fullScreen
+				open={open}
+				onClose={handleClose}
+				TransitionComponent={Transition}
+			>
+				<AppBar
+					sx={{
+						boxShadow: 0,
+						position: "sticky",
+						background: "rgba(230,230,230,.5)",
+						backdropFilter: "blur(10px)",
+						py: 1,
+						color: "#000"
+					}}
+				>
+					<Toolbar>
+						<IconButton
+							edge="end"
+							color="inherit"
+							onClick={handleClose}
+							aria-label="close"
+							sx={{ ml: -0.5 }}
+						>
+							<span class="material-symbols-rounded">close</span>{" "}
+						</IconButton>
+						<Typography sx={{ ml: 4, flex: 1 }} variant="h6" component="div">
+							Settings
+						</Typography>
+					</Toolbar>
+				</AppBar>
+				<List>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">palette</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Appearance"
+							secondary="Current theme: Blue"
+						/>
+					</ListItem>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">payments</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Finances"
+							secondary="Manage your connected bank account"
+						/>
+					</ListItem>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">account_circle</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Profile"
+							secondary="View and edit your account details"
+						/>
+					</ListItem>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">apps</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Connected apps"
+							secondary="View and edit access to third-party apps"
+						/>
+					</ListItem>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">notifications</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Notifications"
+							secondary="If an item's quantity is 10 or less"
+						/>
+					</ListItem>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">code</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary="Developer" secondary="Manage API keys" />
+					</ListItem>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">smartphone</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="App"
+							secondary="Download the Smartlist mobile and desktop app"
+						/>
+					</ListItem>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">history</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Login history"
+							secondary="View previous logins to this account"
+						/>
+					</ListItem>
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">sync</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Sync"
+							secondary="Sync your account with up to 3 people"
+						/>
+					</ListItem>
+					<Divider />
+
+					<ListItem button>
+						<ListItemAvatar>
+							<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<span class="material-symbols-rounded">logout</span>
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Sign out"
+							secondary="Sign out of Smartlist and it's related apps"
+						/>
+					</ListItem>
+					<ListItem button>
+						<ListItemText primary="Legal" secondary="Food for lawyers" />
+					</ListItem>
+				</List>
+			</Dialog>
+		</div>
+	);
 }

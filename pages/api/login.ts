@@ -14,7 +14,7 @@ export default withIronSessionApiRoute(
 		});
 		info = await info.json();
 		// get user from database then:
-		req.session["user"] = {
+		req.session.user = {
 			valid: true,
 			accessToken: demoToken,
 			user: info.data

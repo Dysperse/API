@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
@@ -52,7 +52,7 @@ function CustomRooms() {
 	return (
 		<>
 			{data.data.map((room: Room) => (
-				<ListItemButton sx={{ pl: 4 }}>
+				<ListItemButton sx={{ pl: 4, borderRadius: "0 40px 40px 0" }}>
 					<ListItemIcon>
 						<LabelIcon />
 					</ListItemIcon>
@@ -64,7 +64,6 @@ function CustomRooms() {
 }
 
 function ResponsiveDrawer(props: any): JSX.Element {
-	const { window } = props;
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 	useEffect(() => {
 		if (document.querySelector(`meta[name="theme-color"]`))
@@ -75,10 +74,6 @@ function ResponsiveDrawer(props: any): JSX.Element {
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
-
-	const container =
-		window !== undefined ? () => window().document.body : undefined;
-
 	const { width }: any = useWindowDimensions();
 
 	return (

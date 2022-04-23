@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,7 +11,6 @@ import MenuItem from "@mui/material/MenuItem";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
 import Grow from "@mui/material/Grow";
@@ -110,7 +108,9 @@ export function AddToListModal({ handleClose }: any) {
 				</DialogActions>
 			</Dialog>
 			<MenuItem disableRipple onClick={() => setOpen(true)}>
-				<ReceiptLongIcon />
+				<span class="material-symbols-rounded" style={{ marginRight: "10px" }}>
+					receipt_long
+				</span>
 				Add to list
 			</MenuItem>
 		</>

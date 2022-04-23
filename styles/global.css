@@ -16,7 +16,8 @@ body:not(.prevent-scroll) {
 img {
 	user-select: none;
 }
-* {
+*:not(.MuiIcon-root, .MuiIcon-root
+		*, .material-symbols-outlined, .material-symbols-rounded, .material-symbols-outlined) {
 	font-family: "Outfit", sans-serif !important;
 }
 ::-webkit-scrollbar {

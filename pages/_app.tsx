@@ -57,6 +57,10 @@ function SmartlistApp({ user, Component, pageProps }: any): JSX.Element {
 					href="https://fonts.googleapis.com/css2?family=Outfit:wght@350"
 					rel="stylesheet"
 				/>
+				<link
+					rel="stylesheet"
+					href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,500,1,200"
+				/>
 				<link href="/manifest.webmanifest" rel="manifest" />
 				<link href="/logo/48x48.png" rel="shortcut icon" />
 				<title>Smartlist</title>

@@ -4,8 +4,6 @@ import Fab from "@mui/material/Fab";
 import { blue } from "@mui/material/colors";
 import AddPopup from "./AddPopup";
 
-import AddIcon from "@mui/icons-material/Add";
-
 export function FloatingActionButton() {
 	return (
 		<Box
@@ -41,7 +39,12 @@ export function FloatingActionButton() {
 						maxHeight: "auto"
 					}}
 				>
-					<AddIcon sx={{ mr: 2 }} />
+					<span
+						class="material-symbols-rounded"
+						style={{ marginRight: "15px" }}
+					>
+						add
+					</span>
 					Create
 				</Fab>
 			</AddPopup>
