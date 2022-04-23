@@ -98,7 +98,7 @@ export function NotificationsMenu(props: any): JSX.Element {
 									aria-label="menu"
 									sx={{ mr: 2 }}
 								>
-									<span class="material-symbols-rounded">chevron_left</span>
+									<span className="material-symbols-rounded">chevron_left</span>
 								</IconButton>
 							</Tooltip>
 							<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

@@ -70,7 +70,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 							onClick={handleDrawerToggle}
 							sx={{ mr: 2, ml: -0.5, display: { sm: "none" } }}
 						>
-							<span class="material-symbols-rounded">menu</span>
+							<span className="material-symbols-rounded">menu</span>
 						</IconButton>
 					</Tooltip>
 					<Typography variant="h6" sx={{ flexGrow: 1 }} noWrap>
@@ -88,7 +88,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 								size="large"
 								sx={{ mr: 0.8 }}
 							>
-								<span class="material-symbols-rounded">notifications</span>
+								<span className="material-symbols-rounded">notifications</span>
 							</IconButton>
 						</Tooltip>
 					</NotificationsMenu>
@@ -100,7 +100,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 								size="large"
 								sx={{ mr: 0.8 }}
 							>
-								<span class="material-symbols-rounded">search</span>
+								<span className="material-symbols-rounded">search</span>
 							</IconButton>
 						</Tooltip>
 					</Box>

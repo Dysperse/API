@@ -43,7 +43,7 @@ export default function FullScreenDialog() {
 	return (
 		<div>
 			<IconButton edge="end" aria-label="comments" onClick={handleClickOpen}>
-				<span class="material-symbols-rounded">settings</span>
+				<span className="material-symbols-rounded">settings</span>
 			</IconButton>
 
 			<Dialog
@@ -70,7 +70,7 @@ export default function FullScreenDialog() {
 							aria-label="close"
 							sx={{ ml: -0.5 }}
 						>
-							<span class="material-symbols-rounded">close</span>{" "}
+							<span className="material-symbols-rounded">close</span>{" "}
 						</IconButton>
 						<Typography sx={{ ml: 4, flex: 1 }} variant="h6" component="div">
 							Settings
@@ -81,7 +81,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">palette</span>
+								<span className="material-symbols-rounded">palette</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
@@ -92,7 +92,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">payments</span>
+								<span className="material-symbols-rounded">payments</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
@@ -103,7 +103,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">account_circle</span>
+								<span className="material-symbols-rounded">account_circle</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
@@ -114,7 +114,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">apps</span>
+								<span className="material-symbols-rounded">apps</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
@@ -125,7 +125,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">notifications</span>
+								<span className="material-symbols-rounded">notifications</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
@@ -136,7 +136,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">code</span>
+								<span className="material-symbols-rounded">code</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText primary="Developer" secondary="Manage API keys" />
@@ -144,7 +144,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">smartphone</span>
+								<span className="material-symbols-rounded">smartphone</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
@@ -155,7 +155,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">history</span>
+								<span className="material-symbols-rounded">history</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
@@ -166,7 +166,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">sync</span>
+								<span className="material-symbols-rounded">sync</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
@@ -179,7 +179,7 @@ export default function FullScreenDialog() {
 					<ListItem button>
 						<ListItemAvatar>
 							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span class="material-symbols-rounded">logout</span>
+								<span className="material-symbols-rounded">logout</span>
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
