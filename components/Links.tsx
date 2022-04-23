@@ -74,7 +74,6 @@ function CreateRoom() {
 						type="submit"
 						loading={false}
 						// onClick={() => setTimeout(setClickLoading, 10)}
-						variant="rounded"
 					>
 						Create
 					</LoadingButton>
