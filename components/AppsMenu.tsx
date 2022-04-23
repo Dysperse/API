@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import AppsIcon from "@mui/icons-material/Apps";
 import Tooltip from "@mui/material/Tooltip";
+import Skeleton from "@mui/material/Skeleton";
 import TipsAndUpdates from "@mui/icons-material/TipsAndUpdates";
 import { green, blue } from "@mui/material/colors";
 
@@ -148,15 +149,25 @@ export function AppsMenu() {
 	return (
 		<div>
 			<Tooltip title="Apps">
-				<IconButton
-					color="inherit"
-					edge="end"
-					size="large"
-					sx={{ mr: 0.8 }}
-					onClick={handleClick}
-				>
-					<span className="material-symbols-rounded">apps</span>
-				</IconButton>
+				{global.session ? (
+					<IconButton
+						color="inherit"
+						edge="end"
+						size="large"
+						sx={{ mr: 0.8 }}
+						onClick={handleClick}
+					>
+						<span className="material-symbols-rounded">apps</span>
+					</IconButton>
+				) : (
+					<Skeleton
+						sx={{ mr: 2 }}
+						variant="circular"
+						width={40}
+						height={40}
+						animation="wave"
+					/>
+				)}
 			</Tooltip>
 			<Menu
 				id="demo-positioned-menu"

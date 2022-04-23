@@ -62,17 +62,28 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 			<AppBar elevation={0} position="fixed">
 				<Toolbar>
 					<Tooltip title="Menu" placement="bottom-start">
-						<IconButton
-							color="inherit"
-							aria-label="open drawer."
-							edge="start"
-							size="large"
-							onClick={handleDrawerToggle}
-							sx={{ mr: 2, ml: -0.5, display: { sm: "none" } }}
-						>
-							<span className="material-symbols-rounded">menu</span>
-						</IconButton>
+						{global.session ? (
+							<IconButton
+								color="inherit"
+								aria-label="open drawer."
+								edge="start"
+								size="large"
+								onClick={handleDrawerToggle}
+								sx={{ mr: 2, ml: -0.5, display: { sm: "none" } }}
+							>
+								<span className="material-symbols-rounded">menu</span>
+							</IconButton>
+						) : (
+							<Skeleton
+								sx={{ mr: 2 }}
+								variant="circular"
+								width={40}
+								height={40}
+								animation="wave"
+							/>
+						)}
 					</Tooltip>
+
 					<Typography variant="h6" sx={{ flexGrow: 1 }} noWrap>
 						{global.session ? (
 							global.session.user.houseName
@@ -82,26 +93,48 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 					</Typography>
 					<NotificationsMenu>
 						<Tooltip title="Notifications">
-							<IconButton
-								color="inherit"
-								edge="end"
-								size="large"
-								sx={{ mr: 0.8 }}
-							>
-								<span className="material-symbols-rounded">notifications</span>
-							</IconButton>
+							{global.session ? (
+								<IconButton
+									color="inherit"
+									edge="end"
+									size="large"
+									sx={{ mr: 0.8 }}
+								>
+									<span className="material-symbols-rounded">
+										notifications
+									</span>
+								</IconButton>
+							) : (
+								<Skeleton
+									variant="circular"
+									width={40}
+									sx={{ mr: 2 }}
+									height={40}
+									animation="wave"
+								/>
+							)}
 						</Tooltip>
 					</NotificationsMenu>
 					<Box sx={{ display: { sm: "block", xs: "none" } }}>
 						<Tooltip title="Search">
-							<IconButton
-								color="inherit"
-								edge="end"
-								size="large"
-								sx={{ mr: 0.8 }}
-							>
-								<span className="material-symbols-rounded">search</span>
-							</IconButton>
+							{global.session ? (
+								<IconButton
+									color="inherit"
+									edge="end"
+									size="large"
+									sx={{ mr: 0.8 }}
+								>
+									<span className="material-symbols-rounded">search</span>
+								</IconButton>
+							) : (
+								<Skeleton
+									sx={{ mr: 2 }}
+									variant="circular"
+									width={40}
+									height={40}
+									animation="wave"
+								/>
+							)}
 						</Tooltip>
 					</Box>
 					<Box sx={{ display: { sm: "block", xs: "none" } }}>
