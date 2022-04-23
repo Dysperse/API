@@ -155,7 +155,7 @@ export function AppsMenu() {
 					sx={{ mr: 0.8 }}
 					onClick={handleClick}
 				>
-					<span class="material-symbols-rounded">apps</span>
+					<span className="material-symbols-rounded">apps</span>
 				</IconButton>
 			</Tooltip>
 			<Menu

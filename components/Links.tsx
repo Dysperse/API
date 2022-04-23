@@ -32,7 +32,7 @@ function CreateRoom() {
 				onClick={toggleDrawer(true)}
 			>
 				<ListItemIcon>
-					<span class="material-symbols-rounded">add_location_alt</span>
+					<span className="material-symbols-rounded">add_location_alt</span>
 				</ListItemIcon>
 				<ListItemText primary="Create room" />
 			</ListItemButton>
@@ -169,19 +169,19 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 				<ListSubheader sx={{ pl: 2 }}>Home</ListSubheader>
 				<ListItem
 					text="Overview"
-					icon={<span class="material-symbols-rounded">home</span>}
+					icon={<span className="material-symbols-rounded">home</span>}
 				/>
 				<ListItem
 					href="/finances"
 					asHref="/finances"
 					text="Finances"
-					icon={<span class="material-symbols-rounded">payments</span>}
+					icon={<span className="material-symbols-rounded">payments</span>}
 				/>
 				<ListItem
 					asHref="/meals"
 					href="/meals"
 					text="Meals"
-					icon={<span class="material-symbols-rounded">lunch_dining</span>}
+					icon={<span className="material-symbols-rounded">lunch_dining</span>}
 				/>
 				{/* <ListItem href="/meals" text="Eco-friendly tips" icon={<SpaIcon />} /> */}
 			</div>
@@ -191,63 +191,67 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 					href="/rooms/[index]"
 					asHref="/rooms/kitchen"
 					text="Kitchen"
-					icon={<span class="material-symbols-rounded">microwave</span>}
+					icon={<span className="material-symbols-rounded">microwave</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/bedroom"
 					text="Bedroom"
-					icon={<span class="material-symbols-rounded">bedroom_parent</span>}
+					icon={
+						<span className="material-symbols-rounded">bedroom_parent</span>
+					}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/bathroom"
 					text="Bathroom"
-					icon={<span class="material-symbols-rounded">bathroom</span>}
+					icon={<span className="material-symbols-rounded">bathroom</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/garage"
 					text="Garage"
-					icon={<span class="material-symbols-rounded">bathroom</span>}
+					icon={<span className="material-symbols-rounded">bathroom</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/dining"
 					text="Dining room"
-					icon={<span class="material-symbols-rounded">dining</span>}
+					icon={<span className="material-symbols-rounded">dining</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/living-room"
 					text="Living room"
-					icon={<span class="material-symbols-rounded">living</span>}
+					icon={<span className="material-symbols-rounded">living</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/laundry-room"
 					text="Laundry room"
 					icon={
-						<span class="material-symbols-rounded">local_laundry_service</span>
+						<span className="material-symbols-rounded">
+							local_laundry_service
+						</span>
 					}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/storage-room"
 					text="Storage room"
-					icon={<span class="material-symbols-rounded">inventory_2</span>}
+					icon={<span className="material-symbols-rounded">inventory_2</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/camping"
 					text="Camping"
-					icon={<span class="material-symbols-rounded">landscape</span>}
+					icon={<span className="material-symbols-rounded">landscape</span>}
 				/>
 				<ListItem
 					href="/rooms/[index]"
 					asHref="/rooms/garden"
 					text="Garden"
-					icon={<span class="material-symbols-rounded">yard</span>}
+					icon={<span className="material-symbols-rounded">yard</span>}
 				/>
 			</div>
 
@@ -256,10 +260,10 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 				sx={{ borderRadius: "0 40px 40px 0" }}
 			>
 				<ListItemIcon>
-					<span class="material-symbols-rounded">add_location</span>
+					<span className="material-symbols-rounded">add_location</span>
 				</ListItemIcon>
 				<ListItemText primary="More rooms" />
-				<span class="material-symbols-rounded">
+				<span className="material-symbols-rounded">
 					{open ? "expand_less" : "expand_more"}
 				</span>
 			</ListItemButton>
@@ -279,19 +283,19 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 			</ListSubheader>
 			<ListItem
 				text="Home maintenance"
-				icon={<span class="material-symbols-rounded">label</span>}
+				icon={<span className="material-symbols-rounded">label</span>}
 			/>
 			<ListItem
 				href="/starred"
 				asHref="/starred"
 				text="Starred items"
-				icon={<span class="material-symbols-rounded">star</span>}
+				icon={<span className="material-symbols-rounded">star</span>}
 			/>
 			<ListItem
 				href="/trash"
 				asHref="/trash"
 				text="Trash"
-				icon={<span class="material-symbols-rounded">delete</span>}
+				icon={<span className="material-symbols-rounded">delete</span>}
 			/>
 		</List>
 	);

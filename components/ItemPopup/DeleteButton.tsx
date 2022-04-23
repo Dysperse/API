@@ -33,7 +33,7 @@ export function DeleteButton({
 					setDrawerState(false);
 				}}
 			>
-				<span class="material-symbols-rounded">delete</span>
+				<span className="material-symbols-rounded">delete</span>
 			</IconButton>
 		</Tooltip>
 	);

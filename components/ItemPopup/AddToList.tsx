@@ -108,7 +108,10 @@ export function AddToListModal({ handleClose }: any) {
 				</DialogActions>
 			</Dialog>
 			<MenuItem disableRipple onClick={() => setOpen(true)}>
-				<span class="material-symbols-rounded" style={{ marginRight: "10px" }}>
+				<span
+					className="material-symbols-rounded"
+					style={{ marginRight: "10px" }}
+				>
 					receipt_long
 				</span>
 				Add to list

@@ -22,7 +22,10 @@ export function InfoButton({ title, quantity, star }: any): JSX.Element {
 	return (
 		<>
 			<MenuItem disableRipple onClick={handleClickOpen}>
-				<span style={{ marginRight: "10px" }} class="material-symbols-rounded">
+				<span
+					style={{ marginRight: "10px" }}
+					className="material-symbols-rounded"
+				>
 					info
 				</span>
 				View details

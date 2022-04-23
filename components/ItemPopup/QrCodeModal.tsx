@@ -30,7 +30,7 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
 	return (
 		<>
 			<MenuItem disableRipple onClick={handleClickOpen}>
-				<span class="material-symbols-rounded">qr_code_scanner</span>
+				<span className="material-symbols-rounded">qr_code_scanner</span>
 				Generate QR code
 			</MenuItem>
 			<Dialog

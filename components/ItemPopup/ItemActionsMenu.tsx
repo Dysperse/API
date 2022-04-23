@@ -34,7 +34,7 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 					aria-label="menu"
 					onClick={handleClick}
 				>
-					<span class="material-symbols-rounded">more_vert</span>
+					<span className="material-symbols-rounded">more_vert</span>
 				</IconButton>
 			</Tooltip>
 			<Menu
@@ -97,7 +97,7 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 				<MenuItem disableRipple onClick={handleClose}>
 					<span
 						style={{ marginRight: "10px" }}
-						class="material-symbols-rounded"
+						className="material-symbols-rounded"
 					>
 						share
 					</span>
@@ -106,7 +106,7 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 				<MenuItem disableRipple onClick={handleClose}>
 					<span
 						style={{ marginRight: "10px" }}
-						class="material-symbols-rounded"
+						className="material-symbols-rounded"
 					>
 						chat
 					</span>
@@ -115,7 +115,7 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 				<MenuItem disableRipple onClick={handleClose}>
 					<span
 						style={{ marginRight: "10px" }}
-						class="material-symbols-rounded"
+						className="material-symbols-rounded"
 					>
 						auto_awesome
 					</span>
@@ -124,7 +124,7 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 				<MenuItem disableRipple onClick={handleClose}>
 					<span
 						style={{ marginRight: "10px" }}
-						class="material-symbols-rounded"
+						className="material-symbols-rounded"
 					>
 						person_add
 					</span>

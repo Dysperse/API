@@ -40,7 +40,7 @@ export function FloatingActionButton() {
 					}}
 				>
 					<span
-						class="material-symbols-rounded"
+						className="material-symbols-rounded"
 						style={{ marginRight: "15px" }}
 					>
 						add

@@ -69,7 +69,7 @@ export function EditButton({
 					sx={{ mr: 1 }}
 					onClick={handleClickOpen}
 				>
-					<span class="material-symbols-rounded">edit</span>
+					<span className="material-symbols-rounded">edit</span>
 				</IconButton>
 			</Tooltip>
 			<Dialog
