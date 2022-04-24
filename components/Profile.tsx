@@ -39,10 +39,16 @@ const Puller = styled(Box)(({ theme }) => ({
 	left: "calc(50% - 15px)"
 }));
 
-function Accounts() {
+function Accounts({ setOpen }: any) {
 	return (
 		<List sx={{ width: "100%", bgcolor: "background.paper" }}>
-			<ListItem secondaryAction={<Settings />}>
+			<ListItem
+				secondaryAction={
+					<div onClick={() => setOpen(false)}>
+						<Settings />
+					</div>
+				}
+			>
 				<ListItemButton
 					alignItems="flex-start"
 					sx={{ borderRadius: 100, overflow: "hidden" }}
@@ -181,7 +187,7 @@ export function ProfileMenu(props: any) {
 						overflow: "auto"
 					}}
 				>
-					<Accounts />
+					<Accounts setOpen={setOpen} />
 				</StyledBox>
 			</SwipeableDrawer>
 		</Root>

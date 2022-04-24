@@ -49,7 +49,13 @@ export default function Item({ data, variant }: any) {
 			.querySelector(`meta[name="theme-color"]`)!
 			.setAttribute(
 				"content",
-				drawerState ? (width > 900 ? "#808080" : "#eee") : blue[50]
+				drawerState
+					? width > 900
+						? "#808080"
+						: "#eee"
+					: document.documentElement!.scrollTop === 0
+					? "#fff"
+					: blue[100]
 			);
 	});
 

@@ -23,7 +23,14 @@ function CreateListCard() {
 		);
 		document
 			.querySelector(`meta[name="theme-color"]`)!
-			.setAttribute("content", open ? "#808080" : blue[50]);
+			.setAttribute(
+				"content",
+				open
+					? "#808080"
+					: document.documentElement!.scrollTop === 0
+					? "#fff"
+					: blue[100]
+			);
 	});
 	const toggleDrawer = (newOpen: boolean) => () => {
 		setOpen(newOpen);

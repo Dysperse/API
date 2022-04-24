@@ -8,22 +8,12 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Slide from "@mui/material/Slide";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { blue } from "@mui/material/colors";
-import { TransitionProps } from "@mui/material/transitions";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Box from "@mui/material/Box";
 
-const Transition = React.forwardRef(function Transition(
-	props: TransitionProps & {
-		children: React.ReactElement;
-	},
-	ref: React.Ref<unknown>
-) {
-	return <Slide direction="up" ref={ref} {...props} />;
-});
 function SettingsMenu({ content, icon, primary, secondary }: any) {
 	const [open, setOpen] = useState(false);
 	useEffect(() => {
@@ -31,7 +21,11 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 			.querySelector(`meta[name="theme-color"]`)!
 			.setAttribute(
 				"content",
-				open ? (window.innerWidth > 900 ? "#808080" : "#eee") : "#eee"
+				open
+					? window.innerWidth > 900
+						? "rgb(64, 64, 64)"
+						: "#eee"
+					: "#808080"
 			);
 	});
 	return (
@@ -47,22 +41,9 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 			<SwipeableDrawer
 				open={open}
 				swipeAreaWidth={0}
-				sx={{
-					zIndex: "99999999999",
-					backdropFilter: "blur(10px)"
-				}}
-				PaperProps={{
-					sx: {
-						borderTopLeftRadius: {
-							xs: 0,
-							sm: "20px"
-						},
-						borderBottomLeftRadius: {
-							xs: 0,
-							sm: "20px"
-						}
-					}
-				}}
+				// sx={{
+				// 	zIndex: "99999999999"
+				// }}
 				anchor="right"
 				onOpen={() => setOpen(true)}
 				onClose={() => setOpen(false)}
@@ -71,7 +52,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 					sx={{
 						width: {
 							xs: "100vw",
-							sm: "80vw"
+							sm: "70vw"
 						},
 						height: "100vh"
 					}}
@@ -80,10 +61,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 						sx={{
 							boxShadow: 0,
 							position: "sticky",
-							borderTopLeftRadius: {
-								xs: 0,
-								sm: "20px"
-							},
+
 							background: "rgba(230,230,230,.5)",
 							backdropFilter: "blur(10px)",
 							py: 1,
@@ -125,7 +103,10 @@ export default function FullScreenDialog() {
 	useEffect(() =>
 		document
 			.querySelector(`meta[name="theme-color"]`)!
-			.setAttribute("content", open ? "rgb(230,230,230)" : "#808080")
+			.setAttribute(
+				"content",
+				window.innerWidth < 992 ? "rgb(230,230,230)" : "#808080"
+			)
 	);
 
 	return (
@@ -134,11 +115,22 @@ export default function FullScreenDialog() {
 				<span className="material-symbols-rounded">settings</span>
 			</IconButton>
 
-			<Dialog
-				fullScreen
+			<SwipeableDrawer
+				anchor="right"
+				swipeAreaWidth={0}
+				PaperProps={{
+					sx: {
+						width: {
+							xs: "100vw",
+							sm: "40vw"
+						}
+					}
+				}}
+				sx={{
+					backdropFilter: "blur(10px)"
+				}}
 				open={open}
 				onClose={handleClose}
-				TransitionComponent={Transition}
 			>
 				<AppBar
 					sx={{
@@ -237,7 +229,7 @@ export default function FullScreenDialog() {
 						<ListItemText primary="Legal" secondary="Food for lawyers" />
 					</ListItem>
 				</List>
-			</Dialog>
+			</SwipeableDrawer>
 		</div>
 	);
 }
