@@ -14,6 +14,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import AppearanceSettings from "./AppearanceSettings";
 import FinanceSettings from "./FinanceSettings";
 import AccountSettings from "./AccountSettings";
+import App from "./App";
 import Box from "@mui/material/Box";
 
 function SettingsMenu({ content, icon, primary, secondary }: any) {
@@ -195,7 +196,7 @@ export default function FullScreenDialog() {
 							secondary={null}
 						/>
 						<SettingsMenu
-							content={<p>test</p>}
+							content={<App />}
 							icon="apps"
 							primary="Third-party apps"
 							secondary={null}
@@ -213,7 +214,7 @@ export default function FullScreenDialog() {
 							secondary={null}
 						/>
 						<SettingsMenu
-							content={<p>test</p>}
+							content={<App />}
 							icon="smartphone"
 							primary="App"
 							secondary={null}

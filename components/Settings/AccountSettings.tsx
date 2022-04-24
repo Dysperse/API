@@ -6,7 +6,7 @@ import Radio from "@mui/material/Radio";
 import Switch from "@mui/material/Switch";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import InputAdornment from "@mui/material/InputAdornment";
+import Slider from "@mui/material/Slider";
 import TextField from "@mui/material/TextField";
 
 export default function AppearanceSettings() {
@@ -114,6 +114,38 @@ export default function AppearanceSettings() {
 					<ListItemButton sx={{ borderRadius: 4, transition: "none" }}>
 						<ListItemText primary="Student mode" />
 					</ListItemButton>
+				</ListItem>
+
+				<ListSubheader sx={{ background: "transparent" }}>
+					Home profile
+				</ListSubheader>
+				<ListItem>
+					<ListItemText
+						primary={
+							<TextField
+								fullWidth
+								variant="filled"
+								defaultValue={global.session && global.session.user.houseName}
+								label="What's your home's name?"
+							/>
+						}
+					/>
+				</ListItem>
+				<ListItem>
+					<ListItemText
+						primary="How many people do you live with?"
+						secondary={
+							<Slider
+								aria-label="How many people do you live with?"
+								defaultValue={30}
+								valueLabelDisplay="auto"
+								step={1}
+								marks
+								min={1}
+								max={15}
+							/>
+						}
+					/>
 				</ListItem>
 			</Box>
 		</>
