@@ -25,7 +25,9 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 					? window.innerWidth > 900
 						? "rgb(64, 64, 64)"
 						: "#eee"
-					: "#808080"
+					: window.innerWidth > 900
+					? "#808080"
+					: "#eee"
 			);
 	});
 	return (
@@ -41,9 +43,6 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 			<SwipeableDrawer
 				open={open}
 				swipeAreaWidth={0}
-				// sx={{
-				// 	zIndex: "99999999999"
-				// }}
 				anchor="right"
 				onOpen={() => setOpen(true)}
 				onClose={() => setOpen(false)}
