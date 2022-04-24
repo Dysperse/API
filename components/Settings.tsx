@@ -120,6 +120,7 @@ export default function FullScreenDialog() {
 			<SwipeableDrawer
 				anchor="right"
 				swipeAreaWidth={0}
+				onOpen={handleClickOpen}
 				PaperProps={{
 					sx: {
 						width: {
