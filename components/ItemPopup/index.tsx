@@ -51,8 +51,12 @@ export default function Item({ data, variant }: any) {
 				"content",
 				drawerState
 					? width > 900
-						? "#808080"
-						: "#eee"
+						? global.theme === "dark"
+							? "#101010"
+							: "#808080"
+						: global.theme === "dark"
+						? "#353535"
+						: "#fff"
 					: document.documentElement!.scrollTop === 0
 					? "#fff"
 					: blue[100]
@@ -127,7 +131,11 @@ export default function Item({ data, variant }: any) {
 				>
 					<AppBar
 						position="absolute"
-						sx={{ background: "#fff", py: 1, color: "#000" }}
+						sx={{
+							background: global.theme === "dark" ? "#353535" : "#fff",
+							py: 1,
+							color: global.theme === "dark" ? "#fff" : "#000"
+						}}
 						elevation={0}
 					>
 						<Toolbar>
@@ -253,7 +261,8 @@ export default function Item({ data, variant }: any) {
 									mb: 1,
 									boxShadow: 0,
 									borderRadius: "28px",
-									background: blueGrey[50],
+									background:
+										global.theme === "dark" ? blueGrey[900] : blueGrey[50],
 									transition: "all .03s",
 									...(star === 1 && {
 										background: orange[700],

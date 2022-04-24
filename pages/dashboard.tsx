@@ -19,7 +19,7 @@ export default function Dashboard() {
 				<Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
 					<Paper
 						key={(Math.random() + Math.random()).toString()}
-						sx={{ boxShadow: 0 }}
+						sx={{ elevation: 0 }}
 					>
 						{global.session ? (
 							<RecentItems />

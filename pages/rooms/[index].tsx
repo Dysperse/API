@@ -26,7 +26,7 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
 				boxShadow: 0,
 				borderRadius: "28px",
 				p: 1,
-				background: blueGrey[50]
+				background: global.theme === "dark" ? blueGrey[900] : blueGrey[50]
 			}}
 		>
 			<CardContent>
@@ -48,7 +48,7 @@ function Suggestions({ room, items }: any) {
 				boxShadow: 0,
 				borderRadius: "28px",
 				p: 1,
-				background: blueGrey[50],
+				background: global.theme === "dark" ? blueGrey[900] : blueGrey[50],
 				mb: 2
 			}}
 		>

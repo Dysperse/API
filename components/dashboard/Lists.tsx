@@ -26,7 +26,9 @@ function CreateListCard() {
 			.setAttribute(
 				"content",
 				open
-					? "#808080"
+					? global.theme === "dark"
+						? "#101010"
+						: "#808080"
 					: document.documentElement!.scrollTop === 0
 					? "#fff"
 					: blue[100]
@@ -45,7 +47,7 @@ function CreateListCard() {
 					borderRadius: "28px",
 					width: "100%",
 					textAlign: "center",
-					background: blueGrey[100],
+					background: global.theme === "dark" ? blueGrey[800] : blueGrey[100],
 					"& *": { transition: "all .05s !important" }
 				}}
 			>

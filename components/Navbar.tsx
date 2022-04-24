@@ -10,7 +10,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
-import { blue, blueGrey } from "@mui/material/colors";
+import { blue, grey } from "@mui/material/colors";
 
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 
@@ -28,29 +28,42 @@ function ElevationScroll(props: any) {
 		if (document && document.querySelector(`meta[name="theme-color"]`)) {
 			document
 				.querySelector(`meta[name="theme-color"]`)!
-				.setAttribute("content", trigger ? blue[100] : "#fff");
+				.setAttribute(
+					"content",
+					trigger
+						? global.theme === "dark"
+							? grey[800]
+							: blue[100]
+						: global.theme === "dark"
+						? "#121212"
+						: "#fff"
+				);
 		}
 	});
 	return React.cloneElement(children, {
 		sx: trigger
 			? {
-					color: "black",
+					color: global.theme === "dark" ? "white" : "black",
 					py: {
 						sm: 1,
 						xs: 0.5
 					},
 					transition: "all .2s",
-					background: "rgba(187, 222, 251, .7)",
+					background:
+						global.theme === "dark"
+							? "rgba(90,90,90,.7)"
+							: "rgba(187, 222, 251, .7)",
 					backdropFilter: "blur(20px)"
 			  }
 			: {
-					color: "#000",
+					color: global.theme === "dark" ? "white" : "black",
 					py: {
 						sm: 1,
 						xs: 0.5
 					},
 					transition: "all .2s",
-					background: "rgba(255,255,255,.5)",
+					background:
+						global.theme === "dark" ? "rgba(0,0,0,0)" : "rgba(255,255,255,.5)",
 					backdropFilter: "blur(10px)"
 			  }
 	});

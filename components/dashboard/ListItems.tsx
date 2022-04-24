@@ -45,7 +45,7 @@ export function ListItems({
 				borderRadius: "28px",
 				width: "100%",
 				p: 1,
-				background: blueGrey[50],
+				background: global.theme === "dark" ? blueGrey[900] : blueGrey[50],
 				boxShadow: 0
 			}}
 		>

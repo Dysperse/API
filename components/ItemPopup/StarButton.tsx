@@ -17,7 +17,7 @@ export function StarButton({ id, star, setStar }: any) {
 					mr: 1,
 					...(star === 1 && {
 						"&:hover": {
-							background: orange[50]
+							background: global.theme === "dark" ? orange[900] : orange[50]
 						}
 					})
 				}}
@@ -38,7 +38,9 @@ export function StarButton({ id, star, setStar }: any) {
 				{star === 1 ? (
 					<span
 						className="material-symbols-rounded"
-						style={{ color: orange[600] }}
+						style={{
+							color: global.theme === "dark" ? orange[200] : orange[600]
+						}}
 					>
 						star_border
 					</span>

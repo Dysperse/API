@@ -31,10 +31,10 @@ export function FloatingActionButton() {
 							px: 3,
 							boxShadow: 0,
 							fontSize: "15px",
-							background: blue[200],
-							color: blue[900],
+							background: global.theme === "dark" ? blue[900] : blue[200],
+							color: global.theme === "dark" ? blue[100] : blue[900],
 							"&:hover": {
-								background: blue[300]
+								background: global.theme === "dark" ? blue[800] : blue[300]
 							},
 							py: 2,
 							height: "auto",

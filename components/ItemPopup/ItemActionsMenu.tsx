@@ -59,18 +59,18 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 					"& .MuiPaper-root": {
 						borderRadius: "15px",
 						minWidth: 180,
-						background: blue[100],
+						background: global.theme === "dark" ? blue[900] : blue[100],
 
-						color: blue[800],
+						color: global.theme === "dark" ? blue[200] : blue[800],
 						"& .MuiMenu-list": {
 							padding: "4px"
 						},
 						"& .MuiMenuItem-root": {
 							"&:hover": {
-								background: blue[200],
-								color: blue[900],
+								background: global.theme === "dark" ? blue[800] : blue[200],
+								color: global.theme === "dark" ? blue[100] : blue[900],
 								"& .MuiSvgIcon-root": {
-									color: blue[800]
+									color: global.theme === "dark" ? blue[200] : blue[800]
 								}
 							},
 							padding: "10px 15px",
@@ -84,7 +84,7 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 								marginRight: 1.9
 							},
 							"&:active": {
-								background: blue[300]
+								background: global.theme === "dark" ? blue[700] : blue[300]
 							}
 						}
 					}

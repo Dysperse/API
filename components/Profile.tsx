@@ -89,7 +89,16 @@ export function ProfileMenu(props: any) {
 		);
 		document
 			.querySelector(`meta[name="theme-color"]`)!
-			.setAttribute("content", open ? "#808080" : "#fff");
+			.setAttribute(
+				"content",
+				open
+					? global.theme === "dark"
+						? "#101010"
+						: "#808080"
+					: global.theme === "dark"
+					? "#101010"
+					: "#fff"
+			);
 	}, [open]);
 	const toggleDrawer = (newOpen: boolean) => () => {
 		setOpen(newOpen);

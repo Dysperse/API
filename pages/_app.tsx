@@ -1,11 +1,14 @@
-import { blue } from "@mui/material/colors";
+import React, { useState } from "react";
 import Head from "next/head";
-import React from "react";
 import Layout from "../components/Layout";
 import "../styles/global.css";
 import useFetch from "react-fetch-hook";
+import {
+	ThemeProvider,
+	createTheme,
+	experimental_sx as sx
+} from "@mui/material/styles";
 
-declare var ACCOUNT_DATA: Object;
 declare var session: Object;
 
 function SmartlistApp({ user, Component, pageProps }: any): JSX.Element {
@@ -18,34 +21,25 @@ function SmartlistApp({ user, Component, pageProps }: any): JSX.Element {
 			token: ACCESS_TOKEN
 		})
 	});
-
-	var ACCOUNT_DATA = {
-		accessToken: ACCESS_TOKEN,
-		email: "manuthecoder@protonmail.com",
-		name: "Manu G",
-		financePlan: "medium-term",
-		image: "https://i.ibb.co/PrqtZZ3/2232ae71-edbe-4035-8c89-9cb9039fa06d.jpg",
-		notificationMin: 7,
-		budget: 185,
-		onboarding: 1,
-		verifiedEmail: 1,
-		purpose: "personal",
-		defaultPage: "finances",
-		studentMode: "on",
-		financeToken: "test_token_ianli4n7hb7q2",
-		familyCount: 9,
-		houseName: "Cluster d29bf0fd3106",
-		currency: "dollar",
-		theme: {
-			dark: [74, 20, 140],
-			original: [106, 27, 154],
-			light: [123, 31, 162],
-			tint: [243, 229, 245]
-		},
-		preferences: { homePage: "/app/pages/dashboard.php" }
-	};
-	global.ACCOUNT_DATA = ACCOUNT_DATA;
 	global.session = data;
+	const [theme, setTheme] = useState<"dark" | "light">("light");
+	global.theme = theme;
+	global.setTheme = setTheme;
+	const darkTheme = createTheme({
+		components: {
+			MuiPaper: {
+				defaultProps: { elevation: 0 }
+				// styleOverrides: {
+				// 	root: sx({
+				// 		boxShadow: 0
+				// 	})
+				// }
+			}
+		},
+		palette: {
+			mode: theme
+		}
+	});
 
 	return (
 		<>
@@ -110,9 +104,11 @@ function SmartlistApp({ user, Component, pageProps }: any): JSX.Element {
 				<link href="/logo/48x48.png" rel="shortcut icon" />
 				<title>Smartlist</title>
 			</Head>
-			<Layout>
-				<Component {...pageProps} />
-			</Layout>
+			<ThemeProvider theme={darkTheme}>
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
+			</ThemeProvider>
 		</>
 	);
 }

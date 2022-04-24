@@ -69,7 +69,14 @@ function ResponsiveDrawer(props: any): JSX.Element {
 		if (document.querySelector(`meta[name="theme-color"]`))
 			document
 				.querySelector(`meta[name="theme-color"]`)!
-				.setAttribute("content", mobileOpen ? "#808080" : blue[50]);
+				.setAttribute(
+					"content",
+					mobileOpen
+						? global.theme === "dark"
+							? "#101010"
+							: "#808080"
+						: blue[50]
+				);
 	});
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);

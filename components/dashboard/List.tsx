@@ -31,7 +31,10 @@ function CreateItemButton({
 	useEffect(() => {
 		document
 			.querySelector(`meta[name="theme-color"]`)!
-			.setAttribute("content", open ? "#404040" : "#808080");
+			.setAttribute(
+				"content",
+				open ? "#404040" : global.theme === "dark" ? "#101010" : "#808080"
+			);
 	});
 	const handleClickOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -379,7 +382,7 @@ export function List({
 						mb: 2,
 						width: "100%",
 						borderRadius: "28px",
-						background: blueGrey[50],
+						background: global.theme === "dark" ? blueGrey[900] : blueGrey[50],
 						boxShadow: 0
 					}}
 				>

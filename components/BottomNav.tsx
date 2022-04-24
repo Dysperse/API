@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 const styles = {
 	borderRadius: "15px",
-	color: "#505050",
+	color: global.theme === "dark" ? "#ccc" : "#505050",
 	px: "0!important",
 	maxWidth: "20vw!important",
 	minWidth: "20vw!important",
@@ -20,10 +20,16 @@ const styles = {
 	mr: "-1px",
 	transition: "background .2s",
 	"&:hover": {
-		background: "rgba(200, 200, 200, .5)"
+		background:
+			global.theme === "dark"
+				? "rgba(255,255,255,0.2)"
+				: "rgba(200, 200, 200, .5)"
 	},
 	"&:active": {
-		background: "rgba(200, 200, 200, .8)"
+		background:
+			global.theme === "dark"
+				? "rgba(255,255,255,.3)"
+				: "rgba(200, 200, 200, .8)"
 	},
 	"& span": { fontSize: "13px!important" },
 	"& svg": {
@@ -38,7 +44,7 @@ const styles = {
 		background: "rgba(150, 150, 150, .7)"
 	},
 	"&.Mui-selected": {
-		color: "#303030",
+		color: global.theme === "dark" ? "#fff" : "#303030",
 		background: "transparent !important"
 	}
 };
@@ -91,7 +97,10 @@ export function BottomNav() {
 					backdropFilter: "blur(15px)",
 					borderTopLeftRadius: "15px",
 					borderTopRightRadius: "15px",
-					background: "rgba(220,220,220,.9)"
+					background:
+						global.theme === "dark"
+							? "rgba(255,255,255,.1)"
+							: "rgba(220,220,220,.9)"
 				}}
 				showLabels
 				onChange={(event, newValue) => {

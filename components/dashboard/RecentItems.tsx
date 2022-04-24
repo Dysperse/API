@@ -31,7 +31,7 @@ export function RecentItems() {
 		<Card
 			sx={{
 				borderRadius: "28px",
-				background: blueGrey[50],
+				background: global.theme === "dark" ? blueGrey[900] : blueGrey[50],
 				boxShadow: 0,
 				p: 1
 			}}

@@ -94,7 +94,7 @@ function Puller() {
 			className="puller"
 			sx={{
 				width: "50px",
-				backgroundColor: "#eee",
+				backgroundColor: global.theme === "dark" ? "#505050" : "#eee",
 				height: "7px",
 				margin: "auto",
 				borderRadius: 9,
@@ -116,7 +116,16 @@ export default function AddPopup(props: any) {
 		);
 		document
 			.querySelector(`meta[name="theme-color"]`)!
-			.setAttribute("content", open ? "#808080" : "#fff");
+			.setAttribute(
+				"content",
+				open
+					? global.theme === "dark"
+						? "#101010"
+						: "#808080"
+					: global.theme === "dark"
+					? "#101010"
+					: "#fff"
+			);
 	});
 	const toggleDrawer = (newOpen: boolean) => () => {
 		setOpen(newOpen);
