@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
@@ -13,6 +13,8 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { blue } from "@mui/material/colors";
 import { TransitionProps } from "@mui/material/transitions";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Box from "@mui/material/Box";
 
 const Transition = React.forwardRef(function Transition(
 	props: TransitionProps & {
@@ -22,7 +24,74 @@ const Transition = React.forwardRef(function Transition(
 ) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });
-
+function SettingsMenu({ content, icon, primary, secondary }: any) {
+	const [open, setOpen] = useState(false);
+	useEffect(() => {
+		document
+			.querySelector(`meta[name="theme-color"]`)!
+			.setAttribute(
+				"content",
+				open ? (window.innerWidth > 900 ? "#808080" : "#eee") : "#eee"
+			);
+	});
+	return (
+		<>
+			<ListItem button onClick={() => setOpen(true)}>
+				<ListItemAvatar>
+					<Avatar sx={{ color: "#000", background: blue[100] }}>
+						<span className="material-symbols-rounded">{icon}</span>
+					</Avatar>
+				</ListItemAvatar>
+				<ListItemText primary={primary} secondary={secondary} />
+			</ListItem>
+			<SwipeableDrawer
+				open={open}
+				swipeAreaWidth={0}
+				sx={{ zIndex: "99999999999" }}
+				anchor="right"
+				onOpen={() => setOpen(true)}
+				onClose={() => setOpen(false)}
+			>
+				<Box
+					sx={{
+						width: {
+							xs: "100vw",
+							sm: "80vw"
+						},
+						height: "100vh"
+					}}
+				>
+					<AppBar
+						sx={{
+							boxShadow: 0,
+							position: "sticky",
+							background: "rgba(230,230,230,.5)",
+							backdropFilter: "blur(10px)",
+							py: 1,
+							color: "#000"
+						}}
+					>
+						<Toolbar>
+							<IconButton
+								edge="end"
+								color="inherit"
+								onClick={() => setOpen(false)}
+								aria-label="close"
+								sx={{ ml: -0.5 }}
+							>
+								<span className="material-symbols-rounded">chevron_left</span>{" "}
+							</IconButton>
+							<Typography sx={{ ml: 4, flex: 1 }} variant="h6" component="div">
+								{primary}
+							</Typography>
+						</Toolbar>
+					</AppBar>
+					{content}
+				</Box>
+			</SwipeableDrawer>
+		</>
+	);
+}
 export default function FullScreenDialog() {
 	const [open, setOpen] = React.useState(false);
 
@@ -78,102 +147,60 @@ export default function FullScreenDialog() {
 					</Toolbar>
 				</AppBar>
 				<List>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">palette</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Appearance"
-							secondary="Current theme: Blue"
-						/>
-					</ListItem>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">payments</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Finances"
-							secondary="Manage your connected bank account"
-						/>
-					</ListItem>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">account_circle</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Profile"
-							secondary="View and edit your account details"
-						/>
-					</ListItem>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">apps</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Connected apps"
-							secondary="View and edit access to third-party apps"
-						/>
-					</ListItem>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">notifications</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Notifications"
-							secondary="If an item's quantity is 10 or less"
-						/>
-					</ListItem>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">code</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText primary="Developer" secondary="Manage API keys" />
-					</ListItem>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">smartphone</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="App"
-							secondary="Download the Smartlist mobile and desktop app"
-						/>
-					</ListItem>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">history</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Login history"
-							secondary="View previous logins to this account"
-						/>
-					</ListItem>
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">sync</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Sync"
-							secondary="Sync your account with up to 3 people"
-						/>
-					</ListItem>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="palette"
+						primary="Appearance"
+						secondary="Current theme: Blue"
+					/>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="payments"
+						primary="Finances"
+						secondary={null}
+					/>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="account_circle"
+						primary="Account"
+						secondary={null}
+					/>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="apps"
+						primary="Third-party apps"
+						secondary={null}
+					/>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="notifications"
+						primary="Notifications"
+						secondary={null}
+					/>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="code"
+						primary="Developer"
+						secondary={null}
+					/>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="smartphone"
+						primary="App"
+						secondary={null}
+					/>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="history"
+						primary="Sessions"
+						secondary={null}
+					/>
+					<SettingsMenu
+						content={<p>test</p>}
+						icon="sync"
+						primary="Sync"
+						secondary={null}
+					/>
 					<Divider />
 
 					<ListItem button>

@@ -45,7 +45,7 @@ function CreateItemButton({
 		fetch("https://api.smartlist.tech/v2/lists/create-item/", {
 			method: "POST",
 			body: new URLSearchParams({
-				token: ACCOUNT_DATA.accessToken,
+				token: global.session ? global.session.accessToken : undefined,
 				parent: parent.toString(),
 				title: values.name,
 				description: values.description
@@ -200,7 +200,9 @@ function ListItem({ item, listItems, setListItems }: any) {
 							fetch("https://api.smartlist.tech/v2/lists/delete-item/", {
 								method: "POST",
 								body: new URLSearchParams({
-									token: ACCOUNT_DATA.accessToken,
+									token: global.session
+										? global.session.accessToken
+										: undefined,
 									id: item.id
 								})
 							});
@@ -347,7 +349,7 @@ export function List({
 		const data = await fetch("https://api.smartlist.tech/v2/lists/fetch/", {
 			method: "POST",
 			body: new URLSearchParams({
-				token: ACCOUNT_DATA.accessToken,
+				token: global.session ? global.session.accessToken : undefined,
 				parent: id.toString()
 			})
 		});

@@ -193,7 +193,9 @@ export default function Item({ data, variant }: any) {
 								fetch("https://api.smartlist.tech/v2/items/update-note/", {
 									method: "POST",
 									body: new URLSearchParams({
-										token: ACCOUNT_DATA.accessToken,
+										token: global.session
+											? global.session.accessToken
+											: undefined,
 										id: id.toString(),
 										date: dayjs().format("YYYY-M-D HH:mm:ss"),
 										content: e.target.value

@@ -131,7 +131,7 @@ export function Lists() {
 		{
 			method: "POST",
 			body: new URLSearchParams({
-				token: global.ACCOUNT_DATA.accessToken
+				token: global.session ? global.session.accessToken : undefined
 			}),
 			headers: { "Content-Type": "application/x-www-form-urlencoded" }
 		}
