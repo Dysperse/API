@@ -47,7 +47,22 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 			<SwipeableDrawer
 				open={open}
 				swipeAreaWidth={0}
-				sx={{ zIndex: "99999999999" }}
+				sx={{
+					zIndex: "99999999999",
+					backdropFilter: "blur(10px)"
+				}}
+				PaperProps={{
+					sx: {
+						borderTopLeftRadius: {
+							xs: 0,
+							sm: "20px"
+						},
+						borderBottomLeftRadius: {
+							xs: 0,
+							sm: "20px"
+						}
+					}
+				}}
 				anchor="right"
 				onOpen={() => setOpen(true)}
 				onClose={() => setOpen(false)}
@@ -65,6 +80,10 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 						sx={{
 							boxShadow: 0,
 							position: "sticky",
+							borderTopLeftRadius: {
+								xs: 0,
+								sm: "20px"
+							},
 							background: "rgba(230,230,230,.5)",
 							backdropFilter: "blur(10px)",
 							py: 1,
