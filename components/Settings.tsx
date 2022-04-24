@@ -132,103 +132,105 @@ export default function FullScreenDialog() {
 				open={open}
 				onClose={handleClose}
 			>
-				<AppBar
-					sx={{
-						boxShadow: 0,
-						position: "sticky",
-						background: "rgba(230,230,230,.5)",
-						backdropFilter: "blur(10px)",
-						py: 1,
-						color: "#000"
-					}}
-				>
-					<Toolbar>
-						<IconButton
-							edge="end"
-							color="inherit"
-							onClick={handleClose}
-							aria-label="close"
-							sx={{ ml: -0.5 }}
-						>
-							<span className="material-symbols-rounded">close</span>{" "}
-						</IconButton>
-						<Typography sx={{ ml: 4, flex: 1 }} variant="h6" component="div">
-							Settings
-						</Typography>
-					</Toolbar>
-				</AppBar>
-				<List>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="palette"
-						primary="Appearance"
-						secondary="Current theme: Blue"
-					/>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="payments"
-						primary="Finances"
-						secondary={null}
-					/>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="account_circle"
-						primary="Account"
-						secondary={null}
-					/>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="apps"
-						primary="Third-party apps"
-						secondary={null}
-					/>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="notifications"
-						primary="Notifications"
-						secondary={null}
-					/>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="code"
-						primary="Developer"
-						secondary={null}
-					/>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="smartphone"
-						primary="App"
-						secondary={null}
-					/>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="history"
-						primary="Sessions"
-						secondary={null}
-					/>
-					<SettingsMenu
-						content={<p>test</p>}
-						icon="sync"
-						primary="Sync"
-						secondary={null}
-					/>
-					<Divider />
-
-					<ListItem button>
-						<ListItemAvatar>
-							<Avatar sx={{ color: "#000", background: blue[100] }}>
-								<span className="material-symbols-rounded">logout</span>
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Sign out"
-							secondary="Sign out of Smartlist and it's related apps"
+				<Box sx={{ height: "100vh", overflow: "scroll" }}>
+					<AppBar
+						sx={{
+							boxShadow: 0,
+							position: "sticky",
+							background: "rgba(230,230,230,.5)",
+							backdropFilter: "blur(10px)",
+							py: 1,
+							color: "#000"
+						}}
+					>
+						<Toolbar>
+							<IconButton
+								edge="end"
+								color="inherit"
+								onClick={handleClose}
+								aria-label="close"
+								sx={{ ml: -0.5 }}
+							>
+								<span className="material-symbols-rounded">close</span>{" "}
+							</IconButton>
+							<Typography sx={{ ml: 4, flex: 1 }} variant="h6" component="div">
+								Settings
+							</Typography>
+						</Toolbar>
+					</AppBar>
+					<List>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="palette"
+							primary="Appearance"
+							secondary="Current theme: Blue"
 						/>
-					</ListItem>
-					<ListItem button>
-						<ListItemText primary="Legal" secondary="Food for lawyers" />
-					</ListItem>
-				</List>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="payments"
+							primary="Finances"
+							secondary={null}
+						/>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="account_circle"
+							primary="Account"
+							secondary={null}
+						/>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="apps"
+							primary="Third-party apps"
+							secondary={null}
+						/>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="notifications"
+							primary="Notifications"
+							secondary={null}
+						/>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="code"
+							primary="Developer"
+							secondary={null}
+						/>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="smartphone"
+							primary="App"
+							secondary={null}
+						/>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="history"
+							primary="Sessions"
+							secondary={null}
+						/>
+						<SettingsMenu
+							content={<p>test</p>}
+							icon="sync"
+							primary="Sync"
+							secondary={null}
+						/>
+						<Divider />
+
+						<ListItem button>
+							<ListItemAvatar>
+								<Avatar sx={{ color: "#000", background: blue[100] }}>
+									<span className="material-symbols-rounded">logout</span>
+								</Avatar>
+							</ListItemAvatar>
+							<ListItemText
+								primary="Sign out"
+								secondary="Sign out of Smartlist and it's related apps"
+							/>
+						</ListItem>
+						<ListItem button>
+							<ListItemText primary="Legal" secondary="Food for lawyers" />
+						</ListItem>
+					</List>
+				</Box>
 			</SwipeableDrawer>
 		</div>
 	);
