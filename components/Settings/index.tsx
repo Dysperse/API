@@ -11,9 +11,10 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { blue } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Box from "@mui/material/Box";
-
 import AppearanceSettings from "./AppearanceSettings";
+import FinanceSettings from "./FinanceSettings";
+import AccountSettings from "./AccountSettings";
+import Box from "@mui/material/Box";
 
 function SettingsMenu({ content, icon, primary, secondary }: any) {
 	const [open, setOpen] = useState(false);
@@ -35,7 +36,12 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 		<>
 			<ListItem button onClick={() => setOpen(true)}>
 				<ListItemAvatar>
-					<Avatar sx={{ color: "#000", background: blue[100] }}>
+					<Avatar
+						sx={{
+							color: global.theme === "dark" ? "#fff" : "#000",
+							background: global.theme === "dark" ? blue[900] : blue[100]
+						}}
+					>
 						<span className="material-symbols-rounded">{icon}</span>
 					</Avatar>
 				</ListItemAvatar>
@@ -52,9 +58,10 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 					sx={{
 						width: {
 							xs: "100vw",
-							sm: "70vw"
+							sm: "60vw"
 						},
-						height: "100vh"
+						height: "100vh",
+						overflow: "scroll"
 					}}
 				>
 					<AppBar
@@ -62,10 +69,13 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 							boxShadow: 0,
 							position: "sticky",
 
-							background: "rgba(230,230,230,.5)",
+							background:
+								global.theme === "dark"
+									? "rgba(255,255,255,.1)"
+									: "rgba(230,230,230,.5)",
 							backdropFilter: "blur(10px)",
 							py: 1,
-							color: "#000"
+							color: global.theme === "dark" ? "#fff" : "#000"
 						}}
 					>
 						<Toolbar>
@@ -141,10 +151,13 @@ export default function FullScreenDialog() {
 						sx={{
 							boxShadow: 0,
 							position: "sticky",
-							background: "rgba(230,230,230,.5)",
+							background:
+								global.theme === "dark"
+									? "rgba(255,255,255,.1)"
+									: "rgba(230,230,230,.5)",
 							backdropFilter: "blur(10px)",
 							py: 1,
-							color: "#000"
+							color: global.theme === "dark" ? "#fff" : "#000"
 						}}
 					>
 						<Toolbar>
@@ -167,16 +180,16 @@ export default function FullScreenDialog() {
 							content={<AppearanceSettings />}
 							icon="palette"
 							primary="Appearance"
-							secondary="Current theme: Blue"
+							secondary={"Current theme: " + global.theme}
 						/>
 						<SettingsMenu
-							content={<p>test</p>}
+							content={<FinanceSettings />}
 							icon="payments"
 							primary="Finances"
 							secondary={null}
 						/>
 						<SettingsMenu
-							content={<p>test</p>}
+							content={<AccountSettings />}
 							icon="account_circle"
 							primary="Account"
 							secondary={null}

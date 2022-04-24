@@ -6,7 +6,7 @@ import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
 import { GenerateListItem } from "./GenerateListItem";
-import { blueGrey } from "@mui/material/colors";
+import { blueGrey, grey } from "@mui/material/colors";
 
 export function ListItems({
 	parent,
@@ -45,7 +45,7 @@ export function ListItems({
 				borderRadius: "28px",
 				width: "100%",
 				p: 1,
-				background: global.theme === "dark" ? blueGrey[900] : blueGrey[50],
+				background: global.theme === "dark" ? grey[900] : blueGrey[50],
 				boxShadow: 0
 			}}
 		>

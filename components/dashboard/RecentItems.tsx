@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
-import { blueGrey } from "@mui/material/colors";
+import { blueGrey, grey } from "@mui/material/colors";
 import { RecentItem } from "./RecentItem";
 import useFetch from "react-fetch-hook";
 
@@ -31,7 +31,7 @@ export function RecentItems() {
 		<Card
 			sx={{
 				borderRadius: "28px",
-				background: global.theme === "dark" ? blueGrey[900] : blueGrey[50],
+				background: global.theme === "dark" ? grey[900] : blueGrey[50],
 				boxShadow: 0,
 				p: 1
 			}}

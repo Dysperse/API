@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { blue, blueGrey } from "@mui/material/colors";
+import { blue, blueGrey,grey } from "@mui/material/colors";
 import { List } from "./List";
 
 function CreateListCard() {
@@ -47,7 +47,7 @@ function CreateListCard() {
 					borderRadius: "28px",
 					width: "100%",
 					textAlign: "center",
-					background: global.theme === "dark" ? blueGrey[800] : blueGrey[100],
+					background: global.theme === "dark" ? grey[800] : blueGrey[100],
 					"& *": { transition: "all .05s !important" }
 				}}
 			>

@@ -10,7 +10,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
 import Collapse from "@mui/material/Collapse";
-import { blueGrey, blue } from "@mui/material/colors";
+import { blueGrey, blue,grey } from "@mui/material/colors";
 import { Formik, Form } from "formik";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -382,7 +382,7 @@ export function List({
 						mb: 2,
 						width: "100%",
 						borderRadius: "28px",
-						background: global.theme === "dark" ? blueGrey[900] : blueGrey[50],
+						background: global.theme === "dark" ? grey[900] : blueGrey[50],
 						boxShadow: 0
 					}}
 				>
