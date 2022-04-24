@@ -100,14 +100,17 @@ export default function FullScreenDialog() {
 		setOpen(false);
 	};
 
-	useEffect(() =>
+	useEffect(() => {
+		document.documentElement.classList[open ? "add" : "remove"](
+			"prevent-scroll"
+		);
 		document
 			.querySelector(`meta[name="theme-color"]`)!
 			.setAttribute(
 				"content",
 				window.innerWidth < 992 ? "rgb(230,230,230)" : "#808080"
-			)
-	);
+			);
+	});
 
 	return (
 		<div>
