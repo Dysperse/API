@@ -37,6 +37,7 @@ export function SortMenu() {
 				Sort by
 			</Button>
 			<Menu
+				BackdropProps={{ sx: { opacity: "0!important" } }}
 				id="basic-menu"
 				anchorEl={anchorEl}
 				open={open}

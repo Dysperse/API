@@ -141,9 +141,6 @@ export default function FullScreenDialog() {
 						}
 					}
 				}}
-				sx={{
-					backdropFilter: "blur(10px)"
-				}}
 				open={open}
 				onClose={handleClose}
 			>

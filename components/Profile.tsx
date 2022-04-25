@@ -154,9 +154,6 @@ export function ProfileMenu(props: any) {
 				ModalProps={{
 					keepMounted: true
 				}}
-				sx={{
-					backdropFilter: "blur(10px)"
-				}}
 				PaperProps={{
 					sx: {
 						width: {

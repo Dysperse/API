@@ -73,7 +73,6 @@ export function AddToListModal({ handleClose }: any) {
 				TransitionComponent={Transition}
 				keepMounted
 				sx={{
-					backdropFilter: "blur(10px)",
 					transition: "all .2s"
 				}}
 				onClose={handleClose}

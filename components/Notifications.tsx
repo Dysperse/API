@@ -78,7 +78,6 @@ export function NotificationsMenu(props: any): JSX.Element {
 			<div onClick={() => setState(true)}>{props.children}</div>
 			<SwipeableDrawer
 				anchor={"right"}
-				sx={{ backdropFilter: "blur(10px)" }}
 				open={state}
 				onOpen={() => setState(true)}
 				onClose={() => setState(false)}

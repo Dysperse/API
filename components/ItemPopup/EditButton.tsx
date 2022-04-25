@@ -76,8 +76,7 @@ export function EditButton({
 				open={open}
 				onClose={handleClose}
 				sx={{
-					transition: "all .2s",
-					backdropFilter: "blur(10px)"
+					transition: "all .2s"
 				}}
 				PaperProps={{
 					sx: {

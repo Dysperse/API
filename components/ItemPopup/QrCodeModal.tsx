@@ -43,7 +43,6 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
 				open={open}
 				onClose={handleClose}
 				sx={{
-					backdropFilter: "blur(10px)",
 					transition: "all .2s"
 				}}
 				PaperProps={{

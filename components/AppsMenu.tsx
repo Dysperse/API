@@ -170,6 +170,7 @@ export function AppsMenu() {
 				)}
 			</Tooltip>
 			<Menu
+				BackdropProps={{ sx: { opacity: "0!important" } }}
 				id="demo-positioned-menu"
 				aria-labelledby="demo-positioned-button"
 				anchorEl={anchorEl}

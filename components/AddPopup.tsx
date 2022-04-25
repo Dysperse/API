@@ -4,6 +4,8 @@ import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import DialogTitle from "@mui/material/DialogTitle";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
@@ -11,28 +13,34 @@ import { CreateItemModal } from "./CreateItemModal";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import MicrowaveIcon from "@mui/icons-material/Microwave";
-import GarageIcon from "@mui/icons-material/Garage";
-import DiningIcon from "@mui/icons-material/Dining";
-import BedroomParentIcon from "@mui/icons-material/BedroomParent";
-import BathroomIcon from "@mui/icons-material/Bathroom";
-import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
-import LivingIcon from "@mui/icons-material/Living";
 
 const Root = styled("div")(({ theme }) => ({
 	height: "100%"
 }));
 
-function AddItemOption({ toggleDrawer, icon, title }: any): JSX.Element {
+function AddItemOption({ s = 3, toggleDrawer, icon, title }: any): JSX.Element {
 	return (
-		<Grid item xs={3}>
+		<Grid item xs={s}>
 			<CreateItemModal room={title} toggleDrawer={toggleDrawer}>
 				<Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
-					<CardActionArea onClick={() => toggleDrawer(false)}>
+					<CardActionArea
+						disableRipple
+						onClick={() => toggleDrawer(false)}
+						sx={{
+							"&:hover": {
+								background: "rgba(200,200,200,.3)!important"
+							},
+							"&:focus": {
+								background: "rgba(200,200,200,.5)!important"
+							},
+							"&:active": {
+								background: "rgba(200,200,200,.6)!important"
+							}
+						}}
+					>
 						<CardContent sx={{ p: 1 }}>
 							<Typography variant="h4">{icon}</Typography>
-							<Typography variant="body2">{title}</Typography>
+							<Typography>{title}</Typography>
 						</CardContent>
 					</CardActionArea>
 				</Card>
@@ -43,46 +51,70 @@ function AddItemOption({ toggleDrawer, icon, title }: any): JSX.Element {
 function Content({ toggleDrawer }: any) {
 	return (
 		<List sx={{ width: "100%", bgcolor: "background.paper" }}>
-			<Grid container sx={{ px: 1 }}>
+			<Grid container sx={{ p: 1 }}>
 				<AddItemOption
 					toggleDrawer={toggleDrawer}
 					title="Kitchen"
-					icon={<MicrowaveIcon />}
+					icon={<span className="material-symbols-rounded">microwave</span>}
 				/>
 				<AddItemOption
 					toggleDrawer={toggleDrawer}
 					title="Bathroom"
-					icon={<BathroomIcon />}
+					icon={<span className="material-symbols-rounded">bathroom</span>}
 				/>
 				<AddItemOption
 					toggleDrawer={toggleDrawer}
 					title="Bedroom"
-					icon={<BedroomParentIcon />}
+					icon={
+						<span className="material-symbols-rounded">bedroom_parent</span>
+					}
 				/>
 				<AddItemOption
 					toggleDrawer={toggleDrawer}
 					title="Garage"
-					icon={<GarageIcon />}
+					icon={<span className="material-symbols-rounded">garage</span>}
 				/>
 				<AddItemOption
 					toggleDrawer={toggleDrawer}
 					title="Living room"
-					icon={<LivingIcon />}
+					icon={<span className="material-symbols-rounded">living</span>}
 				/>
 				<AddItemOption
 					toggleDrawer={toggleDrawer}
 					title="Dining room"
-					icon={<DiningIcon />}
+					icon={<span className="material-symbols-rounded">dining</span>}
 				/>
 				<AddItemOption
 					toggleDrawer={toggleDrawer}
 					title="Laundry room"
-					icon={<LocalLaundryServiceIcon />}
+					icon={
+						<span className="material-symbols-rounded">
+							local_laundry_service
+						</span>
+					}
 				/>
 				<AddItemOption
 					toggleDrawer={toggleDrawer}
 					title="Storage room"
-					icon={<Inventory2Icon />}
+					icon={<span className="material-symbols-rounded">inventory_2</span>}
+				/>
+			</Grid>
+			<Box sx={{ px: 5 }}>
+				<Divider />
+			</Box>
+
+			<Grid container sx={{ p: 1 }}>
+				<AddItemOption
+					s={6}
+					toggleDrawer={toggleDrawer}
+					title="Reminder"
+					icon={<span className="material-symbols-rounded">check</span>}
+				/>
+				<AddItemOption
+					s={6}
+					toggleDrawer={toggleDrawer}
+					title="Shopping list"
+					icon={<span className="material-symbols-rounded">receipt_long</span>}
 				/>
 			</Grid>
 		</List>
@@ -145,44 +177,30 @@ export default function AddPopup(props: any) {
 			<Box onClick={toggleDrawer(true)}>{props.children}</Box>
 
 			<SwipeableDrawer
-				sx={{
-					backdropFilter: "blur(20px)"
-				}}
 				anchor="bottom"
 				swipeAreaWidth={0}
 				PaperProps={{
 					sx: {
 						width: {
-							sm: "50vw",
-							xs: "calc(100% - 30px)"
+							xs: "100vw",
+							sm: "50vw"
 						},
 						"& *:not(.MuiTouchRipple-child, .puller)": {
 							background: "transparent!important"
 						},
-						borderRadius: "28px!important",
-						mb: "15px",
-						mx: {
-							sm: "auto",
-							xs: "15px"
-						}
+						borderRadius: "28px 28px 0 0 !important",
+						mx: "auto"
 					}
 				}}
 				open={open}
 				onClose={toggleDrawer(false)}
 				onOpen={toggleDrawer(true)}
 				ModalProps={{
-					keepMounted: true,
-					sx: {
-						backdropFilter: "blur(20px)"
-					}
+					keepMounted: true
 				}}
 			>
 				<Puller />
-				<Typography
-					sx={{ textAlign: "center", mt: 3.5, color: "text.secondary" }}
-				>
-					Create
-				</Typography>
+				<DialogTitle sx={{ mt: 2, textAlign: "center" }}>Create</DialogTitle>
 				<Content toggleDrawer={toggleDrawer} />
 			</SwipeableDrawer>
 		</Root>

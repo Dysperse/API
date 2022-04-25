@@ -100,7 +100,6 @@ export default function Item({ data, variant }: any) {
 			/>
 			<SwipeableDrawer
 				sx={{
-					backdropFilter: "blur(10px)",
 					opacity: "1!important"
 				}}
 				PaperProps={{

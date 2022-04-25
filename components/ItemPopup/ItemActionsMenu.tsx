@@ -38,6 +38,7 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 				</IconButton>
 			</Tooltip>
 			<Menu
+				BackdropProps={{ sx: { opacity: "0!important" } }}
 				elevation={0}
 				id="basic-menu"
 				anchorOrigin={{

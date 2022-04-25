@@ -95,7 +95,6 @@ function CreateItemButton({
 				Create item
 			</Button>
 			<SwipeableDrawer
-				sx={{ backdropFilter: "blur(10px)", transition: "all .2s!important" }}
 				anchor="bottom"
 				onKeyDown={stopPropagationForTab}
 				swipeAreaWidth={0}

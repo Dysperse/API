@@ -49,11 +49,11 @@ function ElevationScroll(props: any) {
 						xs: 0.5
 					},
 					transition: "all .2s",
+					backdropFilter: "blur(10px)",
 					background:
 						global.theme === "dark"
 							? "rgba(90,90,90,.7)"
-							: "rgba(187, 222, 251, .7)",
-					backdropFilter: "blur(20px)"
+							: "rgba(187, 222, 251, .7)"
 			  }
 			: {
 					color: global.theme === "dark" ? "white" : "black",

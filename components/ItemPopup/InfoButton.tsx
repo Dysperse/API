@@ -33,7 +33,6 @@ export function InfoButton({ title, quantity, star }: any): JSX.Element {
 			<Dialog
 				open={open}
 				sx={{
-					backdropFilter: "blur(10px)",
 					transition: "all .2s"
 				}}
 				onClose={handleClose}

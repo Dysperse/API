@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { blue, blueGrey,grey } from "@mui/material/colors";
+import { blue, blueGrey, grey } from "@mui/material/colors";
 import { List } from "./List";
 
 function CreateListCard() {
@@ -74,10 +74,6 @@ function CreateListCard() {
 						mx: "auto"
 					}
 				}}
-				sx={{
-					backdropFilter: "blur(10px)"
-				}}
-				open={open}
 				onClose={toggleDrawer(false)}
 				onOpen={toggleDrawer(true)}
 				ModalProps={{
