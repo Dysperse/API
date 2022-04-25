@@ -121,9 +121,7 @@ export function CreateItemModal({
 						{({ handleChange, values, setFieldValue }) => (
 							<Form>
 								<TextField
-									// inputRef={(input) =>
-									// 	setTimeout(() => input && input.focus(), 100)
-									// }
+									autoFocus
 									margin="dense"
 									label="Title"
 									fullWidth
@@ -146,6 +144,7 @@ export function CreateItemModal({
 								<Autocomplete
 									id="categories"
 									multiple
+									inputRef={(input) => input && input.focus()}
 									freeSolo
 									disabled={loading}
 									options={[1, 2, 3]}
@@ -168,17 +167,34 @@ export function CreateItemModal({
 									)}
 								/>
 								<LoadingButton
-									sx={{ mt: 1, float: "right" }}
+									disableElevation
+									sx={{
+										textTransform: "none",
+										ml: 1,
+										mt: 2,
+										float: "right",
+										borderRadius: 100
+									}}
+									size="large"
+									variant="contained"
 									color="primary"
 									type="submit"
 									loading={loading}
 									onClick={() => setTimeout(setClickLoading, 10)}
-									variant="outlined"
 								>
 									Create
 								</LoadingButton>
 								<Button
-									sx={{ mt: 1, mr: 1, float: "right" }}
+									disableElevation
+									sx={{
+										textTransform: "none",
+										ml: 1,
+										mt: 2,
+										float: "right",
+										borderRadius: 100
+									}}
+									size="large"
+									variant="outlined"
 									color="primary"
 									type="button"
 									onClick={() => {

@@ -131,7 +131,6 @@ function CreateItemButton({
 					<DialogContent>
 						<DialogContentText id="alert-dialog-description">
 							<TextField
-								ref={focusUsernameInputField}
 								autoFocus
 								id="name"
 								fullWidth
