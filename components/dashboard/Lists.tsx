@@ -91,7 +91,7 @@ function CreateListCard() {
 						margin="dense"
 						label="Title"
 						fullWidth
-						autoComplete={"off"}
+						autoComplete="off"
 						name="title"
 						variant="filled"
 					/>
@@ -99,7 +99,7 @@ function CreateListCard() {
 						margin="dense"
 						label="Description"
 						fullWidth
-						autoComplete={"off"}
+						autoComplete="off"
 						name="title"
 						variant="filled"
 					/>
@@ -109,7 +109,6 @@ function CreateListCard() {
 						color="primary"
 						type="submit"
 						loading={false}
-						// onClick={() => setTimeout(setClickLoading, 10)}
 						variant="outlined"
 					>
 						Create
@@ -118,10 +117,6 @@ function CreateListCard() {
 						sx={{ mt: 1, mr: 1, float: "right" }}
 						color="primary"
 						type="button"
-						onClick={() => {
-							// setLoading(false);
-							// setOpen(false);
-						}}
 					>
 						Back
 					</Button>
