@@ -144,7 +144,6 @@ export function CreateItemModal({
 								<Autocomplete
 									id="categories"
 									multiple
-									inputRef={(input) => input && input.focus()}
 									freeSolo
 									disabled={loading}
 									options={[1, 2, 3]}
