@@ -96,6 +96,7 @@ function CreateItemButton({
 			</Button>
 			<SwipeableDrawer
 				anchor="bottom"
+				open={open}
 				onKeyDown={stopPropagationForTab}
 				swipeAreaWidth={0}
 				disableSwipeToOpen={true}
