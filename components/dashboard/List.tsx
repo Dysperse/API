@@ -9,7 +9,6 @@ import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
-import Collapse from "@mui/material/Collapse";
 import { blueGrey, blue, grey } from "@mui/material/colors";
 import { useFormik } from "formik";
 import DialogActions from "@mui/material/DialogActions";
@@ -243,6 +242,7 @@ function ListPopup({
 	});
 	return (
 		<SwipeableDrawer
+			open={drawerState}
 			anchor="bottom"
 			sx={{
 				backdropFilter: "blur(10px)"
@@ -259,7 +259,6 @@ function ListPopup({
 					mx: "auto"
 				}
 			}}
-			open={drawerState}
 			onClose={() => setDrawerState(false)}
 			onOpen={() => setDrawerState(true)}
 		>
