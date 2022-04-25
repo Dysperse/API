@@ -62,7 +62,7 @@ export function CreateItemModal({
 		},
 		{ resetForm }: any
 	) => {
-		const data = await fetch("https://api.smartlist.tech/v2/items/create/", {
+		await fetch("https://api.smartlist.tech/v2/items/create/", {
 			method: "POST",
 			body: new URLSearchParams({
 				token: session && session.accessToken,

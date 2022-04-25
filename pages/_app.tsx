@@ -105,9 +105,15 @@ function SmartlistApp({ user, Component, pageProps }: any): JSX.Element {
 				<title>Smartlist</title>
 			</Head>
 			<ThemeProvider theme={darkTheme}>
-				<Layout>
-					<Component {...pageProps} />
-				</Layout>
+				{global.session && global.session.user ? (
+					<Layout>
+						<Component {...pageProps} />
+					</Layout>
+				) : global.session ? (
+					"Login prompt"
+				) : (
+					""
+				)}
 			</ThemeProvider>
 		</>
 	);
