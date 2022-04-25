@@ -113,7 +113,6 @@ function CreateItemButton({
 						mx: "auto"
 					}
 				}}
-				open={open}
 				onClose={handleClose}
 				onOpen={() => setOpen(true)}
 			>
