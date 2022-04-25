@@ -74,13 +74,6 @@ function CreateItemButton({
 			event.stopPropagation();
 		}
 	};
-	const focusUsernameInputField = (input: any) => {
-		if (input) {
-			setTimeout(() => {
-				input.focus();
-			}, 100);
-		}
-	};
 
 	return (
 		<>
