@@ -64,6 +64,7 @@ function CreateListCard() {
 				</CardActionArea>
 			</Card>
 			<SwipeableDrawer
+				open={open}
 				anchor="bottom"
 				PaperProps={{
 					sx: {
