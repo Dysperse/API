@@ -112,6 +112,9 @@ const ListItem = React.memo(function ListItem({
 					"& .MuiTouchRipple-rippleVisible": {
 						animationDuration: ".3s!important"
 					},
+					"& .MuiTouchRipple-child": {
+						filter: "opacity(.2)!important"
+					},
 					"&:hover": {
 						background: "rgba(200,200,200,.1)"
 					},
