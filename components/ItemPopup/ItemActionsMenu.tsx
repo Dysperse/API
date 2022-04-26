@@ -43,11 +43,11 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 				id="basic-menu"
 				anchorOrigin={{
 					vertical: "bottom",
-					horizontal: "center"
+					horizontal: "right"
 				}}
 				transformOrigin={{
 					vertical: "top",
-					horizontal: "center"
+					horizontal: "right"
 				}}
 				transitionDuration={300}
 				anchorEl={anchorEl}

@@ -31,7 +31,9 @@ img {
 	filter: opacity(0.4) !important;
 }
 
-.MuiBackdrop-root {
-	backdrop-filter: blur(20px);
-	background-color: rgba(0, 0, 0, 0.25);
+@supports (backdrop-filter: blur(20px)) {
+	.MuiBackdrop-root {
+		backdrop-filter: blur(10px);
+		background-color: rgba(0, 0, 0, 0.4) !important;
+	}
 }

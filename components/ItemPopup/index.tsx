@@ -103,12 +103,13 @@ export default function Item({ data, variant }: any) {
 					opacity: "1!important"
 				}}
 				PaperProps={{
+					elevation: 0,
 					sx: {
 						borderRadius: { sm: 4 },
 						overflow: "hidden!important",
-						mt: { sm: "7px" },
-						mr: { sm: "7px" },
-						height: { sm: "calc(100vh - 14px)!important" }
+						mt: { sm: "10px" },
+						mr: { sm: "10px" },
+						height: { sm: "calc(100vh - 20px)!important" }
 					}
 				}}
 				swipeAreaWidth={0}
@@ -151,7 +152,12 @@ export default function Item({ data, variant }: any) {
 								</IconButton>
 							</Tooltip>
 							<Typography sx={{ flexGrow: 1 }}></Typography>
-							<StarButton id={id} star={star} setStar={setStar} />
+							<StarButton
+								setLastUpdated={setLastUpdated}
+								id={id}
+								star={star}
+								setStar={setStar}
+							/>
 							<EditButton
 								id={id}
 								title={title}

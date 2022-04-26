@@ -237,9 +237,6 @@ function ListPopup({
 		<SwipeableDrawer
 			open={drawerState}
 			anchor="bottom"
-			sx={{
-				backdropFilter: "blur(10px)"
-			}}
 			swipeAreaWidth={0}
 			disableSwipeToOpen={true}
 			PaperProps={{

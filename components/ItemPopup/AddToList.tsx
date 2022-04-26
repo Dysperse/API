@@ -12,20 +12,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-
-import Grow from "@mui/material/Grow";
-import { TransitionProps } from "@mui/material/transitions";
 import Skeleton from "@mui/material/Skeleton";
 import useFetch from "react-fetch-hook";
-
-const Transition = React.forwardRef(function Transition(
-	props: TransitionProps & {
-		children: React.ReactElement<any, any>;
-	},
-	ref: React.Ref<unknown>
-) {
-	return <Grow in={true} ref={ref} {...props} />;
-});
 
 function RoomList() {
 	const { isLoading, data }: any = useFetch(
@@ -41,13 +29,8 @@ function RoomList() {
 
 	return isLoading ? (
 		<>
-			{[1, 2, 3, 4, 5, 6].map((_, __) => (
-				<Skeleton
-					key={Math.random().toExponential()}
-					variant="text"
-					animation="wave"
-					sx={{ borderRadius: "28px" }}
-				/>
+			{[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1].map((_, __) => (
+				<Skeleton key={Math.random().toExponential()} animation="wave" />
 			))}
 		</>
 	) : (
@@ -70,13 +53,7 @@ export function AddToListModal({ handleClose }: any) {
 		<>
 			<Dialog
 				open={open}
-				TransitionComponent={Transition}
-				keepMounted
-				sx={{
-					transition: "all .2s"
-				}}
 				onClose={handleClose}
-				aria-describedby="alert-dialog-slide-description"
 				PaperProps={{
 					sx: {
 						width: "400px",

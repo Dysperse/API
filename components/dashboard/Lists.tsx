@@ -105,18 +105,34 @@ function CreateListCard() {
 					/>
 
 					<LoadingButton
-						sx={{ mt: 1, float: "right" }}
+						size="large"
+						disableElevation
+						sx={{
+							float: "right",
+							textTransform: "none",
+							mr: 1,
+							mt: 2,
+							borderRadius: 100
+						}}
 						color="primary"
 						type="submit"
 						loading={false}
-						variant="outlined"
+						variant="contained"
 					>
 						Create
 					</LoadingButton>
 					<Button
-						sx={{ mt: 1, mr: 1, float: "right" }}
+						sx={{
+							float: "right",
+							textTransform: "none",
+							mr: 1,
+							mt: 2,
+							borderRadius: 100
+						}}
+						size="large"
 						color="primary"
 						type="button"
+						variant="outlined"
 					>
 						Back
 					</Button>

@@ -130,9 +130,7 @@ export function ProfileMenu(props: any) {
 						<Avatar
 							sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}
 							src={global.session.user.image}
-						>
-							{global.session.user.name}
-						</Avatar>
+						/>
 					) : (
 						<Skeleton
 							variant="circular"
