@@ -16,6 +16,12 @@ import { blue, blueGrey, grey } from "@mui/material/colors";
 import { List } from "./List";
 import { useFormik } from "formik";
 
+const stopPropagationForTab = (event: any) => {
+	if (event.key !== "Esc") {
+		event.stopPropagation();
+	}
+};
+
 function CreateListCard({ lists, setLists }: any) {
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -99,6 +105,7 @@ function CreateListCard({ lists, setLists }: any) {
 				</CardActionArea>
 			</Card>
 			<SwipeableDrawer
+				onKeyDown={stopPropagationForTab}
 				open={open}
 				anchor="bottom"
 				PaperProps={{
@@ -135,16 +142,6 @@ function CreateListCard({ lists, setLists }: any) {
 							onChange={formik.handleChange}
 							value={formik.values.title}
 						/>
-						<TextField
-							margin="dense"
-							label="Description"
-							fullWidth
-							autoComplete="off"
-							name="description"
-							variant="filled"
-							onChange={formik.handleChange}
-							value={formik.values.description}
-						/>
 
 						<LoadingButton
 							size="large"
@@ -166,6 +163,7 @@ function CreateListCard({ lists, setLists }: any) {
 							Create
 						</LoadingButton>
 						<Button
+							onClick={() => setOpen(false)}
 							sx={{
 								float: "right",
 								textTransform: "none",
@@ -179,7 +177,7 @@ function CreateListCard({ lists, setLists }: any) {
 							type="reset"
 							variant="outlined"
 						>
-							Back
+							Cancel
 						</Button>
 					</Box>
 				</form>
@@ -196,6 +194,7 @@ function RenderLists({ data }: any) {
 				<List
 					key={Math.random().toString()}
 					title={list.title}
+					count={parseInt(list.count)}
 					description={list.description}
 					id={list.id}
 				/>

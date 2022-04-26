@@ -335,10 +335,12 @@ function ListPopup({
 }
 
 export function List({
+	count,
 	title,
 	description,
 	id
 }: {
+	count: number;
 	title: string;
 	description: string;
 	id: number;
@@ -399,7 +401,7 @@ export function List({
 								{title}
 							</Typography>
 							<Typography variant="body2" color="text.secondary">
-								{description}
+								{count} item{count !== 1 && "s"}
 							</Typography>
 						</CardContent>
 					</CardActionArea>

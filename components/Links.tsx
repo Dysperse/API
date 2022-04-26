@@ -109,19 +109,33 @@ const ListItem = React.memo(function ListItem({
 				sx={{
 					pl: 4,
 					borderRadius: "0 20px 20px 0",
+					"& .MuiTouchRipple-rippleVisible": {
+						animationDuration: ".3s!important"
+					},
+					"&:hover": {
+						background: "rgba(200,200,200,.1)"
+					},
+					"&:active": {
+						background: "rgba(200,200,200,.3)"
+					},
 					...(router.asPath === asHref && {
 						backgroundColor: blue[50],
-						transition: "all .2s",
 						color: blue[800],
 						"&:hover": {
 							backgroundColor: blue[100],
 							color: blue[900]
+						},
+						"&:active": {
+							backgroundColor: blue[200]
 						},
 						"& svg": {
 							transition: "all .2s"
 						},
 						"&:hover svg": {
 							color: blue[700] + "!important"
+						},
+						"&:active svg": {
+							color: blue[800] + "!important"
 						}
 					})
 				}}
