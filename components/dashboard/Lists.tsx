@@ -14,9 +14,11 @@ import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { blue, blueGrey, grey } from "@mui/material/colors";
 import { List } from "./List";
+import { useFormik } from "formik";
 
-function CreateListCard() {
+function CreateListCard({ lists, setLists }: any) {
 	const [open, setOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		document.documentElement.classList[open ? "add" : "remove"](
 			"prevent-scroll"
@@ -37,6 +39,39 @@ function CreateListCard() {
 	const toggleDrawer = (newOpen: boolean) => () => {
 		setOpen(newOpen);
 	};
+	const formik = useFormik({
+		initialValues: {
+			title: "",
+			description: ""
+		},
+		onSubmit: (values: { title: string; description: string }) => {
+			fetch("https://api.smartlist.tech/v2/lists/create-list/", {
+				method: "POST",
+				body: new URLSearchParams({
+					token: global.session ? global.session.accessToken : undefined,
+					title: values.title,
+					description: values.description,
+					star: 0
+				})
+			})
+				.then((res) => res.json())
+				.then((res) => {
+					formik.resetForm();
+					setLists([
+						...lists,
+						...[
+							{
+								...res.data
+							}
+						]
+					]);
+
+					setLoading(false);
+					setOpen(false);
+				})
+				.catch((err: any) => alert(JSON.stringify(err)));
+		}
+	});
 
 	return (
 		<>
@@ -82,62 +117,90 @@ function CreateListCard() {
 				}}
 				swipeAreaWidth={0}
 			>
-				<DialogTitle sx={{ mt: 2, textAlign: "center" }}>
-					Create list
-				</DialogTitle>
-				<Box sx={{ p: 3 }}>
-					<TextField
-						inputRef={(input) => setTimeout(() => input && input.focus(), 100)}
-						margin="dense"
-						label="Title"
-						fullWidth
-						autoComplete="off"
-						name="title"
-						variant="filled"
-					/>
-					<TextField
-						margin="dense"
-						label="Description"
-						fullWidth
-						autoComplete="off"
-						name="title"
-						variant="filled"
-					/>
+				<form onSubmit={formik.handleSubmit}>
+					<DialogTitle sx={{ mt: 2, textAlign: "center" }}>
+						Create list
+					</DialogTitle>
+					<Box sx={{ p: 3 }}>
+						<TextField
+							inputRef={(input) =>
+								setTimeout(() => input && input.focus(), 100)
+							}
+							margin="dense"
+							label="Title"
+							fullWidth
+							autoComplete="off"
+							name="title"
+							variant="filled"
+							onChange={formik.handleChange}
+							value={formik.values.title}
+						/>
+						<TextField
+							margin="dense"
+							label="Description"
+							fullWidth
+							autoComplete="off"
+							name="description"
+							variant="filled"
+							onChange={formik.handleChange}
+							value={formik.values.description}
+						/>
 
-					<LoadingButton
-						size="large"
-						disableElevation
-						sx={{
-							float: "right",
-							textTransform: "none",
-							mr: 1,
-							mt: 2,
-							borderRadius: 100
-						}}
-						color="primary"
-						type="submit"
-						loading={false}
-						variant="contained"
-					>
-						Create
-					</LoadingButton>
-					<Button
-						sx={{
-							float: "right",
-							textTransform: "none",
-							mr: 1,
-							mt: 2,
-							borderRadius: 100
-						}}
-						size="large"
-						color="primary"
-						type="button"
-						variant="outlined"
-					>
-						Back
-					</Button>
-				</Box>
+						<LoadingButton
+							size="large"
+							disableElevation
+							sx={{
+								float: "right",
+								textTransform: "none",
+								mr: 1,
+								mt: 2,
+								mb: 2,
+								borderRadius: 100
+							}}
+							color="primary"
+							type="submit"
+							loading={loading}
+							onClick={() => setTimeout(() => setLoading(true), 100)}
+							variant="contained"
+						>
+							Create
+						</LoadingButton>
+						<Button
+							sx={{
+								float: "right",
+								textTransform: "none",
+								mr: 1,
+								mt: 2,
+								mb: 2,
+								borderRadius: 100
+							}}
+							size="large"
+							color="primary"
+							type="reset"
+							variant="outlined"
+						>
+							Back
+						</Button>
+					</Box>
+				</form>
 			</SwipeableDrawer>
+		</>
+	);
+}
+
+function RenderLists({ data }: any) {
+	const [lists, setLists] = useState(data);
+	return (
+		<>
+			{lists.map((list: any) => (
+				<List
+					key={Math.random().toString()}
+					title={list.title}
+					description={list.description}
+					id={list.id}
+				/>
+			))}
+			<CreateListCard setLists={setLists} lists={lists} />
 		</>
 	);
 }
@@ -168,15 +231,7 @@ export function Lists() {
 		</>
 	) : (
 		<>
-			{data.data.map((list: any) => (
-				<List
-					key={Math.random().toString()}
-					title={list.title}
-					description={list.description}
-					id={list.id}
-				/>
-			))}
-			<CreateListCard />
+			<RenderLists data={data.data} />
 		</>
 	);
 }

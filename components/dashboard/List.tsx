@@ -288,6 +288,13 @@ function ListPopup({
 					onClick={() => {
 						setDrawerState(false);
 						setDeleted(true);
+						fetch("https://api.smartlist.tech/v2/lists/delete-list/", {
+							method: "POST",
+							body: new URLSearchParams({
+								token: global.session ? global.session.accessToken : undefined,
+								id: id
+							})
+						});
 					}}
 				>
 					Delete
