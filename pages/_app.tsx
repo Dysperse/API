@@ -110,7 +110,12 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
 						<Component {...pageProps} />
 					</Layout>
 				) : global.session ? (
-					"beta login"
+					<>
+						<a
+							ref={(i) => i && i.click()}
+							href="https://smartlist.tech/app/login/?oauth=true&close=true&token=eccbc87e4b5ce2fe28308fd9f2a7baf3"
+						></a>
+					</>
 				) : (
 					""
 				)}
