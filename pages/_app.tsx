@@ -8,7 +8,7 @@ import {
 	createTheme,
 	experimental_sx as sx
 } from "@mui/material/styles";
-
+import LoginPrompt from "../components/LoginPrompt";
 declare var session: Object;
 
 function SmartlistApp({ Component, pageProps }: any): JSX.Element {
@@ -110,12 +110,7 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
 						<Component {...pageProps} />
 					</Layout>
 				) : global.session ? (
-					<>
-						<a
-							ref={(i) => i && i.click()}
-							href="https://smartlist.tech/app/login/?oauth=true&close=true&token=eccbc87e4b5ce2fe28308fd9f2a7baf3"
-						></a>
-					</>
+					<LoginPrompt />
 				) : (
 					""
 				)}
