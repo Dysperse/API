@@ -51,7 +51,7 @@ function CreateListCard({ lists, setLists }: any) {
 					token: global.session ? global.session.accessToken : undefined,
 					title: values.title,
 					description: values.description,
-					star: 0
+					star: "0"
 				})
 			})
 				.then((res) => res.json())
