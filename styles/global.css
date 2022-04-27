@@ -42,3 +42,24 @@ img {
   background-color: rgba(0, 0, 0, 0.25) !important;
   backdrop-filter: blur(10px);
 }
+.atom-suggestion {
+  border: 0 !important;
+  border-radius: 15px;
+}
+.atom-suggestionsContainerOpen {
+  border: 0 !important;
+}
+.atom-input {
+  border-radius: 15px !important;
+  border: 0 !important;
+  width: 100% !important;
+  padding: 13px 15px !important;
+}
+.atom-content {
+  box-shadow: 0 !important;
+}
+.atom-modal {
+  border-radius: 28px !important;
+  box-shadow: 0 !important;
+  padding: 15px !important;
+}

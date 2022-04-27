@@ -47,10 +47,14 @@ export function SearchPopup({ content }: any) {
         <div
           style={{
             color: "rgb(172, 172, 172)",
+            padding: "10px 15px",
+            background: "rgba(0,0,0,.4)",
+            borderRadius: "15px",
             display: "inline-block",
             fontFamily: "arial",
             fontSize: "12px",
-            marginBottom: "6px"
+            marginBottom: "6px",
+            width: "100%"
           }}
         >
           <span style={{ paddingRight: "32px" }}>Search for a command</span>
