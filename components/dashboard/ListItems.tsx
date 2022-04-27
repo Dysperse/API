@@ -9,66 +9,67 @@ import { GenerateListItem } from "./GenerateListItem";
 import { blueGrey, grey } from "@mui/material/colors";
 
 export function ListItems({
-	parent,
-	title,
-	emptyImage,
-	emptyText
+  parent,
+  title,
+  emptyImage,
+  emptyText
 }: {
-	parent: any;
-	title: any;
-	emptyImage: any;
-	emptyText: any;
+  parent: any;
+  title: any;
+  emptyImage: any;
+  emptyText: any;
 }) {
-	const { isLoading, data }: any = useFetch(
-		"https://api.smartlist.tech/v2/lists/fetch/",
-		{
-			method: "POST",
-			body: new URLSearchParams({
-				token: global.session && global.session.accessToken,
-				parent: parent
-			}),
-			headers: { "Content-Type": "application/x-www-form-urlencoded" }
-		}
-	);
+  const { isLoading, data }: any = useFetch(
+    "https://api.smartlist.tech/v2/lists/fetch/",
+    {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.session && global.session.accessToken,
+        parent: parent
+      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    }
+  );
 
-	return isLoading ? (
-		<Skeleton
-			height={200}
-			animation="wave"
-			variant="rectangular"
-			sx={{ borderRadius: "28px" }}
-		/>
-	) : (
-		<Card
-			sx={{
-				mb: 2,
-				borderRadius: "28px",
-				width: "100%",
-				p: 1,
-				background: global.theme === "dark" ? grey[900] : blueGrey[50],
-				boxShadow: 0
-			}}
-		>
-			<CardContent>
-				<Typography gutterBottom variant="h5" component="div">
-					{title}
-				</Typography>
-				{data.data.map((list: Object) => (
-					<GenerateListItem {...list} />
-				))}
-				{data.data.length === 0 && (
-					<Box sx={{ textAlign: "center" }}>
-						<img alt="" src={emptyImage} />
-						<Typography sx={{ display: "block" }} variant="h6">
-							No items?!
-						</Typography>
-						<Typography sx={{ display: "block" }}>{emptyText}</Typography>
-						<Typography sx={{ display: "block" }} variant="caption">
-							PRO TIP: Hit the "+" icon to create an item
-						</Typography>
-					</Box>
-				)}
-			</CardContent>
-		</Card>
-	);
+  return isLoading ? (
+    <Skeleton
+      height={200}
+      animation="wave"
+      variant="rectangular"
+      sx={{ borderRadius: "28px" }}
+    />
+  ) : (
+    <Card
+      sx={{
+        mb: 2,
+        borderRadius: "28px",
+        width: "100%",
+        p: 1,
+        background:
+          global.theme === "dark" ? "hsl(240, 11%, 20%)" : blueGrey[50],
+        boxShadow: 0
+      }}
+    >
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {title}
+        </Typography>
+        {data.data.map((list: Object) => (
+          <GenerateListItem {...list} />
+        ))}
+        {data.data.length === 0 && (
+          <Box sx={{ textAlign: "center" }}>
+            <img alt="" src={emptyImage} />
+            <Typography sx={{ display: "block" }} variant="h6">
+              No items?!
+            </Typography>
+            <Typography sx={{ display: "block" }}>{emptyText}</Typography>
+            <Typography sx={{ display: "block" }} variant="caption">
+              PRO TIP: Hit the "+" icon to create an item
+            </Typography>
+          </Box>
+        )}
+      </CardContent>
+    </Card>
+  );
 }

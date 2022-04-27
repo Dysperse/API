@@ -385,7 +385,7 @@ export function List({
 						mb: 2,
 						width: "100%",
 						borderRadius: "28px",
-						background: global.theme === "dark" ? grey[900] : blueGrey[50],
+						background: global.theme === "dark" ? "hsl(240, 11%, 20%)" : blueGrey[50],
 						boxShadow: 0
 					}}
 				>

@@ -88,7 +88,7 @@ function CreateListCard({ lists, setLists }: any) {
 					borderRadius: "28px",
 					width: "100%",
 					textAlign: "center",
-					background: global.theme === "dark" ? grey[800] : blueGrey[100],
+					background: global.theme === "dark" ? "hsl(240, 11%, 30%)" : blueGrey[100],
 					"& *": { transition: "all .05s !important" }
 				}}
 			>
