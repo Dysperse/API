@@ -35,6 +35,46 @@ const commands = [
   {
     command: () => {},
     name: "Create list"
+  },
+  {
+    command: () => {},
+    name: "Kitchen"
+  },
+  {
+    command: () => {},
+    name: "Bedroom"
+  },
+  {
+    command: () => {},
+    name: "Bathroom"
+  },
+  {
+    command: () => {},
+    name: "Garage"
+  },
+  {
+    command: () => {},
+    name: "Living room"
+  },
+  {
+    command: () => {},
+    name: "Dining room"
+  },
+  {
+    command: () => {},
+    name: "Laundry room"
+  },
+  {
+    command: () => {},
+    name: "Storage room"
+  },
+  {
+    command: () => {},
+    name: "Garden"
+  },
+  {
+    command: () => {},
+    name: "Camping"
   }
 ];
 
