@@ -1,39 +1,44 @@
 ::-webkit-scrollbar {
-	/* display: none; */
+  /* display: none; */
 }
 body {
-	overflow-x: hidden;
-	font-weight: 600;
+  overflow-x: hidden;
+  font-weight: 600;
 }
 html:not(.prevent-scroll),
 body:not(.prevent-scroll) {
-	scroll-behavior: smooth;
-	overflow-y: scroll !important;
+  scroll-behavior: smooth;
+  overflow-y: scroll !important;
 }
 .prevent-scroll {
-	overflow: hidden !important;
+  overflow: hidden !important;
 }
 img {
-	user-select: none;
+  user-select: none;
 }
 *:not(.MuiIcon-root, .MuiIcon-root
-		*, .material-symbols-outlined, .material-symbols-rounded, .material-symbols-outlined) {
-	font-family: "Outfit", sans-serif !important;
+    *, .material-symbols-outlined, .material-symbols-rounded, .material-symbols-outlined) {
+  font-family: "Outfit", sans-serif !important;
 }
 ::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
 
 .MuiTouchRipple-rippleVisible {
-	animation-duration: 0.35s !important;
+  animation-duration: 0.35s !important;
 }
 .MuiTouchRipple-child {
-	filter: opacity(0.4) !important;
+  filter: opacity(0.4) !important;
 }
 
 @supports (backdrop-filter: blur(20px)) {
-	.MuiBackdrop-root {
-		backdrop-filter: blur(10px);
-		background-color: rgba(0, 0, 0, 0.4) !important;
-	}
+  .MuiBackdrop-root {
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.4) !important;
+  }
+}
+.atom-overlay {
+  z-index: 9999999999 !important;
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(10px);
 }

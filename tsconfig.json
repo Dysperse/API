@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2015",
     "module": "commonjs",
+    "noImplicitAny": false,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
