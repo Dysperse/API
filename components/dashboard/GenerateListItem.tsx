@@ -5,23 +5,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 
-export function GenerateListItem(props: any) {
-  let value = props.title;
-  let labelId = props.id;
-  const [checked, setChecked] = React.useState([0]);
-
-  const handleToggle = (value: number) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
+export function GenerateListItem({ title }: any) {
+  const [checked, setChecked] = React.useState(false);
 
   return (
     <ListItem
@@ -30,21 +15,14 @@ export function GenerateListItem(props: any) {
       disablePadding
     >
       <ListItemButton
-        sx={{ py: 0 }}
-        role={undefined}
-        onClick={handleToggle(value)}
+        sx={{ py: 0, borderRadius: 15 }}
+        onClick={() => setChecked(!checked)}
         dense
       >
         <ListItemIcon>
-          <Checkbox
-            edge="start"
-            checked={checked.indexOf(value) !== -1}
-            tabIndex={-1}
-            disableRipple
-            inputProps={{ "aria-labelledby": labelId }}
-          />
+          <Checkbox edge="start" checked={checked} />
         </ListItemIcon>
-        <ListItemText id={labelId} primary={value} />
+        <ListItemText primary={title} />
       </ListItemButton>
     </ListItem>
   );
