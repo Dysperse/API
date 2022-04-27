@@ -55,50 +55,49 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
   return (
     <>
       <Head>
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link
           rel="apple-touch-icon"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="57x57"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon-57x57.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon-57x57.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="72x72"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon-72x72.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon-72x72.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="76x76"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon-76x76.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon-76x76.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="114x114"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon-114x114.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon-114x114.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="120x120"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon-120x120.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon-120x120.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="144x144"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon-144x144.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon-144x144.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="152x152"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon-152x152.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon-152x152.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href="https://smartlist.tech/app/img/logo/apple-touch-icon//apple-touch-icon-180x180.png"
+          href="https://smartlist.tech/app/img/logo/apple-touch-icon/apple-touch-icon-180x180.png"
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -112,7 +111,10 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
           href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,500,1,200"
         />
         <link href="/manifest.webmanifest" rel="manifest" />
-        <link href="/logo/48x48.png" rel="shortcut icon" />
+        <link
+          href="https://i.ibb.co/2snZjPZ/48x48-modified-1.png"
+          rel="shortcut icon"
+        />
         <title>Smartlist</title>
       </Head>
       <ThemeProvider theme={darkTheme}>
