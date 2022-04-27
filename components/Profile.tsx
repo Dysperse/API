@@ -29,16 +29,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
 	backgroundColor: theme.palette.mode === "light" ? "transparent" : grey[800]
 }));
 
-const Puller = styled(Box)(({ theme }) => ({
-	width: 30,
-	height: 6,
-	backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
-	borderRadius: 3,
-	position: "absolute",
-	top: 8,
-	left: "calc(50% - 15px)"
-}));
-
 function Accounts({ setOpen }: any) {
 	return (
 		<List sx={{ width: "100%", bgcolor: "background.paper" }}>
@@ -143,20 +133,28 @@ export function ProfileMenu(props: any) {
 			</Tooltip>
 			<SwipeableDrawer
 				container={container}
-				anchor="bottom"
+				anchor="right"
 				open={open}
 				onClose={toggleDrawer(false)}
 				onOpen={toggleDrawer(true)}
 				swipeAreaWidth={drawerBleeding}
 				disableSwipeToOpen={false}
+				sx={{
+					"& .MuiBackdrop-root": {
+						opacity: { sm: "0!important" }
+					}
+				}}
 				ModalProps={{
 					keepMounted: true
 				}}
 				PaperProps={{
+					elevation: 1,
 					sx: {
+						border: "1px solid #ddd",
+						boxShadow: `0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)`,
 						width: {
 							xs: "calc(100vw - 20px)",
-							sm: "50vw"
+							sm: "400px"
 						},
 						mb: "10px",
 						ml: {
@@ -164,7 +162,12 @@ export function ProfileMenu(props: any) {
 							sm: "auto"
 						},
 						borderRadius: "15px",
-						mx: "auto"
+						mx: "auto",
+						position: "fixed",
+						top: "70px",
+						bottom: "auto",
+						left: "auto",
+						right: "15px"
 					}
 				}}
 			>
@@ -178,8 +181,16 @@ export function ProfileMenu(props: any) {
 						left: 0
 					}}
 				>
-					<Puller />
-					<Typography sx={{ p: 2, color: "text.secondary" }}>
+					<Typography
+						sx={{
+							textTransform: { sm: "uppercase" },
+							fontSize: { sm: "13px" },
+							p: 2,
+							pb: { sm: 0 },
+							color: "text.secondary",
+							textAlign: { sm: "right" }
+						}}
+					>
 						Accounts
 					</Typography>
 				</StyledBox>
