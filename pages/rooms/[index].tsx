@@ -219,34 +219,43 @@ function Suggestions({ room, items }: any) {
         >
           Suggestions
         </Typography>
-        {suggestions[room].map((item) => {
-          if (items.some((e: any) => e.title === item)) return;
-          return (
-            <Chip
-              onClick={() => {
-                return;
-              }}
-              sx={{
-                mt: 2,
-                mr: 1,
-                transition: "background .05s !important",
-                borderRadius: 3,
-                boxShadow: "0!important",
-                color: global.theme === "dark" ? orange[100] : orange[900],
-                background: global.theme === "dark" ? orange[900] : orange[100],
-                "&:hover": {
+        <Box
+          sx={{
+            overflow: "scroll",
+            whiteSpace: "nowrap",
+            borderRadius: 3,
+            mt: 2
+          }}
+        >
+          {suggestions[room].map((item) => {
+            if (items.some((e: any) => e.title === item)) return;
+            return (
+              <Chip
+                onClick={() => {
+                  return;
+                }}
+                sx={{
+                  mr: 1,
+                  transition: "background .05s !important",
+                  borderRadius: 3,
+                  boxShadow: "0!important",
+                  color: global.theme === "dark" ? orange[100] : orange[900],
                   background:
-                    global.theme === "dark" ? orange[800] : orange[200]
-                },
-                "&:active": {
-                  background:
-                    global.theme === "dark" ? orange[700] : orange[300]
-                }
-              }}
-              label={item}
-            />
-          );
-        })}
+                    global.theme === "dark" ? orange[900] : orange[100],
+                  "&:hover": {
+                    background:
+                      global.theme === "dark" ? orange[800] : orange[200]
+                  },
+                  "&:active": {
+                    background:
+                      global.theme === "dark" ? orange[700] : orange[300]
+                  }
+                }}
+                label={item}
+              />
+            );
+          })}
+        </Box>
       </CardContent>
     </Card>
   );
