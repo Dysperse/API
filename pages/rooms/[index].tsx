@@ -44,7 +44,32 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
 
 function Suggestions({ room, items }: any) {
   const suggestions = {
-    kitchen: ["Apples", "Oranges", "Bananas", "Watermelons", "Melons"],
+    kitchen: [
+      "Fridge",
+      "Sink",
+      "Oven",
+      "Microwave",
+      "Tomatoes",
+      "Potatoes",
+      "Salt",
+      "Pepper",
+      "Coffee maker",
+      "Paper towel",
+      "Kitchen timer",
+      "Spinach",
+      "Lettuce",
+      "Yogurt",
+      "Soap",
+      "Dishwasher",
+      "Dishwashing liquid",
+      "Dish soap",
+      "Forks",
+      "Spoons",
+      "Knives",
+      "Ketchup",
+      "Mustard",
+      "Flour"
+    ],
     bedroom: [
       "Nightstand",
       "Pillow",
@@ -194,29 +219,34 @@ function Suggestions({ room, items }: any) {
         >
           Suggestions
         </Typography>
-        {suggestions[room].map((item) => (
-          <Chip
-            onClick={() => {
-              return;
-            }}
-            sx={{
-              mt: 2,
-              mr: 1,
-              transition: "background .05s !important",
-              borderRadius: 3,
-              boxShadow: "0!important",
-              color: global.theme === "dark" ? orange[100] : orange[900],
-              background: global.theme === "dark" ? orange[900] : orange[100],
-              "&:hover": {
-                background: global.theme === "dark" ? orange[800] : orange[200]
-              },
-              "&:active": {
-                background: global.theme === "dark" ? orange[700] : orange[300]
-              }
-            }}
-            label={item}
-          />
-        ))}
+        {suggestions[room].map((item) => {
+          if (items.some((e: any) => e.title === item)) return;
+          return (
+            <Chip
+              onClick={() => {
+                return;
+              }}
+              sx={{
+                mt: 2,
+                mr: 1,
+                transition: "background .05s !important",
+                borderRadius: 3,
+                boxShadow: "0!important",
+                color: global.theme === "dark" ? orange[100] : orange[900],
+                background: global.theme === "dark" ? orange[900] : orange[100],
+                "&:hover": {
+                  background:
+                    global.theme === "dark" ? orange[800] : orange[200]
+                },
+                "&:active": {
+                  background:
+                    global.theme === "dark" ? orange[700] : orange[300]
+                }
+              }}
+              label={item}
+            />
+          );
+        })}
       </CardContent>
     </Card>
   );
@@ -387,7 +417,7 @@ function Room() {
     <Suspense fallback={<LoadingScreen />}>
       <Box sx={{ p: 3 }}>
         <Header room={index} itemCount={data.data.length} />
-        <Suggestions room={index} items={data.data.length} />
+        <Suggestions room={index} items={data.data} />
         <Toolbar />
         <ItemList items={data.data} />
       </Box>

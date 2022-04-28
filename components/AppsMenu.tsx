@@ -35,6 +35,7 @@ function ContactForm() {
         label="Your email..."
         defaultValue={global.session && global.session.email}
         id="email"
+        required
         autoComplete="off"
         type="email"
         name="email"
@@ -44,6 +45,7 @@ function ContactForm() {
       <ValidationError prefix="Email" field="email" errors={state.errors} />
       <br />
       <TextField
+        required
         variant="filled"
         autoComplete="off"
         fullWidth
