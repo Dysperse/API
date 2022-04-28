@@ -74,7 +74,9 @@ export function CreateListModal({ children, parent, title }: any) {
           }
         }}
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+        }}
         onOpen={() => setOpen(true)}
       >
         <Puller />

@@ -14,6 +14,7 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import { CreateListModal } from "./CreateListModal";
+import { useRouter } from "next/router";
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%"
@@ -188,6 +189,7 @@ function Puller() {
 }
 
 export default function AddPopup(props: any) {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
@@ -240,7 +242,10 @@ export default function AddPopup(props: any) {
           }
         }}
         open={open}
-        onClose={toggleDrawer(false)}
+        onClose={() => {
+          router.push(window.location.pathname);
+          setOpen(false);
+        }}
         onOpen={toggleDrawer(true)}
         ModalProps={{
           keepMounted: true

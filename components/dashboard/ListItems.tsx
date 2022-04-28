@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useFetch from "react-fetch-hook";
@@ -6,7 +6,7 @@ import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
 import { GenerateListItem } from "./GenerateListItem";
-import { blueGrey, grey } from "@mui/material/colors";
+import { blueGrey } from "@mui/material/colors";
 
 export function ListItems({
   parent,
@@ -30,7 +30,6 @@ export function ListItems({
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     }
   );
-
   return isLoading ? (
     <Skeleton
       height={200}

@@ -395,7 +395,7 @@ export function List({
           }}
         >
           <CardActionArea
-            sx={{ p: 1 }}
+            sx={{ p: 1, transition: "none!important" }}
             onClick={() => {
               setDrawerState(true);
               getListItems(id);

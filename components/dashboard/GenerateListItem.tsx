@@ -5,9 +5,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 
-export function GenerateListItem({ title }: any) {
+export function GenerateListItem({ title, id }: any) {
   const [checked, setChecked] = React.useState(false);
-
+  const [deleted, setDeleted] = React.useState(false);
   return (
     <ListItem
       key={Math.random().toString()}
@@ -15,12 +15,24 @@ export function GenerateListItem({ title }: any) {
       disablePadding
     >
       <ListItemButton
-        sx={{ py: 0, borderRadius: 15 }}
+        sx={{ py: 0, borderRadius: 3, transition: "none" }}
         onClick={() => setChecked(!checked)}
         dense
       >
         <ListItemIcon>
-          <Checkbox edge="start" checked={checked} />
+          <Checkbox
+            onClick={() => {
+              fetch("https://api.smartlist.tech/v2/lists/delete-item/", {
+                method: "POST",
+                body: new URLSearchParams({
+                  id: id
+                })
+              });
+              setDeleted(true);
+            }}
+            edge="start"
+            checked={checked}
+          />
         </ListItemIcon>
         <ListItemText primary={title} />
       </ListItemButton>
