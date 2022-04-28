@@ -133,12 +133,36 @@ function Content({ toggleDrawer }: any) {
             </Card>
           </CreateListModal>
         </Grid>
-        <AddItemOption
-          s={6}
-          toggleDrawer={toggleDrawer}
-          title="Shopping list"
-          icon={<span className="material-symbols-rounded">receipt_long</span>}
-        />
+        <Grid item xs={6}>
+          <CreateListModal parent="-2" title="item">
+            <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
+              <CardActionArea
+                disableRipple
+                onClick={() => toggleDrawer(false)}
+                sx={{
+                  "&:hover": {
+                    background: "rgba(200,200,200,.3)!important"
+                  },
+                  "&:focus": {
+                    background: "rgba(200,200,200,.5)!important"
+                  },
+                  "&:active": {
+                    background: "rgba(200,200,200,.6)!important"
+                  }
+                }}
+              >
+                <CardContent sx={{ p: 1 }}>
+                  <Typography variant="h4">
+                    <span className="material-symbols-rounded">
+                      receipt_long
+                    </span>
+                  </Typography>
+                  <Typography>Shopping list</Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </CreateListModal>
+        </Grid>
       </Grid>
     </List>
   );
