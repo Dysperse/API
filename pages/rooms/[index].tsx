@@ -44,7 +44,136 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
 
 function Suggestions({ room, items }: any) {
   const suggestions = {
-    kitchen: ["Apples", "Oranges", "Bananas", "Watermelons", "Melons"]
+    kitchen: ["Apples", "Oranges", "Bananas", "Watermelons", "Melons"],
+    bedroom: [
+      "Nightstand",
+      "Pillow",
+      "Pillowcase",
+      "Blanket",
+      "Lamp",
+      "Alarm clock",
+      "Desk",
+      "Wall painting"
+    ],
+    bathroom: [
+      "Hand soap",
+      "Shaver",
+      "Deodorant",
+      "Perfume",
+      "Hair brush",
+      "Mirror",
+      "Bath towels",
+      "Washcloths",
+      "Toothbrush",
+      "Toothpaste",
+      "Dental flosses",
+      "Shaving cream",
+      "Sink",
+      "Bathtub"
+    ],
+    garage: [
+      "Car",
+      "Wrench",
+      "Hammer",
+      "Nails",
+      "Saw",
+      "Electric drill",
+      "Batteries",
+      "Screwdrivers"
+    ],
+    dining: [
+      "Dining table",
+      "Dining chairs",
+      "Platters",
+      "China cabinet",
+      "Table linens",
+      "Silverware",
+      "Cups"
+    ],
+    "living-room": [
+      "Couch",
+      "Lamp",
+      "Coffee table",
+      "Wall painting",
+      "TV",
+      "Speaker",
+      "Sofa",
+      "Cushion",
+      "End table",
+      "Remote",
+      "Fan",
+      "TV stand"
+    ],
+    "laundry-room": [
+      "Washing machine",
+      "Dryer",
+      "Laundry basket",
+      "Laundry supplies",
+      "Iron",
+      "Iron board",
+      "Hanger",
+      "Laundry sheets"
+    ],
+    "storage-room": ["Masks", "Face shields", "Clorox wipes", "Lysol"],
+    camping: [
+      "Tent",
+      "Stakes (for tent)",
+      "Sleeping pads",
+      "Camping pillow",
+      "Headlamp",
+      "Flashlight",
+      "Camp chairs",
+      "Lantern",
+      "Batteries",
+      "Hammock",
+      "Cots",
+      "Sunshade",
+      "Camp rug",
+      "Matches",
+      "Backpack",
+      "Stove",
+      "Stove fuel",
+      "Cutting board",
+      "Cooler",
+      "Ice",
+      "Water bottles",
+      "Camp sink",
+      "Plates",
+      "Bowls",
+      "Knife",
+      "Mugs/Cups",
+      "Camp grill",
+      "Portable coffee/tea maker",
+      "Marshmallows",
+      "Maps",
+      "Underwear",
+      "Pants",
+      "T-Shirts",
+      "Shirts",
+      "Jeans"
+    ],
+    garden: [
+      "Gloves",
+      "Shovel or Spade",
+      "Weeder",
+      "Garden Hoe",
+      "Soil Knife",
+      "Pruning Shears",
+      "Garden Scissors",
+      "Watering Hose",
+      "Spading Fork",
+      "Rake",
+      "Hedge and Lawn Shears",
+      "Pruning Saw",
+      "Wheelbarrow",
+      "Garden Glide",
+      "Hand Fork",
+      "Lawn Mower",
+      "Hand Trowel",
+      "Edger",
+      "Watering Can",
+      "Leaf Blower"
+    ]
   };
   return (
     <Card
@@ -264,11 +393,6 @@ function Room() {
       </Box>
     </Suspense>
   );
-}
-export function getServerSideProps(context: any) {
-  return {
-    props: { params: context.params }
-  };
 }
 
 export default Room;

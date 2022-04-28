@@ -71,15 +71,30 @@ export default function NoData() {
                 <div>
                   <Button
                     variant="contained"
+                    size="large"
                     onClick={handleNext}
-                    sx={{ mt: 1, mr: 1 }}
+                    sx={{
+                      mt: 2,
+                      textTransform: "none",
+                      px: 4,
+                      mr: 1,
+                      borderRadius: 9,
+                      boxShadow: 0
+                    }}
                   >
                     {index === steps.length - 1 ? "Finish" : "Continue"}
                   </Button>
                   <Button
+                    size="large"
                     disabled={index === 0}
                     onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
+                    sx={{
+                      mt: 2,
+                      px: 3,
+                      mr: 1,
+                      textTransform: "none",
+                      borderRadius: 9
+                    }}
                   >
                     Back
                   </Button>
@@ -96,12 +111,32 @@ export default function NoData() {
             Feel free to explore your finance dashboard, goals, and lessons.
             You'll be saving money in no time
           </Typography>
-          <Button onClick={handleReset} sx={{ mt: 2, mr: 1 }}>
+          <Button
+            sx={{
+              mt: 2,
+              textTransform: "none",
+              px: 4,
+              mr: 1,
+              borderRadius: 9,
+              boxShadow: 0
+            }}
+            size="large"
+            onClick={handleReset}
+            variant="outlined"
+          >
             Restart setup
           </Button>
           <Button
+            size="large"
             onClick={handleReset}
-            sx={{ mt: 2, mr: 1 }}
+            sx={{
+              mt: 2,
+              textTransform: "none",
+              px: 4,
+              mr: 1,
+              borderRadius: 9,
+              boxShadow: 0
+            }}
             variant="contained"
           >
             Let's go!
