@@ -86,7 +86,7 @@ export function CreateItemModal({
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleSnackbarClose}
-        sx={{ background: "#212121" }}
+        sx={{ background: "#212121!important" }}
         message="Item created!"
       />
       <SwipeableDrawer
