@@ -9,14 +9,17 @@ import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
-import { blueGrey, blue, grey } from "@mui/material/colors";
+import { blueGrey, blue } from "@mui/material/colors";
 import { useFormik } from "formik";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { AutocompleteData } from "../AutocompleteData";
+
 function CreateItemButton({
   parent,
   listItems,
@@ -82,6 +85,7 @@ function CreateItemButton({
         disableElevation
         sx={{ textTransform: "none", mr: 1, mb: 3, borderRadius: 100 }}
         variant="contained"
+        autoFocus
       >
         Create item
       </Button>
@@ -120,20 +124,30 @@ function CreateItemButton({
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <TextField
-                autoFocus
-                id="name"
-                inputRef={(input) =>
-                  setTimeout(() => input && input.focus(), 100)
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={AutocompleteData}
+                freeSolo
+                onChange={(e, value) =>
+                  formik.setFieldValue("name", value ?? "")
                 }
-                fullWidth
-                autoComplete="off"
-                margin="dense"
-                label="Name"
-                variant="filled"
-                onChange={formik.handleChange}
-                value={formik.values.name}
-                name="name"
+                renderInput={(params) => (
+                  <TextField
+                    autoFocus
+                    {...params}
+                    id="name"
+                    inputRef={(input) =>
+                      setTimeout(() => input && input.focus(), 100)
+                    }
+                    fullWidth
+                    autoComplete="off"
+                    margin="dense"
+                    label="Name"
+                    variant="filled"
+                    name="name"
+                  />
+                )}
               />
             </DialogContentText>
           </DialogContent>
@@ -392,7 +406,7 @@ export function List({
                 {title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {count} item{count !== 1 && "s"}
+                {count || "0"} item{count !== 1 && "s"}
               </Typography>
             </CardContent>
           </CardActionArea>
