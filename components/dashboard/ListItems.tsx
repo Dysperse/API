@@ -30,14 +30,18 @@ export function ListItems({
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     }
   );
-  return isLoading ? (
-    <Skeleton
-      height={200}
-      animation="wave"
-      variant="rectangular"
-      sx={{ borderRadius: "28px" }}
-    />
-  ) : (
+  if (isLoading) {
+    return (
+      <Skeleton
+        height={200}
+        animation="wave"
+        variant="rectangular"
+        sx={{ borderRadius: "28px" }}
+      />
+    );
+  }
+
+  return (
     <Card
       sx={{
         mb: 2,

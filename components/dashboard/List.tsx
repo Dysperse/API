@@ -386,6 +386,7 @@ export function List({
       {!deleted ? (
         <Card
           sx={{
+            "& *": { transition: "none!important" },
             mb: 2,
             width: "100%",
             borderRadius: "28px",
@@ -395,7 +396,7 @@ export function List({
           }}
         >
           <CardActionArea
-            sx={{ p: 1, transition: "none!important" }}
+            sx={{ p: 1 }}
             onClick={() => {
               setDrawerState(true);
               getListItems(id);
