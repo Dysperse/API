@@ -12,7 +12,7 @@ import { usePlaidLink } from "react-plaid-link";
 
 function ConnectBankAccount() {
   const [publicToken, setPublicToken] = React.useState("");
-  const [completed, setCompleted] = React.useState(false)
+  const [completed, setCompleted] = React.useState(false);
   const { open, ready } = usePlaidLink({
     token: "link-sandbox-517314bb-e0fc-41dd-a7f2-6339e71ec6f1",
     onSuccess: (public_token, metadata) => {
@@ -71,7 +71,10 @@ const steps = [
     label: "Connect your bank account",
     description: (
       <>
-        Pick a goal which you want to set
+        To let us help you save money and track your expenses, we'll need{" "}
+        <b>read-only</b> access to your bank accounts. Connect your bank account
+        to continue
+        <br />
         <ConnectBankAccount />
       </>
     )
