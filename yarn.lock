@@ -1547,6 +1547,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-plaid-link@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-plaid-link/-/react-plaid-link-2.0.0.tgz#4197d764fa4b91bdb52188b8d17c55c6058a0f61"
+  integrity sha512-PgW4TTHslBqtsvJfZiPo8DoTK0aGhN0revxi0/GFntBX7dx5XVAEbbrOO3sfLIGJ6uFtcti8hAlFsIcYvyfYLw==
+  dependencies:
+    react-plaid-link "*"
+
 "@types/react-transition-group@^4.4.4":
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.4.tgz#acd4cceaa2be6b757db61ed7b432e103242d163e"
@@ -3868,7 +3875,7 @@ react-modal@^3.14.4:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-plaid-link@^3.3.1:
+react-plaid-link@*, react-plaid-link@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/react-plaid-link/-/react-plaid-link-3.3.1.tgz#adf89b074519e0e0ed468ca25478e81ae160ecc4"
   integrity sha512-whBphCaK8fMVk6zqn+t0ROceD6z9ewVv3Z/fd49c3Er7XW8ewrxiF/O6mB8NuR4zHppCm9jM2zO8iQMzECoX3g==

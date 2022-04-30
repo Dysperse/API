@@ -14,6 +14,7 @@ function ConnectBankAccount() {
     token: "link-sandbox-0730f37f-06e9-40c2-b336-64db4ddb9cd1",
     onSuccess: (public_token, metadata) => {
       // send public_token to server
+      alert(public_token)
     }
   });
   return (
