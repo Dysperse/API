@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -6,8 +7,12 @@ import Alert from "@mui/material/Alert";
 import NoData from "../../components/finances/NoData";
 import { grey } from "@mui/material/colors";
 import useFetch from "react-fetch-hook";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 export function RenderFinances() {
+  const [open, setOpen] = useState(true);
   const { isLoading, data }: any = useFetch(
     "/api/finance/fetchTransactions/?" +
       new URLSearchParams({
@@ -18,15 +23,33 @@ export function RenderFinances() {
   );
   return (
     <>
-      <Alert severity="error" variant="filled" sx={{ borderRadius: 5, mb: 1 }}>
-        The data below is for currently for demo purposes. A production-ready
-        finance page will be available soon!
-      </Alert>
+      <Collapse in={open}>
+        <Alert
+          severity="error"
+          variant="filled"
+          sx={{ borderRadius: 5, mb: 1 }}
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          The data below is for currently for demo purposes. A production-ready
+          finance page will be available soon!
+        </Alert>
+      </Collapse>
       <Card
         sx={{
           mb: 1,
           display: "flex",
-          height: "350px",
+          height: "300px",
           alignItems: "center",
           justifyContent: "center",
           background:
