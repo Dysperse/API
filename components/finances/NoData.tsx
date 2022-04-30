@@ -12,11 +12,28 @@ import { usePlaidLink } from "react-plaid-link";
 
 function ConnectBankAccount() {
   const [publicToken, setPublicToken] = React.useState("");
+  const [completed, setCompleted] = React.useState(false)
   const { open, ready } = usePlaidLink({
-    token: "link-sandbox-0730f37f-06e9-40c2-b336-64db4ddb9cd1",
+    token: "link-sandbox-517314bb-e0fc-41dd-a7f2-6339e71ec6f1",
     onSuccess: (public_token, metadata) => {
       // send public_token to server
       setPublicToken(public_token);
+      fetch(`/api/finance/exchangePublicToken?public_token=${public_token}`)
+        .then((res) => res.json())
+        .then((res) => {
+          alert(res.access_token);
+          fetch("https://api.smartlist.tech/v2/account/update/", {
+            method: "POST",
+            body: new URLSearchParams({
+              token: global.session && global.session.accessToken,
+              data: JSON.stringify({
+                financeToken: res.access_token
+              })
+            })
+          })
+            .then((res) => res.json())
+            .then((res) => setCompleted(true));
+        });
     }
   });
   return (
@@ -26,6 +43,7 @@ function ConnectBankAccount() {
       <LoadingButton
         onClick={() => open()}
         loading={!ready}
+        disabled={completed}
         variant="contained"
         size="large"
         sx={{
