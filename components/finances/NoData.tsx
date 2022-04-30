@@ -14,13 +14,29 @@ function ConnectBankAccount() {
     token: "link-sandbox-0730f37f-06e9-40c2-b336-64db4ddb9cd1",
     onSuccess: (public_token, metadata) => {
       // send public_token to server
-      alert(public_token)
+      alert(public_token);
     }
   });
   return (
-    <button onClick={() => open()} disabled={!ready}>
+    <Button
+      onClick={() => open()}
+      disabled={!ready}
+      variant="contained"
+      size="large"
+      sx={{
+        background: "#212121",
+        "&:hover": { background: "#202020" },
+        "&:active, &:focus": { background: "#101010" },
+        mt: 2,
+        textTransform: "none",
+        px: 4,
+        mr: 1,
+        borderRadius: 9,
+        boxShadow: 0
+      }}
+    >
       Connect a bank account
-    </button>
+    </Button>
   );
 }
 
