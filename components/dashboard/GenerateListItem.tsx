@@ -10,10 +10,11 @@ export function GenerateListItem({ listItems, setListItems, title, id }: any) {
   const [checked, setChecked] = React.useState(false);
   const [deleted, setDeleted] = React.useState(false);
 
-  const deleteItem = () => {
+  const deleteItem = (id: any) => {
     fetch("https://api.smartlist.tech/v2/lists/delete-item/", {
       method: "POST",
       body: new URLSearchParams({
+        token: global.session && global.session.accessToken,
         id: id
       })
     });
@@ -33,7 +34,7 @@ export function GenerateListItem({ listItems, setListItems, title, id }: any) {
           <ListItemIcon>
             <Checkbox
               onClick={() => {
-                deleteItem();
+                deleteItem(id);
                 setChecked(true);
               }}
               edge="start"
