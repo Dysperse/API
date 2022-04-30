@@ -3868,6 +3868,14 @@ react-modal@^3.14.4:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
+react-plaid-link@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/react-plaid-link/-/react-plaid-link-3.3.1.tgz#adf89b074519e0e0ed468ca25478e81ae160ecc4"
+  integrity sha512-whBphCaK8fMVk6zqn+t0ROceD6z9ewVv3Z/fd49c3Er7XW8ewrxiF/O6mB8NuR4zHppCm9jM2zO8iQMzECoX3g==
+  dependencies:
+    prop-types "^15.7.2"
+    react-script-hook "^1.6.0"
+
 react-qr-code@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.5.tgz#ceb470d441230e93f676d070a15f1354b2c5c1ad"
@@ -3875,6 +3883,11 @@ react-qr-code@^2.0.5:
   dependencies:
     prop-types "^15.7.2"
     qr.js "0.0.0"
+
+react-script-hook@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-script-hook/-/react-script-hook-1.6.0.tgz#6a44ff5e65113cb29252eadad1b8306f5fe0c626"
+  integrity sha512-aJm72XGWV+wJTKiqHmAaTNC/JQZV/Drv6A1kd1VQlzhzAXLqtBRBeTt3iTESImGe5TaBDHUOUeaGNw4v+7bqDw==
 
 react-themeable@^1.1.0:
   version "1.1.0"

@@ -7,6 +7,21 @@ import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { usePlaidLink } from "react-plaid-link";
+
+function ConnectBankAccount() {
+  const { open, ready } = usePlaidLink({
+    token: "link-sandbox-0730f37f-06e9-40c2-b336-64db4ddb9cd1",
+    onSuccess: (public_token, metadata) => {
+      // send public_token to server
+    }
+  });
+  return (
+    <button onClick={() => open()} disabled={!ready}>
+      Connect a bank account
+    </button>
+  );
+}
 
 const steps = [
   {
@@ -15,12 +30,16 @@ const steps = [
   },
   {
     label: "Connect your bank account",
-    description:
-      "An ad group contains one or more ads which target a shared set of keywords."
+    description: (
+      <>
+        Pick a goal which you want to set
+        <ConnectBankAccount />
+      </>
+    )
   },
   {
     label: "Set a goal",
-    description: `Pick a goal which you want to set`
+    description: "Pick a goal which you want to set"
   },
   {
     label: "Configure notifications",
