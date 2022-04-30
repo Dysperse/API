@@ -38,8 +38,6 @@ function ConnectBankAccount() {
   });
   return (
     <>
-      <br />
-      Public token: {publicToken} <br />
       <LoadingButton
         onClick={() => open()}
         loading={!ready}
