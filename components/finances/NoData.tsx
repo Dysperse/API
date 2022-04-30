@@ -7,36 +7,42 @@ import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { usePlaidLink } from "react-plaid-link";
 
 function ConnectBankAccount() {
+  const [publicToken, setPublicToken] = React.useState("");
   const { open, ready } = usePlaidLink({
     token: "link-sandbox-0730f37f-06e9-40c2-b336-64db4ddb9cd1",
     onSuccess: (public_token, metadata) => {
       // send public_token to server
-      alert(public_token);
+      setPublicToken(public_token);
     }
   });
   return (
-    <Button
-      onClick={() => open()}
-      disabled={!ready}
-      variant="contained"
-      size="large"
-      sx={{
-        background: "#212121",
-        "&:hover": { background: "#202020" },
-        "&:active, &:focus": { background: "#101010" },
-        mt: 2,
-        textTransform: "none",
-        px: 4,
-        mr: 1,
-        borderRadius: 9,
-        boxShadow: 0
-      }}
-    >
-      Connect a bank account
-    </Button>
+    <>
+      <br />
+      Public token: {publicToken}
+      <LoadingButton
+        onClick={() => open()}
+        loading={!ready}
+        variant="contained"
+        size="large"
+        sx={{
+          background: "#212121",
+          "&:hover": { background: "#202020" },
+          "&:active, &:focus": { background: "#101010" },
+          mt: 2,
+          textTransform: "none",
+          px: 4,
+          mr: 1,
+          borderRadius: 9,
+          boxShadow: 0
+        }}
+      >
+        Connect a bank account
+      </LoadingButton>
+    </>
   );
 }
 
