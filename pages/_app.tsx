@@ -5,11 +5,11 @@ import "../styles/global.css";
 import useFetch from "react-fetch-hook";
 import {
   ThemeProvider,
-  createTheme,
-  experimental_sx as sx
+  createTheme
+  // experimental_sx as sx
 } from "@mui/material/styles";
 import LoginPrompt from "../components/LoginPrompt";
-declare var session: Object;
+// declare var session: Object;
 
 function SmartlistApp({ Component, pageProps }: any): JSX.Element {
   const ACCESS_TOKEN =
