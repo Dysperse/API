@@ -230,7 +230,7 @@ function Transactions({ account }: any) {
             </>
           )}
         </Grid>
-        <Grid item sm={6} sx={12}>
+        <Grid item sm={6} sm={12}>
           {!isLoading ? (
             <>
               <Typography sx={{ mt: 2, mb: 3 }} variant="h5">
