@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
@@ -14,7 +12,7 @@ export default function handler(req, res) {
     }),
     redirect: "follow"
   })
-    .then((response) => response.text())
-    .then((result) => res.send(result))
+    .then((response) => response.json())
+    .then((result) => res.json(result))
     .catch((error) => console.log("error", error));
 }

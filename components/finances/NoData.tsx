@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -9,45 +9,73 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { usePlaidLink } from "react-plaid-link";
-
+import useFetch from "react-fetch-hook";
+import router from "next/router";
 function ConnectBankAccount() {
-  const [publicToken, setPublicToken] = React.useState("");
-  const [completed, setCompleted] = React.useState(false);
-  const { open, ready } = usePlaidLink({
-    token: "link-sandbox-517314bb-e0fc-41dd-a7f2-6339e71ec6f1",
-    onSuccess: (public_token, metadata) => {
-      // send public_token to server
-      setPublicToken(public_token);
-      fetch(`/api/finance/exchangePublicToken?public_token=${public_token}`)
-        .then((res) => res.json())
-        .then((res) => {
-          alert(res.access_token);
-          fetch("https://api.smartlist.tech/v2/account/update/", {
-            method: "POST",
-            body: new URLSearchParams({
-              token: global.session && global.session.accessToken,
-              data: JSON.stringify({
-                financeToken: res.access_token
+  const [completed, setCompleted] = useState(false);
+
+  function LinkButton({ token }: any) {
+    const { open, ready } = usePlaidLink({
+      token: token,
+      onSuccess: (public_token, metadata) => {
+        // send public_token to server
+        fetch(`/api/finance/exchangePublicToken?public_token=${public_token}`)
+          .then((res) => res.json())
+          .then((res) => {
+            // alert(res.access_token);
+            fetch("https://api.smartlist.tech/v2/account/update/", {
+              method: "POST",
+              body: new URLSearchParams({
+                token: global.session && global.session.accessToken,
+                data: JSON.stringify({
+                  financeToken: res.access_token
+                })
               })
             })
-          })
-            .then((res) => res.json())
-            .then((res) => setCompleted(true));
-        });
-    }
-  });
-  return (
+              .then((res) => res.json())
+              .then((res) => setCompleted(true));
+          });
+      }
+    });
+    return (
+      <>
+        <LoadingButton
+          onClick={() => open()}
+          loading={!ready}
+          disabled={completed}
+          variant="contained"
+          size="large"
+          sx={{
+            background: "#212121",
+            "&:hover": { background: "#202020" },
+            "&:active, &:focus": { background: "#101010" },
+            mt: 2,
+            textTransform: "none",
+            px: 4,
+            mr: 1,
+            borderRadius: 9,
+            boxShadow: 0
+          }}
+        >
+          Connect a bank account
+        </LoadingButton>
+      </>
+    );
+  }
+
+  const { isLoading, data }: any = useFetch(
+    "/api/finance/createLinkToken/?" +
+      new URLSearchParams({
+        access_token: global.session.user.financeToken
+      })
+  );
+  return isLoading ? (
     <>
       <LoadingButton
-        onClick={() => open()}
-        loading={!ready}
-        disabled={completed}
-        variant="contained"
         size="large"
+        loading={true}
         sx={{
-          background: "#212121",
-          "&:hover": { background: "#202020" },
-          "&:active, &:focus": { background: "#101010" },
+          background: "#eee",
           mt: 2,
           textTransform: "none",
           px: 4,
@@ -59,6 +87,8 @@ function ConnectBankAccount() {
         Connect a bank account
       </LoadingButton>
     </>
+  ) : (
+    <LinkButton token={data.link_token} />
   );
 }
 
@@ -189,7 +219,7 @@ export default function NoData() {
           </Button>
           <Button
             size="large"
-            onClick={handleReset}
+            onClick={() => router.push("/finances")}
             sx={{
               mt: 2,
               textTransform: "none",

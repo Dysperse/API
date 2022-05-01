@@ -18,6 +18,7 @@ import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
 import { useState } from "react";
 import useFetch from "react-fetch-hook";
 import NoData from "../../components/finances/NoData";
+import Grid from "@mui/material/Grid";
 
 dayjs.extend(relativeTime);
 
@@ -51,13 +52,54 @@ function TransactionCard({ transaction }: any) {
   );
 }
 
+function Liabilities() {
+  const { isLoading, data }: any = useFetch(
+    "/api/finance/liabilities/?" +
+      new URLSearchParams({
+        access_token: global.session.user.financeToken
+      })
+  );
+  return isLoading ? (
+    <Skeleton
+      variant="rectangular"
+      animation="wave"
+      height={50}
+      sx={{ borderRadius: 5, my: 2 }}
+    />
+  ) : (
+    <>
+      {data.error_code === "NO_LIABILITY_ACCOUNTS" && (
+        <Box>
+          <Card
+            sx={{
+              background: "rgba(200,200,200,.3)",
+              p: 1,
+              borderRadius: 5,
+              mt: 2,
+              mb: 1,
+              textAlign: "center"
+            }}
+          >
+            <CardContent>
+              <Typography>
+                Your bank either didn't give us permission to view your
+                liabilities or doesn't support liabilities{" "}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
+    </>
+  );
+}
+
 function Transactions({ account }: any) {
   const { isLoading, data }: any = useFetch(
     "/api/finance/fetchTransactions/?" +
       new URLSearchParams({
         access_token: global.session.user.financeToken,
-        start_date: "2022-01-01",
-        end_date: "2022-05-01"
+        start_date: dayjs().subtract(30, "day").format("YYYY-MM-DD"),
+        end_date: dayjs().add(7, "day").format("YYYY-MM-DD")
       })
   );
   return (
@@ -124,29 +166,89 @@ function Transactions({ account }: any) {
         </>
       ) : (
         <>
-          <Alert severity="error" sx={{ borderRadius: 5, mb: 1 }}>
+          {/* <Alert severity="error" sx={{ borderRadius: 5, mb: 1 }}>
             Oh no! Your budget is over! Try not to spend as little money as
             possible
-          </Alert>
+          </Alert> */}
           <Alert severity="info" sx={{ borderRadius: 5, mb: 1 }}>
             Today's a weekend, your budget is lenient!
           </Alert>
         </>
       )}
-
-      <Card>
-        <CardContent>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          {!isLoading ? (
+            <Typography sx={{ mt: 2, mb: 3 }} variant="h5">
+              Recent transactions
+            </Typography>
+          ) : (
+            <Skeleton
+              width={200}
+              variant="rectangular"
+              animation="wave"
+              height={20}
+              sx={{ borderRadius: 5, mt: 2, mb: 3 }}
+            />
+          )}
           {isLoading ? (
-            "Loading..."
+            <>
+              {[1, 2, 3, 4, 5].map((_) => (
+                <Skeleton
+                  animation="wave"
+                  variant="rectangular"
+                  sx={{ borderRadius: 5, mb: 2 }}
+                  height={100}
+                />
+              ))}
+            </>
           ) : (
             <>
               {data.transactions.map((transaction) => (
                 <TransactionCard transaction={transaction} />
               ))}
+              {data.transactions.length === 0 && (
+                <Card
+                  sx={{
+                    background: "rgba(200,200,200,.3)",
+                    p: 1,
+                    borderRadius: 5,
+                    mt: 2,
+                    mb: 1,
+                    textAlign: "center"
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="h5" gutterBottom>
+                      Impressive!
+                    </Typography>
+                    <Typography variant="body2">
+                      You haven't made any recent transactions. Great job!
+                    </Typography>
+                  </CardContent>
+                </Card>
+              )}
             </>
           )}
-        </CardContent>
-      </Card>
+        </Grid>
+        <Grid item xs={6}>
+          {!isLoading ? (
+            <>
+              <Typography sx={{ mt: 2, mb: 3 }} variant="h5">
+                Debt
+              </Typography>
+              <Liabilities />
+            </>
+          ) : (
+            <Skeleton
+              width={200}
+              variant="rectangular"
+              animation="wave"
+              height={20}
+              sx={{ borderRadius: 5, mt: 2, mb: 3 }}
+            />
+          )}
+        </Grid>
+      </Grid>
     </>
   );
 }
@@ -212,82 +314,107 @@ function AccountList() {
     </>
   ) : (
     <>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="basic tabs example"
-        centered
-        variant="scrollable"
-        scrollButtons
-        allowScrollButtonsMobile
-        sx={{
-          "& .MuiTabs-scrollButtons.Mui-disabled": {
-            opacity: {
-              xs: 0.3,
-              lg: data.accounts.length > 4 ? 0.3 : 0
-            },
-            display: {
-              xs: data.accounts.length > 1 ? "" : "none",
-              sm: data.accounts.length > 4 ? "" : "none"
-            }
-          },
-          "& .MuiTabs-scrollButtons": {
-            borderRadius: 5,
-            borderLeft: "4px solid #fff",
-            borderRight: "4px solid #fff"
-          },
-          "& .MuiTabs-scroller": { borderRadius: 5 },
-
-          maxWidth: "90vw",
-          my: 2,
-          "& .MuiTabs-indicator": {
-            borderRadius: 5,
-            height: "100%",
-            background: "rgba(200,200,200,.4)",
-            zIndex: -1
-          },
-          "& .Mui-selected": {
-            color: global.theme === "dark" ? "#fff" : "#000!important"
-          }
-        }}
-      >
-        {data.accounts.map((account) => (
-          <Tooltip title={account.official_name} enterDelay={500}>
-            <Tab
-              icon={
-                <Typography sx={{ float: "left" }}>{account.name}</Typography>
-              }
-              label={
-                <Typography
-                  variant="body2"
-                  sx={{ textTransform: "capitalize", fontSize: "12px" }}
-                >
-                  &bull;&bull;&bull; &bull;&bull;&bull; &bull;&bull;&bull;{" "}
-                  {account.mask} &bull; {account.type}
-                </Typography>
-              }
-              disableRipple
-              sx={{
-                mr: 1,
-                px: 8,
-                background: "rgba(200,200,200,.2)",
-                transition: "color .2s",
-                "&.Mui-selected": {
-                  background: "rgba(200,200,200,.2)!important"
+      {data.error_code !== "PRODUCT_NOT_READY" ? (
+        <>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            centered
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
+            sx={{
+              "& .MuiTabs-scrollButtons.Mui-disabled": {
+                opacity: {
+                  xs: 0.3,
+                  lg: data.accounts.length > 4 ? 0.3 : 0
                 },
-                "&:active": { background: "rgba(200,200,200,.3)" },
-                textTransform: "none",
-                borderRadius: 5
-              }}
-            />
-          </Tooltip>
-        ))}
-      </Tabs>
-      {data.accounts.map((account, index) => (
-        <TabPanel value={value} index={index}>
-          <Transactions account={account} />
-        </TabPanel>
-      ))}
+                display: {
+                  xs: data.accounts.length > 1 ? "" : "none",
+                  sm: data.accounts.length > 4 ? "" : "none"
+                }
+              },
+              "& .MuiTabs-scrollButtons": {
+                borderRadius: 5,
+                borderLeft: "4px solid #fff",
+                borderRight: "4px solid #fff"
+              },
+              "& .MuiTabs-scroller": { borderRadius: 5 },
+
+              maxWidth: "90vw",
+              my: 2,
+              "& .MuiTabs-indicator": {
+                borderRadius: 5,
+                height: "100%",
+                background: "rgba(200,200,200,.4)",
+                zIndex: -1
+              },
+              "& .Mui-selected": {
+                color: global.theme === "dark" ? "#fff" : "#000!important"
+              }
+            }}
+          >
+            {data.accounts.map((account) => (
+              <Tooltip title={account.official_name} enterDelay={500}>
+                <Tab
+                  icon={
+                    <Typography sx={{ float: "left" }}>
+                      {account.name}
+                    </Typography>
+                  }
+                  label={
+                    <Typography
+                      variant="body2"
+                      sx={{ textTransform: "capitalize", fontSize: "12px" }}
+                    >
+                      &bull;&bull;&bull; &bull;&bull;&bull; &bull;&bull;&bull;{" "}
+                      {account.mask} &bull; {account.type}
+                    </Typography>
+                  }
+                  disableRipple
+                  sx={{
+                    mr: 1,
+                    width: { sm: "40vw" },
+                    maxWidth: { sm: "40vw" },
+                    background: "rgba(200,200,200,.2)",
+                    transition: "color .2s",
+                    "&.Mui-selected": {
+                      background: "rgba(200,200,200,.2)!important"
+                    },
+                    "&:active": { background: "rgba(200,200,200,.3)" },
+                    textTransform: "none",
+                    borderRadius: 5
+                  }}
+                />
+              </Tooltip>
+            ))}
+          </Tabs>
+          {data.accounts.map((account, index) => (
+            <TabPanel value={value} index={index}>
+              <Transactions account={account} />
+            </TabPanel>
+          ))}
+        </>
+      ) : (
+        <Box sx={{ textAlign: "center", p: 5 }}>
+          <Card
+            sx={{ py: 5, background: "rgba(200,200,200,.4)", borderRadius: 5 }}
+          >
+            <CardContent>
+              <Typography variant="h5" gutterBottom>
+                We're getting your finance dashboard ready...
+              </Typography>
+              <Typography gutterBottom>
+                Check back in a few minutes, and we'll get your dashboard ready
+              </Typography>
+              <Typography variant="body2">
+                Having problems? Email us at hello@smartlist.tech
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </>
   );
 }
@@ -324,7 +451,7 @@ export function RenderFinances() {
 }
 export default function Finances() {
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ px: 3, py: 1 }}>
       {global.session &&
       global.session.user.financeToken.startsWith("access-sandbox-") ? (
         <RenderFinances />
