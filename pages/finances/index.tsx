@@ -33,7 +33,7 @@ function Transactions({ account }: any) {
           alignItems: "center",
           justifyContent: "center",
           background:
-            "url(https://i.ibb.co/k4XFvhj/blurry-gradient-haikei.png)",
+            isLoading ? "rgba(200,200,200,.3)": "url(https://i.ibb.co/k4XFvhj/blurry-gradient-haikei.png)",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           color: "white",
