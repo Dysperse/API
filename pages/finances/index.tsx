@@ -176,7 +176,7 @@ function Transactions({ account }: any) {
         </>
       )}
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item sm={6} xs={12}>
           {!isLoading ? (
             <Typography sx={{ mt: 2, mb: 3 }} variant="h5">
               Recent transactions
@@ -230,7 +230,7 @@ function Transactions({ account }: any) {
             </>
           )}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={6} sx={12}>
           {!isLoading ? (
             <>
               <Typography sx={{ mt: 2, mb: 3 }} variant="h5">
@@ -375,6 +375,7 @@ function AccountList() {
                   disableRipple
                   sx={{
                     mr: 1,
+                    px: 8,
                     width: { sm: "40vw" },
                     maxWidth: { sm: "40vw" },
                     background: "rgba(200,200,200,.2)",
