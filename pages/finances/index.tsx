@@ -1,18 +1,55 @@
-import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
-import NoData from "../../components/finances/NoData";
-import useFetch from "react-fetch-hook";
-import Skeleton from "@mui/material/Skeleton";
-import Tooltip from "@mui/material/Tooltip";
+import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
+import { red } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
+import { useState } from "react";
+import useFetch from "react-fetch-hook";
+import NoData from "../../components/finances/NoData";
+
+dayjs.extend(relativeTime);
+
+function TransactionCard({ transaction }: any) {
+  return (
+    <Card
+      sx={{ background: "rgba(200,200,200,.3)", p: 1, borderRadius: 5, mb: 1 }}
+    >
+      <CardContent>
+        {transaction.pending && (
+          <Box sx={{ color: red[600], float: "right" }}>
+            <Tooltip title="This transaction is pending. Make sure to pay your transactions before buying anything else!">
+              <span className="material-symbols-rounded">warning</span>
+            </Tooltip>
+          </Box>
+        )}
+
+        <Typography gutterBottom variant="h6">
+          {transaction.merchant_name ?? transaction.name}
+        </Typography>
+        <Typography gutterBottom>
+          {dayjs(transaction.date).fromNow()} &bull; ${transaction.amount}
+        </Typography>
+        <Stack spacing={1} sx={{ mt: 1 }} direction="row">
+          {transaction.category.map((category) => (
+            <Chip label={category} />
+          ))}
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
 
 function Transactions({ account }: any) {
   const { isLoading, data }: any = useFetch(
@@ -32,8 +69,9 @@ function Transactions({ account }: any) {
           height: "300px",
           alignItems: "center",
           justifyContent: "center",
-          background:
-            isLoading ? "rgba(200,200,200,.3)": "url(https://i.ibb.co/k4XFvhj/blurry-gradient-haikei.png)",
+          background: isLoading
+            ? "rgba(200,200,200,.3)"
+            : "url(https://i.ibb.co/k4XFvhj/blurry-gradient-haikei.png)",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           color: "white",
@@ -98,7 +136,15 @@ function Transactions({ account }: any) {
 
       <Card>
         <CardContent>
-          {/* {isLoading ? "Loading..." : JSON.stringify(data, null, 3)} */}
+          {isLoading ? (
+            "Loading..."
+          ) : (
+            <>
+              {data.transactions.map((transaction) => (
+                <TransactionCard transaction={transaction} />
+              ))}
+            </>
+          )}
         </CardContent>
       </Card>
     </>
