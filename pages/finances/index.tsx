@@ -279,7 +279,9 @@ export function RenderFinances() {
 export default function Finances() {
   return (
     <Box sx={{ p: 3 }}>
-      {global.session && global.session.user.financeToken === "" ? (
+      {global.session &&
+      (global.session.user.financeToken === "" ||
+        !global.session.user.financeToken.startsWith("access-sandbox-")) ? (
         <>
           <Typography variant="h5">Finances</Typography>
           <NoData />
