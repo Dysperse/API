@@ -452,9 +452,11 @@ export function RenderFinances() {
   );
 }
 export default function Finances() {
+  // global.session.user.financeToken = null;
   return (
     <Box sx={{ px: 3, py: 1 }}>
       {global.session &&
+      global.session.user.financeToken &&
       global.session.user.financeToken.startsWith("access-sandbox-") ? (
         <RenderFinances />
       ) : (
