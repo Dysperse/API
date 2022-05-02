@@ -359,7 +359,7 @@ function AccountList() {
               <Tooltip title={account.official_name} enterDelay={500}>
                 <Tab
                   icon={
-                    <Typography sx={{ float: "left" }}>
+                    <Typography sx={{ float: "left" }} variant="h6">
                       {account.name}
                     </Typography>
                   }
@@ -376,6 +376,7 @@ function AccountList() {
                   sx={{
                     mr: 1,
                     px: 8,
+                    py: 3,
                     width: { sm: "40vw" },
                     maxWidth: { sm: "40vw" },
                     background: "rgba(200,200,200,.2)",
