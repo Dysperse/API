@@ -165,7 +165,7 @@ export default function AppearanceSettings() {
             secondary={
               <Slider
                 aria-label="How many people do you live with?"
-                defaultValue={30}
+                defaultValue={global.session && global.session.user.familyCount}
                 valueLabelDisplay="auto"
                 step={1}
                 marks
