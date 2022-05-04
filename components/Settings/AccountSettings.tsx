@@ -8,19 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Slider from "@mui/material/Slider";
 import TextField from "@mui/material/TextField";
-
-function updateSettings(key: string, value: string) {
-  fetch("https://api.smartlist.tech/v2/account/update/", {
-    method: "POST",
-    body: new URLSearchParams({
-      token: global.session && global.session.accessToken,
-      data: JSON.stringify({
-        [key]: value
-      })
-    })
-  });
-  global.session.user[key] = value;
-}
+import { updateSettings } from "./updateSettings";
 
 export default function AppearanceSettings() {
   const [mode, setMode] = useState<"personal" | "business">("personal");

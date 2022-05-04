@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
 import ListSubheader from "@mui/material/ListSubheader";
@@ -8,11 +8,15 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
+import { updateSettings } from "./updateSettings";
 
 export default function AppearanceSettings() {
   const [financePlan, setFinancePlan] = useState<
     "short-term" | "medium-term" | "long-term"
-  >("short-term");
+  >(global.session && global.session.user.financePlan);
+  useEffect(() => {
+    updateSettings("financePlan", financePlan);
+  }, [financePlan]);
   return (
     <>
       <Box
@@ -78,8 +82,28 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 size="small"
-                defaultValue={100}
+                defaultValue={global.session && global.session.user.budget}
                 label="My budget"
+                onBlur={(e) => updateSettings("budget", e.target.value)}
+                id="outlined-start-adornment"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  )
+                }}
+              />
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primary={
+              <TextField
+                fullWidth
+                size="small"
+                defaultValue={global.session && global.session.user.income}
+                label="Estimated monthly income"
+                onBlur={(e) => updateSettings("income", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
                   startAdornment: (
