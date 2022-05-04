@@ -16,10 +16,14 @@ import FinanceSettings from "./FinanceSettings";
 import AccountSettings from "./AccountSettings";
 import App from "./App";
 import Box from "@mui/material/Box";
+import Sessions from "./Sessions"
 
 function SettingsMenu({ content, icon, primary, secondary }: any) {
 	const [open, setOpen] = useState(false);
 	useEffect(() => {
+		document.documentElement.classList[open ? "add" : "remove"](
+			"prevent-scroll"
+		);
 		document
 			.querySelector(`meta[name="theme-color"]`)!
 			.setAttribute(
@@ -217,7 +221,7 @@ export default function FullScreenDialog() {
 							secondary={null}
 						/>
 						<SettingsMenu
-							content={<p>test</p>}
+							content={<Sessions />}
 							icon="history"
 							primary="Sessions"
 							secondary={null}
