@@ -2,9 +2,9 @@
 
 ⚠️ This Smartlist dashboard is currently under beta. If you run into any bugs, create an issue!
 
-# Smartlist Dashboard
+# Smartlist
 
-## Experimental ReactJS Smartlist Dashboard
+## Make more from what you earn.
 
 ![CB](https://img.shields.io/badge/Contributors-20-yellow?style=flat)
 ![Frontend](https://img.shields.io/static/v1?label=Frontend&message=HTML,%20CSS,%20JS&color=%3CCOLOR%3E&style=flat)
@@ -67,7 +67,6 @@ Languages supported: JS, PHP, Python, Flutter, Swift, C++, Java, Kotlin
 - Click on the "API keys" in the side navigation menu
 - Create a key by filling out the form
 - Let's code
-
 
 Powered by InfinitzHost
 https://infinitzhost.com/?smartlist
