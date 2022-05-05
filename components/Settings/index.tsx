@@ -9,14 +9,14 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { blue } from "@mui/material/colors";
+import * as colors from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import AppearanceSettings from "./AppearanceSettings";
 import FinanceSettings from "./FinanceSettings";
 import AccountSettings from "./AccountSettings";
+import Sessions from "./Sessions"
 import App from "./App";
 import Box from "@mui/material/Box";
-import Sessions from "./Sessions"
 
 function SettingsMenu({ content, icon, primary, secondary }: any) {
 	const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 					<Avatar
 						sx={{
 							color: global.theme === "dark" ? "#fff" : "#000",
-							background: global.theme === "dark" ? blue[900] : blue[100]
+							background: global.theme === "dark" ? colors[themeColor][900] : colors[themeColor][100]
 						}}
 					>
 						<span className="material-symbols-rounded">{icon}</span>
@@ -236,7 +236,7 @@ export default function FullScreenDialog() {
 
 						<ListItem button>
 							<ListItemAvatar>
-								<Avatar sx={{ color: "#000", background: blue[100] }}>
+								<Avatar sx={{ color: "#000", background: colors[themeColor][100] }}>
 									<span className="material-symbols-rounded">logout</span>
 								</Avatar>
 							</ListItemAvatar>

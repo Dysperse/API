@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
-import useSWR from "swr";
-import { mutate } from "swr";
+import useFetch from "react-fetch-hook";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
@@ -16,8 +15,6 @@ import { Suspense } from "react";
 
 import { ItemCard } from "../../components/rooms/ItemCard";
 import { Toolbar } from "../../components/rooms/Toolbar";
-
-const fetcher = (u: string, o: any) => fetch(u, o).then((res) => res.json());
 
 function Header({ room, itemCount }: { room: string; itemCount: number }) {
   return (
@@ -267,12 +264,12 @@ function LoadingScreen() {
       <Skeleton
         variant="rectangular"
         animation="wave"
-        sx={{ height: 160, mb: 2, borderRadius: "5px" }}
+        sx={{ height: 160, mb: 2, borderRadius: 5 }}
       />
       <Skeleton
         variant="rectangular"
         animation="wave"
-        sx={{ height: 120, mb: 2, borderRadius: "5px" }}
+        sx={{ height: 120, mb: 2, borderRadius: 5 }}
       />
       <Box
         sx={{
@@ -282,26 +279,20 @@ function LoadingScreen() {
         }}
       >
         <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
-          {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(
-            (_) => {
-              let height = Math.random() * 400;
-              if (height < 100) height = 100;
-              return (
-                <Paper
-                  key={Math.random().toString()}
-                  sx={{ p: 0 }}
-                  elevation={0}
-                >
-                  <Skeleton
-                    variant="rectangular"
-                    height={height}
-                    animation="wave"
-                    sx={{ mb: 1, borderRadius: "28px" }}
-                  />
-                </Paper>
-              );
-            }
-          )}
+          {[...new Array(25)].map(() => {
+            let height = Math.random() * 400;
+            if (height < 100) height = 100;
+            return (
+              <Paper key={Math.random().toString()} sx={{ p: 0 }} elevation={0}>
+                <Skeleton
+                  variant="rectangular"
+                  height={height}
+                  animation="wave"
+                  sx={{ mb: 1, borderRadius: "28px" }}
+                />
+              </Paper>
+            );
+          })}
         </Masonry>
       </Box>
     </Box>
@@ -389,49 +380,34 @@ function ItemList({ items }: { items: any }) {
   );
 }
 
-function Room() {
-  const router = useRouter();
-  const { index }: any = router.query;
-
-  const url = "https://api.smartlist.tech/v2/items/list/";
-
-  mutate(
-    url,
-    fetch(url, {
+function RoomComponent({ index }: any) {
+  const { isLoading, data }: any = useFetch(
+    "https://api.smartlist.tech/v2/items/list/",
+    {
       method: "POST",
       body: new URLSearchParams({
         token: global.session && global.session.accessToken,
         room: index
       })
-    }).then((res) => res.json())
+    }
   );
 
-  const { data, error } = useSWR(
-    url,
-    (): Promise<any> =>
-      fetcher(url, {
-        method: "POST",
-        body: new URLSearchParams({
-          token: global.session && global.session.accessToken,
-          room: index
-        })
-      }),
-    { suspense: true }
+  return isLoading ? (
+    <LoadingScreen key={Math.random().toString()} />
+  ) : (
+    <Box sx={{ p: 3 }} key={index}>
+      <Header room={index} itemCount={data.data.length} />
+      <Suggestions room={index} items={data.data} />
+      <Toolbar />
+      <ItemList items={data.data} />
+    </Box>
   );
+}
 
-  if (error)
-    return <div>Yikes! An error has occured, please try again later</div>;
+function Room() {
+  const index = window.location.pathname.split("/rooms/")[1];
 
-  return (
-    <Suspense fallback={<LoadingScreen />}>
-      <Box sx={{ p: 3 }}>
-        <Header room={index} itemCount={data.data.length} />
-        <Suggestions room={index} items={data.data} />
-        <Toolbar />
-        <ItemList items={data.data} />
-      </Box>
-    </Suspense>
-  );
+  return <RoomComponent index={index} key={index} />;
 }
 
 export default Room;

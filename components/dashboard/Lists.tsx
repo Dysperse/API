@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { blue, blueGrey, grey } from "@mui/material/colors";
+import { blue, blueGrey } from "@mui/material/colors";
 import { List } from "./List";
 import { useFormik } from "formik";
 
@@ -195,7 +195,7 @@ function RenderLists({ data }: any) {
         <List
           key={Math.random().toString()}
           title={list.title}
-          count={parseInt(list.count)}
+          count={parseInt(list.count, 10)}
           description={list.description}
           id={list.id}
         />

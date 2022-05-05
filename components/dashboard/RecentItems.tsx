@@ -3,9 +3,9 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
-import { blueGrey, grey } from "@mui/material/colors";
-import { RecentItem } from "./RecentItem";
+import { blueGrey } from "@mui/material/colors";
 import useFetch from "react-fetch-hook";
+import Item from "../../components/ItemPopup";
 
 export function RecentItems() {
   const { isLoading, data }: any = useFetch(
@@ -15,7 +15,7 @@ export function RecentItems() {
       body: new URLSearchParams({
         room: "null",
         limit: "7",
-        token: global.session ? global.session.accessToken : undefined
+        token: global.session && global.session.accessToken
       })
     }
   );
@@ -41,8 +41,8 @@ export function RecentItems() {
         <Typography variant="h5" sx={{ mb: 1 }}>
           Recent items
         </Typography>
-        {data.data.map((list: Object) => (
-          <RecentItem key={Math.random().toString()} item={list} />
+        {data.data.map((item: Object) => (
+          <Item key={Math.random().toString()} variant="list" data={item} />
         ))}
       </CardContent>
     </Card>

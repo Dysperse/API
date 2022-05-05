@@ -340,19 +340,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
             <Skeleton sx={{ mb: 5 }} width={"200px"} animation="wave" />
             <Skeleton sx={{ mb: 3 }} width={"100px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
+            {[...new Array(13)].map(() => (
+              <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
+            ))}
           </Box>
         </>
       )}
