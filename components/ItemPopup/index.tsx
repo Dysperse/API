@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
 import { orange } from "@mui/material/colors";
-import * as colors from "@mui/material/colors"
+import * as colors from "@mui/material/colors";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -192,7 +192,7 @@ export default function Item({ data, variant }: any) {
             <Typography variant="h3">{title}</Typography>
             <Typography variant="h4">{quantity}</Typography>
             <Stack spacing={2} direction="row">
-              {categories.split(",").map((category: string) => {
+              {categories.map((category: string) => {
                 if (category.trim() !== "") {
                   return (
                     <Chip key={Math.random().toString()} label={category} />
