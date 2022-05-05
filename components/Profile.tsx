@@ -39,32 +39,27 @@ function Accounts({ setOpen }: any) {
           </div>
         }
       >
-        <ListItem
-          alignItems="flex-start"
-          sx={{ borderRadius: 100, p: 0, overflow: "hidden" }}
-        >
-          <ListItemAvatar>
-            <Avatar
-              alt="Remy Sharp"
-              src={global.session ? global.session.user.image : null}
-            />
-          </ListItemAvatar>
-          <ListItemText
-            primary={global.session && global.session.user.name}
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: "inline" }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  {global.session && global.session.user.email}
-                </Typography>
-              </React.Fragment>
-            }
+        <ListItemAvatar>
+          <Avatar
+            alt="Remy Sharp"
+            src={global.session ? global.session.user.image : null}
           />
-        </ListItem>
+        </ListItemAvatar>
+        <ListItemText
+          primary={global.session && global.session.user.name}
+          secondary={
+            <React.Fragment>
+              <Typography
+                sx={{ display: "inline" }}
+                component="span"
+                variant="body2"
+                color="text.primary"
+              >
+                {global.session && global.session.user.email}
+              </Typography>
+            </React.Fragment>
+          }
+        />
       </ListItem>
     </List>
   );

@@ -1,5 +1,4 @@
 import * as React from "react";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -22,28 +21,19 @@ export function GenerateListItem({ listItems, setListItems, title, id }: any) {
   };
   return (
     <Collapse in={!deleted}>
-      <ListItem
-        key={Math.random().toString()}
-        sx={{ py: 0, m: 0 }}
-        disablePadding
-      >
-        <ListItemButton
-          sx={{ py: 0, borderRadius: 3, transition: "none" }}
-          dense
-        >
-          <ListItemIcon>
-            <Checkbox
-              onClick={() => {
-                deleteItem(id);
-                setChecked(true);
-              }}
-              edge="start"
-              checked={checked}
-            />
-          </ListItemIcon>
-          <ListItemText primary={title} />
-        </ListItemButton>
-      </ListItem>
+      <ListItemButton sx={{ py: 0, borderRadius: 3, transition: "none" }} dense>
+        <ListItemIcon>
+          <Checkbox
+            onClick={() => {
+              deleteItem(id);
+              setChecked(true);
+            }}
+            edge="start"
+            checked={checked}
+          />
+        </ListItemIcon>
+        <ListItemText primary={title} />
+      </ListItemButton>
     </Collapse>
   );
 }
