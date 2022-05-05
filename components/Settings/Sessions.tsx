@@ -20,7 +20,7 @@ function Session({ session }) {
               disabled={session.token === global.session.accessToken}
               onClick={() => setOpen(true)}
             >
-              <span class="material-symbols-rounded">remove_circle</span>
+              <span className="material-symbols-rounded">remove_circle</span>
             </IconButton>
           </Tooltip>
         }
