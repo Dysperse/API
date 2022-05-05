@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import Skeleton from "@mui/material/Skeleton";
-import { blue } from "@mui/material/colors";
+import * as colors from "@mui/material/colors";
 import AddPopup from "./AddPopup";
 
 export function FloatingActionButton() {
@@ -31,10 +31,10 @@ export function FloatingActionButton() {
 							px: 3,
 							boxShadow: 0,
 							fontSize: "15px",
-							background: global.theme === "dark" ? blue[900] : blue[200],
-							color: global.theme === "dark" ? blue[100] : blue[900],
+							background: global.theme === "dark" ? colors[themeColor]["900"] : colors[themeColor][100],
+							color: global.theme === "dark" ? colors[themeColor][100] : colors[themeColor]["900"],
 							"&:hover": {
-								background: global.theme === "dark" ? blue[800] : blue[300]
+								background: global.theme === "dark" ? colors[themeColor][800] : colors[themeColor]["200"]
 							},
 							py: 2,
 							height: "auto",

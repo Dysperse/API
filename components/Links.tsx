@@ -18,6 +18,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
+import * as colors from "@mui/material/colors";
 
 function CreateRoom() {
   const [open, setOpen] = React.useState(false);
@@ -128,20 +129,23 @@ const ListItem = React.memo(function ListItem({
             background: "rgba(200,200,200,.4)"
           },
           ...(router.asPath === asHref && {
-            backgroundColor: blue[50],
-            color: blue[800],
+            backgroundColor: colors[themeColor]["50"],
+            color: colors[themeColor]["900"],
             "&:hover": {
-              backgroundColor: blue[100],
-              color: blue[900]
+              backgroundColor: colors[themeColor]["100"],
+              color: colors[themeColor]["900"]
             },
             "&:active": {
-              backgroundColor: blue[200]
+              backgroundColor: colors[themeColor]["100"]
+            },
+            "& span": {
+              color: colors[themeColor]["500"] + "!important"
             },
             "&:hover span": {
-              color: blue[700] + "!important"
+              color: colors[themeColor]["700"] + "!important"
             },
             "&:active span": {
-              color: blue[800] + "!important"
+              color: colors[themeColor]["800"] + "!important"
             }
           })
         }}
