@@ -21,6 +21,7 @@
     "cookie-cutter": "0.2.0",
     "dayjs": "^1.11.0",
     "formik": "^2.2.9",
+    "hex-to-rgba": "^2.0.1",
     "iron-session": "^6.1.2",
     "next": "^12.1.5",
     "next-auth": "4.0.0",

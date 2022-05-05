@@ -13,6 +13,8 @@ import Box from "@mui/material/Box";
 import { blue, grey } from "@mui/material/colors";
 import { SearchPopup } from "./SearchPopup";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
+import hexToRgba from 'hex-to-rgba';
+import * as colors from "@mui/material/colors"
 
 function ElevationScroll(props: any) {
   const { children, window } = props;
@@ -33,7 +35,7 @@ function ElevationScroll(props: any) {
           trigger
             ? global.theme === "dark"
               ? grey[800]
-              : blue[100]
+              : hexToRgba(colors[themeColor]["100"])
             : global.theme === "dark"
             ? "#121212"
             : "#fff"
@@ -53,7 +55,7 @@ function ElevationScroll(props: any) {
           background:
             global.theme === "dark"
               ? "rgba(90,90,90,.7)"
-              : "rgba(187, 222, 251, .7)"
+              : hexToRgba(colors[themeColor]["100"], .5)
         }
       : {
           color: global.theme === "dark" ? "white" : "black",

@@ -2822,6 +2822,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+hex-to-rgba@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/hex-to-rgba/-/hex-to-rgba-2.0.1.tgz#4176977882a1cb32b83ce5ab1db6828ab84d5a13"
+  integrity sha512-5XqPJBpsEUMsseJUi2w2Hl7cHFFi3+OO10M2pzAvKB1zL6fc+koGMhmBqoDOCB4GemiRM/zvDMRIhVw6EkB8dQ==
+
 highlight.js@^10.7.1:
   version "10.7.3"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
