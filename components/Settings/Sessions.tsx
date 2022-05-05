@@ -42,7 +42,7 @@ function Session({ session }) {
 }
 
 export default function Sessions() {
-  const { isLoading, data } = useFetch(
+  const { isLoading, data }:any = useFetch(
     "https://api.smartlist.tech/v2/account/sessions/",
     {
       method: "POST",

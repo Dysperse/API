@@ -10,7 +10,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
-import { blue, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import { SearchPopup } from "./SearchPopup";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import hexToRgba from 'hex-to-rgba';
