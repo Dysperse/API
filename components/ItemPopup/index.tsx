@@ -297,7 +297,7 @@ export default function Item({ data, variant }: any) {
                     </Typography>
                     <Typography>{quantity}</Typography>
                     <Stack spacing={2} direction="row" sx={{ mt: 1 }}>
-                      {categories.split(",").map((category: string) => {
+                      {categories.map((category: string) => {
                         if (category.trim() === "") return false;
                         return (
                           <Chip
