@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ShareIcon from "@mui/icons-material/Share";
-import ChatIcon from "@mui/icons-material/Chat";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import BoltIcon from "@mui/icons-material/Bolt";
 import MenuItem from "@mui/material/MenuItem";
 import { AddToListModal } from "./AddToList";
 import { InfoButton } from "./InfoButton";
 import { QrCodeModal } from "./QrCodeModal";
-import { blue } from "@mui/material/colors";
+import * as colors from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 
 export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
@@ -60,18 +54,18 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 					"& .MuiPaper-root": {
 						borderRadius: "15px",
 						minWidth: 180,
-						background: global.theme === "dark" ? blue[900] : blue[100],
+						background: global.theme === "dark" ? colors[global.themeColor][900] : colors[global.themeColor][100],
 
-						color: global.theme === "dark" ? blue[200] : blue[800],
+						color: global.theme === "dark" ? colors[global.themeColor][200] : colors[global.themeColor][800],
 						"& .MuiMenu-list": {
 							padding: "4px"
 						},
 						"& .MuiMenuItem-root": {
 							"&:hover": {
-								background: global.theme === "dark" ? blue[800] : blue[200],
-								color: global.theme === "dark" ? blue[100] : blue[900],
+								background: global.theme === "dark" ? colors[global.themeColor][800] : colors[global.themeColor][200],
+								color: global.theme === "dark" ? colors[global.themeColor][100] : colors[global.themeColor][900],
 								"& .MuiSvgIcon-root": {
-									color: global.theme === "dark" ? blue[200] : blue[800]
+									color: global.theme === "dark" ? colors[global.themeColor][200] : colors[global.themeColor][800]
 								}
 							},
 							padding: "10px 15px",
@@ -81,11 +75,11 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 
 							"& .MuiSvgIcon-root": {
 								fontSize: 25,
-								color: blue[700],
+								color: colors[global.themeColor][700],
 								marginRight: 1.9
 							},
 							"&:active": {
-								background: global.theme === "dark" ? blue[700] : blue[300]
+								background: global.theme === "dark" ? colors[global.themeColor][700] : colors[global.themeColor][300]
 							}
 						}
 					}

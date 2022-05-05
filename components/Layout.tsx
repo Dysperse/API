@@ -10,7 +10,7 @@ import { BottomNav } from "./BottomNav";
 import { FloatingActionButton } from "./FloatingActionButton";
 import useWindowDimensions from "./useWindowDimensions";
 
-import { blue } from "@mui/material/colors";
+import * as colors from "@mui/material/colors";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -76,7 +76,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
             ? global.theme === "dark"
               ? "#101010"
               : "#808080"
-            : blue[50]
+            : colors[global.themeColor][50]
         );
   });
   const handleDrawerToggle = () => {

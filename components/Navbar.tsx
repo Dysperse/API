@@ -32,7 +32,7 @@ function ElevationScroll(props: any) {
           trigger
             ? global.theme === "dark"
               ? grey[800]
-              : hexToRgba(colors[themeColor]["100"])
+              : colors[global.themeColor]["100"]
             : global.theme === "dark"
             ? "#121212"
             : "#fff"
@@ -52,7 +52,7 @@ function ElevationScroll(props: any) {
           background:
             global.theme === "dark"
               ? "rgba(90,90,90,.7)"
-              : hexToRgba(colors[themeColor]["50"], 0.8)
+              : hexToRgba(colors[global.themeColor]["100"], 0.9)
         }
       : {
           color: global.theme === "dark" ? "white" : "black",

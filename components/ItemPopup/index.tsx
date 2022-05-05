@@ -8,7 +8,8 @@ import Stack from "@mui/material/Stack";
 import dayjs from "dayjs";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
-import { orange, blue } from "@mui/material/colors";
+import { orange } from "@mui/material/colors";
+import * as colors from "@mui/material/colors"
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -59,7 +60,7 @@ export default function Item({ data, variant }: any) {
             : "#fff"
           : document.documentElement!.scrollTop === 0
           ? "#fff"
-          : blue[100]
+          : colors[global.themeColor]["100"]
       );
   });
 

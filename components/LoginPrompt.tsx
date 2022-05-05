@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { blue } from "@mui/material/colors";
+import * as colors from "@mui/material/colors";
 import React from "react";
 
 export default function LoginPrompt() {
@@ -30,9 +30,9 @@ export default function LoginPrompt() {
           },
           textTransform: "none",
           color: "black",
-          background: blue[100],
+          background: colors[global.themeColor][100],
           "&:hover": {
-            background: blue[200]
+            background: colors[global.themeColor][200]
           },
           borderRadius: 9
         }}

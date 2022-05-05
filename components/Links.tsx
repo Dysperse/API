@@ -153,7 +153,7 @@ const ListItem = React.memo(function ListItem({
         <ListItemIcon
           sx={{
             ...(router.asPath === asHref && {
-              color: blue[500]
+              color: colors[global.themeColor][500]
             })
           }}
         >

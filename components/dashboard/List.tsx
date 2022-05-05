@@ -9,7 +9,8 @@ import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
-import { blueGrey, blue } from "@mui/material/colors";
+import { blueGrey } from "@mui/material/colors";
+import * as colors from "@mui/material/colors";
 import { CreateListItemButton } from "./CreateListItemButton";
 
 function ListItem({ item, listItems, setListItems }: any) {
@@ -58,7 +59,10 @@ function ListPopup({
     );
     document
       .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute("content", drawerState ? "#808080" : blue[50]);
+      .setAttribute(
+        "content",
+        drawerState ? "#808080" : colors[global.themeColor][50]
+      );
   });
   return (
     <SwipeableDrawer

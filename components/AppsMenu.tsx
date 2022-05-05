@@ -5,7 +5,8 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Skeleton from "@mui/material/Skeleton";
 import TipsAndUpdates from "@mui/icons-material/TipsAndUpdates";
-import { green, blue } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
+import * as colors from "@mui/material/colors"
 
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -167,7 +168,7 @@ function Products() {
             borderRadius: "9px",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background: category.bg ?? blue[200]
+              background: category.bg ?? colors[global.themeColor][200]
             },
             transition: "all .2s",
             "&:before": {
@@ -202,7 +203,7 @@ function Products() {
               target="_blank"
               href={category.href}
               component="button"
-              sx={{ fontSize: "16px", color: blue[800] }}
+              sx={{ fontSize: "16px", color: colors[global.themeColor][800] }}
             >
               {category.label}
             </Link>
@@ -270,7 +271,7 @@ export function AppsMenu() {
           sx: {
             borderRadius: "28px",
             boxShadow: 0,
-            background: blue[100]
+            background: colors[global.themeColor][100]
           }
         }}
         anchorOrigin={{
