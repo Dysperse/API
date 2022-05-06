@@ -189,8 +189,8 @@ export default function Item({ data, variant }: any) {
               gap: 2
             }}
           >
-            <Typography variant="h3">{title}</Typography>
-            <Typography variant="h4">{quantity}</Typography>
+            <Typography variant="h3">{title || "(no title)"}</Typography>
+            <Typography variant="h4">{quantity || "(no quantity)"}</Typography>
             <Stack spacing={2} direction="row">
               {categories.map((category: string) => {
                 if (category.trim() !== "") {
@@ -293,9 +293,9 @@ export default function Item({ data, variant }: any) {
                       sx={{ textOverflow: "ellipsis" }}
                       noWrap
                     >
-                      {title}
+                      {title || "(no title)"}
                     </Typography>
-                    <Typography>{quantity}</Typography>
+                    <Typography>{quantity || "(no quantity)"}</Typography>
                     <Stack spacing={2} direction="row" sx={{ mt: 1 }}>
                       {categories.map((category: string) => {
                         if (category.trim() === "") return false;

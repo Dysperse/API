@@ -6,10 +6,12 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Formik, Form } from "formik";
+import { useFormik } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Snackbar from "@mui/material/Snackbar";
 import dayjs from "dayjs";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 
 export function CreateItemModal({
   toggleDrawer,
@@ -36,11 +38,6 @@ export function CreateItemModal({
     setLoading(true);
   }
 
-  const initialValues = {
-    categories: [],
-    title: "",
-    quantity: ""
-  };
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const handleSnackbarClose = (
     event: React.SyntheticEvent | Event,
@@ -53,31 +50,36 @@ export function CreateItemModal({
     setLoading(false);
     setSnackbarOpen(false);
   };
-  const submit = async (
-    values: {
+  const formik = useFormik({
+    initialValues: {
+      categories: [],
+      title: "",
+      quantity: ""
+    },
+    onSubmit: async (values: {
       categories: Array<string>;
       title: string;
       quantity: string;
-    },
-    { resetForm }: any
-  ) => {
-    await fetch("https://api.smartlist.tech/v2/items/create/", {
-      method: "POST",
-      body: new URLSearchParams({
-        token: session && session.accessToken,
-        room: room.toLowerCase(),
-        name: values.title,
-        qty: values.quantity,
-        category: JSON.stringify(values.categories),
-        lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss")
-      })
-    });
+    }) => {
+      alert(JSON.stringify(values));
+      await fetch("https://api.smartlist.tech/v2/items/create/", {
+        method: "POST",
+        body: new URLSearchParams({
+          token: session && session.accessToken,
+          room: room.toLowerCase(),
+          name: values.title,
+          qty: values.quantity,
+          category: JSON.stringify(values.categories),
+          lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss")
+        })
+      });
+      setSnackbarOpen(true);
+      setLoading(false);
+      setOpen(false);
+      formik.resetForm();
+    }
+  });
 
-    setSnackbarOpen(true);
-    setLoading(false);
-    setOpen(false);
-    resetForm();
-  };
   return (
     <div>
       <div onClick={handleClickOpen}>{children}</div>
@@ -116,95 +118,105 @@ export function CreateItemModal({
           <DialogContentText sx={{ mb: 1, textAlign: "center" }}>
             {room}
           </DialogContentText>
-          <Formik initialValues={initialValues} onSubmit={submit}>
-            {({ handleChange, values, setFieldValue }) => (
-              <Form>
+          <form onSubmit={formik.handleSubmit}>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Title"
+              fullWidth
+              autoComplete={"off"}
+              onChange={formik.handleChange}
+              value={formik.values.title}
+              disabled={loading}
+              name="title"
+              variant="filled"
+            />
+            <TextField
+              margin="dense"
+              label="Quantity"
+              autoComplete={"off"}
+              fullWidth
+              onChange={formik.handleChange}
+              value={formik.values.quantity}
+              disabled={loading}
+              name="quantity"
+              variant="filled"
+            />
+            <Stack spacing={1} direction="row" sx={{ my: 1 }}>
+              <Chip
+                sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
+                onClick={() => {}}
+                label="📦"
+              />
+              <Chip
+                sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
+                onClick={() => {}}
+                label="🥡"
+              />
+              <Chip
+                sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
+                onClick={() => {}}
+                label="🛍️"
+              />
+            </Stack>
+            <Autocomplete
+              id="categories"
+              multiple
+              freeSolo
+              disabled={loading}
+              options={[1, 2, 3]}
+              onChange={formik.handleChange}
+              value={formik.values.categories}
+              renderInput={(params) => (
                 <TextField
-                  autoFocus
                   margin="dense"
-                  label="Title"
-                  fullWidth
-                  autoComplete={"off"}
-                  onChange={handleChange}
-                  disabled={loading}
-                  name="title"
+                  sx={{ width: "100%" }}
+                  label="Categories"
+                  name="categories"
                   variant="filled"
+                  {...params}
                 />
-                <TextField
-                  margin="dense"
-                  label="Quantity"
-                  autoComplete={"off"}
-                  fullWidth
-                  onChange={handleChange}
-                  disabled={loading}
-                  name="quantity"
-                  variant="filled"
-                />
-                <Autocomplete
-                  id="categories"
-                  multiple
-                  freeSolo
-                  disabled={loading}
-                  options={[1, 2, 3]}
-                  onChange={(e, value) => {
-                    console.log(value);
-                    setFieldValue(
-                      "categories",
-                      value !== null ? value : initialValues.categories
-                    );
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      margin="dense"
-                      sx={{ width: "100%" }}
-                      label="Categories"
-                      name="categories"
-                      variant="filled"
-                      {...params}
-                    />
-                  )}
-                />
-                <LoadingButton
-                  disableElevation
-                  sx={{
-                    textTransform: "none",
-                    ml: 1,
-                    mt: 2,
-                    float: "right",
-                    borderRadius: 100
-                  }}
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  loading={loading}
-                  onClick={() => setTimeout(setClickLoading, 10)}
-                >
-                  Create
-                </LoadingButton>
-                <Button
-                  disableElevation
-                  sx={{
-                    textTransform: "none",
-                    ml: 1,
-                    mt: 2,
-                    float: "right",
-                    borderRadius: 100
-                  }}
-                  size="large"
-                  variant="outlined"
-                  color="primary"
-                  type="button"
-                  onClick={() => {
-                    setLoading(false);
-                    setOpen(false);
-                  }}
-                >
-                  Back
-                </Button>
-              </Form>
-            )}
-          </Formik>
+              )}
+            />
+            <LoadingButton
+              disableElevation
+              sx={{
+                textTransform: "none",
+                ml: 1,
+                mt: 2,
+                float: "right",
+                borderRadius: 100
+              }}
+              size="large"
+              variant="contained"
+              color="primary"
+              type="submit"
+              loading={loading}
+              onClick={() => setTimeout(setClickLoading, 10)}
+            >
+              Create
+            </LoadingButton>
+            <Button
+              disableElevation
+              sx={{
+                textTransform: "none",
+                ml: 1,
+                mt: 2,
+                float: "right",
+                borderRadius: 100
+              }}
+              size="large"
+              variant="outlined"
+              color="primary"
+              type="button"
+              onClick={() => {
+                setLoading(false);
+                setOpen(false);
+              }}
+            >
+              Back
+            </Button>
+          </form>
         </DialogContent>
       </SwipeableDrawer>
     </div>
