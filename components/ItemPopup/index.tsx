@@ -50,7 +50,7 @@ export default function Item({ data, variant }: any) {
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
         "content",
-        drawerState
+        drawerState === true
           ? width > 900
             ? global.theme === "dark"
               ? "#101010"
