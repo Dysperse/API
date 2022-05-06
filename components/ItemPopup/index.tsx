@@ -62,7 +62,7 @@ export default function Item({ data, variant }: any) {
           ? "#fff"
           : colors[global.themeColor]["100"]
       );
-  });
+  }, [drawerState, width]);
 
   const [open, setOpen] = React.useState(false);
 
