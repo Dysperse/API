@@ -110,7 +110,6 @@ export function ProfileMenu(props: any) {
           edge="end"
           sx={{
             ml: { xs: 0.2, sm: "0" },
-            mr: { xs: 0, sm: "0" },
             transform: { xs: "scale(.8)", sm: "scale(1)" },
             transition: "none",
             color: "#404040",
