@@ -48,8 +48,7 @@ export function ListItems({
         borderRadius: "28px",
         width: "100%",
         p: 1,
-        background:
-          global.theme === "dark" ? "hsl(240, 11%, 20%)" : blueGrey[50],
+        background: global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#eee",
         boxShadow: 0
       }}
     >

@@ -108,6 +108,14 @@ export function ProfileMenu(props: any) {
           color="inherit"
           aria-label="open drawer."
           edge="end"
+          sx={{
+            ml: { xs: 0.2, sm: "0" },
+            mr: { xs: 0, sm: "0" },
+            transform: { xs: "scale(.8)", sm: "" },
+            transition: "none",
+            color: "#404040",
+            "&:hover": { color: "#000" }
+          }}
         >
           {global.session ? (
             <Avatar
@@ -146,7 +154,7 @@ export function ProfileMenu(props: any) {
             border: "1px solid rgba(200,200,200,.2)",
             boxShadow: `0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)`,
             width: {
-              xs: "calc(100vw - 20px)",
+              xs: "calc(100vw - 30px)",
               sm: "400px"
             },
             mb: "10px",
@@ -176,7 +184,6 @@ export function ProfileMenu(props: any) {
         >
           <Typography
             sx={{
-              textTransform: { sm: "uppercase" },
               fontSize: { sm: "13px" },
               p: 2,
               pb: { sm: 0 },

@@ -218,7 +218,7 @@ export function List({
             width: "100%",
             borderRadius: "28px",
             background:
-              global.theme === "dark" ? "hsl(240, 11%, 20%)" : blueGrey[50],
+              global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#eee",
             boxShadow: 0
           }}
         >

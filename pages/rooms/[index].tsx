@@ -24,7 +24,7 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
         boxShadow: 0,
         borderRadius: "28px",
         p: 1,
-        background: global.theme === "dark" ? blueGrey[900] : blueGrey[50]
+        background: global.theme === "dark" ? blueGrey[900] : "#eee"
       }}
     >
       <CardContent>

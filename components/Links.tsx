@@ -109,9 +109,10 @@ const ListItem = React.memo(function ListItem({
       <ListItemButton
         sx={{
           pl: 4,
+          mb: 0.1,
           transition: "none!important",
           borderRadius: "0 20px 20px 0",
-          color: grey[700],
+          color: grey[800],
           "& .MuiTouchRipple-rippleVisible": {
             animationDuration: ".3s!important"
           },
@@ -119,7 +120,7 @@ const ListItem = React.memo(function ListItem({
             filter: "opacity(.2)!important"
           },
           "&:hover": {
-            color: grey[900],
+            color: "#000",
             background: "rgba(200,200,200,.3)"
           },
           "&:hover span": {
@@ -159,7 +160,7 @@ const ListItem = React.memo(function ListItem({
         >
           {icon}
         </ListItemIcon>
-        <ListItemText sx={{ "& *": { fontSize: "15.5px" } }} primary={text} />
+        <ListItemText sx={{ "& *": { fontSize: "15.2px" } }} primary={text} />
       </ListItemButton>
     </Link>
   );
@@ -192,7 +193,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             <Toolbar />
           </Box>
           <div onClick={handleDrawerToggle}>
-            <ListSubheader sx={{ pl: 2 }}>Home</ListSubheader>
+            <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>Home</ListSubheader>
             <ListItem
               text="Overview"
               icon={<span className="material-symbols-rounded">home</span>}
@@ -214,7 +215,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             {/* <ListItem href="/meals" text="Eco-friendly tips" icon={<SpaIcon />} /> */}
           </div>
           <div onClick={handleDrawerToggle}>
-            <ListSubheader sx={{ pl: 2 }}>Rooms</ListSubheader>
+            <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>
+              Rooms
+            </ListSubheader>
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/kitchen"

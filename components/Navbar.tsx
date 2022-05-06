@@ -107,30 +107,6 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
               />
             )}
           </Typography>
-          <NotificationsMenu>
-            <Tooltip title="Notifications">
-              {global.session ? (
-                <IconButton
-                  color="inherit"
-                  edge="end"
-                  size="large"
-                  sx={{ mr: 0.8 }}
-                >
-                  <span className="material-symbols-rounded">
-                    notifications
-                  </span>
-                </IconButton>
-              ) : (
-                <Skeleton
-                  variant="circular"
-                  width={40}
-                  sx={{ mr: 2 }}
-                  height={40}
-                  animation="wave"
-                />
-              )}
-            </Tooltip>
-          </NotificationsMenu>
           <Box sx={{ display: { sm: "block", xs: "none" } }}>
             <SearchPopup
               content={
@@ -140,7 +116,12 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                       color="inherit"
                       edge="end"
                       size="large"
-                      sx={{ mr: 0.8 }}
+                      sx={{
+                        transition: "none",
+                        mr: 0.9,
+                        color: "#404040",
+                        "&:hover": { color: "#000" }
+                      }}
                     >
                       <span className="material-symbols-rounded">search</span>
                     </IconButton>
@@ -157,6 +138,33 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
               }
             />
           </Box>
+          <NotificationsMenu>
+            <Tooltip title="Notifications">
+              {global.session ? (
+                <IconButton
+                  color="inherit"
+                  edge="end"
+                  size="large"
+                  sx={{
+                    transition: "none",
+                    mr: 0.9,
+                    color: "#404040",
+                    "&:hover": { color: "#000" }
+                  }}
+                >
+                  <span className="material-symbols-rounded">inbox</span>
+                </IconButton>
+              ) : (
+                <Skeleton
+                  variant="circular"
+                  width={40}
+                  sx={{ mr: 0.9 }}
+                  height={40}
+                  animation="wave"
+                />
+              )}
+            </Tooltip>
+          </NotificationsMenu>
           <Box sx={{ display: { sm: "block", xs: "none" } }}>
             <AppsMenu />
           </Box>

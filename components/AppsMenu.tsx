@@ -6,7 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Skeleton from "@mui/material/Skeleton";
 import TipsAndUpdates from "@mui/icons-material/TipsAndUpdates";
 import { green } from "@mui/material/colors";
-import * as colors from "@mui/material/colors"
+import * as colors from "@mui/material/colors";
 
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -245,7 +245,13 @@ export function AppsMenu() {
             color="inherit"
             edge="end"
             size="large"
-            sx={{ mr: 0.8 }}
+            sx={{
+              transition: "none",
+              mr: 0.9,
+              ml: 0.1,
+              color: "#404040",
+              "&:hover": { color: "#000" }
+            }}
             onClick={handleClick}
           >
             <span className="material-symbols-rounded">apps</span>

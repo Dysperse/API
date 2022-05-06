@@ -193,13 +193,7 @@ export default function Item({ data, variant }: any) {
             <Typography variant="h4">{quantity || "(no quantity)"}</Typography>
             <Stack spacing={2} direction="row">
               {categories.map((category: string) => {
-                if (category.trim() !== "") {
-                  return (
-                    <Chip key={Math.random().toString()} label={category} />
-                  );
-                } else {
-                  return null;
-                }
+                return <Chip key={Math.random().toString()} label={category} />;
               })}
             </Stack>
 
@@ -276,8 +270,7 @@ export default function Item({ data, variant }: any) {
                   mb: 1,
                   boxShadow: 0,
                   borderRadius: "28px",
-                  background:
-                    global.theme === "dark" ? blueGrey[900] : blueGrey[50],
+                  background: global.theme === "dark" ? blueGrey[900] : "#eee",
                   transition: "all .03s",
                   ...(star === 1 && {
                     background: orange[700],
