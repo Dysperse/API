@@ -111,7 +111,7 @@ export function ProfileMenu(props: any) {
           sx={{
             ml: { xs: 0.2, sm: "0" },
             mr: { xs: 0, sm: "0" },
-            transform: { xs: "scale(.8)", sm: "" },
+            transform: { xs: "scale(.8)", sm: "scale(1)" },
             transition: "none",
             color: "#404040",
             "&:hover": { color: "#000" }
