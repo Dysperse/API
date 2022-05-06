@@ -22,6 +22,7 @@ function ConnectBankAccount() {
         fetch(`/api/finance/exchangePublicToken?public_token=${public_token}`)
           .then((res) => res.json())
           .then((res) => {
+            global.session.user.financeToken = res.access_token;
             // alert(res.access_token);
             fetch("https://api.smartlist.tech/v2/account/update/", {
               method: "POST",
