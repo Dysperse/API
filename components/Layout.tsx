@@ -85,7 +85,15 @@ function ResponsiveDrawer(props: any): JSX.Element {
   const { width }: any = useWindowDimensions();
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        "& *::selection": {
+          color: "#fff",
+          background: colors[themeColor]["A700"]
+        }
+      }}
+    >
       <CssBaseline />
       <Navbar handleDrawerToggle={handleDrawerToggle} />
       <Box
