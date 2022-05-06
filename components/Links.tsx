@@ -319,6 +319,8 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             Other
           </ListSubheader>
           <ListItem
+            href="/home-maintenance"
+            as="/home-maintenance"
             text="Home maintenance"
             icon={<span className="material-symbols-rounded">label</span>}
           />

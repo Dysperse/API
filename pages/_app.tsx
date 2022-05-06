@@ -6,6 +6,7 @@ import useFetch from "react-fetch-hook";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LoginPrompt from "../components/LoginPrompt";
 import * as colors from "@mui/material/colors";
+import Box from "@mui/material/Box";
 
 function SmartlistApp({ Component, pageProps }: any): JSX.Element {
   const { data } = useFetch("/api/user", {
@@ -117,15 +118,24 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
         <title>Smartlist</title>
       </Head>
       <ThemeProvider theme={AppTheme}>
-        {global.session && global.session.user ? (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        ) : global.session ? (
-          <LoginPrompt />
-        ) : (
-          ""
-        )}
+        <Box
+          sx={{
+            "& *::selection": {
+              color: "#fff!important",
+              background: colors[themeColor]["A700"]+"!important"
+            }
+          }}
+        >
+          {global.session && global.session.user ? (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          ) : global.session ? (
+            <LoginPrompt />
+          ) : (
+            ""
+          )}
+        </Box>
       </ThemeProvider>
     </>
   );
