@@ -12,6 +12,7 @@ import Snackbar from "@mui/material/Snackbar";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
+import { Puller } from "./Puller";
 
 export function CreateItemModal({
   toggleDrawer,
@@ -111,6 +112,7 @@ export function CreateItemModal({
         onClose={handleClose}
         onOpen={() => setOpen(true)}
       >
+        <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
           Create Item
         </DialogTitle>

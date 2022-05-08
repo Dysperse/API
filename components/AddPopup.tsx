@@ -15,6 +15,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import { CreateListModal } from "./CreateListModal";
 import { useRouter } from "next/router";
+import { Puller } from "./Puller";
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%"
@@ -168,26 +169,6 @@ function Content({ toggleDrawer }: any) {
     </List>
   );
 }
-function Puller() {
-  return (
-    <Box
-      className="puller"
-      sx={{
-        width: "50px",
-        backgroundColor: global.theme === "dark" ? "#505050" : "#eee",
-        height: "7px",
-        margin: "auto",
-        borderRadius: 9,
-        mt: 1,
-        position: "absolute",
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "inline-block"
-      }}
-    />
-  );
-}
-
 export default function AddPopup(props: any) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
