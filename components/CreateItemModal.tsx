@@ -62,7 +62,7 @@ export function CreateItemModal({
       title: string;
       quantity: string;
     }) => {
-      alert(JSON.stringify(values));
+      // alert(JSON.stringify(values));
       await fetch("https://api.smartlist.tech/v2/items/create/", {
         method: "POST",
         body: new URLSearchParams({

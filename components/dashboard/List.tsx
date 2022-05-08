@@ -61,7 +61,7 @@ function ListPopup({
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
         "content",
-        drawerState ? "#808080" : colors[global.themeColor][50]
+        drawerState ? "#808080" : colors[global.themeColor][100]
       );
   });
   return (
@@ -217,8 +217,7 @@ export function List({
             mb: 2,
             width: "100%",
             borderRadius: "28px",
-            background:
-              global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#eee",
+            background: global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#eee",
             boxShadow: 0
           }}
         >

@@ -76,7 +76,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
             ? global.theme === "dark"
               ? "#101010"
               : "#808080"
-            : colors[global.themeColor][50]
+            : colors[global.themeColor][100]
         );
   });
   const handleDrawerToggle = () => {

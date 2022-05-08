@@ -49,7 +49,6 @@ export function CreateListItemButton({
       })
         .then((res) => res.json())
         .then((res) => {
-          formik.resetForm();
           let x = listItems.data;
           x.push(res.data);
           setListItems({
@@ -57,6 +56,7 @@ export function CreateListItemButton({
             loading: false
           });
           setLoading(false);
+          formik.resetForm();
           setOpen(false);
         })
         .catch((err: any) => alert(JSON.stringify(err)));
@@ -117,27 +117,25 @@ export function CreateListItemButton({
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               <Autocomplete
-                disablePortal
-                id="combo-box-demo"
+                id="name"
                 options={AutocompleteData}
                 freeSolo
-                onChange={(e, value) =>
-                  formik.setFieldValue("name", value ?? "")
-                }
                 renderInput={(params) => (
                   <TextField
                     autoFocus
                     {...params}
-                    id="name"
                     inputRef={(input) =>
                       setTimeout(() => input && input.focus(), 100)
                     }
                     fullWidth
+                    value={formik.values.name}
+                    onChange={(e) =>
+                      formik.setFieldValue("name", e.target.value)
+                    }
                     autoComplete="off"
                     margin="dense"
                     label="Name"
                     variant="filled"
-                    name="name"
                   />
                 )}
               />
