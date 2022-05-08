@@ -165,7 +165,9 @@ export function CreateItemModal({
               freeSolo
               disabled={loading}
               options={[1, 2, 3]}
-              onChange={formik.handleChange}
+              onChange={(e, newValue) =>
+                formik.setFieldValue("categories", newValue)
+              }
               value={formik.values.categories}
               renderInput={(params) => (
                 <TextField
