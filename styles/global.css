@@ -63,3 +63,6 @@ img {
   box-shadow: 0 !important;
   padding: 15px !important;
 }
+* {
+  box-sizing: border-box !important;
+}

@@ -80,7 +80,6 @@ export function AccountList() {
             centered
             variant="scrollable"
             scrollButtons
-            allowScrollButtonsMobile
             sx={{
               "& .MuiTabs-scrollButtons.Mui-disabled": {
                 opacity: {
@@ -88,12 +87,13 @@ export function AccountList() {
                   lg: data.accounts.length > 4 ? 0.3 : 0
                 },
                 display: {
-                  xs: data.accounts.length > 1 ? "" : "none",
-                  sm: data.accounts.length > 4 ? "" : "none"
+                  xs: "none !important"
+                  // sm: data.accounts.length > 4 ? "" : "none"
                 }
               },
               "& .MuiTabs-scrollButtons": {
                 borderRadius: 5,
+                background: "#eee!important",
                 borderLeft: "4px solid #fff",
                 borderRight: "4px solid #fff"
               },

@@ -93,7 +93,7 @@ function ListPopup({
           gutterBottom
           variant="h5"
           component="div"
-          sx={{ mt: 4, mb: 2 }}
+          sx={{ mt: 4, mb: 2, fontWeight: "600" }}
         >
           {title}
         </Typography>
@@ -229,7 +229,7 @@ export function List({
             }}
           >
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography gutterBottom variant="h6" component="div">
                 {title}
               </Typography>
               <Typography variant="body2" color="text.secondary">

@@ -189,7 +189,7 @@ export default function Item({ data, variant }: any) {
               gap: 2
             }}
           >
-            <Typography variant="h3">{title || "(no title)"}</Typography>
+            <Typography variant="h3" sx={{fontWeight:"600"}}>{title || "(no title)"}</Typography>
             <Typography variant="h4">{quantity || "(no quantity)"}</Typography>
             <Stack spacing={2} direction="row">
               {categories.map((category: string) => {
@@ -288,19 +288,17 @@ export default function Item({ data, variant }: any) {
                     >
                       {title || "(no title)"}
                     </Typography>
-                    <Typography>{quantity || "(no quantity)"}</Typography>
-                    <Stack spacing={2} direction="row" sx={{ mt: 1 }}>
-                      {categories.map((category: string) => {
-                        if (category.trim() === "") return false;
-                        return (
-                          <Chip
-                            key={Math.random().toString()}
-                            sx={{ pointerEvents: "none" }}
-                            label={category}
-                          />
-                        );
-                      })}
-                    </Stack>
+                    <Typography sx={{mb:1}}>{quantity || "(no quantity)"}</Typography>
+                    {categories.map((category: string) => {
+                      if (category.trim() === "") return false;
+                      return (
+                        <Chip
+                          key={Math.random().toString()}
+                          sx={{ pointerEvents: "none", m: 0.25 }}
+                          label={category}
+                        />
+                      );
+                    })}
                   </CardContent>
                 </CardActionArea>
               </Card>

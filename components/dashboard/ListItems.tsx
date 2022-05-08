@@ -44,7 +44,6 @@ export function ListItems({
   return (
     <Card
       sx={{
-        mb: 2,
         borderRadius: "28px",
         width: "100%",
         p: 1,
@@ -53,7 +52,7 @@ export function ListItems({
       }}
     >
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h6" component="div">
           {title}
         </Typography>
         {data.data.map((list: Object) => (

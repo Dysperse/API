@@ -13,7 +13,13 @@ dayjs.extend(relativeTime);
 export function TransactionCard({ transaction }: any) {
   return (
     <Card
-      sx={{ background: "rgba(200,200,200,.3)", p: 1, borderRadius: 5, mb: 1 }}
+      sx={{
+        width: "auto",
+        background: "rgba(200,200,200,.3)",
+        borderRadius: 5,
+        mb: 1,
+        p: { xs: 1, sm: 2 }
+      }}
     >
       <CardContent>
         {transaction.pending && (
@@ -30,11 +36,9 @@ export function TransactionCard({ transaction }: any) {
         <Typography gutterBottom>
           {dayjs(transaction.date).fromNow()} &bull; ${transaction.amount}
         </Typography>
-        <Stack spacing={1} sx={{ mt: 1 }} direction="row">
-          {transaction.category.map((category) => (
-            <Chip label={category} />
-          ))}
-        </Stack>
+        {transaction.category.map((category) => (
+          <Chip sx={{ m: 0.25 }} label={category} />
+        ))}
       </CardContent>
     </Card>
   );

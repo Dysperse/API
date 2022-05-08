@@ -13,34 +13,7 @@ import { AccountList } from "../components/finances/AccountList";
 dayjs.extend(relativeTime);
 
 export function RenderFinances() {
-  const [open, setOpen] = useState(true);
-  return (
-    <>
-      <Collapse in={open} sx={{ borderRadius: 5 }}>
-        <Alert
-          severity="error"
-          variant="filled"
-          sx={{ borderRadius: 5 }}
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setOpen(false);
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-        >
-          The data below is for currently for demo purposes. A production-ready
-          finance page will be available soon!
-        </Alert>
-      </Collapse>
-      <AccountList />
-    </>
-  );
+  return <AccountList />;
 }
 export default function Finances() {
   return (

@@ -96,7 +96,11 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
             )}
           </Tooltip>
 
-          <Typography variant="h6" sx={{ flexGrow: 1 }} noWrap>
+          <Typography
+            variant="h6"
+            sx={{ flexGrow: 1, fontWeight: "600" }}
+            noWrap
+          >
             {global.session ? (
               global.session.user.houseName || "Smartlist"
             ) : (

@@ -103,9 +103,10 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="theme-color" content="#fff" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@350"
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@350;600;700;900&display=swap"
           rel="stylesheet"
         />
+
         <link
           rel="stylesheet"
           href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,500,1,200"
@@ -122,7 +123,7 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
           sx={{
             "& *::selection": {
               color: "#fff!important",
-              background: colors[themeColor]["A700"]+"!important"
+              background: colors[themeColor]["A700"] + "!important"
             }
           }}
         >

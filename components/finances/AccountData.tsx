@@ -37,7 +37,11 @@ export function AccountData({ account }: any) {
         }}
       >
         <CardContent sx={{ py: 5 }}>
-          <Typography gutterBottom variant="h2" sx={{ textAlign: "center" }}>
+          <Typography
+            gutterBottom
+            variant="h2"
+            sx={{ textAlign: "center", fontWeight: "700" }}
+          >
             {isLoading ? (
               <Skeleton
                 width={200}
@@ -86,31 +90,36 @@ export function AccountData({ account }: any) {
             Oh no! Your budget is over! Try not to spend as little money as
             possible
           </Alert> */}
-          <Alert severity="info" sx={{ borderRadius: 5, mb: 1 }}>
+          {/* <Alert severity="info" sx={{ borderRadius: 5, mb: 1 }}>
             Today's a weekend, your budget is lenient!
-          </Alert>
+          </Alert> */}
         </>
       )}
       <Grid container spacing={2}>
         <Grid item sm={6} xs={12}>
           {!isLoading ? (
-            <Typography sx={{ mt: 2, mb: 3 }} variant="h5">
+            <Typography sx={{ mt: 2, mb: 3, fontWeight: "500" }} variant="h5">
               Recent transactions
             </Typography>
           ) : (
             <Skeleton
-              width={200}
+              width={"auto"}
               variant="rectangular"
               animation="wave"
               height={20}
-              sx={{ borderRadius: 5, mt: 2, mb: 3 }}
+              sx={{
+                borderRadius: 5,
+                mt: 2,
+                mb: 3
+              }}
             />
           )}
           {isLoading ? (
             <>
-              {[1, 2, 3, 4, 5].map((_) => (
+              {[...new Array(5)].map((_) => (
                 <Skeleton
                   animation="wave"
+                  width={"auto"}
                   variant="rectangular"
                   sx={{ borderRadius: 5, mb: 2 }}
                   height={100}
@@ -149,7 +158,7 @@ export function AccountData({ account }: any) {
         <Grid item sm={6} xs={12}>
           {!isLoading ? (
             <>
-              <Typography sx={{ mt: 2, mb: 3 }} variant="h5">
+              <Typography sx={{ mt: 2, mb: 3, fontWeight: "500" }} variant="h5">
                 Debt
               </Typography>
               <Liabilities />
