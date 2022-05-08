@@ -84,7 +84,7 @@ export function NotificationsMenu(props: any): JSX.Element {
           <AppBar
             elevation={0}
             position="sticky"
-            sx={{ background: "rgba(200,200,200,.3)", color: "#404040" }}
+            sx={{ py:1,background: "rgba(200,200,200,.3)", color: "#404040" }}
           >
             <Toolbar>
               <Tooltip title="Back">
