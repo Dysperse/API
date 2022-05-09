@@ -118,7 +118,7 @@ const ListItem = React.memo(function ListItem({
           "& .MuiTouchRipple-child": {
             filter: "opacity(.2)!important"
           },
-          "&:hover": {
+          "&:hover,&:focus": {
             color: "#000",
             background: "rgba(200,200,200,.3)"
           },
@@ -131,7 +131,7 @@ const ListItem = React.memo(function ListItem({
           ...(router.asPath === asHref && {
             backgroundColor: colors[themeColor]["50"],
             color: colors[themeColor]["900"],
-            "&:hover": {
+            "&:hover,&:focus": {
               backgroundColor: colors[themeColor]["100"],
               color: colors[themeColor]["900"]
             },

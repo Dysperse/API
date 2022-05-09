@@ -47,7 +47,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 							background: global.theme === "dark" ? colors[themeColor][900] : colors[themeColor][100]
 						}}
 					>
-						<span className="material-symbols-rounded">{icon}</span>
+						<span style={{fontSize:"15px"}} className="material-symbols-rounded">{icon}</span>
 					</Avatar>
 				</ListItemAvatar>
 				<ListItemText primary={primary} secondary={secondary} />

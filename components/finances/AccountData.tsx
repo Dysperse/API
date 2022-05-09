@@ -19,56 +19,56 @@ export function AccountData({ account }: any) {
   );
   return (
     <>
+      <Card
+        sx={{
+          my: 1,
+          display: "flex",
+          height: "300px",
+          alignItems: "center",
+          justifyContent: "center",
+          background: isLoading
+            ? "rgba(200,200,200,.3)"
+            : "url(https://i.ibb.co/k4XFvhj/blurry-gradient-haikei.png)",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          color: "white",
+          borderRadius: 5
+        }}
+      >
+        <CardContent sx={{ py: 5 }}>
+          <Typography
+            gutterBottom
+            variant="h2"
+            sx={{ textAlign: "center", fontWeight: "700" }}
+          >
+            {isLoading ? (
+              <Skeleton
+                width={200}
+                variant="rectangular"
+                sx={{ display: "inline-block", borderRadius: 5 }}
+                animation="wave"
+                height={50}
+              />
+            ) : (
+              "$" + account.balances.available
+            )}
+          </Typography>
+          {isLoading ? (
+            <Skeleton
+              width={200}
+              variant="rectangular"
+              sx={{ display: "inline-block", borderRadius: 5 }}
+              animation="wave"
+            />
+          ) : (
+            <Typography sx={{ textAlign: "center" }} variant="h6">
+              Available balance
+            </Typography>
+          )}
+        </CardContent>
+      </Card>
       <Grid container spacing={2}>
         <Grid zeroMinWidth item sm={6} xs={12}>
-          <Card
-            sx={{
-              my: 1,
-              display: "flex",
-              height: "300px",
-              alignItems: "center",
-              justifyContent: "center",
-              background: isLoading
-                ? "rgba(200,200,200,.3)"
-                : "url(https://i.ibb.co/k4XFvhj/blurry-gradient-haikei.png)",
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              color: "white",
-              borderRadius: 5
-            }}
-          >
-            <CardContent sx={{ py: 5 }}>
-              <Typography
-                gutterBottom
-                variant="h2"
-                sx={{ textAlign: "center", fontWeight: "700" }}
-              >
-                {isLoading ? (
-                  <Skeleton
-                    width={200}
-                    variant="rectangular"
-                    sx={{ display: "inline-block", borderRadius: 5 }}
-                    animation="wave"
-                    height={50}
-                  />
-                ) : (
-                  "$" + account.balances.available
-                )}
-              </Typography>
-              {isLoading ? (
-                <Skeleton
-                  width={200}
-                  variant="rectangular"
-                  sx={{ display: "inline-block", borderRadius: 5 }}
-                  animation="wave"
-                />
-              ) : (
-                <Typography sx={{ textAlign: "center" }} variant="h6">
-                  Available balance
-                </Typography>
-              )}
-            </CardContent>
-          </Card>
           {!isLoading ? (
             <Typography sx={{ my: 3, fontWeight: "600", ml: 1 }} variant="h5">
               Recent transactions
@@ -130,7 +130,7 @@ export function AccountData({ account }: any) {
         <Grid zeroMinWidth item sm={6} xs={12}>
           {!isLoading ? (
             <>
-              <Typography sx={{ mt: 2, mb: 3, fontWeight: "500" }} variant="h5">
+              <Typography sx={{ my: 3, fontWeight: "600", ml: 1 }} variant="h5">
                 Debt
               </Typography>
               <Liabilities />
