@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Masonry from "@mui/lab/Masonry";
 import Paper from "@mui/material/Paper";
+import Container from "@mui/material/Container";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
@@ -13,7 +14,7 @@ dayjs.extend(relativeTime);
 
 export default function Dashboard() {
   return (
-    <Box sx={{ p: 3 }}>
+    <Container sx={{ mt: 4 }}>
       <Box sx={{ mr: -2 }}>
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
           <Paper
@@ -52,6 +53,6 @@ export default function Dashboard() {
           </Paper>
         </Masonry>
       </Box>
-    </Box>
+    </Container>
   );
 }

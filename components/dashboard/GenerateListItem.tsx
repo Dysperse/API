@@ -21,7 +21,11 @@ export function GenerateListItem({ listItems, setListItems, title, id }: any) {
   };
   return (
     <Collapse in={!deleted}>
-      <ListItemButton sx={{ py: 0, borderRadius: 3, transition: "none" }} dense>
+      <ListItemButton
+        key={id.toString()}
+        sx={{ py: 0, borderRadius: 3, transition: "none" }}
+        dense
+      >
         <ListItemIcon>
           <Checkbox
             onClick={() => {

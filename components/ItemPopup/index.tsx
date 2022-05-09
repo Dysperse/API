@@ -265,6 +265,9 @@ export default function Item({ data, variant }: any) {
                 sx={{
                   mb: 1,
                   boxShadow: 0,
+                  display: "block",
+                  width: "100%",
+                  maxWidth: "calc(100vw - 20px)",
                   borderRadius: "28px",
                   background: global.theme === "dark" ? blueGrey[900] : "#eee",
                   transition: "all .03s",
@@ -277,15 +280,7 @@ export default function Item({ data, variant }: any) {
               >
                 <CardActionArea>
                   <CardContent sx={{ p: 3 }}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        maxWidth: "100%",
-                        overflow: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis"
-                      }}
-                    >
+                    <Typography variant="h6">
                       {title || "(no title)"}
                     </Typography>
                     <Typography sx={{ mb: 1 }}>

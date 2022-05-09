@@ -25,6 +25,7 @@ export function SortMenu() {
           borderRadius: 10,
           textTransform: "none",
           ml: 1,
+          mt: { xs: 1, sm: 0 },
           py: 1,
           verticalAlign: "middle"
         }}

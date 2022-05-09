@@ -214,12 +214,13 @@ function Suggestions({ room, items }: any) {
         >
           Suggestions
         </Typography>
-        <Box
-          sx={{
+        <div
+          style={{
             overflow: "scroll",
             whiteSpace: "nowrap",
-            borderRadius: 3,
-            mt: 2
+            width: "calc(100vw - 80px)",
+            borderRadius: "12px",
+            marginTop: "20px"
           }}
         >
           {suggestions[room].map((item) => {
@@ -250,7 +251,7 @@ function Suggestions({ room, items }: any) {
               />
             );
           })}
-        </Box>
+        </div>
       </CardContent>
     </Card>
   );
@@ -304,6 +305,7 @@ function ItemList({ items }: { items: any }) {
   return (
     <Box
       sx={{
+        display: "flex",
         mr: {
           sm: -2
         }
@@ -369,7 +371,10 @@ function ItemList({ items }: { items: any }) {
             room: string;
           }) => (
             <Paper
-              sx={{ boxShadow: 0, p: 0 }}
+              sx={{
+                boxShadow: 0,
+                p: 0
+              }}
               key={(Math.random() + Math.random()).toString()}
             >
               <ItemCard item={item} />
@@ -396,7 +401,7 @@ function RoomComponent({ index }: any) {
   return isLoading ? (
     <LoadingScreen key={Math.random().toString()} />
   ) : (
-    <Container key={index}>
+    <Container key={index} sx={{ mt: 4 }}>
       <Header room={index} itemCount={data.data.length} />
       <Suggestions room={index} items={data.data} />
       <Toolbar />

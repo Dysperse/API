@@ -6,7 +6,6 @@ import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
 import { GenerateListItem } from "./GenerateListItem";
-import { blueGrey } from "@mui/material/colors";
 
 export function ListItems({
   parent,
