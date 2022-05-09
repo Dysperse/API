@@ -280,11 +280,23 @@ export default function Item({ data, variant }: any) {
               >
                 <CardActionArea>
                   <CardContent sx={{ p: 3 }}>
-                    <Typography variant="h6">
-                      {title || "(no title)"}
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        display: "block",
+                        mb: 1
+                      }}
+                    >
+                      {title.substring(0, 18) || "(no title)"}
+                      {title.length > 18 && "..."}
                     </Typography>
-                    <Typography sx={{ mb: 1 }}>
-                      {quantity || "(no quantity)"}
+                    <Typography
+                      sx={{
+                        mb: 1
+                      }}
+                    >
+                      {quantity.substring(0, 18) || "(no quantity)"}
+                      {quantity.length > 18 && "..."}
                     </Typography>
                     {categories.map((category: string) => {
                       if (category.trim() === "") return false;
