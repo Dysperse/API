@@ -2,8 +2,6 @@
 
 ⚠️ The code below is copyrighted. You **may not** use this code for business purposes. If you want to contribute, consider signing up for our volunteer positions.
 
-<!-- ⚠️ This Smartlist dashboard is currently under beta. If you run into any bugs, create an issue! -->
-
 # Smartlist
 
 ## Make more from what you earn.
