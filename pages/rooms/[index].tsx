@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import useFetch from "react-fetch-hook";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -11,8 +10,7 @@ import Masonry from "@mui/lab/Masonry";
 import { orange } from "@mui/material/colors";
 import { blueGrey } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
-import { Suspense } from "react";
-
+import Container from "@mui/material/Container";
 import { ItemCard } from "../../components/rooms/ItemCard";
 import { Toolbar } from "../../components/rooms/Toolbar";
 
@@ -398,12 +396,12 @@ function RoomComponent({ index }: any) {
   return isLoading ? (
     <LoadingScreen key={Math.random().toString()} />
   ) : (
-    <Box sx={{ p: 3 }} key={index}>
+    <Container key={index}>
       <Header room={index} itemCount={data.data.length} />
       <Suggestions room={index} items={data.data} />
       <Toolbar />
       <ItemList items={data.data} />
-    </Box>
+    </Container>
   );
 }
 

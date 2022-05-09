@@ -6,7 +6,6 @@ import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
 import useFetch from "react-fetch-hook";
 import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
 import dayjs from "dayjs";
 
 export function AccountData({ account }: any) {
@@ -20,85 +19,58 @@ export function AccountData({ account }: any) {
   );
   return (
     <>
-      <Card
-        sx={{
-          my: 1,
-          display: "flex",
-          height: "300px",
-          alignItems: "center",
-          justifyContent: "center",
-          background: isLoading
-            ? "rgba(200,200,200,.3)"
-            : "url(https://i.ibb.co/k4XFvhj/blurry-gradient-haikei.png)",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          color: "white",
-          borderRadius: 5
-        }}
-      >
-        <CardContent sx={{ py: 5 }}>
-          <Typography
-            gutterBottom
-            variant="h2"
-            sx={{ textAlign: "center", fontWeight: "700" }}
-          >
-            {isLoading ? (
-              <Skeleton
-                width={200}
-                variant="rectangular"
-                sx={{ display: "inline-block", borderRadius: 5 }}
-                animation="wave"
-                height={50}
-              />
-            ) : (
-              "$" + account.balances.available
-            )}
-          </Typography>
-          {isLoading ? (
-            <Skeleton
-              width={200}
-              variant="rectangular"
-              sx={{ display: "inline-block", borderRadius: 5 }}
-              animation="wave"
-            />
-          ) : (
-            <Typography sx={{ textAlign: "center" }} variant="h6">
-              Available balance
-            </Typography>
-          )}
-        </CardContent>
-      </Card>
-
-      {isLoading ? (
-        <>
-          <Skeleton
-            variant="rectangular"
-            animation="wave"
-            height={50}
-            sx={{ borderRadius: 5, my: 2 }}
-          />
-          <Skeleton
-            variant="rectangular"
-            animation="wave"
-            height={50}
-            sx={{ borderRadius: 5, my: 2 }}
-          />
-        </>
-      ) : (
-        <>
-          {/* <Alert severity="error" sx={{ borderRadius: 5, mb: 1 }}>
-            Oh no! Your budget is over! Try not to spend as little money as
-            possible
-          </Alert> */}
-          {/* <Alert severity="info" sx={{ borderRadius: 5, mb: 1 }}>
-            Today's a weekend, your budget is lenient!
-          </Alert> */}
-        </>
-      )}
       <Grid container spacing={2}>
-        <Grid item sm={6} xs={12}>
+        <Grid zeroMinWidth item sm={6} xs={12}>
+          <Card
+            sx={{
+              my: 1,
+              display: "flex",
+              height: "300px",
+              alignItems: "center",
+              justifyContent: "center",
+              background: isLoading
+                ? "rgba(200,200,200,.3)"
+                : "url(https://i.ibb.co/k4XFvhj/blurry-gradient-haikei.png)",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              color: "white",
+              borderRadius: 5
+            }}
+          >
+            <CardContent sx={{ py: 5 }}>
+              <Typography
+                gutterBottom
+                variant="h2"
+                sx={{ textAlign: "center", fontWeight: "700" }}
+              >
+                {isLoading ? (
+                  <Skeleton
+                    width={200}
+                    variant="rectangular"
+                    sx={{ display: "inline-block", borderRadius: 5 }}
+                    animation="wave"
+                    height={50}
+                  />
+                ) : (
+                  "$" + account.balances.available
+                )}
+              </Typography>
+              {isLoading ? (
+                <Skeleton
+                  width={200}
+                  variant="rectangular"
+                  sx={{ display: "inline-block", borderRadius: 5 }}
+                  animation="wave"
+                />
+              ) : (
+                <Typography sx={{ textAlign: "center" }} variant="h6">
+                  Available balance
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
           {!isLoading ? (
-            <Typography sx={{ mt: 2, mb: 3, fontWeight: "500" }} variant="h5">
+            <Typography sx={{ my: 3, fontWeight: "600", ml: 1 }} variant="h5">
               Recent transactions
             </Typography>
           ) : (
@@ -155,7 +127,7 @@ export function AccountData({ account }: any) {
             </>
           )}
         </Grid>
-        <Grid item sm={6} xs={12}>
+        <Grid zeroMinWidth item sm={6} xs={12}>
           {!isLoading ? (
             <>
               <Typography sx={{ mt: 2, mb: 3, fontWeight: "500" }} variant="h5">

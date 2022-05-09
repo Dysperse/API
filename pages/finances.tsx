@@ -1,9 +1,4 @@
-import { useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
+import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -17,7 +12,7 @@ export function RenderFinances() {
 }
 export default function Finances() {
   return (
-    <Box sx={{ px: 3, py: 1 }}>
+    <Container>
       {global.session &&
       global.session.user.financeToken &&
       global.session.user.financeToken.startsWith("access-sandbox-") ? (
@@ -28,6 +23,6 @@ export default function Finances() {
           <NoData />
         </>
       )}
-    </Box>
+    </Container>
   );
 }

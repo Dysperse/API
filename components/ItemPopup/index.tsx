@@ -260,11 +260,9 @@ export default function Item({ data, variant }: any) {
           </Collapse>
         ) : (
           <>
-            {deleted ? null : (
+            {!deleted && (
               <Card
                 sx={{
-                  maxWidth: "100%",
-                  position: "relative",
                   mb: 1,
                   boxShadow: 0,
                   borderRadius: "28px",
