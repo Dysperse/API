@@ -47,10 +47,6 @@ This is the **official GitHub Repository** for Smartlist!
 Want to contribute?
 Visit: https://smartlist.tech/join
 
-### Where's the code?
-
-You can find the code for the dashboard under the `/web/dashboard` directory
-
 ### Top contributors
 
 Smartlist woudln't have been possible without the following people:
