@@ -16,6 +16,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LabelIcon from "@mui/icons-material/Label";
 import useSWR from "swr";
+import Link from "next/link";
 
 import React, { useEffect } from "react";
 
@@ -50,36 +51,38 @@ function CustomRooms() {
   return (
     <>
       {data.data.map((room: Room) => (
-        <ListItemButton
-          sx={{
-            pl: 4,
-            mb: 0.1,
-            transition: "none!important",
-            borderRadius: "0 20px 20px 0",
-            color: colors["grey"][800],
-            "& .MuiTouchRipple-rippleVisible": {
-              animationDuration: ".3s!important"
-            },
-            "& .MuiTouchRipple-child": {
-              filter: "opacity(.2)!important"
-            },
-            "&:hover": {
-              color: "#000",
-              background: "rgba(200,200,200,.3)"
-            },
-            "&:hover span": {
-              color: colors["grey"][800] + "!important"
-            },
-            "&:active": {
-              background: "rgba(200,200,200,.4)"
-            }
-          }}
-        >
-          <ListItemIcon>
-            <LabelIcon />
-          </ListItemIcon>
-          <ListItemText primary={room.name} />
-        </ListItemButton>
+        <Link href={"/rooms/" + room.id}>
+          <ListItemButton
+            sx={{
+              pl: 6,
+              mb: 0.1,
+              transition: "none!important",
+              borderRadius: "0 20px 20px 0",
+              color: colors["grey"][800],
+              "& .MuiTouchRipple-rippleVisible": {
+                animationDuration: ".3s!important"
+              },
+              "& .MuiTouchRipple-child": {
+                filter: "opacity(.2)!important"
+              },
+              "&:hover": {
+                color: "#000",
+                background: "rgba(200,200,200,.3)"
+              },
+              "&:hover span": {
+                color: colors["grey"][800] + "!important"
+              },
+              "&:active": {
+                background: "rgba(200,200,200,.4)"
+              }
+            }}
+          >
+            <ListItemIcon>
+              <LabelIcon />
+            </ListItemIcon>
+            <ListItemText primary={room.name} />
+          </ListItemButton>
+        </Link>
       ))}
     </>
   );

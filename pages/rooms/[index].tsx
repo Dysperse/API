@@ -31,7 +31,9 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
             room
           )}
         </Typography>
-        <Typography>{itemCount} items</Typography>
+        <Typography>
+          {itemCount} item{itemCount !== 1 && "s"}
+        </Typography>
       </CardContent>
     </Card>
   );
@@ -196,64 +198,68 @@ function Suggestions({ room, items }: any) {
     ]
   };
   return (
-    <Card
-      sx={{
-        boxShadow: 0,
-        borderRadius: "28px",
-        p: 1,
-        background: global.theme === "dark" ? blueGrey[900] : orange[50],
-        mb: 2
-      }}
-    >
-      <CardContent>
-        <Typography
-          variant="h5"
-          sx={{
-            color: global.theme === "dark" ? orange[100] : orange[900]
-          }}
-        >
-          Suggestions
-        </Typography>
-        <div
-          style={{
-            overflow: "scroll",
-            whiteSpace: "nowrap",
-            width: "calc(100vw - 80px)",
-            borderRadius: "12px",
-            marginTop: "20px"
-          }}
-        >
-          {suggestions[room].map((item) => {
-            if (items.some((e: any) => e.title === item)) return "";
-            return (
-              <Chip
-                onClick={() => {
-                  return;
-                }}
-                sx={{
-                  mr: 1,
-                  transition: "background .05s !important",
-                  borderRadius: 3,
-                  boxShadow: "0!important",
-                  color: global.theme === "dark" ? orange[100] : orange[900],
-                  background:
-                    global.theme === "dark" ? orange[900] : orange[100],
-                  "&:hover": {
-                    background:
-                      global.theme === "dark" ? orange[800] : orange[200]
-                  },
-                  "&:active": {
-                    background:
-                      global.theme === "dark" ? orange[700] : orange[300]
-                  }
-                }}
-                label={item}
-              />
-            );
-          })}
-        </div>
-      </CardContent>
-    </Card>
+    suggestions[room] && (
+      <Card
+        sx={{
+          boxShadow: 0,
+          borderRadius: "28px",
+          p: 1,
+          background: global.theme === "dark" ? blueGrey[900] : orange[50],
+          mb: 2
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h5"
+            sx={{
+              color: global.theme === "dark" ? orange[100] : orange[900]
+            }}
+          >
+            Suggestions
+          </Typography>
+          <div
+            style={{
+              overflow: "scroll",
+              whiteSpace: "nowrap",
+              width: "calc(100vw - 80px)",
+              borderRadius: "12px",
+              marginTop: "20px"
+            }}
+          >
+            {suggestions[room] &&
+              suggestions[room].map((item) => {
+                if (items.some((e: any) => e.title === item)) return "";
+                return (
+                  <Chip
+                    onClick={() => {
+                      return;
+                    }}
+                    sx={{
+                      mr: 1,
+                      transition: "background .05s !important",
+                      borderRadius: 3,
+                      boxShadow: "0!important",
+                      color:
+                        global.theme === "dark" ? orange[100] : orange[900],
+                      background:
+                        global.theme === "dark" ? orange[900] : orange[100],
+                      "&:hover": {
+                        background:
+                          global.theme === "dark" ? orange[800] : orange[200]
+                      },
+                      "&:active": {
+                        background:
+                          global.theme === "dark" ? orange[700] : orange[300]
+                      }
+                    }}
+                    label={item}
+                  />
+                );
+              })}
+          </div>
+        </CardContent>
+      </Card>
+    )
   );
 }
 
