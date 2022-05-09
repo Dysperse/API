@@ -69,7 +69,9 @@ export function EditButton({
           edge="end"
           color="inherit"
           aria-label="menu"
-          sx={{ mr: 1 }}
+          sx={{ mr: 1,transition: "none",
+					color: "#404040",
+					"&:hover": { color: "#000" }, }}
           onClick={handleClickOpen}
         >
           <span className="material-symbols-rounded">edit</span>

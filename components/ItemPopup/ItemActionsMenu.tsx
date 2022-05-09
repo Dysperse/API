@@ -25,6 +25,9 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 					size="large"
 					edge="end"
 					color="inherit"
+					sx={{transition: "none",
+					color: "#404040",
+					"&:hover": { color: "#000" },}}
 					aria-label="menu"
 					onClick={handleClick}
 				>
@@ -71,7 +74,6 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 							padding: "10px 15px",
 							borderRadius: "15px",
 							marginBottom: "1px",
-							transition: "all .05s",
 
 							"& .MuiSvgIcon-root": {
 								fontSize: 25,

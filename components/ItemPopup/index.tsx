@@ -4,7 +4,6 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import dayjs from "dayjs";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
@@ -189,14 +188,13 @@ export default function Item({ data, variant }: any) {
               gap: 2
             }}
           >
-            <Typography variant="h3" sx={{fontWeight:"600"}}>{title || "(no title)"}</Typography>
+            <Typography variant="h3" sx={{ fontWeight: "600" }}>
+              {title || "(no title)"}
+            </Typography>
             <Typography variant="h4">{quantity || "(no quantity)"}</Typography>
-            <Stack spacing={2} direction="row">
-              {categories.map((category: string) => {
-                return <Chip key={Math.random().toString()} label={category} />;
-              })}
-            </Stack>
-
+            {categories.map((category: string) => {
+              return <Chip key={Math.random().toString()} label={category} />;
+            })}
             <TextField
               multiline
               fullWidth
@@ -283,12 +281,18 @@ export default function Item({ data, variant }: any) {
                   <CardContent sx={{ p: 3 }}>
                     <Typography
                       variant="h6"
-                      sx={{ textOverflow: "ellipsis" }}
-                      noWrap
+                      sx={{
+                        maxWidth: "100%",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis"
+                      }}
                     >
                       {title || "(no title)"}
                     </Typography>
-                    <Typography sx={{mb:1}}>{quantity || "(no quantity)"}</Typography>
+                    <Typography sx={{ mb: 1 }}>
+                      {quantity || "(no quantity)"}
+                    </Typography>
                     {categories.map((category: string) => {
                       if (category.trim() === "") return false;
                       return (

@@ -15,6 +15,9 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
 				aria-label="menu"
 				sx={{
 					mr: 1,
+					transition: "none",
+					color: "#404040",
+					"&:hover": { color: "#000" },
 					...(star === 1 && {
 						"&:hover": {
 							background: global.theme === "dark" ? orange[900] : orange[50]

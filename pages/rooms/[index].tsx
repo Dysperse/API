@@ -225,7 +225,7 @@ function Suggestions({ room, items }: any) {
           }}
         >
           {suggestions[room].map((item) => {
-            if (items.some((e: any) => e.title === item)) return;
+            if (items.some((e: any) => e.title === item)) return "";
             return (
               <Chip
                 onClick={() => {
@@ -264,11 +264,13 @@ function LoadingScreen() {
       <Skeleton
         variant="rectangular"
         animation="wave"
+        width={"100%"}
         sx={{ height: 160, mb: 2, borderRadius: 5 }}
       />
       <Skeleton
         variant="rectangular"
         animation="wave"
+        width={"100%"}
         sx={{ height: 120, mb: 2, borderRadius: 5 }}
       />
       <Box
@@ -287,8 +289,9 @@ function LoadingScreen() {
                 <Skeleton
                   variant="rectangular"
                   height={height}
+                  width={"100%"}
                   animation="wave"
-                  sx={{ mb: 1, borderRadius: "28px" }}
+                  sx={{ mb: 2, borderRadius: "28px" }}
                 />
               </Paper>
             );

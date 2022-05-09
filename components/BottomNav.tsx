@@ -7,7 +7,6 @@ import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import SearchIcon from "@mui/icons-material/Search";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const styles = {

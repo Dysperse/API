@@ -36,14 +36,11 @@ function CustomRooms() {
   if (error) return <div>Failed to load room!</div>;
   if (!data)
     return (
-      <div>
-        <Skeleton
-          variant="rectangular"
-          width={"100%"}
-          height={118}
-          animation={false}
-        />
-      </div>
+      <>
+        {[...new Array(10)].map((_) => (
+          <Skeleton width={118} animation={false} />
+        ))}
+      </>
     );
   interface Room {
     name: string;
@@ -53,7 +50,31 @@ function CustomRooms() {
   return (
     <>
       {data.data.map((room: Room) => (
-        <ListItemButton sx={{ pl: 4, borderRadius: "0 40px 40px 0" }}>
+        <ListItemButton
+          sx={{
+            pl: 4,
+            mb: 0.1,
+            transition: "none!important",
+            borderRadius: "0 20px 20px 0",
+            color: colors["grey"][800],
+            "& .MuiTouchRipple-rippleVisible": {
+              animationDuration: ".3s!important"
+            },
+            "& .MuiTouchRipple-child": {
+              filter: "opacity(.2)!important"
+            },
+            "&:hover": {
+              color: "#000",
+              background: "rgba(200,200,200,.3)"
+            },
+            "&:hover span": {
+              color: colors["grey"][800] + "!important"
+            },
+            "&:active": {
+              background: "rgba(200,200,200,.4)"
+            }
+          }}
+        >
           <ListItemIcon>
             <LabelIcon />
           </ListItemIcon>

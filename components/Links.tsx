@@ -6,12 +6,11 @@ import { useRouter } from "next/router";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
-import { blue, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import Skeleton from "@mui/material/Skeleton";
 import Toolbar from "@mui/material/Toolbar";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -179,178 +178,189 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      {global.session ? (
-        <>
-          <Box
-            sx={{
-              display: {
-                xs: "none",
-                sm: "block"
-              },
-              pt: 2
+      <>
+        <Box
+          sx={{
+            display: {
+              xs: "none",
+              sm: "block"
+            },
+            pt: 2
+          }}
+        >
+          <Toolbar />
+        </Box>
+        <div onClick={handleDrawerToggle}>
+          <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>Home</ListSubheader>
+          <ListItem
+            text="Overview"
+            icon={<span className="material-symbols-rounded">home</span>}
+          />
+          <ListItem
+            href="/finances"
+            asHref="/finances"
+            text="Finances"
+            icon={<span className="material-symbols-rounded">payments</span>}
+          />
+          <ListItem
+            asHref="/meals"
+            href="/meals"
+            text="Meals"
+            icon={
+              <span className="material-symbols-rounded">lunch_dining</span>
+            }
+          />
+          {/* <ListItem href="/meals" text="Eco-friendly tips" icon={<SpaIcon />} /> */}
+        </div>
+        <div onClick={handleDrawerToggle}>
+          <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>Rooms</ListSubheader>
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/kitchen"
+            text="Kitchen"
+            icon={<span className="material-symbols-rounded">microwave</span>}
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/bedroom"
+            text="Bedroom"
+            icon={
+              <span className="material-symbols-rounded">bedroom_parent</span>
+            }
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/bathroom"
+            text="Bathroom"
+            icon={<span className="material-symbols-rounded">bathroom</span>}
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/garage"
+            text="Garage"
+            icon={<span className="material-symbols-rounded">bathroom</span>}
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/dining"
+            text="Dining room"
+            icon={<span className="material-symbols-rounded">dining</span>}
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/living-room"
+            text="Living room"
+            icon={<span className="material-symbols-rounded">living</span>}
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/laundry-room"
+            text="Laundry room"
+            icon={
+              <span className="material-symbols-rounded">
+                local_laundry_service
+              </span>
+            }
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/storage-room"
+            text="Storage room"
+            icon={<span className="material-symbols-rounded">inventory_2</span>}
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/camping"
+            text="Camping"
+            icon={<span className="material-symbols-rounded">image</span>}
+          />
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/garden"
+            text="Garden"
+            icon={<span className="material-symbols-rounded">yard</span>}
+          />
+        </div>
+
+        <ListItemButton
+          onClick={handleClick}
+          sx={{
+            pl: 4,
+            mb: 0.1,
+            transition: "none!important",
+            borderRadius: "0 20px 20px 0",
+            color: grey[800],
+            "& .MuiTouchRipple-rippleVisible": {
+              animationDuration: ".3s!important"
+            },
+            "& .MuiTouchRipple-child": {
+              filter: "opacity(.2)!important"
+            },
+            "&:hover": {
+              color: "#000",
+              background: "rgba(200,200,200,.3)"
+            },
+            "&:hover span": {
+              color: grey[800] + "!important"
+            },
+            "&:active": {
+              background: "rgba(200,200,200,.4)"
+            }
+          }}
+        >
+          <ListItemIcon>
+            <span className="material-symbols-rounded">pin_drop</span>
+          </ListItemIcon>
+          <ListItemText primary="More rooms" />
+          <span
+            className="material-symbols-rounded"
+            style={{
+              transition: "all .2s",
+              ...(open && {
+                transform: "rotate(-180deg)"
+              })
             }}
           >
-            <Toolbar />
-          </Box>
-          <div onClick={handleDrawerToggle}>
-            <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>Home</ListSubheader>
-            <ListItem
-              text="Overview"
-              icon={<span className="material-symbols-rounded">home</span>}
-            />
-            <ListItem
-              href="/finances"
-              asHref="/finances"
-              text="Finances"
-              icon={<span className="material-symbols-rounded">payments</span>}
-            />
-            <ListItem
-              asHref="/meals"
-              href="/meals"
-              text="Meals"
-              icon={
-                <span className="material-symbols-rounded">lunch_dining</span>
-              }
-            />
-            {/* <ListItem href="/meals" text="Eco-friendly tips" icon={<SpaIcon />} /> */}
-          </div>
-          <div onClick={handleDrawerToggle}>
-            <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>
-              Rooms
-            </ListSubheader>
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/kitchen"
-              text="Kitchen"
-              icon={<span className="material-symbols-rounded">microwave</span>}
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/bedroom"
-              text="Bedroom"
-              icon={
-                <span className="material-symbols-rounded">bedroom_parent</span>
-              }
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/bathroom"
-              text="Bathroom"
-              icon={<span className="material-symbols-rounded">bathroom</span>}
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/garage"
-              text="Garage"
-              icon={<span className="material-symbols-rounded">bathroom</span>}
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/dining"
-              text="Dining room"
-              icon={<span className="material-symbols-rounded">dining</span>}
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/living-room"
-              text="Living room"
-              icon={<span className="material-symbols-rounded">living</span>}
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/laundry-room"
-              text="Laundry room"
-              icon={
-                <span className="material-symbols-rounded">
-                  local_laundry_service
-                </span>
-              }
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/storage-room"
-              text="Storage room"
-              icon={
-                <span className="material-symbols-rounded">inventory_2</span>
-              }
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/camping"
-              text="Camping"
-              icon={<span className="material-symbols-rounded">landscape</span>}
-            />
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/garden"
-              text="Garden"
-              icon={<span className="material-symbols-rounded">yard</span>}
-            />
-          </div>
-
-          <ListItemButton
-            onClick={handleClick}
-            sx={{ borderRadius: "0 40px 40px 0" }}
-          >
-            <ListItemIcon>
-              <span className="material-symbols-rounded">add_location</span>
-            </ListItemIcon>
-            <ListItemText primary="More rooms" />
-            <span className="material-symbols-rounded">
-              {open ? "expand_less" : "expand_more"}
-            </span>
-          </ListItemButton>
-          <Collapse
-            in={open}
-            timeout="auto"
-            unmountOnExit
-            onClick={handleDrawerToggle}
-          >
-            <List component="div" disablePadding>
-              {customRooms}
-              <CreateRoom />
-            </List>
-          </Collapse>
-          <ListSubheader
-            component="div"
-            id="nested-list-subheader"
-            sx={{ pl: 2 }}
-          >
-            Other
-          </ListSubheader>
-          <ListItem
-            href="/home-maintenance"
-            asHref="/home-maintenance"
-            text="Home maintenance"
-            icon={<span className="material-symbols-rounded">label</span>}
-          />
-          <ListItem
-            href="/starred"
-            asHref="/starred"
-            text="Starred items"
-            icon={<span className="material-symbols-rounded">star</span>}
-          />
-          <ListItem
-            href="/trash"
-            asHref="/trash"
-            text="Trash"
-            icon={<span className="material-symbols-rounded">delete</span>}
-          />
-        </>
-      ) : (
-        <>
-          <Toolbar />
-          <Box sx={{ p: 3 }}>
-            <Skeleton sx={{ mb: 3 }} width={"100px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 5 }} width={"200px"} animation="wave" />
-            <Skeleton sx={{ mb: 3 }} width={"100px"} animation="wave" />
-            {[...new Array(13)].map(() => (
-              <Skeleton sx={{ mb: 3 }} width={"200px"} animation="wave" />
-            ))}
-          </Box>
-        </>
-      )}
+            expand_more
+          </span>
+        </ListItemButton>
+        <Collapse
+          in={open}
+          timeout="auto"
+          unmountOnExit
+          onClick={handleDrawerToggle}
+        >
+          <List component="div" disablePadding>
+            {customRooms}
+            <CreateRoom />
+          </List>
+        </Collapse>
+        <ListSubheader
+          component="div"
+          id="nested-list-subheader"
+          sx={{ pl: 2 }}
+        >
+          Other
+        </ListSubheader>
+        <ListItem
+          href="/home-maintenance"
+          asHref="/home-maintenance"
+          text="Home maintenance"
+          icon={<span className="material-symbols-rounded">label</span>}
+        />
+        <ListItem
+          href="/starred"
+          asHref="/starred"
+          text="Starred items"
+          icon={<span className="material-symbols-rounded">star</span>}
+        />
+        <ListItem
+          href="/trash"
+          asHref="/trash"
+          text="Trash"
+          icon={<span className="material-symbols-rounded">delete</span>}
+        />
+      </>
     </List>
   );
 }
