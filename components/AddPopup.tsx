@@ -13,15 +13,23 @@ import { CreateItemModal } from "./CreateItemModal";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
+import Skeleton from "@mui/material/Skeleton";
 import { CreateListModal } from "./CreateListModal";
 import { useRouter } from "next/router";
 import { Puller } from "./Puller";
+import useFetch from "react-fetch-hook";
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%"
 }));
 
-function AddItemOption({ s = 3, toggleDrawer, icon, title }: any): JSX.Element {
+function AddItemOption({
+  alias,
+  s = 3,
+  toggleDrawer,
+  icon,
+  title
+}: any): JSX.Element {
   return (
     <Grid item xs={s}>
       <CreateItemModal room={title} toggleDrawer={toggleDrawer}>
@@ -43,12 +51,131 @@ function AddItemOption({ s = 3, toggleDrawer, icon, title }: any): JSX.Element {
           >
             <CardContent sx={{ p: 1 }}>
               <Typography variant="h4">{icon}</Typography>
-              <Typography>{title}</Typography>
+              <Typography>{alias ?? title}</Typography>
             </CardContent>
           </CardActionArea>
         </Card>
       </CreateItemModal>
     </Grid>
+  );
+}
+function MoreRooms(): JSX.Element {
+  const [open, setOpen] = React.useState(false);
+  const { isLoading, data }: any = useFetch(
+    "https://api.smartlist.tech/v2/rooms/",
+    {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.session.accessToken
+      })
+    }
+  );
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        swipeAreaWidth={0}
+        PaperProps={{
+          sx: {
+            width: {
+              xs: "100vw",
+              sm: "50vw"
+            },
+            "& *:not(.MuiTouchRipple-child, .puller)": {
+              background: "transparent!important"
+            },
+            borderRadius: "28px 28px 0 0 !important",
+            mx: "auto"
+          }
+        }}
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        ModalProps={{
+          keepMounted: true
+        }}
+      >
+        <Puller />
+        <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
+          Other rooms
+        </DialogTitle>
+        {isLoading ? (
+          <Grid container sx={{ p: 2 }}>
+            {[...new Array(12)].map(() => (
+              <Grid item xs={4} sx={{ p: 2, py: 1 }}>
+                <div style={{ background: "#eee" }}>
+                  <Skeleton
+                    variant="rectangular"
+                    height={69}
+                    width={"100%"}
+                    animation="wave"
+                    sx={{ borderRadius: 5, background: "red!important" }}
+                  />
+                </div>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Grid container sx={{ p: 2 }}>
+            <AddItemOption
+              toggleDrawer={() => setOpen(false)}
+              title="Storage room"
+              icon={
+                <span className="material-symbols-rounded">inventory_2</span>
+              }
+            />
+            <AddItemOption
+              toggleDrawer={() => setOpen(false)}
+              title="Camping"
+              icon={<span className="material-symbols-rounded">image</span>}
+            />
+            <AddItemOption
+              toggleDrawer={() => setOpen(false)}
+              title="Garden"
+              icon={<span className="material-symbols-rounded">yard</span>}
+            />
+            {data.data.map((room) => (
+              <AddItemOption
+                toggleDrawer={() => setOpen(false)}
+                title={room.id}
+                alias={room.name}
+                icon={<span className="material-symbols-rounded">label</span>}
+              />
+            ))}
+          </Grid>
+        )}
+      </SwipeableDrawer>
+      <Grid item xs={3}>
+        <Card
+          sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}
+          onClick={() => setOpen(true)}
+        >
+          <CardActionArea
+            disableRipple
+            sx={{
+              "&:hover": {
+                background: "rgba(200,200,200,.3)!important"
+              },
+              "&:focus": {
+                background: "rgba(200,200,200,.5)!important"
+              },
+              "&:active": {
+                background: "rgba(200,200,200,.6)!important"
+              }
+            }}
+          >
+            <CardContent sx={{ p: 1 }}>
+              <Typography variant="h4">
+                <span className="material-symbols-rounded">
+                  add_location_alt
+                </span>
+              </Typography>
+              <Typography>More rooms</Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Grid>
+    </>
   );
 }
 function Content({ toggleDrawer }: any) {
@@ -96,11 +223,7 @@ function Content({ toggleDrawer }: any) {
             </span>
           }
         />
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title="Storage room"
-          icon={<span className="material-symbols-rounded">inventory_2</span>}
-        />
+        <MoreRooms />
       </Grid>
       <Box sx={{ px: 5 }}>
         <Divider />
