@@ -65,12 +65,12 @@ function Navbar({ scrollTop, container }: any) {
       <AppBar
         position="absolute"
         sx={{
-          background: scrollTop > 300 ? "#eee" : "transparent",
+          background: scrollTop > 300 ? "#091f1e" : "transparent",
           transition: "backdrop-filter .2s",
           borderTopLeftRadius: "15px",
           borderTopRightRadius: "15px",
           ...(scrollTop > 300 && {
-            color: "#000"
+            color: "#fff"
           }),
           ...(scrollTop > 100 && {
             backdropFilter: "blur(10px)"
