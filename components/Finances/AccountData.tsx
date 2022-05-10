@@ -67,8 +67,6 @@ function Navbar({ scrollTop, container }: any) {
         sx={{
           background: scrollTop > 300 ? "#091f1e" : "transparent",
           transition: "backdrop-filter .2s",
-          borderTopLeftRadius: "15px",
-          borderTopRightRadius: "15px",
           color: "#fff",
           ...(scrollTop > 100 && {
             backdropFilter: "blur(10px)"

@@ -38,9 +38,11 @@ const currency_symbols = {
 function AccountTab({ account }: any) {
   const [open, setOpen] = useState(false);
   const [scrollTop, setScrollTop] = useState(false);
-useEffect(() => {
-  document.documentElement.querySelector(`meta[name="theme-color"]`)!.setAttribute("content", open ? "#091f1e": "#fff")
-})
+  useEffect(() => {
+    document.documentElement
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute("content", open ? "#2b5511" : "#fff");
+  });
   return (
     <>
       <SwipeableDrawer
@@ -59,7 +61,7 @@ useEffect(() => {
         swipeAreaWidth={0}
       >
         <Box
-          onScroll={(e:any) => setScrollTop(e.target.scrollTop)}
+          onScroll={(e: any) => setScrollTop(e.target.scrollTop)}
           sx={{
             width: { xs: "100vw", sm: "50vw" },
             overflowY: "scroll",
