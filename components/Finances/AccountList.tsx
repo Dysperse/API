@@ -57,7 +57,7 @@ function AccountTab({ account }: any) {
         swipeAreaWidth={0}
       >
         <Box
-          onScroll={(e) => setScrollTop(e.target.scrollTop)}
+          onScroll={(e:any) => setScrollTop(e.target.scrollTop)}
           sx={{
             width: { xs: "100vw", sm: "50vw" },
             overflowY: "scroll",
