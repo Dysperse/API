@@ -14,7 +14,7 @@ export default function handler(req, res) {
       user: {
         client_user_id: "unique_user_id"
       },
-      products: ["auth"]
+      products: ["auth", "liabilities"]
     }),
     redirect: "follow"
   })

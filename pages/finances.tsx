@@ -2,8 +2,8 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import NoData from "../components/finances/NoData";
-import { AccountList } from "../components/finances/AccountList";
+import NoData from "../components/Finances/NoData";
+import { AccountList } from "../components/Finances/AccountList";
 
 dayjs.extend(relativeTime);
 

@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.6.1",
     "@mui/lab": "^5.0.0-alpha.77",
     "@mui/material": "^5.6.1",
+    "@types/node": "16.11.33",
     "@types/react-plaid-link": "2.0.0",
     "cookie-cutter": "0.2.0",
     "dayjs": "^1.11.0",
@@ -44,10 +45,6 @@
     "eslint-config-next": "latest",
     "typescript": "^4.6.3"
   },
-  "keywords": [
-    "reactjs",
-    "smartlist",
-    "javascript"
-  ],
-  "description": "Smartlist for Web"
+  "keywords": [],
+  "description": "Smartlist official web dashboard"
 }
