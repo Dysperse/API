@@ -4,7 +4,9 @@ import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const currency_symbols = {
   USD: "$",
@@ -104,6 +106,43 @@ function Navbar({ scrollTop, container }: any) {
   );
 }
 
+function Goal({ name, image }: { name: string; image: string }) {
+  return (
+    <Card
+      sx={{
+        background:
+          "linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(" +
+          image +
+          ")",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        borderRadius: 5,
+        p: 1,
+        mt: 2,
+        color: "white"
+      }}
+    >
+      <CardContent>
+        <Typography variant="h6" sx={{ fontWeight: "600" }}>
+          {name}
+        </Typography>
+        <Typography>$100 / 200 raised</Typography>
+        <LinearProgress
+          variant="determinate"
+          sx={{
+            mt: 2,
+            borderRadius: 99,
+            height: 2,
+            background: "rgba(200,200,200,.4)",
+            "& *": { borderRadius: 99, background: "#fff" }
+          }}
+          value={69}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
 export function AccountData({ scrollTop, account }: any) {
   return (
     <>
@@ -117,7 +156,19 @@ export function AccountData({ scrollTop, account }: any) {
         <Typography variant="h5" sx={{ fontWeight: "600" }}>
           Goals
         </Typography>
-        <pre>{JSON.stringify(account, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(account, null, 2)}</pre> */}
+        <Goal
+          image="https://images.unsplash.com/photo-1524207874394-5ec7c8c8e1a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80"
+          name="Save up for a vacation"
+        />
+        <Goal
+          image="https://images.unsplash.com/photo-1502136969935-8d8eef54d77b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80"
+          name="Go to a theme park"
+        />
+        <Goal
+          image="https://images.unsplash.com/photo-1525921429624-479b6a26d84d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+          name="Pay off debt"
+        />
       </Box>
     </>
   );
