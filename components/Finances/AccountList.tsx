@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Tooltip from "@mui/material/Tooltip";
@@ -37,6 +37,8 @@ const currency_symbols = {
 
 function AccountTab({ account }: any) {
   const [open, setOpen] = useState(false);
+  const [scrollTop, setScrollTop] = useState(false);
+
   return (
     <>
       <SwipeableDrawer
@@ -47,7 +49,7 @@ function AccountTab({ account }: any) {
         PaperProps={{
           sx: {
             background: "#fff",
-            overflow: "hidden",
+            // overflow: "hidden",
             borderRadius: { sm: "20px" },
             m: { sm: "15px" }
           }
@@ -55,12 +57,15 @@ function AccountTab({ account }: any) {
         swipeAreaWidth={0}
       >
         <Box
+          onScroll={(e) => setScrollTop(e.target.scrollTop)}
           sx={{
             width: { xs: "100vw", sm: "50vw" },
+            overflowY: "scroll",
+            borderRadius: { sm: "20px" },
             height: { xs: "100vh", sm: "calc(100vh - 30px)" }
           }}
         >
-          <AccountData account={account} />
+          <AccountData scrollTop={scrollTop} account={account} />
         </Box>
       </SwipeableDrawer>
       <Tooltip title={account.official_name} enterDelay={500}>

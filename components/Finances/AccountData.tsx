@@ -3,25 +3,25 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 const currency_symbols = {
-  USD: "$", // US Dollar
-  EUR: "€", // Euro
-  CRC: "₡", // Costa Rican Colón
-  GBP: "£", // British Pound Sterling
-  ILS: "₪", // Israeli New Sheqel
-  INR: "₹", // Indian Rupee
-  JPY: "¥", // Japanese Yen
-  KRW: "₩", // South Korean Won
-  NGN: "₦", // Nigerian Naira
-  PHP: "₱", // Philippine Peso
-  PLN: "zł", // Polish Zloty
-  PYG: "₲", // Paraguayan Guarani
-  THB: "฿", // Thai Baht
-  UAH: "₴", // Ukrainian Hryvnia
-  VND: "₫" // Vietnamese Dong
+  USD: "$",
+  EUR: "€",
+  CRC: "₡",
+  GBP: "£",
+  ILS: "₪",
+  INR: "₹",
+  JPY: "¥",
+  KRW: "₩",
+  NGN: "₦",
+  PHP: "₱",
+  PLN: "zł",
+  PYG: "₲",
+  THB: "฿",
+  UAH: "₴",
+  VND: "₫"
 };
 
 function AccountHeader({
@@ -59,12 +59,25 @@ function AccountHeader({
   );
 }
 
-function Navbar() {
+function Navbar({ scrollTop, container }: any) {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <>
       <AppBar
         position="absolute"
-        sx={{ background: "transparent", boxShadow: 0 }}
+        sx={{
+          background: scrollTop > 300 ? "#eee" : "transparent",
+          transition: "backdrop-filter .2s",
+          borderTopLeftRadius: "15px",
+          borderTopRightRadius: "15px",
+          ...(scrollTop > 300 && {
+            color: "#000"
+          }),
+          ...(scrollTop > 100 && {
+            backdropFilter: "blur(10px)"
+          }),
+          boxShadow: 0,
+          p: 0.5
+        }}
       >
         <Toolbar>
           <IconButton
@@ -76,24 +89,28 @@ function Navbar() {
           >
             <span className="material-symbols-rounded">chevron_left</span>
           </IconButton>
-          <Typography sx={{ mx: "auto" }} variant="h6" component="div">
+          <Typography sx={{ mx: "auto" }} component="div">
             Overview
           </Typography>
         </Toolbar>
       </AppBar>
-    </Box>
+    </>
   );
 }
 
-export function AccountData({ account }: any) {
+export function AccountData({ scrollTop, account }: any) {
   return (
     <>
-      <Navbar />
+      <Navbar scrollTop={scrollTop} />
       <AccountHeader
         currency={account.balances.iso_currency_code}
         balance={account.balances.current}
       />
+
       <Box sx={{ p: 4 }}>
+        <Typography variant="h5" sx={{ fontWeight: "600" }}>
+          Goals
+        </Typography>
         <pre>{JSON.stringify(account, null, 2)}</pre>
       </Box>
     </>
