@@ -69,9 +69,7 @@ function Navbar({ scrollTop, container }: any) {
           transition: "backdrop-filter .2s",
           borderTopLeftRadius: "15px",
           borderTopRightRadius: "15px",
-          ...(scrollTop > 300 && {
-            color: "#fff"
-          }),
+          color: "#fff",
           ...(scrollTop > 100 && {
             backdropFilter: "blur(10px)"
           }),

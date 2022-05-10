@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Tooltip from "@mui/material/Tooltip";
@@ -38,7 +38,9 @@ const currency_symbols = {
 function AccountTab({ account }: any) {
   const [open, setOpen] = useState(false);
   const [scrollTop, setScrollTop] = useState(false);
-
+useEffect(() => {
+  document.documentElement.querySelector(`meta[name="theme-color"]`)!.setAttribute("content", open ? "#091f1e": "#fff")
+})
   return (
     <>
       <SwipeableDrawer
