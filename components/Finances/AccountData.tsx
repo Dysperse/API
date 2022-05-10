@@ -43,7 +43,7 @@ function AccountHeader({
         borderBottomRightRadius: "0!important",
         justifyContent: "center",
         color: "white",
-        background: "url(https://i.ibb.co/Vw4FndB/image.png)",
+        background: "url(https://i.ibb.co/68RCqvc/image.png)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat"
       }}
