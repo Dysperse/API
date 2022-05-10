@@ -53,7 +53,7 @@ function AccountTab({ account }: any) {
         PaperProps={{
           sx: {
             background: "#fff",
-            // overflow: "hidden",
+            overflow: "hidden",
             borderRadius: { sm: "20px" },
             m: { sm: "15px" }
           }
@@ -61,7 +61,6 @@ function AccountTab({ account }: any) {
         swipeAreaWidth={0}
       >
         <Box
-          onScroll={(e: any) => setScrollTop(e.target.scrollTop)}
           sx={{
             width: { xs: "100vw", sm: "50vw" },
             overflowY: "scroll",
@@ -69,7 +68,17 @@ function AccountTab({ account }: any) {
             height: { xs: "100vh", sm: "calc(100vh - 30px)" }
           }}
         >
-          <AccountData scrollTop={scrollTop} account={account} />
+          <Box
+            onScroll={(e: any) => setScrollTop(e.target.scrollTop)}
+            sx={{
+              width: { xs: "100vw", sm: "50vw" },
+              overflowY: "scroll",
+              borderRadius: { sm: "20px" },
+              height: { xs: "100vh", sm: "calc(100vh - 30px)" }
+            }}
+          >
+            <AccountData scrollTop={scrollTop} account={account} />
+          </Box>
         </Box>
       </SwipeableDrawer>
       <Tooltip title={account.official_name} enterDelay={500}>
