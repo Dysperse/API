@@ -85,13 +85,21 @@ function Navbar({ scrollTop, container }: any) {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ float: "left", position: "absolute" }}
           >
             <span className="material-symbols-rounded">chevron_left</span>
           </IconButton>
-          <Typography sx={{ mx: "auto" }} component="div">
+          <Typography sx={{ flexGrow: 1, textAlign: "center" }} component="div">
             Overview
           </Typography>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: -1 }}
+          >
+            <span className="material-symbols-rounded">more_horiz</span>
+          </IconButton>
         </Toolbar>
       </AppBar>
     </>

@@ -63,3 +63,9 @@ img {
   box-shadow: 0 !important;
   padding: 15px !important;
 }
+.MuiIconButton-root:active .material-symbols-rounded {
+  transform: scale(0.85);
+}
+.MuiIconButton-root:not(:active) .material-symbols-rounded {
+  transition: transform 0.2s;
+}
