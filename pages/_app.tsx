@@ -8,15 +8,12 @@ import LoginPrompt from "../components/LoginPrompt";
 import * as colors from "@mui/material/colors";
 import Box from "@mui/material/Box";
 
-function SmartlistApp({ Component, pageProps }: any): JSX.Element {
-  const { data } = useFetch("/api/user", {
-    method: "POST"
-  });
+function Render({ data, Component, pageProps }: any) {
   global.session = data;
   const [theme, setTheme] = useState<"dark" | "light">("light");
   const [themeColor, setThemeColor] = useState<
     "red" | "green" | "blue" | "pink" | "purple" | "orange" | "teal" | "cyan"
-  >("red");
+  >(data.user.theme);
   global.theme = theme;
   global.setTheme = setTheme;
   global.themeColor = themeColor;
@@ -26,11 +23,6 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
     components: {
       MuiPaper: {
         defaultProps: { elevation: 0 }
-        // styleOverrides: {
-        // 	root: sx({
-        // 		boxShadow: 0
-        // 	})
-        // }
       }
     },
     palette: {
@@ -52,6 +44,36 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
     }
   });
 
+  return (
+    <>
+      <ThemeProvider theme={AppTheme}>
+        <Box
+          sx={{
+            "& *::selection": {
+              color: "#fff!important",
+              background: colors[themeColor]["A700"] + "!important"
+            }
+          }}
+        >
+          {global.session && global.session.user ? (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          ) : global.session ? (
+            <LoginPrompt />
+          ) : (
+            ""
+          )}
+        </Box>
+      </ThemeProvider>
+    </>
+  );
+}
+
+function SmartlistApp({ Component, pageProps }: any): JSX.Element {
+  const { isLoading, data } = useFetch("/api/user", {
+    method: "POST"
+  });
   return (
     <>
       <Head>
@@ -118,26 +140,9 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
         />
         <title>Smartlist</title>
       </Head>
-      <ThemeProvider theme={AppTheme}>
-        <Box
-          sx={{
-            "& *::selection": {
-              color: "#fff!important",
-              background: colors[themeColor]["A700"] + "!important"
-            }
-          }}
-        >
-          {global.session && global.session.user ? (
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          ) : global.session ? (
-            <LoginPrompt />
-          ) : (
-            ""
-          )}
-        </Box>
-      </ThemeProvider>
+      {!isLoading && (
+        <Render Component={Component} pageProps={pageProps} data={data} />
+      )}
     </>
   );
 }

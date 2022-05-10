@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
 import Radio from "@mui/material/Radio";
@@ -30,7 +30,11 @@ function ThemeColorSettings() {
               disablePadding
             >
               <ListItemButton
-                onClick={() => setThemeColor(color.toLowerCase())}
+                sx={{ borderRadius: 2, transition: "none" }}
+                onClick={() => {
+                  updateSettings("theme", themeColor);
+                  setThemeColor(color.toLowerCase());
+                }}
               >
                 <ListItemText primary={color} />
               </ListItemButton>
