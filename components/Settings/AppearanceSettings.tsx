@@ -22,7 +22,7 @@ function ThemeColorSettings() {
                   edge="end"
                   checked={themeColor === color.toLowerCase()}
                   onChange={() => {
-                    updateSettings("theme", themeColor);
+                    updateSettings("theme", color.toLowerCase());
                     setThemeColor(color.toLowerCase());
                   }}
                 />
@@ -32,7 +32,7 @@ function ThemeColorSettings() {
               <ListItemButton
                 sx={{ borderRadius: 2, transition: "none" }}
                 onClick={() => {
-                  updateSettings("theme", themeColor);
+                  updateSettings("theme", color.toLowerCase());
                   setThemeColor(color.toLowerCase());
                 }}
               >

@@ -14,6 +14,12 @@ export function updateSettings(
   })
     .then((res) => res.json())
     .then((res) => {
+      fetch(
+        "/api/login/?" +
+          new URLSearchParams({
+            token: global.session && global.session.accessToken
+          })
+      );
       if (debug) {
         alert(JSON.stringify(res));
       }
