@@ -11,6 +11,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
 import useFetch from "react-fetch-hook";
 import dayjs from "dayjs";
 import Slider, { SliderThumb } from "@mui/material/Slider";
@@ -89,7 +90,12 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
       })
   );
   return isLoading ? (
-    <Skeleton animation="wave" variant="rectangular" height={200} sx={{ borderRadius: 5, mt: 2 }} />
+    <Skeleton
+      animation="wave"
+      variant="rectangular"
+      height={150}
+      sx={{ borderRadius: 5, mt: 2 }}
+    />
   ) : (
     <>
       <Card
@@ -297,31 +303,73 @@ function Goal({ name, image }: { name: string; image: string }) {
           <Typography variant="h6">$100 / 200 raised</Typography>
         </Box>
         <Box sx={{ p: 5 }}>
-          Goal set 5 months ago
+          <TextField
+            multiline
+            fullWidth
+            onBlur={(e) => {
+              // alert(1);
+              e.target.placeholder = "Click to add note";
+              e.target.spellcheck = false;
+            }}
+            onKeyUp={(e: any) => {
+              if (e.code === "Enter" && e.ctrlKey) {
+                e.preventDefault();
+                e.target.value = e.target.value.trim();
+                e.target.blur();
+              }
+            }}
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                px: 2.5,
+                py: 1.5,
+                borderRadius: "15px"
+              }
+            }}
+            spellCheck={false}
+            variant="filled"
+            // defaultValue={note}
+            maxRows={4}
+            minRows={4}
+            onFocus={(e) => {
+              e.target.placeholder = "CTRL+ENTER to save";
+              e.target.spellcheck = true;
+            }}
+            placeholder="Click to add note"
+          />
           <Divider sx={{ my: 4 }} />
-          <Button
-            sx={{
-              textTransform: "none",
-              mr: 1,
-              borderRadius: 5
-            }}
-            disableElevation
-            variant="contained"
-            size="large"
-          >
-            Mark as done
-          </Button>
-          <Button
-            sx={{
-              textTransform: "none",
-              borderRadius: 5
-            }}
-            disableElevation
-            variant="outlined"
-            size="large"
-          >
-            Remove goal
-          </Button>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <div>
+              <Button
+                sx={{
+                  textTransform: "none",
+                  mr: 1,
+                  borderRadius: 5
+                }}
+                disableElevation
+                variant="contained"
+                size="large"
+              >
+                Mark as done
+              </Button>
+              <Button
+                sx={{
+                  textTransform: "none",
+                  borderRadius: 5
+                }}
+                disableElevation
+                variant="outlined"
+                size="large"
+              >
+                Remove goal
+              </Button>
+            </div>
+            <div style={{ marginLeft: "auto" }}>
+              <Typography variant="body2" sx={{ color: "#505050" }}>
+                Goal set 69 years ago
+              </Typography>
+            </div>
+          </Box>
         </Box>
       </SwipeableDrawer>
       <Card

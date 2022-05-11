@@ -236,7 +236,7 @@ export default function Item({ data, variant }: any) {
               defaultValue={note}
               maxRows={4}
               onFocus={(e) => {
-                e.target.placeholder = "CTRL+ENTER for new lines";
+                e.target.placeholder = "SHIFT+ENTER for new lines";
                 e.target.spellcheck = true;
               }}
               placeholder="Click to add note"
