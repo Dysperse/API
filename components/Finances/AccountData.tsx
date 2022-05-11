@@ -84,7 +84,7 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
     "/api/finance/fetchTransactions?" +
       new URLSearchParams({
         access_token: global.session.user.financeToken,
-        start_date: dayjs().subtract(5, "day").format("YYYY-MM-DD"),
+        start_date: dayjs().subtract(15, "day").format("YYYY-MM-DD"),
         end_date: dayjs().add(3, "day").format("YYYY-MM-DD")
       })
   );
@@ -109,25 +109,34 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
             min={0}
             disabled
             max={10}
-            defaultValue={dayjs().diff(
+            defaultValue={
               data.transactions.filter((e) => (e.account_id = accountId))[0]
-                .authorized_date,
-              "d"
-            )}
+                ? dayjs().diff(
+                    data.transactions.filter(
+                      (e) => (e.account_id = accountId)
+                    )[0].authorized_date,
+                    "d"
+                  )
+                : 0
+            }
           />
           <Typography sx={{ mt: 1 }}>
             You haven't purchased anything for{" "}
-            {dayjs().diff(
-              data.transactions.filter((e) => (e.account_id = accountId))[0]
-                .authorized_date,
-              "d"
-            )}{" "}
+            {data.transactions.filter((e) => (e.account_id = accountId))[0]
+              ? dayjs().diff(
+                  data.transactions.filter((e) => (e.account_id = accountId))[0]
+                    .authorized_date,
+                  "d"
+                )
+              : 0}{" "}
             days
-            {dayjs().diff(
-              data.transactions.filter((e) => (e.account_id = accountId))[0]
-                .authorized_date,
-              "d"
-            ) !== 0 && <> &ndash; Keep it up!</>}
+            {(data.transactions.filter((e) => (e.account_id = accountId))[0]
+              ? dayjs().diff(
+                  data.transactions.filter((e) => (e.account_id = accountId))[0]
+                    .authorized_date,
+                  "d"
+                )
+              : 0) !== 0 && <> &ndash; Keep it up!</>}
           </Typography>
         </CardContent>
       </Card>
