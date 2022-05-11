@@ -187,8 +187,8 @@ function Navbar({ setOpen, scrollTop, container }: any) {
           background: scrollTop > 300 ? "#091f1e" : "transparent",
           transition: "backdrop-filter .2s, background .2s",
           color: "#fff",
-          borderTopLeftRadius: "20px",
-          borderTopRightRadius: "20px",
+          borderTopLeftRadius: {sm:"20px"},
+          borderTopRightRadius: {sm:"20px"},
           ...(scrollTop > 100 && {
             backdropFilter: "blur(10px)"
           }),
