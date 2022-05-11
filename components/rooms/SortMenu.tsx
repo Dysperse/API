@@ -48,8 +48,6 @@ export function SortMenu() {
         }}
         sx={{
           transition: "all .2s",
-          // "& *": {
-          // },
           "& .MuiPaper-root": {
             borderRadius: "15px",
             minWidth: 180,

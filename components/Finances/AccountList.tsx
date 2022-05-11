@@ -16,6 +16,7 @@ import { AccountData } from "./AccountData";
 import useFetch from "react-fetch-hook";
 import dayjs from "dayjs";
 import { Liabilities } from "./Liabilities";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const currency_symbols = {
   USD: "$", // US Dollar
@@ -45,14 +46,17 @@ function AccountTab({ account }: any) {
   });
   return (
     <>
+      <CssBaseline />
       <SwipeableDrawer
         onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setScrollTop(0);
+          setOpen(false);
+        }}
         open={open}
         anchor="right"
         PaperProps={{
           sx: {
-            background: "#fff",
             overflow: "hidden",
             borderRadius: { sm: "20px" },
             m: { sm: "15px" }
@@ -77,7 +81,11 @@ function AccountTab({ account }: any) {
               height: { xs: "100vh", sm: "calc(100vh - 30px)" }
             }}
           >
-            <AccountData scrollTop={scrollTop} account={account} />
+            <AccountData
+              setOpen={setOpen}
+              scrollTop={scrollTop}
+              account={account}
+            />
           </Box>
         </Box>
       </SwipeableDrawer>
