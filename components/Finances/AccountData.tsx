@@ -89,7 +89,7 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
       })
   );
   return isLoading ? (
-    <Skeleton animation="wave" height={200} sx={{ borderRadius: 5, mt: 2 }} />
+    <Skeleton animation="wave" variant="rectangular" height={200} sx={{ borderRadius: 5, mt: 2 }} />
   ) : (
     <>
       <Card
