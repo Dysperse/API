@@ -38,7 +38,7 @@ const currency_symbols = {
 
 function AccountTab({ account }: any) {
   const [open, setOpen] = useState(false);
-  const [scrollTop, setScrollTop] = useState(false);
+  const [scrollTop, setScrollTop] = useState<number>(0);
   useEffect(() => {
     document.documentElement
       .querySelector(`meta[name="theme-color"]`)!
