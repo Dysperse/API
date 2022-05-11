@@ -111,7 +111,7 @@ const ListItem = React.memo(function ListItem({
           mb: 0.1,
           transition: "none!important",
           borderRadius: "0 20px 20px 0",
-          color: grey[800],
+          color: global.theme === "dark" ? grey[300] : grey[800],
           "& .MuiTouchRipple-rippleVisible": {
             animationDuration: ".3s!important"
           },
@@ -123,29 +123,41 @@ const ListItem = React.memo(function ListItem({
             background: "rgba(200,200,200,.3)"
           },
           "&:hover span": {
-            color: grey[800] + "!important"
+            color:
+              (global.theme === "dark" ? grey[200] : grey[800]) + "!important"
           },
           "&:active": {
             background: "rgba(200,200,200,.4)"
           },
           ...(router.asPath === asHref && {
-            backgroundColor: colors[themeColor]["50"],
-            color: colors[themeColor]["900"],
+            backgroundColor:
+              colors[global.themeColor][global.theme === "dark" ? 900 : 50],
+            color:
+              colors[global.themeColor][global.theme === "dark" ? 50 : 900],
             "&:hover,&:focus": {
-              backgroundColor: colors[themeColor]["100"],
-              color: colors[themeColor]["900"]
+              backgroundColor:
+                colors[global.themeColor][global.theme === "dark" ? 800 : 100],
+              color:
+                colors[global.themeColor][global.theme === "dark" ? 100 : 900]
             },
             "&:active": {
-              backgroundColor: colors[themeColor]["100"]
+              backgroundColor:
+                colors[global.themeColor][global.theme === "dark" ? 700 : 200]
             },
             "& span": {
-              color: colors[themeColor]["500"] + "!important"
+              color:
+                colors[global.themeColor][global.theme === "dark" ? 100 : 500] +
+                "!important"
             },
             "&:hover span": {
-              color: colors[themeColor]["700"] + "!important"
+              color:
+                colors[global.themeColor][global.theme === "dark" ? 100 : 700] +
+                "!important"
             },
             "&:active span": {
-              color: colors[themeColor]["800"] + "!important"
+              color:
+                colors[global.themeColor][global.theme === "dark" ? 200 : 800] +
+                "!important"
             }
           })
         }}
