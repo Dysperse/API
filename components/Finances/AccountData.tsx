@@ -17,24 +17,7 @@ import dayjs from "dayjs";
 import Slider, { SliderThumb } from "@mui/material/Slider";
 import Skeleton from "@mui/material/Skeleton";
 import { styled } from "@mui/material/styles";
-
-const currency_symbols = {
-  USD: "$",
-  EUR: "€",
-  CRC: "₡",
-  GBP: "£",
-  ILS: "₪",
-  INR: "₹",
-  JPY: "¥",
-  KRW: "₩",
-  NGN: "₦",
-  PHP: "₱",
-  PLN: "zł",
-  PYG: "₲",
-  THB: "฿",
-  UAH: "₴",
-  VND: "₫"
-};
+import { currency_symbols } from "./AccountList";
 
 function AirbnbThumbComponent(props: any) {
   const { children, ...other } = props;
