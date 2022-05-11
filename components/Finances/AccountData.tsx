@@ -14,6 +14,7 @@ import Divider from "@mui/material/Divider";
 import useFetch from "react-fetch-hook";
 import dayjs from "dayjs";
 import Slider, { SliderThumb } from "@mui/material/Slider";
+import Skeleton from "@mui/material/Skeleton";
 import { styled } from "@mui/material/styles";
 
 const currency_symbols = {
@@ -45,18 +46,18 @@ function AirbnbThumbComponent(props: any) {
 }
 function ZeroExpenseStreak({ accountId }: { accountId: string }) {
   const AirbnbSlider = styled(Slider)(({ theme }) => ({
-    color: "#f9a825",
+    color: "#f9a825!important",
     height: 3,
     "& .MuiSlider-thumb": {
       height: 35,
       width: 35,
       boxShadow: 0,
-      backgroundColor: "#fff",
-      border: "2px solid #f9a825",
+      backgroundColor: "#fff!important",
+      border: "2px solid #f9a825!important",
       "& .airbnb-bar": {
         height: 9,
         width: 1,
-        backgroundColor: "currentColor"
+        backgroundColor: "currentColor!important"
       }
     },
     "& .MuiSlider-track": {
@@ -64,17 +65,17 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
       overflow: "hidden"
     },
     "& .MuiSlider-mark": {
-      backgroundColor: "#aaa",
+      backgroundColor: "#aaa!important",
       height: 6,
       borderRadius: 9,
       width: 3,
       "&.MuiSlider-markActive": {
         opacity: 1,
-        backgroundColor: "rgba(255,255,255,.3)"
+        backgroundColor: "rgba(255,255,255,.3)!important"
       }
     },
     "& .MuiSlider-rail": {
-      color: theme.palette.mode === "dark" ? "#bfbfbf" : "#d8d8d8",
+      color: theme.palette.mode === "dark" ? "#bfbfbf" : "#d8d8d8!important",
       opacity: theme.palette.mode === "dark" ? undefined : 1,
       height: 8
     }
@@ -88,7 +89,7 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
       })
   );
   return isLoading ? (
-    <>Loading...</>
+    <Skeleton animation="wave" height={200} sx={{ borderRadius: 5, mt: 2 }} />
   ) : (
     <>
       <Card
@@ -96,7 +97,8 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
           background: "rgba(200, 200, 200, .3)",
           borderRadius: 5,
           boxShadow: 0,
-          p: 1
+          p: 1,
+          mt: 2
         }}
       >
         <CardContent>
@@ -105,16 +107,28 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
             step={1}
             marks
             min={0}
+            disabled
             max={10}
-            defaultValue={12}
+            defaultValue={dayjs().diff(
+              data.transactions.filter((e) => (e.account_id = accountId))[0]
+                .authorized_date,
+              "d"
+            )}
           />
-          {(
-            data.transactions.filter((e) => (e.account_id = accountId))
-          ).map(transaction => (
-            <div>
-              {dayjs(transaction.authorized_date).fromNow()}
-            </div>
-          ))}
+          <Typography sx={{ mt: 1 }}>
+            You haven't purchased anything for{" "}
+            {dayjs().diff(
+              data.transactions.filter((e) => (e.account_id = accountId))[0]
+                .authorized_date,
+              "d"
+            )}{" "}
+            days
+            {dayjs().diff(
+              data.transactions.filter((e) => (e.account_id = accountId))[0]
+                .authorized_date,
+              "d"
+            ) !== 0 && <> &ndash; Keep it up!</>}
+          </Typography>
         </CardContent>
       </Card>
     </>
@@ -187,8 +201,8 @@ function Navbar({ setOpen, scrollTop, container }: any) {
           background: scrollTop > 300 ? "#091f1e" : "transparent",
           transition: "backdrop-filter .2s, background .2s",
           color: "#fff",
-          borderTopLeftRadius: {sm:"20px"},
-          borderTopRightRadius: {sm:"20px"},
+          borderTopLeftRadius: { sm: "20px" },
+          borderTopRightRadius: { sm: "20px" },
           ...(scrollTop > 100 && {
             backdropFilter: "blur(10px)"
           }),
@@ -355,6 +369,10 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
 
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: "600" }}>
+          Streak
+        </Typography>
+        <ZeroExpenseStreak accountId={account.account_id} />
+        <Typography variant="h5" sx={{ fontWeight: "600", mt: 5 }}>
           Goals
         </Typography>
         {/* <pre>{JSON.stringify(account, null, 2)}</pre> */}
@@ -370,10 +388,6 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
           image="https://images.unsplash.com/photo-1525921429624-479b6a26d84d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
           name="Pay off debt"
         />
-        <Typography variant="h5" sx={{ fontWeight: "600", mt: 5 }}>
-          Streak
-        </Typography>
-        <ZeroExpenseStreak accountId={account.account_id} />
       </Box>
     </>
   );

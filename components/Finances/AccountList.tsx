@@ -42,7 +42,10 @@ function AccountTab({ account }: any) {
   useEffect(() => {
     document.documentElement
       .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute("content", open ? (scrollTop > 300 ? "#091f1e": "#2b5511") : "#fff");
+      .setAttribute(
+        "content",
+        open ? (scrollTop > 300 ? "#091f1e" : "#2b5511") : "#fff"
+      );
   });
   return (
     <>
@@ -57,6 +60,7 @@ function AccountTab({ account }: any) {
         anchor="right"
         PaperProps={{
           sx: {
+            overscrollBehavior: "none",
             overflow: "hidden",
             borderRadius: { sm: "20px" },
             m: { sm: "15px" }
