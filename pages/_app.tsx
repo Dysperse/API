@@ -99,7 +99,7 @@ function Render({ data, Component, pageProps }: any) {
 }
 
 function SmartlistApp({ Component, pageProps }: any): JSX.Element {
-  const { isLoading, data } = useFetch("/api/user", {
+  const { isLoading, data }:any = useFetch("/api/user", {
     method: "POST"
   });
   return (
