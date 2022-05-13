@@ -8,6 +8,7 @@ import LoginPrompt from "../components/LoginPrompt";
 import * as colors from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import { Offline, Online } from "react-detect-offline";
+import useSWR from "swr";
 
 function Render({ data, Component, pageProps }: any) {
   global.session = data;
@@ -20,7 +21,7 @@ function Render({ data, Component, pageProps }: any) {
   global.themeColor = themeColor;
   global.setThemeColor = setThemeColor;
 
-  const AppTheme = createTheme({
+  const userTheme = createTheme({
     components: {
       MuiPaper: {
         defaultProps: { elevation: 0 }
@@ -31,17 +32,15 @@ function Render({ data, Component, pageProps }: any) {
         main: colors[themeColor]["A700"]
       },
       mode: theme,
-      ...(theme === "light"
-        ? {}
-        : {
-            background: {
-              default: "hsl(240, 11%, 10%)",
-              paper: "hsl(240, 11%, 10%)"
-            },
-            text: {
-              primary: "hsl(240, 11%, 90%)"
-            }
-          })
+      ...(theme === "dark" && {
+        background: {
+          default: "hsl(240, 11%, 10%)",
+          paper: "hsl(240, 11%, 10%)"
+        },
+        text: {
+          primary: "hsl(240, 11%, 90%)"
+        }
+      })
     }
   });
 
@@ -79,7 +78,7 @@ function Render({ data, Component, pageProps }: any) {
         </Box>
       </Offline>
       <Online>
-        <ThemeProvider theme={AppTheme}>
+        <ThemeProvider theme={userTheme}>
           <Box
             sx={{
               "& *::selection": {
@@ -98,10 +97,20 @@ function Render({ data, Component, pageProps }: any) {
   );
 }
 
+function useUser() {
+  const fetcher = (url) => fetch(url).then((res: any) => res.json());
+  const { data, error } = useSWR(`/api/user`, fetcher);
+
+  return {
+    data: data,
+    isLoading: !error && !data,
+    isError: error
+  };
+}
+
 function SmartlistApp({ Component, pageProps }: any): JSX.Element {
-  const { isLoading, data }:any = useFetch("/api/user", {
-    method: "POST"
-  });
+  const { data, isLoading, isError } = useUser();
+
   return (
     <>
       <Head>
@@ -168,15 +177,13 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
         />
         <title>Smartlist</title>
       </Head>
-      {!isLoading && (
-        <>
-          {data.user ? (
-            <Render Component={Component} pageProps={pageProps} data={data} />
-          ) : (
-            <LoginPrompt />
-          )}
-        </>
-      )}
+      {!isLoading &&
+        !isError &&
+        (data.user ? (
+          <Render Component={Component} pageProps={pageProps} data={data} />
+        ) : (
+          <LoginPrompt />
+        ))}
     </>
   );
 }
