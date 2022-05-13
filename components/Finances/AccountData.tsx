@@ -257,7 +257,7 @@ function Goal({ name, image }: { name: string; image: string }) {
             borderBottomRightRadius: { xs: 0, sm: "28px!important" },
             position: "unset",
             mx: "auto",
-            maxWidth: { sm: "80vw", xs: "100vw" },
+            maxWidth: { sm: "70vw", xs: "100vw" },
             overflow: "hidden"
           }
         }}
