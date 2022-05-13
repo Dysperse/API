@@ -8,7 +8,7 @@ import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
-
+import { SearchPopup } from "./SearchPopup";
 const styles = {
   borderRadius: "15px",
   color: global.theme === "dark" ? "#ccc" : "#505050",
@@ -85,6 +85,11 @@ export function BottomNav() {
         }
       }}
     >
+      <SearchPopup
+        content={
+          <button id="searchTrigger" style={{ display: "none" }}></button>
+        }
+      />
       <BottomNavigation
         value={value}
         sx={{
@@ -123,11 +128,12 @@ export function BottomNav() {
           onClick={() => onLink("/finances")}
           icon={<PaymentsIcon />}
         />
+
         <BottomNavigationAction
           sx={styles}
           label="Search"
           disableRipple
-          onClick={() => onLink("/finances")}
+          onClick={() => document.getElementById("searchTrigger")!.click()}
           icon={<SearchIcon />}
         />
         <BottomNavigationAction
