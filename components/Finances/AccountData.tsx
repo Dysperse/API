@@ -241,21 +241,22 @@ function Goal({ name, image }: { name: string; image: string }) {
     <>
       <SwipeableDrawer
         anchor="bottom"
+        swipeAreaWidth={0}
         onOpen={() => setOpen(true)}
         open={open}
         sx={{
           display: "flex",
-          alignItems: "center",
+          alignItems: { xs: "end", sm: "center" },
           height: "100vh",
           justifyContent: "center"
         }}
         PaperProps={{
           sx: {
             borderRadius: 5,
+            borderBottomLeftRadius: { xs: 0, sm: 5 },
+            borderBottomRightRadius: { xs: 0, sm: 5 },
             position: "unset",
             mx: "auto",
-            // bottom: "50%",
-            // transform: "translateY(50%)!important",
             maxWidth: { sm: "80vw", xs: "100vw" },
             overflow: "hidden"
           }

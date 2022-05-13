@@ -34,7 +34,15 @@ function ConnectBankAccount() {
               })
             })
               .then((res) => res.json())
-              .then((res) => setCompleted(true));
+              .then((res) => {
+                setCompleted(true);
+                fetch(
+                  "/api/login/?" +
+                    new URLSearchParams({
+                      token: global.session && global.session.accessToken
+                    })
+                );
+              });
           });
       }
     });
