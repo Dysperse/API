@@ -252,9 +252,9 @@ function Goal({ name, image }: { name: string; image: string }) {
         }}
         PaperProps={{
           sx: {
-            borderRadius: 5,
-            borderBottomLeftRadius: { xs: 0, sm: 5 },
-            borderBottomRightRadius: { xs: 0, sm: 5 },
+            borderRadius: "28px",
+            borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
+            borderBottomRightRadius: { xs: 0, sm: "28px!important" },
             position: "unset",
             mx: "auto",
             maxWidth: { sm: "80vw", xs: "100vw" },
