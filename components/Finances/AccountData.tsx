@@ -328,6 +328,7 @@ function Goal({ name, image }: { name: string; image: string }) {
                 sx={{
                   textTransform: "none",
                   mr: 1,
+                  mb: 1,
                   borderRadius: 5
                 }}
                 disableElevation
@@ -339,6 +340,7 @@ function Goal({ name, image }: { name: string; image: string }) {
               <Button
                 sx={{
                   textTransform: "none",
+                  mb: 1,
                   borderRadius: 5
                 }}
                 disableElevation
@@ -349,7 +351,14 @@ function Goal({ name, image }: { name: string; image: string }) {
               </Button>
             </div>
             <div style={{ marginLeft: "auto" }}>
-              <Typography variant="body2" sx={{ color: "#505050" }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  mb: 1,
+                  display: { xs: "none", sm: "block" },
+                  color: "#505050"
+                }}
+              >
                 Goal set 69 years ago
               </Typography>
             </div>
