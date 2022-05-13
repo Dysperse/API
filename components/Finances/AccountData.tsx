@@ -256,7 +256,7 @@ function Goal({ name, image }: { name: string; image: string }) {
             mx: "auto",
             // bottom: "50%",
             // transform: "translateY(50%)!important",
-            maxWidth: "80vw",
+            maxWidth: { sm: "80vw", xs: "100vw" },
             overflow: "hidden"
           }
         }}

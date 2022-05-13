@@ -55,15 +55,9 @@ function Render({ data, Component, pageProps }: any) {
             }
           }}
         >
-          {global.session && global.session.user ? (
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          ) : global.session ? (
-            <LoginPrompt />
-          ) : (
-            ""
-          )}
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </Box>
       </ThemeProvider>
     </>
@@ -141,7 +135,13 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
         <title>Smartlist</title>
       </Head>
       {!isLoading && (
-        <Render Component={Component} pageProps={pageProps} data={data} />
+        <>
+          {data.user ? (
+            <Render Component={Component} pageProps={pageProps} data={data} />
+          ) : (
+            <LoginPrompt />
+          )}
+        </>
       )}
     </>
   );

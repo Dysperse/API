@@ -19,7 +19,6 @@
     "@mui/material": "^5.6.1",
     "@types/node": "16.11.33",
     "@types/react-plaid-link": "2.0.0",
-    "cookie-cutter": "0.2.0",
     "dayjs": "^1.11.0",
     "formik": "^2.2.9",
     "hex-to-rgba": "^2.0.1",

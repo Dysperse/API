@@ -101,7 +101,11 @@ export function AccountTab({ account }: any) {
           label={
             <Typography
               variant="body2"
-              sx={{ textTransform: "capitalize", fontSize: "12px" }}
+              sx={{
+                textTransform: "capitalize",
+                fontSize: "12px",
+                fontWeight: "600"
+              }}
             >
               {account.name}
             </Typography>
@@ -117,10 +121,14 @@ export function AccountTab({ account }: any) {
             width: "90vw",
             background: "rgba(200,200,200,.2)",
             transition: "color .2s",
-            "&.Mui-selected": {
-              background: "rgba(200,200,200,.2)!important"
+            "&:hover": {
+              opacity: 1,
+              background: "rgba(200,200,200,.3)",
+              "& *": {
+                opacity: 1,
+                color: "#000"
+              }
             },
-            "&:hover": { background: "rgba(200,200,200,.3)" },
             "&:active": { background: "rgba(200,200,200,.4)" },
             textTransform: "none",
             borderRadius: 5

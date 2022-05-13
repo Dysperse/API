@@ -30,9 +30,9 @@ export default function LoginPrompt() {
           },
           textTransform: "none",
           color: "black",
-          background: colors[global.themeColor][100],
+          background: colors["purple"][100],
           "&:hover": {
-            background: colors[global.themeColor][200]
+            background: colors["purple"][200]
           },
           borderRadius: 9
         }}
