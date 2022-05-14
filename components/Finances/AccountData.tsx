@@ -167,13 +167,14 @@ function AccountHeader({
   );
 }
 
-function OptionsMenu() {
+function CreateGoalMenu() {
   const [open, setOpen] = React.useState(false);
   return (
     <>
       <IconButton
         size="large"
         disableRipple
+        onClick={() => setOpen(true)}
         edge="start"
         color="inherit"
         aria-label="menu"
@@ -185,6 +186,89 @@ function OptionsMenu() {
       >
         <span className="material-symbols-rounded">add</span>
       </IconButton>
+
+      <SwipeableDrawer
+        anchor="bottom"
+        swipeAreaWidth={0}
+        onOpen={() => setOpen(true)}
+        open={open}
+        sx={{
+          display: "flex",
+          alignItems: { xs: "end", sm: "center" },
+          height: "100vh",
+          justifyContent: "center"
+        }}
+        PaperProps={{
+          sx: {
+            borderRadius: "28px",
+            borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
+            borderBottomRightRadius: { xs: 0, sm: "28px!important" },
+            position: "unset",
+            mx: "auto",
+            maxWidth: { sm: "70vw", xs: "100vw" },
+            overflow: "hidden"
+          }
+        }}
+        onClose={() => setOpen(false)}
+      >
+        <Box sx={{ py: 6, px: 7 }}>
+          <form>
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
+              Create goal
+            </Typography>
+            <TextField
+              variant="filled"
+              label="What's your goal?"
+              margin="dense"
+              fullWidth
+            />
+            <TextField
+              variant="filled"
+              label="Money needed to complete goal"
+              margin="dense"
+              fullWidth
+            />
+            <TextField
+              variant="filled"
+              label="Banner image"
+              margin="dense"
+              fullWidth
+              InputProps={{ readOnly: true }}
+            />
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                borderRadius: 9,
+                width: "100%",
+                mt: 1,
+                background: "rgba(200,200,200,.3)",
+                "&:hover": {
+                  background: "rgba(200,200,200,.4)"
+                },
+                color: global.theme === "dark" ? "#fff" : "#000",
+                boxShadow: 0
+              }}
+              size="large"
+            >
+              Select a banner
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                borderRadius: 9,
+                mt: 3,
+                boxShadow: 0,
+                float: "right"
+              }}
+              size="large"
+            >
+              Create
+            </Button>
+          </form>
+        </Box>
+      </SwipeableDrawer>
     </>
   );
 }
@@ -227,7 +311,7 @@ function Navbar({ setOpen, scrollTop, container }: any) {
           <Typography sx={{ flexGrow: 1, textAlign: "center" }} component="div">
             Overview
           </Typography>
-          <OptionsMenu />
+          <CreateGoalMenu />
         </Toolbar>
       </AppBar>
     </>
