@@ -132,7 +132,7 @@ export function Goal({
                 Remove goal
               </Button>
             </div>
-            <div style={{ marginLeft: "auto" }}>
+            {/* <div style={{ marginLeft: "auto" }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -143,7 +143,7 @@ export function Goal({
               >
                 Goal set 69 years ago
               </Typography>
-            </div>
+            </div> */}
           </Box>
         </Box>
       </SwipeableDrawer>
