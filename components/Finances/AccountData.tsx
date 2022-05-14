@@ -37,12 +37,7 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
       width: 35,
       boxShadow: 0,
       backgroundColor: "#fff!important",
-      border: "2px solid #f9a825!important",
-      "& .airbnb-bar": {
-        height: 9,
-        width: 1,
-        backgroundColor: "currentColor!important"
-      }
+      border: "2px solid #f9a825!important"
     },
     "& .MuiSlider-track": {
       height: 8,
@@ -105,7 +100,7 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
                       (e) => (e.account_id = accountId)
                     )[0].authorized_date,
                     "d"
-                  )
+                  ) || 0
                 : 0
             }
           />
@@ -116,7 +111,7 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
                   data.transactions.filter((e) => (e.account_id = accountId))[0]
                     .authorized_date,
                   "d"
-                )
+                ) || 0
               : 0}{" "}
             days
             {(data.transactions.filter((e) => (e.account_id = accountId))[0]
@@ -124,8 +119,12 @@ function ZeroExpenseStreak({ accountId }: { accountId: string }) {
                   data.transactions.filter((e) => (e.account_id = accountId))[0]
                     .authorized_date,
                   "d"
-                )
-              : 0) !== 0 && <> &ndash; Keep it up!</>}
+                ) || 0
+              : 0) !== 0 ? (
+              <> &ndash; Keep it up!</>
+            ) : (
+              <>&ndash; Don't give up! You can do it!</>
+            )}
           </Typography>
         </CardContent>
       </Card>
@@ -409,6 +408,16 @@ function Goal({ name, image }: { name: string; image: string }) {
 }
 
 export function AccountData({ setOpen, scrollTop, account }: any) {
+  const { isLoading, data }: any = useFetch(
+    "https://api.smartlist.tech/v2/finances/goals/",
+    {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.session.accessToken,
+        accountId: account.account_id
+      })
+    }
+  );
   return (
     <>
       <Navbar setOpen={setOpen} scrollTop={scrollTop} />
@@ -426,18 +435,15 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
           Goals
         </Typography>
         {/* <pre>{JSON.stringify(account, null, 2)}</pre> */}
-        <Goal
-          image="https://images.unsplash.com/photo-1524207874394-5ec7c8c8e1a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80"
-          name="Save up for a vacation"
-        />
-        <Goal
-          image="https://images.unsplash.com/photo-1502136969935-8d8eef54d77b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80"
-          name="Go to a theme park"
-        />
-        <Goal
-          image="https://images.unsplash.com/photo-1525921429624-479b6a26d84d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-          name="Pay off debt"
-        />
+        {isLoading ? (
+          "Loading..."
+        ) : (
+          <>
+            {data.data.map((goal: any) => (
+              <Goal image={goal.image} name={goal.name} />
+            ))}
+          </>
+        )}
       </Box>
     </>
   );
