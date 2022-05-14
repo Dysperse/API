@@ -54,7 +54,7 @@ function Image({
   );
 }
 
-export function CreateGoalMenu({account}:any): JSX.Element {
+export function CreateGoalMenu({ account }: any): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [bannerDialogOpen, setBannerDialogOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
@@ -71,7 +71,6 @@ export function CreateGoalMenu({account}:any): JSX.Element {
       minAmountOfMoney: string;
       image: string;
     }) => {
-      alert(JSON.stringify(values));
       await fetch("https://api.smartlist.tech/v2/finances/goals/create/", {
         method: "POST",
         body: new URLSearchParams({
