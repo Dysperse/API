@@ -59,6 +59,12 @@ export function CreateGoalMenu({ account }: any): JSX.Element {
   const [bannerDialogOpen, setBannerDialogOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
 
+  React.useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute("content", open ? "#0f200b" : "#091f1e");
+  });
+
   const formik = useFormik({
     initialValues: {
       name: "",

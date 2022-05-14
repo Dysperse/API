@@ -11,7 +11,10 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 
 export function Goal({
-  name, image, balance, minAmountOfMoney
+  name,
+  image,
+  balance,
+  minAmountOfMoney
 }: {
   name: string;
   image: string;
@@ -19,6 +22,11 @@ export function Goal({
   minAmountOfMoney: number;
 }): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
+  React.useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute("content", open ? "#0f200b" : "#091f1e");
+  });
   return (
     <>
       <SwipeableDrawer
@@ -48,7 +56,8 @@ export function Goal({
         <Box
           sx={{
             p: 3,
-            background: "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(" +
+            background:
+              "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(" +
               image +
               ")",
             color: "white",
@@ -102,7 +111,8 @@ export function Goal({
               e.target.placeholder = "CTRL+ENTER to save";
               e.target.spellcheck = true;
             }}
-            placeholder="Click to add note" />
+            placeholder="Click to add note"
+          />
           <Divider sx={{ my: 4 }} />
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <div>
@@ -149,7 +159,8 @@ export function Goal({
       </SwipeableDrawer>
       <Card
         sx={{
-          background: "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(" +
+          background:
+            "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(" +
             image +
             ")",
           backgroundSize: "cover",
@@ -182,9 +193,12 @@ export function Goal({
                 background: "rgba(200,200,200,.4)!important",
                 "& *": { borderRadius: 99, background: "#fff!important" }
               }}
-              value={balance > minAmountOfMoney
-                ? 100
-                : (balance / minAmountOfMoney) * 100} />
+              value={
+                balance > minAmountOfMoney
+                  ? 100
+                  : (balance / minAmountOfMoney) * 100
+              }
+            />
           </CardContent>
         </CardActionArea>
       </Card>
