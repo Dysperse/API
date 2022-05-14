@@ -4,13 +4,14 @@ import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
+import Skeleton from "@mui/material/Skeleton";
 import useFetch from "react-fetch-hook";
 import { Goal } from "./Goal";
 import { CreateGoalMenu } from "./CreateGoalMenu";
 import { AccountHeader } from "./AccountHeader";
 import { ZeroExpenseStreak } from "./ZeroExpenseStreak";
 
-function Navbar({ setOpen, scrollTop, container }: any) {
+function Navbar({ setOpen, scrollTop, container, account }: any) {
   return (
     <>
       <AppBar
@@ -48,7 +49,7 @@ function Navbar({ setOpen, scrollTop, container }: any) {
           <Typography sx={{ flexGrow: 1, textAlign: "center" }} component="div">
             Overview
           </Typography>
-          <CreateGoalMenu />
+          <CreateGoalMenu account={account} />
         </Toolbar>
       </AppBar>
     </>
@@ -68,7 +69,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
   );
   return (
     <>
-      <Navbar setOpen={setOpen} scrollTop={scrollTop} />
+      <Navbar setOpen={setOpen} scrollTop={scrollTop} account={account} />
       <AccountHeader
         currency={account.balances.iso_currency_code}
         balance={account.balances.current}
@@ -84,9 +85,30 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
         </Typography>
         {/* <pre>{JSON.stringify(account, null, 2)}</pre> */}
         {isLoading ? (
-          "Loading..."
+          <>
+            {[...new Array(10)].map(() => (
+              <Skeleton
+                variant="rectangular"
+                height={150}
+                sx={{ borderRadius: 4, mt: 2 }}
+                animation="wave"
+              />
+            ))}
+          </>
         ) : (
           <>
+            {data.data.length === 0 && (
+              <Box
+                sx={{
+                  borderRadius: 4,
+                  mt: 2,
+                  p: 3,
+                  background: "rgba(200,200,200,.3)"
+                }}
+              >
+                You haven't set any goals yet.
+              </Box>
+            )}
             {data.data.map((goal: any) => (
               <Goal
                 image={goal.image}

@@ -54,7 +54,7 @@ function Image({
   );
 }
 
-export function CreateGoalMenu(): JSX.Element {
+export function CreateGoalMenu({account}:any): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [bannerDialogOpen, setBannerDialogOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
@@ -72,17 +72,16 @@ export function CreateGoalMenu(): JSX.Element {
       image: string;
     }) => {
       alert(JSON.stringify(values));
-      // await fetch("https://api.smartlist.tech/v2/items/create/", {
-      //   method: "POST",
-      //   body: new URLSearchParams({
-      //     token: session && session.accessToken,
-      //     room: room.toLowerCase(),
-      //     name: values.title,
-      //     qty: values.quantity,
-      //     category: JSON.stringify(values.categories),
-      //     lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss")
-      //   })
-      // });
+      await fetch("https://api.smartlist.tech/v2/finances/goals/create/", {
+        method: "POST",
+        body: new URLSearchParams({
+          token: session && session.accessToken,
+          name: values.name,
+          minAmountOfMoney: values.minAmountOfMoney,
+          image: values.image,
+          accountId: account.account_id
+        })
+      });
       setOpen(false);
       setDisabled(false);
       setBannerDialogOpen(false);
