@@ -234,7 +234,17 @@ function Navbar({ setOpen, scrollTop, container }: any) {
   );
 }
 
-function Goal({ name, image }: { name: string; image: string }) {
+function Goal({
+  name,
+  image,
+  balance,
+  minAmountOfMoney
+}: {
+  name: string;
+  image: string;
+  balance: number;
+  minAmountOfMoney: number;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <>
@@ -283,7 +293,9 @@ function Goal({ name, image }: { name: string; image: string }) {
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
             {name}
           </Typography>
-          <Typography variant="h6">$100 / 200 raised</Typography>
+          <Typography variant="h6">
+            ${balance} / {minAmountOfMoney} raised
+          </Typography>
         </Box>
         <Box sx={{ p: 5 }}>
           <TextField
@@ -388,7 +400,9 @@ function Goal({ name, image }: { name: string; image: string }) {
             <Typography variant="h6" sx={{ fontWeight: "600" }}>
               {name}
             </Typography>
-            <Typography>$100 / 200 raised</Typography>
+            <Typography>
+              ${balance} / {minAmountOfMoney} raised
+            </Typography>
             <LinearProgress
               variant="determinate"
               sx={{
@@ -398,7 +412,11 @@ function Goal({ name, image }: { name: string; image: string }) {
                 background: "rgba(200,200,200,.4)!important",
                 "& *": { borderRadius: 99, background: "#fff!important" }
               }}
-              value={69}
+              value={
+                balance > minAmountOfMoney
+                  ? 100
+                  : (balance / minAmountOfMoney) * 100
+              }
             />
           </CardContent>
         </CardActionArea>
@@ -440,7 +458,12 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
         ) : (
           <>
             {data.data.map((goal: any) => (
-              <Goal image={goal.image} name={goal.name} />
+              <Goal
+                image={goal.image}
+                name={goal.name}
+                balance={account.balances.current}
+                minAmountOfMoney={goal.minAmountOfMoney}
+              />
             ))}
           </>
         )}
