@@ -93,6 +93,7 @@ img {
     border-bottom-right-radius: 0 !important;
     position: fixed !important;
     top: auto !important;
+    max-height: 80vh !important;
     bottom: 0 !important;
   }
 }
