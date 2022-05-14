@@ -141,7 +141,7 @@ export function Goal({
                   color: "#505050"
                 }}
               >
-                Goal set 69 years ago
+                Goal set 10 years ago
               </Typography>
             </div> */}
           </Box>
