@@ -11,12 +11,14 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 
 export function Goal({
+  scrollTop,
   id,
   name,
   image,
   balance,
   minAmountOfMoney
 }: {
+  scrollTop: number;
   id: number;
   name: string;
   image: string;
@@ -27,7 +29,10 @@ export function Goal({
   React.useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute("content", open ? "#0f200b" : "#091f1e");
+      .setAttribute(
+        "content",
+        open ? (scrollTop > 300 ? "#05100f" : "#0f200b") : "#091f1e"
+      );
   });
   return (
     <>

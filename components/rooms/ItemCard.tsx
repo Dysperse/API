@@ -1,5 +1,5 @@
 import Item from "../../components/ItemPopup";
 
-export function ItemCard({ item }: any) {
-  return <Item data={item} />;
+export function ItemCard({ displayRoom = false, item }: any) {
+  return <Item displayRoom data={item} />;
 }

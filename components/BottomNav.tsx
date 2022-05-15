@@ -59,10 +59,10 @@ export function BottomNav() {
       v = 1;
       break;
     case "/categories":
-      v = 2;
+      v = 3;
       break;
     case "/meals":
-      v = 3;
+      v = 4;
       break;
     default:
       v = 0;

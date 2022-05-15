@@ -49,7 +49,7 @@ function Navbar({ setOpen, scrollTop, container, account }: any) {
           <Typography sx={{ flexGrow: 1, textAlign: "center" }} component="div">
             Overview
           </Typography>
-          <CreateGoalMenu account={account} />
+          <CreateGoalMenu scrollTop={scrollTop} account={account} />
         </Toolbar>
       </AppBar>
     </>
@@ -111,6 +111,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
             )}
             {data.data.map((goal: any) => (
               <Goal
+                scrollTop={scrollTop}
                 id={goal.id}
                 image={goal.image}
                 name={goal.name}

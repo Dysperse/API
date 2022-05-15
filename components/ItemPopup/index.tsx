@@ -27,7 +27,7 @@ import { EditButton } from "./EditButton";
 import { ItemActionsMenu } from "./ItemActionsMenu";
 import { DeleteButton } from "./DeleteButton";
 
-export default function Item({ data, variant }: any) {
+export default function Item({ displayRoom = false, data, variant }: any) {
   const [itemData] = useState(data);
   const id = data.id;
   const [title, setTitle] = useState(data.title);
@@ -192,9 +192,17 @@ export default function Item({ data, variant }: any) {
               {title || "(no title)"}
             </Typography>
             <Typography variant="h4">{quantity || "(no quantity)"}</Typography>
-            {categories.map((category: string) => {
-              return <Chip key={Math.random().toString()} label={category} />;
-            })}
+            <div>
+              {categories.map((category: string) => {
+                return (
+                  <Chip
+                    key={Math.random().toString()}
+                    label={category}
+                    sx={{ px: 2 }}
+                  />
+                );
+              })}
+            </div>
             <TextField
               multiline
               fullWidth
@@ -295,19 +303,22 @@ export default function Item({ data, variant }: any) {
                         mb: 1
                       }}
                     >
-                      {quantity.substring(0, 18) || "(no quantity)"}
-                      {quantity.length > 18 && "..."}
+                      {displayRoom
+                        ? data.room
+                        : quantity.substring(0, 18) || "(no quantity)"}
+                      {!displayRoom && quantity.length > 18 && "..."}
                     </Typography>
-                    {categories.map((category: string) => {
-                      if (category.trim() === "") return false;
-                      return (
-                        <Chip
-                          key={Math.random().toString()}
-                          sx={{ pointerEvents: "none", m: 0.25 }}
-                          label={category}
-                        />
-                      );
-                    })}
+                    {!displayRoom &&
+                      categories.map((category: string) => {
+                        if (category.trim() === "") return false;
+                        return (
+                          <Chip
+                            key={Math.random().toString()}
+                            sx={{ pointerEvents: "none", m: 0.25 }}
+                            label={category}
+                          />
+                        );
+                      })}
                   </CardContent>
                 </CardActionArea>
               </Card>
