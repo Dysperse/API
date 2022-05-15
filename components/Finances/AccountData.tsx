@@ -111,6 +111,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
             )}
             {data.data.map((goal: any) => (
               <Goal
+                id={goal.id}
                 image={goal.image}
                 name={goal.name}
                 balance={account.balances.current}

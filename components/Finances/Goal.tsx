@@ -11,11 +11,13 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 
 export function Goal({
+  id,
   name,
   image,
   balance,
   minAmountOfMoney
 }: {
+  id: number;
   name: string;
   image: string;
   balance: number;
@@ -117,6 +119,9 @@ export function Goal({
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <div>
               <Button
+                onClick={() => {
+                  alert(id);
+                }}
                 sx={{
                   textTransform: "none",
                   mr: 1,
