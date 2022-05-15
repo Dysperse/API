@@ -120,6 +120,8 @@ export function CreateListItemButton({
                 id="name"
                 options={AutocompleteData}
                 freeSolo
+                onChange={(e, d) => formik.setFieldValue("name", d)}
+                value={formik.values.name}
                 renderInput={(params) => (
                   <TextField
                     autoFocus
@@ -128,7 +130,6 @@ export function CreateListItemButton({
                       setTimeout(() => input && input.focus(), 100)
                     }
                     fullWidth
-                    value={formik.values.name}
                     onChange={(e) =>
                       formik.setFieldValue("name", e.target.value)
                     }

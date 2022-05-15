@@ -84,7 +84,7 @@ function CreateRoom() {
       >
         <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
-          Create list
+          Create room
         </DialogTitle>
         <Box sx={{ p: 3 }}>
           <form onSubmit={formik.handleSubmit}>
