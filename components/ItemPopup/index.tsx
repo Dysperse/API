@@ -198,7 +198,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   <Chip
                     key={Math.random().toString()}
                     label={category}
-                    sx={{ px: 2 }}
+                    sx={{ px: 2, mr: 1 }}
                   />
                 );
               })}

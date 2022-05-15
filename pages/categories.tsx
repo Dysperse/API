@@ -73,7 +73,6 @@ function Category({ name }: { name: string }) {
         PaperProps={{
           sx: {
             height: "70vh",
-            p: 3,
             pt: 1,
             maxHeight: "70vh",
             borderTopLeftRadius: "28px!important",
@@ -81,11 +80,15 @@ function Category({ name }: { name: string }) {
           }
         }}
       >
-        <Puller />
-        <Box sx={{ mt: 5 }}>
-          <Typography sx={{ fontWeight: "600", textAlign: "center", mb: 2 }}>
+        <Box sx={{ pt: 1 }}>
+          <Puller />
+          <Typography
+            sx={{ fontWeight: "600", textAlign: "center", mt: 4, mb: 2 }}
+          >
             Items
           </Typography>
+        </Box>
+        <Box sx={{ px: 3, height: "100%", overflow: "scroll", pb: 3 }}>
           <ItemList name={name} />
         </Box>
       </SwipeableDrawer>

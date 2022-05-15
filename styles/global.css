@@ -103,3 +103,7 @@ img {
 .MuiIconButton-root:not(:active) .material-symbols-rounded {
   transition: transform 0.2s;
 }
+.MuiDrawer-paper *,
+.MuiBackdrop-root {
+  overscroll-behavior: none !important;
+}

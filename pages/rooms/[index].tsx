@@ -331,7 +331,10 @@ function ItemList({ items }: { items: any }) {
           >
             <Card
               sx={{
-                mb: 2
+                mb: 2,
+                background: "rgba(200,200,200,.3)",
+                borderRadius: 5,
+                p: 3
               }}
             >
               <CardContent>

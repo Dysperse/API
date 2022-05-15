@@ -2,6 +2,7 @@ import React from "react";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useFormik } from "formik";
 
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
@@ -18,14 +19,40 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import * as colors from "@mui/material/colors";
+import { Puller } from "./Puller";
 
 function CreateRoom() {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
+  const formik = useFormik({
+    initialValues: {
+      name: ""
+    },
+    onSubmit: async (values: { name: string }) => {
+      fetch("https://api.smartlist.tech/v2/rooms/create/", {
+        method: "POST",
+        body: new URLSearchParams({
+          token: res.session.accessToken,
+          name: values.name
+        })
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setLoading(false);
+          setOpen(false);
+          formik.resetForm();
+          alert("Created room!");
+          router.push("/rooms/" + res.data.id);
+        });
+        setTimeout(() => setLoading(true), 20)
+    }
+  });
   return (
     <>
       <ListItemButton
@@ -55,40 +82,64 @@ function CreateRoom() {
           keepMounted: true
         }}
       >
+        <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
           Create list
         </DialogTitle>
         <Box sx={{ p: 3 }}>
-          <TextField
-            inputRef={(input) => setTimeout(() => input && input.focus(), 100)}
-            margin="dense"
-            label="Room name"
-            fullWidth
-            autoComplete={"off"}
-            name="name"
-            variant="filled"
-          />
+          <form onSubmit={formik.handleSubmit}>
+            <TextField
+              inputRef={(input) =>
+                setTimeout(() => input && input.focus(), 100)
+              }
+              margin="dense"
+              label="Room name"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              fullWidth
+              autoComplete={"off"}
+              name="name"
+              variant="filled"
+            />
 
-          <LoadingButton
-            sx={{ mt: 1, float: "right" }}
-            color="primary"
-            type="submit"
-            loading={false}
-            // onClick={() => setTimeout(setClickLoading, 10)}
-          >
-            Create
-          </LoadingButton>
-          <Button
-            sx={{ mt: 1, mr: 1, float: "right" }}
-            color="primary"
-            type="button"
-            onClick={() => {
-              // setLoading(false);
-              // setOpen(false);
-            }}
-          >
-            Back
-          </Button>
+            <LoadingButton
+              sx={{
+                mt: 1,
+                mr: 1,
+                borderRadius: 9,
+                textTransform: "none",
+                float: "right",
+                boxShadow: 0
+              }}
+              size="large"
+              variant="contained"
+              color="primary"
+              type="submit"
+              loading={loading}
+              // onClick={() => setTimeout(setClickLoading, 10)}
+            >
+              Create
+            </LoadingButton>
+            <Button
+              sx={{
+                mt: 1,
+                mr: 1,
+                borderRadius: 9,
+                textTransform: "none",
+                float: "right"
+              }}
+              color="primary"
+              type="button"
+              size="large"
+              variant="outlined"
+              onClick={() => {
+                // setLoading(false);
+                // setOpen(false);
+              }}
+            >
+              Back
+            </Button>
+          </form>
         </Box>
       </SwipeableDrawer>
     </>
