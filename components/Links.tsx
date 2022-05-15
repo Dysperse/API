@@ -38,7 +38,7 @@ function CreateRoom() {
       fetch("https://api.smartlist.tech/v2/rooms/create/", {
         method: "POST",
         body: new URLSearchParams({
-          token: res.session.accessToken,
+          token: global.session.accessToken,
           name: values.name
         })
       })
