@@ -59,7 +59,6 @@ function ConnectBankAccount() {
             "&:hover": { background: "#202020" },
             "&:active, &:focus": { background: "#101010" },
             mt: 2,
-            textTransform: "none",
             px: 4,
             mr: 1,
             borderRadius: 9,
@@ -86,7 +85,6 @@ function ConnectBankAccount() {
         sx={{
           background: "#eee",
           mt: 2,
-          textTransform: "none",
           px: 4,
           mr: 1,
           borderRadius: 9,
@@ -175,7 +173,6 @@ export default function NoData() {
                     onClick={handleNext}
                     sx={{
                       mt: 2,
-                      textTransform: "none",
                       px: 4,
                       mr: 1,
                       borderRadius: 9,
@@ -192,7 +189,6 @@ export default function NoData() {
                       mt: 2,
                       px: 3,
                       mr: 1,
-                      textTransform: "none",
                       borderRadius: 9
                     }}
                   >
@@ -214,7 +210,6 @@ export default function NoData() {
           <Button
             sx={{
               mt: 2,
-              textTransform: "none",
               px: 4,
               mr: 1,
               borderRadius: 9,
@@ -231,7 +226,6 @@ export default function NoData() {
             onClick={() => router.push("/finances")}
             sx={{
               mt: 2,
-              textTransform: "none",
               px: 4,
               mr: 1,
               borderRadius: 9,

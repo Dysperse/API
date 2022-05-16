@@ -75,7 +75,7 @@ export function CreateListItemButton({
         onClick={handleClickOpen}
         size="large"
         disableElevation
-        sx={{ textTransform: "none", mr: 1, mb: 3, borderRadius: 100 }}
+        sx={{ mr: 1, mb: 3, borderRadius: 100 }}
         variant="contained"
         autoFocus
       >
@@ -149,7 +149,6 @@ export function CreateListItemButton({
               size="large"
               disableElevation
               sx={{
-                textTransform: "none",
                 borderRadius: 100,
                 mb: 1
               }}
@@ -164,7 +163,6 @@ export function CreateListItemButton({
               size="large"
               disableElevation
               sx={{
-                textTransform: "none",
                 mr: 1,
                 mb: 1,
                 borderRadius: 100

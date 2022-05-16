@@ -104,7 +104,6 @@ export function CreateListModal({ children, parent, title }: any) {
               disableElevation
               sx={{
                 float: "right",
-                textTransform: "none",
                 mr: 1,
                 mt: 2,
                 borderRadius: 100

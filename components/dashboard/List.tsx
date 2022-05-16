@@ -104,7 +104,7 @@ function ListPopup({
         />
         <Button
           size="large"
-          sx={{ textTransform: "none", mr: 1, mb: 3, borderRadius: 100 }}
+          sx={{ mr: 1, mb: 3, borderRadius: 100 }}
           variant="outlined"
           onClick={() => {
             setDrawerState(false);
@@ -114,7 +114,7 @@ function ListPopup({
         </Button>
         <Button
           size="large"
-          sx={{ textTransform: "none", mb: 3, borderRadius: 100 }}
+          sx={{ mb: 3, borderRadius: 100 }}
           variant="outlined"
           onClick={() => {
             setDrawerState(false);

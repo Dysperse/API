@@ -107,7 +107,6 @@ function CreateRoom() {
                 mt: 1,
                 mr: 1,
                 borderRadius: 9,
-                textTransform: "none",
                 float: "right",
                 boxShadow: 0
               }}
@@ -125,7 +124,6 @@ function CreateRoom() {
                 mt: 1,
                 mr: 1,
                 borderRadius: 9,
-                textTransform: "none",
                 float: "right"
               }}
               color="primary"

@@ -139,7 +139,6 @@ export function EditButton({
               sx={{
                 borderRadius: 99,
                 float: "right",
-                textTransform: "none",
                 px: 3,
                 py: 1,
                 mt: 1,
@@ -157,7 +156,6 @@ export function EditButton({
               sx={{
                 borderRadius: 99,
                 float: "right",
-                textTransform: "none",
                 px: 3,
                 py: 1,
                 mt: 1

@@ -28,7 +28,6 @@ export default function LoginPrompt() {
           "&:active": {
             transform: "scale(.98)"
           },
-          textTransform: "none",
           color: "black",
           background: colors["purple"][100],
           "&:hover": {

@@ -62,7 +62,7 @@ export function InfoButton({ title, quantity, star }: any): JSX.Element {
 						variant="contained"
 						disableElevation
 						size="large"
-						sx={{ borderRadius: 99, textTransform: "none", px: 3, py: 1 }}
+						sx={{ borderRadius: 99,  px: 3, py: 1 }}
 						onClick={handleClose}
 					>
 						Continue

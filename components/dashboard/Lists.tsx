@@ -150,7 +150,6 @@ function CreateListCard({ lists, setLists }: any) {
               disableElevation
               sx={{
                 float: "right",
-                textTransform: "none",
                 mr: 1,
                 mt: 2,
                 mb: 2,
@@ -168,7 +167,6 @@ function CreateListCard({ lists, setLists }: any) {
               onClick={() => setOpen(false)}
               sx={{
                 float: "right",
-                textTransform: "none",
                 mr: 1,
                 mt: 2,
                 mb: 2,

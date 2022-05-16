@@ -25,6 +25,13 @@ function Render({ data, Component, pageProps }: any) {
     components: {
       MuiPaper: {
         defaultProps: { elevation: 0 }
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: "none"
+          }
+        }
       }
     },
     palette: {

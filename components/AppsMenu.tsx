@@ -60,7 +60,6 @@ function ContactForm() {
         type="submit"
         sx={{
           mt: 1,
-          textTransform: "none",
           float: "right",
           borderRadius: 9,
           boxShadow: 0

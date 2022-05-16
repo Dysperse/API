@@ -185,7 +185,6 @@ export function CreateItemModal({
             <LoadingButton
               disableElevation
               sx={{
-                textTransform: "none",
                 ml: 1,
                 mt: 2,
                 float: "right",
@@ -203,7 +202,6 @@ export function CreateItemModal({
             <Button
               disableElevation
               sx={{
-                textTransform: "none",
                 ml: 1,
                 mt: 2,
                 float: "right",

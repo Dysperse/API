@@ -8,6 +8,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
+import LoadingButton from "@mui/lab/LoadingButton";
 import TextField from "@mui/material/TextField";
 
 export function Goal({
@@ -27,8 +28,10 @@ export function Goal({
   note: string;
   minAmountOfMoney: number;
 }): JSX.Element {
-  const [noteContent, setNote] = useState(note);
+  const [noteContent, setNote] = useState<string>(note);
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [deleted, setDeleted] = useState<boolean>(false);
   React.useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)!
@@ -37,7 +40,9 @@ export function Goal({
         open ? (scrollTop > 300 ? "#05100f" : "#0f200b") : "#091f1e"
       );
   });
-  return (
+  return deleted ? (
+    <></>
+  ) : (
     <>
       <SwipeableDrawer
         anchor="bottom"
@@ -151,18 +156,38 @@ export function Goal({
               >
                 Mark as done
               </Button>
-              <Button
+              <LoadingButton
                 sx={{
                   textTransform: "none",
                   mb: 1,
                   borderRadius: 5
                 }}
                 disableElevation
+                loading={loading}
                 variant="outlined"
+                onClick={() => {
+                  setLoading(true);
+                  fetch(
+                    "https://api.smartlist.tech/v2/finances/goals/delete/",
+                    {
+                      method: "POST",
+                      body: new URLSearchParams({
+                        token: global.session.accessToken,
+                        id: id.toString()
+                      })
+                    }
+                  )
+                    .then((res) => res.json())
+                    .then((res) => {
+                      setLoading(false);
+                      setOpen(false);
+                      setDeleted(true);
+                    });
+                }}
                 size="large"
               >
                 Remove goal
-              </Button>
+              </LoadingButton>
             </div>
             {/* <div style={{ marginLeft: "auto" }}>
               <Typography
