@@ -107,3 +107,7 @@ img {
 .MuiBackdrop-root {
   overscroll-behavior: none !important;
 }
+
+.MuiIconButton-root .MuiTouchRipple-rippleVisible {
+  animation-duration: 0.2s !important;
+}

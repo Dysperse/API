@@ -83,21 +83,20 @@ export function AccountList() {
             scrollButtons
             sx={{
               "& .MuiTabs-scrollButtons.Mui-disabled": {
-                opacity: {
-                  xs: 0.3,
-                  lg: data.accounts.length > 4 ? 0.3 : 0
-                },
-                display: {
-                  xs: "none !important"
-                }
+                  // opacity: "0!important",
+                  maxWidth:"0px!important",
+                  margin: "0"
               },
               "& .MuiTabs-scrollButtons": {
-                borderRadius: 5,
-                background: colors[themeColor]["50"],
-                color: colors[themeColor]["800"],
+                maxWidth:"100px",
+                overflow:"hidden",
+                transition:"all .5s",
+                borderRadius: 4,
+                background: "rgba(200,200,200,.4)",
+                color: "#404040",
                 "&:hover": {
-                  background: colors[themeColor]["100"],
-                  color: colors[themeColor]["900"]
+                  background: "rgba(200,200,200,.5)",
+                  color: "#000"
                 },
                 marginLeft: "5px",
                 marginRight: "5px"
