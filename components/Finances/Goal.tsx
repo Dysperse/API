@@ -16,6 +16,7 @@ export function Goal({
   name,
   image,
   balance,
+  note,
   minAmountOfMoney
 }: {
   scrollTop: number;
@@ -23,8 +24,10 @@ export function Goal({
   name: string;
   image: string;
   balance: number;
+  note: string;
   minAmountOfMoney: number;
 }): JSX.Element {
+  const [noteContent, setNote] = useState(note);
   const [open, setOpen] = useState<boolean>(false);
   React.useEffect(() => {
     document
@@ -89,8 +92,17 @@ export function Goal({
           <TextField
             multiline
             fullWidth
+            defaultValue={noteContent}
             onBlur={(e) => {
-              // alert(1);
+              setNote(e.target.value);
+              fetch("https://api.smartlist.tech/v2/finances/goals/editNote/", {
+                method: "POST",
+                body: new URLSearchParams({
+                  token: global.session.accessToken,
+                  id: id.toString(),
+                  note: e.target.value
+                })
+              });
               e.target.placeholder = "Click to add note";
               e.target.spellcheck = false;
             }}

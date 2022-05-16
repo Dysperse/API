@@ -115,6 +115,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
                 id={goal.id}
                 image={goal.image}
                 name={goal.name}
+                note={goal.note}
                 balance={account.balances.current}
                 minAmountOfMoney={goal.minAmountOfMoney}
               />

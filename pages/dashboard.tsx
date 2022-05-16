@@ -30,7 +30,7 @@ export default function Dashboard() {
             <ListItems
               emptyText="Your shopping list is empty"
               emptyImage="https://ouch-cdn2.icons8.com/9ZkS5oUxGuBU8xmECIcW5iRDv56KpODUsTuuykys3NU/rs:fit:256:252/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzk3/LzUxZTU5NjM3LWVk/YzQtNDM0My04ODNl/LWZhMmNkM2EzMmQ4/YS5zdmc.png"
-              title={"Shopping List"}
+              title={"Shopping list"}
               parent={-2}
             />
           </Paper>
