@@ -27,6 +27,7 @@ export function FloatingActionButton() {
       <AddPopup>
         {global.session ? (
           <Fab
+            onMouseOver={() => setHide(false)}
             variant="extended"
             color="primary"
             aria-label="add"
