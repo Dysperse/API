@@ -9,10 +9,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Snackbar from "@mui/material/Snackbar";
+import Box from "@mui/material/Box";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import { Puller } from "./Puller";
+import { AutocompleteData } from "./AutocompleteData";
 
 export function CreateItemModal({
   toggleDrawer,
@@ -81,6 +83,12 @@ export function CreateItemModal({
     }
   });
 
+  const handleChipClick = (e) => {
+    formik.setFieldValue(
+      "quantity",
+      formik.values.quantity + " " + e.target.innerText
+    );
+  };
   return (
     <div>
       <div onClick={handleClickOpen}>{children}</div>
@@ -112,12 +120,14 @@ export function CreateItemModal({
         onClose={handleClose}
         onOpen={() => setOpen(true)}
       >
-        <Puller />
-        <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
-          Create Item
+        <Box sx={{ pt: 1 }}>
+          <Puller />
+        </Box>
+        <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
+          Create item
         </DialogTitle>
         <DialogContent>
-          <DialogContentText sx={{ mb: 1, textAlign: "center" }}>
+          <DialogContentText sx={{ mb: 2, textAlign: "center", mt: -1 }}>
             {room}
           </DialogContentText>
           <form onSubmit={formik.handleSubmit}>
@@ -147,17 +157,17 @@ export function CreateItemModal({
             <Stack spacing={1} direction="row" sx={{ my: 1 }}>
               <Chip
                 sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
-                onClick={() => {}}
+                onClick={handleChipClick}
                 label="📦"
               />
               <Chip
                 sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
-                onClick={() => {}}
+                onClick={handleChipClick}
                 label="🥡"
               />
               <Chip
                 sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
-                onClick={() => {}}
+                onClick={handleChipClick}
                 label="🛍️"
               />
             </Stack>
@@ -166,7 +176,7 @@ export function CreateItemModal({
               multiple
               freeSolo
               disabled={loading}
-              options={[1, 2, 3]}
+              options={AutocompleteData}
               onChange={(e, newValue) =>
                 formik.setFieldValue("categories", newValue)
               }

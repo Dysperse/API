@@ -11,7 +11,6 @@ import useFetch from "react-fetch-hook";
 import { AccountTab } from "./AccountTab";
 import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
-import * as colors from "@mui/material/colors";
 
 export const currency_symbols = {
   USD: "$", // US Dollar

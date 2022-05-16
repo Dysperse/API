@@ -356,8 +356,12 @@ export default function AddPopup(props: any) {
           keepMounted: true
         }}
       >
-        <Puller />
-        <DialogTitle sx={{ mt: 2, textAlign: "center" }}>Create</DialogTitle>
+        <Box sx={{ pt: 1 }}>
+          <Puller />
+        </Box>
+        <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
+          Create
+        </DialogTitle>
         <Content toggleDrawer={toggleDrawer} />
       </SwipeableDrawer>
     </Root>

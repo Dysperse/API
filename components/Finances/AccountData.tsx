@@ -10,6 +10,7 @@ import { Goal } from "./Goal";
 import { CreateGoalMenu } from "./CreateGoalMenu";
 import { AccountHeader } from "./AccountHeader";
 import { ZeroExpenseStreak } from "./ZeroExpenseStreak";
+import Tooltip from "@mui/material/Tooltip"
 
 function Navbar({ setOpen, scrollTop, container, account }: any) {
   return (
@@ -31,6 +32,7 @@ function Navbar({ setOpen, scrollTop, container, account }: any) {
         }}
       >
         <Toolbar>
+        <Tooltip title="Back">
           <IconButton
             size="large"
             edge="start"
@@ -46,6 +48,7 @@ function Navbar({ setOpen, scrollTop, container, account }: any) {
           >
             <span className="material-symbols-rounded">chevron_left</span>
           </IconButton>
+          </Tooltip>
           <Typography sx={{ flexGrow: 1, textAlign: "center" }} component="div">
             Overview
           </Typography>
