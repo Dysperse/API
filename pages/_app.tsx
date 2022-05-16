@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Layout from "../components/Layout";
 import "../styles/global.css";
-import useFetch from "react-fetch-hook";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LoginPrompt from "../components/LoginPrompt";
 import * as colors from "@mui/material/colors";
@@ -30,6 +29,20 @@ function Render({ data, Component, pageProps }: any) {
         styleOverrides: {
           root: {
             textTransform: "none"
+          }
+        }
+      },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            borderRadius: "20px",
+            fontSize: "14px",
+            background: colors[themeColor]["A100"],
+            color: colors[themeColor]["900"],
+            paddingLeft: "13px",
+            paddingRight: "13px",
+            paddingTop: "5px",
+            paddingBottom: "5px"
           }
         }
       }

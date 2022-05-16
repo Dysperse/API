@@ -9,7 +9,7 @@ import { currency_symbols } from "./AccountList";
 export function TransactionList({ transactions }: any) {
   return (
     <>
-      <Typography sx={{ fontWeight: "600", my: 1, mt: 4 }} variant="h5">
+      <Typography sx={{ fontWeight: "600", my: 1, mt: 4, ml: 1 }} variant="h5">
         Recent transactions
       </Typography>
       {/* {JSON.stringify(transactions)} */}
@@ -19,7 +19,8 @@ export function TransactionList({ transactions }: any) {
             background: "rgba(200,200,200,.3)",
             mt: 2,
             borderRadius: 5,
-            p: 3
+            p: 3,
+            px: 4
           }}
         >
           <ListItemText

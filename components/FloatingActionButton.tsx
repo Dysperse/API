@@ -4,8 +4,17 @@ import Fab from "@mui/material/Fab";
 import Skeleton from "@mui/material/Skeleton";
 import * as colors from "@mui/material/colors";
 import AddPopup from "./AddPopup";
+import Collapse from "@mui/material/Collapse";
 
 export function FloatingActionButton() {
+  const [scrollTop, setScrollTop] = React.useState(
+    document.documentElement.scrollTop
+  );
+  const [hide, setHide] = React.useState<boolean>(false);
+  window.addEventListener("scroll", () => {
+    setHide(document.documentElement.scrollTop > scrollTop);
+    setScrollTop(document.documentElement.scrollTop);
+  });
   return (
     <Box
       sx={{
@@ -45,17 +54,23 @@ export function FloatingActionButton() {
                     : colors[themeColor]["200"]
               },
               py: 2,
+              textTransform: "none",
               height: "auto",
               maxHeight: "auto"
             }}
           >
             <span
               className="material-symbols-rounded"
-              style={{ marginRight: "15px" }}
+              style={{
+                marginRight: !hide ? "15px" : "0",
+                transition: "all .2s"
+              }}
             >
               add
             </span>
-            Create
+            <Collapse orientation="horizontal" in={!hide}>
+              Create
+            </Collapse>
           </Fab>
         ) : (
           <Skeleton

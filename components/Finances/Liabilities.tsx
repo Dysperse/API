@@ -18,7 +18,7 @@ export function Liabilities() {
 
   return (
     <>
-      <Typography sx={{ fontWeight: "600", my: 1, mt: 4 }} variant="h5">
+      <Typography sx={{ fontWeight: "600", ml: 1, my: 1, mt: 4 }} variant="h5">
         Debt
       </Typography>
       {isLoading ? (
@@ -42,7 +42,10 @@ export function Liabilities() {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Typography sx={{ textTransform: "capitalize" }} variant="h5">
+              <Typography
+                sx={{ textTransform: "capitalize", fontWeight: "600" }}
+                variant="h6"
+              >
                 {liability}
               </Typography>
               {data.liabilities[liability].map((loan) => {
@@ -80,7 +83,15 @@ export function Liabilities() {
                   );
                 }
                 return (
-                  <ListItem sx={{ px: 1 }}>
+                  <ListItem
+                    sx={{
+                      px: 2,
+                      mt: 1,
+                      py: 1,
+                      background: "rgba(200,200,200,.3)",
+                      borderRadius: 4
+                    }}
+                  >
                     <ListItemText
                       primary={
                         <Typography gutterBottom>
