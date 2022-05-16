@@ -50,7 +50,7 @@ function CreateRoom() {
           alert("Created room!");
           router.push("/rooms/" + res.data.id);
         });
-        setTimeout(() => setLoading(true), 20)
+      setTimeout(() => setLoading(true), 20);
     }
   });
   return (
@@ -181,8 +181,6 @@ const ListItem = React.memo(function ListItem({
           ...(router.asPath === asHref && {
             backgroundColor:
               colors[global.themeColor][global.theme === "dark" ? 900 : 50],
-            color:
-              colors[global.themeColor][global.theme === "dark" ? 50 : 900],
             "&:hover,&:focus": {
               backgroundColor:
                 colors[global.themeColor][global.theme === "dark" ? 800 : 100],
@@ -195,17 +193,17 @@ const ListItem = React.memo(function ListItem({
             },
             "& span": {
               color:
-                colors[global.themeColor][global.theme === "dark" ? 100 : 500] +
+                colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
                 "!important"
             },
             "&:hover span": {
               color:
-                colors[global.themeColor][global.theme === "dark" ? 100 : 700] +
+                colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
                 "!important"
             },
             "&:active span": {
               color:
-                colors[global.themeColor][global.theme === "dark" ? 200 : 800] +
+                colors[global.themeColor][global.theme === "dark" ? 200 : 900] +
                 "!important"
             }
           })

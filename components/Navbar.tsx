@@ -47,12 +47,12 @@ function ElevationScroll(props: any) {
             sm: 1,
             xs: 0.5
           },
-          transition: "all .2s",
-          backdropFilter: "blur(10px)",
+          // transition: "all .2s",
+          backdropFilter: "blur(20px)",
           background:
             global.theme === "dark"
               ? "rgba(90,90,90,.7)"
-              : hexToRgba(colors[global.themeColor]["100"], 0.9)
+              : hexToRgba(colors[global.themeColor]["100"], 0.5)
         }
       : {
           color: global.theme === "dark" ? "white" : "black",
@@ -60,7 +60,7 @@ function ElevationScroll(props: any) {
             sm: 1,
             xs: 0.5
           },
-          transition: "all .2s",
+          // transition: "all .2s",
           background:
             global.theme === "dark" ? "rgba(0,0,0,0)" : "rgba(255,255,255,.5)",
           backdropFilter: "blur(10px)"
@@ -122,7 +122,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                       size="large"
                       sx={{
                         transition: "none",
-                        mr: 0.9,
+                        mr: 1,
                         color: "#404040",
                         "&:hover": { color: "#000" }
                       }}

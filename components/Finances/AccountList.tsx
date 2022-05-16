@@ -11,6 +11,7 @@ import useFetch from "react-fetch-hook";
 import { AccountTab } from "./AccountTab";
 import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
+import * as colors from "@mui/material/colors";
 
 export const currency_symbols = {
   USD: "$", // US Dollar
@@ -31,12 +32,6 @@ export const currency_symbols = {
 };
 
 export function AccountList() {
-  // const [value, setValue] = useState(-1);
-
-  // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-  //   setValue(newValue);
-  // };
-
   const { isLoading, data }: any = useFetch(
     "/api/finance/fetchTransactions?" +
       new URLSearchParams({
@@ -76,6 +71,12 @@ export function AccountList() {
     <>
       {data.error_code !== "PRODUCT_NOT_READY" ? (
         <>
+          <Typography
+            sx={{ fontWeight: "600", my: 1, mt: 4, ml: 1 }}
+            variant="h5"
+          >
+            Accounts
+          </Typography>
           <Tabs
             centered
             variant="scrollable"
@@ -92,7 +93,12 @@ export function AccountList() {
               },
               "& .MuiTabs-scrollButtons": {
                 borderRadius: 5,
-                background: "#eee!important",
+                background: colors[themeColor]["50"],
+                color: colors[themeColor]["800"],
+                "&:hover": {
+                  background: colors[themeColor]["100"],
+                  color: colors[themeColor]["900"]
+                },
                 marginLeft: "5px",
                 marginRight: "5px"
               },

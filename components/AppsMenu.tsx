@@ -246,7 +246,7 @@ export function AppsMenu() {
             size="large"
             sx={{
               transition: "none",
-              mr: 0.9,
+              mr: 1,
               ml: 0.1,
               color: "#404040",
               "&:hover": { color: "#000" }

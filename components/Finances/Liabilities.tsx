@@ -88,7 +88,7 @@ export function Liabilities() {
                       px: 2,
                       mt: 1,
                       py: 1,
-                      background: "rgba(200,200,200,.3)",
+                      background: "rgba(200,200,200,0)",
                       borderRadius: 4
                     }}
                   >

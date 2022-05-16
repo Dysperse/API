@@ -347,7 +347,8 @@ export default function AddPopup(props: any) {
         }}
         open={open}
         onClose={() => {
-          router.push(window.location.pathname);
+          // router.push(window.location.pathname);
+          // router.reload(window.location.pathname);
           setOpen(false);
         }}
         onOpen={toggleDrawer(true)}

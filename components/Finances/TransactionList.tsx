@@ -12,7 +12,6 @@ export function TransactionList({ transactions }: any) {
       <Typography sx={{ fontWeight: "600", my: 1, mt: 4, ml: 1 }} variant="h5">
         Recent transactions
       </Typography>
-      {/* {JSON.stringify(transactions)} */}
       {transactions.map((transaction) => (
         <ListItem
           sx={{
@@ -33,7 +32,10 @@ export function TransactionList({ transactions }: any) {
                   {transaction.amount}
                 </Typography>
                 {transaction.category.map((category) => (
-                  <Chip label={category} sx={{ mr: 1, mt: 1 }} />
+                  <Chip
+                    label={category}
+                    sx={{ mr: 1, mt: 1, borderRadius: 3 }}
+                  />
                 ))}
               </>
             }

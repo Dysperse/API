@@ -7,6 +7,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { AccountData } from "./AccountData";
 import CssBaseline from "@mui/material/CssBaseline";
 import { currency_symbols } from "./AccountList";
+import * as colors from "@mui/material/colors";
 
 export function AccountTab({ account }: any) {
   const [open, setOpen] = useState(false);
@@ -65,7 +66,7 @@ export function AccountTab({ account }: any) {
           </Box>
         </Box>
       </SwipeableDrawer>
-      <Tooltip title={account.official_name} enterDelay={500}>
+      <Tooltip title={account.official_name ?? account.name} enterDelay={500}>
         <Tab
           onClick={() => setOpen(true)}
           icon={
@@ -76,7 +77,7 @@ export function AccountTab({ account }: any) {
                   position: "absolute",
                   right: 1,
                   top: 0,
-                  p: 1
+                  p: 2
                 }}
               >
                 <span
@@ -119,17 +120,29 @@ export function AccountTab({ account }: any) {
             alignItems: "start",
             height: "130px",
             width: "90vw",
-            background: "rgba(200,200,200,.2)",
+            opacity: 1,
+            "& *": {
+              opacity: 1,
+              color: "#505050"
+            },
+            background: "rgba(200,200,200,.3)",
             transition: "color .2s",
             "&:hover": {
               opacity: 1,
-              background: "rgba(200,200,200,.3)",
+              background: "rgba(200,200,200,.4)",
+              "& *": {
+                opacity: 1,
+                color: "#202020"
+              }
+            },
+            "&:active": {
+              opacity: 1,
+              background: "rgba(200,200,200,.5)",
               "& *": {
                 opacity: 1,
                 color: "#000"
               }
             },
-            "&:active": { background: "rgba(200,200,200,.4)" },
             textTransform: "none",
             borderRadius: 5
           }}
