@@ -90,7 +90,7 @@ export function AccountList() {
               "& .MuiTabs-scrollButtons": {
                 maxWidth:"100px",
                 overflow:"hidden",
-                transition:"all .5s",
+                transition:"all .2s",
                 borderRadius: 4,
                 background: "rgba(200,200,200,.4)",
                 color: "#404040",
