@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useFetch from "react-fetch-hook";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Card from "@mui/material/Card";
@@ -16,6 +15,9 @@ import { blueGrey } from "@mui/material/colors";
 import * as colors from "@mui/material/colors";
 import { List } from "./List";
 import { useFormik } from "formik";
+import useSWR from "swr";
+
+const fetcher = (url, options) => fetch(url, options).then((res) => res.json());
 
 const stopPropagationForTab = (event: any) => {
   if (event.key !== "Esc") {
@@ -205,32 +207,31 @@ function RenderLists({ data }: any) {
 }
 
 export function Lists() {
-  const { isLoading, data }: any = useFetch(
-    "https://api.smartlist.tech/v2/lists/",
-    {
+  const url = "https://api.smartlist.tech/v2/lists/";
+  const { data, error } = useSWR(url, () =>
+    fetcher(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session ? global.session.accessToken : undefined
+        token: global.session && global.session.accessToken
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
-    }
+    })
   );
+  if (error) return <div>An error has occured, please try again later</div>;
+  if (!data)
+    return (
+      <>
+        {[...new Array(5)].map(() => (
+          <Skeleton
+            key={Math.random().toExponential()}
+            variant="rectangular"
+            height={110}
+            animation="wave"
+            sx={{ mb: 2, borderRadius: "28px" }}
+          />
+        ))}
+      </>
+    );
 
-  return isLoading ? (
-    <>
-      {[1, 2, 3, 4, 5, 6].map((_, __) => (
-        <Skeleton
-          key={Math.random().toExponential()}
-          variant="rectangular"
-          height={110}
-          animation="wave"
-          sx={{ mb: 2, borderRadius: "28px" }}
-        />
-      ))}
-    </>
-  ) : (
-    <>
-      <RenderLists data={data.data} />
-    </>
-  );
+  return <RenderLists data={data.data} />;
 }

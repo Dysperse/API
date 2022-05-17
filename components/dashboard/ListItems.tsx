@@ -1,11 +1,13 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import useFetch from "react-fetch-hook";
 import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
 import { GenerateListItem } from "./GenerateListItem";
+import useSWR from "swr";
+
+const fetcher = (url, options) => fetch(url, options).then((res) => res.json());
 
 export function ListItems({
   parent,
@@ -18,18 +20,19 @@ export function ListItems({
   emptyImage: any;
   emptyText: any;
 }) {
-  const { isLoading, data }: any = useFetch(
-    "https://api.smartlist.tech/v2/lists/fetch/",
-    {
+  const url = "https://api.smartlist.tech/v2/lists/fetch/";
+  const { data, error } = useSWR(url, () =>
+    fetcher(url, {
       method: "POST",
       body: new URLSearchParams({
         token: global.session && global.session.accessToken,
         parent: parent
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
-    }
+    })
   );
-  if (isLoading) {
+  if (error) return <div>Failed to load items</div>;
+  if (!data)
     return (
       <Skeleton
         height={200}
@@ -38,7 +41,6 @@ export function ListItems({
         sx={{ borderRadius: "28px" }}
       />
     );
-  }
 
   return (
     <Card
@@ -52,7 +54,7 @@ export function ListItems({
     >
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
-          {title}
+          {title}!
         </Typography>
         {data.data.map((list: Object) => (
           <GenerateListItem {...list} />
