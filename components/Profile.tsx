@@ -109,8 +109,8 @@ export function ProfileMenu(props: any) {
           aria-label="open drawer."
           edge="end"
           sx={{
-            ml: { xs: 0.2, sm: "0" },
-            transform: { xs: "scale(.8)", sm: "scale(1)" },
+            ml: 0,
+            transform: "scale(.8)",
             transition: "none",
             color: "#404040",
             "&:hover": { color: "#000" }
@@ -118,7 +118,11 @@ export function ProfileMenu(props: any) {
         >
           {global.session ? (
             <Avatar
-              sx={{ fontSize: "15px", bgcolor: deepOrange[500] }}
+              sx={{
+                fontSize: "15px",
+                bgcolor: deepOrange[500],
+                transform: "scale(1.2)"
+              }}
               src={global.session.user.image}
             />
           ) : (

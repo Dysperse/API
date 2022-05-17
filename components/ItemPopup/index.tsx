@@ -207,7 +207,6 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               multiline
               fullWidth
               onBlur={(e) => {
-                // alert(1);
                 e.target.placeholder = "Click to add note";
                 e.target.spellcheck = false;
                 setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));

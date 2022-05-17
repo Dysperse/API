@@ -5,6 +5,7 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import ListItemButton from "@mui/material/ListItemButton";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -40,18 +41,20 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
   });
   return (
     <>
-      <ListItem
-        button
+      <ListItemButton
         onClick={() => setOpen(true)}
         sx={{
           transiton: "none!important",
-          "& *": { transiton: "none!important" }
+          "& *": { transiton: "none!important" },
+          borderRadius: 4,
+          mb: 1
         }}
       >
         <ListItemAvatar>
           <Avatar
             sx={{
               color: global.theme === "dark" ? "#fff" : "#000",
+              borderRadius: 4,
               background:
                 global.theme === "dark"
                   ? colors[themeColor][900]
@@ -66,8 +69,13 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
             </span>
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={primary} secondary={secondary} />
-      </ListItem>
+        <ListItemText
+          primary={
+            <Typography sx={{ fontWeight: "600" }}>{primary}</Typography>
+          }
+          secondary={secondary}
+        />
+      </ListItemButton>
       <SwipeableDrawer
         open={open}
         swipeAreaWidth={0}
@@ -145,7 +153,7 @@ export default function FullScreenDialog() {
 
   return (
     <div>
-      <Tooltip title="Settings">
+      <Tooltip title="Settings" placement="bottom-end">
         <IconButton
           edge="end"
           aria-label="comments"
@@ -197,12 +205,16 @@ export default function FullScreenDialog() {
                   <span className="material-symbols-rounded">close</span>{" "}
                 </IconButton>
               </Tooltip>
-              <Typography sx={{ ml: 4, flex: 1 }} variant="h6" component="div">
+              <Typography
+                sx={{ ml: 4, flex: 1, fontWeight: "600" }}
+                variant="h6"
+                component="div"
+              >
                 Settings
               </Typography>
             </Toolbar>
           </AppBar>
-          <List>
+          <List sx={{ p: 2 }}>
             <SettingsMenu
               content={<AppearanceSettings />}
               icon="palette"
@@ -263,24 +275,62 @@ export default function FullScreenDialog() {
               primary="Sync"
               secondary={null}
             />
-            <Divider />
+            <Divider sx={{ mb: 1 }} />
 
-            <ListItem button>
+            <ListItemButton
+              onClick={() => setOpen(true)}
+              sx={{
+                transiton: "none!important",
+                "& *": { transiton: "none!important" },
+                borderRadius: 4,
+                mb: 1
+              }}
+            >
               <ListItemAvatar>
                 <Avatar
-                  sx={{ color: "#000", background: colors[themeColor][100] }}
+                  sx={{
+                    color: "#000",
+                    background: colors[themeColor][100],
+                    borderRadius: 4
+                  }}
                 >
                   <span className="material-symbols-rounded">logout</span>
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary="Sign out"
-                secondary="Sign out of Smartlist and it's related apps"
+                primary={
+                  <Typography sx={{ fontWeight: "600" }}>Sign out</Typography>
+                }
+                secondary="Sign out of Smartlist and its related apps"
               />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Legal" secondary="Food for lawyers" />
-            </ListItem>
+            </ListItemButton>
+            <ListItemButton
+              onClick={() => setOpen(true)}
+              sx={{
+                transiton: "none!important",
+                "& *": { transiton: "none!important" },
+                borderRadius: 4,
+                mb: 1
+              }}
+            >
+              <ListItemAvatar>
+                <Avatar
+                  sx={{
+                    color: "#000",
+                    background: colors[themeColor][100],
+                    borderRadius: 4
+                  }}
+                >
+                  <span className="material-symbols-rounded">policy</span>
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography sx={{ fontWeight: "600" }}>Legal</Typography>
+                }
+                secondary="Food for lawyers"
+              />
+            </ListItemButton>
           </List>
         </Box>
       </SwipeableDrawer>
