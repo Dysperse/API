@@ -9,7 +9,6 @@ import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Skeleton from "@mui/material/Skeleton";
-import { blueGrey } from "@mui/material/colors";
 import * as colors from "@mui/material/colors";
 import { CreateListItemButton } from "./CreateListItemButton";
 

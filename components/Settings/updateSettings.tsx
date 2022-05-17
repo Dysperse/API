@@ -24,5 +24,5 @@ export function updateSettings(
         alert(JSON.stringify(res));
       }
     });
-  global.session.user[key] = value;
+  // global.session.user[key] = value;
 }
