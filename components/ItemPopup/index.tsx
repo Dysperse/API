@@ -205,12 +205,12 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             </div>
             <TextField
               multiline
-              fullWidth
+              fullWidths
               onBlur={(e) => {
                 // alert(1);
                 e.target.placeholder = "Click to add note";
                 e.target.spellcheck = false;
-                setLastUpdated(dayjs().format("YYYY-M-D HH:mm:ss"));
+                setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
                 setNote(e.target.value);
                 fetch("https://api.smartlist.tech/v2/items/update-note/", {
                   method: "POST",
@@ -219,7 +219,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                       ? global.session.accessToken
                       : undefined,
                     id: id.toString(),
-                    date: dayjs().format("YYYY-M-D HH:mm:ss"),
+                    date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                     content: e.target.value
                   })
                 });

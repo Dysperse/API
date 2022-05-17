@@ -65,7 +65,7 @@ export function CreateItemModal({
       quantity: string;
     }) => {
       // alert(JSON.stringify(values));
-      await fetch("https://api.smartlist.tech/v2/items/create/", {
+      fetch("https://api.smartlist.tech/v2/items/create/", {
         method: "POST",
         body: new URLSearchParams({
           token: session && session.accessToken,
@@ -73,13 +73,17 @@ export function CreateItemModal({
           name: values.title,
           qty: values.quantity,
           category: JSON.stringify(values.categories),
-          lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss")
+          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss")
         })
-      });
-      setSnackbarOpen(true);
-      setLoading(false);
-      setOpen(false);
-      formik.resetForm();
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setSnackbarOpen(true);
+          setLoading(false);
+          setOpen(false);
+          formik.resetForm();
+          alert(JSON.stringify(res));
+        });
     }
   });
 
@@ -127,7 +131,7 @@ export function CreateItemModal({
           Create item
         </DialogTitle>
         <DialogContent>
-          <DialogContentText sx={{ mb: 2, textAlign: "center", mt: -1 }}>
+          <DialogContentText sx={{ mb: 2, textAlign: "center" }}>
             {room}
           </DialogContentText>
           <form onSubmit={formik.handleSubmit}>

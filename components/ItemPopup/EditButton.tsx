@@ -46,14 +46,14 @@ export function EditButton({
         body: new URLSearchParams({
           token: global.session && global.session.accessToken,
           id: id.toString(),
-          lastUpdated: dayjs().format("YYYY-M-D HH:mm:ss"),
+          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
           name: values.title,
           qty: values.quantity,
           category: JSON.stringify(values.categories)
         })
       });
 
-      setLastUpdated(dayjs().format("YYYY-M-D HH:mm:ss"));
+      setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
       setTitle(values.title);
       setQuantity(values.quantity);
       setCategories(values.categories);
@@ -69,9 +69,12 @@ export function EditButton({
           edge="end"
           color="inherit"
           aria-label="menu"
-          sx={{ mr: 1,transition: "none",
-					color: "#404040",
-					"&:hover": { color: "#000" }, }}
+          sx={{
+            mr: 1,
+            transition: "none",
+            color: "#404040",
+            "&:hover": { color: "#000" }
+          }}
           onClick={handleClickOpen}
         >
           <span className="material-symbols-rounded">edit</span>

@@ -30,7 +30,7 @@ export function DeleteButton({
             body: new URLSearchParams({
               token: global.session && global.session.accessToken,
               id: id.toString(),
-              date: dayjs().format("YYYY-M-D HH:mm:ss")
+              date: dayjs().format("YYYY-MM-DD HH:mm:ss")
             })
           });
           setOpen(true);

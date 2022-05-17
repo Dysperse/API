@@ -3,30 +3,38 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
-import useFetch from "react-fetch-hook";
+// import useFetch from "react-fetch-hook";
 import Item from "../../components/ItemPopup";
+import useSWR from "swr";
+
+const fetcher = (url, options) => fetch(url, options).then((res) => res.json());
 
 export function RecentItems() {
-  const { isLoading, data }: any = useFetch(
-    "https://api.smartlist.tech/v2/items/list/",
-    {
+  const url = "https://api.smartlist.tech/v2/items/list/";
+  const { data, error } = useSWR(url, () =>
+    fetcher(url, {
       method: "POST",
       body: new URLSearchParams({
         room: "null",
         limit: "7",
         token: global.session && global.session.accessToken
       })
-    }
+    })
   );
-  return isLoading ? (
-    <Skeleton
-      variant="rectangular"
-      width={"100%"}
-      height={500}
-      animation="wave"
-      sx={{ borderRadius: "28px" }}
-    />
-  ) : (
+
+  if (error) return <div>failed to load</div>;
+  if (!data)
+    return (
+      <Skeleton
+        variant="rectangular"
+        width={"100%"}
+        height={500}
+        animation="wave"
+        sx={{ borderRadius: "28px" }}
+      />
+    );
+
+  return (
     <Card
       sx={{
         borderRadius: "28px",
