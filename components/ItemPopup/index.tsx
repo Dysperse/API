@@ -205,7 +205,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             </div>
             <TextField
               multiline
-              fullWidths
+              fullWidth
               onBlur={(e) => {
                 // alert(1);
                 e.target.placeholder = "Click to add note";
