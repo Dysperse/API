@@ -62,7 +62,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
             }}
           >
             <span
-              style={{ fontSize: "18px" }}
+              style={{ fontSize: "20px" }}
               className="material-symbols-rounded"
             >
               {icon}
@@ -225,55 +225,64 @@ export default function FullScreenDialog() {
               content={<FinanceSettings />}
               icon="payments"
               primary="Finances"
-              secondary={null}
+              secondary={<>Budget set to ${global.session.user.budget}</>}
             />
             <SettingsMenu
               content={<AccountSettings />}
               icon="account_circle"
               primary="Account"
-              secondary={null}
+              secondary={
+                <>
+                  {global.session.user.name} &bull; {global.session.user.email}
+                </>
+              }
             />
             <SettingsMenu
               content={<App />}
               icon="apps"
               primary="Third-party apps"
-              secondary={null}
+              secondary={<>4 apps connected</>}
             />
             <SettingsMenu
               content={<p>test</p>}
               icon="notifications"
               primary="Notifications"
-              secondary={null}
+              secondary={
+                <>
+                  If an item's quantity is {global.session.user.notificationMin}{" "}
+                  or less
+                </>
+              }
             />
             <SettingsMenu
               content={<p>test</p>}
               icon="code"
               primary="Developer"
-              secondary={null}
+              secondary={"API"}
             />
             <SettingsMenu
               content={<App />}
               icon="smartphone"
               primary="App"
-              secondary={null}
+              secondary={"Coming soon"}
             />
             <SettingsMenu
               content={<Sessions />}
               icon="history"
               primary="Sessions"
-              secondary={null}
+              secondary={<>Accessing on {window.navigator.platform}</>}
             />
             <SettingsMenu
               content={<>Coming soon</>}
               icon="pin_drop"
               primary="Rooms"
-              secondary={null}
+              secondary={"10 rooms"}
             />
             <SettingsMenu
               content={<p>test</p>}
               icon="sync"
               primary="Sync"
-              secondary={null}
+              secondary={"Pair your account and share inventory"}
             />
             <Divider sx={{ mb: 1 }} />
 
