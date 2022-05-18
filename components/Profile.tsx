@@ -30,6 +30,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
 function Accounts({ setOpen }: any) {
   return (
     <List sx={{ width: "100%", bgcolor: "transparent" }}>
+      <Avatar
+        alt="Remy Sharp"
+        src={global.session.user.image}
+        sx={{ mx: "auto", width: "100px", height: "100px" }}
+      />
       <ListItem
         secondaryAction={
           <div onClick={() => setOpen(false)}>
@@ -37,25 +42,26 @@ function Accounts({ setOpen }: any) {
           </div>
         }
       >
-        <ListItemAvatar>
-          <Avatar
-            alt="Remy Sharp"
-            src={global.session ? global.session.user.image : null}
-          />
-        </ListItemAvatar>
         <ListItemText
-          primary={global.session && global.session.user.name}
+          sx={{
+            pt: 2
+          }}
+          primary={
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "800", textAlign: "center" }}
+            >
+              {global.session && global.session.user.name}
+            </Typography>
+          }
           secondary={
-            <React.Fragment>
-              <Typography
-                sx={{ display: "inline" }}
-                component="span"
-                variant="body2"
-                color="text.primary"
-              >
-                {global.session && global.session.user.email}
-              </Typography>
-            </React.Fragment>
+            <Typography
+              sx={{ fontWeight: "600", textAlign: "center", mt: 1 }}
+              variant="body2"
+              color="text.primary"
+            >
+              {global.session && global.session.user.email}
+            </Typography>
           }
         />
       </ListItem>
@@ -154,7 +160,10 @@ export function ProfileMenu(props: any) {
         PaperProps={{
           elevation: 4,
           sx: {
-            border: "1px solid rgba(200,200,200,.2)",
+            background: "rgba(255,255,255,.8)",
+            backdropFilter: "blur(10px)",
+            p: 3,
+            py: 5,
             boxShadow: `0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)`,
             width: {
               xs: "calc(100vw - 30px)",
@@ -175,29 +184,6 @@ export function ProfileMenu(props: any) {
           }
         }}
       >
-        <StyledBox
-          sx={{
-            top: 0,
-            background: "transparent",
-            borderRadius: 9,
-            visibility: "visible",
-            right: 0,
-            left: 0
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: { sm: "13px" },
-              p: 2,
-              pb: { sm: 0 },
-              color: "text.secondary",
-              textAlign: { sm: "right" }
-            }}
-          >
-            Accounts
-          </Typography>
-        </StyledBox>
-
         <Accounts setOpen={setOpen} />
       </SwipeableDrawer>
     </Root>
