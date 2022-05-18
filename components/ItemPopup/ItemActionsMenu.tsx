@@ -8,7 +8,7 @@ import { QrCodeModal } from "./QrCodeModal";
 import * as colors from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 
-export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
+export function ItemActionsMenu({ id, title, quantity, star }: any): JSX.Element {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -90,7 +90,7 @@ export function ItemActionsMenu({ title, quantity, star }: any): JSX.Element {
 					"aria-labelledby": "basic-button"
 				}}
 			>
-				<InfoButton title={title} star={star} quantity={quantity} />
+				<InfoButton id={id} title={title} star={star} quantity={quantity} />
 				<MenuItem disableRipple onClick={handleClose}>
 					<span
 						style={{ marginRight: "10px" }}

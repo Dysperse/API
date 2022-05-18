@@ -32,7 +32,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
   const id = data.id;
   const [title, setTitle] = useState(data.title);
   const [quantity, setQuantity] = useState(data.amount);
-  const [star, setStar] = useState(itemData.star);
+  const [star, setStar] = useState(parseInt(itemData.star, 10));
   const [deleted, setDeleted] = useState(false);
   const [categories, setCategories] = useState(data.categories);
   const [note, setNote] = useState(data.note);
@@ -122,7 +122,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               <StarButton
                 setLastUpdated={setLastUpdated}
                 id={id}
-                star={star}
+                star={parseInt(star, 10)}
                 setStar={setStar}
               />
               <EditButton
@@ -138,11 +138,16 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               <DeleteButton
                 id={id}
                 deleted={deleted}
-                setOpen={() => toast("Deleted item")}
+                setOpen={() => toast.success("Deleted item")}
                 setDrawerState={setDrawerState}
                 setDeleted={setDeleted}
               />
-              <ItemActionsMenu star={star} title={title} quantity={quantity} />
+              <ItemActionsMenu
+                id={id}
+                star={star}
+                title={title}
+                quantity={quantity}
+              />
             </Toolbar>
           </AppBar>
           <Box

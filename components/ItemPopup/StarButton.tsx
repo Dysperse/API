@@ -18,7 +18,7 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
           transition: "none",
           color: "#404040",
           "&:hover": { color: "#000" },
-          ...(star === 1 && {
+          ...(parseInt(star, 10) === 1 && {
             "&:hover": {
               background: global.theme === "dark" ? orange[900] : orange[50]
             }
@@ -26,7 +26,7 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
         }}
         onClick={() => {
           setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
-          setStar((s: any) => {
+          setStar((s: number) => {
             fetch("https://api.smartlist.tech/v2/items/star/", {
               method: "POST",
               body: new URLSearchParams({
@@ -35,7 +35,7 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
                 date: dayjs().format("YYYY-MM-DD HH:mm:ss")
               })
             });
-            return +!s;
+            return +!parseInt(s, 10);
           });
         }}
       >

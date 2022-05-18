@@ -47,11 +47,12 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
         }}
         PaperProps={{
           sx: {
+            p: 2,
             borderRadius: "28px"
           }
         }}
       >
-        <DialogTitle>QR code</DialogTitle>
+        <DialogTitle sx={{ fontWeight: "800" }}>QR code</DialogTitle>
         <DialogContent sx={{ textAlign: "center" }}>
           <TextField
             autoFocus

@@ -13,85 +13,101 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
-import useFetch from "react-fetch-hook";
+import useSWR from "swr";
+
+const fetcher = (u, o) => fetch(u, o).then((res) => res.json());
 
 function RoomList() {
-	const { isLoading, data }: any = useFetch(
-		"https://api.smartlist.tech/v2/lists/",
-		{
-			method: "POST",
-			body: new URLSearchParams({
-				token: global.session && global.session.accessToken
-			}),
-			headers: { "Content-Type": "application/x-www-form-urlencoded" }
-		}
-	);
+  const url = "https://api.smartlist.tech/v2/lists/";
+  const { error, data }: any = useSWR(url, () =>
+    fetcher(url, {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.session && global.session.accessToken
+      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    })
+  );
 
-	return isLoading ? (
-		<>
-			{[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1].map((_, __) => (
-				<Skeleton key={Math.random().toExponential()} animation="wave" />
-			))}
-		</>
-	) : (
-		<>
-			<List sx={{ mt: -1 }}>
-				{data.data.map((list: any) => (
-					<ListItem disablePadding>
-						<ListItemButton sx={{ borderRadius: 9, py: 0.5, px: 2 }}>
-							<ListItemText primary={list.title} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
-		</>
-	);
+  if (error) {
+    return (
+      <>
+        Yikes! An error occured while trying to fetch your lists. Try reloading
+        the page
+      </>
+    );
+  }
+  if (!data)
+    return (
+      <>
+        {[...new Array(10)].map(() => (
+          <Skeleton animation="wave" />
+        ))}
+      </>
+    );
+  return (
+    <>
+      <List sx={{ mt: -1 }}>
+        {data.data.map((list: any) => (
+          <ListItem disablePadding>
+            <ListItemButton sx={{ borderRadius: 9, py: 0.5, px: 2 }}>
+              <ListItemText primary={list.title} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </>
+  );
 }
 export function AddToListModal({ handleClose }: any) {
-	const [open, setOpen] = useState(false);
-	return (
-		<>
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				PaperProps={{
-					sx: {
-						width: "400px",
-						maxWidth: "calc(100vw - 20px)",
-						borderRadius: "28px"
-					}
-				}}
-			>
-				<DialogTitle>
-					Add to list
-					<DialogContentText id="alert-dialog-slide-description" sx={{ mt: 1 }}>
-						Choose a list
-					</DialogContentText>
-				</DialogTitle>
-				<DialogContent>
-					<RoomList />
-				</DialogContent>
-				<DialogActions>
-					<Button
-						variant="contained"
-						disableElevation
-						size="large"
-						sx={{ borderRadius: 99,  px: 3, py: 1 }}
-						onClick={handleClose}
-					>
-						Cancel
-					</Button>
-				</DialogActions>
-			</Dialog>
-			<MenuItem disableRipple onClick={() => setOpen(true)}>
-				<span
-					className="material-symbols-rounded"
-					style={{ marginRight: "10px" }}
-				>
-					receipt_long
-				</span>
-				Add to list
-			</MenuItem>
-		</>
-	);
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          handleClose();
+        }}
+        PaperProps={{
+          sx: {
+            width: "450px",
+            maxWidth: "calc(100vw - 20px)",
+            borderRadius: "28px",
+            p: 2
+          }
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: "800" }}>
+          Add to list
+          <DialogContentText id="alert-dialog-slide-description" sx={{ mt: 1 }}>
+            Select a list
+          </DialogContentText>
+        </DialogTitle>
+        <DialogContent>
+          <RoomList />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            disableElevation
+            size="large"
+            sx={{ borderRadius: 99, px: 3, py: 1 }}
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <MenuItem disableRipple onClick={() => setOpen(true)}>
+        <span
+          className="material-symbols-rounded"
+          style={{ marginRight: "10px" }}
+        >
+          receipt_long
+        </span>
+        Add to list
+      </MenuItem>
+    </>
+  );
 }

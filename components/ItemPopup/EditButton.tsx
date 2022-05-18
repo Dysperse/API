@@ -9,6 +9,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { AutocompleteData } from "../AutocompleteData";
 
 export function EditButton({
   id,
@@ -88,11 +89,12 @@ export function EditButton({
         }}
         PaperProps={{
           sx: {
-            borderRadius: "28px"
+            borderRadius: "28px",
+            p: 2
           }
         }}
       >
-        <DialogTitle>Edit item</DialogTitle>
+        <DialogTitle sx={{ fontWeight: "800" }}>Edit item</DialogTitle>
         <DialogContent>
           <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -118,7 +120,7 @@ export function EditButton({
               id="categories"
               multiple
               freeSolo
-              options={[1, 2, 3]}
+              options={AutocompleteData}
               defaultValue={formik.values.categories}
               onChange={(e, newValue) =>
                 formik.setFieldValue("categories", newValue)

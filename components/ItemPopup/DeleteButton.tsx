@@ -2,7 +2,6 @@ import React from "react";
 import dayjs from "dayjs";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 export function DeleteButton({
   id,
