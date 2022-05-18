@@ -7,10 +7,12 @@ import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import React from "react";
-import useFetch from "react-fetch-hook";
 import { AccountTab } from "./AccountTab";
 import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
+import useSWR from "swr";
+
+const fetcher = (u) => fetch(u).then((res) => res.json());
 
 export const currency_symbols = {
   USD: "$", // US Dollar
@@ -27,46 +29,52 @@ export const currency_symbols = {
   PYG: "₲", // Paraguayan Guarani
   THB: "฿", // Thai Baht
   UAH: "₴", // Ukrainian Hryvnia
-  VND: "₫" // Vietnamese Dong
+  VND: "₫"
 };
 
 export function AccountList() {
-  const { isLoading, data }: any = useFetch(
-    "/api/finance/fetchTransactions?" +
-      new URLSearchParams({
-        access_token: global.session.user.financeToken,
-        start_date: dayjs().subtract(30, "day").format("YYYY-MM-DD"),
-        end_date: dayjs().add(7, "day").format("YYYY-MM-DD")
-      })
-  );
-  return isLoading ? (
-    <>
-      <Skeleton
-        variant="rectangular"
-        animation="wave"
-        height={100}
-        sx={{ borderRadius: 5, my: 2 }}
-      />
-      <Skeleton
-        variant="rectangular"
-        animation="wave"
-        height={300}
-        sx={{ borderRadius: 5, my: 2 }}
-      />
-      <Skeleton
-        variant="rectangular"
-        animation="wave"
-        height={50}
-        sx={{ borderRadius: 5, my: 2 }}
-      />
-      <Skeleton
-        variant="rectangular"
-        animation="wave"
-        height={50}
-        sx={{ borderRadius: 5, my: 2 }}
-      />
-    </>
-  ) : (
+  const url =
+    "/api/finance/fetchTransactions/?" +
+    new URLSearchParams({
+      access_token: global.session.user.financeToken,
+      start_date: dayjs().subtract(30, "day").format("YYYY-MM-DD"),
+      end_date: dayjs().add(7, "day").format("YYYY-MM-DD")
+    });
+
+  const { data, error } = useSWR(url, fetcher);
+
+  if (error) return <div>failed to load</div>;
+  if (!data)
+    return (
+      <>
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          height={100}
+          sx={{ borderRadius: 5, my: 2 }}
+        />
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          height={300}
+          sx={{ borderRadius: 5, my: 2 }}
+        />
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          height={50}
+          sx={{ borderRadius: 5, my: 2 }}
+        />
+        <Skeleton
+          variant="rectangular"
+          animation="wave"
+          height={50}
+          sx={{ borderRadius: 5, my: 2 }}
+        />
+      </>
+    );
+
+  return (
     <>
       {data.error_code !== "PRODUCT_NOT_READY" ? (
         <>
@@ -82,14 +90,14 @@ export function AccountList() {
             scrollButtons
             sx={{
               "& .MuiTabs-scrollButtons.Mui-disabled": {
-                  // opacity: "0!important",
-                  maxWidth:"0px!important",
-                  margin: "0"
+                // opacity: "0!important",
+                maxWidth: "0px!important",
+                margin: "0"
               },
               "& .MuiTabs-scrollButtons": {
-                maxWidth:"100px",
-                overflow:"hidden",
-                transition:"all .2s",
+                maxWidth: "100px",
+                overflow: "hidden",
+                transition: "all .2s",
                 borderRadius: 4,
                 background: "rgba(200,200,200,.4)",
                 color: "#404040",
@@ -124,6 +132,12 @@ export function AccountList() {
               <TransactionList transactions={data.transactions} />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <Typography
+                sx={{ fontWeight: "600", ml: 1, my: 1, mt: 4 }}
+                variant="h5"
+              >
+                Debt
+              </Typography>
               <Liabilities />
             </Grid>
           </Grid>

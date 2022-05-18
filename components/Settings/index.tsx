@@ -117,7 +117,11 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
               >
                 <span className="material-symbols-rounded">chevron_left</span>{" "}
               </IconButton>
-              <Typography sx={{ ml: 4, flex: 1 }} variant="h6" component="div">
+              <Typography
+                sx={{ ml: 4, flex: 1, fontWeight: "600" }}
+                variant="h6"
+                component="div"
+              >
                 {primary}
               </Typography>
             </Toolbar>

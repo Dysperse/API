@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -8,7 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Snackbar from "@mui/material/Snackbar";
+import toast from "react-hot-toast";
 import Box from "@mui/material/Box";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
@@ -41,18 +41,6 @@ export function CreateItemModal({
     setLoading(true);
   }
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const handleSnackbarClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setLoading(false);
-    setSnackbarOpen(false);
-  };
   const formik = useFormik({
     initialValues: {
       categories: [],
@@ -78,11 +66,10 @@ export function CreateItemModal({
       })
         .then((res) => res.json())
         .then((res) => {
-          setSnackbarOpen(true);
+          toast("Created item!");
           setLoading(false);
           setOpen(false);
           formik.resetForm();
-          alert(JSON.stringify(res));
         });
     }
   });
@@ -96,13 +83,6 @@ export function CreateItemModal({
   return (
     <div>
       <div onClick={handleClickOpen}>{children}</div>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        sx={{ background: "#212121!important" }}
-        message="Item created!"
-      />
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}

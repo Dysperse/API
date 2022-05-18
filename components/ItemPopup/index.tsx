@@ -15,11 +15,11 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import Collapse from "@mui/material/Collapse";
-import Snackbar from "@mui/material/Snackbar";
+import toast from "react-hot-toast";
 import { blueGrey } from "@mui/material/colors";
 import useWindowDimensions from "../../components/useWindowDimensions";
 import { StarButton } from "./StarButton";
@@ -63,41 +63,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
       );
   }, [drawerState, width]);
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const action = (
-    <React.Fragment>
-      <Button
-        onClick={(e) => {
-          setDeleted(false);
-          setDrawerState(true);
-          handleClose(e);
-        }}
-      >
-        UNDO
-      </Button>
-    </React.Fragment>
-  );
   return (
     <>
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        message="Item moved to trash"
-        action={action}
-      />
       <SwipeableDrawer
         sx={{
           opacity: "1!important"
@@ -171,7 +138,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               <DeleteButton
                 id={id}
                 deleted={deleted}
-                setOpen={setOpen}
+                setOpen={() => toast("Deleted item")}
                 setDrawerState={setDrawerState}
                 setDeleted={setDeleted}
               />

@@ -6,6 +6,7 @@ import useFetch from "react-fetch-hook";
 import dayjs from "dayjs";
 import Slider, { SliderThumb } from "@mui/material/Slider";
 import Skeleton from "@mui/material/Skeleton";
+import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 
 function ThumbComponent(props: any) {
@@ -18,7 +19,7 @@ function ThumbComponent(props: any) {
   );
 }
 
-export function ZeroExpenseStreak({ accountId }: { accountId: string }) {
+export function StreakCard({ accountId }: { accountId: string }) {
   const AirbnbSlider = styled(Slider)(({ theme }) => ({
     color: "#f9a825!important",
     height: 3,
@@ -76,24 +77,26 @@ export function ZeroExpenseStreak({ accountId }: { accountId: string }) {
         }}
       >
         <CardContent>
-          <AirbnbSlider
-            components={{ Thumb: ThumbComponent }}
-            step={1}
-            marks
-            min={0}
-            disabled
-            max={10}
-            defaultValue={
-              data.transactions.filter((e) => (e.account_id = accountId))[0]
-                ? dayjs().diff(
-                    data.transactions.filter(
-                      (e) => (e.account_id = accountId)
-                    )[0].authorized_date,
-                    "d"
-                  ) || 0
-                : 0
-            }
-          />
+          <Box sx={{ px: 2 }}>
+            <AirbnbSlider
+              components={{ Thumb: ThumbComponent }}
+              step={1}
+              marks
+              min={0}
+              disabled
+              max={10}
+              defaultValue={
+                data.transactions.filter((e) => (e.account_id = accountId))[0]
+                  ? dayjs().diff(
+                      data.transactions.filter(
+                        (e) => (e.account_id = accountId)
+                      )[0].authorized_date,
+                      "d"
+                    ) || 0
+                  : 0
+              }
+            />
+          </Box>
           <Typography sx={{ mt: 1 }}>
             You haven't purchased anything for{" "}
             {data.transactions.filter((e) => (e.account_id = accountId))[0]

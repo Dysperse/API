@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import { useFormik } from "formik";
+import toast from "react-hot-toast";
 
 function Puller() {
   return (
@@ -49,6 +50,7 @@ export function CreateListModal({ children, parent, title }: any) {
           formik.resetForm();
           setLoading(false);
           setOpen(false);
+          toast("Created item!");
         })
         .catch((err: any) => alert(JSON.stringify(err)));
     }

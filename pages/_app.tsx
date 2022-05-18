@@ -8,6 +8,7 @@ import * as colors from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import { Offline, Online } from "react-detect-offline";
 import useSWR from "swr";
+import { Toaster } from "react-hot-toast";
 
 function Render({ data, Component, pageProps }: any) {
   global.session = data;
@@ -107,6 +108,7 @@ function Render({ data, Component, pageProps }: any) {
               }
             }}
           >
+            <Toaster />
             <Layout>
               <Component {...pageProps} />
             </Layout>

@@ -5,11 +5,13 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
 import { updateSettings } from "./updateSettings";
 
 function ThemeColorSettings() {
   return (
     <Box sx={{ my: 4 }}>
+      <ListSubheader>Theme color</ListSubheader>
       {["Red", "Green", "Blue", "Pink", "Purple", "Orange", "Teal", "Cyan"].map(
         (color) => (
           <RadioGroup
@@ -58,6 +60,7 @@ export default function AppearanceSettings() {
         }}
       >
         <ThemeColorSettings />
+        <ListSubheader>Theme</ListSubheader>
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
@@ -75,7 +78,7 @@ export default function AppearanceSettings() {
             }
             disablePadding
           >
-            <ListItemButton>
+            <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
               <ListItemText primary="Light" />
             </ListItemButton>
           </ListItem>
@@ -90,7 +93,7 @@ export default function AppearanceSettings() {
             }
             disablePadding
           >
-            <ListItemButton>
+            <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
               <ListItemText primary="Dark" />
             </ListItemButton>
           </ListItem>

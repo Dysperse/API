@@ -54,7 +54,7 @@ export function ListItems({
     >
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
-          {title}!
+          {title}
         </Typography>
         {data.data.map((list: Object) => (
           <GenerateListItem {...list} />

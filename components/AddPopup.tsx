@@ -293,7 +293,6 @@ function Content({ toggleDrawer }: any) {
   );
 }
 export default function AddPopup(props: any) {
-  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
