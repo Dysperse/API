@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
 import Skeleton from "@mui/material/Skeleton";
+import useSWR from "swr";
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -18,29 +19,42 @@ function capitalizeFirstLetter(string) {
 function hasNumber(myString) {
   return /\d/.test(myString);
 }
+
 function NotificationsList() {
-  const { isLoading, data }: any = useFetch(
-    "https://api.smartlist.tech/v2/items/list/",
-    {
+  const fetcher = (u, o) => fetch(u, o).then((res) => res.json());
+  const url = "https://api.smartlist.tech/v2/items/list/";
+
+  const { data, error } = useSWR(url, () =>
+    fetcher(url, {
       method: "POST",
       body: new URLSearchParams({
         token: global.session.accessToken,
         limit: "500",
         room: "null"
       })
-    }
+    })
   );
-  return isLoading ? (
-    <>
-      {[...new Array(25)].map((_) => (
-        <Skeleton
-          variant="rectangular"
-          animation="wave"
-          sx={{ height: 100, borderRadius: 5, mt: 2 }}
-        />
-      ))}
-    </>
-  ) : (
+  if (error)
+    return (
+      <div>
+        Yikes! An error occured while trying to load your inbox. Try reloading
+        htis page
+      </div>
+    );
+  if (!data)
+    return (
+      <>
+        {[...new Array(25)].map(() => (
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            sx={{ height: 100, borderRadius: 5, mt: 2 }}
+          />
+        ))}
+      </>
+    );
+
+  return (
     <>
       {data.data.map((item) => {
         if (
@@ -84,7 +98,7 @@ export function NotificationsMenu(props: any): JSX.Element {
           <AppBar
             elevation={0}
             position="sticky"
-            sx={{ py:1,background: "rgba(200,200,200,.3)", color: "#404040" }}
+            sx={{ py: 1, background: "rgba(200,200,200,.3)", color: "#404040" }}
           >
             <Toolbar>
               <Tooltip title="Back">
