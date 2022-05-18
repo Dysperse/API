@@ -98,11 +98,12 @@ function SuggestButton() {
           sx: {
             width: "400px",
             maxWidth: "calc(100vw - 10px)",
+            p: 2,
             borderRadius: "28px"
           }
         }}
       >
-        <DialogTitle>Feedback</DialogTitle>
+        <DialogTitle sx={{ fontWeight: "800", py: 3 }}>Feedback</DialogTitle>
         <DialogContent>
           <ContactForm />
         </DialogContent>
