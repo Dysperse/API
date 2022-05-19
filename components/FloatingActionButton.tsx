@@ -8,11 +8,13 @@ import Collapse from "@mui/material/Collapse";
 
 export function FloatingActionButton() {
   const [hide, setHide] = React.useState<boolean>(false);
-  // window.addEventListener(
-  //   "scroll",
-  //   () => setHide(document.documentElement.scrollTop !== 0),
-  //   { passive: true }
-  // );
+  if (process.NODE_ENV === "production") {
+    window.addEventListener(
+      "scroll",
+      () => setHide(document.documentElement.scrollTop !== 0),
+      { passive: true }
+    );
+  }
   return (
     <Box
       sx={{
@@ -35,7 +37,7 @@ export function FloatingActionButton() {
             aria-label="add"
             sx={{
               borderRadius: "20px",
-              px: 3,
+              px: hide ? 2 : 3,
               boxShadow: 0,
               fontSize: "15px",
               background:
