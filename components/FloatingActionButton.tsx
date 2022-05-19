@@ -38,8 +38,8 @@ export function FloatingActionButton() {
             sx={{
               borderRadius: "20px",
               px: hide ? 2 : 3,
-              boxShadow: 0,
               fontSize: "15px",
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
               background:
                 global.theme === "dark"
                   ? colors[themeColor]["900"]

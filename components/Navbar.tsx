@@ -45,8 +45,9 @@ function ElevationScroll(props: any) {
           color: global.theme === "dark" ? "white" : "black",
           py: {
             sm: 1,
-            xs: 0.5
+            xs: 0.9
           },
+          pr: 0.4,
           // transition: "all .2s",
           backdropFilter: "blur(20px)",
           background:
@@ -56,9 +57,10 @@ function ElevationScroll(props: any) {
         }
       : {
           color: global.theme === "dark" ? "white" : "black",
+          pr: 0.4,
           py: {
             sm: 1,
-            xs: 0.5
+            xs: 0.9
           },
           // transition: "all .2s",
           background:

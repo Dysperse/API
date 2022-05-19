@@ -9,6 +9,8 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import { SearchPopup } from "./SearchPopup";
+import Icon from "@mui/material/Icon";
+
 const styles = {
   borderRadius: "15px",
   color: global.theme === "dark" ? "#ccc" : "#505050",
@@ -30,20 +32,27 @@ const styles = {
         ? "rgba(255,255,255,.3)"
         : "rgba(200, 200, 200, .8)"
   },
-  "& span": { fontSize: "13px!important" },
-  "& svg": {
-    background: "transparent",
-    width: "50px",
-    height: "25px",
-    py: "2px",
-    transition: "background .2s",
-    borderRadius: "25px"
-  },
   "&.Mui-selected svg": {
     background: "rgba(150, 150, 150, .7)"
   },
+  "& span:not(.MuiIcon-root)": {
+    fontSize: "13px!important"
+  },
+  "& .MuiIcon-root": {
+    fontSize: "21px",
+    mb: 0.3,
+    borderRadius: 9,
+    textAlign: "center",
+    width: "70%",
+    py: 0.3,
+    height: "auto",
+    overflow: "visible"
+  },
+  "&.Mui-selected .MuiIcon-root": {
+    background: "rgba(0,0,0,0.3)"
+  },
   "&.Mui-selected": {
-    color: global.theme === "dark" ? "#fff" : "#303030",
+    color: global.theme === "dark" ? "#fff" : "#000",
     background: "transparent !important"
   }
 };
@@ -119,14 +128,14 @@ export function BottomNav() {
           label="Home"
           disableRipple
           onClick={() => onLink("/dashboard")}
-          icon={<HomeIcon />}
+          icon={<Icon baseClassName="material-symbols-rounded">dashboard</Icon>}
         />
         <BottomNavigationAction
           sx={styles}
           label="Finances"
           disableRipple
           onClick={() => onLink("/finances")}
-          icon={<PaymentsIcon />}
+          icon={<Icon baseClassName="material-symbols-rounded">savings</Icon>}
         />
 
         <BottomNavigationAction
@@ -134,21 +143,27 @@ export function BottomNav() {
           label="Search"
           disableRipple
           onClick={() => document.getElementById("searchTrigger")!.click()}
-          icon={<SearchIcon />}
+          icon={
+            <Icon baseClassName="material-symbols-rounded">electric_bolt</Icon>
+          }
         />
         <BottomNavigationAction
           sx={styles}
           label="Items"
           disableRipple
           onClick={() => onLink("/categories")}
-          icon={<ViewAgendaIcon />}
+          icon={
+            <Icon baseClassName="material-symbols-rounded">view_agenda</Icon>
+          }
         />
         <BottomNavigationAction
           sx={styles}
           label="Meals"
           disableRipple
           onClick={() => onLink("/meals")}
-          icon={<LunchDiningIcon />}
+          icon={
+            <Icon baseClassName="material-symbols-rounded">local_pizza</Icon>
+          }
         />
       </BottomNavigation>
     </Box>

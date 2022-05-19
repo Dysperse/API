@@ -164,7 +164,7 @@ export function ProfileMenu(props: any) {
             backdropFilter: "blur(10px)",
             p: 3,
             py: 5,
-            boxShadow: `0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)`,
+            boxShadow: `0 25px 50px -12px rgba(0, 0, 0, 0.25)`,
             width: {
               xs: "calc(100vw - 30px)",
               sm: "400px"
