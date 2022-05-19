@@ -249,7 +249,7 @@ export function AppsMenu() {
               transition: "none",
               mr: 1,
               ml: 0.4,
-              color: "#404040",
+              color: "#606060",
               "&:hover": { color: "#000" }
             }}
             onClick={handleClick}

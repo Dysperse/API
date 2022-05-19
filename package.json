@@ -45,6 +45,12 @@
     "eslint-config-next": "latest",
     "typescript": "^4.6.3"
   },
-  "keywords": [],
-  "description": "Smartlist official web dashboard"
+  "keywords": [
+    "react",
+    "typescript",
+    "nextjs",
+    "javascript",
+    "css"
+  ],
+  "description": "Home inventory and finance tracking"
 }

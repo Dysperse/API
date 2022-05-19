@@ -185,7 +185,7 @@ function Content({ toggleDrawer }: any) {
         <AddItemOption
           toggleDrawer={toggleDrawer}
           title="Kitchen"
-          icon={<span className="material-symbols-rounded">microwave</span>}
+          icon={<span className="material-symbols-rounded">oven_gen</span>}
         />
         <AddItemOption
           toggleDrawer={toggleDrawer}

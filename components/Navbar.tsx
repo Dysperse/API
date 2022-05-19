@@ -81,7 +81,14 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                 edge="start"
                 size="large"
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, ml: -0.5, display: { sm: "none" } }}
+                sx={{
+                  mr: 2,
+                  ml: -0.5,
+                  display: { sm: "none" },
+                  transition: "none",
+                  color: "#606060",
+                  "&:hover": { color: "#000" }
+                }}
               >
                 <span className="material-symbols-rounded">menu</span>
               </IconButton>
@@ -114,7 +121,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
           <Box sx={{ display: { sm: "block", xs: "none" } }}>
             <SearchPopup
               content={
-                <Tooltip title="Search">
+                <Tooltip title="Jump to">
                   {global.session ? (
                     <IconButton
                       color="inherit"
@@ -123,11 +130,13 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                       sx={{
                         transition: "none",
                         mr: 1,
-                        color: "#404040",
+                        color: "#606060",
                         "&:hover": { color: "#000" }
                       }}
                     >
-                      <span className="material-symbols-rounded">search</span>
+                      <span className="material-symbols-rounded">
+                        electric_bolt
+                      </span>
                     </IconButton>
                   ) : (
                     <Skeleton
@@ -152,7 +161,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                   sx={{
                     transition: "none",
                     mr: 0.9,
-                    color: "#404040",
+                    color: "#606060",
                     "&:hover": { color: "#000" }
                   }}
                 >

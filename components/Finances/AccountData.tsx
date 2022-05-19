@@ -87,19 +87,6 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
         Yikes! An error has occured. Try reloading this page
       </Box>
     );
-  if (!data)
-    return (
-      <>
-        {[...new Array(10)].map(() => (
-          <Skeleton
-            variant="rectangular"
-            height={150}
-            sx={{ borderRadius: 4, mt: 2 }}
-            animation="wave"
-          />
-        ))}
-      </>
-    );
 
   return (
     <>
@@ -118,7 +105,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
           Goals
         </Typography>
         {/* <pre>{JSON.stringify(account, null, 2)}</pre> */}
-        {data.data.length === 0 && (
+        {data && data.data.length === 0 && (
           <Box
             sx={{
               borderRadius: 4,
@@ -130,7 +117,19 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
             You haven't set any goals yet.
           </Box>
         )}
-        {data.data.map((goal: any) => (
+        {!data && (
+          <>
+          {[...new Array(10)].map(() => (
+            <Skeleton
+              variant="rectangular"
+              height={150}
+              sx={{ borderRadius: 4, mt: 2 }}
+              animation="wave"
+            />
+          ))}
+        </>
+        )}
+        {data && data.data.map((goal: any) => (
           <Goal
             scrollTop={scrollTop}
             id={goal.id}

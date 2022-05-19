@@ -65,7 +65,7 @@ export function FloatingActionButton() {
                 transition: "all .2s"
               }}
             >
-              add
+              edit
             </span>
             <Collapse orientation="horizontal" in={!hide}>
               Create

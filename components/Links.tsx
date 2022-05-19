@@ -18,6 +18,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Tooltip from "@mui/material/Tooltip";
 import * as colors from "@mui/material/colors";
 import { Puller } from "./Puller";
 
@@ -148,7 +149,8 @@ const ListItem = React.memo(function ListItem({
   href = "/dashboard",
   asHref = "/dashboard",
   text,
-  icon
+  icon,
+  sx = {}
 }: any) {
   const router = useRouter();
   if (!router.asPath) router.asPath = "/dashboard";
@@ -156,11 +158,16 @@ const ListItem = React.memo(function ListItem({
     <Link href={href} as={asHref} replace>
       <ListItemButton
         sx={{
-          pl: 4,
-          mb: 0.1,
+          ...sx,
+          pl: 3,
           transition: "none!important",
-          borderRadius: "0 20px 20px 0",
-          color: global.theme === "dark" ? grey[300] : grey[800],
+          color:
+            (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+          "& span": {
+            color:
+              (global.theme === "dark" ? grey[200] : "#606060") + "!important"
+          },
+          borderRadius: "0 200px 200px 0",
           "& .MuiTouchRipple-rippleVisible": {
             animationDuration: ".3s!important"
           },
@@ -168,12 +175,13 @@ const ListItem = React.memo(function ListItem({
             filter: "opacity(.2)!important"
           },
           "&:hover,&:focus": {
-            color: "#000",
+            color:
+              (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
             background: "rgba(200,200,200,.3)"
           },
           "&:hover span": {
             color:
-              (global.theme === "dark" ? grey[200] : grey[800]) + "!important"
+              (global.theme === "dark" ? grey[200] : grey[900]) + "!important"
           },
           "&:active": {
             background: "rgba(200,200,200,.4)"
@@ -211,6 +219,7 @@ const ListItem = React.memo(function ListItem({
       >
         <ListItemIcon
           sx={{
+            transform: "translateX(6px)",
             ...(router.asPath === asHref && {
               color: colors[global.themeColor][500]
             })
@@ -253,23 +262,46 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>Home</ListSubheader>
           <ListItem
             text="Overview"
-            icon={<span className="material-symbols-rounded">home</span>}
+            icon={<span className="material-symbols-rounded">dashboard</span>}
           />
           <ListItem
             href="/finances"
             asHref="/finances"
             text="Finances"
-            icon={<span className="material-symbols-rounded">payments</span>}
+            icon={<span className="material-symbols-rounded">savings</span>}
           />
           <ListItem
             asHref="/meals"
             href="/meals"
             text="Meals"
-            icon={
-              <span className="material-symbols-rounded">lunch_dining</span>
-            }
+            icon={<span className="material-symbols-rounded">local_pizza</span>}
           />
-          {/* <ListItem href="/meals" text="Eco-friendly tips" icon={<SpaIcon />} /> */}
+          <Tooltip title="Coming soon!">
+            <ListItem
+              asHref="/help-the-planet"
+              href="/help-the-planet"
+              text="Eco friendliness"
+              sx={{ opacity: 0.8, pointerEvents: "none" }}
+              icon={
+                <span className="material-symbols-rounded">
+                  energy_savings_leaf
+                </span>
+              }
+            />
+          </Tooltip>
+          {/* <Tooltip title="Coming soon!">
+            <ListItem
+              asHref="/help-the-planet"
+              href="/help-the-planet"
+              text="Shopping assistant"
+              sx={{ opacity: 0.8, pointerEvents: "none" }}
+              icon={
+                <span className="material-symbols-rounded">
+                  energy_savings_leaf
+                </span>
+              }
+            />
+          </Tooltip> */}
         </div>
         <div onClick={handleDrawerToggle}>
           <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>Rooms</ListSubheader>
@@ -277,7 +309,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             href="/rooms/[index]"
             asHref="/rooms/kitchen"
             text="Kitchen"
-            icon={<span className="material-symbols-rounded">microwave</span>}
+            icon={<span className="material-symbols-rounded">oven_gen</span>}
           />
           <ListItem
             href="/rooms/[index]"
@@ -297,7 +329,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             href="/rooms/[index]"
             asHref="/rooms/garage"
             text="Garage"
-            icon={<span className="material-symbols-rounded">bathroom</span>}
+            icon={<span className="material-symbols-rounded">garage</span>}
           />
           <ListItem
             href="/rooms/[index]"
