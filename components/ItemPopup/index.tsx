@@ -122,7 +122,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               <StarButton
                 setLastUpdated={setLastUpdated}
                 id={id}
-                star={parseInt(star, 10)}
+                star={star}
                 setStar={setStar}
               />
               <EditButton
