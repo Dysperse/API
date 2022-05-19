@@ -35,7 +35,7 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
                 date: dayjs().format("YYYY-MM-DD HH:mm:ss")
               })
             });
-            return +!parseInt(s, 10);
+            return +!s;
           });
         }}
       >
