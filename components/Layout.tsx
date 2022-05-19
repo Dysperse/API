@@ -132,9 +132,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
           PaperProps={{
             sx: {
               pr: "2px",
-              m: "15px",
-              height: "calc(100vh - 30px)!important",
-              borderRadius: 3
+              borderRadius:"0 20px 20px 0"
             }
           }}
           onClose={handleDrawerToggle}

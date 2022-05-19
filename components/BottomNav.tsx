@@ -44,6 +44,7 @@ const styles = {
     borderRadius: 9,
     textAlign: "center",
     width: "70%",
+    maxWidth:"60px",
     py: 0.3,
     height: "auto",
     overflow: "visible"
