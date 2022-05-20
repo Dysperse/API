@@ -8,12 +8,7 @@ export function TipCard({
   funFact,
   tipOfTheDay = false,
   icon = "lightbulb"
-}: {
-  name: string;
-  funFact: string;
-  tipOfTheDay: boolean;
-  icon: string;
-}) {
+}: any) {
   return (
     <Tab
       icon={
