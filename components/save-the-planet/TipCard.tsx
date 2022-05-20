@@ -1,12 +1,11 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Tab from "@mui/material/Tab";
-import { green } from "@mui/material/colors";
+import { green, orange } from "@mui/material/colors";
 export function TipCard({
   name,
   funFact,
   tipOfTheDay = false,
+  highlySuggested = false,
   icon = "lightbulb"
 }: any) {
   return (
@@ -15,6 +14,7 @@ export function TipCard({
         <>
           {tipOfTheDay && (
             <div
+              className="badge"
               style={{
                 fontSize: "13px",
                 display: "inline-flex",
@@ -38,6 +38,34 @@ export function TipCard({
                 tips_and_updates
               </span>{" "}
               Tip of the day
+            </div>
+          )}
+          {highlySuggested && (
+            <div
+              className="badge"
+              style={{
+                fontSize: "13px",
+                display: "inline-flex",
+                alignItems: "center",
+                position: "absolute",
+                top: "15px",
+                right: "15px",
+                justifyContent: "center",
+                gap: "10px",
+                background: orange["A700"],
+                color: "white",
+                borderRadius: "99px",
+                fontWeight: "500",
+                padding: "3px 10px"
+              }}
+            >
+              <span
+                className="material-symbols-rounded"
+                style={{ fontSize: "14px", color: "white" }}
+              >
+                auto_awesome
+              </span>{" "}
+              Highly suggested
             </div>
           )}
           <Typography sx={{ float: "left", fontWeight: "800" }} variant="h6">
@@ -79,13 +107,24 @@ export function TipCard({
         opacity: 1,
         "& *": {
           opacity: 1,
-          color: "#303030"
+          color: "#101010"
         },
-        background: tipOfTheDay ? green["A100"] : "rgba(200,200,200,.3)",
+        background: tipOfTheDay
+          ? green["A100"]
+          : highlySuggested
+          ? orange["A100"]
+          : "rgba(200,200,200,.3)",
         transition: "color .2s",
         "&:active": {
           opacity: 1,
-          background: tipOfTheDay ? green["A200"] : "rgba(200,200,200,.5)",
+          "& .badge": {
+            filter: "brightness(90%)"
+          },
+          background: tipOfTheDay
+            ? green["A200"]
+            : highlySuggested
+            ? orange["A200"]
+            : "rgba(200,200,200,.5)",
           "& *": {
             opacity: 1,
             color: "#000"

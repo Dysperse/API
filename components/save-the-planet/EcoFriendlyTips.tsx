@@ -7,7 +7,7 @@ export function EcoFriendlyTips() {
   return (
     <Container sx={{ mt: 3 }}>
       <Typography variant="h5" sx={{ fontWeight: "800", mb: 2 }}>
-        Tips
+        Recommended
       </Typography>
       <Tabs
         centered
@@ -55,6 +55,7 @@ export function EcoFriendlyTips() {
           icon="directions_bike"
         />
         <TipCard
+          highlySuggested
           name="Use less water"
           funFact="Did you know you can save 49 gallons of water just by reducing the amount of water in your laundry machine?"
           icon="local_laundry_service"
