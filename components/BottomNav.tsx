@@ -2,11 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import HomeIcon from "@mui/icons-material/Home";
-import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
-import LunchDiningIcon from "@mui/icons-material/LunchDining";
-import PaymentsIcon from "@mui/icons-material/Payments";
-import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import { SearchPopup } from "./SearchPopup";
 import Icon from "@mui/material/Icon";
@@ -19,7 +14,7 @@ const styles = {
   minWidth: "20vw!important",
   width: "20vw!important",
   mr: "-1px",
-  transition: "background .2s",
+  transition: "none",
   "&:hover": {
     background:
       global.theme === "dark"
@@ -30,7 +25,7 @@ const styles = {
     background:
       global.theme === "dark"
         ? "rgba(255,255,255,.3)"
-        : "rgba(200, 200, 200, .8)"
+        : "rgba(200, 200, 200, .9)"
   },
   "&.Mui-selected svg": {
     background: "rgba(150, 150, 150, .7)"
@@ -44,7 +39,7 @@ const styles = {
     borderRadius: 9,
     textAlign: "center",
     width: "70%",
-    maxWidth:"60px",
+    maxWidth: "50px",
     py: 0.3,
     height: "auto",
     overflow: "visible"
@@ -68,6 +63,7 @@ export function BottomNav() {
     case "/finances":
       v = 1;
       break;
+    case "/trash":
     case "/categories":
       v = 3;
       break;
@@ -112,7 +108,7 @@ export function BottomNav() {
           background:
             global.theme === "dark"
               ? "rgba(255,255,255,.1)"
-              : "rgba(220,220,220,.9)"
+              : "rgba(210,210,210,.9)"
         }}
         showLabels
         onChange={(event, newValue) => {

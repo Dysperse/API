@@ -11,7 +11,6 @@ import TextField from "@mui/material/TextField";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { blueGrey } from "@mui/material/colors";
 import * as colors from "@mui/material/colors";
 import { List } from "./List";
 import { useFormik } from "formik";
@@ -92,7 +91,9 @@ function CreateListCard({ lists, setLists }: any) {
           width: "100%",
           textAlign: "center",
           background:
-            global.theme === "dark" ? "hsl(240, 11%, 30%)" : blueGrey[100],
+            global.theme === "dark"
+              ? "hsl(240, 11%, 30%)"
+              : colors["grey"][100],
           "& *": { transition: "all .05s !important" }
         }}
       >

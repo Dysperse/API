@@ -131,8 +131,10 @@ function ResponsiveDrawer(props: any): JSX.Element {
           open={mobileOpen}
           PaperProps={{
             sx: {
+              boxShadow: 0,
+              overscrollBehavior: "none",
               pr: "2px",
-              borderRadius:"0 20px 20px 0"
+              borderRadius: "0 20px 20px 0"
             }
           }}
           onClose={handleDrawerToggle}

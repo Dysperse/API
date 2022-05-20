@@ -278,10 +278,15 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           />
           <Tooltip title="Coming soon!">
             <ListItem
-              asHref="/help-the-planet"
-              href="/help-the-planet"
+              asHref="/save-the-planet"
+              href="/save-the-planet"
               text="Eco friendliness"
-              sx={{ opacity: 0.8, pointerEvents: "none" }}
+              sx={{
+                ...(process.env.NODE_ENV === "production" && {
+                  opacity: 0.8,
+                  pointerEvents: "none"
+                })
+              }}
               icon={
                 <span className="material-symbols-rounded">
                   energy_savings_leaf

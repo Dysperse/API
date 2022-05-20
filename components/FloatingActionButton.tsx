@@ -21,9 +21,9 @@ export function FloatingActionButton() {
         position: "fixed",
         bottom: {
           lg: "15px",
-          sm: "70px",
+          sm: "74px",
           md: "15px",
-          xs: "70px"
+          xs: "74px"
         },
         right: "12px"
       }}

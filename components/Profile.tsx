@@ -13,7 +13,6 @@ import IconButton from "@mui/material/IconButton";
 import Skeleton from "@mui/material/Skeleton";
 import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItem from "@mui/material/ListItem";
 import Settings from "./Settings/index";
 
@@ -21,10 +20,6 @@ const drawerBleeding = 0;
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%"
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "light" ? "transparent" : grey[800]
 }));
 
 function Accounts({ setOpen }: any) {

@@ -83,7 +83,8 @@ function Category({ name }: { name: string }) {
         <Box sx={{ pt: 1 }}>
           <Puller />
           <Typography
-            sx={{ fontWeight: "600", textAlign: "center", mt: 4, mb: 2 }}
+            variant="h5"
+            sx={{ fontWeight: "800", textAlign: "center", mt: 4, mb: 2 }}
           >
             Items
           </Typography>
@@ -124,11 +125,11 @@ export default function Categories() {
   return (
     <Container sx={{ mb: 3 }}>
       <Typography
-        variant="h5"
+        variant="h4"
         sx={{
-          my: { xs: 12, sm: 2 },
+          my: { xs: 12, sm: 4 },
           fontWeight: "800",
-          textAlign: { xs: "center", sm: "" }
+          textAlign: { xs: "center", sm: "left" }
         }}
       >
         Categories
