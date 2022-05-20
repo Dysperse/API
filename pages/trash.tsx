@@ -1,4 +1,3 @@
-import useFetch from "react-fetch-hook";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";

@@ -1,5 +1,4 @@
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Tabs from "@mui/material/Tabs";
 import { TipCard } from "./TipCard";
