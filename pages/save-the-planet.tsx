@@ -3,6 +3,9 @@ import { Reminders } from "../components/save-the-planet/Reminders";
 import { Thermostat } from "../components/save-the-planet/Thermostat";
 import { Donate } from "../components/save-the-planet/Donate";
 import { CarbonFootprint } from "../components/save-the-planet/CarbonFootprint";
+import { ItemSuggestions } from "../components/save-the-planet/ItemSuggestions";
+import { EcoFriendlyGoals } from "../components/save-the-planet/EcoFriendlyGoals";
+import { RecyclingGuide } from "../components/save-the-planet/RecyclingGuide";
 import Masonry from "@mui/lab/Masonry";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -51,14 +54,15 @@ export default function Render() {
       </Box>
       <EcoFriendlyTips />
       <Container sx={{ mt: 6 }}>
-        <Box sx={{ mr: -2 }}>
-          <Masonry columns={2} spacing={2}>
-            <Reminders />
-            <Thermostat />
-            <Donate />
-            <CarbonFootprint />
-          </Masonry>
-        </Box>
+        <Masonry columns={2}>
+          <ItemSuggestions />
+          <Reminders />
+          <Thermostat />
+          <Donate />
+          <CarbonFootprint />
+          <RecyclingGuide />
+          <EcoFriendlyGoals />
+        </Masonry>
       </Container>
     </>
   );
