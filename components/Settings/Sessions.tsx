@@ -42,7 +42,7 @@ function Session({ session }) {
 }
 
 export default function Sessions() {
-  const { isLoading, data }:any = useFetch(
+  const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/account/sessions/",
     {
       method: "POST",
@@ -62,7 +62,7 @@ export default function Sessions() {
     >
       {isLoading ? (
         <Box sx={{ mt: 4 }}>
-          {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_) => (
+          {[...new Array(10)].map(() => (
             <Skeleton
               sx={{ height: 60, mb: 2, borderRadius: 5 }}
               variant="rectangular"

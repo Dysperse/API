@@ -38,8 +38,10 @@ function CustomRooms() {
   if (!data)
     return (
       <>
-        {[...new Array(10)].map((_) => (
-          <Skeleton width={118} animation={false} />
+        {[...new Array(10)].map(() => (
+          <Box sx={{ px: 4, py: 2 }}>
+            <Skeleton width={"200px"} animation={"wave"} />
+          </Box>
         ))}
       </>
     );
@@ -47,7 +49,6 @@ function CustomRooms() {
     name: string;
     id: number;
   }
-  // render data
   return (
     <>
       {data.data.map((room: Room) => (
