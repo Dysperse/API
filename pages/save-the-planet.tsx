@@ -25,9 +25,9 @@ export default function Render() {
             borderRadius: 5,
             p: 2,
             color: "white",
-            backgroundSize: "cover",
             background:
-              "url(https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569__480.jpg)"
+              "linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.kibacapital.com/wp-content/uploads/2018/05/banner-space.jpg)",
+            backgroundSize: "cover"
           }}
         >
           <CardContent>
