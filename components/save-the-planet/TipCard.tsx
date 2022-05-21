@@ -105,7 +105,6 @@ export function TipCard({
               anchor="bottom"
               swipeAreaWidth={0}
               onOpen={() => setOpen(true)}
-              onClose={() => setOpen(false)}
               open={open}
               BackdropProps={{
                 onClick() {
