@@ -3,6 +3,24 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
 import useSWR from "swr";
+import Item from "../ItemPopup";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
+
+dayjs.extend(relativeTime);
+
+const notEcoFriendlyProducts = [
+  "washing machine",
+  "car",
+  "petrol",
+  "gas",
+  "stove",
+  "plastic straws",
+  "styrofoam cups",
+  "plastic cups",
+  "disposable water bottles",
+  "plastic water bottles"
+];
 
 function RenderSuggestions() {
   const url = "https://api.smartlist.tech/v2/items/list/";
@@ -10,9 +28,9 @@ function RenderSuggestions() {
     fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session.accessToken,
+        room: "null",
         limit: "500",
-        room: "null"
+        token: global.session && global.session.accessToken
       })
     }).then((res) => res.json())
   );
@@ -38,7 +56,21 @@ function RenderSuggestions() {
       </>
     );
   }
-  return <>{JSON.stringify(data)}</>;
+  return (
+    <>
+      {data.data.filter((item) =>
+        notEcoFriendlyProducts.includes(item.title.toLowerCase())
+      ).length > 0 ? (
+        data.data
+          .filter((item) =>
+            notEcoFriendlyProducts.includes(item.title.toLowerCase())
+          )
+          .map((item: any) => <Item data={item} variant="list" />)
+      ) : (
+        <>No suggestions! Great job!</>
+      )}
+    </>
+  );
 }
 
 export function ItemSuggestions() {

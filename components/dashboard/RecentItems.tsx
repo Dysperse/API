@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
-// import useFetch from "react-fetch-hook";
 import Item from "../../components/ItemPopup";
 import useSWR from "swr";
 

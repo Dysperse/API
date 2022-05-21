@@ -54,7 +54,7 @@ export default function Render() {
       </Box>
       <EcoFriendlyTips />
       <Container sx={{ mt: 6 }}>
-        <Masonry columns={2}>
+        <Masonry columns={2} spacing={2}>
           <ItemSuggestions />
           <Reminders />
           <Thermostat />
