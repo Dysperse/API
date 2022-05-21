@@ -107,6 +107,11 @@ export function TipCard({
               onOpen={() => setOpen(true)}
               onClose={() => setOpen(false)}
               open={open}
+              BackdropProps={{
+                onClick: () => {
+                  setTimeout(() => setOpen(false), 10);
+                }
+              }}
               sx={{
                 display: "flex",
                 alignItems: { xs: "end", sm: "center" },
