@@ -79,49 +79,6 @@ export function TipCard({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <SwipeableDrawer
-        anchor="bottom"
-        swipeAreaWidth={0}
-        onOpen={() => setOpen(true)}
-        open={open}
-        sx={{
-          display: "flex",
-          alignItems: { xs: "end", sm: "center" },
-          height: "100vh",
-          justifyContent: "center"
-        }}
-        PaperProps={{
-          sx: {
-            borderRadius: "28px",
-            borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
-            borderBottomRightRadius: { xs: 0, sm: "28px!important" },
-            position: "unset",
-            mx: "auto",
-            maxWidth: { sm: "70vw", xs: "100vw" },
-            overflow: "hidden"
-          }
-        }}
-        onClose={() => setOpen(false)}
-      >
-        <Box
-          sx={{
-            p: 3,
-            py: 6,
-            px: 7,
-            borderRadius: 5,
-            mt: "-1px",
-            borderBottomLeftRadius: 0,
-            position: "relative",
-            borderBottomRightRadius: 0
-          }}
-        >
-          <Badge tipOfTheDay={tipOfTheDay} highlySuggested={highlySuggested} />
-          <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
-            {name}
-          </Typography>
-          <Typography variant="h6">{funFact}</Typography>
-        </Box>
-      </SwipeableDrawer>
       <Tab
         onClick={() => setOpen(true)}
         icon={
@@ -144,6 +101,57 @@ export function TipCard({
               </span>
               {name}
             </Typography>
+            <SwipeableDrawer
+              anchor="bottom"
+              swipeAreaWidth={0}
+              onOpen={() => setOpen(true)}
+              onClose={() => setOpen(false)}
+              open={open}
+              sx={{
+                display: "flex",
+                alignItems: { xs: "end", sm: "center" },
+                height: "100vh",
+                justifyContent: "center"
+              }}
+              PaperProps={{
+                sx: {
+                  borderRadius: "28px",
+                  borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
+                  borderBottomRightRadius: { xs: 0, sm: "28px!important" },
+                  position: "unset",
+                  mx: "auto",
+                  maxWidth: { sm: "70vw", xs: "100vw" },
+                  overflow: "hidden"
+                }
+              }}
+              onClose={() => setOpen(false)}
+            >
+              <Box
+                sx={{
+                  p: 3,
+                  py: 6,
+                  px: 7,
+                  borderRadius: 5,
+                  mt: "-1px",
+                  borderBottomLeftRadius: 0,
+                  position: "relative",
+                  borderBottomRightRadius: 0
+                }}
+              >
+                <Badge
+                  tipOfTheDay={tipOfTheDay}
+                  highlySuggested={highlySuggested}
+                />
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  sx={{ fontWeight: "600" }}
+                >
+                  {name}
+                </Typography>
+                <Typography variant="h6">{funFact}</Typography>
+              </Box>
+            </SwipeableDrawer>
           </>
         }
         label={

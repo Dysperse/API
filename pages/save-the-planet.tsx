@@ -9,16 +9,15 @@ import { RecyclingGuide } from "../components/save-the-planet/RecyclingGuide";
 import Masonry from "@mui/lab/Masonry";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { blue } from "@mui/material/colors";
 
 export default function Render() {
   return (
     <>
-      <Box sx={{ px: 3 }}>
+      <Container fixed>
         <Card
           sx={{
             mt: 3,
@@ -51,9 +50,9 @@ export default function Render() {
             </Typography>
           </CardContent>
         </Card>
-      </Box>
+      </Container>
       <EcoFriendlyTips />
-      <Container sx={{ mt: 6 }}>
+      <Container sx={{ mt: 6 }} fixed>
         <Masonry columns={2} spacing={2}>
           <ItemSuggestions />
           <Reminders />
