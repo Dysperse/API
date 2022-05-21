@@ -5,6 +5,69 @@ import Tab from "@mui/material/Tab";
 import { green, orange } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
+function Badge({ tipOfTheDay, highlySuggested }: any) {
+  return (
+    <>
+      {tipOfTheDay && (
+        <div
+          className="badge"
+          style={{
+            fontSize: "13px",
+            display: "inline-flex",
+            alignItems: "center",
+            position: "absolute",
+            top: "15px",
+            right: "15px",
+            justifyContent: "center",
+            gap: "10px",
+            background: green["A700"],
+            color: "white",
+            borderRadius: "99px",
+            fontWeight: "500",
+            padding: "3px 10px"
+          }}
+        >
+          <span
+            className="material-symbols-rounded"
+            style={{ fontSize: "14px", color: "white" }}
+          >
+            tips_and_updates
+          </span>{" "}
+          Tip of the day
+        </div>
+      )}
+      {highlySuggested && (
+        <div
+          className="badge"
+          style={{
+            fontSize: "13px",
+            display: "inline-flex",
+            alignItems: "center",
+            position: "absolute",
+            top: "15px",
+            right: "15px",
+            justifyContent: "center",
+            gap: "10px",
+            background: orange["A700"],
+            color: "white",
+            borderRadius: "99px",
+            fontWeight: "500",
+            padding: "3px 10px"
+          }}
+        >
+          <span
+            className="material-symbols-rounded"
+            style={{ fontSize: "14px", color: "white" }}
+          >
+            auto_awesome
+          </span>{" "}
+          Highly suggested
+        </div>
+      )}
+    </>
+  );
+}
+
 export function TipCard({
   name,
   modalContent,
@@ -48,11 +111,11 @@ export function TipCard({
             borderRadius: 5,
             mt: "-1px",
             borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 0,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat"
+            position: "relative",
+            borderBottomRightRadius: 0
           }}
         >
+          <Badge tipOfTheDay={tipOfTheDay} highlySuggested={highlySuggested} />
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
             {name}
           </Typography>
@@ -63,62 +126,10 @@ export function TipCard({
         onClick={() => setOpen(true)}
         icon={
           <>
-            {tipOfTheDay && (
-              <div
-                className="badge"
-                style={{
-                  fontSize: "13px",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  position: "absolute",
-                  top: "15px",
-                  right: "15px",
-                  justifyContent: "center",
-                  gap: "10px",
-                  background: green["A700"],
-                  color: "white",
-                  borderRadius: "99px",
-                  fontWeight: "500",
-                  padding: "3px 10px"
-                }}
-              >
-                <span
-                  className="material-symbols-rounded"
-                  style={{ fontSize: "14px", color: "white" }}
-                >
-                  tips_and_updates
-                </span>{" "}
-                Tip of the day
-              </div>
-            )}
-            {highlySuggested && (
-              <div
-                className="badge"
-                style={{
-                  fontSize: "13px",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  position: "absolute",
-                  top: "15px",
-                  right: "15px",
-                  justifyContent: "center",
-                  gap: "10px",
-                  background: orange["A700"],
-                  color: "white",
-                  borderRadius: "99px",
-                  fontWeight: "500",
-                  padding: "3px 10px"
-                }}
-              >
-                <span
-                  className="material-symbols-rounded"
-                  style={{ fontSize: "14px", color: "white" }}
-                >
-                  auto_awesome
-                </span>{" "}
-                Highly suggested
-              </div>
-            )}
+            <Badge
+              tipOfTheDay={tipOfTheDay}
+              highlySuggested={highlySuggested}
+            />
             <Typography sx={{ float: "left", fontWeight: "800" }} variant="h6">
               <span
                 className="material-symbols-rounded"
