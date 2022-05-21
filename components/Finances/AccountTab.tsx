@@ -7,7 +7,6 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { AccountData } from "./AccountData";
 import CssBaseline from "@mui/material/CssBaseline";
 import { currency_symbols } from "./AccountList";
-import * as colors from "@mui/material/colors";
 
 export function AccountTab({ account }: any) {
   const [open, setOpen] = useState(false);
@@ -123,7 +122,7 @@ export function AccountTab({ account }: any) {
             opacity: 1,
             "& *": {
               opacity: 1,
-              color: "#505050"
+              color: global.theme === "dark" ? "#eee" : "#505050"
             },
             background: "rgba(200,200,200,.3)",
             transition: "color .2s",
@@ -132,7 +131,7 @@ export function AccountTab({ account }: any) {
               background: "rgba(200,200,200,.4)",
               "& *": {
                 opacity: 1,
-                color: "#202020"
+                color: global.theme === "dark" ? "#fff" : "#202020"
               }
             },
             "&:active": {
@@ -140,7 +139,7 @@ export function AccountTab({ account }: any) {
               background: "rgba(200,200,200,.5)",
               "& *": {
                 opacity: 1,
-                color: "#000"
+                color: global.theme === "dark" ? "#fff" : "#000"
               }
             },
             textTransform: "none",

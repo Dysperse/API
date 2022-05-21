@@ -8,13 +8,7 @@ import Collapse from "@mui/material/Collapse";
 
 export function FloatingActionButton() {
   const [hide, setHide] = React.useState<boolean>(false);
-  if (process.env.NODE_ENV === "production") {
-    window.addEventListener(
-      "scroll",
-      () => setHide(document.documentElement.scrollTop !== 0),
-      { passive: true }
-    );
-  }
+
   return (
     <Box
       sx={{

@@ -81,10 +81,10 @@ img {
   box-shadow: 0 !important;
 }
 .atom-modal {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   border-radius: 28px !important;
   box-shadow: 0 !important;
   padding: 15px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
   max-width: 100vw !important;
 }
 
@@ -96,6 +96,15 @@ img {
     top: auto !important;
     max-height: 80vh !important;
     bottom: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .atom-modal {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
   }
 }
 .MuiIconButton-root:active .material-symbols-rounded {

@@ -108,7 +108,7 @@ export function TipCard({
               onClose={() => setOpen(false)}
               open={open}
               BackdropProps={{
-                onClick: () => {
+                onClick() {
                   setTimeout(() => setOpen(false), 10);
                 }
               }}
@@ -182,12 +182,16 @@ export function TipCard({
           opacity: 1,
           "& *": {
             opacity: 1,
-            color: "#101010"
+            color: global.theme === "dark" ? "#eee" : "#101010"
           },
           background: tipOfTheDay
-            ? green["A100"]
+            ? global.theme === "dark"
+              ? green["A400"]
+              : green["A100"]
             : highlySuggested
-            ? orange["A100"]
+            ? global.theme === "dark"
+              ? orange["A400"]
+              : orange["A100"]
             : "rgba(200,200,200,.3)",
           transition: "color .2s",
           "&:active": {
@@ -196,13 +200,17 @@ export function TipCard({
               filter: "brightness(90%)"
             },
             background: tipOfTheDay
-              ? green["A200"]
+              ? global.theme === "dark"
+                ? green["A400"]
+                : green["A200"]
               : highlySuggested
-              ? orange["A200"]
+              ? global.theme === "dark"
+                ? orange["A700"]
+                : orange["A200"]
               : "rgba(200,200,200,.5)",
             "& *": {
               opacity: 1,
-              color: "#000"
+              color: global.theme === "dark" ? "#fff" : "#000"
             }
           },
           textTransform: "none",

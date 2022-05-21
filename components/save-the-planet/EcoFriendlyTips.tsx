@@ -25,10 +25,10 @@ export function EcoFriendlyTips() {
             transition: "all .2s",
             borderRadius: 4,
             background: "rgba(200,200,200,.4)",
-            color: "#404040",
+            color: global.theme === "dark" ? "#eee" : "#404040",
             "&:hover": {
               background: "rgba(200,200,200,.5)",
-              color: "#000"
+              color: global.theme === "dark" ? "#fff" : "#000"
             },
             marginLeft: "5px",
             marginRight: "5px"

@@ -63,7 +63,14 @@ function NotificationsList() {
         )
           return "";
         return (
-          <ListItem>
+          <ListItem
+            sx={{
+              mb: 2,
+              borderRadius: 5,
+              p: 2,
+              background: "rgba(200,200,200,.3)"
+            }}
+          >
             <ListItemText
               primary={capitalizeFirstLetter(item.room)}
               secondary={
@@ -97,7 +104,11 @@ export function NotificationsMenu(props: any): JSX.Element {
           <AppBar
             elevation={0}
             position="sticky"
-            sx={{ py: 1, background: "rgba(200,200,200,.3)", color: "#404040" }}
+            sx={{
+              py: 1,
+              background: "rgba(200,200,200,.5)",
+              color: "#404040"
+            }}
           >
             <Toolbar>
               <Tooltip title="Back">
@@ -120,6 +131,7 @@ export function NotificationsMenu(props: any): JSX.Element {
         </Box>
         <Box
           sx={{
+            pt: 3,
             height: "100vh",
             overflowY: "scroll",
             width: "500px",
