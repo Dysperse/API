@@ -282,10 +282,10 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               href="/save-the-planet"
               text="Eco friendliness"
               sx={{
-                ...(process.env.NODE_ENV === "production" && {
-                  opacity: 0.8,
-                  pointerEvents: "none"
-                })
+                // ...(process.env.NODE_ENV === "production" && {
+                //   opacity: 0.8,
+                //   pointerEvents: "none"
+                // })
               }}
               icon={
                 <span className="material-symbols-rounded">

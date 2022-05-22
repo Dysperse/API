@@ -31,10 +31,12 @@ type Account = {
 };
 
 function CreateGoalDialog({
+  name,
   moneyRequiredForGoal,
   data,
   error,
 }: {
+  name: string;
   data: any;
   error: any;
   moneyRequiredForGoal: number;
@@ -63,6 +65,25 @@ function CreateGoalDialog({
               {data.accounts.map((account: Account) => (
                 <ListItem
                   button
+                  onClick={() => {
+                    setOpen(false);
+                    fetch(
+                      "https://api.smartlist.tech/v2/finances/goals/create/",
+                      {
+                        method: "POST",
+                        body: new URLSearchParams({
+                          token: global.session && global.session.accessToken,
+                          name: name,
+                          image:
+                            "https://images.unsplash.com/photo-1416169607655-0c2b3ce2e1cc?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774",
+                          minAmountOfMoney: moneyRequiredForGoal.toString(),
+                          accountId: account.account_id,
+                        }),
+                      }
+                    )
+                      .then((res) => res.json())
+                      .then((res) => toast.success("Created goal!"));
+                  }}
                   sx={{
                     mb: 1,
                     background: "rgba(200,200,200,.3)",
@@ -77,7 +98,8 @@ function CreateGoalDialog({
                     primary={account.name}
                     secondary={
                       <>
-                        {currency_symbols[account.balances.iso_currency_code] ?? "$"}
+                        {currency_symbols[account.balances.iso_currency_code] ??
+                          "$"}
                         {account.balances.current}
                       </>
                     }
@@ -169,7 +191,6 @@ function Badge({ tipOfTheDay, highlySuggested }: any) {
 
 export function TipCard({
   name,
-  modalContent,
   funFact,
   tipOfTheDay = false,
   highlySuggested = false,
@@ -264,11 +285,14 @@ export function TipCard({
                 <Typography variant="h6" gutterBottom>
                   {funFact}
                 </Typography>
-                <CreateGoalDialog
-                  data={data}
-                  error={error}
-                  moneyRequiredForGoal={moneyRequiredForGoal}
-                />
+                {moneyRequiredForGoal !== 0 && (
+                  <CreateGoalDialog
+                    name={name}
+                    data={data}
+                    error={error}
+                    moneyRequiredForGoal={moneyRequiredForGoal}
+                  />
+                )}
               </Box>
             </SwipeableDrawer>
           </>
