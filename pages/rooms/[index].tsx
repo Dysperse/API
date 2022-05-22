@@ -14,6 +14,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import Container from "@mui/material/Container";
 import { ItemCard } from "../../components/rooms/ItemCard";
 import { Toolbar } from "../../components/rooms/Toolbar";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
 function Header({ room, itemCount }: { room: string; itemCount: number }) {
   return (
@@ -234,7 +236,19 @@ function Suggestions({ room, items }: any) {
                 return (
                   <Chip
                     onClick={() => {
-                      return;
+                      fetch("https://api.smartlist.tech/v2/items/create/", {
+                        method: "POST",
+                        body: new URLSearchParams({
+                          token: global.session.accessToken,
+                          name: item,
+                          qty: "1",
+                          category: "[]",
+                          room: room,
+                          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                        }),
+                      })
+                        .then((res) => res.json())
+                        .then((res) => toast.success("Created item!"));
                     }}
                     sx={{
                       mr: 1,

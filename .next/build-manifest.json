@@ -25,15 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/dashboard": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/dashboard.js"
-    ],
     "/rooms/[index]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/rooms/[index].js"
+    ],
+    "/save-the-planet": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/save-the-planet.js"
     ]
   },
   "ampFirstPages": []
