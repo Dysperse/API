@@ -4,12 +4,28 @@ import TextField from "@mui/material/TextField";
 import { blueGrey } from "@mui/material/colors";
 import { SortMenu } from "./SortMenu";
 
-export function Toolbar() {
+export function Toolbar({ items, setItems, data }: any) {
   return (
     <Box sx={{ textAlign: "right", mb: 2 }}>
       <TextField
         placeholder="Search"
         id="outlined-size-small"
+        onKeyDown={(e: any) => {
+          if (e.code === "Enter") e.target.blur();
+        }}
+        onBlur={(e: any) => {
+          if (e.target.value === "") {
+            setItems(data);
+            return;
+          }
+          setItems(
+            data.filter((item) =>
+              item.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
+              item.amount.toLowerCase().includes(e.target.value.toLowerCase()) ||
+              item.categories.join(",").toLowerCase().includes(e.target.value.toLowerCase())
+            )
+          );
+        }}
         size="small"
         variant="standard"
         InputProps={{
@@ -22,9 +38,9 @@ export function Toolbar() {
             px: 2,
             background: blueGrey[50],
             "&.Mui-focused": {
-              background: blueGrey[100]
-            }
-          }
+              background: blueGrey[100],
+            },
+          },
         }}
         sx={{ verticalAlign: "middle" }}
       />

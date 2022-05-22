@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useFetch from "react-fetch-hook";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -22,11 +23,11 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
         boxShadow: 0,
         borderRadius: "28px",
         p: 1,
-        background: global.theme === "dark" ? blueGrey[900] : "#eee"
+        background: global.theme === "dark" ? blueGrey[900] : "#eee",
       }}
     >
       <CardContent>
-        <Typography variant="h5" sx={{ mb: 1 }}>
+        <Typography variant="h5" sx={{ mb: 1, fontWeight: "600" }}>
           {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
             room
           )}
@@ -65,7 +66,7 @@ function Suggestions({ room, items }: any) {
       "Knives",
       "Ketchup",
       "Mustard",
-      "Flour"
+      "Flour",
     ],
     bedroom: [
       "Nightstand",
@@ -75,7 +76,7 @@ function Suggestions({ room, items }: any) {
       "Lamp",
       "Alarm clock",
       "Desk",
-      "Wall painting"
+      "Wall painting",
     ],
     bathroom: [
       "Hand soap",
@@ -91,7 +92,7 @@ function Suggestions({ room, items }: any) {
       "Dental flosses",
       "Shaving cream",
       "Sink",
-      "Bathtub"
+      "Bathtub",
     ],
     garage: [
       "Car",
@@ -101,7 +102,7 @@ function Suggestions({ room, items }: any) {
       "Saw",
       "Electric drill",
       "Batteries",
-      "Screwdrivers"
+      "Screwdrivers",
     ],
     dining: [
       "Dining table",
@@ -110,7 +111,7 @@ function Suggestions({ room, items }: any) {
       "China cabinet",
       "Table linens",
       "Silverware",
-      "Cups"
+      "Cups",
     ],
     "living-room": [
       "Couch",
@@ -124,7 +125,7 @@ function Suggestions({ room, items }: any) {
       "End table",
       "Remote",
       "Fan",
-      "TV stand"
+      "TV stand",
     ],
     "laundry-room": [
       "Washing machine",
@@ -134,7 +135,7 @@ function Suggestions({ room, items }: any) {
       "Iron",
       "Iron board",
       "Hanger",
-      "Laundry sheets"
+      "Laundry sheets",
     ],
     "storage-room": ["Masks", "Face shields", "Clorox wipes", "Lysol"],
     camping: [
@@ -172,7 +173,7 @@ function Suggestions({ room, items }: any) {
       "Pants",
       "T-Shirts",
       "Shirts",
-      "Jeans"
+      "Jeans",
     ],
     garden: [
       "Gloves",
@@ -194,8 +195,8 @@ function Suggestions({ room, items }: any) {
       "Hand Trowel",
       "Edger",
       "Watering Can",
-      "Leaf Blower"
-    ]
+      "Leaf Blower",
+    ],
   };
   return (
     suggestions[room] && (
@@ -205,14 +206,15 @@ function Suggestions({ room, items }: any) {
           borderRadius: "28px",
           p: 1,
           background: global.theme === "dark" ? blueGrey[900] : orange[50],
-          mb: 2
+          mb: 2,
         }}
       >
         <CardContent>
           <Typography
             variant="h5"
             sx={{
-              color: global.theme === "dark" ? orange[100] : orange[900]
+              color: global.theme === "dark" ? orange[100] : orange[900],
+              fontWeight: "600",
             }}
           >
             Suggestions
@@ -223,7 +225,7 @@ function Suggestions({ room, items }: any) {
               whiteSpace: "nowrap",
               width: "calc(100vw - 80px)",
               borderRadius: "12px",
-              marginTop: "20px"
+              marginTop: "20px",
             }}
           >
             {suggestions[room] &&
@@ -245,12 +247,12 @@ function Suggestions({ room, items }: any) {
                         global.theme === "dark" ? orange[900] : orange[100],
                       "&:hover": {
                         background:
-                          global.theme === "dark" ? orange[800] : orange[200]
+                          global.theme === "dark" ? orange[800] : orange[200],
                       },
                       "&:active": {
                         background:
-                          global.theme === "dark" ? orange[700] : orange[300]
-                      }
+                          global.theme === "dark" ? orange[700] : orange[300],
+                      },
                     }}
                     label={item}
                   />
@@ -281,8 +283,8 @@ function LoadingScreen() {
       <Box
         sx={{
           mr: {
-            sm: -2
-          }
+            sm: -2,
+          },
         }}
       >
         <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
@@ -313,8 +315,8 @@ function ItemList({ items }: { items: any }) {
       sx={{
         display: "flex",
         mr: {
-          sm: -2
-        }
+          sm: -2,
+        },
       }}
     >
       <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
@@ -325,7 +327,7 @@ function ItemList({ items }: { items: any }) {
               p: 0,
               width: "calc(100% - 15px)!important",
               textAlign: "center",
-              mb: 2
+              mb: 2,
             }}
             key={(Math.random() + Math.random()).toString()}
           >
@@ -334,7 +336,7 @@ function ItemList({ items }: { items: any }) {
                 mb: 2,
                 background: "rgba(200,200,200,.3)",
                 borderRadius: 5,
-                p: 3
+                p: 3,
               }}
             >
               <CardContent>
@@ -346,7 +348,7 @@ function ItemList({ items }: { items: any }) {
                 <Typography
                   variant="h5"
                   sx={{
-                    mt: 1
+                    mt: 1,
                   }}
                 >
                   No items yet...
@@ -357,7 +359,7 @@ function ItemList({ items }: { items: any }) {
                     display: "inline-flex",
                     gap: "10px",
                     alignItems: "center",
-                    mt: 1
+                    mt: 1,
                   }}
                 >
                   Hit the <EditIcon /> icon to create an item.{" "}
@@ -382,7 +384,7 @@ function ItemList({ items }: { items: any }) {
             <Paper
               sx={{
                 boxShadow: 0,
-                p: 0
+                p: 0,
               }}
               key={(Math.random() + Math.random()).toString()}
             >
@@ -395,6 +397,18 @@ function ItemList({ items }: { items: any }) {
   );
 }
 
+function RenderRoom({ data, index }: any) {
+  const [items, setItems] = useState(data.data);
+  return (
+    <Container key={index} sx={{ mt: 4 }}>
+      <Header room={index} itemCoun t={data.data.length} />
+      <Suggestions room={index} items={data.data} />
+      <Toolbar items={items} setItems={setItems} data={data.data} />
+      <ItemList items={items} />
+    </Container>
+  );
+}
+
 function RoomComponent({ index }: any) {
   const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/items/list/",
@@ -402,20 +416,15 @@ function RoomComponent({ index }: any) {
       method: "POST",
       body: new URLSearchParams({
         token: global.session && global.session.accessToken,
-        room: index
-      })
+        room: index,
+      }),
     }
   );
 
   return isLoading ? (
     <LoadingScreen key={Math.random().toString()} />
   ) : (
-    <Container key={index} sx={{ mt: 4 }}>
-      <Header room={index} itemCount={data.data.length} />
-      <Suggestions room={index} items={data.data} />
-      <Toolbar />
-      <ItemList items={data.data} />
-    </Container>
+    <RenderRoom data={data} index={index} />
   );
 }
 
