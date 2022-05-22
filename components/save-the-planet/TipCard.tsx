@@ -77,7 +77,7 @@ function CreateGoalDialog({
                     primary={account.name}
                     secondary={
                       <>
-                        {currency_symbols[account.iso_currency_code] ?? "$"}
+                        {currency_symbols[account.balances.iso_currency_code] ?? "$"}
                         {account.balances.current}
                       </>
                     }
