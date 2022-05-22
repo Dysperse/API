@@ -121,7 +121,7 @@ function Render({ data, Component, pageProps }: any) {
 
 function useUser() {
   const { data, error } = useSWR(`/api/user`, () =>
-    fetch(url).then((res) => res.json())
+    fetch(`/api/user`).then((res) => res.json())
   );
 
   return {
