@@ -401,7 +401,7 @@ function RenderRoom({ data, index }: any) {
   const [items, setItems] = useState(data.data);
   return (
     <Container key={index} sx={{ mt: 4 }}>
-      <Header room={index} itemCoun t={data.data.length} />
+      <Header room={index} itemCount={data.data.length} />
       <Suggestions room={index} items={data.data} />
       <Toolbar items={items} setItems={setItems} data={data.data} />
       <ItemList items={items} />

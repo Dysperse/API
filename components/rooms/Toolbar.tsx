@@ -19,10 +19,18 @@ export function Toolbar({ items, setItems, data }: any) {
             return;
           }
           setItems(
-            data.filter((item) =>
-              item.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
-              item.amount.toLowerCase().includes(e.target.value.toLowerCase()) ||
-              item.categories.join(",").toLowerCase().includes(e.target.value.toLowerCase())
+            data.filter(
+              (item) =>
+                item.title
+                  .toLowerCase()
+                  .includes(e.target.value.toLowerCase()) ||
+                item.amount
+                  .toLowerCase()
+                  .includes(e.target.value.toLowerCase()) ||
+                item.categories
+                  .join(",")
+                  .toLowerCase()
+                  .includes(e.target.value.toLowerCase())
             )
           );
         }}
@@ -44,7 +52,7 @@ export function Toolbar({ items, setItems, data }: any) {
         }}
         sx={{ verticalAlign: "middle" }}
       />
-      <SortMenu />
+      <SortMenu data={data} items={items} setItems={items} />
     </Box>
   );
 }

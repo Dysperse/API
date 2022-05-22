@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import * as colors from "@mui/material/colors";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
-export function SortMenu() {
+export function SortMenu({ items, setItems, data }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -26,7 +26,7 @@ export function SortMenu() {
           ml: 1,
           mt: { xs: 1, sm: 0 },
           py: 1,
-          verticalAlign: "middle"
+          verticalAlign: "middle",
         }}
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -43,7 +43,7 @@ export function SortMenu() {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          "aria-labelledby": "basic-button"
+          "aria-labelledby": "basic-button",
         }}
         sx={{
           transition: "all .2s",
@@ -55,15 +55,15 @@ export function SortMenu() {
 
             color: colors[global.themeColor][800],
             "& .MuiMenu-list": {
-              padding: "4px"
+              padding: "4px",
             },
             "& .MuiMenuItem-root": {
               "&:hover": {
                 background: colors[global.themeColor][200],
                 color: colors[global.themeColor][900],
                 "& .MuiSvgIcon-root": {
-                  color: colors[global.themeColor][800]
-                }
+                  color: colors[global.themeColor][800],
+                },
               },
               padding: "10px 15px",
               borderRadius: "15px",
@@ -73,24 +73,27 @@ export function SortMenu() {
               "& .MuiSvgIcon-root": {
                 fontSize: 25,
                 color: colors[global.themeColor][700],
-                marginRight: 1.9
+                marginRight: 1.9,
               },
               "&:active": {
-                background: colors[global.themeColor][300]
-              }
-            }
-          }
+                background: colors[global.themeColor][300],
+              },
+            },
+          },
         }}
         anchorOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
       >
-        <MenuItem disableRipple onClick={handleClose}>
+        <MenuItem disableRipple onClick={() => {
+          
+          handleClose();
+        }}>
           A-Z
         </MenuItem>
         <MenuItem disableRipple onClick={handleClose}>
