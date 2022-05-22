@@ -8,15 +8,15 @@ import Skeleton from "@mui/material/Skeleton";
 import dayjs from "dayjs";
 import useSWR from "swr";
 
-const fetcher = (u) => fetch(u).then((res) => res.json());
-
 export function Liabilities() {
   const url =
     "/api/finance/liabilities?" +
     new URLSearchParams({
-      access_token: global.session.user.financeToken
+      access_token: global.session.user.financeToken,
     });
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error } = useSWR(url, () =>
+    fetch(url).then((res) => res.json())
+  );
 
   if (error) return <div>failed to load</div>;
   if (!data)
@@ -39,7 +39,7 @@ export function Liabilities() {
           sx={{
             background: "rgba(200,200,200,.4)",
             borderRadius: 5,
-            mt: 2
+            mt: 2,
           }}
         >
           <CardContent sx={{ p: 3 }}>
@@ -63,7 +63,7 @@ export function Liabilities() {
                       borderRadius: 99,
                       height: 2,
                       background: "rgba(200,200,200,.4)",
-                      "& *": { borderRadius: 99, background: "#000" }
+                      "& *": { borderRadius: 99, background: "#000" },
                     }}
                     value={
                       (loan.ytd_interest_paid /
@@ -90,7 +90,7 @@ export function Liabilities() {
                     mt: 1,
                     py: 1,
                     background: "rgba(200,200,200,0)",
-                    borderRadius: 4
+                    borderRadius: 4,
                   }}
                 >
                   <ListItemText

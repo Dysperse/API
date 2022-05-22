@@ -20,18 +20,17 @@ function hasNumber(myString) {
 }
 
 function NotificationsList() {
-  const fetcher = (u, o) => fetch(u, o).then((res) => res.json());
   const url = "https://api.smartlist.tech/v2/items/list/";
 
   const { data, error } = useSWR(url, () =>
-    fetcher(url, {
+    fetch(url, {
       method: "POST",
       body: new URLSearchParams({
         token: global.session.accessToken,
         limit: "500",
         room: "null"
       })
-    })
+    }).then(res => res.json())
   );
   if (error)
     return (

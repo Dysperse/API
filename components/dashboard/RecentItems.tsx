@@ -6,19 +6,17 @@ import CardContent from "@mui/material/CardContent";
 import Item from "../../components/ItemPopup";
 import useSWR from "swr";
 
-const fetcher = (url, options) => fetch(url, options).then((res) => res.json());
-
 export function RecentItems() {
   const url = "https://api.smartlist.tech/v2/items/list/";
   const { data, error } = useSWR(url, () =>
-    fetcher(url, {
+    fetch(url, {
       method: "POST",
       body: new URLSearchParams({
         room: "null",
         limit: "7",
         token: global.session && global.session.accessToken
       })
-    })
+    }).then(res => res.json())
   );
 
   if (error) return <div>failed to load</div>;

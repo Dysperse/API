@@ -12,8 +12,6 @@ import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
 import useSWR from "swr";
 
-const fetcher = (u) => fetch(u).then((res) => res.json());
-
 export const currency_symbols = {
   USD: "$", // US Dollar
   EUR: "€", // Euro
@@ -29,7 +27,7 @@ export const currency_symbols = {
   PYG: "₲", // Paraguayan Guarani
   THB: "฿", // Thai Baht
   UAH: "₴", // Ukrainian Hryvnia
-  VND: "₫"
+  VND: "₫",
 };
 
 export function AccountList() {
@@ -38,10 +36,12 @@ export function AccountList() {
     new URLSearchParams({
       access_token: global.session.user.financeToken,
       start_date: dayjs().subtract(30, "day").format("YYYY-MM-DD"),
-      end_date: dayjs().add(7, "day").format("YYYY-MM-DD")
+      end_date: dayjs().add(7, "day").format("YYYY-MM-DD"),
     });
 
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error } = useSWR(url, () =>
+    fetch(url).then((res) => res.json())
+  );
 
   if (error) return <div>failed to load</div>;
   if (!data)
@@ -92,7 +92,7 @@ export function AccountList() {
               "& .MuiTabs-scrollButtons.Mui-disabled": {
                 // opacity: "0!important",
                 maxWidth: "0px!important",
-                margin: "0"
+                margin: "0",
               },
               "& .MuiTabs-scrollButtons": {
                 maxWidth: "100px",
@@ -103,10 +103,10 @@ export function AccountList() {
                 color: "#404040",
                 "&:hover": {
                   background: "rgba(200,200,200,.5)",
-                  color: "#000"
+                  color: "#000",
                 },
                 marginLeft: "5px",
-                marginRight: "5px"
+                marginRight: "5px",
               },
               "& .MuiTabs-scroller": { borderRadius: 5 },
 
@@ -116,11 +116,11 @@ export function AccountList() {
                 borderRadius: 5,
                 height: "100%",
                 background: "rgba(200,200,200,.4)",
-                zIndex: -1
+                zIndex: -1,
               },
               "& .Mui-selected": {
-                color: global.theme === "dark" ? "#fff" : "#000!important"
-              }
+                color: global.theme === "dark" ? "#fff" : "#000!important",
+              },
             }}
           >
             {data.accounts.map((account) => (

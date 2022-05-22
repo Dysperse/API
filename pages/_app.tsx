@@ -24,14 +24,14 @@ function Render({ data, Component, pageProps }: any) {
   const userTheme = createTheme({
     components: {
       MuiPaper: {
-        defaultProps: { elevation: 0 }
+        defaultProps: { elevation: 0 },
       },
       MuiButton: {
         styleOverrides: {
           root: {
-            textTransform: "none"
-          }
-        }
+            textTransform: "none",
+          },
+        },
       },
       MuiTooltip: {
         styleOverrides: {
@@ -43,26 +43,26 @@ function Render({ data, Component, pageProps }: any) {
             paddingLeft: "13px",
             paddingRight: "13px",
             paddingTop: "5px",
-            paddingBottom: "5px"
-          }
-        }
-      }
+            paddingBottom: "5px",
+          },
+        },
+      },
     },
     palette: {
       primary: {
-        main: colors[themeColor]["A700"]
+        main: colors[themeColor]["A700"],
       },
       mode: theme,
       ...(theme === "dark" && {
         background: {
           default: "hsl(240, 11%, 10%)",
-          paper: "hsl(240, 11%, 10%)"
+          paper: "hsl(240, 11%, 10%)",
         },
         text: {
-          primary: "hsl(240, 11%, 90%)"
-        }
-      })
-    }
+          primary: "hsl(240, 11%, 90%)",
+        },
+      }),
+    },
   });
 
   return (
@@ -82,7 +82,7 @@ function Render({ data, Component, pageProps }: any) {
             p: 1,
             boxSizing: "border-box",
             fontSize: "13px",
-            color: "#505050"
+            color: "#505050",
           }}
         >
           <Box
@@ -91,7 +91,7 @@ function Render({ data, Component, pageProps }: any) {
               background: "rgba(200,200,200,.3)",
               borderRadius: 5,
               maxWidth: "calc(100vw - 20px)",
-              maxHeight: "calc(100vh - 20px)"
+              maxHeight: "calc(100vh - 20px)",
             }}
           >
             Please connect to the internet to access Smartlist
@@ -104,8 +104,8 @@ function Render({ data, Component, pageProps }: any) {
             sx={{
               "& *::selection": {
                 color: "#fff!important",
-                background: colors[themeColor]["A700"] + "!important"
-              }
+                background: colors[themeColor]["A700"] + "!important",
+              },
             }}
           >
             <Toaster />
@@ -120,13 +120,14 @@ function Render({ data, Component, pageProps }: any) {
 }
 
 function useUser() {
-  const fetcher = (url) => fetch(url).then((res: any) => res.json());
-  const { data, error } = useSWR(`/api/user`, fetcher);
+  const { data, error } = useSWR(`/api/user`, () =>
+    fetch(url).then((res) => res.json())
+  );
 
   return {
     data: data,
     isLoading: !error && !data,
-    isError: error
+    isError: error,
   };
 }
 

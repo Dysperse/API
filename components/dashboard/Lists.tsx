@@ -16,8 +16,6 @@ import { List } from "./List";
 import { useFormik } from "formik";
 import useSWR from "swr";
 
-const fetcher = (url, options) => fetch(url, options).then((res) => res.json());
-
 const stopPropagationForTab = (event: any) => {
   if (event.key !== "Esc") {
     event.stopPropagation();
@@ -50,7 +48,7 @@ function CreateListCard({ lists, setLists }: any) {
   const formik = useFormik({
     initialValues: {
       title: "",
-      description: ""
+      description: "",
     },
     onSubmit: (values: { title: string; description: string }) => {
       fetch("https://api.smartlist.tech/v2/lists/create-list/", {
@@ -59,8 +57,8 @@ function CreateListCard({ lists, setLists }: any) {
           token: global.session ? global.session.accessToken : undefined,
           title: values.title,
           description: values.description,
-          star: "0"
-        })
+          star: "0",
+        }),
       })
         .then((res) => res.json())
         .then((res) => {
@@ -69,16 +67,16 @@ function CreateListCard({ lists, setLists }: any) {
             ...lists,
             ...[
               {
-                ...res.data
-              }
-            ]
+                ...res.data,
+              },
+            ],
           ]);
 
           setLoading(false);
           setOpen(false);
         })
         .catch((err: any) => alert(JSON.stringify(err)));
-    }
+    },
   });
 
   return (
@@ -94,7 +92,7 @@ function CreateListCard({ lists, setLists }: any) {
             global.theme === "dark"
               ? "hsl(240, 11%, 30%)"
               : colors["grey"][100],
-          "& *": { transition: "all .05s !important" }
+          "& *": { transition: "all .05s !important" },
         }}
       >
         <CardActionArea
@@ -116,16 +114,16 @@ function CreateListCard({ lists, setLists }: any) {
         PaperProps={{
           sx: {
             width: {
-              sm: "50vw"
+              sm: "50vw",
             },
             borderRadius: "40px 40px 0 0",
-            mx: "auto"
-          }
+            mx: "auto",
+          },
         }}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
         swipeAreaWidth={0}
       >
@@ -156,7 +154,7 @@ function CreateListCard({ lists, setLists }: any) {
                 mr: 1,
                 mt: 2,
                 mb: 2,
-                borderRadius: 100
+                borderRadius: 100,
               }}
               color="primary"
               type="submit"
@@ -173,7 +171,7 @@ function CreateListCard({ lists, setLists }: any) {
                 mr: 1,
                 mt: 2,
                 mb: 2,
-                borderRadius: 100
+                borderRadius: 100,
               }}
               size="large"
               color="primary"
@@ -210,13 +208,13 @@ function RenderLists({ data }: any) {
 export function Lists() {
   const url = "https://api.smartlist.tech/v2/lists/";
   const { data, error } = useSWR(url, () =>
-    fetcher(url, {
+    fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken
+        token: global.session && global.session.accessToken,
       }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }
-    })
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }).then((res) => res.json())
   );
   if (error) return <div>An error has occured, please try again later</div>;
   if (!data)

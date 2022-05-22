@@ -15,18 +15,16 @@ import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 import useSWR from "swr";
 
-const fetcher = (u, o) => fetch(u, o).then((res) => res.json());
-
 function RoomList() {
   const url = "https://api.smartlist.tech/v2/lists/";
   const { error, data }: any = useSWR(url, () =>
-    fetcher(url, {
+    fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken
+        token: global.session && global.session.accessToken,
       }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }
-    })
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }).then((res) => res.json())
   );
 
   if (error) {
@@ -74,8 +72,8 @@ export function AddToListModal({ handleClose }: any) {
             width: "450px",
             maxWidth: "calc(100vw - 20px)",
             borderRadius: "28px",
-            p: 2
-          }
+            p: 2,
+          },
         }}
       >
         <DialogTitle sx={{ fontWeight: "800" }}>

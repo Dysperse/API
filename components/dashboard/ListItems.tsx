@@ -7,8 +7,6 @@ import CardContent from "@mui/material/CardContent";
 import { GenerateListItem } from "./GenerateListItem";
 import useSWR from "swr";
 
-const fetcher = (url, options) => fetch(url, options).then((res) => res.json());
-
 export function ListItems({
   parent,
   title,
@@ -22,14 +20,14 @@ export function ListItems({
 }) {
   const url = "https://api.smartlist.tech/v2/lists/fetch/";
   const { data, error } = useSWR(url, () =>
-    fetcher(url, {
+    fetch(url, {
       method: "POST",
       body: new URLSearchParams({
         token: global.session && global.session.accessToken,
         parent: parent
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
-    })
+    }).then(res => res.json())
   );
   if (error) return <div>Failed to load items</div>;
   if (!data)

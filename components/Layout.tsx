@@ -21,18 +21,17 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 
 const drawerWidth = 300;
-const fetcher = (u: string, o: any) => fetch(u, o).then((res) => res.json());
 
 function CustomRooms() {
   const url = "https://api.smartlist.tech/v2/rooms/";
 
   const { data, error } = useSWR(url, () =>
-    fetcher(url, {
+    fetch(url, {
       method: "POST",
       body: new URLSearchParams({
         token: global.session && global.session.accessToken
       })
-    })
+    }).then(res => res.json())
   );
   if (error) return <div>Failed to load room!</div>;
   if (!data)

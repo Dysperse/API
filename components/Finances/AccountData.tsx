@@ -24,11 +24,11 @@ function Navbar({ setOpen, scrollTop, container, account }: any) {
           borderTopLeftRadius: { sm: "20px" },
           borderTopRightRadius: { sm: "20px" },
           ...(scrollTop > 100 && {
-            backdropFilter: "blur(10px)"
+            backdropFilter: "blur(10px)",
           }),
           boxShadow: 0,
           p: 0.5,
-          py: 1
+          py: 1,
         }}
       >
         <Toolbar>
@@ -42,7 +42,7 @@ function Navbar({ setOpen, scrollTop, container, account }: any) {
               sx={{
                 mr: -1,
                 "&:hover": { background: "rgba(255,255,255,.1)" },
-                transition: "none"
+                transition: "none",
               }}
               disableRipple
             >
@@ -59,19 +59,17 @@ function Navbar({ setOpen, scrollTop, container, account }: any) {
   );
 }
 
-const fetcher = (u, o) => fetch(u, o).then((res) => res.json());
-
 export function AccountData({ setOpen, scrollTop, account }: any) {
   const url = "https://api.smartlist.tech/v2/finances/goals/";
 
   const { data, error } = useSWR(url, () =>
-    fetcher(url, {
+    fetch(url, {
       method: "POST",
       body: new URLSearchParams({
         token: global.session.accessToken,
-        accountId: account.account_id
-      })
-    })
+        accountId: account.account_id,
+      }),
+    }).then((res) => res.json())
   );
 
   if (error)
@@ -81,7 +79,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
           borderRadius: 4,
           mt: 2,
           p: 3,
-          background: "rgba(200,200,200,.3)"
+          background: "rgba(200,200,200,.3)",
         }}
       >
         Yikes! An error has occured. Try reloading this page
@@ -111,7 +109,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
               borderRadius: 4,
               mt: 2,
               p: 3,
-              background: "rgba(200,200,200,.3)"
+              background: "rgba(200,200,200,.3)",
             }}
           >
             You haven't set any goals yet.
@@ -119,27 +117,28 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
         )}
         {!data && (
           <>
-          {[...new Array(10)].map(() => (
-            <Skeleton
-              variant="rectangular"
-              height={150}
-              sx={{ borderRadius: 4, mt: 2 }}
-              animation="wave"
+            {[...new Array(10)].map(() => (
+              <Skeleton
+                variant="rectangular"
+                height={150}
+                sx={{ borderRadius: 4, mt: 2 }}
+                animation="wave"
+              />
+            ))}
+          </>
+        )}
+        {data &&
+          data.data.map((goal: any) => (
+            <Goal
+              scrollTop={scrollTop}
+              id={goal.id}
+              image={goal.image}
+              name={goal.name}
+              note={goal.note}
+              balance={account.balances.current}
+              minAmountOfMoney={goal.minAmountOfMoney}
             />
           ))}
-        </>
-        )}
-        {data && data.data.map((goal: any) => (
-          <Goal
-            scrollTop={scrollTop}
-            id={goal.id}
-            image={goal.image}
-            name={goal.name}
-            note={goal.note}
-            balance={account.balances.current}
-            minAmountOfMoney={goal.minAmountOfMoney}
-          />
-        ))}
       </Box>
     </>
   );

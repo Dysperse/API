@@ -1,9 +1,5 @@
 {
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/api/finance/fetchTransactions": "pages/api/finance/fetchTransactions.js",
-  "/finances": "pages/finances.js",
-  "/dashboard": "pages/dashboard.js",
-  "/api/user": "pages/api/user.js"
+  "/_document": "pages/_document.js"
 }
