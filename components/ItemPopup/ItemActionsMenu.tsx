@@ -127,7 +127,7 @@ export function ItemActionsMenu({ id, title, quantity, star }: any): JSX.Element
 					</span>
 					Invite collaborators
 				</MenuItem>
-				<AddToListModal handleClose={handleClose} />
+				<AddToListModal handleClose={handleClose} title={title} />
 				<QrCodeModal title={title} quantity={quantity} />
 			</Menu>
 		</>
