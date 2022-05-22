@@ -144,6 +144,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               />
               <ItemActionsMenu
                 id={id}
+                room={data.room}
                 star={star}
                 title={title}
                 quantity={quantity}
