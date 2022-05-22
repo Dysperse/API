@@ -19,7 +19,7 @@ import Settings from "./Settings/index";
 const drawerBleeding = 0;
 
 const Root = styled("div")(({ theme }) => ({
-  height: "100%"
+  height: "100%",
 }));
 
 function Accounts({ setOpen }: any) {
@@ -39,7 +39,7 @@ function Accounts({ setOpen }: any) {
       >
         <ListItemText
           sx={{
-            pt: 2
+            pt: 2,
           }}
           primary={
             <Typography
@@ -71,18 +71,19 @@ export function ProfileMenu(props: any) {
     document.documentElement.classList[open ? "add" : "remove"](
       "prevent-scroll"
     );
-    document
-      .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute(
-        "content",
-        open
-          ? global.theme === "dark"
+    document.querySelector(`meta[name="theme-color"]`) &&
+      document
+        .querySelector(`meta[name="theme-color"]`)!
+        .setAttribute(
+          "content",
+          open
+            ? global.theme === "dark"
+              ? "#101010"
+              : "#808080"
+            : global.theme === "dark"
             ? "#101010"
-            : "#808080"
-          : global.theme === "dark"
-          ? "#101010"
-          : "#fff"
-      );
+            : "#fff"
+        );
   }, [open]);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -99,8 +100,8 @@ export function ProfileMenu(props: any) {
         styles={{
           ".MuiDrawer-root > .MuiPaper-root": {
             height: "auto",
-            overflow: "visible"
-          }
+            overflow: "visible",
+          },
         }}
       />
       <Tooltip title="My account" placement="bottom-end">
@@ -114,7 +115,7 @@ export function ProfileMenu(props: any) {
             transform: "scale(.8)",
             transition: "none",
             color: "#404040",
-            "&:hover": { color: "#000" }
+            "&:hover": { color: "#000" },
           }}
         >
           {global.session ? (
@@ -122,7 +123,7 @@ export function ProfileMenu(props: any) {
               sx={{
                 fontSize: "15px",
                 bgcolor: deepOrange[500],
-                transform: "scale(1.2)"
+                transform: "scale(1.2)",
               }}
               src={global.session.user.image}
             />
@@ -146,11 +147,11 @@ export function ProfileMenu(props: any) {
         disableSwipeToOpen={false}
         sx={{
           "& .MuiBackdrop-root": {
-            opacity: { sm: "0!important" }
-          }
+            opacity: { sm: "0!important" },
+          },
         }}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
         PaperProps={{
           elevation: 4,
@@ -162,12 +163,12 @@ export function ProfileMenu(props: any) {
             boxShadow: `0 25px 50px -12px rgba(0, 0, 0, 0.25)`,
             width: {
               xs: "calc(100vw - 30px)",
-              sm: "400px"
+              sm: "400px",
             },
             mb: "10px",
             ml: {
               xs: "10px",
-              sm: "auto"
+              sm: "auto",
             },
             borderRadius: "15px",
             mx: "auto",
@@ -175,8 +176,8 @@ export function ProfileMenu(props: any) {
             top: "70px",
             bottom: "auto",
             left: "auto",
-            right: "15px"
-          }
+            right: "15px",
+          },
         }}
       >
         <Accounts setOpen={setOpen} />

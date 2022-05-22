@@ -10,6 +10,25 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import toast from "react-hot-toast";
 import useSWR from "swr";
+import ListItemText from "@mui/material/ListItemText";
+import ListItem from "@mui/material/ListItem";
+import { currency_symbols } from "../Finances/AccountList";
+
+type Account = {
+  account_id: string;
+  balances: {
+    available: any;
+    current: number;
+    iso_currency_code: string;
+    limit: number;
+    unofficial_currency_code: any;
+  };
+  mask: "3333";
+  name: "Plaid Credit Card";
+  official_name: "Plaid Diamond 12.5% APR Interest Credit Card";
+  subtype: "credit card";
+  type: "credit";
+};
 
 function CreateGoalDialog({
   moneyRequiredForGoal,
@@ -39,7 +58,36 @@ function CreateGoalDialog({
         <DialogTitle sx={{ fontWeight: "800" }}>Select an account</DialogTitle>
         <DialogContent>
           {error && "An error occured while fetching your accounts"}
-          {data ? JSON.stringify(data) : "Loading..."}
+          {data ? (
+            <>
+              {data.accounts.map((account: Account) => (
+                <ListItem
+                  button
+                  sx={{
+                    mb: 1,
+                    background: "rgba(200,200,200,.3)",
+                    borderRadius: 3,
+                    "&:hover": {
+                      background: "rgba(200,200,200,.4)",
+                    },
+                    transition: "none",
+                  }}
+                >
+                  <ListItemText
+                    primary={account.name}
+                    secondary={
+                      <>
+                        {currency_symbols[account.iso_currency_code] ?? "$"}
+                        {account.balances.current}
+                      </>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </>
+          ) : (
+            "Loading..."
+          )}
         </DialogContent>
       </Dialog>
 
@@ -136,7 +184,7 @@ export function TipCard({
         "/api/finance/accounts?access_token=" + global.session.user.financeToken
       ).then((res) => res.json())
   );
-  
+
   return (
     <>
       <Tab

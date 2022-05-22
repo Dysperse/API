@@ -25,16 +25,6 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/finances": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/finances.js"
-    ],
-    "/meals": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/meals.js"
-    ],
     "/save-the-planet": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
