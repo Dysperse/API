@@ -4,6 +4,57 @@ import Typography from "@mui/material/Typography";
 import Tab from "@mui/material/Tab";
 import { green, orange } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import toast from "react-hot-toast";
+import useSWR from "swr";
+
+function CreateGoalDialog({
+  moneyRequiredForGoal,
+  data,
+  error,
+}: {
+  data: any;
+  error: any;
+  moneyRequiredForGoal: number;
+}): JSX.Element {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            p: 2,
+            borderRadius: 5,
+            minWidth: "400px",
+            maxWidth: "calc(100vw - 20px)",
+          },
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: "800" }}>Select an account</DialogTitle>
+        <DialogContent>
+          {error && "An error occured while fetching your accounts"}
+          {data ? JSON.stringify(data) : "Loading..."}
+        </DialogContent>
+      </Dialog>
+
+      <Button
+        variant="contained"
+        disabled={error || !data}
+        sx={{ boxShadow: 0, borderRadius: 9, mt: 1, px: 6 }}
+        size="large"
+        onClick={() => setOpen(true)}
+      >
+        Add to my goals
+      </Button>
+    </>
+  );
+}
 
 function Badge({ tipOfTheDay, highlySuggested }: any) {
   return (
@@ -24,7 +75,7 @@ function Badge({ tipOfTheDay, highlySuggested }: any) {
             color: "white",
             borderRadius: "99px",
             fontWeight: "500",
-            padding: "3px 10px"
+            padding: "3px 10px",
           }}
         >
           <span
@@ -52,7 +103,7 @@ function Badge({ tipOfTheDay, highlySuggested }: any) {
             color: "white",
             borderRadius: "99px",
             fontWeight: "500",
-            padding: "3px 10px"
+            padding: "3px 10px",
           }}
         >
           <span
@@ -74,9 +125,18 @@ export function TipCard({
   funFact,
   tipOfTheDay = false,
   highlySuggested = false,
-  icon = "lightbulb"
+  moneyRequiredForGoal = 100,
+  icon = "lightbulb",
 }: any) {
   const [open, setOpen] = useState(false);
+  const { error, data } = useSWR(
+    "/api/finance/accounts?access_token=" + global.session.user.financeToken,
+    () =>
+      fetch(
+        "/api/finance/accounts?access_token=" + global.session.user.financeToken
+      ).then((res) => res.json())
+  );
+  
   return (
     <>
       <Tab
@@ -94,7 +154,7 @@ export function TipCard({
                   fontSize: "28px",
                   display: "block",
                   marginTop: "10px",
-                  marginBottom: "10px"
+                  marginBottom: "10px",
                 }}
               >
                 {icon}
@@ -109,13 +169,13 @@ export function TipCard({
               BackdropProps={{
                 onClick() {
                   setTimeout(() => setOpen(false), 10);
-                }
+                },
               }}
               sx={{
                 display: "flex",
                 alignItems: { xs: "end", sm: "center" },
                 height: "100vh",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
               PaperProps={{
                 sx: {
@@ -125,8 +185,8 @@ export function TipCard({
                   position: "unset",
                   mx: "auto",
                   maxWidth: { sm: "70vw", xs: "100vw" },
-                  overflow: "hidden"
-                }
+                  overflow: "hidden",
+                },
               }}
               onClose={() => setOpen(false)}
             >
@@ -139,7 +199,7 @@ export function TipCard({
                   mt: "-1px",
                   borderBottomLeftRadius: 0,
                   position: "relative",
-                  borderBottomRightRadius: 0
+                  borderBottomRightRadius: 0,
                 }}
               >
                 <Badge
@@ -153,7 +213,14 @@ export function TipCard({
                 >
                   {name}
                 </Typography>
-                <Typography variant="h6">{funFact}</Typography>
+                <Typography variant="h6" gutterBottom>
+                  {funFact}
+                </Typography>
+                <CreateGoalDialog
+                  data={data}
+                  error={error}
+                  moneyRequiredForGoal={moneyRequiredForGoal}
+                />
               </Box>
             </SwipeableDrawer>
           </>
@@ -163,7 +230,7 @@ export function TipCard({
             variant="body2"
             sx={{
               fontSize: "12px",
-              fontWeight: "600"
+              fontWeight: "600",
             }}
           >
             {funFact}
@@ -181,7 +248,7 @@ export function TipCard({
           opacity: 1,
           "& *": {
             opacity: 1,
-            color: global.theme === "dark" ? "#eee" : "#101010"
+            color: global.theme === "dark" ? "#eee" : "#101010",
           },
           background: tipOfTheDay
             ? global.theme === "dark"
@@ -196,7 +263,7 @@ export function TipCard({
           "&:active": {
             opacity: 1,
             "& .badge": {
-              filter: "brightness(90%)"
+              filter: "brightness(90%)",
             },
             background: tipOfTheDay
               ? global.theme === "dark"
@@ -209,11 +276,11 @@ export function TipCard({
               : "rgba(200,200,200,.5)",
             "& *": {
               opacity: 1,
-              color: global.theme === "dark" ? "#fff" : "#000"
-            }
+              color: global.theme === "dark" ? "#fff" : "#000",
+            },
           },
           textTransform: "none",
-          borderRadius: 5
+          borderRadius: 5,
         }}
       />
     </>

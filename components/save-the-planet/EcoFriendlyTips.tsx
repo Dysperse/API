@@ -17,7 +17,7 @@ export function EcoFriendlyTips() {
           "& .MuiTabs-scrollButtons.Mui-disabled": {
             // opacity: "0!important",
             maxWidth: "0px!important",
-            margin: "0"
+            margin: "0",
           },
           "& .MuiTabs-scrollButtons": {
             maxWidth: "100px",
@@ -28,10 +28,10 @@ export function EcoFriendlyTips() {
             color: global.theme === "dark" ? "#eee" : "#404040",
             "&:hover": {
               background: "rgba(200,200,200,.5)",
-              color: global.theme === "dark" ? "#fff" : "#000"
+              color: global.theme === "dark" ? "#fff" : "#000",
             },
             marginLeft: "5px",
-            marginRight: "5px"
+            marginRight: "5px",
           },
           "& .MuiTabs-scroller": { borderRadius: 5 },
 
@@ -41,14 +41,15 @@ export function EcoFriendlyTips() {
             borderRadius: 5,
             height: "100%",
             background: "rgba(200,200,200,.4)",
-            zIndex: -1
+            zIndex: -1,
           },
           "& .Mui-selected": {
-            color: global.theme === "dark" ? "#fff" : "#000!important"
-          }
+            color: global.theme === "dark" ? "#fff" : "#000!important",
+          },
         }}
       >
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           tipOfTheDay
           name="Bike more often!"
@@ -56,6 +57,7 @@ export function EcoFriendlyTips() {
           icon="directions_bike"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           highlySuggested
           name="Use less water"
@@ -63,60 +65,70 @@ export function EcoFriendlyTips() {
           icon="local_laundry_service"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Save more electricity"
           funFact="Running your appliances outside the hours 4AM to 9PM helps conserve energy - and reduce your energy bill?"
           icon="electric_meter"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Use less water"
           funFact="Did you know you can save up to 69420 gallons of water by limiting your sprinklers to 1 time a day?"
           icon="sprinkler"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Buy an eco-friendly thermostat"
           funFact="Buying an eco friendly thermostat helps you save the environment, and some electricity providers discount your bills if you have one!"
           icon="energy_program_saving"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Add attic insulation"
           funFact="Did you know that insulating your attic can reduce your electricity bill by 10-50%?!"
           icon="airware"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Upgrade to an electric car"
           funFact="Upgrading to an electric car can significantly improve the environment, plus, it's worth the purchase"
           icon="electric_car"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Switch to LEDs"
           funFact="LEDs are much safer for the environment, and could reduce your electricity bill by $215"
           icon="light"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Upgrade to an electric fireplace"
           funFact="An electric furnace is much more safe for the environment, compared to a gas fireplace"
           icon="fireplace"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Unplug unused devices, especially while traveling"
           funFact="This will help you greatly reduce your electricity bill"
           icon="outlet"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Don't set your heater above 68°"
           funFact="Lowering your thermostat 10-15 degrees for eight hours can reduce your heating bill by 5-15%."
           icon="mode_heat"
         />
         <TipCard
+          moneyRequiredForGoal={100}
           modalContent={<>Test</>}
           name="Don't set your AC below 78°"
           funFact="78 degrees is the sweet spot between staying cool and keeping your energy bill low"

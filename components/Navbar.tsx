@@ -48,12 +48,11 @@ function ElevationScroll(props: any) {
             xs: 0.9
           },
           pr: 0.4,
-          // transition: "all .2s",
           backdropFilter: "blur(20px)",
           background:
             global.theme === "dark"
               ? "rgba(90,90,90,.7)"
-              : hexToRgba(colors[global.themeColor]["100"], 0.5)
+              : hexToRgba(colors[global.themeColor]["100"], 0.7)
         }
       : {
           color: global.theme === "dark" ? "white" : "black",

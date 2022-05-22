@@ -12,28 +12,29 @@ export default function LoginPrompt() {
         position: "fixed",
         top: "50%",
         left: "50%",
-        transform: "translate(-50%,-50%)"
+        transform: "translate(-50%,-50%)",
       }}
     >
       <Button
         disableElevation
         draggable="false"
         sx={{
+          textTransform: "none",
           transform: opacity === 0 ? "scale(.98)" : "scale(1)",
           opacity: opacity,
           "& .MuiTouchRipple-rippleVisible": {
-            animationDuration: ".25s!important"
+            animationDuration: ".25s!important",
           },
           transition: "all .2s",
           "&:active": {
-            transform: "scale(.98)"
+            transform: "scale(.98)",
           },
           color: "black",
           background: colors["purple"][100],
           "&:hover": {
-            background: colors["purple"][200]
+            background: colors["purple"][200],
           },
-          borderRadius: 9
+          borderRadius: 9,
         }}
         size="large"
         variant="contained"
