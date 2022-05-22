@@ -62,7 +62,7 @@ function ContactForm() {
           mt: 1,
           float: "right",
           borderRadius: 9,
-          boxShadow: 0
+          boxShadow: 0,
         }}
         size="large"
         variant="contained"
@@ -99,8 +99,8 @@ function SuggestButton() {
             width: "400px",
             maxWidth: "calc(100vw - 10px)",
             p: 2,
-            borderRadius: "28px"
-          }
+            borderRadius: "28px",
+          },
         }}
       >
         <DialogTitle sx={{ fontWeight: "800", py: 3 }}>Feedback</DialogTitle>
@@ -112,35 +112,47 @@ function SuggestButton() {
   );
 }
 
-const categories = [
+const apps = [
   {
     key: 1,
+    href: "//my.smartlist.tech",
     label: "Smartlist",
-    description: "Home inventory and finance management"
+    description: "Home inventory and finance management",
   },
   {
     key: 2,
     label: "Collaborate",
-    description: "Plan events with collaborators in real-time"
+    href: "//collaborate.smartlist.tech",
+    description: "Plan events with collaborators in real-time",
   },
-  { label: "Recipes", description: "Recipe ideas based on your inventory" },
+  {
+    href: "//recipe-generator.smartlist.tech",
+    label: "Recipes",
+    description: "Recipe ideas based on your inventory",
+  },
   {
     key: 3,
     label: "Availability",
-    description: "Find the best time for a group to get together"
+    href: "//availability.smartlist.tech",
+    description: "Find the best time for a group to get together",
   },
   {
     key: 4,
     label: "Dressing",
-    description: "Match dress sizes which fit you in multiple stores"
+    href: "//dressing.smartlist.tech",
+
+    description: "Match dress sizes which fit you in multiple stores",
   },
   {
     key: 5,
     bg: green[200],
-    href: "https://smartlist.tech/discord",
     label: <SuggestButton />,
-    description: "Have any ideas for apps? Let us know!"
-  }
+    description: (
+      <div style={{ color: green[700] }}>
+        Have any ideas for apps? Let us know!
+      </div>
+    ),
+  },
 ];
 
 function Products() {
@@ -159,35 +171,37 @@ function Products() {
         handleChange(1);
       }}
     >
-      {categories.map((category) => (
+      {apps.map((category) => (
         <Accordion
           square
           sx={{
             boxShadow: 0,
             margin: "0!important",
             borderRadius: "9px",
+            cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background: category.bg ?? colors[global.themeColor][200]
+              background: category.bg ?? colors[global.themeColor][200],
             },
             transition: "all .2s",
             "&:before": {
-              display: "none"
+              display: "none",
             },
             "& .MuiAccordionDetails-root": {
               opacity: 0,
               transform: "scale(.95)",
-              transition: "all .3s"
+              transition: "all .3s",
             },
-            "&:hover .MuiAccordionDetails-root, &.Mui-expanded .MuiAccordionDetails-root": {
-              opacity: 1,
-              transform: "scale(1)"
-            }
+            "&:hover .MuiAccordionDetails-root, &.Mui-expanded .MuiAccordionDetails-root":
+              {
+                opacity: 1,
+                transform: "scale(1)",
+              },
           }}
           expanded={expanded === category.key}
           // onChange={handleChange(category.key)}
           onMouseOver={() => handleChange(category.key)}
-          onClick={() => handleChange(category.key)}
+          onClick={() => category.href !== "" && window.open(category.href)}
           onFocus={() => handleChange(category.key)}
         >
           <AccordionSummary
@@ -195,31 +209,19 @@ function Products() {
             id="panel1d-header"
             sx={{
               minHeight: "35px!important",
-              maxHeight: "35px!important"
+              maxHeight: "35px!important",
+              color: colors[global.themeColor][900],
             }}
           >
-            <Link
-              underline="none"
-              target="_blank"
-              href={category.href}
-              component="button"
-              sx={{ fontSize: "16px", color: colors[global.themeColor][800] }}
-            >
-              {category.label}
-            </Link>
+            {category.label}
           </AccordionSummary>
           <AccordionDetails sx={{ pb: 1, pt: 0 }}>
-            <Link
-              underline="none"
-              target="_blank"
-              href={category.href}
-              component="button"
-              sx={{ fontSize: "16px" }}
+            <Typography
+              variant="body2"
+              sx={{ color: colors[global.themeColor][700] }}
             >
-              <Typography variant="body2" sx={{ color: "#505050" }}>
-                {category.description}
-              </Typography>
-            </Link>
+              {category.description}
+            </Typography>
           </AccordionDetails>
         </Accordion>
       ))}
@@ -250,7 +252,7 @@ export function AppsMenu() {
               mr: 1,
               ml: 0.4,
               color: "#606060",
-              "&:hover": { color: "#000" }
+              "&:hover": { color: "#000" },
             }}
             onClick={handleClick}
           >
@@ -276,21 +278,22 @@ export function AppsMenu() {
         PaperProps={{
           sx: {
             borderRadius: "28px",
-            boxShadow: 0,
-            background: colors[global.themeColor][100]
-          }
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+            background: colors[global.themeColor][100],
+          },
         }}
         anchorOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
       >
         <Box sx={{ px: 2, py: 1 }}>
-          <Typography sx={{ my: 1.5, ml: 1.5 }} variant="h6">
+          <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
             Apps
           </Typography>
           <Products />
