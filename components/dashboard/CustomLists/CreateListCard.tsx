@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from "react";
-import Skeleton from "@mui/material/Skeleton";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
-import CardContent from "@mui/material/CardContent";
-import CardActionArea from "@mui/material/CardActionArea";
-import Typography from "@mui/material/Typography";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import TextField from "@mui/material/TextField";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardContent from "@mui/material/CardContent";
 import * as colors from "@mui/material/colors";
-import { List } from "./List";
+import DialogTitle from "@mui/material/DialogTitle";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
-import useSWR from "swr";
+import React, { useEffect, useState } from "react";
+import { stopPropagationForTab } from "./Lists";
 
-const stopPropagationForTab = (event: any) => {
-  if (event.key !== "Esc") {
-    event.stopPropagation();
-  }
-};
-
-function CreateListCard({ lists, setLists }: any) {
+export function CreateListCard({ lists, setLists }: any) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -38,8 +30,8 @@ function CreateListCard({ lists, setLists }: any) {
             ? "#101010"
             : "#808080"
           : document.documentElement!.scrollTop === 0
-          ? "#fff"
-          : colors[global.themeColor][100]
+            ? "#fff"
+            : colors[global.themeColor][100]
       );
   });
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -50,7 +42,7 @@ function CreateListCard({ lists, setLists }: any) {
       title: "",
       description: "",
     },
-    onSubmit: (values: { title: string; description: string }) => {
+    onSubmit: (values: { title: string; description: string; }) => {
       fetch("https://api.smartlist.tech/v2/lists/create-list/", {
         method: "POST",
         body: new URLSearchParams({
@@ -88,10 +80,9 @@ function CreateListCard({ lists, setLists }: any) {
           borderRadius: "28px",
           width: "100%",
           textAlign: "center",
-          background:
-            global.theme === "dark"
-              ? "hsl(240, 11%, 30%)"
-              : colors["grey"][100],
+          background: global.theme === "dark"
+            ? "hsl(240, 11%, 30%)"
+            : colors["grey"][100],
           "& *": { transition: "all .05s !important" },
         }}
       >
@@ -133,9 +124,7 @@ function CreateListCard({ lists, setLists }: any) {
           </DialogTitle>
           <Box sx={{ p: 3 }}>
             <TextField
-              inputRef={(input) =>
-                setTimeout(() => input && input.focus(), 100)
-              }
+              inputRef={(input) => setTimeout(() => input && input.focus(), 100)}
               margin="dense"
               label="Title"
               fullWidth
@@ -143,8 +132,7 @@ function CreateListCard({ lists, setLists }: any) {
               name="title"
               variant="filled"
               onChange={formik.handleChange}
-              value={formik.values.title}
-            />
+              value={formik.values.title} />
 
             <LoadingButton
               size="large"
@@ -185,52 +173,4 @@ function CreateListCard({ lists, setLists }: any) {
       </SwipeableDrawer>
     </>
   );
-}
-
-function RenderLists({ data }: any) {
-  const [lists, setLists] = useState(data);
-  return (
-    <>
-      {lists.map((list: any) => (
-        <List
-          key={Math.random().toString()}
-          title={list.title}
-          count={parseInt(list.count, 10)}
-          description={list.description}
-          id={list.id}
-        />
-      ))}
-      <CreateListCard setLists={setLists} lists={lists} />
-    </>
-  );
-}
-
-export function Lists() {
-  const url = "https://api.smartlist.tech/v2/lists/";
-  const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
-      }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    }).then((res) => res.json())
-  );
-  if (error) return <div>An error has occured, please try again later</div>;
-  if (!data)
-    return (
-      <>
-        {[...new Array(5)].map(() => (
-          <Skeleton
-            key={Math.random().toExponential()}
-            variant="rectangular"
-            height={110}
-            animation="wave"
-            sx={{ mb: 2, borderRadius: "28px" }}
-          />
-        ))}
-      </>
-    );
-
-  return <RenderLists data={data.data} />;
 }

@@ -1,16 +1,11 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
 import Masonry from "@mui/lab/Masonry";
-import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
-import { Lists } from "../components/dashboard/Lists";
-import { RecentItems } from "../components/dashboard/RecentItems";
+import Paper from "@mui/material/Paper";
+import * as React from "react";
+import { Lists } from "../components/dashboard/CustomLists/Lists";
 import { ListItems } from "../components/dashboard/ListItems";
-
-dayjs.extend(relativeTime);
+import { RecentItems } from "../components/dashboard/RecentItems";
 
 export default function Dashboard() {
   return (

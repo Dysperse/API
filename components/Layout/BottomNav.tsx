@@ -1,10 +1,10 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import { useRouter } from "next/router";
-import { SearchPopup } from "./SearchPopup";
+import Box from "@mui/material/Box";
 import Icon from "@mui/material/Icon";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { SearchPopup } from "./SearchPopup";
 
 const styles = {
   borderRadius: "15px",

@@ -1,12 +1,12 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
+import React from "react";
 
 export function InfoButton({ id, title, quantity, star }: any): JSX.Element {
   const [open, setOpen] = React.useState(false);

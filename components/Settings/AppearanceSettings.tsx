@@ -1,11 +1,11 @@
-import React from "react";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import React from "react";
 import { updateSettings } from "./updateSettings";
 
 function ThemeColorSettings() {

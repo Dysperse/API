@@ -1,10 +1,10 @@
-import Skeleton from "@mui/material/Skeleton";
-import Typography from "@mui/material/Typography";
+import Masonry from "@mui/lab/Masonry";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import { ItemCard } from "../components/rooms/ItemCard";
-import Masonry from "@mui/lab/Masonry";
+import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
 import useSWR from "swr";
+import { ItemCard } from "../components/rooms/ItemCard";
 
 function Items() {
   const url = "https://api.smartlist.tech/v2/trash/";

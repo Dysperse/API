@@ -12,11 +12,11 @@ export default function handler(req, res) {
       country_codes: ["US"],
       language: "en",
       user: {
-        client_user_id: "unique_user_id"
+        client_user_id: "unique_user_id",
       },
-      products: ["auth", "liabilities"]
+      products: ["auth", "liabilities"],
     }),
-    redirect: "follow"
+    redirect: "follow",
   })
     .then((response) => response.json())
     .then((result) => res.json(result))

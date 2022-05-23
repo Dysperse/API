@@ -1,12 +1,13 @@
-import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
-import { GenerateListItem } from "./GenerateListItem";
+import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
+import React from "react";
 import useSWR from "swr";
+import { GenerateListItem } from "./GenerateListItem";
 
+// Shopping list / todo list
 export function ListItems({
   parent,
   title,

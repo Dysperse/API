@@ -10,9 +10,9 @@ export default function handler(req, res) {
       secret: process.env.PLAID_SECRET,
       access_token: req.query.access_token ?? "false",
       start_date: req.query.start_date ?? "false",
-      end_date: req.query.end_date ?? "false"
+      end_date: req.query.end_date ?? "false",
     }),
-    redirect: "follow"
+    redirect: "follow",
   })
     .then((response) => response.json())
     .then((result) => res.json(result))

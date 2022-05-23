@@ -1,10 +1,11 @@
-import * as React from "react";
+import Checkbox from "@mui/material/Checkbox";
+import Collapse from "@mui/material/Collapse";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
-import Collapse from "@mui/material/Collapse";
+import * as React from "react";
 
+// Generates a list item for shopping list / todo list
 export function GenerateListItem({ listItems, setListItems, title, id }: any) {
   const [checked, setChecked] = React.useState(false);
   const [deleted, setDeleted] = React.useState(false);

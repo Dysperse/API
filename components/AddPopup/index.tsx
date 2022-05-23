@@ -1,23 +1,22 @@
-import React, { useEffect } from "react";
 import { Global } from "@emotion/react";
-import { styled } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import DialogTitle from "@mui/material/DialogTitle";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
-import { CreateItemModal } from "./CreateItemModal";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
+import CssBaseline from "@mui/material/CssBaseline";
+import DialogTitle from "@mui/material/DialogTitle";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
-import { CreateListModal } from "./CreateListModal";
-import { useRouter } from "next/router";
-import { Puller } from "./Puller";
+import { styled } from "@mui/material/styles";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Typography from "@mui/material/Typography";
+import React, { useEffect } from "react";
 import useFetch from "react-fetch-hook";
+import { Puller } from "../Puller";
+import { CreateItemModal } from "./CreateItemModal";
+import { CreateListModal } from "./CreateListModal";
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%"

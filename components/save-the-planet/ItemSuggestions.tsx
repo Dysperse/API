@@ -1,13 +1,9 @@
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import Item from "../ItemPopup";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
-
-dayjs.extend(relativeTime);
 
 const notEcoFriendlyProducts = [
   "washing machine",

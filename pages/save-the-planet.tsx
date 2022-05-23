@@ -1,4 +1,4 @@
-import { EcoFriendlyTips } from "../components/save-the-planet/EcoFriendlyTips";
+import { EcoFriendlyTips } from "../components/save-the-planet/Tips/EcoFriendlyTips";
 import { Reminders } from "../components/save-the-planet/Reminders";
 import { Thermostat } from "../components/save-the-planet/Thermostat";
 import { Donate } from "../components/save-the-planet/Donate";

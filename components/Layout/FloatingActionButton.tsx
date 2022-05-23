@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import Skeleton from "@mui/material/Skeleton";
 import * as colors from "@mui/material/colors";
-import AddPopup from "./AddPopup";
+import AddPopup from "../AddPopup";
 import Collapse from "@mui/material/Collapse";
 
 export function FloatingActionButton() {
