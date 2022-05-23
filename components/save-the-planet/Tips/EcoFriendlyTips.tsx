@@ -1,6 +1,6 @@
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Tabs from "@mui/material/Tabs";
+import Typography from "@mui/material/Typography";
 import { TipCard } from "./TipCard";
 
 export function EcoFriendlyTips() {

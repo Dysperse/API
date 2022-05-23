@@ -1,10 +1,10 @@
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 export function CarbonFootprint() {
   return (
-    <div>
+    <>
       <Typography variant="h5" sx={{ fontWeight: "800", mb: 2 }}>
         Carbon footprint
       </Typography>
@@ -21,6 +21,6 @@ export function CarbonFootprint() {
           <Typography>Coming soon!</Typography>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 }

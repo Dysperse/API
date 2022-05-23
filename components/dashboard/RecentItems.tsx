@@ -1,10 +1,10 @@
-import * as React from "react";
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import Skeleton from "@mui/material/Skeleton";
 import CardContent from "@mui/material/CardContent";
-import Item from "../../components/ItemPopup";
+import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import useSWR from "swr";
+import Item from "../../components/ItemPopup";
 
 export function RecentItems() {
   const url = "https://api.smartlist.tech/v2/items/list/";

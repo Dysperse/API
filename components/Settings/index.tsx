@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from "react";
-import ListItemText from "@mui/material/ListItemText";
-import ListItem from "@mui/material/ListItem";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import ListItemButton from "@mui/material/ListItemButton";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
+import AccountSettings from "./AccountSettings";
+import App from "./App";
 import AppearanceSettings from "./AppearanceSettings";
 import FinanceSettings from "./FinanceSettings";
-import AccountSettings from "./AccountSettings";
 import Sessions from "./Sessions";
-import App from "./App";
-import Box from "@mui/material/Box";
 
 function SettingsMenu({ content, icon, primary, secondary }: any) {
   const [open, setOpen] = useState(false);

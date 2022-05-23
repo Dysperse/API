@@ -1,20 +1,14 @@
-import { useState } from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Tab from "@mui/material/Tab";
 import { green, orange } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import toast from "react-hot-toast";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
 import useSWR from "swr";
-import ListItemText from "@mui/material/ListItemText";
-import ListItem from "@mui/material/ListItem";
-import { currency_symbols } from "../Finances/AccountList";
+import { Badge } from "./Badge";
+import { CreateGoalDialog } from "./CreateGoalDialog";
 
-type Account = {
+export type Account = {
   account_id: string;
   balances: {
     available: any;
@@ -23,171 +17,12 @@ type Account = {
     limit: number;
     unofficial_currency_code: any;
   };
-  mask: "3333";
-  name: "Plaid Credit Card";
-  official_name: "Plaid Diamond 12.5% APR Interest Credit Card";
-  subtype: "credit card";
-  type: "credit";
-};
-
-function CreateGoalDialog({
-  name,
-  moneyRequiredForGoal,
-  data,
-  error,
-}: {
+  mask: string;
   name: string;
-  data: any;
-  error: any;
-  moneyRequiredForGoal: number;
-}): JSX.Element {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <>
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        PaperProps={{
-          sx: {
-            p: 2,
-            borderRadius: 5,
-            minWidth: "400px",
-            maxWidth: "calc(100vw - 20px)",
-          },
-        }}
-      >
-        <DialogTitle sx={{ fontWeight: "800" }}>Select an account</DialogTitle>
-        <DialogContent>
-          {error && "An error occured while fetching your accounts"}
-          {data ? (
-            <>
-              {data.accounts.map((account: Account) => (
-                <ListItem
-                  button
-                  onClick={() => {
-                    setOpen(false);
-                    fetch(
-                      "https://api.smartlist.tech/v2/finances/goals/create/",
-                      {
-                        method: "POST",
-                        body: new URLSearchParams({
-                          token: global.session && global.session.accessToken,
-                          name: name,
-                          image:
-                            "https://images.unsplash.com/photo-1416169607655-0c2b3ce2e1cc?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774",
-                          minAmountOfMoney: moneyRequiredForGoal.toString(),
-                          accountId: account.account_id,
-                        }),
-                      }
-                    )
-                      .then((res) => res.json())
-                      .then((res) => toast.success("Created goal!"));
-                  }}
-                  sx={{
-                    mb: 1,
-                    background: "rgba(200,200,200,.3)",
-                    borderRadius: 3,
-                    "&:hover": {
-                      background: "rgba(200,200,200,.4)",
-                    },
-                    transition: "none",
-                  }}
-                >
-                  <ListItemText
-                    primary={account.name}
-                    secondary={
-                      <>
-                        {currency_symbols[account.balances.iso_currency_code] ??
-                          "$"}
-                        {account.balances.current}
-                      </>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </>
-          ) : (
-            "Loading..."
-          )}
-        </DialogContent>
-      </Dialog>
-
-      <Button
-        variant="contained"
-        disabled={error || !data}
-        sx={{ boxShadow: 0, borderRadius: 9, mt: 1, px: 6 }}
-        size="large"
-        onClick={() => setOpen(true)}
-      >
-        Add to my goals
-      </Button>
-    </>
-  );
-}
-
-function Badge({ tipOfTheDay, highlySuggested }: any) {
-  return (
-    <>
-      {tipOfTheDay && (
-        <div
-          className="badge"
-          style={{
-            fontSize: "13px",
-            display: "inline-flex",
-            alignItems: "center",
-            position: "absolute",
-            top: "15px",
-            right: "15px",
-            justifyContent: "center",
-            gap: "10px",
-            background: green["A700"],
-            color: "white",
-            borderRadius: "99px",
-            fontWeight: "500",
-            padding: "3px 10px",
-          }}
-        >
-          <span
-            className="material-symbols-rounded"
-            style={{ fontSize: "14px", color: "white" }}
-          >
-            tips_and_updates
-          </span>{" "}
-          Tip of the day
-        </div>
-      )}
-      {highlySuggested && (
-        <div
-          className="badge"
-          style={{
-            fontSize: "13px",
-            display: "inline-flex",
-            alignItems: "center",
-            position: "absolute",
-            top: "15px",
-            right: "15px",
-            justifyContent: "center",
-            gap: "10px",
-            background: orange["A700"],
-            color: "white",
-            borderRadius: "99px",
-            fontWeight: "500",
-            padding: "3px 10px",
-          }}
-        >
-          <span
-            className="material-symbols-rounded"
-            style={{ fontSize: "14px", color: "white" }}
-          >
-            auto_awesome
-          </span>{" "}
-          Highly suggested
-        </div>
-      )}
-    </>
-  );
-}
+  official_name: string;
+  subtype: string;
+  type: string;
+};
 
 export function TipCard({
   name,

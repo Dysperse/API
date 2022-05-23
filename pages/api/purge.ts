@@ -12,8 +12,8 @@ export default withIronSessionApiRoute(
     let info: any = await fetch("https://api.smartlist.tech/v2/account/info/", {
       method: "POST",
       body: new URLSearchParams({
-        token: token.toString()
-      })
+        token: token.toString(),
+      }),
     });
     info = await info.json();
     // get user from database then:
@@ -26,7 +26,7 @@ export default withIronSessionApiRoute(
     req.session.user = {
       valid: true,
       accessToken: token,
-      user: info.data
+      user: info.data,
     };
     await req.session.save();
     res.redirect("/");
@@ -36,7 +36,7 @@ export default withIronSessionApiRoute(
     password: "complex_password_at_least_32_characters_long",
     // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
     cookieOptions: {
-      secure: process.env.NODE_ENV === "production"
-    }
+      secure: process.env.NODE_ENV === "production",
+    },
   }
 );

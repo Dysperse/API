@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Skeleton from "@mui/material/Skeleton";
 import * as colors from "@mui/material/colors";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Skeleton from "@mui/material/Skeleton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
 import { CreateListItemButton } from "./CreateListItemButton";
 
 function ListItem({ item, listItems, setListItems }: any) {

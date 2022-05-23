@@ -7,10 +7,10 @@ import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import React from "react";
+import useSWR from "swr";
 import { AccountTab } from "./AccountTab";
 import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
-import useSWR from "swr";
 
 export const currency_symbols = {
   USD: "$", // US Dollar

@@ -8,9 +8,9 @@ export default function handler(req, res) {
     body: JSON.stringify({
       client_id: process.env.PLAID_CLIENT_TOKEN,
       secret: process.env.PLAID_SECRET,
-      access_token: req.query.access_token ?? "false"
+      access_token: req.query.access_token ?? "false",
     }),
-    redirect: "follow"
+    redirect: "follow",
   })
     .then((response) => response.json())
     .then((result) => res.json(result))

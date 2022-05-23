@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import Head from "next/head";
-import Layout from "../components/Layout";
-import "../styles/global.css";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import LoginPrompt from "../components/LoginPrompt";
-import * as colors from "@mui/material/colors";
 import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
+import Head from "next/head";
+import React, { useState } from "react";
 import { Offline, Online } from "react-detect-offline";
-import useSWR from "swr";
 import { Toaster } from "react-hot-toast";
+import useSWR from "swr";
+import Layout from "../components/Layout";
+import LoginPrompt from "../components/LoginPrompt";
+import "../styles/global.css";
+
+dayjs.extend(relativeTime);
 
 function Render({ data, Component, pageProps }: any) {
   global.session = data;

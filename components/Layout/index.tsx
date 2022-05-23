@@ -1,24 +1,22 @@
+import LabelIcon from "@mui/icons-material/Label";
 import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Toolbar from "@mui/material/Toolbar";
-import Skeleton from "@mui/material/Skeleton";
-import { Navbar } from "./Navbar";
-import { DrawerListItems } from "./Links";
-import { BottomNav } from "./BottomNav";
-import { FloatingActionButton } from "./FloatingActionButton";
-import useWindowDimensions from "./useWindowDimensions";
-
-import * as colors from "@mui/material/colors";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import LabelIcon from "@mui/icons-material/Label";
-import useSWR from "swr";
+import Skeleton from "@mui/material/Skeleton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Toolbar from "@mui/material/Toolbar";
 import Link from "next/link";
-
 import React, { useEffect } from "react";
+import useSWR from "swr";
+import useWindowDimensions from "../useWindowDimensions";
+import { BottomNav } from "./BottomNav";
+import { FloatingActionButton } from "./FloatingActionButton";
+import { DrawerListItems } from "./Links";
+import { Navbar } from "./Navbar";
 
 const drawerWidth = 300;
 

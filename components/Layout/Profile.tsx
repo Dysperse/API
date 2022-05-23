@@ -14,7 +14,7 @@ import Skeleton from "@mui/material/Skeleton";
 import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
-import Settings from "./Settings/index";
+import Settings from "../Settings/index";
 
 const drawerBleeding = 0;
 
