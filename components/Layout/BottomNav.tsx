@@ -10,28 +10,29 @@ const styles = {
   borderRadius: "15px",
   color: global.theme === "dark" ? "#ccc" : "#505050",
   px: "0!important",
-  maxWidth: "20vw!important",
-  minWidth: "20vw!important",
-  width: "20vw!important",
+  maxHeight: { sm: "70px" },
+  maxWidth: { xs: "20vw!important", sm: "65px!important" },
+  minWidth: { xs: "20vw!important", sm: "65px!important" },
+  width: { xs: "20vw!important", sm: "65px!important" },
   mr: "-1px",
   transition: "none",
   "&:hover": {
     background:
       global.theme === "dark"
         ? "rgba(255,255,255,0.2)"
-        : "rgba(200, 200, 200, .5)"
+        : "rgba(200, 200, 200, .5)",
   },
   "&:active": {
     background:
       global.theme === "dark"
         ? "rgba(255,255,255,.3)"
-        : "rgba(200, 200, 200, .9)"
+        : "rgba(200, 200, 200, .9)",
   },
   "&.Mui-selected svg": {
-    background: "rgba(150, 150, 150, .7)"
+    background: "rgba(150, 150, 150, .7)",
   },
   "& span:not(.MuiIcon-root)": {
-    fontSize: "13px!important"
+    fontSize: "13px!important",
   },
   "& .MuiIcon-root": {
     fontSize: "21px",
@@ -42,15 +43,15 @@ const styles = {
     maxWidth: "50px",
     py: 0.3,
     height: "auto",
-    overflow: "visible"
+    overflow: "visible",
   },
   "&.Mui-selected .MuiIcon-root": {
-    background: "rgba(0,0,0,0.3)"
+    background: "rgba(0,0,0,0.3)",
   },
   "&.Mui-selected": {
     color: global.theme === "dark" ? "#fff" : "#000",
-    background: "transparent !important"
-  }
+    background: "transparent !important",
+  },
 };
 
 export function BottomNav() {
@@ -67,7 +68,7 @@ export function BottomNav() {
     case "/categories":
       v = 3;
       break;
-    case "/meals":
+    case "/planner":
       v = 4;
       break;
     default:
@@ -81,14 +82,15 @@ export function BottomNav() {
   return (
     <Box
       sx={{
-        width: "100%",
+        width: { xs: "100%", sm: "65px" },
         position: "fixed",
-        bottom: 0,
+        bottom: { xs: 0, md: "unset" },
+        top: { xs: "unset", md: 0 },
         left: 0,
         display: {
           xs: "block",
-          sm: "none"
-        }
+          md: "none",
+        },
       }}
     >
       <SearchPopup
@@ -100,15 +102,19 @@ export function BottomNav() {
         value={value}
         sx={{
           py: 0.5,
-          px: "3px",
-          height: "auto",
+          px: { xs: "3px", sm: "0px" },
+          height: { xs: "auto", sm: "100vh" },
+          alignItems: "center",
+          flexDirection: { sm: "column" },
           backdropFilter: "blur(15px)",
-          borderTopLeftRadius: "15px",
-          borderTopRightRadius: "15px",
+          borderTopLeftRadius: { xs: "15px", sm: "0" },
+          borderTopRightRadius: { xs: "15px", sm: "15px" },
+          borderBottomRightRadius: { sm: "15px" },
+
           background:
             global.theme === "dark"
               ? "rgba(255,255,255,.1)"
-              : "rgba(210,210,210,.9)"
+              : "rgba(210,210,210,.9)",
         }}
         showLabels
         onChange={(event, newValue) => {
@@ -149,18 +155,14 @@ export function BottomNav() {
           label="Items"
           disableRipple
           onClick={() => onLink("/categories")}
-          icon={
-            <Icon baseClassName="material-symbols-rounded">view_agenda</Icon>
-          }
+          icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
         />
         <BottomNavigationAction
           sx={styles}
-          label="Meals"
+          label="Planner"
           disableRipple
-          onClick={() => onLink("/meals")}
-          icon={
-            <Icon baseClassName="material-symbols-rounded">local_pizza</Icon>
-          }
+          onClick={() => onLink("/planner")}
+          icon={<Icon baseClassName="material-symbols-rounded">event</Icon>}
         />
       </BottomNavigation>
     </Box>

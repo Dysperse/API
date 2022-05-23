@@ -108,9 +108,10 @@ export function AccountList() {
                 marginLeft: "5px",
                 marginRight: "5px",
               },
-              "& .MuiTabs-scroller": { borderRadius: 5 },
-
-              maxWidth: "91vw",
+              "& .MuiTabs-scroller": {
+                borderRadius: 5,
+              },
+              maxWidth: "92vw",
               my: 2,
               "& .MuiTabs-indicator": {
                 borderRadius: 5,

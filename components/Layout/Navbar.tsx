@@ -21,7 +21,7 @@ function ElevationScroll(props: any) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
-    target: window ? window() : undefined
+    target: window ? window() : undefined,
   });
   useEffect(() => {
     if (document && document.querySelector(`meta[name="theme-color"]`)) {
@@ -45,27 +45,27 @@ function ElevationScroll(props: any) {
           color: global.theme === "dark" ? "white" : "black",
           py: {
             sm: 1,
-            xs: 0.9
+            xs: 0.9,
           },
           pr: 0.4,
           backdropFilter: "blur(20px)",
           background:
             global.theme === "dark"
               ? "rgba(90,90,90,.7)"
-              : hexToRgba(colors[global.themeColor]["100"], 0.7)
+              : hexToRgba(colors[global.themeColor]["100"], 0.7),
         }
       : {
           color: global.theme === "dark" ? "white" : "black",
           pr: 0.4,
           py: {
             sm: 1,
-            xs: 0.9
+            xs: 0.9,
           },
           // transition: "all .2s",
           background:
             global.theme === "dark" ? "rgba(0,0,0,0)" : "rgba(255,255,255,.5)",
-          backdropFilter: "blur(10px)"
-        }
+          backdropFilter: "blur(10px)",
+        },
   });
 }
 
@@ -84,11 +84,10 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                 onClick={handleDrawerToggle}
                 sx={{
                   mr: 2,
-                  ml: -0.5,
-                  display: { sm: "none" },
+                  display: { md: "none" },
                   transition: "none",
                   color: "#606060",
-                  "&:hover": { color: "#000" }
+                  "&:hover": { color: "#000" },
                 }}
               >
                 <span className="material-symbols-rounded">menu</span>
@@ -132,7 +131,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                         transition: "none",
                         mr: 1,
                         color: "#606060",
-                        "&:hover": { color: "#000" }
+                        "&:hover": { color: "#000" },
                       }}
                     >
                       <span className="material-symbols-rounded">
@@ -163,7 +162,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                     transition: "none",
                     mr: 0.9,
                     color: "#606060",
-                    "&:hover": { color: "#000" }
+                    "&:hover": { color: "#000" },
                   }}
                 >
                   <span className="material-symbols-rounded">inbox</span>

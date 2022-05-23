@@ -106,6 +106,7 @@ export function ProfileMenu(props: any) {
       />
       <Tooltip title="My account" placement="bottom-end">
         <IconButton
+          disableRipple
           onClick={toggleDrawer(true)}
           color="inherit"
           aria-label="open drawer."

@@ -249,7 +249,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           sx={{
             display: {
               xs: "none",
-              sm: "block"
+              md: "block"
             },
             pt: 2
           }}

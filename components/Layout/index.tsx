@@ -27,9 +27,9 @@ function CustomRooms() {
     fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken
-      })
-    }).then(res => res.json())
+        token: global.session && global.session.accessToken,
+      }),
+    }).then((res) => res.json())
   );
   if (error) return <div>Failed to load room!</div>;
   if (!data)
@@ -58,21 +58,21 @@ function CustomRooms() {
               borderRadius: "0 20px 20px 0",
               color: colors["grey"][800],
               "& .MuiTouchRipple-rippleVisible": {
-                animationDuration: ".3s!important"
+                animationDuration: ".3s!important",
               },
               "& .MuiTouchRipple-child": {
-                filter: "opacity(.2)!important"
+                filter: "opacity(.2)!important",
               },
               "&:hover": {
                 color: "#000",
-                background: "rgba(200,200,200,.3)"
+                background: "rgba(200,200,200,.3)",
               },
               "&:hover span": {
-                color: colors["grey"][800] + "!important"
+                color: colors["grey"][800] + "!important",
               },
               "&:active": {
-                background: "rgba(200,200,200,.4)"
-              }
+                background: "rgba(200,200,200,.4)",
+              },
             }}
           >
             <ListItemIcon>
@@ -112,15 +112,15 @@ function ResponsiveDrawer(props: any): JSX.Element {
         display: "flex",
         "& *::selection": {
           color: "#fff",
-          background: colors[themeColor]["A700"]
-        }
+          background: colors[themeColor]["A700"],
+        },
       }}
     >
       <CssBaseline />
       <Navbar handleDrawerToggle={handleDrawerToggle} />
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: { sm: "65px", md: drawerWidth }, flexShrink: { md: 0 } }}
         aria-label="mailbox folders"
       >
         <SwipeableDrawer
@@ -132,22 +132,22 @@ function ResponsiveDrawer(props: any): JSX.Element {
               boxShadow: 0,
               overscrollBehavior: "none",
               pr: "2px",
-              borderRadius: "0 20px 20px 0"
-            }
+              borderRadius: "0 20px 20px 0",
+            },
           }}
           onClose={handleDrawerToggle}
           onOpen={() => setMobileOpen(true)}
           ModalProps={{
-            keepMounted: true
+            keepMounted: true,
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               height: "100vh",
               overflowY: "scroll",
-              width: drawerWidth
-            }
+              width: drawerWidth,
+            },
           }}
         >
           <DrawerListItems
@@ -158,10 +158,10 @@ function ResponsiveDrawer(props: any): JSX.Element {
         <Drawer
           variant="permanent"
           ModalProps={{
-            keepMounted: true
+            keepMounted: true,
           }}
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: "none", md: "block" },
             width: drawerWidth,
             flexShrink: 0,
             height: "100px",
@@ -172,8 +172,8 @@ function ResponsiveDrawer(props: any): JSX.Element {
               zIndex: 1000,
               height: "100vh",
               overflowY: "scroll",
-              boxSizing: "border-box"
-            }
+              boxSizing: "border-box",
+            },
           }}
           open
         >
@@ -186,9 +186,12 @@ function ResponsiveDrawer(props: any): JSX.Element {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
+          flexGrow: 90,
           p: 0,
-          width: { sm: `calc(100% - ${drawerWidth}px)` }
+          width: {
+            sm: `calc(100% - 65px)`,
+            md: `calc(100% - ${drawerWidth}px)`,
+          },
         }}
       >
         <Toolbar />
@@ -196,8 +199,8 @@ function ResponsiveDrawer(props: any): JSX.Element {
           sx={{
             py: {
               sm: 1,
-              xs: 0.5
-            }
+              xs: 0.5,
+            },
           }}
         >
           {props.children}
