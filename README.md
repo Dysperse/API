@@ -1,6 +1,6 @@
 ![image](https://user-images.githubusercontent.com/77016441/167351533-71eca8e2-e532-466a-b933-18c96757fb43.png)
 
-⚠️ The code below is copyrighted. You **may not** use this code for business purposes. If you want to contribute, consider signing up for our volunteer positions.
+🛈 The code below is copyrighted. You **may not** use this code for business purposes. If you want to contribute, consider signing up for our volunteer positions.
 
 # Smartlist
 
