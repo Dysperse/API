@@ -40,13 +40,14 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
   });
   return (
     <>
-      <ListItem button
+      <ListItem
+        button
         onClick={() => setOpen(true)}
         sx={{
           transiton: "none!important",
           "& *": { transiton: "none!important" },
           borderRadius: 4,
-          mb: 1
+          mb: 1,
         }}
       >
         <ListItemAvatar>
@@ -57,7 +58,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
               background:
                 global.theme === "dark"
                   ? colors[themeColor][900]
-                  : colors[themeColor][100]
+                  : colors[themeColor][100],
             }}
           >
             <span
@@ -86,10 +87,10 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
           sx={{
             width: {
               xs: "100vw",
-              sm: "60vw"
+              sm: "60vw",
             },
             height: "100vh",
-            overflow: "scroll"
+            overflow: "scroll",
           }}
         >
           <AppBar
@@ -103,7 +104,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
                   : "rgba(230,230,230,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
-              color: global.theme === "dark" ? "#fff" : "#000"
+              color: global.theme === "dark" ? "#fff" : "#000",
             }}
           >
             <Toolbar>
@@ -175,9 +176,9 @@ export default function FullScreenDialog() {
           sx: {
             width: {
               xs: "100vw",
-              sm: "40vw"
-            }
-          }
+              sm: "40vw",
+            },
+          },
         }}
         open={open}
         onClose={handleClose}
@@ -193,7 +194,7 @@ export default function FullScreenDialog() {
                   : "rgba(230,230,230,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
-              color: global.theme === "dark" ? "#fff" : "#000"
+              color: global.theme === "dark" ? "#fff" : "#000",
             }}
           >
             <Toolbar>
@@ -289,12 +290,14 @@ export default function FullScreenDialog() {
             />
             <Divider sx={{ mb: 1 }} />
 
-            <ListItem button
+            <ListItem
+              button
+              onClick={() => (window.location.href = "/api/logout")}
               sx={{
                 transiton: "none!important",
                 "& *": { transiton: "none!important" },
                 borderRadius: 4,
-                mb: 1
+                mb: 1,
               }}
             >
               <ListItemAvatar>
@@ -302,7 +305,7 @@ export default function FullScreenDialog() {
                   sx={{
                     color: "#000",
                     background: colors[themeColor][100],
-                    borderRadius: 4
+                    borderRadius: 4,
                   }}
                 >
                   <span className="material-symbols-rounded">logout</span>
@@ -315,13 +318,14 @@ export default function FullScreenDialog() {
                 secondary="Sign out of Smartlist and its related apps"
               />
             </ListItem>
-            <ListItem button
+            <ListItem
+              button
               onClick={() => setOpen(true)}
               sx={{
                 transiton: "none!important",
                 "& *": { transiton: "none!important" },
                 borderRadius: 4,
-                mb: 1
+                mb: 1,
               }}
             >
               <ListItemAvatar>
@@ -329,7 +333,7 @@ export default function FullScreenDialog() {
                   sx={{
                     color: "#000",
                     background: colors[themeColor][100],
-                    borderRadius: 4
+                    borderRadius: 4,
                   }}
                 >
                   <span className="material-symbols-rounded">policy</span>
