@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CommandPalette from "react-command-palette";
 
 function atomCommand(suggestion: any) {
-  const { name, highlight, shortcut } = suggestion;
+  const { name, shortcut } = suggestion;
   return (
     <div className="atom-item">
       <span>{name}</span>
