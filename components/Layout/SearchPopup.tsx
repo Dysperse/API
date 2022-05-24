@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import CommandPalette from "react-command-palette";
 
 function atomCommand(suggestion: any) {
@@ -12,180 +13,128 @@ function atomCommand(suggestion: any) {
 }
 
 export function SearchPopup({ content }: any) {
+  const router = useRouter();
+  const [ready, setReady] = useState(false);
   const [commands, setCommands] = useState([
     {
       name: "Dashboard",
-      command() {},
+      command: () => router.push("/dashboard"),
     },
     {
-      command: () => {},
+      command: () => router.push("/finances"),
       name: "Finances",
     },
     {
-      command: () => {},
-      name: "Meals",
+      command: () => router.push("/planner"),
+      name: "Planner",
     },
     {
-      command: () => {},
+      command: () => router.push("/dashboard"),
       name: "Settings",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/kitchen"),
       name: "Notifications ",
     },
     {
-      command: () => {},
+      command: () => router.push("/trash"),
       name: "Trash",
     },
     {
-      command: () => {},
+      command: () => router.push("/dashboard"),
       name: "Starred",
     },
     {
-      command: () => {},
+      command: () => router.push("/home-maintenance"),
       name: "Home maintenance",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/kitchen"),
       name: "Create list",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/kitchen"),
       name: "Kitchen",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/bedroom"),
       name: "Bedroom",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/bathroom"),
       name: "Bathroom",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/garage"),
       name: "Garage",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/living-room"),
       name: "Living room",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/dining-room"),
       name: "Dining room",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/laundry-room"),
       name: "Laundry room",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/storage"),
       name: "Storage room",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/garden"),
       name: "Garden",
       shortcut: "Rooms",
     },
     {
-      command: () => {},
+      command: () => router.push("/rooms/camping"),
       name: "Camping",
       shortcut: "Rooms",
     },
-    {
-      command: () => {},
-      name: "Appearance",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Finances",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Account",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Third-party apps",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Notifications",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Developer",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "App",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Sessions",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Rooms",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Sync",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Finance plan",
-      shortcut: "Settings > Finances",
-    },
-    {
-      command: () => {},
-      name: "Sign out",
-      shortcut: "Settings",
-    },
-    {
-      command: () => {},
-      name: "Legals",
-      shortcut: "Settings",
-    },
   ]);
-  // fetch("https://api.smartlist.tech/v2/rooms/", {
-  //   method: "POST",
-  //   body: new URLSearchParams({
-  //     token: global.session.accessToken
-  //   })
-  // })
-  //   .then((res) => res.json())
-  //   .then((res) => {
-  //     setCommands([
-  //       ...commands,
-  //       ...res.data.map((room) => {
-  //         return {
-  //           command: () => {},
-  //           name: room.name,
-  //           shortcut: "Rooms"
-  //         };
-  //       })
-  //     ]);
-  //   });
-  return (
+  if (!ready) {
+    fetch("https://api.smartlist.tech/v2/rooms/", {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.session.accessToken,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setCommands([
+          ...commands,
+          ...res.data.map((room) => {
+            return {
+              command: () => router.push("/rooms/" + room.id),
+              name: room.name,
+              shortcut: "Rooms",
+            };
+          }),
+        ]);
+        setReady(true);
+      });
+  }
+  return !ready ? (
+    React.cloneElement(content, {
+      style: {
+        pointerEvents: "none",
+        opacity: 0.7,
+      },
+    })
+  ) : (
     <CommandPalette
+      closeOnSelect
       placeholder="Jump to"
       trigger={content}
       renderCommand={atomCommand}

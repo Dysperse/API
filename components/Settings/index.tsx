@@ -6,7 +6,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemButton from "@mui/material/ListItemButton";
+import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -40,7 +40,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
   });
   return (
     <>
-      <ListItemButton
+      <ListItem button
         onClick={() => setOpen(true)}
         sx={{
           transiton: "none!important",
@@ -74,7 +74,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
           }
           secondary={secondary}
         />
-      </ListItemButton>
+      </ListItem>
       <SwipeableDrawer
         open={open}
         swipeAreaWidth={0}
@@ -289,8 +289,7 @@ export default function FullScreenDialog() {
             />
             <Divider sx={{ mb: 1 }} />
 
-            <ListItemButton
-              onClick={() => setOpen(true)}
+            <ListItem button
               sx={{
                 transiton: "none!important",
                 "& *": { transiton: "none!important" },
@@ -315,8 +314,8 @@ export default function FullScreenDialog() {
                 }
                 secondary="Sign out of Smartlist and its related apps"
               />
-            </ListItemButton>
-            <ListItemButton
+            </ListItem>
+            <ListItem button
               onClick={() => setOpen(true)}
               sx={{
                 transiton: "none!important",
@@ -342,7 +341,7 @@ export default function FullScreenDialog() {
                 }
                 secondary="Food for lawyers"
               />
-            </ListItemButton>
+            </ListItem>
           </List>
         </Box>
       </SwipeableDrawer>

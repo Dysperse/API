@@ -135,3 +135,7 @@ img {
   color: #fff;
   background-color: #4d78cc;
 }
+
+#searchTrigger {
+  display: none
+}
