@@ -11,9 +11,8 @@ export default withIronSessionApiRoute(
     res.send(JSON.stringify({ ...req.session.user }, null, 2));
   },
   {
-    cookieName: "myapp_cookiename",
-    password: "complex_password_at_least_32_characters_long",
-    // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
+    cookieName: "session",
+    password: `${process.env.SECRET_COOKIE_PASSWORD}`,
     cookieOptions: {
       secure: process.env.NODE_ENV === "production",
     },

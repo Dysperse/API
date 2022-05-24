@@ -13,6 +13,8 @@
 [![Build Status](https://img.shields.io/github/stars/Smartlist-app/Smartlist.svg?style=flat)](https://github.com/ManuTheCoder/Smartlist-desktop)
 [![License](https://img.shields.io/github/license/Smartlist-app/Smartlist.svg?style=flat)](https://github.com/ManuTheCoder/Smartlist-desktop)
 [![Better Uptime Badge](https://betteruptime.com/status-badges/v1/monitor/77o4.svg)](https://betteruptime.com/?utm_source=status_badge)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Smartlist-App/Smartlist.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Smartlist-App/Smartlist/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Smartlist-App/Smartlist.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Smartlist-App/Smartlist/context:javascript)
 
 ### Meet Smartlist.
 
