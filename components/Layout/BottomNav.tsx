@@ -2,6 +2,7 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Box from "@mui/material/Box";
 import Icon from "@mui/material/Icon";
+import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { SearchPopup } from "./SearchPopup";
@@ -10,6 +11,11 @@ const styles = {
   borderRadius: "15px",
   color: global.theme === "dark" ? "#ccc" : "#505050",
   px: "0!important",
+  "& *": {
+    maxWidth: "70%",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
   maxHeight: { sm: "70px" },
   maxWidth: { xs: "20vw!important", sm: "65px!important" },
   minWidth: { xs: "20vw!important", sm: "65px!important" },
@@ -64,6 +70,9 @@ export function BottomNav() {
     case "/finances":
       v = 1;
       break;
+    case "/save-the-planet":
+      v = 2;
+      break;
     case "/trash":
     case "/categories":
       v = 3;
@@ -93,11 +102,6 @@ export function BottomNav() {
         },
       }}
     >
-      <SearchPopup
-        content={
-          <button id="searchTrigger" style={{ display: "none" }}></button>
-        }
-      />
       <BottomNavigation
         value={value}
         sx={{
@@ -143,11 +147,23 @@ export function BottomNav() {
 
         <BottomNavigationAction
           sx={styles}
-          label="Search"
+          label={
+            <span
+              style={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Eco friendlinessssssss
+            </span>
+          }
           disableRipple
-          onClick={() => document.getElementById("searchTrigger")!.click()}
+          onClick={() => onLink("/save-the-planet")}
           icon={
-            <Icon baseClassName="material-symbols-rounded">electric_bolt</Icon>
+            <Icon baseClassName="material-symbols-rounded">
+              energy_savings_leaf
+            </Icon>
           }
         />
         <BottomNavigationAction

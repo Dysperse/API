@@ -10,7 +10,6 @@ import * as colors from "@mui/material/colors";
 import { blueGrey, orange } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
-// import Button from "@mui/material/Button";
 import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -27,8 +26,8 @@ import { ItemActionsMenu } from "./ItemActionsMenu";
 import { StarButton } from "./StarButton";
 
 export default function Item({ displayRoom = false, data, variant }: any) {
-  const [itemData] = useState(data);
   const id = data.id;
+  const [itemData] = useState(data);
   const [title, setTitle] = useState(data.title);
   const [quantity, setQuantity] = useState(data.amount);
   const [star, setStar] = useState(parseInt(itemData.star, 10));

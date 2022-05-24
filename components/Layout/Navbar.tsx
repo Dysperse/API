@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-
-import { ProfileMenu } from "./Profile";
-import { AppsMenu } from "./AppsMenu";
-import { NotificationsMenu } from "./Notifications";
 import AppBar from "@mui/material/AppBar";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
 import { grey } from "@mui/material/colors";
-import { SearchPopup } from "./SearchPopup";
+import IconButton from "@mui/material/IconButton";
+import Skeleton from "@mui/material/Skeleton";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import hexToRgba from "hex-to-rgba";
-import * as colors from "@mui/material/colors";
+import React, { useEffect } from "react";
+import { AppsMenu } from "./AppsMenu";
+import { NotificationsMenu } from "./Notifications";
+import { ProfileMenu } from "./Profile";
+import { SearchPopup } from "./SearchPopup";
+
 
 function ElevationScroll(props: any) {
   const { children, window } = props;
@@ -118,39 +118,37 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
               />
             )}
           </Typography>
-          <Box sx={{ display: { sm: "block", xs: "none" } }}>
-            <SearchPopup
-              content={
-                <Tooltip title="Jump to">
-                  {global.session ? (
-                    <IconButton
-                      color="inherit"
-                      edge="end"
-                      size="large"
-                      sx={{
-                        transition: "none",
-                        mr: 1,
-                        color: "#606060",
-                        "&:hover": { color: "#000" },
-                      }}
-                    >
-                      <span className="material-symbols-rounded">
-                        electric_bolt
-                      </span>
-                    </IconButton>
-                  ) : (
-                    <Skeleton
-                      sx={{ mr: 2 }}
-                      variant="circular"
-                      width={40}
-                      height={40}
-                      animation="wave"
-                    />
-                  )}
-                </Tooltip>
-              }
-            />
-          </Box>
+          <SearchPopup
+            content={
+              <Tooltip title="Jump to">
+                {global.session ? (
+                  <IconButton
+                    color="inherit"
+                    edge="end"
+                    size="large"
+                    sx={{
+                      transition: "none",
+                      mr: 1,
+                      color: "#606060",
+                      "&:hover": { color: "#000" },
+                    }}
+                  >
+                    <span className="material-symbols-rounded">
+                      electric_bolt
+                    </span>
+                  </IconButton>
+                ) : (
+                  <Skeleton
+                    sx={{ mr: 2 }}
+                    variant="circular"
+                    width={40}
+                    height={40}
+                    animation="wave"
+                  />
+                )}
+              </Tooltip>
+            }
+          />
           <NotificationsMenu>
             <Tooltip title="Notifications">
               {global.session ? (
