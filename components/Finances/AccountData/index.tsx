@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { AccountHeader } from "./AccountHeader";
 import { Goal } from "./Goal";
 import { Navbar } from "./Navbar";
-import { StreakCard } from "./StreakCard";
 
 export function AccountData({ setOpen, scrollTop, account }: any) {
   const url = "https://api.smartlist.tech/v2/finances/goals/";
@@ -44,14 +43,9 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
       />
 
       <Box sx={{ p: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: "600" }}>
-          Streak
-        </Typography>
-        <StreakCard accountId={account.account_id} />
-        <Typography variant="h5" sx={{ fontWeight: "600", mt: 5 }}>
+        <Typography variant="h5" sx={{ fontWeight: "600", mt: 1, mb: 3 }}>
           Goals
         </Typography>
-        {/* <pre>{JSON.stringify(account, null, 2)}</pre> */}
         {data && data.data.length === 0 && (
           <Box
             sx={{

@@ -19,7 +19,7 @@ function ThumbComponent(props: any) {
   );
 }
 
-export function StreakCard({ accountId }: { accountId: string }) {
+export function StreakCard(): JSX.Element {
   const AirbnbSlider = styled(Slider)(({ theme }) => ({
     color: "#f9a825!important",
     height: 3,
@@ -28,11 +28,11 @@ export function StreakCard({ accountId }: { accountId: string }) {
       width: 35,
       boxShadow: 0,
       backgroundColor: "#fff!important",
-      border: "2px solid #f9a825!important"
+      border: "2px solid #f9a825!important",
     },
     "& .MuiSlider-track": {
       height: 8,
-      overflow: "hidden"
+      overflow: "hidden",
     },
     "& .MuiSlider-mark": {
       backgroundColor: "#aaa!important",
@@ -41,21 +41,21 @@ export function StreakCard({ accountId }: { accountId: string }) {
       width: 3,
       "&.MuiSlider-markActive": {
         opacity: 1,
-        backgroundColor: "rgba(255,255,255,.3)!important"
-      }
+        backgroundColor: "rgba(255,255,255,.3)!important",
+      },
     },
     "& .MuiSlider-rail": {
       color: theme.palette.mode === "dark" ? "#bfbfbf" : "#d8d8d8!important",
       opacity: theme.palette.mode === "dark" ? undefined : 1,
-      height: 8
-    }
+      height: 8,
+    },
   }));
   const { isLoading, data }: any = useFetch(
     "/api/finance/fetchTransactions?" +
       new URLSearchParams({
         access_token: global.session.user.financeToken,
         start_date: dayjs().subtract(15, "day").format("YYYY-MM-DD"),
-        end_date: dayjs().add(3, "day").format("YYYY-MM-DD")
+        end_date: dayjs().add(3, "day").format("YYYY-MM-DD"),
       })
   );
   return isLoading ? (
@@ -73,11 +73,11 @@ export function StreakCard({ accountId }: { accountId: string }) {
           borderRadius: 5,
           boxShadow: 0,
           p: 1,
-          mt: 2
+          mt: 2,
         }}
       >
         <CardContent>
-          <Box sx={{ px: 2 }}>
+          <Box sx={{ pr: 1 }}>
             <AirbnbSlider
               components={{ Thumb: ThumbComponent }}
               step={1}
@@ -86,33 +86,20 @@ export function StreakCard({ accountId }: { accountId: string }) {
               disabled
               max={10}
               defaultValue={
-                data.transactions.filter((e) => (e.account_id = accountId))[0]
-                  ? dayjs().diff(
-                      data.transactions.filter(
-                        (e) => (e.account_id = accountId)
-                      )[0].authorized_date,
-                      "d"
-                    ) || 0
+                data.transactions[0]
+                  ? dayjs().diff(data.transactions[0].date, "d") || 0
                   : 0
               }
             />
           </Box>
           <Typography sx={{ mt: 1 }}>
             You haven't purchased anything for{" "}
-            {data.transactions.filter((e) => (e.account_id = accountId))[0]
-              ? dayjs().diff(
-                  data.transactions.filter((e) => (e.account_id = accountId))[0]
-                    .authorized_date,
-                  "d"
-                ) || 0
+            {data.transactions[0]
+              ? dayjs().diff(data.transactions[0].date, "d") || 0
               : 0}{" "}
             days
-            {(data.transactions.filter((e) => (e.account_id = accountId))[0]
-              ? dayjs().diff(
-                  data.transactions.filter((e) => (e.account_id = accountId))[0]
-                    .authorized_date,
-                  "d"
-                ) || 0
+            {(data.transactions[0]
+              ? dayjs().diff(data.transactions[0].date, "d") || 0
               : 0) !== 0 ? (
               <> &ndash; Keep it up!</>
             ) : (

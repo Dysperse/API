@@ -17,9 +17,9 @@ import useFetch from "react-fetch-hook";
 import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";
 import { CreateListModal } from "./CreateListModal";
-
+import * as colors from "@mui/material/colors";
 const Root = styled("div")(({ theme }) => ({
-  height: "100%"
+  height: "100%",
 }));
 
 function AddItemOption({
@@ -27,25 +27,40 @@ function AddItemOption({
   s = 3,
   toggleDrawer,
   icon,
-  title
+  title,
 }: any): JSX.Element {
   return (
     <Grid item xs={s}>
       <CreateItemModal room={title} toggleDrawer={toggleDrawer}>
-        <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
+        <Card
+          sx={{
+            textAlign: "center",
+            boxShadow: 0,
+            borderRadius: 6,
+            transition: "transform .2s",
+            "&:active": {
+              boxShadow: "none!important",
+              transform: "scale(0.98)",
+              transition: "none",
+            },
+          }}
+        >
           <CardActionArea
             disableRipple
             onClick={() => toggleDrawer(false)}
             sx={{
               "&:hover": {
-                background: "rgba(200,200,200,.3)!important"
+                background: colors[themeColor]["100"] + "!important",
               },
-              "&:focus": {
-                background: "rgba(200,200,200,.5)!important"
+              borderRadius: 6,
+              "&:focus-within": {
+                background: colors[themeColor]["100"] + "!important",
+                boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               },
               "&:active": {
-                background: "rgba(200,200,200,.6)!important"
-              }
+                boxShadow: "none!important",
+                background: colors[themeColor]["100"] + "!important",
+              },
             }}
           >
             <CardContent sx={{ p: 1 }}>
@@ -65,8 +80,8 @@ function MoreRooms(): JSX.Element {
     {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session.accessToken
-      })
+        token: global.session.accessToken,
+      }),
     }
   );
   return (
@@ -78,20 +93,20 @@ function MoreRooms(): JSX.Element {
           sx: {
             width: {
               xs: "100vw",
-              sm: "50vw"
+              sm: "50vw",
             },
             "& *:not(.MuiTouchRipple-child, .puller)": {
-              background: "transparent!important"
+              background: "transparent!important",
             },
             borderRadius: "28px 28px 0 0 !important",
-            mx: "auto"
-          }
+            mx: "auto",
+          },
         }}
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
       >
         <Puller />
@@ -153,14 +168,17 @@ function MoreRooms(): JSX.Element {
             disableRipple
             sx={{
               "&:hover": {
-                background: "rgba(200,200,200,.3)!important"
+                background: colors[themeColor]["100"] + "!important",
               },
-              "&:focus": {
-                background: "rgba(200,200,200,.5)!important"
+              borderRadius: 6,
+              "&:focus-within": {
+                background: colors[themeColor]["100"] + "!important",
+                boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               },
               "&:active": {
-                background: "rgba(200,200,200,.6)!important"
-              }
+                boxShadow: "none!important",
+                background: colors[themeColor]["100"] + "!important",
+              },
             }}
           >
             <CardContent sx={{ p: 1 }}>
@@ -236,15 +254,21 @@ function Content({ toggleDrawer }: any) {
                 disableRipple
                 onClick={() => toggleDrawer(false)}
                 sx={{
+                  "&:focus-within": {
+                    background: colors[themeColor]["100"] + "!important",
+                    boxShadow:
+                      "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                  },
                   "&:hover": {
-                    background: "rgba(200,200,200,.3)!important"
+                    background: colors[themeColor]["100"] + "!important",
+                    boxShadow: "none!important",
                   },
-                  "&:focus": {
-                    background: "rgba(200,200,200,.5)!important"
-                  },
+                  borderRadius: 6,
+
                   "&:active": {
-                    background: "rgba(200,200,200,.6)!important"
-                  }
+                    boxShadow: "none!important",
+                    background: colors[themeColor]["100"] + "!important",
+                  },
                 }}
               >
                 <CardContent sx={{ p: 1 }}>
@@ -264,15 +288,21 @@ function Content({ toggleDrawer }: any) {
                 disableRipple
                 onClick={() => toggleDrawer(false)}
                 sx={{
+                  "&:focus-within": {
+                    background: colors[themeColor]["100"] + "!important",
+                    boxShadow:
+                      "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                  },
                   "&:hover": {
-                    background: "rgba(200,200,200,.3)!important"
+                    background: colors[themeColor]["100"] + "!important",
+                    boxShadow: "none!important",
                   },
-                  "&:focus": {
-                    background: "rgba(200,200,200,.5)!important"
-                  },
+                  borderRadius: 6,
+
                   "&:active": {
-                    background: "rgba(200,200,200,.6)!important"
-                  }
+                    boxShadow: "none!important",
+                    background: colors[themeColor]["100"] + "!important",
+                  },
                 }}
               >
                 <CardContent sx={{ p: 1 }}>
@@ -321,8 +351,8 @@ export default function AddPopup(props: any) {
         styles={{
           ".MuiDrawer-root > .MuiPaper-root": {
             height: "auto",
-            overflow: "visible"
-          }
+            overflow: "visible",
+          },
         }}
       />
       <Box onClick={toggleDrawer(true)}>{props.children}</Box>
@@ -334,14 +364,14 @@ export default function AddPopup(props: any) {
           sx: {
             width: {
               xs: "100vw",
-              sm: "50vw"
+              sm: "50vw",
             },
             "& *:not(.MuiTouchRipple-child, .puller)": {
-              background: "transparent!important"
+              background: "transparent!important",
             },
             borderRadius: "28px 28px 0 0 !important",
-            mx: "auto"
-          }
+            mx: "auto",
+          },
         }}
         open={open}
         onClose={() => {
@@ -351,7 +381,7 @@ export default function AddPopup(props: any) {
         }}
         onOpen={toggleDrawer(true)}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
       >
         <Box sx={{ pt: 1 }}>

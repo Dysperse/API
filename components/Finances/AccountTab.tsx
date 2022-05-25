@@ -35,8 +35,8 @@ export function AccountTab({ account }: any) {
             overscrollBehavior: "none",
             overflow: "hidden",
             borderRadius: { sm: "20px" },
-            m: { sm: "15px" }
-          }
+            m: { sm: "15px" },
+          },
         }}
         swipeAreaWidth={0}
       >
@@ -45,7 +45,7 @@ export function AccountTab({ account }: any) {
             width: { xs: "100vw", sm: "50vw" },
             overflowY: "scroll",
             borderRadius: { sm: "20px" },
-            height: { xs: "100vh", sm: "calc(100vh - 30px)" }
+            height: { xs: "100vh", sm: "calc(100vh - 30px)" },
           }}
         >
           <Box
@@ -54,7 +54,7 @@ export function AccountTab({ account }: any) {
               width: { xs: "100vw", sm: "50vw" },
               overflowY: "scroll",
               borderRadius: { sm: "20px" },
-              height: { xs: "100vh", sm: "calc(100vh - 30px)" }
+              height: { xs: "100vh", sm: "calc(100vh - 30px)" },
             }}
           >
             <AccountData
@@ -76,13 +76,13 @@ export function AccountTab({ account }: any) {
                   position: "absolute",
                   right: 1,
                   top: 0,
-                  p: 2
+                  p: 2,
                 }}
               >
                 <span
                   style={{
                     position: "relative",
-                    top: "3.3px"
+                    top: "3.3px",
                   }}
                 >
                   ****
@@ -104,7 +104,7 @@ export function AccountTab({ account }: any) {
               sx={{
                 textTransform: "capitalize",
                 fontSize: "12px",
-                fontWeight: "600"
+                fontWeight: "600",
               }}
             >
               {account.name}
@@ -122,28 +122,30 @@ export function AccountTab({ account }: any) {
             opacity: 1,
             "& *": {
               opacity: 1,
-              color: global.theme === "dark" ? "#eee" : "#505050"
+              color: global.theme === "dark" ? "#eee" : "#505050",
             },
             background: "rgba(200,200,200,.3)",
-            transition: "color .2s",
+            transition: "transform .2s",
             "&:hover": {
               opacity: 1,
               background: "rgba(200,200,200,.4)",
               "& *": {
                 opacity: 1,
-                color: global.theme === "dark" ? "#fff" : "#202020"
-              }
+                color: global.theme === "dark" ? "#fff" : "#202020",
+              },
             },
             "&:active": {
+              transform: "scale(.98)",
               opacity: 1,
+              transition: "none",
               background: "rgba(200,200,200,.5)",
               "& *": {
                 opacity: 1,
-                color: global.theme === "dark" ? "#fff" : "#000"
-              }
+                color: global.theme === "dark" ? "#fff" : "#000",
+              },
             },
             textTransform: "none",
-            borderRadius: 5
+            borderRadius: 5,
           }}
         />
       </Tooltip>

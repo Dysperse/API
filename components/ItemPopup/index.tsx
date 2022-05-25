@@ -65,7 +65,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
     <>
       <SwipeableDrawer
         sx={{
-          opacity: "1!important"
+          opacity: "1!important",
         }}
         PaperProps={{
           elevation: 0,
@@ -74,8 +74,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             overflow: "hidden!important",
             mt: { sm: "10px" },
             mr: { sm: "10px" },
-            height: { sm: "calc(100vh - 20px)!important" }
-          }
+            height: { sm: "calc(100vh - 20px)!important" },
+          },
         }}
         swipeAreaWidth={0}
         anchor="right"
@@ -90,8 +90,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             position: "relative",
             width: {
               sm: "40vw",
-              xs: "100vw"
-            }
+              xs: "100vw",
+            },
           }}
         >
           <AppBar
@@ -99,7 +99,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             sx={{
               background: global.theme === "dark" ? "#353535" : "#fff",
               py: 1,
-              color: global.theme === "dark" ? "#fff" : "#000"
+              color: global.theme === "dark" ? "#fff" : "#000",
             }}
             elevation={0}
           >
@@ -156,7 +156,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               flexDirection: "column",
               height: "100vh",
               px: 7,
-              gap: 2
+              gap: 2,
             }}
           >
             <Typography variant="h3" sx={{ fontWeight: "600" }}>
@@ -190,8 +190,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                       : undefined,
                     id: id.toString(),
                     date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                    content: e.target.value
-                  })
+                    content: e.target.value,
+                  }),
                 });
               }}
               onKeyUp={(e: any) => {
@@ -206,8 +206,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 sx: {
                   px: 2.5,
                   py: 1.5,
-                  borderRadius: "15px"
-                }
+                  borderRadius: "15px",
+                },
               }}
               spellCheck={false}
               variant="filled"
@@ -247,22 +247,39 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   width: "100%",
                   maxWidth: "calc(100vw - 20px)",
                   borderRadius: "28px",
-                  background: global.theme === "dark" ? blueGrey[900] : "#eee",
-                  transition: "all .03s",
+                  background: "rgba(200,200,200,.3)!important",
+                  transition: "transform .2s",
+                  "& *": { transition: "none!important" },
+                  "&:active": {
+                    transform: "scale(0.98)",
+                    transition: "none",
+                  },
                   ...(star === 1 && {
                     background: orange[700],
-                    color: "white"
-                  })
+                    color: "white",
+                  }),
                 }}
                 onClick={() => setDrawerState(true)}
               >
-                <CardActionArea>
+                <CardActionArea
+                  sx={{
+                    transition: "none!important",
+                    "&:focus-within": {
+                      boxShadow:
+                        "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                    },
+                    borderRadius: "28px",
+                    "&:active": {
+                      boxShadow: "none!important",
+                    },
+                  }}
+                >
                   <CardContent sx={{ p: 3 }}>
                     <Typography
                       variant="h6"
                       sx={{
                         display: "block",
-                        mb: 1
+                        mb: 1,
                       }}
                     >
                       {title.substring(0, 18) || "(no title)"}
@@ -270,7 +287,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     </Typography>
                     <Typography
                       sx={{
-                        mb: 1
+                        mb: 1,
                       }}
                     >
                       {displayRoom
