@@ -134,14 +134,9 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                         background: "rgba(200,200,200,.3)",
                         color: "#000",
                       },
-                      "&:active": {
-                        boxShadow: "none!important",
-                      },
                       "&:focus-within": {
-                        background: colors[themeColor]["100"] + "!important",
+                        background: colors[themeColor]["50"] + "!important",
                         color: "#000",
-                        boxShadow:
-                          "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                       },
                     }}
                   >
@@ -177,14 +172,9 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                       background: "rgba(200,200,200,.3)",
                       color: "#000",
                     },
-                    "&:active": {
-                      boxShadow: "none!important",
-                    },
                     "&:focus-within": {
-                      background: colors[themeColor]["100"] + "!important",
+                      background: colors[themeColor]["50"] + "!important",
                       color: "#000",
-                      boxShadow:
-                        "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                     },
                   }}
                 >
