@@ -39,6 +39,7 @@ function AddItemOption({
             borderRadius: 6,
             transition: "transform .2s",
             "&:active": {
+              boxShadow: "none!important",
               transform: "scale(0.98)",
               transition: "none",
             },
@@ -57,6 +58,7 @@ function AddItemOption({
                 boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               },
               "&:active": {
+                boxShadow: "none!important",
                 background: colors[themeColor]["100"] + "!important",
               },
             }}
@@ -174,6 +176,7 @@ function MoreRooms(): JSX.Element {
                 boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               },
               "&:active": {
+                boxShadow: "none!important",
                 background: colors[themeColor]["100"] + "!important",
               },
             }}
@@ -251,16 +254,19 @@ function Content({ toggleDrawer }: any) {
                 disableRipple
                 onClick={() => toggleDrawer(false)}
                 sx={{
-                  "&:hover": {
-                    background: colors[themeColor]["100"] + "!important",
-                  },
-                  borderRadius: 6,
                   "&:focus-within": {
                     background: colors[themeColor]["100"] + "!important",
                     boxShadow:
                       "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                   },
+                  "&:hover": {
+                    background: colors[themeColor]["100"] + "!important",
+                    boxShadow: "none!important",
+                  },
+                  borderRadius: 6,
+
                   "&:active": {
+                    boxShadow: "none!important",
                     background: colors[themeColor]["100"] + "!important",
                   },
                 }}
@@ -282,16 +288,19 @@ function Content({ toggleDrawer }: any) {
                 disableRipple
                 onClick={() => toggleDrawer(false)}
                 sx={{
-                  "&:hover": {
-                    background: colors[themeColor]["100"] + "!important",
-                  },
-                  borderRadius: 6,
                   "&:focus-within": {
                     background: colors[themeColor]["100"] + "!important",
                     boxShadow:
                       "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                   },
+                  "&:hover": {
+                    background: colors[themeColor]["100"] + "!important",
+                    boxShadow: "none!important",
+                  },
+                  borderRadius: 6,
+
                   "&:active": {
+                    boxShadow: "none!important",
                     background: colors[themeColor]["100"] + "!important",
                   },
                 }}
