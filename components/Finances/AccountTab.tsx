@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { AccountData } from "./AccountData";
 import { currency_symbols } from "./AccountList";
+import * as colors from "@mui/material/colors";
 
 export function AccountTab({ account }: any) {
   const [open, setOpen] = useState(false);
@@ -126,6 +127,14 @@ export function AccountTab({ account }: any) {
             },
             background: "rgba(200,200,200,.3)",
             transition: "transform .2s",
+            "&:focus-within": {
+              background: colors[themeColor]["100"] + "!important",
+              boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+              "& *": {
+                opacity: 1,
+                color: global.theme === "dark" ? "#fff" : "#000",
+              },
+            },
             "&:hover": {
               opacity: 1,
               background: "rgba(200,200,200,.4)",
