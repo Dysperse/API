@@ -248,7 +248,11 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   maxWidth: "calc(100vw - 20px)",
                   borderRadius: "28px",
                   background: global.theme === "dark" ? blueGrey[900] : "#eee",
-                  transition: "all .03s",
+                  transition: "transform .2s",
+                  "&:active": {
+                    transform: "scale(0.98)",
+                    transition: "none",
+                  },
                   ...(star === 1 && {
                     background: orange[700],
                     color: "white"

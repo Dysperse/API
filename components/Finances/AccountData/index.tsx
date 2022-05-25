@@ -46,7 +46,6 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
         <Typography variant="h5" sx={{ fontWeight: "600", mt: 1, mb: 3 }}>
           Goals
         </Typography>
-        {/* <pre>{JSON.stringify(account, null, 2)}</pre> */}
         {data && data.data.length === 0 && (
           <Box
             sx={{
