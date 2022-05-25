@@ -15,7 +15,6 @@ import { NotificationsMenu } from "./Notifications";
 import { ProfileMenu } from "./Profile";
 import { SearchPopup } from "./SearchPopup";
 
-
 function ElevationScroll(props: any) {
   const { children, window } = props;
   const trigger = useScrollTrigger({
@@ -124,13 +123,26 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                 {global.session ? (
                   <IconButton
                     color="inherit"
+                    disableRipple
                     edge="end"
                     size="large"
                     sx={{
                       transition: "none",
                       mr: 1,
                       color: "#606060",
-                      "&:hover": { color: "#000" },
+                      "&:hover": {
+                        background: "rgba(200,200,200,.3)",
+                        color: "#000",
+                      },
+                      "&:active": {
+                        boxShadow: "none!important",
+                      },
+                      "&:focus-within": {
+                        background: colors[themeColor]["100"] + "!important",
+                        color: "#000",
+                        boxShadow:
+                          "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                      },
                     }}
                   >
                     <span className="material-symbols-rounded">
@@ -154,13 +166,26 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
               {global.session ? (
                 <IconButton
                   color="inherit"
+                  disableRipple
                   edge="end"
                   size="large"
                   sx={{
                     transition: "none",
                     mr: 0.9,
                     color: "#606060",
-                    "&:hover": { color: "#000" },
+                    "&:hover": {
+                      background: "rgba(200,200,200,.3)",
+                      color: "#000",
+                    },
+                    "&:active": {
+                      boxShadow: "none!important",
+                    },
+                    "&:focus-within": {
+                      background: colors[themeColor]["100"] + "!important",
+                      color: "#000",
+                      boxShadow:
+                        "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                    },
                   }}
                 >
                   <span className="material-symbols-rounded">inbox</span>

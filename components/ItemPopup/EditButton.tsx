@@ -1,5 +1,6 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
+import * as colors from "@mui/material/colors";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -19,7 +20,7 @@ export function EditButton({
   setQuantity,
   categories,
   setCategories,
-  setLastUpdated
+  setLastUpdated,
 }: any): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
@@ -35,7 +36,7 @@ export function EditButton({
     initialValues: {
       categories: categories,
       title: title,
-      quantity: quantity
+      quantity: quantity,
     },
     onSubmit: async (values: {
       categories: Array<string>;
@@ -50,8 +51,8 @@ export function EditButton({
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
           name: values.title,
           qty: values.quantity,
-          category: JSON.stringify(values.categories)
-        })
+          category: JSON.stringify(values.categories),
+        }),
       });
 
       setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
@@ -59,13 +60,14 @@ export function EditButton({
       setQuantity(values.quantity);
       setCategories(values.categories);
       handleClose();
-    }
+    },
   });
 
   return (
     <div>
       <Tooltip title="Edit">
         <IconButton
+          disableRipple
           size="large"
           edge="end"
           color="inherit"
@@ -74,7 +76,15 @@ export function EditButton({
             mr: 1,
             transition: "none",
             color: "#404040",
-            "&:hover": { color: "#000" }
+            "&:hover": { background: "rgba(200,200,200,.3)", color: "#000" },
+            "&:active": {
+              boxShadow: "none!important",
+            },
+            "&:focus-within": {
+              background: colors[themeColor]["100"] + "!important",
+              color: "#000",
+              boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+            },
           }}
           onClick={handleClickOpen}
         >
@@ -85,13 +95,13 @@ export function EditButton({
         open={open}
         onClose={handleClose}
         sx={{
-          transition: "all .2s"
+          transition: "all .2s",
         }}
         PaperProps={{
           sx: {
             borderRadius: "28px",
-            p: 2
-          }
+            p: 2,
+          },
         }}
       >
         <DialogTitle sx={{ fontWeight: "800" }}>Edit item</DialogTitle>
@@ -147,7 +157,7 @@ export function EditButton({
                 px: 3,
                 py: 1,
                 mt: 1,
-                ml: 1
+                ml: 1,
               }}
             >
               Save
@@ -163,7 +173,7 @@ export function EditButton({
                 float: "right",
                 px: 3,
                 py: 1,
-                mt: 1
+                mt: 1,
               }}
             >
               Cancel

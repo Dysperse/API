@@ -246,13 +246,22 @@ export function AppsMenu() {
           <IconButton
             color="inherit"
             edge="end"
+            disableRipple
             size="large"
             sx={{
               transition: "none",
               mr: 1,
               ml: 0.4,
               color: "#606060",
-              "&:hover": { color: "#000" },
+              "&:hover": { background: "rgba(200,200,200,.3)", color: "#000" },
+              "&:active": {
+                boxShadow: "none!important",
+              },
+              "&:focus-within": {
+                background: colors[themeColor]["100"] + "!important",
+                color:"#000",
+                boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+              },
             }}
             onClick={handleClick}
           >

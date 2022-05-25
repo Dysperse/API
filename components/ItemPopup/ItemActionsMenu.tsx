@@ -29,13 +29,23 @@ export function ItemActionsMenu({
     <>
       <Tooltip title="More">
         <IconButton
+          disableRipple
           size="large"
           edge="end"
           color="inherit"
           sx={{
             transition: "none",
+            ml: 2,
             color: "#404040",
-            "&:hover": { color: "#000" },
+            "&:hover": { background: "rgba(200,200,200,.3)", color: "#000" },
+            "&:active": {
+              boxShadow: "none!important",
+            },
+            "&:focus-within": {
+              background: colors[themeColor]["100"] + "!important",
+              color: "#000",
+              boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+            },
           }}
           aria-label="menu"
           onClick={handleClick}
@@ -134,7 +144,7 @@ export function ItemActionsMenu({
               "https://wa.me/?text=" +
                 encodeURIComponent(
                   `I have ${quantity} ${pluralize(title)} in my ${room}`
-                ),
+                )
             );
             handleClose();
           }}

@@ -109,8 +109,24 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   size="large"
                   edge="start"
                   color="inherit"
+                  disableRipple
                   aria-label="menu"
-                  sx={{ mr: 2 }}
+                  sx={{
+                    transition: "none",
+                    "&:hover": {
+                      background: "rgba(200,200,200,.3)",
+                      color: "#000",
+                    },
+                    "&:active": {
+                      boxShadow: "none!important",
+                    },
+                    "&:focus-within": {
+                      background: colors[themeColor]["100"] + "!important",
+                      color: "#000",
+                      boxShadow:
+                        "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                    },
+                  }}
                   onClick={() => setDrawerState(false)}
                 >
                   <ChevronLeftIcon />
