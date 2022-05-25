@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import * as colors from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
 import Tabs from "@mui/material/Tabs";
@@ -8,10 +9,10 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import React from "react";
 import useSWR from "swr";
+import { StreakCard } from "./AccountData/StreakCard";
 import { AccountTab } from "./AccountTab";
 import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
-import { StreakCard } from "./AccountData/StreakCard";
 
 export const currency_symbols = {
   USD: "$", // US Dollar
@@ -98,7 +99,6 @@ export function AccountList() {
               "& .MuiTabs-scrollButtons": {
                 maxWidth: "100px",
                 overflow: "hidden",
-                transition: "all .2s",
                 borderRadius: 4,
                 background: "rgba(200,200,200,.4)",
                 color: "#404040",
@@ -108,6 +108,18 @@ export function AccountList() {
                 },
                 marginLeft: "5px",
                 marginRight: "5px",
+                transition: "transform .2s",
+                "& .MuiTouchRipple-rippleVisible": {
+                  display: "none!important",
+                },
+                "&:active": {
+                  transition: "none",
+                  transform: "scale(.97)",
+                  background: colors[themeColor]["100"] + "!important",
+                  color: "#000",
+                  boxShadow:
+                    "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                },
               },
               "& .MuiTabs-scroller": {
                 borderRadius: 5,
