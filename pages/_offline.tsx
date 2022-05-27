@@ -28,8 +28,8 @@ export default function OfflinePage() {
           maxHeight: "calc(100vh - 20px)"
         }}
       >
-        Please connect to the internet to access Smartlist.
+        Please connect to the internet to access Smartlist. 
       </Box>
     </Box>
-  );
+  ); 
 }

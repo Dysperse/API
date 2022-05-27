@@ -24,7 +24,7 @@ function Accounts({ setOpen }: any) {
   return (
     <List sx={{ width: "100%", bgcolor: "transparent" }}>
       <Avatar
-        alt="Remy Sharp"
+        alt="Profile picture"
         src={global.session.user.image}
         sx={{ mx: "auto", width: "100px", height: "100px" }}
       />
@@ -124,6 +124,7 @@ export function ProfileMenu(props: any) {
                 bgcolor: deepOrange[500],
                 transform: "scale(1.2)",
               }}
+              alt="Profie picture"
               src={global.session.user.image}
             />
           ) : (
