@@ -2,8 +2,7 @@ import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime"; // import plugin
-import Head from "next/head";
+import relativeTime from "dayjs/plugin/relativeTime";
 import React, { useState } from "react";
 import { Offline, Online } from "react-detect-offline";
 import { Toaster } from "react-hot-toast";
@@ -124,8 +123,9 @@ function Render({ data, Component, pageProps }: any) {
 }
 
 function useUser() {
-  const { data, error } = useSWR(`/api/user`, () =>
-    fetch(`/api/user`).then((res) => res.json())
+  const url = "/api/user";
+  const { data, error } = useSWR(url, () =>
+    fetch(url).then((res) => res.json())
   );
 
   return {
