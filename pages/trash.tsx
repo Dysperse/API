@@ -5,6 +5,9 @@ import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
 
 function Items() {
   const url = "https://api.smartlist.tech/v2/trash/";
@@ -12,9 +15,9 @@ function Items() {
     fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken
+        token: global.session && global.session.accessToken,
       }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((res) => res.json())
   );
 
@@ -45,26 +48,44 @@ function Items() {
     </>
   ) : (
     <>
-      {data.data.map(
-        (item: {
-          id: number;
-          lastUpdated: string;
-          amount: string;
-          sync: string;
-          title: string;
-          categories: string;
-          note: string;
-          star: number;
-          room: string;
-        }) => (
-          <Paper
-            sx={{ boxShadow: 0, p: 0 }}
-            key={(Math.random() + Math.random()).toString()}
+      {data.data.map((item: any) => (
+        <Paper
+          sx={{ boxShadow: 0, p: 0 }}
+          key={(Math.random() + Math.random()).toString()}
+        >
+          <Card
+            sx={{ background: "rgba(200,200,200,.3)", borderRadius: "28px" }}
           >
-            <ItemCard item={item} />
-          </Paper>
-        )
-      )}
+            <CardContent>
+              <ItemCard item={item} displayRoom={true} />
+              <Button
+                sx={{
+                  float: "right",
+                  boxShadow: 0,
+                  m: 0.5,
+                  mb: 2,
+                  borderRadius: 9,
+                }}
+                variant="contained"
+              >
+                Delete
+              </Button>
+              <Button
+                sx={{
+                  float: "right",
+                  boxShadow: 0,
+                  m: 0.5,
+                  mb: 2,
+                  borderRadius: 9,
+                }}
+                variant="outlined"
+              >
+                Restore
+              </Button>
+            </CardContent>
+          </Card>
+        </Paper>
+      ))}
     </>
   );
 }
@@ -77,7 +98,7 @@ export default function Render() {
         sx={{
           my: { xs: 12, sm: 4 },
           fontWeight: "800",
-          textAlign: { xs: "center", sm: "left" }
+          textAlign: { xs: "center", sm: "left" },
         }}
       >
         Trash

@@ -12,9 +12,9 @@ function Items() {
     {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken
+        token: global.session && global.session.accessToken,
       }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }
   );
 
@@ -37,26 +37,14 @@ function Items() {
     </>
   ) : (
     <>
-      {data.data.map(
-        (item: {
-          id: number;
-          lastUpdated: string;
-          amount: string;
-          sync: string;
-          title: string;
-          categories: string;
-          note: string;
-          star: number;
-          room: string;
-        }) => (
-          <Paper
-            sx={{ boxShadow: 0, p: 0 }}
-            key={(Math.random() + Math.random()).toString()}
-          >
-            <ItemCard item={item} />
-          </Paper>
-        )
-      )}
+      {data.data.map((item: any) => (
+        <Paper
+          sx={{ boxShadow: 0, p: 0 }}
+          key={(Math.random() + Math.random()).toString()}
+        >
+          <ItemCard item={item} displayRoom={false} />
+        </Paper>
+      ))}
     </>
   );
 }

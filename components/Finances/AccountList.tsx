@@ -157,7 +157,7 @@ export function AccountList() {
                 sx={{ fontWeight: "600", ml: 1, my: 1, mt: 4 }}
                 variant="h5"
               >
-                Debt
+                Liabilities
               </Typography>
               <Liabilities />
             </Grid>
