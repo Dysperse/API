@@ -15,14 +15,14 @@ export function AccountHeader({
       sx={{
         display: "flex",
         width: "100%",
-        height: "400px",
+        height: "60vh",
         alignItems: "center",
         borderRadius: { sm: "20px" },
         borderBottomLeftRadius: "0!important",
         borderBottomRightRadius: "0!important",
         justifyContent: "center",
         color: "white",
-        background: "url(https://i.ibb.co/68RCqvc/image.png)",
+        background: "url(/image.png)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat"
       }}

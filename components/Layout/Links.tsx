@@ -269,10 +269,10 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             icon={<span className="material-symbols-rounded">savings</span>}
           />
           <ListItem
-            asHref="/meals"
-            href="/meals"
-            text="Meals"
-            icon={<span className="material-symbols-rounded">local_pizza</span>}
+            asHref="/planner"
+            href="/planner"
+            text="Planner"
+            icon={<span className="material-symbols-rounded">event</span>}
           />
           <Tooltip title="Coming soon!">
             <ListItem
