@@ -60,7 +60,7 @@ export function ListItems({
         ))}
         {data.data.length === 0 && (
           <Box sx={{ textAlign: "center" }}>
-            <img alt="" src={emptyImage} alt="No items"/>
+            <img src={emptyImage} alt="No items"/>
             <Typography sx={{ display: "block" }} variant="h6">
               No items?!
             </Typography>
