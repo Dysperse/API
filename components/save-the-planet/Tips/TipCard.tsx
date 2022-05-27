@@ -7,6 +7,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import { Badge } from "./Badge";
 import { CreateGoalDialog } from "./CreateGoalDialog";
+import * as colors from "@mui/material/colors";
 
 export type Account = {
   account_id: string;
@@ -166,28 +167,34 @@ export function TipCard({
               ? orange["A400"]
               : orange["A100"]
             : "rgba(200,200,200,.3)",
-          transition: "color .2s",
+
+          textTransform: "none",
+          transition: "transform .2s",
           "&:active": {
+            transform: "scale(.98)",
             opacity: 1,
-            "& .badge": {
-              filter: "brightness(90%)",
-            },
-            background: tipOfTheDay
-              ? global.theme === "dark"
-                ? green["A400"]
-                : green["A200"]
-              : highlySuggested
-              ? global.theme === "dark"
-                ? orange["A700"]
-                : orange["A200"]
-              : "rgba(200,200,200,.5)",
+            transition: "none",
+            background: "rgba(200,200,200,.5)",
             "& *": {
               opacity: 1,
               color: global.theme === "dark" ? "#fff" : "#000",
             },
           },
-          textTransform: "none",
           borderRadius: 5,
+          "&:focus-within": {
+            background: tipOfTheDay
+              ? colors["green"]["200"] + "!important"
+              : highlySuggested
+              ? colors["orange"]["200"] + "!important"
+              : colors[themeColor]["100"] + "!important",
+            boxShadow:
+              "inset 0px 0px 0px 2px " +
+              colors[highlySuggested ? "orange" : themeColor]["800"],
+            "& *": {
+              opacity: 1,
+              color: global.theme === "dark" ? "#fff" : "#000",
+            },
+          },
         }}
       />
     </>
