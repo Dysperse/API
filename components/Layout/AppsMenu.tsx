@@ -83,7 +83,10 @@ function SuggestButton() {
 
   return (
     <>
-      <Box sx={{ color: green[900] }} onClick={() => setOpen(true)}>
+      <Box
+        sx={{ color: green[global.theme === "dark" ? 100 : 900] }}
+        onClick={() => setOpen(true)}
+      >
         <TipsAndUpdates
           sx={{ verticalAlign: "middle", mr: 1, transform: "scale(.8)" }}
         />
@@ -144,11 +147,11 @@ const apps = [
   },
   {
     key: 5,
-    bg: green[200],
+    bg: green[global.theme === "dark" ? 900 : 200],
     href: "",
     label: <SuggestButton />,
     description: (
-      <div style={{ color: green[700] }}>
+      <div style={{ color: green[global.theme === "dark" ? 300 : 700] }}>
         Have any ideas for apps? Let us know!
       </div>
     ),
@@ -181,7 +184,11 @@ function Products() {
             cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background: category.bg ?? colors[global.themeColor][200],
+              background:
+                category.bg ??
+                (global.theme === "dark"
+                  ? "hsl(240, 11%, 40%)"
+                  : colors[global.themeColor][200]),
             },
             transition: "all .2s",
             "&:before": {
@@ -210,7 +217,10 @@ function Products() {
             sx={{
               minHeight: "35px!important",
               maxHeight: "35px!important",
-              color: colors[global.themeColor][900],
+              color:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 90%)"
+                  : colors[global.themeColor][900],
             }}
           >
             {category.label}
@@ -218,7 +228,12 @@ function Products() {
           <AccordionDetails sx={{ pb: 1, pt: 0 }}>
             <Typography
               variant="body2"
-              sx={{ color: colors[global.themeColor][700] }}
+              sx={{
+                color:
+                  global.theme === "dark"
+                    ? "hsl(240, 11%, 80%)"
+                    : colors[global.themeColor][700],
+              }}
             >
               {category.description}
             </Typography>
@@ -290,7 +305,10 @@ export function AppsMenu() {
             borderRadius: "28px",
             boxShadow:
               "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-            background: colors[global.themeColor][100],
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 30%)"
+                : colors[global.themeColor][100],
           },
         }}
         anchorOrigin={{
