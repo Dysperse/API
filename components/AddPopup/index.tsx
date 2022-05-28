@@ -100,6 +100,7 @@ function MoreRooms(): JSX.Element {
               xs: "100vw",
               sm: "50vw",
             },
+            maxWidth: "700px",
             "& *:not(.MuiTouchRipple-child, .puller)": {
               background: "transparent!important",
             },
@@ -372,6 +373,7 @@ export default function AddPopup(props: any) {
               xs: "100vw",
               sm: "50vw",
             },
+            maxWidth: "700px",
             "& *:not(.MuiTouchRipple-child, .puller)": {
               background: "transparent!important",
             },

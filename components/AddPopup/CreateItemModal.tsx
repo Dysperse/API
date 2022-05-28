@@ -19,7 +19,7 @@ import { Puller } from "../Puller";
 export function CreateItemModal({
   toggleDrawer,
   room,
-  children
+  children,
 }: {
   toggleDrawer: Function;
   room: string;
@@ -45,7 +45,7 @@ export function CreateItemModal({
     initialValues: {
       categories: [],
       title: "",
-      quantity: ""
+      quantity: "",
     },
     onSubmit: async (values: {
       categories: Array<string>;
@@ -61,8 +61,8 @@ export function CreateItemModal({
           name: values.title,
           qty: values.quantity,
           category: JSON.stringify(values.categories),
-          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss")
-        })
+          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        }),
       })
         .then((res) => res.json())
         .then((res) => {
@@ -71,7 +71,7 @@ export function CreateItemModal({
           setOpen(false);
           formik.resetForm();
         });
-    }
+    },
   });
 
   const handleChipClick = (e) => {
@@ -87,18 +87,19 @@ export function CreateItemModal({
         anchor="bottom"
         swipeAreaWidth={0}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
         disableSwipeToOpen={true}
         PaperProps={{
           sx: {
             width: {
-              sm: "50vw"
+              sm: "50vw",
             },
+            maxWidth: "600px",
             maxHeight: "80vh",
             borderRadius: "40px 40px 0 0",
-            mx: "auto"
-          }
+            mx: "auto",
+          },
         }}
         open={open}
         onClose={handleClose}
@@ -182,7 +183,7 @@ export function CreateItemModal({
                 ml: 1,
                 mt: 2,
                 float: "right",
-                borderRadius: 100
+                borderRadius: 100,
               }}
               size="large"
               variant="contained"
@@ -199,7 +200,7 @@ export function CreateItemModal({
                 ml: 1,
                 mt: 2,
                 float: "right",
-                borderRadius: 100
+                borderRadius: 100,
               }}
               size="large"
               variant="outlined"

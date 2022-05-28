@@ -22,7 +22,7 @@ function Puller() {
         position: "absolute",
         left: "50%",
         transform: "translateX(-50%)",
-        display: "inline-block"
+        display: "inline-block",
       }}
     />
   );
@@ -33,7 +33,7 @@ export function CreateListModal({ children, parent, title }: any) {
   const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
-      name: ""
+      name: "",
     },
     onSubmit: (values: { name: string }) => {
       fetch("https://api.smartlist.tech/v2/lists/create-item/", {
@@ -42,8 +42,8 @@ export function CreateListModal({ children, parent, title }: any) {
           token: global.session ? global.session.accessToken : undefined,
           parent: parent,
           title: values.name,
-          description: ""
-        })
+          description: "",
+        }),
       })
         .then((res) => res.json())
         .then((res) => {
@@ -53,7 +53,7 @@ export function CreateListModal({ children, parent, title }: any) {
           toast("Created item!");
         })
         .catch((err: any) => alert(JSON.stringify(err)));
-    }
+    },
   });
 
   return (
@@ -62,18 +62,19 @@ export function CreateListModal({ children, parent, title }: any) {
         anchor="bottom"
         swipeAreaWidth={0}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
         disableSwipeToOpen={true}
         PaperProps={{
           sx: {
             width: {
-              sm: "50vw"
+              sm: "50vw",
             },
+            maxWidth: "600px",
             maxHeight: "80vh",
             borderRadius: "40px 40px 0 0",
-            mx: "auto"
-          }
+            mx: "auto",
+          },
         }}
         open={open}
         onClose={() => {
@@ -108,7 +109,7 @@ export function CreateListModal({ children, parent, title }: any) {
                 float: "right",
                 mr: 1,
                 mt: 2,
-                borderRadius: 100
+                borderRadius: 100,
               }}
               color="primary"
               type="submit"
