@@ -30,7 +30,7 @@ function ElevationScroll(props: any) {
           "content",
           trigger
             ? global.theme === "dark"
-              ? grey[800]
+              ? "hsl(240, 11%, 25%)"
               : colors[global.themeColor]["100"]
             : global.theme === "dark"
             ? "#121212"
@@ -50,7 +50,7 @@ function ElevationScroll(props: any) {
           backdropFilter: "blur(20px)",
           background:
             global.theme === "dark"
-              ? "rgba(90,90,90,.7)"
+              ? "rgba(57, 57, 71, .7)"
               : hexToRgba(colors[global.themeColor]["100"], 0.7),
         }
       : {
