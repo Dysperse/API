@@ -10,7 +10,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Co2Sharp } from "@mui/icons-material";
 import toast from "react-hot-toast";
 
 function DeleteCard({ item }: any) {
