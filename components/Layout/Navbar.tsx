@@ -84,6 +84,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                 sx={{
                   transition: "none",
                   mr: 2,
+                  display: { md: "none" },
                   color:
                     global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
                   "&:hover": {
