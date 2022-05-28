@@ -15,11 +15,14 @@ export function TransactionList({ transactions }: any) {
       {transactions.map((transaction) => (
         <ListItem
           sx={{
-            background: "rgba(200,200,200,.3)",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 20%)"
+                : "rgba(200,200,200,.3)",
             mt: 2,
             borderRadius: 5,
             p: 3,
-            px: 4
+            px: 4,
           }}
         >
           <ListItemText

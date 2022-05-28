@@ -69,7 +69,10 @@ export function StreakCard(): JSX.Element {
     <>
       <Card
         sx={{
-          background: "rgba(200, 200, 200, .3)",
+          background:
+            global.theme === "dark"
+              ? "hsl(240, 11%, 20%)"
+              : "rgba(200, 200, 200, .3)",
           borderRadius: 5,
           boxShadow: 0,
           p: 1,

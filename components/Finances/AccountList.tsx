@@ -100,11 +100,19 @@ export function AccountList() {
                 maxWidth: "100px",
                 overflow: "hidden",
                 borderRadius: 4,
-                background: "rgba(200,200,200,.4)",
-                color: "#404040",
+                background:
+                  global.theme === "dark"
+                    ? "hsl(240, 11%, 20%)"
+                    : "rgba(200,200,200,.4)",
+                color:
+                  global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#404040",
                 "&:hover": {
-                  background: "rgba(200,200,200,.5)",
-                  color: "#000",
+                  background:
+                    global.theme === "dark"
+                      ? "hsl(240, 11%, 25%)"
+                      : "rgba(200,200,200,.5)",
+                  color:
+                    global.theme === "dark" ? "hsl(240, 11%, 98%)" : "#000",
                 },
                 marginLeft: "5px",
                 marginRight: "5px",
@@ -115,8 +123,11 @@ export function AccountList() {
                 "&:active": {
                   transition: "none",
                   transform: "scale(.97)",
-                  background: colors[themeColor]["100"] + "!important",
-                  color: "#000",
+                  background:
+                    colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                    "!important",
+                  color:
+                    global.theme === "dark" ? "hsl(240, 11%, 100%)" : "#000",
                   boxShadow:
                     "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                 },

@@ -125,10 +125,15 @@ export function AccountTab({ account }: any) {
               opacity: 1,
               color: global.theme === "dark" ? "#eee" : "#505050",
             },
-            background: "rgba(200,200,200,.3)",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 20%)"
+                : "rgba(200,200,200,.3)",
             transition: "transform .2s",
             "&:focus-within": {
-              background: colors[themeColor]["100"] + "!important",
+              background:
+                colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                "!important",
               boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               "& *": {
                 opacity: 1,
@@ -137,7 +142,10 @@ export function AccountTab({ account }: any) {
             },
             "&:hover": {
               opacity: 1,
-              background: "rgba(200,200,200,.4)",
+              background:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 25%)"
+                  : "rgba(200,200,200,.4)",
               "& *": {
                 opacity: 1,
                 color: global.theme === "dark" ? "#fff" : "#202020",

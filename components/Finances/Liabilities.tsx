@@ -37,7 +37,10 @@ export function Liabilities() {
       {Object.keys(data.liabilities).map((liability) => (
         <Card
           sx={{
-            background: "rgba(200,200,200,.4)",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 20%)"
+                : "rgba(200,200,200,.4)",
             borderRadius: 5,
             mt: 2,
           }}
