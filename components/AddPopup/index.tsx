@@ -18,6 +18,8 @@ import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";
 import { CreateListModal } from "./CreateListModal";
 import * as colors from "@mui/material/colors";
+import useSWR from "swr";
+
 const Root = styled("div")(({ theme }) => ({
   height: "100%",
 }));
@@ -74,16 +76,19 @@ function AddItemOption({
   );
 }
 function MoreRooms(): JSX.Element {
+  const url = "https://api.smartlist.tech/v2/rooms/";
   const [open, setOpen] = React.useState(false);
-  const { isLoading, data }: any = useFetch(
-    "https://api.smartlist.tech/v2/rooms/",
-    {
+  const { error, data }: any = useSWR(url, () =>
+    fetch(url, {
       method: "POST",
       body: new URLSearchParams({
         token: global.session.accessToken,
       }),
-    }
+    }).then((res) => res.json())
   );
+  if (error) {
+    return <>An error occured while trying to fetch your rooms. </>;
+  }
   return (
     <>
       <SwipeableDrawer
@@ -113,7 +118,7 @@ function MoreRooms(): JSX.Element {
         <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
           Other rooms
         </DialogTitle>
-        {isLoading ? (
+        {!data ? (
           <Grid container sx={{ p: 2 }}>
             {[...new Array(12)].map(() => (
               <Grid item xs={4} sx={{ p: 2, py: 1 }}>
@@ -148,14 +153,15 @@ function MoreRooms(): JSX.Element {
               title="Garden"
               icon={<span className="material-symbols-rounded">yard</span>}
             />
-            {data.data.map((room) => (
-              <AddItemOption
-                toggleDrawer={() => setOpen(false)}
-                title={room.id}
-                alias={room.name}
-                icon={<span className="material-symbols-rounded">label</span>}
-              />
-            ))}
+            {data &&
+              data.data.map((room) => (
+                <AddItemOption
+                  toggleDrawer={() => setOpen(false)}
+                  title={room.id}
+                  alias={room.name}
+                  icon={<span className="material-symbols-rounded">label</span>}
+                />
+              ))}
           </Grid>
         )}
       </SwipeableDrawer>
