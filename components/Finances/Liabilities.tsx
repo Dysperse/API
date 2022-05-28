@@ -66,7 +66,10 @@ export function Liabilities() {
                       borderRadius: 99,
                       height: 2,
                       background: "rgba(200,200,200,.4)",
-                      "& *": { borderRadius: 99, background: "#000" },
+                      "& *": {
+                        borderRadius: 99,
+                        background: global.theme === "dark" ? "#fff" : "#000",
+                      },
                     }}
                     value={
                       (loan.ytd_interest_paid /
