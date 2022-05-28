@@ -73,6 +73,9 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             borderRadius: { sm: 4 },
             overflow: "hidden!important",
             mt: { sm: "10px" },
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
             mr: { sm: "10px" },
             height: { sm: "calc(100vh - 20px)!important" },
           },
@@ -97,7 +100,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           <AppBar
             position="absolute"
             sx={{
-              background: global.theme === "dark" ? "#353535" : "#fff",
+              background:
+                global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#fff",
               py: 1,
               color: global.theme === "dark" ? "#fff" : "#000",
             }}

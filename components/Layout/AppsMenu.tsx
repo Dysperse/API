@@ -251,12 +251,17 @@ export function AppsMenu() {
             sx={{
               transition: "none",
               mr: 1,
-              ml: 0.4,
-              color: "#606060",
-              "&:hover": { background: "rgba(200,200,200,.3)", color: "#000" },
+              color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
+              "&:hover": {
+                background: "rgba(200,200,200,.3)",
+                color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+              },
               "&:focus-within": {
-                background: colors[themeColor]["50"] + "!important",
-                color:"#000",
+                background:
+                  (global.theme === "dark"
+                    ? colors[themeColor]["900"]
+                    : colors[themeColor]["50"]) + "!important",
+                color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
               },
             }}
             onClick={handleClick}

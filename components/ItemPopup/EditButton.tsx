@@ -73,17 +73,19 @@ export function EditButton({
           color="inherit"
           aria-label="menu"
           sx={{
-            mr: 1,
             transition: "none",
-            color: "#404040",
-            "&:hover": { background: "rgba(200,200,200,.3)", color: "#000" },
-            "&:active": {
-              boxShadow: "none!important",
+            mr: 1,
+            color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
+            "&:hover": {
+              background: "rgba(200,200,200,.3)",
+              color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
             },
             "&:focus-within": {
-              background: colors[themeColor]["100"] + "!important",
-              color: "#000",
-              boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+              background:
+                (global.theme === "dark"
+                  ? colors[themeColor]["900"]
+                  : colors[themeColor]["50"]) + "!important",
+              color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
             },
           }}
           onClick={handleClickOpen}

@@ -17,9 +17,9 @@ export function FloatingActionButton() {
           lg: "15px",
           sm: "74px",
           md: "15px",
-          xs: "74px"
+          xs: "74px",
         },
-        right: "12px"
+        right: "12px",
       }}
     >
       <AddPopup>
@@ -36,29 +36,29 @@ export function FloatingActionButton() {
               boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
               background:
                 global.theme === "dark"
-                  ? colors[themeColor]["900"]
+                  ? "hsl(240, 11%, 40%)"
                   : colors[themeColor][100],
               color:
                 global.theme === "dark"
-                  ? colors[themeColor][100]
+                  ? "hsl(240, 11%, 95%)"
                   : colors[themeColor]["900"],
               "&:hover": {
                 background:
                   global.theme === "dark"
-                    ? colors[themeColor][800]
-                    : colors[themeColor]["200"]
+                    ? "hsl(240, 11%, 50%)"
+                    : colors[themeColor]["200"],
               },
               py: 2,
               textTransform: "none",
               height: "auto",
-              maxHeight: "auto"
+              maxHeight: "auto",
             }}
           >
             <span
               className="material-symbols-rounded"
               style={{
                 marginRight: !hide ? "15px" : "0",
-                transition: "all .2s"
+                transition: "all .2s",
               }}
             >
               edit
