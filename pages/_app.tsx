@@ -41,8 +41,14 @@ function Render({ data, Component, pageProps }: any) {
           tooltip: {
             borderRadius: "20px",
             fontSize: "14px",
-            background: colors[themeColor]["A100"],
-            color: colors[themeColor]["900"],
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 30%)"
+                : colors[themeColor]["A100"],
+            color:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 90%)"
+                : colors[themeColor]["900"],
             paddingLeft: "13px",
             paddingRight: "13px",
             paddingTop: "5px",

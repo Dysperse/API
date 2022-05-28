@@ -156,7 +156,10 @@ export function ProfileMenu(props: any) {
         PaperProps={{
           elevation: 4,
           sx: {
-            background: "rgba(255,255,255,.8)",
+            background:
+              global.theme === "dark"
+                ? "rgba(40,40,40,0.8)"
+                : "rgba(255,255,255,.8)",
             backdropFilter: "blur(10px)",
             p: 3,
             py: 5,
