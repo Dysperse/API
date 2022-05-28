@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Masonry from "@mui/lab/Masonry";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -8,6 +9,91 @@ import { ItemCard } from "../components/rooms/ItemCard";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Co2Sharp } from "@mui/icons-material";
+import toast from "react-hot-toast";
+
+function DeleteCard({ item }: any) {
+  const [deleted, setDeleted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  return deleted ? (
+    <></>
+  ) : (
+    <Card sx={{ background: "rgba(200,200,200,.3)", borderRadius: "28px" }}>
+      <CardContent>
+        <ItemCard item={item} displayRoom={true} />
+        <LoadingButton
+          loading={loading}
+          sx={{
+            float: "right",
+            boxShadow: 0,
+            m: 0.5,
+            mb: 2,
+            borderRadius: 9,
+          }}
+          variant="contained"
+          onClick={() => {
+            fetch("https://api.smartlist.tech/v2/items/delete/", {
+              method: "POST",
+              body: new URLSearchParams({
+                token: global.session && global.session.accessToken,
+                id: item.id.toString(),
+                forever: "true",
+              }),
+            })
+              .then((res) => {
+                setDeleted(true);
+                setLoading(false);
+                toast.success("Item deleted forever");
+              })
+              .catch((err) => {
+                toast.error(
+                  "An error occured while trying to delete this item. Please try again"
+                );
+                setLoading(false);
+              });
+            setLoading(true);
+          }}
+        >
+          Delete
+        </LoadingButton>
+        <Button
+          sx={{
+            float: "right",
+            boxShadow: 0,
+            m: 0.5,
+            mb: 2,
+            borderRadius: 9,
+          }}
+          variant="outlined"
+          onClick={() => {
+            fetch("https://api.smartlist.tech/v2/items/delete/", {
+              method: "POST",
+              body: new URLSearchParams({
+                token: global.session && global.session.accessToken,
+                id: item.id.toString(),
+              }),
+            })
+              .then((res) => {
+                setDeleted(true);
+                setLoading(false);
+                toast.success("Item restored");
+              })
+              .catch((err) => {
+                toast.error(
+                  "An error occured while trying to restore this item. Please try again"
+                );
+                setLoading(false);
+              });
+            setLoading(true);
+          }}
+        >
+          Restore
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
 
 function Items() {
   const url = "https://api.smartlist.tech/v2/trash/";
@@ -49,43 +135,19 @@ function Items() {
   ) : (
     <>
       {data.data.map((item: any) => (
-        <Paper
-          sx={{ boxShadow: 0, p: 0 }}
-          key={(Math.random() + Math.random()).toString()}
-        >
-          <Card
-            sx={{ background: "rgba(200,200,200,.3)", borderRadius: "28px" }}
-          >
-            <CardContent>
-              <ItemCard item={item} displayRoom={true} />
-              <Button
-                sx={{
-                  float: "right",
-                  boxShadow: 0,
-                  m: 0.5,
-                  mb: 2,
-                  borderRadius: 9,
-                }}
-                variant="contained"
-              >
-                Delete
-              </Button>
-              <Button
-                sx={{
-                  float: "right",
-                  boxShadow: 0,
-                  m: 0.5,
-                  mb: 2,
-                  borderRadius: 9,
-                }}
-                variant="outlined"
-              >
-                Restore
-              </Button>
-            </CardContent>
-          </Card>
-        </Paper>
+        <DeleteCard item={item} />
       ))}
+      {data.data.length === 0 && (
+        <Box
+          sx={{
+            width: "100%",
+            background: "rgba(200,200,200,.3)",
+            borderRadius: 4,
+          }}
+        >
+          You haven't deleted any items yet
+        </Box>
+      )}
     </>
   );
 }
