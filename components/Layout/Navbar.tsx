@@ -33,7 +33,7 @@ function ElevationScroll(props: any) {
               ? "hsl(240, 11%, 25%)"
               : colors[global.themeColor]["100"]
             : global.theme === "dark"
-            ? "#121212"
+            ? "hsl(240, 11%, 5%)"
             : "#fff"
         );
     }
