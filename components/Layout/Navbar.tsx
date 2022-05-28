@@ -82,11 +82,23 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                 size="large"
                 onClick={handleDrawerToggle}
                 sx={{
-                  mr: 2,
-                  display: { md: "none" },
                   transition: "none",
-                  color: "#606060",
-                  "&:hover": { color: "#000" },
+                  mr: 2,
+                  color:
+                    global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
+                  "&:hover": {
+                    background: "rgba(200,200,200,.3)",
+                    color:
+                      global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                  "&:focus-within": {
+                    background:
+                      (global.theme === "dark"
+                        ? colors[themeColor]["900"]
+                        : colors[themeColor]["50"]) + "!important",
+                    color:
+                      global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                  },
                 }}
               >
                 <span className="material-symbols-rounded">menu</span>
@@ -186,9 +198,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                     "&:hover": {
                       background: "rgba(200,200,200,.3)",
                       color:
-                        global.theme === "dark"
-                          ? "hsl(240, 11%, 95%)"
-                          : "#000",
+                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
                     },
                     "&:focus-within": {
                       background:
@@ -196,9 +206,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                           ? colors[themeColor]["900"]
                           : colors[themeColor]["50"]) + "!important",
                       color:
-                        global.theme === "dark"
-                          ? "hsl(240, 11%, 95%)"
-                          : "#000",
+                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
                     },
                   }}
                 >

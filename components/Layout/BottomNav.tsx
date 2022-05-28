@@ -7,7 +7,6 @@ import * as React from "react";
 
 const styles = {
   borderRadius: "15px",
-  color: global.theme === "dark" ? "#ccc" : "#505050",
   px: "0!important",
   "& *": {
     maxWidth: "70%",
@@ -51,10 +50,6 @@ const styles = {
   },
   "&.Mui-selected .MuiIcon-root": {
     background: "rgba(0,0,0,0.3)",
-  },
-  "&.Mui-selected": {
-    color: global.theme === "dark" ? "#fff" : "#000",
-    background: "transparent !important",
   },
 };
 
@@ -115,7 +110,7 @@ export function BottomNav() {
 
           background:
             global.theme === "dark"
-              ? "rgba(255,255,255,.1)"
+              ? "rgba(68, 68, 85,.9)"
               : "rgba(210,210,210,.9)",
         }}
         showLabels
@@ -129,14 +124,27 @@ export function BottomNav() {
         }}
       >
         <BottomNavigationAction
-          sx={styles}
+          sx={{
+            ...styles,
+            color: global.theme === "dark" ? "#ccc" : "#505050",
+            "&.Mui-selected": {
+              color: global.theme === "dark" ? "#fff" : "#000",
+              background: "transparent !important",
+            },
+          }}
           label="Home"
           disableRipple
           onClick={() => onLink("/dashboard")}
           icon={<Icon baseClassName="material-symbols-rounded">dashboard</Icon>}
         />
         <BottomNavigationAction
-          sx={styles}
+          sx={{
+            ...styles,
+            "&.Mui-selected": {
+              color: global.theme === "dark" ? "#fff" : "#000",
+              background: "transparent !important",
+            },
+          }}
           label="Finances"
           disableRipple
           onClick={() => onLink("/finances")}
@@ -144,7 +152,13 @@ export function BottomNav() {
         />
 
         <BottomNavigationAction
-          sx={styles}
+          sx={{
+            ...styles,
+            "&.Mui-selected": {
+              color: global.theme === "dark" ? "#fff" : "#000",
+              background: "transparent !important",
+            },
+          }}
           label={
             <span
               style={{
@@ -165,14 +179,26 @@ export function BottomNav() {
           }
         />
         <BottomNavigationAction
-          sx={styles}
+          sx={{
+            ...styles,
+            "&.Mui-selected": {
+              color: global.theme === "dark" ? "#fff" : "#000",
+              background: "transparent !important",
+            },
+          }}
           label="Items"
           disableRipple
           onClick={() => onLink("/categories")}
           icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
         />
         <BottomNavigationAction
-          sx={styles}
+          sx={{
+            ...styles,
+            "&.Mui-selected": {
+              color: global.theme === "dark" ? "#fff" : "#000",
+              background: "transparent !important",
+            },
+          }}
           label="Planner"
           disableRipple
           onClick={() => onLink("/planner")}
