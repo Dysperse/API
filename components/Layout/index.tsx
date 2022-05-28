@@ -133,6 +133,9 @@ function ResponsiveDrawer(props: any): JSX.Element {
               overscrollBehavior: "none",
               pr: "2px",
               borderRadius: "0 20px 20px 0",
+              ...(global.theme === "dark" && {
+                background: "hsl(240, 11%, 15%)",
+              }),
             },
           }}
           onClose={handleDrawerToggle}

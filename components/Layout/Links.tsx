@@ -31,15 +31,15 @@ function CreateRoom() {
 
   const formik = useFormik({
     initialValues: {
-      name: ""
+      name: "",
     },
     onSubmit: async (values: { name: string }) => {
       fetch("https://api.smartlist.tech/v2/rooms/create/", {
         method: "POST",
         body: new URLSearchParams({
           token: global.session.accessToken,
-          name: values.name
-        })
+          name: values.name,
+        }),
       })
         .then((res) => res.json())
         .then((res) => {
@@ -50,7 +50,7 @@ function CreateRoom() {
           router.push("/rooms/" + res.data.id);
         });
       setTimeout(() => setLoading(true), 20);
-    }
+    },
   });
   return (
     <>
@@ -68,17 +68,17 @@ function CreateRoom() {
         PaperProps={{
           sx: {
             width: {
-              sm: "50vw"
+              sm: "50vw",
             },
             borderRadius: "40px 40px 0 0",
-            mx: "auto"
-          }
+            mx: "auto",
+          },
         }}
         open={open}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
       >
         <Puller />
@@ -107,7 +107,7 @@ function CreateRoom() {
                 mr: 1,
                 borderRadius: 9,
                 float: "right",
-                boxShadow: 0
+                boxShadow: 0,
               }}
               size="large"
               variant="contained"
@@ -123,7 +123,7 @@ function CreateRoom() {
                 mt: 1,
                 mr: 1,
                 borderRadius: 9,
-                float: "right"
+                float: "right",
               }}
               color="primary"
               type="button"
@@ -148,7 +148,7 @@ const ListItem = React.memo(function ListItem({
   asHref = "/dashboard",
   text,
   icon,
-  sx = {}
+  sx = {},
 }: any) {
   const router = useRouter();
   if (!router.asPath) router.asPath = "/dashboard";
@@ -163,26 +163,26 @@ const ListItem = React.memo(function ListItem({
             (global.theme === "dark" ? grey[200] : "#606060") + "!important",
           "& span": {
             color:
-              (global.theme === "dark" ? grey[200] : "#606060") + "!important"
+              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
           },
           borderRadius: "0 200px 200px 0",
           "& .MuiTouchRipple-rippleVisible": {
-            animationDuration: ".3s!important"
+            animationDuration: ".3s!important",
           },
           "& .MuiTouchRipple-child": {
-            filter: "opacity(.2)!important"
+            filter: "opacity(.2)!important",
           },
           "&:hover,&:focus": {
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
-            background: "rgba(200,200,200,.3)"
+            background: "rgba(200,200,200,.3)",
           },
           "&:hover span": {
             color:
-              (global.theme === "dark" ? grey[200] : grey[900]) + "!important"
+              (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
           },
           "&:active": {
-            background: "rgba(200,200,200,.4)"
+            background: "rgba(200,200,200,.4)",
           },
           ...(router.asPath === asHref && {
             backgroundColor:
@@ -191,36 +191,36 @@ const ListItem = React.memo(function ListItem({
               backgroundColor:
                 colors[global.themeColor][global.theme === "dark" ? 800 : 100],
               color:
-                colors[global.themeColor][global.theme === "dark" ? 100 : 900]
+                colors[global.themeColor][global.theme === "dark" ? 100 : 900],
             },
             "&:active": {
               backgroundColor:
-                colors[global.themeColor][global.theme === "dark" ? 700 : 200]
+                colors[global.themeColor][global.theme === "dark" ? 700 : 200],
             },
             "& span": {
               color:
                 colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
-                "!important"
+                "!important",
             },
             "&:hover span": {
               color:
                 colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
-                "!important"
+                "!important",
             },
             "&:active span": {
               color:
                 colors[global.themeColor][global.theme === "dark" ? 200 : 900] +
-                "!important"
-            }
-          })
+                "!important",
+            },
+          }),
         }}
       >
         <ListItemIcon
           sx={{
             transform: "translateX(6px)",
             ...(router.asPath === asHref && {
-              color: colors[global.themeColor][500]
-            })
+              color: colors[global.themeColor][500],
+            }),
           }}
         >
           {icon}
@@ -249,15 +249,25 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           sx={{
             display: {
               xs: "none",
-              md: "block"
+              md: "block",
             },
-            pt: 2
+            pt: 2,
           }}
         >
           <Toolbar />
         </Box>
         <div onClick={handleDrawerToggle}>
-          <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>Home</ListSubheader>
+          <ListSubheader
+            sx={{
+              pl: 2,
+              fontSize: "15px",
+              ...(global.theme === "dark" && {
+                background: "hsl(240, 11%, 15%)",
+              }),
+            }}
+          >
+            Home
+          </ListSubheader>
           <ListItem
             text="Overview"
             icon={<span className="material-symbols-rounded">dashboard</span>}
@@ -279,12 +289,14 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               asHref="/save-the-planet"
               href="/save-the-planet"
               text="Eco friendliness"
-              sx={{
-                // ...(process.env.NODE_ENV === "production" && {
-                //   opacity: 0.8,
-                //   pointerEvents: "none"
-                // })
-              }}
+              sx={
+                {
+                  // ...(process.env.NODE_ENV === "production" && {
+                  //   opacity: 0.8,
+                  //   pointerEvents: "none"
+                  // })
+                }
+              }
               icon={
                 <span className="material-symbols-rounded">
                   energy_savings_leaf
@@ -307,7 +319,17 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           </Tooltip> */}
         </div>
         <div onClick={handleDrawerToggle}>
-          <ListSubheader sx={{ pl: 2, fontSize: "15px" }}>Rooms</ListSubheader>
+          <ListSubheader
+            sx={{
+              pl: 2,
+              fontSize: "15px",
+              ...(global.theme === "dark" && {
+                background: "hsl(240, 11%, 15%)",
+              }),
+            }}
+          >
+            Rooms
+          </ListSubheader>
           <ListItem
             href="/rooms/[index]"
             asHref="/rooms/kitchen"
@@ -385,21 +407,21 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             borderRadius: "0 20px 20px 0",
             color: grey[800],
             "& .MuiTouchRipple-rippleVisible": {
-              animationDuration: ".3s!important"
+              animationDuration: ".3s!important",
             },
             "& .MuiTouchRipple-child": {
-              filter: "opacity(.2)!important"
+              filter: "opacity(.2)!important",
             },
             "&:hover": {
               color: "#000",
-              background: "rgba(200,200,200,.3)"
+              background: "rgba(200,200,200,.3)",
             },
             "&:hover span": {
-              color: grey[800] + "!important"
+              color: grey[800] + "!important",
             },
             "&:active": {
-              background: "rgba(200,200,200,.4)"
-            }
+              background: "rgba(200,200,200,.4)",
+            },
           }}
         >
           <ListItemIcon>
@@ -411,8 +433,8 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             style={{
               transition: "all .2s",
               ...(open && {
-                transform: "rotate(-180deg)"
-              })
+                transform: "rotate(-180deg)",
+              }),
             }}
           >
             expand_more
@@ -432,7 +454,12 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
         <ListSubheader
           component="div"
           id="nested-list-subheader"
-          sx={{ pl: 2 }}
+          sx={{
+            pl: 2,
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 15%)",
+            }),
+          }}
         >
           Other
         </ListSubheader>
