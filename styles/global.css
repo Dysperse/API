@@ -150,3 +150,9 @@ img {
 * {
   scrollbar-width: none;
 }
+@media only screen and (prefers-color-scheme: dark) {
+  html,
+  body {
+    background: hsl(240, 11%, 10%);
+  }
+}

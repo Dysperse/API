@@ -16,7 +16,9 @@ dayjs.extend(relativeTime);
 
 function Render({ data, Component, pageProps }: any) {
   global.session = data;
-  const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [theme, setTheme] = useState<"dark" | "light">(
+    data.user.darkMode === "true" ? "dark" : "light"
+  );
   const [themeColor, setThemeColor] = useState<
     "red" | "green" | "blue" | "pink" | "purple" | "orange" | "teal" | "cyan"
   >(data.user.theme);

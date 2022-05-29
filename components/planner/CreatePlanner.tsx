@@ -93,6 +93,11 @@ export function CreatePlanner() {
                     BackdropProps: {
                       sx: { opacity: "0!important" },
                     },
+                    PaperProps: {
+                      sx: {
+                        borderRadius: "28px",
+                      },
+                    },
                     sx: {
                       "& .MuiMenuItem-root ": {
                         px: 3,

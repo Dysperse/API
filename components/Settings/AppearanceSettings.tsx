@@ -55,8 +55,8 @@ export default function AppearanceSettings() {
         sx={{
           py: 1,
           px: {
-            sm: 10
-          }
+            sm: 10,
+          },
         }}
       >
         <ThemeColorSettings />
@@ -68,11 +68,17 @@ export default function AppearanceSettings() {
           // onChange={handleChange}
         >
           <ListItem
-            onClick={() => global.setTheme("light")}
+            onClick={() => {
+              global.setTheme("light");
+              updateSettings("darkMode", "false");
+            }}
             secondaryAction={
               <Radio
                 edge="end"
-                onChange={() => global.setTheme("light")}
+                onChange={() => {
+                  global.setTheme("light");
+                  updateSettings("darkMode", "false");
+                }}
                 checked={global.theme === "light"}
               />
             }
@@ -83,11 +89,17 @@ export default function AppearanceSettings() {
             </ListItemButton>
           </ListItem>
           <ListItem
-            onClick={() => global.setTheme("dark")}
+            onClick={() => {
+              global.setTheme("dark");
+              updateSettings("darkMode", "true");
+            }}
             secondaryAction={
               <Radio
                 edge="end"
-                onChange={() => global.setTheme("dark")}
+                onChange={() => {
+                  global.setTheme("dark");
+                  updateSettings("darkMode", "true");
+                }}
                 checked={global.theme === "dark"}
               />
             }
