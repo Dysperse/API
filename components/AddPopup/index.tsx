@@ -112,6 +112,9 @@ function MoreRooms(): JSX.Element {
             },
             borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
           },
         }}
         open={open}
@@ -403,6 +406,9 @@ export default function AddPopup(props: any) {
             },
             borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
           },
         }}
         open={open}

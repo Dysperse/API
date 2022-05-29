@@ -45,6 +45,15 @@ function Render({ data, Component, pageProps }: any) {
           },
         },
       },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 30%)",
+            }),
+          },
+        },
+      },
       MuiTooltip: {
         styleOverrides: {
           tooltip: {
