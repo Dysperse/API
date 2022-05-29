@@ -9,12 +9,16 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 export function FloatingActionButton(props) {
   const { window } = props;
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-    target: window ? window() : undefined,
-  });
-
+  var trigger;
+  if (process.env.NODE_ENV === "production") {
+    trigger = useScrollTrigger({
+      disableHysteresis: true,
+      threshold: 0,
+      target: window ? window() : undefined,
+    });
+  } else {
+    trigger = false;
+  }
   return (
     <Box
       sx={{
