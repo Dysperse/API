@@ -156,3 +156,7 @@ img {
     background: hsl(240, 11%, 10%);
   }
 } */
+.MuiListSubheader-root {
+  background: transparent !important;
+  position: unset !important;
+}
