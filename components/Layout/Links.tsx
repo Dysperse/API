@@ -260,6 +260,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           <ListSubheader
             sx={{
               pl: 2,
+              position: {
+                md: "unset",
+              },
               fontSize: "15px",
               ...(global.theme === "dark" && {
                 background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
@@ -323,6 +326,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             sx={{
               pl: 2,
               fontSize: "15px",
+              position: {
+                md: "unset",
+              },
               ...(global.theme === "dark" && {
                 background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
               }),
@@ -456,6 +462,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           id="nested-list-subheader"
           sx={{
             pl: 2,
+            position: {
+              md: "unset",
+            },
             ...(global.theme === "dark" && {
               background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
             }),

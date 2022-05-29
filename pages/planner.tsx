@@ -1,12 +1,14 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import { CreatePlanner } from "../components/planner/CreatePlanner";
 
 export default function Render() {
   return (
     <>
       {process.env.NODE_ENV == "development" ? (
         <Container sx={{ mt: 5 }}>
+          <CreatePlanner />
           <Typography variant="h5" sx={{ fontWeight: "800" }}>
             Planner
           </Typography>
