@@ -407,23 +407,32 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
         <ListItemButton
           onClick={handleClick}
           sx={{
-            pl: 4,
-            mb: 0.1,
+            pl: 3,
             transition: "none!important",
-            borderRadius: "0 20px 20px 0",
-            color: grey[800],
+            color:
+              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+            "& span": {
+              color:
+                (global.theme === "dark" ? grey[200] : "#606060") +
+                "!important",
+            },
+            borderRadius: "0 200px 200px 0",
             "& .MuiTouchRipple-rippleVisible": {
               animationDuration: ".3s!important",
             },
             "& .MuiTouchRipple-child": {
               filter: "opacity(.2)!important",
             },
-            "&:hover": {
-              color: "#000",
+            "&:hover,&:focus": {
+              color:
+                (global.theme === "dark" ? grey[200] : grey[900]) +
+                "!important",
               background: "rgba(200,200,200,.3)",
             },
             "&:hover span": {
-              color: grey[800] + "!important",
+              color:
+                (global.theme === "dark" ? grey[200] : grey[900]) +
+                "!important",
             },
             "&:active": {
               background: "rgba(200,200,200,.4)",
