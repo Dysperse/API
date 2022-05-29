@@ -82,6 +82,13 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         anchor="right"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
+          },
+        }}
       >
         <Box
           sx={{
@@ -174,6 +181,9 @@ export default function FullScreenDialog() {
         onOpen={handleClickOpen}
         PaperProps={{
           sx: {
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
             width: {
               xs: "100vw",
               sm: "40vw",
