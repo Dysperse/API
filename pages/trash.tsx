@@ -18,7 +18,15 @@ function DeleteCard({ item }: any) {
   return deleted ? (
     <></>
   ) : (
-    <Card sx={{ background: "rgba(200,200,200,.3)", borderRadius: "28px" }}>
+    <Card
+      sx={{
+        background:
+          global.theme === "dark"
+            ? "hsl(240, 11%, 25%)"
+            : "rgba(200,200,200,.3)",
+        borderRadius: "28px",
+      }}
+    >
       <CardContent>
         <ItemCard item={item} displayRoom={true} />
         <LoadingButton
