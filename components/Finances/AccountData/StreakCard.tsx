@@ -8,6 +8,7 @@ import Slider, { SliderThumb } from "@mui/material/Slider";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
+import useSWR from "swr";
 
 function ThumbComponent(props: any) {
   const { children, ...other } = props;
@@ -50,15 +51,24 @@ export function StreakCard(): JSX.Element {
       height: 8,
     },
   }));
-  const { isLoading, data }: any = useFetch(
+  const url =
     "/api/finance/fetchTransactions?" +
-      new URLSearchParams({
-        access_token: global.session.user.financeToken,
-        start_date: dayjs().subtract(15, "day").format("YYYY-MM-DD"),
-        end_date: dayjs().add(3, "day").format("YYYY-MM-DD"),
-      })
+    new URLSearchParams({
+      access_token: global.session.user.financeToken,
+      start_date: dayjs().subtract(15, "day").format("YYYY-MM-DD"),
+      end_date: dayjs().add(3, "day").format("YYYY-MM-DD"),
+    });
+  const { error, data }: any = useSWR(url, () =>
+    fetch(url).then((res) => res.json())
   );
-  return isLoading ? (
+  if (error)
+    return (
+      <>
+        Yikes! An error occured while trying to fetch your streak. Try reloading
+        this page
+      </>
+    );
+  return !data ? (
     <Skeleton
       animation="wave"
       variant="rectangular"

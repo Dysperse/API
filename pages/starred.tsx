@@ -3,22 +3,23 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import useFetch from "react-fetch-hook";
+import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
 
 function Items() {
-  const { isLoading, data }: any = useFetch(
+  const { error, data }: any = useSWR(
     "https://api.smartlist.tech/v2/items/starred/",
-    {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
-      }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    }
+    () =>
+      fetch("https://api.smartlist.tech/v2/items/starred/", {
+        method: "POST",
+        body: new URLSearchParams({
+          token: global.session && global.session.accessToken,
+        }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      }).then((res) => res.json())
   );
-
-  return isLoading ? (
+  if (error) return <>An error occured, please try again later</>;
+  return !data ? (
     <>
       {[...new Array(15)].map(() => {
         let height = Math.random() * 400;

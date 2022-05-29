@@ -18,8 +18,8 @@ function ItemList({ name }: { name: string }) {
       method: "POST",
       body: new URLSearchParams({
         token: global.session.accessToken,
-        category: name
-      })
+        category: name,
+      }),
     }
   );
   useEffect(() => {
@@ -76,8 +76,8 @@ function Category({ name }: { name: string }) {
             pt: 1,
             maxHeight: "70vh",
             borderTopLeftRadius: "28px!important",
-            borderTopRightRadius: "28px!important"
-          }
+            borderTopRightRadius: "28px!important",
+          },
         }}
       >
         <Box sx={{ pt: 1 }}>
@@ -97,7 +97,7 @@ function Category({ name }: { name: string }) {
         sx={{
           background: "rgba(200,200,200,.3)",
           borderRadius: 5,
-          mt: 2
+          mt: 2,
         }}
       >
         <CardActionArea sx={{ px: 2, py: 0.3 }} onClick={() => setOpen(true)}>
@@ -118,8 +118,8 @@ export default function Categories() {
     {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session.accessToken
-      })
+        token: global.session.accessToken,
+      }),
     }
   );
   return (
@@ -129,7 +129,7 @@ export default function Categories() {
         sx={{
           my: { xs: 12, sm: 4 },
           fontWeight: "800",
-          textAlign: { xs: "center", sm: "left" }
+          textAlign: { xs: "center", sm: "left" },
         }}
       >
         Categories
@@ -153,7 +153,7 @@ export default function Categories() {
                 background: "rgba(200,200,200,.3)",
                 borderRadius: 5,
                 mt: 2,
-                px: 2
+                px: 2,
               }}
             >
               <CardContent>
@@ -163,8 +163,8 @@ export default function Categories() {
               </CardContent>
             </Card>
           )}
-          {data.data.map((category: string) => (
-            <Category name={category} />
+          {data.data.map((category: string, key: number) => (
+            <Category name={category} key={key} />
           ))}
         </>
       )}

@@ -13,7 +13,6 @@ import { styled } from "@mui/material/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
-import useFetch from "react-fetch-hook";
 import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";
 import { CreateListModal } from "./CreateListModal";
@@ -131,7 +130,12 @@ function MoreRooms(): JSX.Element {
         {!data ? (
           <Grid container sx={{ p: 2 }}>
             {[...new Array(12)].map(() => (
-              <Grid item xs={4} sx={{ p: 2, py: 1 }}>
+              <Grid
+                item
+                xs={4}
+                sx={{ p: 2, py: 1 }}
+                key={Math.random().toString()}
+              >
                 <div style={{ background: "#eee" }}>
                   <Skeleton
                     variant="rectangular"
@@ -164,10 +168,11 @@ function MoreRooms(): JSX.Element {
               icon={<span className="material-symbols-rounded">yard</span>}
             />
             {data &&
-              data.data.map((room) => (
+              data.data.map((room: any, key: any) => (
                 <AddItemOption
                   toggleDrawer={() => setOpen(false)}
                   title={room.id}
+                  key={key}
                   alias={room.name}
                   icon={<span className="material-symbols-rounded">label</span>}
                 />

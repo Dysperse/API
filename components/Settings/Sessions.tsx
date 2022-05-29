@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
-import useFetch from "react-fetch-hook";
+import useSWR from "swr";
 
 function Session({ session }) {
   const [open, setOpen] = useState(false);
@@ -43,15 +43,23 @@ function Session({ session }) {
 }
 
 export default function Sessions() {
-  const { isLoading, data }: any = useFetch(
+  const { error, data }: any = useSWR(
     "https://api.smartlist.tech/v2/account/sessions/",
-    {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
-      }),
-    }
+    () =>
+      fetch("https://api.smartlist.tech/v2/account/sessions/", {
+        method: "POST",
+        body: new URLSearchParams({
+          token: global.session && global.session.accessToken,
+        }),
+      }).then((res) => res.json())
   );
+  if (error)
+    return (
+      <>
+        Yikes! An error occured while trying to fetch your sessions. Try
+        reloading this page
+      </>
+    );
   return (
     <Box
       sx={{
@@ -61,7 +69,7 @@ export default function Sessions() {
         },
       }}
     >
-      {isLoading ? (
+      {!data ? (
         <Box sx={{ mt: 4 }}>
           {[...new Array(10)].map(() => (
             <Skeleton

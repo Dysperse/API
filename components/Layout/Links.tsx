@@ -13,7 +13,6 @@ import ListSubheader from "@mui/material/ListSubheader";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -287,39 +286,24 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             text="Planner"
             icon={<span className="material-symbols-rounded">event</span>}
           />
-          <Tooltip title="Coming soon!">
-            <ListItem
-              asHref="/save-the-planet"
-              href="/save-the-planet"
-              text="Eco friendliness"
-              sx={
-                {
-                  // ...(process.env.NODE_ENV === "production" && {
-                  //   opacity: 0.8,
-                  //   pointerEvents: "none"
-                  // })
-                }
+          <ListItem
+            asHref="/save-the-planet"
+            href="/save-the-planet"
+            text="Eco friendliness"
+            sx={
+              {
+                // ...(process.env.NODE_ENV === "production" && {
+                //   opacity: 0.8,
+                //   pointerEvents: "none"
+                // })
               }
-              icon={
-                <span className="material-symbols-rounded">
-                  energy_savings_leaf
-                </span>
-              }
-            />
-          </Tooltip>
-          {/* <Tooltip title="Coming soon!">
-            <ListItem
-              asHref="/help-the-planet"
-              href="/help-the-planet"
-              text="Shopping assistant"
-              sx={{ opacity: 0.8, pointerEvents: "none" }}
-              icon={
-                <span className="material-symbols-rounded">
-                  energy_savings_leaf
-                </span>
-              }
-            />
-          </Tooltip> */}
+            }
+            icon={
+              <span className="material-symbols-rounded">
+                energy_savings_leaf
+              </span>
+            }
+          />
         </div>
         <div onClick={handleDrawerToggle}>
           <ListSubheader
