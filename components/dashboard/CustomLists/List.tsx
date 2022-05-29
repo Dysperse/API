@@ -23,7 +23,7 @@ function ListItem({ item, listItems, setListItems }: any) {
               (() => {
                 return {
                   loading: false,
-                  data: listItems.data.filter((d: any) => d.id !== item.id)
+                  data: listItems.data.filter((d: any) => d.id !== item.id),
                 };
               })()
             );
@@ -31,8 +31,8 @@ function ListItem({ item, listItems, setListItems }: any) {
               method: "POST",
               body: new URLSearchParams({
                 token: global.session ? global.session.accessToken : undefined,
-                id: item.id
-              })
+                id: item.id,
+              }),
             });
           }}
         />
@@ -50,7 +50,7 @@ function ListPopup({
   title,
   id,
   drawerState,
-  setDrawerState
+  setDrawerState,
 }: any) {
   useEffect(() => {
     document.documentElement.classList[drawerState ? "add" : "remove"](
@@ -72,12 +72,15 @@ function ListPopup({
       PaperProps={{
         sx: {
           width: {
-            sm: "50vw"
+            sm: "50vw",
           },
           maxHeight: "80vh",
           borderRadius: "40px 40px 0 0",
-          mx: "auto"
-        }
+          ...(global.theme === "dark" && {
+            background: "hsl(240, 11%, 20%)",
+          }),
+          mx: "auto",
+        },
       }}
       onClose={() => setDrawerState(false)}
       onOpen={() => setDrawerState(true)}
@@ -85,7 +88,11 @@ function ListPopup({
       <div
         style={{
           textAlign: "center",
-          borderBottom: "1px solid rgba(200,200,200,.3)"
+          borderBottom:
+            "1px solid " +
+            (global.theme === "dark"
+              ? "hsl(240, 11%, 25%)"
+              : "rgba(200,200,200,.3)"),
         }}
       >
         <Typography
@@ -122,8 +129,8 @@ function ListPopup({
               method: "POST",
               body: new URLSearchParams({
                 token: global.session ? global.session.accessToken : undefined,
-                id: id
-              })
+                id: id,
+              }),
             });
           }}
         >
@@ -168,7 +175,7 @@ export function List({
   count,
   title,
   description,
-  id
+  id,
 }: {
   count: number;
   title: string;
@@ -178,7 +185,7 @@ export function List({
   const [drawerState, setDrawerState] = React.useState(false);
   const [listItems, setListItems] = useState({
     data: "",
-    loading: true
+    loading: true,
   });
 
   const getListItems = async (id: number) => {
@@ -186,14 +193,14 @@ export function List({
       method: "POST",
       body: new URLSearchParams({
         token: global.session ? global.session.accessToken : undefined,
-        parent: id.toString()
-      })
+        parent: id.toString(),
+      }),
     });
     const e = await data.json();
 
     setListItems({
       data: e.data,
-      loading: false
+      loading: false,
     });
   };
 
@@ -217,7 +224,7 @@ export function List({
             width: "100%",
             borderRadius: "28px",
             background: global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#eee",
-            boxShadow: 0
+            boxShadow: 0,
           }}
         >
           <CardActionArea

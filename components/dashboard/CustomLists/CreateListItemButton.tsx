@@ -15,7 +15,7 @@ import { AutocompleteData } from "../../AutocompleteData";
 export function CreateListItemButton({
   parent,
   listItems,
-  setListItems
+  setListItems,
 }: {
   parent: number;
   listItems: any;
@@ -35,7 +35,7 @@ export function CreateListItemButton({
   const handleClose = () => setOpen(false);
   const formik = useFormik({
     initialValues: {
-      name: ""
+      name: "",
     },
     onSubmit: (values: { name: string }) => {
       fetch("https://api.smartlist.tech/v2/lists/create-item/", {
@@ -44,8 +44,8 @@ export function CreateListItemButton({
           token: global.session ? global.session.accessToken : undefined,
           parent: parent.toString(),
           title: values.name,
-          description: ""
-        })
+          description: "",
+        }),
       })
         .then((res) => res.json())
         .then((res) => {
@@ -53,14 +53,14 @@ export function CreateListItemButton({
           x.push(res.data);
           setListItems({
             data: x,
-            loading: false
+            loading: false,
           });
           setLoading(false);
           formik.resetForm();
           setOpen(false);
         })
         .catch((err: any) => alert(JSON.stringify(err)));
-    }
+    },
   });
 
   const stopPropagationForTab = (event: any) => {
@@ -88,17 +88,20 @@ export function CreateListItemButton({
         swipeAreaWidth={0}
         disableSwipeToOpen={true}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
         PaperProps={{
           sx: {
             width: {
-              sm: "45vw"
+              sm: "45vw",
             },
             maxHeight: "80vh",
             borderRadius: "40px 40px 0 0",
-            mx: "auto"
-          }
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
+            mx: "auto",
+          },
         }}
         onClose={handleClose}
         onOpen={() => setOpen(true)}
@@ -150,7 +153,7 @@ export function CreateListItemButton({
               disableElevation
               sx={{
                 borderRadius: 100,
-                mb: 1
+                mb: 1,
               }}
               variant="outlined"
             >
@@ -165,7 +168,7 @@ export function CreateListItemButton({
               sx={{
                 mr: 1,
                 mb: 1,
-                borderRadius: 100
+                borderRadius: 100,
               }}
               variant="contained"
             >

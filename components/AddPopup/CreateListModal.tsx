@@ -74,6 +74,9 @@ export function CreateListModal({ children, parent, title }: any) {
             maxHeight: "80vh",
             borderRadius: "40px 40px 0 0",
             mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
           },
         }}
         open={open}
