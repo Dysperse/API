@@ -52,16 +52,22 @@ function AddItemOption({
             onClick={() => toggleDrawer(false)}
             sx={{
               "&:hover": {
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
                 boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               },
               "&:active": {
                 boxShadow: "none!important",
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
             }}
           >
@@ -106,6 +112,9 @@ function MoreRooms(): JSX.Element {
             },
             borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
           },
         }}
         open={open}
@@ -175,16 +184,22 @@ function MoreRooms(): JSX.Element {
             disableRipple
             sx={{
               "&:hover": {
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
                 boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               },
               "&:active": {
                 boxShadow: "none!important",
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
             }}
           >
@@ -262,19 +277,25 @@ function Content({ toggleDrawer }: any) {
                 onClick={() => toggleDrawer(false)}
                 sx={{
                   "&:focus-within": {
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                     boxShadow:
                       "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                   },
                   "&:hover": {
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                     boxShadow: "none!important",
                   },
                   borderRadius: 6,
 
                   "&:active": {
                     boxShadow: "none!important",
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                   },
                 }}
               >
@@ -296,19 +317,25 @@ function Content({ toggleDrawer }: any) {
                 onClick={() => toggleDrawer(false)}
                 sx={{
                   "&:focus-within": {
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                     boxShadow:
                       "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                   },
                   "&:hover": {
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                     boxShadow: "none!important",
                   },
                   borderRadius: 6,
 
                   "&:active": {
                     boxShadow: "none!important",
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                   },
                 }}
               >
@@ -379,6 +406,9 @@ export default function AddPopup(props: any) {
             },
             borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
           },
         }}
         open={open}

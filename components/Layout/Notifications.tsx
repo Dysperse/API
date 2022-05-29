@@ -28,9 +28,9 @@ function NotificationsList() {
       body: new URLSearchParams({
         token: global.session.accessToken,
         limit: "500",
-        room: "null"
-      })
-    }).then(res => res.json())
+        room: "null",
+      }),
+    }).then((res) => res.json())
   );
   if (error)
     return (
@@ -67,7 +67,10 @@ function NotificationsList() {
               mb: 2,
               borderRadius: 5,
               p: 2,
-              background: "rgba(200,200,200,.3)"
+              background:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 25%)"
+                  : "rgba(200,200,200,.3)",
             }}
           >
             <ListItemText
@@ -98,6 +101,13 @@ export function NotificationsMenu(props: any): JSX.Element {
         open={state}
         onOpen={() => setState(true)}
         onClose={() => setState(false)}
+        PaperProps={{
+          sx: {
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
+          },
+        }}
       >
         <Box sx={{ flexGrow: 1, position: "relative" }}>
           <AppBar
@@ -105,8 +115,11 @@ export function NotificationsMenu(props: any): JSX.Element {
             position="sticky"
             sx={{
               py: 1,
-              background: "rgba(200,200,200,.5)",
-              color: "#404040"
+              background:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 30%)"
+                  : "rgba(200,200,200,.5)",
+              color: global.theme === "dark" ? "#fff" : "#404040",
             }}
           >
             <Toolbar>
@@ -135,7 +148,7 @@ export function NotificationsMenu(props: any): JSX.Element {
             overflowY: "scroll",
             width: "500px",
             maxWidth: "100vw",
-            px: 3
+            px: 3,
           }}
           role="presentation"
         >

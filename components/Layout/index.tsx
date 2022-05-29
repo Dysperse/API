@@ -17,6 +17,7 @@ import { BottomNav } from "./BottomNav";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
+import { grey } from "@mui/material/colors";
 
 const drawerWidth = 300;
 
@@ -52,23 +53,33 @@ function CustomRooms() {
         <Link href={"/rooms/" + room.id}>
           <ListItemButton
             sx={{
-              pl: 6,
-              mb: 0.1,
+              pl: 5,
               transition: "none!important",
-              borderRadius: "0 20px 20px 0",
-              color: colors["grey"][800],
+              color:
+                (global.theme === "dark" ? grey[200] : "#606060") +
+                "!important",
+              "& span": {
+                color:
+                  (global.theme === "dark" ? grey[200] : "#606060") +
+                  "!important",
+              },
+              borderRadius: "0 200px 200px 0",
               "& .MuiTouchRipple-rippleVisible": {
                 animationDuration: ".3s!important",
               },
               "& .MuiTouchRipple-child": {
                 filter: "opacity(.2)!important",
               },
-              "&:hover": {
-                color: "#000",
+              "&:hover,&:focus": {
+                color:
+                  (global.theme === "dark" ? grey[200] : grey[900]) +
+                  "!important",
                 background: "rgba(200,200,200,.3)",
               },
               "&:hover span": {
-                color: colors["grey"][800] + "!important",
+                color:
+                  (global.theme === "dark" ? grey[200] : grey[900]) +
+                  "!important",
               },
               "&:active": {
                 background: "rgba(200,200,200,.4)",

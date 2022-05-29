@@ -7,7 +7,8 @@ export function Puller() {
       className="puller"
       sx={{
         width: "50px",
-        backgroundColor: global.theme === "dark" ? "#505050" : "#eee",
+        backgroundColor:
+          global.theme === "dark" ? "hsl(240, 11%, 30%)" : "#eee",
         height: "7px",
         margin: "auto",
         borderRadius: 9,
@@ -15,7 +16,7 @@ export function Puller() {
         position: "absolute",
         left: "50%",
         transform: "translateX(-50%)",
-        display: "inline-block"
+        display: "inline-block",
       }}
     />
   );

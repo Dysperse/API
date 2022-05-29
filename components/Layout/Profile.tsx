@@ -158,7 +158,7 @@ export function ProfileMenu(props: any) {
           sx: {
             background:
               global.theme === "dark"
-                ? "rgba(40,40,40,0.8)"
+                ? "rgba(68, 68, 85,0.9)"
                 : "rgba(255,255,255,.8)",
             backdropFilter: "blur(10px)",
             p: 3,
