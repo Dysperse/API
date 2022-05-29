@@ -9,14 +9,23 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 export function CreatePlanner() {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("female");
+  const [value, setValue] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
+  const [mealType, setMealType] = useState("");
+
+  const setMealTypeEvent = (event: SelectChangeEvent) => {
+    setMealType(event.target.value as string);
+  };
+
   return (
     <>
       <SwipeableDrawer
@@ -47,11 +56,9 @@ export function CreatePlanner() {
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
             Create
           </Typography>
-          <TextField label="What are you cooking?" variant="filled" fullWidth />
-          <FormControl>
-            <FormLabel id="demo-controlled-radio-buttons-group">
-              Gender
-            </FormLabel>
+
+          <FormControl sx={{ mb: 3, mt: 1 }}>
+            <FormLabel id="demo-controlled-radio-buttons-group">Type</FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
@@ -59,13 +66,56 @@ export function CreatePlanner() {
               onChange={handleChange}
             >
               <FormControlLabel
-                value="female"
+                value="meal"
                 control={<Radio />}
-                label="Female"
+                label="Meal plan"
               />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
+              <FormControlLabel
+                value="workout"
+                control={<Radio />}
+                label="Workout plan"
+              />
             </RadioGroup>
           </FormControl>
+          {value === "meal" ? (
+            <>
+              <TextField
+                label="What are you cooking?"
+                variant="filled"
+                fullWidth
+              />
+              <FormControl fullWidth sx={{ mt: 2 }}>
+                <InputLabel variant="filled" id="demo-simple-select-label">
+                  Type
+                </InputLabel>
+                <Select
+                  MenuProps={{
+                    BackdropProps: {
+                      sx: { opacity: "0!important" },
+                    },
+                    sx: {
+                      "& .MuiMenuItem-root ": {
+                        px: 3,
+                        py: 1,
+                      },
+                    },
+                  }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={mealType}
+                  variant="filled"
+                  label="Age"
+                  onChange={setMealTypeEvent}
+                >
+                  <MenuItem value={"breakfast"}>Breakfast</MenuItem>
+                  <MenuItem value={"lunch"}>Lunch</MenuItem>
+                  <MenuItem value={"dinner"}>Dinner</MenuItem>
+                </Select>
+              </FormControl>
+            </>
+          ) : (
+            <></>
+          )}
         </Box>
       </SwipeableDrawer>
       <Button
