@@ -27,6 +27,12 @@ function Render({ data, Component, pageProps }: any) {
   global.themeColor = themeColor;
   global.setThemeColor = setThemeColor;
 
+  if (data.user.darkMode === "true") {
+    document
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute("content", "hsl(240, 11%, 10%)");
+  }
+
   const userTheme = createTheme({
     components: {
       MuiPaper: {
