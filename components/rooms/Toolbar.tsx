@@ -56,9 +56,11 @@ export function Toolbar({ items, setItems, data }: any) {
             pb: 0.6,
             pt: 1,
             px: 2,
-            background: blueGrey[50],
+            background:
+              global.theme === "dark" ? "hsl(240, 11%, 25%)" : blueGrey[50],
             "&.Mui-focused": {
-              background: blueGrey[100],
+              background:
+                global.theme === "dark" ? "hsl(240, 11%, 30%)" : blueGrey[100],
             },
           },
         }}

@@ -267,7 +267,10 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   width: "100%",
                   maxWidth: "calc(100vw - 20px)",
                   borderRadius: "28px",
-                  background: "rgba(200,200,200,.3)!important",
+                  background:
+                    (global.theme === "dark"
+                      ? "hsl(240, 11%, 20%)"
+                      : "rgba(200,200,200,.3)") + "!important",
                   transition: "transform .2s",
                   "& *": { transition: "none!important" },
                   "&:active": {
@@ -275,7 +278,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     transition: "none",
                   },
                   ...(star === 1 && {
-                    background: orange[700],
+                    background: orange[global.theme === "dark" ? 900 : 700],
                     color: "white",
                   }),
                 }}

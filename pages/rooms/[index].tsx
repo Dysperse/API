@@ -24,7 +24,7 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
         boxShadow: 0,
         borderRadius: "28px",
         p: 1,
-        background: global.theme === "dark" ? blueGrey[900] : "#eee",
+        background: global.theme === "dark" ? "hsl(240, 11%, 25%)" : "#eee",
       }}
     >
       <CardContent>
@@ -206,7 +206,8 @@ function Suggestions({ room, items }: any) {
           boxShadow: 0,
           borderRadius: "28px",
           p: 1,
-          background: global.theme === "dark" ? blueGrey[900] : orange[50],
+          background:
+            global.theme === "dark" ? "hsl(240, 11%, 25%)" : orange[50],
           mb: 2,
         }}
       >
@@ -257,14 +258,20 @@ function Suggestions({ room, items }: any) {
                       color:
                         global.theme === "dark" ? orange[100] : orange[900],
                       background:
-                        global.theme === "dark" ? orange[900] : orange[100],
+                        global.theme === "dark"
+                          ? "hsl(240, 11%, 30%)"
+                          : orange[100],
                       "&:hover": {
                         background:
-                          global.theme === "dark" ? orange[800] : orange[200],
+                          global.theme === "dark"
+                            ? "hsl(240, 11%, 35%)"
+                            : orange[200],
                       },
                       "&:active": {
                         background:
-                          global.theme === "dark" ? orange[700] : orange[300],
+                          global.theme === "dark"
+                            ? "hsl(240, 11%, 40%)"
+                            : orange[300],
                       },
                     }}
                     label={item}
