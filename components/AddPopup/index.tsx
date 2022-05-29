@@ -52,16 +52,22 @@ function AddItemOption({
             onClick={() => toggleDrawer(false)}
             sx={{
               "&:hover": {
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
                 boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               },
               "&:active": {
                 boxShadow: "none!important",
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
             }}
           >
@@ -175,16 +181,22 @@ function MoreRooms(): JSX.Element {
             disableRipple
             sx={{
               "&:hover": {
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
                 boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
               },
               "&:active": {
                 boxShadow: "none!important",
-                background: colors[themeColor]["100"] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
             }}
           >
@@ -262,19 +274,25 @@ function Content({ toggleDrawer }: any) {
                 onClick={() => toggleDrawer(false)}
                 sx={{
                   "&:focus-within": {
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                     boxShadow:
                       "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                   },
                   "&:hover": {
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                     boxShadow: "none!important",
                   },
                   borderRadius: 6,
 
                   "&:active": {
                     boxShadow: "none!important",
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                   },
                 }}
               >
@@ -296,19 +314,25 @@ function Content({ toggleDrawer }: any) {
                 onClick={() => toggleDrawer(false)}
                 sx={{
                   "&:focus-within": {
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                     boxShadow:
                       "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
                   },
                   "&:hover": {
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                     boxShadow: "none!important",
                   },
                   borderRadius: 6,
 
                   "&:active": {
                     boxShadow: "none!important",
-                    background: colors[themeColor]["100"] + "!important",
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                      "!important",
                   },
                 }}
               >
