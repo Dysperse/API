@@ -4,9 +4,19 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 export function CreatePlanner() {
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("female");
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+  };
   return (
     <>
       <SwipeableDrawer
@@ -37,7 +47,25 @@ export function CreatePlanner() {
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
             Create
           </Typography>
-          <TextField />
+          <TextField label="What are you cooking?" variant="filled" fullWidth />
+          <FormControl>
+            <FormLabel id="demo-controlled-radio-buttons-group">
+              Gender
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={value}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="female"
+                control={<Radio />}
+                label="Female"
+              />
+              <FormControlLabel value="male" control={<Radio />} label="Male" />
+            </RadioGroup>
+          </FormControl>
         </Box>
       </SwipeableDrawer>
       <Button
