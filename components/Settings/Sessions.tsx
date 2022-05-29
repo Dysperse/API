@@ -25,13 +25,14 @@ function Session({ session }) {
           </Tooltip>
         }
         key={session.token}
+        sx={{ px: { xs: 2, sm: 0 } }}
         disableGutters
       >
         <ListItemText
           sx={{
             maxWidth: "100%",
             textOverflow: "ellipsis",
-            overflow: "hidden"
+            overflow: "hidden",
           }}
           secondary={<>Access&nbsp;token:&nbsp;{session.token}</>}
           primary={global.session.user.name}
@@ -47,8 +48,8 @@ export default function Sessions() {
     {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken
-      })
+        token: global.session && global.session.accessToken,
+      }),
     }
   );
   return (
@@ -56,8 +57,8 @@ export default function Sessions() {
       sx={{
         py: 1,
         px: {
-          sm: 10
-        }
+          sm: 10,
+        },
       }}
     >
       {isLoading ? (
