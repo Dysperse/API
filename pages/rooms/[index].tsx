@@ -231,10 +231,11 @@ function Suggestions({ room, items }: any) {
             }}
           >
             {suggestions[room] &&
-              suggestions[room].map((item) => {
+              suggestions[room].map((item: string, key: number) => {
                 if (items.some((e: any) => e.title === item)) return "";
                 return (
                   <Chip
+                    key={key}
                     onClick={() => {
                       fetch("https://api.smartlist.tech/v2/items/create/", {
                         method: "POST",
