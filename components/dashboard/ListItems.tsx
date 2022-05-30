@@ -5,6 +5,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import useSWR from "swr";
+import useFetch from "react-fetch-hook";
 import { GenerateListItem } from "./GenerateListItem";
 
 // Shopping list / todo list
@@ -12,26 +13,25 @@ export function ListItems({
   parent,
   title,
   emptyImage,
-  emptyText
+  emptyText,
 }: {
   parent: any;
   title: any;
   emptyImage: any;
   emptyText: any;
 }) {
-  const url = "https://api.smartlist.tech/v2/lists/fetch/";
-  const { data, error } = useSWR(url, () =>
-    fetch(url, {
+  const { data, isLoading }: any = useFetch(
+    "https://api.smartlist.tech/v2/lists/fetch/",
+    {
       method: "POST",
       body: new URLSearchParams({
         token: global.session && global.session.accessToken,
-        parent: parent
+        parent: parent,
       }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }
-    }).then(res => res.json())
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }
   );
-  if (error) return <div>Failed to load items</div>;
-  if (!data)
+  if (isLoading)
     return (
       <Skeleton
         height={200}
@@ -48,7 +48,7 @@ export function ListItems({
         width: "100%",
         p: 1,
         background: global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#eee",
-        boxShadow: 0
+        boxShadow: 0,
       }}
     >
       <CardContent>
@@ -60,7 +60,7 @@ export function ListItems({
         ))}
         {data.data.length === 0 && (
           <Box sx={{ textAlign: "center" }}>
-            <img src={emptyImage} alt="No items"/>
+            <img src={emptyImage} alt="No items" />
             <Typography sx={{ display: "block" }} variant="h6">
               No items?!
             </Typography>

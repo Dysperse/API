@@ -15,8 +15,8 @@ export function GenerateListItem({ listItems, setListItems, title, id }: any) {
       method: "POST",
       body: new URLSearchParams({
         token: global.session && global.session.accessToken,
-        id: id
-      })
+        id: id,
+      }),
     });
     setDeleted(true);
   };
@@ -26,6 +26,10 @@ export function GenerateListItem({ listItems, setListItems, title, id }: any) {
         key={id.toString()}
         sx={{ py: 0, borderRadius: 3, transition: "none" }}
         dense
+        onClick={() => {
+          deleteItem(id);
+          setChecked(true);
+        }}
       >
         <ListItemIcon>
           <Checkbox

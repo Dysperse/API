@@ -248,7 +248,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           <Collapse in={!deleted}>
             <ListItemButton
               onClick={() => setDrawerState(true)}
-              sx={{ py: 0.1, borderRadius: "10px", transition: "all .03s" }}
+              sx={{ py: 0.1, borderRadius: "10px", transition: "none" }}
             >
               <ListItemText
                 primary={title}
