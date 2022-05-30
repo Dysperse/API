@@ -60,7 +60,9 @@ function AddItemOption({
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
-                boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                boxShadow:
+                  "inset 0px 0px 0px 2px " +
+                  colors[themeColor][global.theme === "dark" ? 200 : 800],
               },
               "&:active": {
                 boxShadow: "none!important",
@@ -198,7 +200,9 @@ function MoreRooms(): JSX.Element {
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
-                boxShadow: "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                boxShadow:
+                  "inset 0px 0px 0px 2px " +
+                  colors[themeColor][global.theme === "dark" ? 200 : 800],
               },
               "&:active": {
                 boxShadow: "none!important",
@@ -281,12 +285,19 @@ function Content({ toggleDrawer }: any) {
                 disableRipple
                 onClick={() => toggleDrawer(false)}
                 sx={{
+                  transition: "transform .2s",
+                  "&:active": {
+                    boxShadow: "none!important",
+                    transform: "scale(0.98)",
+                    transition: "none",
+                  },
                   "&:focus-within": {
                     background:
                       colors[themeColor][global.theme === "dark" ? 900 : 100] +
                       "!important",
                     boxShadow:
-                      "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                      "inset 0px 0px 0px 2px " +
+                      colors[themeColor][global.theme === "dark" ? 200 : 800],
                   },
                   "&:hover": {
                     background:
@@ -295,20 +306,13 @@ function Content({ toggleDrawer }: any) {
                     boxShadow: "none!important",
                   },
                   borderRadius: 6,
-
-                  "&:active": {
-                    boxShadow: "none!important",
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                  },
                 }}
               >
                 <CardContent sx={{ p: 1 }}>
                   <Typography variant="h4">
                     <span className="material-symbols-rounded">check</span>
                   </Typography>
-                  <Typography>Reminder</Typography>
+                  <Typography>To-do list</Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -326,7 +330,8 @@ function Content({ toggleDrawer }: any) {
                       colors[themeColor][global.theme === "dark" ? 900 : 100] +
                       "!important",
                     boxShadow:
-                      "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                      "inset 0px 0px 0px 2px " +
+                      colors[themeColor][global.theme === "dark" ? 200 : 800],
                   },
                   "&:hover": {
                     background:
@@ -335,12 +340,11 @@ function Content({ toggleDrawer }: any) {
                     boxShadow: "none!important",
                   },
                   borderRadius: 6,
-
+                  transition: "transform .2s",
                   "&:active": {
                     boxShadow: "none!important",
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
+                    transform: "scale(0.98)",
+                    transition: "none",
                   },
                 }}
               >
