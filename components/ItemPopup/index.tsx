@@ -53,10 +53,14 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               ? "hsl(240, 11%, 5%)"
               : "#808080"
             : global.theme === "dark"
-            ? "#353535"
+            ? "hsl(240, 11%, 20%)"
             : "#fff"
           : document.documentElement!.scrollTop === 0
-          ? "#fff"
+          ? global.theme === "dark"
+            ? "hsl(240, 11%, 10%)"
+            : "#fff"
+          : global.theme === "dark"
+          ? "hsl(240, 11%, 20%)"
           : colors[global.themeColor]["100"]
       );
   }, [drawerState, width]);

@@ -60,7 +60,13 @@ function ListPopup({
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
         "content",
-        drawerState ? "#808080" : colors[global.themeColor][100]
+        drawerState
+          ? global.theme === "dark"
+            ? "hsl(240, 11%, 10%)"
+            : "#808080"
+          : global.theme === "dark"
+          ? "hsl(240, 11%, 20%)"
+          : colors[global.themeColor][100]
       );
   });
   return (
