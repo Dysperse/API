@@ -27,7 +27,10 @@ function ItemList({ name }: { name: string }) {
       () =>
         document
           .querySelector(`meta[name='theme-color']`)!
-          .setAttribute("content", "#808080"),
+          .setAttribute(
+            "content",
+            global.theme === "dark" ? "hsl(240, 11%, 5%)" : "#808080"
+          ),
       1
     );
   }, [isLoading]);
@@ -59,7 +62,16 @@ function Category({ name }: { name: string }) {
   useEffect(() => {
     document
       .querySelector(`meta[name='theme-color']`)!
-      .setAttribute("content", open ? "#808080" : "#fff");
+      .setAttribute(
+        "content",
+        open
+          ? global.theme === "dark"
+            ? "hsl(240, 11%, 5%)"
+            : "#808080"
+          : global.theme === "dark"
+          ? "hsl(240, 11%, 10%)"
+          : "#fff"
+      );
   });
 
   return (
@@ -95,7 +107,10 @@ function Category({ name }: { name: string }) {
       </SwipeableDrawer>
       <Card
         sx={{
-          background: "rgba(200,200,200,.3)",
+          background:
+            global.theme === "dark"
+              ? "hsl(240, 11%, 20%)"
+              : "rgba(200,200,200,.3)",
           borderRadius: 5,
           mt: 2,
         }}
@@ -157,7 +172,7 @@ export default function Categories() {
               }}
             >
               <CardContent>
-                <Typography sx={{ fontWeight: "600", mt: 1 }} variant="h6">
+                <Typography sx={{ fontWeight: "600", mt: 1 }}>
                   No categories - yet!
                 </Typography>
               </CardContent>

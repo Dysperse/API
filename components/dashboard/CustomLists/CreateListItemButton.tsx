@@ -28,7 +28,11 @@ export function CreateListItemButton({
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
         "content",
-        open ? "#404040" : global.theme === "dark" ? "#101010" : "#808080"
+        open
+          ? "#404040"
+          : global.theme === "dark"
+          ? "hsl(240, 11%, 5%)"
+          : "#808080"
       );
   });
   const handleClickOpen = () => setOpen(true);

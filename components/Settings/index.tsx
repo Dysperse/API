@@ -32,9 +32,13 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         open
           ? window.innerWidth > 900
             ? "rgb(64, 64, 64)"
+            : global.theme === "dark"
+            ? "hsl(240, 11%, 35%)"
             : "#eee"
           : window.innerWidth > 900
           ? "#808080"
+          : global.theme === "dark"
+          ? "hsl(240, 11%, 25%)"
           : "#eee"
       );
   });
@@ -107,7 +111,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 
               background:
                 global.theme === "dark"
-                  ? "rgba(255,255,255,.1)"
+                  ? "hsl(240, 11%, 35%)"
                   : "rgba(230,230,230,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
@@ -158,7 +162,13 @@ export default function FullScreenDialog() {
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
         "content",
-        window.innerWidth < 992 ? "rgb(230,230,230)" : "#808080"
+        open
+          ? window.innerWidth < 992
+            ? global.theme === "darl"
+              ? "hsl(240, 11%, 20%)"
+              : "rgb(230,230,230)"
+            : "#808080"
+          : "hsl(240, 11%, 10%)"
       );
   });
 
@@ -200,7 +210,7 @@ export default function FullScreenDialog() {
               position: "sticky",
               background:
                 global.theme === "dark"
-                  ? "rgba(255,255,255,.1)"
+                  ? "hsl(240, 11%, 25%)"
                   : "rgba(230,230,230,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
@@ -228,7 +238,7 @@ export default function FullScreenDialog() {
               </Typography>
             </Toolbar>
           </AppBar>
-          <List sx={{ p: 2 }}>
+          <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
             <SettingsMenu
               content={<AppearanceSettings />}
               icon="palette"

@@ -376,10 +376,10 @@ export default function AddPopup(props: any) {
         "content",
         open
           ? global.theme === "dark"
-            ? "#101010"
+            ? "hsl(240, 11%, 5%)"
             : "#808080"
           : global.theme === "dark"
-          ? "#101010"
+          ? "hsl(240, 11%, 10%)"
           : "#fff"
       );
   });

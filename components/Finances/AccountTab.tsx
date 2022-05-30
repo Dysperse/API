@@ -17,7 +17,13 @@ export function AccountTab({ account }: any) {
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
         "content",
-        open ? (scrollTop > 300 ? "#091f1e" : "#2b5511") : "#fff"
+        open
+          ? scrollTop > 300
+            ? "#091f1e"
+            : "#2b5511"
+          : global.theme === "dark"
+          ? "hsl(240, 11%, 10%)"
+          : "#fff"
       );
   });
   return (
@@ -148,7 +154,7 @@ export function AccountTab({ account }: any) {
                   : "rgba(200,200,200,.4)",
               "& *": {
                 opacity: 1,
-                color: global.theme === "dark" ? "#fff" : "#202020",
+                color: global.theme === "dark" ? "#fff" : "hsl(240, 11%, 10%)",
               },
             },
             "&:active": {

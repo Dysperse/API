@@ -156,7 +156,7 @@ export function TipCard({
           opacity: 1,
           "& *": {
             opacity: 1,
-            color: global.theme === "dark" ? "#eee" : "#101010",
+            color: global.theme === "dark" ? "#eee" : "hsl(240, 11%, 5%)",
           },
           background: tipOfTheDay
             ? global.theme === "dark"

@@ -50,7 +50,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
         drawerState === true
           ? width > 900
             ? global.theme === "dark"
-              ? "#101010"
+              ? "hsl(240, 11%, 5%)"
               : "#808080"
             : global.theme === "dark"
             ? "#353535"

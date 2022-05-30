@@ -76,10 +76,10 @@ export function ProfileMenu(props: any) {
           "content",
           open
             ? global.theme === "dark"
-              ? "#101010"
+              ? "hsl(240, 11%, 10%)"
               : "#808080"
             : global.theme === "dark"
-            ? "#101010"
+            ? "hsl(240, 11%, 10%)"
             : "#fff"
         );
   }, [open]);

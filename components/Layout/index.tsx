@@ -107,8 +107,10 @@ function ResponsiveDrawer(props: any): JSX.Element {
           "content",
           mobileOpen
             ? global.theme === "dark"
-              ? "#101010"
+              ? "hsl(240, 11%, 5%)"
               : "#808080"
+            : global.theme === "dark"
+            ? "hsl(240, 11%, 10%)"
             : colors[global.themeColor][100]
         );
   });
