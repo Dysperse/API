@@ -100,6 +100,8 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
               xs: "100vw",
               sm: "60vw",
             },
+            minWidth: "600px",
+            maxWidth: "100vw",
             height: "100vh",
             overflow: "scroll",
           }}
@@ -194,6 +196,8 @@ export default function FullScreenDialog() {
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",
             }),
+            minWidth: "500px",
+            maxWidth: "100vw",
             width: {
               xs: "100vw",
               sm: "40vw",
