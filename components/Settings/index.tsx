@@ -307,7 +307,7 @@ export default function FullScreenDialog() {
               secondary={"10 rooms"}
             />
             <SettingsMenu
-              content={<p>test</p>}
+              content={<p>Coming soon</p>}
               icon="sync"
               primary="Sync"
               secondary={"Pair your account and share inventory"}
