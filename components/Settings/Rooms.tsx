@@ -1,17 +1,18 @@
 import Box from "@mui/material/Box";
 
-export default function App() {
+export default function Rooms() {
   return (
     <Box
       sx={{
         display: "flex",
         mt: -5,
+        justifyContent: "center",
         height: "100%",
         alignItems: "center",
         px: 10,
       }}
     >
-      We're still building our app right now. Stay tuned for further updates!
+      Coming soon!
     </Box>
   );
 }

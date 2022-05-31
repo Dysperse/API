@@ -15,6 +15,10 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import AccountSettings from "./AccountSettings";
 import App from "./App";
+import Developer from "./Developer";
+import Notifications from "./Notifications";
+import Rooms from "./Rooms";
+import Sync from "./Sync";
 import AppearanceSettings from "./AppearanceSettings";
 import FinanceSettings from "./FinanceSettings";
 import Sessions from "./Sessions";
@@ -272,7 +276,7 @@ export default function FullScreenDialog() {
               secondary={<>4 apps connected</>}
             />
             <SettingsMenu
-              content={<p>test</p>}
+              content={<Notifications />}
               icon="notifications"
               primary="Notifications"
               secondary={
@@ -283,7 +287,7 @@ export default function FullScreenDialog() {
               }
             />
             <SettingsMenu
-              content={<p>test</p>}
+              content={<Developer />}
               icon="code"
               primary="Developer"
               secondary={"API"}
@@ -301,13 +305,13 @@ export default function FullScreenDialog() {
               secondary={<>Accessing on {window.navigator.platform}</>}
             />
             <SettingsMenu
-              content={<>Coming soon</>}
+              content={<Rooms />}
               icon="pin_drop"
               primary="Rooms"
               secondary={"10 rooms"}
             />
             <SettingsMenu
-              content={<p>Coming soon</p>}
+              content={<Sync />}
               icon="sync"
               primary="Sync"
               secondary={"Pair your account and share inventory"}
