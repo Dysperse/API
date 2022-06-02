@@ -1,7 +1,9 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import "@fullcalendar/common/main.css";
 import { CreatePlanner } from "../components/planner/CreatePlanner";
+import Calendar from "../components/planner/Calendar.jsx";
 
 export default function Render() {
   return (
@@ -12,6 +14,8 @@ export default function Render() {
           <Typography variant="h5" sx={{ fontWeight: "800" }}>
             Planner
           </Typography>
+          <br />
+          <Calendar />
         </Container>
       ) : (
         <Box
