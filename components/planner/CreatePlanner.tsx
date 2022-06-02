@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
@@ -20,12 +20,14 @@ export function CreatePlanner() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
-  const [mealType, setMealType] = useState("");
+  const [mealType, setMealType] = useState("breakfast");
 
   const setMealTypeEvent = (event: SelectChangeEvent) => {
     setMealType(event.target.value as string);
   };
-
+  useEffect(() => {
+    if (open) setTimeout(() => setValue("meal"), 100);
+  });
   return (
     <>
       <SwipeableDrawer
@@ -47,7 +49,7 @@ export function CreatePlanner() {
             borderBottomRightRadius: { xs: 0, sm: "28px!important" },
             position: "unset",
             mx: "auto",
-            maxWidth: { sm: "70vw", xs: "100vw" },
+            maxWidth: { sm: "50vw", xs: "100vw" },
             overflow: "hidden",
           },
         }}
@@ -57,7 +59,7 @@ export function CreatePlanner() {
             Create
           </Typography>
 
-          <FormControl sx={{ mb: 3, mt: 1 }}>
+          <FormControl sx={{ my: 2 }}>
             <FormLabel id="demo-controlled-radio-buttons-group">Type</FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
@@ -80,6 +82,7 @@ export function CreatePlanner() {
           {value === "meal" ? (
             <>
               <TextField
+                autoFocus
                 label="What are you cooking?"
                 variant="filled"
                 fullWidth
@@ -94,14 +97,20 @@ export function CreatePlanner() {
                       sx: { opacity: "0!important" },
                     },
                     PaperProps: {
+                      elevation: 69,
                       sx: {
-                        borderRadius: "28px",
+                        p: 1,
+                        borderRadius: 3,
+                        borderTopLeftRadius: 0,
+                        borderTopRightRadius: 0,
                       },
                     },
                     sx: {
                       "& .MuiMenuItem-root ": {
+                        borderRadius: 3,
                         px: 3,
-                        py: 1,
+                        mb: 0.1,
+                        py: 1.5,
                       },
                     },
                   }}
@@ -121,6 +130,13 @@ export function CreatePlanner() {
           ) : (
             <></>
           )}
+          <Button
+            variant="contained"
+            size="large"
+            sx={{ float: "right", mt: 3, borderRadius: 4, boxShadow: "none" }}
+          >
+            Create
+          </Button>
         </Box>
       </SwipeableDrawer>
       <Button
