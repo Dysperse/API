@@ -12,6 +12,7 @@ import FormLabel from "@mui/material/FormLabel";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import * as colors from "@mui/material/colors";
 
 export function CreatePlanner() {
   const [open, setOpen] = useState(false);
@@ -26,8 +27,8 @@ export function CreatePlanner() {
     setMealType(event.target.value as string);
   };
   useEffect(() => {
-    if (open) setTimeout(() => setValue("meal"), 100);
-  });
+    if (open) setTimeout(() => setValue("meal"), 1000);
+  }, [open]);
   return (
     <>
       <SwipeableDrawer
@@ -60,7 +61,9 @@ export function CreatePlanner() {
           </Typography>
 
           <FormControl sx={{ my: 2 }}>
-            <FormLabel id="demo-controlled-radio-buttons-group">Type</FormLabel>
+            <FormLabel id="demo-controlled-radio-buttons-group">
+              What are you planning?
+            </FormLabel>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
@@ -70,12 +73,22 @@ export function CreatePlanner() {
               <FormControlLabel
                 value="meal"
                 control={<Radio />}
-                label="Meal plan"
+                label="a meal"
               />
               <FormControlLabel
                 value="workout"
                 control={<Radio />}
-                label="Workout plan"
+                label="a workout"
+              />
+              <FormControlLabel
+                value="chores"
+                control={<Radio />}
+                label="chores"
+              />
+              <FormControlLabel
+                value="something else"
+                control={<Radio />}
+                label="something else"
               />
             </RadioGroup>
           </FormControl>
@@ -96,13 +109,22 @@ export function CreatePlanner() {
                     BackdropProps: {
                       sx: { opacity: "0!important" },
                     },
+                    anchorOrigin: {
+                      vertical: "top",
+                      horizontal: "center",
+                    },
+                    transformOrigin: {
+                      vertical: "center",
+                      horizontal: "center",
+                    },
                     PaperProps: {
-                      elevation: 69,
                       sx: {
-                        p: 1,
+                        px: 1,
                         borderRadius: 3,
-                        borderTopLeftRadius: 0,
-                        borderTopRightRadius: 0,
+                        background:
+                          colors[themeColor][
+                            global.theme === "dark" ? 900 : 100
+                          ],
                       },
                     },
                     sx: {
@@ -111,7 +133,11 @@ export function CreatePlanner() {
                         px: 3,
                         mb: 0.1,
                         py: 1.5,
+                        "&:hover": {
+                          backgroundColor: "rgba(200,200,200,.1)",
+                        },
                       },
+                      "& .Mui-selected": { pointerEvents: "none" },
                     },
                   }}
                   labelId="demo-simple-select-label"
