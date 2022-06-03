@@ -273,6 +273,9 @@ function Calendar() {
           selectable
           height="500px"
           titleFormat={{ month: "long", day: "numeric" }}
+          eventClick={(info) => {
+            alert(JSON.stringify(info.event.extendedProps));
+          }}
           headerToolbar={{
             start: "title", // will normally be on the left. if RTL, will be on the right
             center: "",
@@ -288,6 +291,7 @@ function Calendar() {
               title: event.title,
               start: event.startDate,
               end: event.endDate,
+              EventId: event.id,
             };
           })}
         />

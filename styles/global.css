@@ -228,6 +228,7 @@ img {
 }
 td {
   border: 0;
+  z-index: 0 !important;
 }
 :root {
   --fc-border-color: transparent;
