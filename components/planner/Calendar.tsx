@@ -111,7 +111,16 @@ function Calendar() {
           <LoadingButton
             loading={deleteLoading}
             onClick={() => {
-              alert(id);
+              fetch("https://api.smartlist.tech/v2/planner/delete/", {
+                method: "POST",
+                body: new URLSearchParams({
+                  token: session && session.accessToken,
+                  id: id.toString(),
+                }),
+              }).then((res) => {
+                setDeleteLoading(false);
+                setInfoModalOpen(false);
+              });
               setDeleteLoading(true);
             }}
             variant="contained"
