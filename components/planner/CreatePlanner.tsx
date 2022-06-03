@@ -26,11 +26,15 @@ export function CreatePlanner() {
       title: "",
       type: "meal",
       field1: "breakfast",
+      startDate: "",
+      endDate: "",
     },
     onSubmit: async (values: {
       title: string;
       type: string;
       field1: string;
+      startDate: string;
+      endDate: string;
     }) => {
       alert(JSON.stringify(values));
       // fetch("https://api.smartlist.tech/v2/items/create/", {
@@ -54,6 +58,7 @@ export function CreatePlanner() {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
+        keepMounted
         swipeAreaWidth={0}
         anchor="bottom"
         sx={{
@@ -182,6 +187,22 @@ export function CreatePlanner() {
             ) : (
               <></>
             )}
+            <input
+              value={formik.values.startDate}
+              type="hidden"
+              onChange={(e) =>
+                formik.setFieldValue("startDate", e.target.value)
+              }
+              name="startDate"
+              id="planner-startDate"
+            />
+            <input
+              value={formik.values.endDate}
+              type="hidden"
+              onChange={(e) => formik.setFieldValue("endDate", e.target.value)}
+              name="endDate"
+              id="planner-endDate"
+            />
             <LoadingButton
               loading={loading}
               variant="contained"
@@ -196,8 +217,9 @@ export function CreatePlanner() {
       </SwipeableDrawer>
       <Button
         onClick={() => setOpen(true)}
+        id="planner-trigger"
         variant="contained"
-        sx={{ float: "right", borderRadius: 5, boxShadow: 0 }}
+        sx={{ display: "none" }}
         size="large"
       >
         <span

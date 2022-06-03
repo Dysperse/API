@@ -15,6 +15,11 @@ const Calendar = () => {
         initialView="dayGridWeek"
         selectable
         height="500px"
+        select={(info) => {
+          document.getElementById("planner-trigger").click();
+          document.getElementById("planner-startDate").value = info.startStr;
+          document.getElementById("planner-endDate").value = info.endStr;
+        }}
         events={[
           {
             title: "Burgers",

@@ -11,10 +11,6 @@ export default function Render() {
       {process.env.NODE_ENV == "development" ? (
         <Container sx={{ mt: 5 }}>
           <CreatePlanner />
-          <Typography variant="h5" sx={{ fontWeight: "800" }}>
-            Planner
-          </Typography>
-          <br />
           <Calendar />
         </Container>
       ) : (
