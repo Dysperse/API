@@ -221,3 +221,19 @@ img {
   background: transparent !important;
   position: unset !important;
 }
+
+.fc-col-header-cell,
+.fc-timegrid-axis {
+  background: hsl(240, 11%, 20%);
+}
+td {
+  border: 0;
+  z-index: 0 !important;
+}
+:root {
+  --fc-border-color: hsl(240, 11%, 20%);
+  --fc-daygrid-event-dot-width: 5px;
+}
+.fc-day {
+  padding: 10px;
+}
