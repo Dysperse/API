@@ -26,7 +26,6 @@ import { Puller } from "../Puller";
 import toast from "react-hot-toast";
 
 function Calendar() {
-  const calendarRef = useRef(null);
   const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/planner/events/",
     {

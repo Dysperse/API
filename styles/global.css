@@ -228,7 +228,6 @@ img {
 }
 td {
   border: 0;
-  z-index: 0 !important;
 }
 :root {
   --fc-border-color: transparent;
@@ -238,7 +237,9 @@ td {
   padding: 10px;
 }
 .fc-event {
-  padding: 5px;
+  opacity: 1 !important;
+  z-index: 99999;
+  padding: 10px;
   padding-left: 14px;
   border-radius: 15px !important;
   margin: 6px !important;
@@ -258,9 +259,7 @@ td {
 .fc-daygrid-day {
   border-radius: 15px;
 }
-.fc-daygrid-day {
-  z-index: -1 !important;
-}
+
 .fc-view-harness {
   background: rgba(200, 200, 200, 0.2);
   border-radius: 28px;

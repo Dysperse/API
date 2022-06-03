@@ -6,7 +6,7 @@ import Calendar from "../components/planner/Calendar";
 export default function Render() {
   return (
     <>
-      {process.env.NODE_ENV == "development" ? (
+      {true ? (
         <Container sx={{ mt: 5 }}>
           <Calendar />
         </Container>
