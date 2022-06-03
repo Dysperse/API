@@ -35,7 +35,9 @@ function Calendar() {
   );
   const [open, setOpen] = useState<boolean>(false);
   const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("false");
+  const [id, setId] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
@@ -106,6 +108,18 @@ function Calendar() {
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
             {title}
           </Typography>
+          <LoadingButton
+            loading={deleteLoading}
+            onClick={() => {
+              alert(id);
+              setDeleteLoading(true);
+            }}
+            variant="contained"
+            sx={{ borderRadius: 5, boxShadow: 0, mt: 2 }}
+            size="large"
+          >
+            Delete
+          </LoadingButton>
         </Box>
       </SwipeableDrawer>
       <SwipeableDrawer
@@ -275,21 +289,6 @@ function Calendar() {
           </form>
         </Box>
       </SwipeableDrawer>
-      <Button
-        onClick={() => setOpen(true)}
-        id="planner-trigger"
-        variant="contained"
-        sx={{ display: "none" }}
-        size="large"
-      >
-        <span
-          className="material-symbols-rounded"
-          style={{ marginRight: "10px" }}
-        >
-          add
-        </span>
-        Create
-      </Button>
       {isLoading ? (
         <>
           <Skeleton
@@ -307,10 +306,10 @@ function Calendar() {
           selectable
           height="500px"
           titleFormat={{ month: "long", day: "numeric" }}
-          eventClick={(info) => {
+          eventClick={(info: any) => {
             setInfoModalOpen(true);
             setTitle(info.event.title);
-            alert(JSON.stringify(info.event.extendedProps));
+            setId(info.event.extendedProps.EventId);
           }}
           headerToolbar={{
             start: "title", // will normally be on the left. if RTL, will be on the right
@@ -318,7 +317,7 @@ function Calendar() {
             end: "today prev,next", // will normally be on the right. if RTL, will be on the left
           }}
           select={(info) => {
-            document.getElementById("planner-trigger")!.click();
+            setOpen(true);
             formik.setFieldValue("startDate", info.startStr);
             formik.setFieldValue("endDate", info.endStr);
           }}
