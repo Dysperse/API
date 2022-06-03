@@ -22,6 +22,9 @@ import useFetch from "react-fetch-hook";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 
+global.setEvents = (_e) => {};
+global.events = [];
+
 function Calendar() {
   const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/planner/events/",
@@ -66,10 +69,20 @@ function Calendar() {
         }),
       })
         .then((res) => res.json())
-        .then(() => {
+        .then((res) => {
           toast.success("Created!");
           setLoading(false);
+          setEvents([
+            ...global.events,
+            {
+              title: values.title,
+              start: values.startDate,
+              end: values.endDate,
+              EventId: res.data.id,
+            },
+          ]);
           formik.resetForm();
+          setOpen(false);
         });
     },
   });
@@ -297,6 +310,7 @@ function Calendar() {
           </form>
         </Box>
       </SwipeableDrawer>
+
       {isLoading ? (
         <>
           <Skeleton
@@ -307,39 +321,66 @@ function Calendar() {
           />
         </>
       ) : (
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          editable
-          initialView="dayGridWeek"
-          selectable
-          height="500px"
-          titleFormat={{ month: "long", day: "numeric" }}
-          eventClick={(info: any) => {
-            setInfoModalOpen(true);
-            setTitle(info.event.title);
-            setId(info.event.extendedProps.EventId);
-          }}
-          headerToolbar={{
-            start: "title", // will normally be on the left. if RTL, will be on the right
-            center: "",
-            end: "today prev,next", // will normally be on the right. if RTL, will be on the left
-          }}
-          select={(info) => {
-            setOpen(true);
-            formik.setFieldValue("startDate", info.startStr);
-            formik.setFieldValue("endDate", info.endStr);
-          }}
-          events={data.data.map((event) => {
-            return {
-              title: event.title,
-              start: event.startDate,
-              end: event.endDate,
-              EventId: event.id,
-            };
-          })}
+        <EventCalendar
+          setInfoModalOpen={setInfoModalOpen}
+          setId={setId}
+          setOpen={setOpen}
+          setTitle={setTitle}
+          formik={formik}
+          data={data}
         />
       )}
     </Box>
+  );
+}
+
+function EventCalendar({
+  data,
+  formik,
+  setInfoModalOpen,
+  setTitle,
+  setId,
+  setOpen,
+}: any) {
+  const [events, setEvents] = useState(
+    data.data.map((event) => {
+      return {
+        title: event.title,
+        start: event.startDate,
+        end: event.endDate,
+        EventId: event.id,
+      };
+    })
+  );
+
+  global.setEvents = setEvents;
+  global.events = events;
+
+  return (
+    <FullCalendar
+      plugins={[dayGridPlugin, interactionPlugin]}
+      editable
+      initialView="dayGridWeek"
+      selectable
+      height="500px"
+      titleFormat={{ month: "long", day: "numeric" }}
+      eventClick={(info: any) => {
+        setInfoModalOpen(true);
+        setTitle(info.event.title);
+        setId(info.event.extendedProps.EventId);
+      }}
+      headerToolbar={{
+        start: "title", // will normally be on the left. if RTL, will be on the right
+        center: "",
+        end: "today prev,next", // will normally be on the right. if RTL, will be on the left
+      }}
+      select={(info) => {
+        setOpen(true);
+        formik.setFieldValue("startDate", info.startStr);
+        formik.setFieldValue("endDate", info.endStr);
+      }}
+      events={events}
+    />
   );
 }
 
