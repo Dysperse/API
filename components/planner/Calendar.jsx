@@ -15,6 +15,18 @@ const Calendar = () => {
         initialView="dayGridWeek"
         selectable
         height="500px"
+        events={[
+          {
+            title: "Burgers",
+            start: "2022-06-01",
+            end: "2022-06-03",
+          },
+          {
+            title: "Fries",
+            start: "2022-06-03",
+            end: "2022-06-04",
+          },
+        ]}
       />
     </Box>
   );
