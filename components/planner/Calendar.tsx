@@ -1,8 +1,15 @@
-import { useState, useEffect } from "react";
+import FullCalendar from "@fullcalendar/react";
+import interactionPlugin from "@fullcalendar/interaction";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { useRef } from "react";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
+import useFetch from "react-fetch-hook";
+
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -11,16 +18,26 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import * as colors from "@mui/material/colors";
 import { useFormik } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Puller } from "../Puller";
 import toast from "react-hot-toast";
 
-export function CreatePlanner() {
+function Calendar() {
+  const calendarRef = useRef(null);
+  const { isLoading, data }: any = useFetch(
+    "https://api.smartlist.tech/v2/planner/events/",
+    {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.session && global.session.accessToken,
+      }),
+    }
+  );
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -36,24 +53,28 @@ export function CreatePlanner() {
       startDate: string;
       endDate: string;
     }) => {
-      alert(JSON.stringify(values));
-      // fetch("https://api.smartlist.tech/v2/items/create/", {
-      //   method: "POST",
-      //   body: new URLSearchParams({
-      //     token: session && session.accessToken,
-      //   }),
-      // })
-      //   .then((res) => res.json())
-      //   .then((res) => {
-      //     toast("Created item!");
-      //     setLoading(false);
-      //     formik.resetForm();
-      //   });
+      setLoading(true);
+      fetch("https://api.smartlist.tech/v2/planner/create/", {
+        method: "POST",
+        body: new URLSearchParams({
+          token: session && session.accessToken,
+          startDate: values.startDate,
+          endDate: values.endDate,
+          type: values.type,
+          title: values.title,
+          field1: values.field1,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          toast.success("Created!");
+          setLoading(false);
+          formik.resetForm();
+        });
     },
   });
-
   return (
-    <>
+    <Box sx={{ py: 5 }}>
       <SwipeableDrawer
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
@@ -69,6 +90,9 @@ export function CreatePlanner() {
         }}
         PaperProps={{
           sx: {
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
             borderRadius: "28px",
             borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
             borderBottomRightRadius: { xs: 0, sm: "28px!important" },
@@ -79,6 +103,9 @@ export function CreatePlanner() {
           },
         }}
       >
+        <Box sx={{ display: { sm: "hidden" } }}>
+          <Puller />
+        </Box>
         <Box sx={{ py: 6, px: 7 }}>
           <form onSubmit={formik.handleSubmit}>
             <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
@@ -230,6 +257,38 @@ export function CreatePlanner() {
         </span>
         Create
       </Button>
-    </>
+      {isLoading ? (
+        <>
+          <Skeleton
+            variant="rectangular"
+            sx={{ borderRadius: 5 }}
+            animation="wave"
+            height={"500px"}
+          />
+        </>
+      ) : (
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          editable
+          initialView="dayGridWeek"
+          selectable
+          height="500px"
+          select={(info) => {
+            document.getElementById("planner-trigger")!.click();
+            formik.setFieldValue("startDate", info.startStr);
+            formik.setFieldValue("endDate", info.endStr);
+          }}
+          events={data.data.map((event) => {
+            return {
+              title: event.title,
+              start: event.startDate,
+              end: event.endDate,
+            };
+          })}
+        />
+      )}
+    </Box>
   );
 }
+
+export default Calendar;
