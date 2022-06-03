@@ -268,3 +268,19 @@ td {
 .fc * {
   border: 0 !important;
 }
+.fc-button {
+  text-transform: capitalize !important;
+  height: 40px;
+  line-height: 30px !important;
+  border-radius: 15px !important;
+  box-shadow: none !important;
+  color: #000 !important;
+  background: rgba(200, 200, 200, 0.5) !important;
+  margin-left: 5px !important;
+}
+.fc-button:hover {
+  background: rgba(200, 200, 200, 0.8) !important;
+}
+.fc-button span {
+  margin-top: -6px !important;
+}
