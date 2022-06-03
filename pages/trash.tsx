@@ -13,8 +13,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import toast from "react-hot-toast";
 
 function DeleteCard({ item }: any) {
-  const [deleted, setDeleted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [deleted, setDeleted] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   return deleted ? (
     <></>
   ) : (

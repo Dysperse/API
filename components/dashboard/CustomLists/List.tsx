@@ -188,7 +188,7 @@ export function List({
   description: string;
   id: number;
 }) {
-  const [drawerState, setDrawerState] = React.useState(false);
+  const [drawerState, setDrawerState] = React.useState<boolean>(false);
   const [listItems, setListItems] = useState({
     data: "",
     loading: true,
@@ -210,7 +210,7 @@ export function List({
     });
   };
 
-  const [deleted, setDeleted] = useState(false);
+  const [deleted, setDeleted] = useState<boolean>(false);
   return (
     <>
       <ListPopup

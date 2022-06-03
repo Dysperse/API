@@ -21,8 +21,8 @@ export function CreateListItemButton({
   listItems: any;
   setListItems: any;
 }): JSX.Element {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)!

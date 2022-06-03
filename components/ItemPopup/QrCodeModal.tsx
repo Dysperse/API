@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import QRCode from "react-qr-code";
 
 export function QrCodeModal({ title, quantity }: any): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [qrText, setQrText] = useState(
     `I have ${quantity.trim()} ${title.toLowerCase().trim()} in my inventory`
   );
@@ -43,13 +43,13 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
         open={open}
         onClose={handleClose}
         sx={{
-          transition: "all .2s"
+          transition: "all .2s",
         }}
         PaperProps={{
           sx: {
             p: 2,
-            borderRadius: "28px"
-          }
+            borderRadius: "28px",
+          },
         }}
       >
         <DialogTitle sx={{ fontWeight: "800" }}>QR code</DialogTitle>

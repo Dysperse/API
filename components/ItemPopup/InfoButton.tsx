@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 
 export function InfoButton({ id, title, quantity, star }: any): JSX.Element {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,7 +33,7 @@ export function InfoButton({ id, title, quantity, star }: any): JSX.Element {
       <Dialog
         open={open}
         sx={{
-          transition: "all .2s"
+          transition: "all .2s",
         }}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -41,8 +41,8 @@ export function InfoButton({ id, title, quantity, star }: any): JSX.Element {
         PaperProps={{
           sx: {
             p: 2,
-            borderRadius: "28px"
-          }
+            borderRadius: "28px",
+          },
         }}
       >
         <DialogTitle id="alert-dialog-title" sx={{ fontWeight: "800" }}>

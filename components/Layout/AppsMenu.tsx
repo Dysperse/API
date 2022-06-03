@@ -74,7 +74,7 @@ function ContactForm() {
 }
 
 function SuggestButton() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const stopPropagationForTab = (event: any) => {
     if (event.key !== "Esc") {
       event.stopPropagation();

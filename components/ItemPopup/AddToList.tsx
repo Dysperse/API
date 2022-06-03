@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import { RoomList } from "./RoomList";
 
 export function AddToListModal({ title, handleClose }: any) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <>
       <Dialog

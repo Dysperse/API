@@ -91,7 +91,7 @@ function NotificationsList() {
 }
 
 export function NotificationsMenu(props: any): JSX.Element {
-  const [state, setState] = React.useState(false);
+  const [state, setState] = React.useState<boolean>(false);
 
   return (
     <>

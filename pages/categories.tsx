@@ -58,7 +58,7 @@ function ItemList({ name }: { name: string }) {
 }
 
 function Category({ name }: { name: string }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
     document
       .querySelector(`meta[name='theme-color']`)!

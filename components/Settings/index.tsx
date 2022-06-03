@@ -24,7 +24,7 @@ import FinanceSettings from "./FinanceSettings";
 import Sessions from "./Sessions";
 
 function SettingsMenu({ content, icon, primary, secondary }: any) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
       "prevent-scroll"
@@ -150,7 +150,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
   );
 }
 export default function FullScreenDialog() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);

@@ -10,14 +10,17 @@ import { currency_symbols } from "../../Finances/AccountList";
 import { Account } from "./TipCard";
 
 export function CreateGoalDialog({
-  name, moneyRequiredForGoal, data, error,
+  name,
+  moneyRequiredForGoal,
+  data,
+  error,
 }: {
   name: string;
   data: any;
   error: any;
   moneyRequiredForGoal: number;
 }): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -50,7 +53,8 @@ export function CreateGoalDialog({
                         body: new URLSearchParams({
                           token: global.session && global.session.accessToken,
                           name: name,
-                          image: "https://images.unsplash.com/photo-1416169607655-0c2b3ce2e1cc?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774",
+                          image:
+                            "https://images.unsplash.com/photo-1416169607655-0c2b3ce2e1cc?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774",
                           minAmountOfMoney: moneyRequiredForGoal.toString(),
                           accountId: account.account_id,
                         }),
@@ -71,11 +75,14 @@ export function CreateGoalDialog({
                 >
                   <ListItemText
                     primary={account.name}
-                    secondary={<>
-                      {currency_symbols[account.balances.iso_currency_code] ??
-                        "$"}
-                      {account.balances.current}
-                    </>} />
+                    secondary={
+                      <>
+                        {currency_symbols[account.balances.iso_currency_code] ??
+                          "$"}
+                        {account.balances.current}
+                      </>
+                    }
+                  />
                 </ListItem>
               ))}
             </>

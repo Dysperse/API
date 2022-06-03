@@ -1,6 +1,6 @@
+import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import FullCalendar from "@fullcalendar/react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -33,8 +33,10 @@ function Calendar() {
       }),
     }
   );
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("false");
+  const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -63,7 +65,7 @@ function Calendar() {
         }),
       })
         .then((res) => res.json())
-        .then((res) => {
+        .then(() => {
           toast.success("Created!");
           setLoading(false);
           formik.resetForm();
@@ -72,6 +74,40 @@ function Calendar() {
   });
   return (
     <Box sx={{ py: 5 }}>
+      <SwipeableDrawer
+        onClose={() => setInfoModalOpen(false)}
+        onOpen={() => setInfoModalOpen(true)}
+        open={infoModalOpen}
+        keepMounted
+        swipeAreaWidth={0}
+        anchor="bottom"
+        sx={{
+          display: "flex",
+          alignItems: { xs: "end", sm: "center" },
+          height: "100vh",
+          justifyContent: "center",
+        }}
+        PaperProps={{
+          sx: {
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
+            borderRadius: "28px",
+            borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
+            borderBottomRightRadius: { xs: 0, sm: "28px!important" },
+            position: "unset",
+            mx: "auto",
+            maxWidth: { sm: "50vw", xs: "100vw" },
+            overflow: "hidden",
+          },
+        }}
+      >
+        <Box sx={{ py: 6, px: 7 }}>
+          <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
+            {title}
+          </Typography>
+        </Box>
+      </SwipeableDrawer>
       <SwipeableDrawer
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
@@ -272,6 +308,8 @@ function Calendar() {
           height="500px"
           titleFormat={{ month: "long", day: "numeric" }}
           eventClick={(info) => {
+            setInfoModalOpen(true);
+            setTitle(info.event.title);
             alert(JSON.stringify(info.event.extendedProps));
           }}
           headerToolbar={{
