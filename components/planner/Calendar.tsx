@@ -272,6 +272,12 @@ function Calendar() {
           initialView="dayGridWeek"
           selectable
           height="500px"
+          titleFormat={{ month: "long", day: "numeric" }}
+          headerToolbar={{
+            start: "title", // will normally be on the left. if RTL, will be on the right
+            center: "",
+            end: "today prev,next", // will normally be on the right. if RTL, will be on the left
+          }}
           select={(info) => {
             document.getElementById("planner-trigger")!.click();
             formik.setFieldValue("startDate", info.startStr);
