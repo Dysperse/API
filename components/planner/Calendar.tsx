@@ -132,6 +132,9 @@ function Calendar() {
               }).then((res) => {
                 setDeleteLoading(false);
                 setInfoModalOpen(false);
+                global.setEvents(
+                  global.events.filter((event) => event.EventId !== id)
+                );
               });
               setDeleteLoading(true);
             }}
