@@ -98,7 +98,7 @@ function CustomRooms() {
 }
 
 function ResponsiveDrawer(props: any): JSX.Element {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
   useEffect(() => {
     if (document.querySelector(`meta[name="theme-color"]`))
       document

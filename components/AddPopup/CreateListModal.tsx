@@ -29,8 +29,8 @@ function Puller() {
 }
 
 export function CreateListModal({ children, parent, title }: any) {
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
       name: "",

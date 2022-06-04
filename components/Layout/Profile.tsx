@@ -64,7 +64,7 @@ function Accounts({ setOpen }: any) {
 
 export function ProfileMenu(props: any) {
   const { window } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
       "prevent-scroll"

@@ -7,4 +7,5 @@ declare global {
   var setThemeColor: any;
 
   var session: any;
+  var setEvents: any;
 }

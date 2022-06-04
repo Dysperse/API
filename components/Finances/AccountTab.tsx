@@ -10,7 +10,7 @@ import { currency_symbols } from "./AccountList";
 import * as colors from "@mui/material/colors";
 
 export function AccountTab({ account }: any) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [scrollTop, setScrollTop] = useState<number>(0);
   useEffect(() => {
     document.documentElement

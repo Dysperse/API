@@ -14,7 +14,7 @@ function atomCommand(suggestion: any) {
 
 export function SearchPopup({ content }: any) {
   const router = useRouter();
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState<boolean>(false);
   const [commands, setCommands] = useState([
     {
       name: "Dashboard",

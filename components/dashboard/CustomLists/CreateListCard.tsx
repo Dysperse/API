@@ -15,8 +15,8 @@ import React, { useEffect, useState } from "react";
 import { stopPropagationForTab } from "./Lists";
 
 export function CreateListCard({ lists, setLists }: any) {
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
       "prevent-scroll"
@@ -30,8 +30,8 @@ export function CreateListCard({ lists, setLists }: any) {
             ? "#101010"
             : "#808080"
           : document.documentElement!.scrollTop === 0
-            ? "#fff"
-            : colors[global.themeColor][100]
+          ? "#fff"
+          : colors[global.themeColor][100]
       );
   });
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -42,7 +42,7 @@ export function CreateListCard({ lists, setLists }: any) {
       title: "",
       description: "",
     },
-    onSubmit: (values: { title: string; description: string; }) => {
+    onSubmit: (values: { title: string; description: string }) => {
       fetch("https://api.smartlist.tech/v2/lists/create-list/", {
         method: "POST",
         body: new URLSearchParams({
@@ -80,9 +80,10 @@ export function CreateListCard({ lists, setLists }: any) {
           borderRadius: "28px",
           width: "100%",
           textAlign: "center",
-          background: global.theme === "dark"
-            ? "hsl(240, 11%, 30%)"
-            : colors["grey"][100],
+          background:
+            global.theme === "dark"
+              ? "hsl(240, 11%, 30%)"
+              : colors["grey"][100],
           "& *": { transition: "all .05s !important" },
         }}
       >
@@ -124,7 +125,9 @@ export function CreateListCard({ lists, setLists }: any) {
           </DialogTitle>
           <Box sx={{ p: 3 }}>
             <TextField
-              inputRef={(input) => setTimeout(() => input && input.focus(), 100)}
+              inputRef={(input) =>
+                setTimeout(() => input && input.focus(), 100)
+              }
               margin="dense"
               label="Title"
               fullWidth
@@ -132,7 +135,8 @@ export function CreateListCard({ lists, setLists }: any) {
               name="title"
               variant="filled"
               onChange={formik.handleChange}
-              value={formik.values.title} />
+              value={formik.values.title}
+            />
 
             <LoadingButton
               size="large"

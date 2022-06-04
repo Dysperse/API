@@ -31,11 +31,11 @@ export default function Item({ displayRoom = false, data, variant }: any) {
   const [title, setTitle] = useState(data.title);
   const [quantity, setQuantity] = useState(data.amount);
   const [star, setStar] = useState(parseInt(itemData.star, 10));
-  const [deleted, setDeleted] = useState(false);
+  const [deleted, setDeleted] = useState<boolean>(false);
   const [categories, setCategories] = useState(data.categories);
   const [note, setNote] = useState(data.note);
   const [lastUpdated, setLastUpdated] = useState(data.lastUpdated);
-  const [drawerState, setDrawerState] = useState(false);
+  const [drawerState, setDrawerState] = useState<boolean>(false);
 
   const { width }: any = useWindowDimensions();
 

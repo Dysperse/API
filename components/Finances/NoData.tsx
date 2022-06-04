@@ -12,7 +12,7 @@ import { usePlaidLink } from "react-plaid-link";
 import useFetch from "react-fetch-hook";
 import router from "next/router";
 function ConnectBankAccount() {
-  const [completed, setCompleted] = useState(false);
+  const [completed, setCompleted] = useState<boolean>(false);
 
   function LinkButton({ token }: any) {
     const { open, ready } = usePlaidLink({
@@ -29,9 +29,9 @@ function ConnectBankAccount() {
               body: new URLSearchParams({
                 token: global.session && global.session.accessToken,
                 data: JSON.stringify({
-                  financeToken: res.access_token
-                })
-              })
+                  financeToken: res.access_token,
+                }),
+              }),
             })
               .then((res) => res.json())
               .then((res) => {
@@ -39,12 +39,12 @@ function ConnectBankAccount() {
                 fetch(
                   "/api/login/?" +
                     new URLSearchParams({
-                      token: global.session && global.session.accessToken
+                      token: global.session && global.session.accessToken,
                     })
                 );
               });
           });
-      }
+      },
     });
     return (
       <>
@@ -62,7 +62,7 @@ function ConnectBankAccount() {
             px: 4,
             mr: 1,
             borderRadius: 9,
-            boxShadow: 0
+            boxShadow: 0,
           }}
         >
           Connect a bank account
@@ -74,7 +74,7 @@ function ConnectBankAccount() {
   const { isLoading, data }: any = useFetch(
     "/api/finance/createLinkToken/?" +
       new URLSearchParams({
-        access_token: global.session.user.financeToken
+        access_token: global.session.user.financeToken,
       })
   );
   return isLoading ? (
@@ -88,7 +88,7 @@ function ConnectBankAccount() {
           px: 4,
           mr: 1,
           borderRadius: 9,
-          boxShadow: 0
+          boxShadow: 0,
         }}
       >
         Connect a bank account
@@ -102,7 +102,7 @@ function ConnectBankAccount() {
 const steps = [
   {
     label: "Let's get started",
-    description: `You haven't connected your bank account with Smartlist. You'll need to connect your bank account for us to view your transactions and help you save money.`
+    description: `You haven't connected your bank account with Smartlist. You'll need to connect your bank account for us to view your transactions and help you save money.`,
   },
   {
     label: "Connect your bank account",
@@ -114,17 +114,17 @@ const steps = [
         <br />
         <ConnectBankAccount />
       </>
-    )
+    ),
   },
   {
     label: "Set a goal",
-    description: "Pick a goal which you want to set"
+    description: "Pick a goal which you want to set",
   },
   {
     label: "Configure notifications",
     caption: "Optional",
-    description: `We'll let you know when you overspend.`
-  }
+    description: `We'll let you know when you overspend.`,
+  },
 ];
 
 export default function NoData() {
@@ -146,9 +146,9 @@ export default function NoData() {
     <Box
       sx={{
         maxWidth: {
-          sm: "400px"
+          sm: "400px",
         },
-        mt: 2
+        mt: 2,
       }}
     >
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -176,7 +176,7 @@ export default function NoData() {
                       px: 4,
                       mr: 1,
                       borderRadius: 9,
-                      boxShadow: 0
+                      boxShadow: 0,
                     }}
                   >
                     {index === steps.length - 1 ? "Finish" : "Continue"}
@@ -189,7 +189,7 @@ export default function NoData() {
                       mt: 2,
                       px: 3,
                       mr: 1,
-                      borderRadius: 9
+                      borderRadius: 9,
                     }}
                   >
                     Back
@@ -213,7 +213,7 @@ export default function NoData() {
               px: 4,
               mr: 1,
               borderRadius: 9,
-              boxShadow: 0
+              boxShadow: 0,
             }}
             size="large"
             onClick={handleReset}
@@ -229,7 +229,7 @@ export default function NoData() {
               px: 4,
               mr: 1,
               borderRadius: 9,
-              boxShadow: 0
+              boxShadow: 0,
             }}
             variant="contained"
           >

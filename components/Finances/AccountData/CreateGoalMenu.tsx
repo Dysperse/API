@@ -15,7 +15,7 @@ function Image({
   src,
   setBannerDialogOpen,
   setBanner,
-  setDisabled
+  setDisabled,
 }: any): JSX.Element {
   return (
     <Box
@@ -37,7 +37,7 @@ function Image({
             src +
             ")",
           backgroundSize: "cover",
-          backgroundRepeat: "no-repeat"
+          backgroundRepeat: "no-repeat",
         },
         "&:active": {
           background:
@@ -45,19 +45,20 @@ function Image({
             src +
             ")",
           backgroundSize: "cover",
-          backgroundRepeat: "no-repeat"
+          backgroundRepeat: "no-repeat",
         },
         backgroundSize: "cover",
-        backgroundRepeat: "no-repeat"
+        backgroundRepeat: "no-repeat",
       }}
     ></Box>
   );
 }
 
 export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
-  const [open, setOpen] = React.useState(false);
-  const [bannerDialogOpen, setBannerDialogOpen] = React.useState(false);
-  const [disabled, setDisabled] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [bannerDialogOpen, setBannerDialogOpen] =
+    React.useState<boolean>(false);
+  const [disabled, setDisabled] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     document
@@ -73,7 +74,7 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
       name: "",
       minAmountOfMoney: "",
       image:
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     },
     onSubmit: async (values: {
       name: string;
@@ -87,14 +88,14 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
           name: values.name,
           minAmountOfMoney: values.minAmountOfMoney,
           image: values.image,
-          accountId: account.account_id
-        })
+          accountId: account.account_id,
+        }),
       });
       setOpen(false);
       setDisabled(false);
       setBannerDialogOpen(false);
       formik.resetForm();
-    }
+    },
   });
   function setBanner(e: string) {
     formik.setFieldValue("image", e);
@@ -109,8 +110,8 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
             borderRadius: 5,
             width: "500px",
             p: 2,
-            maxWidth: "calc(100vw - 20px)"
-          }
+            maxWidth: "calc(100vw - 20px)",
+          },
         }}
       >
         <DialogTitle sx={{ fontWeight: "600" }}>Select a banner</DialogTitle>
@@ -132,7 +133,7 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
             "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
             "https://images.unsplash.com/photo-1494947665470-20322015e3a8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
             "https://images.unsplash.com/photo-1494905998402-395d579af36f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-            "https://images.unsplash.com/photo-1449844908441-8829872d2607?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+            "https://images.unsplash.com/photo-1449844908441-8829872d2607?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
           ].map((image: any) => (
             <Image
               setBannerDialogOpen={setBannerDialogOpen}
@@ -153,7 +154,7 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
         sx={{
           mr: -1,
           "&:hover": { background: "rgba(255,255,255,.1)" },
-          transition: "none"
+          transition: "none",
         }}
       >
         <span className="material-symbols-rounded">add</span>
@@ -168,7 +169,7 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
           display: "flex",
           alignItems: { xs: "end", sm: "center" },
           height: "100vh",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
         PaperProps={{
           sx: {
@@ -178,8 +179,8 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
             position: "unset",
             mx: "auto",
             maxWidth: { sm: "70vw", xs: "100vw" },
-            overflow: "hidden"
-          }
+            overflow: "hidden",
+          },
         }}
         onClose={() => setOpen(false)}
       >
@@ -237,10 +238,10 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
                 mt: 1,
                 background: "rgba(200,200,200,.3)",
                 "&:hover": {
-                  background: "rgba(200,200,200,.4)"
+                  background: "rgba(200,200,200,.4)",
                 },
                 color: global.theme === "dark" ? "#fff" : "#000",
-                boxShadow: 0
+                boxShadow: 0,
               }}
               size="large"
             >
@@ -258,7 +259,7 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
                         formik.values.image +
                         ")",
                       backgroundSize: "cover",
-                      backgroundRepeat: "no-repeat"
+                      backgroundRepeat: "no-repeat",
                     },
                     "&:active": {
                       background:
@@ -266,10 +267,10 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
                         formik.values.image +
                         ")",
                       backgroundSize: "cover",
-                      backgroundRepeat: "no-repeat"
+                      backgroundRepeat: "no-repeat",
                     },
                     backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat"
+                    backgroundRepeat: "no-repeat",
                   }}
                 ></Box>
               ) : (
@@ -284,7 +285,7 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
                 borderRadius: 9,
                 mt: 3,
                 boxShadow: 0,
-                float: "right"
+                float: "right",
               }}
               size="large"
             >

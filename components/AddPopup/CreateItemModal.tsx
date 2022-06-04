@@ -25,7 +25,7 @@ export function CreateItemModal({
   room: string;
   children: any;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,7 +35,7 @@ export function CreateItemModal({
     setOpen(false);
   };
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   function setClickLoading() {
     setLoading(true);

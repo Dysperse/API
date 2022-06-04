@@ -33,7 +33,7 @@ export function TipCard({
   moneyRequiredForGoal = 100,
   icon = "lightbulb",
 }: any) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const { error, data } = useSWR(
     "/api/finance/accounts?access_token=" + global.session.user.financeToken,
     () =>

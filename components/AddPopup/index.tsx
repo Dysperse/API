@@ -84,7 +84,7 @@ function AddItemOption({
 }
 function MoreRooms(): JSX.Element {
   const url = "https://api.smartlist.tech/v2/rooms/";
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
@@ -365,7 +365,7 @@ function Content({ toggleDrawer }: any) {
   );
 }
 export default function AddPopup(props: any) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
       "prevent-scroll"

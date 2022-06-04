@@ -21,8 +21,8 @@ import { Puller } from "../Puller";
 
 function CreateRoom() {
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -231,7 +231,7 @@ const ListItem = React.memo(function ListItem({
 });
 
 export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClick = () => {
     setOpen(!open);

@@ -22,7 +22,7 @@ export function EditButton({
   setCategories,
   setLastUpdated,
 }: any): JSX.Element {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);
