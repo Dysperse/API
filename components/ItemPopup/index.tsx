@@ -24,6 +24,8 @@ import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { ItemActionsMenu } from "./ItemActionsMenu";
 import { StarButton } from "./StarButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 export default function Item({ displayRoom = false, data, variant }: any) {
   const id = data.id;
@@ -36,6 +38,30 @@ export default function Item({ displayRoom = false, data, variant }: any) {
   const [note, setNote] = useState(data.note);
   const [lastUpdated, setLastUpdated] = useState(data.lastUpdated);
   const [drawerState, setDrawerState] = useState<boolean>(false);
+
+  const [contextMenu, setContextMenu] = React.useState<{
+    mouseX: number;
+    mouseY: number;
+  } | null>(null);
+
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setContextMenu(
+      contextMenu === null
+        ? {
+            mouseX: event.clientX + 2,
+            mouseY: event.clientY - 6,
+          }
+        : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
+          // Other native context menus might behave different.
+          // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
+          null
+    );
+  };
+
+  const handleClose = () => {
+    setContextMenu(null);
+  };
 
   const { width }: any = useWindowDimensions();
 
@@ -67,6 +93,80 @@ export default function Item({ displayRoom = false, data, variant }: any) {
 
   return (
     <>
+      <Menu
+        BackdropProps={{
+          sx: { opacity: "0!important" },
+        }}
+        sx={{
+          transition: "all .2s",
+          "& .MuiPaper-root": {
+            borderRadius: "15px",
+            minWidth: 180,
+            background:
+              global.theme === "dark"
+                ? colors[global.themeColor][900]
+                : colors[global.themeColor][100],
+
+            color:
+              global.theme === "dark"
+                ? colors[global.themeColor][200]
+                : colors[global.themeColor][800],
+            "& .MuiMenu-list": {
+              padding: "4px",
+            },
+            "& .MuiMenuItem-root": {
+              "&:hover": {
+                background:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][800]
+                    : colors[global.themeColor][200],
+                color:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][100]
+                    : colors[global.themeColor][900],
+                "& .MuiSvgIcon-root": {
+                  color:
+                    global.theme === "dark"
+                      ? colors[global.themeColor][200]
+                      : colors[global.themeColor][800],
+                },
+              },
+              padding: "10px 15px",
+              borderRadius: "15px",
+              marginBottom: "1px",
+
+              "& .MuiSvgIcon-root": {
+                fontSize: 25,
+                color: colors[global.themeColor][700],
+                marginRight: 1.9,
+              },
+              "&:active": {
+                background:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][700]
+                    : colors[global.themeColor][300],
+              },
+            },
+          },
+        }}
+        open={contextMenu !== null}
+        onClose={handleClose}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          contextMenu !== null
+            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+            : undefined
+        }
+      >
+        <MenuItem
+          onClick={() => {
+            setDrawerState(true);
+            handleClose();
+          }}
+        >
+          View
+        </MenuItem>
+      </Menu>
       <SwipeableDrawer
         sx={{
           opacity: "1!important",
@@ -253,6 +353,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
         {variant === "list" ? (
           <Collapse in={!deleted}>
             <ListItemButton
+              onContextMenu={handleContextMenu}
               onClick={() => setDrawerState(true)}
               sx={{ py: 0.1, borderRadius: "10px", transition: "none" }}
             >
@@ -266,6 +367,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           <>
             {!deleted && (
               <Card
+                onContextMenu={handleContextMenu}
                 sx={{
                   mb: 1,
                   boxShadow: 0,
