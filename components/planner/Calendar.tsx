@@ -72,7 +72,7 @@ function Calendar() {
         .then((res) => {
           toast.success("Created!");
           setLoading(false);
-          setEvents([
+          global.setEvents([
             ...global.events,
             {
               title: values.title,
