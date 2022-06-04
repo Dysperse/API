@@ -241,9 +241,21 @@ td {
   opacity: 1 !important;
   z-index: 99999;
   padding: 10px;
-  padding-left: 14px;
+  padding-left: 30px;
   border-radius: 15px !important;
   margin: 6px !important;
+}
+.fc-event:hover::before {
+  content: "";
+  display: block;
+  width: 6px;
+  border-radius: 999px;
+  position: absolute;
+  height: 50%;
+  margin: 0 5px;
+  margin-left: -15px;
+  margin-top: 2px;
+  background: rgba(255, 255, 255, 0.3);
 }
 .fc-event:hover {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -253,6 +265,8 @@ td {
   line-height: 45px !important;
   margin-bottom: 5px;
   white-space: nowrap;
+  text-overflow: ellipsis !important;
+  overflow: hidden;
   padding: 0 15px !important;
   background: rgba(200, 200, 200, 0.2) !important;
 }
@@ -276,8 +290,13 @@ td {
   border-radius: 15px !important;
   box-shadow: none !important;
   color: #000 !important;
+  transition: transform 0.1s;
   background: rgba(200, 200, 200, 0.5) !important;
   margin-left: 5px !important;
+}
+.fc-button:active {
+  transform: scale(0.97);
+  transition: none;
 }
 .fc-button:hover {
   background: rgba(200, 200, 200, 0.8) !important;

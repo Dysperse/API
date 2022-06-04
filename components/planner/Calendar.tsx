@@ -117,9 +117,22 @@ function Calendar() {
         }}
       >
         <Box sx={{ py: 6, px: 7 }}>
-          <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
-            {title}
-          </Typography>
+          <TextField
+            value={title}
+            fullWidth
+            InputProps={{
+              readOnly: true,
+              sx: {
+                fontSize: {
+                  xs: "20px",
+                  sm: "30px",
+                },
+                borderRadius: 5,
+                px: 2,
+                fontWeight: "800",
+              },
+            }}
+          />
           <LoadingButton
             loading={deleteLoading}
             onClick={() => {
@@ -324,14 +337,16 @@ function Calendar() {
           />
         </>
       ) : (
-        <EventCalendar
-          setInfoModalOpen={setInfoModalOpen}
-          setId={setId}
-          setOpen={setOpen}
-          setTitle={setTitle}
-          formik={formik}
-          data={data}
-        />
+        <Box onContextMenu={(e) => e.preventDefault()}>
+          <EventCalendar
+            setInfoModalOpen={setInfoModalOpen}
+            setId={setId}
+            setOpen={setOpen}
+            setTitle={setTitle}
+            formik={formik}
+            data={data}
+          />
+        </Box>
       )}
     </Box>
   );
@@ -363,6 +378,7 @@ function EventCalendar({
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin]}
       editable
+      dayHeaderFormat={{ weekday: "long" }}
       initialView="dayGridWeek"
       selectable
       height="500px"

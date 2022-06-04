@@ -38,12 +38,16 @@ export function FloatingActionButton(props) {
             // onMouseOver={() => setHide(false)}
             variant="extended"
             color="primary"
+            disableRipple
             aria-label="add"
             sx={{
               borderRadius: "20px",
               px: trigger ? 2 : 3,
               fontSize: "15px",
               boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              "&:focus-within": {
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              },
               background:
                 global.theme === "dark"
                   ? "hsl(240, 11%, 40%)"
@@ -58,6 +62,14 @@ export function FloatingActionButton(props) {
                     ? "hsl(240, 11%, 50%)"
                     : colors[themeColor]["200"],
               },
+              "&:active": {
+                background:
+                  global.theme === "dark"
+                    ? "hsl(240, 11%, 60%)"
+                    : colors[themeColor]["300"],
+              },
+              transition: "transform .2s",
+
               py: 2,
               textTransform: "none",
               height: "auto",
