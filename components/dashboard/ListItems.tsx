@@ -49,7 +49,7 @@ export function ListItems({
         borderRadius: "28px",
         width: "100%",
         p: 1,
-        background: global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#eee",
+        background: global.theme === "dark" ? "hsl(240, 11%, 10%)" : "#eee",
         boxShadow: 0,
       }}
     >
