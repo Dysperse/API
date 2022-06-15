@@ -19,13 +19,13 @@ import { CreateListModal } from "./CreateListModal";
 import * as colors from "@mui/material/colors";
 import useSWR from "swr";
 
-const Root = styled("div")(({ theme }) => ({
+const Root = styled("div")(() => ({
   height: "100%",
 }));
 
 function AddItemOption({
   alias,
-  s = 3,
+  s = 4,
   toggleDrawer,
   icon,
   title,
@@ -134,7 +134,7 @@ function MoreRooms(): JSX.Element {
             {[...new Array(12)].map(() => (
               <Grid
                 item
-                xs={4}
+                xs={3}
                 sx={{ p: 2, py: 1 }}
                 key={Math.random().toString()}
               >
@@ -182,7 +182,7 @@ function MoreRooms(): JSX.Element {
           </Grid>
         )}
       </SwipeableDrawer>
-      <Grid item xs={3}>
+      <Grid item xs={4}>
         <Card
           sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}
           onClick={() => setOpen(true)}
