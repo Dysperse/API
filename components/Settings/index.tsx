@@ -104,7 +104,6 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
               xs: "100vw",
               sm: "60vw",
             },
-            minWidth: "600px",
             maxWidth: "100vw",
             height: "100vh",
             overflow: "scroll",
