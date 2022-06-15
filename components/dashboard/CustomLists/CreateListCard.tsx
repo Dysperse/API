@@ -82,7 +82,7 @@ export function CreateListCard({ lists, setLists }: any) {
           textAlign: "center",
           background:
             global.theme === "dark"
-              ? "hsl(240, 11%, 30%)"
+              ? "hsl(240, 11%, 20%)"
               : colors["grey"][100],
           "& *": { transition: "all .05s !important" },
         }}
