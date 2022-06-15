@@ -169,7 +169,7 @@ function MoreRooms(): JSX.Element {
               title="Garden"
               icon={<span className="material-symbols-rounded">yard</span>}
             />
-            {data &&
+            {
               data.data.map((room: any, key: any) => (
                 <AddItemOption
                   toggleDrawer={() => setOpen(false)}
@@ -277,7 +277,7 @@ function Content({ toggleDrawer }: any) {
         <Divider />
       </Box>
 
-      <Grid container sx={{ p: 1 }}>
+      <Grid container sx={{ p: 1,display:"none" }}>
         <Grid item xs={6}>
           <CreateListModal parent="-1" title="reminder">
             <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>

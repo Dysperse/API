@@ -2,7 +2,6 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import useFetch from "react-fetch-hook";
 import dayjs from "dayjs";
 import Slider, { SliderThumb } from "@mui/material/Slider";
 import Skeleton from "@mui/material/Skeleton";
