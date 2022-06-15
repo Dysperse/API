@@ -169,7 +169,7 @@ function MoreRooms(): JSX.Element {
               title="Garden"
               icon={<span className="material-symbols-rounded">yard</span>}
             />
-            {data &&
+            {
               data.data.map((room: any, key: any) => (
                 <AddItemOption
                   toggleDrawer={() => setOpen(false)}
