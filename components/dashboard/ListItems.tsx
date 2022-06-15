@@ -17,10 +17,10 @@ export function ListItems({
   emptyImage,
   emptyText,
 }: {
-  parent: any,
-  title: any,
-  emptyImage: any,
-  emptyText: any,
+  parent: any;
+  title: any;
+  emptyImage: any;
+  emptyText: any;
 }) {
   const { data, isLoading }: any = useFetch(
     "https://api.smartlist.tech/v2/lists/fetch/",
@@ -61,13 +61,23 @@ export function ListItems({
           <GenerateListItem {...list} />
         ))}
         <ListItemButton
+          onClick={() => {
+            if (parent === -2)
+              document.getElementById("listTrigger_1")!.click();
+            else document.getElementById("listTrigger_0")!.click();
+          }}
           sx={{ py: 0, borderRadius: 3, transition: "none" }}
           dense
         >
           <ListItemIcon>
-            <span style={{marginLeft:"-2px"}} className="material-symbols-rounded">add_circle</span>
+            <span
+              style={{ marginLeft: "-2px" }}
+              className="material-symbols-rounded"
+            >
+              add_circle
+            </span>
           </ListItemIcon>
-          <ListItemText sx={{my:1.4}} primary={"New list item"} />
+          <ListItemText sx={{ my: 1.4 }} primary={"New list item"} />
         </ListItemButton>
         {data.data.length === 0 && (
           <Box sx={{ textAlign: "center" }}>
