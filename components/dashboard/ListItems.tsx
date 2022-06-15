@@ -4,9 +4,11 @@ import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import useSWR from "swr";
 import useFetch from "react-fetch-hook";
 import { GenerateListItem } from "./GenerateListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 
 // Shopping list / todo list
 export function ListItems({
@@ -58,6 +60,25 @@ export function ListItems({
         {data.data.map((list: Object) => (
           <GenerateListItem {...list} />
         ))}
+        <ListItemButton
+          onClick={() => {
+            if (parent === -2)
+              document.getElementById("listTrigger_1")!.click();
+            else document.getElementById("listTrigger_0")!.click();
+          }}
+          sx={{ py: 0, borderRadius: 3, transition: "none" }}
+          dense
+        >
+          <ListItemIcon>
+            <span
+              style={{ marginLeft: "-2px" }}
+              className="material-symbols-rounded"
+            >
+              add_circle
+            </span>
+          </ListItemIcon>
+          <ListItemText sx={{ my: 1.4 }} primary={"New list item"} />
+        </ListItemButton>
         {data.data.length === 0 && (
           <Box sx={{ textAlign: "center" }}>
             <img src={emptyImage} alt="No items" />
@@ -65,9 +86,6 @@ export function ListItems({
               No items?!
             </Typography>
             <Typography sx={{ display: "block" }}>{emptyText}</Typography>
-            <Typography sx={{ display: "block" }} variant="caption">
-              PRO TIP: Hit the "+" icon to create an item
-            </Typography>
           </Box>
         )}
       </CardContent>

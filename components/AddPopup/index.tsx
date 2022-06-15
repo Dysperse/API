@@ -284,6 +284,7 @@ function Content({ toggleDrawer }: any) {
               <CardActionArea
                 disableRipple
                 onClick={() => toggleDrawer(false)}
+                 id="listTrigger_0"
                 sx={{
                   transition: "transform .2s",
                   "&:active": {
@@ -322,6 +323,7 @@ function Content({ toggleDrawer }: any) {
           <CreateListModal parent="-2" title="item">
             <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
               <CardActionArea
+               id="listTrigger_1"
                 disableRipple
                 onClick={() => toggleDrawer(false)}
                 sx={{
