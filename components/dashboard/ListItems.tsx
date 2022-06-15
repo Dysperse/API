@@ -65,7 +65,7 @@ export function ListItems({
           dense
         >
           <ListItemIcon>
-            <span className="material-symbols-rounded">add</span>
+            <span style={{marginLeft:"-2px"}} className="material-symbols-rounded">add_circle</span>
           </ListItemIcon>
           <ListItemText sx={{my:1.4}} primary={"New list item"} />
         </ListItemButton>
