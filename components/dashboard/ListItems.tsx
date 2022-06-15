@@ -76,9 +76,6 @@ export function ListItems({
               No items?!
             </Typography>
             <Typography sx={{ display: "block" }}>{emptyText}</Typography>
-            <Typography sx={{ display: "block" }} variant="caption">
-              PRO TIP: Hit the "+" icon to create an item
-            </Typography>
           </Box>
         )}
       </CardContent>
