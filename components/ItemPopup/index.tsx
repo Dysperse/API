@@ -199,7 +199,6 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               sm: "40vw",
               xs: "100vw",
             },
-            minWidth: "500px",
             maxWidth: "100vw",
           }}
         >
