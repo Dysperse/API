@@ -13,6 +13,7 @@ import { StreakCard } from "./AccountData/StreakCard";
 import { AccountTab } from "./AccountTab";
 import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
+import { QuickActions } from "./QuickActions";
 
 export const currency_symbols = {
   USD: "$", // US Dollar
@@ -154,6 +155,7 @@ export function AccountList() {
           </Tabs>
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>
+                <QuickActions />
               <Typography
                 sx={{ fontWeight: "600", ml: 1, my: 1, mt: 4 }}
                 variant="h5"

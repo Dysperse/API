@@ -80,7 +80,7 @@ export function StreakCard(): JSX.Element {
         sx={{
           background:
             global.theme === "dark"
-              ? "hsl(240, 11%, 20%)"
+              ? "hsl(240, 11%, 13%)"
               : "rgba(200, 200, 200, .3)",
           borderRadius: 5,
           boxShadow: 0,

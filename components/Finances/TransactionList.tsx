@@ -17,7 +17,7 @@ export function TransactionList({ transactions }: any) {
           sx={{
             background:
               global.theme === "dark"
-                ? "hsl(240, 11%, 20%)"
+                ? "hsl(240, 11%, 13%)"
                 : "rgba(200,200,200,.3)",
             mt: 2,
             borderRadius: 5,
