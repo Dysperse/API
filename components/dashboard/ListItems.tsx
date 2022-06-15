@@ -6,6 +6,9 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import useFetch from "react-fetch-hook";
 import { GenerateListItem } from "./GenerateListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 
 // Shopping list / todo list
 export function ListItems({
@@ -14,10 +17,10 @@ export function ListItems({
   emptyImage,
   emptyText,
 }: {
-  parent: any;
-  title: any;
-  emptyImage: any;
-  emptyText: any;
+  parent: any,
+  title: any,
+  emptyImage: any,
+  emptyText: any,
 }) {
   const { data, isLoading }: any = useFetch(
     "https://api.smartlist.tech/v2/lists/fetch/",
@@ -57,6 +60,15 @@ export function ListItems({
         {data.data.map((list: Object) => (
           <GenerateListItem {...list} />
         ))}
+        <ListItemButton
+          sx={{ py: 0, borderRadius: 3, transition: "none" }}
+          dense
+        >
+          <ListItemIcon>
+            <span className="material-symbols-rounded">add</span>
+          </ListItemIcon>
+          <ListItemText sx={{my:1.4}} primary={"New list item"} />
+        </ListItemButton>
         {data.data.length === 0 && (
           <Box sx={{ textAlign: "center" }}>
             <img src={emptyImage} alt="No items" />
