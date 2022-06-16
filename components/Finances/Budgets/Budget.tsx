@@ -19,12 +19,10 @@ export function Budget({
 }) {
 const [open, setOpen] = useState<boolean>(false)
   return (
-    <ListItem sx={{ px: 1, pr:0, 
-    borderTop: "1px solid transparent",
-    borderBottom: "1px solid transparent",
+    <ListItem sx={{ px: 2, mt: 1, pr:0, 
+    borderRadius: 5,
     ...open && {
-        borderTop: "1px solid "+(global.theme === "dark" ? "hsl(240, 11%, 20%)": "rgba(200,200,200,.2)"),
-        borderBottom: "1px solid "+(global.theme === "dark" ? "hsl(240, 11%, 20%)": "rgba(200,200,200,.2)"),
+        background: (global.theme === "dark" ? "hsl(240, 11%, 20%)": "rgba(200,200,200,.2)"),
     } }}>
       <ListItemText
       sx={{pr:open?13:8}}
@@ -43,7 +41,7 @@ const [open, setOpen] = useState<boolean>(false)
           </>
         }
         secondary={open && (
-                <Box sx={{maxWidth:"calc(100vw - 105px)",whiteSpace:"nowrap",overflowX:"auto", ml: 0, pr:2, mr:-12, mt:3}}>
+                <Box sx={{maxWidth:"calc(100vw - 105px)",whiteSpace:"nowrap",overflowX:"auto", ml: 0, pr:2, mr:-13, mt:3}}>
                 {[...new Array(5)].map(() => (
                     <Skeleton width={200} variant="rectangular" height={100} animation="wave" sx={{borderRadius:5,display:"inline-block",mr:1}}/>
                 ))}
