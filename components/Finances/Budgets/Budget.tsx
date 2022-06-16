@@ -20,12 +20,17 @@ export function Budget({
 const [open, setOpen] = useState<boolean>(false)
   return (
     <ListItem sx={{ px: 2, mt: 1, pr:0, 
-    borderRadius: 5,
+    borderRadius: {sm: 5},
     ...open && {
+        width: {
+            xs: "calc(100% + 46px)",
+            sm: "auto"
+        },
+        ml: {xs: "-23px", sm: 0},
         background: (global.theme === "dark" ? "hsl(240, 11%, 20%)": "rgba(200,200,200,.2)"),
     } }}>
       <ListItemText
-      sx={{pr:open?13:8}}
+      sx={{ pr: {}}}
         primary={
           <>
             <Typography variant="body2" sx={{ float: "right" }}>
