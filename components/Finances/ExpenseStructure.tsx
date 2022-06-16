@@ -7,6 +7,11 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function ExpenseStructure({ transactions }: any) {
+let categories:Array<string> = []
+transactions.forEach((transaction:any) => {
+    transaction.category.forEach((category:string) => categories.push(category))
+})
+
   return (
     <Card
       sx={{
@@ -58,14 +63,7 @@ export function ExpenseStructure({ transactions }: any) {
             },
           }}
           data={{
-            labels: [
-              "Payment",
-              "Fast Food",
-              "Sporting goods",
-              "Restaurants",
-              "Food and Drink",
-              "Shopping",
-            ],
+            labels: [...new Set(categories)],
             datasets: [
               {
                 label: "# of Votes",
