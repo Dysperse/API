@@ -85,7 +85,7 @@ export function AccountList() {
             sx={{ fontWeight: "600", my: 1, mt: 4, ml: 1 }}
             variant="h5"
           >
-            Accounts
+            Finances
           </Typography>
           <Tabs
             centered
@@ -156,16 +156,10 @@ export function AccountList() {
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>
                 <QuickActions />
-              <Typography
-                sx={{ fontWeight: "600", ml: 1, my: 1, mt: 4 }}
-                variant="h5"
-              >
-                Streak
-              </Typography>
-              <StreakCard />
               <TransactionList transactions={data.transactions} />
             </Grid>
             <Grid item xs={12} sm={6}>
+            <StreakCard />
               <Typography
                 sx={{ fontWeight: "600", ml: 1, my: 1, mt: 4 }}
                 variant="h5"

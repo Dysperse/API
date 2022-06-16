@@ -13,13 +13,15 @@ function Action({icon, primary, secondary}) {
         button
         sx={{
           transiton: "none!important",
-          "& *": { transiton: "none!important" },
           borderRadius: 4,
-          mb: 1,
+          ...theme==="dark" && {"&:hover .avatar": {
+              background: "hsl(240,11%,27%)"
+          }}
         }}
       >
         <ListItemAvatar>
           <Avatar
+          className="avatar"
             sx={{
               color: global.theme === "dark" ? "#fff" : "#000",
               borderRadius: 4,
@@ -51,14 +53,14 @@ export function QuickActions() {
     return (
         <Card 
             sx={{
-                mt: 4,
+                mt: 2,
                 borderRadius: "28px",
                 background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
                 boxShadow: 0,
                 p: 1
             }}
         >
-            <CardContent sx={{"& *": {transition:"none"}}}>
+            <CardContent sx={{"& *": {transition:"none!important"}}}>
                 <Action primary="Review expenses" secondary={null} icon="payments"/>
                 <Action primary="Report" secondary={null} icon="summarize"/>
                 <Action primary="Liabilities" secondary={null} icon="savings"/>
