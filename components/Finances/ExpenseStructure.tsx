@@ -10,7 +10,7 @@ export function ExpenseStructure({ transactions }: any) {
 let categories:Array<string> = []
 transactions.forEach((transaction:any) => {
     transaction.category.forEach((category:string) => categories.push(category))
-})
+});
 
   return (
     <Card
