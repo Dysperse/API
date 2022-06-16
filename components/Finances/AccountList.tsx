@@ -1,19 +1,21 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import * as colors from "@mui/material/colors";
+// import * as colors from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
-import Tabs from "@mui/material/Tabs";
+// import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import React from "react";
 import useSWR from "swr";
-import { StreakCard } from "./AccountData/StreakCard";
-import { AccountTab } from "./AccountTab";
+import { StreakCard } from "./StreakCard";
+// import { AccountTab } from "./AccountTab";
 import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
 import { QuickActions } from "./QuickActions";
+import { Budgets } from "./Budgets/index";
+import { ExpenseStructure } from "./ExpenseStructure";
 
 export const currency_symbols = {
   USD: "$", // US Dollar
@@ -38,7 +40,7 @@ export function AccountList() {
     "/api/finance/fetchTransactions/?" +
     new URLSearchParams({
       access_token: global.session.user.financeToken,
-      start_date: dayjs().subtract(30, "day").format("YYYY-MM-DD"),
+      start_date: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
       end_date: dayjs().add(7, "day").format("YYYY-MM-DD"),
     });
 
@@ -155,18 +157,14 @@ export function AccountList() {
           </Tabs> */}
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>
-                <QuickActions />
+              <QuickActions />
               <TransactionList transactions={data.transactions} />
             </Grid>
             <Grid item xs={12} sm={6}>
-            <StreakCard />
-              <Typography
-                sx={{ fontWeight: "600", ml: 1, my: 1, mt: 4 }}
-                variant="h5"
-              >
-                Liabilities
-              </Typography>
-              <Liabilities />
+              <StreakCard />
+              <Budgets />
+              <ExpenseStructure />
+              {/* <Liabilities /> */}
             </Grid>
           </Grid>
         </>
