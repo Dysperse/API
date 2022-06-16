@@ -88,8 +88,12 @@ export function StreakCard(): JSX.Element {
           mt: 2,
         }}
       >
+          <Typography sx={{ fontWeight: "600", my: 2, ml: 2,mb:0 }} variant="h5">
+        Streak
+      </Typography>
         <CardContent>
           <Box sx={{ pr: 1 }}>
+               
             <AirbnbSlider
               components={{ Thumb: ThumbComponent }}
               step={1}

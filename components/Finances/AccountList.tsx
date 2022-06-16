@@ -87,7 +87,7 @@ export function AccountList() {
           >
             Finances
           </Typography>
-          <Tabs
+          {/* <Tabs
             centered
             variant="scrollable"
             scrollButtons
@@ -152,7 +152,7 @@ export function AccountList() {
             {data.accounts.map((account) => (
               <AccountTab account={account} />
             ))}
-          </Tabs>
+          </Tabs> */}
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>
                 <QuickActions />
