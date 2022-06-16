@@ -11,7 +11,7 @@ export function Budget({
   type,
 }: {
   category: string,
-  amount: number,
+  amount: string,
   type: "weekly" | "monthly",
 }) {
   return (
@@ -25,7 +25,7 @@ export function Budget({
             <Typography>{category}</Typography>
             <LinearProgress
               variant="determinate"
-              value={(50 / amount) * 100}
+              value={(50 / parseInt(amount)) * 100}
               sx={{ width: "100%", borderRadius: "4px", my: 1, height: 10 }}
             />
           </>

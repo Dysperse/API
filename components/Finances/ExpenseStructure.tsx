@@ -6,7 +6,7 @@ import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function ExpenseStructure() {
+export function ExpenseStructure({ transactions }: any) {
   return (
     <Card
       sx={{
