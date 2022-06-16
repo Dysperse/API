@@ -40,7 +40,7 @@ export function AccountList() {
     "/api/finance/fetchTransactions/?" +
     new URLSearchParams({
       access_token: global.session.user.financeToken,
-      start_date: dayjs().subtract(6, "day").format("YYYY-MM-DD"),
+      start_date: dayjs().subtract(13, "day").format("YYYY-MM-DD"),
       end_date: dayjs().add(7, "day").format("YYYY-MM-DD"),
     });
 
