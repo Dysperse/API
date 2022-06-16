@@ -7,18 +7,25 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function ExpenseStructure({ transactions }: any) {
-let categories:Array<string> = []
-let money:Array<number> = []
-transactions.forEach((transaction:any) => {
-    transaction.category.forEach((category:string) => categories.push(category))
-});
+  let categories: Array<string> = [];
+  let money: Array<number> = [];
+  transactions.forEach((transaction: any) => {
+    transaction.category.forEach((category: string) =>
+      categories.push(category)
+    );
+  });
 
-[...new Set(categories)].forEach((category:string) => {
-    let filtered = transactions.filter((transaction:any) => transaction.category.includes(category));
-    let moneyByCategory = (filtered.map(transaction => transaction.amount))
-    moneyByCategory = moneyByCategory.reduce((partialSum, a) => partialSum + a, 0);
-    money.push(moneyByCategory)
-})
+  [...new Set(categories)].forEach((category: string) => {
+    let filtered = transactions.filter((transaction: any) =>
+      transaction.category.includes(category)
+    );
+    let moneyByCategory = filtered.map((transaction:any) => transaction.amount);
+    moneyByCategory = moneyByCategory.reduce(
+      (partialSum:any, a:any) => partialSum + a,
+      0
+    );
+    money.push(moneyByCategory);
+  });
 
   return (
     <Card
