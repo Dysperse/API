@@ -23,11 +23,15 @@ export function ExpenseStructure() {
       <Typography sx={{ fontWeight: "600", my: 2, ml: 2, mb: 0 }} variant="h5">
         Expense Structure
       </Typography>
-      <CardContent>
+      <CardContent sx={{ p:0}}>
         <Pie
           options={{
             layout: {
-              padding: 20,
+              padding: {
+                  left: 50,
+                  right: 50,
+                  top: 10
+              },
             },
             plugins: {
             tooltip: {
@@ -48,7 +52,7 @@ export function ExpenseStructure() {
                   usePointStyle: true,
                 },
                 reverse: true,
-                position: "right",
+                position: "bottom",
               },
             },
           }}
