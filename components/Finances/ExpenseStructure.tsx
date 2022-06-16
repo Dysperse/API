@@ -43,13 +43,13 @@ export function ExpenseStructure({ transactions }: any) {
       <Typography sx={{ fontWeight: "600", my: 2, ml: 2, mb: 0 }} variant="h5">
         Expense Structure
       </Typography>
-      <CardContent sx={{ p: 0,height:500,maxWidth:"calc(100vw - 100px)",margin:"auto" }}>
+      <CardContent sx={{ p: 0,height:520,maxWidth:"calc(100vw - 100px)",margin:"auto" }}>
         <Pie
           options={{
             maintainAspectRatio: false,
             layout: {
               padding: {
-                top: 20,
+                top: 40,
               },
             },
             plugins: {
