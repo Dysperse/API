@@ -8,9 +8,17 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function ExpenseStructure({ transactions }: any) {
 let categories:Array<string> = []
+let money:Array<number> = []
 transactions.forEach((transaction:any) => {
     transaction.category.forEach((category:string) => categories.push(category))
 });
+
+[...new Set(categories)].forEach((category:string) => {
+    let filtered = transactions.filter((transaction:any) => transaction.category.includes(category));
+    let moneyByCategory = (filtered.map(transaction => transaction.amount))
+    moneyByCategory = moneyByCategory.reduce((partialSum, a) => partialSum + a, 0);
+    money.push(moneyByCategory)
+})
 
   return (
     <Card
@@ -67,7 +75,7 @@ transactions.forEach((transaction:any) => {
             datasets: [
               {
                 label: "# of Votes",
-                data: [12, 19, 3, 5, 2, 3],
+                data: [...money],
                 backgroundColor: [
                   "rgb(255, 99, 132)",
                   "rgb(54, 162, 235)",
