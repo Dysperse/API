@@ -23,28 +23,29 @@ export function ExpenseStructure() {
       <Typography sx={{ fontWeight: "600", my: 2, ml: 2, mb: 0 }} variant="h5">
         Expense Structure
       </Typography>
-      <CardContent sx={{ p:0}}>
+      <CardContent sx={{ p: 0 }}>
         <Pie
           options={{
             layout: {
               padding: {
-                  left: 50,
-                  right: 50,
-                  top: 10
+                left: 60,
+                right: 60,
+                top: 20,
               },
             },
             plugins: {
-            tooltip: {
+              tooltip: {
                 cornerRadius: 10,
                 caretSize: 0,
-                backgroundColor: global.theme === "dark"
+                backgroundColor:
+                  global.theme === "dark"
                     ? "hsl(240, 11%, 93%)"
                     : "hsl(240, 11%, 20%)",
-                bodyColor: global.theme==="dark"? "#000":"#fff",
-                boxPadding:10,
+                bodyColor: global.theme === "dark" ? "#000" : "#fff",
+                boxPadding: 10,
                 usePointStyle: true,
                 padding: 10,
-            },
+              },
               legend: {
                 labels: {
                   padding: 19,
@@ -57,7 +58,14 @@ export function ExpenseStructure() {
             },
           }}
           data={{
-            labels: ["Payment", "Fast Food", "Sporting goods", "Restaurants", "Food and Drink", "Shopping"],
+            labels: [
+              "Payment",
+              "Fast Food",
+              "Sporting goods",
+              "Restaurants",
+              "Food and Drink",
+              "Shopping",
+            ],
             datasets: [
               {
                 label: "# of Votes",
@@ -70,15 +78,7 @@ export function ExpenseStructure() {
                   "rgb(153, 102, 255)",
                   "rgb(255, 159, 64)",
                 ],
-                borderColor: [
-                  "rgb(255, 99, 132, 1)",
-                  "rgb(54, 162, 235, 1)",
-                  "rgb(255, 206, 86, 1)",
-                  "rgb(75, 192, 192, 1)",
-                  "rgb(153, 102, 255, 1)",
-                  "rgb(255, 159, 64, 1)",
-                ],
-                borderWidth: 1,
+                borderWidth: 0,
               },
             ],
           }}
