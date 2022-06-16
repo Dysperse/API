@@ -24,7 +24,7 @@ export function TransactionList({ transactions }: any) {
           <Typography sx={{ fontWeight: "600", my: 2, ml: 2 }} variant="h5">
         Recent transactions
       </Typography>
-        {transactions.map((transaction) => (
+        {transactions.map((transaction:any) => (
           <ListItem
             sx={{
               borderBottom:
