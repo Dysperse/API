@@ -4,7 +4,8 @@ import CardContent from "@mui/material/CardContent";
 import { Budget } from "./Budget";
 
 export function Budgets() {
-  return (
+  return (<>
+ 
     <Card
       sx={{
         background:
@@ -25,6 +26,6 @@ export function Budgets() {
         <Budget category="Food and Drink" amount="1000" type="monthly" />
         <Budget category="Sporting Goods" amount="500" type="monthly" />
       </CardContent>
-    </Card>
+    </Card></>
   );
 }
