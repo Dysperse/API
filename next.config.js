@@ -16,15 +16,13 @@ const withTM = require("next-transpile-modules")([
 module.exports = withPlugins(
   [
     [
-      withTM({
-        // custom config goes here
-      }),
       withPWA({
         pwa: {
-        //   disable: process.env.NODE_ENV === "development",
-          mode: "production",
           dest: "public"
         }
+      }),
+      withTM({
+        // custom config goes here
       })
     ]
   ],
