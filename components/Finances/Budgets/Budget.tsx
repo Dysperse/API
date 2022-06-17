@@ -85,6 +85,13 @@ const [open, setOpen] = useState<boolean>(false)
               value={(50 / parseInt(amount)) * 100}
               sx={{ width: "100%", borderRadius: "4px", my: 1, height: 10,}}
             />
+            <Box sx={{whiteSpace:"nowrap", overflowX:"scroll",mt: 4}}>
+                {
+                    [...new Array(10)].map(() => (
+                        <Skeleton variant="rectangular" height={100} width={150} sx={{mr:1,display: "inline-block",borderRadius:5}} animation="wave" />
+                    ))
+                }
+            </Box>
             <Button variant="contained" sx={{mt:2,float:"right",borderRadius:5}} size="large">Delete</Button>
         </Box>
           </SwipeableDrawer>
