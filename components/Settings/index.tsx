@@ -96,7 +96,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         PaperProps={{
           sx: {
             ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 25%)",
+              background: "hsl(240, 11%, 20%)",
             }),
           },
         }}
@@ -119,7 +119,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 
               background:
                 global.theme === "dark"
-                  ? "hsl(240, 11%, 35%)"
+                  ? "hsl(240, 11%, 25%)"
                   : "rgba(230,230,230,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
@@ -200,7 +200,7 @@ export default function FullScreenDialog() {
         PaperProps={{
           sx: {
             ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 20%)",
+              background: "hsl(240, 11%, 15%)",
             }),
             maxWidth: "100vw",
             width: {
@@ -222,7 +222,7 @@ export default function FullScreenDialog() {
               position: "sticky",
               background:
                 global.theme === "dark"
-                  ? "hsl(240, 11%, 25%)"
+                  ? "hsl(240, 11%, 20%)"
                   : "rgba(230,230,230,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
