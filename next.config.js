@@ -14,17 +14,16 @@ const withPWA = require("next-pwa");
 
 module.exports = withPlugins(
   [
-    [
-      withPWA({
-        pwa: {
-          disable: process.env.NODE_ENV === "development",
-          mode: "production",
-          dest: "public"
-        }
-      }),
-      withTM({
-        // your custom config goes here
-      })
+    [withTM({
+      // your custom config goes here
+    }),
+    withPWA({
+      pwa: {
+        disable: process.env.NODE_ENV === "development",
+        mode: "production",
+        dest: "public"
+      }
+    })
     ]
   ],
   {
