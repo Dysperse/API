@@ -85,7 +85,7 @@ const [open, setOpen] = useState<boolean>(false)
               value={(50 / parseInt(amount)) * 100}
               sx={{ width: "100%", borderRadius: "4px", my: 1, height: 10,}}
             />
-            <Box sx={{whiteSpace:"nowrap", overflowX:"scroll",mt: 4}}>
+            <Box sx={{whiteSpace:"nowrap", overflowX:"scroll",mt: 4, px: 1 }}>
                 {
                     [...new Array(10)].map(() => (
                         <Skeleton variant="rectangular" height={100} width={150} sx={{mr:1,display: "inline-block",borderRadius:5}} animation="wave" />
