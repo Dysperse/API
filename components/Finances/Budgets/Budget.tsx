@@ -20,17 +20,8 @@ export function Budget({
 const [open, setOpen] = useState<boolean>(false)
   return (
     <ListItem sx={{ px: 2, mt: 1, pr:0, 
-    borderRadius: {sm: 5},
-    ...open && {
-        width: {
-            xs: "calc(100% + 46px)",
-            sm: "auto"
-        },
-        ml: {xs: "-23px", sm: 0},
-        background: (global.theme === "dark" ? "hsl(240, 11%, 20%)": "rgba(200,200,200,.2)"),
-    } }}>
+    borderRadius: {sm: 5} }}>
       <ListItemText
-      sx={{ pr: {}}}
         primary={
           <>
             <Typography variant="body2" sx={{ float: "right" }}>
@@ -45,32 +36,10 @@ const [open, setOpen] = useState<boolean>(false)
             
           </>
         }
-        secondary={open && (
-                <Box sx={{maxWidth:"calc(100vw - 105px)",whiteSpace:"nowrap",overflowX:"auto", ml: 0, pr:2, mr:-13, mt:3}}>
-                {[...new Array(5)].map(() => (
-                    <Skeleton width={200} variant="rectangular" height={100} animation="wave" sx={{borderRadius:5,display:"inline-block",mr:1}}/>
-                ))}
-                </Box>
-            )}
       />
-      <ListItemIcon sx={{ml:2,mr:-2,position:"absolute",top:19,right:4}}>
-        {
-            open && (
-                <IconButton onClick={() => setOpen(!open)} edge="end" aria-label="next" sx={{
-                    transition:"none!important", 
-                    ml: -6,
-                    mr: 1
-                    }}>
-                <span className="material-symbols-rounded">delete</span>
-                </IconButton>
-            )
-        }
-        <IconButton onClick={() => setOpen(!open)} edge="end" aria-label="next" sx={{
-            transition:"none!important", 
-            ...open && {
-            transform: "rotate(180deg)"
-        }}}>
-          <span className="material-symbols-rounded">expand_more</span>
+      <ListItemIcon sx={{ml:2,mr:-2}}>
+        <IconButton onClick={() => setOpen(true)} edge="end" aria-label="next">
+          <span className="material-symbols-rounded">chevron_right</span>
         </IconButton>
         
       </ListItemIcon>
