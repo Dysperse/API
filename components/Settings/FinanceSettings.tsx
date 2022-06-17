@@ -82,8 +82,10 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 size="small"
-                defaultValue={global.session && global.session.user.budget}
-                label="My budget"
+                placeholder="Coming soon!"
+                // defaultValue={global.session && global.session.user.budget}
+                label="Daily limit"
+                disabled
                 onBlur={(e) => updateSettings("budget", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
@@ -101,9 +103,11 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 size="small"
-                defaultValue={global.session && global.session.user.income}
-                label="Estimated monthly income"
-                onBlur={(e) => updateSettings("income", e.target.value)}
+                placeholder="Coming soon!"
+                // defaultValue={global.session && global.session.user.budget}
+                label="Weekly limit"
+                disabled
+                onBlur={(e) => updateSettings("budget", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
                   startAdornment: (
@@ -114,6 +118,26 @@ export default function AppearanceSettings() {
             }
           />
         </ListItem>
+        <ListItem>
+          <ListItemText
+            primary={
+              <TextField
+                fullWidth
+                size="small"
+                defaultValue={global.session && global.session.user.budget}
+                label="Monthly limit"
+                onBlur={(e) => updateSettings("budget", e.target.value)}
+                id="outlined-start-adornment"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  )
+                }}
+              />
+            }
+          />
+        </ListItem>
+        
         <ListSubheader sx={{ background: "transparent" }}>Other</ListSubheader>
         <ListItem disablePadding>
           <ListItemButton sx={{ borderRadius: 4, transition: "none" }}>
