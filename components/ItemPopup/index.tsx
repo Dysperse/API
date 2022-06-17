@@ -357,6 +357,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               sx={{ py: 0.1, borderRadius: "10px", transition: "none" }}
             >
               <ListItemText
+              sx={{whiteSpace:"nowrap", textOverflow:"ellipsis", width:"100%",overflow:"hidden"}}
                 primary={title}
                 secondary={dayjs(lastUpdated).fromNow()}
               />
