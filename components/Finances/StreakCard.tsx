@@ -80,7 +80,7 @@ export function StreakCard(): JSX.Element {
         sx={{
           background:
             global.theme === "dark"
-              ? "hsl(240, 11%, 20%)"
+              ? "hsl(240, 11%, 13%)"
               : "rgba(200, 200, 200, .3)",
           borderRadius: 5,
           boxShadow: 0,
@@ -88,8 +88,12 @@ export function StreakCard(): JSX.Element {
           mt: 2,
         }}
       >
+          <Typography sx={{ fontWeight: "600", my: 2, ml: 2,mb:0 }} variant="h5">
+        Streak
+      </Typography>
         <CardContent>
           <Box sx={{ pr: 1 }}>
+               
             <AirbnbSlider
               components={{ Thumb: ThumbComponent }}
               step={1}

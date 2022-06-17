@@ -87,13 +87,16 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
       <SwipeableDrawer
         open={open}
         swipeAreaWidth={0}
+        ModalProps={{
+            keepMounted: true
+        }}
         anchor="right"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
             ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 25%)",
+              background: "hsl(240, 11%, 20%)",
             }),
           },
         }}
@@ -116,7 +119,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
 
               background:
                 global.theme === "dark"
-                  ? "hsl(240, 11%, 35%)"
+                  ? "hsl(240, 11%, 25%)"
                   : "rgba(230,230,230,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
@@ -197,15 +200,17 @@ export default function FullScreenDialog() {
         PaperProps={{
           sx: {
             ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 20%)",
+              background: "hsl(240, 11%, 15%)",
             }),
-            minWidth: "500px",
             maxWidth: "100vw",
             width: {
               xs: "100vw",
               sm: "40vw",
             },
           },
+        }}
+        ModalProps={{
+            keepMounted: true
         }}
         open={open}
         onClose={handleClose}
@@ -217,7 +222,7 @@ export default function FullScreenDialog() {
               position: "sticky",
               background:
                 global.theme === "dark"
-                  ? "hsl(240, 11%, 25%)"
+                  ? "hsl(240, 11%, 20%)"
                   : "rgba(230,230,230,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
@@ -253,9 +258,10 @@ export default function FullScreenDialog() {
               secondary={"Current theme: " + global.theme}
             />
             <SettingsMenu
+              id="financeSettingsTrigger"
               content={<FinanceSettings />}
               icon="payments"
-              primary="Finances"
+              primary={<span id="financeSettingsTrigger">Finances</span>}
               secondary={<>Budget set to ${global.session.user.budget}</>}
             />
             <SettingsMenu
