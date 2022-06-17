@@ -88,7 +88,7 @@ const [open, setOpen] = useState<boolean>(false)
               sx={{ width: "100%", borderRadius: "4px", my: 1, height: 10,}}
             />
             <Typography variant="body2" sx={{mt:3}}>
-              Expenses on this budget
+              Expenses on this budget in the past month
             </Typography>
             <Box sx={{whiteSpace:"nowrap", overflowX:"scroll",mt: 2, px: 1 }}>
                 {
