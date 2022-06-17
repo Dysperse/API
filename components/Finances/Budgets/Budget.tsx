@@ -6,9 +6,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import { useState } from "react"
 import SwipeableDrawer from "@mui/material/SwipeableDrawer"
 import { Puller } from "../../Puller"
+
 export function Budget({
   category,
   amount,
@@ -63,6 +65,9 @@ const [open, setOpen] = useState<boolean>(false)
             borderBottomRightRadius: { xs: 0, sm: "28px!important" },
             position: "unset",
             mx: "auto",
+            ...global.theme==="dark" && {
+                background: "hsl(240, 11%, 17%)"
+            },
             maxWidth: { sm: "70vw", xs: "100vw" },
             overflow: "hidden"
           }
@@ -80,6 +85,7 @@ const [open, setOpen] = useState<boolean>(false)
               value={(50 / parseInt(amount)) * 100}
               sx={{ width: "100%", borderRadius: "4px", my: 1, height: 10,}}
             />
+            <Button variant="contained" sx={{mt:2,float:"right",borderRadius:3}} size="large">Delete</Button>
         </Box>
           </SwipeableDrawer>
     </>
