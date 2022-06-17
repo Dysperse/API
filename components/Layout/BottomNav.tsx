@@ -51,6 +51,7 @@ const styles = {
   "&.Mui-selected .MuiIcon-root": {
     background: "rgba(0,0,0,0.3)",
   },
+  py: 0.5,
 };
 
 export function BottomNav() {
