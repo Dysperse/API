@@ -199,7 +199,6 @@ export default function FullScreenDialog() {
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",
             }),
-            minWidth: "500px",
             maxWidth: "100vw",
             width: {
               xs: "100vw",
