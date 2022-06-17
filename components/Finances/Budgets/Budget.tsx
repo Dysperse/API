@@ -41,7 +41,7 @@ const [open, setOpen] = useState<boolean>(false)
         }
       />
       <ListItemIcon sx={{ml:2,mr:-2}}>
-        <IconButton onClick={() => setOpen(true)} edge="end" aria-label="next">
+        <IconButton onClick={() => setOpen(true)} edge="end" aria-label="next" sx={{ borderRadius: 4, "&, & *": {transition: "none!important"} }}>
           <span className="material-symbols-rounded">chevron_right</span>
         </IconButton>
         
@@ -74,7 +74,7 @@ const [open, setOpen] = useState<boolean>(false)
         }}
         onClose={() => setOpen(false)}
       >
-          <Box sx={{p:1}}>
+          <Box sx={{ p: 1, display: {sm: "none"} }}>
            <Puller />
           </Box>
           <Box sx={{p:4}}>
@@ -97,7 +97,7 @@ const [open, setOpen] = useState<boolean>(false)
                     ))
                 }
             </Box>
-            <Button variant="contained" sx={{mt:2,float:"right",borderRadius:5}} size="large">Delete</Button>
+            <Button variant="outlined" sx={{borderWidth:"2px!important", "&, & *": {transition:"none",animationDuration: "0s!important"},mt:2,float:"right",borderRadius:5}} size="large">Delete</Button>
         </Box>
           </SwipeableDrawer>
     </>

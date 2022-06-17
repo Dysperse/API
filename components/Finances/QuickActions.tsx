@@ -7,10 +7,11 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
-function Action({ icon, primary, secondary }) {
+function Action({ icon, primary, secondary, onClick = () => {} }: any) {
   return (
     <ListItem
       button
+      onClick={onClick}
       sx={{
         transiton: "none!important",
         borderRadius: 4,
@@ -64,7 +65,7 @@ export function QuickActions() {
         <Action primary="Review expenses" secondary={null} icon="payments" />
         <Action primary="Report" secondary={null} icon="summarize" />
         <Action primary="Liabilities" secondary={null} icon="savings" />
-        <Action primary="Options" secondary={null} icon="more_horiz" />
+        <Action onClick={() => document.getElementById("financeSettingsTrigger")!.click()} primary="Options" secondary={null} icon="more_horiz" />
       </CardContent>
     </Card>
   );

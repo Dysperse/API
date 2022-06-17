@@ -87,6 +87,9 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
       <SwipeableDrawer
         open={open}
         swipeAreaWidth={0}
+        ModalProps={{
+            keepMounted: true
+        }}
         anchor="right"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
@@ -206,6 +209,9 @@ export default function FullScreenDialog() {
             },
           },
         }}
+        ModalProps={{
+            keepMounted: true
+        }}
         open={open}
         onClose={handleClose}
       >
@@ -252,9 +258,10 @@ export default function FullScreenDialog() {
               secondary={"Current theme: " + global.theme}
             />
             <SettingsMenu
+              id="financeSettingsTrigger"
               content={<FinanceSettings />}
               icon="payments"
-              primary="Finances"
+              primary={<span id="financeSettingsTrigger">Finances</span>}
               secondary={<>Budget set to ${global.session.user.budget}</>}
             />
             <SettingsMenu
