@@ -22,7 +22,7 @@ const styles = {
   "&:hover": {
     background:
       global.theme === "dark"
-        ? "rgba(255,255,255,0.2)"
+        ? "rgba(255,255,255,0.15)"
         : "rgba(200, 200, 200, .5)",
   },
   "&:active": {
@@ -112,7 +112,7 @@ export function BottomNav() {
           background:
             global.theme === "dark"
               ? "rgba(68, 68, 85,.9)"
-              : "rgba(210,210,210,.9)",
+              : "rgba(210,210,210,.8)",
         }}
         showLabels
         onChange={(event, newValue) => {
