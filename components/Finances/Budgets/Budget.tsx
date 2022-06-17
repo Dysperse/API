@@ -85,7 +85,7 @@ const [open, setOpen] = useState<boolean>(false)
               value={(50 / parseInt(amount)) * 100}
               sx={{ width: "100%", borderRadius: "4px", my: 1, height: 10,}}
             />
-            <Button variant="contained" sx={{mt:2,float:"right",borderRadius:3}} size="large">Delete</Button>
+            <Button variant="contained" sx={{mt:2,float:"right",borderRadius:5}} size="large">Delete</Button>
         </Box>
           </SwipeableDrawer>
     </>
