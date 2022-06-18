@@ -169,7 +169,7 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
     <>
       <Head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
         <meta name="description" content="Smartlist user dashboard" />
         <meta name="theme-color" content="#" />
         <link
