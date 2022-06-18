@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const withTM = require("next-transpile-modules")([
+/*const withTM = require("next-transpile-modules")([
   "@fullcalendar/common",
   "@babel/preset-react",
   "@fullcalendar/common",
@@ -8,14 +8,14 @@ const withTM = require("next-transpile-modules")([
   "@fullcalendar/react",
   "@fullcalendar/timegrid",
 ]);
-
+*/
 const withPlugins = require("next-compose-plugins");
 const withPWA = require("next-pwa");
 
 module.exports = withPlugins(
   [
     [
-      withTM(),
+     // withTM(),
       withPWA({
         pwa: {
           dest: "public"
