@@ -14,6 +14,7 @@ import Head from "next/head";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
+import Script from 'next/script'
 
 dayjs.extend(relativeTime);
 
@@ -230,6 +231,7 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
         ) : (
           <LoginPrompt />
         ))}
+      <Script src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets/prevent-navigate-history.js"></Script>
     </>
   );
 }
