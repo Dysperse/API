@@ -23,17 +23,13 @@ function ElevationScroll(props: any) {
   });
   useEffect(() => {
     if(document) {
-alert(trigger?"+":"-")
+//alert(trigger?"+":"-")
       document
         .querySelector(`meta[name="theme-color"]`)!
         .setAttribute(
           "content",
           trigger
-            ? global.theme === "dark"
-              ? "hsl(240, 11%, 25%)"
-              : colors[global.themeColor]["100"]
-            : global.theme === "dark"
-            ? "hsl(240, 11%, 10%)"
+            ? colors[global.themeColor]["100"]
             : "#fff"
         );
     }
