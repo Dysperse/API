@@ -23,7 +23,7 @@ function ElevationScroll(props: any) {
   });
   useEffect(() => {
     if(document) {
-alert(1)
+alert(trigger?"+":"-")
       document
         .querySelector(`meta[name="theme-color"]`)!
         .setAttribute(
