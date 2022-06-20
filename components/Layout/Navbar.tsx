@@ -22,7 +22,8 @@ function ElevationScroll(props: any) {
     target: window ? window() : undefined,
   });
   useEffect(() => {
-    if (document && document.querySelector(`meta[name="theme-color"]`)) {
+    if(document) {
+alert(1)
       document
         .querySelector(`meta[name="theme-color"]`)!
         .setAttribute(
