@@ -25,7 +25,7 @@ export function AccountTab({ account }: any) {
           ? "hsl(240, 11%, 10%)"
           : "#fff"
       );
-  });
+  }, [open]);
   return (
     <>
       <CssBaseline />

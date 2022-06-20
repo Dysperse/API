@@ -384,7 +384,7 @@ export default function AddPopup(props: any) {
           ? "hsl(240, 11%, 10%)"
           : "#fff"
       );
-  });
+  }, [open]);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
