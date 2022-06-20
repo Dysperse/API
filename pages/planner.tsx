@@ -1,16 +1,17 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import "@fullcalendar/common/main.css";
+/*import "@fullcalendar/common/main.css";
 import Calendar from "../components/planner/Calendar";
-
+*/
 export default function Render() {
   return (
     <>
-      {true ? (
+      {true && (
+        /*
         <Container sx={{ mt: 5 }}>
           <Calendar />
         </Container>
-      ) : (
+        */
         <Box
           sx={{
             p: 3,
