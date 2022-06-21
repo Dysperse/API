@@ -1,6 +1,6 @@
 import { Global } from "@emotion/react";
 import Avatar from "@mui/material/Avatar";
-import { deepOrange } from "@mui/material/colors";
+import * as colors from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -121,7 +121,7 @@ export function ProfileMenu(props: any) {
             <Avatar
               sx={{
                 fontSize: "15px",
-                bgcolor: deepOrange[500],
+                bgcolor: colors[themeColor][200],
                 transform: "scale(1.2)",
               }}
               alt="Profie picture"
