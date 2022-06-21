@@ -174,7 +174,7 @@ const ListItem = React.memo(function ListItem({
           "&:hover,&:focus": {
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
-            background: "rgba(200,200,200,.3)",
+            background: {sm: "rgba(200,200,200,.3)"},
           },
           "&:hover span": {
             color:
