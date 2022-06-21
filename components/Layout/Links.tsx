@@ -181,7 +181,7 @@ const ListItem = React.memo(function ListItem({
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
           },
           "&:active": {
-            background: "rgba(200,200,200,.4)",
+            background: {sm: "rgba(200,200,200,.4)"},
           },
           ...(router.asPath === asHref && {
             backgroundColor:
