@@ -182,7 +182,7 @@ function MoreRooms(): JSX.Element {
           </Grid>
         )}
       </SwipeableDrawer>
-      <Grid item xs={4}>
+      <Grid item xs={6}>
         <Card
           sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}
           onClick={() => setOpen(true)}
