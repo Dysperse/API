@@ -25,7 +25,7 @@ const Root = styled("div")(() => ({
 
 function AddItemOption({
   alias,
-  s = 4,
+  s = 6,
   toggleDrawer,
   icon,
   title,
