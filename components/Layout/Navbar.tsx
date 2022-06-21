@@ -76,7 +76,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                 aria-label="open drawer."
                 edge="start"
                 size="large"
-                onClick={handleDrawerToggle}
+                onClick={() => handleDrawerToggle(true)}
                 sx={{
                   transition: "none",
                   mr: 2,
