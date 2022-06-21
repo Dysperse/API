@@ -249,7 +249,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
               boxShadow: 0,
               overscrollBehavior: "none",
               pr: "2px",
-              borderRadius: "0 20px 20px 0",
+              borderRadius: "0 8px 8px 0",
               ...(global.theme === "dark" && {
                 background: "hsl(240, 11%, 15%)",
               }),
