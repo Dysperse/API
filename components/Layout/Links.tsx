@@ -305,7 +305,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             }
           />
         </div>
-        <div onClick={handleDrawerToggle}>
+        <div onClick={() => handleDrawerToggle(false)}>
           <ListSubheader
             sx={{
               pl: 2,
