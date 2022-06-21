@@ -255,7 +255,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
               }),
             },
           }}
-          onClose={handleDrawerToggle}
+          onClose={() => handleDrawerToggle(false)}
           onOpen={() => setMobileOpen(true)}
           ModalProps={{
             keepMounted: true,
