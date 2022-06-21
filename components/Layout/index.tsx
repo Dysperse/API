@@ -218,8 +218,8 @@ function ResponsiveDrawer(props: any): JSX.Element {
             : colors[global.themeColor][100]
         );
   });
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const handleDrawerToggle = (t = true) => {
+    setMobileOpen(t);
   };
   const { width }: any = useWindowDimensions();
 
