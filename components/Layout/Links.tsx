@@ -255,7 +255,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
         >
           <Toolbar />
         </Box>
-        <div onClick={handleDrawerToggle}>
+        <div onClick={ () => handleDrawerToggle(false)}>
           <ListSubheader
             sx={{
               pl: 2,
