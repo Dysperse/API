@@ -273,10 +273,6 @@ function Content({ toggleDrawer }: any) {
         />
         <MoreRooms />
       </Grid>
-      <Box sx={{ px: 5 }}>
-        <Divider />
-      </Box>
-
       <Grid container sx={{ p: 1,display:"none" }}>
         <Grid item xs={6}>
           <CreateListModal parent="-1" title="reminder">
