@@ -398,6 +398,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 onClick={() => setDrawerState(true)}
               >
                 <CardActionArea
+                  disableRipple
                   sx={{
                     transition: "none!important",
                     "&:focus-within": {
