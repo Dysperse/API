@@ -402,8 +402,10 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   sx={{
                     transition: "none!important",
                     "&:focus-within": {
-                      boxShadow:
-                        "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                      background:
+                        (global.theme === "dark"
+                          ? "hsl(240, 11%, 20%)"
+                          : "rgba(200,200,200,.01)") + "!important",
                     },
                     borderRadius: "28px",
                     "&:active": {

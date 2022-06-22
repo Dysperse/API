@@ -105,8 +105,8 @@ export function BottomNav() {
           alignItems: "center",
           flexDirection: { sm: "column" },
           backdropFilter: "blur(15px)",
-          borderTopLeftRadius: { xs: "15px", sm: "0" },
-          borderTopRightRadius: { xs: "15px", sm: "15px" },
+          borderTopLeftRadius: { xs: "0px", sm: "0" },
+          borderTopRightRadius: { xs: "0px", sm: "15px" },
           borderBottomRightRadius: { sm: "15px" },
 
           background:
