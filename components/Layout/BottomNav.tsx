@@ -68,7 +68,7 @@ export function BottomNav() {
       v = 2;
       break;
     case "/trash":
-    case "/categories":
+    case "/items":
       v = 3;
       break;
     case "/planner":
@@ -189,7 +189,7 @@ export function BottomNav() {
           }}
           label="Items"
           disableRipple
-          onClick={() => onLink("/categories")}
+          onClick={() => onLink("/items")}
           icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
         />
         <BottomNavigationAction
