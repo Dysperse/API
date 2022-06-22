@@ -14,7 +14,7 @@ import Head from "next/head";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
-import Script from 'next/script'
+import Script from "next/script";
 
 dayjs.extend(relativeTime);
 
@@ -121,7 +121,7 @@ function Render({ data, Component, pageProps }: any) {
               p: 4,
               background: "rgba(200,200,200,.3)",
               borderRadius: 5,
-              maxWidth: "calc(100vw - 20px)",
+              maxWidth: "calc(100vw - 40px)",
               maxHeight: "calc(100vh - 20px)",
             }}
           >
@@ -170,7 +170,10 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
     <>
       <Head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,user-scalable=no"
+        />
         <meta name="description" content="Smartlist user dashboard" />
         <meta name="theme-color" content="hsl(240, 11%, 10%)" />
         <link

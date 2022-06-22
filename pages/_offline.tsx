@@ -16,7 +16,7 @@ export default function OfflinePage() {
         p: 1,
         boxSizing: "border-box",
         fontSize: "13px",
-        color: "#505050"
+        color: "#505050",
       }}
     >
       <Box
@@ -24,12 +24,12 @@ export default function OfflinePage() {
           p: 4,
           background: "rgba(200,200,200,.3)",
           borderRadius: 5,
-          maxWidth: "calc(100vw - 20px)",
-          maxHeight: "calc(100vh - 20px)"
+          maxWidth: "calc(100vw - 40px)",
+          maxHeight: "calc(100vh - 40px)",
         }}
       >
-        Please connect to the internet to access Smartlist. 
+        Please connect to the internet to access Smartlist.
       </Box>
     </Box>
-  ); 
+  );
 }
