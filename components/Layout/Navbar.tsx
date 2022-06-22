@@ -67,7 +67,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
     <ElevationScroll>
       <AppBar elevation={0} position="fixed">
         <Toolbar>
-          <Tooltip title="Menu" placement="bottom-start">
+          {/* <Tooltip title="Menu" placement="bottom-start">
             {global.session ? (
               <IconButton
                 color="inherit"
@@ -108,11 +108,11 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
                 animation="wave"
               />
             )}
-          </Tooltip>
+          </Tooltip> */}
 
           <Typography
             variant="h6"
-            sx={{ flexGrow: 1, fontWeight: "600" }}
+            sx={{ flexGrow: 1, fontWeight: "600", ml: 1 }}
             noWrap
           >
             {global.session ? (
