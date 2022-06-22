@@ -89,7 +89,7 @@ export function FloatingActionButton(props) {
             <Collapse
               orientation="horizontal"
               in={!trigger}
-              sx={{ opacity: trigger ? 0 : 1 }}
+              sx={{ opacity: trigger ? 0 : 1, transition: "all .2s !important" }}
             >
               Create
             </Collapse>
