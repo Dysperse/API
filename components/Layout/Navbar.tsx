@@ -22,15 +22,13 @@ function ElevationScroll(props: any) {
     target: window ? window() : undefined,
   });
   useEffect(() => {
-    if(document) {
-//alert(trigger?"+":"-")
+    if (document) {
+      //alert(trigger?"+":"-")
       document
         .querySelector(`meta[name="theme-color"]`)!
         .setAttribute(
           "content",
-          trigger
-            ? colors[global.themeColor]["100"]
-            : "#fff"
+          trigger ? colors[global.themeColor]["100"] : "#fff"
         );
     }
   });
@@ -74,6 +72,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
               <IconButton
                 color="inherit"
                 aria-label="open drawer."
+                disableRipple
                 edge="start"
                 size="large"
                 onClick={() => handleDrawerToggle(true)}
