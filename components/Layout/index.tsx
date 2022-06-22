@@ -221,7 +221,6 @@ function ResponsiveDrawer(props: any): JSX.Element {
   const handleDrawerToggle = (t = true) => {
     setMobileOpen(t);
   };
-  const { width }: any = useWindowDimensions();
 
   return (
     <Box
@@ -240,41 +239,6 @@ function ResponsiveDrawer(props: any): JSX.Element {
         sx={{ width: { sm: "65px", md: drawerWidth }, flexShrink: { md: 0 } }}
         aria-label="mailbox folders"
       >
-        <SwipeableDrawer
-          variant="temporary"
-          swipeAreaWidth={width > 992 ? 0 : 10}
-          open={mobileOpen}
-          PaperProps={{
-            sx: {
-              boxShadow: 0,
-              overscrollBehavior: "none",
-              pr: "2px",
-              borderRadius: "0 8px 8px 0",
-              ...(global.theme === "dark" && {
-                background: "hsl(240, 11%, 15%)",
-              }),
-            },
-          }}
-          onClose={() => handleDrawerToggle(false)}
-          onOpen={() => setMobileOpen(true)}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              height: "100vh",
-              overflowY: "scroll",
-              width: drawerWidth,
-            },
-          }}
-        >
-          <DrawerListItems
-            customRooms={<CustomRooms />}
-            handleDrawerToggle={handleDrawerToggle}
-          />
-        </SwipeableDrawer>
         <Drawer
           variant="permanent"
           ModalProps={{
