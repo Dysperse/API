@@ -154,6 +154,7 @@ const ListItem = React.memo(function ListItem({
   return (
     <Link href={href} as={asHref} replace>
       <ListItemButton
+        disableRipple
         sx={{
           ...sx,
           pl: 3,
@@ -174,14 +175,14 @@ const ListItem = React.memo(function ListItem({
           "&:hover,&:focus": {
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
-            background: {sm: "rgba(200,200,200,.3)"},
+            background: { sm: "rgba(200,200,200,.3)" },
           },
           "&:hover span": {
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
           },
           "&:active": {
-            background: {sm: "rgba(200,200,200,.4)"},
+            background: { sm: "rgba(200,200,200,.4)" },
           },
           ...(router.asPath === asHref && {
             backgroundColor:
@@ -255,7 +256,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
         >
           <Toolbar />
         </Box>
-        <div onClick={ () => handleDrawerToggle(false)}>
+        <div onClick={() => handleDrawerToggle(false)}>
           <ListSubheader
             sx={{
               pl: 2,
