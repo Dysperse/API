@@ -86,7 +86,11 @@ export function FloatingActionButton(props) {
             >
               edit
             </span>
-            <Collapse orientation="horizontal" in={!trigger}>
+            <Collapse
+              orientation="horizontal"
+              in={!trigger}
+              sx={{ opacity: trigger ? 0 : 1 }}
+            >
               Create
             </Collapse>
           </Fab>
