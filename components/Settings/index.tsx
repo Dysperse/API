@@ -53,7 +53,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         onClick={() => setOpen(true)}
         sx={{
           transiton: "none!important",
-          "& *": { transiton: "none!important" },
+          "& *": { transiton: { sm: "none!important" } },
           borderRadius: 4,
           mb: 1,
         }}
