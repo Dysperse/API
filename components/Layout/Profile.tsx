@@ -110,8 +110,8 @@ export function ProfileMenu(props: any) {
           aria-label="open drawer."
           edge="end"
           sx={{
-            ml: 0,
-            transform: "scale(.8)",
+            ml: -0.3,
+            transform: "scale(.7)",
             transition: "none",
             color: "#404040",
             "&:hover": { color: "#000" },
