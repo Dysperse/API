@@ -150,9 +150,6 @@ export function ProfileMenu(props: any) {
             opacity: { sm: "0!important" },
           },
         }}
-        ModalProps={{
-          keepMounted: true,
-        }}
         PaperProps={{
           elevation: 4,
           sx: {

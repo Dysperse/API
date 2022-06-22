@@ -76,9 +76,9 @@ function CreateRoom() {
         open={open}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
-        ModalProps={{
-          keepMounted: true,
-        }}
+        // ModalProps={{
+        //   keepMounted: true,
+        // }}
       >
         <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center" }}>

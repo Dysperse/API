@@ -114,9 +114,7 @@ export function CreateListCard({ lists, setLists }: any) {
         }}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
-        ModalProps={{
-          keepMounted: true,
-        }}
+
         swipeAreaWidth={0}
       >
         <form onSubmit={formik.handleSubmit}>
