@@ -175,14 +175,14 @@ const ListItem = React.memo(function ListItem({
           "&:hover,&:focus": {
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
-            background: { sm: "rgba(200,200,200,.3)" },
+            background: "rgba(200,200,200,.3)",
           },
           "&:hover span": {
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
           },
           "&:active": {
-            background: { sm: "rgba(200,200,200,.4)" },
+            background: "rgba(200,200,200,.4)",
           },
           ...(router.asPath === asHref && {
             backgroundColor:
