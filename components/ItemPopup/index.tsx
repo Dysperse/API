@@ -354,10 +354,15 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             <ListItemButton
               onContextMenu={handleContextMenu}
               onClick={() => setDrawerState(true)}
-              sx={{ py: 0.1, borderRadius: "10px", transition: "none" }}
+              sx={{ py: 0.1, borderRadius: "10px", transition: { sm: "none" } }}
             >
               <ListItemText
-              sx={{whiteSpace:"nowrap", textOverflow:"ellipsis", maxWidth:"calc(100vw - 200px)",overflow:"hidden"}}
+                sx={{
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  maxWidth: "calc(100vw - 200px)",
+                  overflow: "hidden",
+                }}
                 primary={title}
                 secondary={dayjs(lastUpdated).fromNow()}
               />
