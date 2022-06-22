@@ -16,28 +16,77 @@ import toast from "react-hot-toast";
 import { ItemCard } from "../../components/rooms/ItemCard";
 import { Toolbar } from "../../components/rooms/Toolbar";
 
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItem from "@mui/material/ListItem";
+import * as colors from "@mui/material/colors";
+import ListItemText from "@mui/material/ListItemText";
+import Avatar from "@mui/material/Avatar";
+import { useRouter } from "next/router";
+
 function Header({ room, itemCount }: { room: string; itemCount: number }) {
+  const router = useRouter();
   return (
-    <Card
+    <ListItem
+      disableRipple
+      button
+      onClick={() => {
+        router.push("/items");
+      }}
       sx={{
+        transition: "transform .2s !important",
+        borderRadius: 5,
+        background: "rgba(200,200,200,.3)!important",
         mb: 2,
-        boxShadow: 0,
-        borderRadius: "28px",
-        p: 1,
-        background: global.theme === "dark" ? "hsl(240, 11%, 25%)" : "#eee",
+        py: 3,
+        "&:focus": {
+          background: "rgba(200,200,200,.3)",
+        },
+        "&:active": {
+          transition: "none!important",
+          transform: "scale(.97)",
+          background: "rgba(200,200,200,.4)!important",
+        },
+        ...(theme === "dark" && {
+          "&:hover .avatar": {
+            background: "hsl(240,11%,27%)",
+          },
+        }),
       }}
     >
-      <CardContent>
-        <Typography variant="h5" sx={{ mb: 1, fontWeight: "600" }}>
-          {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
-            room
-          )}
-        </Typography>
-        <Typography>
-          {itemCount} item{itemCount !== 1 && "s"}
-        </Typography>
-      </CardContent>
-    </Card>
+      <ListItemAvatar>
+        <Avatar
+          className="avatar"
+          sx={{
+            color: global.theme === "dark" ? "#fff" : "#000",
+            borderRadius: 4,
+            display: { sm: "none" },
+            background: "transparent",
+          }}
+        >
+          <span
+            style={{ fontSize: "20px" }}
+            className="material-symbols-rounded"
+          >
+            chevron_left
+          </span>
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText
+        sx={{ ml: { sm: -6 } }}
+        primary={
+          <Typography sx={{ fontWeight: "600" }} gutterBottom variant="h5">
+            {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
+              room
+            )}
+          </Typography>
+        }
+        secondary={
+          <>
+            {itemCount} item{itemCount !== 1 && "s"}
+          </>
+        }
+      />
+    </ListItem>
   );
 }
 

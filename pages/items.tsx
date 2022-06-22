@@ -17,6 +17,14 @@ function Action({ icon, primary, secondary, href }: any) {
       onClick={() => {
         router.push(href);
       }}
+      secondaryAction={
+        <span
+          className="material-symbols-rounded"
+          style={{ marginTop: "10px" }}
+        >
+          chevron_right
+        </span>
+      }
       sx={{
         transition: "transform .2s !important",
         borderRadius: 4,
