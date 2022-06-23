@@ -26,6 +26,7 @@ import { ItemActionsMenu } from "./ItemActionsMenu";
 import { StarButton } from "./StarButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 export default function Item({ displayRoom = false, data, variant }: any) {
   const id = data.id;
@@ -38,6 +39,10 @@ export default function Item({ displayRoom = false, data, variant }: any) {
   const [note, setNote] = useState(data.note);
   const [lastUpdated, setLastUpdated] = useState(data.lastUpdated);
   const [drawerState, setDrawerState] = useState<boolean>(false);
+
+  useEffect(() => {
+    drawerState ? neutralizeBack(() => setDrawerState(false)) : revivalBack();
+  });
 
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
