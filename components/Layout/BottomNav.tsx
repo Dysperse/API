@@ -21,7 +21,7 @@ const styles = {
   mr: "-1px",
   // transition: "none",
   "&:active": {
-    transform: "scale(.96)",
+    transform: "scale(.94)",
     transition: "none",
     background:
       global.theme === "dark"
