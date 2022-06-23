@@ -467,12 +467,6 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           Other
         </ListSubheader>
         <ListItem
-          href="/home-maintenance"
-          asHref="/home-maintenance"
-          text="Home maintenance"
-          icon={<span className="material-symbols-rounded">label</span>}
-        />
-        <ListItem
           href="/starred"
           asHref="/starred"
           text="Starred items"

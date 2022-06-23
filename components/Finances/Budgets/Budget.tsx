@@ -10,7 +10,71 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../../Puller";
+import useFetch from "react-fetch-hook";
+import dayjs from "dayjs";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 
+function Expenses({ category }: any) {
+  const url =
+    "/api/finance/fetchTransactions/?" +
+    new URLSearchParams({
+      access_token: global.session.user.financeToken,
+      start_date: dayjs().subtract(29, "day").format("YYYY-MM-DD"),
+      end_date: dayjs().add(7, "day").format("YYYY-MM-DD"),
+    });
+  const { isLoading, data }: any = useFetch(url);
+
+  return (
+    <>
+      {isLoading ? (
+        [...new Array(10)].map(() => (
+          <Skeleton
+            variant="rectangular"
+            height={100}
+            width={150}
+            sx={{ mr: 1, display: "inline-block", borderRadius: 5 }}
+            animation="wave"
+          />
+        ))
+      ) : (
+        <>
+          {data.transactions
+            .filter((transaction: any) =>
+              transaction.category.includes(category)
+            )
+            .map((transaction) => (
+              <>
+                <Card
+                  sx={{
+                    background: "rgba(200, 200, 200, .3)",
+                    borderRadius: 5,
+                    display: "inline-block",
+                    p: 1,
+                    maxWidth: "300px",
+                    mr: 1,
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      sx={{ fontWeight: "600" }}
+                      variant="h6"
+                    >
+                      {transaction.name}
+                    </Typography>
+                    <Typography>
+                      ${transaction.amount}, {dayjs(transaction.date).fromNow()}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </>
+            ))}{" "}
+        </>
+      )}
+    </>
+  );
+}
 export function Budget({
   category,
   amount,
@@ -96,15 +160,7 @@ export function Budget({
             Expenses on this budget in the past month
           </Typography>
           <Box sx={{ whiteSpace: "nowrap", overflowX: "scroll", mt: 2, px: 1 }}>
-            {[...new Array(10)].map(() => (
-              <Skeleton
-                variant="rectangular"
-                height={100}
-                width={150}
-                sx={{ mr: 1, display: "inline-block", borderRadius: 5 }}
-                animation="wave"
-              />
-            ))}
+            <Expenses category={category} />
           </Box>
           <Button
             variant="outlined"
