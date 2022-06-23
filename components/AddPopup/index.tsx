@@ -169,16 +169,15 @@ function MoreRooms(): JSX.Element {
               title="Garden"
               icon={<span className="material-symbols-rounded">yard</span>}
             />
-            {
-              data.data.map((room: any, key: any) => (
-                <AddItemOption
-                  toggleDrawer={() => setOpen(false)}
-                  title={room.id}
-                  key={key}
-                  alias={room.name}
-                  icon={<span className="material-symbols-rounded">label</span>}
-                />
-              ))}
+            {data.data.map((room: any, key: any) => (
+              <AddItemOption
+                toggleDrawer={() => setOpen(false)}
+                title={room.id}
+                key={key}
+                alias={room.name}
+                icon={<span className="material-symbols-rounded">label</span>}
+              />
+            ))}
           </Grid>
         )}
       </SwipeableDrawer>
@@ -273,14 +272,14 @@ function Content({ toggleDrawer }: any) {
         />
         <MoreRooms />
       </Grid>
-      <Grid container sx={{ p: 1,display:"none" }}>
+      <Grid container sx={{ p: 1, display: "none" }}>
         <Grid item xs={6}>
           <CreateListModal parent="-1" title="reminder">
             <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
               <CardActionArea
                 disableRipple
                 onClick={() => toggleDrawer(false)}
-                 id="listTrigger_0"
+                id="listTrigger_0"
                 sx={{
                   transition: "transform .2s",
                   "&:active": {
@@ -319,7 +318,7 @@ function Content({ toggleDrawer }: any) {
           <CreateListModal parent="-2" title="item">
             <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
               <CardActionArea
-               id="listTrigger_1"
+                id="listTrigger_1"
                 disableRipple
                 onClick={() => toggleDrawer(false)}
                 sx={{
@@ -363,7 +362,27 @@ function Content({ toggleDrawer }: any) {
   );
 }
 export default function AddPopup(props: any) {
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = React.useState<boolean | null>(null);
+  const neutralizeBack = (callback) => {
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+      callback();
+    };
+  };
+  const revivalBack = () => {
+    window.onpopstate = undefined;
+    window.history.back();
+  };
+
+  useEffect(() => {
+    if (open) {
+      neutralizeBack(() => setOpen(false));
+    } else if (open === false) {
+      revivalBack();
+    }
+  });
+
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
       "prevent-scroll"
@@ -381,6 +400,7 @@ export default function AddPopup(props: any) {
           : "#fff"
       );
   }, [open]);
+
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };

@@ -1981,6 +1981,11 @@ braces@^3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
+browser-back-button@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/browser-back-button/-/browser-back-button-0.3.0.tgz#be974da07226884b38d9498b08380fd22a333071"
+  integrity sha512-UDdgUNsv8WI2ums+IISd7o2Ku4Obg0HD4VCLC8bDh/V3Z7Z4bG9zvb0kEnUvak3WyQOrB8tLCSdZrCKoGWctMg==
+
 browserslist@^4.20.2, browserslist@^4.20.4:
   version "4.20.4"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.20.4.tgz#98096c9042af689ee1e0271333dbc564b8ce4477"
@@ -3385,7 +3390,7 @@ next-compose-plugins@^2.2.1:
   resolved "https://registry.yarnpkg.com/next-compose-plugins/-/next-compose-plugins-2.2.1.tgz#020fc53f275a7e719d62521bef4300fbb6fde5ab"
   integrity sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==
 
-next-pwa@^5.4.1:
+next-pwa@^5.5.4:
   version "5.5.4"
   resolved "https://registry.yarnpkg.com/next-pwa/-/next-pwa-5.5.4.tgz#5a96bb4762c649ed875e5d98a1183132c0199f49"
   integrity sha512-EgB2MQWGR8oZDzY6US+/D0LOCUhPZYCgeqRVBYDxQWNi0N6XfQOoZPw2COIrg/eMt/rB0M+/mquhAQACs5v4Ag==

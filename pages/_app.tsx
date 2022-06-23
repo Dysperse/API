@@ -234,7 +234,7 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
         ) : (
           <LoginPrompt />
         ))}
-      <Script src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/prevent-navigate-history.js"></Script>
+      <Script src="/prevent-navigate-history.js"></Script>
     </>
   );
 }

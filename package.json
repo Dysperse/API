@@ -25,6 +25,7 @@
     "@mui/material": "^5.8.4",
     "@types/react-detect-offline": "2.4.1",
     "@types/react-plaid-link": "2.0.0",
+    "browser-back-button": "^0.3.0",
     "chart.js": "^3.0.0",
     "dayjs": "^1.11.3",
     "formik": "^2.2.9",
