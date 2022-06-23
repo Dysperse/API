@@ -231,9 +231,12 @@ export function List({
             borderRadius: "28px",
             background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
+            transition: "transform .2s",
+            "&:active": {transition: "none", transform: "scale(.96)"}
           }}
         >
           <CardActionArea
+            disableRipple
             sx={{ p: 1 }}
             onClick={() => {
               setDrawerState(true);
