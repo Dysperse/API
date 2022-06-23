@@ -19,15 +19,6 @@ const styles = {
   minWidth: { xs: "20vw!important", sm: "65px!important" },
   width: { xs: "20vw!important", sm: "65px!important" },
   mr: "-1px",
-  // transition: "none",
-  "&:active": {
-    transform: "scale(.94)",
-    transition: "none",
-    background:
-      global.theme === "dark"
-        ? "rgba(255,255,255,.3)"
-        : "rgba(200, 200, 200, .9)",
-  },
   "&.Mui-selected svg": {
     background: "rgba(150, 150, 150, .7)",
   },
