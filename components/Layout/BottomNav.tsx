@@ -19,7 +19,7 @@ const styles = {
   minWidth: { xs: "20vw!important", sm: "65px!important" },
   width: { xs: "20vw!important", sm: "65px!important" },
   mr: "-1px",
-  transition: "none",
+  // transition: "none",
   "&:active": {
     transform: "scale(.96)",
     transition: "none",
