@@ -8,6 +8,7 @@ import * as React from "react";
 const styles = {
   borderRadius: "15px",
   px: "0!important",
+  transition: "transform .2s",
   "& *": {
     maxWidth: "70%",
     overflow: "hidden",
@@ -19,13 +20,9 @@ const styles = {
   width: { xs: "20vw!important", sm: "65px!important" },
   mr: "-1px",
   transition: "none",
-  "&:hover": {
-    background:
-      global.theme === "dark"
-        ? "rgba(255,255,255,0.15)"
-        : "rgba(200, 200, 200, .5)",
-  },
   "&:active": {
+    transform: "scale(.96)",
+    transition: "none",
     background:
       global.theme === "dark"
         ? "rgba(255,255,255,.3)"
