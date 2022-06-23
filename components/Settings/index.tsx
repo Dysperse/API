@@ -88,7 +88,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         open={open}
         swipeAreaWidth={0}
         ModalProps={{
-            keepMounted: true
+          keepMounted: true,
         }}
         anchor="right"
         onOpen={() => setOpen(true)}
@@ -151,7 +151,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
     </>
   );
 }
-export default function FullScreenDialog() {
+export default function FullScreenDialog({ children }: any) {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
@@ -182,16 +182,11 @@ export default function FullScreenDialog() {
 
   return (
     <div>
-      <Tooltip title="Settings" placement="bottom-end">
-        <IconButton
-          edge="end"
-          aria-label="comments"
-          onClick={handleClickOpen}
-          sx={{ transition: "none" }}
-        >
-          <span className="material-symbols-rounded">settings</span>
-        </IconButton>
-      </Tooltip>
+      <div onClick={handleClickOpen}>
+        <Tooltip title="Settings" placement="bottom-end">
+          {children}
+        </Tooltip>
+      </div>
 
       <SwipeableDrawer
         anchor="right"
@@ -210,7 +205,7 @@ export default function FullScreenDialog() {
           },
         }}
         ModalProps={{
-            keepMounted: true
+          keepMounted: true,
         }}
         open={open}
         onClose={handleClose}
