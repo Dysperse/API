@@ -15,6 +15,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { AutocompleteData } from "../AutocompleteData";
 import { Puller } from "../Puller";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 export function CreateItemModal({
   toggleDrawer,
@@ -34,6 +35,9 @@ export function CreateItemModal({
   const handleClose = () => {
     setOpen(false);
   };
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   const [loading, setLoading] = React.useState<boolean>(false);
 

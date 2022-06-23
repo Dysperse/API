@@ -7,7 +7,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
-
+import { neutralizeBack, revivalBack } from "../history-control";
 export function Toolbar({ items, setItems, data }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -17,6 +17,9 @@ export function Toolbar({ items, setItems, data }: any) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  React.useEffect(() => {
+    open ? neutralizeBack(handleClose) : revivalBack();
+  });
   return (
     <Box sx={{ textAlign: "right", mb: 2 }}>
       <TextField

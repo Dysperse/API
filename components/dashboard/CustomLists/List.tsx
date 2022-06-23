@@ -11,6 +11,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { CreateListItemButton } from "./CreateListItemButton";
+import { neutralizeBack, revivalBack } from "../../history-control";
 
 function ListItem({ item, listItems, setListItems }: any) {
   return (
@@ -193,6 +194,9 @@ export function List({
     data: "",
     loading: true,
   });
+  useEffect(() => {
+    drawerState ? neutralizeBack(() => setDrawerState(false)) : revivalBack();
+  });
 
   const getListItems = async (id: number) => {
     const data = await fetch("https://api.smartlist.tech/v2/lists/fetch/", {
@@ -232,7 +236,7 @@ export function List({
             background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
             transition: "transform .2s",
-            "&:active": {transition: "none", transform: "scale(.98)"}
+            "&:active": { transition: "none", transform: "scale(.98)" },
           }}
         >
           <CardActionArea

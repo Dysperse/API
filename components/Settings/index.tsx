@@ -25,9 +25,9 @@ import Sessions from "./Sessions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 function Logout() {
   const [open, setOpen] = useState<boolean>(false);
@@ -258,6 +258,9 @@ export default function FullScreenDialog({ children }: any) {
   const handleClose = () => {
     setOpen(false);
   };
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
