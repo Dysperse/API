@@ -22,6 +22,103 @@ import Sync from "./Sync";
 import AppearanceSettings from "./AppearanceSettings";
 import FinanceSettings from "./FinanceSettings";
 import Sessions from "./Sessions";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
+function Logout() {
+  const [open, setOpen] = useState<boolean>(false);
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        PaperProps={{
+          sx: {
+            width: "450px",
+            maxWidth: "calc(100vw - 20px)",
+            borderRadius: "28px",
+            p: 2,
+          },
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: "800" }}>
+          Sign out
+          <DialogContentText id="alert-dialog-slide-description" sx={{ mt: 1 }}>
+            Are you sure you want to sign out?
+          </DialogContentText>
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            variant="outlined"
+            disableElevation
+            size="large"
+            sx={{
+              borderRadius: 99,
+              px: 3,
+              py: 1,
+              borderWidth: "2px!important",
+            }}
+            onClick={() => {
+              setOpen(false);
+              window.location.href = "/api/logout";
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            disableElevation
+            size="large"
+            sx={{
+              borderRadius: 99,
+              px: 3,
+              py: 1,
+              border: "2px solid transparent",
+            }}
+            onClick={() => {
+              setOpen(false);
+              window.location.href = "/api/logout";
+            }}
+          >
+            Sign out
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <ListItem
+        button
+        onClick={() => setOpen(true)}
+        sx={{
+          transiton: "none!important",
+          "& *": { transiton: "none!important" },
+          borderRadius: 4,
+          mb: 1,
+        }}
+      >
+        <ListItemAvatar>
+          <Avatar
+            sx={{
+              color: "#000",
+              background: colors[themeColor][100],
+              borderRadius: 4,
+            }}
+          >
+            <span className="material-symbols-rounded">logout</span>
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={<Typography sx={{ fontWeight: "600" }}>Sign out</Typography>}
+          secondary="Sign out of Smartlist and its related apps"
+        />
+      </ListItem>
+    </>
+  );
+}
 
 function SettingsMenu({ content, icon, primary, secondary }: any) {
   const [open, setOpen] = useState<boolean>(false);
@@ -182,11 +279,7 @@ export default function FullScreenDialog({ children }: any) {
 
   return (
     <div>
-      <div onClick={handleClickOpen}>
-        <Tooltip title="Settings" placement="bottom-end">
-          {children}
-        </Tooltip>
-      </div>
+      <div onClick={handleClickOpen}>{children}</div>
 
       <SwipeableDrawer
         anchor="right"
@@ -318,34 +411,7 @@ export default function FullScreenDialog({ children }: any) {
             />
             <Divider sx={{ mb: 1 }} />
 
-            <ListItem
-              button
-              onClick={() => (window.location.href = "/api/logout")}
-              sx={{
-                transiton: "none!important",
-                "& *": { transiton: "none!important" },
-                borderRadius: 4,
-                mb: 1,
-              }}
-            >
-              <ListItemAvatar>
-                <Avatar
-                  sx={{
-                    color: "#000",
-                    background: colors[themeColor][100],
-                    borderRadius: 4,
-                  }}
-                >
-                  <span className="material-symbols-rounded">logout</span>
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Typography sx={{ fontWeight: "600" }}>Sign out</Typography>
-                }
-                secondary="Sign out of Smartlist and its related apps"
-              />
-            </ListItem>
+            <Logout />
             <ListItem
               button
               onClick={() => setOpen(true)}

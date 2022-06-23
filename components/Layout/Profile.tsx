@@ -1,7 +1,6 @@
 import Avatar from "@mui/material/Avatar";
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import React, { useEffect } from "react";
 import Settings from "../Settings/index";
 
@@ -35,33 +34,31 @@ export function ProfileMenu(props: any) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Tooltip title="My account" placement="bottom-end">
-      <IconButton
-        disableRipple
-        onClick={toggleDrawer(true)}
-        color="inherit"
-        aria-label="open drawer."
-        edge="end"
-        sx={{
-          ml: -0.3,
-          transform: "scale(.7)",
-          transition: "none",
-          color: "#404040",
-          "&:hover": { color: "#000" },
-        }}
-      >
-        <Settings>
-          <Avatar
-            sx={{
-              fontSize: "15px",
-              bgcolor: colors[themeColor][200],
-              transform: "scale(1.2)",
-            }}
-            alt="Profie picture"
-            src={global.session.user.image}
-          />
-        </Settings>
-      </IconButton>
-    </Tooltip>
+    <IconButton
+      disableRipple
+      onClick={toggleDrawer(true)}
+      color="inherit"
+      aria-label="open drawer."
+      edge="end"
+      sx={{
+        ml: -0.3,
+        transform: "scale(.7)",
+        transition: "none",
+        color: "#404040",
+        "&:hover": { color: "#000" },
+      }}
+    >
+      <Settings>
+        <Avatar
+          sx={{
+            fontSize: "15px",
+            bgcolor: colors[themeColor][200],
+            transform: "scale(1.2)",
+          }}
+          alt="Profie picture"
+          src={global.session.user.image}
+        />
+      </Settings>
+    </IconButton>
   );
 }
