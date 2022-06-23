@@ -18,6 +18,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useForm, ValidationError } from "@formspree/react";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 function ContactForm() {
   const [state, handleSubmit] = useForm("mbjqjeyo");
@@ -253,6 +254,9 @@ export function AppsMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  React.useEffect(() => {
+    open ? neutralizeBack(handleClose) : revivalBack();
+  });
 
   return (
     <div>

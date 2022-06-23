@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 function Puller() {
   return (
@@ -56,6 +57,9 @@ export function CreateListModal({ children, parent, title }: any) {
     },
   });
 
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   return (
     <>
       <SwipeableDrawer

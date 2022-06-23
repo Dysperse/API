@@ -11,6 +11,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
 import Skeleton from "@mui/material/Skeleton";
 import useSWR from "swr";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -92,7 +93,9 @@ function NotificationsList() {
 
 export function NotificationsMenu(props: any): JSX.Element {
   const [state, setState] = React.useState<boolean>(false);
-
+  React.useEffect(() => {
+    state ? neutralizeBack(() => setState(false)) : revivalBack();
+  });
   return (
     <>
       <div onClick={() => setState(true)}>{props.children}</div>
