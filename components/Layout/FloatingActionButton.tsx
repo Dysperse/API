@@ -64,6 +64,8 @@ export function FloatingActionButton(props) {
               },
               "&:active": {
                 boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                transform: "scale(.96)",
+                transition: "none",
                 background:
                   global.theme === "dark"
                     ? "hsl(240, 11%, 60%)"
