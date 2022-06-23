@@ -141,7 +141,7 @@ export default function Categories() {
         primary="Camping"
         secondary="10 items"
       />
-      <Divider />
+      <Divider sx={{ my: 1 }} />
       <Action
         href="/starred"
         icon="star"
