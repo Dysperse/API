@@ -371,8 +371,8 @@ export default function AddPopup(props: any) {
     };
   };
   const revivalBack = () => {
-    window.onpopstate = undefined;
-    window.history.back();
+    (window as any).onpopstate = undefined;
+    window.history.pushState(null, "", window.location.href);
   };
 
   useEffect(() => {
