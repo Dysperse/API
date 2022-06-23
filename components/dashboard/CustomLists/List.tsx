@@ -232,7 +232,7 @@ export function List({
             background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
             transition: "transform .2s",
-            "&:active": {transition: "none", transform: "scale(.96)"}
+            "&:active": {transition: "none", transform: "scale(.98)"}
           }}
         >
           <CardActionArea
