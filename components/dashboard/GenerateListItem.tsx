@@ -24,7 +24,7 @@ export function GenerateListItem({ title, id }: any) {
     <Collapse in={!deleted}>
       <ListItemButton
         key={id.toString()}
-        sx={{ py: 0, borderRadius: 3, transition: "none" }}
+        sx={{ py: 0, borderRadius: 3, transition: { sm: "none" } }}
         dense
         onClick={() => {
           deleteItem(id);
