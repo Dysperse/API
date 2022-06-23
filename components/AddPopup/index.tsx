@@ -5,7 +5,6 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CssBaseline from "@mui/material/CssBaseline";
 import DialogTitle from "@mui/material/DialogTitle";
-import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
@@ -18,6 +17,7 @@ import { CreateItemModal } from "./CreateItemModal";
 import { CreateListModal } from "./CreateListModal";
 import * as colors from "@mui/material/colors";
 import useSWR from "swr";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 const Root = styled("div")(() => ({
   height: "100%",
@@ -362,25 +362,10 @@ function Content({ toggleDrawer }: any) {
   );
 }
 export default function AddPopup(props: any) {
-  const [open, setOpen] = React.useState<boolean | null>(null);
-  const neutralizeBack = (callback) => {
-    window.history.pushState(null, "", window.location.href);
-    window.onpopstate = () => {
-      window.history.pushState(null, "", window.location.href);
-      callback();
-    };
-  };
-  const revivalBack = () => {
-    (window as any).onpopstate = undefined;
-    window.history.pushState(null, "", window.location.href);
-  };
+  const [open, setOpen] = React.useState<boolean>(false);
 
   useEffect(() => {
-    if (open) {
-      neutralizeBack(() => setOpen(false));
-    } else if (open === false) {
-      revivalBack();
-    }
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
   useEffect(() => {
