@@ -52,7 +52,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         button
         onClick={() => setOpen(true)}
         sx={{
-          transiton: "none!important",
+          transiton: { sm: "none!important" },
           "& *": { transiton: { sm: "none!important" } },
           borderRadius: 4,
           mb: 1,
