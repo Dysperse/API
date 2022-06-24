@@ -405,7 +405,7 @@ export default function FullScreenDialog({ children }: any) {
                 id="accountSettings"
                 content={<AccountSettings />}
                 icon="account_circle"
-                primary={<span id="accountSettings">Finances</span>}
+                primary={<span id="accountSettings">Account</span>}
                 secondary={
                   <>
                     {global.session.user.name} &bull;{" "}
