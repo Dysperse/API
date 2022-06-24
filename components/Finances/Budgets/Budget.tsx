@@ -7,12 +7,13 @@ import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../../Puller";
 import useFetch from "react-fetch-hook";
 import dayjs from "dayjs";
 import Card from "@mui/material/Card";
+import { neutralizeBack, revivalBack } from "../../history-control";
 import CardContent from "@mui/material/CardContent";
 
 function Expenses({ category }: any) {
@@ -85,6 +86,9 @@ export function Budget({
   type: "weekly" | "monthly";
 }) {
   const [open, setOpen] = useState<boolean>(false);
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   return (
     <>
       <ListItem sx={{ px: 2, mt: 1, pr: 0, borderRadius: { sm: 5 } }}>

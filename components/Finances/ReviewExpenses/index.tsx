@@ -38,18 +38,17 @@ function Cards({ transactions }: any) {
     <Box sx={{ width: "100%" }}>
       {activeStep === transactions.length ? (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
+          <Typography sx={{ mt: 25, mb: 1 }}>
             You finished reviewing your expenses!
           </Typography>
           <Box sx={{ textAlign: "center" }}>
             <Button
               onClick={handleReset}
               variant="contained"
-              disableElevation
-              sx={{ borderRadius: 4, mt: 2 }}
+              sx={{ borderRadius: 4, mt: 2, boxShadow: 0 }}
               size="large"
             >
-              Reset
+              Review again
             </Button>
           </Box>
         </React.Fragment>
