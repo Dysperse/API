@@ -4,6 +4,7 @@ import * as colors from "@mui/material/colors";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Chip from "@mui/material/Chip";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ReviewExpenses from "./ReviewExpenses/index";
@@ -64,7 +65,23 @@ export function QuickActions({ transactions }: any) {
     >
       <CardContent sx={{ "& *": { transition: "none!important" } }}>
         <ReviewExpenses transactions={transactions}>
-          <Action primary="Review expenses" secondary={null} icon="payments" />
+          <Action
+            primary="Review expenses"
+            secondary={
+              <Chip
+                label="NEW"
+                sx={{
+                  fontSize: "10px",
+                  py: 0.4,
+                  px: 1,
+                  height: "auto",
+                  background: colors["red"][900],
+                  color: "#fff",
+                }}
+              />
+            }
+            icon="payments"
+          />
         </ReviewExpenses>
         <Action primary="Report" secondary={null} icon="summarize" />
         <Action primary="Liabilities" secondary={null} icon="savings" />
