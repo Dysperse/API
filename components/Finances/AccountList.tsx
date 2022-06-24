@@ -157,7 +157,7 @@ export function AccountList() {
           </Tabs> */}
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>
-              <QuickActions />
+              <QuickActions transactions={data.transactions} />
               <TransactionList transactions={data.transactions} />
             </Grid>
             <Grid item xs={12} sm={6}>

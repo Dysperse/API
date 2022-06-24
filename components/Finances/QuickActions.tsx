@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import ReviewExpenses from "./ReviewExpenses/index";
 
 function Action({ icon, primary, secondary, onClick = () => {} }: any) {
   return (
@@ -50,7 +51,7 @@ function Action({ icon, primary, secondary, onClick = () => {} }: any) {
   );
 }
 
-export function QuickActions() {
+export function QuickActions({ transactions }: any) {
   return (
     <Card
       sx={{
@@ -62,10 +63,19 @@ export function QuickActions() {
       }}
     >
       <CardContent sx={{ "& *": { transition: "none!important" } }}>
-        <Action primary="Review expenses" secondary={null} icon="payments" />
+        <ReviewExpenses transactions={transactions}>
+          <Action primary="Review expenses" secondary={null} icon="payments" />
+        </ReviewExpenses>
         <Action primary="Report" secondary={null} icon="summarize" />
         <Action primary="Liabilities" secondary={null} icon="savings" />
-        <Action onClick={() => document.getElementById("financeSettingsTrigger")!.click()} primary="Options" secondary={null} icon="more_horiz" />
+        <Action
+          onClick={() =>
+            document.getElementById("financeSettingsTrigger")!.click()
+          }
+          primary="Options"
+          secondary={null}
+          icon="more_horiz"
+        />
       </CardContent>
     </Card>
   );
