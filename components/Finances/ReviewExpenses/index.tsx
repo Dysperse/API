@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
@@ -13,6 +13,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import React from "react";
+import { neutralizeBack, revivalBack } from "../../history-control";
 
 function Cards({ transactions }: any) {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -65,13 +66,10 @@ function Cards({ transactions }: any) {
             width: "100vw",
           }}
         >
-          <Box>
+          <Box sx={{ textAlign: "center" }}>
             <Stepper
               activeStep={activeStep}
               sx={{
-                "& .MuiStepLabel-iconContainer .MuiSvgIcon-root circle": {
-                  // transform: "scale(.3)",
-                },
                 "& .MuiStepConnector-root": {
                   display: "none",
                 },
@@ -99,6 +97,7 @@ function Cards({ transactions }: any) {
                 px: 6,
                 borderRadius: 5,
                 width: "500px",
+                mx: "auto",
                 maxWidth: "calc(100vw - 40px)",
               }}
             >
@@ -108,6 +107,7 @@ function Cards({ transactions }: any) {
                   gutterBottom
                   sx={{
                     fontWeight: "800",
+                    fontSize: { xs: "25px", sm: "40px" },
                     maxWidth: "100%",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
@@ -118,7 +118,12 @@ function Cards({ transactions }: any) {
                 </Typography>
                 <Typography
                   variant="h6"
-                  sx={{ fontWeight: "600", opacity: 0.7 }}
+                  sx={{
+                    fontWeight: "600",
+                    opacity: 0.7,
+
+                    fontSize: { xs: "15px", sm: "25px" },
+                  }}
                 >
                   ${transactions[activeStep].amount} &bull; 5 days ago
                 </Typography>
@@ -130,7 +135,9 @@ function Cards({ transactions }: any) {
                 alignItems: "center",
                 background: "rgba(255,255,255,.1)",
                 borderRadius: 5,
+                maxWidth: "calc(100vw - 40px)",
                 p: 3,
+                mx: "auto",
               }}
             >
               <Typography variant="body2" sx={{ mb: 1 }}>
@@ -170,6 +177,9 @@ function Cards({ transactions }: any) {
 
 export default function ReviewExpenses({ transactions, children }: any) {
   const [open, setOpen] = useState<boolean>(false);
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   return (
     <>
       <div onClick={() => setOpen(true)}>{children}</div>
@@ -178,7 +188,7 @@ export default function ReviewExpenses({ transactions, children }: any) {
         swipeAreaWidth={0}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        anchor="right"
+        anchor="bottom"
         PaperProps={{
           sx: {
             color: "white",
@@ -193,7 +203,6 @@ export default function ReviewExpenses({ transactions, children }: any) {
               background: "transparent",
               color: "white",
               py: 1,
-              position: "sticky",
             }}
           >
             <Toolbar>
