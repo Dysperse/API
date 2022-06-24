@@ -400,12 +400,12 @@ export default function FullScreenDialog({ children }: any) {
               primary={<span id="financeSettingsTrigger">Finances</span>}
               secondary={<>Budget set to ${global.session.user.budget}</>}
             />
-            <div style={{ overflow: "hidden" }}>
+            <div style={{ display: "none" }}>
               <SettingsMenu
                 id="accountSettings"
                 content={<AccountSettings />}
                 icon="account_circle"
-                primary="Account"
+                primary={<span id="accountSettings">Finances</span>}
                 secondary={
                   <>
                     {global.session.user.name} &bull;{" "}
