@@ -314,7 +314,7 @@ export default function FullScreenDialog({ children }: any) {
               background:
                 global.theme === "dark"
                   ? "hsl(240, 11%, 20%)"
-                  : "rgba(230,230,230,.5)",
+                  : "rgba(255,255,255,.5)",
               backdropFilter: "blur(10px)",
               py: 1,
               color: global.theme === "dark" ? "#fff" : "#000",
@@ -341,7 +341,52 @@ export default function FullScreenDialog({ children }: any) {
               </Typography>
             </Toolbar>
           </AppBar>
+          <Typography
+            sx={{ ml: 4, flex: 1, fontWeight: "600", my: 5 }}
+            variant="h3"
+            component="div"
+          >
+            Settings
+          </Typography>
+
           <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
+            <div>
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="close"
+                sx={{ mr: 1, float: "right" }}
+                onClick={() =>
+                  document.getElementById("accountSettings")!.click()
+                }
+              >
+                <Avatar
+                  sx={{
+                    width: "25px",
+                    height: "25px",
+                    bgcolor: colors[themeColor][200],
+                  }}
+                  alt="Profie picture"
+                  src={global.session.user.image}
+                />
+              </IconButton>
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="close"
+                sx={{ mr: 1, float: "right" }}
+              >
+                <span className="material-symbols-rounded">more_vert</span>{" "}
+              </IconButton>
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="close"
+                sx={{ mr: 1, float: "right" }}
+              >
+                <span className="material-symbols-rounded">search</span>{" "}
+              </IconButton>
+            </div>
             <SettingsMenu
               content={<AppearanceSettings />}
               icon="palette"
@@ -355,16 +400,20 @@ export default function FullScreenDialog({ children }: any) {
               primary={<span id="financeSettingsTrigger">Finances</span>}
               secondary={<>Budget set to ${global.session.user.budget}</>}
             />
-            <SettingsMenu
-              content={<AccountSettings />}
-              icon="account_circle"
-              primary="Account"
-              secondary={
-                <>
-                  {global.session.user.name} &bull; {global.session.user.email}
-                </>
-              }
-            />
+            <div style={{ overflow: "hidden" }}>
+              <SettingsMenu
+                id="accountSettings"
+                content={<AccountSettings />}
+                icon="account_circle"
+                primary="Account"
+                secondary={
+                  <>
+                    {global.session.user.name} &bull;{" "}
+                    {global.session.user.email}
+                  </>
+                }
+              />
+            </div>
             <SettingsMenu
               content={<App />}
               icon="apps"
