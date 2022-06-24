@@ -329,16 +329,16 @@ export default function FullScreenDialog({ children }: any) {
                   aria-label="close"
                   sx={{ ml: -0.5 }}
                 >
-                  <span className="material-symbols-rounded">close</span>{" "}
+                  <span className="material-symbols-rounded">chevron_left</span>{" "}
                 </IconButton>
               </Tooltip>
-              <Typography
+              {/* <Typography
                 sx={{ ml: 4, flex: 1, fontWeight: "600" }}
                 variant="h6"
                 component="div"
               >
                 Settings
-              </Typography>
+              </Typography> */}
             </Toolbar>
           </AppBar>
           <Typography
