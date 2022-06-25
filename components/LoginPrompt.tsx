@@ -105,7 +105,7 @@ export default function LoginPrompt() {
               finances
             </Typography>
             <Button
-              href="https://login.smartlist.tech/oauth/eccbc87e4b5ce2fe28308fd9f2a7baf3"
+              href="https://login.smartlist.tech/signup/eccbc87e4b5ce2fe28308fd9f2a7baf3"
               sx={{
                 borderRadius: 3,
                 boxShadow: "none",
@@ -119,10 +119,10 @@ export default function LoginPrompt() {
               size="large"
               variant="contained"
             >
-              Log in
+              Sign up
             </Button>
             <Button
-              href="https://login.smartlist.tech/signup/eccbc87e4b5ce2fe28308fd9f2a7baf3"
+              href="https://login.smartlist.tech/oauth/eccbc87e4b5ce2fe28308fd9f2a7baf3"
               sx={{
                 borderRadius: 3,
                 boxShadow: "none",
@@ -138,7 +138,7 @@ export default function LoginPrompt() {
               size="large"
               variant="outlined"
             >
-              Sign up
+              Log in
             </Button>
           </Box>
         </Box>
