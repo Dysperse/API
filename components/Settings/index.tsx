@@ -66,7 +66,6 @@ function Logout() {
             }}
             onClick={() => {
               setOpen(false);
-              window.location.href = "/api/logout";
             }}
           >
             Cancel
