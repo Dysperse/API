@@ -179,6 +179,23 @@ export default function ReviewExpenses({ transactions, children }: any) {
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+useEffect(() => {
+    document.documentElement.classList[open ? "add" : "remove"](
+      "prevent-scroll"
+    );
+    document
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute(
+        "content",
+        open
+          ? global.theme === "dark"
+            ? "hsl(240, 11%, 5%)"
+            : colors[themeColor][900]
+          : global.theme === "dark"
+          ? "hsl(240, 11%, 10%)"
+          : "#fff"
+      );
+  }, [open]);
   return (
     <>
       <div onClick={() => setOpen(true)}>{children}</div>
