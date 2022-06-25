@@ -66,19 +66,21 @@ export function QuickActions({ transactions }: any) {
       <CardContent sx={{ "& *": { transition: "none!important" } }}>
         <ReviewExpenses transactions={transactions}>
           <Action
-            primary="Review expenses"
-            secondary={
-              <Chip
-                label="NEW"
-                sx={{
-                  fontSize: "10px",
-                  py: 0.4,
-                  px: 1,
-                  height: "auto",
-                  background: colors["red"][900],
-                  color: "#fff",
-                }}
-              />
+            primary={
+              <>
+                Review expenses
+                <Chip
+                  label=""
+                  sx={{
+                    ml: 2,
+                    mt: "-2px",
+                    width: "10px",
+                    height: "10px",
+                    background: colors["red"][900],
+                    color: "#fff",
+                  }}
+                />
+              </>
             }
             icon="payments"
           />
