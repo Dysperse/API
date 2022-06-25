@@ -10,9 +10,9 @@ export default function LoginPrompt() {
   setTimeout(() => setOpacity(1), 2000);
   const matches = useMediaQuery("(min-width:600px)");
 
-    document
-      .querySelector("meta[name='theme-color']")!
-      .setAttribute("content", "#00CC8E");
+  document
+    .querySelector("meta[name='theme-color']")!
+    .setAttribute("content", "#00CC8E");
   return (
     <>
       {matches ? (
