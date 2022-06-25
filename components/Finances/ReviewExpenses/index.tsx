@@ -24,6 +24,16 @@ function Cards({ transactions }: any) {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setTimeout(() => {
+      if (document.querySelector(".MuiSvgIcon-root.Mui-active")) {
+        document.querySelector(".MuiSvgIcon-root.Mui-active")!.scrollIntoView({
+          block: "center",
+          inline: "center",
+          behavior: "smooth",
+        });
+        console.log(document.querySelector(".MuiSvgIcon-root.Mui-active"));
+      }
+    }, 100);
   };
 
   const handleBack = () => {
@@ -72,9 +82,15 @@ function Cards({ transactions }: any) {
                 "& .MuiStepConnector-root": {
                   display: "none",
                 },
+                "& .MuiStep-root": { display: "inline-block" },
+                display: "block",
+                whiteSpace: "nowrap",
+                maxWidth: "100vw",
+                overflow: "scroll",
+                px: 3,
                 textAlign: "center",
                 justifyContent: "center",
-                alignItems: "center",
+                // alignItems: "center",
                 "& .MuiStepIcon-text": { display: "none" },
               }}
             >
@@ -134,6 +150,7 @@ function Cards({ transactions }: any) {
                 alignItems: "center",
                 background: "rgba(255,255,255,.1)",
                 borderRadius: 5,
+                width: "500px",
                 maxWidth: "calc(100vw - 40px)",
                 p: 3,
                 mx: "auto",
@@ -179,7 +196,7 @@ export default function ReviewExpenses({ transactions, children }: any) {
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-useEffect(() => {
+  useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
       "prevent-scroll"
     );
