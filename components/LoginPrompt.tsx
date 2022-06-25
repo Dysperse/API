@@ -13,7 +13,7 @@ export default function LoginPrompt() {
   if (!matches) {
     document
       .querySelector("meta[name='theme-color']")!
-      .setAttribute("content", "#006a36");
+      .setAttribute("content", "#00CC8E");
   }
   return (
     <>
