@@ -159,7 +159,7 @@ function Cards({ transactions }: any) {
               <Typography variant="body2" sx={{ mb: 1 }}>
                 Was it worth it?
               </Typography>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large">
+              <IconButton disableRipple onClick={handleNext} color="inherit" size="large" sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"} }}>
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}
@@ -167,7 +167,7 @@ function Cards({ transactions }: any) {
                   sentiment_dissatisfied
                 </span>
               </IconButton>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large">
+              <IconButton disableRipple onClick={handleNext} color="inherit" size="large"sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"} }}>
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}
@@ -175,7 +175,7 @@ function Cards({ transactions }: any) {
                   sentiment_neutral
                 </span>
               </IconButton>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large">
+              <IconButton disableRipple onClick={handleNext} color="inherit" size="large"sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"} }}>
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}
