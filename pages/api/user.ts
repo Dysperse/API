@@ -8,7 +8,7 @@ declare module "iron-session" {
 
 export default withIronSessionApiRoute(
   function userRoute(req, res) {
-    res.send(JSON.stringify({ ...req.session.user }, null, 2));
+    res.json({ ...req.session.user });
   },
   {
     cookieName: "session",
