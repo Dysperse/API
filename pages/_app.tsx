@@ -182,7 +182,7 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
           content="width=device-width,initial-scale=1,user-scalable=no"
         />
         <meta name="description" content="Smartlist user dashboard" />
-        <meta name="theme-color" content="#00CC8E" />
+        <meta name="theme-color" content="#fff" />
         <link
           rel="apple-touch-icon"
           href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/apple-touch-icon/apple-touch-icon.png"
