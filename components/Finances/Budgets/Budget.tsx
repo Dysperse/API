@@ -112,7 +112,7 @@ export function Budget({
                   my: 1,
                   height: 10,
                   ...(amountSpent &&
-                    amountSpent > parseInt(amount, 2) && {
+                    amountSpent > parseInt(amount) && {
                       backgroundColor: "#ff1744",
                     }),
                 }}
