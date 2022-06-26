@@ -2,8 +2,25 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Budget } from "./Budget";
+import dayjs from "dayjs";
 
 export function Budgets({ transactions }: { transactions: any }) {
+  const spentToday = transactions
+    .filter(
+      (transaction: any) => transaction.date == dayjs().format("YYYY-MM-DD")
+    )
+    .map((transaction: any) => transaction.amount)
+    .reduce((a, b) => a + b, 0);
+
+  const spentMonth = transactions
+    .filter(
+      (transaction: any) =>
+        dayjs(transaction.date).month() === new Date().getMonth() &&
+        dayjs(transaction.date).year() === new Date().getFullYear()
+    )
+    .map((transaction: any) => transaction.amount)
+    .reduce((a, b) => a + b, 0);
+
   return (
     <>
       <Card
@@ -39,17 +56,21 @@ export function Budgets({ transactions }: { transactions: any }) {
             Hard limits
           </Typography>
           <Budget
+            hardLimit={true}
             category="Today"
             amount={global.session.user.budgetDaily}
             type="daily"
           />
           <Budget
+            hardLimit={true}
             category="This week"
             amount={global.session.user.budgetWeekly}
             type="weekly"
           />
           <Budget
+            hardLimit={true}
             category="This month"
+            amountSpent={spentMonth}
             amount={global.session.user.budgetMonthly}
             type="monthly"
           />
