@@ -80,10 +80,14 @@ export function Budget({
   category,
   amount,
   type,
+  hardLimit,
+  amountSpent,
 }: {
   category: string;
   amount: string;
-  type: "weekly" | "monthly";
+  type: "daily" | "weekly" | "monthly";
+  amountSpent?: number;
+  hardLimit?: boolean;
 }) {
   const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
@@ -96,27 +100,57 @@ export function Budget({
           primary={
             <>
               <Typography variant="body2" sx={{ float: "right" }}>
-                50 / ${amount}
+                {amountSpent ?? 50} / ${amount}
               </Typography>
               <Typography>{category}</Typography>
               <LinearProgress
                 variant="determinate"
-                value={(50 / parseInt(amount)) * 100}
-                sx={{ width: "100%", borderRadius: "4px", my: 1, height: 10 }}
+                value={((amountSpent ?? 50) / parseInt(amount)) * 100}
+                sx={{
+                  width: "100%",
+                  borderRadius: "4px",
+                  my: 1,
+                  height: 10,
+                  ...(amountSpent &&
+                    amountSpent > parseInt(amount) && {
+                      backgroundColor: "#ff1744",
+                    }),
+                }}
               />
             </>
           }
         />
-        <ListItemIcon sx={{ ml: 2, mr: -2 }}>
-          <IconButton
-            onClick={() => setOpen(true)}
-            edge="end"
-            aria-label="next"
-            sx={{ borderRadius: 4, "&, & *": { transition: "none!important" } }}
-          >
-            <span className="material-symbols-rounded">chevron_right</span>
-          </IconButton>
-        </ListItemIcon>
+        {hardLimit ? (
+          <ListItemIcon sx={{ ml: 2, mr: -2 }}>
+            <IconButton
+              onClick={() =>
+                document.getElementById("financeSettingsTrigger")!.click()
+              }
+              edge="end"
+              aria-label="next"
+              sx={{
+                borderRadius: 4,
+                "&, & *": { transition: "none!important" },
+              }}
+            >
+              <span className="material-symbols-rounded">edit</span>
+            </IconButton>
+          </ListItemIcon>
+        ) : (
+          <ListItemIcon sx={{ ml: 2, mr: -2 }}>
+            <IconButton
+              onClick={() => setOpen(true)}
+              edge="end"
+              aria-label="next"
+              sx={{
+                borderRadius: 4,
+                "&, & *": { transition: "none!important" },
+              }}
+            >
+              <span className="material-symbols-rounded">chevron_right</span>
+            </IconButton>
+          </ListItemIcon>
+        )}
       </ListItem>
       <SwipeableDrawer
         anchor="bottom"
@@ -153,11 +187,11 @@ export function Budget({
             {category}
           </Typography>
           <Typography variant="h5" sx={{ mb: 2 }}>
-            50 / ${amount}
+            {amountSpent ?? 50} / ${amount}
           </Typography>
           <LinearProgress
             variant="determinate"
-            value={(50 / parseInt(amount)) * 100}
+            value={((amountSpent ?? 50) / parseInt(amount)) * 100}
             sx={{ width: "100%", borderRadius: "4px", my: 1, height: 10 }}
           />
           <Typography variant="body2" sx={{ mt: 3 }}>

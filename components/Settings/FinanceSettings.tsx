@@ -23,8 +23,8 @@ export default function AppearanceSettings() {
         sx={{
           py: 1,
           px: {
-            sm: 10
-          }
+            sm: 10,
+          },
         }}
       >
         <RadioGroup
@@ -40,21 +40,18 @@ export default function AppearanceSettings() {
             {
               s: "short-term",
               n: "Short term",
-              d:
-                "Save money for to acheive a certain goal in a quick period of time"
+              d: "Save money for to acheive a certain goal in a quick period of time",
             },
             {
               s: "medium-term",
               n: "Medium term",
-              d:
-                "Save money for to acheive a set of goals in a moderate period of time"
+              d: "Save money for to acheive a set of goals in a moderate period of time",
             },
             {
               s: "long-term",
               n: "Long term",
-              d:
-                "Save money for for education/retirement in a lenient period of time"
-            }
+              d: "Save money for for education/retirement in a lenient period of time",
+            },
           ].map((plan: any) => (
             <ListItem
               onClick={() => setFinancePlan(plan.s)}
@@ -82,16 +79,17 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 size="small"
-                placeholder="Coming soon!"
-                // defaultValue={global.session && global.session.user.budget}
+                placeholder="daily expense limit"
                 label="Daily limit"
-                disabled
-                onBlur={(e) => updateSettings("budget", e.target.value)}
+                defaultValue={
+                  global.session && (global.session.user.budgetDaily ?? 0)
+                }
+                onBlur={(e) => updateSettings("budgetDaily", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
-                  )
+                  ),
                 }}
               />
             }
@@ -103,16 +101,17 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 size="small"
-                placeholder="Coming soon!"
-                // defaultValue={global.session && global.session.user.budget}
+                placeholder="monthly expense limit"
+                defaultValue={
+                  global.session && (global.session.user.budgetWeekly ?? 0)
+                }
                 label="Weekly limit"
-                disabled
-                onBlur={(e) => updateSettings("budget", e.target.value)}
+                onBlur={(e) => updateSettings("budgetWeekly", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
-                  )
+                  ),
                 }}
               />
             }
@@ -124,20 +123,22 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 size="small"
-                defaultValue={global.session && global.session.user.budget}
+                defaultValue={
+                  global.session && (global.session.user.budgetMonthly ?? 0)
+                }
                 label="Monthly limit"
-                onBlur={(e) => updateSettings("budget", e.target.value)}
+                onBlur={(e) => updateSettings("budgetMonthly", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
-                  )
+                  ),
                 }}
               />
             }
           />
         </ListItem>
-        
+
         <ListSubheader sx={{ background: "transparent" }}>Other</ListSubheader>
         <ListItem disablePadding>
           <ListItemButton sx={{ borderRadius: 4, transition: "none" }}>

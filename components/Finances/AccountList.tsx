@@ -161,7 +161,7 @@ export function AccountList() {
               <TransactionList transactions={data.transactions} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Budgets />
+              <Budgets transactions={data.transactions} />
               <StreakCard />
               <ExpenseStructure transactions={data.transactions}/>
               {/* <Liabilities /> */}
