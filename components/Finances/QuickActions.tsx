@@ -85,14 +85,19 @@ export function QuickActions({ transactions }: any) {
             icon="payments"
           />
         </ReviewExpenses>
-        <Action primary="Report" secondary={null} icon="summarize" />
-        <Action primary="Liabilities" secondary={null} icon="savings" />
+        <Action primary="Report" secondary={"Coming soon"} icon="summarize" />
+        <Action
+          primary="Liabilities"
+          secondary={"Coming soon"}
+          icon="savings"
+        />
+        <Action primary="Lessons" secondary={"Coming soon"} icon="school" />
         <Action
           onClick={() =>
             document.getElementById("financeSettingsTrigger")!.click()
           }
           primary="Options"
-          secondary={null}
+          secondary={"Action required"}
           icon="more_horiz"
         />
       </CardContent>
