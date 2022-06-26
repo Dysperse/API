@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 // import * as colors from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
-// import Tabs from "@mui/material/Tabs";
+import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import React from "react";
@@ -155,6 +155,7 @@ export function AccountList() {
               <AccountTab account={account} />
             ))}
           </Tabs> */}
+          <Alert>This is a preview of Smartlist's future finance feature</Alert>
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>
               <QuickActions transactions={data.transactions} />
