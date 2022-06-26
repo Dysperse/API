@@ -80,9 +80,11 @@ export default function AppearanceSettings() {
                 fullWidth
                 size="small"
                 placeholder="daily expense limit"
-                // defaultValue={global.session && global.session.user.budget}
                 label="Daily limit"
-                onBlur={(e) => updateSettings("budget", e.target.value)}
+                defaultValue={
+                  global.session && (global.session.user.budgetDaily ?? 0)
+                }
+                onBlur={(e) => updateSettings("budgetDaily", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
                   startAdornment: (
@@ -100,9 +102,11 @@ export default function AppearanceSettings() {
                 fullWidth
                 size="small"
                 placeholder="monthly expense limit"
-                // defaultValue={global.session && global.session.user.budget}
+                defaultValue={
+                  global.session && (global.session.user.budgetWeekly ?? 0)
+                }
                 label="Weekly limit"
-                onBlur={(e) => updateSettings("budget", e.target.value)}
+                onBlur={(e) => updateSettings("budgetWeekly", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
                   startAdornment: (
@@ -119,9 +123,11 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 size="small"
-                defaultValue={global.session && global.session.user.budget}
+                defaultValue={
+                  global.session && (global.session.user.budgetMonthly ?? 0)
+                }
                 label="Monthly limit"
-                onBlur={(e) => updateSettings("budget", e.target.value)}
+                onBlur={(e) => updateSettings("budgetMonthly", e.target.value)}
                 id="outlined-start-adornment"
                 InputProps={{
                   startAdornment: (

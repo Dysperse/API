@@ -83,7 +83,7 @@ export function Budget({
 }: {
   category: string;
   amount: string;
-  type: "weekly" | "monthly";
+  type: "daily" | "weekly" | "monthly";
 }) {
   const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {

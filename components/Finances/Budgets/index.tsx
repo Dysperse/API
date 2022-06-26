@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Budget } from "./Budget";
 
-export function Budgets() {
+export function Budgets({ transactions }: { transactions: any }) {
   return (
     <>
       <Card
@@ -32,6 +32,27 @@ export function Budgets() {
           </Typography>
           <Budget category="Food and Drink" amount="1000" type="monthly" />
           <Budget category="Sporting Goods" amount="500" type="monthly" />
+
+          <Typography
+            sx={{ mt: 1, fontSize: "13px", textTransform: "uppercase" }}
+          >
+            Hard limits
+          </Typography>
+          <Budget
+            category="Today"
+            amount={global.session.user.budgetDaily}
+            type="daily"
+          />
+          <Budget
+            category="This week"
+            amount={global.session.user.budgetWeekly}
+            type="weekly"
+          />
+          <Budget
+            category="This month"
+            amount={global.session.user.budgetMonthly}
+            type="monthly"
+          />
         </CardContent>
       </Card>
     </>
