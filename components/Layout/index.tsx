@@ -22,7 +22,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import router from "next/router";
 
-const drawerWidth = 300;
+const drawerWidth = 260;
 interface Room {
   name: string;
   id: number;
