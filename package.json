@@ -11,7 +11,7 @@
     "post-update": "yarn upgrade --latest"
   },
   "dependencies": {
-    "@babel/preset-react": "^7.17.12",
+    "@babel/preset-react": "^7.18.6",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@formspree/react": "2.2.5",
@@ -21,8 +21,8 @@
     "@fullcalendar/react": "^5.11.1",
     "@fullcalendar/timegrid": "^5.11.0",
     "@mui/icons-material": "^5.8.4",
-    "@mui/lab": "^5.0.0-alpha.86",
-    "@mui/material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.88",
+    "@mui/material": "^5.8.6",
     "@types/react-detect-offline": "2.4.1",
     "@types/react-plaid-link": "2.0.0",
     "browser-back-button": "^0.3.0",
@@ -31,7 +31,7 @@
     "formik": "^2.2.9",
     "hex-to-rgba": "^2.0.1",
     "iron-session": "^6.1.3",
-    "next": "^12.1.6",
+    "next": "^12.2.0",
     "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.5.4",
     "next-transpile-modules": "^9.0.0",
@@ -48,12 +48,12 @@
     "swr": "^1.3.0"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-jsx": "^7.17.12",
+    "@babel/plugin-syntax-jsx": "^7.18.6",
     "@types/node": "^18.0.0",
     "@types/qrcode-svg": "^1.1.1",
     "@types/react": "^18.0.14",
     "eslint": "8.18.0",
-    "eslint-config-next": "12.1.6",
+    "eslint-config-next": "12.2.0",
     "typescript": "^4.7.4"
   },
   "keywords": [
