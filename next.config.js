@@ -15,7 +15,7 @@ const withPWA = require("next-pwa");
 module.exports = withPlugins(
   [
     [
-     // withTM(),
+      // withTM(),
       withPWA({
         pwa: {
           disable: process.env !== "production",
@@ -25,6 +25,9 @@ module.exports = withPlugins(
     ]
   ],
   {
+    experimental: {
+      runtime: 'experimental-edge',
+    },
     reactStrictMode: true,
     async redirects() {
       return [
