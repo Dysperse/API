@@ -2,7 +2,7 @@
   "name": "Smartlist",
   "start_url": "/",
   "scope": "/",
-  "background_color": "#fff",
+  "background_color": "#F5BFBF",
   "description": "Free home inventory and finance management.",
   "dir": "ltr",
   "lang": "en-US",
@@ -16,7 +16,7 @@
     "Smartlist"
   ],
   "short_name": "Smartlist",
-  "theme_color": "#fff",
+  "theme_color": "#F5BFBF",
   "icons": [
     {
       "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v2/windows11/SmallTile.scale-100.png",
