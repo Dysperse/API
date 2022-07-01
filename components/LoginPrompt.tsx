@@ -98,10 +98,10 @@ export default function LoginPrompt() {
             }}
           >
             <Typography gutterBottom variant="h3" sx={{ fontWeight: "600" }}>
-              Welcome to Smartlist!
+              Welcome to Ember!
             </Typography>
             <Typography>
-              Log into your Smartlist account to access your home inventory and
+              Log into your Ember account to access your home inventory and
               finances
             </Typography>
             <Button
