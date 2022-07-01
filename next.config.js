@@ -18,7 +18,7 @@ module.exports = withPlugins(
       // withTM(),
       withPWA({
         pwa: {
-          disable: process.env !== "production",
+          disable: process.env == "development",
           dest: "public"
         }
       })
