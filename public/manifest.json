@@ -1,9 +1,9 @@
 {
-  "name": "Smartlist",
+  "name": "Ember (preview)",
   "start_url": "/",
   "scope": "/",
   "background_color": "#F5BFBF",
-  "description": "Free home inventory and finance management.",
+  "description": "Smart and easy home inventory and finances.",
   "dir": "ltr",
   "lang": "en-US",
   "display": "standalone",
@@ -13,9 +13,9 @@
     "Home Inventory",
     "Home database",
     "Finance management",
-    "Smartlist"
+    "Ember"
   ],
-  "short_name": "Smartlist",
+  "short_name": "Ember (preview)",
   "theme_color": "#F5BFBF",
   "icons": [
     {
