@@ -1,5 +1,5 @@
 {
-  "name": "Ember (preview)",
+  "name": "Ember",
   "start_url": "/",
   "scope": "/",
   "background_color": "#F5BFBF",
@@ -15,7 +15,7 @@
     "Finance management",
     "Ember"
   ],
-  "short_name": "Ember (preview)",
+  "short_name": "Ember",
   "theme_color": "#F5BFBF",
   "icons": [
     {
