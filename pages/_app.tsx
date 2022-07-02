@@ -192,7 +192,7 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
           content="width=device-width,initial-scale=1,user-scalable=no"
         />
         <meta name="description" content="Carbon user dashboard" />
-        <meta name="theme-color" content="#fff" />
+        <meta name="theme-color" content="#C4B5B5" />
         <link
           rel="apple-touch-icon"
           href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/apple-touch-icon/apple-touch-icon.png"
