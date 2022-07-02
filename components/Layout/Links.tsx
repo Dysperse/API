@@ -18,6 +18,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { Puller } from "../Puller";
+import Fab from "@mui/material/Fab";
+import AddPopup from "../AddPopup";
 
 function CreateRoom() {
   const router = useRouter();
@@ -256,6 +258,70 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
         >
           <Toolbar />
         </Box>
+        <div style={{ padding: "10px" }}>
+          <AddPopup>
+            <Fab
+              // onMouseOver={() => setHide(false)}
+              variant="extended"
+              color="primary"
+              disableRipple
+              aria-label="add"
+              sx={{
+                width: "100%",
+                borderRadius: "20px",
+                px: 3,
+                fontSize: "15px",
+                boxShadow:
+                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                "&:focus-within": {
+                  boxShadow:
+                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                },
+                background:
+                  global.theme === "dark"
+                    ? "hsl(240, 11%, 40%)"
+                    : colors[themeColor][100],
+                color:
+                  global.theme === "dark"
+                    ? "hsl(240, 11%, 95%)"
+                    : colors[themeColor]["900"],
+                "&:hover": {
+                  background:
+                    global.theme === "dark"
+                      ? "hsl(240, 11%, 50%)"
+                      : colors[themeColor]["200"],
+                },
+                "&:active": {
+                  boxShadow:
+                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  transform: "scale(.96)",
+                  transition: "none",
+                  background:
+                    global.theme === "dark"
+                      ? "hsl(240, 11%, 60%)"
+                      : colors[themeColor]["200"],
+                },
+                transition: "transform .2s",
+                py: 2,
+                textTransform: "none",
+                height: "auto",
+                maxHeight: "auto",
+              }}
+            >
+              <span
+                className="material-symbols-rounded"
+                style={{
+                  transition: "all .2s",
+                  marginRight: "20px",
+                  float: "left",
+                }}
+              >
+                edit
+              </span>
+              Create
+            </Fab>
+          </AddPopup>
+        </div>
         <div onClick={() => handleDrawerToggle(false)}>
           <ListSubheader
             sx={{

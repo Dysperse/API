@@ -401,7 +401,7 @@ export default function AddPopup(props: any) {
           },
         }}
       />
-      <Box onClick={toggleDrawer(true)}>{props.children}</Box>
+      <div onClick={toggleDrawer(true)}>{props.children}</div>
 
       <SwipeableDrawer
         anchor="bottom"
