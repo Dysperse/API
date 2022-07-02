@@ -232,7 +232,9 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
           rel="shortcut icon"
         />
         <link href="/manifest.json" rel="manifest" />
-        <title>Smartlist</title>
+        <title>
+          Dashboard &bull; Carbon: Home inventory and personal finances
+        </title>
       </Head>
       {!isLoading &&
         !isError &&
