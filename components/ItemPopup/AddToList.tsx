@@ -51,7 +51,7 @@ export function AddToListModal({ title, handleClose }: any) {
       <MenuItem disableRipple onClick={() => setOpen(true)}>
         <span
           className="material-symbols-rounded"
-          style={{ marginRight: "10px" }}
+          style={{ marginRight: "15px" }}
         >
           receipt_long
         </span>

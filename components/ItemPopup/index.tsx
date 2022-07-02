@@ -289,10 +289,12 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               gap: 2,
             }}
           >
-            <Typography variant="h3" sx={{ fontWeight: "600" }}>
+            <Typography variant="h3" sx={{ fontWeight: "700" }}>
               {title || "(no title)"}
             </Typography>
-            <Typography variant="h4">{quantity || "(no quantity)"}</Typography>
+            <Typography variant="h5">
+              Quantity: {quantity || "(no quantity)"}
+            </Typography>
             <div>
               {categories.map((category: string) => {
                 return (
@@ -368,8 +370,14 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   maxWidth: "calc(100vw - 200px)",
                   overflow: "hidden",
                 }}
-                primary={title}
-                secondary={dayjs(lastUpdated).fromNow()}
+                primary={
+                  <Typography sx={{ fontWeight: "400" }}>{title}</Typography>
+                }
+                secondary={
+                  <Typography sx={{ fontWeight: "300", fontSize: "15px" }}>
+                    {dayjs(lastUpdated).fromNow()}
+                  </Typography>
+                }
               />
             </ListItemButton>
           </Collapse>

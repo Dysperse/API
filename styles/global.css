@@ -7,67 +7,6 @@
     format("woff2");
 }
 
-/* latin */
-@font-face {
-  font-family: "Outfit";
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/outfit/v5/QGYyz_MVcBeNP4NjuGObqx1XmO1I4W61O4a0Ew.woff2)
-    format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-/* latin */
-@font-face {
-  font-family: "Outfit";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/outfit/v5/QGYyz_MVcBeNP4NjuGObqx1XmO1I4TC1O4a0Ew.woff2)
-    format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-/* latin */
-@font-face {
-  font-family: "Outfit";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/outfit/v5/QGYyz_MVcBeNP4NjuGObqx1XmO1I4e6yO4a0Ew.woff2)
-    format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-/* latin */
-@font-face {
-  font-family: "Outfit";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/outfit/v5/QGYyz_MVcBeNP4NjuGObqx1XmO1I4deyO4a0Ew.woff2)
-    format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-/* latin */
-@font-face {
-  font-family: "Outfit";
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/outfit/v5/QGYyz_MVcBeNP4NjuGObqx1XmO1I4ZmyO4a0Ew.woff2)
-    format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-
 .material-symbols-rounded {
   font-family: "Material Symbols Rounded";
   font-weight: normal;
@@ -101,7 +40,7 @@ img {
 }
 *:not(.MuiIcon-root, .MuiIcon-root
     *, .material-symbols-outlined, .material-symbols-rounded, .material-symbols-outlined) {
-  font-family: "Outfit", sans-serif !important;
+  font-family: "Kantumruy Pro", sans-serif !important;
 }
 ::-webkit-scrollbar {
   display: none;

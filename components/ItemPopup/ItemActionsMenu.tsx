@@ -35,7 +35,7 @@ export function ItemActionsMenu({
           color="inherit"
           sx={{
             transition: "none",
-            mr: 0.02,
+            mr: 0,
             color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
             "&:hover": {
               background: "rgba(200,200,200,.3)",
@@ -74,6 +74,7 @@ export function ItemActionsMenu({
         sx={{
           transition: "all .2s",
           "& .MuiPaper-root": {
+            mt: 1,
             borderRadius: "15px",
             minWidth: 180,
             background:
@@ -130,7 +131,7 @@ export function ItemActionsMenu({
         <InfoButton id={id} title={title} star={star} quantity={quantity} />
         <MenuItem disableRipple onClick={handleClose}>
           <span
-            style={{ marginRight: "10px" }}
+            style={{ marginRight: "15px" }}
             className="material-symbols-rounded"
           >
             share
@@ -150,7 +151,7 @@ export function ItemActionsMenu({
           }}
         >
           <span
-            style={{ marginRight: "10px" }}
+            style={{ marginRight: "15px" }}
             className="material-symbols-rounded"
           >
             chat
@@ -159,7 +160,7 @@ export function ItemActionsMenu({
         </MenuItem>
         <MenuItem disableRipple onClick={handleClose}>
           <span
-            style={{ marginRight: "10px" }}
+            style={{ marginRight: "15px" }}
             className="material-symbols-rounded"
           >
             auto_awesome
@@ -168,7 +169,7 @@ export function ItemActionsMenu({
         </MenuItem>
         <MenuItem disableRipple onClick={handleClose}>
           <span
-            style={{ marginRight: "10px" }}
+            style={{ marginRight: "15px" }}
             className="material-symbols-rounded"
           >
             person_add

@@ -32,7 +32,7 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
       <MenuItem disableRipple onClick={handleClickOpen}>
         <span
           className="material-symbols-rounded"
-          style={{ marginRight: "10px" }}
+          style={{ marginRight: "15px" }}
         >
           qr_code_scanner
         </span>

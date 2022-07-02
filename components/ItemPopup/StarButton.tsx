@@ -42,9 +42,6 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
               background:
                 orange[global.theme === "dark" ? 900 : 100] + "!important",
               color: "#000",
-              boxShadow:
-                "inset 0px 0px 0px 2px " +
-                orange[global.theme === "dark" ? 100 : 900],
             },
           }),
         }}
