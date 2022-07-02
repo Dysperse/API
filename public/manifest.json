@@ -1,5 +1,5 @@
 {
-  "name": "Ember",
+  "name": "Carbon",
   "start_url": "/",
   "scope": "/",
   "background_color": "#F5BFBF",
@@ -13,9 +13,9 @@
     "Home Inventory",
     "Home database",
     "Finance management",
-    "Ember"
+    "Carbon"
   ],
-  "short_name": "Ember",
+  "short_name": "Carbon",
   "theme_color": "#F5BFBF",
   "icons": [
     {

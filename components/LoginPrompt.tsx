@@ -98,10 +98,10 @@ export default function LoginPrompt() {
             }}
           >
             <Typography gutterBottom variant="h3" sx={{ fontWeight: "600" }}>
-              Welcome to Ember!
+              Welcome to Carbon!
             </Typography>
             <Typography>
-              Log into your Ember account to access your home inventory and
+              Log into your Carbon account to access your home inventory and
               finances
             </Typography>
             <Button
