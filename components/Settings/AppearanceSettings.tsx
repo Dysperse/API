@@ -12,38 +12,46 @@ function ThemeColorSettings() {
   return (
     <Box sx={{ my: 4 }}>
       <ListSubheader>Theme color</ListSubheader>
-      {["Red", "Green", "Blue", "Pink", "Purple", "Orange", "Teal", "Cyan"].map(
-        (color) => (
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-          >
-            <ListItem
-              secondaryAction={
-                <Radio
-                  edge="end"
-                  checked={themeColor === color.toLowerCase()}
-                  onChange={() => {
-                    updateSettings("theme", color.toLowerCase());
-                    setThemeColor(color.toLowerCase());
-                  }}
-                />
-              }
-              disablePadding
-            >
-              <ListItemButton
-                sx={{ borderRadius: 2, transition: "none" }}
-                onClick={() => {
+      {[
+        "Brown",
+        "Red",
+        "Green",
+        "Blue",
+        "Pink",
+        "Purple",
+        "Orange",
+        "Teal",
+        "Cyan",
+      ].map((color) => (
+        <RadioGroup
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+        >
+          <ListItem
+            secondaryAction={
+              <Radio
+                edge="end"
+                checked={themeColor === color.toLowerCase()}
+                onChange={() => {
                   updateSettings("theme", color.toLowerCase());
                   setThemeColor(color.toLowerCase());
                 }}
-              >
-                <ListItemText primary={color} />
-              </ListItemButton>
-            </ListItem>
-          </RadioGroup>
-        )
-      )}
+              />
+            }
+            disablePadding
+          >
+            <ListItemButton
+              sx={{ borderRadius: 2, transition: "none" }}
+              onClick={() => {
+                updateSettings("theme", color.toLowerCase());
+                setThemeColor(color.toLowerCase());
+              }}
+            >
+              <ListItemText primary={color === "Brown" ? "Carbon" : color} />
+            </ListItemButton>
+          </ListItem>
+        </RadioGroup>
+      ))}
     </Box>
   );
 }

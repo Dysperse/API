@@ -24,7 +24,15 @@ function Render({ data, Component, pageProps }: any) {
     data.user.darkMode === "true" ? "dark" : "light"
   );
   const [themeColor, setThemeColor] = useState<
-    "red" | "green" | "blue" | "pink" | "purple" | "orange" | "teal" | "cyan"
+    | "red"
+    | "green"
+    | "blue"
+    | "pink"
+    | "purple"
+    | "orange"
+    | "teal"
+    | "cyan"
+    | "brown"
   >(data.user.theme);
   global.theme = theme;
   global.setTheme = setTheme;
