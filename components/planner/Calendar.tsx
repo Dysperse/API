@@ -129,7 +129,7 @@ function Calendar() {
                 },
                 borderRadius: 5,
                 px: 2,
-                fontWeight: "800",
+                fontWeight: "700",
               },
             }}
           />

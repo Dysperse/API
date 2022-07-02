@@ -238,7 +238,7 @@ function SmartlistApp({ Component, pageProps }: any): JSX.Element {
           href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/apple-touch-icon/apple-touch-icon-180x180.png"
         />
         <link
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/rounded.png"
+          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v2/rounded.png"
           rel="shortcut icon"
         />
         <link href="/manifest.json" rel="manifest" />

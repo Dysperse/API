@@ -74,16 +74,16 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
       <ListItemText
         sx={{ ml: { sm: -6 } }}
         primary={
-          <Typography sx={{ fontWeight: "600" }} gutterBottom variant="h5">
+          <Typography sx={{ fontWeight: "700" }} gutterBottom variant="h5">
             {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
               room
             )}
           </Typography>
         }
         secondary={
-          <>
+          <Typography sx={{ color: "black" }}>
             {itemCount} item{itemCount !== 1 && "s"}
-          </>
+          </Typography>
         }
       />
     </ListItem>

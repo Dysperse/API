@@ -166,7 +166,7 @@ export default function Render() {
         variant="h4"
         sx={{
           my: { xs: 12, sm: 4 },
-          fontWeight: "800",
+          fontWeight: "700",
           textAlign: { xs: "center", sm: "left" },
         }}
       >

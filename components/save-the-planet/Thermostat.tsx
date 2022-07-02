@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 export function Thermostat() {
   return (
     <div>
-      <Typography variant="h5" sx={{ fontWeight: "800", mb: 2 }}>
+      <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
         Thermostat
       </Typography>
       <Card
@@ -14,7 +14,7 @@ export function Thermostat() {
           p: 1,
           mb: 2,
           borderRadius: 5,
-          background: "rgba(200,200,200,.3)"
+          background: "rgba(200,200,200,.3)",
         }}
       >
         <CardContent>

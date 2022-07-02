@@ -106,7 +106,7 @@ function SuggestButton() {
           },
         }}
       >
-        <DialogTitle sx={{ fontWeight: "800", py: 3 }}>Feedback</DialogTitle>
+        <DialogTitle sx={{ fontWeight: "700", py: 3 }}>Feedback</DialogTitle>
         <DialogContent>
           <ContactForm />
         </DialogContent>

@@ -6,7 +6,7 @@ import { TipCard } from "./TipCard";
 export function EcoFriendlyTips() {
   return (
     <Container sx={{ mt: 3 }}>
-      <Typography variant="h5" sx={{ fontWeight: "800", mb: 2 }}>
+      <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
         Recommended
       </Typography>
       <Tabs

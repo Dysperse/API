@@ -13,6 +13,8 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import React from "react";
+import dayjs from "dayjs";
+
 import { neutralizeBack, revivalBack } from "../../history-control";
 
 function Cards({ transactions }: any) {
@@ -121,7 +123,7 @@ function Cards({ transactions }: any) {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontWeight: "800",
+                    fontWeight: "700",
                     fontSize: { xs: "25px", sm: "40px" },
                     maxWidth: "100%",
                     whiteSpace: "nowrap",
@@ -134,13 +136,14 @@ function Cards({ transactions }: any) {
                 <Typography
                   variant="h6"
                   sx={{
-                    fontWeight: "600",
+                    fontWeight: "500",
                     opacity: 0.7,
 
-                    fontSize: { xs: "15px", sm: "25px" },
+                    fontSize: { xs: "15px", sm: "20px" },
                   }}
                 >
-                  ${transactions[activeStep].amount} &bull; 5 days ago
+                  ${transactions[activeStep].amount} &bull;{" "}
+                  {dayjs(transactions[activeStep].date).fromNow()}
                 </Typography>
               </CardContent>
             </Card>
@@ -159,7 +162,16 @@ function Cards({ transactions }: any) {
               <Typography variant="body2" sx={{ mb: 1 }}>
                 Was it worth it?
               </Typography>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large" sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"}, transition: "none" }}>
+              <IconButton
+                disableRipple
+                onClick={handleNext}
+                color="inherit"
+                size="large"
+                sx={{
+                  "&:active": { background: "rgba(255, 255, 255, .2)" },
+                  transition: "none",
+                }}
+              >
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}
@@ -167,7 +179,16 @@ function Cards({ transactions }: any) {
                   sentiment_dissatisfied
                 </span>
               </IconButton>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large"sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"}, transition: "none" }}>
+              <IconButton
+                disableRipple
+                onClick={handleNext}
+                color="inherit"
+                size="large"
+                sx={{
+                  "&:active": { background: "rgba(255, 255, 255, .2)" },
+                  transition: "none",
+                }}
+              >
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}
@@ -175,7 +196,16 @@ function Cards({ transactions }: any) {
                   sentiment_neutral
                 </span>
               </IconButton>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large"sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"}, transition: "none" }}>
+              <IconButton
+                disableRipple
+                onClick={handleNext}
+                color="inherit"
+                size="large"
+                sx={{
+                  "&:active": { background: "rgba(255, 255, 255, .2)" },
+                  transition: "none",
+                }}
+              >
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}

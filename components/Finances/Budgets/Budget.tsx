@@ -59,12 +59,12 @@ function Expenses({ category }: any) {
                   <CardContent>
                     <Typography
                       gutterBottom
-                      sx={{ fontWeight: "600" }}
+                      sx={{ fontWeight: "500" }}
                       variant="h6"
                     >
                       {transaction.name}
                     </Typography>
-                    <Typography>
+                    <Typography sx={{ fontWeight: "15px" }}>
                       ${transaction.amount}, {dayjs(transaction.date).fromNow()}
                     </Typography>
                   </CardContent>
@@ -183,7 +183,7 @@ export function Budget({
           <Puller />
         </Box>
         <Box sx={{ p: 4 }}>
-          <Typography variant="h4" gutterBottom sx={{ fontWeight: "800" }}>
+          <Typography variant="h4" gutterBottom sx={{ fontWeight: "700" }}>
             {category}
           </Typography>
           <Typography variant="h5" sx={{ mb: 2 }}>

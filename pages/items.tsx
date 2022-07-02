@@ -61,8 +61,12 @@ function Action({ icon, primary, secondary, href }: any) {
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={<Typography sx={{ fontWeight: "400" }}>{primary}</Typography>}
-        secondary={secondary}
+        primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
+        secondary={
+          <Typography sx={{ fontWeight: "400", fontSize: "15px" }}>
+            {secondary}
+          </Typography>
+        }
       />
     </ListItem>
   );
@@ -75,7 +79,7 @@ export default function Categories() {
         variant="h4"
         sx={{
           my: { xs: 12, sm: 4 },
-          fontWeight: "800",
+          fontWeight: "700",
           textAlign: { xs: "center", sm: "left" },
         }}
       >

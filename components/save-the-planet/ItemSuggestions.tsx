@@ -15,7 +15,7 @@ const notEcoFriendlyProducts = [
   "styrofoam cups",
   "plastic cups",
   "disposable water bottles",
-  "plastic water bottles"
+  "plastic water bottles",
 ];
 
 function RenderSuggestions() {
@@ -26,8 +26,8 @@ function RenderSuggestions() {
       body: new URLSearchParams({
         room: "null",
         limit: "500",
-        token: global.session && global.session.accessToken
-      })
+        token: global.session && global.session.accessToken,
+      }),
     }).then((res) => res.json())
   );
   if (error) {
@@ -72,7 +72,7 @@ function RenderSuggestions() {
 export function ItemSuggestions() {
   return (
     <div>
-      <Typography variant="h5" sx={{ fontWeight: "800", mb: 2 }}>
+      <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
         Suggestions
       </Typography>
       <Card
@@ -81,7 +81,7 @@ export function ItemSuggestions() {
           p: 1,
           mb: 2,
           borderRadius: 5,
-          background: "rgba(200,200,200,.3)"
+          background: "rgba(200,200,200,.3)",
         }}
       >
         <CardContent>
