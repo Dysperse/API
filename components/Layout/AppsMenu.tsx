@@ -119,7 +119,7 @@ const apps = [
   {
     key: 1,
     href: "//my.smartlist.tech",
-    label: "Smartlist",
+    label: "Carbon",
     description: "Home inventory and finance management",
   },
   {
