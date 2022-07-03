@@ -156,7 +156,7 @@ export function AccountList() {
             ))}
           </Tabs> */}
           <Alert severity="info" sx={{ borderRadius: 5 }}>
-            This is a preview of Smartlist's future finance feature
+            This is a preview of Smartlist&apos;s future finance feature
           </Alert>
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>
@@ -178,10 +178,11 @@ export function AccountList() {
           >
             <CardContent>
               <Typography variant="h5" gutterBottom>
-                We're getting your finance dashboard ready...
+                We&apos;re getting your finance dashboard ready...
               </Typography>
               <Typography gutterBottom>
-                Check back in a few minutes, and we'll get your dashboard ready
+                Check back in a few minutes, and we&apos;ll get your dashboard
+                ready
               </Typography>
               <Typography variant="body2">
                 Having problems? Email us at hello@smartlist.tech

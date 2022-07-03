@@ -12,7 +12,6 @@ export default function Dashboard() {
     <Container sx={{ mt: 4 }}>
       <Box sx={{ mr: -2 }}>
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-          
           <Paper
             key={(Math.random() + Math.random()).toString()}
             sx={{ boxShadow: 0, p: 0 }}

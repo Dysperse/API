@@ -11,7 +11,7 @@ export default function LoginPrompt() {
   const matches = useMediaQuery("(min-width:600px)");
 
   document
-    .querySelector("meta[name='theme-color']")!
+    .querySelector("meta[name=&apos;theme-color&apos;]")!
     .setAttribute("content", "#00CC8E");
   return (
     <>
@@ -50,7 +50,7 @@ export default function LoginPrompt() {
             ref={(i) => i && i.click()}
             href="https://login.smartlist.tech/oauth/eccbc87e4b5ce2fe28308fd9f2a7baf3"
           >
-            Click here if you're not being redirected
+            Click here if you&apos;re not being redirected
           </Button>
         </Box>
       ) : (

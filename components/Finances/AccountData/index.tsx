@@ -55,7 +55,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
               background: "rgba(200,200,200,.3)",
             }}
           >
-            You haven't set any goals yet.
+            You haven&apos;t set any goals yet.
           </Box>
         )}
         {!data && (

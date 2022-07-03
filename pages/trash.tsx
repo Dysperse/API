@@ -152,7 +152,7 @@ function Items() {
             borderRadius: 4,
           }}
         >
-          You haven't deleted any items yet
+          You haven&apos;t deleted any items yet
         </Box>
       )}
     </>

@@ -385,8 +385,8 @@ export default function FullScreenDialog({ children }: any) {
               primary="Notifications"
               secondary={
                 <>
-                  If an item's quantity is {global.session.user.notificationMin}{" "}
-                  or less
+                  If an item&apos;s quantity is{" "}
+                  {global.session.user.notificationMin} or less
                 </>
               }
             />

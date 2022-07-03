@@ -78,7 +78,7 @@ function NotificationsList() {
               primary={capitalizeFirstLetter(item.room)}
               secondary={
                 <>
-                  You're running out of {item.title} <br />
+                  You&apos;re running out of {item.title} <br />
                   Current quantity: {item.amount || "No quantity specified"}
                 </>
               }

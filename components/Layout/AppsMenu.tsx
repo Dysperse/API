@@ -25,7 +25,7 @@ function ContactForm() {
   if (state.succeeded) {
     return (
       <Box sx={{ borderRadius: 3, background: "rgba(200,200,200,.3)", p: 2 }}>
-        Thanks for suggesting! We'll review your feedback
+        Thanks for suggesting! We&apos;ll review your feedback
       </Box>
     );
   }
