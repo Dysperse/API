@@ -22,10 +22,6 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
-        <meta
-          name="viewport"
-          content="width=device-width,initial-scale=1,user-scalable=no"
-        />
         <meta name="description" content="Carbon user dashboard" />
         <meta name="theme-color" content="#C4B5B5" />
         <link

@@ -24,8 +24,9 @@ export function TransactionList({ transactions }: any) {
         <Typography sx={{ fontWeight: "600", my: 2, ml: 2 }} variant="h5">
           Recent transactions
         </Typography>
-        {transactions.slice(0, 10).map((transaction: any) => (
+        {transactions.slice(0, 10).map((transaction: any, id: number) => (
           <ListItem
+            key={id.toString()}
             sx={{
               borderBottom:
                 "1px solid " +
@@ -54,8 +55,9 @@ export function TransactionList({ transactions }: any) {
                     {currency_symbols[transaction.iso_currency_code] ?? "$"}
                     {transaction.amount}
                   </Typography>
-                  {transaction.category.map((category) => (
+                  {transaction.category.map((category: any, id: number) => (
                     <Chip
+                      key={id.toString()}
                       label={category}
                       sx={{ mr: 1, mt: 1, borderRadius: 3 }}
                     />

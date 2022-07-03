@@ -29,8 +29,9 @@ function Expenses({ category }: any) {
   return (
     <>
       {isLoading ? (
-        [...new Array(10)].map(() => (
+        [...new Array(10)].map((_: any, id: number) => (
           <Skeleton
+            key={id.toString()}
             variant="rectangular"
             height={100}
             width={150}

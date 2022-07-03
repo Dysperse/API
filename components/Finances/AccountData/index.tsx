@@ -60,8 +60,9 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
         )}
         {!data && (
           <>
-            {[...new Array(10)].map(() => (
+            {[...new Array(10)].map((_: any, id: number) => (
               <Skeleton
+                key={id.toString()}
                 variant="rectangular"
                 height={150}
                 sx={{ borderRadius: 4, mt: 2 }}
@@ -71,8 +72,9 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
           </>
         )}
         {data &&
-          data.data.map((goal: any) => (
+          data.data.map((goal: any, id: number) => (
             <Goal
+              key={id.toString()}
               scrollTop={scrollTop}
               id={goal.id}
               image={goal.image}

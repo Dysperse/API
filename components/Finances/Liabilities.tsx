@@ -22,8 +22,9 @@ export function Liabilities() {
   if (!data)
     return (
       <>
-        {[...new Array(10)].map(() => (
+        {[...new Array(10)].map((_: any, id: number) => (
           <Skeleton
+            key={id.toString()}
             variant="rectangular"
             animation="wave"
             height={152}
@@ -34,8 +35,9 @@ export function Liabilities() {
     );
   return (
     <>
-      {Object.keys(data.liabilities).map((liability) => (
+      {Object.keys(data.liabilities).map((liability: any, id: number) => (
         <Card
+          key={id.toString()}
           sx={{
             background:
               global.theme === "dark"
@@ -52,9 +54,9 @@ export function Liabilities() {
             >
               {liability}
             </Typography>
-            {data.liabilities[liability].map((loan) => {
+            {data.liabilities[liability].map((loan: any, id: number) => {
               let secondary = (
-                <>
+                <div key={id.toString()}>
                   {Math.round(
                     loan.ytd_interest_paid / loan.origination_principal_amount
                   )}
@@ -77,7 +79,7 @@ export function Liabilities() {
                       100
                     }
                   />
-                </>
+                </div>
               );
               if (liability === "credit") {
                 secondary = (
