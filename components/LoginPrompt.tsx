@@ -77,7 +77,7 @@ export default function LoginPrompt() {
           >
             <picture>
               <img
-                alt="logo"
+                alt="Smartlist logo"
                 src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/rounded.png"
                 style={{ width: "50px", height: "50px" }}
               />
