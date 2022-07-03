@@ -81,7 +81,9 @@ export function ListItems({
         </ListItemButton>
         {data.data.length === 0 && (
           <Box sx={{ textAlign: "center" }}>
-            <img src={emptyImage} alt="No items" loading="lazy" />
+            <picture>
+              <img src={emptyImage} alt="No items" loading="lazy" />
+            </picture>
             <Typography sx={{ display: "block" }} variant="h6">
               No items?!
             </Typography>
