@@ -8,7 +8,7 @@ export default function useWindowDimensions() {
     const height = hasWindow ? window.innerHeight : null;
     return {
       width,
-      height
+      height,
     };
   }
 
@@ -25,7 +25,7 @@ export default function useWindowDimensions() {
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }
-  }, [hasWindow]);
+  }, [hasWindow, getWindowDimensions]);
 
   return windowDimensions;
 }
