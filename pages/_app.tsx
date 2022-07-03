@@ -10,7 +10,7 @@ import useSWR from "swr";
 import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
 import "../styles/global.css";
-// import Head from "next/head";
+import Head from "next/head";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
@@ -106,6 +106,9 @@ function Render({ data, Component, pageProps }: any) {
 
   return (
     <>
+      <Head>
+        <title>Carbon: Home inventory and personal finances</title>
+      </Head>
       <Offline>
         <Box
           sx={{

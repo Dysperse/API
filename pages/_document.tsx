@@ -77,7 +77,6 @@ export default function Document() {
           rel="shortcut icon"
         />
         <link href="/manifest.json" rel="manifest" />
-        <title>Carbon: Home inventory and personal finances</title>
       </Head>
       <body>
         <Main />
