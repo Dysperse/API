@@ -56,7 +56,7 @@ export function Liabilities() {
             </Typography>
             {data.liabilities[liability].map((loan: any, id: number) => {
               let secondary = (
-                <div key={id.toString()}>
+                <>
                   {Math.round(
                     loan.ytd_interest_paid / loan.origination_principal_amount
                   )}
@@ -79,7 +79,7 @@ export function Liabilities() {
                       100
                     }
                   />
-                </div>
+                </>
               );
               if (liability === "credit") {
                 secondary = (
@@ -93,6 +93,7 @@ export function Liabilities() {
               }
               return (
                 <ListItem
+                  key={id.toString()}
                   sx={{
                     px: 2,
                     mt: 1,
