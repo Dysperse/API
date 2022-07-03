@@ -41,8 +41,9 @@ function RenderSuggestions() {
   if (!data) {
     return (
       <>
-        {[...new Array(10)].map(() => (
+        {[...new Array(10)].map((_: any, id: number) => (
           <Skeleton
+            key={id.toString()}
             variant="rectangular"
             animation="wave"
             sx={{ mb: 2, borderRadius: 5 }}
@@ -54,16 +55,18 @@ function RenderSuggestions() {
   }
   return (
     <>
-      {data.data.filter((item) =>
+      {data.data.filter((item: any) =>
         notEcoFriendlyProducts.includes(item.title.toLowerCase())
       ).length > 0 ? (
         data.data
           .filter((item) =>
             notEcoFriendlyProducts.includes(item.title.toLowerCase())
           )
-          .map((item: any) => <Item data={item} variant="list" />)
+          .map((item: any, id: number) => (
+            <Item key={id.toString()} data={item} variant="list" />
+          ))
       ) : (
-        <>No suggestions! Great job!</>
+        <div>No suggestions! Great job!</div>
       )}
     </>
   );

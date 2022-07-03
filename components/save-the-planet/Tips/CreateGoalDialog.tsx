@@ -41,8 +41,9 @@ export function CreateGoalDialog({
           {error && "An error occured while fetching your accounts"}
           {data ? (
             <>
-              {data.accounts.map((account: Account) => (
+              {data.accounts.map((account: Account, id: number) => (
                 <ListItem
+                  key={id.toString()}
                   button
                   onClick={() => {
                     setOpen(false);

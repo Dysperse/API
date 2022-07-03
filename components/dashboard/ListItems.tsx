@@ -57,8 +57,8 @@ export function ListItems({
         <Typography gutterBottom variant="h6" component="div">
           {title}
         </Typography>
-        {data.data.map((list: Object) => (
-          <GenerateListItem {...list} />
+        {data.data.map((list: Object, id: number) => (
+          <GenerateListItem {...list} key={id.toString()} />
         ))}
         <ListItemButton
           onClick={() => {

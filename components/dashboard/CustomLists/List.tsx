@@ -164,8 +164,9 @@ function ListPopup({
                 <Typography variant="h5">No items yet...</Typography>
               </Box>
             ) : null}
-            {listItems.data.map((item: any) => (
+            {listItems.data.map((item: any, id: number) => (
               <ListItem
+                key={id.toString()}
                 item={item}
                 listItems={listItems}
                 setListItems={setListItems}

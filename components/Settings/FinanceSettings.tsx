@@ -52,8 +52,9 @@ export default function AppearanceSettings() {
               n: "Long term",
               d: "Save money for for education/retirement in a lenient period of time",
             },
-          ].map((plan: any) => (
+          ].map((plan: any, id: number) => (
             <ListItem
+              key={id.toString()}
               onClick={() => setFinancePlan(plan.s)}
               secondaryAction={
                 <Radio

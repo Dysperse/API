@@ -71,18 +71,19 @@ export default function Sessions() {
     >
       {!data ? (
         <Box sx={{ mt: 4 }}>
-          {[...new Array(10)].map(() => (
+          {[...new Array(10)].map((_: any, id: number) => (
             <Skeleton
               sx={{ height: 60, mb: 2, borderRadius: 5 }}
               variant="rectangular"
               animation="wave"
+              key={id.toString()}
             />
           ))}
         </Box>
       ) : (
         <List sx={{ width: "100%" }}>
-          {data.data.map((session) => (
-            <Session session={session} />
+          {data.data.map((session: any, id: number) => (
+            <Session session={session} key={id.toString()} />
           ))}
         </List>
       )}

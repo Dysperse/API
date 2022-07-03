@@ -82,8 +82,9 @@ export default function AppearanceSettings() {
             s: "business",
             n: "Business",
           },
-        ].map((plan: any) => (
+        ].map((plan: any, id: number) => (
           <ListItem
+            key={id.toString()}
             onClick={() => {
               setMode(plan.s);
               updateSettings("purpose", plan.s);
