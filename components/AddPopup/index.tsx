@@ -25,7 +25,7 @@ const Root = styled("div")(() => ({
 
 function AddItemOption({
   alias,
-  s = 6,
+  s = 4,
   toggleDrawer,
   icon,
   title,
@@ -74,7 +74,16 @@ function AddItemOption({
           >
             <CardContent sx={{ p: 1 }}>
               <Typography variant="h4">{icon}</Typography>
-              <Typography>{alias ?? title}</Typography>
+              <Typography
+                sx={{
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  overflow: "hidden",
+                }}
+              >
+                {alias ?? title}
+              </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
@@ -181,7 +190,7 @@ function MoreRooms(): JSX.Element {
           </Grid>
         )}
       </SwipeableDrawer>
-      <Grid item xs={6}>
+      <Grid item xs={4}>
         <Card
           sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}
           onClick={() => setOpen(true)}
@@ -217,7 +226,16 @@ function MoreRooms(): JSX.Element {
                   add_location_alt
                 </span>
               </Typography>
-              <Typography>More rooms</Typography>
+              <Typography
+                sx={{
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  overflow: "hidden",
+                }}
+              >
+                More&nbsp;rooms
+              </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
@@ -253,17 +271,17 @@ function Content({ toggleDrawer }: any) {
         />
         <AddItemOption
           toggleDrawer={toggleDrawer}
-          title="Living room"
+          title={<>Living&nbsp;room</>}
           icon={<span className="material-symbols-rounded">living</span>}
         />
         <AddItemOption
           toggleDrawer={toggleDrawer}
-          title="Dining room"
+          title={<>Dining&nbsp;room</>}
           icon={<span className="material-symbols-rounded">dining</span>}
         />
         <AddItemOption
           toggleDrawer={toggleDrawer}
-          title="Laundry room"
+          title={<>Laundry</>}
           icon={
             <span className="material-symbols-rounded">
               local_laundry_service
@@ -438,7 +456,7 @@ export default function AddPopup(props: any) {
           <Puller />
         </Box>
         <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
-          Create
+          Create item
         </DialogTitle>
         <Content toggleDrawer={toggleDrawer} />
       </SwipeableDrawer>

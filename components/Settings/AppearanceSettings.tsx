@@ -26,6 +26,7 @@ function ThemeColorSettings() {
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
+          key={color}
         >
           <ListItem
             secondaryAction={
@@ -72,10 +73,9 @@ export default function AppearanceSettings() {
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
-          // value={value}
-          // onChange={handleChange}
         >
           <ListItem
+            key="light"
             onClick={() => {
               global.setTheme("light");
               updateSettings("darkMode", "false");
@@ -97,6 +97,7 @@ export default function AppearanceSettings() {
             </ListItemButton>
           </ListItem>
           <ListItem
+            key="dark"
             onClick={() => {
               global.setTheme("dark");
               updateSettings("darkMode", "true");

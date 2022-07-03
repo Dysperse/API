@@ -24,8 +24,8 @@ export default function AppearanceSettings() {
         sx={{
           py: 1,
           px: {
-            sm: 10
-          }
+            sm: 10,
+          },
         }}
       >
         <ListSubheader sx={{ background: "transparent" }}>
@@ -76,12 +76,12 @@ export default function AppearanceSettings() {
         {[
           {
             s: "personal",
-            n: "Personal"
+            n: "Personal",
           },
           {
             s: "business",
-            n: "Business"
-          }
+            n: "Business",
+          },
         ].map((plan: any) => (
           <ListItem
             onClick={() => {
@@ -148,7 +148,9 @@ export default function AppearanceSettings() {
             secondary={
               <Slider
                 aria-label="How many people do you live with?"
-                defaultValue={global.session && global.session.user.familyCount}
+                defaultValue={
+                  global.session && parseInt(global.session.user.familyCount)
+                }
                 valueLabelDisplay="auto"
                 step={1}
                 marks
