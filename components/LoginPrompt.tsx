@@ -75,10 +75,12 @@ export default function LoginPrompt() {
               justifyContent: "center",
             }}
           >
-            <img
-              src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/rounded.png"
-              style={{ width: "50px", height: "50px" }}
-            />
+            <picture>
+              <img
+                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/rounded.png"
+                style={{ width: "50px", height: "50px" }}
+              />
+            </picture>
 
             <Typography
               variant="h5"
