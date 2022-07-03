@@ -9,6 +9,52 @@ import { GenerateListItem } from "./GenerateListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { useState } from "react";
+import { CreateListModal } from "../AddPopup/CreateListModal";
+
+function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
+  const [items, setItems] = useState<any>(data.data);
+
+  return (
+    <>
+      {items.map((list: Object, id: number) => (
+        <GenerateListItem {...list} key={id.toString()} />
+      ))}
+      <CreateListModal
+        parent={parent.toString()}
+        title={"item"}
+        items={items}
+        setItems={setItems}
+      >
+        <ListItemButton
+          sx={{ py: 0, borderRadius: 3, transition: "none" }}
+          dense
+        >
+          <ListItemIcon>
+            <span
+              style={{ marginLeft: "-2px" }}
+              className="material-symbols-rounded"
+            >
+              add_circle
+            </span>
+          </ListItemIcon>
+          <ListItemText sx={{ my: 1.4 }} primary={"New list item"} />
+        </ListItemButton>
+      </CreateListModal>
+      {items.length === 0 && (
+        <Box sx={{ textAlign: "center" }}>
+          <picture>
+            <img src={emptyImage} alt="No items" loading="lazy" />
+          </picture>
+          <Typography sx={{ display: "block" }} variant="h6">
+            No items?!
+          </Typography>
+          <Typography sx={{ display: "block" }}>{emptyText}</Typography>
+        </Box>
+      )}
+    </>
+  );
+}
 
 // Shopping list / todo list
 export function ListItems({
@@ -57,39 +103,13 @@ export function ListItems({
         <Typography gutterBottom variant="h6" component="div">
           {title}
         </Typography>
-        {data.data.map((list: Object, id: number) => (
-          <GenerateListItem {...list} key={id.toString()} />
-        ))}
-        <ListItemButton
-          onClick={() => {
-            if (parent === -2)
-              document.getElementById("listTrigger_1")!.click();
-            else document.getElementById("listTrigger_0")!.click();
-          }}
-          sx={{ py: 0, borderRadius: 3, transition: "none" }}
-          dense
-        >
-          <ListItemIcon>
-            <span
-              style={{ marginLeft: "-2px" }}
-              className="material-symbols-rounded"
-            >
-              add_circle
-            </span>
-          </ListItemIcon>
-          <ListItemText sx={{ my: 1.4 }} primary={"New list item"} />
-        </ListItemButton>
-        {data.data.length === 0 && (
-          <Box sx={{ textAlign: "center" }}>
-            <picture>
-              <img src={emptyImage} alt="No items" loading="lazy" />
-            </picture>
-            <Typography sx={{ display: "block" }} variant="h6">
-              No items?!
-            </Typography>
-            <Typography sx={{ display: "block" }}>{emptyText}</Typography>
-          </Box>
-        )}
+        <GenerateData
+          data={data}
+          parent={parent}
+          emptyImage={emptyImage}
+          emptyText={emptyText}
+          title={title}
+        />
       </CardContent>
     </Card>
   );
