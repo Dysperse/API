@@ -3,21 +3,8 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import * as colors from "@mui/material/colors";
 import AddPopup from "../AddPopup";
-import Collapse from "@mui/material/Collapse";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 
-export function FloatingActionButton(props) {
-  const { window } = props;
-  var trigger;
-  if (process.env.NODE_ENV === "production") {
-    trigger = useScrollTrigger({
-      disableHysteresis: true,
-      threshold: 0,
-      target: window ? window() : undefined,
-    });
-  } else {
-    trigger = false;
-  }
+export function FloatingActionButton() {
   return (
     <Box
       sx={{
@@ -43,7 +30,7 @@ export function FloatingActionButton(props) {
           aria-label="add"
           sx={{
             borderRadius: "20px",
-            px: trigger ? 2 : 3,
+            px: 3,
             fontSize: "15px",
             boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
             "&:focus-within": {
@@ -83,19 +70,13 @@ export function FloatingActionButton(props) {
           <span
             className="material-symbols-rounded"
             style={{
-              marginRight: !trigger ? "15px" : "0",
+              marginRight: "15px",
               transition: "all .2s",
             }}
           >
             edit
           </span>
-          <Collapse
-            orientation="horizontal"
-            in={!trigger}
-            sx={{ opacity: trigger ? 0 : 1, transition: "all .2s !important" }}
-          >
-            Create
-          </Collapse>
+          Create
         </Fab>
       </AddPopup>
     </Box>

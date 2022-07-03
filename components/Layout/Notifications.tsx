@@ -43,8 +43,9 @@ function NotificationsList() {
   if (!data)
     return (
       <>
-        {[...new Array(25)].map(() => (
+        {[...new Array(25)].map((_: any, id: number) => (
           <Skeleton
+            key={id.toString()}
             variant="rectangular"
             animation="wave"
             sx={{ height: 100, borderRadius: 5, mt: 2 }}
@@ -55,7 +56,7 @@ function NotificationsList() {
 
   return (
     <>
-      {data.data.map((item) => {
+      {data.data.map((item: any, id: number) => {
         if (
           parseInt(item.amount.replace(/[^\d]/g, ""), 100) > 3 ||
           item.amount.includes("In stock") ||
@@ -64,6 +65,7 @@ function NotificationsList() {
           return "";
         return (
           <ListItem
+            key={id.toString()}
             sx={{
               mb: 2,
               borderRadius: 5,

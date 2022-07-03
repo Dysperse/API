@@ -7,15 +7,22 @@ import Skeleton from "@mui/material/Skeleton";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 
-export function RoomList({ title, handleClose }: { title: string; handleClose: any; }) {
+export function RoomList({
+  title,
+  handleClose,
+}: {
+  title: string;
+  handleClose: any;
+}) {
   const url = "https://api.smartlist.tech/v2/lists/";
-  const { error, data }: any = useSWR(url, () => fetch(url, {
-    method: "POST",
-    body: new URLSearchParams({
-      token: global.session && global.session.accessToken,
-    }),
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  }).then((res) => res.json())
+  const { error, data }: any = useSWR(url, () =>
+    fetch(url, {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.session && global.session.accessToken,
+      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }).then((res) => res.json())
   );
 
   if (error) {
@@ -29,16 +36,16 @@ export function RoomList({ title, handleClose }: { title: string; handleClose: a
   if (!data)
     return (
       <>
-        {[...new Array(10)].map(() => (
-          <Skeleton animation="wave" />
+        {[...new Array(10)].map((_: any, id: number) => (
+          <Skeleton animation="wave" key={id.toString()} />
         ))}
       </>
     );
   return (
     <>
       <List sx={{ mt: -1 }}>
-        {data.data.map((list: any) => (
-          <ListItem disablePadding>
+        {data.data.map((list: any, id: number) => (
+          <ListItem disablePadding key={id.toString()}>
             <ListItemButton
               sx={{ borderRadius: 9, py: 0.5, px: 2 }}
               onClick={() => {

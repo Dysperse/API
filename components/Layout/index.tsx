@@ -184,8 +184,8 @@ function CustomRooms() {
   if (!data)
     return (
       <>
-        {[...new Array(10)].map(() => (
-          <Box sx={{ px: 4, py: 2 }}>
+        {[...new Array(10)].map((_: any, id: number) => (
+          <Box sx={{ px: 4, py: 2 }} key={id.toString()}>
             <Skeleton width={"200px"} animation={"wave"} />
           </Box>
         ))}
@@ -194,8 +194,8 @@ function CustomRooms() {
 
   return (
     <>
-      {data.data.map((room: Room) => (
-        <CustomRoom room={room} />
+      {data.data.map((room: Room, id: number) => (
+        <CustomRoom room={room} key={id.toString()} />
       ))}
     </>
   );

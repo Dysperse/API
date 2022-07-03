@@ -175,8 +175,9 @@ function Products() {
         handleChange(1);
       }}
     >
-      {apps.map((category) => (
+      {apps.map((category: any, id: number) => (
         <Accordion
+          key={id.toString()}
           square
           sx={{
             boxShadow: 0,
