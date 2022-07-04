@@ -131,26 +131,6 @@ export function ItemActionsMenu({
       >
         <InfoButton id={id} title={title} star={star} quantity={quantity} />
         <ShareModal title={title} quantity={quantity} room={room} />
-        <MenuItem
-          disableRipple
-          onClick={() => {
-            window.open(
-              "https://wa.me/?text=" +
-                encodeURIComponent(
-                  `I have ${quantity} ${pluralize(title)} in my ${room}`
-                )
-            );
-            handleClose();
-          }}
-        >
-          <span
-            style={{ marginRight: "15px" }}
-            className="material-symbols-rounded"
-          >
-            chat
-          </span>
-          WhatsApp
-        </MenuItem>
         <MenuItem disableRipple onClick={handleClose}>
           <span
             style={{ marginRight: "15px" }}
