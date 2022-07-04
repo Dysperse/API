@@ -142,7 +142,7 @@ export function ItemActionsMenu({
             Find recipes
           </MenuItem>
         )}
-        <MenuItem disableRipple onClick={handleClose}>
+        {/* <MenuItem disableRipple onClick={handleClose}>
           <span
             style={{ marginRight: "15px" }}
             className="material-symbols-rounded"
@@ -150,7 +150,7 @@ export function ItemActionsMenu({
             person_add
           </span>
           Invite collaborators
-        </MenuItem>
+        </MenuItem> */}
         <AddToListModal handleClose={handleClose} title={title} />
         <QrCodeModal title={title} quantity={quantity} />
       </Menu>
