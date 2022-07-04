@@ -84,7 +84,7 @@ export function ShareModal({ title, quantity, room }: any): JSX.Element {
               handleClose();
             }}
           >
-            Copy link
+            Copy
           </Button>
           <Button
             variant="contained"
