@@ -131,15 +131,17 @@ export function ItemActionsMenu({
       >
         <InfoButton id={id} title={title} star={star} quantity={quantity} />
         <ShareModal title={title} quantity={quantity} room={room} />
-        <MenuItem disableRipple onClick={handleClose}>
-          <span
-            style={{ marginRight: "15px" }}
-            className="material-symbols-rounded"
-          >
-            auto_awesome
-          </span>
-          Find recipes
-        </MenuItem>
+        {room.toLowerCase() === "kitchen" && (
+          <MenuItem disableRipple onClick={handleClose}>
+            <span
+              style={{ marginRight: "15px" }}
+              className="material-symbols-rounded"
+            >
+              auto_awesome
+            </span>
+            Find recipes
+          </MenuItem>
+        )}
         <MenuItem disableRipple onClick={handleClose}>
           <span
             style={{ marginRight: "15px" }}
