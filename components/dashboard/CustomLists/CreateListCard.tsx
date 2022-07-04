@@ -84,10 +84,16 @@ export function CreateListCard({ lists, setLists }: any) {
             global.theme === "dark"
               ? "hsl(240, 11%, 20%)"
               : colors["grey"][100],
-          "& *": { transition: "all .05s !important" },
+          transition: "transform .2s",
+          "&:active": {
+            transition: "none",
+            transform: "scale(.97)",
+            background: "rgba(200,200,200,.3)",
+          },
         }}
       >
         <CardActionArea
+          disableRipple
           onClick={toggleDrawer(true)}
           sx={{ transition: "none!important" }}
         >
@@ -114,7 +120,6 @@ export function CreateListCard({ lists, setLists }: any) {
         }}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
-
         swipeAreaWidth={0}
       >
         <form onSubmit={formik.handleSubmit}>
