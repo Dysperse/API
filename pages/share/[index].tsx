@@ -41,6 +41,7 @@ export default function Share() {
     <>
       <Head>
         <title>Share</title>
+        <meta name="theme-color" content="#C4B5B5" />
       </Head>
       <Box
         sx={{

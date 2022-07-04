@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { AddToListModal } from "./AddToList";
 import { InfoButton } from "./InfoButton";
 import { QrCodeModal } from "./QrCodeModal";
+import { ShareModal } from "./ShareModal";
 
 export function ItemActionsMenu({
   room,
@@ -129,15 +130,7 @@ export function ItemActionsMenu({
         }}
       >
         <InfoButton id={id} title={title} star={star} quantity={quantity} />
-        <MenuItem disableRipple onClick={handleClose}>
-          <span
-            style={{ marginRight: "15px" }}
-            className="material-symbols-rounded"
-          >
-            share
-          </span>
-          Share
-        </MenuItem>
+        <ShareModal title={title} quantity={quantity} room={room} />
         <MenuItem
           disableRipple
           onClick={() => {
