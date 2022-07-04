@@ -24,7 +24,8 @@ function Query({ query }: any) {
       variant="h1"
       sx={{ color: "#232323", fontSize: { xs: "40px", sm: "50px" } }}
     >
-      {query.name} has <abbr title="Item name">{query.quantity}</abbr>
+      <abbr title="Person">{query.name}</abbr> has{" "}
+      <abbr title="Item name">{query.quantity}</abbr>
       {of ? " of " : " "}
       <abbr title="Item quantity">{query.title.toLowerCase()}</abbr> in the{" "}
       <abbr title="Room">kitchen</abbr>
