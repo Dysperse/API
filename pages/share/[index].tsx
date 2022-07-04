@@ -24,9 +24,9 @@ function Query({ query }: any) {
       variant="h1"
       sx={{ color: "#232323", fontSize: { xs: "40px", sm: "50px" } }}
     >
-      I have <abbr title="Item name">{query.quantity}</abbr>
+      {query.name} has <abbr title="Item name">{query.quantity}</abbr>
       {of ? " of " : " "}
-      <abbr title="Item quantity">{query.title.toLowerCase()}</abbr> in my{" "}
+      <abbr title="Item quantity">{query.title.toLowerCase()}</abbr> in the{" "}
       <abbr title="Room">kitchen</abbr>
     </Typography>
   );
