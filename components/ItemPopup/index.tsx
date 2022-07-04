@@ -361,7 +361,17 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             <ListItemButton
               onContextMenu={handleContextMenu}
               onClick={() => setDrawerState(true)}
-              sx={{ py: 0.1, borderRadius: "10px", transition: { sm: "none" } }}
+              disableRipple
+              sx={{
+                py: 0.1,
+                borderRadius: "10px",
+                transition: "transform .2s",
+                "&:active": {
+                  transition: "none",
+                  transform: "scale(.97)",
+                  background: "rgba(200,200,200,.3)",
+                },
+              }}
             >
               <ListItemText
                 sx={{
