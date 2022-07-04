@@ -15,6 +15,7 @@ import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import Script from "next/script";
+import { withRouter } from "next/router";
 
 dayjs.extend(relativeTime);
 
@@ -178,18 +179,24 @@ function useUser() {
   };
 }
 
-function SmartlistApp({ Component, pageProps }: any): JSX.Element {
+function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
   const { data, isLoading, isError } = useUser();
 
   return (
     <>
-      {!isLoading &&
-        !isError &&
-        (data.user ? (
-          <Render Component={Component} pageProps={pageProps} data={data} />
-        ) : (
-          <LoginPrompt />
-        ))}
+      {router && router.pathname === "/share/[index]" ? (
+        <Component {...pageProps} />
+      ) : (
+        <>
+          {!isLoading &&
+            !isError &&
+            (data.user ? (
+              <Render Component={Component} pageProps={pageProps} data={data} />
+            ) : (
+              <LoginPrompt />
+            ))}
+        </>
+      )}
       <Script src="/prevent-navigate-history.js"></Script>
     </>
   );
