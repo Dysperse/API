@@ -27,7 +27,17 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
         setItems={setItems}
       >
         <ListItemButton
-          sx={{ py: 0, borderRadius: 3, transition: "none" }}
+          disableRipple
+          sx={{
+            py: 0,
+            borderRadius: 3,
+            transition: "transform .2s",
+            "&:active": {
+              transition: "none",
+              transform: "scale(.97)",
+              background: "rgba(200,200,200,.3)",
+            },
+          }}
           dense
         >
           <ListItemIcon>

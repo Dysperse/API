@@ -123,12 +123,6 @@ const apps = [
     description: "Home inventory and finance management",
   },
   {
-    key: 2,
-    label: "Collaborate",
-    href: "//collaborate.smartlist.tech",
-    description: "Plan events with collaborators in real-time",
-  },
-  {
     href: "//recipe-generator.smartlist.tech",
     label: "Recipes",
     description: "Recipe ideas based on your inventory",

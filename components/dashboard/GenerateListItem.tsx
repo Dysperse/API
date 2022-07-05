@@ -23,15 +23,25 @@ export function GenerateListItem({ title, id }: any) {
   return (
     <Collapse in={!deleted}>
       <ListItemButton
+        disableRipple
         key={id.toString()}
-        sx={{ py: 0, borderRadius: 3, transition: { sm: "none" } }}
+        sx={{
+          py: 0,
+          borderRadius: 3,
+          transition: "transform .2s",
+          "&:active": {
+            transition: "none",
+            transform: "scale(.97)",
+            background: "rgba(200,200,200,.3)",
+          },
+        }}
         dense
         onClick={() => {
           deleteItem(id);
           setChecked(true);
         }}
       >
-        <ListItemIcon>
+        <ListItemIcon sx={{ pointerEvents: "none " }}>
           <Checkbox
             onClick={() => {
               deleteItem(id);
