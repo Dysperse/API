@@ -18,6 +18,7 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import Head from "next/head";
 import useWindowDimensions from "../../components/useWindowDimensions";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
@@ -194,6 +195,17 @@ export default function Item({ displayRoom = false, data, variant }: any) {
         onClose={() => setDrawerState(false)}
         onOpen={() => setDrawerState(true)}
       >
+        {drawerState && (
+          <Head>
+            <title>
+              {title} &bull; {data.room} &bull;{" "}
+              {global.session.user.houseName.replace(/./, (c) =>
+                c.toUpperCase()
+              )}{" "}
+              &bull; Carbon
+            </title>
+          </Head>
+        )}
         <Box
           sx={{
             flexGrow: 1,
@@ -418,8 +430,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     transition: "none",
                   },
                   ...(star === 1 && {
-                    background: orange[global.theme === "dark" ? 900 : 700],
-                    color: "white",
+                    background: orange[global.theme === "dark" ? 900 : 300],
                   }),
                 }}
                 onClick={() => setDrawerState(true)}

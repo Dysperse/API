@@ -1,27 +1,26 @@
 import EditIcon from "@mui/icons-material/Edit";
 import Masonry from "@mui/lab/Masonry";
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import { orange } from "@mui/material/colors";
 import Container from "@mui/material/Container";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import useFetch from "react-fetch-hook";
 import toast from "react-hot-toast";
 import { ItemCard } from "../../components/rooms/ItemCard";
 import { Toolbar } from "../../components/rooms/Toolbar";
-
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItem from "@mui/material/ListItem";
-import * as colors from "@mui/material/colors";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import { useRouter } from "next/router";
+import Head from "next/head";
 
 function Header({ room, itemCount }: { room: string; itemCount: number }) {
   const router = useRouter();
@@ -503,7 +502,18 @@ function RoomComponent({ index }: any) {
 function Room() {
   const index = window.location.pathname.split("/rooms/")[1];
 
-  return <RoomComponent index={index} key={index} />;
+  return (
+    <>
+      <Head>
+        <title>
+          {index.replace(/./, (c) => c.toUpperCase())} &bull;{" "}
+          {global.session.user.houseName.replace(/./, (c) => c.toUpperCase())}{" "}
+          &bull; Carbon
+        </title>
+      </Head>
+      <RoomComponent index={index} key={index} />
+    </>
+  );
 }
 
 export default Room;
