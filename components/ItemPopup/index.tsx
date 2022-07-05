@@ -1,4 +1,3 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -82,7 +81,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           ? width > 900
             ? global.theme === "dark"
               ? "hsl(240, 11%, 5%)"
-              : "#808080"
+              : "#cccccc"
             : global.theme === "dark"
             ? "hsl(240, 11%, 20%)"
             : "#fff"
@@ -181,12 +180,12 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           sx: {
             borderRadius: { sm: 4 },
             overflow: "hidden!important",
-            mt: { sm: "10px" },
+            mt: { sm: "20px" },
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",
             }),
-            mr: { sm: "10px" },
-            height: { sm: "calc(100vh - 20px)!important" },
+            mr: { sm: "20px" },
+            height: { sm: "calc(100vh - 40px)!important" },
           },
         }}
         swipeAreaWidth={0}
@@ -227,23 +226,28 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   aria-label="menu"
                   sx={{
                     transition: "none",
+                    mr: 1,
+                    color:
+                      global.theme === "dark"
+                        ? "hsl(240, 11%, 90%)"
+                        : "#606060",
                     "&:hover": {
                       background: "rgba(200,200,200,.3)",
-                      color: "#000",
-                    },
-                    "&:active": {
-                      boxShadow: "none!important",
+                      color:
+                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
                     },
                     "&:focus-within": {
-                      background: colors[themeColor]["100"] + "!important",
-                      color: "#000",
-                      boxShadow:
-                        "inset 0px 0px 0px 2px " + colors[themeColor]["800"],
+                      background:
+                        (global.theme === "dark"
+                          ? colors[themeColor]["900"]
+                          : colors[themeColor]["50"]) + "!important",
+                      color:
+                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
                     },
                   }}
                   onClick={() => setDrawerState(false)}
                 >
-                  <ChevronLeftIcon />
+                  <span className="material-symbols-rounded">chevron_left</span>
                 </IconButton>
               </Tooltip>
               <Typography sx={{ flexGrow: 1 }}></Typography>

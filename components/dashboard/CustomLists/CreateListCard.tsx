@@ -28,7 +28,7 @@ export function CreateListCard({ lists, setLists }: any) {
         open
           ? global.theme === "dark"
             ? "#101010"
-            : "#808080"
+            : "#cccccc"
           : document.documentElement!.scrollTop === 0
           ? "#fff"
           : colors[global.themeColor][100]

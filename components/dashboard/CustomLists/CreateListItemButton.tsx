@@ -32,7 +32,7 @@ export function CreateListItemButton({
           ? "#404040"
           : global.theme === "dark"
           ? "hsl(240, 11%, 5%)"
-          : "#808080"
+          : "#cccccc"
       );
   });
   const handleClickOpen = () => setOpen(true);

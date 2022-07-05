@@ -64,7 +64,7 @@ function ListPopup({
         drawerState
           ? global.theme === "dark"
             ? "hsl(240, 11%, 10%)"
-            : "#808080"
+            : "#cccccc"
           : global.theme === "dark"
           ? "hsl(240, 11%, 20%)"
           : colors[global.themeColor][100]

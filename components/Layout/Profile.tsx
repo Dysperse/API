@@ -19,7 +19,7 @@ export function ProfileMenu(props: any) {
           open
             ? global.theme === "dark"
               ? "hsl(240, 11%, 10%)"
-              : "#808080"
+              : "#cccccc"
             : global.theme === "dark"
             ? "hsl(240, 11%, 10%)"
             : "#fff"

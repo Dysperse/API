@@ -212,7 +212,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
           mobileOpen
             ? global.theme === "dark"
               ? "hsl(240, 11%, 5%)"
-              : "#808080"
+              : "#cccccc"
             : global.theme === "dark"
             ? "hsl(240, 11%, 10%)"
             : colors[global.themeColor][100]

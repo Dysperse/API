@@ -136,7 +136,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
             ? "hsl(240, 11%, 35%)"
             : "#eee"
           : window.innerWidth > 900
-          ? "#808080"
+          ? "#cccccc"
           : global.theme === "dark"
           ? "hsl(240, 11%, 25%)"
           : "#eee"
@@ -274,7 +274,7 @@ export default function FullScreenDialog({ children }: any) {
             ? global.theme === "darl"
               ? "hsl(240, 11%, 20%)"
               : "rgb(230,230,230)"
-            : "#808080"
+            : "#cccccc"
           : "hsl(240, 11%, 10%)"
       );
   });
