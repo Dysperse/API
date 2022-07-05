@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
 import * as colors from "@mui/material/colors";
-import { orange } from "@mui/material/colors";
+import { deepOrange } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -430,7 +430,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     transition: "none",
                   },
                   ...(star === 1 && {
-                    background: orange[global.theme === "dark" ? 900 : 300],
+                    background: deepOrange[global.theme === "dark" ? 900 : 50],
                   }),
                 }}
                 onClick={() => setDrawerState(true)}
