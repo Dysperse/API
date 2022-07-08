@@ -50,6 +50,7 @@ function Invitation({ data, key }: any) {
             updateSettings("SyncToken", data.token, false, () => {
               setLoading(false);
               setOpen(false);
+              window.location.reload();
             });
           }}
           loading={loading}
