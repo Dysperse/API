@@ -333,9 +333,10 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 fetch("https://api.smartlist.tech/v2/items/update-note/", {
                   method: "POST",
                   body: new URLSearchParams({
-                    token: global.session
-                      ? global.session.accessToken
-                      : undefined,
+                    token:
+                      global.session &&
+                      (global.session.user.SyncToken ||
+                        global.session.accessToken),
                     id: id.toString(),
                     date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                     content: e.target.value,
