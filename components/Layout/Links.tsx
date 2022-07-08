@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { Puller } from "../Puller";
 import Fab from "@mui/material/Fab";
-import AddPopup from "../Finances/AddPopup";
+import AddPopup from "../AddPopup";
 
 function CreateRoom() {
   const router = useRouter();

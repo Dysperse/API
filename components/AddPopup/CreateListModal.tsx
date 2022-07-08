@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { neutralizeBack, revivalBack } from "../../history-control";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 function Puller() {
   return (
@@ -46,7 +46,9 @@ export function CreateListModal({
       fetch("https://api.smartlist.tech/v2/lists/create-item/", {
         method: "POST",
         body: new URLSearchParams({
-          token: global.session ? global.session.accessToken : undefined,
+          token:
+            global.session &&
+            (global.session.user.SyncToken || global.session.accessToken),
           parent: parent,
           title: values.name,
           description: "",

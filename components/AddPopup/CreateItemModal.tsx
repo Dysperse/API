@@ -13,9 +13,9 @@ import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React from "react";
 import toast from "react-hot-toast";
-import { AutocompleteData } from "../../AutocompleteData";
-import { Puller } from "../../Puller";
-import { neutralizeBack, revivalBack } from "../../history-control";
+import { AutocompleteData } from "../AutocompleteData";
+import { Puller } from "../Puller";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 export function CreateItemModal({
   toggleDrawer,
@@ -60,7 +60,9 @@ export function CreateItemModal({
       fetch("https://api.smartlist.tech/v2/items/create/", {
         method: "POST",
         body: new URLSearchParams({
-          token: session && session.accessToken,
+          token:
+            global.session &&
+            (global.session.user.SyncToken || global.session.accessToken),
           room: room.toLowerCase(),
           name: values.title,
           qty: values.quantity,
