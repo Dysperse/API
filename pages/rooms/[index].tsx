@@ -488,7 +488,9 @@ function RoomComponent({ index }: any) {
     {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
+        token:
+          global.session &&
+          (global.session.user.SyncToken || global.session.accessToken),
         room: index,
       }),
     }
