@@ -43,7 +43,9 @@ function DeleteCard({ item }: any) {
             fetch("https://api.smartlist.tech/v2/items/delete/", {
               method: "POST",
               body: new URLSearchParams({
-                token: global.session && global.session.accessToken,
+                token:
+                  global.session &&
+                  (global.session.user.SyncToken || global.session.accessToken),
                 id: item.id.toString(),
                 forever: "true",
               }),

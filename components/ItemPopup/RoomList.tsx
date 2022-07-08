@@ -19,7 +19,9 @@ export function RoomList({
     fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
+        token:
+          global.session &&
+          (global.session.user.SyncToken || global.session.accessToken),
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((res) => res.json())
@@ -52,7 +54,10 @@ export function RoomList({
                 fetch("https://api.smartlist.tech/v2/lists/create-item/", {
                   method: "POST",
                   body: new URLSearchParams({
-                    token: global.session && global.session.accessToken,
+                    token:
+                      global.session &&
+                      (global.session.user.SyncToken ||
+                        global.session.accessToken),
                     parent: list.id,
                     title: title,
                     description: "",

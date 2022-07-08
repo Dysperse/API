@@ -4,7 +4,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import useSWR from "swr";
-import Item from "../../components/ItemPopup";
+import Item from "../ItemPopup";
 
 export function RecentItems() {
   const url = "https://api.smartlist.tech/v2/items/list/";

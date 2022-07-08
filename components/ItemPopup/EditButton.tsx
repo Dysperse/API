@@ -46,7 +46,9 @@ export function EditButton({
       fetch("https://api.smartlist.tech/v2/items/edit/", {
         method: "POST",
         body: new URLSearchParams({
-          token: global.session && global.session.accessToken,
+          token:
+            global.session &&
+            (global.session.user.SyncToken || global.session.accessToken),
           id: id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
           name: values.title,

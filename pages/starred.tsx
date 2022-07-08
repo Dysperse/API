@@ -13,7 +13,9 @@ function Items() {
       fetch("https://api.smartlist.tech/v2/items/starred/", {
         method: "POST",
         body: new URLSearchParams({
-          token: global.session && global.session.accessToken,
+          token:
+            global.session &&
+            (global.session.user.SyncToken || global.session.accessToken),
         }),
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       }).then((res) => res.json())
