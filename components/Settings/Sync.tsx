@@ -135,10 +135,13 @@ export default function Developer() {
                     body: new URLSearchParams({
                       token: global.session.accessToken,
                       email: value.title,
+                      houseName: global.session.user.houseName,
                     }),
                   }
                 ).then(() => {
-                  toast.success("Invitation sent!");
+                  toast.success(
+                    "If the email provided is valid, an invitation will be sent."
+                  );
                   setValue(null);
                 });
               }
