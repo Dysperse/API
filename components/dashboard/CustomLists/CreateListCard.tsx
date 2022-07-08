@@ -46,7 +46,9 @@ export function CreateListCard({ lists, setLists }: any) {
       fetch("https://api.smartlist.tech/v2/lists/create-list/", {
         method: "POST",
         body: new URLSearchParams({
-          token: global.session ? global.session.accessToken : undefined,
+          token:
+            global.session &&
+            (global.session.user.SyncToken || global.session.accessToken),
           title: values.title,
           description: values.description,
           star: "0",
