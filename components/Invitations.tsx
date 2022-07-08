@@ -2,11 +2,12 @@ import useSWR from "swr";
 import { useState } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 
 function Invitation({ data, key }: any) {
   const [open, setOpen] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <SwipeableDrawer
       open={open}
@@ -34,13 +35,17 @@ function Invitation({ data, key }: any) {
     >
       <Box sx={{ p: 4, textAlign: "left", py: 5 }}>
         <Typography variant="h5" sx={{ fontWeight: "700" }}>
-          You&apos;re invited to join {data.houseName} by another Carbon user
+          A Carbon user has invited you to join &ldquo;{data.houseName}&rdquo;
         </Typography>
         <Typography sx={{ mt: 1 }} variant="body2">
-          Joining a home will delete your inventory. You can restore it later by
-          removing yourself.
+          Joining a home will delete any items, budgets, or goals you&apos;ve
+          created. You can restore it later by removing yourself. Once you join,
+          you won&apos;t be able to recieve invitations from other users until
+          you remove yourself from {data.houseName}.
         </Typography>
-        <Button
+        <LoadingButton
+          onClick={() => setLoading(true)}
+          loading={loading}
           variant="contained"
           size="large"
           sx={{
@@ -54,7 +59,7 @@ function Invitation({ data, key }: any) {
           }}
         >
           Join
-        </Button>
+        </LoadingButton>
       </Box>
     </SwipeableDrawer>
   );
