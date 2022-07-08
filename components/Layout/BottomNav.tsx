@@ -182,7 +182,7 @@ export function BottomNav() {
           label="Items"
           disableRipple
           onClick={() => onLink("/items")}
-          icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
+          icon={<Icon baseClassName="material-symbols-rounded">interests</Icon>}
         />
         <BottomNavigationAction
           sx={{

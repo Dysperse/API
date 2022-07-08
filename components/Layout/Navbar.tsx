@@ -112,9 +112,24 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
 
           <Typography
             variant="h6"
-            sx={{ flexGrow: 1, fontWeight: "600", ml: 1 }}
+            sx={{
+              flexGrow: 1,
+              fontWeight: "600",
+              ml: 1,
+              display: "flex",
+              alignItems: "center",
+              gap: 1.5,
+            }}
             noWrap
           >
+            {global.session.user.SyncToken && (
+              <span
+                className="material-symbols-rounded"
+                style={{ fontSize: "20px" }}
+              >
+                group
+              </span>
+            )}{" "}
             {global.session ? (
               global.session.user.houseName || "Smartlist"
             ) : (
