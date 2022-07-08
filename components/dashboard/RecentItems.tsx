@@ -14,9 +14,11 @@ export function RecentItems() {
       body: new URLSearchParams({
         room: "null",
         limit: "7",
-        token: global.session && global.session.accessToken
-      })
-    }).then(res => res.json())
+        token:
+          global.session &&
+          (global.session.user.SyncToken || global.session.accessToken),
+      }),
+    }).then((res) => res.json())
   );
 
   if (error) return <div>failed to load</div>;
@@ -37,7 +39,7 @@ export function RecentItems() {
         borderRadius: "28px",
         background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
         boxShadow: 0,
-        p: 1
+        p: 1,
       }}
     >
       <CardContent>

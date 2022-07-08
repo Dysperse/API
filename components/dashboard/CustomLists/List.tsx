@@ -31,7 +31,9 @@ function ListItem({ item, listItems, setListItems }: any) {
             fetch("https://api.smartlist.tech/v2/lists/delete-item/", {
               method: "POST",
               body: new URLSearchParams({
-                token: global.session ? global.session.accessToken : undefined,
+                token:
+                  global.session &&
+                  (global.session.user.SyncToken || global.session.accessToken),
                 id: item.id,
               }),
             });

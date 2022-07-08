@@ -288,7 +288,9 @@ function Suggestions({ room, items }: any) {
                       fetch("https://api.smartlist.tech/v2/items/create/", {
                         method: "POST",
                         body: new URLSearchParams({
-                          token: global.session.accessToken,
+                          token:
+                            global.session.user.SyncToken ||
+                            global.session.accessToken,
                           name: item,
                           qty: "1",
                           category: "[]",

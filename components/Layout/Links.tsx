@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { Puller } from "../Puller";
 import Fab from "@mui/material/Fab";
-import AddPopup from "../AddPopup";
+import AddPopup from "../Finances/AddPopup";
 
 function CreateRoom() {
   const router = useRouter();
@@ -38,7 +38,7 @@ function CreateRoom() {
       fetch("https://api.smartlist.tech/v2/rooms/create/", {
         method: "POST",
         body: new URLSearchParams({
-          token: global.session.accessToken,
+          token: global.session.user.SyncToken || global.session.accessToken,
           name: values.name,
         }),
       })

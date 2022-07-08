@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../history-control";
 
 function Puller() {
   return (

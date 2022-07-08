@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import * as colors from "@mui/material/colors";
-import AddPopup from "../AddPopup";
+import AddPopup from "../Finances/AddPopup";
 
 export function FloatingActionButton() {
   return (

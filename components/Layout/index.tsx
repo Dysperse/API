@@ -176,7 +176,9 @@ function CustomRooms() {
     fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
+        token:
+          global.session &&
+          (global.session.user.SyncToken || global.session.accessToken),
       }),
     }).then((res) => res.json())
   );

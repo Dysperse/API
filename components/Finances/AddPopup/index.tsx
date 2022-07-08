@@ -12,12 +12,12 @@ import { styled } from "@mui/material/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
-import { Puller } from "../Puller";
+import { Puller } from "../../Puller";
 import { CreateItemModal } from "./CreateItemModal";
 import { CreateListModal } from "./CreateListModal";
 import * as colors from "@mui/material/colors";
 import useSWR from "swr";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../history-control";
 
 const Root = styled("div")(() => ({
   height: "100%",

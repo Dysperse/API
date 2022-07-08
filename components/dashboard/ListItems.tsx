@@ -10,7 +10,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useState } from "react";
-import { CreateListModal } from "../AddPopup/CreateListModal";
+import { CreateListModal } from "../Finances/AddPopup/CreateListModal";
 
 function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
   const [items, setItems] = useState<any>(data.data);
@@ -83,7 +83,9 @@ export function ListItems({
     {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
+        token:
+          global.session &&
+          (global.session.user.SyncToken || global.session.accessToken),
         parent: parent,
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
