@@ -25,9 +25,9 @@ module.exports = withPlugins(
     ]
   ],
   {
-    experimental: {
-      runtime: 'experimental-edge',
-    },
+    // experimental: {
+    //   runtime: 'experimental-edge',
+    // },
     reactStrictMode: true,
     async redirects() {
       return [
