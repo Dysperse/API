@@ -4,6 +4,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
+import { updateSettings } from "./Settings/updateSettings";
 
 function Invitation({ data, key }: any) {
   const [open, setOpen] = useState<boolean>(true);
@@ -44,7 +45,13 @@ function Invitation({ data, key }: any) {
           you remove yourself from {data.houseName}.
         </Typography>
         <LoadingButton
-          onClick={() => setLoading(true)}
+          onClick={() => {
+            setLoading(true);
+            updateSettings("SyncToken", data.token, false, () => {
+              setLoading(false);
+              setOpen(false);
+            });
+          }}
           loading={loading}
           variant="contained"
           size="large"
