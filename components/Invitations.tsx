@@ -34,7 +34,7 @@ function Invitation({ data, key }: any) {
     >
       <Box sx={{ p: 4, textAlign: "left", py: 5 }}>
         <Typography variant="h5" sx={{ fontWeight: "700" }}>
-          You're invited to join {data.houseName} by another Carbon user
+          You&apos;re invited to join {data.houseName} by another Carbon user
         </Typography>
         <Typography sx={{ mt: 1 }} variant="body2">
           Joining a home will delete your inventory. You can restore it later by

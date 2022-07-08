@@ -181,7 +181,7 @@ export default function Developer() {
             p: 5,
           }}
         >
-          You haven't invited anyone to your home yet
+          You haven&apos;t invited anyone to your home yet
         </Box>
       )}
     </Box>
