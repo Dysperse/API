@@ -89,6 +89,54 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
   );
 }
 
+function SuggestionChip({ room, item, key }: any) {
+  const [hide, setHide] = useState<boolean>(false);
+  return (
+    <>
+      {!hide && (
+        <Chip
+          key={key}
+          onClick={() => {
+            setHide(true);
+            fetch("https://api.smartlist.tech/v2/items/create/", {
+              method: "POST",
+              body: new URLSearchParams({
+                token:
+                  global.session.user.SyncToken || global.session.accessToken,
+                name: item,
+                qty: "1",
+                category: "[]",
+                room: room,
+                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              }),
+            })
+              .then((res) => res.json())
+              .then((res) => toast.success("Created item!"));
+          }}
+          sx={{
+            mr: 1,
+            transition: "background .05s !important",
+            borderRadius: 3,
+            boxShadow: "0!important",
+            color: global.theme === "dark" ? orange[100] : orange[900],
+            background:
+              global.theme === "dark" ? "hsl(240, 11%, 30%)" : orange[100],
+            "&:hover": {
+              background:
+                global.theme === "dark" ? "hsl(240, 11%, 35%)" : orange[200],
+            },
+            "&:active": {
+              background:
+                global.theme === "dark" ? "hsl(240, 11%, 40%)" : orange[300],
+            },
+          }}
+          label={item}
+        />
+      )}
+    </>
+  );
+}
+
 function Suggestions({ room, items }: any) {
   const suggestions = {
     kitchen: [
@@ -282,50 +330,10 @@ function Suggestions({ room, items }: any) {
               suggestions[room].map((item: string, key: number) => {
                 if (items.some((e: any) => e.title === item)) return "";
                 return (
-                  <Chip
-                    key={key}
-                    onClick={() => {
-                      fetch("https://api.smartlist.tech/v2/items/create/", {
-                        method: "POST",
-                        body: new URLSearchParams({
-                          token:
-                            global.session.user.SyncToken ||
-                            global.session.accessToken,
-                          name: item,
-                          qty: "1",
-                          category: "[]",
-                          room: room,
-                          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                        }),
-                      })
-                        .then((res) => res.json())
-                        .then((res) => toast.success("Created item!"));
-                    }}
-                    sx={{
-                      mr: 1,
-                      transition: "background .05s !important",
-                      borderRadius: 3,
-                      boxShadow: "0!important",
-                      color:
-                        global.theme === "dark" ? orange[100] : orange[900],
-                      background:
-                        global.theme === "dark"
-                          ? "hsl(240, 11%, 30%)"
-                          : orange[100],
-                      "&:hover": {
-                        background:
-                          global.theme === "dark"
-                            ? "hsl(240, 11%, 35%)"
-                            : orange[200],
-                      },
-                      "&:active": {
-                        background:
-                          global.theme === "dark"
-                            ? "hsl(240, 11%, 40%)"
-                            : orange[300],
-                      },
-                    }}
-                    label={item}
+                  <SuggestionChip
+                    room={room}
+                    item={item}
+                    key={key.toString()}
                   />
                 );
               })}
@@ -435,7 +443,9 @@ function ItemList({ items }: { items: any }) {
                     mt: 1,
                   }}
                 >
-                  Hit the <EditIcon /> icon to create an item.{" "}
+                  Hit the{" "}
+                  <span className="material-symbols-outlined">edit</span>
+                  icon to create an item.{" "}
                 </Typography>
               </CardContent>
             </Card>
@@ -443,23 +453,26 @@ function ItemList({ items }: { items: any }) {
         ) : null}
 
         {items.map(
-          (item: {
-            id: number;
-            lastUpdated: string;
-            amount: string;
-            sync: string;
-            title: string;
-            categories: string;
-            note: string;
-            star: number;
-            room: string;
-          }) => (
+          (
+            item: {
+              id: number;
+              lastUpdated: string;
+              amount: string;
+              sync: string;
+              title: string;
+              categories: string;
+              note: string;
+              star: number;
+              room: string;
+            },
+            key: number
+          ) => (
             <Paper
               sx={{
                 boxShadow: 0,
                 p: 0,
               }}
-              key={(Math.random() + Math.random()).toString()}
+              key={key.toString()}
             >
               <ItemCard item={item} />
             </Paper>

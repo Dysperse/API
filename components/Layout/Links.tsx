@@ -316,7 +316,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
                   float: "left",
                 }}
               >
-                edit
+                add_circle
               </span>
               Create
             </Fab>
@@ -339,7 +339,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           </ListSubheader>
           <ListItem
             text="Overview"
-            icon={<span className="material-symbols-rounded">dashboard</span>}
+            icon={<span className="material-symbols-rounded">layers</span>}
           />
           <ListItem
             href="/finances"
@@ -348,28 +348,10 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             icon={<span className="material-symbols-rounded">savings</span>}
           />
           <ListItem
-            asHref="/planner"
-            href="/planner"
-            text="Planner"
-            icon={<span className="material-symbols-rounded">event</span>}
-          />
-          <ListItem
             asHref="/save-the-planet"
             href="/save-the-planet"
             text="Eco friendliness"
-            sx={
-              {
-                // ...(process.env.NODE_ENV === "production" && {
-                //   opacity: 0.8,
-                //   pointerEvents: "none"
-                // })
-              }
-            }
-            icon={
-              <span className="material-symbols-rounded">
-                energy_savings_leaf
-              </span>
-            }
+            icon={<span className="material-symbols-rounded">eco</span>}
           />
         </div>
         <div onClick={() => handleDrawerToggle(false)}>
@@ -456,9 +438,10 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
         </div>
 
         <ListItemButton
+          disableRipple   
           onClick={handleClick}
           sx={{
-            pl: 3,
+            pl: 3.5,
             transition: "none!important",
             color:
               (global.theme === "dark" ? grey[200] : "#606060") + "!important",
@@ -493,7 +476,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           <ListItemIcon>
             <span className="material-symbols-rounded">pin_drop</span>
           </ListItemIcon>
-          <ListItemText primary="More rooms" />
+          <ListItemText primary="More" />
           <span
             className="material-symbols-rounded"
             style={{
@@ -535,8 +518,8 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
         <ListItem
           href="/starred"
           asHref="/starred"
-          text="Starred items"
-          icon={<span className="material-symbols-rounded">star</span>}
+          text="Starred"
+          icon={<span className="material-symbols-rounded">grade</span>}
         />
         <ListItem
           href="/trash"

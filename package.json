@@ -1,22 +1,15 @@
 {
   "name": "smartlist",
-  "version": "5.0.0",
+  "version": "2.0.0",
   "license": "MIT",
-  "main": "main.js",
   "private": false,
-  "author": "Jane Doe",
+  "author": "Smartlist",
   "repository": "https://github.com/ManuTheCoder/Smartlist-React-Dashboard-Test",
   "scripts": {
-    "dev": "nextron",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "post-update": "yarn upgrade --latest",
-    "build:all": "nextron build --all",
-    "build:win32": "nextron build --win --ia32",
-    "build:win64": "nextron build --win --x64",
-    "build:mac": "nextron build --mac --x64",
-    "build:linux": "nextron build --linux"
+    "lint": "next lint"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
@@ -24,17 +17,11 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@formspree/react": "2.2.5",
-    "@fullcalendar/common": "^5.11.0",
-    "@fullcalendar/daygrid": "^5.11.0",
-    "@fullcalendar/interaction": "^5.11.0",
-    "@fullcalendar/react": "^5.11.1",
-    "@fullcalendar/timegrid": "^5.11.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/lab": "^5.0.0-alpha.88",
     "@mui/material": "^5.8.6",
     "@types/react-detect-offline": "2.4.1",
     "@types/react-plaid-link": "2.0.0",
-    "browser-back-button": "^0.3.0",
     "chart.js": "^3.0.0",
     "csstype": "^3.0.10",
     "dayjs": "^1.11.3",
@@ -45,8 +32,6 @@
     "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.5.4",
     "next-transpile-modules": "^9.0.0",
-    "nextron": "^8.1.0",
-    "pluralize": "^8.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^4.2.0",
     "react-command-palette": "0.18.0",
@@ -56,6 +41,8 @@
     "react-hot-toast": "2.2.0",
     "react-plaid-link": "^3.3.2",
     "react-qr-code": "^2.0.7",
+    "react-virtualized": "^9.22.3",
+    "react-virtualized-auto-sizer": "^1.0.6",
     "swr": "^1.3.0",
     "webpack": "^5.73.0"
   },
@@ -64,7 +51,6 @@
     "@types/node": "^18.0.0",
     "@types/qrcode-svg": "^1.1.1",
     "@types/react": "^18.0.14",
-    "electron": "^19.0.8",
     "eslint": "8.18.0",
     "eslint-config-next": "12.2.0",
     "typescript": "^4.7.4"
@@ -76,5 +62,5 @@
     "javascript",
     "css"
   ],
-  "description": "Home inventory and finance tracking"
+  "description": "Next-gen home inventory and finance management"
 }

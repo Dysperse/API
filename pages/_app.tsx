@@ -11,9 +11,6 @@ import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
 import "../styles/global.css";
 import Head from "next/head";
-import "@fullcalendar/common/main.css";
-import "@fullcalendar/daygrid/main.css";
-import "@fullcalendar/timegrid/main.css";
 import Script from "next/script";
 dayjs.extend(relativeTime);
 

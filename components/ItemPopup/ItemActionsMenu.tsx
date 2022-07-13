@@ -52,7 +52,7 @@ export function ItemActionsMenu({
           aria-label="menu"
           onClick={handleClick}
         >
-          <span className="material-symbols-rounded">more_vert</span>
+          <span className="material-symbols-rounded">more_horiz</span>
         </IconButton>
       </Tooltip>
       <Menu

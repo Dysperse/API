@@ -4,7 +4,6 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Skeleton from "@mui/material/Skeleton";
-import TipsAndUpdates from "@mui/icons-material/TipsAndUpdates";
 import { green } from "@mui/material/colors";
 import * as colors from "@mui/material/colors";
 
@@ -88,9 +87,7 @@ function SuggestButton() {
         sx={{ color: green[global.theme === "dark" ? 100 : 900] }}
         onClick={() => setOpen(true)}
       >
-        <TipsAndUpdates
-          sx={{ verticalAlign: "middle", mr: 1, transform: "scale(.8)" }}
-        />
+        <span className="material-symbols-outlined">tips_and_updates</span>
         Suggest an app
       </Box>
       <Dialog
@@ -121,11 +118,6 @@ const apps = [
     href: "//my.smartlist.tech",
     label: "Carbon",
     description: "Home inventory and finance management",
-  },
-  {
-    href: "//recipe-generator.smartlist.tech",
-    label: "Recipes",
-    description: "Recipe ideas based on your inventory",
   },
   {
     key: 3,

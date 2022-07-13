@@ -1,4 +1,3 @@
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { orange } from "@mui/material/colors";
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
@@ -69,10 +68,10 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
               color: global.theme === "dark" ? orange[200] : orange[600],
             }}
           >
-            star_border
+            grade
           </span>
         ) : (
-          <StarBorderIcon />
+          <span className="material-symbols-outlined">grade</span>
         )}
       </IconButton>
     </Tooltip>

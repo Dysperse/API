@@ -1,3 +1,16 @@
+function testSameOrigin(url) {
+  var loc = window.location,
+    a = document.createElement("a");
+
+  a.href = url;
+
+  return (
+    a.hostname == loc.hostname &&
+    a.port == loc.port &&
+    a.protocol == loc.protocol
+  );
+}
+
 export const neutralizeBack = (callback: any) => {
   window.history.pushState(null, "", window.location.href);
   window.onpopstate = () => {
@@ -5,7 +18,4 @@ export const neutralizeBack = (callback: any) => {
     callback();
   };
 };
-export const revivalBack = () => {
-  (window as any).onpopstate = undefined;
-  window.history.pushState(null, "", window.location.href);
-};
+export const revivalBack = () => {};

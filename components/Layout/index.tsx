@@ -7,12 +7,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import useSWR from "swr";
-import useWindowDimensions from "../useWindowDimensions";
 import { BottomNav } from "./BottomNav";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { DrawerListItems } from "./Links";
@@ -161,7 +159,7 @@ function CustomRoom({ room }: { room: Room }) {
           }}
         >
           <ListItemIcon>
-            <LabelIcon />
+            <span className="material-symbols-outlined">label</span>
           </ListItemIcon>
           <ListItemText primary={room.name} />
         </ListItemButton>
@@ -237,7 +235,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
     >
       <CssBaseline />
       <Navbar handleDrawerToggle={handleDrawerToggle} />
-      {!global.session.user.SyncToken && <Invitations />}
+      {/* {!global.session.user.SyncToken && <Invitations />} */}
 
       <Box
         component="nav"

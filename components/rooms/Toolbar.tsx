@@ -1,4 +1,3 @@
-import FilterListIcon from "@mui/icons-material/FilterList";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
@@ -85,7 +84,12 @@ export function Toolbar({ items, setItems, data }: any) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <FilterListIcon sx={{ mr: 1.5 }} />
+        <span
+          className="material-symbols-rounded"
+          style={{ marginRight: "10px" }}
+        >
+          filter_alt
+        </span>
         Sort by
       </Button>
       <Menu

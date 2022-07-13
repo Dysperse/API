@@ -19,8 +19,8 @@ const styles = {
     textOverflow: "ellipsis",
   },
   maxHeight: { sm: "70px" },
-  maxWidth: { xs: "20vw!important", sm: "65px!important" },
-  minWidth: { xs: "20vw!important", sm: "65px!important" },
+  maxWidth: { xs: "25vw!important", sm: "65px!important" },
+  minWidth: { xs: "25vw!important", sm: "65px!important" },
   width: { xs: "20vw!important", sm: "65px!important" },
   mr: "-1px",
   "&.Mui-selected svg": {
@@ -125,10 +125,10 @@ export function BottomNav() {
               background: "transparent !important",
             },
           }}
-          label="Home"
+          label="Overview"
           disableRipple
           onClick={() => onLink("/dashboard")}
-          icon={<Icon baseClassName="material-symbols-rounded">dashboard</Icon>}
+          icon={<Icon baseClassName="material-symbols-rounded">layers</Icon>}
         />
         <BottomNavigationAction
           sx={{
@@ -160,16 +160,12 @@ export function BottomNav() {
                 whiteSpace: "nowrap",
               }}
             >
-              Eco friendlinessssssss
+              Eco friendliness
             </span>
           }
           disableRipple
           onClick={() => onLink("/save-the-planet")}
-          icon={
-            <Icon baseClassName="material-symbols-rounded">
-              energy_savings_leaf
-            </Icon>
-          }
+          icon={<Icon baseClassName="material-symbols-rounded">eco</Icon>}
         />
         <BottomNavigationAction
           sx={{
@@ -179,23 +175,10 @@ export function BottomNav() {
               background: "transparent !important",
             },
           }}
-          label="Items"
+          label="Inventory"
           disableRipple
           onClick={() => onLink("/items")}
-          icon={<Icon baseClassName="material-symbols-rounded">interests</Icon>}
-        />
-        <BottomNavigationAction
-          sx={{
-            ...styles,
-            "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
-              background: "transparent !important",
-            },
-          }}
-          label="Planner"
-          disableRipple
-          onClick={() => onLink("/planner")}
-          icon={<Icon baseClassName="material-symbols-rounded">event</Icon>}
+          icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
         />
       </BottomNavigation>
     </Box>
