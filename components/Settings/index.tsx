@@ -360,7 +360,7 @@ export default function FullScreenDialog({ children }: any) {
               content={<FinanceSettings />}
               icon="payments"
               primary={<span id="financeSettingsTrigger">Finances</span>}
-              secondary={<>Budget set to ${global.session.user.budget}</>}
+              secondary={<>Goal: {global.session.user.financePlan}</>}
             />
             <SettingsMenu
               id="accountSettings"

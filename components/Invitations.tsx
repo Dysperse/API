@@ -72,6 +72,7 @@ function Invitation({ data, key }: any) {
     </SwipeableDrawer>
   );
 }
+
 export function Invitations() {
   const url = "https://api.smartlist.tech/v2/account/sync/invitations/";
   const { data, error } = useSWR(url, () =>

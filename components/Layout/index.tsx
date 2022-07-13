@@ -21,6 +21,7 @@ import { grey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import router from "next/router";
+import { Invitations } from "../Invitations";
 
 const drawerWidth = 260;
 interface Room {
@@ -236,6 +237,8 @@ function ResponsiveDrawer(props: any): JSX.Element {
     >
       <CssBaseline />
       <Navbar handleDrawerToggle={handleDrawerToggle} />
+      {!global.session.user.SyncToken && <Invitations />}
+
       <Box
         component="nav"
         sx={{ width: { sm: "65px", md: drawerWidth }, flexShrink: { md: 0 } }}

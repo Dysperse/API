@@ -15,7 +15,6 @@ import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import Script from "next/script";
-import { Invitations } from "../components/Invitations";
 dayjs.extend(relativeTime);
 
 function Render({ data, Component, pageProps }: any) {
@@ -191,7 +190,6 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
             !isError &&
             (data.user ? (
               <>
-                {!data.user.SyncToken && <Invitations />}
                 <Render
                   Component={Component}
                   pageProps={pageProps}
