@@ -5,10 +5,17 @@ import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import { updateSettings } from "./Settings/updateSettings";
+import toast from "react-hot-toast";
 
 function Invitation({ data, key }: any) {
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  toast(() => (
+    <span>
+      You have recieved a new invitation
+      <button onClick={() => setOpen(true)}>Dismiss</button>
+    </span>
+  ));
   return (
     <SwipeableDrawer
       open={open}

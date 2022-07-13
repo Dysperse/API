@@ -2,14 +2,21 @@
   "name": "smartlist",
   "version": "5.0.0",
   "license": "MIT",
+  "main": "main.js",
   "private": false,
+  "author": "Jane Doe",
   "repository": "https://github.com/ManuTheCoder/Smartlist-React-Dashboard-Test",
   "scripts": {
-    "dev": "next",
+    "dev": "nextron",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "post-update": "yarn upgrade --latest"
+    "post-update": "yarn upgrade --latest",
+    "build:all": "nextron build --all",
+    "build:win32": "nextron build --win --ia32",
+    "build:win64": "nextron build --win --x64",
+    "build:mac": "nextron build --mac --x64",
+    "build:linux": "nextron build --linux"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
@@ -38,6 +45,7 @@
     "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.5.4",
     "next-transpile-modules": "^9.0.0",
+    "nextron": "^8.1.0",
     "pluralize": "^8.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^4.2.0",
@@ -56,6 +64,7 @@
     "@types/node": "^18.0.0",
     "@types/qrcode-svg": "^1.1.1",
     "@types/react": "^18.0.14",
+    "electron": "^19.0.8",
     "eslint": "8.18.0",
     "eslint-config-next": "12.2.0",
     "typescript": "^4.7.4"
