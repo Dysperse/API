@@ -179,7 +179,7 @@ function CreateBudgetMenu({ transactions }: any) {
 }
 
 export function Budgets({ transactions }: { transactions: any }) {
-  const { isLoading, data } = useFetch(
+  const { isLoading, data }: any = useFetch(
     "https://api.smartlist.tech/v2/finances/budgets/",
     {
       method: "POST",
