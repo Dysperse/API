@@ -7,7 +7,7 @@ module.exports = withPlugins(
     [
       withPWA({
         pwa: {
-          disable: process.env == "development",
+          disable: process.env.NODE_ENV == "development",
           dest: "public"
         }
       })
