@@ -15,6 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import toast from "react-hot-toast";
+import useFetch from "react-fetch-hook";
 
 function CreateBudgetMenu({ transactions }: any) {
   let categories: string[] = [];
@@ -26,8 +27,8 @@ function CreateBudgetMenu({ transactions }: any) {
   const formik = useFormik({
     initialValues: {
       category: "Food and Drink",
-      amount: "",
-      type: "",
+      amount: "100",
+      type: "daily",
     },
     onSubmit: async (values: {
       type: string;
@@ -106,7 +107,7 @@ function CreateBudgetMenu({ transactions }: any) {
                 id="demo-simple-select"
                 variant="filled"
                 value={formik.values.category}
-                label="Age"
+                label="What's this budget for?"
                 onChange={(e, v) =>
                   formik.setFieldValue("category", e.target.value)
                 }
@@ -117,13 +118,40 @@ function CreateBudgetMenu({ transactions }: any) {
               </Select>
             </FormControl>
 
+            <FormControl
+              fullWidth
+              sx={{
+                mt: 2,
+                "& .MuiBackdrop-root ": { opacity: "0!important" },
+              }}
+            >
+              <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>
+                How long is this budget for?
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                variant="filled"
+                value={formik.values.type}
+                label="How long is this budget for?"
+                onChange={(e, v) =>
+                  formik.setFieldValue("type", e.target.value)
+                }
+              >
+                {["Daily", "Weekly", "Monthly"].map((value: string) => (
+                  <MenuItem value={value}>{value}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
             <TextField
               InputProps={{ required: true }}
               autoComplete={"off"}
               variant="filled"
-              name="name"
+              name="amount"
               label="What's your limit"
               margin="dense"
+              type="number"
               autoFocus
               onChange={(e) => formik.setFieldValue("amount", e.target.value)}
               value={formik.values.amount}
@@ -151,6 +179,15 @@ function CreateBudgetMenu({ transactions }: any) {
 }
 
 export function Budgets({ transactions }: { transactions: any }) {
+  const { isLoading, data } = useFetch(
+    "https://api.smartlist.tech/v2/finances/budgets/",
+    {
+      method: "POST",
+      body: new URLSearchParams({
+        token: global.session.accessToken,
+      }),
+    }
+  );
   const spentToday = transactions
     .filter(
       (transaction: any) => transaction.date == dayjs().format("YYYY-MM-DD")
@@ -192,10 +229,19 @@ export function Budgets({ transactions }: { transactions: any }) {
           <Typography
             sx={{ mt: -1, fontSize: "13px", textTransform: "uppercase" }}
           >
-            This month
+            By category
           </Typography>
-          <Budget category="Food and Drink" amount="1000" type="monthly" />
-          <Budget category="Sporting Goods" amount="500" type="monthly" />
+          {isLoading ? (
+            "Loading..."
+          ) : (
+            <>
+              {data.data.map((budget: any, id: number) => (
+                <Budget {...budget} key={id.toString()} />
+              ))}
+            </>
+          )}
+          {/* <Budget category="Food and Drink" amount="1000" type="monthly" />
+          <Budget category="Sporting Goods" amount="500" type="monthly" /> */}
 
           <Typography
             sx={{ mt: 1, fontSize: "13px", textTransform: "uppercase" }}
