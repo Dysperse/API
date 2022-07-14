@@ -12,7 +12,7 @@ import React from "react";
 import useSWR from "swr";
 import { StreakCard } from "./StreakCard";
 import { AccountTab } from "./AccountTab";
-import { Liabilities } from "./Liabilities";
+// import { Liabilities } from "./Liabilities";
 import { TransactionList } from "./TransactionList";
 import { QuickActions } from "./QuickActions";
 import { Budgets } from "./Budgets/index";
@@ -173,7 +173,7 @@ export function AccountList() {
               </Tabs>
               <StreakCard />
               <ExpenseStructure transactions={data.transactions} />
-              <Liabilities />
+              {/* <Liabilities /> */}
             </Grid>
           </Grid>
         </>

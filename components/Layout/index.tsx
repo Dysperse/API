@@ -236,7 +236,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
       <CssBaseline />
       <Navbar handleDrawerToggle={handleDrawerToggle} />
       {!global.session.user.SyncToken &&
-        NODE_ENV !== "development" && <Invitations />}
+        process.env.NODE_ENV !== "development" && <Invitations />}
 
       <Box
         component="nav"

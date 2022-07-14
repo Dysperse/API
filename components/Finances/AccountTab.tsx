@@ -49,7 +49,7 @@ export function AccountTab({ account }: any) {
       >
         <Box
           sx={{
-            width: { xs: "100vw", sm: "50vw" },
+            width: { xs: "100vw", sm: "69vw", md: "35vw" },
             overflowY: "scroll",
             borderRadius: { sm: "20px" },
             height: { xs: "100vh", sm: "calc(100vh - 30px)" },
@@ -58,7 +58,7 @@ export function AccountTab({ account }: any) {
           <Box
             onScroll={(e: any) => setScrollTop(e.target.scrollTop)}
             sx={{
-              width: { xs: "100vw", sm: "50vw" },
+              width: { xs: "100vw", sm: "69vw", md: "35vw" },
               overflowY: "scroll",
               borderRadius: { sm: "20px" },
               height: { xs: "100vh", sm: "calc(100vh - 30px)" },
