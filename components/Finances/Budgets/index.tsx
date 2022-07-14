@@ -44,7 +44,7 @@ function CreateBudgetMenu({ transactions }: any) {
         }),
       });
       setOpen(false);
-      toast.success("Created budeget!");
+      toast.success("Created budget!");
       formik.resetForm();
     },
   });
