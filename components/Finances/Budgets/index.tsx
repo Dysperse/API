@@ -13,8 +13,8 @@ import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { JavascriptOutlined } from "@mui/icons-material";
+import Select from "@mui/material/Select";
+import toast from "react-hot-toast";
 
 function CreateBudgetMenu({ transactions }: any) {
   let categories: string[] = [];
@@ -44,6 +44,7 @@ function CreateBudgetMenu({ transactions }: any) {
         }),
       });
       setOpen(false);
+      toast.success("Created budeget!");
       formik.resetForm();
     },
   });
