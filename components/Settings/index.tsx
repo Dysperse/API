@@ -402,23 +402,23 @@ export default function FullScreenDialog({ children }: any) {
               primary="App"
               secondary={"Coming soon"}
             />
-            <SettingsMenu
-              content={<Sessions />}
-              icon="history"
-              primary="Sessions"
-              secondary={<>Accessing on {window.navigator.platform}</>}
-            />
-            <SettingsMenu
-              content={<Rooms />}
-              icon="pin_drop"
-              primary="Rooms"
-              secondary={"10 rooms"}
-            />
+            {global.session.user.studentMode === "false" && (
+              <SettingsMenu
+                content={<Rooms />}
+                icon="pin_drop"
+                primary="Rooms"
+                secondary={"10 rooms"}
+              />
+            )}
             <SettingsMenu
               content={<Sync />}
               icon="sync"
               primary="Sync"
-              secondary={"Pair your account and share inventory"}
+              secondary={
+                <span id="syncTrigger">
+                  Pair your account and share inventory
+                </span>
+              }
             />
             <Divider sx={{ mb: 1 }} />
 

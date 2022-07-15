@@ -369,12 +369,14 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           >
             Rooms
           </ListSubheader>
-          <ListItem
-            href="/rooms/[index]"
-            asHref="/rooms/kitchen"
-            text="Kitchen"
-            icon={<span className="material-symbols-rounded">oven_gen</span>}
-          />
+          {global.session.user.studentMode === "false" && (
+            <ListItem
+              href="/rooms/[index]"
+              asHref="/rooms/kitchen"
+              text="Kitchen"
+              icon={<span className="material-symbols-rounded">oven_gen</span>}
+            />
+          )}
           <ListItem
             href="/rooms/[index]"
             asHref="/rooms/bedroom"
@@ -389,117 +391,138 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             text="Bathroom"
             icon={<span className="material-symbols-rounded">bathroom</span>}
           />
-          <ListItem
-            href="/rooms/[index]"
-            asHref="/rooms/garage"
-            text="Garage"
-            icon={<span className="material-symbols-rounded">garage</span>}
-          />
-          <ListItem
-            href="/rooms/[index]"
-            asHref="/rooms/dining"
-            text="Dining room"
-            icon={<span className="material-symbols-rounded">dining</span>}
-          />
-          <ListItem
-            href="/rooms/[index]"
-            asHref="/rooms/living-room"
-            text="Living room"
-            icon={<span className="material-symbols-rounded">living</span>}
-          />
-          <ListItem
-            href="/rooms/[index]"
-            asHref="/rooms/laundry-room"
-            text="Laundry room"
-            icon={
-              <span className="material-symbols-rounded">
-                local_laundry_service
-              </span>
-            }
-          />
+          {global.session.user.studentMode === "false" && (
+            <ListItem
+              href="/rooms/[index]"
+              asHref="/rooms/garage"
+              text="Garage"
+              icon={<span className="material-symbols-rounded">garage</span>}
+            />
+          )}
+          {global.session.user.studentMode === "false" && (
+            <ListItem
+              href="/rooms/[index]"
+              asHref="/rooms/dining"
+              text="Dining room"
+              icon={<span className="material-symbols-rounded">dining</span>}
+            />
+          )}
+          {global.session.user.studentMode === "false" && (
+            <ListItem
+              href="/rooms/[index]"
+              asHref="/rooms/living-room"
+              text={<>Living room</>}
+              icon={<span className="material-symbols-rounded">living</span>}
+            />
+          )}
+          {global.session.user.studentMode === "false" && (
+            <ListItem
+              href="/rooms/[index]"
+              asHref="/rooms/laundry-room"
+              text="Laundry room"
+              icon={
+                <span className="material-symbols-rounded">
+                  local_laundry_service
+                </span>
+              }
+            />
+          )}
           <ListItem
             href="/rooms/[index]"
             asHref="/rooms/storage-room"
-            text="Storage room"
+            text={
+              <>
+                Storage {global.session.user.studentMode === "false" && "room"}
+              </>
+            }
             icon={<span className="material-symbols-rounded">inventory_2</span>}
           />
-          <ListItem
-            href="/rooms/[index]"
-            asHref="/rooms/camping"
-            text="Camping"
-            icon={<span className="material-symbols-rounded">image</span>}
-          />
-          <ListItem
-            href="/rooms/[index]"
-            asHref="/rooms/garden"
-            text="Garden"
-            icon={<span className="material-symbols-rounded">yard</span>}
-          />
+          {global.session.user.studentMode === "false" && (
+            <ListItem
+              href="/rooms/[index]"
+              asHref="/rooms/camping"
+              text="Camping"
+              icon={<span className="material-symbols-rounded">image</span>}
+            />
+          )}
+          {global.session.user.studentMode === "false" && (
+            <ListItem
+              href="/rooms/[index]"
+              asHref="/rooms/garden"
+              text="Garden"
+              icon={<span className="material-symbols-rounded">yard</span>}
+            />
+          )}
         </div>
 
-        <ListItemButton
-          disableRipple   
-          onClick={handleClick}
-          sx={{
-            pl: 3.5,
-            transition: "none!important",
-            color:
-              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
-            "& span": {
-              color:
-                (global.theme === "dark" ? grey[200] : "#606060") +
-                "!important",
-            },
-            borderRadius: "0 200px 200px 0",
-            "& .MuiTouchRipple-rippleVisible": {
-              animationDuration: ".3s!important",
-            },
-            "& .MuiTouchRipple-child": {
-              filter: "opacity(.2)!important",
-            },
-            "&:hover,&:focus": {
-              color:
-                (global.theme === "dark" ? grey[200] : grey[900]) +
-                "!important",
-              background: "rgba(200,200,200,.3)",
-            },
-            "&:hover span": {
-              color:
-                (global.theme === "dark" ? grey[200] : grey[900]) +
-                "!important",
-            },
-            "&:active": {
-              background: "rgba(200,200,200,.4)",
-            },
-          }}
-        >
-          <ListItemIcon>
-            <span className="material-symbols-rounded">pin_drop</span>
-          </ListItemIcon>
-          <ListItemText primary="More" />
-          <span
-            className="material-symbols-rounded"
-            style={{
-              transition: "all .2s",
-              ...(open && {
-                transform: "rotate(-180deg)",
-              }),
-            }}
-          >
-            expand_more
-          </span>
-        </ListItemButton>
-        <Collapse
-          in={open}
-          timeout="auto"
-          unmountOnExit
-          onClick={handleDrawerToggle}
-        >
-          <List component="div" disablePadding>
-            {customRooms}
-            <CreateRoom />
-          </List>
-        </Collapse>
+        {global.session.user.studentMode === "false" && (
+          <>
+            <ListItemButton
+              disableRipple
+              onClick={handleClick}
+              sx={{
+                pl: 3.5,
+                transition: "none!important",
+                color:
+                  (global.theme === "dark" ? grey[200] : "#606060") +
+                  "!important",
+                "& span": {
+                  color:
+                    (global.theme === "dark" ? grey[200] : "#606060") +
+                    "!important",
+                },
+                borderRadius: "0 200px 200px 0",
+                "& .MuiTouchRipple-rippleVisible": {
+                  animationDuration: ".3s!important",
+                },
+                "& .MuiTouchRipple-child": {
+                  filter: "opacity(.2)!important",
+                },
+                "&:hover,&:focus": {
+                  color:
+                    (global.theme === "dark" ? grey[200] : grey[900]) +
+                    "!important",
+                  background: "rgba(200,200,200,.3)",
+                },
+                "&:hover span": {
+                  color:
+                    (global.theme === "dark" ? grey[200] : grey[900]) +
+                    "!important",
+                },
+                "&:active": {
+                  background: "rgba(200,200,200,.4)",
+                },
+              }}
+            >
+              <ListItemIcon>
+                <span className="material-symbols-rounded">pin_drop</span>
+              </ListItemIcon>
+              <ListItemText primary="More" />
+              <span
+                className="material-symbols-rounded"
+                style={{
+                  transition: "all .2s",
+                  ...(open && {
+                    transform: "rotate(-180deg)",
+                  }),
+                }}
+              >
+                expand_more
+              </span>
+            </ListItemButton>
+            <Collapse
+              in={open}
+              timeout="auto"
+              unmountOnExit
+              onClick={handleDrawerToggle}
+            >
+              <List component="div" disablePadding>
+                {customRooms}
+                <CreateRoom />
+              </List>
+            </Collapse>
+          </>
+        )}
         <ListSubheader
           component="div"
           id="nested-list-subheader"

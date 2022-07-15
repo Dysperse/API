@@ -15,7 +15,7 @@ export default function AppearanceSettings() {
   const [studentMode, setStudentMode] = useState<boolean>(false);
 
   useEffect(() => {
-    updateSettings("studentMode", studentMode ? "on" : "off");
+    updateSettings("studentMode", studentMode ? "true" : "false");
   }, [studentMode]);
 
   return (

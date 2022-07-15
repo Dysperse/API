@@ -247,16 +247,13 @@ function Content({ toggleDrawer }: any) {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title="Kitchen"
-          icon={<span className="material-symbols-rounded">oven_gen</span>}
-        />
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title="Bathroom"
-          icon={<span className="material-symbols-rounded">bathroom</span>}
-        />
+        {global.session.user.studentMode === "false" && (
+          <AddItemOption
+            toggleDrawer={toggleDrawer}
+            title="Kitchen"
+            icon={<span className="material-symbols-rounded">oven_gen</span>}
+          />
+        )}
         <AddItemOption
           toggleDrawer={toggleDrawer}
           title="Bedroom"
@@ -266,115 +263,46 @@ function Content({ toggleDrawer }: any) {
         />
         <AddItemOption
           toggleDrawer={toggleDrawer}
-          title="Garage"
-          icon={<span className="material-symbols-rounded">garage</span>}
+          title="Bathroom"
+          icon={<span className="material-symbols-rounded">bathroom</span>}
         />
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title={<>Living&nbsp;room</>}
-          icon={<span className="material-symbols-rounded">living</span>}
-        />
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title={<>Dining&nbsp;room</>}
-          icon={<span className="material-symbols-rounded">dining</span>}
-        />
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title={<>Laundry</>}
-          icon={
-            <span className="material-symbols-rounded">
-              local_laundry_service
-            </span>
-          }
-        />
-        <MoreRooms />
-      </Grid>
-      <Grid container sx={{ p: 1, display: "none" }}>
-        <Grid item xs={6}>
-          <CreateListModal parent="-1" title="reminder">
-            <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
-              <CardActionArea
-                disableRipple
-                onClick={() => toggleDrawer(false)}
-                id="listTrigger_0"
-                sx={{
-                  transition: "transform .2s",
-                  "&:active": {
-                    boxShadow: "none!important",
-                    transform: "scale(0.98)",
-                    transition: "none",
-                  },
-                  "&:focus-within": {
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                    boxShadow:
-                      "inset 0px 0px 0px 2px " +
-                      colors[themeColor][global.theme === "dark" ? 200 : 800],
-                  },
-                  "&:hover": {
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                    boxShadow: "none!important",
-                  },
-                  borderRadius: 6,
-                }}
-              >
-                <CardContent sx={{ p: 1 }}>
-                  <Typography variant="h4">
-                    <span className="material-symbols-rounded">check</span>
-                  </Typography>
-                  <Typography>To-do list</Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </CreateListModal>
-        </Grid>
-        <Grid item xs={6}>
-          <CreateListModal parent="-2" title="item">
-            <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
-              <CardActionArea
-                id="listTrigger_1"
-                disableRipple
-                onClick={() => toggleDrawer(false)}
-                sx={{
-                  "&:focus-within": {
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                    boxShadow:
-                      "inset 0px 0px 0px 2px " +
-                      colors[themeColor][global.theme === "dark" ? 200 : 800],
-                  },
-                  "&:hover": {
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                    boxShadow: "none!important",
-                  },
-                  borderRadius: 6,
-                  transition: "transform .2s",
-                  "&:active": {
-                    boxShadow: "none!important",
-                    transform: "scale(0.98)",
-                    transition: "none",
-                  },
-                }}
-              >
-                <CardContent sx={{ p: 1 }}>
-                  <Typography variant="h4">
-                    <span className="material-symbols-rounded">
-                      receipt_long
-                    </span>
-                  </Typography>
-                  <Typography>Shopping list</Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </CreateListModal>
-        </Grid>
+
+        {global.session.user.studentMode === "true" && (
+          <AddItemOption
+            toggleDrawer={toggleDrawer}
+            title="Storage"
+            icon={<span className="material-symbols-rounded">inventory_2</span>}
+          />
+        )}
+        {global.session.user.studentMode === "false" && (
+          <>
+            <AddItemOption
+              toggleDrawer={toggleDrawer}
+              title="Garage"
+              icon={<span className="material-symbols-rounded">garage</span>}
+            />
+            <AddItemOption
+              toggleDrawer={toggleDrawer}
+              title={<>Living&nbsp;room</>}
+              icon={<span className="material-symbols-rounded">living</span>}
+            />
+            <AddItemOption
+              toggleDrawer={toggleDrawer}
+              title={<>Dining&nbsp;room</>}
+              icon={<span className="material-symbols-rounded">dining</span>}
+            />
+            <AddItemOption
+              toggleDrawer={toggleDrawer}
+              title={<>Laundry</>}
+              icon={
+                <span className="material-symbols-rounded">
+                  local_laundry_service
+                </span>
+              }
+            />
+            <MoreRooms />
+          </>
+        )}
       </Grid>
     </List>
   );
