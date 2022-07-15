@@ -19,6 +19,9 @@ import * as colors from "@mui/material/colors";
 import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
 
+import { useHotkeys } from "react-hotkeys-hook";
+import { useState } from "react";
+
 const Root = styled("div")(() => ({
   height: "100%",
 }));
@@ -94,6 +97,7 @@ function AddItemOption({
 function MoreRooms(): JSX.Element {
   const url = "https://api.smartlist.tech/v2/rooms/";
   const [open, setOpen] = React.useState<boolean>(false);
+
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
@@ -310,6 +314,11 @@ function Content({ toggleDrawer }: any) {
 export default function AddPopup(props: any) {
   const [open, setOpen] = React.useState<boolean>(false);
 
+  useHotkeys("ctrl+s", (e) => {
+    e.preventDefault();
+    document.getElementById("add_trigger")!.click();
+  });
+
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
@@ -347,7 +356,9 @@ export default function AddPopup(props: any) {
           },
         }}
       />
-      <div onClick={toggleDrawer(true)}>{props.children}</div>
+      <div id="add_trigger" onClick={toggleDrawer(true)}>
+        {props.children}
+      </div>
 
       <SwipeableDrawer
         anchor="bottom"

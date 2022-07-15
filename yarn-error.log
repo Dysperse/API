@@ -1,5 +1,5 @@
 Arguments: 
-  /opt/nodejs/16.14.2/bin/node /opt/yarn/1.22.15/bin/yarn.js add react-use-hotkeys-hook
+  /opt/nodejs/16.14.2/bin/node /opt/yarn/1.22.15/bin/yarn.js add @types/react-use-hotkeys-hook
 
 PATH: 
   /home/codespace/.rbenv/shims:/vscode/bin/linux-x64/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a/bin/remote-cli:/home/codespace/.local/bin:/home/codespace/.rbenv/shims:/home/codespace/.nvm/current/bin:/home/codespace/.npm-global/bin:/home/codespace/.python/current/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/codespace/.dotnet:/home/codespace/.dotnet/tools:/usr/local/sdkman/bin:/usr/local/sdkman/candidates/gradle/current/bin:/usr/local/sdkman/candidates/java/current/bin:/opt/maven/lts:/usr/local/go/bin:/go/bin:/usr/local/py-utils/bin:/opt/conda/condabin:/home/codespace/.java/current/bin:/home/codespace/.nodejs/current/bin:/home/codespace/.php/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.maven/current/bin:/home/codespace/.hugo/current/bin:/home/codespace/.local/bin:/opt/oryx:/opt/nodejs/lts/bin:/opt/dotnet/lts:/opt/python/latest/bin:/opt/php/lts/bin:/opt/php-composer:/opt/yarn/stable/bin:/opt/hugo/lts::/opt/java/lts/bin:/opt/maven/lts/bin:/opt/ruby/lts/bin:/usr/local/rvm/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-use-hotkeys-hook: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-use-hotkeys-hook: Not found
       at Request.params.callback [as _callback] (/opt/yarn/1.22.15/lib/cli.js:67031:18)
       at Request.self.callback (/opt/yarn/1.22.15/lib/cli.js:140885:22)
       at Request.emit (node:events:526:28)
