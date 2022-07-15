@@ -101,7 +101,7 @@ function ConnectBankAccount() {
 
 const steps = [
   {
-    label: "Let&apos;s get started",
+    label: <>Let&apos;s get started</>,
     description: `You haven&apos;t connected your bank account with Smartlist. You&apos;ll need to connect your bank account for us to view your transactions and help you save money.`,
   },
   {
@@ -123,7 +123,7 @@ const steps = [
   {
     label: "Configure notifications",
     caption: "Optional",
-    description: `We&apos;ll let you know when you overspend.`,
+    description: <>We&apos;ll let you know when you overspend.</>,
   },
 ];
 

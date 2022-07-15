@@ -7,6 +7,7 @@ import Tabs from "@mui/material/Tabs";
 import Skeleton from "@mui/material/Skeleton";
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import dayjs from "dayjs";
 import React from "react";
 import useSWR from "swr";
@@ -17,6 +18,28 @@ import { TransactionList } from "./TransactionList";
 import { QuickActions } from "./QuickActions";
 import { Budgets } from "./Budgets/index";
 import { ExpenseStructure } from "./ExpenseStructure";
+
+function Login({ setLoginRequired }: any) {
+  return (
+    <Box sx={{ textAlign: "center", p: 5 }}>
+      <Card sx={{ py: 5, background: "rgba(200,200,200,.4)", borderRadius: 5 }}>
+        <CardContent>
+          <Typography variant="h5">
+            Please reconnect your bank account
+          </Typography>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{ mt: 3, boxShadow: 0, borderRadius: 5 }}
+            onClick={() => setLoginRequired(true)}
+          >
+            Connect my bank account
+          </Button>
+        </CardContent>
+      </Card>
+    </Box>
+  );
+}
 
 export const currency_symbols = {
   USD: "$", // US Dollar
@@ -36,7 +59,7 @@ export const currency_symbols = {
   VND: "₫",
 };
 
-export function AccountList() {
+export function AccountList({ setLoginRequired }: any) {
   const url =
     "/api/finance/fetchTransactions/?" +
     new URLSearchParams({
@@ -82,7 +105,8 @@ export function AccountList() {
 
   return (
     <>
-      {data.error_code !== "PRODUCT_NOT_READY" ? (
+      {data.error_code !== "PRODUCT_NOT_READY" &&
+      data.error_code !== "ITEM_LOGIN_REQUIRED" ? (
         <>
           <Typography
             sx={{ fontWeight: "600", my: 1, mt: 4, ml: 1 }}
@@ -177,6 +201,8 @@ export function AccountList() {
             </Grid>
           </Grid>
         </>
+      ) : data.error_code == "ITEM_LOGIN_REQUIRED" ? (
+        <Login setLoginRequired={setLoginRequired} />
       ) : (
         <Box sx={{ textAlign: "center", p: 5 }}>
           <Card
