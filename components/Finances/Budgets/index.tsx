@@ -100,7 +100,7 @@ function CreateBudgetMenu({ transactions }: any) {
               }}
             >
               <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>
-                What's this budget for?
+                What&apos;s this budget for?
               </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -112,8 +112,10 @@ function CreateBudgetMenu({ transactions }: any) {
                   formik.setFieldValue("category", e.target.value)
                 }
               >
-                {categories.map((category: string) => (
-                  <MenuItem value={category}>{category}</MenuItem>
+                {categories.map((category: string, key: number) => (
+                  <MenuItem value={category} key={key.toString()}>
+                    {category}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -138,9 +140,13 @@ function CreateBudgetMenu({ transactions }: any) {
                   formik.setFieldValue("type", e.target.value)
                 }
               >
-                {["Daily", "Weekly", "Monthly"].map((value: string) => (
-                  <MenuItem value={value}>{value}</MenuItem>
-                ))}
+                {["Daily", "Weekly", "Monthly"].map(
+                  (value: string, key: number) => (
+                    <MenuItem value={value} key={key.toString()}>
+                      {value}
+                    </MenuItem>
+                  )
+                )}
               </Select>
             </FormControl>
 

@@ -167,8 +167,8 @@ export function AccountList() {
                   },
                 }}
               >
-                {data.accounts.map((account) => (
-                  <AccountTab account={account} />
+                {data.accounts.map((account, key: number) => (
+                  <AccountTab account={account} key={key.toString()} />
                 ))}
               </Tabs>
               <StreakCard />
