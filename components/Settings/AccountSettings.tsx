@@ -14,10 +14,6 @@ export default function AppearanceSettings() {
   const [mode, setMode] = useState<"personal" | "business">("personal");
   const [studentMode, setStudentMode] = useState<boolean>(false);
 
-  useEffect(() => {
-    updateSettings("studentMode", studentMode ? "true" : "false");
-  }, [studentMode]);
-
   return (
     <>
       <Box
@@ -110,12 +106,16 @@ export default function AppearanceSettings() {
           Student mode
         </ListSubheader>
         <ListItem
-          onClick={() => setStudentMode(!studentMode)}
+          onClick={() => {
+            setStudentMode(!studentMode);
+            updateSettings("studentMode", studentMode ? "true" : "false");
+          }}
           secondaryAction={
             <Switch
               edge="end"
               onChange={(e) => {
                 setStudentMode(!studentMode);
+                updateSettings("studentMode", studentMode ? "true" : "false");
               }}
               checked={studentMode}
             />
