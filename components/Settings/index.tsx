@@ -28,6 +28,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { useHotkeys } from "react-hotkeys-hook";
 
 function Logout() {
   const [open, setOpen] = useState<boolean>(false);
@@ -142,6 +143,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
           : "#eee"
       );
   });
+
   return (
     <>
       <ListItem
@@ -278,10 +280,15 @@ export default function FullScreenDialog({ children }: any) {
           : "hsl(240, 11%, 10%)"
       );
   });
-
+  useHotkeys("ctrl+,", (e) => {
+    e.preventDefault();
+    document.getElementById("settingsTrigger")!.click();
+  });
   return (
     <div>
-      <div onClick={handleClickOpen}>{children}</div>
+      <div id="settingsTrigger" onClick={handleClickOpen}>
+        {children}
+      </div>
 
       <SwipeableDrawer
         anchor="right"
