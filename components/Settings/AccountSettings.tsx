@@ -12,7 +12,9 @@ import { updateSettings } from "./updateSettings";
 
 export default function AppearanceSettings() {
   const [mode, setMode] = useState<"personal" | "business">("personal");
-  const [studentMode, setStudentMode] = useState<boolean>(false);
+  const [studentMode, setStudentMode] = useState<boolean>(
+    global.session.user.studentMode === "true"
+  );
 
   return (
     <>
