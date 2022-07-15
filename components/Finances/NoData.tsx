@@ -153,7 +153,7 @@ export default function NoData() {
     >
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
-          <Step key={step.label}>
+          <Step key={index.toString()}>
             <StepLabel
               optional={
                 step.caption ? (
