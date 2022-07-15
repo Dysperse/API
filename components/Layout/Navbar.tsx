@@ -244,57 +244,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
               />
             )}
           </Typography>
-          <SearchPopup
-            content={
-              <Tooltip title="Jump to">
-                {global.session ? (
-                  <IconButton
-                    color="inherit"
-                    disableRipple
-                    edge="end"
-                    size="large"
-                    sx={{
-                      transition: "none",
-                      mr: 1,
-                      color:
-                        global.theme === "dark"
-                          ? "hsl(240, 11%, 90%)"
-                          : "#606060",
-                      "&:hover": {
-                        background: "rgba(200,200,200,.3)",
-                        color:
-                          global.theme === "dark"
-                            ? "hsl(240, 11%, 95%)"
-                            : "#000",
-                      },
-                      "&:focus-within": {
-                        background:
-                          (global.theme === "dark"
-                            ? colors[themeColor]["900"]
-                            : colors[themeColor]["50"]) + "!important",
-                        color:
-                          global.theme === "dark"
-                            ? "hsl(240, 11%, 95%)"
-                            : "#000",
-                      },
-                    }}
-                  >
-                    <span className="material-symbols-rounded">
-                      electric_bolt
-                    </span>
-                  </IconButton>
-                ) : (
-                  <Skeleton
-                    sx={{ mr: 2 }}
-                    variant="circular"
-                    width={40}
-                    height={40}
-                    animation="wave"
-                  />
-                )}
-              </Tooltip>
-            }
-          />
+
           <NotificationsMenu>
             <Tooltip title="Notifications">
               {global.session ? (
@@ -338,6 +288,44 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
               )}
             </Tooltip>
           </NotificationsMenu>
+          <SearchPopup
+            content={
+              <Tooltip title="Jump to">
+                <IconButton
+                  color="inherit"
+                  id="searchTrigger1"
+                  disableRipple
+                  edge="end"
+                  size="large"
+                  sx={{
+                    transition: "none",
+                    mr: 1,
+                    color:
+                      global.theme === "dark"
+                        ? "hsl(240, 11%, 90%)"
+                        : "#606060",
+                    "&:hover": {
+                      background: "rgba(200,200,200,.3)",
+                      color:
+                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                    },
+                    "&:focus-within": {
+                      background:
+                        (global.theme === "dark"
+                          ? colors[themeColor]["900"]
+                          : colors[themeColor]["50"]) + "!important",
+                      color:
+                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                    },
+                  }}
+                >
+                  <span className="material-symbols-rounded">
+                    electric_bolt
+                  </span>
+                </IconButton>
+              </Tooltip>
+            }
+          />
           <Box sx={{ display: { sm: "block", xs: "none" } }}>
             <AppsMenu />
           </Box>

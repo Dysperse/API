@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import CommandPalette from "react-command-palette";
+import { useHotkeys } from "react-hotkeys-hook";
 
 function atomCommand(suggestion: any) {
   const { name, shortcut } = suggestion;
@@ -15,6 +16,19 @@ function atomCommand(suggestion: any) {
 export function SearchPopup({ content }: any) {
   const router = useRouter();
   const [ready, setReady] = useState<boolean>(false);
+  useHotkeys("ctrl+/", (e) => {
+    e.preventDefault();
+    document.getElementById("searchTrigger1")!.click();
+  });
+  useHotkeys("ctrl+k", (e) => {
+    e.preventDefault();
+    document.getElementById("searchTrigger1")!.click();
+  });
+  useHotkeys("ctrl+f", (e) => {
+    e.preventDefault();
+    document.getElementById("searchTrigger1")!.click();
+  });
+
   const [commands, setCommands] = useState([
     {
       name: "Dashboard",

@@ -20,7 +20,6 @@ import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
 
 import { useHotkeys } from "react-hotkeys-hook";
-import { useState } from "react";
 
 const Root = styled("div")(() => ({
   height: "100%",
