@@ -11,26 +11,6 @@ function Invitation({ t, invitation, key }: any) {
 
   return (
     <>
-      <span>
-        You have recieved a new invitation
-        <Button
-          variant="contained"
-          sx={{
-            mt: 1,
-            borderRadius: 3,
-            width: "100%",
-            display: "flex",
-            boxShadow: 0,
-          }}
-          onClick={() => {
-            setOpen(true);
-            toast.dismiss(t.id);
-          }}
-        >
-          View
-        </Button>
-      </span>
-
       <Box sx={{ p: 4, textAlign: "left", py: 5 }}>
         <Typography variant="h5" sx={{ fontWeight: "700" }}>
           A Carbon user has invited you to join &ldquo;{invitation.houseName}
