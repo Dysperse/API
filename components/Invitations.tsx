@@ -27,7 +27,7 @@ function Invitation({ t, invitation, key }: any) {
             setLoading(true);
             updateSettings("SyncToken", invitation.token, false, () => {
               setLoading(false);
-              setOpen(false);
+              toast.dismiss(toast.id);
               window.location.reload();
             });
           }}
