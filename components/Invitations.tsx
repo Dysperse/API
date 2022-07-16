@@ -65,7 +65,13 @@ export function Invitations() {
         .then((res) => {
           if (res.data.length > 0) {
             res.data.forEach((invitation: any, key: number) => {
-              toast((t) => <></>);
+              toast((t) => (
+                <Invitation
+                  t={t}
+                  invitation={invitation}
+                  key={key.toString()}
+                />
+              ));
             });
           }
         });
