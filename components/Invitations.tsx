@@ -11,7 +11,7 @@ function Invitation({ t, invitation, key }: any) {
 
   return (
     <>
-      <Box sx={{ p: 4, textAlign: "left", py: 5 }}>
+      <Box sx={{ p: 1, textAlign: "left", py: 2 }}>
         <Typography variant="h5" sx={{ fontWeight: "700" }}>
           A Carbon user has invited you to join &ldquo;{invitation.houseName}
           &rdquo;
