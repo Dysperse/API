@@ -1,60 +1,51 @@
-import useSWR from "swr";
-import { useState } from "react";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { updateSettings } from "./Settings/updateSettings";
 import toast from "react-hot-toast";
 
-function Invitation({ data, key }: any) {
-  const [open, setOpen] = useState<boolean>(false);
+function Invitation({ t, invitation, key }: any) {
   const [loading, setLoading] = useState<boolean>(false);
-  toast(() => (
-    <span>
-      You have recieved a new invitation
-      <button onClick={() => setOpen(true)}>Dismiss</button>
-    </span>
-  ));
+
   return (
-    <SwipeableDrawer
-      open={open}
-      anchor="bottom"
-      swipeAreaWidth={0}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      sx={{
-        display: "flex",
-        alignItems: { xs: "end", sm: "center" },
-        height: "100vh",
-        justifyContent: "center",
-      }}
-      PaperProps={{
-        sx: {
-          borderRadius: "28px",
-          borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
-          borderBottomRightRadius: { xs: 0, sm: "28px!important" },
-          position: "unset",
-          mx: "auto",
-          maxWidth: { sm: "30vw", xs: "100vw" },
-          overflow: "hidden",
-        },
-      }}
-    >
+    <>
+      <span>
+        You have recieved a new invitation
+        <Button
+          variant="contained"
+          sx={{
+            mt: 1,
+            borderRadius: 3,
+            width: "100%",
+            display: "flex",
+            boxShadow: 0,
+          }}
+          onClick={() => {
+            setOpen(true);
+            toast.dismiss(t.id);
+          }}
+        >
+          View
+        </Button>
+      </span>
+
       <Box sx={{ p: 4, textAlign: "left", py: 5 }}>
         <Typography variant="h5" sx={{ fontWeight: "700" }}>
-          A Carbon user has invited you to join &ldquo;{data.houseName}&rdquo;
+          A Carbon user has invited you to join &ldquo;{invitation.houseName}
+          &rdquo;
         </Typography>
         <Typography sx={{ mt: 1 }} variant="body2">
           Joining a home will delete any items, budgets, or goals you&apos;ve
           created. You can restore it later by removing yourself. Once you join,
           you won&apos;t be able to recieve invitations from other users until
-          you remove yourself from {data.houseName}.
+          you remove yourself from {invitation.houseName}.
         </Typography>
         <LoadingButton
           onClick={() => {
             setLoading(true);
-            updateSettings("SyncToken", data.token, false, () => {
+            updateSettings("SyncToken", invitation.token, false, () => {
               setLoading(false);
               setOpen(false);
               window.location.reload();
@@ -76,29 +67,39 @@ function Invitation({ data, key }: any) {
           Join
         </LoadingButton>
       </Box>
-    </SwipeableDrawer>
+    </>
   );
 }
 
 export function Invitations() {
-  const url = "https://api.smartlist.tech/v2/account/sync/invitations/";
-  const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
-        email: global.session && global.session.user.email,
-      }),
-    }).then((res) => res.json())
-  );
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch("https://api.smartlist.tech/v2/account/sync/invitations/", {
+        method: "POST",
+        body: new URLSearchParams({
+          token: global.session && global.session.accessToken,
+          email: global.session && global.session.user.email,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.data.length > 0) {
+            res.data.forEach((invitation: any, key: number) => {
+              toast((t) => <></>);
+            });
+          }
+        });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
-      {data &&
+      {/* {data &&
         data.data &&
         data.data.map((invitation: any) => (
           <Invitation data={invitation} key={invitation.id} />
-        ))}
+        ))} */}
     </>
   );
 }
