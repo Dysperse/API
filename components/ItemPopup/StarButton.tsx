@@ -46,19 +46,20 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
         }}
         onClick={() => {
           setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
-          setStar((s: number) => {
-            fetch("https://api.smartlist.tech/v2/items/star/", {
-              method: "POST",
-              body: new URLSearchParams({
+          setStar((s: number) => +!s);
+          fetch(
+            "/api/inventory/star?" +
+              new URLSearchParams({
                 token:
                   global.session &&
                   (global.session.user.SyncToken || global.session.accessToken),
                 id: id.toString(),
-                date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               }),
-            });
-            return +!s;
-          });
+            {
+              method: "POST",
+            }
+          );
         }}
       >
         {star === 1 ? (
