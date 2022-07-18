@@ -419,7 +419,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 sx={{
                   mt: {
                     xs: 3,
-                    sm: 1,
+                    sm: 0.5,
                   },
                   boxShadow: 0,
                   display: "block",
