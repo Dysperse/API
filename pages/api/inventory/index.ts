@@ -1,5 +1,5 @@
-import excuteQuery from "../../lib/db";
-import { ExchangeToken } from "../../lib/exchange-token";
+import excuteQuery from "../../../lib/db";
+import { ExchangeToken } from "../../../lib/exchange-token";
 
 export default async (req, res) => {
   try {
@@ -7,7 +7,8 @@ export default async (req, res) => {
     const userId = await ExchangeToken(req.query.token);
 
     const result = await excuteQuery({
-      query: "SELECT * FROM Inventory WHERE user = ? AND room = ?",
+      query:
+        "SELECT * FROM Inventory WHERE user = ? AND room = ? AND trash = 0",
       values: [userId[0].user ?? false, req.query.room ?? "kitchen"],
     });
     res.json({

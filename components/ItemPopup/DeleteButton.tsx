@@ -36,14 +36,19 @@ export function DeleteButton({
           },
         }}
         onClick={() => {
-          fetch("https://api.smartlist.tech/v2/items/delete/", {
-            method: "POST",
-            body: new URLSearchParams({
-              token: global.session && (global.session.user.SyncToken || global.session.accessToken),
-              id: id.toString(),
-              date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-            }),
-          });
+          fetch(
+            "/api/inventory/trash?" +
+              new URLSearchParams({
+                token:
+                  global.session &&
+                  (global.session.user.SyncToken || global.session.accessToken),
+                id: id.toString(),
+                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              }),
+            {
+              method: "POST",
+            }
+          );
           setOpen(true);
           setDeleted(true);
           setDrawerState(false);
