@@ -417,7 +417,10 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               <Card
                 onContextMenu={handleContextMenu}
                 sx={{
-                  mb: 1,
+                  mt: {
+                    xs: 3,
+                    sm: 1,
+                  },
                   boxShadow: 0,
                   display: "block",
                   width: "100%",
@@ -425,7 +428,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   borderRadius: "28px",
                   background:
                     (global.theme === "dark"
-                      ? "hsl(240, 11%, 20%)"
+                      ? "hsl(240, 11%, 17%)"
                       : "rgba(200,200,200,.3)") + "!important",
                   transition: "transform .2s",
                   "& *": { transition: "none!important" },
@@ -446,7 +449,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     "&:focus-within": {
                       background:
                         (global.theme === "dark"
-                          ? "hsl(240, 11%, 20%)"
+                          ? "hsl(240, 11%, 18%)"
                           : "rgba(200,200,200,.01)") + "!important",
                     },
                     borderRadius: "28px",

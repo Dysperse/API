@@ -47,7 +47,10 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
         "&:active": {
           transition: "none!important",
           transform: "scale(.97)",
-          background: "rgba(200,200,200,.4)!important",
+          background:
+            theme === "dark"
+              ? "hsl(240,11%,30%)"
+              : "rgba(200,200,200,.4)!important",
         },
         ...(theme === "dark" && {
           "&:hover .avatar": {
