@@ -22,13 +22,14 @@ function isEmail(email) {
 const top100Emails: readonly EmailOptionType[] = [];
 
 export default function Developer() {
-  const url = "https://api.smartlist.tech/v2/account/sync/tokens/";
+  const url =
+    "/api/account/sync/member-list?" +
+    new URLSearchParams({
+      token: global.session && global.session.accessToken,
+    });
   const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
-      }),
     }).then((res) => res.json())
   );
   const [value, setValue] = React.useState<EmailOptionType | null>(null);
