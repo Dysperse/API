@@ -3,12 +3,16 @@ import { ExchangeToken } from "../../../lib/exchange-token";
 
 export default async (req, res) => {
   try {
+    console.log("req nom", req.body);
     const userId = await ExchangeToken(req.query.token);
 
     const result = await excuteQuery({
-      query:
-        "SELECT * FROM Inventory WHERE user = ? AND room = ? AND trash = 0",
-      values: [userId[0].user ?? false, req.query.room ?? "kitchen"],
+      query: req.query.limit
+        ? "SELECT * FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT ?"
+        : "SELECT * FROM Inventory WHERE user = ? AND room = ?",
+      values: req.query.limit
+        ? [userId[0].user ?? false, parseInt(req.query.limit)]
+        : [userId[0].user ?? false, req.query.room ?? "kitchen"],
     });
     res.json({
       data: result.map((item: any) => {

@@ -79,16 +79,15 @@ export function ListItems({
   emptyText: any;
 }) {
   const { data, isLoading }: any = useFetch(
-    "https://api.smartlist.tech/v2/lists/fetch/",
-    {
-      method: "POST",
-      body: new URLSearchParams({
+    "/api/lists/items?" +
+      new URLSearchParams({
         token:
           global.session &&
           (global.session.user.SyncToken || global.session.accessToken),
         parent: parent,
       }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    {
+      method: "POST",
     }
   );
   if (isLoading)

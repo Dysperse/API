@@ -7,17 +7,18 @@ import useSWR from "swr";
 import Item from "../ItemPopup";
 
 export function RecentItems() {
-  const url = "https://api.smartlist.tech/v2/items/list/";
+  const url =
+    "/api/inventory?" +
+    new URLSearchParams({
+      room: "null",
+      limit: "7",
+      token:
+        global.session &&
+        (global.session.user.SyncToken || global.session.accessToken),
+    });
   const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        room: "null",
-        limit: "7",
-        token:
-          global.session &&
-          (global.session.user.SyncToken || global.session.accessToken),
-      }),
     }).then((res) => res.json())
   );
 

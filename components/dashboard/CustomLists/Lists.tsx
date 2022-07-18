@@ -30,7 +30,7 @@ function RenderLists({ data }: any) {
 
 export function Lists() {
   const url =
-    "/api/lists/custom-fetch?" +
+    "/api/lists/fetch-custom-lists?" +
     new URLSearchParams({
       token:
         global.session &&

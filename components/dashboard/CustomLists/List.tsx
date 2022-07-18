@@ -204,13 +204,16 @@ export function List({
   });
 
   const getListItems = async (id: number) => {
-    const data = await fetch("https://api.smartlist.tech/v2/lists/fetch/", {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session ? global.session.accessToken : undefined,
-        parent: id.toString(),
-      }),
-    });
+    const data = await fetch(
+      "/api/lists/items?" +
+        new URLSearchParams({
+          token: global.session && global.session.accessToken,
+          parent: id.toString(),
+        }),
+      {
+        method: "POST",
+      }
+    );
     const e = await data.json();
 
     setListItems({
