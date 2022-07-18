@@ -497,15 +497,15 @@ function RenderRoom({ data, index }: any) {
 
 function RoomComponent({ index }: any) {
   const { isLoading, data }: any = useFetch(
-    "https://api.smartlist.tech/v2/items/list/",
-    {
-      method: "POST",
-      body: new URLSearchParams({
+    "/api/inventory?" +
+      new URLSearchParams({
         token:
           global.session &&
           (global.session.user.SyncToken || global.session.accessToken),
         room: index,
       }),
+    {
+      method: "POST",
     }
   );
 
