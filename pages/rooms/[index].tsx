@@ -423,7 +423,7 @@ function ItemList({ items }: { items: any }) {
                   <img
                     alt="No items found"
                     src="https://ouch-cdn2.icons8.com/XBzKv4afS9brUYd2rl02wYqlGS8RRQ59aTS-49vo_s4/rs:fit:256:266/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNjE2/L2FmYmNiNTMyLWY5/ZjYtNGQxZC1iZjE0/LTYzMTExZmJmZWMw/ZC5zdmc.png"
-                    style={{ width: "300px", maxWidth: "90vw" }}
+                    style={{ width: "300px", maxWidth: "100%" }}
                   />
                 </picture>
                 <Typography
