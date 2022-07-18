@@ -43,19 +43,22 @@ export function EditButton({
       title: string;
       quantity: string;
     }) => {
-      fetch("https://api.smartlist.tech/v2/items/edit/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token:
-            global.session &&
-            (global.session.user.SyncToken || global.session.accessToken),
-          id: id.toString(),
-          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-          name: values.title,
-          qty: values.quantity,
-          category: JSON.stringify(values.categories),
-        }),
-      });
+      fetch(
+        "/api/inventory/edit?" +
+          new URLSearchParams({
+            token:
+              global.session &&
+              (global.session.user.SyncToken || global.session.accessToken),
+            id: id.toString(),
+            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            name: values.title,
+            qty: values.quantity,
+            category: JSON.stringify(values.categories),
+          }),
+        {
+          method: "POST",
+        }
+      );
 
       setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
       setTitle(values.title);

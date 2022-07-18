@@ -330,18 +330,21 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 e.target.spellcheck = false;
                 setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
                 setNote(e.target.value);
-                fetch("https://api.smartlist.tech/v2/items/update-note/", {
-                  method: "POST",
-                  body: new URLSearchParams({
-                    token:
-                      global.session &&
-                      (global.session.user.SyncToken ||
-                        global.session.accessToken),
-                    id: id.toString(),
-                    date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                    content: e.target.value,
-                  }),
-                });
+                fetch(
+                  "/api/inventory/updateNote?" +
+                    new URLSearchParams({
+                      token:
+                        global.session &&
+                        (global.session.user.SyncToken ||
+                          global.session.accessToken),
+                      id: id.toString(),
+                      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                      note: e.target.value,
+                    }),
+                  {
+                    method: "POST",
+                  }
+                );
               }}
               onKeyUp={(e: any) => {
                 if (e.code === "Enter" && !e.shiftKey) {
