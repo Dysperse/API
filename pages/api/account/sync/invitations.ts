@@ -6,11 +6,11 @@ export default async (req, res) => {
     const userId = await ExchangeToken(req.query.token);
 
     const result = await excuteQuery({
-      query: "SELECT * FROM SyncTokens WHERE email = :email",
+      query: "SELECT * FROM SyncTokens WHERE email = ?",
       values: [req.query.result ?? "false"],
     });
     res.json({
-      data: true,
+      data: result,
     });
   } catch (error) {
     res.status(500).json({ error: error });
