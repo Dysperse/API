@@ -118,12 +118,15 @@ export function SearchPopup({ content }: any) {
     },
   ]);
   if (!ready) {
-    fetch("https://api.smartlist.tech/v2/rooms/", {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session.accessToken,
-      }),
-    })
+    fetch(
+      "/api/rooms?" +
+        new URLSearchParams({
+          token: global.session.accessToken,
+        }),
+      {
+        method: "POST",
+      }
+    )
       .then((res) => res.json())
       .then((res) => {
         setCommands([
