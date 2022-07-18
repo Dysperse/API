@@ -54,13 +54,16 @@ function Invitation({ t, invitation, key }: any) {
 export function Invitations() {
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetch("https://api.smartlist.tech/v2/account/sync/invitations/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token: global.session && global.session.accessToken,
-          email: global.session && global.session.user.email,
-        }),
-      })
+      fetch(
+        "/api/account/sync/invitations?" +
+          new URLSearchParams({
+            token: global.session && global.session.accessToken,
+            email: global.session && global.session.user.email,
+          }),
+        {
+          method: "POST",
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
           if (res.data.length > 0) {
