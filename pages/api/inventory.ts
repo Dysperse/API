@@ -11,7 +11,7 @@ export default async (req, res) => {
       values: [userId[0].user ?? false, req.query.room ?? "kitchen"],
     });
     res.json({
-      data: result.map((item) => {
+      data: result.map((item: any) => {
         return {
           id: item.id,
           lastUpdated: item.lastUpdated,
