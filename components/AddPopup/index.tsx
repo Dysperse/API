@@ -94,7 +94,11 @@ function AddItemOption({
   );
 }
 function MoreRooms(): JSX.Element {
-  const url = "https://api.smartlist.tech/v2/rooms/";
+  const url =
+    "/api/rooms?" +
+    new URLSearchParams({
+      token: global.session.accessToken,
+    });
   const [open, setOpen] = React.useState<boolean>(false);
 
   const { error, data }: any = useSWR(url, () =>
