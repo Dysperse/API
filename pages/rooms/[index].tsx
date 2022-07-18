@@ -34,11 +34,15 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
       sx={{
         transition: "transform .2s !important",
         borderRadius: 5,
-        background: "rgba(200,200,200,.3)!important",
+        background:
+          theme === "dark"
+            ? "hsl(240,11%,25%)!important"
+            : "rgba(200,200,200,.3)!important",
         mb: 2,
         py: 3,
         "&:focus": {
-          background: "rgba(200,200,200,.3)",
+          background:
+            theme === "dark" ? "hsl(240,11%,27%)" : "rgba(200,200,200,.3)",
         },
         "&:active": {
           transition: "none!important",
@@ -80,7 +84,7 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
           </Typography>
         }
         secondary={
-          <Typography sx={{ color: "black" }}>
+          <Typography sx={{ color: theme === "dark" ? "white" : "black" }}>
             {itemCount} item{itemCount !== 1 && "s"}
           </Typography>
         }
