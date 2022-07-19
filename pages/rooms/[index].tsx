@@ -105,18 +105,21 @@ function SuggestionChip({ room, item, key }: any) {
           key={key}
           onClick={() => {
             setHide(true);
-            fetch("https://api.smartlist.tech/v2/items/create/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token:
-                  global.session.user.SyncToken || global.session.accessToken,
-                name: item,
-                qty: "1",
-                category: "[]",
-                room: room,
-                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-              }),
-            })
+            fetch(
+              "/api/inventory/create?" +
+                new URLSearchParams({
+                  token:
+                    global.session.user.SyncToken || global.session.accessToken,
+                  name: item,
+                  qty: "1",
+                  category: "[]",
+                  room: room,
+                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                }),
+              {
+                method: "POST",
+              }
+            )
               .then((res) => res.json())
               .then((res) => toast.success("Created item!"));
           }}

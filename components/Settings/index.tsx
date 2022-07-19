@@ -21,7 +21,6 @@ import Rooms from "./Rooms";
 import Sync from "./Sync";
 import AppearanceSettings from "./AppearanceSettings";
 import FinanceSettings from "./FinanceSettings";
-import Sessions from "./Sessions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -424,7 +423,7 @@ export default function FullScreenDialog({ children }: any) {
                 primary="Sync"
                 secondary={
                   <span id="syncTrigger">
-                    Pair your account and share inventory
+                    Invite others to your home and sync inventory, lists, etc.
                   </span>
                 }
               />

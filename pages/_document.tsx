@@ -6,7 +6,6 @@ export default function Document() {
       <Head>
         <link rel="preconnect" href="https://i.ibb.co" />
         <link rel="preconnect" href="https://vitals.vercel-insights.com" />
-        <link rel="preconnect" href="https://api.smartlist.tech" />
         <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />

@@ -142,14 +142,14 @@ export default function Developer() {
                 alert("Please enter an email");
               else {
                 fetch(
-                  "https://api.smartlist.tech/v2/account/sync/create-token/",
-                  {
-                    method: "POST",
-                    body: new URLSearchParams({
+                  "/api/account/sync/createToken?" +
+                    new URLSearchParams({
                       token: global.session.accessToken,
                       email: value.title,
                       houseName: global.session.user.houseName,
                     }),
+                  {
+                    method: "POST",
                   }
                 ).then(() => {
                   toast.success(
