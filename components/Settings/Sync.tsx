@@ -19,6 +19,11 @@ function isEmail(email) {
   );
 }
 
+function SetOwner() {
+  global.setIsOwner(true);
+  return <></>;
+}
+
 const top100Emails: readonly EmailOptionType[] = [];
 
 export default function Developer() {
@@ -33,6 +38,13 @@ export default function Developer() {
     }).then((res) => res.json())
   );
   const [value, setValue] = React.useState<EmailOptionType | null>(null);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      global.setOwnerLoaded(true);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Box
@@ -154,6 +166,7 @@ export default function Developer() {
       </Box>
 
       {error && "An error occured while loading your members. Please try again"}
+      {data && data.data.length > 0 && <SetOwner />}
       {data && data.data && (
         <>
           {data.data.map((member: any) => (

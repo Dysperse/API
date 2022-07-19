@@ -15,8 +15,12 @@ import { ProfileMenu } from "./Profile";
 import { SearchPopup } from "./SearchPopup";
 import Popover from "@mui/material/Popover";
 import Chip from "@mui/material/Chip";
+import { Invitations } from "../Invitations";
 
 function InviteButton() {
+  const [isOwner, setIsOwner] = React.useState<boolean>(false);
+  global.setIsOwner = setIsOwner;
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -42,8 +46,15 @@ function InviteButton() {
   return (
     <>
       <div id="new_trigger" onClick={handleClick}></div>
+      {!global.session.user.SyncToken && global.ownerLoaded && !isOwner && (
+        <Invitations />
+      )}
+
       <Box
-        onClick={() => document.getElementById("syncTrigger")!.click()}
+        onClick={() =>
+          !global.session.user.SyncToken &&
+          document.getElementById("syncTrigger")!.click()
+        }
         sx={{
           display: "flex",
           userSelect: "none",
@@ -67,13 +78,13 @@ function InviteButton() {
             className="material-symbols-rounded"
             style={{ fontSize: "20px" }}
           >
-            lock
+            {isOwner ? "location_away " : "lock"}
           </span>
         )}
       </Box>
       <Popover
         id={id}
-        open={open}
+        open={!isOwner && !global.session.user.SyncToken && open}
         anchorEl={anchorEl}
         onClose={handleClose}
         BackdropProps={{

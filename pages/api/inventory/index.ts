@@ -9,7 +9,7 @@ export default async (req, res) => {
     const result = await excuteQuery({
       query: req.query.limit
         ? "SELECT * FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT ?"
-        : "SELECT * FROM Inventory WHERE user = ? AND room = ?",
+        : "SELECT * FROM Inventory WHERE user = ? AND room = ? ORDER BY lastUpdated DESC",
       values: req.query.limit
         ? [userId[0].user ?? false, parseInt(req.query.limit)]
         : [userId[0].user ?? false, req.query.room ?? "kitchen"],

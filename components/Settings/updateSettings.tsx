@@ -4,15 +4,18 @@ export function updateSettings(
   debug: boolean = false,
   callback?: any
 ) {
-  fetch("https://api.smartlist.tech/v2/account/update/", {
-    method: "POST",
-    body: new URLSearchParams({
-      token: global.session && global.session.accessToken,
-      data: JSON.stringify({
-        [key]: value,
+  fetch(
+    "/api/account/update?" +
+      new URLSearchParams({
+        token: global.session && global.session.accessToken,
+        data: JSON.stringify({
+          [key]: value,
+        }),
       }),
-    }),
-  })
+    {
+      method: "POST",
+    }
+  )
     .then((res) => res.json())
     .then((res) => {
       fetch(

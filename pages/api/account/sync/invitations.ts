@@ -7,7 +7,7 @@ export default async (req, res) => {
 
     const result = await excuteQuery({
       query: "SELECT * FROM SyncTokens WHERE email = ?",
-      values: [req.query.result ?? "false"],
+      values: [req.query.email ?? "false"],
     });
     res.json({
       data: result,

@@ -274,7 +274,7 @@ function Content({ toggleDrawer }: any) {
           icon={<span className="material-symbols-rounded">bathroom</span>}
         />
 
-        {global.session.user.studentMode === "true" && (
+        {global.session.user.studentMode === true && (
           <AddItemOption
             toggleDrawer={toggleDrawer}
             title="Storage"

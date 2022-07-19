@@ -19,6 +19,13 @@ export function Toolbar({ items, setItems, data }: any) {
   React.useEffect(() => {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
+
+  React.useEffect(() => {
+    document.documentElement.classList[open ? "add" : "remove"](
+      "prevent-scroll"
+    );
+  });
+
   return (
     <Box sx={{ textAlign: "right", mb: 2 }}>
       <TextField
@@ -46,7 +53,7 @@ export function Toolbar({ items, setItems, data }: any) {
                     .includes(value.toLowerCase())
               )
             );
-          }, 100);
+          }, 50);
         }}
         size="small"
         variant="standard"
@@ -104,28 +111,42 @@ export function Toolbar({ items, setItems, data }: any) {
         sx={{
           transition: "all .2s",
           "& .MuiPaper-root": {
+            mt: 1,
+            ml: -1,
             borderRadius: "15px",
             minWidth: 180,
-            boxShadow:
-              "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-            background: colors[global.themeColor][100],
+            background:
+              global.theme === "dark"
+                ? colors[global.themeColor][900]
+                : colors[global.themeColor][100],
 
-            color: colors[global.themeColor][800],
+            color:
+              global.theme === "dark"
+                ? colors[global.themeColor][200]
+                : colors[global.themeColor][800],
             "& .MuiMenu-list": {
               padding: "4px",
             },
             "& .MuiMenuItem-root": {
               "&:hover": {
-                background: colors[global.themeColor][200],
-                color: colors[global.themeColor][900],
+                background:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][800]
+                    : colors[global.themeColor][200],
+                color:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][100]
+                    : colors[global.themeColor][900],
                 "& .MuiSvgIcon-root": {
-                  color: colors[global.themeColor][800],
+                  color:
+                    global.theme === "dark"
+                      ? colors[global.themeColor][200]
+                      : colors[global.themeColor][800],
                 },
               },
               padding: "10px 15px",
               borderRadius: "15px",
               marginBottom: "1px",
-              transition: "none",
 
               "& .MuiSvgIcon-root": {
                 fontSize: 25,
@@ -133,7 +154,10 @@ export function Toolbar({ items, setItems, data }: any) {
                 marginRight: 1.9,
               },
               "&:active": {
-                background: colors[global.themeColor][300],
+                background:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][700]
+                    : colors[global.themeColor][300],
               },
             },
           },
@@ -148,36 +172,81 @@ export function Toolbar({ items, setItems, data }: any) {
         }}
       >
         <MenuItem
-          onClick={() =>
-            setItems(items.sort((a, b) => a.title.localeCompare(b.title)))
-          }
+          onClick={() => {
+            setItems([]);
+            setTimeout(
+              () =>
+                setItems(items.sort((a, b) => a.title.localeCompare(b.title))),
+              50
+            );
+            setTimeout(handleClose, 50);
+          }}
         >
           A-Z
         </MenuItem>
         <MenuItem
-          onClick={() =>
-            setItems(
-              items.sort((a, b) => a.title.localeCompare(b.title)).reverse()
-            )
-          }
+          onClick={() => {
+            setItems([]);
+            setTimeout(
+              () =>
+                setItems(
+                  items.sort((a, b) => a.title.localeCompare(b.title)).reverse()
+                ),
+              50
+            );
+            setTimeout(handleClose, 50);
+          }}
         >
           Z-A
         </MenuItem>
         <MenuItem
-          onClick={() =>
-            setItems(items.sort((a, b) => a.amount.localeCompare(b.amount)))
-          }
+          onClick={() => {
+            setItems([]);
+            setTimeout(
+              () =>
+                setItems(
+                  items.sort((a, b) => a.amount.localeCompare(b.amount))
+                ),
+              50
+            );
+            setTimeout(handleClose, 50);
+          }}
         >
           Quantity
         </MenuItem>
         <MenuItem
-          onClick={() =>
-            setItems(
-              items.sort((a, b) => a.lastUpdated.localeCompare(b.lastUpdated))
-            )
-          }
+          onClick={() => {
+            setItems([]);
+            setTimeout(
+              () =>
+                setItems(
+                  items
+                    .sort((a, b) => a.lastUpdated.localeCompare(b.lastUpdated))
+                    .reverse()
+                ),
+              50
+            );
+            setTimeout(handleClose, 50);
+          }}
         >
-          Last updated
+          Newest to oldest
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setItems([]);
+            setTimeout(
+              () =>
+                setItems(
+                  items.sort((a, b) =>
+                    a.lastUpdated.localeCompare(b.lastUpdated)
+                  )
+                ),
+              50
+            );
+            setTimeout(handleClose, 50);
+          }}
+        >
+          Oldest to newest
         </MenuItem>
       </Menu>
     </Box>
