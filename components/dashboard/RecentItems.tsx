@@ -10,7 +10,6 @@ export function RecentItems() {
   const url =
     "/api/inventory?" +
     new URLSearchParams({
-      room: "null",
       limit: "7",
       token:
         global.session &&

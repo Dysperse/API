@@ -374,11 +374,11 @@ function LoadingScreen() {
         }}
       >
         <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
-          {[...new Array(25)].map(() => {
+          {[...new Array(25)].map((_, id) => {
             let height = Math.random() * 400;
             if (height < 100) height = 100;
             return (
-              <Paper key={Math.random().toString()} sx={{ p: 0 }} elevation={0}>
+              <Paper key={id.toString()} sx={{ p: 0 }} elevation={0}>
                 <Skeleton
                   variant="rectangular"
                   height={height}
@@ -415,7 +415,7 @@ function ItemList({ items }: { items: any }) {
               textAlign: "center",
               mb: 2,
             }}
-            key={(Math.random() + Math.random()).toString()}
+            key={"_noItems"}
           >
             <Card
               sx={{
@@ -439,7 +439,7 @@ function ItemList({ items }: { items: any }) {
                     mt: 1,
                   }}
                 >
-                  No items yet...
+                  No items found
                 </Typography>
                 <Typography
                   variant="body2"
@@ -450,9 +450,9 @@ function ItemList({ items }: { items: any }) {
                     mt: 1,
                   }}
                 >
-                  Hit the{" "}
-                  <span className="material-symbols-outlined">edit</span>
-                  icon to create an item.{" "}
+                  Try clearing any filters. Hit the{" "}
+                  <span className="material-symbols-outlined">add_circle</span>
+                  button to create an item.{" "}
                 </Typography>
               </CardContent>
             </Card>
@@ -517,7 +517,7 @@ function RoomComponent({ index }: any) {
   );
 
   return isLoading ? (
-    <LoadingScreen key={Math.random().toString()} />
+    <LoadingScreen />
   ) : (
     <RenderRoom data={data} index={index} />
   );

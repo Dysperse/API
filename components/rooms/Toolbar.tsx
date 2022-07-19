@@ -28,25 +28,25 @@ export function Toolbar({ items, setItems, data }: any) {
           if (e.code === "Enter") e.target.blur();
         }}
         onBlur={(e: any) => {
-          if (e.target.value === "") {
+          const value = e.target.value;
+          if (value === "") {
             setItems(data);
             return;
           }
-          setItems(
-            data.filter(
-              (item) =>
-                item.title
-                  .toLowerCase()
-                  .includes(e.target.value.toLowerCase()) ||
-                item.amount
-                  .toLowerCase()
-                  .includes(e.target.value.toLowerCase()) ||
-                item.categories
-                  .join(",")
-                  .toLowerCase()
-                  .includes(e.target.value.toLowerCase())
-            )
-          );
+          setItems([]);
+          setTimeout(() => {
+            setItems(
+              data.filter(
+                (x) =>
+                  x.title.toLowerCase().includes(value.toLowerCase()) ||
+                  x.amount.toLowerCase().includes(value.toLowerCase()) ||
+                  x.categories
+                    .join(",")
+                    .toLowerCase()
+                    .includes(value.toLowerCase())
+              )
+            );
+          }, 100);
         }}
         size="small"
         variant="standard"

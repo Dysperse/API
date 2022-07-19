@@ -56,20 +56,22 @@ export function CreateItemModal({
       title: string;
       quantity: string;
     }) => {
-      // alert(JSON.stringify(values));
-      fetch("https://api.smartlist.tech/v2/items/create/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token:
-            global.session &&
-            (global.session.user.SyncToken || global.session.accessToken),
-          room: room.toLowerCase(),
-          name: values.title,
-          qty: values.quantity,
-          category: JSON.stringify(values.categories),
-          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        }),
-      })
+      fetch(
+        "/api/inventory/create?" +
+          new URLSearchParams({
+            token:
+              global.session &&
+              (global.session.user.SyncToken || global.session.accessToken),
+            room: room.toLowerCase(),
+            name: values.title,
+            qty: values.quantity,
+            category: JSON.stringify(values.categories),
+            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          }),
+        {
+          method: "POST",
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
           toast("Created item!");
