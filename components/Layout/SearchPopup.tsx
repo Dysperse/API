@@ -39,10 +39,6 @@ export function SearchPopup({ content }: any) {
       name: "Finances",
     },
     {
-      command: () => router.push("/planner"),
-      name: "Planner",
-    },
-    {
       command: () => router.push("/dashboard"),
       name: "Settings",
     },
@@ -57,14 +53,6 @@ export function SearchPopup({ content }: any) {
     {
       command: () => router.push("/dashboard"),
       name: "Starred",
-    },
-    {
-      command: () => router.push("/home-maintenance"),
-      name: "Home maintenance",
-    },
-    {
-      command: () => router.push("/rooms/kitchen"),
-      name: "Create list",
     },
     {
       command: () => router.push("/rooms/kitchen"),

@@ -131,7 +131,7 @@ function InviteButton() {
           />
           <br />
           Invite up to 5 people to your{" "}
-          {global.session.user.studentMode === "false" ? "home" : "dorm"}
+          {global.session.user.studentMode === false ? "home" : "dorm"}
         </Typography>
       </Popover>
     </>

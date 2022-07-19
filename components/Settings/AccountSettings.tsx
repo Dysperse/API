@@ -13,7 +13,7 @@ import { updateSettings } from "./updateSettings";
 export default function AppearanceSettings() {
   const [mode, setMode] = useState<"personal" | "business">("personal");
   const [studentMode, setStudentMode] = useState<boolean>(
-    global.session.user.studentMode === true
+    global.session.user.studentMode
   );
 
   return (
@@ -112,16 +112,7 @@ export default function AppearanceSettings() {
             setStudentMode(!studentMode);
             updateSettings("studentMode", studentMode ? "true" : "false");
           }}
-          secondaryAction={
-            <Switch
-              edge="end"
-              onChange={(e) => {
-                setStudentMode(!studentMode);
-                updateSettings("studentMode", studentMode ? "true" : "false");
-              }}
-              checked={studentMode}
-            />
-          }
+          secondaryAction={<Switch edge="end" checked={studentMode} />}
           disablePadding
         >
           <ListItemButton sx={{ borderRadius: 4, transition: "none" }}>

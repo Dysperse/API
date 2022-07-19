@@ -408,7 +408,7 @@ export default function FullScreenDialog({ children }: any) {
               primary="App"
               secondary={"Coming soon"}
             />
-            {global.session.user.studentMode === "false" && (
+            {global.session.user.studentMode === false && (
               <SettingsMenu
                 content={<Rooms />}
                 icon="pin_drop"

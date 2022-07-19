@@ -21,23 +21,25 @@ function hasNumber(myString) {
 }
 
 function NotificationsList() {
-  const url = "https://api.smartlist.tech/v2/items/list/";
+  const url =
+    "/api/inventory?" +
+    new URLSearchParams({
+      limit: "500",
+      token:
+        global.session &&
+        (global.session.user.SyncToken || global.session.accessToken),
+    });
 
   const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token: global.session.accessToken,
-        limit: "500",
-        room: "null",
-      }),
     }).then((res) => res.json())
   );
   if (error)
     return (
       <div>
         Yikes! An error occured while trying to load your inbox. Try reloading
-        htis page
+        this page
       </div>
     );
   if (!data)
@@ -58,9 +60,9 @@ function NotificationsList() {
     <>
       {data.data.map((item: any, id: number) => {
         if (
-          parseInt(item.amount.replace(/[^\d]/g, ""), 100) > 3 ||
-          item.amount.includes("In stock") ||
-          !hasNumber(item.amount)
+          parseInt(item.amount.replace(/[^\d]/g, ""), 100) <
+            global.session.user.notificationMin ||
+          item.amount.includes("In stock")
         )
           return "";
         return (

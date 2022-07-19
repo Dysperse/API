@@ -19,15 +19,17 @@ const notEcoFriendlyProducts = [
 ];
 
 function RenderSuggestions() {
-  const url = "https://api.smartlist.tech/v2/items/list/";
+  const url =
+    "/api/inventory?" +
+    new URLSearchParams({
+      limit: "7",
+      token:
+        global.session &&
+        (global.session.user.SyncToken || global.session.accessToken),
+    });
   const { error, data } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        room: "null",
-        limit: "500",
-        token: global.session && global.session.accessToken,
-      }),
     }).then((res) => res.json())
   );
   if (error) {

@@ -63,9 +63,6 @@ export function BottomNav() {
     case "/items":
       v = 3;
       break;
-    case "/planner":
-      v = 4;
-      break;
     default:
       v = 0;
   }
