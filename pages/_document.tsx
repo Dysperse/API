@@ -1,4 +1,9 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import TagManager from "react-gtm-module";
+
+TagManager.initialize({
+  gtmId: "GTM-PPH4TH4",
+});
 
 export default function Document() {
   return (

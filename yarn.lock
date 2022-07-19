@@ -4010,6 +4010,11 @@ react-fetch-hook@^1.9.5:
   resolved "https://registry.yarnpkg.com/react-fetch-hook/-/react-fetch-hook-1.9.5.tgz#9e1839cf3ec4bd0716757d4f4efbc2a97439d1f7"
   integrity sha512-LhTwUk0iYQ4SUl2laQr5Jc2fk/K4B6ezntDWWBNdlag/cB3n2RYshofIL3bOghE5FEfkoDi6BqGD/YIwqW1/8w==
 
+react-gtm-module@^2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/react-gtm-module/-/react-gtm-module-2.0.11.tgz#14484dac8257acd93614e347c32da9c5ac524206"
+  integrity sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==
+
 react-hot-toast@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-hot-toast/-/react-hot-toast-2.2.0.tgz#ab6f4caed4214b9534f94bb8cfaaf21b051e62b9"
