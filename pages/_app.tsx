@@ -150,27 +150,27 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
       <Offline>
         <OfflineBox />
       </Offline>
-      <Online>
-        {router && router.pathname === "/share/[index]" ? (
-          <Component {...pageProps} />
-        ) : (
-          <>
-            {!isLoading &&
-              !isError &&
-              (data.user ? (
-                <>
-                  <Render
-                    Component={Component}
-                    pageProps={pageProps}
-                    data={data}
-                  />
-                </>
-              ) : (
-                <LoginPrompt />
-              ))}
-          </>
-        )}
-      </Online>
+
+      {router && router.pathname === "/share/[index]" ? (
+        <Component {...pageProps} />
+      ) : (
+        <Online>
+          {!isLoading &&
+            !isError &&
+            (data.user ? (
+              <>
+                <Render
+                  Component={Component}
+                  pageProps={pageProps}
+                  data={data}
+                />
+              </>
+            ) : (
+              <LoginPrompt />
+            ))}
+        </Online>
+      )}
+
       <Script src="/prevent-navigate-history.js"></Script>
     </>
   );
