@@ -13,6 +13,7 @@ import "../styles/global.css";
 import Head from "next/head";
 import Script from "next/script";
 dayjs.extend(relativeTime);
+import { OfflineBox } from "./_offline";
 
 function Render({ data, Component, pageProps }: any) {
   global.session = data;
@@ -109,54 +110,21 @@ function Render({ data, Component, pageProps }: any) {
         />
         <title>Carbon: Home inventory and personal finances</title>
       </Head>
-      <Offline>
+      <ThemeProvider theme={userTheme}>
         <Box
           sx={{
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100vw",
-            height: "100vh",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            p: 1,
-            boxSizing: "border-box",
-            fontSize: "13px",
-            color: "#505050",
+            "& *::selection": {
+              color: "#fff!important",
+              background: colors[themeColor]["A700"] + "!important",
+            },
           }}
         >
-          <Box
-            sx={{
-              p: 4,
-              background: "rgba(200,200,200,.3)",
-              borderRadius: 5,
-              maxWidth: "calc(100vw - 40px)",
-              maxHeight: "calc(100vh - 20px)",
-            }}
-          >
-            Please connect to the internet to access Smartlist
-          </Box>
+          <Toaster />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </Box>
-      </Offline>
-      <Online>
-        <ThemeProvider theme={userTheme}>
-          <Box
-            sx={{
-              "& *::selection": {
-                color: "#fff!important",
-                background: colors[themeColor]["A700"] + "!important",
-              },
-            }}
-          >
-            <Toaster />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </Box>
-        </ThemeProvider>
-      </Online>
+      </ThemeProvider>
     </>
   );
 }
@@ -179,25 +147,30 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
 
   return (
     <>
-      {router && router.pathname === "/share/[index]" ? (
-        <Component {...pageProps} />
-      ) : (
-        <>
-          {!isLoading &&
-            !isError &&
-            (data.user ? (
-              <>
-                <Render
-                  Component={Component}
-                  pageProps={pageProps}
-                  data={data}
-                />
-              </>
-            ) : (
-              <LoginPrompt />
-            ))}
-        </>
-      )}
+      <Offline>
+        <OfflineBox />
+      </Offline>
+      <Online>
+        {router && router.pathname === "/share/[index]" ? (
+          <Component {...pageProps} />
+        ) : (
+          <>
+            {!isLoading &&
+              !isError &&
+              (data.user ? (
+                <>
+                  <Render
+                    Component={Component}
+                    pageProps={pageProps}
+                    data={data}
+                  />
+                </>
+              ) : (
+                <LoginPrompt />
+              ))}
+          </>
+        )}
+      </Online>
       <Script src="/prevent-navigate-history.js"></Script>
     </>
   );
