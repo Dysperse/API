@@ -4,33 +4,88 @@ import React from "react";
 import Webcam from "react-webcam";
 
 const WebcamComponent = () => (
-  <Webcam
+  <div
     style={{
       borderRadius: "28px",
-      maxHeight: "70vh",
-      background: "#232323",
+      overflow: "hidden",
+      height: "calc(70vh - 25px)",
+      background: "#444444",
       width: "100%",
     }}
-  />
+  >
+    <Box
+      sx={{
+        height: "80px",
+        overflow: "hidden",
+        borderRadius: "28px 28px 0 0",
+      }}
+    >
+      <Webcam style={{ width: "100%", filter: "blur(20px)" }} />
+    </Box>
+    <Webcam
+      style={{
+        zIndex: 1,
+        position: "relative",
+        width: "100%",
+        marginTop: "-20px",
+      }}
+    />
+    <Box
+      sx={{
+        height: "80px",
+        mt: -1,
+        zIndex: -1,
+        overflow: "hidden",
+        borderRadius: "0 0 28px 28px",
+      }}
+    >
+      <Webcam style={{ width: "100%", filter: "blur(20px)" }} />
+    </Box>
+  </div>
 );
 
 export default function Scan() {
   return (
-    <Box>
-      <Box sx={{ p: 2, mx: "auto", maxWidth: "500px" }}>
-        <Typography variant="h5" sx={{ fontWeight: "700", my: 2 }}>
-          Scan
-        </Typography>
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        background: "#333333",
+        color: "#fff",
+      }}
+    >
+      <Box sx={{ p: "20px", mx: "auto", maxWidth: "500px" }}>
         <WebcamComponent />
         <Box
           sx={{
-            background: "rgba(200,200,200,.3)",
+            background: "#444444",
             borderRadius: "28px",
-            p: 3,
+            height: "calc(30vh - 35px)",
             mt: 3,
           }}
         >
-          <Typography>Point your camera to an item</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <Typography
+                variant="h4"
+                gutterBottom
+                sx={{ textAlign: "center", fontWeight: "700" }}
+              >
+                Microwave
+              </Typography>
+              <Typography sx={{ textAlign: "center" }}>
+                Detected item
+              </Typography>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>
