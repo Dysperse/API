@@ -45,6 +45,7 @@
     "react-qr-code": "^2.0.7",
     "react-virtualized": "^9.22.3",
     "react-virtualized-auto-sizer": "^1.0.6",
+    "react-webcam": "^7.0.1",
     "serverless-mysql": "^1.5.4",
     "swr": "^1.3.0",
     "webpack": "^5.73.0"
