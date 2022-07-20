@@ -213,14 +213,30 @@ function MoreRooms(): JSX.Element {
           </Grid>
         )}
       </SwipeableDrawer>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={4}>
         <Card
-          sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}
+          sx={{
+            textAlign: {
+              sm: "center",
+            },
+            boxShadow: 0,
+            borderRadius: { xs: 1, sm: 6 },
+            transition: "transform .2s",
+            "&:active": {
+              boxShadow: "none!important",
+              transform: "scale(0.98)",
+              transition: "none",
+            },
+          }}
           onClick={() => setOpen(true)}
         >
           <CardActionArea
             disableRipple
             sx={{
+              px: {
+                xs: 3,
+                sm: 0,
+              },
               "&:hover": {
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
@@ -243,7 +259,17 @@ function MoreRooms(): JSX.Element {
               },
             }}
           >
-            <CardContent sx={{ p: 1 }}>
+            <CardContent
+              sx={{
+                p: 1,
+                display: {
+                  xs: "flex",
+                  sm: "unset",
+                },
+                gap: 3,
+                alignItems: "center",
+              }}
+            >
               <Typography variant="h4">
                 <span className="material-symbols-rounded">
                   add_location_alt
