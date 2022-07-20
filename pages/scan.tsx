@@ -15,7 +15,7 @@ const WebcamComponent = () => (
   >
     <Box
       sx={{
-        height: "80px",
+        height: "112px",
         overflow: "hidden",
         borderRadius: "28px 28px 0 0",
       }}
@@ -27,12 +27,12 @@ const WebcamComponent = () => (
         zIndex: 1,
         position: "relative",
         width: "100%",
-        marginTop: "-20px",
+        marginTop: "-10px",
       }}
     />
     <Box
       sx={{
-        height: "80px",
+        height: "112px",
         mt: -1,
         zIndex: -1,
         overflow: "hidden",
