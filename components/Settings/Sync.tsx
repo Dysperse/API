@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import * as React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
@@ -11,6 +12,43 @@ const filter = createFilterOptions<EmailOptionType>();
 interface EmailOptionType {
   inputValue?: string;
   title: string;
+}
+
+function Person({ data }: any) {
+  const [hide, setHide] = React.useState(false);
+  return hide ? null : (
+    <Box
+      key={data.id}
+      sx={{
+        background: "rgba(200,200,200,.3)",
+        px: 3,
+        py: 2,
+        mt: 2,
+        borderRadius: 5,
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <span>{data.email}</span>
+      <IconButton
+        sx={{ ml: "auto" }}
+        onClick={() => {
+          setHide(true);
+          fetch(
+            "/api/account/sync/revokeToken?" +
+              new URLSearchParams({
+                email: data.email,
+              }),
+            {
+              method: "POST",
+            }
+          ).then((res) => toast.success("Removed person from your home"));
+        }}
+      >
+        <span className="material-symbols-rounded">delete</span>
+      </IconButton>
+    </Box>
+  );
 }
 
 function isEmail(email) {
@@ -170,18 +208,7 @@ export default function Developer() {
       {data && data.data && (
         <>
           {data.data.map((member: any) => (
-            <Box
-              key={member.id}
-              sx={{
-                background: "rgba(200,200,200,.3)",
-                px: 3,
-                py: 2,
-                mt: 2,
-                borderRadius: 5,
-              }}
-            >
-              {member.email}
-            </Box>
+            <Person data={member} key={member.email} />
           ))}
         </>
       )}

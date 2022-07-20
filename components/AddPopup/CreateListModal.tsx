@@ -43,17 +43,18 @@ export function CreateListModal({
       name: "",
     },
     onSubmit: (values: { name: string }) => {
-      fetch("https://api.smartlist.tech/v2/lists/create-item/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token:
-            global.session &&
-            (global.session.user.SyncToken || global.session.accessToken),
-          parent: parent,
-          title: values.name,
-          description: "",
-        }),
-      })
+      fetch(
+        "/api/lists/create-item?" +
+          new URLSearchParams({
+            token: global.session.user.SyncToken || global.session.accessToken,
+            parent: parent,
+            title: values.name,
+            description: "",
+          }),
+        {
+          method: "POST",
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
           setItems([...items, res.data]);
