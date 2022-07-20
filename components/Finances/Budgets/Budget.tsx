@@ -180,7 +180,7 @@ export function Budget({
         }}
         onClose={() => setOpen(false)}
       >
-        <Box sx={{ p: 1, display: { sm: "none" } }}>
+        <Box sx={{ display: { sm: "none" } }}>
           <Puller />
         </Box>
         <Box sx={{ p: 4 }}>

@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 import { AutocompleteData } from "../AutocompleteData";
 import { Puller } from "../Puller";
 import { neutralizeBack, revivalBack } from "../history-control";
+import * as colors from "@mui/material/colors";
+import DialogActions from "@mui/material/DialogActions";
 
 export function CreateItemModal({
   toggleDrawer,
@@ -35,6 +37,12 @@ export function CreateItemModal({
   const handleClose = () => {
     setOpen(false);
   };
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      open && document.getElementById("nameInput")!.focus();
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [open]);
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
@@ -94,18 +102,17 @@ export function CreateItemModal({
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
-        ModalProps={{
-          keepMounted: true,
-        }}
         disableSwipeToOpen={true}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },
             maxWidth: "600px",
             maxHeight: "80vh",
-            borderRadius: "40px 40px 0 0",
+            borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
@@ -116,27 +123,31 @@ export function CreateItemModal({
         onClose={handleClose}
         onOpen={() => setOpen(true)}
       >
-        <Box sx={{ pt: 1 }}>
-          <Puller />
-        </Box>
+        <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
           Create item
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ mb: 2, textAlign: "center" }}>
+          <DialogContentText sx={{ mt: 1, textAlign: "center" }}>
             {room}
           </DialogContentText>
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            height: { xs: "274px", sm: "auto" },
+            pb: { xs: 10, sm: 0 },
+          }}
+        >
           <form onSubmit={formik.handleSubmit}>
             <TextField
               autoFocus
               margin="dense"
-              label="Title"
+              label="Item name"
               fullWidth
               autoComplete={"off"}
               onChange={formik.handleChange}
               value={formik.values.title}
               disabled={loading}
               name="title"
+              id="nameInput"
               variant="filled"
             />
             <TextField
@@ -152,17 +163,17 @@ export function CreateItemModal({
             />
             <Stack spacing={1} direction="row" sx={{ my: 1 }}>
               <Chip
-                sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
+                sx={{ fontSize: "20px", height: "35px", borderRadius: 2 }}
                 onClick={handleChipClick}
                 label="📦"
               />
               <Chip
-                sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
+                sx={{ fontSize: "20px", height: "35px", borderRadius: 2 }}
                 onClick={handleChipClick}
                 label="🥡"
               />
               <Chip
-                sx={{ fontSize: "25px", height: "35px", borderRadius: 2 }}
+                sx={{ fontSize: "20px", height: "35px", borderRadius: 2 }}
                 onClick={handleChipClick}
                 label="🛍️"
               />
@@ -181,49 +192,41 @@ export function CreateItemModal({
                 <TextField
                   margin="dense"
                   sx={{ width: "100%" }}
-                  label="Categories"
+                  label="Categories (optional)"
                   name="categories"
                   variant="filled"
                   {...params}
                 />
               )}
             />
-            <LoadingButton
-              disableElevation
+            <DialogActions
               sx={{
-                ml: 1,
-                mt: 2,
-                float: "right",
-                borderRadius: 100,
-              }}
-              size="large"
-              variant="contained"
-              color="primary"
-              type="submit"
-              loading={loading}
-              onClick={() => setTimeout(setClickLoading, 10)}
-            >
-              Create
-            </LoadingButton>
-            <Button
-              disableElevation
-              sx={{
-                ml: 1,
-                mt: 2,
-                float: "right",
-                borderRadius: 100,
-              }}
-              size="large"
-              variant="outlined"
-              color="primary"
-              type="button"
-              onClick={() => {
-                setLoading(false);
-                setOpen(false);
+                position: { xs: "fixed", sm: "unset" },
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                background: colors[themeColor][50],
+                zIndex: 99,
               }}
             >
-              Back
-            </Button>
+              <LoadingButton
+                disableElevation
+                sx={{
+                  ml: 1,
+                  mt: 2,
+                  float: "right",
+                  borderRadius: 100,
+                }}
+                size="large"
+                variant="contained"
+                color="primary"
+                type="submit"
+                loading={loading}
+                onClick={() => setTimeout(setClickLoading, 10)}
+              >
+                Create
+              </LoadingButton>
+            </DialogActions>
           </form>
         </DialogContent>
       </SwipeableDrawer>

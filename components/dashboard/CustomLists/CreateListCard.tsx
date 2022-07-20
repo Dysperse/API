@@ -116,7 +116,7 @@ export function CreateListCard({ lists, setLists }: any) {
             width: {
               sm: "50vw",
             },
-            borderRadius: "40px 40px 0 0",
+            borderRadius: "30px 30px 0 0",
             mx: "auto",
           },
         }}

@@ -64,7 +64,7 @@ img {
 }
 *:not(.MuiIcon-root, .MuiIcon-root
     *, .material-symbols-outlined, .material-symbols-rounded, .material-symbols-outlined) {
-  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "Kantumruy Pro", sans-serif !important;
 }
 ::-webkit-scrollbar {
@@ -267,4 +267,13 @@ td {
 }
 .fc-button span {
   margin-top: -6px !important;
+}
+.puller {
+  width: 60px;
+  margin-top: -14px;
+  height: 7px;
+  border-radius: 100px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }

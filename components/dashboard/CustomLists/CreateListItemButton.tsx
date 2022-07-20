@@ -102,7 +102,7 @@ export function CreateListItemButton({
               sm: "45vw",
             },
             maxHeight: "80vh",
-            borderRadius: "40px 40px 0 0",
+            borderRadius: "30px 30px 0 0",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
             }),

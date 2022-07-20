@@ -33,13 +33,15 @@ function AddItemOption({
   title,
 }: any): JSX.Element {
   return (
-    <Grid item xs={s}>
+    <Grid item xs={12} sm={4}>
       <CreateItemModal room={title} toggleDrawer={toggleDrawer}>
         <Card
           sx={{
-            textAlign: "center",
+            textAlign: {
+              sm: "center",
+            },
             boxShadow: 0,
-            borderRadius: 6,
+            borderRadius: { xs: 1, sm: 6 },
             transition: "transform .2s",
             "&:active": {
               boxShadow: "none!important",
@@ -52,6 +54,10 @@ function AddItemOption({
             disableRipple
             onClick={() => toggleDrawer(false)}
             sx={{
+              px: {
+                xs: 3,
+                sm: 0,
+              },
               "&:hover": {
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
@@ -62,19 +68,25 @@ function AddItemOption({
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
-                boxShadow:
-                  "inset 0px 0px 0px 2px " +
-                  colors[themeColor][global.theme === "dark" ? 200 : 800],
               },
               "&:active": {
-                boxShadow: "none!important",
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
               },
             }}
           >
-            <CardContent sx={{ p: 1 }}>
+            <CardContent
+              sx={{
+                p: 1,
+                display: {
+                  xs: "flex",
+                  sm: "unset",
+                },
+                gap: 3,
+                alignItems: "center",
+              }}
+            >
               <Typography variant="h4">{icon}</Typography>
               <Typography
                 sx={{
@@ -118,7 +130,9 @@ function MoreRooms(): JSX.Element {
         anchor="bottom"
         swipeAreaWidth={0}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
               xs: "100vw",
               sm: "50vw",
@@ -150,7 +164,8 @@ function MoreRooms(): JSX.Element {
             {[...new Array(12)].map(() => (
               <Grid
                 item
-                xs={3}
+                xs={12}
+                sm={3}
                 sx={{ p: 2, py: 1 }}
                 key={Math.random().toString()}
               >
@@ -197,7 +212,7 @@ function MoreRooms(): JSX.Element {
           </Grid>
         )}
       </SwipeableDrawer>
-      <Grid item xs={4}>
+      <Grid item xs={12} sm={3}>
         <Card
           sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}
           onClick={() => setOpen(true)}
@@ -367,7 +382,9 @@ export default function AddPopup(props: any) {
         anchor="bottom"
         swipeAreaWidth={0}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
               xs: "100vw",
               sm: "50vw",
@@ -394,9 +411,7 @@ export default function AddPopup(props: any) {
           keepMounted: true,
         }}
       >
-        <Box sx={{ pt: 1 }}>
-          <Puller />
-        </Box>
+        <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
           Create item
         </DialogTitle>
