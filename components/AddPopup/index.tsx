@@ -11,6 +11,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { styled } from "@mui/material/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import React, { useEffect } from "react";
 import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";
@@ -412,8 +413,36 @@ export default function AddPopup(props: any) {
         }}
       >
         <Puller />
-        <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
-          Create item
+        <DialogTitle
+          sx={{
+            display: "flex",
+            mt: 0.5,
+            textAlign: "center",
+            pb: 0,
+            alignItems: "center",
+          }}
+        >
+          <IconButton sx={{ mr: "auto", opacity: 0, pointerEvents: "none" }}>
+            <span className="material-symbols-rounded">view_in_ar</span>
+          </IconButton>
+          <Typography variant="h6" sx={{ mx: "auto", fontWeight: "600" }}>
+            Create item
+          </Typography>
+          <IconButton
+            size="large"
+            onClick={() => window.open("/scan")}
+            sx={{
+              ml: "auto",
+              color: "#000",
+              transition: "none",
+              "&:active": {
+                background: colors[themeColor][100] + "!important",
+              },
+            }}
+            disableRipple
+          >
+            <span className="material-symbols-rounded">view_in_ar</span>
+          </IconButton>
         </DialogTitle>
         <Content toggleDrawer={toggleDrawer} />
       </SwipeableDrawer>

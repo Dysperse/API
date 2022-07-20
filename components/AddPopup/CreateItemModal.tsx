@@ -125,10 +125,7 @@ export function CreateItemModal({
       >
         <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
-          Create item
-          <DialogContentText sx={{ mt: 1, textAlign: "center" }}>
-            {room}
-          </DialogContentText>
+          {room}
         </DialogTitle>
         <DialogContent
           sx={{
