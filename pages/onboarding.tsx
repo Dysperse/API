@@ -165,7 +165,7 @@ function SwipeableTextMobileStepper() {
             Are you living in a dorm?
           </Typography>
           <Typography sx={{ mt: 1, mb: 1 }}>
-            We'll tailor your inventory to your student needs
+            We&apos;ll tailor your inventory to your student needs
           </Typography>
           <Checkbox
             checked={studentMode}
