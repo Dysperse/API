@@ -236,6 +236,37 @@ function SwipeableTextMobileStepper() {
         </Box>
       ),
     },
+
+    {
+      content: (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <Box sx={{ p: 5 }}>
+            <Typography variant="h2" sx={{ mb: 2, mt: 6 }}>
+              You&apos;re all set!
+            </Typography>
+            <Typography variant="h6">
+              Click the button below to continue to your dashboard
+            </Typography>
+
+            <Button
+              size="large"
+              sx={{ mt: 2 }}
+              variant="contained"
+              onClick={handleNext}
+            >
+              Continue to my dashboard
+              <span className="material-symbols-rounded">chevron_right</span>
+            </Button>
+          </Box>
+        </Box>
+      ),
+    },
   ];
 
   const maxSteps = images.length;
@@ -276,20 +307,26 @@ function SwipeableTextMobileStepper() {
         <MobileStepper
           steps={maxSteps}
           sx={{
-            position: "fixed",
-            background: colors[themeColor][mode === "dark" ? "900" : "100"],
+            "& .MuiMobileStepper-dots": {
+              display: "none",
+            },
+            transition: "all .2s",
             bottom: 0,
+            ...((activeStep === 0 || activeStep === maxSteps - 1) && {
+              bottom: "-50px",
+            }),
+            position: "fixed",
+            background: "transparent",
+            backdropFilter: "blur(10px)",
           }}
           activeStep={activeStep}
           nextButton={
             <Button
               size="large"
               sx={{
-                mt: 2,
                 transition: "opacity .2s",
                 transitionDelay: ".2s",
-                ...(activeStep === 0 && {
-                  opacity: 0,
+                ...((activeStep === 0 || activeStep === maxSteps - 1) && {
                   pointerEvents: "none",
                 }),
               }}
@@ -310,24 +347,18 @@ function SwipeableTextMobileStepper() {
               <Button
                 size="large"
                 sx={{
-                  mt: 2,
                   transition: "opacity .2s",
                   transitionDelay: ".2s",
-                  ...(activeStep === 0 && {
-                    opacity: 0,
+                  ...((activeStep === 0 || activeStep === maxSteps - 1) && {
                     pointerEvents: "none",
                   }),
+                  px: 1.5,
+                  minWidth: "auto",
                 }}
                 variant="contained"
                 onClick={handleBack}
               >
-                <span
-                  className="material-symbols-rounded"
-                  style={{ marginRight: "10px" }}
-                >
-                  chevron_left
-                </span>
-                Back
+                <span className="material-symbols-rounded">chevron_left</span>
               </Button>
             </>
           }
