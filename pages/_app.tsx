@@ -152,7 +152,7 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
       </Offline>
 
       {router &&
-      (router.pathname === "/share/[index]" || router.pathname === "/scan") ? (
+      (router.pathname === "/share/[index]" || router.pathname === "/scan" || router.pathname === "/onboarding") ? (
         <Component {...pageProps} />
       ) : (
         <Online>

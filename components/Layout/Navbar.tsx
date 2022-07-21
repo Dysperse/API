@@ -185,7 +185,7 @@ function ElevationScroll(props: any) {
 export function Navbar({ handleDrawerToggle }: any): JSX.Element {
   const [syncedHouseName, setSyncedHouseName] = React.useState<string>("false");
   global.setSyncedHouseName = setSyncedHouseName;
-  
+
   return (
     <ElevationScroll>
       <AppBar elevation={0} position="fixed">
@@ -245,7 +245,7 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
             noWrap
           >
             <InviteButton />
-            {!global.session.user.SyncToken ? (
+            {global.session.user.SyncToken == false ? (
               global.session.user.houseName || "Smartlist"
             ) : (
               <>
