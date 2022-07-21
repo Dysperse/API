@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import SwipeableViews from "react-swipeable-views";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -15,6 +16,7 @@ import { Color } from "../components/onboarding/Color";
 const AutoPlaySwipeableViews = SwipeableViews;
 
 function SwipeableTextMobileStepper() {
+  const [studentMode, setStudentMode] = React.useState<boolean>(false);
   const [themeColor, setThemeColor] = React.useState("brown");
   const [mode, setMode] = React.useState<"dark" | "light">("light");
 
@@ -140,7 +142,7 @@ function SwipeableTextMobileStepper() {
     },
     {
       content: (
-        <Box sx={{ p: 5 }}>
+        <Box sx={{ p: 5, pb: 10 }}>
           <Typography variant="h4" sx={{ mt: 6 }}>
             Creating your home
           </Typography>
@@ -158,6 +160,17 @@ function SwipeableTextMobileStepper() {
                 height: "50px",
               },
             }}
+          />
+          <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
+            Are you living in a dorm?
+          </Typography>
+          <Typography sx={{ mt: 1, mb: 1 }}>
+            We'll tailor your inventory to your student needs
+          </Typography>
+          <Checkbox
+            checked={studentMode}
+            sx={{ ml: -1 }}
+            onChange={() => setStudentMode(!studentMode)}
           />
           <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
             Add some rooms
