@@ -41,19 +41,21 @@ export function CustomRooms() {
       getOptionLabel={(option: any) => option}
       renderTags={(tagValue, getTagProps) =>
         tagValue.map((option, index) => (
-          <Chip
-            label={option}
-            {...getTagProps({ index })}
-            sx={{
-              "&.Mui-disabled": {
-                opacity: ".7!important",
-              },
-              "&.Mui-disabled *:not(.MuiChip-label)": {
-                display: "none!important",
-              },
-            }}
-            disabled={fixedOptions.indexOf(option.toString()) !== -1}
-          />
+          <React.Fragment key={index}>
+            <Chip
+              label={option}
+              {...getTagProps({ index })}
+              sx={{
+                "&.Mui-disabled": {
+                  opacity: ".7!important",
+                },
+                "&.Mui-disabled *:not(.MuiChip-label)": {
+                  display: "none!important",
+                },
+              }}
+              disabled={fixedOptions.indexOf(option.toString()) !== -1}
+            />
+          </React.Fragment>
         ))
       }
       renderInput={(params) => (

@@ -14,6 +14,7 @@ export function InventoryList({
     <Box>
       {data.map((item) => (
         <ListItem
+          key={item.name}
           button
           sx={{
             borderRadius: 5,

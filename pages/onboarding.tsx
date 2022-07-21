@@ -95,7 +95,7 @@ function SwipeableTextMobileStepper() {
             Customize your Carbon
           </Typography>
           <Typography variant="h6" sx={{ my: 3 }}>
-            What's your favorite color?
+            What&apos;s your favorite color?
           </Typography>
           <Color setThemeColor={setThemeColor} color="red" />
           <Color setThemeColor={setThemeColor} color="green" />
@@ -211,8 +211,13 @@ function SwipeableTextMobileStepper() {
               { name: "TV", icon: "home_max" },
               { name: "Speaker", icon: "speaker" },
               { name: "Table lamp", icon: "table_lamp" },
-              { name: "Ladder", icon: "tools_ladder" },
               { name: "Tent", icon: "camping" },
+              { name: "Power drill", icon: "tools_power_drill" },
+              { name: "Wire stripper", icon: "tools_pliers_wire_stripper" },
+              { name: "Ladder", icon: "tools_ladder" },
+              { name: "Leveler", icon: "tools_level" },
+              { name: "Phillips screwdriver", icon: "tools_phillips" },
+              { name: "Flat head screwdriver", icon: "tools_flat_head" },
             ]}
           />
         </Box>
