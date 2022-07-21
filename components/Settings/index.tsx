@@ -416,20 +416,17 @@ export default function FullScreenDialog({ children }: any) {
                 secondary={"10 rooms"}
               />
             )}
-            {!global.session.user.SyncToken && (
-              <SettingsMenu
-                content={<Sync />}
-                icon="sync"
-                primary="Sync"
-                secondary={
-                  <span id="syncTrigger">
-                    Invite others to your home and sync inventory, lists, etc.
-                  </span>
-                }
-              />
-            )}
+            <SettingsMenu
+              content={<Sync />}
+              icon="sync"
+              primary="Sync"
+              secondary={
+                <span id="syncTrigger">
+                  Invite others to your home and sync inventory, lists, etc.
+                </span>
+              }
+            />
             <Divider sx={{ mb: 1 }} />
-
             <Logout />
             <ListItem
               button

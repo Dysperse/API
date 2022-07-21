@@ -25,9 +25,20 @@ function Invitation({ t, invitation, key }: any) {
         <LoadingButton
           onClick={() => {
             setLoading(true);
-            updateSettings("SyncToken", invitation.token, false, () => {
-              setLoading(false);
-              toast.dismiss(t.id);
+            Promise.all([
+              updateSettings("SyncToken", invitation.token),
+              fetch(
+                "/api/account/sync/acceptInvitation?" +
+                  new URLSearchParams({
+                    id: invitation.id,
+                    token: global.session.accessToken,
+                    email: invitation.email,
+                  }),
+                {
+                  method: "POST",
+                }
+              ),
+            ]).then(() => {
               window.location.reload();
             });
           }}

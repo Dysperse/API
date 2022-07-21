@@ -51,10 +51,7 @@ function InviteButton() {
       )}
 
       <Box
-        onClick={() =>
-          !global.session.user.SyncToken &&
-          document.getElementById("syncTrigger")!.click()
-        }
+        onClick={() => document.getElementById("syncTrigger")!.click()}
         sx={{
           display: "flex",
           userSelect: "none",
@@ -186,6 +183,9 @@ function ElevationScroll(props: any) {
 }
 
 export function Navbar({ handleDrawerToggle }: any): JSX.Element {
+  const [syncedHouseName, setSyncedHouseName] = React.useState<string>("false");
+  global.setSyncedHouseName = setSyncedHouseName;
+  
   return (
     <ElevationScroll>
       <AppBar elevation={0} position="fixed">
@@ -245,14 +245,20 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
             noWrap
           >
             <InviteButton />
-            {global.session ? (
+            {!global.session.user.SyncToken ? (
               global.session.user.houseName || "Smartlist"
             ) : (
-              <Skeleton
-                animation="wave"
-                width={200}
-                sx={{ maxWidth: "20vw" }}
-              />
+              <>
+                {syncedHouseName === "false" ? (
+                  <Skeleton
+                    animation="wave"
+                    width={200}
+                    sx={{ maxWidth: "20vw" }}
+                  />
+                ) : (
+                  <>{syncedHouseName}</>
+                )}
+              </>
             )}
           </Typography>
 

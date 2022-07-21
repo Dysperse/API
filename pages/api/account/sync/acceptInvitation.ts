@@ -7,13 +7,8 @@ export default async (req, res) => {
 
     const result = await excuteQuery({
       query:
-        "INSERT INTO SyncTokens (token, email, login, houseName, accepted) VALUES (?, ?, ?, ?, 'false')",
-      values: [
-        req.query.token ?? "false",
-        req.query.email ?? "false",
-        userId[0].user ?? false,
-        req.query.houseName ?? "false",
-      ],
+        "UPDATE SyncTokens SET accepted = 'true' WHERE email = ? AND id = ?",
+      values: [req.query.email ?? "false", req.query.id ?? "false"],
     });
     res.json({
       data: result,

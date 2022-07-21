@@ -4,9 +4,13 @@ import Fab from "@mui/material/Fab";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import LoadingButton from "@mui/lab/LoadingButton";
 import * as React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
+import { updateSettings } from "./updateSettings";
 const filter = createFilterOptions<EmailOptionType>();
 
 interface EmailOptionType {
@@ -29,6 +33,24 @@ function Person({ data }: any) {
         alignItems: "center",
       }}
     >
+      <Tooltip
+        title={
+          data.accepted === "true"
+            ? "Verified account"
+            : "This person hasn't accepted the invitation yet"
+        }
+      >
+        <span
+          className="material-symbols-rounded"
+          style={{
+            marginRight: "10px",
+            cursor: "help",
+            color: data.accepted === "true" ? "#00c853" : "#d50000",
+          }}
+        >
+          {data.accepted !== "true" ? "gpp_maybe" : "verified_user"}
+        </span>
+      </Tooltip>
       <span>{data.email}</span>
       <IconButton
         sx={{ ml: "auto" }}
@@ -52,14 +74,103 @@ function Person({ data }: any) {
 }
 
 function isEmail(email) {
-  return /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(
-    email
-  );
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
 }
 
 function SetOwner() {
   global.setIsOwner(true);
   return <></>;
+}
+
+function Leave() {
+  const url =
+    "/api/account/sync/invitations?" +
+    new URLSearchParams({
+      token: global.session && global.session.accessToken,
+      email: global.session && global.session.user.email,
+    });
+  const { data, error } = useSWR(url, () =>
+    fetch(url, {
+      method: "POST",
+    }).then((res) => res.json())
+  );
+
+  const [loading, setLoading] = React.useState<boolean>(!data);
+  React.useEffect(() => {
+    if (data) {
+      global.setSyncedHouseName(
+        data.data.filter((v) => v.accepted == "true")[0].houseName
+      );
+    }
+  });
+
+  return (
+    <Box>
+      <Box
+        sx={{
+          background: "rgba(200,200,200,.2)",
+          borderRadius: 5,
+          mt: 4,
+          p: 5,
+        }}
+      >
+        Only the owner can invite others to your home.
+      </Box>
+      <Box
+        sx={{
+          background: "rgba(200,200,200,.2)",
+          borderRadius: 5,
+          mt: 2,
+          p: 5,
+        }}
+      >
+        <LoadingButton
+          loading={loading}
+          onClick={() => {
+            setLoading(true);
+            Promise.all([
+              fetch(
+                "/api/account/sync/revokeInvitation?" +
+                  new URLSearchParams({
+                    token: global.session && global.session.accessToken,
+                    email: global.session && global.session.user.email,
+                    id: data.data.filter((v) => v.accepted == "true")[0].id,
+                  }),
+                {
+                  method: "POST",
+                }
+              ),
+              updateSettings("SyncToken", ""),
+            ]).then(() => {
+              window.location.reload();
+            });
+          }}
+          variant="outlined"
+          sx={{
+            borderWidth: "2px!important",
+            borderRadius: 3,
+            transition: "none",
+            "& .MuiTouchRipple-rippleVisible": {
+              animationDuration: "0s!important",
+            },
+          }}
+          size="large"
+        >
+          Leave &ldquo;
+          {data && data.data.filter((v) => v.accepted == "true")[0].houseName}
+          &rdquo;
+        </LoadingButton>
+        <Typography sx={{ mt: 2 }} variant="body2">
+          Heads up! You won&apos;t be able to join this home unless you are
+          re-invited. Your original inventory will be restored
+        </Typography>
+      </Box>
+    </Box>
+  );
 }
 
 const top100Emails: readonly EmailOptionType[] = [];
@@ -93,136 +204,148 @@ export default function Developer() {
       }}
     >
       <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: "700" }}>
-        Invite people to your home
+        Add person
       </Typography>
-      <Box sx={{ display: "flex", width: "100%" }}>
-        <Autocomplete
-          sx={{ width: "100%" }}
-          value={value}
-          onChange={(event, newValue) => {
-            if (typeof newValue === "string") {
-              setValue({
-                title: newValue,
-              });
-            } else if (newValue && newValue.inputValue) {
-              // Create a new value from the user input
-              setValue({
-                title: newValue.inputValue,
-              });
-            } else {
-              setValue(newValue);
-            }
-          }}
-          filterOptions={(options, params) => {
-            const filtered = filter(options, params);
+      {global.session.user.SyncToken ? (
+        <Leave />
+      ) : (
+        <Box>
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Autocomplete
+              sx={{ width: "100%" }}
+              value={value}
+              onChange={(event, newValue) => {
+                if (typeof newValue === "string") {
+                  setValue({
+                    title: newValue,
+                  });
+                } else if (newValue && newValue.inputValue) {
+                  // Create a new value from the user input
+                  setValue({
+                    title: newValue.inputValue,
+                  });
+                } else {
+                  setValue(newValue);
+                }
+              }}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
 
-            const { inputValue } = params;
-            // Suggest the creation of a new value
-            const isExisting = options.some(
-              (option) => inputValue === option.title
-            );
-            if (inputValue !== "" && !isExisting) {
-              filtered.push({
-                inputValue,
-                title: `"${inputValue}"`,
-              });
-            }
+                const { inputValue } = params;
+                // Suggest the creation of a new value
+                const isExisting = options.some(
+                  (option) => inputValue === option.title
+                );
+                if (inputValue !== "" && !isExisting) {
+                  filtered.push({
+                    inputValue,
+                    title: `"${inputValue}"`,
+                  });
+                }
 
-            return filtered;
-          }}
-          selectOnFocus
-          clearOnBlur
-          handleHomeEndKeys
-          id="free-solo-with-text-demo"
-          options={top100Emails}
-          ListboxProps={{
-            style: {
-              background: "rgba(200,200,200,.3)",
-              borderRadius: "20px",
-              marginTop: "10px",
-            },
-          }}
-          getOptionLabel={(option) => {
-            // Value selected with enter, right from the input
-            if (typeof option === "string") {
-              return option;
-            }
-            // Add "xxx" option created dynamically
-            if (option.inputValue) {
-              return option.inputValue;
-            }
-            // Regular option
-            return option.title;
-          }}
-          renderOption={(props, option) => <li {...props}>{option.title}</li>}
-          freeSolo
-          renderInput={(params) => (
-            <TextField
-              type="email"
-              {...params}
-              sx={{
-                "& *": {
-                  borderRadius: 4,
+                return filtered;
+              }}
+              selectOnFocus
+              clearOnBlur
+              handleHomeEndKeys
+              id="free-solo-with-text-demo"
+              options={top100Emails}
+              ListboxProps={{
+                style: {
+                  background: "rgba(200,200,200,.3)",
+                  borderRadius: "20px",
+                  marginTop: "10px",
                 },
               }}
-              label="Enter an email"
+              getOptionLabel={(option) => {
+                // Value selected with enter, right from the input
+                if (typeof option === "string") {
+                  return option;
+                }
+                // Add "xxx" option created dynamically
+                if (option.inputValue) {
+                  return option.inputValue;
+                }
+                // Regular option
+                return option.title;
+              }}
+              renderOption={(props, option) => (
+                <li {...props}>{option.title}</li>
+              )}
+              freeSolo
+              renderInput={(params) => (
+                <TextField
+                  type="email"
+                  {...params}
+                  sx={{
+                    "& *": {
+                      borderRadius: 4,
+                    },
+                  }}
+                  label="Enter an email"
+                />
+              )}
             />
-          )}
-        />
-        <Box sx={{ ml: "auto", pl: 1 }}>
-          <Fab
-            onClick={() => {
-              if (
-                !value ||
-                value.title === global.session.user.email ||
-                !isEmail(value.title)
-              )
-                alert("Please enter an email");
-              else {
-                fetch(
-                  "/api/account/sync/createToken?" +
-                    new URLSearchParams({
-                      token: global.session.accessToken,
-                      email: value.title,
-                      houseName: global.session.user.houseName,
-                    }),
-                  {
-                    method: "POST",
+            <Box sx={{ ml: "auto", pl: 1 }}>
+              <Fab
+                sx={{
+                  boxShadow: 0,
+                }}
+                onClick={() => {
+                  if (
+                    !value ||
+                    value.title === global.session.user.email ||
+                    !isEmail(value.title)
+                  )
+                    alert("Please enter an email");
+                  else {
+                    fetch(
+                      "/api/account/sync/createToken?" +
+                        new URLSearchParams({
+                          token: global.session.accessToken,
+                          email: value.title,
+                          houseName: global.session.user.houseName,
+                        }),
+                      {
+                        method: "POST",
+                      }
+                    ).then(() => {
+                      toast.success(
+                        "If the email provided is valid, an invitation will be sent."
+                      );
+                      setValue(null);
+                    });
                   }
-                ).then(() => {
-                  toast.success(
-                    "If the email provided is valid, an invitation will be sent."
-                  );
-                  setValue(null);
-                });
-              }
-            }}
-          >
-            <span className="material-symbols-rounded">add</span>
-          </Fab>
-        </Box>
-      </Box>
+                }}
+              >
+                <span className="material-symbols-rounded">add</span>
+              </Fab>
+            </Box>
+          </Box>
 
-      {error && "An error occured while loading your members. Please try again"}
-      {data && data.data.length > 0 && <SetOwner />}
-      {data && data.data && (
-        <>
-          {data.data.map((member: any) => (
-            <Person data={member} key={member.email} />
-          ))}
-        </>
-      )}
-      {data && data.data && data.data.length === 0 && (
-        <Box
-          sx={{
-            background: "rgba(200,200,200,.2)",
-            textAlign: "center",
-            borderRadius: 5,
-            mt: 9,
-            p: 5,
-          }}
-        >
-          You haven&apos;t invited anyone to your home yet
+          {error &&
+            "An error occured while loading your members. Please try again"}
+          {data && data.data.length > 0 && <SetOwner />}
+          {data && data.data && (
+            <>
+              {data.data.map((member: any) => (
+                <Person data={member} key={member.email} />
+              ))}
+            </>
+          )}
+          {data && data.data && data.data.length === 0 && (
+            <Box
+              sx={{
+                background: "rgba(200,200,200,.2)",
+                textAlign: "center",
+                borderRadius: 5,
+                mt: 9,
+                p: 5,
+              }}
+            >
+              You haven&apos;t invited anyone to your home yet
+            </Box>
+          )}
         </Box>
       )}
     </Box>

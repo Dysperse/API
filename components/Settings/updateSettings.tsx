@@ -4,7 +4,7 @@ export function updateSettings(
   debug: boolean = false,
   callback?: any
 ) {
-  fetch(
+  let d = fetch(
     "/api/account/update?" +
       new URLSearchParams({
         token: global.session && global.session.accessToken,
@@ -28,5 +28,6 @@ export function updateSettings(
         alert(JSON.stringify(res));
       }
     });
+  return d;
   // global.session.user[key] = value;
 }

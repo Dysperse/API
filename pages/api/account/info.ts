@@ -30,6 +30,15 @@ export default async (req, res) => {
   }
 };
 
+function isJsonString(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 export const getInfo = async (token: any) => {
   const userId = await ExchangeToken(token);
   const result = await excuteQuery({
@@ -44,8 +53,15 @@ export const getInfo = async (token: any) => {
     account.verifyToken = undefined;
     account.onboarding = parseInt(account.onboarding);
     account.notificationMin = parseInt(account.notificationMin);
-    account.studentMode = JSON.parse(account.studentMode);
+    account.studentMode = isJsonString(account.studentMode)
+      ? JSON.parse(account.studentMode)
+      : account.studentMode === "on"
+      ? true
+      : false;
     account.darkMode = JSON.parse(account.darkMode);
+
+    if (account.SyncToken === "false")
+      account.syncToken = JSON.parse(account.SyncToken);
     return account;
   })[0];
 };
