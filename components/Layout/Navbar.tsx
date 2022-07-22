@@ -245,7 +245,8 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
             noWrap
           >
             <InviteButton />
-            {global.session.user.SyncToken == false ? (
+            {global.session.user.SyncToken == false ||
+            !global.session.user.SyncToken ? (
               global.session.user.houseName || "Smartlist"
             ) : (
               <>
