@@ -84,8 +84,8 @@ export default function Rooms() {
     >
       {data ? (
         <>
-          {data.data.map((room: any) => (
-            <Room data={room} />
+          {data.data.map((room: any, key: number) => (
+            <Room data={room} key={key.toString()} />
           ))}
         </>
       ) : (
