@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { stopPropagationForTab } from "./Lists";
+import { Puller } from "../../Puller";
 
 export function CreateListCard({ lists, setLists }: any) {
   const [open, setOpen] = useState<boolean>(false);
@@ -112,18 +113,25 @@ export function CreateListCard({ lists, setLists }: any) {
         open={open}
         anchor="bottom"
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },
+            maxHeight: "80vh",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
           },
         }}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
         swipeAreaWidth={0}
       >
+        <Puller />
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
             Create list
