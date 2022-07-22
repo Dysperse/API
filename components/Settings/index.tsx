@@ -39,6 +39,7 @@ function Logout() {
           setOpen(false);
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
             width: "450px",
             maxWidth: "calc(100vw - 20px)",
@@ -191,6 +192,8 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         PaperProps={{
+          elevation: 0,
+
           sx: {
             background: colors[themeColor][100],
             ...(global.theme === "dark" && {
