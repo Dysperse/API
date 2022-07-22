@@ -75,7 +75,7 @@ function InviteButton() {
             className="material-symbols-rounded"
             style={{ fontSize: "20px" }}
           >
-            {isOwner ? "location_away " : "lock"}
+            {isOwner ? "group " : "lock"}
           </span>
         )}
       </Box>
