@@ -142,7 +142,7 @@ function SwipeableTextMobileStepper() {
     },
     {
       content: (
-        <Box sx={{ p: 5, pb: 10 }}>
+        <Box sx={{ p: 5, pb: 20 }}>
           <Typography variant="h4" sx={{ mt: 6 }}>
             Creating your home
           </Typography>
@@ -181,7 +181,7 @@ function SwipeableTextMobileStepper() {
     },
     {
       content: (
-        <Box sx={{ p: 5, pb: 10 }}>
+        <Box sx={{ p: 5, pb: 20 }}>
           <Typography variant="h4" sx={{ mt: 6 }}>
             Building your inventory
           </Typography>
@@ -258,7 +258,7 @@ function SwipeableTextMobileStepper() {
               size="large"
               sx={{ mt: 2 }}
               variant="contained"
-              onClick={handleNext}
+              onClick={() => (window.location.href = "/dashboard")}
             >
               Continue to my dashboard
               <span className="material-symbols-rounded">chevron_right</span>
