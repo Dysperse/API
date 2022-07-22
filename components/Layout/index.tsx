@@ -168,16 +168,15 @@ function CustomRoom({ room }: { room: Room }) {
 }
 
 function CustomRooms() {
-  const url = "https://api.smartlist.tech/v2/rooms/";
+  const url =
+    "/api/rooms?" +
+    new URLSearchParams({
+      token: global.session.user.SyncToken || global.session.accessToken,
+    });
 
   const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token:
-          global.session &&
-          (global.session.user.SyncToken || global.session.accessToken),
-      }),
     }).then((res) => res.json())
   );
   if (error) return <div>Failed to load room!</div>;

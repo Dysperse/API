@@ -61,6 +61,7 @@ function CreateRoom() {
         disableRipple
         sx={{ pl: 4, borderRadius: "0 40px 40px 0", transition: "none" }}
         onClick={toggleDrawer(true)}
+        id="setCreateRoomModalOpen"
       >
         <ListItemIcon>
           <span className="material-symbols-rounded">add_location_alt</span>
@@ -497,12 +498,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
                 expand_more
               </span>
             </ListItemButton>
-            <Collapse
-              in={open}
-              timeout="auto"
-              unmountOnExit
-              onClick={handleDrawerToggle}
-            >
+            <Collapse in={open} timeout="auto" onClick={handleDrawerToggle}>
               <List component="div" disablePadding>
                 {customRooms}
                 <CreateRoom />

@@ -109,16 +109,13 @@ function MoreRooms(): JSX.Element {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      token: global.session.accessToken,
+      token: global.session.user.SyncToken || global.session.accessToken,
     });
   const [open, setOpen] = React.useState<boolean>(false);
 
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token: global.session.user.SyncToken || global.session.accessToken,
-      }),
     }).then((res) => res.json())
   );
   if (error) {
@@ -247,12 +244,8 @@ function MoreRooms(): JSX.Element {
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
-                boxShadow:
-                  "inset 0px 0px 0px 2px " +
-                  colors[themeColor][global.theme === "dark" ? 200 : 800],
               },
               "&:active": {
-                boxShadow: "none!important",
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",

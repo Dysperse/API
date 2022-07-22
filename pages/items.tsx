@@ -9,14 +9,17 @@ import * as colors from "@mui/material/colors";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
-function Action({ icon, primary, secondary, href }: any) {
+function Action({ icon, primary, secondary, href, onClick }: any) {
   const router = useRouter();
   return (
     <ListItem
       disableRipple
       button
       onClick={() => {
-        router.push(href);
+        if (href) router.push(href);
+        else {
+          onClick && onClick();
+        }
       }}
       secondaryAction={
         <span
@@ -171,6 +174,14 @@ export default function Categories() {
             key={id.toString()}
           />
         ))}
+      <Action
+        onClick={() =>
+          document.getElementById("setCreateRoomModalOpen")!.click()
+        }
+        icon="add_circle"
+        primary="Create room"
+        secondary="10 items"
+      />
       <Divider sx={{ my: 1 }} />
       <Action
         href="/starred"
