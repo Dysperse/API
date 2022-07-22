@@ -4,6 +4,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import * as colors from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
@@ -33,7 +34,7 @@ function AddItemOption({
 }: any): JSX.Element {
   return (
     <Grid item xs={12} sm={4}>
-      <CreateItemModal room={title} toggleDrawer={toggleDrawer}>
+      <CreateItemModal room={title} alias={alias} toggleDrawer={toggleDrawer}>
         <Card
           sx={{
             textAlign: {
@@ -95,7 +96,7 @@ function AddItemOption({
                   overflow: "hidden",
                 }}
               >
-                {alias ?? title}
+                {alias || title}
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -136,10 +137,12 @@ function MoreRooms(): JSX.Element {
               xs: "100vw",
               sm: "50vw",
             },
+            maxHeight: "80vh",
             maxWidth: "700px",
-            "& *:not(.MuiTouchRipple-child, .puller)": {
+            "& .MuiPaper-root": {
               background: "transparent!important",
             },
+            "& *": { transition: "none!important" },
             borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
             ...(global.theme === "dark" && {
@@ -150,66 +153,65 @@ function MoreRooms(): JSX.Element {
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        ModalProps={{
-          keepMounted: true,
-        }}
       >
         <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
           Other rooms
         </DialogTitle>
-        {!data ? (
-          <Grid container sx={{ p: 2 }}>
-            {[...new Array(12)].map(() => (
-              <Grid
-                item
-                xs={12}
-                sm={3}
-                sx={{ p: 2, py: 1 }}
-                key={Math.random().toString()}
-              >
-                <div style={{ background: "#eee" }}>
-                  <Skeleton
-                    variant="rectangular"
-                    height={69}
-                    width={"100%"}
-                    animation="wave"
-                    sx={{ borderRadius: 5, background: "red!important" }}
-                  />
-                </div>
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Grid container sx={{ p: 2 }}>
-            <AddItemOption
-              toggleDrawer={() => setOpen(false)}
-              title="Storage room"
-              icon={
-                <span className="material-symbols-rounded">inventory_2</span>
-              }
-            />
-            <AddItemOption
-              toggleDrawer={() => setOpen(false)}
-              title="Camping"
-              icon={<span className="material-symbols-rounded">image</span>}
-            />
-            <AddItemOption
-              toggleDrawer={() => setOpen(false)}
-              title="Garden"
-              icon={<span className="material-symbols-rounded">yard</span>}
-            />
-            {data.data.map((room: any, key: any) => (
+        <Box sx={{ height: "100%", overflow: "scroll" }}>
+          {!data ? (
+            <Grid container sx={{ p: 2 }}>
+              {[...new Array(12)].map(() => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={3}
+                  sx={{ p: 2, py: 1 }}
+                  key={Math.random().toString()}
+                >
+                  <div style={{ background: "#eee" }}>
+                    <Skeleton
+                      variant="rectangular"
+                      height={69}
+                      width={"100%"}
+                      animation="wave"
+                      sx={{ borderRadius: 5, background: "red!important" }}
+                    />
+                  </div>
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Grid container sx={{ p: 2 }}>
               <AddItemOption
-                toggleDrawer={() => setOpen(false)}
-                title={room.id}
-                key={key}
-                alias={room.name}
-                icon={<span className="material-symbols-rounded">label</span>}
+                toggleDrawer={() => {}}
+                title="Storage room"
+                icon={
+                  <span className="material-symbols-rounded">inventory_2</span>
+                }
               />
-            ))}
-          </Grid>
-        )}
+              <AddItemOption
+                toggleDrawer={() => {}}
+                title="Camping"
+                icon={<span className="material-symbols-rounded">camping</span>}
+              />
+              <AddItemOption
+                toggleDrawer={() => {}}
+                title="Garden"
+                icon={<span className="material-symbols-rounded">yard</span>}
+              />
+              {data.data.map((room: any, key: any) => (
+                <AddItemOption
+                  toggleDrawer={() => {}}
+                  title={room.id}
+                  key={key}
+                  alias={room.name}
+                  icon={<span className="material-symbols-rounded">label</span>}
+                />
+              ))}
+            </Grid>
+          )}
+        </Box>
       </SwipeableDrawer>
       <Grid item xs={12} sm={4}>
         <Card

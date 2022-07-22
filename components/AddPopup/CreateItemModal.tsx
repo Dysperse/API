@@ -1,10 +1,7 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Autocomplete from "@mui/material/Autocomplete";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -20,10 +17,12 @@ import * as colors from "@mui/material/colors";
 import DialogActions from "@mui/material/DialogActions";
 
 export function CreateItemModal({
+  alias,
   toggleDrawer,
   room,
   children,
 }: {
+  alias?: string;
   toggleDrawer: Function;
   room: string;
   children: any;
@@ -70,7 +69,7 @@ export function CreateItemModal({
             token:
               global.session &&
               (global.session.user.SyncToken || global.session.accessToken),
-            room: room.toLowerCase(),
+            room: room.toString().toLowerCase(),
             name: values.title,
             qty: values.quantity,
             category: JSON.stringify(values.categories),
@@ -125,7 +124,7 @@ export function CreateItemModal({
       >
         <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
-          {room}
+          {alias ?? room}
         </DialogTitle>
         <DialogContent
           sx={{
