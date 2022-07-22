@@ -99,7 +99,7 @@ export default function Categories() {
           textAlign: { xs: "center", sm: "left" },
         }}
       >
-        Items
+        Inventory
       </Typography>
       <Action
         href="/rooms/kitchen"
