@@ -1,10 +1,10 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
 import * as colors from "@mui/material/colors";
 import { grey } from "@mui/material/colors";
 import DialogTitle from "@mui/material/DialogTitle";
+import Fab from "@mui/material/Fab";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -17,9 +17,9 @@ import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { Puller } from "../Puller";
-import Fab from "@mui/material/Fab";
 import AddPopup from "../AddPopup";
+import { Puller } from "../Puller";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 function CreateRoom() {
   const router = useRouter();
@@ -29,7 +29,9 @@ function CreateRoom() {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
-
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -56,7 +58,8 @@ function CreateRoom() {
   return (
     <>
       <ListItemButton
-        sx={{ pl: 4, borderRadius: "0 40px 40px 0" }}
+        disableRipple
+        sx={{ pl: 4, borderRadius: "0 40px 40px 0", transition: "none" }}
         onClick={toggleDrawer(true)}
       >
         <ListItemIcon>
@@ -67,20 +70,27 @@ function CreateRoom() {
       <SwipeableDrawer
         anchor="bottom"
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
+              xs: "100vw",
               sm: "50vw",
             },
-            borderRadius: "30px 30px 0 0",
+            maxWidth: "700px",
+            "& *:not(.MuiTouchRipple-child, .puller)": {
+              background: "transparent!important",
+            },
+            borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
           },
         }}
         open={open}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
-        // ModalProps={{
-        //   keepMounted: true,
-        // }}
       >
         <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
@@ -89,9 +99,6 @@ function CreateRoom() {
         <Box sx={{ p: 3 }}>
           <form onSubmit={formik.handleSubmit}>
             <TextField
-              inputRef={(input) =>
-                setTimeout(() => input && input.focus(), 100)
-              }
               margin="dense"
               label="Room name"
               onChange={formik.handleChange}
@@ -99,7 +106,7 @@ function CreateRoom() {
               fullWidth
               autoComplete={"off"}
               name="name"
-              variant="filled"
+              variant="outlined"
             />
 
             <LoadingButton
@@ -108,35 +115,17 @@ function CreateRoom() {
                 mr: 1,
                 borderRadius: 9,
                 float: "right",
+                borderWidth: "2px!important",
                 boxShadow: 0,
               }}
               size="large"
-              variant="contained"
-              color="primary"
+              variant="outlined"
               type="submit"
+              color="primary"
               loading={loading}
-              // onClick={() => setTimeout(setClickLoading, 10)}
             >
               Create
             </LoadingButton>
-            <Button
-              sx={{
-                mt: 1,
-                mr: 1,
-                borderRadius: 9,
-                float: "right",
-              }}
-              color="primary"
-              type="button"
-              size="large"
-              variant="outlined"
-              onClick={() => {
-                // setLoading(false);
-                // setOpen(false);
-              }}
-            >
-              Back
-            </Button>
           </form>
         </Box>
       </SwipeableDrawer>
@@ -440,7 +429,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               href="/rooms/[index]"
               asHref="/rooms/camping"
               text="Camping"
-              icon={<span className="material-symbols-rounded">image</span>}
+              icon={<span className="material-symbols-rounded">camping</span>}
             />
           )}
           {global.session.user.studentMode === false && (

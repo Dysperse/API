@@ -1,24 +1,22 @@
 import { Global } from "@emotion/react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
+import * as colors from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
 import { styled } from "@mui/material/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import React, { useEffect } from "react";
-import { Puller } from "../Puller";
-import { CreateItemModal } from "./CreateItemModal";
-import { CreateListModal } from "./CreateListModal";
-import * as colors from "@mui/material/colors";
 import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { Puller } from "../Puller";
+import { CreateItemModal } from "./CreateItemModal";
 
 import { useHotkeys } from "react-hotkeys-hook";
 

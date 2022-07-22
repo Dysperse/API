@@ -7,6 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import * as colors from "@mui/material/colors";
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
 function Action({ icon, primary, secondary, href }: any) {
   const router = useRouter();
@@ -26,6 +27,7 @@ function Action({ icon, primary, secondary, href }: any) {
         </span>
       }
       sx={{
+        mb: 1,
         transition: "transform .2s !important",
         borderRadius: 4,
         "&:active": {
@@ -44,7 +46,7 @@ function Action({ icon, primary, secondary, href }: any) {
         <Avatar
           className="avatar"
           sx={{
-            color: global.theme === "dark" ? "#fff" : "#000",
+            color: global.theme === "dark" ? "#fff" : colors[themeColor][900],
             borderRadius: 4,
             background:
               global.theme === "dark"
@@ -62,17 +64,31 @@ function Action({ icon, primary, secondary, href }: any) {
       </ListItemAvatar>
       <ListItemText
         primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
-        secondary={
-          <Typography sx={{ fontWeight: "400", fontSize: "15px" }}>
-            {secondary}
-          </Typography>
-        }
+        // secondary={
+        //   <Typography sx={{ fontWeight: "400", fontSize: "15px" }}>
+        //     {secondary}
+        //   </Typography>
+        // }
       />
     </ListItem>
   );
 }
 
 export default function Categories() {
+  const url =
+    "/api/rooms?" +
+    new URLSearchParams({
+      token:
+        global.session &&
+        (global.session.user.SyncToken || global.session.accessToken),
+    });
+
+  const { data, error } = useSWR(url, () =>
+    fetch(url, {
+      method: "POST",
+    }).then((res) => res.json())
+  );
+
   return (
     <Container sx={{ mb: 3 }}>
       <Typography
@@ -141,10 +157,15 @@ export default function Categories() {
       />
       <Action
         href="/rooms/camping"
-        icon="image"
+        icon="camping"
         primary="Camping"
         secondary="10 items"
       />
+      <Divider sx={{ my: 1 }} />
+      {data &&
+        data.data.map((room: any) => (
+          <Action href={"/rooms/" + room.id} icon="label" primary={room.name} />
+        ))}{" "}
       <Divider sx={{ my: 1 }} />
       <Action
         href="/starred"

@@ -3,7 +3,6 @@ import { ExchangeToken } from "../../../lib/exchange-token";
 
 const handler = async (req, res) => {
   try {
-    console.log("req nom", req.body);
     const userId = await ExchangeToken(req.query.token);
 
     const result = await excuteQuery({
