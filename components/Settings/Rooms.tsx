@@ -12,7 +12,7 @@ function Room({ data }) {
     <ListItem
       sx={{
         background: "rgba(0,0,0,0.05)",
-        mb: 1,
+        mb: 2,
         borderRadius: 5,
         p: 3,
         px: 4,
