@@ -28,11 +28,13 @@ img {
 .MuiTouchRipple-child {
   filter: opacity(0.2) !important;
 }
-
-@supports (backdrop-filter: blur(20px)) {
+.MuiBackdrop-root {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+}
+@supports (backdrop-filter: blur(15px)) {
   .MuiBackdrop-root {
     backdrop-filter: blur(15px);
-    background-color: rgba(0, 0, 0, 0.2) !important;
+    background-color: rgba(0, 0, 0, 0.15) !important;
   }
 }
 
@@ -61,7 +63,7 @@ img {
   border-radius: 28px !important;
   box-shadow: 0 !important;
   padding: 15px !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
   max-width: 100vw !important;
   animation: atom-modal 0.4s forwards !important;
 }
