@@ -1,5 +1,5 @@
-import excuteQuery from "../../lib/db";
-import { ExchangeToken } from "../../lib/exchange-token";
+import excuteQuery from "../../../lib/db";
+import { ExchangeToken } from "../../../lib/exchange-token";
 
 const handler = async (req, res) => {
   try {
