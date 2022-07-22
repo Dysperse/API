@@ -92,10 +92,10 @@ export default function Categories() {
   return (
     <Container sx={{ mb: 3 }}>
       <Typography
-        variant="h4"
+        variant="h3"
         sx={{
           my: { xs: 12, sm: 4 },
-          fontWeight: "700",
+          fontWeight: "400",
           textAlign: { xs: "center", sm: "left" },
         }}
       >

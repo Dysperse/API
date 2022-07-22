@@ -57,11 +57,11 @@ export function BottomNav() {
       v = 1;
       break;
     case "/save-the-planet":
-      v = 2;
+      v = 3;
       break;
     case "/trash":
     case "/items":
-      v = 3;
+      v = 1;
       break;
     default:
       v = 0;
@@ -135,6 +135,19 @@ export function BottomNav() {
               background: "transparent !important",
             },
           }}
+          label="Inventory"
+          disableRipple
+          onClick={() => onLink("/items")}
+          icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
+        />
+        <BottomNavigationAction
+          sx={{
+            ...styles,
+            "&.Mui-selected": {
+              color: global.theme === "dark" ? "#fff" : "#000",
+              background: "transparent !important",
+            },
+          }}
           label="Finances"
           disableRipple
           onClick={() => onLink("/finances")}
@@ -163,19 +176,6 @@ export function BottomNav() {
           disableRipple
           onClick={() => onLink("/save-the-planet")}
           icon={<Icon baseClassName="material-symbols-rounded">eco</Icon>}
-        />
-        <BottomNavigationAction
-          sx={{
-            ...styles,
-            "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
-              background: "transparent !important",
-            },
-          }}
-          label="Inventory"
-          disableRipple
-          onClick={() => onLink("/items")}
-          icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
         />
       </BottomNavigation>
     </Box>
