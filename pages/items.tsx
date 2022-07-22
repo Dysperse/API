@@ -163,9 +163,14 @@ export default function Categories() {
       />
       <Divider sx={{ my: 1 }} />
       {data &&
-        data.data.map((room: any) => (
-          <Action href={"/rooms/" + room.id} icon="label" primary={room.name} />
-        ))}{" "}
+        data.data.map((room: any, id: number) => (
+          <Action
+            href={"/rooms/" + room.id}
+            icon="label"
+            primary={room.name}
+            key={id.toString()}
+          />
+        ))}
       <Divider sx={{ my: 1 }} />
       <Action
         href="/starred"
