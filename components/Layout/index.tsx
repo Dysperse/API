@@ -218,9 +218,6 @@ function ResponsiveDrawer(props: any): JSX.Element {
             : colors[global.themeColor][100]
         );
   });
-  const handleDrawerToggle = (t = true) => {
-    setMobileOpen(t);
-  };
 
   const [ownerLoaded, setOwnerLoaded] = React.useState(false);
   global.ownerLoaded = ownerLoaded;
@@ -237,7 +234,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
       }}
     >
       <CssBaseline />
-      <Navbar handleDrawerToggle={handleDrawerToggle} />
+      <Navbar />
       <Box
         component="nav"
         sx={{ width: { sm: "65px", md: drawerWidth }, flexShrink: { md: 0 } }}
@@ -265,10 +262,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
           }}
           open
         >
-          <DrawerListItems
-            customRooms={<CustomRooms />}
-            handleDrawerToggle={handleDrawerToggle}
-          />
+          <DrawerListItems customRooms={<CustomRooms />} />
         </Drawer>
       </Box>
       <Box

@@ -311,7 +311,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             </Fab>
           </AddPopup>
         </div>
-        <div onClick={() => handleDrawerToggle(false)}>
+        <div>
           <ListSubheader
             sx={{
               pl: 2,
@@ -343,7 +343,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             icon={<span className="material-symbols-rounded">eco</span>}
           />
         </div>
-        <div onClick={() => handleDrawerToggle(false)}>
+        <div>
           <ListSubheader
             sx={{
               pl: 2,

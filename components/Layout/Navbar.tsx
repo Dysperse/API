@@ -146,10 +146,7 @@ function ElevationScroll(props: any) {
     if (document) {
       document
         .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute(
-          "content",
-          trigger ? colors[global.themeColor]["100"] : "#fff"
-        );
+        .setAttribute("content", trigger ? "#ebe5e3" : "#fff");
     }
   });
   return React.cloneElement(children, {
@@ -165,7 +162,7 @@ function ElevationScroll(props: any) {
           background:
             global.theme === "dark"
               ? "rgba(57, 57, 71, .7)"
-              : hexToRgba(colors[global.themeColor]["100"], 0.7),
+              : hexToRgba(colors[global.themeColor]["100"], 0.5),
         }
       : {
           color: global.theme === "dark" ? "white" : "black",
@@ -182,7 +179,7 @@ function ElevationScroll(props: any) {
   });
 }
 
-export function Navbar({ handleDrawerToggle }: any): JSX.Element {
+export function Navbar(): JSX.Element {
   const [syncedHouseName, setSyncedHouseName] = React.useState<string>("false");
   global.setSyncedHouseName = setSyncedHouseName;
 
@@ -190,49 +187,6 @@ export function Navbar({ handleDrawerToggle }: any): JSX.Element {
     <ElevationScroll>
       <AppBar elevation={0} position="fixed">
         <Toolbar>
-          {/* <Tooltip title="Menu" placement="bottom-start">
-            {global.session ? (
-              <IconButton
-                color="inherit"
-                aria-label="open drawer."
-                disableRipple
-                edge="start"
-                size="large"
-                onClick={() => handleDrawerToggle(true)}
-                sx={{
-                  transition: "none",
-                  mr: 2,
-                  display: { md: "none" },
-                  color:
-                    global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
-                  "&:hover": {
-                    background: "rgba(200,200,200,.3)",
-                    color:
-                      global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-                  },
-                  "&:focus-within": {
-                    background:
-                      (global.theme === "dark"
-                        ? colors[themeColor]["900"]
-                        : colors[themeColor]["50"]) + "!important",
-                    color:
-                      global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-                  },
-                }}
-              >
-                <span className="material-symbols-rounded">menu</span>
-              </IconButton>
-            ) : (
-              <Skeleton
-                sx={{ mr: 2 }}
-                variant="circular"
-                width={40}
-                height={40}
-                animation="wave"
-              />
-            )}
-          </Tooltip> */}
-
           <Typography
             variant="h6"
             sx={{
