@@ -4,13 +4,13 @@ import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
 import { AutocompleteData } from "../../AutocompleteData";
+import * as colors from "@mui/material/colors";
+import { Puller } from "../../Puller";
 
 export function CreateListItemButton({
   parent,
@@ -84,6 +84,7 @@ export function CreateListItemButton({
         sx={{ mr: 1, mb: 3, borderRadius: 100 }}
         variant="contained"
         autoFocus
+        disabled={listItems.data.length > 15}
       >
         Create item
       </Button>
@@ -97,32 +98,26 @@ export function CreateListItemButton({
           keepMounted: true,
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
-              sm: "45vw",
+              sm: "50vw",
             },
+            maxWidth: "600px",
             maxHeight: "80vh",
             borderRadius: "30px 30px 0 0",
+            mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
             }),
-            mx: "auto",
           },
         }}
         onClose={handleClose}
         onOpen={() => setOpen(true)}
       >
+        <Puller />
         <form onSubmit={formik.handleSubmit}>
-          <DialogTitle sx={{ textAlign: "center" }} id="alert-dialog-title">
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-              sx={{ mt: 4, mb: 2 }}
-            >
-              Create item
-            </Typography>
-          </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               <Autocomplete
@@ -152,19 +147,6 @@ export function CreateListItemButton({
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={handleClose}
-              type="reset"
-              size="large"
-              disableElevation
-              sx={{
-                borderRadius: 100,
-                mb: 1,
-              }}
-              variant="outlined"
-            >
-              Cancel
-            </Button>
             <LoadingButton
               loading={loading}
               onClick={() => setTimeout(() => setLoading(true), 100)}
@@ -178,7 +160,7 @@ export function CreateListItemButton({
               }}
               variant="contained"
             >
-              Create
+              Done
             </LoadingButton>
           </DialogActions>
         </form>

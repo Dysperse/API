@@ -1,7 +1,7 @@
 import excuteQuery from "../../../lib/db";
 import { ExchangeToken } from "../../../lib/exchange-token";
 
-export default async (req, res) => {
+const handler = async (req, res) => {
   try {
     const userId = await ExchangeToken(req.query.token);
 
@@ -15,12 +15,16 @@ export default async (req, res) => {
         req.query.description ?? "",
       ],
     });
+    console.log(result.insertId);
     res.json({
-      id: result.insertId,
-      title: req.query.title,
-      description: req.query.description,
+      data: {
+        id: result.insertId,
+        title: req.query.title,
+        description: req.query.description,
+      },
     });
   } catch (error) {
     res.status(500).json({ error: error });
   }
 };
+export default handler;

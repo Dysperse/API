@@ -10,23 +10,24 @@ import { deepOrange } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
+import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Head from "next/head";
 import useWindowDimensions from "../../components/useWindowDimensions";
+import { neutralizeBack, revivalBack } from "../history-control";
+import { Puller } from "../Puller";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { ItemActionsMenu } from "./ItemActionsMenu";
 import { StarButton } from "./StarButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { neutralizeBack, revivalBack } from "../history-control";
 
 export default function Item({ displayRoom = false, data, variant }: any) {
   const id = data.id;
@@ -85,7 +86,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               : "#cccccc"
             : global.theme === "dark"
             ? "hsl(240, 11%, 20%)"
-            : "#fff"
+            : colors[themeColor][50]
           : document.documentElement!.scrollTop === 0
           ? global.theme === "dark"
             ? "hsl(240, 11%, 10%)"
@@ -179,9 +180,9 @@ export default function Item({ displayRoom = false, data, variant }: any) {
         PaperProps={{
           elevation: 0,
           sx: {
-            borderRadius: { sm: 4 },
-            overflow: "hidden!important",
+            borderRadius: { sm: 5 },
             mt: { sm: "20px" },
+            // overflowY: "hidden!important",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",
             }),
@@ -206,23 +207,31 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             </title>
           </Head>
         )}
+        <Puller variant="side" />
+
         <Box
           sx={{
             flexGrow: 1,
             height: "100vh",
-            position: "relative",
+            borderRadius: { sm: 5 },
+            overflow: "hidden!important",
             width: {
               sm: "40vw",
               xs: "100vw",
             },
+            background: colors[themeColor][50],
             maxWidth: "100vw",
           }}
         >
           <AppBar
             position="absolute"
             sx={{
+              borderTopLeftRadius: "28px!important",
+              borderTopRightRadius: "28px!important",
               background:
-                global.theme === "dark" ? "hsl(240, 11%, 20%)" : "#fff",
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 20%)"
+                  : colors[themeColor][50],
               py: 1,
               color: global.theme === "dark" ? "#fff" : "#000",
             }}
@@ -305,10 +314,15 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               gap: 2,
             }}
           >
-            <Typography variant="h3" sx={{ fontWeight: "700" }}>
+            <Typography variant="h3" sx={{ fontWeight: "400" }}>
               {title || "(no title)"}
             </Typography>
-            <Typography variant="h5">
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: "700",
+              }}
+            >
               Quantity: {quantity || "(no quantity)"}
             </Typography>
             <div>

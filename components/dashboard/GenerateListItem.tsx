@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
 
 // Generates a list item for shopping list / todo list
-export function GenerateListItem({ title, id }: any) {
+export function GenerateListItem({ items, setItems, title, id }: any) {
   const [checked, setChecked] = React.useState<boolean>(false);
   const [deleted, setDeleted] = React.useState<boolean>(false);
 
@@ -20,7 +20,9 @@ export function GenerateListItem({ title, id }: any) {
         id: id,
       }),
     });
+
     setDeleted(true);
+    setItems(items.filter((item: any) => item.id !== id));
   };
   return (
     <Collapse in={!deleted}>

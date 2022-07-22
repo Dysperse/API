@@ -8,26 +8,8 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../history-control";
-
-function Puller() {
-  return (
-    <Box
-      className="puller"
-      sx={{
-        width: "50px",
-        backgroundColor: global.theme === "dark" ? "#505050" : "#eee",
-        height: "7px",
-        margin: "auto",
-        borderRadius: 9,
-        mt: 1,
-        position: "absolute",
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "inline-block",
-      }}
-    />
-  );
-}
+import * as colors from "@mui/material/colors";
+import { Puller } from "../Puller";
 
 export function CreateListModal({
   children,
@@ -80,7 +62,9 @@ export function CreateListModal({
         }}
         disableSwipeToOpen={true}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },
@@ -101,9 +85,6 @@ export function CreateListModal({
       >
         <Puller />
         <form onSubmit={formik.handleSubmit}>
-          <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
-            Create {title}
-          </DialogTitle>
           <DialogContent>
             <TextField
               inputRef={(input) =>

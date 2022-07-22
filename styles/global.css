@@ -1,52 +1,3 @@
-/* fallback */
-@font-face {
-  font-family: "Material Symbols Rounded";
-  font-style: normal;
-  font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v34/syl0-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvDmUSVOK7BDB_Qb9vUSzq3wzLK-P0J-V_Zs-QtQth3-jOc7TOVpeRL2w5rwZu2rGCiXxc.woff2)
-    format("woff2");
-}
-
-.material-symbols-rounded {
-  font-family: "Material Symbols Rounded";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: "liga";
-  -webkit-font-smoothing: antialiased;
-}
-/* fallback */
-@font-face {
-  font-family: "Material Symbols Outlined";
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v26/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1n-q_4MrImHCIJIZrDCvHOej.woff2)
-    format("woff2");
-}
-
-.material-symbols-outlined {
-  font-family: "Material Symbols Outlined";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -moz-font-feature-settings: "liga";
-  -moz-osx-font-smoothing: grayscale;
-}
-
 body {
   overflow-x: hidden;
   font-weight: 600;
@@ -175,99 +126,12 @@ img {
 * {
   scrollbar-width: none;
 }
-/* @media only screen and (prefers-color-scheme: dark) {
-  html,
-  body {
-    background: hsl(240, 11%, 10%);
-  }
-} */
+
 .MuiListSubheader-root {
   background: transparent !important;
   position: unset !important;
 }
 
-.fc-col-header-cell,
-.fc-timegrid-axis {
-  background: hsl(240, 11%, 20%);
-}
-td {
-  border: 0;
-  z-index: 0 !important;
-}
-:root {
-  --fc-border-color: transparent;
-  --fc-daygrid-event-dot-width: 5px;
-}
-.fc-day {
-  padding: 10px;
-}
-.fc-event {
-  opacity: 1 !important;
-  z-index: 99999;
-  padding: 10px;
-  padding-left: 30px;
-  border-radius: 15px !important;
-  margin: 6px !important;
-}
-.fc-event:hover::before {
-  content: "";
-  display: block;
-  width: 6px;
-  border-radius: 999px;
-  position: absolute;
-  height: 50%;
-  margin: 0 5px;
-  margin-left: -15px;
-  margin-top: 2px;
-  background: rgba(255, 255, 255, 0.3);
-}
-.fc-event:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-.fc-col-header-cell {
-  line-height: 45px !important;
-  margin-bottom: 5px;
-  white-space: nowrap;
-  text-overflow: ellipsis !important;
-  overflow: hidden;
-  padding: 0 15px !important;
-  background: rgba(200, 200, 200, 0.2) !important;
-}
-.fc-highlight,
-.fc-daygrid-day {
-  border-radius: 15px;
-}
-
-.fc-view-harness {
-  background: rgba(200, 200, 200, 0.2);
-  border-radius: 28px;
-  overflow: hidden;
-}
-.fc * {
-  border: 0 !important;
-}
-.fc-button {
-  text-transform: capitalize !important;
-  height: 40px;
-  line-height: 30px !important;
-  border-radius: 15px !important;
-  box-shadow: none !important;
-  color: #000 !important;
-  transition: transform 0.1s;
-  background: rgba(200, 200, 200, 0.5) !important;
-  margin-left: 5px !important;
-}
-.fc-button:active {
-  transform: scale(0.97);
-  transition: none;
-}
-.fc-button:hover {
-  background: rgba(200, 200, 200, 0.8) !important;
-}
-.fc-button span {
-  margin-top: -6px !important;
-}
 .puller {
   width: 60px;
   margin-top: -14px;
@@ -276,4 +140,15 @@ td {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.puller-side {
+  height: 60px;
+  width: 7px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-left: -18px;
+  border-radius: 10px;
+  transform: translateY(-50%);
 }

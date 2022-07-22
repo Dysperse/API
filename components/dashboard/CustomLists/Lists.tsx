@@ -18,12 +18,11 @@ function RenderLists({ data }: any) {
         <List
           key={Math.random().toString()}
           title={list.title}
-          count={parseInt(list.count, 10)}
           description={list.description}
           id={list.id}
         />
       ))}
-      <CreateListCard setLists={setLists} lists={lists} />
+      {lists.length < 5 && <CreateListCard setLists={setLists} lists={lists} />}
     </>
   );
 }

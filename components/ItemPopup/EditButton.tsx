@@ -1,9 +1,8 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
-import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
@@ -11,6 +10,8 @@ import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React from "react";
 import { AutocompleteData } from "../AutocompleteData";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { Puller } from "../Puller";
 
 export function EditButton({
   id,
@@ -98,20 +99,37 @@ export function EditButton({
           <span className="material-symbols-rounded">edit</span>
         </IconButton>
       </Tooltip>
-      <Dialog
+      <SwipeableDrawer
+        anchor="bottom"
+        swipeAreaWidth={0}
+        onOpen={handleClickOpen}
         open={open}
         onClose={handleClose}
         sx={{
           transition: "all .2s",
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
-            borderRadius: "28px",
-            p: 2,
+            background: colors[themeColor][50],
+            width: {
+              sm: "50vw",
+            },
+            maxWidth: "600px",
+            maxHeight: "95vh",
+            minHeight: {
+              xs: "95vh",
+              sm: "unset",
+            },
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
           },
         }}
       >
-        <DialogTitle sx={{ fontWeight: "800" }}>Edit item</DialogTitle>
+        <Puller />
         <DialogContent>
           <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -153,41 +171,39 @@ export function EditButton({
               )}
             />
 
-            <Button
-              variant="contained"
-              disableElevation
-              size="large"
-              type="submit"
+            <Box
               sx={{
-                borderRadius: 99,
-                float: "right",
-                px: 3,
-                py: 1,
-                mt: 1,
-                ml: 1,
+                position: {
+                  xs: "fixed",
+                  sm: "unset",
+                },
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                p: 1,
+                background: colors[themeColor][50],
               }}
             >
-              Save
-            </Button>
-            <Button
-              variant="outlined"
-              disableElevation
-              size="large"
-              onClick={() => setOpen(false)}
-              type="reset"
-              sx={{
-                borderRadius: 99,
-                float: "right",
-                px: 3,
-                py: 1,
-                mt: 1,
-              }}
-            >
-              Cancel
-            </Button>
+              <Button
+                variant="contained"
+                disableElevation
+                size="large"
+                type="submit"
+                sx={{
+                  borderRadius: 99,
+                  float: "right",
+                  px: 3,
+                  py: 1,
+                  mt: 1,
+                  ml: 1,
+                }}
+              >
+                Done
+              </Button>
+            </Box>
           </form>
         </DialogContent>
-      </Dialog>
+      </SwipeableDrawer>
     </div>
   );
 }

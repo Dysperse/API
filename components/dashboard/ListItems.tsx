@@ -18,39 +18,46 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
   return (
     <>
       {items.map((list: Object, id: number) => (
-        <GenerateListItem {...list} key={id.toString()} />
+        <GenerateListItem
+          {...list}
+          key={id.toString()}
+          items={items}
+          setItems={setItems}
+        />
       ))}
-      <CreateListModal
-        parent={parent.toString()}
-        title={"item"}
-        items={items}
-        setItems={setItems}
-      >
-        <ListItemButton
-          disableRipple
-          sx={{
-            py: 0,
-            borderRadius: 3,
-            transition: "transform .2s",
-            "&:active": {
-              transition: "none",
-              transform: "scale(.97)",
-              background: "rgba(200,200,200,.3)",
-            },
-          }}
-          dense
+      {items.length < 10 && (
+        <CreateListModal
+          parent={parent.toString()}
+          title={"item"}
+          items={items}
+          setItems={setItems}
         >
-          <ListItemIcon>
-            <span
-              style={{ marginLeft: "-2px" }}
-              className="material-symbols-rounded"
-            >
-              add_circle
-            </span>
-          </ListItemIcon>
-          <ListItemText sx={{ my: 1.4 }} primary={"New list item"} />
-        </ListItemButton>
-      </CreateListModal>
+          <ListItemButton
+            disableRipple
+            sx={{
+              py: 0,
+              borderRadius: 3,
+              transition: "transform .2s",
+              "&:active": {
+                transition: "none",
+                transform: "scale(.97)",
+                background: "rgba(200,200,200,.3)",
+              },
+            }}
+            dense
+          >
+            <ListItemIcon>
+              <span
+                style={{ marginLeft: "-2px" }}
+                className="material-symbols-outlined"
+              >
+                add_circle
+              </span>
+            </ListItemIcon>
+            <ListItemText sx={{ my: 1.4 }} primary={"New list item"} />
+          </ListItemButton>
+        </CreateListModal>
+      )}
       {items.length === 0 && (
         <Box sx={{ textAlign: "center" }}>
           <picture>

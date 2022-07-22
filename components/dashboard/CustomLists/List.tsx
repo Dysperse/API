@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { CreateListItemButton } from "./CreateListItemButton";
 import { neutralizeBack, revivalBack } from "../../history-control";
+import { Puller } from "../../Puller";
 
 function ListItem({ item, listItems, setListItems }: any) {
   return (
@@ -79,21 +80,24 @@ function ListPopup({
       swipeAreaWidth={0}
       disableSwipeToOpen={true}
       PaperProps={{
+        elevation: 0,
         sx: {
+          background: colors[themeColor][50],
           width: {
             sm: "50vw",
           },
           maxHeight: "80vh",
           borderRadius: "30px 30px 0 0",
-          ...(global.theme === "dark" && {
-            background: "hsl(240, 11%, 20%)",
-          }),
           mx: "auto",
+          ...(global.theme === "dark" && {
+            background: "hsl(240, 11%, 25%)",
+          }),
         },
       }}
       onClose={() => setDrawerState(false)}
       onOpen={() => setDrawerState(true)}
     >
+      <Puller />
       <div
         style={{
           textAlign: "center",
@@ -151,12 +155,19 @@ function ListPopup({
       <Box sx={{ p: 3, textAlign: "center", overflow: "scroll" }}>
         {listItems.loading ? (
           <>
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
+            {[...new Array(15)].map((_, i) => (
+              <Skeleton
+                animation="wave"
+                key={i.toString()}
+                variant="rectangular"
+                sx={{
+                  mb: 2,
+                  borderRadius: 3,
+                  height: 35,
+                  width: "100%",
+                }}
+              />
+            ))}
           </>
         ) : (
           <div style={{ textAlign: "left", display: "block" }}>
@@ -184,12 +195,10 @@ function ListPopup({
 }
 
 export function List({
-  count,
   title,
   description,
   id,
 }: {
-  count: number;
   title: string;
   description: string;
   id: number;
@@ -260,7 +269,7 @@ export function List({
                 {title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {count || "0"} item{count !== 1 && "s"}
+                List
               </Typography>
             </CardContent>
           </CardActionArea>

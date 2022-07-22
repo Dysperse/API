@@ -134,12 +134,12 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
             ? "rgb(64, 64, 64)"
             : global.theme === "dark"
             ? "hsl(240, 11%, 35%)"
-            : "#eee"
+            : colors[themeColor][100]
           : window.innerWidth > 900
           ? "#cccccc"
           : global.theme === "dark"
           ? "hsl(240, 11%, 25%)"
-          : "#eee"
+          : colors[themeColor][100]
       );
   });
 
@@ -192,6 +192,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
+            background: colors[themeColor][100],
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",
             }),
@@ -217,7 +218,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
               background:
                 global.theme === "dark"
                   ? "hsl(240, 11%, 25%)"
-                  : "rgba(230,230,230,.5)",
+                  : colors[themeColor][100],
               backdropFilter: "blur(10px)",
               py: 1,
               color: global.theme === "dark" ? "#fff" : "#000",
@@ -272,10 +273,10 @@ export default function FullScreenDialog({ children }: any) {
         "content",
         open
           ? window.innerWidth < 992
-            ? global.theme === "darl"
+            ? global.theme === "dark"
               ? "hsl(240, 11%, 20%)"
               : "rgb(230,230,230)"
-            : "#cccccc"
+            : colors[themeColor][50]
           : "hsl(240, 11%, 10%)"
       );
   });
@@ -294,15 +295,18 @@ export default function FullScreenDialog({ children }: any) {
         swipeAreaWidth={0}
         onOpen={handleClickOpen}
         PaperProps={{
+          elevation: 0,
           sx: {
-            ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 15%)",
-            }),
-            maxWidth: "100vw",
+            background: colors[themeColor][50],
             width: {
-              xs: "100vw",
-              sm: "40vw",
+              sm: "50vw",
             },
+            maxWidth: "600px",
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
           },
         }}
         ModalProps={{
@@ -319,7 +323,7 @@ export default function FullScreenDialog({ children }: any) {
               background:
                 global.theme === "dark"
                   ? "hsl(240, 11%, 20%)"
-                  : "rgba(255,255,255,.5)",
+                  : colors[themeColor][50],
               backdropFilter: "blur(10px)",
               py: 1,
               color: global.theme === "dark" ? "#fff" : "#000",
@@ -347,7 +351,7 @@ export default function FullScreenDialog({ children }: any) {
             </Toolbar>
           </AppBar>
           <Typography
-            sx={{ ml: 4, flex: 1, fontWeight: "600", my: 5 }}
+            sx={{ ml: 4, flex: 1, fontWeight: "400", my: 5 }}
             variant="h3"
             component="div"
           >
