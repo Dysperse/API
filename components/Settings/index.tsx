@@ -419,7 +419,7 @@ export default function FullScreenDialog({ children }: any) {
               <SettingsMenu
                 content={<Rooms />}
                 icon="pin_drop"
-                primary="Rooms"
+                primary={<span id="roomsTrigger">Rooms</span>}
                 secondary={"10 rooms"}
               />
             )}

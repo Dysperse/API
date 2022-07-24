@@ -182,6 +182,12 @@ export default function Categories() {
         primary="Create room"
         secondary="10 items"
       />
+      <Action
+        onClick={() => document.getElementById("roomsTrigger")!.click()}
+        icon="edit"
+        primary="Manage rooms"
+        secondary="10 items"
+      />
       <Divider sx={{ my: 1 }} />
       <Action
         href="/starred"

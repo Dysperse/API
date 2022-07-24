@@ -117,7 +117,7 @@ export function BottomNav() {
             ...styles,
             "&:not(.Mui-selected)": {
               color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["600"]) +
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["700"]) +
                 "!important",
             },
             "&.Mui-selected": {
@@ -140,7 +140,7 @@ export function BottomNav() {
             ...styles,
             "&:not(.Mui-selected)": {
               color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["600"]) +
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["700"]) +
                 "!important",
             },
             "&.Mui-selected": {
@@ -163,7 +163,7 @@ export function BottomNav() {
             ...styles,
             "&:not(.Mui-selected)": {
               color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["600"]) +
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["700"]) +
                 "!important",
             },
             "&.Mui-selected": {
@@ -187,7 +187,7 @@ export function BottomNav() {
             ...styles,
             "&:not(.Mui-selected)": {
               color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["600"]) +
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["700"]) +
                 "!important",
             },
             "&.Mui-selected": {

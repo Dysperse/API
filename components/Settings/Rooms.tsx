@@ -82,6 +82,29 @@ export default function Rooms() {
         p: 4,
       }}
     >
+      <ListItem
+        sx={{
+          background: "rgba(0,0,0,0.05)",
+          mb: 2,
+          borderRadius: 5,
+          p: 3,
+          px: 4,
+        }}
+      >
+        <ListItemText
+          primary={
+            <Button
+              onClick={() => {
+                document.getElementById("setCreateRoomModalOpen")!.click();
+              }}
+              sx={{ mt: 1, borderWidth: "2px!important", borderRadius: 3 }}
+              variant="outlined"
+            >
+              Create room
+            </Button>
+          }
+        />
+      </ListItem>
       {data ? (
         <>
           {data.data.map((room: any, key: number) => (
