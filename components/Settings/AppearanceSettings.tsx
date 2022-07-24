@@ -5,7 +5,6 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import React from "react";
 import { updateSettings } from "./updateSettings";
 
 function ThemeColorSettings() {

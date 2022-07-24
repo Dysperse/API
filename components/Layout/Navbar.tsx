@@ -146,10 +146,7 @@ function ElevationScroll(props: any) {
     if (document) {
       document
         .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute(
-          "content",
-          trigger ? colors[global.themeColor]["100"] : "#fff"
-        );
+        .setAttribute("content", trigger ? "#e3dbd8" : "#fff");
     }
   });
   return React.cloneElement(children, {
@@ -165,7 +162,7 @@ function ElevationScroll(props: any) {
           background:
             global.theme === "dark"
               ? "rgba(57, 57, 71, .7)"
-              : hexToRgba(colors[global.themeColor]["100"], 0.5),
+              : hexToRgba(colors[global.themeColor]["100"], 0.7),
         }
       : {
           color: global.theme === "dark" ? "white" : "black",
