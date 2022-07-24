@@ -11,6 +11,7 @@ const styles = {
   borderRadius: "15px",
   px: "0!important",
   transition: "transform .2s",
+  transformOrigin: "center",
   "&:active": {
     transform: "scale(.94)",
     transition: "none",
@@ -30,15 +31,16 @@ const styles = {
   },
   "& span:not(.MuiIcon-root)": {
     fontSize: "13px!important",
+    display: "none",
   },
   "& .MuiIcon-root": {
     fontSize: "23px",
-    mb: 0.3,
-    borderRadius: 3,
+    mb: 0.5,
+    borderRadius: 4,
     textAlign: "center",
-    width: "70%",
-    maxWidth: "50px",
-    py: 0.3,
+    width: "80%",
+    maxWidth: "70px",
+    py: 1.2,
     height: "auto",
     overflow: "visible",
   },
@@ -102,7 +104,7 @@ export function BottomNav() {
               ? "rgba(68, 68, 85,.9)"
               : hexToRgba(colors[themeColor][100], 0.9),
         }}
-        showLabels
+        // showLabels
         onChange={(event, newValue) => {
           router.events.on("routeChangeComplete", () => {
             setValue(newValue);
@@ -117,7 +119,7 @@ export function BottomNav() {
             ...styles,
             "&:not(.Mui-selected)": {
               color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["700"]) +
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
                 "!important",
             },
             "&.Mui-selected": {
@@ -140,7 +142,7 @@ export function BottomNav() {
             ...styles,
             "&:not(.Mui-selected)": {
               color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["700"]) +
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
                 "!important",
             },
             "&.Mui-selected": {
@@ -163,7 +165,7 @@ export function BottomNav() {
             ...styles,
             "&:not(.Mui-selected)": {
               color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["700"]) +
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
                 "!important",
             },
             "&.Mui-selected": {
@@ -187,7 +189,7 @@ export function BottomNav() {
             ...styles,
             "&:not(.Mui-selected)": {
               color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["700"]) +
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
                 "!important",
             },
             "&.Mui-selected": {
