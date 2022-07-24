@@ -32,7 +32,7 @@ const styles = {
     fontSize: "13px!important",
   },
   "& .MuiIcon-root": {
-    fontSize: "21px",
+    fontSize: "23px",
     mb: 0.3,
     borderRadius: 9,
     textAlign: "center",
@@ -118,13 +118,17 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+            color:
+              (global.theme === "dark" ? "#ccc" : colors[themeColor]["900"]) +
+              "!important",
             "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color:
+                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+
               background: "transparent !important",
             },
           }}
-          label="Overview"
+          label="Home"
           disableRipple
           onClick={() => onLink("/dashboard")}
           icon={<Icon baseClassName="material-symbols-rounded">layers</Icon>}
@@ -132,13 +136,17 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+            color:
+              (global.theme === "dark" ? "#ccc" : colors[themeColor]["900"]) +
+              "!important",
             "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color:
+                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+
               background: "transparent !important",
             },
           }}
-          label="Inventory"
+          label="Items"
           disableRipple
           onClick={() => onLink("/items")}
           icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
@@ -146,9 +154,13 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+            color:
+              (global.theme === "dark" ? "#ccc" : colors[themeColor]["900"]) +
+              "!important",
             "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color:
+                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+
               background: "transparent !important",
             },
           }}
@@ -161,9 +173,13 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+            color:
+              (global.theme === "dark" ? "#ccc" : colors[themeColor]["900"]) +
+              "!important",
             "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color:
+                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+
               background: "transparent !important",
             },
           }}
