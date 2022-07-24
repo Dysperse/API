@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import Icon from "@mui/material/Icon";
 import { useRouter } from "next/router";
 import * as React from "react";
+import hexToRgba from "hex-to-rgba";
+import * as colors from "@mui/material/colors";
 
 const styles = {
   borderRadius: "15px",
@@ -101,7 +103,7 @@ export function BottomNav() {
           background:
             global.theme === "dark"
               ? "rgba(68, 68, 85,.9)"
-              : "rgba(210,210,210,.8)",
+              : hexToRgba(colors[themeColor][100], 0.9),
         }}
         showLabels
         onChange={(event, newValue) => {
@@ -116,7 +118,7 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color: global.theme === "dark" ? "#ccc" : "#505050",
+            color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
             "&.Mui-selected": {
               color: global.theme === "dark" ? "#fff" : "#000",
               background: "transparent !important",
@@ -130,6 +132,7 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
+            color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
             "&.Mui-selected": {
               color: global.theme === "dark" ? "#fff" : "#000",
               background: "transparent !important",
@@ -143,6 +146,7 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
+            color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
             "&.Mui-selected": {
               color: global.theme === "dark" ? "#fff" : "#000",
               background: "transparent !important",
@@ -157,6 +161,7 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
+            color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
             "&.Mui-selected": {
               color: global.theme === "dark" ? "#fff" : "#000",
               background: "transparent !important",
@@ -170,7 +175,7 @@ export function BottomNav() {
                 whiteSpace: "nowrap",
               }}
             >
-              Eco friendliness
+              Sustainability
             </span>
           }
           disableRipple
