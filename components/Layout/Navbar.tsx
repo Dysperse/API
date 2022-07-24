@@ -146,7 +146,10 @@ function ElevationScroll(props: any) {
     if (document) {
       document
         .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute("content", trigger ? "#ebe5e3" : "#fff");
+        .setAttribute(
+          "content",
+          trigger ? colors[global.themeColor]["100"] : "#fff"
+        );
     }
   });
   return React.cloneElement(children, {
