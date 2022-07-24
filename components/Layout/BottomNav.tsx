@@ -34,16 +34,13 @@ const styles = {
   "& .MuiIcon-root": {
     fontSize: "23px",
     mb: 0.3,
-    borderRadius: 9,
+    borderRadius: 3,
     textAlign: "center",
     width: "70%",
     maxWidth: "50px",
     py: 0.3,
     height: "auto",
     overflow: "visible",
-  },
-  "&.Mui-selected .MuiIcon-root": {
-    background: "rgba(0,0,0,0.3)",
   },
   py: 0.5,
 };
@@ -118,14 +115,19 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color:
-              (global.theme === "dark" ? "#ccc" : colors[themeColor]["900"]) +
-              "!important",
+            "&:not(.Mui-selected)": {
+              color:
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["600"]) +
+                "!important",
+            },
             "&.Mui-selected": {
               color:
                 global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
-
+              fontWeight: "700",
               background: "transparent !important",
+            },
+            "&.Mui-selected .MuiIcon-root": {
+              background: colors[themeColor][200],
             },
           }}
           label="Home"
@@ -136,14 +138,19 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color:
-              (global.theme === "dark" ? "#ccc" : colors[themeColor]["900"]) +
-              "!important",
+            "&:not(.Mui-selected)": {
+              color:
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["600"]) +
+                "!important",
+            },
             "&.Mui-selected": {
               color:
                 global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
-
+              fontWeight: "700",
               background: "transparent !important",
+            },
+            "&.Mui-selected .MuiIcon-root": {
+              background: colors[themeColor][200],
             },
           }}
           label="Items"
@@ -154,14 +161,19 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color:
-              (global.theme === "dark" ? "#ccc" : colors[themeColor]["900"]) +
-              "!important",
+            "&:not(.Mui-selected)": {
+              color:
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["600"]) +
+                "!important",
+            },
             "&.Mui-selected": {
               color:
                 global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
-
+              fontWeight: "700",
               background: "transparent !important",
+            },
+            "&.Mui-selected .MuiIcon-root": {
+              background: colors[themeColor][200],
             },
           }}
           label="Finances"
@@ -173,14 +185,19 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color:
-              (global.theme === "dark" ? "#ccc" : colors[themeColor]["900"]) +
-              "!important",
+            "&:not(.Mui-selected)": {
+              color:
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["600"]) +
+                "!important",
+            },
             "&.Mui-selected": {
               color:
                 global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
-
+              fontWeight: "700",
               background: "transparent !important",
+            },
+            "&.Mui-selected .MuiIcon-root": {
+              background: colors[themeColor][200],
             },
           }}
           label={
