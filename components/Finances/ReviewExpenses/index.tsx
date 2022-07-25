@@ -19,10 +19,6 @@ import { neutralizeBack, revivalBack } from "../../history-control";
 function Cards({ transactions }: any) {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const isStepOptional = (step: number) => {
-    return step === 1;
-  };
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setTimeout(() => {
@@ -35,10 +31,6 @@ function Cards({ transactions }: any) {
         console.log(document.querySelector(".MuiSvgIcon-root.Mui-active"));
       }
     }, 100);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleReset = () => {
