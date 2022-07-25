@@ -15,7 +15,7 @@ const styles = {
   "&:active": {
     transform: "scale(.94)",
     transition: "none",
-  },  
+  },
   "& *": {
     maxWidth: "70%",
     overflow: "hidden",
@@ -35,7 +35,6 @@ const styles = {
   },
   "& .MuiIcon-root": {
     fontSize: "23px",
-    mb: 0.5,
     borderRadius: 4,
     textAlign: "center",
     width: "80%",

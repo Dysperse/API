@@ -81,21 +81,37 @@ function Header({
             style={{ fontSize: "20px" }}
             className="material-symbols-rounded"
           >
-            chevron_left
+            arrow_back_ios_new
           </span>
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        sx={{ ml: { sm: -6 } }}
+        sx={{ ml: { sm: -5 }, my: 2 }}
         primary={
-          <Typography sx={{ fontWeight: "700" }} gutterBottom variant="h5">
+          <Typography
+            sx={{
+              fontWeight: "400",
+              fontSize: {
+                xs: "25px",
+                sm: "35px",
+              },
+              ml: { xs: -0.2, sm: -0.5 },
+            }}
+            gutterBottom
+            variant="h4"
+          >
             {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
               useAlias ? decode(room).split(",")[1] : room
             )}
           </Typography>
         }
         secondary={
-          <Typography sx={{ color: theme === "dark" ? "white" : "black" }}>
+          <Typography
+            sx={{
+              color: theme === "dark" ? "white" : "black",
+              fontWeight: "600",
+            }}
+          >
             {itemCount} item{itemCount !== 1 && "s"}
           </Typography>
         }
@@ -133,6 +149,7 @@ function SuggestionChip({ room, item, key }: any) {
           }}
           sx={{
             mr: 1,
+            fontWeight: "600",
             transition: "background .05s !important",
             borderRadius: 3,
             boxShadow: "0!important",
@@ -330,7 +347,7 @@ function Suggestions({ room, items }: any) {
             variant="h5"
             sx={{
               color: global.theme === "dark" ? orange[100] : orange[900],
-              fontWeight: "600",
+              fontWeight: "400",
             }}
           >
             Suggestions
@@ -511,7 +528,10 @@ function RenderRoom({ data, index }: any) {
         itemCount={data.data.length}
         useAlias={router.query.custom}
       />
-      <Suggestions room={decode(index).split(",")[0]} items={data.data} />
+      <Suggestions
+        room={router.query.custom ? decode(index).split(",")[0] : index}
+        items={data.data}
+      />
       <Toolbar items={items} setItems={setItems} data={data.data} />
       <ItemList items={items} />
     </Container>
