@@ -1,25 +1,24 @@
-import LabelIcon from "@mui/icons-material/Label";
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Skeleton from "@mui/material/Skeleton";
 import Toolbar from "@mui/material/Toolbar";
+import { encode } from "js-base64";
 import Link from "next/link";
+import router from "next/router";
 import React, { useEffect } from "react";
 import useSWR from "swr";
 import { BottomNav } from "./BottomNav";
 import { FloatingActionButton } from "./FloatingActionButton";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
-import { grey } from "@mui/material/colors";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import router from "next/router";
-import { encode } from "js-base64";
 
 const drawerWidth = 260;
 interface Room {
@@ -205,23 +204,6 @@ function CustomRooms() {
 }
 
 function ResponsiveDrawer(props: any): JSX.Element {
-  const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
-  useEffect(() => {
-    if (document.querySelector(`meta[name="theme-color"]`))
-      document
-        .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute(
-          "content",
-          mobileOpen
-            ? global.theme === "dark"
-              ? "hsl(240, 11%, 5%)"
-              : "#cccccc"
-            : global.theme === "dark"
-            ? "hsl(240, 11%, 10%)"
-            : colors[global.themeColor][100]
-        );
-  });
-
   const [ownerLoaded, setOwnerLoaded] = React.useState(false);
   global.ownerLoaded = ownerLoaded;
   global.setOwnerLoaded = setOwnerLoaded;

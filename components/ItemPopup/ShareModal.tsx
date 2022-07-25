@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export function ShareModal({ title, quantity, room }: any): JSX.Element {

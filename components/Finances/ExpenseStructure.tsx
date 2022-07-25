@@ -1,7 +1,7 @@
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import Typography from "@mui/material/Typography";
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);

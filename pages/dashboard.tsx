@@ -2,11 +2,11 @@ import Masonry from "@mui/lab/Masonry";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
-import * as React from "react";
+import Head from "next/head";
 import { Lists } from "../components/dashboard/CustomLists/Lists";
 import { ListItems } from "../components/dashboard/ListItems";
 import { RecentItems } from "../components/dashboard/RecentItems";
-import Head from "next/head";
+
 export default function Dashboard() {
   return (
     <>

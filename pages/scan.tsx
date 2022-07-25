@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import Webcam from "react-webcam";
 
 const WebcamComponent = () => (

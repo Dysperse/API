@@ -1,6 +1,4 @@
 import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
-import React from "react";
 
 export function InfoButton({ setOpenInfo }): JSX.Element {
   return (

@@ -1,17 +1,16 @@
-import * as React from "react";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import MobileStepper from "@mui/material/MobileStepper";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
-import SwipeableViews from "react-swipeable-views";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as colors from "@mui/material/colors";
+import MobileStepper from "@mui/material/MobileStepper";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import SwipeableViews from "react-swipeable-views";
+import { Color } from "../components/onboarding/Color";
 import { CustomRooms } from "../components/onboarding/customRooms";
 import { InventoryList } from "../components/onboarding/InventoryList";
-import { Color } from "../components/onboarding/Color";
 
 const AutoPlaySwipeableViews = SwipeableViews;
 

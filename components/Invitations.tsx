@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
-import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { updateSettings } from "./Settings/updateSettings";
+import Typography from "@mui/material/Typography";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { updateSettings } from "./Settings/updateSettings";
 
 function Invitation({ t, invitation, key }: any) {
   const [loading, setLoading] = useState<boolean>(false);

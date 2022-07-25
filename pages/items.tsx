@@ -1,16 +1,16 @@
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import * as colors from "@mui/material/colors";
+import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import { encode } from "js-base64";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { encode } from "js-base64";
 
-function Action({ icon, primary, secondary, href, onClick }: any) {
+function Action({ icon, primary, href, onClick }: any) {
   const router = useRouter();
   return (
     <ListItem
@@ -105,66 +105,20 @@ export default function Categories() {
       >
         Inventory
       </Typography>
-      <Action
-        href="/rooms/kitchen"
-        icon="oven_gen"
-        primary="Kitchen"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/bedroom"
-        icon="bedroom_parent"
-        primary="Bedroom"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/bathroom"
-        icon="bathroom"
-        primary="Bathroom"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/garage"
-        icon="garage"
-        primary="Garage"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/dining"
-        icon="dining"
-        primary="Dining room"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/living"
-        icon="living"
-        primary="Living room"
-        secondary="10 items"
-      />
+      <Action href="/rooms/kitchen" icon="oven_gen" primary="Kitchen" />
+      <Action href="/rooms/bedroom" icon="bedroom_parent" primary="Bedroom" />
+      <Action href="/rooms/bathroom" icon="bathroom" primary="Bathroom" />
+      <Action href="/rooms/garage" icon="garage" primary="Garage" />
+      <Action href="/rooms/dining" icon="dining" primary="Dining room" />
+      <Action href="/rooms/living" icon="living" primary="Living room" />
       <Action
         href="/rooms/laundry"
         icon="local_laundry_service"
         primary="Laundry room"
-        secondary="10 items"
       />
-      <Action
-        href="/rooms/storage"
-        icon="inventory_2"
-        primary="Storage room"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/garden"
-        icon="yard"
-        primary="Garden"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/camping"
-        icon="camping"
-        primary="Camping"
-        secondary="10 items"
-      />
+      <Action href="/rooms/storage" icon="inventory_2" primary="Storage room" />
+      <Action href="/rooms/garden" icon="yard" primary="Garden" />
+      <Action href="/rooms/camping" icon="camping" primary="Camping" />
       <Divider sx={{ my: 1 }} />
       {data &&
         data.data.map((room: any, id: number) => (
@@ -183,27 +137,15 @@ export default function Categories() {
         }
         icon="add_circle"
         primary="Create room"
-        secondary="10 items"
       />
       <Action
         onClick={() => document.getElementById("roomsTrigger")!.click()}
         icon="edit"
         primary="Manage rooms"
-        secondary="10 items"
       />
       <Divider sx={{ my: 1 }} />
-      <Action
-        href="/starred"
-        icon="star"
-        primary="Starred"
-        secondary="10 items"
-      />
-      <Action
-        href="/trash"
-        icon="delete"
-        primary="Trash"
-        secondary="10 items"
-      />
+      <Action href="/starred" icon="star" primary="Starred" />
+      <Action href="/trash" icon="delete" primary="Trash" />
     </Container>
   );
 }

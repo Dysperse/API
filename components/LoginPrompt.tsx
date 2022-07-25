@@ -1,9 +1,9 @@
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
-import React from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import React from "react";
 
 export default function LoginPrompt() {
   const [opacity, setOpacity] = React.useState(0);

@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import MenuItem from "@mui/material/MenuItem";
-import React, { useState } from "react";
+import { useState } from "react";
 import { RoomList } from "./RoomList";
 
 export function AddToListModal({ title, handleClose }: any) {

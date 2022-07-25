@@ -65,8 +65,6 @@ export default function Rooms() {
     new URLSearchParams({
       token: global.session.user.SyncToken || global.session.accessToken,
     });
-  const [open, setOpen] = React.useState<boolean>(false);
-
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",

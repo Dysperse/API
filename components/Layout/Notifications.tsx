@@ -1,23 +1,19 @@
-import * as React from "react";
-
-import Box from "@mui/material/Box";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
-function hasNumber(myString) {
-  return /\d/.test(myString);
 }
 
 function NotificationsList() {

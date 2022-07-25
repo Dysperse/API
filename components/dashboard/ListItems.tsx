@@ -1,16 +1,15 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Skeleton from "@mui/material/Skeleton";
-import Typography from "@mui/material/Typography";
-import React from "react";
-import useFetch from "react-fetch-hook";
-import { GenerateListItem } from "./GenerateListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
 import { useState } from "react";
+import useFetch from "react-fetch-hook";
 import { CreateListModal } from "../AddPopup/CreateListModal";
+import { GenerateListItem } from "./GenerateListItem";
 
 function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
   const [items, setItems] = useState<any>(data.data);

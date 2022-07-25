@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
 import { green, orange } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tab from "@mui/material/Tab";
@@ -7,7 +8,6 @@ import { useState } from "react";
 import useSWR from "swr";
 import { Badge } from "./Badge";
 import { CreateGoalDialog } from "./CreateGoalDialog";
-import * as colors from "@mui/material/colors";
 
 export type Account = {
   account_id: string;

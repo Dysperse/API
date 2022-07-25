@@ -11,9 +11,9 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { stopPropagationForTab } from "./Lists";
+import { useEffect, useState } from "react";
 import { Puller } from "../../Puller";
+import { stopPropagationForTab } from "./Lists";
 
 export function CreateListCard({ lists, setLists }: any) {
   const [open, setOpen] = useState<boolean>(false);

@@ -33,10 +33,6 @@ export function ItemActionsMenu({
 
   const [openInfo, setOpenInfo] = React.useState<boolean>(false);
 
-  const handleClickOpen = () => {
-    setOpenInfo(true);
-  };
-
   const handleClose = () => {
     setOpenInfo(false);
   };

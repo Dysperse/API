@@ -1,12 +1,11 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import dayjs from "dayjs";
-import Slider, { SliderThumb } from "@mui/material/Slider";
 import Skeleton from "@mui/material/Skeleton";
-import Box from "@mui/material/Box";
+import Slider, { SliderThumb } from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import dayjs from "dayjs";
 import useSWR from "swr";
 
 function ThumbComponent(props: any) {

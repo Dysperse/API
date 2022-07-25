@@ -1,5 +1,5 @@
 import Skeleton from "@mui/material/Skeleton";
-import React, { useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import { CreateListCard } from "./CreateListCard";
 import { List } from "./List";

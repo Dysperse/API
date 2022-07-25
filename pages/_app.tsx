@@ -3,17 +3,17 @@ import * as colors from "@mui/material/colors";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import React, { useState } from "react";
+import Head from "next/head";
+import Script from "next/script";
+import { useState } from "react";
 import { Offline, Online } from "react-detect-offline";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
 import "../styles/global.css";
-import Head from "next/head";
-import Script from "next/script";
-dayjs.extend(relativeTime);
 import { OfflineBox } from "./_offline";
+dayjs.extend(relativeTime);
 
 function Render({ data, Component, pageProps }: any) {
   global.session = data;

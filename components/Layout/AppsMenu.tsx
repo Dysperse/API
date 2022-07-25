@@ -1,22 +1,21 @@
-import React, { useState } from "react";
-import Menu from "@mui/material/Menu";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import Skeleton from "@mui/material/Skeleton";
-import { green } from "@mui/material/colors";
 import * as colors from "@mui/material/colors";
-
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
+import { green } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import Skeleton from "@mui/material/Skeleton";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import { useForm, ValidationError } from "@formspree/react";
 import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useForm, ValidationError } from "@formspree/react";
 import { neutralizeBack, revivalBack } from "../history-control";
 
 function ContactForm() {

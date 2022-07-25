@@ -1,11 +1,10 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { currency_symbols } from "./AccountList";
-import List from "@mui/material/List";
 
 export function TransactionList({ transactions }: any) {
   return (

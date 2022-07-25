@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tab from "@mui/material/Tab";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AccountData } from "./AccountData";
 import { currency_symbols } from "./AccountList";
-import * as colors from "@mui/material/colors";
 
 export function AccountTab({ account }: any) {
   const [open, setOpen] = useState<boolean>(false);

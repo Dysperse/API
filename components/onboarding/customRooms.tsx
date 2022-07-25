@@ -1,7 +1,7 @@
-import * as React from "react";
+import Autocomplete from "@mui/material/Autocomplete";
 import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import * as React from "react";
 
 export function CustomRooms() {
   const fixedOptions = [

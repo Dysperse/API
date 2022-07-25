@@ -18,8 +18,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import AddPopup from "../AddPopup";
-import { Puller } from "../Puller";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { Puller } from "../Puller";
 
 function CreateRoom() {
   const router = useRouter();

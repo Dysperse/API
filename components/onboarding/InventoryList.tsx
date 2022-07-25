@@ -1,8 +1,8 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import * as React from "react";
 
 export function InventoryList({
   data,

@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import React from "react";
 import * as colors from "@mui/material/colors";
 
 export function Puller({ variant }: { variant?: "side" }) {

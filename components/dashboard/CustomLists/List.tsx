@@ -10,9 +10,9 @@ import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
-import { CreateListItemButton } from "./CreateListItemButton";
 import { neutralizeBack, revivalBack } from "../../history-control";
 import { Puller } from "../../Puller";
+import { CreateListItemButton } from "./CreateListItemButton";
 
 function ListItem({ item, listItems, setListItems }: any) {
   return (

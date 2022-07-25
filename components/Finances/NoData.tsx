@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import Step from "@mui/material/Step";
+import StepContent from "@mui/material/StepContent";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { usePlaidLink } from "react-plaid-link";
-import useFetch from "react-fetch-hook";
 import router from "next/router";
+import React, { useState } from "react";
+import useFetch from "react-fetch-hook";
+import { usePlaidLink } from "react-plaid-link";
 function ConnectBankAccount() {
   const [completed, setCompleted] = useState<boolean>(false);
 

@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import { currency_symbols } from "../AccountList";
 
 export function AccountHeader({
