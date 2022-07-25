@@ -101,7 +101,7 @@ export function BottomNav() {
           background:
             global.theme === "dark"
               ? "rgba(68, 68, 85,.9)"
-              : hexToRgba(colors[themeColor][100], 0.9),
+              : hexToRgba(colors[themeColor][100], 0.7),
         }}
         // showLabels
         onChange={(event, newValue) => {

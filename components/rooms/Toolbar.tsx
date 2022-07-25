@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import { blueGrey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
+import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
@@ -28,7 +29,15 @@ export function Toolbar({ items, setItems, data }: any) {
   });
 
   return (
-    <Box sx={{ textAlign: "right", mb: 2 }}>
+    <Box
+      sx={{
+        textAlign: "right",
+        mb: 2,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "end",
+      }}
+    >
       <TextField
         placeholder="Search"
         id="outlined-size-small"
@@ -66,6 +75,8 @@ export function Toolbar({ items, setItems, data }: any) {
             pb: 0.6,
             pt: 1,
             px: 2,
+            mt: { xs: 1, sm: 0 },
+            width: { xs: "100%", sm: "200px" },
             background:
               global.theme === "dark" ? "hsl(240, 11%, 25%)" : blueGrey[50],
             "&.Mui-focused": {
@@ -92,13 +103,18 @@ export function Toolbar({ items, setItems, data }: any) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <span
-          className="material-symbols-rounded"
-          style={{ marginRight: "10px" }}
+        <span className="material-symbols-rounded">filter_alt</span>
+        <Typography
+          sx={{
+            ml: 1,
+            display: {
+              xs: "none",
+              sm: "inline",
+            },
+          }}
         >
-          filter_alt
-        </span>
-        Sort by
+          Sort&nbsp;by&nbsp;
+        </Typography>
       </Button>
       <Menu
         BackdropProps={{ sx: { opacity: "0!important" } }}

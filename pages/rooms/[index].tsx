@@ -34,11 +34,6 @@ function Header({
   const router = useRouter();
   return (
     <ListItem
-      disableRipple
-      button
-      onClick={() => {
-        router.push("/items");
-      }}
       sx={{
         transition: "transform .2s !important",
         borderRadius: 5,
@@ -52,14 +47,7 @@ function Header({
           background:
             theme === "dark" ? "hsl(240,11%,27%)" : "rgba(200,200,200,.3)",
         },
-        "&:active": {
-          transition: "none!important",
-          transform: "scale(.97)",
-          background:
-            theme === "dark"
-              ? "hsl(240,11%,30%)"
-              : "rgba(200,200,200,.4)!important",
-        },
+
         ...(theme === "dark" && {
           "&:hover .avatar": {
             background: "hsl(240,11%,27%)",
@@ -70,11 +58,28 @@ function Header({
       <ListItemAvatar>
         <Avatar
           className="avatar"
+          onClick={() => {
+            router.push("/items");
+          }}
           sx={{
+            cursor: "pointer",
             color: global.theme === "dark" ? "#fff" : "#000",
             borderRadius: 4,
+            background: "transparent!important",
             display: { sm: "none" },
-            background: "transparent",
+            "&:hover": {
+              background:
+                theme === "dark"
+                  ? "hsl(240,11%,30%)"
+                  : "rgba(200,200,200,.3)!important",
+            },
+            "&:active": {
+              transition: "none!important",
+              background:
+                theme === "dark"
+                  ? "hsl(240,11%,30%)"
+                  : "rgba(200,200,200,.4)!important",
+            },
           }}
         >
           <span
@@ -149,6 +154,7 @@ function SuggestionChip({ room, item, key }: any) {
           }}
           sx={{
             mr: 1,
+            px: 1,
             fontWeight: "600",
             transition: "background .05s !important",
             borderRadius: 3,
@@ -346,6 +352,8 @@ function Suggestions({ room, items }: any) {
           <Typography
             variant="h5"
             sx={{
+              my: 1,
+              mb: 2,
               color: global.theme === "dark" ? orange[100] : orange[900],
               fontWeight: "400",
             }}
@@ -358,7 +366,7 @@ function Suggestions({ room, items }: any) {
               whiteSpace: "nowrap",
               width: "calc(100vw - 80px)",
               borderRadius: "12px",
-              marginTop: "20px",
+              marginTop: "10px",
             }}
           >
             {suggestions[room] &&

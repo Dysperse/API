@@ -1,4 +1,3 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -82,11 +81,12 @@ export function CreateListCard({ lists, setLists }: any) {
           mb: 2,
           borderRadius: "28px",
           width: "100%",
+          "& *": { transition: "none!important" },
           textAlign: "center",
           background:
             global.theme === "dark"
               ? "hsl(240, 11%, 20%)"
-              : colors["grey"][100],
+              : "rgba(200,200,200,.3)",
           transition: "transform .2s",
           "&:active": {
             transition: "none",
@@ -96,13 +96,20 @@ export function CreateListCard({ lists, setLists }: any) {
         }}
       >
         <CardActionArea
-          disableRipple
           onClick={toggleDrawer(true)}
           sx={{ transition: "none!important" }}
         >
           <CardContent>
-            <AddCircleIcon sx={{ my: 1 }} />
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              component="div"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                justifyContent: "center",
+              }}
+            >
+              <span className="material-symbols-rounded">add_circle</span>
               Create list
             </Typography>
           </CardContent>
