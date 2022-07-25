@@ -8,6 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import * as colors from "@mui/material/colors";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { encode } from "js-base64";
 
 function Action({ icon, primary, secondary, href, onClick }: any) {
   const router = useRouter();
@@ -168,7 +169,9 @@ export default function Categories() {
       {data &&
         data.data.map((room: any, id: number) => (
           <Action
-            href={"/rooms/" + room.id}
+            href={
+              "/rooms/" + encode(room.id + "," + room.name) + "?custom=true"
+            }
             icon="label"
             primary={room.name}
             key={id.toString()}

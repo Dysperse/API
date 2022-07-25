@@ -19,6 +19,7 @@ import { grey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import router from "next/router";
+import { encode } from "js-base64";
 
 const drawerWidth = 260;
 interface Room {
@@ -121,8 +122,11 @@ function CustomRoom({ room }: { room: Room }) {
           View
         </MenuItem>
       </Menu>
-      <Link href={"/rooms/" + room.id}>
+      <Link
+        href={"/rooms/" + encode(room.id + "," + room.name) + "?custom=true"}
+      >
         <ListItemButton
+          disableRipple
           onContextMenu={handleContextMenu}
           sx={{
             pl: 5,

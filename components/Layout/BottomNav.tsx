@@ -15,7 +15,7 @@ const styles = {
   "&:active": {
     transform: "scale(.94)",
     transition: "none",
-  },
+  },  
   "& *": {
     maxWidth: "70%",
     overflow: "hidden",

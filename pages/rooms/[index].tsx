@@ -1,4 +1,3 @@
-import EditIcon from "@mui/icons-material/Edit";
 import Masonry from "@mui/lab/Masonry";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -14,15 +13,24 @@ import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
+import { decode } from "js-base64";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useFetch from "react-fetch-hook";
 import toast from "react-hot-toast";
 import { ItemCard } from "../../components/rooms/ItemCard";
 import { Toolbar } from "../../components/rooms/Toolbar";
-import Head from "next/head";
 
-function Header({ room, itemCount }: { room: string; itemCount: number }) {
+function Header({
+  useAlias,
+  room,
+  itemCount,
+}: {
+  useAlias: any;
+  room: string;
+  itemCount: number;
+}) {
   const router = useRouter();
   return (
     <ListItem
@@ -82,7 +90,7 @@ function Header({ room, itemCount }: { room: string; itemCount: number }) {
         primary={
           <Typography sx={{ fontWeight: "700" }} gutterBottom variant="h5">
             {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
-              room
+              useAlias ? decode(room).split(",")[1] : room
             )}
           </Typography>
         }
@@ -356,7 +364,7 @@ function Suggestions({ room, items }: any) {
 
 function LoadingScreen() {
   return (
-    <Box sx={{ p: 3 }}>
+    <Container sx={{ mt: 4 }}>
       <Skeleton
         variant="rectangular"
         animation="wave"
@@ -394,7 +402,7 @@ function LoadingScreen() {
           })}
         </Masonry>
       </Box>
-    </Box>
+    </Container>
   );
 }
 
@@ -494,11 +502,16 @@ function ItemList({ items }: { items: any }) {
 }
 
 function RenderRoom({ data, index }: any) {
+  const router = useRouter();
   const [items, setItems] = useState(data.data);
   return (
     <Container key={index} sx={{ mt: 4 }}>
-      <Header room={index} itemCount={data.data.length} />
-      <Suggestions room={index} items={data.data} />
+      <Header
+        room={index}
+        itemCount={data.data.length}
+        useAlias={router.query.custom}
+      />
+      <Suggestions room={decode(index).split(",")[0]} items={data.data} />
       <Toolbar items={items} setItems={setItems} data={data.data} />
       <ItemList items={items} />
     </Container>
@@ -506,13 +519,14 @@ function RenderRoom({ data, index }: any) {
 }
 
 function RoomComponent({ index }: any) {
+  const router = useRouter();
   const { isLoading, data }: any = useFetch(
     "/api/inventory?" +
       new URLSearchParams({
         token:
           global.session &&
           (global.session.user.SyncToken || global.session.accessToken),
-        room: index,
+        room: router.query.custom ? decode(index).split(",")[0] : index,
       }),
     {
       method: "POST",
@@ -528,12 +542,17 @@ function RoomComponent({ index }: any) {
 
 function Room() {
   const index = window.location.pathname.split("/rooms/")[1];
+  const router = useRouter();
 
   return (
     <>
       <Head>
         <title>
-          {index.replace(/./, (c) => c.toUpperCase())} &bull;{" "}
+          {(router.query.custom ? decode(index).split(",")[1] : index).replace(
+            /./,
+            (c) => c.toUpperCase()
+          )}{" "}
+          &bull;{" "}
           {global.session.user.houseName.replace(/./, (c) => c.toUpperCase())}{" "}
           &bull; Carbon
         </title>
