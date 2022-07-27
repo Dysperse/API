@@ -16,7 +16,6 @@ import router from "next/router";
 import React, { useEffect } from "react";
 import useSWR from "swr";
 import { BottomNav } from "./BottomNav";
-import { FloatingActionButton } from "./FloatingActionButton";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
 
@@ -275,7 +274,6 @@ function ResponsiveDrawer(props: any): JSX.Element {
             <Toolbar />
           </Box>
         </Box>
-        <FloatingActionButton />
         <BottomNav />
       </Box>
     </Box>

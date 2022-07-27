@@ -8,6 +8,7 @@ export function FloatingActionButton() {
     <Box
       sx={{
         position: "fixed",
+        zIndex: 1,
         bottom: {
           lg: "15px",
           sm: "74px",

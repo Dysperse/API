@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import { encode } from "js-base64";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { FloatingActionButton } from "../components/Layout/FloatingActionButton";
 
 function Action({ icon, primary, href, onClick }: any) {
   const router = useRouter();
@@ -94,58 +95,65 @@ export default function Categories() {
   );
 
   return (
-    <Container sx={{ mb: 3 }}>
-      <Typography
-        variant="h3"
-        sx={{
-          my: { xs: 12, sm: 4 },
-          fontWeight: "400",
-          textAlign: { xs: "center", sm: "left" },
-        }}
-      >
-        Inventory
-      </Typography>
-      <Action href="/rooms/kitchen" icon="oven_gen" primary="Kitchen" />
-      <Action href="/rooms/bedroom" icon="bedroom_parent" primary="Bedroom" />
-      <Action href="/rooms/bathroom" icon="bathroom" primary="Bathroom" />
-      <Action href="/rooms/garage" icon="garage" primary="Garage" />
-      <Action href="/rooms/dining" icon="dining" primary="Dining room" />
-      <Action href="/rooms/living" icon="living" primary="Living room" />
-      <Action
-        href="/rooms/laundry"
-        icon="local_laundry_service"
-        primary="Laundry room"
-      />
-      <Action href="/rooms/storage" icon="inventory_2" primary="Storage room" />
-      <Action href="/rooms/garden" icon="yard" primary="Garden" />
-      <Action href="/rooms/camping" icon="camping" primary="Camping" />
-      <Divider sx={{ my: 1 }} />
-      {data &&
-        data.data.map((room: any, id: number) => (
-          <Action
-            href={
-              "/rooms/" + encode(room.id + "," + room.name) + "?custom=true"
-            }
-            icon="label"
-            primary={room.name}
-            key={id.toString()}
-          />
-        ))}
-      <Action
-        onClick={() =>
-          document.getElementById("setCreateRoomModalOpen")!.click()
-        }
-        icon="add_circle"
-        primary="Create room"
-      />
-      <Action
-        onClick={() => document.getElementById("roomsTrigger")!.click()}
-        icon="edit"
-        primary="Manage rooms"
-      />
-      <Divider sx={{ my: 1 }} />
-      <Action href="/starred" icon="star" primary="Starred" />
-      <Action href="/trash" icon="delete" primary="Trash" />
-    </Container>
+    <>
+      <FloatingActionButton />
+      <Container sx={{ mb: 3 }}>
+        <Typography
+          variant="h3"
+          sx={{
+            my: { xs: 12, sm: 4 },
+            fontWeight: "400",
+            textAlign: { xs: "center", sm: "left" },
+          }}
+        >
+          Inventory
+        </Typography>
+        <Action href="/rooms/kitchen" icon="oven_gen" primary="Kitchen" />
+        <Action href="/rooms/bedroom" icon="bedroom_parent" primary="Bedroom" />
+        <Action href="/rooms/bathroom" icon="bathroom" primary="Bathroom" />
+        <Action href="/rooms/garage" icon="garage" primary="Garage" />
+        <Action href="/rooms/dining" icon="dining" primary="Dining room" />
+        <Action href="/rooms/living" icon="living" primary="Living room" />
+        <Action
+          href="/rooms/laundry"
+          icon="local_laundry_service"
+          primary="Laundry room"
+        />
+        <Action
+          href="/rooms/storage"
+          icon="inventory_2"
+          primary="Storage room"
+        />
+        <Action href="/rooms/garden" icon="yard" primary="Garden" />
+        <Action href="/rooms/camping" icon="camping" primary="Camping" />
+        <Divider sx={{ my: 1 }} />
+        {data &&
+          data.data.map((room: any, id: number) => (
+            <Action
+              href={
+                "/rooms/" + encode(room.id + "," + room.name) + "?custom=true"
+              }
+              icon="label"
+              primary={room.name}
+              key={id.toString()}
+            />
+          ))}
+        <Action
+          onClick={() =>
+            document.getElementById("setCreateRoomModalOpen")!.click()
+          }
+          icon="add_circle"
+          primary="Create room"
+        />
+        <Action
+          onClick={() => document.getElementById("roomsTrigger")!.click()}
+          icon="edit"
+          primary="Manage rooms"
+        />
+        <Divider sx={{ my: 1 }} />
+        <Action href="/starred" icon="star" primary="Starred" />
+        <Action href="/trash" icon="delete" primary="Trash" />
+      </Container>
+    </>
   );
 }
