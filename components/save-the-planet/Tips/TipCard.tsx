@@ -152,7 +152,7 @@ export function TipCard({
           pb: 2,
           textAlign: "left!important",
           alignItems: "start",
-          width: "90vw",
+          width: "80%",
           opacity: 1,
           "& *": {
             opacity: 1,

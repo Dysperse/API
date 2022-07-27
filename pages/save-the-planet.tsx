@@ -26,7 +26,7 @@ export default function Render() {
             color: "white",
             background:
               "linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.kibacapital.com/wp-content/uploads/2018/05/banner-space.jpg)",
-            backgroundSize: "cover"
+            backgroundSize: "cover",
           }}
         >
           <CardContent>
@@ -38,7 +38,7 @@ export default function Render() {
                 px: 3,
                 py: 0.3,
                 mb: 2,
-                height: "auto"
+                height: "auto",
               }}
             />
             <Typography variant="h5" sx={{ fontWeight: "800" }} gutterBottom>
@@ -53,7 +53,13 @@ export default function Render() {
       </Container>
       <EcoFriendlyTips />
       <Container sx={{ mt: 6 }} fixed>
-        <Masonry columns={2} spacing={2}>
+        <Masonry
+          columns={{
+            xs: 1,
+            sm: 2,
+          }}
+          spacing={2}
+        >
           <ItemSuggestions />
           <Reminders />
           <Thermostat />
