@@ -176,22 +176,6 @@ export function CreateListCard({ lists, setLists }: any) {
             >
               Create
             </LoadingButton>
-            <Button
-              onClick={() => setOpen(false)}
-              sx={{
-                float: "right",
-                mr: 1,
-                mt: 2,
-                mb: 2,
-                borderRadius: 100,
-              }}
-              size="large"
-              color="primary"
-              type="reset"
-              variant="outlined"
-            >
-              Cancel
-            </Button>
           </Box>
         </form>
       </SwipeableDrawer>
