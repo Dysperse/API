@@ -272,7 +272,6 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           sx: {
             borderRadius: { sm: 5 },
             mt: { sm: "20px" },
-            // overflowY: "hidden!important",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",
             }),

@@ -129,6 +129,7 @@ export function Toolbar({ items, setItems, data }: any) {
           transition: "all .2s",
           "& .MuiPaper-root": {
             mt: 1,
+            boxShadow: 0,
             ml: -1,
             borderRadius: "15px",
             minWidth: 180,
