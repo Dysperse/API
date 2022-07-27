@@ -579,10 +579,15 @@ function RenderRoom({ data, index }: any) {
                 }
               )
                 .then((res) => res.json())
-                .then((res) => setItems(res.data));
+                .then((res) => {
+                  setItems([]);
+                  setTimeout(() => {
+                    setItems(res.data);
+                  }, 50);
+                });
             }}
           >
-            Show changes
+            Show&nbsp;changes
           </Button>
         </Box>
       )}
