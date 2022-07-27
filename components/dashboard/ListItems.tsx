@@ -24,7 +24,7 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
           setItems={setItems}
         />
       ))}
-      {items.length < 10 && (
+      {items.length < 20 && (
         <CreateListModal
           parent={parent.toString()}
           items={items}
