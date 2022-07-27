@@ -127,7 +127,14 @@ export function CreateItemModal({
         onOpen={() => setOpen(true)}
       >
         <Puller />
-        <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
+        <DialogTitle
+          sx={{
+            mt: 2,
+            textAlign: "center",
+            fontWeight: "600",
+            textTransform: "capitalize",
+          }}
+        >
           {alias ?? room}
         </DialogTitle>
         <DialogContent
