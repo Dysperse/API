@@ -38,8 +38,8 @@ export function SuggestionChip({ room, item, key }: any) {
             mr: 1,
             px: 1,
             fontWeight: "600",
-            transition: "background .05s !important",
             borderRadius: 3,
+            transition: "transform .2s",
             boxShadow: "none !important",
             color: global.theme === "dark" ? orange[100] : orange[900],
             background:
@@ -47,6 +47,10 @@ export function SuggestionChip({ room, item, key }: any) {
             "&:hover": {
               background:
                 global.theme === "dark" ? "hsl(240, 11%, 35%)" : orange[200],
+            },
+            "&:active": {
+              transform: "scale(.95)",
+              transition: "none",
             },
           }}
           label={item}
