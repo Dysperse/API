@@ -109,6 +109,19 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                   Add this to your shopping list instead?
                 </Button>
               )}
+            {customParent === "-1" &&
+              (formik.values.name.toLowerCase().includes("pay ") ||
+                formik.values.name.toLowerCase().includes("fix ") ||
+                formik.values.name.toLowerCase().includes("throw ")) && (
+                <Button
+                  variant="outlined"
+                  sx={{ borderWidth: "2px!important", mt: 2.5 }}
+                  size="small"
+                  onClick={() => setCustomParent("-2")}
+                >
+                  Add this to your to do list instead?
+                </Button>
+              )}
             <LoadingButton
               size="large"
               disableElevation
