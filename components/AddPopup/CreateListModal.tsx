@@ -117,7 +117,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                   variant="outlined"
                   sx={{ borderWidth: "2px!important", mt: 2.5 }}
                   size="small"
-                  onClick={() => setCustomParent("-2")}
+                  onClick={() => setCustomParent("-1")}
                 >
                   Add this to your to do list instead?
                 </Button>
