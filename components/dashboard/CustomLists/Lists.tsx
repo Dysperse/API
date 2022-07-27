@@ -16,6 +16,8 @@ function RenderLists({ data }: any) {
     <>
       {lists.map((list: any) => (
         <List
+          setLists={setLists}
+          lists={lists}
           key={Math.random().toString()}
           title={list.title}
           description={list.description}

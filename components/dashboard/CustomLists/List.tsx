@@ -53,6 +53,8 @@ function ListPopup({
   setDeleted,
   listItems,
   title,
+  lists,
+  setLists,
   id,
   drawerState,
   setDrawerState,
@@ -115,16 +117,21 @@ function ListPopup({
           sx={{ borderRadius: 100, float: "right" }}
           onClick={() => {
             setDrawerState(false);
+            setLists(lists.data.map((list) => list.id !== id));
             setDeleted(true);
-            fetch("https://api.smartlist.tech/v2/lists/delete-list/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token:
-                  global.session &&
-                  (global.session.user.SyncToken || global.session.accessToken),
-                id: id,
-              }),
-            });
+            fetch(
+              "/api/lists/delete-custom-list?" +
+                new URLSearchParams({
+                  token:
+                    global.session &&
+                    (global.session.user.SyncToken ||
+                      global.session.accessToken),
+                  id: id,
+                }),
+              {
+                method: "POST",
+              }
+            );
           }}
         >
           <span className="material-symbols-rounded">delete</span>
@@ -193,9 +200,13 @@ function ListPopup({
 
 export function List({
   title,
+  lists,
+  setLists,
   description,
   id,
 }: {
+  lists: any;
+  setLists: any;
   title: string;
   description: string;
   id: number;
@@ -234,6 +245,8 @@ export function List({
       <ListPopup
         title={title}
         id={id}
+        setLists={setLists}
+        lists={lists}
         listItems={listItems}
         drawerState={drawerState}
         setDrawerState={setDrawerState}
