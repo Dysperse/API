@@ -1,4 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import DialogContent from "@mui/material/DialogContent";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -12,6 +13,8 @@ import { Puller } from "../Puller";
 export function CreateListModal({ children, parent, items, setItems }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [customParent, setCustomParent] = useState(parent);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -21,7 +24,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
         "/api/lists/create-item?" +
           new URLSearchParams({
             token: global.session.user.SyncToken || global.session.accessToken,
-            parent: parent,
+            parent: customParent,
             title: values.name,
             description: "",
           }),
@@ -93,6 +96,19 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
               onChange={formik.handleChange}
               value={formik.values.name}
             />
+            {customParent === "-1" &&
+              (formik.values.name.toLowerCase().includes("get ") ||
+                formik.values.name.toLowerCase().includes("bring ") ||
+                formik.values.name.toLowerCase().includes("shop ")) && (
+                <Button
+                  variant="outlined"
+                  sx={{ borderWidth: "2px!important", mt: 2.5 }}
+                  size="small"
+                  onClick={() => setCustomParent("-2")}
+                >
+                  Add this to your shopping list instead?
+                </Button>
+              )}
             <LoadingButton
               size="large"
               disableElevation
@@ -113,7 +129,14 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
           </DialogContent>
         </form>
       </SwipeableDrawer>
-      <div onClick={() => setOpen(true)}>{children}</div>
+      <div
+        onClick={() => {
+          setOpen(true);
+          setCustomParent(parent);
+        }}
+      >
+        {children}
+      </div>
     </>
   );
 }
