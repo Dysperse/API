@@ -5,6 +5,8 @@ import * as colors from "@mui/material/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
@@ -77,17 +79,17 @@ export function CreateListItemButton({
 
   return (
     <>
-      <Button
+      <FormControlLabel
         onClick={handleClickOpen}
-        size="large"
-        disableElevation
-        sx={{ mr: 1, mb: 3, borderRadius: 100 }}
-        variant="contained"
-        autoFocus
-        disabled={listItems.data.length > 15}
-      >
-        Create item
-      </Button>
+        control={
+          <IconButton sx={{ mr: "1px" }}>
+            <span className="material-symbols-rounded">add_circle</span>
+          </IconButton>
+        }
+        label="New list item"
+        sx={{ m: 0, mt: 0.1, display: "block" }}
+      />
+
       <SwipeableDrawer
         anchor="bottom"
         open={open}

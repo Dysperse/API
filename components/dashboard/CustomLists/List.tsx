@@ -9,6 +9,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import React, { useEffect, useState } from "react";
 import { neutralizeBack, revivalBack } from "../../history-control";
 import { Puller } from "../../Puller";
@@ -98,8 +99,10 @@ function ListPopup({
       onOpen={() => setDrawerState(true)}
     >
       <Puller />
-      <div
-        style={{
+      <Box
+        sx={{
+          p: 3,
+          pt: 4,
           textAlign: "center",
           borderBottom:
             "1px solid " +
@@ -108,33 +111,8 @@ function ListPopup({
               : "rgba(200,200,200,.3)"),
         }}
       >
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-          sx={{ mt: 4, mb: 2, fontWeight: "600" }}
-        >
-          {title}
-        </Typography>
-        <CreateListItemButton
-          parent={id}
-          setListItems={setListItems}
-          listItems={listItems}
-        />
-        <Button
-          size="large"
-          sx={{ mr: 1, mb: 3, borderRadius: 100 }}
-          variant="outlined"
-          onClick={() => {
-            setDrawerState(false);
-          }}
-        >
-          Share
-        </Button>
-        <Button
-          size="large"
-          sx={{ mb: 3, borderRadius: 100 }}
-          variant="outlined"
+        <IconButton
+          sx={{ borderRadius: 100, float: "right" }}
           onClick={() => {
             setDrawerState(false);
             setDeleted(true);
@@ -149,9 +127,12 @@ function ListPopup({
             });
           }}
         >
-          Delete
-        </Button>
-      </div>
+          <span className="material-symbols-rounded">delete</span>
+        </IconButton>
+        <Typography variant="h5" sx={{ fontWeight: "600" }}>
+          {title}
+        </Typography>
+      </Box>
       <Box sx={{ p: 3, textAlign: "center", overflow: "scroll" }}>
         {listItems.loading ? (
           <>
@@ -172,11 +153,20 @@ function ListPopup({
         ) : (
           <div style={{ textAlign: "left", display: "block" }}>
             {listItems.data.length === 0 ? (
-              <Box sx={{ textAlign: "center", opacity: ".5", py: 6 }}>
-                <Typography variant="h3" sx={{ mb: 2 }}>
+              <Box sx={{ textAlign: "center", py: 6 }}>
+                <Typography variant="h3" sx={{ mb: 2, opacity: 0.7 }}>
                   ¯\_(ツ)_/¯
                 </Typography>
-                <Typography variant="h5">No items yet...</Typography>
+                <Typography variant="h5" sx={{ opacity: 0.7 }}>
+                  No items yet...
+                </Typography>
+                <Box sx={{ mt: 2 }}>
+                  <CreateListItemButton
+                    parent={id}
+                    setListItems={setListItems}
+                    listItems={listItems}
+                  />
+                </Box>
               </Box>
             ) : null}
             {listItems.data.map((item: any, id: number) => (
@@ -187,6 +177,13 @@ function ListPopup({
                 setListItems={setListItems}
               />
             ))}
+            {listItems.data.length !== 0 && (
+              <CreateListItemButton
+                parent={id}
+                setListItems={setListItems}
+                listItems={listItems}
+              />
+            )}
           </div>
         )}
       </Box>
