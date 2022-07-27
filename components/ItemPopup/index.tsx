@@ -108,6 +108,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           "& .MuiPaper-root": {
             borderRadius: "15px",
             minWidth: 180,
+            boxShadow: 0,
             background:
               global.theme === "dark"
                 ? colors[global.themeColor][900]
@@ -170,7 +171,96 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             handleClose();
           }}
         >
+          <span
+            className="material-symbols-rounded"
+            style={{ marginRight: "20px" }}
+          >
+            open_in_new
+          </span>
           View
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            const href =
+              "https://" +
+              window.location.hostname +
+              "/share/" +
+              encodeURIComponent(
+                JSON.stringify({
+                  name: global.session.user.name,
+                  title: title,
+                  quantity: quantity,
+                  room: data.room,
+                })
+              );
+
+            navigator.share({ url: href }).then(handleClose);
+          }}
+        >
+          <span
+            className="material-symbols-rounded"
+            style={{ marginRight: "20px" }}
+          >
+            share
+          </span>
+          Share
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
+            setStar((s: number) => +!s);
+            handleClose();
+            fetch(
+              "/api/inventory/star?" +
+                new URLSearchParams({
+                  token:
+                    global.session &&
+                    (global.session.user.SyncToken ||
+                      global.session.accessToken),
+                  id: id.toString(),
+                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                }),
+              {
+                method: "POST",
+              }
+            );
+          }}
+        >
+          <span
+            className={
+              "material-symbols-" + (star == 1 ? "rounded" : "outlined")
+            }
+            style={{ marginRight: "20px" }}
+          >
+            grade
+          </span>
+          {star == 1 ? "Unstar" : "Star"}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setDeleted(true);
+            fetch(
+              "/api/inventory/trash?" +
+                new URLSearchParams({
+                  token:
+                    global.session.user.SyncToken || global.session.accessToken,
+                  id: id.toString(),
+                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                }),
+              {
+                method: "POST",
+              }
+            );
+            handleClose();
+          }}
+        >
+          <span
+            className="material-symbols-rounded"
+            style={{ marginRight: "20px" }}
+          >
+            delete
+          </span>
+          Delete
         </MenuItem>
       </Menu>
       <SwipeableDrawer
