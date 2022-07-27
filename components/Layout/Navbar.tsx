@@ -163,6 +163,10 @@ function ElevationScroll(props: any) {
             global.theme === "dark"
               ? "rgba(57, 57, 71, .7)"
               : hexToRgba(colors[global.themeColor]["100"], 0.7),
+
+          ["@supports not (backdrop-filter: blur(20px))"]: {
+            background: colors[themeColor][100],
+          },
         }
       : {
           color: global.theme === "dark" ? "white" : "black",
