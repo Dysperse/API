@@ -75,6 +75,9 @@ export default function Item({ displayRoom = false, data, variant }: any) {
     document.documentElement.classList[drawerState ? "add" : "remove"](
       "prevent-scroll"
     );
+    document.documentElement.classList[contextMenu !== null ? "add" : "remove"](
+      "prevent-scroll"
+    );
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
@@ -95,7 +98,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           ? "hsl(240, 11%, 20%)"
           : colors[global.themeColor]["100"]
       );
-  }, [drawerState, width]);
+  }, [drawerState, width, contextMenu]);
 
   return (
     <>
