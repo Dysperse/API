@@ -108,7 +108,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           "& .MuiPaper-root": {
             borderRadius: "15px",
             minWidth: 180,
-            boxShadow: 0,
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
             background:
               global.theme === "dark"
                 ? colors[global.themeColor][900]
@@ -524,7 +525,11 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     xs: 3,
                     sm: 0.5,
                   },
-                  boxShadow: 0,
+                  boxShadow: "0",
+                  // "&:hover": {
+                  //   boxShadow:
+                  //     "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+                  // },
                   display: "block",
                   width: "100%",
                   maxWidth: "calc(100vw - 20px)",
