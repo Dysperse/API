@@ -42,6 +42,7 @@ export function CreateItemModal({
     }, 50);
     return () => clearTimeout(timer);
   }, [open]);
+
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
@@ -85,6 +86,9 @@ export function CreateItemModal({
           setLoading(false);
           setOpen(false);
           formik.resetForm();
+          if (global.setUpdateBanner) {
+            global.setUpdateBanner(room.toString().toLowerCase());
+          }
         });
     },
   });

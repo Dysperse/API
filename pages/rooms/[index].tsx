@@ -11,6 +11,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { decode } from "js-base64";
@@ -529,6 +530,9 @@ function ItemList({ items }: { items: any }) {
 function RenderRoom({ data, index }: any) {
   const router = useRouter();
   const [items, setItems] = useState(data.data);
+  const [updateBanner, setUpdateBanner] = useState(false);
+  global.setUpdateBanner = setUpdateBanner;
+
   return (
     <Container key={index} sx={{ mt: 4 }}>
       <Header
@@ -541,6 +545,47 @@ function RenderRoom({ data, index }: any) {
         items={data.data}
       />
       <Toolbar items={items} setItems={setItems} data={data.data} />
+      {updateBanner ===
+        (router.query.custom ? decode(index).split(",")[0] : index) && (
+        <Box
+          sx={{
+            background: "rgba(200,200,200,.4)",
+            borderRadius: 5,
+            p: 3,
+            mb: 3,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography>New items have been added to this room.</Typography>
+          <Button
+            sx={{ ml: "auto", borderWidth: "2px!important", borderRadius: 4 }}
+            variant="outlined"
+            onClick={() => {
+              setUpdateBanner(false);
+              fetch(
+                "/api/inventory?" +
+                  new URLSearchParams({
+                    token:
+                      global.session &&
+                      (global.session.user.SyncToken ||
+                        global.session.accessToken),
+                    room: router.query.custom
+                      ? decode(index).split(",")[0]
+                      : index,
+                  }),
+                {
+                  method: "POST",
+                }
+              )
+                .then((res) => res.json())
+                .then((res) => setItems(res.data));
+            }}
+          >
+            Show changes
+          </Button>
+        </Box>
+      )}
       <ItemList items={items} />
     </Container>
   );
