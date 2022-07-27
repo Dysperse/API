@@ -120,7 +120,7 @@ export function ItemActionsMenu({
               background:
                 (global.theme === "dark"
                   ? colors[themeColor]["900"]
-                  : colors[themeColor]["50"]) + "!important",
+                  : colors[themeColor]["100"]) + "!important",
               color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
             },
           }}

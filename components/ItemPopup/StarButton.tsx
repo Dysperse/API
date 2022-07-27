@@ -25,7 +25,7 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
             background:
               (global.theme === "dark"
                 ? colors[themeColor]["900"]
-                : colors[themeColor]["50"]) + "!important",
+                : colors[themeColor]["100"]) + "!important",
             color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
           },
           ...(parseInt(star, 10) === 1 && {

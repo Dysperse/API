@@ -261,14 +261,14 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                       background:
                         (global.theme === "dark"
                           ? colors[themeColor]["900"]
-                          : colors[themeColor]["50"]) + "!important",
+                          : colors[themeColor]["100"]) + "!important",
                       color:
                         global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
                     },
                   }}
                   onClick={() => setDrawerState(false)}
                 >
-                  <span className="material-symbols-rounded">chevron_left</span>
+                  <span className="material-symbols-rounded">arrow_back</span>
                 </IconButton>
               </Tooltip>
               <Typography sx={{ flexGrow: 1 }}></Typography>

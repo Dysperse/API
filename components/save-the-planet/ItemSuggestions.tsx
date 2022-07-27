@@ -2,20 +2,61 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import useSWR from "swr";
 import Item from "../ItemPopup";
 
 const notEcoFriendlyProducts = [
-  "washing machine",
-  "car",
-  "petrol",
-  "gas",
-  "stove",
-  "plastic straws",
-  "styrofoam cups",
-  "plastic cups",
-  "disposable water bottles",
-  "plastic water bottles",
+  {
+    name: "washing machine",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "car",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "petrol",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "gas",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "stove",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "plastic straws",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "styrofoam cups",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "plastic cups",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "disposable water bottles",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
+  {
+    name: "plastic water bottles",
+    error:
+      "This isn't an eco-friendly product! Try buying something else instead",
+  },
 ];
 
 function RenderSuggestions() {
@@ -58,14 +99,20 @@ function RenderSuggestions() {
   return (
     <>
       {data.data.filter((item: any) =>
-        notEcoFriendlyProducts.includes(item.title.toLowerCase())
+        notEcoFriendlyProducts
+          .map((e) => e.name)
+          .includes(item.title.toLowerCase())
       ).length > 0 ? (
         data.data
           .filter((item) =>
-            notEcoFriendlyProducts.includes(item.title.toLowerCase())
+            notEcoFriendlyProducts
+              .map((e) => e.name)
+              .includes(item.title.toLowerCase())
           )
           .map((item: any, id: number) => (
-            <Item key={id.toString()} data={item} variant="list" />
+            <Box key={id.toString()}>
+              <Item data={item} variant="list" />
+            </Box>
           ))
       ) : (
         <div>No suggestions! Great job!</div>
