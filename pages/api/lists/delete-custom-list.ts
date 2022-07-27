@@ -6,11 +6,11 @@ const handler = async (req, res) => {
     const userId = await ExchangeToken(req.query.token);
 
     await excuteQuery({
-      query: "DELETE FROM ListNames WHERE id = ? AND user = ?",
+      query: "DELETE FROM ListNames WHERE id = ? AND login = ?",
       values: [req.query.id ?? "false", userId[0].user ?? false],
     });
     await excuteQuery({
-      query: "DELETE FROM ListItems WHERE parent = ? AND user = ?",
+      query: "DELETE FROM ListItems WHERE parent = ? AND login = ?",
       values: [req.query.id ?? "false", userId[0].user ?? false],
     });
     res.json({

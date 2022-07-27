@@ -117,7 +117,7 @@ function ListPopup({
           sx={{ borderRadius: 100, float: "right" }}
           onClick={() => {
             setDrawerState(false);
-            setLists(lists.data.map((list) => list.id !== id));
+            setLists(lists.filter((list) => list.id !== id));
             setDeleted(true);
             fetch(
               "/api/lists/delete-custom-list?" +
