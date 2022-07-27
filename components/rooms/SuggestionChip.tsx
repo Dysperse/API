@@ -40,17 +40,13 @@ export function SuggestionChip({ room, item, key }: any) {
             fontWeight: "600",
             transition: "background .05s !important",
             borderRadius: 3,
-            boxShadow: "0!important",
+            boxShadow: "none !important",
             color: global.theme === "dark" ? orange[100] : orange[900],
             background:
               global.theme === "dark" ? "hsl(240, 11%, 30%)" : orange[100],
             "&:hover": {
               background:
                 global.theme === "dark" ? "hsl(240, 11%, 35%)" : orange[200],
-            },
-            "&:active": {
-              background:
-                global.theme === "dark" ? "hsl(240, 11%, 40%)" : orange[300],
             },
           }}
           label={item}
