@@ -39,8 +39,7 @@ export function DeleteButton({
             "/api/inventory/trash?" +
               new URLSearchParams({
                 token:
-                  global.session &&
-                  (global.session.user.SyncToken || global.session.accessToken),
+                  global.session.user.SyncToken || global.session.accessToken,
                 id: id.toString(),
                 lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               }),
