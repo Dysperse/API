@@ -1,9 +1,9 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 function Query({ query }: any) {
   let of = false;
