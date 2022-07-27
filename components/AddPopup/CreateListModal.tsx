@@ -109,7 +109,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                   Add this to your shopping list instead?
                 </Button>
               )}
-            {customParent === "-1" &&
+            {customParent === "-2" &&
               (formik.values.name.toLowerCase().includes("pay ") ||
                 formik.values.name.toLowerCase().includes("fix ") ||
                 formik.values.name.toLowerCase().includes("throw ")) && (
