@@ -514,8 +514,8 @@ function ItemList({ items }: { items: any }) {
             },
             key: number
           ) => (
-            <div>
-              <ItemCard item={item} key={key.toString()} />
+            <div key={key.toString()}>
+              <ItemCard item={item} />
             </div>
           )
         )}
