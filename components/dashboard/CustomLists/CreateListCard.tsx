@@ -149,7 +149,7 @@ export function CreateListCard({ lists, setLists }: any) {
                 setTimeout(() => input && input.focus(), 100)
               }
               margin="dense"
-              label="Title"
+              label="Title (Example: School supplies, Potluck food, etc...)"
               fullWidth
               autoComplete="off"
               name="title"
@@ -157,7 +157,21 @@ export function CreateListCard({ lists, setLists }: any) {
               onChange={formik.handleChange}
               value={formik.values.title}
             />
-
+            {(formik.values.title.toLowerCase().includes("shopping") ||
+              formik.values.title.toLowerCase().includes("to do")) && (
+              <Button
+                variant="outlined"
+                sx={{ borderWidth: "2px!important", mt: 2 }}
+                size="small"
+                onClick={() => {}}
+              >
+                Use your{" "}
+                {formik.values.title.toLowerCase().includes("shopping")
+                  ? "shopping"
+                  : "to do"}{" "}
+                list instead?
+              </Button>
+            )}
             <LoadingButton
               size="large"
               disableElevation
