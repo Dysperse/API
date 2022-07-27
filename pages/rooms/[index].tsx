@@ -118,7 +118,7 @@ function Header({
               fontWeight: "600",
             }}
           >
-            {itemCount} item{itemCount !== 1 && "s"}
+            {itemCount} out of 150 item limit
           </Typography>
         }
       />
@@ -151,7 +151,10 @@ function SuggestionChip({ room, item, key }: any) {
               }
             )
               .then((res) => res.json())
-              .then((res) => toast.success("Created item!"));
+              .then((res) => {
+                toast.success("Created item!");
+                global.setUpdateBanner(room);
+              });
           }}
           sx={{
             mr: 1,
@@ -511,15 +514,9 @@ function ItemList({ items }: { items: any }) {
             },
             key: number
           ) => (
-            <Paper
-              sx={{
-                boxShadow: 0,
-                p: 0,
-              }}
-              key={key.toString()}
-            >
-              <ItemCard item={item} />
-            </Paper>
+            <div>
+              <ItemCard item={item} key={key.toString()} />
+            </div>
           )
         )}
       </Masonry>
@@ -544,7 +541,13 @@ function RenderRoom({ data, index }: any) {
         room={router.query.custom ? decode(index).split(",")[0] : index}
         items={data.data}
       />
-      <Toolbar items={items} setItems={setItems} data={data.data} />
+      <Toolbar
+        room={router.query.custom ? decode(index).split(",")[0] : index}
+        alias={router.query.custom ? decode(index).split(",")[1] : index}
+        items={items}
+        setItems={setItems}
+        data={data.data}
+      />
       {updateBanner ===
         (router.query.custom ? decode(index).split(",")[0] : index) && (
         <Box
@@ -583,7 +586,7 @@ function RenderRoom({ data, index }: any) {
                   setItems([]);
                   setTimeout(() => {
                     setItems(res.data);
-                  }, 50);
+                  }, 10);
                 });
             }}
           >

@@ -7,10 +7,10 @@ const handler = async (req, res) => {
 
     const result = await excuteQuery({
       query: req.query.limit
-        ? "SELECT * FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT ?"
+        ? "SELECT * FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT 150"
         : "SELECT * FROM Inventory WHERE user = ? AND trash = 0 AND room = ? ORDER BY lastUpdated DESC",
       values: req.query.limit
-        ? [userId[0].user ?? false, parseInt(req.query.limit)]
+        ? [userId[0].user ?? false]
         : [userId[0].user ?? false, req.query.room ?? "kitchen"],
     });
     res.json({

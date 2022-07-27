@@ -132,7 +132,7 @@ export function CreateItemModal({
         </DialogTitle>
         <DialogContent
           sx={{
-            height: { xs: "274px", sm: "auto" },
+            height: { xs: "224px", sm: "auto" },
             pb: { xs: 10, sm: 0 },
           }}
         >
@@ -161,23 +161,6 @@ export function CreateItemModal({
               name="quantity"
               variant="filled"
             />
-            <Stack spacing={1} direction="row" sx={{ my: 1 }}>
-              <Chip
-                sx={{ fontSize: "20px", height: "35px", borderRadius: 2 }}
-                onClick={handleChipClick}
-                label="📦"
-              />
-              <Chip
-                sx={{ fontSize: "20px", height: "35px", borderRadius: 2 }}
-                onClick={handleChipClick}
-                label="🥡"
-              />
-              <Chip
-                sx={{ fontSize: "20px", height: "35px", borderRadius: 2 }}
-                onClick={handleChipClick}
-                label="🛍️"
-              />
-            </Stack>
             <Autocomplete
               id="categories"
               multiple

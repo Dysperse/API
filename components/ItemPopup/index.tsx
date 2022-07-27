@@ -577,6 +577,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                         mb: 1,
                       }}
                     >
+                      {!quantity.includes(" ") && "Quantity: "}
                       {displayRoom
                         ? data.room
                         : quantity.substring(0, 18) || "(no quantity)"}

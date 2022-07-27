@@ -8,8 +8,9 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { CreateItemModal } from "../AddPopup/CreateItemModal";
 
-export function Toolbar({ items, setItems, data }: any) {
+export function Toolbar({ alias, room, items, setItems, data }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,7 +33,7 @@ export function Toolbar({ items, setItems, data }: any) {
     <Box
       sx={{
         textAlign: "right",
-        mb: 2,
+        my: { xs: 2, sm: 5 },
         display: "flex",
         alignItems: "center",
         justifyContent: "end",
@@ -74,9 +75,10 @@ export function Toolbar({ items, setItems, data }: any) {
             border: "0!important",
             pb: 0.6,
             pt: 1,
+            mr: 0.5,
             px: 2,
             mt: { xs: 1, sm: 0 },
-            width: { xs: "100%", sm: "200px" },
+            width: { xs: "100%", sm: "300px" },
             background:
               global.theme === "dark" ? "hsl(240, 11%, 25%)" : blueGrey[50],
             "&.Mui-focused": {
@@ -113,9 +115,40 @@ export function Toolbar({ items, setItems, data }: any) {
             },
           }}
         >
-          Sort&nbsp;by&nbsp;
+          &nbsp;Sort&nbsp;by&nbsp;
         </Typography>
       </Button>
+      <CreateItemModal room={room} alias={alias} toggleDrawer={() => {}}>
+        <Button
+          id="basic-button"
+          variant="contained"
+          disabled={data.length >= 150}
+          disableElevation
+          sx={{
+            borderRadius: 10,
+            ml: 1,
+            mt: { xs: 1, sm: 0 },
+            py: 1,
+            verticalAlign: "middle",
+          }}
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+        >
+          <span className="material-symbols-rounded">add_circle</span>
+          <Typography
+            sx={{
+              ml: 1,
+              display: {
+                xs: "none",
+                sm: "inline",
+              },
+            }}
+          >
+            &nbsp;New&nbsp;item&nbsp;
+          </Typography>
+        </Button>
+      </CreateItemModal>
       <Menu
         BackdropProps={{ sx: { opacity: "0!important" } }}
         id="basic-menu"
