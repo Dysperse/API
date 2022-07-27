@@ -1,7 +1,5 @@
 import Masonry from "@mui/lab/Masonry";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Chip from "@mui/material/Chip";
+import Box from "@mui/material/Box";
 import { blue } from "@mui/material/colors";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -17,57 +15,35 @@ import { EcoFriendlyTips } from "../components/save-the-planet/Tips/EcoFriendlyT
 export default function Render() {
   return (
     <>
-      <Container fixed>
-        <Card
+      <Container sx={{ mt: 6 }}>
+        <Typography
+          variant="h3"
           sx={{
-            mt: 3,
-            borderRadius: 5,
-            p: 2,
-            color: "white",
-            background:
-              "linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://www.kibacapital.com/wp-content/uploads/2018/05/banner-space.jpg)",
-            backgroundSize: "cover",
+            my: { xs: 12, sm: 12 },
+            fontWeight: "400",
+            textAlign: { xs: "center", sm: "center" },
           }}
         >
-          <CardContent>
-            <Chip
-              label="Event"
-              sx={{
-                color: "white",
-                background: blue["A700"],
-                px: 3,
-                py: 0.3,
-                mb: 2,
-                height: "auto",
-              }}
-            />
-            <Typography variant="h5" sx={{ fontWeight: "800" }} gutterBottom>
-              Smartlist carbon footprint awareness month
-            </Typography>
-            <Typography>
-              This month, Smartlist encourages you to take your car out less and
-              start biking!
-            </Typography>
-          </CardContent>
-        </Card>
-      </Container>
-      <EcoFriendlyTips />
-      <Container sx={{ mt: 6 }} fixed>
-        <Masonry
-          columns={{
-            xs: 1,
-            sm: 2,
-          }}
-          spacing={2}
-        >
-          <ItemSuggestions />
-          <Reminders />
-          <Thermostat />
-          <Donate />
-          <CarbonFootprint />
-          <RecyclingGuide />
-          <EcoFriendlyGoals />
-        </Masonry>
+          Sustainability
+        </Typography>
+        <Box sx={{ ml: 2, mt: 4 }}>
+          <Masonry
+            columns={{
+              xs: 1,
+              sm: 2,
+            }}
+            spacing={2}
+          >
+            <EcoFriendlyTips />
+            <ItemSuggestions />
+            <Reminders />
+            <Thermostat />
+            <Donate />
+            <CarbonFootprint />
+            <RecyclingGuide />
+            <EcoFriendlyGoals />
+          </Masonry>
+        </Box>
       </Container>
     </>
   );

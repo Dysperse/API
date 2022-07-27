@@ -22,7 +22,7 @@ function RenderSuggestions() {
   const url =
     "/api/inventory?" +
     new URLSearchParams({
-      limit: "7",
+      limit: "500",
       token:
         global.session &&
         (global.session.user.SyncToken || global.session.accessToken),
