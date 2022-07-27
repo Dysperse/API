@@ -2,7 +2,7 @@
   "name": "Carbon",
   "start_url": "/",
   "scope": "/",
-  "background_color": "#C4B5B5",
+  "background_color": "#d7ccc8",
   "description": "Smart and easy home inventory and finances.",
   "dir": "ltr",
   "lang": "en-US",
@@ -16,7 +16,7 @@
     "Carbon"
   ],
   "short_name": "Carbon",
-  "theme_color": "#C4B5B5",
+  "theme_color": "#d7ccc8",
   "icons": [
     {
       "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v2/windows11/SmallTile.scale-100.png",
