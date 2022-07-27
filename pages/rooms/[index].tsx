@@ -587,7 +587,7 @@ function RenderRoom({ data, index }: any) {
                 });
             }}
           >
-            Show&nbsp;changes
+            &nbsp;&nbsp;&nbsp;&nbsp;Show&nbsp;changes&nbsp;&nbsp;&nbsp;&nbsp;
           </Button>
         </Box>
       )}
