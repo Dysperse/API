@@ -1,4 +1,4 @@
-import excuteQuery from "../../../../lib/db";
+import executeQuery from "../../../../lib/db";
 import { ExchangeToken } from "../../../../lib/exchange-token";
 import notp from "notp";
 
@@ -22,7 +22,7 @@ const handler = async (req, res) => {
       return false;
     }
 
-    await excuteQuery({
+    await executeQuery({
       query: "UPDATE Accounts SET 2faCode = ? WHERE id = ?",
       values: [req.query.key, userId[0].user ?? false],
     });

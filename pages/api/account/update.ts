@@ -1,4 +1,4 @@
-import excuteQuery from "../../../lib/db";
+import executeQuery from "../../../lib/db";
 import { ExchangeToken } from "../../../lib/exchange-token";
 
 const handler = async (req, res) => {
@@ -28,7 +28,7 @@ const handler = async (req, res) => {
     let intersection = specifiedValues.filter((x) => allowedValues.includes(x));
 
     intersection.forEach(async (setting) => {
-      const result = await excuteQuery({
+      const result = await executeQuery({
         query: "UPDATE Accounts SET " + setting + " = ? WHERE id = ?",
         values: [JSON.parse(req.query.data)[setting], userId[0].user ?? false],
       });
