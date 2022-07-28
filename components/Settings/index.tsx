@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+import Chip from "@mui/material/Chip";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Divider from "@mui/material/Divider";
@@ -25,6 +26,7 @@ import App from "./App";
 import AppearanceSettings from "./AppearanceSettings";
 import Developer from "./Developer";
 import FinanceSettings from "./FinanceSettings";
+import TwoFactorAuth from "./TwoFactorAuth";
 import Notifications from "./Notifications";
 import Rooms from "./Rooms";
 import Sync from "./Sync";
@@ -367,6 +369,36 @@ export default function FullScreenDialog({ children }: any) {
               icon="palette"
               primary="Appearance"
               secondary={"Current theme: " + global.theme}
+            />
+            <SettingsMenu
+              content={<TwoFactorAuth />}
+              icon="security"
+              primary={
+                <span id="twoFactorAuthSettings">
+                  Two factor authentication
+                  <Chip
+                    label="New"
+                    sx={{
+                      display: { xs: "none", sm: "unset" },
+                      height: "auto",
+                      ml: 2,
+                      py: 0.4,
+                      px: 0.7,
+                      background: "#B00200",
+                      color: "#fff",
+                    }}
+                  />
+                </span>
+              }
+              secondary={
+                <>
+                  2FA is currently{" "}
+                  {global.session.user["2faCode"] &&
+                  global.session.user["2faCode"] !== "false"
+                    ? "enabled"
+                    : "disabled"}
+                </>
+              }
             />
             <SettingsMenu
               id="financeSettingsTrigger"

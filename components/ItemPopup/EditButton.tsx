@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import DialogContent from "@mui/material/DialogContent";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
@@ -170,6 +171,9 @@ export function EditButton({
                 />
               )}
             />
+            <Typography sx={{ mt: 2 }} variant="body2">
+              Hit "Enter" after each category
+            </Typography>
 
             <Box
               sx={{
