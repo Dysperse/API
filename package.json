@@ -3,8 +3,8 @@
   "version": "2.0.0",
   "license": "MIT",
   "private": false,
-  "author": "Smartlist",
-  "repository": "https://github.com/ManuTheCoder/Smartlist-React-Dashboard-Test",
+  "author": "Carbon",
+  "repository": "https://github.com/Smartlist-App/Smartlist",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
