@@ -466,5 +466,67 @@
       "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v2/ios/1024.png",
       "sizes": "1024x1024"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kitchen",
+      "short_name": "Kitchen",
+      "description": "Kitchen",
+      "url": "/rooms/kitchen",
+      "icons": [
+        {
+          "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/actions/2_192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Bedroom",
+      "short_name": "Bedroom",
+      "description": "Bedroom",
+      "url": "/rooms/bedroom",
+      "icons": [
+        {
+          "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/actions/3_192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Bathroom",
+      "short_name": "Bathroom",
+      "description": "Bathroom",
+      "url": "/rooms/bathroom",
+      "icons": [
+        {
+          "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/actions/4_192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Garage",
+      "short_name": "Garage",
+      "description": "Garage",
+      "url": "/rooms/garage",
+      "icons": [
+        {
+          "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/actions/5_192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Dining room",
+      "short_name": "Dining room",
+      "description": "Dining room",
+      "url": "/rooms/dining",
+      "icons": [
+        {
+          "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/actions/6_192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }

@@ -377,6 +377,7 @@ export default function FullScreenDialog({ children }: any) {
                 <span id="twoFactorAuthSettings">
                   Two factor authentication
                   <Chip
+                    component="span"
                     label="New"
                     sx={{
                       display: { xs: "none", sm: "unset" },
