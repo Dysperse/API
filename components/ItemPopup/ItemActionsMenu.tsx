@@ -28,11 +28,15 @@ function Room({
   setDeleted,
   room,
   key,
+  setMoveToRoomOpen,
+  setDrawerState,
 }: {
   id: number;
   setDeleted: any;
   room: string;
   key: number;
+  setMoveToRoomOpen: any;
+  setDrawerState: any;
 }) {
   const [disabled, setDisabled] = useState(false);
   return (
@@ -52,9 +56,14 @@ function Room({
           {
             method: "POST",
           }
-        ).then((res) => {
+        ).then(() => {
           setDisabled(false);
           setDeleted(true);
+          setMoveToRoomOpen(false);
+          setDrawerState(false);
+          setTimeout(() => {
+            toast.success("Moved item!");
+          }, 100);
         });
       }}
       sx={{ transition: "none!important", borderRadius: 3 }}
@@ -80,6 +89,7 @@ function Room({
 
 export function ItemActionsMenu({
   room,
+  setDrawerState,
   id,
   setDeleted,
   title,
@@ -152,6 +162,8 @@ export function ItemActionsMenu({
               <Room
                 key={index}
                 room={room}
+                setDrawerState={setDrawerState}
+                setMoveToRoomOpen={setMoveToRoomOpen}
                 id={parseInt(id)}
                 setDeleted={setDeleted}
               />

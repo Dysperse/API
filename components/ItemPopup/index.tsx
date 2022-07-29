@@ -390,6 +390,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 setDeleted={setDeleted}
               />
               <ItemActionsMenu
+                setDrawerState={setDrawerState}
                 id={id}
                 room={data.room}
                 setDeleted={setDeleted}
