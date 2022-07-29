@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Head from "next/head";
 import Script from "next/script";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Offline, Online } from "react-detect-offline";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
@@ -100,6 +100,23 @@ function Render({ data, Component, pageProps }: any) {
       }),
     },
   });
+  useEffect(() => {
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+      OneSignal.init({
+        appId: "d3f38439-eed7-4926-bdbc-ec058788075b",
+        notifyButton: {
+          enable: true,
+        },
+
+        allowLocalhostAsSecureOrigin: true,
+      });
+    });
+
+    return () => {
+      window.OneSignal = undefined;
+    };
+  }, []); // <-- run this effect once on mount
 
   return (
     <>
@@ -152,7 +169,9 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
       </Offline>
 
       {router &&
-      (router.pathname === "/share/[index]" || router.pathname === "/scan" || router.pathname === "/onboarding") ? (
+      (router.pathname === "/share/[index]" ||
+        router.pathname === "/scan" ||
+        router.pathname === "/onboarding") ? (
         <Component {...pageProps} />
       ) : (
         <Online>
