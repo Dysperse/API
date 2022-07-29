@@ -395,9 +395,15 @@ export default function FullScreenDialog({ children }: any) {
                 <>
                   {global.isOwner &&
                   global.session.user["2faCode"] &&
-                  global.session.user["2faCode"] !== "false"
-                    ? "Your account is at greater risk because 2-factor auth isn't enabled"
-                    : ""}
+                  global.session.user["2faCode"] === "false" ? (
+                    <span style={{ color: "red" }}>
+                      Your account is at greater risk because 2-factor auth
+                      isn&rsquo;t enabled!
+                      <br />
+                    </span>
+                  ) : (
+                    ""
+                  )}
                   2FA is currently{" "}
                   {global.session.user["2faCode"] &&
                   global.session.user["2faCode"] !== "false"

@@ -13,7 +13,10 @@ export default function Document() {
       })(window,document,'script','dataLayer','GTM-PPH4TH4');`,
           }}
         />
-
+        <script
+          src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+          async
+        ></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -30,11 +33,6 @@ export default function Document() {
   `,
           }}
         />
-
-        <script
-          src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
-          async
-        ></script>
         <link rel="preconnect" href="https://i.ibb.co" />
         <link rel="preconnect" href="https://vitals.vercel-insights.com" />
         <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
