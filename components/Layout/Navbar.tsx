@@ -20,6 +20,7 @@ import { Invitations } from "../Invitations";
 function InviteButton() {
   const [isOwner, setIsOwner] = React.useState<boolean>(false);
   global.setIsOwner = setIsOwner;
+  global.isOwner = isOwner;
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
