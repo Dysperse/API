@@ -309,7 +309,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             borderRadius: { sm: 5 },
             overflow: "hidden!important",
             width: {
-              sm: "40vw",
+              sm: "60vw",
+              md: "40vw",
               xs: "100vw",
             },
             background: colors[themeColor][50],
@@ -391,6 +392,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               <ItemActionsMenu
                 id={id}
                 room={data.room}
+                setDeleted={setDeleted}
                 star={star}
                 title={title}
                 quantity={quantity}

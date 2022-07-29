@@ -12,7 +12,9 @@ export function RoomComponent({ index }: any) {
         token:
           global.session &&
           (global.session.user.SyncToken || global.session.accessToken),
-        room: router.query.custom ? decode(index).split(",")[0] : index,
+        room: router.query.custom
+          ? decode(index).split(",")[0]
+          : index.toLowerCase().replaceAll("-", ""),
       }),
     {
       method: "POST",

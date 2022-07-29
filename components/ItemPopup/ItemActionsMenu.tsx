@@ -17,10 +17,71 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Puller } from "../Puller";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import CircularProgress from "@mui/material/CircularProgress";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
+
+function Room({
+  id,
+  setDeleted,
+  room,
+  key,
+}: {
+  id: number;
+  setDeleted: any;
+  room: string;
+  key: number;
+}) {
+  const [disabled, setDisabled] = useState(false);
+  return (
+    <ListItem
+      button
+      onClick={() => {
+        setDisabled(true);
+        fetch(
+          "/api/inventory/moveToRoom?" +
+            new URLSearchParams({
+              id: id.toString(),
+              room: room.toLowerCase().replace(" room", ""),
+              lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              token:
+                global.session.user.SyncToken ?? global.session.accessToken,
+            }),
+          {
+            method: "POST",
+          }
+        ).then((res) => {
+          setDisabled(false);
+          setDeleted(true);
+        });
+      }}
+      sx={{ transition: "none!important", borderRadius: 3 }}
+    >
+      <ListItemText
+        primary={
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {room}{" "}
+            {disabled ? (
+              <CircularProgress size={20} sx={{ ml: "auto" }} />
+            ) : null}
+          </span>
+        }
+      />
+    </ListItem>
+  );
+}
 
 export function ItemActionsMenu({
   room,
   id,
+  setDeleted,
   title,
   quantity,
   star,
@@ -30,7 +91,7 @@ export function ItemActionsMenu({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const [openMoveToRoom, setMoveToRoomOpen] = React.useState<boolean>(false);
   const [openInfo, setOpenInfo] = React.useState<boolean>(false);
 
   const handleClose = () => {
@@ -39,6 +100,76 @@ export function ItemActionsMenu({
   // end info button
   return (
     <>
+      <SwipeableDrawer
+        anchor="bottom"
+        swipeAreaWidth={0}
+        onOpen={() => setMoveToRoomOpen(true)}
+        open={openMoveToRoom}
+        sx={{
+          transition: "all .2s",
+        }}
+        onClose={() => setMoveToRoomOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            background: colors[themeColor][50],
+            width: {
+              sm: "50vw",
+            },
+            maxWidth: "600px",
+            maxHeight: "95vh",
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
+          },
+        }}
+      >
+        <Puller />
+        <DialogTitle
+          id="alert-dialog-title"
+          sx={{ fontWeight: "800", p: 4, pb: 2 }}
+        >
+          Select a room
+        </DialogTitle>
+        <DialogContent sx={{ p: 4, pt: 0 }}>
+          <DialogContentText id="alert-dialog-description">
+            {[
+              "Kitchen",
+              "Bedroom",
+              "Bathroom",
+              "Garage",
+              "Dining",
+              "Living room",
+              "Laundry room",
+              "Storage room",
+              "Camping",
+              "Garden",
+            ].map((room, index) => (
+              <Room
+                key={index}
+                room={room}
+                id={parseInt(id)}
+                setDeleted={setDeleted}
+              />
+            ))}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ p: 2 }}>
+          <Button
+            variant="outlined"
+            disableElevation
+            size="large"
+            sx={{ borderRadius: 99, borderWidth: "2px!important" }}
+            onClick={() => setMoveToRoomOpen(false)}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </SwipeableDrawer>
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
@@ -229,6 +360,21 @@ export function ItemActionsMenu({
         </MenuItem> */}
         <AddToListModal handleClose={handleClose} title={title} />
         <QrCodeModal title={title} quantity={quantity} />
+        <MenuItem
+          disableRipple
+          onClick={() => {
+            setMoveToRoomOpen(true);
+            setAnchorEl(null);
+          }}
+        >
+          <span
+            style={{ marginRight: "15px" }}
+            className="material-symbols-rounded"
+          >
+            place_item
+          </span>
+          Move to another room
+        </MenuItem>
       </Menu>
     </>
   );

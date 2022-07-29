@@ -330,12 +330,12 @@ function Content({ toggleDrawer }: any) {
             />
             <AddItemOption
               toggleDrawer={toggleDrawer}
-              title={<>Dining&nbsp;room</>}
+              title={<>Dining</>}
               icon={<span className="material-symbols-rounded">dining</span>}
             />
             <AddItemOption
               toggleDrawer={toggleDrawer}
-              title={<>Laundry</>}
+              title={<>Laundry&nbsp;room</>}
               icon={
                 <span className="material-symbols-rounded">
                   local_laundry_service
