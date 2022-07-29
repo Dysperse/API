@@ -13,6 +13,26 @@ export default function Document() {
       })(window,document,'script','dataLayer','GTM-PPH4TH4');`,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `  
+ window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "d3f38439-eed7-4926-bdbc-ec058788075b",
+      safari_web_id: "web.onesignal.auto.20f3ee95-6f21-4aad-a9bb-9c5899a4353a",
+      notifyButton: {
+        enable: true,
+      },
+    });
+  });
+  `,
+          }}
+        />
+        <script
+          src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+          async
+        ></script>
         <link rel="preconnect" href="https://i.ibb.co" />
         <link rel="preconnect" href="https://vitals.vercel-insights.com" />
         <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
