@@ -21,7 +21,7 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import useWindowDimensions from "../../components/useWindowDimensions";
+// import useWindowDimensions from "../../components/useWindowDimensions";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { DeleteButton } from "./DeleteButton";
@@ -69,7 +69,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
     setContextMenu(null);
   };
 
-  const { width }: any = useWindowDimensions();
+  // const { width }: any = useWindowDimensions();
 
   useEffect(() => {
     document.documentElement.classList[drawerState ? "add" : "remove"](
@@ -83,7 +83,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
       .setAttribute(
         "content",
         drawerState === true
-          ? width > 900
+          ? window.innerWidth > 900
             ? global.theme === "dark"
               ? "hsl(240, 11%, 5%)"
               : "#cccccc"
@@ -98,7 +98,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           ? "hsl(240, 11%, 20%)"
           : colors[global.themeColor]["100"]
       );
-  }, [drawerState, width, contextMenu]);
+  }, [drawerState, contextMenu]);
 
   return (
     <>

@@ -12,7 +12,7 @@ export default function Notifications() {
         px: 10,
       }}
     >
-      Coming soon!
+      <div className="onesignal-customlink-container"></div>
     </Box>
   );
 }
