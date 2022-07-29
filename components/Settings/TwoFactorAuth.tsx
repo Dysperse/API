@@ -55,8 +55,8 @@ export default function App() {
           </Typography>
 
           <Typography variant="h6" sx={{ mt: 4, fontWeight: "700" }}>
-            Step 2: Click the "+" button in the bottom right corner of your
-            screen, and scan the QR code below:
+            Step 2: Click the &ldquo;+&rdquo; button in the bottom right corner
+            of your screen, and scan the QR code below:
           </Typography>
           <div
             style={{

@@ -172,7 +172,7 @@ export function EditButton({
               )}
             />
             <Typography sx={{ mt: 2 }} variant="body2">
-              Hit "Enter" after each category
+              Hit &ldquo;Enter&rdquo; after each category
             </Typography>
 
             <Box
