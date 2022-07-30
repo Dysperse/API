@@ -108,6 +108,10 @@ export function InviteButton() {
                 color: "white",
                 mr: 1,
               }}
+              onClick={() => {
+                setOpen(false);
+                document.getElementById("accountSettings")!.click();
+              }}
             >
               <span className="material-symbols-rounded">edit</span>
             </IconButton>
