@@ -366,6 +366,8 @@ export function CreateItemModal({
                 sx={{
                   float: "right",
                   borderRadius: 100,
+                  m: 1,
+                  mr: 0,
                 }}
                 size="large"
                 variant="contained"
