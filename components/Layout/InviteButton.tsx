@@ -10,13 +10,16 @@ import { Puller } from "../Puller";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import IconButton from "@mui/material/IconButton";
 import useSWR from "swr";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
   const [isOwner, setIsOwner] = React.useState<boolean>(false);
   global.setIsOwner = setIsOwner;
   global.isOwner = isOwner;
-
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
