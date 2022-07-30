@@ -5,7 +5,7 @@ import * as colors from "@mui/material/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
 import DialogTitle from "@mui/material/DialogTitle";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -115,8 +115,8 @@ export function CreateItemModal({
               sm: "50vw",
             },
             maxWidth: "600px",
-            maxHeight: "calc(100vh - 25px)",
-            borderRadius: "30px 30px 0 0",
+            maxHeight: "100vh",
+            borderRadius: { sm: "30px 30px 0 0" },
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
@@ -127,24 +127,70 @@ export function CreateItemModal({
         onClose={handleClose}
         onOpen={() => setOpen(true)}
       >
-        <Puller />
-        <DialogTitle
+        <Box
           sx={{
-            mt: 2,
-            textAlign: "center",
-            fontWeight: "600",
-            textTransform: "capitalize",
+            display: {
+              xs: "none",
+              sm: "block",
+            },
           }}
         >
-          {alias ?? room}
-        </DialogTitle>
-        <DialogContent
-          sx={{
-            height: { xs: "100vh", sm: "auto" },
-            pb: { xs: 10, sm: 0 },
-          }}
-        >
-          <form onSubmit={formik.handleSubmit}>
+          <Puller />
+        </Box>
+        <form onSubmit={formik.handleSubmit}>
+          <DialogTitle
+            sx={{
+              display: "flex",
+              textAlign: "center",
+              fontWeight: "600",
+              alignItems: "center",
+              textTransform: "capitalize",
+            }}
+          >
+            <IconButton
+              size="large"
+              onClick={() => window.open("/scan")}
+              sx={{
+                mr: "auto",
+                opacity: { sm: "0" },
+                pointerEvents: { sm: "none" },
+                color: "#000",
+                transition: "none",
+                "&:active": {
+                  background: colors[themeColor][100] + "!important",
+                },
+              }}
+              disableRipple
+            >
+              <span className="material-symbols-rounded">close</span>
+            </IconButton>
+            <Typography variant="h6" sx={{ fontWeight: "600" }}>
+              {alias ?? room}
+            </Typography>
+            <IconButton
+              size="large"
+              onClick={() => window.open("/scan")}
+              sx={{
+                ml: "auto",
+                opacity: { sm: "0" },
+                pointerEvents: { sm: "none" },
+                color: "#000",
+                transition: "none",
+                "&:active": {
+                  background: colors[themeColor][100] + "!important",
+                },
+              }}
+              disableRipple
+            >
+              <span className="material-symbols-rounded">check</span>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent
+            sx={{
+              height: { xs: "100vh", sm: "auto" },
+              pb: { xs: 10, sm: 0 },
+            }}
+          >
             <TextField
               autoFocus
               margin="dense"
@@ -162,7 +208,8 @@ export function CreateItemModal({
               sx={{
                 width: "100%",
                 whiteSpace: "nowrap",
-                overflow: "scroll",
+                overflowX: "scroll",
+                overflowY: "visible",
                 my: 2,
               }}
             >
@@ -304,16 +351,19 @@ export function CreateItemModal({
                 position: { xs: "fixed", sm: "unset" },
                 bottom: 0,
                 left: 0,
+                p: 1,
                 width: "100%",
                 background: colors[themeColor][50],
                 zIndex: 99,
+                display: {
+                  xs: "none",
+                  sm: "unset",
+                },
               }}
             >
               <LoadingButton
                 disableElevation
                 sx={{
-                  ml: 1,
-                  mt: 2,
                   float: "right",
                   borderRadius: 100,
                 }}
@@ -327,8 +377,8 @@ export function CreateItemModal({
                 Create
               </LoadingButton>
             </DialogActions>
-          </form>
-        </DialogContent>
+          </DialogContent>
+        </form>
       </SwipeableDrawer>
     </div>
   );
