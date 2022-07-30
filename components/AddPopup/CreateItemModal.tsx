@@ -47,7 +47,20 @@ export function CreateItemModal({
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-
+  React.useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute(
+        "content",
+        open
+          ? global.theme === "dark"
+            ? "hsl(240, 11%, 5%)"
+            : colors[themeColor][50]
+          : global.theme === "dark"
+          ? "hsl(240, 11%, 10%)"
+          : "#fff"
+      );
+  }, [open]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   function setClickLoading() {
