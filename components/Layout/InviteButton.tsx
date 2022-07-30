@@ -70,7 +70,7 @@ export function InviteButton() {
             },
             maxWidth: "600px",
             maxHeight: "80vh",
-            minHeight: { xs: "80vh", sm: "auto" },
+            // minHeight: { xs: "80vh", sm: "auto" },
             borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
@@ -87,7 +87,7 @@ export function InviteButton() {
         {/* <Puller /> */}
         <Box
           sx={{
-            background: "#232323",
+            background: "linear-gradient(45deg, #232323,  #6B4B4B)",
             px: 3,
             height: "40vh",
             position: "relative",
@@ -129,7 +129,8 @@ export function InviteButton() {
               position: "absolute",
               left: 0,
               bottom: 0,
-              p: 3,
+              p: 5,
+              py: 4,
             }}
           >
             {global.session.user.SyncToken == false ||
@@ -150,7 +151,7 @@ export function InviteButton() {
             )}
           </Typography>
         </Box>
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 5 }}>
           <Typography variant="h5" sx={{ fontWeight: "700", my: 1 }}>
             Members
           </Typography>
