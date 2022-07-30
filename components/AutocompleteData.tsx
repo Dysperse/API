@@ -109,7 +109,6 @@ export const AutocompleteData = [
   "Toilet Cleaning Supplies",
   "Toilet Roll",
   "Sofa & Sofa Set",
-  "Couch",
   "Coffee Table",
   "Bookshelves",
   "TV",
@@ -143,5 +142,5 @@ export const AutocompleteData = [
   "Washing Machine",
   "Iron",
   "Ironing Board",
-  "Clothes Horse"
+  "Clothes Horse",
 ];

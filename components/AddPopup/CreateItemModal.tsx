@@ -5,6 +5,7 @@ import * as colors from "@mui/material/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 import DialogTitle from "@mui/material/DialogTitle";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -254,6 +255,62 @@ export function CreateItemModal({
                 </Box>
               ))}
             </Box>
+            <Autocomplete
+              id="categories"
+              multiple
+              freeSolo
+              disabled={loading}
+              options={AutocompleteData}
+              onChange={(e, newValue) =>
+                formik.setFieldValue(
+                  "categories",
+                  newValue.filter((e) => e !== "Kitchen")
+                )
+              }
+              value={["Kitchen", ...formik.values.categories]}
+              renderTags={(tagValue, getTagProps) =>
+                tagValue.map((option: any, index) => (
+                  <Chip
+                    label={option}
+                    {...getTagProps({ index })}
+                    disabled={option === "Kitchen"}
+                    sx={{
+                      opacity: "1!important",
+                      "&.Mui-disabled": {
+                        fontWeight: "700!important",
+                      },
+                      "&.Mui-disabled *:not(.MuiChip-label)": {
+                        display: "none!important",
+                      },
+                    }}
+                  />
+                ))
+              }
+              sx={{
+                "& *": {
+                  border: "0!important",
+                },
+                "& input": {
+                  background: "rgba(200,200,200,.4)",
+                  borderRadius: 4,
+                  px: "15px!important",
+                  fontSize: "15px!important",
+                },
+              }}
+              renderInput={(params) => (
+                <TextField
+                  margin="dense"
+                  placeholder="+ Add up to 5 tags"
+                  name="categories"
+                  variant="standard"
+                  sx={{
+                    outline: "none",
+                    border: "none!important",
+                  }}
+                  {...params}
+                />
+              )}
+            />
             <TextField
               margin="dense"
               label="Quantity"
@@ -264,27 +321,6 @@ export function CreateItemModal({
               disabled={loading}
               name="quantity"
               variant="filled"
-            />
-            <Autocomplete
-              id="categories"
-              multiple
-              freeSolo
-              disabled={loading}
-              options={AutocompleteData}
-              onChange={(e, newValue) =>
-                formik.setFieldValue("categories", newValue)
-              }
-              value={formik.values.categories}
-              renderInput={(params) => (
-                <TextField
-                  margin="dense"
-                  sx={{ width: "100%" }}
-                  label="Tags (optional)"
-                  name="categories"
-                  variant="filled"
-                  {...params}
-                />
-              )}
             />
             <DialogActions
               sx={{
