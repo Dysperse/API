@@ -69,8 +69,8 @@ export function InviteButton() {
               sm: "50vw",
             },
             maxWidth: "600px",
-            maxHeight: "100vh",
-            minHeight: { xs: "100vh", sm: "auto" },
+            maxHeight: "80vh",
+            minHeight: { xs: "80vh", sm: "auto" },
             borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
@@ -89,30 +89,47 @@ export function InviteButton() {
           sx={{
             background: "#232323",
             px: 3,
-            height: "60vh",
+            height: "40vh",
             position: "relative",
             color: "white",
             borderRadius: "30px 30px 0 0",
           }}
         >
-          <IconButton
+          <Box
             sx={{
               position: "absolute",
               top: 0,
               right: 0,
-              m: 1,
-              color: "white",
+              m: 2,
             }}
           >
-            <span className="material-symbols-rounded">close</span>
-          </IconButton>
+            <IconButton
+              sx={{
+                color: "white",
+                mr: 1,
+              }}
+            >
+              <span className="material-symbols-rounded">edit</span>
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setOpen(false);
+              }}
+              sx={{
+                color: "white",
+                mr: 0.2,
+              }}
+            >
+              <span className="material-symbols-rounded">close</span>
+            </IconButton>
+          </Box>
           <Typography
-            variant="h4"
+            variant="h3"
             sx={{
               position: "absolute",
               left: 0,
               bottom: 0,
-              p: 1,
+              p: 3,
             }}
           >
             {global.session.user.SyncToken == false ||
