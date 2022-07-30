@@ -169,39 +169,52 @@ export function CreateItemModal({
               {[
                 {
                   name: "Microwave",
+                  tags: ["Appliances"],
                   icon: "microwave_gen",
                 },
                 {
                   name: "Oven",
+                  tags: ["Appliances"],
                   icon: "oven_gen",
                 },
                 {
                   name: "Diswasher",
+                  tags: ["Appliances"],
                   icon: "dishwasher_gen",
                 },
                 {
                   name: "Fridge",
+                  tags: ["Appliances"],
                   icon: "kitchen",
                 },
                 {
                   name: "Kettle",
+                  tags: ["Object"],
                   icon: "kettle",
                 },
                 {
                   name: "Blender",
+                  tags: ["Appliances"],
                   icon: "blender",
                 },
                 {
                   name: "Sink",
+                  tags: ["Appliances"],
                   icon: "faucet",
                 },
                 {
                   name: "Range hood",
+                  tags: ["Appliances"],
                   icon: "range_hood",
                 },
               ].map((item, i) => (
                 <Box
                   key={i}
+                  onClick={() => {
+                    formik.setFieldValue("title", item.name);
+                    formik.setFieldValue("categories", item.tags);
+                    formik.setFieldValue("quantity", 1);
+                  }}
                   sx={{
                     userSelect: "none",
                     display: "inline-block",
@@ -262,51 +275,15 @@ export function CreateItemModal({
               disabled={loading}
               options={AutocompleteData}
               onChange={(e, newValue) =>
-                formik.setFieldValue(
-                  "categories",
-                  newValue.filter((e) => e !== "Kitchen")
-                )
+                formik.setFieldValue("categories", newValue)
               }
-              value={["Kitchen", ...formik.values.categories]}
-              renderTags={(tagValue, getTagProps) =>
-                tagValue.map((option: any, index) => (
-                  <Chip
-                    label={option}
-                    {...getTagProps({ index })}
-                    disabled={option === "Kitchen"}
-                    sx={{
-                      opacity: "1!important",
-                      "&.Mui-disabled": {
-                        fontWeight: "700!important",
-                      },
-                      "&.Mui-disabled *:not(.MuiChip-label)": {
-                        display: "none!important",
-                      },
-                    }}
-                  />
-                ))
-              }
-              sx={{
-                "& *": {
-                  border: "0!important",
-                },
-                "& input": {
-                  background: "rgba(200,200,200,.4)",
-                  borderRadius: 4,
-                  px: "15px!important",
-                  fontSize: "15px!important",
-                },
-              }}
+              value={formik.values.categories}
               renderInput={(params) => (
                 <TextField
                   margin="dense"
-                  placeholder="+ Add up to 5 tags"
+                  label="Tags"
                   name="categories"
-                  variant="standard"
-                  sx={{
-                    outline: "none",
-                    border: "none!important",
-                  }}
+                  variant="filled"
                   {...params}
                 />
               )}
