@@ -98,7 +98,7 @@ export function ListItems({
   if (isLoading)
     return (
       <Skeleton
-        height={200}
+        height={300}
         animation="wave"
         variant="rectangular"
         sx={{ borderRadius: "28px" }}
