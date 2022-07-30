@@ -115,7 +115,7 @@ export function CreateItemModal({
               sm: "50vw",
             },
             maxWidth: "600px",
-            maxHeight: "80vh",
+            maxHeight: "calc(100vh - 25px)",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
@@ -140,7 +140,7 @@ export function CreateItemModal({
         </DialogTitle>
         <DialogContent
           sx={{
-            height: { xs: "400px", sm: "auto" },
+            height: { xs: "100vh", sm: "auto" },
             pb: { xs: 10, sm: 0 },
           }}
         >
