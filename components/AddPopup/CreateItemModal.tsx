@@ -1,8 +1,10 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import Typography from "@mui/material/Typography";
 import DialogTitle from "@mui/material/DialogTitle";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -79,7 +81,7 @@ export function CreateItemModal({
         }
       )
         .then((res) => res.json())
-        .then((res) => {
+        .then(() => {
           toast("Created item!");
           setLoading(false);
           setOpen(false);
@@ -137,7 +139,7 @@ export function CreateItemModal({
         </DialogTitle>
         <DialogContent
           sx={{
-            height: { xs: "224px", sm: "auto" },
+            height: { xs: "400px", sm: "auto" },
             pb: { xs: 10, sm: 0 },
           }}
         >
@@ -155,6 +157,103 @@ export function CreateItemModal({
               id="nameInput"
               variant="filled"
             />
+            <Box
+              sx={{
+                width: "100%",
+                whiteSpace: "nowrap",
+                overflow: "scroll",
+                my: 2,
+              }}
+            >
+              {[
+                {
+                  name: "Microwave",
+                  icon: "microwave_gen",
+                },
+                {
+                  name: "Oven",
+                  icon: "oven_gen",
+                },
+                {
+                  name: "Diswasher",
+                  icon: "dishwasher_gen",
+                },
+                {
+                  name: "Fridge",
+                  icon: "kitchen",
+                },
+                {
+                  name: "Kettle",
+                  icon: "kettle",
+                },
+                {
+                  name: "Blender",
+                  icon: "blender",
+                },
+                {
+                  name: "Sink",
+                  icon: "faucet",
+                },
+                {
+                  name: "Range hood",
+                  icon: "range_hood",
+                },
+              ].map((item, i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    userSelect: "none",
+                    display: "inline-block",
+                    width: "175px",
+                    overflow: "hidden",
+                    height: "150px",
+                    background: "rgba(0,0,0,0.1)",
+                    transition: "transform .2s",
+                    "&:active": {
+                      transform: "scale(.95)",
+                      transition: "none",
+                      background: "rgba(0,0,0,0.15)",
+                    },
+                    cursor: "pointer",
+                    mr: 2,
+                    borderRadius: 6,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      height: "80px",
+                      background: "rgba(0,0,0,0.05)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <span
+                      style={{ fontSize: "30px" }}
+                      className="material-symbols-rounded"
+                    >
+                      {item.icon}
+                    </span>
+                  </Box>
+                  <Box
+                    sx={{
+                      height: "70px",
+                      display: "flex",
+                      alignItems: "center",
+                      px: 2,
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="body2">Add</Typography>
+                      <Typography sx={{ fontWeight: "700" }}>
+                        {item.name}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
             <TextField
               margin="dense"
               label="Quantity"
@@ -180,7 +279,7 @@ export function CreateItemModal({
                 <TextField
                   margin="dense"
                   sx={{ width: "100%" }}
-                  label="Categories (optional)"
+                  label="Tags (optional)"
                   name="categories"
                   variant="filled"
                   {...params}
