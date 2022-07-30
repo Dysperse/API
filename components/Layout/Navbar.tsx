@@ -66,6 +66,7 @@ function ElevationScroll(props: any) {
 export function Navbar(): JSX.Element {
   const [syncedHouseName, setSyncedHouseName] = React.useState<string>("false");
   global.setSyncedHouseName = setSyncedHouseName;
+  global.syncedHouseName = syncedHouseName;
 
   return (
     <ElevationScroll>

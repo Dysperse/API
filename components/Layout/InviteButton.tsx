@@ -8,6 +8,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { Invitations } from "../Invitations";
 import { Puller } from "../Puller";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import IconButton from "@mui/material/IconButton";
 import useSWR from "swr";
 
 export function InviteButton() {
@@ -68,8 +69,9 @@ export function InviteButton() {
               sm: "50vw",
             },
             maxWidth: "600px",
-            maxHeight: "80vh",
-            borderRadius: "30px 30px 0 0",
+            maxHeight: "100vh",
+            minHeight: { xs: "100vh", sm: "auto" },
+            borderRadius: { sm: "30px 30px 0 0" },
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
@@ -82,24 +84,44 @@ export function InviteButton() {
         }}
         onOpen={() => setOpen(true)}
       >
-        <Puller />
-        {global.session.user.SyncToken == false ||
-        !global.session.user.SyncToken ? (
-          global.session.user.houseName || "Smartlist"
-        ) : (
-          <>
-            {global.syncedHouseName === "false" ? (
-              <Skeleton
-                animation="wave"
-                width={200}
-                sx={{ maxWidth: "20vw" }}
-              />
+        {/* <Puller /> */}
+        <Box
+          sx={{
+            background: "#232323",
+            px: 3,
+            height: "500px",
+            color: "white",
+            borderRadius: { sm: "30px 30px 0 0" },
+          }}
+        >
+          <IconButton sx={{ float: "right", color: "white" }}>
+            <span className="material-symbols-rounded">close</span>
+          </IconButton>
+          <Typography variant="h4">
+            {global.session.user.SyncToken == false ||
+            !global.session.user.SyncToken ? (
+              global.session.user.houseName || "Smartlist"
             ) : (
-              <>{global.syncedHouseName}</>
+              <>
+                {global.syncedHouseName === "false" ? (
+                  <Skeleton
+                    animation="wave"
+                    width={200}
+                    sx={{ maxWidth: "20vw" }}
+                  />
+                ) : (
+                  <>{global.syncedHouseName}</>
+                )}
+              </>
             )}
-          </>
-        )}
-        {JSON.stringify(data)}
+          </Typography>
+        </Box>
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h5" sx={{ fontWeight: "700", my: 1 }}>
+            Members
+          </Typography>
+          {data && data.data.map((member, key) => <Box key={key}>{member.email}</Box>)}
+        </Box>
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
       {!global.session.user.SyncToken && global.ownerLoaded && !isOwner && (

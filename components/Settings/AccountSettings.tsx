@@ -130,7 +130,8 @@ export default function AppearanceSettings() {
                 fullWidth
                 variant="filled"
                 defaultValue={global.session && global.session.user.houseName}
-                label="What's your home's name?"
+                label="Home name / Family name / Address"
+                placeholder="1234 Rainbow Road"
                 onBlur={(e) => updateSettings("houseName", e.target.value)}
               />
             }
