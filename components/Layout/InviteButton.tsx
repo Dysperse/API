@@ -71,7 +71,7 @@ export function InviteButton() {
             maxWidth: "600px",
             maxHeight: "100vh",
             minHeight: { xs: "100vh", sm: "auto" },
-            borderRadius: { sm: "30px 30px 0 0" },
+            borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
@@ -89,15 +89,32 @@ export function InviteButton() {
           sx={{
             background: "#232323",
             px: 3,
-            height: "500px",
+            height: "60vh",
+            position: "relative",
             color: "white",
-            borderRadius: { sm: "30px 30px 0 0" },
+            borderRadius: "30px 30px 0 0",
           }}
         >
-          <IconButton sx={{ float: "right", color: "white" }}>
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              m: 1,
+              color: "white",
+            }}
+          >
             <span className="material-symbols-rounded">close</span>
           </IconButton>
-          <Typography variant="h4">
+          <Typography
+            variant="h4"
+            sx={{
+              position: "absolute",
+              left: 0,
+              bottom: 0,
+              p: 1,
+            }}
+          >
             {global.session.user.SyncToken == false ||
             !global.session.user.SyncToken ? (
               global.session.user.houseName || "Smartlist"
@@ -120,7 +137,8 @@ export function InviteButton() {
           <Typography variant="h5" sx={{ fontWeight: "700", my: 1 }}>
             Members
           </Typography>
-          {data && data.data.map((member, key) => <Box key={key}>{member.email}</Box>)}
+          {data &&
+            data.data.map((member, key) => <Box key={key}>{member.email}</Box>)}
         </Box>
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
