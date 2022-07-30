@@ -201,7 +201,7 @@ export function CreateItemModal({
           <DialogContent
             sx={{
               height: { xs: "100vh", sm: "auto" },
-              pb: { xs: 10, sm: 0 },
+              pb: { xs: 20, sm: 0 },
             }}
           >
             <TextField

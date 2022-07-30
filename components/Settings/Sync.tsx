@@ -174,7 +174,7 @@ function Leave() {
 
 const top100Emails: readonly EmailOptionType[] = [];
 
-export default function Developer() {
+export default function Sync() {
   const url =
     "/api/account/sync/member-list?" +
     new URLSearchParams({
