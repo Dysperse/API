@@ -162,7 +162,7 @@ export function CreateItemModal({
           >
             <IconButton
               size="large"
-              onClick={() => window.open("/scan")}
+              onClick={handleClose}
               sx={{
                 mr: "auto",
                 opacity: { sm: "0" },
@@ -182,7 +182,7 @@ export function CreateItemModal({
             </Typography>
             <IconButton
               size="large"
-              onClick={() => window.open("/scan")}
+              onClick={() => document.getElementById("submitItem")!.click()}
               sx={{
                 ml: "auto",
                 opacity: { sm: "0" },
@@ -386,6 +386,7 @@ export function CreateItemModal({
                 variant="contained"
                 color="primary"
                 type="submit"
+                id="submitItem"
                 loading={loading}
                 onClick={() => setTimeout(setClickLoading, 10)}
               >
