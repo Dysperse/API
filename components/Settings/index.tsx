@@ -22,7 +22,6 @@ import { Puller } from "../Puller";
 import AccountSettings from "./AccountSettings";
 import App from "./App";
 import AppearanceSettings from "./AppearanceSettings";
-import Developer from "./Developer";
 import FinanceSettings from "./FinanceSettings";
 import Notifications from "./Notifications";
 import Sync from "./Sync";
@@ -103,7 +102,7 @@ function Logout() {
           <Avatar
             sx={{
               color: "#000",
-              background: colors[themeColor][100],
+              background: colors[themeColor][200],
               borderRadius: 4,
             }}
           >
@@ -127,20 +126,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
     );
     document
       .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute(
-        "content",
-        open
-          ? window.innerWidth > 900
-            ? "rgb(64, 64, 64)"
-            : global.theme === "dark"
-            ? "hsl(240, 11%, 35%)"
-            : colors[themeColor][100]
-          : window.innerWidth > 900
-          ? "#cccccc"
-          : global.theme === "dark"
-          ? "hsl(240, 11%, 25%)"
-          : colors[themeColor][100]
-      );
+      .setAttribute("content", open ? "#9c9d9c" : "#b8b9b8");
   });
 
   return (
@@ -269,12 +255,10 @@ export default function FullScreenDialog({ children }: any) {
       .setAttribute(
         "content",
         open
-          ? window.innerWidth < 992
-            ? global.theme === "dark"
-              ? "hsl(240, 11%, 20%)"
-              : "rgb(230,230,230)"
-            : colors[themeColor][50]
-          : "hsl(240, 11%, 10%)"
+          ? global.theme === "dark"
+            ? "hsl(240, 11%, 20%)"
+            : "#b8b9b8"
+          : "#fff"
       );
   });
   useHotkeys("ctrl+,", (e) => {
@@ -414,12 +398,6 @@ export default function FullScreenDialog({ children }: any) {
               }
             />
             <SettingsMenu
-              content={<App />}
-              icon="apps"
-              primary="Third-party apps"
-              secondary={<>4 apps connected</>}
-            />
-            <SettingsMenu
               content={<Notifications />}
               icon="notifications"
               primary="Notifications"
@@ -429,12 +407,6 @@ export default function FullScreenDialog({ children }: any) {
                   {global.session.user.notificationMin} or less
                 </>
               }
-            />
-            <SettingsMenu
-              content={<Developer />}
-              icon="code"
-              primary="Developer"
-              secondary={"API"}
             />
             <SettingsMenu
               content={<App />}
@@ -468,7 +440,7 @@ export default function FullScreenDialog({ children }: any) {
                 <Avatar
                   sx={{
                     color: "#000",
-                    background: colors[themeColor][100],
+                    background: colors[themeColor][200],
                     borderRadius: 4,
                   }}
                 >
