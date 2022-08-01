@@ -47,7 +47,7 @@ export function RoomList() {
                     borderRadius: 4,
                   }}
                 >
-                  Remove
+                  Delete
                 </Button>
               </>
             ),
@@ -62,10 +62,6 @@ export function RoomList() {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleStepChange = (step: number) => {
