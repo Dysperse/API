@@ -131,9 +131,9 @@ export function MemberList() {
         "& *": {
           overscrollBehavior: "auto!important",
         },
-        "& [data-swipeable]": {
-          width: "250px !important",
-        },
+        // "& [data-swipeable]": {
+        //   width: "250px !important",
+        // },
       }}
     >
       <SwipeableViews

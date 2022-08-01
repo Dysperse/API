@@ -10,7 +10,7 @@ import useSWR from "swr";
 
 export function RoomList() {
   const url =
-    "/api/account/sync/member-list?" +
+    "/api/rooms?" +
     new URLSearchParams({
       token:
         global.session &&
@@ -24,85 +24,35 @@ export function RoomList() {
 
   const images = data
     ? [
-        {
-          content: (
-            <>
-              <Typography
-                sx={{
-                  fontWeight: "600",
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {global.session.user.name}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {global.session.user.email}
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  border: "2px solid transparent !important",
-                  boxShadow: 0,
-                  borderRadius: 4,
-                  width: "100%",
-                  mt: 1.5,
-                }}
-              >
-                Account&nbsp;settings
-              </Button>
-            </>
-          ),
-        },
-        ...data.data
-          .filter((e: any) => e.email !== global.session.user.email)
-          .map((member) => {
-            return {
-              content: (
-                <>
-                  <Typography
-                    sx={{
-                      fontWeight: "600",
-                      maxWidth: "100%",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {member.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      maxWidth: "100%",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {member.email}
-                  </Typography>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      borderWidth: "2px!important",
-                      width: "100%",
-                      mt: 1.5,
-                      borderRadius: 4,
-                    }}
-                  >
-                    Remove
-                  </Button>
-                </>
-              ),
-            };
-          }),
+        ...data.data.map((room) => {
+          return {
+            content: (
+              <>
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {room.name}
+                </Typography>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    borderWidth: "2px!important",
+                    width: "100%",
+                    mt: 1.5,
+                    borderRadius: 4,
+                  }}
+                >
+                  Remove
+                </Button>
+              </>
+            ),
+          };
+        }),
       ]
     : [];
 
@@ -131,9 +81,9 @@ export function RoomList() {
         "& *": {
           overscrollBehavior: "auto!important",
         },
-        "& [data-swipeable]": {
-          width: "250px !important",
-        },
+        // "& [data-swipeable]": {
+        //   width: "90% !important",
+        // },
       }}
     >
       <SwipeableViews
