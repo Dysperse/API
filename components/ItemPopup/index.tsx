@@ -21,7 +21,6 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-// import useWindowDimensions from "../../components/useWindowDimensions";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { DeleteButton } from "./DeleteButton";
@@ -68,8 +67,6 @@ export default function Item({ displayRoom = false, data, variant }: any) {
   const handleClose = () => {
     setContextMenu(null);
   };
-
-  // const { width }: any = useWindowDimensions();
 
   useEffect(() => {
     document.documentElement.classList[drawerState ? "add" : "remove"](
