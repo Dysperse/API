@@ -224,6 +224,10 @@ export function CreateItemModal({
               sx={{
                 width: "100%",
                 whiteSpace: "nowrap",
+                "& *": {
+                  overscrollBehavior: "auto!important",
+                },
+                overscrollBehavior: "auto!important",
                 overflowX: "scroll",
                 overflowY: "visible",
                 my: 2,

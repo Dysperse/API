@@ -8,7 +8,7 @@ import * as React from "react";
 import SwipeableViews from "react-swipeable-views";
 import useSWR from "swr";
 
-export function MemberList() {
+export function RoomList() {
   const url =
     "/api/account/sync/member-list?" +
     new URLSearchParams({

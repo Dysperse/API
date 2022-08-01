@@ -1,60 +1,16 @@
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import * as colors from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import Popover from "@mui/material/Popover";
+import Skeleton from "@mui/material/Skeleton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
-import Popover from "@mui/material/Popover";
-import Chip from "@mui/material/Chip";
-import IconButton from "@mui/material/IconButton";
-import Skeleton from "@mui/material/Skeleton";
-import { Invitations } from "../Invitations";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { MemberList } from "../HouseProfile/MemberList";
-
-function Rooms() {
-  const url =
-    "/api/rooms?" +
-    new URLSearchParams({
-      token:
-        global.session &&
-        (global.session.user.SyncToken || global.session.accessToken),
-    });
-
-  const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
-  );
-
-  return (
-    <Box
-      sx={{
-        whiteSpace: "nowrap",
-        overflowX: "scroll",
-      }}
-    >
-      {data
-        ? data.data.map((room, key: number) => (
-            <Box
-              key={key.toString()}
-              sx={{
-                display: "inline-block",
-                width: "300px",
-                mr: 2,
-                mt: 1,
-                p: 2,
-                borderRadius: 3,
-                background: "rgba(200,200,200,.3)",
-              }}
-            >
-              <Typography sx={{ fontWeight: "600" }}>{room.name}</Typography>
-            </Box>
-          ))
-        : "Loading..."}
-    </Box>
-  );
-}
+import { RoomList } from "../HouseProfile/RoomList";
+import { Invitations } from "../Invitations";
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
@@ -208,7 +164,7 @@ export function InviteButton() {
           <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
             Rooms
           </Typography>
-          <Rooms />
+          <RoomList />
         </Box>
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
