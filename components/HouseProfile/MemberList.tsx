@@ -143,7 +143,7 @@ export function MemberList() {
         enableMouseEvents
       >
         {images.map((step, index) => (
-          <Box sx={{ p: 1 }}>
+          <Box key={index.toString()} sx={{ p: 1 }}>
             <Box
               sx={{
                 p: 2,
@@ -152,7 +152,6 @@ export function MemberList() {
                 borderRadius: 5,
                 background: "rgba(200,200,200,.3)",
               }}
-              key={index.toString()}
             >
               {step.content}
             </Box>
