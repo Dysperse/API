@@ -250,12 +250,12 @@ export function AppsMenu() {
         {global.session ? (
           <IconButton
             color="inherit"
-            edge="end"
             disableRipple
             size="large"
             sx={{
               transition: "none",
-              mr: 1,
+              mr: 0.2,
+              ml: 1,
               color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
               "&:hover": {
                 background: "rgba(200,200,200,.3)",

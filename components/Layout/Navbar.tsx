@@ -11,7 +11,6 @@ import hexToRgba from "hex-to-rgba";
 import React, { useEffect } from "react";
 import { AppsMenu } from "./AppsMenu";
 import { NotificationsMenu } from "./Notifications";
-import { ProfileMenu } from "./Profile";
 import { SearchPopup } from "./SearchPopup";
 import { InviteButton } from "./InviteButton";
 
@@ -100,18 +99,53 @@ export function Navbar(): JSX.Element {
             )}
             <InviteButton />
           </Typography>
-
+          <SearchPopup
+            content={
+              <Tooltip title="Jump to">
+                <IconButton
+                  color="inherit"
+                  id="searchTrigger1"
+                  disableRipple
+                  size="large"
+                  sx={{
+                    mr: 1,
+                    transition: "none",
+                    color:
+                      global.theme === "dark"
+                        ? "hsl(240, 11%, 90%)"
+                        : "#606060",
+                    "&:hover": {
+                      background: "rgba(200,200,200,.3)",
+                      color:
+                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                    },
+                    "&:focus-within": {
+                      background:
+                        (global.theme === "dark"
+                          ? colors[themeColor]["900"]
+                          : colors[themeColor]["50"]) + "!important",
+                      color:
+                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                    },
+                  }}
+                >
+                  <span className="material-symbols-rounded">
+                    electric_bolt
+                  </span>
+                </IconButton>
+              </Tooltip>
+            }
+          />
           <NotificationsMenu>
             <Tooltip title="Notifications">
               {global.session ? (
                 <IconButton
                   color="inherit"
                   disableRipple
-                  edge="end"
                   size="large"
                   sx={{
                     transition: "none",
-                    mr: 1,
+                    mr: 0.2,
                     color:
                       global.theme === "dark"
                         ? "hsl(240, 11%, 90%)"
@@ -144,48 +178,9 @@ export function Navbar(): JSX.Element {
               )}
             </Tooltip>
           </NotificationsMenu>
-          <SearchPopup
-            content={
-              <Tooltip title="Jump to">
-                <IconButton
-                  color="inherit"
-                  id="searchTrigger1"
-                  disableRipple
-                  edge="end"
-                  size="large"
-                  sx={{
-                    transition: "none",
-                    mr: 1,
-                    color:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 90%)"
-                        : "#606060",
-                    "&:hover": {
-                      background: "rgba(200,200,200,.3)",
-                      color:
-                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-                    },
-                    "&:focus-within": {
-                      background:
-                        (global.theme === "dark"
-                          ? colors[themeColor]["900"]
-                          : colors[themeColor]["50"]) + "!important",
-                      color:
-                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-                    },
-                  }}
-                >
-                  <span className="material-symbols-rounded">
-                    electric_bolt
-                  </span>
-                </IconButton>
-              </Tooltip>
-            }
-          />
           <Box sx={{ display: { sm: "block", xs: "none" } }}>
             <AppsMenu />
           </Box>
-          <ProfileMenu />
         </Toolbar>
       </AppBar>
     </ElevationScroll>

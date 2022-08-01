@@ -153,6 +153,7 @@ export function InviteButton() {
         <Box
           sx={{
             p: 2.5,
+            px: { sm: 4 },
             maxHeight: { xs: "50vh", sm: "50vh" },
             overflow: "scroll",
           }}

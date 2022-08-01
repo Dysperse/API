@@ -6,6 +6,7 @@ import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import SwipeableViews from "react-swipeable-views";
+import { ProfileMenu } from "../Layout/Profile";
 import useSWR from "swr";
 
 export function MemberList() {
@@ -47,18 +48,20 @@ export function MemberList() {
               >
                 {global.session.user.email}
               </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  border: "2px solid transparent !important",
-                  boxShadow: 0,
-                  borderRadius: 4,
-                  width: "100%",
-                  mt: 1.5,
-                }}
-              >
-                Account&nbsp;settings
-              </Button>
+              <ProfileMenu>
+                <Button
+                  variant="contained"
+                  sx={{
+                    border: "2px solid transparent !important",
+                    boxShadow: 0,
+                    borderRadius: 4,
+                    width: "100%",
+                    mt: 1.5,
+                  }}
+                >
+                  Account&nbsp;settings
+                </Button>
+              </ProfileMenu>
             </>
           ),
         },

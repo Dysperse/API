@@ -1,11 +1,10 @@
-import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
 import * as colors from "@mui/material/colors";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import Chip from "@mui/material/Chip";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Divider from "@mui/material/Divider";
@@ -15,21 +14,19 @@ import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { Puller } from "../Puller";
 import AccountSettings from "./AccountSettings";
 import App from "./App";
 import AppearanceSettings from "./AppearanceSettings";
 import Developer from "./Developer";
 import FinanceSettings from "./FinanceSettings";
-import TwoFactorAuth from "./TwoFactorAuth";
 import Notifications from "./Notifications";
-import Rooms from "./Rooms";
 import Sync from "./Sync";
+import TwoFactorAuth from "./TwoFactorAuth";
 
 function Logout() {
   const [open, setOpen] = useState<boolean>(false);
@@ -190,64 +187,53 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         ModalProps={{
           keepMounted: true,
         }}
-        anchor="right"
+        anchor="bottom"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         PaperProps={{
           elevation: 0,
-
           sx: {
-            background: colors[themeColor][100],
+            background: colors[themeColor][50],
+            width: {
+              sm: "50vw",
+            },
+            maxWidth: "650px",
+            overflow: "scroll",
+            maxHeight: "95vh",
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
             ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 20%)",
+              background: "hsl(240, 11%, 25%)",
             }),
           },
         }}
       >
-        <Box
-          sx={{
-            width: {
-              xs: "100vw",
-              sm: "60vw",
-            },
-            maxWidth: "100vw",
-            height: "100vh",
-            overflow: "scroll",
-          }}
-        >
-          <AppBar
+        <Puller />
+        <Box sx={{ maxHeight: "95vh", overflow: "scroll", pb: 10 }}>
+          <Box sx={{ position: "absolute", top: 0, left: 0, p: 3 }}>
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={() => setOpen(false)}
+              aria-label="close"
+              sx={{ ml: -0.5, background: colors[themeColor][50], zIndex: 1 }}
+            >
+              <span className="material-symbols-rounded">close</span>{" "}
+            </IconButton>
+          </Box>
+          <Typography
             sx={{
-              boxShadow: 0,
-              position: "sticky",
-
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 25%)"
-                  : colors[themeColor][100],
-              backdropFilter: "blur(10px)",
-              py: 1,
-              color: global.theme === "dark" ? "#fff" : "#000",
+              ml: 4,
+              flex: 1,
+              fontWeight: "400",
+              textAlign: "center",
+              my: 10,
             }}
+            variant="h3"
+            component="div"
           >
-            <Toolbar>
-              <IconButton
-                edge="end"
-                color="inherit"
-                onClick={() => setOpen(false)}
-                aria-label="close"
-                sx={{ ml: -0.5 }}
-              >
-                <span className="material-symbols-rounded">chevron_left</span>{" "}
-              </IconButton>
-              <Typography
-                sx={{ ml: 4, flex: 1, fontWeight: "600" }}
-                variant="h6"
-                component="div"
-              >
-                {primary}
-              </Typography>
-            </Toolbar>
-          </AppBar>
+            {primary}
+          </Typography>
           {content}
         </Box>
       </SwipeableDrawer>
@@ -296,7 +282,7 @@ export default function FullScreenDialog({ children }: any) {
       </div>
 
       <SwipeableDrawer
-        anchor="right"
+        anchor="bottom"
         swipeAreaWidth={0}
         onOpen={handleClickOpen}
         PaperProps={{
@@ -306,7 +292,8 @@ export default function FullScreenDialog({ children }: any) {
             width: {
               sm: "50vw",
             },
-            maxWidth: "600px",
+            maxWidth: "650px",
+            maxHeight: "95vh",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
@@ -321,46 +308,36 @@ export default function FullScreenDialog({ children }: any) {
         onClose={handleClose}
       >
         <Box sx={{ height: "100vh", overflow: "scroll" }}>
-          <AppBar
-            sx={{
-              boxShadow: 0,
-              position: "sticky",
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 20%)"
-                  : colors[themeColor][50],
-              backdropFilter: "blur(10px)",
-              py: 1,
-              color: global.theme === "dark" ? "#fff" : "#000",
-            }}
-          >
-            <Toolbar>
-              <Tooltip title="Back">
-                <IconButton
-                  edge="end"
-                  color="inherit"
-                  onClick={handleClose}
-                  aria-label="close"
-                  sx={{ ml: -0.5 }}
-                >
-                  <span className="material-symbols-rounded">chevron_left</span>{" "}
-                </IconButton>
-              </Tooltip>
-              <Typography
-                sx={{ ml: 4, flex: 1, fontWeight: "600" }}
-                variant="h6"
-                component="div"
-              >
-                Settings
-              </Typography>
-            </Toolbar>
-          </AppBar>
+          <Puller />
+          <Box sx={{ position: "absolute", top: 0, left: 0, p: 3 }}>
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={() => setOpen(false)}
+              aria-label="close"
+              sx={{ ml: -0.5, background: colors[themeColor][50], zIndex: 1 }}
+            >
+              <span className="material-symbols-rounded">close</span>{" "}
+            </IconButton>
+          </Box>
           <Typography
-            sx={{ ml: 4, flex: 1, fontWeight: "400", my: 5 }}
+            sx={{
+              textAlign: "center",
+              flex: 1,
+              fontWeight: "400",
+              mb: 2,
+              mt: 10,
+            }}
             variant="h3"
             component="div"
           >
-            Settings
+            Account
+          </Typography>
+          <Typography
+            sx={{ textAlign: "center", flex: 1, fontWeight: "400", mb: 10 }}
+            component="div"
+          >
+            {global.session.user.email}
           </Typography>
 
           <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
@@ -459,14 +436,6 @@ export default function FullScreenDialog({ children }: any) {
               primary="App"
               secondary={"Coming soon"}
             />
-            {global.session.user.studentMode === false && (
-              <SettingsMenu
-                content={<Rooms />}
-                icon="pin_drop"
-                primary={<span id="roomsTrigger">Rooms</span>}
-                secondary={"10 rooms"}
-              />
-            )}
             <SettingsMenu
               content={<Sync />}
               icon="sync"

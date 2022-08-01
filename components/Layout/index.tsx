@@ -13,7 +13,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { encode } from "js-base64";
 import Link from "next/link";
 import router from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import useSWR from "swr";
 import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
