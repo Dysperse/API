@@ -13,6 +13,10 @@ import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Invitations } from "../Invitations";
 import { updateSettings } from "../Settings/updateSettings";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
@@ -26,6 +30,12 @@ export function InviteButton() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
+
+  const [age, setAge] = React.useState("");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setAge(event.target.value as string);
+  };
 
   let handleClick = (event: React.MouseEvent<any>) => {
     setAnchorEl(event.currentTarget);
@@ -134,6 +144,66 @@ export function InviteButton() {
                 py: 4,
               }}
             >
+              <FormControl fullWidth sx={{ mb: 4 }}>
+                <Select
+                  variant="standard"
+                  sx={{ color: "#fff", width: "200px" }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={age}
+                  label="House type"
+                  onChange={handleChange}
+                >
+                  <MenuItem
+                    value={10}
+                    sx={{ display: "flex", alignItems: "center" }}
+                  >
+                    <span
+                      className="material-symbols-rounded"
+                      style={{
+                        verticalAlign: "middle",
+                        marginTop: "-3px",
+                        marginRight: "10px",
+                      }}
+                    >
+                      cottage
+                    </span>
+                    Dorm
+                  </MenuItem>
+                  <MenuItem
+                    value={20}
+                    sx={{ display: "flex", alignItems: "center" }}
+                  >
+                    <span
+                      className="material-symbols-rounded"
+                      style={{
+                        verticalAlign: "middle",
+                        marginTop: "-3px",
+                        marginRight: "10px",
+                      }}
+                    >
+                      location_city
+                    </span>
+                    Apartment
+                  </MenuItem>
+                  <MenuItem
+                    value={30}
+                    sx={{ display: "flex", alignItems: "center" }}
+                  >
+                    <span
+                      className="material-symbols-rounded"
+                      style={{
+                        verticalAlign: "middle",
+                        marginTop: "-3px",
+                        marginRight: "10px",
+                      }}
+                    >
+                      home
+                    </span>
+                    Home
+                  </MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 fullWidth
                 variant="standard"
