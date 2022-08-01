@@ -31,10 +31,10 @@ export function InviteButton() {
     null
   );
 
-  const [age, setAge] = React.useState("");
+  const [houseType, setHouseType] = React.useState("apartment");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    setHouseType(event.target.value as string);
   };
 
   let handleClick = (event: React.MouseEvent<any>) => {
@@ -150,12 +150,12 @@ export function InviteButton() {
                   sx={{ color: "#fff", width: "200px" }}
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={age}
+                  value={houseType}
                   label="House type"
                   onChange={handleChange}
                 >
                   <MenuItem
-                    value={10}
+                    value={"dorm"}
                     sx={{ display: "flex", alignItems: "center" }}
                   >
                     <span
@@ -171,7 +171,7 @@ export function InviteButton() {
                     Dorm
                   </MenuItem>
                   <MenuItem
-                    value={20}
+                    value={"apartment"}
                     sx={{ display: "flex", alignItems: "center" }}
                   >
                     <span
@@ -187,7 +187,7 @@ export function InviteButton() {
                     Apartment
                   </MenuItem>
                   <MenuItem
-                    value={30}
+                    value={"home"}
                     sx={{ display: "flex", alignItems: "center" }}
                   >
                     <span
