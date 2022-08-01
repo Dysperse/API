@@ -4,13 +4,57 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import Popover from "@mui/material/Popover";
 import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
 import Skeleton from "@mui/material/Skeleton";
 import { Invitations } from "../Invitations";
-import { Puller } from "../Puller";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import IconButton from "@mui/material/IconButton";
 import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { MemberList } from "../HouseProfile/MemberList";
+
+function Rooms() {
+  const url =
+    "/api/rooms?" +
+    new URLSearchParams({
+      token:
+        global.session &&
+        (global.session.user.SyncToken || global.session.accessToken),
+    });
+
+  const { data, error } = useSWR(url, () =>
+    fetch(url, {
+      method: "POST",
+    }).then((res) => res.json())
+  );
+
+  return (
+    <Box
+      sx={{
+        whiteSpace: "nowrap",
+        overflowX: "scroll",
+      }}
+    >
+      {data
+        ? data.data.map((room, key: number) => (
+            <Box
+              key={key.toString()}
+              sx={{
+                display: "inline-block",
+                width: "300px",
+                mr: 2,
+                mt: 1,
+                p: 2,
+                borderRadius: 3,
+                background: "rgba(200,200,200,.3)",
+              }}
+            >
+              <Typography sx={{ fontWeight: "600" }}>{room.name}</Typography>
+            </Box>
+          ))
+        : "Loading..."}
+    </Box>
+  );
+}
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
@@ -42,18 +86,11 @@ export function InviteButton() {
     return () => clearTimeout(timer);
   }, []);
 
-  const url =
-    "/api/account/sync/member-list?" +
-    new URLSearchParams({
-      token:
-        global.session &&
-        (global.session.user.SyncToken || global.session.accessToken),
-    });
-  const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
-  );
+  useEffect(() => {
+    document.documentElement.classList[open ? "add" : "remove"](
+      "prevent-scroll"
+    );
+  }, [open]);
 
   return (
     <>
@@ -72,8 +109,6 @@ export function InviteButton() {
               sm: "50vw",
             },
             maxWidth: "600px",
-            maxHeight: "80vh",
-            // minHeight: { xs: "80vh", sm: "auto" },
             borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
@@ -87,7 +122,6 @@ export function InviteButton() {
         }}
         onOpen={() => setOpen(true)}
       >
-        {/* <Puller /> */}
         <Box
           sx={{
             background: "linear-gradient(45deg, #232323,  #6B4B4B)",
@@ -107,6 +141,7 @@ export function InviteButton() {
             }}
           >
             <IconButton
+              disableRipple
               sx={{
                 color: "white",
                 mr: 1,
@@ -119,6 +154,7 @@ export function InviteButton() {
               <span className="material-symbols-rounded">edit</span>
             </IconButton>
             <IconButton
+              disableRipple
               onClick={() => {
                 setOpen(false);
               }}
@@ -158,12 +194,21 @@ export function InviteButton() {
             )}
           </Typography>
         </Box>
-        <Box sx={{ p: 5 }}>
-          <Typography variant="h5" sx={{ fontWeight: "700", my: 1 }}>
+        <Box
+          sx={{
+            p: 2.5,
+            maxHeight: { xs: "50vh", sm: "50vh" },
+            overflow: "scroll",
+          }}
+        >
+          <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
             Members
           </Typography>
-          {data &&
-            data.data.map((member, key) => <Box key={key}>{member.email}</Box>)}
+          <MemberList />
+          <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
+            Rooms
+          </Typography>
+          <Rooms />
         </Box>
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>

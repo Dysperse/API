@@ -1,20 +1,27 @@
 import executeQuery from "../../../../lib/db";
 import { ExchangeToken } from "../../../../lib/exchange-token";
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   try {
     const userId = await ExchangeToken(req.query.token);
 
+    const users = await executeQuery({
+      query: "SELECT * FROM Accounts WHERE email = ?",
+      values: [req.query.email ?? "false"],
+    });
+
     const result = await executeQuery({
       query:
-        "INSERT INTO SyncTokens (token, email, login, houseName, accepted) VALUES (?, ?, ?, ?, 'false')",
+        "INSERT INTO SyncTokens (token, email, login, houseName, accepted, name) VALUES (?, ?, ?, ?, 'false', ?)",
       values: [
         req.query.token ?? "false",
         req.query.email ?? "false",
         userId[0].user ?? false,
         req.query.houseName ?? "false",
+        users[0].name ?? "Unknown user",
       ],
     });
+
     res.json({
       data: result,
     });

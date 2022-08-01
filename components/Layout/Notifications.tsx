@@ -94,6 +94,9 @@ function NotificationsList() {
 export function NotificationsMenu(props: any): JSX.Element {
   const [state, setState] = React.useState<boolean>(false);
   React.useEffect(() => {
+    document.documentElement.classList[state ? "add" : "remove"](
+      "prevent-scroll"
+    );
     state ? neutralizeBack(() => setState(false)) : revivalBack();
   });
   return (
