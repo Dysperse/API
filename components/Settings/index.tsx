@@ -223,16 +223,22 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
           </Box>
           <Typography
             sx={{
-              ml: 4,
+              textAlign: "center",
               flex: 1,
               fontWeight: "400",
-              textAlign: "center",
-              my: 10,
+              mb: 2,
+              mt: 15,
             }}
             variant="h3"
             component="div"
           >
             {primary}
+          </Typography>
+          <Typography
+            sx={{ textAlign: "center", flex: 1, fontWeight: "400", mb: 10 }}
+            component="div"
+          >
+            Account settings
           </Typography>
           {content}
         </Box>
@@ -326,7 +332,7 @@ export default function FullScreenDialog({ children }: any) {
               flex: 1,
               fontWeight: "400",
               mb: 2,
-              mt: 10,
+              mt: 15,
             }}
             variant="h3"
             component="div"
