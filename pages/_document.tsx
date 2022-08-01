@@ -18,7 +18,7 @@ export default function Document() {
           src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
           async
         ></script>
-        <Script strategy="afterInteractive">
+        <Script id="onesignal-script" strategy="afterInteractive">
           {`
            window.OneSignal = window.OneSignal || [];
            OneSignal.push(function() {
