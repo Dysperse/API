@@ -36,8 +36,12 @@ export function OfflineBox() {
           pointerEvents: "none",
         }}
       >
-        <img src={src} alt="logo" width="100" height="100" />
-        <img src={text} alt="logo" width="100" height="100" />
+        <picture>
+          <img src={src} alt="logo" width="100" height="100" />
+        </picture>
+        <picture>
+          <img src={text} alt="logo" width="100" height="100" />
+        </picture>
       </Box>
       <Box
         sx={{
