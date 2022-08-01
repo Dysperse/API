@@ -26,9 +26,6 @@ export default function AppearanceSettings() {
           },
         }}
       >
-        <ListSubheader sx={{ background: "transparent" }}>
-          Account
-        </ListSubheader>
         <ListItem>
           <ListItemText
             primary={
@@ -47,6 +44,7 @@ export default function AppearanceSettings() {
             primary={
               <TextField
                 fullWidth
+                disabled
                 variant="filled"
                 defaultValue={global.session && global.session.user.email}
                 label="Email"
@@ -69,95 +67,32 @@ export default function AppearanceSettings() {
           />
         </ListItem>
         <ListSubheader sx={{ background: "transparent" }}>
-          What are you using Smartlist for?
+          What kind of home do you live in?
         </ListSubheader>
-        {[
-          {
-            s: "personal",
-            n: "Personal",
-          },
-          {
-            s: "business",
-            n: "Business",
-          },
-        ].map((plan: any, id: number) => (
+        {["Dorm", "Home", "Apartment"].map((plan: any, id: number) => (
           <ListItem
             key={id.toString()}
             onClick={() => {
-              setMode(plan.s);
-              updateSettings("purpose", plan.s);
+              setMode(plan.toLowerCase());
+              updateSettings("purpose", plan.toLowerCase());
             }}
             secondaryAction={
               <Radio
                 edge="end"
                 onChange={() => {
-                  setMode(plan.s);
-                  updateSettings("purpose", plan.s);
+                  setMode(plan.toLowerCase());
+                  updateSettings("purpose", plan.toLowerCase());
                 }}
-                checked={mode === plan.s}
+                checked={mode === plan.toLowerCase()}
               />
             }
             disablePadding
           >
             <ListItemButton sx={{ borderRadius: 4, transition: "none" }}>
-              <ListItemText primary={plan.n} />
+              <ListItemText primary={plan} />
             </ListItemButton>
           </ListItem>
         ))}
-        <ListSubheader sx={{ background: "transparent" }}>
-          Student mode
-        </ListSubheader>
-        <ListItem
-          onClick={() => {
-            setStudentMode(!studentMode);
-            updateSettings("studentMode", studentMode ? "true" : "false");
-          }}
-          secondaryAction={<Switch edge="end" checked={studentMode} />}
-          disablePadding
-        >
-          <ListItemButton sx={{ borderRadius: 4, transition: "none" }}>
-            <ListItemText primary="Student mode" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListSubheader sx={{ background: "transparent" }}>
-          Home profile
-        </ListSubheader>
-        <ListItem>
-          <ListItemText
-            primary={
-              <TextField
-                fullWidth
-                variant="filled"
-                defaultValue={global.session && global.session.user.houseName}
-                label="Home name / Family name / Address"
-                placeholder="1234 Rainbow Road"
-                onBlur={(e) => updateSettings("houseName", e.target.value)}
-              />
-            }
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary="How many people do you live with?"
-            secondary={
-              <Slider
-                aria-label="How many people do you live with?"
-                defaultValue={
-                  global.session && parseInt(global.session.user.familyCount)
-                }
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={1}
-                max={15}
-                onChangeCommitted={(_, newValue) =>
-                  updateSettings("familyCount", newValue.toString())
-                }
-              />
-            }
-          />
-        </ListItem>
       </Box>
     </>
   );

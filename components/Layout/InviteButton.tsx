@@ -5,15 +5,18 @@ import IconButton from "@mui/material/IconButton";
 import Popover from "@mui/material/Popover";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Invitations } from "../Invitations";
+import { updateSettings } from "../Settings/updateSettings";
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
+  const [editMode, setEditMode] = React.useState(false);
   const [isOwner, setIsOwner] = React.useState<boolean>(false);
   global.setIsOwner = setIsOwner;
   global.isOwner = isOwner;
@@ -103,8 +106,7 @@ export function InviteButton() {
                 mr: 1,
               }}
               onClick={() => {
-                setOpen(false);
-                document.getElementById("accountSettings")!.click();
+                setEditMode(!editMode);
               }}
             >
               <span className="material-symbols-rounded">edit</span>
@@ -122,33 +124,86 @@ export function InviteButton() {
               <span className="material-symbols-rounded">close</span>
             </IconButton>
           </Box>
-          <Typography
-            variant="h3"
-            sx={{
-              position: "absolute",
-              left: 0,
-              bottom: 0,
-              p: 5,
-              py: 4,
-            }}
-          >
-            {global.session.user.SyncToken == false ||
-            !global.session.user.SyncToken ? (
-              global.session.user.houseName || "Smartlist"
-            ) : (
-              <>
-                {global.syncedHouseName === "false" ? (
-                  <Skeleton
-                    animation="wave"
-                    width={200}
-                    sx={{ maxWidth: "20vw" }}
-                  />
+          {editMode ? (
+            <Box
+              sx={{
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                p: 5,
+                py: 4,
+              }}
+            >
+              <TextField
+                fullWidth
+                variant="standard"
+                sx={{ color: "white" }}
+                InputLabelProps={{
+                  sx: {
+                    color: "#eee",
+                  },
+                }}
+                InputProps={{
+                  sx: {
+                    color: "#fff!important",
+                    fontSize: "50px",
+                    py: 0,
+                  },
+                }}
+                defaultValue={
+                  global.session.user.SyncToken == false ||
+                  !global.session.user.SyncToken
+                    ? global.session.user.houseName || "Smartlist"
+                    : global.syncedHouseName
+                    ? global.syncedHouseName
+                    : ""
+                }
+                label="Home name / Family name / Address"
+                placeholder="1234 Rainbow Road"
+                onBlur={(e: any) => updateSettings("houseName", e.target.value)}
+              />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                p: 5,
+                py: 4,
+              }}
+            >
+              <Typography
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  mb: 2,
+                }}
+              >
+                <span className="material-symbols-rounded">location_city</span>
+                Apartment
+              </Typography>
+              <Typography variant="h3">
+                {global.session.user.SyncToken == false ||
+                !global.session.user.SyncToken ? (
+                  global.session.user.houseName || "Smartlist"
                 ) : (
-                  <>{global.syncedHouseName}</>
+                  <>
+                    {global.syncedHouseName === "false" ? (
+                      <Skeleton
+                        animation="wave"
+                        width={200}
+                        sx={{ maxWidth: "20vw" }}
+                      />
+                    ) : (
+                      <>{global.syncedHouseName}</>
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          </Typography>
+              </Typography>
+            </Box>
+          )}
         </Box>
         <Box
           sx={{
