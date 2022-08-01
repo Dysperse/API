@@ -1,38 +1,37 @@
 import { Head, Html, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
     <Html>
       <Head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-PPH4TH4');`,
-          }}
-        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-PPH4TH4');
+         `}
+        </Script>
         <script
           src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
           async
         ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            window.OneSignal = window.OneSignal || [];
-            OneSignal.push(function() {
-              OneSignal.init({
-                appId: "d3f38439-eed7-4926-bdbc-ec058788075b",
-                safari_web_id: "web.onesignal.auto.20f3ee95-6f21-4aad-a9bb-9c5899a4353a",
-                notifyButton: {
-                  enable: false,
-                },
-              });
-            });
-  `,
-          }}
-        />
+        <Script strategy="afterInteractive">
+          {`
+           window.OneSignal = window.OneSignal || [];
+           OneSignal.push(function() {
+             OneSignal.init({
+               appId: "d3f38439-eed7-4926-bdbc-ec058788075b",
+               safari_web_id: "web.onesignal.auto.20f3ee95-6f21-4aad-a9bb-9c5899a4353a",
+               notifyButton: {
+                 enable: false,
+               },
+             });
+           });
+         `}
+        </Script>
         <link rel="preconnect" href="https://i.ibb.co" />
         <link rel="preconnect" href="https://vitals.vercel-insights.com" />
         <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
