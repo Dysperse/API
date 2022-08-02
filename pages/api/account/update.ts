@@ -7,12 +7,10 @@ const handler = async (req, res) => {
 
     const allowedValues = [
       "name",
-      "email",
       "image",
       "houseName",
       "familyCount",
       "houseType",
-      "defaultPage",
       "houseType",
       "theme",
       "financeToken",
