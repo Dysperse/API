@@ -127,7 +127,7 @@ export function InviteButton() {
               "linear-gradient(45deg, " +
               colors[themeColor][900] +
               ",  " +
-              colors[themeColor][700] +
+              colors[themeColor][500] +
               ")",
             px: 3,
             height: "40vh",
