@@ -239,6 +239,12 @@ export function InviteButton() {
                     ? global.syncedHouseName
                     : ""
                 }
+                disabled={
+                  !(
+                    global.session.user.SyncToken == false ||
+                    !global.session.user.SyncToken
+                  )
+                }
                 label="Home name / Family name / Address"
                 placeholder="1234 Rainbow Road"
                 onBlur={(e: any) => {
