@@ -16,6 +16,27 @@ import toast from "react-hot-toast";
 import { AutocompleteData } from "../AutocompleteData";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
+import { cards } from "./cards";
+
+function shuffle(array: Array<any>) {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
 
 export function CreateItemModal({
   alias,
@@ -116,6 +137,10 @@ export function CreateItemModal({
       formik.values.quantity + " " + e.target.innerText
     );
   };
+  const originalCards = shuffle(cards);
+  const [filteredCards, setFilteredCards] =
+    React.useState<Array<any>>(originalCards);
+
   return (
     <div>
       <div onClick={handleClickOpen}>{children}</div>
@@ -128,7 +153,8 @@ export function CreateItemModal({
           sx: {
             background: colors[themeColor][50],
             width: {
-              sm: "50vw",
+              sm: "90vw",
+              md: "50vw",
             },
             maxWidth: "600px",
             maxHeight: "100vh",
@@ -213,7 +239,16 @@ export function CreateItemModal({
               label="Item name"
               fullWidth
               autoComplete={"off"}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.setFieldValue("title", e.target.value);
+                setFilteredCards(
+                  originalCards.filter((card) =>
+                    card.name
+                      .toLowerCase()
+                      .includes(e.target.value.toLowerCase())
+                  )
+                );
+              }}
               value={formik.values.title}
               disabled={loading}
               name="title"
@@ -233,48 +268,7 @@ export function CreateItemModal({
                 my: 2,
               }}
             >
-              {[
-                {
-                  name: "Microwave",
-                  tags: ["Appliances"],
-                  icon: "microwave_gen",
-                },
-                {
-                  name: "Oven",
-                  tags: ["Appliances"],
-                  icon: "oven_gen",
-                },
-                {
-                  name: "Diswasher",
-                  tags: ["Appliances"],
-                  icon: "dishwasher_gen",
-                },
-                {
-                  name: "Fridge",
-                  tags: ["Appliances"],
-                  icon: "kitchen",
-                },
-                {
-                  name: "Kettle",
-                  tags: ["Object"],
-                  icon: "kettle",
-                },
-                {
-                  name: "Blender",
-                  tags: ["Appliances"],
-                  icon: "blender",
-                },
-                {
-                  name: "Sink",
-                  tags: ["Appliances"],
-                  icon: "faucet",
-                },
-                {
-                  name: "Range hood",
-                  tags: ["Appliances"],
-                  icon: "range_hood",
-                },
-              ].map((item, i) => (
+              {filteredCards.map((item, i) => (
                 <Box
                   key={i}
                   onClick={() => {
