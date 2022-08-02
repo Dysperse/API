@@ -298,7 +298,8 @@ export function InviteButton() {
         <Invitations />
       )}
 
-      <Box
+      <IconButton
+        disableRipple
         onClick={() => setOpen(true)}
         sx={{
           display: "flex",
@@ -307,6 +308,7 @@ export function InviteButton() {
           p: 1,
           ml: 1,
           borderRadius: 3,
+          transition: "none",
           "&:hover": { background: "rgba(200,200,200,.2)" },
           "&:active": { background: "rgba(200,200,200,.3)" },
         }}
@@ -314,7 +316,7 @@ export function InviteButton() {
         <span className="material-symbols-rounded" style={{ fontSize: "20px" }}>
           expand_more
         </span>
-      </Box>
+      </IconButton>
       <Popover
         id={id}
         open={!isOwner && !global.session.user.SyncToken && popoverOpen}
