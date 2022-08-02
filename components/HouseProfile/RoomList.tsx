@@ -128,7 +128,7 @@ export function RoomList() {
                 userSelect: "none",
                 px: 2.5,
                 borderRadius: 5,
-                background: "rgba(200,200,200,.3)",
+                background: colors[themeColor][100],
               }}
             >
               {step.content}

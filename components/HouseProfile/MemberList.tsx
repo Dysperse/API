@@ -74,17 +74,17 @@ function AddPersonModal() {
             sx={{
               fontSize: "15px",
               my: 4,
-              background: "rgba(200,200,200,.2)",
+              background: colors[themeColor][100],
               borderRadius: 5,
               display: "block",
               p: 2,
-              userSelect:"none",
+              userSelect: "none",
               textAlign: "center",
             }}
           >
             <span
               className="material-symbols-rounded"
-              style={{ display: "block",marginBottom:"10px" }}
+              style={{ display: "block", marginBottom: "10px" }}
             >
               warning
             </span>
@@ -269,7 +269,7 @@ export function MemberList() {
                   userSelect: "none",
                   px: 2.5,
                   borderRadius: 5,
-                  background: "rgba(200,200,200,.3)",
+                  background: colors[themeColor][100],
                 }}
               >
                 {step.content}
