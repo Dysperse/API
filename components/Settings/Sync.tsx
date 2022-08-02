@@ -304,6 +304,7 @@ export default function Sync() {
                           token: global.session.accessToken,
                           email: value.title,
                           houseName: global.session.user.houseName,
+                          houseType: global.session.user.houseType,
                         }),
                       {
                         method: "POST",

@@ -12,13 +12,14 @@ const handler = async (req: any, res: any) => {
 
     const result = await executeQuery({
       query:
-        "INSERT INTO SyncTokens (token, email, login, houseName, accepted, name) VALUES (?, ?, ?, ?, 'false', ?)",
+        "INSERT INTO SyncTokens (token, email, login, houseName, accepted, name, houseType) VALUES (?, ?, ?, ?, 'false', ?, ?)",
       values: [
         req.query.token ?? "false",
         req.query.email ?? "false",
         userId[0].user ?? false,
         req.query.houseName ?? "false",
         users[0].name ?? "Unknown user",
+        req.query.houseType ?? "home",
       ],
     });
 

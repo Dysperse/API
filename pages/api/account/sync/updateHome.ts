@@ -1,33 +1,17 @@
-import executeQuery from "../../../lib/db";
-import { ExchangeToken } from "../../../lib/exchange-token";
+import executeQuery from "../../../../lib/db";
+import { ExchangeToken } from "../../../../lib/exchange-token";
 
 const handler = async (req, res) => {
   try {
     const userId = await ExchangeToken(req.query.token);
 
-    const allowedValues = [
-      "name",
-      "image",
-      "houseName",
-      "familyCount",
-      "houseType",
-      "houseType",
-      "theme",
-      "financeToken",
-      "financePlan",
-      "darkMode",
-      "budgetDaily",
-      "budgetMonthly",
-      "budgetWeekly",
-      "SyncToken",
-    ];
+    const allowedValues = ["houseName", "houseType"];
 
     const specifiedValues = Object.keys(JSON.parse(req.query.data));
     let intersection = specifiedValues.filter((x) => allowedValues.includes(x));
-
     intersection.forEach(async (setting) => {
       await executeQuery({
-        query: "UPDATE Accounts SET " + setting + " = ? WHERE id = ?",
+        query: "UPDATE SyncTokens SET " + setting + " = ? WHERE login = ?",
         values: [JSON.parse(req.query.data)[setting], userId[0].user ?? false],
       });
     });

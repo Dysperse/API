@@ -17,6 +17,7 @@ import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Invitations } from "../Invitations";
 import { updateSettings } from "../Settings/updateSettings";
+import useSWR from "swr";
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
@@ -24,9 +25,11 @@ export function InviteButton() {
   const [isOwner, setIsOwner] = React.useState<boolean>(false);
   global.setIsOwner = setIsOwner;
   global.isOwner = isOwner;
+
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -63,6 +66,26 @@ export function InviteButton() {
     );
   }, [open]);
 
+  if (global.session.user.SyncToken) {
+    const url =
+      "/api/account/sync/invitations?" +
+      new URLSearchParams({
+        token: global.session && global.session.accessToken,
+        email: global.session && global.session.user.email,
+      });
+    const { data, error } = useSWR(url, () =>
+      fetch(url, {
+        method: "POST",
+      }).then((res) => res.json())
+    );
+    useEffect(() => {
+      if (data) {
+        setHouseType(
+          data.data.filter((v) => v.accepted == "true")[0].houseType
+        );
+      }
+    });
+  }
   return (
     <>
       <SwipeableDrawer
@@ -247,9 +270,27 @@ export function InviteButton() {
                       "houseName",
                       e.target.value,
                       false,
-                      undefined,
+                      () => {
+                        global.setSyncedHouseName(e.target.value);
+                      },
                       true
                     );
+                    fetch(
+                      "/api/account/sync/updateHome?" +
+                        new URLSearchParams({
+                          token: global.session.user.SyncToken,
+                          data: JSON.stringify({
+                            houseName: e.target.value,
+                            houseType: houseType,
+                          }),
+                        }),
+                      {
+                        method: "POST",
+                      }
+                    ).then((res) => {
+                      global.setSyncedHouseName(e.target.value);
+                      console.log(res);
+                    });
                   } else {
                     updateSettings("houseName", e.target.value);
                   }
