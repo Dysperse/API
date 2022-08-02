@@ -1,8 +1,10 @@
+import toast from "react-hot-toast";
+
 export function updateSettings(
   key: string,
   value: string,
   debug: boolean = false,
-  callback?: any
+  callback: any = () => {}
 ) {
   let d = fetch(
     "/api/account/update?" +
@@ -23,7 +25,15 @@ export function updateSettings(
           new URLSearchParams({
             token: global.session && global.session.accessToken,
           })
-      ).then(callback);
+      )
+        .then(() => {
+          callback && callback();
+          toast.success("Saved!");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("An error occurred while trying to save your settings");
+        });
       if (debug) {
         alert(JSON.stringify(res));
       }

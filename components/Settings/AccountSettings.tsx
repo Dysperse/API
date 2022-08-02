@@ -74,14 +74,14 @@ export default function AppearanceSettings() {
             key={id.toString()}
             onClick={() => {
               setMode(plan.toLowerCase());
-              updateSettings("purpose", plan.toLowerCase());
+              updateSettings("houseType", plan.toLowerCase());
             }}
             secondaryAction={
               <Radio
                 edge="end"
                 onChange={() => {
                   setMode(plan.toLowerCase());
-                  updateSettings("purpose", plan.toLowerCase());
+                  updateSettings("houseType", plan.toLowerCase());
                 }}
                 checked={mode === plan.toLowerCase()}
               />

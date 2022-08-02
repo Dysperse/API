@@ -13,7 +13,7 @@ const handler = async (req, res) => {
       "familyCount",
       "studentMode",
       "defaultPage",
-      "purpose",
+      "houseType",
       "theme",
       "financeToken",
       "financePlan",
