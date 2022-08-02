@@ -6,8 +6,64 @@ import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import SwipeableViews from "react-swipeable-views";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 
+function Room({ room }: any) {
+  const [deleted, setDeleted] = React.useState<boolean>(false);
+  return deleted ? (
+    <>This room has been deleted</>
+  ) : (
+    <>
+      <Typography
+        sx={{
+          fontWeight: "600",
+          maxWidth: "100%",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {room.name}
+      </Typography>
+      <Button
+        variant="outlined"
+        sx={{
+          borderWidth: "2px!important",
+          width: "100%",
+          mt: 1.5,
+          borderRadius: 4,
+        }}
+        onClick={() => {
+          if (
+            confirm(
+              "Delete this room including the items in it? This action is irreversible."
+            )
+          ) {
+            setDeleted(true);
+            fetch(
+              "/api/rooms/delete?" +
+                new URLSearchParams({
+                  id: room.id,
+                  token:
+                    global.session.user.SyncToken || global.session.accessToken,
+                }),
+              {
+                method: "POST",
+              }
+            )
+              .then(() => toast.success("Room deleted!"))
+              .catch(() => {
+                toast.error("Failed to delete room");
+                setDeleted(false);
+              });
+          }
+        }}
+      >
+        Delete
+      </Button>
+    </>
+  );
+}
 export function RoomList() {
   const url =
     "/api/rooms?" +
@@ -26,31 +82,7 @@ export function RoomList() {
     ? [
         ...data.data.map((room) => {
           return {
-            content: (
-              <>
-                <Typography
-                  sx={{
-                    fontWeight: "600",
-                    maxWidth: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {room.name}
-                </Typography>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderWidth: "2px!important",
-                    width: "100%",
-                    mt: 1.5,
-                    borderRadius: 4,
-                  }}
-                >
-                  Delete
-                </Button>
-              </>
-            ),
+            content: <Room room={room} />,
           };
         }),
       ]

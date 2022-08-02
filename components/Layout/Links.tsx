@@ -14,6 +14,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import { useFormik } from "formik";
+import { encode } from "js-base64";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -48,9 +49,10 @@ function CreateRoom() {
         .then((res) => {
           setLoading(false);
           setOpen(false);
+          router.push(
+            "/rooms/" + encode(res.data.id + "," + values.name) + "?custom=true"
+          );
           formik.resetForm();
-          alert("Created room!");
-          router.push("/rooms/" + res.data.id);
         });
       setTimeout(() => setLoading(true), 20);
     },

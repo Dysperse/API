@@ -146,7 +146,9 @@ export default function Categories() {
           primary="Create room"
         />
         <Action
-          onClick={() => document.getElementById("roomsTrigger")!.click()}
+          onClick={() =>
+            document.getElementById("houseProfileTrigger")!.click()
+          }
           icon="edit"
           primary="Manage rooms"
         />

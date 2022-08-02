@@ -311,6 +311,12 @@ export const cards = [
     icon: "umbrella",
   },
   {
+    name: "Bathroom",
+    room: "storage",
+    tags: [],
+    icon: "bathroom",
+  },
+  {
     name: "Soccer ball",
     room: "storage",
     tags: ["Sports"],
