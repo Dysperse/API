@@ -122,6 +122,12 @@ export const cards = [
     tags: ["Cleaning"],
     icon: "air_freshener",
   },
+  {
+    name: "Shower",
+    room: "bathroom",
+    tags: [],
+    icon: "shower",
+  },
 
   // Bedroom ---------------------------------------------------------------
   {
@@ -208,7 +214,13 @@ export const cards = [
     name: "Wrench",
     room: "garage",
     tags: ["Tools"],
-    icon: "wrench",
+    icon: "tools_wrench",
+  },
+  {
+    name: "Lightbulb",
+    room: "garage",
+    tags: [],
+    icon: "lightbulb",
   },
   {
     name: "Power drill",
@@ -259,6 +271,12 @@ export const cards = [
     room: "living",
     tags: ["Furniture"],
     icon: "scene",
+  },
+  {
+    name: "Speaker",
+    room: "living",
+    tags: ["Electronics"],
+    icon: "speaker",
   },
   {
     name: "Router",
@@ -427,5 +445,11 @@ export const cards = [
     room: "garden",
     tags: [],
     icon: "solar_power",
+  },
+  {
+    name: "Hot tub",
+    room: "garden",
+    tags: [],
+    icon: "hot_tub",
   },
 ];
