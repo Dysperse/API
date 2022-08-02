@@ -66,26 +66,31 @@ export function InviteButton() {
     );
   }, [open]);
 
-  if (global.session.user.SyncToken) {
-    const url =
-      "/api/account/sync/invitations?" +
-      new URLSearchParams({
-        token: global.session && global.session.accessToken,
-        email: global.session && global.session.user.email,
-      });
-    const { data, error } = useSWR(url, () =>
-      fetch(url, {
-        method: "POST",
-      }).then((res) => res.json())
-    );
-    useEffect(() => {
-      if (data) {
-        setHouseType(
-          data.data.filter((v) => v.accepted == "true")[0].houseType
-        );
-      }
+  const url =
+    "/api/account/sync/invitations?" +
+    new URLSearchParams({
+      token: global.session && global.session.accessToken,
+      email: global.session && global.session.user.email,
     });
-  }
+  const { data, error } = useSWR(url, () =>
+    fetch(url, {
+      method: "POST",
+    }).then((res) => res.json())
+  );
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (global.session.user.SyncToken) {
+        if (data) {
+          setHouseType(
+            data.data.filter((v) => v.accepted == "true")[0].houseType
+          );
+        }
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [data]);
+
   return (
     <>
       <SwipeableDrawer

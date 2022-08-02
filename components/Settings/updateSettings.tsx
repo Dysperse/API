@@ -31,7 +31,11 @@ export function updateSettings(
       )
         .then(() => {
           callback && callback();
-          toast.success("Saved!");
+          toast.success(
+            useSyncToken
+              ? "Saved! Changes might take some time to appear for other members in your home"
+              : "Saved!"
+          );
         })
         .catch((err) => {
           console.log(err);
