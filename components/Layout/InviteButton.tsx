@@ -412,6 +412,7 @@ export function InviteButton() {
           },
           p: 1,
           py: 0,
+          color: "#000",
           borderRadius: 3,
           transition: "transform .2s",
           "&:hover": {
