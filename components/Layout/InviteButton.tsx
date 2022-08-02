@@ -12,12 +12,12 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
+import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Invitations } from "../Invitations";
 import { updateSettings } from "../Settings/updateSettings";
-import useSWR from "swr";
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
@@ -187,6 +187,10 @@ export function InviteButton() {
                   <MenuItem
                     onClick={() => {
                       updateSettings("houseType", "dorm");
+                      setTimeout(() => {
+                        document.getElementById("nameInput")!.focus();
+                        document.getElementById("nameInput")!.blur();
+                      }, 100);
                     }}
                     value={"dorm"}
                     sx={{ display: "flex", alignItems: "center" }}
@@ -206,6 +210,10 @@ export function InviteButton() {
                   <MenuItem
                     onClick={() => {
                       updateSettings("houseType", "apartment");
+                      setTimeout(() => {
+                        document.getElementById("nameInput")!.focus();
+                        document.getElementById("nameInput")!.blur();
+                      }, 100);
                     }}
                     value={"apartment"}
                     sx={{ display: "flex", alignItems: "center" }}
@@ -225,6 +233,10 @@ export function InviteButton() {
                   <MenuItem
                     onClick={() => {
                       updateSettings("houseType", "home");
+                      setTimeout(() => {
+                        document.getElementById("nameInput")!.focus();
+                        document.getElementById("nameInput")!.blur();
+                      }, 100);
                     }}
                     value={"home"}
                     sx={{ display: "flex", alignItems: "center" }}
@@ -267,10 +279,11 @@ export function InviteButton() {
                     ? global.syncedHouseName
                     : ""
                 }
+                id="nameInput"
                 label="Home name / Family name / Address"
                 placeholder="1234 Rainbow Road"
                 onBlur={(e: any) => {
-                  if (global.session.user.SyncToken) {
+                  if (global.session.user.SyncToken || isOwner) {
                     updateSettings(
                       "houseName",
                       e.target.value,
@@ -283,7 +296,9 @@ export function InviteButton() {
                     fetch(
                       "/api/account/sync/updateHome?" +
                         new URLSearchParams({
-                          token: global.session.user.SyncToken,
+                          token: isOwner
+                            ? global.session.accessToken
+                            : global.session.user.SyncToken,
                           data: JSON.stringify({
                             houseName: e.target.value,
                             houseType: houseType,
@@ -299,6 +314,11 @@ export function InviteButton() {
                   } else {
                     updateSettings("houseName", e.target.value);
                   }
+
+                  if (isOwner) {
+                    updateSettings("houseName", e.target.value);
+                  }
+
                   setTimeout(() => {
                     global.setSyncedHouseName(e.target.value);
                   }, 1000);
