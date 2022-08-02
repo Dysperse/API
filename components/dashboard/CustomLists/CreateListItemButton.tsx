@@ -122,29 +122,25 @@ export function CreateListItemButton({
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <Autocomplete
-                id="name"
-                options={AutocompleteData}
-                freeSolo
-                onChange={(e, d) => formik.setFieldValue("name", d)}
+              <TextField
+                autoFocus
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    borderRadius: "20px",
+                    border: "0!important",
+                  },
+                }}
+                variant="standard"
+                inputRef={(input) =>
+                  setTimeout(() => input && input.focus(), 100)
+                }
+                fullWidth
                 value={formik.values.name}
-                renderInput={(params) => (
-                  <TextField
-                    autoFocus
-                    {...params}
-                    inputRef={(input) =>
-                      setTimeout(() => input && input.focus(), 100)
-                    }
-                    fullWidth
-                    onChange={(e) =>
-                      formik.setFieldValue("name", e.target.value)
-                    }
-                    autoComplete="off"
-                    margin="dense"
-                    label="Name"
-                    variant="filled"
-                  />
-                )}
+                onChange={(e) => formik.setFieldValue("name", e.target.value)}
+                autoComplete="off"
+                margin="dense"
+                placeholder="Item name"
               />
             </DialogContentText>
           </DialogContent>
@@ -157,12 +153,10 @@ export function CreateListItemButton({
               disableElevation
               sx={{
                 mr: 1,
-                mb: 1,
                 borderRadius: 100,
               }}
-              variant="contained"
             >
-              Done
+              Save
             </LoadingButton>
           </DialogActions>
         </form>

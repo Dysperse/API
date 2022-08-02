@@ -91,7 +91,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
               margin="dense"
               required
               fullWidth
-              placeholder="Task name"
+              placeholder={customParent === "-1" ? "Task name" : "Item name"}
               autoComplete="off"
               name="name"
               onChange={formik.handleChange}
