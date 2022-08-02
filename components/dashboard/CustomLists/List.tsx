@@ -224,7 +224,7 @@ export function List({
     const data = await fetch(
       "/api/lists/items?" +
         new URLSearchParams({
-          token: global.session && global.session.accessToken,
+          token: global.session.user.SyncToken || global.session.accessToken,
           parent: id.toString(),
         }),
       {
