@@ -83,7 +83,12 @@ function SuggestButton() {
   return (
     <>
       <Box
-        sx={{ color: green[global.theme === "dark" ? 100 : 900] }}
+        sx={{
+          color: green[global.theme === "dark" ? 100 : 900],
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+        }}
         onClick={() => setOpen(true)}
       >
         <span className="material-symbols-outlined">tips_and_updates</span>

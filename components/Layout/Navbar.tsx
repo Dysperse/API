@@ -178,9 +178,7 @@ export function Navbar(): JSX.Element {
               )}
             </Tooltip>
           </NotificationsMenu>
-          <Box sx={{ display: { sm: "block", xs: "none" } }}>
-            <AppsMenu />
-          </Box>
+          <AppsMenu />
         </Toolbar>
       </AppBar>
     </ElevationScroll>

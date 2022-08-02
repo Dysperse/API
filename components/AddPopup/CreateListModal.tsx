@@ -87,14 +87,21 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                 setTimeout(() => input && input.focus(), 100)
               }
               margin="dense"
-              label="Title"
               required
               fullWidth
+              placeholder="Task name"
               autoComplete="off"
               name="name"
-              variant="filled"
               onChange={formik.handleChange}
               value={formik.values.name}
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  borderRadius: "20px",
+                  border: "0!important",
+                },
+              }}
+              variant="standard"
             />
             {customParent === "-1" &&
               (formik.values.name.toLowerCase().includes("get ") ||
@@ -128,16 +135,15 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
               sx={{
                 float: "right",
                 mr: 1,
-                mt: 2,
+                mt: 1,
                 borderRadius: 100,
               }}
               color="primary"
               type="submit"
               loading={loading}
               onClick={() => setTimeout(() => setLoading(true), 100)}
-              variant="contained"
             >
-              Create
+              Save
             </LoadingButton>
           </DialogContent>
         </form>

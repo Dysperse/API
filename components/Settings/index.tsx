@@ -20,7 +20,6 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import AccountSettings from "./AccountSettings";
-import App from "./App";
 import AppearanceSettings from "./AppearanceSettings";
 import FinanceSettings from "./FinanceSettings";
 import Notifications from "./Notifications";
@@ -407,12 +406,6 @@ export default function FullScreenDialog({ children }: any) {
                   {global.session.user.notificationMin} or less
                 </>
               }
-            />
-            <SettingsMenu
-              content={<App />}
-              icon="smartphone"
-              primary="App"
-              secondary={"Coming soon"}
             />
             <SettingsMenu
               content={<Sync />}
