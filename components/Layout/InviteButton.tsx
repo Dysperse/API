@@ -123,7 +123,12 @@ export function InviteButton() {
       >
         <Box
           sx={{
-            background: "linear-gradient(45deg, #232323,  #6B4B4B)",
+            background:
+              "linear-gradient(45deg, " +
+              colors[themeColor][900] +
+              ",  " +
+              colors[themeColor][700] +
+              ")",
             px: 3,
             height: "40vh",
             position: "relative",
