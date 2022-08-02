@@ -284,12 +284,12 @@ export function CreateItemModal({
                     width: "175px",
                     overflow: "hidden",
                     height: "150px",
-                    background: "rgba(0,0,0,0.1)",
+                    background: colors[themeColor][100],
                     transition: "transform .2s",
                     "&:active": {
                       transform: "scale(.95)",
                       transition: "none",
-                      background: "rgba(0,0,0,0.15)",
+                      background: colors[themeColor][100],
                     },
                     cursor: "pointer",
                     mr: 2,
@@ -299,7 +299,7 @@ export function CreateItemModal({
                   <Box
                     sx={{
                       height: "80px",
-                      background: "rgba(0,0,0,0.05)",
+                      background: colors[themeColor][200],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
