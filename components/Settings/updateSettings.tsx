@@ -4,12 +4,15 @@ export function updateSettings(
   key: string,
   value: string,
   debug: boolean = false,
-  callback: any = () => {}
+  callback: any = () => {},
+  useSyncToken: boolean = false
 ) {
   let d = fetch(
     "/api/account/update?" +
       new URLSearchParams({
-        token: global.session && global.session.accessToken,
+        token: useSyncToken
+          ? global.session.user.SyncToken
+          : global.session.accessToken,
         data: JSON.stringify({
           [key]: value,
         }),

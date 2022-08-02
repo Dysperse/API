@@ -239,17 +239,23 @@ export function InviteButton() {
                     ? global.syncedHouseName
                     : ""
                 }
-                disabled={
-                  !(
-                    global.session.user.SyncToken == false ||
-                    !global.session.user.SyncToken
-                  )
-                }
                 label="Home name / Family name / Address"
                 placeholder="1234 Rainbow Road"
                 onBlur={(e: any) => {
-                  updateSettings("houseName", e.target.value);
-                  global.setSyncedHouseName(e.target.value);
+                  if (global.session.user.SyncToken) {
+                    updateSettings(
+                      "houseName",
+                      e.target.value,
+                      false,
+                      undefined,
+                      true
+                    );
+                  } else {
+                    updateSettings("houseName", e.target.value);
+                  }
+                  setTimeout(() => {
+                    global.setSyncedHouseName(e.target.value);
+                  }, 1000);
                 }}
               />
             </Box>
