@@ -241,7 +241,10 @@ export function InviteButton() {
                 }
                 label="Home name / Family name / Address"
                 placeholder="1234 Rainbow Road"
-                onBlur={(e: any) => updateSettings("houseName", e.target.value)}
+                onBlur={(e: any) => {
+                  updateSettings("houseName", e.target.value);
+                  global.setSyncedHouseName(e.target.value);
+                }}
               />
             </Box>
           ) : (
