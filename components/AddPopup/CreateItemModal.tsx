@@ -137,7 +137,9 @@ export function CreateItemModal({
       formik.values.quantity + " " + e.target.innerText
     );
   };
-  const originalCards = shuffle(cards);
+  const originalCards = shuffle(
+    cards.filter((card) => card.room === room.toString().toLowerCase())
+  );
   const [filteredCards, setFilteredCards] =
     React.useState<Array<any>>(originalCards);
 
