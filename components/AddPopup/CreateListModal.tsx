@@ -1,5 +1,7 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import DialogContent from "@mui/material/DialogContent";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -103,48 +105,51 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
               }}
               variant="standard"
             />
-            {customParent === "-1" &&
-              (formik.values.name.toLowerCase().includes("get ") ||
-                formik.values.name.toLowerCase().includes("bring ") ||
-                formik.values.name.toLowerCase().includes("shop ")) && (
-                <Button
-                  variant="outlined"
-                  sx={{ borderWidth: "2px!important", mt: 2.5 }}
-                  size="small"
-                  onClick={() => setCustomParent("-2")}
-                >
-                  Add this to your shopping list instead?
-                </Button>
-              )}
-            {customParent === "-2" &&
-              (formik.values.name.toLowerCase().includes("pay ") ||
-                formik.values.name.toLowerCase().includes("fix ") ||
-                formik.values.name.toLowerCase().includes("throw ")) && (
-                <Button
-                  variant="outlined"
-                  sx={{ borderWidth: "2px!important", mt: 2.5 }}
-                  size="small"
-                  onClick={() => setCustomParent("-1")}
-                >
-                  Add this to your to do list instead?
-                </Button>
-              )}
-            <LoadingButton
-              size="large"
-              disableElevation
-              sx={{
-                float: "right",
-                mr: 1,
-                mt: 1,
-                borderRadius: 100,
-              }}
-              color="primary"
-              type="submit"
-              loading={loading}
-              onClick={() => setTimeout(() => setLoading(true), 100)}
-            >
-              Save
-            </LoadingButton>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ ml: -1 }}>
+                {customParent === "-1" &&
+                  (formik.values.name.toLowerCase().includes("get ") ||
+                    formik.values.name.toLowerCase().includes("buy ") ||
+                    formik.values.name.toLowerCase().includes("bring ") ||
+                    formik.values.name.toLowerCase().includes("shop ")) && (
+                    <Button
+                      variant="outlined"
+                      sx={{ borderWidth: "2px!important" }}
+                      size="small"
+                      onClick={() => setCustomParent("-2")}
+                    >
+                      Add this to your shopping list instead?
+                    </Button>
+                  )}
+                {customParent === "-2" &&
+                  (formik.values.name.toLowerCase().includes("pay ") ||
+                    formik.values.name.toLowerCase().includes("fix ") ||
+                    formik.values.name.toLowerCase().includes("throw ")) && (
+                    <Button
+                      variant="outlined"
+                      sx={{ borderWidth: "2px!important" }}
+                      size="small"
+                      onClick={() => setCustomParent("-1")}
+                    >
+                      Add this to your to do list instead?
+                    </Button>
+                  )}
+              </Box>
+              <LoadingButton
+                size="large"
+                disableElevation
+                sx={{
+                  ml: "auto",
+                  borderRadius: 100,
+                }}
+                color="primary"
+                type="submit"
+                loading={loading}
+                onClick={() => setTimeout(() => setLoading(true), 100)}
+              >
+                Save
+              </LoadingButton>
+            </Box>
           </DialogContent>
         </form>
       </SwipeableDrawer>
