@@ -11,7 +11,7 @@ const handler = async (req, res) => {
       "image",
       "houseName",
       "familyCount",
-      "studentMode",
+      "houseType",
       "defaultPage",
       "houseType",
       "theme",

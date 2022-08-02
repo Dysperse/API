@@ -31,7 +31,9 @@ export function InviteButton() {
     null
   );
 
-  const [houseType, setHouseType] = React.useState("apartment");
+  const [houseType, setHouseType] = React.useState(
+    global.session.user.houseType
+  );
 
   const handleChange = (event: SelectChangeEvent) => {
     setHouseType(event.target.value as string);
@@ -155,6 +157,9 @@ export function InviteButton() {
                   onChange={handleChange}
                 >
                   <MenuItem
+                    onClick={() => {
+                      updateSettings("houseType", "dorm");
+                    }}
                     value={"dorm"}
                     sx={{ display: "flex", alignItems: "center" }}
                   >
@@ -171,6 +176,9 @@ export function InviteButton() {
                     Dorm
                   </MenuItem>
                   <MenuItem
+                    onClick={() => {
+                      updateSettings("houseType", "apartment");
+                    }}
                     value={"apartment"}
                     sx={{ display: "flex", alignItems: "center" }}
                   >
@@ -187,6 +195,9 @@ export function InviteButton() {
                     Apartment
                   </MenuItem>
                   <MenuItem
+                    onClick={() => {
+                      updateSettings("houseType", "home");
+                    }}
                     value={"home"}
                     sx={{ display: "flex", alignItems: "center" }}
                   >
@@ -245,14 +256,21 @@ export function InviteButton() {
             >
               <Typography
                 sx={{
+                  textTransform: "capitalize",
                   display: "flex",
                   alignItems: "center",
                   gap: "10px",
                   mb: 2,
                 }}
               >
-                <span className="material-symbols-rounded">location_city</span>
-                Apartment
+                <span className="material-symbols-rounded">
+                  {houseType === "dorm"
+                    ? "cottage"
+                    : houseType === "apartment"
+                    ? "location_city"
+                    : "home"}
+                </span>
+                {houseType}
               </Typography>
               <Typography variant="h3">
                 {global.session.user.SyncToken == false ||
@@ -398,7 +416,7 @@ export function InviteButton() {
           />
           <br />
           Invite up to 5 people to your{" "}
-          {global.session.user.studentMode === false ? "home" : "dorm"}
+          {global.session.user.houseType !== "dorm" ? "home" : "dorm"}
         </Typography>
       </Popover>
     </>

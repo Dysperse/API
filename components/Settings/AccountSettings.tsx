@@ -13,7 +13,7 @@ import { updateSettings } from "./updateSettings";
 export default function AppearanceSettings() {
   const [mode, setMode] = useState<"personal" | "business">("personal");
   const [studentMode, setStudentMode] = useState<boolean>(
-    global.session.user.studentMode
+    global.session.user.houseType
   );
 
   return (
@@ -66,33 +66,6 @@ export default function AppearanceSettings() {
             }
           />
         </ListItem>
-        <ListSubheader sx={{ background: "transparent" }}>
-          What kind of home do you live in?
-        </ListSubheader>
-        {["Dorm", "Home", "Apartment"].map((plan: any, id: number) => (
-          <ListItem
-            key={id.toString()}
-            onClick={() => {
-              setMode(plan.toLowerCase());
-              updateSettings("houseType", plan.toLowerCase());
-            }}
-            secondaryAction={
-              <Radio
-                edge="end"
-                onChange={() => {
-                  setMode(plan.toLowerCase());
-                  updateSettings("houseType", plan.toLowerCase());
-                }}
-                checked={mode === plan.toLowerCase()}
-              />
-            }
-            disablePadding
-          >
-            <ListItemButton sx={{ borderRadius: 4, transition: "none" }}>
-              <ListItemText primary={plan} />
-            </ListItemButton>
-          </ListItem>
-        ))}
       </Box>
     </>
   );

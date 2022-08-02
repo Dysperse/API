@@ -289,7 +289,7 @@ function Content({ toggleDrawer }: any) {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        {global.session.user.studentMode === false && (
+        {global.session.user.houseType !== "dorm" && (
           <AddItemOption
             toggleDrawer={toggleDrawer}
             title="Kitchen"
@@ -309,14 +309,12 @@ function Content({ toggleDrawer }: any) {
           icon={<span className="material-symbols-rounded">bathroom</span>}
         />
 
-        {global.session.user.studentMode === true && (
-          <AddItemOption
-            toggleDrawer={toggleDrawer}
-            title="Storage"
-            icon={<span className="material-symbols-rounded">inventory_2</span>}
-          />
-        )}
-        {global.session.user.studentMode === false && (
+        <AddItemOption
+          toggleDrawer={toggleDrawer}
+          title="Storage"
+          icon={<span className="material-symbols-rounded">inventory_2</span>}
+        />
+        {global.session.user.houseType !== "dorm" && (
           <>
             <AddItemOption
               toggleDrawer={toggleDrawer}

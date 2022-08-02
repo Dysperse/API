@@ -359,9 +359,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               }),
             }}
           >
-            {global.session.user.studentMode ? "Dorm" : "Rooms"}
+            {global.session.user.houseType ? "Dorm" : "Rooms"}
           </ListSubheader>
-          {global.session.user.studentMode === false && (
+          {global.session.user.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/kitchen"
@@ -383,7 +383,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             text="Bathroom"
             icon={<span className="material-symbols-rounded">bathroom</span>}
           />
-          {global.session.user.studentMode === false && (
+          {global.session.user.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/garage"
@@ -391,7 +391,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               icon={<span className="material-symbols-rounded">garage</span>}
             />
           )}
-          {global.session.user.studentMode === false && (
+          {global.session.user.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/dining"
@@ -399,7 +399,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               icon={<span className="material-symbols-rounded">dining</span>}
             />
           )}
-          {global.session.user.studentMode === false && (
+          {global.session.user.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/living-room"
@@ -407,7 +407,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               icon={<span className="material-symbols-rounded">living</span>}
             />
           )}
-          {global.session.user.studentMode === false && (
+          {global.session.user.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/laundry-room"
@@ -423,11 +423,11 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             href="/rooms/[index]"
             asHref="/rooms/storage-room"
             text={
-              <>Storage {global.session.user.studentMode === false && "room"}</>
+              <>Storage {global.session.user.houseType !== "dorm" && "room"}</>
             }
             icon={<span className="material-symbols-rounded">inventory_2</span>}
           />
-          {global.session.user.studentMode === false && (
+          {global.session.user.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/camping"
@@ -435,7 +435,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               icon={<span className="material-symbols-rounded">camping</span>}
             />
           )}
-          {global.session.user.studentMode === false && (
+          {global.session.user.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/garden"
@@ -445,7 +445,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           )}
         </div>
 
-        {global.session.user.studentMode === false && (
+        {global.session.user.houseType !== "dorm" && (
           <>
             <ListItemButton
               disableRipple

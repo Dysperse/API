@@ -53,11 +53,6 @@ export const getInfo = async (token: any) => {
     account.verifyToken = undefined;
     account.onboarding = parseInt(account.onboarding);
     account.notificationMin = parseInt(account.notificationMin);
-    account.studentMode = isJsonString(account.studentMode)
-      ? JSON.parse(account.studentMode)
-      : account.studentMode === "on"
-      ? true
-      : false;
     account.darkMode = JSON.parse(account.darkMode);
 
     if (account.SyncToken === "false")
