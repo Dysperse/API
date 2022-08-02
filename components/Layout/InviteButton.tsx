@@ -1,8 +1,12 @@
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import * as colors from "@mui/material/colors";
+import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
 import Popover from "@mui/material/Popover";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -13,10 +17,6 @@ import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Invitations } from "../Invitations";
 import { updateSettings } from "../Settings/updateSettings";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
@@ -298,25 +298,57 @@ export function InviteButton() {
         <Invitations />
       )}
 
-      <IconButton
+      <Button
         disableRipple
+        id="houseProfileTrigger"
         onClick={() => setOpen(true)}
         sx={{
           display: "flex",
           userSelect: "none",
           cursor: "pointer",
+          "&:active": {
+            background: "rgba(200,200,200,.3)!important",
+            transition: "none",
+            transform: "scale(0.95)",
+          },
           p: 1,
-          ml: 1,
+          py: 0,
           borderRadius: 3,
-          transition: "none",
-          "&:hover": { background: "rgba(200,200,200,.2)" },
-          "&:active": { background: "rgba(200,200,200,.3)" },
+          transition: "transform .2s",
+          "&:hover": {
+            background: { xs: "transparent", sm: "rgba(200,200,200,.2)" },
+          },
         }}
       >
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: "600",
+            mr: 2,
+          }}
+          noWrap
+        >
+          {global.session.user.SyncToken == false ||
+          !global.session.user.SyncToken ? (
+            global.session.user.houseName || "Carbon"
+          ) : (
+            <>
+              {global.syncedHouseName === "false" ? (
+                <Skeleton
+                  animation="wave"
+                  width={200}
+                  sx={{ maxWidth: "20vw" }}
+                />
+              ) : (
+                <>{global.syncedHouseName}</>
+              )}
+            </>
+          )}
+        </Typography>
         <span className="material-symbols-rounded" style={{ fontSize: "20px" }}>
           expand_more
         </span>
-      </IconButton>
+      </Button>
       <Popover
         id={id}
         open={!isOwner && !global.session.user.SyncToken && popoverOpen}

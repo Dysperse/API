@@ -71,34 +71,13 @@ export function Navbar(): JSX.Element {
     <ElevationScroll>
       <AppBar elevation={0} position="fixed">
         <Toolbar>
-          <Typography
-            variant="h6"
+          <Box
             sx={{
               flexGrow: 1,
-              fontWeight: "600",
-              display: "flex",
-              alignItems: "center",
             }}
-            noWrap
           >
-            {global.session.user.SyncToken == false ||
-            !global.session.user.SyncToken ? (
-              global.session.user.houseName || "Smartlist"
-            ) : (
-              <>
-                {syncedHouseName === "false" ? (
-                  <Skeleton
-                    animation="wave"
-                    width={200}
-                    sx={{ maxWidth: "20vw" }}
-                  />
-                ) : (
-                  <>{syncedHouseName}</>
-                )}
-              </>
-            )}
             <InviteButton />
-          </Typography>
+          </Box>
           <SearchPopup
             content={
               <Tooltip title="Jump to">
