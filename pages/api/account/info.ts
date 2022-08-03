@@ -13,8 +13,8 @@ export const getInfo = async (token: any) => {
     };
   }
   const property = await executeQuery({
-    query: "SELECT * FROM SyncTokens WHERE accessToken = ?",
-    values: [result[0].SyncToken],
+    query: "SELECT * FROM SyncTokens WHERE accessToken = ? AND email = ?",
+    values: [result[0].SyncToken, result[0].email],
   });
 
   return {
