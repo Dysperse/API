@@ -12,6 +12,10 @@ import toast from "react-hot-toast";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import { Puller } from "../Puller";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 function isEmail(email) {
   return String(email)
@@ -23,6 +27,13 @@ function isEmail(email) {
 
 function AddPersonModal() {
   const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
+  const [role, setRole] = React.useState("member");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setRole(event.target.value as string);
+  };
+
   return (
     <>
       <Button
@@ -84,7 +95,10 @@ function AddPersonModal() {
           >
             <span
               className="material-symbols-rounded"
-              style={{ display: "block", marginBottom: "10px" }}
+              style={{
+                display: "block",
+                marginBottom: "10px",
+              }}
             >
               warning
             </span>
@@ -92,10 +106,71 @@ function AddPersonModal() {
             view your finances, lists, rooms, and inventory
           </Box>
           <TextField
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             variant="filled"
+            autoComplete="off"
             label="Enter an email address"
             fullWidth
           />
+          <FormControl fullWidth>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={role}
+              variant="filled"
+              sx={{ mt: 2, pt: 0, pb: 1, mb: 2, height: "90px" }}
+              label="Permissions"
+              onChange={handleChange}
+            >
+              <MenuItem value={"read-only"}>
+                <Box sx={{ my: 1 }}>
+                  <Typography variant="h6">Read only</Typography>
+                  <Typography variant="body2">
+                    View access to your inventory, rooms, and lists
+                  </Typography>
+                </Box>
+              </MenuItem>
+              <MenuItem value={"member"}>
+                <Box sx={{ my: 1 }}>
+                  <Typography variant="h6">Member</Typography>
+                  <Typography variant="body2">
+                    Can view and edit your inventory, rooms, lists, etc
+                  </Typography>
+                </Box>
+              </MenuItem>
+            </Select>
+          </FormControl>
+          <Button
+            onClick={() => {
+              if (isEmail(value)) {
+                fetch(
+                  "/api/account/sync/invite?" +
+                    new URLSearchParams({
+                      accessToken: global.session.property.accessToken,
+                      email: value,
+                      houseName: global.session.property.houseName,
+                      houseType: global.session.property.houseType,
+                      role: "member",
+                    })
+                );
+                toast.success("Invitation sent!");
+              } else {
+                toast.error("Please enter a valid email address");
+              }
+            }}
+            variant="outlined"
+            size="large"
+            sx={{
+              borderWidth: "2px!important",
+              borderRadius: 4,
+              transition: "none!important",
+              mt: 1,
+              float: "right",
+            }}
+          >
+            Send invitation
+          </Button>
         </Box>
       </SwipeableDrawer>
     </>

@@ -258,6 +258,9 @@ export function CreateItemModal({
               name="title"
               id="nameInput"
               variant="filled"
+              InputProps={{
+                autoComplete: "off",
+              }}
             />
             <Box
               sx={{
