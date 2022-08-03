@@ -205,7 +205,7 @@ export function Budgets({ transactions }: { transactions: any }) {
       (transaction: any) => transaction.date == dayjs().format("YYYY-MM-DD")
     )
     .map((transaction: any) => transaction.amount)
-    .reduce((a: any, b: any) => a + b, 0);
+    .reduce((a: any, b: any) => Math.abs(a) + Math.abs(b), 0);
 
   const spentMonth = transactions
     .filter(
@@ -214,7 +214,7 @@ export function Budgets({ transactions }: { transactions: any }) {
         dayjs(transaction.date).year() === new Date().getFullYear()
     )
     .map((transaction: any) => transaction.amount)
-    .reduce((a: any, b: any) => a + b, 0);
+    .reduce((a: any, b: any) => Math.abs(a) + Math.abs(b), 0);
 
   return (
     <>

@@ -1,14 +1,15 @@
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
 import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
 export function DeleteButton({
   id,
   deleted,
   setDeleted,
   setDrawerState,
-  setOpen,
 }: any): JSX.Element {
   return (
     <Tooltip title="Move to trash">
@@ -48,7 +49,41 @@ export function DeleteButton({
               method: "POST",
             }
           );
-          setOpen(true);
+          toast.success((t) => (
+            <span>
+              Item moved to trash
+              <Button
+                size="small"
+                sx={{
+                  ml: 2,
+                  borderRadius: 999,
+                  p: "0!important",
+                  width: "auto",
+                  minWidth: "auto",
+                }}
+                onClick={() => {
+                  toast.dismiss(t.id);
+                  fetch(
+                    "/api/inventory/restore?" +
+                      new URLSearchParams({
+                        token:
+                          global.session.account.SyncToken ||
+                          global.session.property.accessToken,
+                        id: id.toString(),
+                        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                      }),
+                    {
+                      method: "POST",
+                    }
+                  );
+                  setDeleted(false);
+                  setDrawerState(true);
+                }}
+              >
+                Undo
+              </Button>
+            </span>
+          ));
           setDeleted(true);
           setDrawerState(false);
         }}

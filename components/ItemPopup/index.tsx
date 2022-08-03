@@ -383,7 +383,6 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               <DeleteButton
                 id={id}
                 deleted={deleted}
-                setOpen={() => toast.success("Deleted item")}
                 setDrawerState={setDrawerState}
                 setDeleted={setDeleted}
               />
