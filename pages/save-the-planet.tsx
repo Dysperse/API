@@ -7,9 +7,7 @@ import { CarbonFootprint } from "../components/save-the-planet/CarbonFootprint";
 import { Donate } from "../components/save-the-planet/Donate";
 import { EcoFriendlyGoals } from "../components/save-the-planet/EcoFriendlyGoals";
 import { ItemSuggestions } from "../components/save-the-planet/ItemSuggestions";
-import { RecyclingGuide } from "../components/save-the-planet/RecyclingGuide";
 import { Reminders } from "../components/save-the-planet/Reminders";
-import { Thermostat } from "../components/save-the-planet/Thermostat";
 import { EcoFriendlyTips } from "../components/save-the-planet/Tips/EcoFriendlyTips";
 
 export default function Render() {
@@ -37,10 +35,8 @@ export default function Render() {
             <EcoFriendlyTips />
             <ItemSuggestions />
             <Reminders />
-            <Thermostat />
             <Donate />
             <CarbonFootprint />
-            <RecyclingGuide />
             <EcoFriendlyGoals />
           </Masonry>
         </Box>

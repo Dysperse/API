@@ -5,9 +5,6 @@ import Typography from "@mui/material/Typography";
 export function Reminders() {
   return (
     <div>
-      <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
-        Reminders
-      </Typography>
       <Card
         sx={{
           p: 1,
@@ -18,6 +15,9 @@ export function Reminders() {
         }}
       >
         <CardContent>
+          <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
+            Reminders
+          </Typography>
           <Typography>Coming soon!</Typography>
         </CardContent>
       </Card>

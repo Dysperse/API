@@ -5,9 +5,6 @@ import Typography from "@mui/material/Typography";
 export function EcoFriendlyGoals() {
   return (
     <div>
-      <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
-        Goals
-      </Typography>
       <Card
         sx={{
           p: 1,
@@ -18,6 +15,9 @@ export function EcoFriendlyGoals() {
         }}
       >
         <CardContent>
+          <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
+            Goals
+          </Typography>
           <Typography>Coming soon!</Typography>
         </CardContent>
       </Card>

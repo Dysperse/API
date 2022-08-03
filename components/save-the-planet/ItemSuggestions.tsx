@@ -125,9 +125,6 @@ function RenderSuggestions() {
 export function ItemSuggestions() {
   return (
     <div>
-      <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
-        Suggestions
-      </Typography>
       <Card
         sx={{
           width: "100%",
@@ -138,6 +135,9 @@ export function ItemSuggestions() {
         }}
       >
         <CardContent>
+          <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
+            Suggestions
+          </Typography>
           <RenderSuggestions />
         </CardContent>
       </Card>
