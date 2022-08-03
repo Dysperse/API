@@ -24,6 +24,7 @@ export const getInfo = async (token: any) => {
         id: undefined,
         password: undefined,
         SyncToken: undefined,
+        FinanceToken: undefined,
         "2faCode": undefined,
         onboarding: parseInt(data.onboarding),
         notificationMin: parseInt(data.notificationMin),
