@@ -68,6 +68,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
         }}
         size="small"
         variant="standard"
+        autoComplete="off"
         InputProps={{
           disableUnderline: true,
           sx: {
