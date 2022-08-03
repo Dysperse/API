@@ -318,9 +318,35 @@ export function InviteButton() {
             Members
           </Typography>
           <MemberList />
-          <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
-            Rooms
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+            <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
+              Rooms
+            </Typography>
+            <Box
+              sx={{
+                ml: "auto",
+              }}
+            >
+              <Button
+                onClick={() => {
+                  document.getElementById("setCreateRoomModalOpen")!.click();
+                }}
+                variant="contained"
+                sx={{
+                  borderRadius: 4,
+                  boxShadow: 0,
+                }}
+              >
+                <span
+                  className="material-symbols-rounded"
+                  style={{ marginRight: "10px" }}
+                >
+                  add
+                </span>
+                Create room
+              </Button>
+            </Box>
+          </Box>
           <RoomList />
         </Box>
       </SwipeableDrawer>

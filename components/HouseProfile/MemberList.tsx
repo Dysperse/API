@@ -39,6 +39,7 @@ function AddPersonModal() {
       <Button
         onClick={() => setOpen(true)}
         variant="contained"
+        disabled={global.session.property.role !== "owner"}
         sx={{
           mb: 2,
           borderRadius: 4,
@@ -206,6 +207,7 @@ function Member({ member }): any {
       </Typography>
       <Button
         variant="outlined"
+        disabled={global.session.property.role !== "owner"}
         sx={{
           borderWidth: "2px!important",
           width: "100%",

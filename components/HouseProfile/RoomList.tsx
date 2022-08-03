@@ -103,56 +103,58 @@ export function RoomList() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
-        "& *": {
-          overscrollBehavior: "auto!important",
-        },
-        // "& [data-swipeable]": {
-        //   width: "90% !important",
-        // },
-      }}
-    >
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          "& *": {
+            overscrollBehavior: "auto!important",
+          },
+          // "& [data-swipeable]": {
+          //   width: "90% !important",
+          // },
+        }}
       >
-        {images.map((step, index) => (
-          <Box key={index.toString()} sx={{ p: 1 }}>
-            <Box
-              sx={{
-                p: 2,
-                userSelect: "none",
-                px: 2.5,
-                borderRadius: 5,
-                background: colors[themeColor][100],
-              }}
-            >
-              {step.content}
-            </Box>
-          </Box>
-        ))}
-      </SwipeableViews>
-
-      <Box>
-        <IconButton
-          disabled={activeStep === maxSteps - 1}
-          onClick={handleNext}
-          sx={{
-            color: colors[themeColor][900],
-            background: colors[themeColor][200] + "!important",
-            backdropFilter: "blur(10px)",
-            zIndex: 99,
-          }}
+        <SwipeableViews
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={activeStep}
+          onChangeIndex={handleStepChange}
+          enableMouseEvents
         >
-          <span className="material-symbols-rounded">chevron_right</span>
-        </IconButton>
+          {images.map((step, index) => (
+            <Box key={index.toString()} sx={{ p: 1 }}>
+              <Box
+                sx={{
+                  p: 2,
+                  userSelect: "none",
+                  px: 2.5,
+                  borderRadius: 5,
+                  background: colors[themeColor][100],
+                }}
+              >
+                {step.content}
+              </Box>
+            </Box>
+          ))}
+        </SwipeableViews>
+
+        <Box>
+          <IconButton
+            disabled={activeStep === maxSteps - 1}
+            onClick={handleNext}
+            sx={{
+              color: colors[themeColor][900],
+              background: colors[themeColor][200] + "!important",
+              backdropFilter: "blur(10px)",
+              zIndex: 99,
+            }}
+          >
+            <span className="material-symbols-rounded">chevron_right</span>
+          </IconButton>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }

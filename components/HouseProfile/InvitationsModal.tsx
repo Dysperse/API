@@ -165,10 +165,10 @@ export function InvitationsModal() {
             >
               warning
             </span>
-            <b>Heads up!</b> Once you join a home, you'll lose access to any
-            items, lists, or tasks you've created. Your finances won't be
-            affected. Other members won't be able to view your budgets or
-            transactions.
+            <b>Heads up!</b> Once you join a home, you&apos;ll lose access to
+            any items, lists, or tasks you&apos;ve created. Your finances
+            won&apos;t be affected. Other members won&apos;t be able to view
+            your budgets or transactions.
           </Box>
           {error && (
             <Box
