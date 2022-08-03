@@ -6,6 +6,7 @@ import Icon from "@mui/material/Icon";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import * as React from "react";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const styles = {
   borderRadius: "15px",
@@ -71,12 +72,14 @@ export function BottomNav() {
   const onLink = (href: any) => {
     router.push(href);
   };
+  const matches = useMediaQuery("(max-height: 400px)");
+  console.log(matches);
   return (
     <Box
       sx={{
         width: { xs: "100%", sm: "65px" },
         position: "fixed",
-        bottom: { xs: 0, md: "unset" },
+        bottom: { xs: matches ? -100 : 0, md: "unset" },
         top: { xs: "unset", md: 0 },
         left: 0,
         display: {
