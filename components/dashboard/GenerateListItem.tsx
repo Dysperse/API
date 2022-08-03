@@ -14,10 +14,7 @@ export function GenerateListItem({ items, setItems, title, id }: any) {
     fetch("https://api.smartlist.tech/v2/lists/delete-item/", {
       method: "POST",
       body: new URLSearchParams({
-        token:
-          global.session &&
-          (global.session.account.SyncToken ||
-            global.session.property.accessToken),
+        token: global.session.property.accessToken,
         id: id,
       }),
     });
