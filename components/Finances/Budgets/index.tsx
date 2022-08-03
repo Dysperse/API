@@ -185,15 +185,12 @@ function CreateBudgetMenu({ transactions }: any) {
 }
 
 export function Budgets({ transactions }: { transactions: any }) {
-  const { isLoading, data }: any = useFetch(
-    "https://api.smartlist.tech/v2/finances/budgets/",
-    {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session.property.accessToken,
-      }),
-    }
-  );
+  const { isLoading, data }: any = useFetch("/api/finance/budgets", {
+    method: "POST",
+    body: new URLSearchParams({
+      token: global.session.account.accessToken,
+    }),
+  });
   const spentToday = transactions
     .filter(
       (transaction: any) => transaction.date == dayjs().format("YYYY-MM-DD")

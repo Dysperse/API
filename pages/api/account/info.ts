@@ -30,6 +30,7 @@ export const getInfo = async (token: any) => {
         verifiedEmail: parseInt(data.verifiedEmail),
         darkMode: JSON.parse(data.darkMode),
         accessToken: token,
+        financeToken: data.FinanceToken,
       };
     })[0],
     property: property.map((data) => {
