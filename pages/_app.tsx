@@ -81,7 +81,7 @@ function Render({ data, Component, pageProps }: any) {
     },
     palette: {
       primary: {
-        main: colors[themeColor][global.theme === "dark" ? "A200" : "A700"],
+        main: colors[themeColor][global.theme === "dark" ? "A200" : "800"],
       },
       mode: theme,
       ...(theme === "dark" && {
