@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import useSWR from "swr";
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import * as React from "react";

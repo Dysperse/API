@@ -257,7 +257,7 @@ export default function FullScreenDialog({ children }: any) {
           ? global.theme === "dark"
             ? "hsl(240, 11%, 20%)"
             : "#b8b9b8"
-          : "#fff"
+          : "#b8b9b8"
       );
   });
   useHotkeys("ctrl+,", (e) => {
