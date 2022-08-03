@@ -16,7 +16,8 @@ export function GenerateListItem({ items, setItems, title, id }: any) {
       body: new URLSearchParams({
         token:
           global.session &&
-          (global.session.user.SyncToken || global.session.accessToken),
+          (global.session.account.SyncToken ||
+            global.session.property.accessToken),
         id: id,
       }),
     });

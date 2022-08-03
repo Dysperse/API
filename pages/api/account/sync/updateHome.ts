@@ -1,18 +1,16 @@
 import executeQuery from "../../../../lib/db";
-import { ExchangeToken } from "../../../../lib/exchange-token";
 
 const handler = async (req, res) => {
   try {
-    const userId = await ExchangeToken(req.query.token);
-
     const allowedValues = ["houseName", "houseType"];
 
     const specifiedValues = Object.keys(JSON.parse(req.query.data));
     let intersection = specifiedValues.filter((x) => allowedValues.includes(x));
     intersection.forEach(async (setting) => {
       await executeQuery({
-        query: "UPDATE SyncTokens SET " + setting + " = ? WHERE login = ?",
-        values: [JSON.parse(req.query.data)[setting], userId[0].user ?? false],
+        query:
+          "UPDATE SyncTokens SET " + setting + " = ? WHERE accessToken = ?",
+        values: [JSON.parse(req.query.data)[setting], req.query.token ?? false],
       });
     });
     res.json({

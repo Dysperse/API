@@ -35,7 +35,8 @@ function ListItem({ item, listItems, setListItems }: any) {
               body: new URLSearchParams({
                 token:
                   global.session &&
-                  (global.session.user.SyncToken || global.session.accessToken),
+                  (global.session.account.SyncToken ||
+                    global.session.property.accessToken),
                 id: item.id,
               }),
             });
@@ -124,8 +125,8 @@ function ListPopup({
                 new URLSearchParams({
                   token:
                     global.session &&
-                    (global.session.user.SyncToken ||
-                      global.session.accessToken),
+                    (global.session.account.SyncToken ||
+                      global.session.property.accessToken),
                   id: id,
                 }),
               {
@@ -224,7 +225,9 @@ export function List({
     const data = await fetch(
       "/api/lists/items?" +
         new URLSearchParams({
-          token: global.session.user.SyncToken || global.session.accessToken,
+          token:
+            global.session.account.SyncToken ||
+            global.session.property.accessToken,
           parent: id.toString(),
         }),
       {

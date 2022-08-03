@@ -22,9 +22,6 @@ import { updateSettings } from "../Settings/updateSettings";
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
-  const [isOwner, setIsOwner] = React.useState<boolean>(false);
-  global.setIsOwner = setIsOwner;
-  global.isOwner = isOwner;
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
@@ -35,7 +32,7 @@ export function InviteButton() {
   );
 
   const [houseType, setHouseType] = React.useState(
-    global.session.user.houseType
+    global.session.property.houseType
   );
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -65,31 +62,6 @@ export function InviteButton() {
       "prevent-scroll"
     );
   }, [open]);
-
-  const url =
-    "/api/account/sync/invitations?" +
-    new URLSearchParams({
-      token: global.session && global.session.accessToken,
-      email: global.session && global.session.user.email,
-    });
-  const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
-  );
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (global.session.user.SyncToken) {
-        if (data) {
-          setHouseType(
-            data.data.filter((v) => v.accepted == "true")[0].houseType
-          );
-        }
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [data]);
 
   return (
     <>
@@ -191,7 +163,7 @@ export function InviteButton() {
                 >
                   <MenuItem
                     onClick={() => {
-                      updateSettings("houseType", "dorm");
+                      setHouseType("dorm");
                       setTimeout(() => {
                         document.getElementById("nameInput")!.focus();
                         document.getElementById("nameInput")!.blur();
@@ -214,7 +186,7 @@ export function InviteButton() {
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
-                      updateSettings("houseType", "apartment");
+                      setHouseType("apartment");
                       setTimeout(() => {
                         document.getElementById("nameInput")!.focus();
                         document.getElementById("nameInput")!.blur();
@@ -237,7 +209,7 @@ export function InviteButton() {
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
-                      updateSettings("houseType", "home");
+                      setHouseType("home");
                       setTimeout(() => {
                         document.getElementById("nameInput")!.focus();
                         document.getElementById("nameInput")!.blur();
@@ -277,56 +249,27 @@ export function InviteButton() {
                   },
                 }}
                 defaultValue={
-                  global.session.user.SyncToken == false ||
-                  !global.session.user.SyncToken
-                    ? global.session.user.houseName || "Smartlist"
-                    : global.syncedHouseName
-                    ? global.syncedHouseName
-                    : ""
+                  global.session.property.houseName || "Untitled property"
                 }
                 id="nameInput"
                 label="Home name / Family name / Address"
                 placeholder="1234 Rainbow Road"
                 onBlur={(e: any) => {
-                  if (global.session.user.SyncToken || isOwner) {
-                    updateSettings(
-                      "houseName",
-                      e.target.value,
-                      false,
-                      () => {
-                        global.setSyncedHouseName(e.target.value);
-                      },
-                      true
-                    );
-                    fetch(
-                      "/api/account/sync/updateHome?" +
-                        new URLSearchParams({
-                          token: isOwner
-                            ? global.session.accessToken
-                            : global.session.user.SyncToken,
-                          data: JSON.stringify({
-                            houseName: e.target.value,
-                            houseType: houseType,
-                          }),
+                  fetch(
+                    "/api/account/sync/updateHome?" +
+                      new URLSearchParams({
+                        token: global.session.property.accessToken,
+                        data: JSON.stringify({
+                          houseName: e.target.value,
+                          houseType: houseType,
                         }),
-                      {
-                        method: "POST",
-                      }
-                    ).then((res) => {
-                      global.setSyncedHouseName(e.target.value);
-                      console.log(res);
-                    });
-                  } else {
-                    updateSettings("houseName", e.target.value);
-                  }
-
-                  if (isOwner) {
-                    updateSettings("houseName", e.target.value);
-                  }
-
-                  setTimeout(() => {
-                    global.setSyncedHouseName(e.target.value);
-                  }, 1000);
+                      }),
+                    {
+                      method: "POST",
+                    }
+                  ).then((res) => {
+                    console.log(res);
+                  });
                 }}
               />
             </Box>
@@ -359,22 +302,7 @@ export function InviteButton() {
                 {houseType}
               </Typography>
               <Typography variant="h3">
-                {global.session.user.SyncToken == false ||
-                !global.session.user.SyncToken ? (
-                  global.session.user.houseName || "Smartlist"
-                ) : (
-                  <>
-                    {global.syncedHouseName === "false" ? (
-                      <Skeleton
-                        animation="wave"
-                        width={200}
-                        sx={{ maxWidth: "20vw" }}
-                      />
-                    ) : (
-                      <>{global.syncedHouseName}</>
-                    )}
-                  </>
-                )}
+                {global.session.property.houseName || "Untitled property"}
               </Typography>
             </Box>
           )}
@@ -398,9 +326,9 @@ export function InviteButton() {
         </Box>
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
-      {!global.session.user.SyncToken && global.ownerLoaded && !isOwner && (
-        <Invitations />
-      )}
+      {!global.session.account.SyncToken &&
+        global.ownerLoaded &&
+        global.session.property.role !== "owner" && <Invitations />}
 
       <Button
         disableRipple
@@ -427,28 +355,14 @@ export function InviteButton() {
       >
         <Typography
           variant="h6"
+          component="div"
           sx={{
             fontWeight: "600",
             mr: 2,
           }}
           noWrap
         >
-          {global.session.user.SyncToken == false ||
-          !global.session.user.SyncToken ? (
-            global.session.user.houseName || "Carbon"
-          ) : (
-            <>
-              {global.syncedHouseName === "false" ? (
-                <Skeleton
-                  animation="wave"
-                  width={200}
-                  sx={{ maxWidth: "20vw" }}
-                />
-              ) : (
-                <>{global.syncedHouseName}</>
-              )}
-            </>
-          )}
+          {global.session.property.houseName || "Untitled property"}
         </Typography>
         <span className="material-symbols-rounded" style={{ fontSize: "20px" }}>
           expand_more
@@ -456,7 +370,11 @@ export function InviteButton() {
       </Button>
       <Popover
         id={id}
-        open={!isOwner && !global.session.user.SyncToken && popoverOpen}
+        open={
+          global.session.property.role === "owner" &&
+          !global.session.account.SyncToken &&
+          popoverOpen
+        }
         anchorEl={anchorEl}
         onClose={handleClose}
         BackdropProps={{
@@ -503,7 +421,7 @@ export function InviteButton() {
           />
           <br />
           Invite up to 5 people to your{" "}
-          {global.session.user.houseType !== "dorm" ? "home" : "dorm"}
+          {global.session.property.houseType !== "dorm" ? "home" : "dorm"}
         </Typography>
       </Popover>
     </>

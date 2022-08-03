@@ -13,7 +13,7 @@ import { updateSettings } from "./updateSettings";
 export default function AppearanceSettings() {
   const [mode, setMode] = useState<"personal" | "business">("personal");
   const [studentMode, setStudentMode] = useState<boolean>(
-    global.session.user.houseType
+    global.session.property.houseType
   );
 
   return (
@@ -32,7 +32,7 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 variant="filled"
-                defaultValue={global.session && global.session.user.name}
+                defaultValue={global.session && global.session.account.name}
                 label="Name"
                 onBlur={(e) => updateSettings("name", e.target.value)}
               />
@@ -46,7 +46,7 @@ export default function AppearanceSettings() {
                 fullWidth
                 disabled
                 variant="filled"
-                defaultValue={global.session && global.session.user.email}
+                defaultValue={global.session && global.session.account.email}
                 label="Email"
                 onBlur={(e) => updateSettings("email", e.target.value)}
               />
@@ -59,7 +59,7 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 variant="filled"
-                defaultValue={global.session && global.session.user.image}
+                defaultValue={global.session && global.session.account.image}
                 label="Profile picture"
                 onBlur={(e) => updateSettings("image", e.target.value)}
               />

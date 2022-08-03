@@ -109,7 +109,8 @@ function MoreRooms(): JSX.Element {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      token: global.session.user.SyncToken || global.session.accessToken,
+      token:
+        global.session.account.SyncToken || global.session.property.accessToken,
     });
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -289,7 +290,7 @@ function Content({ toggleDrawer }: any) {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        {global.session.user.houseType !== "dorm" && (
+        {global.session.property.houseType !== "dorm" && (
           <AddItemOption
             toggleDrawer={toggleDrawer}
             title="Kitchen"
@@ -314,7 +315,7 @@ function Content({ toggleDrawer }: any) {
           title="Storage"
           icon={<span className="material-symbols-rounded">inventory_2</span>}
         />
-        {global.session.user.houseType !== "dorm" && (
+        {global.session.property.houseType !== "dorm" && (
           <>
             <AddItemOption
               toggleDrawer={toggleDrawer}

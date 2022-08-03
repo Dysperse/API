@@ -18,7 +18,7 @@ export function Goal({
   image,
   balance,
   note,
-  minAmountOfMoney
+  minAmountOfMoney,
 }: {
   scrollTop: number;
   id: number;
@@ -53,7 +53,7 @@ export function Goal({
           display: "flex",
           alignItems: { xs: "end", sm: "center" },
           height: "100vh",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
         PaperProps={{
           sx: {
@@ -63,8 +63,8 @@ export function Goal({
             position: "unset",
             mx: "auto",
             maxWidth: { sm: "70vw", xs: "100vw" },
-            overflow: "hidden"
-          }
+            overflow: "hidden",
+          },
         }}
         onClose={() => setOpen(false)}
       >
@@ -83,7 +83,7 @@ export function Goal({
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
             backgroundSize: "cover",
-            backgroundRepeat: "no-repeat"
+            backgroundRepeat: "no-repeat",
           }}
         >
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "600" }}>
@@ -103,10 +103,10 @@ export function Goal({
               fetch("https://api.smartlist.tech/v2/finances/goals/editNote/", {
                 method: "POST",
                 body: new URLSearchParams({
-                  token: global.session.accessToken,
+                  token: global.session.property.accessToken,
                   id: id.toString(),
-                  note: e.target.value
-                })
+                  note: e.target.value,
+                }),
               });
               e.target.placeholder = "Click to add note";
               e.target.spellcheck = false;
@@ -123,8 +123,8 @@ export function Goal({
               sx: {
                 px: 2.5,
                 py: 1.5,
-                borderRadius: "15px"
-              }
+                borderRadius: "15px",
+              },
             }}
             spellCheck={false}
             variant="filled"
@@ -148,7 +148,7 @@ export function Goal({
                   textTransform: "none",
                   mr: 1,
                   mb: 1,
-                  borderRadius: 5
+                  borderRadius: 5,
                 }}
                 disableElevation
                 variant="contained"
@@ -160,7 +160,7 @@ export function Goal({
                 sx={{
                   textTransform: "none",
                   mb: 1,
-                  borderRadius: 5
+                  borderRadius: 5,
                 }}
                 disableElevation
                 loading={loading}
@@ -172,9 +172,9 @@ export function Goal({
                     {
                       method: "POST",
                       body: new URLSearchParams({
-                        token: global.session.accessToken,
-                        id: id.toString()
-                      })
+                        token: global.session.property.accessToken,
+                        id: id.toString(),
+                      }),
                     }
                   )
                     .then((res) => res.json())
@@ -214,14 +214,14 @@ export function Goal({
           backgroundRepeat: "no-repeat",
           borderRadius: 5,
           mt: 2,
-          color: "white"
+          color: "white",
         }}
       >
         <CardActionArea
           onClick={() => setOpen(true)}
           sx={{
             borderRadius: 5,
-            p: 1
+            p: 1,
           }}
         >
           <CardContent>
@@ -238,7 +238,7 @@ export function Goal({
                 borderRadius: 99,
                 height: 2,
                 background: "rgba(200,200,200,.4)!important",
-                "& *": { borderRadius: 99, background: "#fff!important" }
+                "& *": { borderRadius: 99, background: "#fff!important" },
               }}
               value={
                 balance > minAmountOfMoney

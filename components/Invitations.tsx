@@ -30,7 +30,7 @@ function Invitation({ t, invitation, key }: any) {
                 "/api/account/sync/acceptInvitation?" +
                   new URLSearchParams({
                     id: invitation.id,
-                    token: global.session.accessToken,
+                    token: global.session.property.accessToken,
                     email: invitation.email,
                   }),
                 {
@@ -67,8 +67,8 @@ export function Invitations() {
       fetch(
         "/api/account/sync/invitations?" +
           new URLSearchParams({
-            token: global.session && global.session.accessToken,
-            email: global.session && global.session.user.email,
+            token: global.session && global.session.property.accessToken,
+            email: global.session && global.session.account.email,
           }),
         {
           method: "POST",

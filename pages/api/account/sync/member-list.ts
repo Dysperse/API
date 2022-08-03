@@ -1,13 +1,10 @@
 import executeQuery from "../../../../lib/db";
-import { ExchangeToken } from "../../../../lib/exchange-token";
 
 const handler = async (req, res) => {
   try {
-    const userId = await ExchangeToken(req.query.token);
-
     const result = await executeQuery({
-      query: "SELECT * FROM SyncTokens WHERE login = ?",
-      values: [userId[0].user ?? false],
+      query: "SELECT * FROM SyncTokens WHERE accessToken = ?",
+      values: [req.query.token ?? false],
     });
     res.json({
       data: result,

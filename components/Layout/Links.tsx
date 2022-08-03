@@ -41,7 +41,9 @@ function CreateRoom() {
       fetch("https://api.smartlist.tech/v2/rooms/create/", {
         method: "POST",
         body: new URLSearchParams({
-          token: global.session.user.SyncToken || global.session.accessToken,
+          token:
+            global.session.account.SyncToken ||
+            global.session.property.accessToken,
           name: values.name,
         }),
       })
@@ -359,9 +361,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               }),
             }}
           >
-            {global.session.user.houseType ? "Dorm" : "Rooms"}
+            {global.session.property.houseType ? "Dorm" : "Rooms"}
           </ListSubheader>
-          {global.session.user.houseType !== "dorm" && (
+          {global.session.property.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/kitchen"
@@ -383,7 +385,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             text="Bathroom"
             icon={<span className="material-symbols-rounded">bathroom</span>}
           />
-          {global.session.user.houseType !== "dorm" && (
+          {global.session.property.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/garage"
@@ -391,7 +393,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               icon={<span className="material-symbols-rounded">garage</span>}
             />
           )}
-          {global.session.user.houseType !== "dorm" && (
+          {global.session.property.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/dining"
@@ -399,7 +401,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               icon={<span className="material-symbols-rounded">dining</span>}
             />
           )}
-          {global.session.user.houseType !== "dorm" && (
+          {global.session.property.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/living-room"
@@ -407,7 +409,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               icon={<span className="material-symbols-rounded">living</span>}
             />
           )}
-          {global.session.user.houseType !== "dorm" && (
+          {global.session.property.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/laundry-room"
@@ -423,11 +425,13 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
             href="/rooms/[index]"
             asHref="/rooms/storage-room"
             text={
-              <>Storage {global.session.user.houseType !== "dorm" && "room"}</>
+              <>
+                Storage {global.session.property.houseType !== "dorm" && "room"}
+              </>
             }
             icon={<span className="material-symbols-rounded">inventory_2</span>}
           />
-          {global.session.user.houseType !== "dorm" && (
+          {global.session.property.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/camping"
@@ -435,7 +439,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               icon={<span className="material-symbols-rounded">camping</span>}
             />
           )}
-          {global.session.user.houseType !== "dorm" && (
+          {global.session.property.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/garden"
@@ -445,7 +449,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           )}
         </div>
 
-        {global.session.user.houseType !== "dorm" && (
+        {global.session.property.houseType !== "dorm" && (
           <>
             <ListItemButton
               disableRipple

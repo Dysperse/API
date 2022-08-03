@@ -12,7 +12,8 @@ export function RecentItems() {
       limit: "7",
       token:
         global.session &&
-        (global.session.user.SyncToken || global.session.accessToken),
+        (global.session.account.SyncToken ||
+          global.session.property.accessToken),
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {

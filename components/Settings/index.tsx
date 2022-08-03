@@ -326,7 +326,7 @@ export default function FullScreenDialog({ children }: any) {
             sx={{ textAlign: "center", flex: 1, fontWeight: "400", mb: 10 }}
             component="div"
           >
-            {global.session.user.email}
+            {global.session.account.email}
           </Typography>
 
           <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
@@ -359,9 +359,9 @@ export default function FullScreenDialog({ children }: any) {
               }
               secondary={
                 <>
-                  {global.isOwner &&
-                  global.session.user["2faCode"] &&
-                  global.session.user["2faCode"] === "false" ? (
+                  {global.session.property.role === "owner" &&
+                  global.session.account["2faCode"] &&
+                  global.session.account["2faCode"] === "false" ? (
                     <span style={{ color: "red" }}>
                       Your account is at greater risk because 2-factor auth
                       isn&rsquo;t enabled!
@@ -371,8 +371,8 @@ export default function FullScreenDialog({ children }: any) {
                     ""
                   )}
                   2FA is currently{" "}
-                  {global.session.user["2faCode"] &&
-                  global.session.user["2faCode"] !== "false"
+                  {global.session.account["2faCode"] &&
+                  global.session.account["2faCode"] !== "false"
                     ? "enabled"
                     : "disabled"}
                 </>
@@ -383,7 +383,7 @@ export default function FullScreenDialog({ children }: any) {
               content={<FinanceSettings />}
               icon="payments"
               primary={<span id="financeSettingsTrigger">Finances</span>}
-              secondary={<>Goal: {global.session.user.financePlan}</>}
+              secondary={<>Goal: {global.session.account.financePlan}</>}
             />
             <SettingsMenu
               id="accountSettings"
@@ -392,7 +392,8 @@ export default function FullScreenDialog({ children }: any) {
               primary={<span id="accountSettings">Account</span>}
               secondary={
                 <>
-                  {global.session.user.name} &bull; {global.session.user.email}
+                  {global.session.account.name} &bull;{" "}
+                  {global.session.account.email}
                 </>
               }
             />
@@ -403,18 +404,8 @@ export default function FullScreenDialog({ children }: any) {
               secondary={
                 <>
                   If an item&apos;s quantity is{" "}
-                  {global.session.user.notificationMin} or less
+                  {global.session.account.notificationMin} or less
                 </>
-              }
-            />
-            <SettingsMenu
-              content={<Sync />}
-              icon="sync"
-              primary="Sync"
-              secondary={
-                <span id="syncTrigger">
-                  Invite others to your home and sync inventory, lists, etc.
-                </span>
               }
             />
             <Divider sx={{ mb: 1 }} />

@@ -190,7 +190,7 @@ export function Budgets({ transactions }: { transactions: any }) {
     {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session.accessToken,
+        token: global.session.property.accessToken,
       }),
     }
   );
@@ -257,20 +257,20 @@ export function Budgets({ transactions }: { transactions: any }) {
           <Budget
             hardLimit={true}
             category="Today"
-            amount={global.session.user.budgetDaily}
+            amount={global.session.account.budgetDaily}
             type="daily"
           />
           <Budget
             hardLimit={true}
             category="This week"
-            amount={global.session.user.budgetWeekly}
+            amount={global.session.account.budgetWeekly}
             type="weekly"
           />
           <Budget
             hardLimit={true}
             category="This month"
             amountSpent={spentMonth}
-            amount={global.session.user.budgetMonthly}
+            amount={global.session.account.budgetMonthly}
             type="monthly"
           />
         </CardContent>

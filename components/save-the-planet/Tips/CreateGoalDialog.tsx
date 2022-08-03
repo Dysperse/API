@@ -74,7 +74,9 @@ export function CreateGoalDialog({
                         {
                           method: "POST",
                           body: new URLSearchParams({
-                            token: global.session && global.session.accessToken,
+                            token:
+                              global.session &&
+                              global.session.property.accessToken,
                             name: name,
                             image:
                               "https://images.unsplash.com/photo-1416169607655-0c2b3ce2e1cc?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774",

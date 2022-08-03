@@ -45,7 +45,8 @@ function Room({ room }: any) {
                 new URLSearchParams({
                   id: room.id,
                   token:
-                    global.session.user.SyncToken || global.session.accessToken,
+                    global.session.account.SyncToken ||
+                    global.session.property.accessToken,
                 }),
               {
                 method: "POST",
@@ -70,7 +71,8 @@ export function RoomList() {
     new URLSearchParams({
       token:
         global.session &&
-        (global.session.user.SyncToken || global.session.accessToken),
+        (global.session.account.SyncToken ||
+          global.session.property.accessToken),
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {

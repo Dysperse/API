@@ -161,7 +161,8 @@ export function MemberList() {
     new URLSearchParams({
       token:
         global.session &&
-        (global.session.user.SyncToken || global.session.accessToken),
+        (global.session.account.SyncToken ||
+          global.session.property.accessToken),
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {
@@ -182,7 +183,7 @@ export function MemberList() {
                   textOverflow: "ellipsis",
                 }}
               >
-                {global.session.user.name}
+                {global.session.account.name}
               </Typography>
               <Typography
                 variant="body2"
@@ -192,7 +193,7 @@ export function MemberList() {
                   textOverflow: "ellipsis",
                 }}
               >
-                {global.session.user.email}
+                {global.session.account.email}
               </Typography>
               <ProfileMenu>
                 <Button
@@ -212,7 +213,7 @@ export function MemberList() {
           ),
         },
         ...data.data
-          .filter((e: any) => e.email !== global.session.user.email)
+          .filter((e: any) => e.email !== global.session.account.email)
           .map((member) => {
             return {
               content: <Member member={member} />,

@@ -107,7 +107,8 @@ export function CreateItemModal({
           new URLSearchParams({
             token:
               global.session &&
-              (global.session.user.SyncToken || global.session.accessToken),
+              (global.session.account.SyncToken ||
+                global.session.property.accessToken),
             room: room.toString().toLowerCase(),
             name: values.title,
             qty: values.quantity,
@@ -183,6 +184,7 @@ export function CreateItemModal({
         </Box>
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle
+            component="div"
             sx={{
               display: "flex",
               textAlign: "center",
@@ -208,7 +210,7 @@ export function CreateItemModal({
             >
               <span className="material-symbols-rounded">close</span>
             </IconButton>
-            <Typography variant="h6" sx={{ fontWeight: "600" }}>
+            <Typography component="div" variant="h6" sx={{ fontWeight: "600" }}>
               {alias ?? room}
             </Typography>
             <IconButton

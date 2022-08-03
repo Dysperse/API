@@ -80,17 +80,12 @@ function isEmail(email) {
     );
 }
 
-function SetOwner() {
-  global.setIsOwner(true);
-  return <></>;
-}
-
 function Leave() {
   const url =
     "/api/account/sync/invitations?" +
     new URLSearchParams({
-      token: global.session && global.session.accessToken,
-      email: global.session && global.session.user.email,
+      token: global.session && global.session.property.accessToken,
+      email: global.session && global.session.account.email,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {
@@ -99,14 +94,6 @@ function Leave() {
   );
 
   const [loading, setLoading] = React.useState<boolean>(!data);
-  React.useEffect(() => {
-    if (data) {
-      global.setSyncedHouseName(
-        data.data.filter((v) => v.accepted == "true")[0].houseName
-      );
-    }
-  });
-
   return (
     <Box>
       <Box
@@ -135,8 +122,9 @@ function Leave() {
               fetch(
                 "/api/account/sync/revokeInvitation?" +
                   new URLSearchParams({
-                    token: global.session && global.session.accessToken,
-                    email: global.session && global.session.user.email,
+                    token:
+                      global.session && global.session.property.accessToken,
+                    email: global.session && global.session.account.email,
                     id: data.data.filter((v) => v.accepted == "true")[0].id,
                   }),
                 {
@@ -178,7 +166,7 @@ export default function Sync() {
   const url =
     "/api/account/sync/member-list?" +
     new URLSearchParams({
-      token: global.session && global.session.accessToken,
+      token: global.session && global.session.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {
@@ -186,13 +174,6 @@ export default function Sync() {
     }).then((res) => res.json())
   );
   const [value, setValue] = React.useState<EmailOptionType | null>(null);
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      global.setOwnerLoaded(true);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <Box
@@ -205,7 +186,7 @@ export default function Sync() {
       <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: "700" }}>
         Add person
       </Typography>
-      {global.session.user.SyncToken ? (
+      {global.session.account.SyncToken ? (
         <Leave />
       ) : (
         <Box>
@@ -293,7 +274,7 @@ export default function Sync() {
                 onClick={() => {
                   if (
                     !value ||
-                    value.title === global.session.user.email ||
+                    value.title === global.session.account.email ||
                     !isEmail(value.title)
                   )
                     alert("Please enter an email");
@@ -301,10 +282,10 @@ export default function Sync() {
                     fetch(
                       "/api/account/sync/createToken?" +
                         new URLSearchParams({
-                          token: global.session.accessToken,
+                          token: global.session.property.accessToken,
                           email: value.title,
-                          houseName: global.session.user.houseName,
-                          houseType: global.session.user.houseType,
+                          houseName: global.session.property.houseName,
+                          houseType: global.session.property.houseType,
                         }),
                       {
                         method: "POST",
@@ -325,7 +306,6 @@ export default function Sync() {
 
           {error &&
             "An error occured while loading your members. Please try again"}
-          {data && data.data.length > 0 && <SetOwner />}
           {data && data.data && (
             <>
               {data.data.map((member: any) => (

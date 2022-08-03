@@ -1,16 +1,13 @@
 import executeQuery from "../../../lib/db";
-import { ExchangeToken } from "../../../lib/exchange-token";
 
 const handler = async (req, res) => {
   try {
-    const userId = await ExchangeToken(req.query.token);
-
     const result = await executeQuery({
       query:
         "INSERT INTO ListItems (parent, user, title, description) VALUES (?, ?, ?, ?)",
       values: [
         req.query.parent ?? -1,
-        userId[0].user ?? false,
+        req.query.token ?? false,
         req.query.title ?? "",
         req.query.description ?? "",
       ],

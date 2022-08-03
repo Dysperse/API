@@ -18,7 +18,7 @@ dayjs.extend(relativeTime);
 function Render({ data, Component, pageProps }: any) {
   global.session = data;
   const [theme, setTheme] = useState<"dark" | "light">(
-    data.user.darkMode === "true" ? "dark" : "light"
+    data.account.darkMode  ? "dark" : "light"
   );
   const [themeColor, setThemeColor] = useState<
     | "red"
@@ -30,13 +30,13 @@ function Render({ data, Component, pageProps }: any) {
     | "teal"
     | "cyan"
     | "brown"
-  >(data.user.theme);
+  >(data.account.theme);
   global.theme = theme;
   global.setTheme = setTheme;
   global.themeColor = themeColor;
   global.setThemeColor = setThemeColor;
 
-  if (data.user.darkMode === "true") {
+  if (data.account.darkMode === "true") {
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute("content", "hsl(240, 11%, 10%)");
@@ -160,7 +160,7 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
         <Online>
           {!isLoading &&
             !isError &&
-            (data.user ? (
+            (data.account ? (
               <>
                 <Render
                   Component={Component}

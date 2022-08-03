@@ -16,7 +16,7 @@ export function ShareModal({ title, quantity, room }: any): JSX.Element {
     "/share/" +
     encodeURIComponent(
       JSON.stringify({
-        name: global.session.user.name,
+        name: global.session.account.name,
         title: title,
         quantity: quantity,
         room: room,

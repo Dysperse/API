@@ -51,7 +51,8 @@ function Room({
               room: room.toLowerCase().replace(" room", ""),
               lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               token:
-                global.session.user.SyncToken ?? global.session.accessToken,
+                global.session.account.SyncToken ??
+                global.session.property.accessToken,
             }),
           {
             method: "POST",

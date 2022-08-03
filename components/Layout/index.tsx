@@ -173,7 +173,8 @@ function CustomRooms() {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      token: global.session.user.SyncToken || global.session.accessToken,
+      token:
+        global.session.account.SyncToken || global.session.property.accessToken,
     });
 
   const { data, error } = useSWR(url, () =>
@@ -203,10 +204,6 @@ function CustomRooms() {
 }
 
 function ResponsiveDrawer(props: any): JSX.Element {
-  const [ownerLoaded, setOwnerLoaded] = React.useState(false);
-  global.ownerLoaded = ownerLoaded;
-  global.setOwnerLoaded = setOwnerLoaded;
-
   return (
     <Box
       sx={{

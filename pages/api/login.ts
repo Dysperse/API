@@ -11,11 +11,10 @@ export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
     const token = req.query.token ?? "false";
     const info = await getInfo(token);
-    
+
     req.session.user = {
       valid: true,
-      accessToken: token,
-      user: info,
+      ...info,
     };
     await req.session.save();
     res.redirect("/");

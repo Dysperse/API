@@ -3,11 +3,9 @@ import { ExchangeToken } from "../../../lib/exchange-token";
 
 const handler = async (req, res) => {
   try {
-    const userId = await ExchangeToken(req.query.token);
-
     const result = await executeQuery({
       query: "SELECT * FROM Rooms WHERE user = ?",
-      values: [userId[0].user ?? false],
+      values: [req.query.token ?? false],
     });
     res.json({
       data: result,

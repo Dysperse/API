@@ -4,20 +4,20 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export function SuggestionChip({ room, item, key }: any) {
+export function SuggestionChip({ room, item }: any) {
   const [hide, setHide] = useState<boolean>(false);
   return (
     <>
       {!hide && (
         <Chip
-          key={key}
           onClick={() => {
             setHide(true);
             fetch(
               "/api/inventory/create?" +
                 new URLSearchParams({
                   token:
-                    global.session.user.SyncToken || global.session.accessToken,
+                    global.session.account.SyncToken ||
+                    global.session.property.accessToken,
                   name: item,
                   qty: "1",
                   category: "[]",

@@ -66,7 +66,8 @@ function RenderSuggestions() {
       limit: "500",
       token:
         global.session &&
-        (global.session.user.SyncToken || global.session.accessToken),
+        (global.session.account.SyncToken ||
+          global.session.property.accessToken),
     });
   const { error, data } = useSWR(url, () =>
     fetch(url, {

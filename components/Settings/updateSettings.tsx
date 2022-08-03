@@ -11,8 +11,8 @@ export function updateSettings(
     "/api/account/update?" +
       new URLSearchParams({
         token: useSyncToken
-          ? global.session.user.SyncToken
-          : global.session.accessToken,
+          ? global.session.account.SyncToken
+          : global.session.account.accessToken,
         data: JSON.stringify({
           [key]: value,
         }),
@@ -26,7 +26,7 @@ export function updateSettings(
       fetch(
         "/api/login/?" +
           new URLSearchParams({
-            token: global.session && global.session.accessToken,
+            token: global.session && global.session.account.accessToken,
           })
       )
         .then(() => {
@@ -46,5 +46,5 @@ export function updateSettings(
       }
     });
   return d;
-  // global.session.user[key] = value;
+  // global.session.account[key] = value;
 }

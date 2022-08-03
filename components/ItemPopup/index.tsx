@@ -188,7 +188,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               "/share/" +
               encodeURIComponent(
                 JSON.stringify({
-                  name: global.session.user.name,
+                  name: global.session.account.name,
                   title: title,
                   quantity: quantity,
                   room: data.room,
@@ -216,8 +216,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 new URLSearchParams({
                   token:
                     global.session &&
-                    (global.session.user.SyncToken ||
-                      global.session.accessToken),
+                    (global.session.account.SyncToken ||
+                      global.session.property.accessToken),
                   id: id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                 }),
@@ -244,7 +244,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               "/api/inventory/trash?" +
                 new URLSearchParams({
                   token:
-                    global.session.user.SyncToken || global.session.accessToken,
+                    global.session.account.SyncToken ||
+                    global.session.property.accessToken,
                   id: id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                 }),
@@ -290,7 +291,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           <Head>
             <title>
               {title} &bull; {data.room} &bull;{" "}
-              {global.session.user.houseName.replace(/./, (c) =>
+              {global.session.property.houseName.replace(/./, (c) =>
                 c.toUpperCase()
               )}{" "}
               &bull; Carbon
@@ -442,8 +443,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     new URLSearchParams({
                       token:
                         global.session &&
-                        (global.session.user.SyncToken ||
-                          global.session.accessToken),
+                        (global.session.account.SyncToken ||
+                          global.session.property.accessToken),
                       id: id.toString(),
                       lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                       note: e.target.value,

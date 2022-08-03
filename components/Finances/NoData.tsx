@@ -22,12 +22,12 @@ function ConnectBankAccount() {
         fetch(`/api/finance/exchangePublicToken?public_token=${public_token}`)
           .then((res) => res.json())
           .then((res) => {
-            global.session.user.financeToken = res.access_token;
+            global.session.account.financeToken = res.access_token;
             // alert(res.access_token);
             fetch("https://api.smartlist.tech/v2/account/update/", {
               method: "POST",
               body: new URLSearchParams({
-                token: global.session && global.session.accessToken,
+                token: global.session && global.session.property.accessToken,
                 data: JSON.stringify({
                   financeToken: res.access_token,
                 }),
@@ -39,7 +39,8 @@ function ConnectBankAccount() {
                 fetch(
                   "/api/login/?" +
                     new URLSearchParams({
-                      token: global.session && global.session.accessToken,
+                      token:
+                        global.session && global.session.property.accessToken,
                     })
                 );
               });
@@ -74,7 +75,7 @@ function ConnectBankAccount() {
   const { isLoading, data }: any = useFetch(
     "/api/finance/createLinkToken/?" +
       new URLSearchParams({
-        access_token: global.session.user.financeToken,
+        access_token: global.session.account.financeToken,
       })
   );
   return isLoading ? (

@@ -1,17 +1,14 @@
 import executeQuery from "../../../lib/db";
-import { ExchangeToken } from "../../../lib/exchange-token";
 
 const handler = async (req, res) => {
   try {
-    const userId = await ExchangeToken(req.query.token);
-
     await executeQuery({
       query: "DELETE FROM ListNames WHERE id = ? AND login = ?",
-      values: [req.query.id ?? "false", userId[0].user ?? false],
+      values: [req.query.id ?? "false", req.query.token ?? false],
     });
     await executeQuery({
       query: "DELETE FROM ListItems WHERE parent = ? AND login = ?",
-      values: [req.query.id ?? "false", userId[0].user ?? false],
+      values: [req.query.id ?? "false", req.query.token ?? false],
     });
     res.json({
       data: true,

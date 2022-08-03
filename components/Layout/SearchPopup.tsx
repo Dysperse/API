@@ -109,7 +109,7 @@ export function SearchPopup({ content }: any) {
     fetch(
       "/api/rooms?" +
         new URLSearchParams({
-          token: global.session.accessToken,
+          token: global.session.property.accessToken,
         }),
       {
         method: "POST",

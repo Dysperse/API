@@ -11,7 +11,8 @@ export function RoomComponent({ index }: any) {
       new URLSearchParams({
         token:
           global.session &&
-          (global.session.user.SyncToken || global.session.accessToken),
+          (global.session.account.SyncToken ||
+            global.session.property.accessToken),
         room: router.query.custom
           ? decode(index).split(",")[0]
           : index.toLowerCase().replaceAll("-", ""),

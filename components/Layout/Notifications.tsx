@@ -23,7 +23,8 @@ function NotificationsList() {
       limit: "500",
       token:
         global.session &&
-        (global.session.user.SyncToken || global.session.accessToken),
+        (global.session.account.SyncToken ||
+          global.session.property.accessToken),
     });
 
   const { data, error } = useSWR(url, () =>
@@ -57,7 +58,7 @@ function NotificationsList() {
       {data.data.map((item: any, id: number) => {
         if (
           parseInt(item.amount.replace(/[^\d]/g, ""), 100) <
-            global.session.user.notificationMin ||
+            global.session.account.notificationMin ||
           item.amount.includes("In stock")
         )
           return "";

@@ -20,7 +20,8 @@ export function RoomList({
       body: new URLSearchParams({
         token:
           global.session &&
-          (global.session.user.SyncToken || global.session.accessToken),
+          (global.session.account.SyncToken ||
+            global.session.property.accessToken),
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((res) => res.json())
@@ -55,8 +56,8 @@ export function RoomList({
                   body: new URLSearchParams({
                     token:
                       global.session &&
-                      (global.session.user.SyncToken ||
-                        global.session.accessToken),
+                      (global.session.account.SyncToken ||
+                        global.session.property.accessToken),
                     parent: list.id,
                     title: title,
                     description: "",

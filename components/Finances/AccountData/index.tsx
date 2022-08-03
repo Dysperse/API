@@ -13,7 +13,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
     fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session.accessToken,
+        token: global.session.property.accessToken,
         accountId: account.account_id,
       }),
     }).then((res) => res.json())

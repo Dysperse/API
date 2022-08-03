@@ -12,7 +12,7 @@ export function Liabilities() {
   const url =
     "/api/finance/liabilities?" +
     new URLSearchParams({
-      access_token: global.session.user.financeToken,
+      access_token: global.session.account.financeToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())

@@ -24,8 +24,8 @@ export default function App() {
 
   return (
     <Box sx={{ p: 5 }}>
-      {global.session.user["2faCode"] &&
-      global.session.user["2faCode"] !== "false" ? (
+      {global.session.account["2faCode"] &&
+      global.session.account["2faCode"] !== "false" ? (
         <Box>2FA is enabled for your account!</Box>
       ) : (
         <Box>
@@ -105,7 +105,7 @@ export default function App() {
                   new URLSearchParams({
                     key: key,
                     code: code,
-                    token: global.session.accessToken,
+                    token: global.session.property.accessToken,
                   }),
                 {
                   method: "POST",
@@ -113,17 +113,17 @@ export default function App() {
               )
                 .then((res) => res.json())
                 .then((res) => {
-                  fetch("/api/login?token=" + global.session.accessToken).then(
-                    () => {
-                      if (res.data) {
-                        toast.success("2FA setup successful!");
-                      } else {
-                        toast.error("Invalid 2FA code");
-                      }
-                      setLoading(false);
-                      window.location.reload();
+                  fetch(
+                    "/api/login?token=" + global.session.property.accessToken
+                  ).then(() => {
+                    if (res.data) {
+                      toast.success("2FA setup successful!");
+                    } else {
+                      toast.error("Invalid 2FA code");
                     }
-                  );
+                    setLoading(false);
+                    window.location.reload();
+                  });
                 });
             }}
           >
