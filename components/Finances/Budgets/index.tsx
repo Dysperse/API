@@ -1,3 +1,4 @@
+import useSWR from "swr";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -188,15 +189,17 @@ function CreateBudgetMenu({ transactions }: any) {
 }
 
 export function Budgets({ transactions }: { transactions: any }) {
-  const { isLoading, data }: any = useFetch(
+  const url =
     "/api/finance/budgets?" +
-      new URLSearchParams({
-        token: global.session.account.accessToken,
-      }),
-    {
+    new URLSearchParams({
+      token: global.session.account.accessToken,
+    });
+  const { data, error }: any = useSWR(url, () =>
+    fetch(url, {
       method: "POST",
-    }
+    })
   );
+
   const spentToday = transactions
     .filter(
       (transaction: any) => transaction.date == dayjs().format("YYYY-MM-DD")
@@ -240,14 +243,20 @@ export function Budgets({ transactions }: { transactions: any }) {
           >
             By category
           </Typography>
-          {isLoading ? (
-            "Loading..."
-          ) : (
+          {error && (
+            <>
+              Yikes! An error occured while trying to fetch your budgets. Try
+              reloading the page?
+            </>
+          )}
+          {data ? (
             <>
               {data.data.map((budget: any, id: number) => (
                 <Budget {...budget} key={id.toString()} />
               ))}
             </>
+          ) : (
+            "Loading..."
           )}
           {/* <Budget category="Food and Drink" amount="1000" type="monthly" />
           <Budget category="Sporting Goods" amount="500" type="monthly" /> */}
