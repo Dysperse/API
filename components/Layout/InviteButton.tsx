@@ -7,17 +7,15 @@ import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Popover from "@mui/material/Popover";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
-import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Invitations } from "../Invitations";
-import { updateSettings } from "../Settings/updateSettings";
+import { InvitationsModal } from "../HouseProfile/InvitationsModal";
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
@@ -116,6 +114,7 @@ export function InviteButton() {
               m: 2,
             }}
           >
+            <InvitationsModal />
             <IconButton
               disableRipple
               sx={{
