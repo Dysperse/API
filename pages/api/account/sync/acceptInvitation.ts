@@ -7,8 +7,8 @@ const handler = async (req, res) => {
 
     const result = await executeQuery({
       query:
-        "UPDATE SyncTokens SET accepted = 'true' WHERE email = ? AND id = ?",
-      values: [req.query.email ?? "false", req.query.id ?? "false"],
+        "UPDATE SyncTokens SET accepted = 'true' WHERE accessToken = ? AND email = ?",
+      values: [req.query.accessToken, req.query.email],
     });
     res.json({
       data: result,

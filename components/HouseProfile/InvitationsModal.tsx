@@ -7,8 +7,12 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { Puller } from "../Puller";
+import toast from "react-hot-toast";
+import { updateSettings } from "../Settings/updateSettings";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function Invitation({ invitation }: any) {
+  const [loading, setLoading] = React.useState<boolean>(false);
   return (
     <Box
       sx={{
@@ -46,19 +50,36 @@ function Invitation({ invitation }: any) {
         <span style={{ marginTop: "2px" }}>{invitation.houseType}</span>
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <Button
+        <LoadingButton
+          loading={loading}
           variant="outlined"
           disabled={
             invitation.accessToken === global.session.property.accessToken &&
             invitation.accepted === "true"
           }
           sx={{ width: "100%", borderWidth: "2px!important" }}
+          onClick={() => {
+            setLoading(true);
+            fetch(
+              "/api/account/sync/acceptInvitation?" +
+                new URLSearchParams({
+                  accessToken: invitation.accessToken,
+                  email: global.session.account.email,
+                })
+            ).then((res) => {
+              updateSettings("SyncToken", invitation.accessToken, false, () => {
+                toast.success("Joined!");
+                setLoading(false);
+                window.location.reload();
+              });
+            });
+          }}
         >
           {invitation.accessToken === global.session.property.accessToken &&
           invitation.accepted === "true"
             ? "Joined"
             : "Join"}
-        </Button>
+        </LoadingButton>
         {invitation.accessToken === global.session.property.accessToken &&
           invitation.accepted === "true" && (
             <Button
