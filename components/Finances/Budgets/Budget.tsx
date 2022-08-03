@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import useFetch from "react-fetch-hook";
 import { neutralizeBack, revivalBack } from "../../history-control";
 import { Puller } from "../../Puller";
+import * as colors from "@mui/material/colors";
 
 function Expenses({ category }: any) {
   const url =
@@ -113,7 +114,7 @@ export function Budget({
                   my: 1,
                   height: 10,
                   ...(amountSpent &&
-                    amountSpent > parseInt(amount) && {
+                    amountSpent >= parseInt(amount) && {
                       backgroundColor: "#ff1744",
                     }),
                 }}
@@ -165,17 +166,19 @@ export function Budget({
           justifyContent: "center",
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
-            borderRadius: "28px",
-            borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
-            borderBottomRightRadius: { xs: 0, sm: "28px!important" },
-            position: "unset",
+            background: colors[themeColor][50],
+            width: {
+              sm: "50vw",
+            },
+            maxWidth: "650px",
+            maxHeight: "95vh",
+            borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 17%)",
+              background: "hsl(240, 11%, 25%)",
             }),
-            maxWidth: { sm: "70vw", xs: "100vw" },
-            overflow: "hidden",
           },
         }}
         onClose={() => setOpen(false)}

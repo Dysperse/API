@@ -319,7 +319,7 @@ export function InviteButton() {
           </Typography>
           <MemberList />
           <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
-            <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
+            <Typography variant="h5" sx={{ fontWeight: "700", my: 2 }}>
               Rooms
             </Typography>
             <Box

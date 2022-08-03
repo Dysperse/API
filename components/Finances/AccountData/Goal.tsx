@@ -103,7 +103,7 @@ export function Goal({
               fetch("https://api.smartlist.tech/v2/finances/goals/editNote/", {
                 method: "POST",
                 body: new URLSearchParams({
-                  token: global.session.property.accessToken,
+                  token: global.session.account.accessToken,
                   id: id.toString(),
                   note: e.target.value,
                 }),

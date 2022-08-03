@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { useState } from "react";
-import useFetch from "react-fetch-hook";
+import * as colors from "@mui/material/colors";
 import toast from "react-hot-toast";
 import { Budget } from "./Budget";
 
@@ -80,14 +80,19 @@ function CreateBudgetMenu({ transactions }: any) {
           justifyContent: "center",
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
-            borderRadius: "28px",
-            borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
-            borderBottomRightRadius: { xs: 0, sm: "28px!important" },
-            position: "unset",
+            background: colors[themeColor][50],
+            width: {
+              sm: "50vw",
+            },
+            maxWidth: "650px",
+            maxHeight: "95vh",
+            borderRadius: "30px 30px 0 0",
             mx: "auto",
-            maxWidth: { sm: "70vw", xs: "100vw" },
-            overflow: "hidden",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
           },
         }}
         onClose={() => setOpen(false)}
@@ -249,7 +254,7 @@ export function Budgets({ transactions }: { transactions: any }) {
               reloading the page?
             </>
           )}
-          {data ? (
+          {data && data.data ? (
             <>
               {data.data.map((budget: any, id: number) => (
                 <Budget {...budget} key={id.toString()} />
@@ -281,7 +286,11 @@ export function Budgets({ transactions }: { transactions: any }) {
           <Budget
             hardLimit={true}
             category="This month"
-            amountSpent={spentMonth}
+            amountSpent={
+              spentMonth > global.session.account.budgetMonthly
+                ? global.session.account.budgetMonthly
+                : spentMonth
+            }
             amount={global.session.account.budgetMonthly}
             type="monthly"
           />
