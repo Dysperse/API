@@ -185,12 +185,15 @@ function CreateBudgetMenu({ transactions }: any) {
 }
 
 export function Budgets({ transactions }: { transactions: any }) {
-  const { isLoading, data }: any = useFetch("/api/finance/budgets", {
-    method: "POST",
-    body: new URLSearchParams({
-      token: global.session.account.accessToken,
-    }),
-  });
+  const { isLoading, data }: any = useFetch(
+    "/api/finance/budgets?" +
+      new URLSearchParams({
+        token: global.session.account.accessToken,
+      }),
+    {
+      method: "POST",
+    }
+  );
   const spentToday = transactions
     .filter(
       (transaction: any) => transaction.date == dayjs().format("YYYY-MM-DD")
