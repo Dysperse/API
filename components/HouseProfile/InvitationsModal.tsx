@@ -80,15 +80,6 @@ function Invitation({ invitation }: any) {
             ? "Joined"
             : "Join"}
         </LoadingButton>
-        {invitation.accessToken === global.session.property.accessToken &&
-          invitation.accepted === "true" && (
-            <Button
-              variant="outlined"
-              sx={{ width: "100%", borderWidth: "2px!important" }}
-            >
-              Leave
-            </Button>
-          )}
       </Box>
     </Box>
   );
