@@ -35,15 +35,18 @@ function CreateBudgetMenu({ transactions }: any) {
       category: string;
       amount: any;
     }) => {
-      await fetch("https://api.smartlist.tech/v2/finances/budgets/create/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token: session && session.accessToken,
-          type: values.type,
-          category: values.category,
-          amount: values.amount,
-        }),
-      });
+      await fetch(
+        "/api/finance/budgets/create?" +
+          new URLSearchParams({
+            token: global.session.account.accessToken,
+            type: values.type,
+            category: values.category,
+            amount: values.amount,
+          }),
+        {
+          method: "POST",
+        }
+      );
       setOpen(false);
       toast.success("Created budget!");
       formik.resetForm();
