@@ -23,7 +23,6 @@ import AccountSettings from "./AccountSettings";
 import AppearanceSettings from "./AppearanceSettings";
 import FinanceSettings from "./FinanceSettings";
 import Notifications from "./Notifications";
-import Sync from "./Sync";
 import TwoFactorAuth from "./TwoFactorAuth";
 
 function Logout() {
