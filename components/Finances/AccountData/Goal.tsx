@@ -144,9 +144,6 @@ export function Goal({
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <div>
               <Button
-                onClick={() => {
-                  alert(id);
-                }}
                 sx={{
                   textTransform: "none",
                   mr: 1,
@@ -173,7 +170,7 @@ export function Goal({
                   fetch(
                     "/api/finance/goals/delete?" +
                       new URLSearchParams({
-                        token: global.session.property.propertyToken,
+                        token: global.session.account.accessToken,
                         id: id.toString(),
                       }),
                     {
