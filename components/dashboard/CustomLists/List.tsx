@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
@@ -123,10 +122,8 @@ function ListPopup({
             fetch(
               "/api/lists/delete-custom-list?" +
                 new URLSearchParams({
-                  token:
-                    global.session &&
-                    (global.session.account.SyncToken ||
-                      global.session.property.propertyToken),
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
                   id: id,
                 }),
               {
