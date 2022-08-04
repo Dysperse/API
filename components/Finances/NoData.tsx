@@ -11,6 +11,7 @@ import router from "next/router";
 import React, { useState } from "react";
 import useFetch from "react-fetch-hook";
 import { usePlaidLink } from "react-plaid-link";
+import { updateSettings } from "../Settings/updateSettings";
 function ConnectBankAccount() {
   const [completed, setCompleted] = useState<boolean>(false);
 
@@ -18,32 +19,13 @@ function ConnectBankAccount() {
     const { open, ready } = usePlaidLink({
       token: token,
       onSuccess: (public_token, metadata) => {
-        // send public_token to server
         fetch(`/api/finance/exchangePublicToken?public_token=${public_token}`)
           .then((res) => res.json())
           .then((res) => {
             global.session.account.financeToken = res.access_token;
-            // alert(res.access_token);
-            fetch("https://api.smartlist.tech/v2/account/update/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token: global.session && global.session.property.propertyToken,
-                data: JSON.stringify({
-                  financeToken: res.access_token,
-                }),
-              }),
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                setCompleted(true);
-                fetch(
-                  "/api/login/?" +
-                    new URLSearchParams({
-                      token:
-                        global.session && global.session.property.propertyToken,
-                    })
-                );
-              });
+            updateSettings("financeToken", res.access_token, false, () => {
+              setCompleted(true);
+            });
           });
       },
     });
