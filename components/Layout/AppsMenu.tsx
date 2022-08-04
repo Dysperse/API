@@ -259,7 +259,7 @@ export function AppsMenu() {
             size="large"
             sx={{
               transition: "none",
-              mr: 0.2,
+              mr: -0.4,
               ml: 1,
               color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
               "&:hover": {
