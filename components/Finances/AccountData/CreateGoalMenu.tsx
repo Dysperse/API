@@ -81,16 +81,19 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
       minAmountOfMoney: string;
       image: string;
     }) => {
-      await fetch("https://api.smartlist.tech/v2/finances/goals/create/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token: session && session.accessToken,
-          name: values.name,
-          minAmountOfMoney: values.minAmountOfMoney,
-          image: values.image,
-          accountId: account.account_id,
-        }),
-      });
+      await fetch(
+        "/api/finance/goals/create?" +
+          new URLSearchParams({
+            token: global.session.account.accessToken,
+            name: values.name,
+            minAmountOfMoney: values.minAmountOfMoney,
+            image: values.image,
+            accountId: account.account_id,
+          }),
+        {
+          method: "POST",
+        }
+      );
       setOpen(false);
       setDisabled(false);
       setBannerDialogOpen(false);
