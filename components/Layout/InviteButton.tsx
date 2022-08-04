@@ -115,18 +115,20 @@ export function InviteButton() {
             }}
           >
             <InvitationsModal />
-            <IconButton
-              disableRipple
-              sx={{
-                color: "white",
-                mr: 1,
-              }}
-              onClick={() => {
-                setEditMode(!editMode);
-              }}
-            >
-              <span className="material-symbols-rounded">edit</span>
-            </IconButton>
+            {global.session.property.role !== "read-only" && (
+              <IconButton
+                disableRipple
+                sx={{
+                  color: "white",
+                  mr: 1,
+                }}
+                onClick={() => {
+                  setEditMode(!editMode);
+                }}
+              >
+                <span className="material-symbols-rounded">edit</span>
+              </IconButton>
+            )}
             <IconButton
               disableRipple
               onClick={() => {

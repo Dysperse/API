@@ -53,7 +53,8 @@ function Invitation({ invitation }: any) {
           loading={loading}
           variant="outlined"
           disabled={
-            invitation.accessToken === global.session.property.propertyToken &&
+            invitation.propertyToken ===
+              global.session.property.propertyToken &&
             invitation.accepted === "true"
           }
           sx={{ width: "100%", borderWidth: "2px!important" }}
@@ -74,7 +75,7 @@ function Invitation({ invitation }: any) {
             });
           }}
         >
-          {invitation.accessToken === global.session.property.propertyToken &&
+          {invitation.propertyToken === global.session.property.propertyToken &&
           invitation.accepted === "true"
             ? "Joined"
             : "Join"}
