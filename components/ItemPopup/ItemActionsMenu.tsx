@@ -374,7 +374,7 @@ export function ItemActionsMenu({
         {global.session.property.role !== "read-only" && (
           <AddToListModal handleClose={handleClose} title={title} />
         )}
-        <QrCodeModal title={title} quantity={quantity} />
+        <QrCodeModal room={room} title={title} quantity={quantity} />
         {global.session.property.role !== "read-only" && (
           <MenuItem
             disableRipple
