@@ -18,7 +18,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
     const result = await executeQuery({
       query:
-        "DELETE FROM SyncTokens WHERE email = ? propertyToken = ? AND id = ?",
+        "DELETE FROM SyncTokens WHERE email = ? AND propertyToken = ? AND id = ?",
       values: [
         req.query.email ?? "false",
         req.query.propertyToken ?? "false",
