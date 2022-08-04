@@ -43,16 +43,18 @@ export function CreateListCard({ lists, setLists }: any) {
       description: "",
     },
     onSubmit: (values: { title: string; description: string }) => {
-      fetch("https://api.smartlist.tech/v2/lists/create-list/", {
-        method: "POST",
-        body: new URLSearchParams({
-          propertyToken: global.session.property.propertyToken,
-          accessToken: global.session.property.accessToken,
-          title: values.title,
-          description: values.description,
-          star: "0",
-        }),
-      })
+      fetch(
+        "/api/lists/create-custom-list?" +
+          new URLSearchParams({
+            propertyToken: global.session.property.propertyToken,
+            accessToken: global.session.property.accessToken,
+            title: values.title,
+            description: values.description,
+          }),
+        {
+          method: "POST",
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
           formik.resetForm();
