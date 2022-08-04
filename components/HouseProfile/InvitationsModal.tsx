@@ -70,6 +70,7 @@ function Invitation({ invitation }: any) {
               updateSettings("SyncToken", invitation.accessToken, false, () => {
                 toast.success("Joined!");
                 setLoading(false);
+                window.location.href = "/dashboard";
                 window.location.reload();
               });
             });
