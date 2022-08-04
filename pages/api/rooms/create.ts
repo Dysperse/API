@@ -15,20 +15,12 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
   }
 
   try {
-    await executeQuery({
-      query: req.query.forever
-        ? "DELETE FROM Inventory WHERE id = ? AND user = ?"
-        : "UPDATE Inventory SET trash = 1, lastUpdated= ?  WHERE user = ?  AND id = ?",
-      values: req.query.forever
-        ? [req.query.id ?? "false", req.query.propertyToken ?? false]
-        : [
-            req.query.lastUpdated ?? "2022-03-05 12:23:31",
-            req.query.propertyToken ?? false,
-            req.query.id ?? "false",
-          ],
+    const result = await executeQuery({
+      query: "INSERT INTO Rooms (name, user) VALUES (?, ?)",
+      values: [req.query.name ?? "false", req.query.propertyToken ?? false],
     });
     res.json({
-      data: true,
+      data: result,
     });
   } catch (error) {
     res.status(500).json({ error: error });

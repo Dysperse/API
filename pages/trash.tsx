@@ -11,7 +11,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
-
+import dayjs from "dayjs";
 function DeleteCard({ item }: any) {
   const [deleted, setDeleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -40,17 +40,18 @@ function DeleteCard({ item }: any) {
           }}
           variant="contained"
           onClick={() => {
-            fetch("https://api.smartlist.tech/v2/items/delete/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token:
-                  global.session &&
-                  (global.session.account.SyncToken ||
-                    global.session.property.propertyToken),
-                id: item.id.toString(),
-                forever: "true",
-              }),
-            })
+            fetch(
+              "/api/inventory/trash?" +
+                new URLSearchParams({
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
+                  id: item.id.toString(),
+                  forever: "true",
+                }),
+              {
+                method: "POST",
+              }
+            )
               .then((res) => {
                 setDeleted(true);
                 setLoading(false);
@@ -77,13 +78,20 @@ function DeleteCard({ item }: any) {
           }}
           variant="outlined"
           onClick={() => {
-            fetch("https://api.smartlist.tech/v2/items/delete/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token: global.session && global.session.property.propertyToken,
-                id: item.id.toString(),
-              }),
-            })
+            fetch(
+              "/api/restore?" +
+                new URLSearchParams({
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
+                  lastUpdated: dayjs(item.lastUpdated).format(
+                    "YYYY-MM-DD HH:mm:ss"
+                  ),
+                  id: item.id.toString(),
+                }),
+              {
+                method: "POST",
+              }
+            )
               .then((res) => {
                 setDeleted(true);
                 setLoading(false);

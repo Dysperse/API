@@ -38,14 +38,17 @@ function CreateRoom() {
       name: "",
     },
     onSubmit: async (values: { name: string }) => {
-      fetch("https://api.smartlist.tech/v2/rooms/create/", {
-        method: "POST",
-        body: new URLSearchParams({
-          propertyToken: global.session.property.propertyToken,
-          accessToken: global.session.property.accessToken,
-          name: values.name,
-        }),
-      })
+      fetch(
+        "/api/rooms/create?" +
+          new URLSearchParams({
+            propertyToken: global.session.property.propertyToken,
+            accessToken: global.session.property.accessToken,
+            name: values.name,
+          }),
+        {
+          method: "POST",
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
           setLoading(false);
