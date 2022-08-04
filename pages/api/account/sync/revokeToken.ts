@@ -15,7 +15,6 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       });
       return;
     }
-
     const result = await executeQuery({
       query:
         "DELETE FROM SyncTokens WHERE email = ? AND propertyToken = ? AND id = ?",
@@ -24,6 +23,14 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
         req.query.propertyToken ?? "false",
         req.query.id ?? "false",
       ],
+    });
+    const query = await executeQuery({
+      query: "SELECT * FROM SyncTokens WHERE email = ?",
+      values: [req.query.email ?? "false"],
+    });
+    await executeQuery({
+      query: "UPDATE Accounts SET SyncToken = ? WHERE email = ?",
+      values: [query[0].propertyToken, req.query.email ?? "false"],
     });
     res.json({
       data: result,
