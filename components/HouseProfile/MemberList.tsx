@@ -228,6 +228,36 @@ function Member({ member }): any {
       >
         {member.email}
       </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          maxWidth: "100%",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          color: member.accepted ? "green" : "red",
+        }}
+      >
+        {member.accepted === "true" ? "" : "Invitation pending"}
+      </Typography>
+
+      <Typography
+        variant="body2"
+        sx={{
+          maxWidth: "100%",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+        }}
+      >
+        <span className="material-symbols-rounded">
+          {member.role === "member" ? "group" : "visibility"}
+        </span>
+        {member.role == "member"
+          ? "Read, write, and edit access"
+          : "Read-only access"}
+      </Typography>
       <Button
         variant="outlined"
         disabled={global.session.property.role !== "owner"}
@@ -295,6 +325,16 @@ export function MemberList() {
                 }}
               >
                 {global.session.account.email}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  maxWidth: "100%",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                Current account
               </Typography>
               <ProfileMenu>
                 <Button
