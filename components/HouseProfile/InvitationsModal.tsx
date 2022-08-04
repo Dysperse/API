@@ -64,15 +64,20 @@ function Invitation({ invitation }: any) {
               "/api/account/sync/acceptInvitation?" +
                 new URLSearchParams({
                   accessToken: invitation.accessToken,
-                  email: global.session.account.email,
+                  propertyToken: invitation.propertyToken,
                 })
             ).then((res) => {
-              updateSettings("SyncToken", invitation.accessToken, false, () => {
-                toast.success("Joined!");
-                setLoading(false);
-                window.location.href = "/dashboard";
-                window.location.reload();
-              });
+              updateSettings(
+                "SyncToken",
+                invitation.propertyToken,
+                false,
+                () => {
+                  toast.success("Joined!");
+                  setLoading(false);
+                  window.location.href = "/dashboard";
+                  window.location.reload();
+                }
+              );
             });
           }}
         >

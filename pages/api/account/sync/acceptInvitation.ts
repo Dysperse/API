@@ -8,8 +8,8 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
     const result = await executeQuery({
       query:
-        "UPDATE SyncTokens SET accepted = 'true' WHERE accessToken = ? AND email = ?",
-      values: [req.query.accessToken, req.query.email],
+        "UPDATE SyncTokens SET accepted = 'true' WHERE accessToken = ? AND propertyToken = ?",
+      values: [req.query.accessToken, req.query.propertyToken],
     });
     res.json({
       data: result,
