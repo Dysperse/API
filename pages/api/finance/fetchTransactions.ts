@@ -1,8 +1,7 @@
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-
-export default function handler(req, res) {
-  fetch("https://sandbox.plaid.com/transactions/get", {
+const handler = async (req, res) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const data = await fetch("https://sandbox.plaid.com/transactions/get", {
     method: "POST",
     headers: myHeaders,
     body: JSON.stringify({
@@ -13,8 +12,9 @@ export default function handler(req, res) {
       end_date: req.query.end_date ?? "false",
     }),
     redirect: "follow",
-  })
-    .then((response) => response.json())
-    .then((result) => res.json(result))
-    .catch((error) => console.log("error", error));
-}
+  }).then((response) => response.json());
+  console.log(data);
+  res.json(data);
+};
+
+export default handler;

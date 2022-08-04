@@ -100,14 +100,17 @@ export function Goal({
             defaultValue={noteContent}
             onBlur={(e) => {
               setNote(e.target.value);
-              fetch("https://api.smartlist.tech/v2/finances/goals/editNote/", {
-                method: "POST",
-                body: new URLSearchParams({
-                  token: global.session.account.accessToken,
-                  id: id.toString(),
-                  note: e.target.value,
-                }),
-              });
+              fetch(
+                "/api/finance/goals/editNote?" +
+                  new URLSearchParams({
+                    token: global.session.account.accessToken,
+                    id: id.toString(),
+                    note: e.target.value,
+                  }),
+                {
+                  method: "POST",
+                }
+              );
               e.target.placeholder = "Click to add note";
               e.target.spellcheck = false;
             }}
@@ -168,13 +171,13 @@ export function Goal({
                 onClick={() => {
                   setLoading(true);
                   fetch(
-                    "https://api.smartlist.tech/v2/finances/goals/delete/",
-                    {
-                      method: "POST",
-                      body: new URLSearchParams({
+                    "/api/finance/goals/delete?" +
+                      new URLSearchParams({
                         token: global.session.property.propertyToken,
                         id: id.toString(),
                       }),
+                    {
+                      method: "POST",
                     }
                   )
                     .then((res) => res.json())
