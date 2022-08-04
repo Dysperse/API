@@ -252,11 +252,11 @@ function Member({ member }): any {
         }}
       >
         <span className="material-symbols-rounded">
-          {member.role === "member" ? "group" : "visibility"}
+          {member.role === "member" ? "group" : (member.role == "owner" ? "productivity" : "visibility")}
         </span>
         {member.role == "member"
           ? "Read, write, and edit access"
-          : "Read-only access"}
+          : (member.role == "owner" ? "Owner": "Read-only access")}
       </Typography>
       <LoadingButton
         loading={loading}
