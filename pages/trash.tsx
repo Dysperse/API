@@ -106,14 +106,15 @@ function DeleteCard({ item }: any) {
 }
 
 function Items() {
-  const url = "https://api.smartlist.tech/v2/trash/";
+  const url =
+    "/api/inventory/trashed-items?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
   const { data, error }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.property.propertyToken,
-      }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((res) => res.json())
   );
 

@@ -7,17 +7,14 @@ import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
 
 function Items() {
-  const { error, data }: any = useSWR(
-    "https://api.smartlist.tech/v2/items/starred/",
-    () =>
-      fetch("https://api.smartlist.tech/v2/items/starred/", {
-        method: "POST",
-        body: new URLSearchParams({
-          propertyToken: global.session.property.propertyToken,
-          accessToken: global.session.property.accessToken,
-        }),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      }).then((res) => res.json())
+  const url =
+    "/api/inventory/starred-items?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
+  const { error, data }: any = useSWR(url, () =>
+    fetch(url, { method: "POST" }).then((res) => res.json())
   );
   if (error) return <>An error occured, please try again later</>;
   return !data ? (
