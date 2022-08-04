@@ -13,15 +13,15 @@ export function RoomList({
   title: string;
   handleClose: any;
 }) {
-  const url = "https://api.smartlist.tech/v2/lists/";
+  const url =
+    "/api/lists/fetch-custom-lists?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        propertyToken: global.session.property.propertyToken,
-        accessToken: global.session.property.accessToken,
-      }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((res) => res.json())
   );
 
@@ -44,23 +44,28 @@ export function RoomList({
   return (
     <>
       <List sx={{ mt: -1 }}>
-        {data.data.map((list: any, id: number) => (
+        {[
+          { title: "Shopping list", id: "-2" },
+          { title: "To-do list", id: "-1" },
+          ...data.data,
+        ].map((list: any, id: number) => (
           <ListItem disablePadding key={id.toString()}>
             <ListItemButton
               sx={{ borderRadius: 9, py: 0.5, px: 2 }}
               onClick={() => {
-                fetch("https://api.smartlist.tech/v2/lists/create-item/", {
-                  method: "POST",
-                  body: new URLSearchParams({
-                    token:
-                      global.session &&
-                      (global.session.account.SyncToken ||
-                        global.session.property.propertyToken),
-                    parent: list.id,
-                    title: title,
-                    description: "",
-                  }),
-                })
+                fetch(
+                  "/api/lists/create-item?" +
+                    new URLSearchParams({
+                      propertyToken: global.session.property.propertyToken,
+                      accessToken: global.session.property.accessToken,
+                      parent: list.id,
+                      title: title,
+                      description: "",
+                    }),
+                  {
+                    method: "POST",
+                  }
+                )
                   .then((res) => res.json())
                   .then((res) => {
                     toast.success("Added item!");
