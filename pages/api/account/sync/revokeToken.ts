@@ -1,14 +1,29 @@
 import executeQuery from "../../../../lib/db";
-import { ExchangeToken } from "../../../../lib/exchange-token";
 import type { NextApiResponse } from "next";
+import { validatePerms } from "../../../../lib/check-permissions";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
-    const userId = await ExchangeToken(req.query.token);
+    const perms = await validatePerms(
+      req.query.propertyToken,
+      req.query.accessToken
+    );
+
+    if (!perms || perms !== "owner") {
+      res.json({
+        error: "INSUFFICIENT_PERMISSIONS",
+      });
+      return;
+    }
 
     const result = await executeQuery({
-      query: "DELETE FROM SyncTokens WHERE email = ?",
-      values: [req.query.email ?? "false"],
+      query:
+        "DELETE FROM SyncTokens WHERE email = ? propertyToken = ? AND id = ?",
+      values: [
+        req.query.email ?? "false",
+        req.query.propertyToken ?? "false",
+        req.query.id ?? "false",
+      ],
     });
     res.json({
       data: result,
