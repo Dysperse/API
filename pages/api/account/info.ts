@@ -34,7 +34,6 @@ export const getInfo = async (token: string) => {
         password: undefined,
         SyncToken: undefined,
         FinanceToken: undefined,
-        "2faCode": undefined,
         onboarding: parseInt(data.onboarding),
         notificationMin: parseInt(data.notificationMin),
         verifiedEmail: parseInt(data.verifiedEmail),

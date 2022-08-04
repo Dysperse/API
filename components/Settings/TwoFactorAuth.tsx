@@ -105,7 +105,7 @@ export default function App() {
                   new URLSearchParams({
                     key: key,
                     code: code,
-                    token: global.session.property.propertyToken,
+                    token: global.session.account.accessToken,
                   }),
                 {
                   method: "POST",
@@ -114,7 +114,7 @@ export default function App() {
                 .then((res) => res.json())
                 .then((res) => {
                   fetch(
-                    "/api/login?token=" + global.session.property.propertyToken
+                    "/api/login?token=" + global.session.account.accessToken
                   ).then(() => {
                     if (res.data) {
                       toast.success("2FA setup successful!");
