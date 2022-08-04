@@ -7,16 +7,15 @@ import { Goal } from "./Goal";
 import { Navbar } from "./Navbar";
 
 export function AccountData({ setOpen, scrollTop, account }: any) {
-  const url = "https://api.smartlist.tech/v2/finances/goals/";
+  const url =
+    "/api/finance/goals?" +
+    new URLSearchParams({
+      token: global.session.account.accessToken,
+      accountId: account.account_id,
+    });
 
   const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session.account.accessToken,
-        accountId: account.account_id,
-      }),
-    }).then((res) => res.json())
+    fetch(url, { method: "POST" }).then((res) => res.json())
   );
 
   if (error)

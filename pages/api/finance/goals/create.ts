@@ -8,7 +8,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
     const result = await executeQuery({
       query:
-        "INSERT INTO Goals (name, image, note, completed, minAmountOfMoney, user, accountId) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO FinanceGoals (name, image, note, completed, minAmountOfMoney, user, accountId) VALUES (?, ?, ?, ?, ?, ?, ?)",
       values: [
         req.query.name ?? "false",
         req.query.image ?? "false",
