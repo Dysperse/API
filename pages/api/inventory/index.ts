@@ -17,8 +17,8 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
     const result = await executeQuery({
       query: req.query.limit
-        ? "SELECT * FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT ?"
-        : "SELECT * FROM Inventory WHERE user = ? AND trash = 0 AND room = ? ORDER BY lastUpdated DESC LIMIT 150",
+        ? "SELECT *, DATE_FORMAT(lastUpdated, '%Y-%m-%d %T') AS formattedLastUpdated FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT ?"
+        : "SELECT *, DATE_FORMAT(lastUpdated, '%Y-%m-%d %T') AS formattedLastUpdated FROM Inventory WHERE user = ? AND trash = 0 AND room = ? ORDER BY lastUpdated DESC LIMIT 150",
       values: req.query.limit
         ? [req.query.propertyToken ?? false, parseInt(req.query.limit)]
         : [req.query.propertyToken ?? false, req.query.room ?? "kitchen"],
@@ -27,7 +27,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       data: result.map((item: any) => {
         return {
           id: item.id,
-          lastUpdated: item.lastUpdated,
+          lastUpdated: item.formattedLastUpdated,
           amount: item.qty,
           title: item.name,
           categories: [],
