@@ -398,11 +398,7 @@ export function InviteButton() {
       </Button>
       <Popover
         id={id}
-        open={
-          global.session.property.role === "owner" &&
-          !global.session.account.SyncToken &&
-          popoverOpen
-        }
+        open={global.session.property.role !== "owner" && popoverOpen}
         anchorEl={anchorEl}
         onClose={handleClose}
         BackdropProps={{
@@ -415,7 +411,7 @@ export function InviteButton() {
             background: "#f50057",
             maxWidth: "200px",
             overflowX: "unset",
-            mt: 3.5,
+            mt: 6,
             overflowY: "unset",
             "&:before": {
               content: '""',
