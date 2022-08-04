@@ -1,6 +1,7 @@
 import executeQuery from "../../../../lib/db";
+import type { NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
     const allowedValues = ["houseName", "houseType"];
 

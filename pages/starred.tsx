@@ -13,10 +13,8 @@ function Items() {
       fetch("https://api.smartlist.tech/v2/items/starred/", {
         method: "POST",
         body: new URLSearchParams({
-          token:
-            global.session &&
-            (global.session.account.SyncToken ||
-              global.session.property.accessToken),
+          propertyToken: global.session.property.propertyToken,
+          accessToken: global.session.property.accessToken,
         }),
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       }).then((res) => res.json())

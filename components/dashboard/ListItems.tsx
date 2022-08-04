@@ -86,10 +86,8 @@ export function ListItems({
   const { data, isLoading }: any = useFetch(
     "/api/lists/items?" +
       new URLSearchParams({
-        token:
-          global.session &&
-          (global.session.account.SyncToken ||
-            global.session.property.accessToken),
+        propertyToken: global.session.property.propertyToken,
+        accessToken: global.session.property.accessToken,
         parent: parent,
       }),
     {

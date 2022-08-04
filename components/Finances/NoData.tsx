@@ -27,7 +27,7 @@ function ConnectBankAccount() {
             fetch("https://api.smartlist.tech/v2/account/update/", {
               method: "POST",
               body: new URLSearchParams({
-                token: global.session && global.session.property.accessToken,
+                token: global.session && global.session.property.propertyToken,
                 data: JSON.stringify({
                   financeToken: res.access_token,
                 }),
@@ -40,7 +40,7 @@ function ConnectBankAccount() {
                   "/api/login/?" +
                     new URLSearchParams({
                       token:
-                        global.session && global.session.property.accessToken,
+                        global.session && global.session.property.propertyToken,
                     })
                 );
               });

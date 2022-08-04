@@ -44,9 +44,8 @@ export function CreateListItemButton({
       fetch(
         "/api/lists/create-item?" +
           new URLSearchParams({
-            token:
-              global.session.account.SyncToken ||
-              global.session.property.accessToken,
+            propertyToken: global.session.property.propertyToken,
+            accessToken: global.session.property.accessToken,
             parent: parent.toString(),
             title: values.name,
             description: "",

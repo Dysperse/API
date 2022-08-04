@@ -52,7 +52,7 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
                 token:
                   global.session &&
                   (global.session.account.SyncToken ||
-                    global.session.property.accessToken),
+                    global.session.property.propertyToken),
                 id: id.toString(),
                 lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               }),

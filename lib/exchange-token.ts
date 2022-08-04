@@ -5,5 +5,6 @@ export const ExchangeToken = async (token: string) => {
     query: "SELECT * FROM UserTokens WHERE token = ?",
     values: [token],
   });
-  return [...result];
+  if (!result[0]) return false;
+  return [...result][0].user;
 };

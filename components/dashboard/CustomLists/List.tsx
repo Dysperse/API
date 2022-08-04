@@ -36,7 +36,7 @@ function ListItem({ item, listItems, setListItems }: any) {
                 token:
                   global.session &&
                   (global.session.account.SyncToken ||
-                    global.session.property.accessToken),
+                    global.session.property.propertyToken),
                 id: item.id,
               }),
             });
@@ -126,7 +126,7 @@ function ListPopup({
                   token:
                     global.session &&
                     (global.session.account.SyncToken ||
-                      global.session.property.accessToken),
+                      global.session.property.propertyToken),
                   id: id,
                 }),
               {
@@ -225,9 +225,8 @@ export function List({
     const data = await fetch(
       "/api/lists/items?" +
         new URLSearchParams({
-          token:
-            global.session.account.SyncToken ||
-            global.session.property.accessToken,
+          propertyToken: global.session.property.propertyToken,
+          accessToken: global.session.property.accessToken,
           parent: id.toString(),
         }),
       {

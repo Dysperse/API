@@ -84,7 +84,7 @@ function Leave() {
   const url =
     "/api/account/sync/invitations?" +
     new URLSearchParams({
-      token: global.session && global.session.property.accessToken,
+      token: global.session && global.session.property.propertyToken,
       email: global.session && global.session.account.email,
     });
   const { data, error } = useSWR(url, () =>
@@ -123,7 +123,7 @@ function Leave() {
                 "/api/account/sync/revokeInvitation?" +
                   new URLSearchParams({
                     token:
-                      global.session && global.session.property.accessToken,
+                      global.session && global.session.property.propertyToken,
                     email: global.session && global.session.account.email,
                     id: data.data.filter((v) => v.accepted == "true")[0].id,
                   }),
@@ -166,7 +166,7 @@ export default function Sync() {
   const url =
     "/api/account/sync/member-list?" +
     new URLSearchParams({
-      token: global.session && global.session.property.accessToken,
+      token: global.session && global.session.property.propertyToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {
@@ -282,7 +282,7 @@ export default function Sync() {
                     fetch(
                       "/api/account/sync/createToken?" +
                         new URLSearchParams({
-                          token: global.session.property.accessToken,
+                          token: global.session.property.propertyToken,
                           email: value.title,
                           houseName: global.session.property.houseName,
                           houseType: global.session.property.houseType,

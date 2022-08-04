@@ -46,7 +46,7 @@ function DeleteCard({ item }: any) {
                 token:
                   global.session &&
                   (global.session.account.SyncToken ||
-                    global.session.property.accessToken),
+                    global.session.property.propertyToken),
                 id: item.id.toString(),
                 forever: "true",
               }),
@@ -80,7 +80,7 @@ function DeleteCard({ item }: any) {
             fetch("https://api.smartlist.tech/v2/items/delete/", {
               method: "POST",
               body: new URLSearchParams({
-                token: global.session && global.session.property.accessToken,
+                token: global.session && global.session.property.propertyToken,
                 id: item.id.toString(),
               }),
             })
@@ -111,7 +111,7 @@ function Items() {
     fetch(url, {
       method: "POST",
       body: new URLSearchParams({
-        token: global.session && global.session.property.accessToken,
+        token: global.session && global.session.property.propertyToken,
       }),
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((res) => res.json())

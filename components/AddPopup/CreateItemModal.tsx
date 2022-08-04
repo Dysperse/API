@@ -105,10 +105,8 @@ export function CreateItemModal({
       fetch(
         "/api/inventory/create?" +
           new URLSearchParams({
-            token:
-              global.session &&
-              (global.session.account.SyncToken ||
-                global.session.property.accessToken),
+            propertyToken: global.session.property.propertyToken,
+            accessToken: global.session.property.accessToken,
             room: room.toString().toLowerCase(),
             name: values.title,
             qty: values.quantity,

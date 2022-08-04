@@ -1,23 +1,32 @@
 import executeQuery from "../../../lib/db";
 import { ExchangeToken } from "../../../lib/exchange-token";
+import { validatePerms } from "../../../lib/check-permissions";
 
-export const getInfo = async (token: any) => {
+export const getInfo = async (token: string) => {
   const userId = await ExchangeToken(token);
   const result = await executeQuery({
     query: "SELECT * FROM Accounts WHERE id = ?",
-    values: [userId[0].user ?? false],
+    values: [userId ?? false],
   });
+
   if (!result[0]) {
     return {
       data: false,
     };
   }
+
   const property = await executeQuery({
-    query: "SELECT * FROM SyncTokens WHERE accessToken = ? AND email = ?",
+    query: "SELECT * FROM SyncTokens WHERE propertyToken = ? AND email = ?",
     values: [result[0].SyncToken, result[0].email],
   });
 
+  // const perms = await validatePerms(
+  //   property[0].propertyToken,
+  //   property[0].accessToken
+  // );
+
   return {
+    // perms: perms,
     account: result.map((data) => {
       return {
         ...data,

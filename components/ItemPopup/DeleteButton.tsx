@@ -41,7 +41,7 @@ export function DeleteButton({
               new URLSearchParams({
                 token:
                   global.session.account.SyncToken ||
-                  global.session.property.accessToken,
+                  global.session.property.propertyToken,
                 id: id.toString(),
                 lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               }),
@@ -66,9 +66,8 @@ export function DeleteButton({
                   fetch(
                     "/api/inventory/restore?" +
                       new URLSearchParams({
-                        token:
-                          global.session.account.SyncToken ||
-                          global.session.property.accessToken,
+                        propertyToken: global.session.property.propertyToken,
+                        accessToken: global.session.property.accessToken,
                         id: id.toString(),
                         lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                       }),

@@ -1,8 +1,9 @@
 import executeQuery from "../../../../lib/db";
 import { ExchangeToken } from "../../../../lib/exchange-token";
 import notp from "notp";
+import type { NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
     const userId = await ExchangeToken(req.query.token);
 
@@ -24,7 +25,7 @@ const handler = async (req, res) => {
 
     await executeQuery({
       query: "UPDATE Accounts SET 2faCode = ? WHERE id = ?",
-      values: [req.query.key, userId[0].user ?? false],
+      values: [req.query.key, userId ?? false],
     });
 
     res.json({

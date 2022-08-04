@@ -83,10 +83,8 @@ export default function Categories() {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      token:
-        global.session &&
-        (global.session.account.SyncToken ||
-          global.session.property.accessToken),
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
     });
 
   const { data, error } = useSWR(url, () =>

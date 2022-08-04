@@ -148,7 +148,7 @@ function AddPersonModal() {
                 fetch(
                   "/api/account/sync/invite?" +
                     new URLSearchParams({
-                      accessToken: global.session.property.accessToken,
+                      accessToken: global.session.property.propertyToken,
                       email: value,
                       houseName: global.session.property.houseName,
                       houseType: global.session.property.houseType,
@@ -236,10 +236,8 @@ export function MemberList() {
   const url =
     "/api/account/sync/member-list?" +
     new URLSearchParams({
-      token:
-        global.session &&
-        (global.session.account.SyncToken ||
-          global.session.property.accessToken),
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {

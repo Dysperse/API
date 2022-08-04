@@ -10,15 +10,15 @@ export default function handler(req, res) {
 // const handler = async (req, res) => {
 //   try {
 //     const step1 = await executeQuery({
-//       query: "SELECT * FROM ListNames",
+//       query: "SELECT * FROM SyncTokens",
 //       values: [],
 //     });
 
 //     step1.forEach(async (step1Data) => {
 //       const userId = step1Data.user;
 //       const users = await executeQuery({
-//         query: "SELECT `SyncToken` from Accounts WHERE id = ?",
-//         values: [userId],
+//         query: "UPDATE SyncTokens SET accessToken = ? WHERE id = ?",
+//         values: [uuidv4(), step1Data.id],
 //       });
 
 //       if (users[0]) {

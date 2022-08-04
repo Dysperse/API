@@ -13,13 +13,10 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     });
     return;
   }
+  console.log(req.query.id);
   try {
     await executeQuery({
-      query: "DELETE FROM ListNames WHERE id = ? AND login = ?",
-      values: [req.query.id ?? "false", req.query.propertyToken ?? false],
-    });
-    await executeQuery({
-      query: "DELETE FROM ListItems WHERE parent = ? AND login = ?",
+      query: "DELETE FROM ListItems WHERE id = ? AND user = ?",
       values: [req.query.id ?? "false", req.query.propertyToken ?? false],
     });
     res.json({

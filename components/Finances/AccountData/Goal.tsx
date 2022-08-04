@@ -172,7 +172,7 @@ export function Goal({
                     {
                       method: "POST",
                       body: new URLSearchParams({
-                        token: global.session.property.accessToken,
+                        token: global.session.property.propertyToken,
                         id: id.toString(),
                       }),
                     }

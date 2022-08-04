@@ -257,7 +257,7 @@ export function InviteButton() {
                   fetch(
                     "/api/account/sync/updateHome?" +
                       new URLSearchParams({
-                        token: global.session.property.accessToken,
+                        token: global.session.property.propertyToken,
                         data: JSON.stringify({
                           houseName: e.target.value,
                           houseType: houseType,

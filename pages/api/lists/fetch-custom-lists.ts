@@ -1,10 +1,23 @@
 import executeQuery from "../../../lib/db";
+import { validatePerms } from "../../../lib/check-permissions";
+import type { NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: NextApiResponse<any>) => {
+  const perms = await validatePerms(
+    req.query.propertyToken,
+    req.query.accessToken
+  );
+  if (!perms) {
+    res.json({
+      error: "INSUFFICIENT_PERMISSIONS",
+    });
+    return;
+  }
+
   try {
     const result = await executeQuery({
       query: "SELECT * FROM ListNames WHERE user = ? ORDER BY ID ASC",
-      values: [req.query.token ?? false],
+      values: [req.query.propertyToken ?? false],
     });
     res.json({
       data: result.map((item) => {

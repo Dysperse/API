@@ -52,7 +52,7 @@ function Room({
               lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               token:
                 global.session.account.SyncToken ??
-                global.session.property.accessToken,
+                global.session.property.propertyToken,
             }),
           {
             method: "POST",

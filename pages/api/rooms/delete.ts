@@ -1,13 +1,23 @@
 import executeQuery from "../../../lib/db";
-import { ExchangeToken } from "../../../lib/exchange-token";
+import { validatePerms } from "../../../lib/check-permissions";
+import type { NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: NextApiResponse<any>) => {
+  const perms = await validatePerms(
+    req.query.propertyToken,
+    req.query.accessToken
+  );
+  if (!perms || perms === "read-only") {
+    res.json({
+      error: "INSUFFICIENT_PERMISSIONS",
+    });
+    return;
+  }
+
   try {
-    const userId = await ExchangeToken(req.query.token);
-
     const result = await executeQuery({
       query: "DELETE FROM Rooms WHERE id = ? AND user = ?",
-      values: [req.query.id ?? "false", userId[0].user ?? false],
+      values: [req.query.id ?? "false", req.query.propertyToken ?? false],
     });
     res.json({
       data: result,

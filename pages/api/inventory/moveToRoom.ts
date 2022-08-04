@@ -1,6 +1,19 @@
 import executeQuery from "../../../lib/db";
+import { validatePerms } from "../../../lib/check-permissions";
+import type { NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: NextApiResponse<any>) => {
+  const perms = await validatePerms(
+    req.query.propertyToken,
+    req.query.accessToken
+  );
+  if (!perms || perms === "read-only") {
+    res.json({
+      error: "INSUFFICIENT_PERMISSIONS",
+    });
+    return;
+  }
+
   try {
     await executeQuery({
       query:

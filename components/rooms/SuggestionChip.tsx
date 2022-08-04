@@ -15,9 +15,8 @@ export function SuggestionChip({ room, item }: any) {
             fetch(
               "/api/inventory/create?" +
                 new URLSearchParams({
-                  token:
-                    global.session.account.SyncToken ||
-                    global.session.property.accessToken,
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
                   name: item,
                   qty: "1",
                   category: "[]",

@@ -1,7 +1,8 @@
 import executeQuery from "../../../../lib/db";
 import { ExchangeToken } from "../../../../lib/exchange-token";
+import type { NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
     const userId = await ExchangeToken(req.query.token);
 
@@ -9,7 +10,7 @@ const handler = async (req, res) => {
       query:
         "INSERT INTO FinanceBudgets (login, amount, category, type) VALUES (?, ?, ?, ?)",
       values: [
-        userId[0].user ?? "false",
+        userId ?? "false",
         req.query.amount,
         req.query.category,
         req.query.type,

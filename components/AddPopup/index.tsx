@@ -109,8 +109,8 @@ function MoreRooms(): JSX.Element {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      token:
-        global.session.account.SyncToken || global.session.property.accessToken,
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
     });
   const [open, setOpen] = React.useState<boolean>(false);
 

@@ -217,7 +217,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   token:
                     global.session &&
                     (global.session.account.SyncToken ||
-                      global.session.property.accessToken),
+                      global.session.property.propertyToken),
                   id: id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                 }),
@@ -243,9 +243,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             fetch(
               "/api/inventory/trash?" +
                 new URLSearchParams({
-                  token:
-                    global.session.account.SyncToken ||
-                    global.session.property.accessToken,
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
                   id: id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                 }),
@@ -443,7 +442,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                       token:
                         global.session &&
                         (global.session.account.SyncToken ||
-                          global.session.property.accessToken),
+                          global.session.property.propertyToken),
                       id: id.toString(),
                       lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                       note: e.target.value,

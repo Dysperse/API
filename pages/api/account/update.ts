@@ -1,7 +1,8 @@
 import executeQuery from "../../../lib/db";
 import { ExchangeToken } from "../../../lib/exchange-token";
+import type { NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
     const userId = await ExchangeToken(req.query.token);
 
@@ -28,7 +29,7 @@ const handler = async (req, res) => {
     intersection.forEach(async (setting) => {
       await executeQuery({
         query: "UPDATE Accounts SET " + setting + " = ? WHERE id = ?",
-        values: [JSON.parse(req.query.data)[setting], userId[0].user ?? false],
+        values: [JSON.parse(req.query.data)[setting], userId ?? false],
       });
     });
     res.json({

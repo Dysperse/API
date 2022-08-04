@@ -21,10 +21,8 @@ function NotificationsList() {
     "/api/inventory?" +
     new URLSearchParams({
       limit: "500",
-      token:
-        global.session &&
-        (global.session.account.SyncToken ||
-          global.session.property.accessToken),
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
     });
 
   const { data, error } = useSWR(url, () =>

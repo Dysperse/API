@@ -73,7 +73,7 @@ export function BottomNav() {
     router.push(href);
   };
   const matches = useMediaQuery("(max-height: 400px)");
-  console.log(matches);
+
   return (
     <Box
       sx={{

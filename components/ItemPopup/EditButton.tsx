@@ -48,10 +48,8 @@ export function EditButton({
       fetch(
         "/api/inventory/edit?" +
           new URLSearchParams({
-            token:
-              global.session &&
-              (global.session.account.SyncToken ||
-                global.session.property.accessToken),
+            propertyToken: global.session.property.propertyToken,
+            accessToken: global.session.property.accessToken,
             id: id.toString(),
             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             name: values.title,
