@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import { Puller } from "../Puller";
-import InputLabel from "@mui/material/InputLabel";
+import LoadingButton from "@mui/lab/LoadingButton";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -29,6 +29,7 @@ function isEmail(email) {
 function AddPersonModal() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [role, setRole] = React.useState("member");
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -143,7 +144,8 @@ function AddPersonModal() {
               </MenuItem>
             </Select>
           </FormControl>
-          <Button
+          <LoadingButton
+            loading={loading}
             onClick={() => {
               if (isEmail(value)) {
                 fetch(
@@ -171,10 +173,12 @@ function AddPersonModal() {
                         )
                         .then(() => {
                           toast.success("Invitation sent!");
+                          setLoading(false);
                         })
                         .catch((err) => alert(err));
                     }
                   });
+                setLoading(true);
               } else {
                 toast.error("Please enter a valid email address");
               }
@@ -190,7 +194,7 @@ function AddPersonModal() {
             }}
           >
             Send invitation
-          </Button>
+          </LoadingButton>
         </Box>
       </SwipeableDrawer>
     </>
@@ -237,6 +241,7 @@ function Member({ member }): any {
           fetch(
             "/api/account/sync/revokeToken?" +
               new URLSearchParams({
+                id: member.id,
                 email: member.email,
                 accessToken: global.session.property.accessToken,
                 propertyToken: global.session.property.propertyToken,

@@ -8,7 +8,12 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       values: [req.query.propertyToken ?? false],
     });
     res.json({
-      data: result,
+      data: result.map((member) => {
+        return {
+          ...member,
+          accessToken: undefined,
+        };
+      }),
     });
   } catch (error) {
     res.status(500).json({ error: error });
