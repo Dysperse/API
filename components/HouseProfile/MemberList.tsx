@@ -16,6 +16,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import emailjs from "@emailjs/browser";
 
 function isEmail(email) {
   return String(email)
@@ -148,14 +149,32 @@ function AddPersonModal() {
                 fetch(
                   "/api/account/sync/invite?" +
                     new URLSearchParams({
-                      accessToken: global.session.property.propertyToken,
+                      propertyToken: global.session.property.propertyToken,
                       email: value,
                       houseName: global.session.property.houseName,
                       houseType: global.session.property.houseType,
                       role: "member",
                     })
-                );
-                toast.success("Invitation sent!");
+                )
+                  .then((res) => res.json())
+                  .then((res: any) => {
+                    if (res.data === true) {
+                      emailjs
+                        .send(
+                          "service_bhq01y6",
+                          "template_nbjdq1i",
+                          {
+                            to_email: value,
+                            house_name: global.session.property.houseName,
+                          },
+                          "6Q4BZ_DN9bCSJFZYM"
+                        )
+                        .then(() => {
+                          toast.success("Invitation sent!");
+                        })
+                        .catch((err) => alert(err));
+                    }
+                  });
               } else {
                 toast.error("Please enter a valid email address");
               }
