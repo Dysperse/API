@@ -203,7 +203,7 @@ function AddPersonModal() {
 
 function Member({ member }): any {
   const [deleted, setDeleted] = React.useState<boolean>(false);
-
+  const [loading, setLoading] = React.useState<boolean>(false);
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
@@ -234,7 +234,7 @@ function Member({ member }): any {
           maxWidth: "100%",
           overflow: "hidden",
           textOverflow: "ellipsis",
-          color: member.accepted ? "green" : "red",
+          color: member.accepted === "true" ? "green" : "red",
         }}
       >
         {member.accepted === "true" ? "" : "Invitation pending"}
@@ -258,7 +258,8 @@ function Member({ member }): any {
           ? "Read, write, and edit access"
           : "Read-only access"}
       </Typography>
-      <Button
+      <LoadingButton
+        loading={loading}
         variant="outlined"
         disabled={global.session.property.role !== "owner"}
         sx={{
@@ -268,6 +269,7 @@ function Member({ member }): any {
           borderRadius: 4,
         }}
         onClick={() => {
+          setLoading(true);
           fetch(
             "/api/account/sync/revokeToken?" +
               new URLSearchParams({
@@ -279,11 +281,15 @@ function Member({ member }): any {
             {
               method: "POST",
             }
-          ).then((res) => toast.success("Removed person from your home"));
+          ).then((res) => {
+            toast.success("Removed person from your home");
+            setLoading(false);
+            setDeleted(true);
+          });
         }}
       >
         Remove
-      </Button>
+      </LoadingButton>
     </>
   );
 }
