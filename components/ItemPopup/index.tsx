@@ -363,28 +363,34 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 </IconButton>
               </Tooltip>
               <Typography sx={{ flexGrow: 1 }}></Typography>
-              <StarButton
-                setLastUpdated={setLastUpdated}
-                id={id}
-                star={star}
-                setStar={setStar}
-              />
-              <EditButton
-                id={id}
-                title={title}
-                setTitle={setTitle}
-                quantity={quantity}
-                setQuantity={setQuantity}
-                categories={categories}
-                setCategories={setCategories}
-                setLastUpdated={setLastUpdated}
-              />
-              <DeleteButton
-                id={id}
-                deleted={deleted}
-                setDrawerState={setDrawerState}
-                setDeleted={setDeleted}
-              />
+              {global.session.property.role !== "read-only" && (
+                <StarButton
+                  setLastUpdated={setLastUpdated}
+                  id={id}
+                  star={star}
+                  setStar={setStar}
+                />
+              )}
+              {global.session.property.role !== "read-only" && (
+                <EditButton
+                  id={id}
+                  title={title}
+                  setTitle={setTitle}
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                  categories={categories}
+                  setCategories={setCategories}
+                  setLastUpdated={setLastUpdated}
+                />
+              )}
+              {global.session.property.role !== "read-only" && (
+                <DeleteButton
+                  id={id}
+                  deleted={deleted}
+                  setDrawerState={setDrawerState}
+                  setDeleted={setDeleted}
+                />
+              )}
               <ItemActionsMenu
                 setDrawerState={setDrawerState}
                 id={id}
@@ -475,7 +481,12 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 e.target.placeholder = "SHIFT+ENTER for new lines";
                 e.target.spellcheck = true;
               }}
-              placeholder="Click to add note"
+              disabled={global.session.property.role === "read-only"}
+              placeholder={
+                global.session.property.role !== "read-only"
+                  ? "Click to add note"
+                  : "You do not have permission to edit this item"
+              }
             />
           </Box>
         </Box>

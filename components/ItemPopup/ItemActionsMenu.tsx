@@ -371,23 +371,27 @@ export function ItemActionsMenu({
           </span>
           Invite collaborators
         </MenuItem> */}
-        <AddToListModal handleClose={handleClose} title={title} />
+        {global.session.property.role !== "read-only" && (
+          <AddToListModal handleClose={handleClose} title={title} />
+        )}
         <QrCodeModal title={title} quantity={quantity} />
-        <MenuItem
-          disableRipple
-          onClick={() => {
-            setMoveToRoomOpen(true);
-            setAnchorEl(null);
-          }}
-        >
-          <span
-            style={{ marginRight: "15px" }}
-            className="material-symbols-rounded"
+        {global.session.property.role !== "read-only" && (
+          <MenuItem
+            disableRipple
+            onClick={() => {
+              setMoveToRoomOpen(true);
+              setAnchorEl(null);
+            }}
           >
-            place_item
-          </span>
-          Move to another room
-        </MenuItem>
+            <span
+              style={{ marginRight: "15px" }}
+              className="material-symbols-rounded"
+            >
+              place_item
+            </span>
+            Move to another room
+          </MenuItem>
+        )}
       </Menu>
     </>
   );

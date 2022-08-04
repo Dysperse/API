@@ -163,6 +163,7 @@ export function Suggestions({ room, items }: any) {
     ],
   };
   return (
+    global.session.property.role !== "read-only" &&
     suggestions[room] && (
       <Card
         sx={{

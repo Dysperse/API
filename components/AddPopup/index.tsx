@@ -393,7 +393,14 @@ export default function AddPopup(props: any) {
           },
         }}
       />
-      <div id="add_trigger" onClick={toggleDrawer(true)}>
+      <div
+        id="add_trigger"
+        onClick={() => {
+          if (global.session.property.role !== "read-only") {
+            setOpen(true);
+          }
+        }}
+      >
         {props.children}
       </div>
 

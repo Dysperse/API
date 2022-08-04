@@ -144,7 +144,15 @@ export function CreateItemModal({
 
   return (
     <div>
-      <div onClick={handleClickOpen}>{children}</div>
+      <div
+        onClick={() => {
+          if (global.session.property.role !== "read-only") {
+            handleClickOpen();
+          }
+        }}
+      >
+        {children}
+      </div>
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}

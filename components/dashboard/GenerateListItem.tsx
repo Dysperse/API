@@ -30,22 +30,23 @@ export function GenerateListItem({ items, setItems, title, id }: any) {
         py: 0,
         borderRadius: 3,
         transition: "transform .2s",
-        "&:active": {
-          transition: "none",
-          transform: "scale(.97)",
-          background: "rgba(200,200,200,.3)",
-        },
+        ...(global.session.property.role !== "read-only" && {
+          "&:active": {
+            transition: "none",
+            transform: "scale(.97)",
+            background: "rgba(200,200,200,.3)",
+          },
+        }),
       }}
       dense
       onClick={() => {
-        deleteItem(id);
+        if (global.session.property.role !== "read-only") deleteItem(id);
       }}
     >
       <ListItemIcon sx={{ pointerEvents: "none " }}>
         <Checkbox
           onClick={() => {
-            deleteItem(id);
-            setChecked(true);
+            if (global.session.property.role !== "read-only") deleteItem(id);
           }}
           edge="start"
           checked={checked}

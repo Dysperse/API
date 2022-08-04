@@ -328,6 +328,7 @@ export function InviteButton() {
               }}
             >
               <Button
+                disabled={global.session.property.role === "read-only"}
                 onClick={() => {
                   document.getElementById("setCreateRoomModalOpen")!.click();
                 }}

@@ -123,7 +123,9 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
         <Button
           id="basic-button"
           variant="contained"
-          disabled={data.length >= 150}
+          disabled={
+            data.length >= 150 || global.session.property.role === "read-only"
+          }
           disableElevation
           sx={{
             borderRadius: 10,

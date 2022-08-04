@@ -33,6 +33,7 @@ function Room({ room }: any) {
           mt: 1.5,
           borderRadius: 4,
         }}
+        disabled={global.session.property.role === "read-only"}
         onClick={() => {
           if (
             confirm(

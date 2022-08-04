@@ -219,6 +219,8 @@ function Member({ member }): any {
             "/api/account/sync/revokeToken?" +
               new URLSearchParams({
                 email: member.email,
+                accessToken: global.session.property.accessToken,
+                propertyToken: global.session.property.propertyToken,
               }),
             {
               method: "POST",

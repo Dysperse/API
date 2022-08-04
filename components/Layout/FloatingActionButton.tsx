@@ -4,7 +4,7 @@ import Fab from "@mui/material/Fab";
 import AddPopup from "../AddPopup";
 
 export function FloatingActionButton() {
-  return (
+  return global.session.property.role === "read-only" ? null : (
     <Box
       sx={{
         position: "fixed",

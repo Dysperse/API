@@ -254,6 +254,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
         <div style={{ padding: "10px" }}>
           <AddPopup>
             <Fab
+              disabled={global.session.property.role === "read-only"}
               // onMouseOver={() => setHide(false)}
               variant="extended"
               color="primary"

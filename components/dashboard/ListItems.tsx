@@ -24,7 +24,7 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
           setItems={setItems}
         />
       ))}
-      {items.length < 20 && (
+      {items.length < 20 && global.session.property.role !== "read-only" && (
         <CreateListModal
           parent={parent.toString()}
           items={items}
