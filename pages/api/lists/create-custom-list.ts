@@ -31,6 +31,8 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
         id: result.insertId,
         title: req.query.title,
         description: req.query.description,
+        star: 0,
+        count: 100,
       },
     });
   } catch (error) {
