@@ -122,8 +122,8 @@ function ListPopup({
             fetch(
               "/api/lists/delete-custom-list?" +
                 new URLSearchParams({
-                  propertyToken: global.session.property.propertyToken,
-                  accessToken: global.session.property.accessToken,
+                    propertyToken: global.session.property.propertyToken,
+                    accessToken: global.session.property.accessToken,
                   id: id,
                 }),
               {

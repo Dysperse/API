@@ -9,7 +9,7 @@ declare module "iron-session" {
 
 export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
-    const token = req.query.token ?? "false";
+    const token: any = req.query.token ?? "false";
     const info = await getInfo(token);
 
     req.session.user = {
