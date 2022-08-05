@@ -1,10 +1,8 @@
 ![image](https://user-images.githubusercontent.com/77016441/167351533-71eca8e2-e532-466a-b933-18c96757fb43.png)
 
-🛈 The code below is copyrighted. You **may not** use this code for business purposes. If you want to contribute, consider signing up for our volunteer positions.
-
 # Smartlist
 
-## Make more from what you earn.
+## Next-gen home inventory and personal finances
 
 ![CB](https://img.shields.io/badge/Contributors-20-yellow?style=flat)
 ![Frontend](https://img.shields.io/static/v1?label=Frontend&message=HTML,%20CSS,%20JS&color=%3CCOLOR%3E&style=flat)
@@ -17,54 +15,42 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Smartlist-App/Smartlist.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Smartlist-App/Smartlist/context:javascript)
 
 ### Meet Smartlist.
-
 Smartlist is a free home inventory app that lets you keep track of what you have in your home, and helps you save money.
-This is the **official GitHub Repository** for Smartlist!
+
+### Why?
+Tracking what you have in your home can be painful, and Smartlist makes it easier. Smartlist helps you control how much you spend, set financial goals, and more
+
+#### A bit about us
+Smartlist started in 2020, around the peak COVID-19 crisis. Smartlist is **non-commercial**, **open-source**, and **free, forever**!
+
+### By students, for students & families
+Hey! I'm Manu. I started Smartlist as a middle school project. I often found my parents struggling with home inventory, shopping lists, and more. That's why I wanted to build Smartlist: home inventory, lists, and finances, for free!
+
+#### Top contributors
+- @ManuTheCoder
+- @WaterBottlesHydrate
+
+### Sponsors
+[![Vercel](https://user-images.githubusercontent.com/77016441/183126898-2412e41b-40fe-4981-bf9f-5e8349f77d4e.png)](https://vercel.com/?utm_source=smartlist&utm_campaign=oss)
+
+https://infinitzhost.com/?smartlist
 
 ### Features
 
-- **Secure** - Smartlist uses 256-bit AES encryption to store the items
-- **Fast** - Smartlist uses the serviceWorker technology, and uses a fast and reliable CDN
-- **Collaborative** - You can sync your inventory with up to 1 person
-- **Enhanced finance tracking** - Smartlist can help you track your finances. Finance calculators, budget, finance plans are available!
-- **Star important items** - You can star important items which you edit frequently
-- **Recipe Generator** - Generate recipes based on the items you have, or just ger recipe ideas
-- **Share items** - Share items via WhatsApp, SMS, and email!
-- **Notes & documents** - Store encrypted text files for free
-- **Home maintenance** - Get reminders for home maintenance
-- **Email notifications** - Get daily / weekly emails about your inventory
-- **Customize your profile** - You can change the theme color, dark theme, and even change the branding!
-- **Search your home** - You can search your home!
-- **Shopping list and todo list** - You can add items to your shopping list to view in store
-- **Shopping assistant** - Easy for in-store use. Tap to change next item to buy
-- **Custom rooms and labels** - Along with default rooms, you can set custom rooms and categories
-- **Great design** - We implement the features of Material Design to make it easy for everyone to use
-- **PWA** - You can install this app via your browser!
-- **Notifications** - Get updates on items you're running out of
+* Home inventory
+  * Sync your inventory with up to 5 people
+    * Grant view-only, member, or admin access.
+  * Create up to 150 items per room!
+  * Unlimited rooms
+  * Create up to 500 items per home!
+* Shopping + to-do lists
+* Custom lists
+* Set financial goals
+* Set budgets
+* Review expenses
+* ...and more!
 
 ### How can I contribute?
 
 Want to contribute?
 Visit: https://smartlist.tech/join
-
-### Top contributors
-
-Smartlist woudln't have been possible without the following people:
-
-- @ManuTheCoder
-- @WaterBottlesHydrate
-
-### API
-
-Smartlist provides an easy-to-use API for free!
-Languages supported: JS, PHP, Python, Flutter, Swift, C++, Java, Kotlin
-
-- Log in to your Smartlist account.
-- Go to your settings, and click on "Developer"
-- Click on the "API Dashboard" button
-- Click on the "API keys" in the side navigation menu
-- Create a key by filling out the form
-- Let's code
-
-Powered by InfinitzHost
-https://infinitzhost.com/?smartlist
