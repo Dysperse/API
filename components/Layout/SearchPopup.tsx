@@ -118,16 +118,18 @@ export function SearchPopup({ content }: any) {
     )
       .then((res) => res.json())
       .then((res) => {
-        setCommands([
-          ...commands,
-          ...res.data.map((room) => {
-            return {
-              command: () => router.push("/rooms/" + room.id),
-              name: room.name,
-              shortcut: "Rooms",
-            };
-          }),
-        ]);
+        if (res && res.res) {
+          setCommands([
+            ...commands,
+            ...res.data.map((room) => {
+              return {
+                command: () => router.push("/rooms/" + room.id),
+                name: room.name,
+                shortcut: "Rooms",
+              };
+            }),
+          ]);
+        }
         setReady(true);
       });
   }
