@@ -13,28 +13,28 @@
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/Smartlist-App/Smartlist.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Smartlist-App/Smartlist/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Smartlist-App/Smartlist.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Smartlist-App/Smartlist/context:javascript)
 
-### Meet Smartlist.
+## Meet Smartlist.
 Smartlist is a free home inventory app that lets you keep track of what you have in your home, and helps you save money.
 
-### Why?
+## Why?
 Tracking what you have in your home can be painful, and Smartlist makes it easier. Smartlist helps you control how much you spend, set financial goals, and more
 
-#### A bit about us
+### A bit about us
 Smartlist started in 2020, around the peak COVID-19 crisis. Smartlist is **non-commercial**, **open-source**, and **free, forever**!
 
 ### By students, for students & families
 Hey! I'm Manu. I started Smartlist as a middle school project. I often found my parents struggling with home inventory, shopping lists, and more. That's why I wanted to build Smartlist: home inventory, lists, and finances, for free!
 
-#### Top contributors
+## Top contributors
 - @ManuTheCoder
 - @WaterBottlesHydrate
 
-### Sponsors
+## Sponsors
 [![Vercel](https://user-images.githubusercontent.com/77016441/183126898-2412e41b-40fe-4981-bf9f-5e8349f77d4e.png)](https://vercel.com/?utm_source=smartlist&utm_campaign=oss)
 
 https://infinitzhost.com/?smartlist
 
-### Features
+## Features
 
 * Home inventory
   * Sync your inventory with up to 5 people
@@ -49,7 +49,7 @@ https://infinitzhost.com/?smartlist
 * Review expenses
 * ...and more!
 
-### How can I contribute?
+## How can I contribute?
 
 Want to contribute?
 Visit: https://smartlist.tech/join
