@@ -1,7 +1,6 @@
-![image](https://user-images.githubusercontent.com/77016441/167351533-71eca8e2-e532-466a-b933-18c96757fb43.png)
+![image](https://user-images.githubusercontent.com/77016441/183128164-b2af0830-dfaf-4c19-8cd8-f964584e41c3.png)
 
 # Smartlist
-
 ## Next-gen home inventory and personal finances
 
 ![CB](https://img.shields.io/badge/Contributors-20-yellow?style=flat)
