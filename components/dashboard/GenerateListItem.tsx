@@ -20,7 +20,6 @@ export function GenerateListItem({ items, setItems, title, id }: any) {
         method: "POST",
       }
     );
-    setItems(items.filter((item: any) => item.id !== id));
   };
   return (
     <ListItemButton
@@ -30,29 +29,34 @@ export function GenerateListItem({ items, setItems, title, id }: any) {
         py: 0,
         borderRadius: 3,
         transition: "transform .2s",
-        ...(global.session.property.role !== "read-only" && {
-          "&:active": {
+        "&:active": {
+          transition: "none",
+          transform: "scale(.97)",
+          background: "rgba(200,200,200,.3)",
+          ...(global.session.property.role !== "read-only" && {
             transition: "none",
             transform: "scale(.97)",
             background: "rgba(200,200,200,.3)",
-          },
-        }),
+          }),
+        },
       }}
       dense
       onClick={() => {
-        if (global.session.property.role !== "read-only") deleteItem(id);
+        if (global.session.property.role !== "read-only") {
+          deleteItem(id);
+          setChecked(true);
+        }
       }}
     >
-      <ListItemIcon sx={{ pointerEvents: "none " }}>
-        <Checkbox
-          onClick={() => {
-            if (global.session.property.role !== "read-only") deleteItem(id);
-          }}
-          edge="start"
-          checked={checked}
-        />
+      <ListItemIcon>
+        <span
+          style={{ marginLeft: "-2px" }}
+          className="material-symbols-outlined"
+        >
+          {checked ? "task_alt" : "radio_button_unchecked"}
+        </span>
       </ListItemIcon>
-      <ListItemText primary={title} />
+      <ListItemText sx={{ my: 1.4 }} primary={title} />
     </ListItemButton>
   );
 }
