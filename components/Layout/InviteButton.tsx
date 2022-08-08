@@ -9,6 +9,9 @@ import Popover from "@mui/material/Popover";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../history-control";
@@ -16,18 +19,11 @@ import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Invitations } from "../Invitations";
 import { InvitationsModal } from "../HouseProfile/InvitationsModal";
+import useSWR from "swr";
 
-export function InviteButton() {
+function House({ data }: any) {
   const [open, setOpen] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
-
-  React.useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
-
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
 
   const [houseType, setHouseType] = React.useState(
     global.session.property.houseType
@@ -36,33 +32,55 @@ export function InviteButton() {
   const handleChange = (event: SelectChangeEvent) => {
     setHouseType(event.target.value as string);
   };
-
-  let handleClick = (event: React.MouseEvent<any>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    handleClick = () => {};
-  };
-  const popoverOpen = Boolean(anchorEl);
-  const id = popoverOpen ? "simple-popover" : undefined;
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      document.getElementById("new_trigger")!.click();
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
-  }, [open]);
-
   return (
     <>
+      <ListItem
+        button
+        onClick={() => setOpen(true)}
+        sx={{
+          ...(data.propertyToken === global.session.property.propertyToken && {
+            background: colors[themeColor][100] + "!important",
+          }),
+        }}
+      >
+        <ListItemText
+          primary={
+            <Typography variant="h6" sx={{ fontWeight: "600" }}>
+              {data.houseName}
+            </Typography>
+          }
+          secondary={
+            <Box
+              sx={{
+                color: "#000",
+                maxWidth: "100%",
+                mt: 0.5,
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <span className="material-symbols-rounded">
+                {data.role === "member"
+                  ? "group"
+                  : data.role == "owner"
+                  ? "productivity"
+                  : "visibility"}
+              </span>
+              <span style={{ marginTop: "-2.5px" }}>
+                {data.role == "member"
+                  ? "Read, write, and edit access"
+                  : data.role == "owner"
+                  ? "Owner"
+                  : "Read-only access"}
+              </span>
+            </Box>
+          }
+        />
+        <ListItemIcon>
+          <span className="material-symbols-rounded">chevron_right</span>
+        </ListItemIcon>
+      </ListItem>
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
@@ -352,6 +370,94 @@ export function InviteButton() {
           </Box>
           <RoomList />
         </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
+
+export function InviteButton() {
+  const [open, setOpen] = React.useState(false);
+  const url =
+    "/api/account/sync/invitations?" +
+    new URLSearchParams({
+      token: global.session.account.accessToken,
+      email: global.session.account.email,
+    });
+
+  const { data, error }: any = useSWR(url, () =>
+    fetch(url, { method: "POST" }).then((res) => res.json())
+  );
+
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  let handleClick = (event: React.MouseEvent<any>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    handleClick = () => {};
+  };
+  const popoverOpen = Boolean(anchorEl);
+  const id = popoverOpen ? "simple-popover" : undefined;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      document.getElementById("new_trigger")!.click();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList[open ? "add" : "remove"](
+      "prevent-scroll"
+    );
+  }, [open]);
+
+  return (
+    <>
+      <SwipeableDrawer
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        anchor="bottom"
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            background: colors[themeColor][50],
+            width: {
+              sm: "50vw",
+            },
+            maxWidth: "600px",
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
+          },
+        }}
+        swipeAreaWidth={0}
+      >
+        <Box sx={{ py: 5, px: 2, textAlign: "center" }}>
+          <Typography variant="h5" sx={{ fontWeight: "800" }}>
+            Properties
+          </Typography>
+        </Box>
+        {data ? (
+          <>
+            {data.data.map((house: any) => (
+              <House data={house} />
+            ))}
+          </>
+        ) : (
+          <>Loading...</>
+        )}
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
       {!global.session.account.SyncToken &&

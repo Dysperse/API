@@ -40,8 +40,8 @@ export function ItemList({ items }: { items: any }) {
                 <picture>
                   <img
                     alt="No items found"
-                    src="https://ouch-cdn2.icons8.com/XBzKv4afS9brUYd2rl02wYqlGS8RRQ59aTS-49vo_s4/rs:fit:256:266/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNjE2/L2FmYmNiNTMyLWY5/ZjYtNGQxZC1iZjE0/LTYzMTExZmJmZWMw/ZC5zdmc.png"
-                    style={{ width: "300px", maxWidth: "100%" }}
+                    src="https://ouch-cdn2.icons8.com/Hj-wKD-6E5iYnxo_yY-janABxscaiw4DWw7PW6m3OnI/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvODQ0/LzAzNjE5YWJjLWQ0/ZTQtNGUyMi04ZTli/LWQ2NTliY2M2ZGE3/OC5zdmc.png"
+                    style={{ width: "200px", maxWidth: "100%" }}
                   />
                 </picture>
                 <Typography
@@ -55,15 +55,12 @@ export function ItemList({ items }: { items: any }) {
                 <Typography
                   variant="body2"
                   sx={{
-                    display: "inline-flex",
                     gap: "10px",
                     alignItems: "center",
                     mt: 1,
                   }}
                 >
-                  Try clearing any filters. Hit the{" "}
-                  <span className="material-symbols-outlined">add_circle</span>
-                  button to create an item.{" "}
+                  Try clearing any filters.
                 </Typography>
               </CardContent>
             </Card>
