@@ -16,6 +16,17 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
 
   return (
     <>
+      {items.length === 0 && (
+        <Box sx={{ textAlign: "center", my: 2 }}>
+          <picture>
+            <img src={emptyImage} alt="No items" loading="lazy" />
+          </picture>
+          <Typography sx={{ display: "block" }} variant="h6">
+            No items?!
+          </Typography>
+          <Typography sx={{ display: "block" }}>{emptyText}</Typography>
+        </Box>
+      )}
       {items.map((list: Object, id: number) => (
         <GenerateListItem
           {...list}
@@ -33,6 +44,9 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
           <ListItemButton
             disableRipple
             sx={{
+              ...(items.length === 0 && {
+                textAlign: "center",
+              }),
               py: 0,
               borderRadius: 3,
               transition: "transform .2s",
@@ -44,28 +58,24 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
             }}
             dense
           >
-            <ListItemIcon>
-              <span
-                style={{ marginLeft: "-2px" }}
-                className="material-symbols-outlined"
-              >
-                add_circle
-              </span>
-            </ListItemIcon>
-            <ListItemText sx={{ my: 1.4 }} primary={"New list item"} />
+            <ListItemText
+              sx={{ mt: 1.4 }}
+              primary={
+                <Box
+                  sx={{ display: "inline-flex", alignItems: "center", gap: 4 }}
+                >
+                  <span
+                    style={{ marginLeft: "-2px" }}
+                    className="material-symbols-outlined"
+                  >
+                    add_circle
+                  </span>
+                  <Typography>New list item</Typography>
+                </Box>
+              }
+            />
           </ListItemButton>
         </CreateListModal>
-      )}
-      {items.length === 0 && (
-        <Box sx={{ textAlign: "center" }}>
-          <picture>
-            <img src={emptyImage} alt="No items" loading="lazy" />
-          </picture>
-          <Typography sx={{ display: "block" }} variant="h6">
-            No items?!
-          </Typography>
-          <Typography sx={{ display: "block" }}>{emptyText}</Typography>
-        </Box>
       )}
     </>
   );
