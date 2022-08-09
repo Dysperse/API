@@ -10,6 +10,7 @@ import React, { useEffect } from "react";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./SearchPopup";
+import { ProfileMenu } from "../Layout/Profile";
 
 function ElevationScroll(props: any) {
   const { children, window } = props;
@@ -100,14 +101,43 @@ export function Navbar(): JSX.Element {
                     },
                   }}
                 >
-                  <span className="material-symbols-rounded">
-                    electric_bolt
-                  </span>
+                  <span className="material-symbols-rounded">search</span>
                 </IconButton>
               </Tooltip>
             }
           />
-          <AppsMenu />
+          <Box sx={{ display: { xs: "none", sm: "unset" } }}>
+            <AppsMenu />
+          </Box>
+          <ProfileMenu>
+            <Tooltip title="My account">
+              <IconButton
+                color="inherit"
+                disableRipple
+                size="large"
+                sx={{
+                  transition: "none",
+                  color:
+                    global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
+                  "&:hover": {
+                    background: "rgba(200,200,200,.3)",
+                    color:
+                      global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                  "&:focus-within": {
+                    background:
+                      (global.theme === "dark"
+                        ? colors[themeColor]["900"]
+                        : colors[themeColor]["50"]) + "!important",
+                    color:
+                      global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                }}
+              >
+                <span className="material-symbols-rounded">account_circle</span>
+              </IconButton>
+            </Tooltip>
+          </ProfileMenu>
         </Toolbar>
       </AppBar>
     </ElevationScroll>
