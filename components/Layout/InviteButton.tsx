@@ -20,6 +20,8 @@ import { RoomList } from "../HouseProfile/RoomList";
 import { Invitations } from "../Invitations";
 import { InvitationsModal } from "../HouseProfile/InvitationsModal";
 import useSWR from "swr";
+import { updateSettings } from "../Settings/updateSettings";
+import toast from "react-hot-toast";
 
 function House({ data }: any) {
   const [open, setOpen] = React.useState(false);
@@ -39,6 +41,20 @@ function House({ data }: any) {
         onClick={() => {
           if (data.propertyToken === global.session.property.propertyToken) {
             setOpen(true);
+          } else {
+            fetch(
+              "/api/account/sync/acceptInvitation?" +
+                new URLSearchParams({
+                  accessToken: data.accessToken,
+                  propertyToken: data.propertyToken,
+                })
+            ).then((res) => {
+              updateSettings("SyncToken", data.propertyToken, false, () => {
+                toast.success("Joined!");
+                window.location.href = "/dashboard";
+                window.location.reload();
+              });
+            });
           }
         }}
         sx={{
