@@ -477,7 +477,7 @@ export function InviteButton() {
       >
         <Box sx={{ py: 5, px: 2, textAlign: "center" }}>
           <Typography variant="h5" sx={{ fontWeight: "800" }}>
-            Properties
+            Groups
           </Typography>
         </Box>
         {data ? (
@@ -487,7 +487,7 @@ export function InviteButton() {
             ))}
           </>
         ) : (
-          <>Loading...</>
+          <Box sx={{ p: 3 }}>Loading...</Box>
         )}
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
