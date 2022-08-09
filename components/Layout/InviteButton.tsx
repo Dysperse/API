@@ -482,8 +482,8 @@ export function InviteButton() {
         </Box>
         {data ? (
           <>
-            {data.data.map((house: any) => (
-              <House data={house} />
+            {data.data.map((house: any, key: number) => (
+              <House key={key} data={house} />
             ))}
           </>
         ) : (
