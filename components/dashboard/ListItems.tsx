@@ -49,6 +49,7 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
               }),
               py: 0,
               borderRadius: 3,
+              color: "#808080",
               transition: "transform .2s",
               "&:active": {
                 transition: "none",
@@ -70,7 +71,9 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
                   >
                     add_circle
                   </span>
-                  <Typography>New list item</Typography>
+                  <span style={{ color: "#202020", marginLeft: "1px" }}>
+                    New list item
+                  </span>
                 </Box>
               }
             />
