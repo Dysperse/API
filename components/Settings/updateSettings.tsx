@@ -5,22 +5,31 @@ export function updateSettings(
   value: string,
   debug: boolean = false,
   callback: any = () => {},
-  useSyncToken: boolean = false
+  useSyncToken: boolean = false,
+  showSeparateSyncToastMessage: boolean = true
 ) {
-  let d = fetch(
+  let url =
     "/api/account/update?" +
+    new URLSearchParams({
+      token: global.session.account.accessToken,
+      data: JSON.stringify({
+        [key]: value,
+      }),
+    });
+  if (useSyncToken) {
+    url =
+      "/api/account/sync/updateHome?" +
       new URLSearchParams({
-        token: useSyncToken
-          ? global.session.account.SyncToken
-          : global.session.account.accessToken,
+        accessToken: global.session.property.accessToken,
+        propertyToken: global.session.property.propertyToken,
         data: JSON.stringify({
           [key]: value,
         }),
-      }),
-    {
-      method: "POST",
-    }
-  )
+      });
+  }
+  let d = fetch(url, {
+    method: "POST",
+  })
     .then((res) => res.json())
     .then((res) => {
       fetch(
@@ -32,7 +41,7 @@ export function updateSettings(
         .then(() => {
           callback && callback();
           toast.success(
-            useSyncToken
+            useSyncToken && showSeparateSyncToastMessage
               ? "Saved! Changes might take some time to appear for other members in your home"
               : "Saved!"
           );

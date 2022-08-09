@@ -7,11 +7,15 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
     const specifiedValues = Object.keys(JSON.parse(req.query.data));
     let intersection = specifiedValues.filter((x) => allowedValues.includes(x));
+
     intersection.forEach(async (setting) => {
       await executeQuery({
         query:
-          "UPDATE SyncTokens SET " + setting + " = ? WHERE accessToken = ?",
-        values: [JSON.parse(req.query.data)[setting], req.query.token ?? false],
+          "UPDATE SyncTokens SET " + setting + " = ? WHERE propertyToken = ?",
+        values: [
+          JSON.parse(req.query.data)[setting],
+          req.query.propertyToken ?? false,
+        ],
       });
     });
     res.json({

@@ -16,7 +16,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-
+import { updateSettings } from "../components/Settings/updateSettings";
 const AutoPlaySwipeableViews = SwipeableViews;
 
 function SwipeableTextMobileStepper() {
@@ -153,7 +153,19 @@ function SwipeableTextMobileStepper() {
           <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
             What kind of property do you own?
           </Typography>
-          <FormControl onChange={(e: any) => setHouseType(e.target.value)}>
+          <FormControl
+            onChange={(e: any) => {
+              setHouseType(e.target.value);
+              updateSettings(
+                "houseType",
+                e.target.value,
+                false,
+                null,
+                true,
+                false
+              );
+            }}
+          >
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="home"
@@ -180,6 +192,16 @@ function SwipeableTextMobileStepper() {
             fullWidth
             variant="filled"
             sx={{ mt: 1 }}
+            onBlur={(e) => {
+              updateSettings(
+                "houseName",
+                e.target.value,
+                false,
+                null,
+                true,
+                false
+              );
+            }}
             InputProps={{
               sx: {
                 pb: 2,
