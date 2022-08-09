@@ -270,7 +270,9 @@ function Member({ member }): any {
       <LoadingButton
         loading={loading}
         variant="outlined"
-        disabled={global.session.property.role !== "owner"}
+        disabled={
+          global.session.property.role !== "owner" || member.role === "owner"
+        }
         sx={{
           borderWidth: "2px!important",
           width: "100%",
@@ -352,6 +354,7 @@ export function MemberList() {
           display: "flex",
           alignItems: "center",
           gap: "10px",
+          mt: 1,
           "& *": {
             overscrollBehavior: "auto!important",
           },
@@ -363,6 +366,7 @@ export function MemberList() {
         <SwipeableViews
           style={{
             borderRadius: "28px",
+            width: "100%",
             padding: "0 30px",
             paddingLeft: "0",
           }}
@@ -376,10 +380,16 @@ export function MemberList() {
           enableMouseEvents
         >
           {images.map((step, index) => (
-            <Box key={index.toString()}>
+            <Box
+              key={index.toString()}
+              sx={{
+                width: "100%",
+              }}
+            >
               <Box
                 sx={{
                   p: 2,
+                  width: "100%",
                   userSelect: "none",
                   px: 2.5,
                   borderRadius: 5,
@@ -394,7 +404,7 @@ export function MemberList() {
 
         <Box>
           <IconButton
-            disabled={activeStep === maxSteps - 1}
+            disabled={activeStep === maxSteps - 1 || maxSteps == 1}
             onClick={handleNext}
             sx={{
               color: colors[themeColor][900],

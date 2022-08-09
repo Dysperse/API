@@ -364,7 +364,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               }),
             }}
           >
-            {global.session.property.houseType ? "Dorm" : "Rooms"}
+            {global.session.property.houseType === "dorm" ? "Dorm" : "Rooms"}
           </ListSubheader>
           {global.session.property.houseType !== "dorm" && (
             <ListItem

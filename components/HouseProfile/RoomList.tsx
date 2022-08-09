@@ -106,6 +106,7 @@ export function RoomList() {
         sx={{
           display: "flex",
           alignItems: "center",
+          mt: 1,
           gap: "10px",
           "& *": {
             overscrollBehavior: "auto!important",
@@ -122,6 +123,7 @@ export function RoomList() {
           enableMouseEvents
           style={{
             borderRadius: "28px",
+            width: "100%",
             padding: "0 30px",
             paddingLeft: "0",
           }}
@@ -130,6 +132,19 @@ export function RoomList() {
             paddingLeft: "0",
           }}
         >
+          {images.length === 0 && (
+            <Box
+              sx={{
+                p: 2,
+                userSelect: "none",
+                px: 2.5,
+                borderRadius: 5,
+                background: colors[themeColor][100],
+              }}
+            >
+              You haven&apos;t created any rooms yet
+            </Box>
+          )}
           {images.map((step, index) => (
             <Box key={index.toString()}>
               <Box
@@ -149,7 +164,7 @@ export function RoomList() {
 
         <Box>
           <IconButton
-            disabled={activeStep === maxSteps - 1}
+            disabled={activeStep === maxSteps - 1 || maxSteps == 0}
             onClick={handleNext}
             sx={{
               color: colors[themeColor][900],
