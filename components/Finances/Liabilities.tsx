@@ -12,7 +12,7 @@ export function Liabilities() {
   const url =
     "/api/finance/liabilities?" +
     new URLSearchParams({
-      access_token: global.session.user.financeToken,
+      access_token: global.session.account.financeToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
@@ -22,8 +22,9 @@ export function Liabilities() {
   if (!data)
     return (
       <>
-        {[...new Array(10)].map(() => (
+        {[...new Array(10)].map((_: any, id: number) => (
           <Skeleton
+            key={id.toString()}
             variant="rectangular"
             animation="wave"
             height={152}
@@ -34,8 +35,9 @@ export function Liabilities() {
     );
   return (
     <>
-      {Object.keys(data.liabilities).map((liability) => (
+      {Object.keys(data.liabilities).map((liability: any, id: number) => (
         <Card
+          key={id.toString()}
           sx={{
             background:
               global.theme === "dark"
@@ -52,7 +54,7 @@ export function Liabilities() {
             >
               {liability}
             </Typography>
-            {data.liabilities[liability].map((loan) => {
+            {data.liabilities[liability].map((loan: any, id: number) => {
               let secondary = (
                 <>
                   {Math.round(
@@ -91,6 +93,7 @@ export function Liabilities() {
               }
               return (
                 <ListItem
+                  key={id.toString()}
                   sx={{
                     px: 2,
                     mt: 1,

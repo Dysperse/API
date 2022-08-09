@@ -81,16 +81,19 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
       minAmountOfMoney: string;
       image: string;
     }) => {
-      await fetch("https://api.smartlist.tech/v2/finances/goals/create/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token: session && session.accessToken,
-          name: values.name,
-          minAmountOfMoney: values.minAmountOfMoney,
-          image: values.image,
-          accountId: account.account_id,
-        }),
-      });
+      await fetch(
+        "/api/finance/goals/create?" +
+          new URLSearchParams({
+            token: global.session.account.accessToken,
+            name: values.name,
+            minAmountOfMoney: values.minAmountOfMoney,
+            image: values.image,
+            accountId: account.account_id,
+          }),
+        {
+          method: "POST",
+        }
+      );
       setOpen(false);
       setDisabled(false);
       setBannerDialogOpen(false);
@@ -136,6 +139,8 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
             "https://images.unsplash.com/photo-1449844908441-8829872d2607?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
           ].map((image: any) => (
             <Image
+              alt={"Banner prompt"}
+              key={image}
               setBannerDialogOpen={setBannerDialogOpen}
               setBanner={setBanner}
               setDisabled={setDisabled}

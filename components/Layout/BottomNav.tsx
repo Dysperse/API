@@ -1,14 +1,18 @@
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
 import Icon from "@mui/material/Icon";
+import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import * as React from "react";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const styles = {
   borderRadius: "15px",
   px: "0!important",
   transition: "transform .2s",
+  transformOrigin: "center",
   "&:active": {
     transform: "scale(.94)",
     transition: "none",
@@ -19,8 +23,8 @@ const styles = {
     textOverflow: "ellipsis",
   },
   maxHeight: { sm: "70px" },
-  maxWidth: { xs: "20vw!important", sm: "65px!important" },
-  minWidth: { xs: "20vw!important", sm: "65px!important" },
+  maxWidth: { xs: "25vw!important", sm: "65px!important" },
+  minWidth: { xs: "25vw!important", sm: "65px!important" },
   width: { xs: "20vw!important", sm: "65px!important" },
   mr: "-1px",
   "&.Mui-selected svg": {
@@ -28,20 +32,17 @@ const styles = {
   },
   "& span:not(.MuiIcon-root)": {
     fontSize: "13px!important",
+    display: "none",
   },
   "& .MuiIcon-root": {
-    fontSize: "21px",
-    mb: 0.3,
-    borderRadius: 9,
+    fontSize: "23px",
+    borderRadius: 4,
     textAlign: "center",
-    width: "70%",
-    maxWidth: "50px",
-    py: 0.3,
+    width: "80%",
+    maxWidth: "70px",
+    py: 1.2,
     height: "auto",
     overflow: "visible",
-  },
-  "&.Mui-selected .MuiIcon-root": {
-    background: "rgba(0,0,0,0.3)",
   },
   py: 0.5,
 };
@@ -57,14 +58,11 @@ export function BottomNav() {
       v = 1;
       break;
     case "/save-the-planet":
-      v = 2;
+      v = 3;
       break;
     case "/trash":
     case "/items":
-      v = 3;
-      break;
-    case "/planner":
-      v = 4;
+      v = 1;
       break;
     default:
       v = 0;
@@ -74,12 +72,14 @@ export function BottomNav() {
   const onLink = (href: any) => {
     router.push(href);
   };
+  const matches = useMediaQuery("(max-height: 400px)");
+
   return (
     <Box
       sx={{
         width: { xs: "100%", sm: "65px" },
         position: "fixed",
-        bottom: { xs: 0, md: "unset" },
+        bottom: { xs: matches ? -100 : 0, md: "unset" },
         top: { xs: "unset", md: 0 },
         left: 0,
         display: {
@@ -104,9 +104,13 @@ export function BottomNav() {
           background:
             global.theme === "dark"
               ? "rgba(68, 68, 85,.9)"
-              : "rgba(210,210,210,.8)",
+              : hexToRgba(colors[themeColor][100], 0.7),
+
+          ["@supports not (backdrop-filter: blur(15px))"]: {
+            background: colors[themeColor][100],
+          },
         }}
-        showLabels
+        // showLabels
         onChange={(event, newValue) => {
           router.events.on("routeChangeComplete", () => {
             setValue(newValue);
@@ -119,23 +123,65 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            color: global.theme === "dark" ? "#ccc" : "#505050",
+            "&:not(.Mui-selected)": {
+              color:
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
+                "!important",
+            },
             "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color:
+                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+              fontWeight: "700",
               background: "transparent !important",
+            },
+            "&.Mui-selected .MuiIcon-root": {
+              background: colors[themeColor][200],
             },
           }}
           label="Home"
           disableRipple
           onClick={() => onLink("/dashboard")}
-          icon={<Icon baseClassName="material-symbols-rounded">dashboard</Icon>}
+          icon={<Icon baseClassName="material-symbols-rounded">layers</Icon>}
         />
         <BottomNavigationAction
           sx={{
             ...styles,
+            "&:not(.Mui-selected)": {
+              color:
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
+                "!important",
+            },
             "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color:
+                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+              fontWeight: "700",
               background: "transparent !important",
+            },
+            "&.Mui-selected .MuiIcon-root": {
+              background: colors[themeColor][200],
+            },
+          }}
+          label="Items"
+          disableRipple
+          onClick={() => onLink("/items")}
+          icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
+        />
+        <BottomNavigationAction
+          sx={{
+            ...styles,
+            "&:not(.Mui-selected)": {
+              color:
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
+                "!important",
+            },
+            "&.Mui-selected": {
+              color:
+                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+              fontWeight: "700",
+              background: "transparent !important",
+            },
+            "&.Mui-selected .MuiIcon-root": {
+              background: colors[themeColor][200],
             },
           }}
           label="Finances"
@@ -147,9 +193,19 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
+            "&:not(.Mui-selected)": {
+              color:
+                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
+                "!important",
+            },
             "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color:
+                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+              fontWeight: "700",
               background: "transparent !important",
+            },
+            "&.Mui-selected .MuiIcon-root": {
+              background: colors[themeColor][200],
             },
           }}
           label={
@@ -160,42 +216,12 @@ export function BottomNav() {
                 whiteSpace: "nowrap",
               }}
             >
-              Eco friendlinessssssss
+              Sustainability
             </span>
           }
           disableRipple
           onClick={() => onLink("/save-the-planet")}
-          icon={
-            <Icon baseClassName="material-symbols-rounded">
-              energy_savings_leaf
-            </Icon>
-          }
-        />
-        <BottomNavigationAction
-          sx={{
-            ...styles,
-            "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
-              background: "transparent !important",
-            },
-          }}
-          label="Items"
-          disableRipple
-          onClick={() => onLink("/items")}
-          icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
-        />
-        <BottomNavigationAction
-          sx={{
-            ...styles,
-            "&.Mui-selected": {
-              color: global.theme === "dark" ? "#fff" : "#000",
-              background: "transparent !important",
-            },
-          }}
-          label="Planner"
-          disableRipple
-          onClick={() => onLink("/planner")}
-          icon={<Icon baseClassName="material-symbols-rounded">event</Icon>}
+          icon={<Icon baseClassName="material-symbols-rounded">eco</Icon>}
         />
       </BottomNavigation>
     </Box>

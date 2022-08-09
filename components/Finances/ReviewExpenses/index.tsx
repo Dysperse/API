@@ -1,26 +1,23 @@
-import { useState, useEffect } from "react";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import IconButton from "@mui/material/IconButton";
+import CardContent from "@mui/material/CardContent";
 import * as colors from "@mui/material/colors";
-import Stepper from "@mui/material/Stepper";
+import IconButton from "@mui/material/IconButton";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import React from "react";
+import Stepper from "@mui/material/Stepper";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import dayjs from "dayjs";
+import React, { useEffect, useState } from "react";
+
 import { neutralizeBack, revivalBack } from "../../history-control";
 
 function Cards({ transactions }: any) {
   const [activeStep, setActiveStep] = React.useState(0);
-
-  const isStepOptional = (step: number) => {
-    return step === 1;
-  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -34,10 +31,6 @@ function Cards({ transactions }: any) {
         console.log(document.querySelector(".MuiSvgIcon-root.Mui-active"));
       }
     }, 100);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleReset = () => {
@@ -121,7 +114,7 @@ function Cards({ transactions }: any) {
                   variant="h4"
                   gutterBottom
                   sx={{
-                    fontWeight: "800",
+                    fontWeight: "700",
                     fontSize: { xs: "25px", sm: "40px" },
                     maxWidth: "100%",
                     whiteSpace: "nowrap",
@@ -134,13 +127,14 @@ function Cards({ transactions }: any) {
                 <Typography
                   variant="h6"
                   sx={{
-                    fontWeight: "600",
+                    fontWeight: "500",
                     opacity: 0.7,
 
-                    fontSize: { xs: "15px", sm: "25px" },
+                    fontSize: { xs: "15px", sm: "20px" },
                   }}
                 >
-                  ${transactions[activeStep].amount} &bull; 5 days ago
+                  ${transactions[activeStep].amount} &bull;{" "}
+                  {dayjs(transactions[activeStep].date).fromNow()}
                 </Typography>
               </CardContent>
             </Card>
@@ -159,7 +153,16 @@ function Cards({ transactions }: any) {
               <Typography variant="body2" sx={{ mb: 1 }}>
                 Was it worth it?
               </Typography>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large" sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"}, transition: "none" }}>
+              <IconButton
+                disableRipple
+                onClick={handleNext}
+                color="inherit"
+                size="large"
+                sx={{
+                  "&:active": { background: "rgba(255, 255, 255, .2)" },
+                  transition: "none",
+                }}
+              >
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}
@@ -167,7 +170,16 @@ function Cards({ transactions }: any) {
                   sentiment_dissatisfied
                 </span>
               </IconButton>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large"sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"}, transition: "none" }}>
+              <IconButton
+                disableRipple
+                onClick={handleNext}
+                color="inherit"
+                size="large"
+                sx={{
+                  "&:active": { background: "rgba(255, 255, 255, .2)" },
+                  transition: "none",
+                }}
+              >
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}
@@ -175,7 +187,16 @@ function Cards({ transactions }: any) {
                   sentiment_neutral
                 </span>
               </IconButton>
-              <IconButton disableRipple onClick={handleNext} color="inherit" size="large"sx={{ "&:active": {background: "rgba(255, 255, 255, .2)"}, transition: "none" }}>
+              <IconButton
+                disableRipple
+                onClick={handleNext}
+                color="inherit"
+                size="large"
+                sx={{
+                  "&:active": { background: "rgba(255, 255, 255, .2)" },
+                  transition: "none",
+                }}
+              >
                 <span
                   className="material-symbols-rounded"
                   style={{ fontSize: "40px" }}

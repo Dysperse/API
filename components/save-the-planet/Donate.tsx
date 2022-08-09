@@ -5,19 +5,19 @@ import Typography from "@mui/material/Typography";
 export function Donate() {
   return (
     <div>
-      <Typography variant="h5" sx={{ fontWeight: "800", mb: 2 }}>
-        Donate
-      </Typography>
       <Card
         sx={{
           p: 1,
           mb: 2,
           width: "100%",
           borderRadius: 5,
-          background: "rgba(200,200,200,.3)"
+          background: "rgba(200,200,200,.3)",
         }}
       >
         <CardContent>
+          <Typography variant="h5" sx={{ fontWeight: "700", mb: 2 }}>
+            Donate
+          </Typography>
           <Typography>Coming soon!</Typography>
         </CardContent>
       </Card>

@@ -2,21 +2,22 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import Box from "@mui/material/Box";
 import useSWR from "swr";
-import Item from "../../components/ItemPopup";
+import Item from "../ItemPopup";
 
 export function RecentItems() {
-  const url = "https://api.smartlist.tech/v2/items/list/";
+  const url =
+    "/api/inventory?" +
+    new URLSearchParams({
+      limit: "7",
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
   const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        room: "null",
-        limit: "7",
-        token: global.session && global.session.accessToken
-      })
-    }).then(res => res.json())
+    }).then((res) => res.json())
   );
 
   if (error) return <div>failed to load</div>;
@@ -37,7 +38,7 @@ export function RecentItems() {
         borderRadius: "28px",
         background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
         boxShadow: 0,
-        p: 1
+        p: 1,
       }}
     >
       <CardContent>
@@ -47,6 +48,23 @@ export function RecentItems() {
         {data.data.map((item: Object) => (
           <Item key={Math.random().toString()} variant="list" data={item} />
         ))}
+        {data.data.length === 0 && (
+          <Box sx={{ textAlign: "center", my: 2 }}>
+            <picture>
+              <img
+                src="https://ouch-cdn2.icons8.com/Hj-wKD-6E5iYnxo_yY-janABxscaiw4DWw7PW6m3OnI/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvODQ0/LzAzNjE5YWJjLWQ0/ZTQtNGUyMi04ZTli/LWQ2NTliY2M2ZGE3/OC5zdmc.png"
+                alt="No items"
+                loading="lazy"
+              />
+            </picture>
+            <Typography sx={{ display: "block" }} variant="h6">
+              No items?!
+            </Typography>
+            <Typography sx={{ display: "block" }}>
+              You haven&apos;t created any items yet
+            </Typography>
+          </Box>
+        )}
       </CardContent>
     </Card>
   );

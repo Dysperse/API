@@ -1,9 +1,9 @@
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
-import React from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import React from "react";
 
 export default function LoginPrompt() {
   const [opacity, setOpacity] = React.useState(0);
@@ -50,7 +50,7 @@ export default function LoginPrompt() {
             ref={(i) => i && i.click()}
             href="https://login.smartlist.tech/oauth/eccbc87e4b5ce2fe28308fd9f2a7baf3"
           >
-            Click here if you're not being redirected
+            Click here if you&apos;re not being redirected
           </Button>
         </Box>
       ) : (
@@ -75,10 +75,13 @@ export default function LoginPrompt() {
               justifyContent: "center",
             }}
           >
-            <img
-              src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/rounded.png"
-              style={{ width: "50px", height: "50px" }}
-            />
+            <picture>
+              <img
+                alt="Smartlist logo"
+                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/rounded.png"
+                style={{ width: "50px", height: "50px" }}
+              />
+            </picture>
 
             <Typography
               variant="h5"
@@ -98,10 +101,10 @@ export default function LoginPrompt() {
             }}
           >
             <Typography gutterBottom variant="h3" sx={{ fontWeight: "600" }}>
-              Welcome to Smartlist!
+              Welcome to Carbon!
             </Typography>
             <Typography>
-              Log into your Smartlist account to access your home inventory and
+              Log into your Carbon account to access your home inventory and
               finances
             </Typography>
             <Button

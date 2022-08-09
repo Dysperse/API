@@ -7,16 +7,14 @@ import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
 
 function Items() {
-  const { error, data }: any = useSWR(
-    "https://api.smartlist.tech/v2/items/starred/",
-    () =>
-      fetch("https://api.smartlist.tech/v2/items/starred/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token: global.session && global.session.accessToken,
-        }),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      }).then((res) => res.json())
+  const url =
+    "/api/inventory/starred-items?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
+  const { error, data }: any = useSWR(url, () =>
+    fetch(url, { method: "POST" }).then((res) => res.json())
   );
   if (error) return <>An error occured, please try again later</>;
   return !data ? (
@@ -53,8 +51,15 @@ function Items() {
 export default function Render() {
   return (
     <Box sx={{ p: 3 }}>
-      <Typography sx={{ mb: 2 }} variant="h5">
-        Starred items
+      <Typography
+        variant="h4"
+        sx={{
+          my: { xs: 12, sm: 4 },
+          fontWeight: "700",
+          textAlign: { xs: "center", sm: "left" },
+        }}
+      >
+        Starred
       </Typography>
       <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
         <Items />

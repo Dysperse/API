@@ -1,15 +1,15 @@
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
 import dayjs from "dayjs";
-import React from "react";
+import toast from "react-hot-toast";
 
 export function DeleteButton({
   id,
   deleted,
   setDeleted,
   setDrawerState,
-  setOpen,
 }: any): JSX.Element {
   return (
     <Tooltip title="Move to trash">
@@ -31,20 +31,58 @@ export function DeleteButton({
             background:
               (global.theme === "dark"
                 ? colors[themeColor]["900"]
-                : colors[themeColor]["50"]) + "!important",
+                : colors[themeColor]["100"]) + "!important",
             color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
           },
         }}
         onClick={() => {
-          fetch("https://api.smartlist.tech/v2/items/delete/", {
-            method: "POST",
-            body: new URLSearchParams({
-              token: global.session && global.session.accessToken,
-              id: id.toString(),
-              date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-            }),
-          });
-          setOpen(true);
+          fetch(
+            "/api/inventory/trash?" +
+              new URLSearchParams({
+                token:
+                  global.session.account.SyncToken ||
+                  global.session.property.propertyToken,
+                id: id.toString(),
+                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              }),
+            {
+              method: "POST",
+            }
+          );
+          toast.success((t) => (
+            <span>
+              Item moved to trash
+              <Button
+                size="small"
+                sx={{
+                  ml: 2,
+                  borderRadius: 999,
+                  p: "0!important",
+                  width: "auto",
+                  minWidth: "auto",
+                }}
+                onClick={() => {
+                  toast.dismiss(t.id);
+                  fetch(
+                    "/api/inventory/restore?" +
+                      new URLSearchParams({
+                        propertyToken: global.session.property.propertyToken,
+                        accessToken: global.session.property.accessToken,
+                        id: id.toString(),
+                        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                      }),
+                    {
+                      method: "POST",
+                    }
+                  );
+                  setDeleted(false);
+                  setDrawerState(true);
+                }}
+              >
+                Undo
+              </Button>
+            </span>
+          ));
           setDeleted(true);
           setDrawerState(false);
         }}

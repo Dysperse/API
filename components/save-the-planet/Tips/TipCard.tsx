@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
 import { green, orange } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tab from "@mui/material/Tab";
@@ -7,7 +8,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import { Badge } from "./Badge";
 import { CreateGoalDialog } from "./CreateGoalDialog";
-import * as colors from "@mui/material/colors";
+import { Puller } from "../../Puller";
 
 export type Account = {
   account_id: string;
@@ -35,10 +36,11 @@ export function TipCard({
 }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const { error, data } = useSWR(
-    "/api/finance/accounts?access_token=" + global.session.user.financeToken,
+    "/api/finance/accounts?access_token=" + global.session.account.financeToken,
     () =>
       fetch(
-        "/api/finance/accounts?access_token=" + global.session.user.financeToken
+        "/api/finance/accounts?access_token=" +
+          global.session.account.financeToken
       ).then((res) => res.json())
   );
 
@@ -52,7 +54,10 @@ export function TipCard({
               tipOfTheDay={tipOfTheDay}
               highlySuggested={highlySuggested}
             />
-            <Typography sx={{ float: "left", fontWeight: "800" }} variant="h6">
+            <Typography
+              sx={{ float: "left", fontWeight: "400", my: 1 }}
+              variant="h6"
+            >
               <span
                 className="material-symbols-rounded"
                 style={{
@@ -83,18 +88,21 @@ export function TipCard({
                 justifyContent: "center",
               }}
               PaperProps={{
+                elevation: 0,
                 sx: {
+                  background: colors[themeColor][50],
                   borderRadius: "28px",
                   borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
                   borderBottomRightRadius: { xs: 0, sm: "28px!important" },
                   position: "unset",
                   mx: "auto",
-                  maxWidth: { sm: "70vw", xs: "100vw" },
+                  maxWidth: { sm: "50vw", xs: "100vw" },
                   overflow: "hidden",
                 },
               }}
               onClose={() => setOpen(false)}
             >
+              <Puller />
               <Box
                 sx={{
                   p: 3,
@@ -114,11 +122,15 @@ export function TipCard({
                 <Typography
                   variant="h4"
                   gutterBottom
-                  sx={{ fontWeight: "600" }}
+                  sx={{ fontWeight: "400" }}
                 >
                   {name}
                 </Typography>
-                <Typography variant="h6" gutterBottom>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{ fontWeight: "700" }}
+                >
                   {funFact}
                 </Typography>
                 {moneyRequiredForGoal !== 0 && (
@@ -138,7 +150,7 @@ export function TipCard({
             variant="body2"
             sx={{
               fontSize: "12px",
-              fontWeight: "600",
+              fontWeight: "700",
             }}
           >
             {funFact}
@@ -152,7 +164,7 @@ export function TipCard({
           pb: 2,
           textAlign: "left!important",
           alignItems: "start",
-          width: "90vw",
+          width: "90%",
           opacity: 1,
           "& *": {
             opacity: 1,

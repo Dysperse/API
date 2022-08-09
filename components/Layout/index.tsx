@@ -1,26 +1,23 @@
-import LabelIcon from "@mui/icons-material/Label";
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Skeleton from "@mui/material/Skeleton";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Toolbar from "@mui/material/Toolbar";
-import Link from "next/link";
-import React, { useEffect } from "react";
-import useSWR from "swr";
-import useWindowDimensions from "../useWindowDimensions";
-import { BottomNav } from "./BottomNav";
-import { FloatingActionButton } from "./FloatingActionButton";
-import { DrawerListItems } from "./Links";
-import { Navbar } from "./Navbar";
-import { grey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Skeleton from "@mui/material/Skeleton";
+import Toolbar from "@mui/material/Toolbar";
+import { encode } from "js-base64";
+import Link from "next/link";
 import router from "next/router";
+import React from "react";
+import useSWR from "swr";
+import { BottomNav } from "./BottomNav";
+import { DrawerListItems } from "./Links";
+import { Navbar } from "./Navbar";
 
 const drawerWidth = 260;
 interface Room {
@@ -123,8 +120,11 @@ function CustomRoom({ room }: { room: Room }) {
           View
         </MenuItem>
       </Menu>
-      <Link href={"/rooms/" + room.id}>
+      <Link
+        href={"/rooms/" + encode(room.id + "," + room.name) + "?custom=true"}
+      >
         <ListItemButton
+          disableRipple
           onContextMenu={handleContextMenu}
           sx={{
             pl: 5,
@@ -160,7 +160,7 @@ function CustomRoom({ room }: { room: Room }) {
           }}
         >
           <ListItemIcon>
-            <LabelIcon />
+            <span className="material-symbols-outlined">label</span>
           </ListItemIcon>
           <ListItemText primary={room.name} />
         </ListItemButton>
@@ -170,22 +170,24 @@ function CustomRoom({ room }: { room: Room }) {
 }
 
 function CustomRooms() {
-  const url = "https://api.smartlist.tech/v2/rooms/";
+  const url =
+    "/api/rooms?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
 
   const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
-      }),
     }).then((res) => res.json())
   );
   if (error) return <div>Failed to load room!</div>;
   if (!data)
     return (
       <>
-        {[...new Array(10)].map(() => (
-          <Box sx={{ px: 4, py: 2 }}>
+        {[...new Array(10)].map((_: any, id: number) => (
+          <Box sx={{ px: 4, py: 2 }} key={id.toString()}>
             <Skeleton width={"200px"} animation={"wave"} />
           </Box>
         ))}
@@ -194,34 +196,14 @@ function CustomRooms() {
 
   return (
     <>
-      {data.data.map((room: Room) => (
-        <CustomRoom room={room} />
+      {data.data.map((room: Room, id: number) => (
+        <CustomRoom room={room} key={id.toString()} />
       ))}
     </>
   );
 }
 
 function ResponsiveDrawer(props: any): JSX.Element {
-  const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
-  useEffect(() => {
-    if (document.querySelector(`meta[name="theme-color"]`))
-      document
-        .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute(
-          "content",
-          mobileOpen
-            ? global.theme === "dark"
-              ? "hsl(240, 11%, 5%)"
-              : "#808080"
-            : global.theme === "dark"
-            ? "hsl(240, 11%, 10%)"
-            : colors[global.themeColor][100]
-        );
-  });
-  const handleDrawerToggle = (t = true) => {
-    setMobileOpen(t);
-  };
-
   return (
     <Box
       sx={{
@@ -233,7 +215,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
       }}
     >
       <CssBaseline />
-      <Navbar handleDrawerToggle={handleDrawerToggle} />
+      <Navbar />
       <Box
         component="nav"
         sx={{ width: { sm: "65px", md: drawerWidth }, flexShrink: { md: 0 } }}
@@ -261,10 +243,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
           }}
           open
         >
-          <DrawerListItems
-            customRooms={<CustomRooms />}
-            handleDrawerToggle={handleDrawerToggle}
-          />
+          <DrawerListItems customRooms={<CustomRooms />} />
         </Drawer>
       </Box>
       <Box
@@ -292,7 +271,6 @@ function ResponsiveDrawer(props: any): JSX.Element {
             <Toolbar />
           </Box>
         </Box>
-        <FloatingActionButton />
         <BottomNav />
       </Box>
     </Box>

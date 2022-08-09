@@ -1,5 +1,5 @@
 import Skeleton from "@mui/material/Skeleton";
-import React, { useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import { CreateListCard } from "./CreateListCard";
 import { List } from "./List";
@@ -16,27 +16,30 @@ function RenderLists({ data }: any) {
     <>
       {lists.map((list: any) => (
         <List
+          setLists={setLists}
+          lists={lists}
           key={Math.random().toString()}
           title={list.title}
-          count={parseInt(list.count, 10)}
           description={list.description}
           id={list.id}
         />
       ))}
-      <CreateListCard setLists={setLists} lists={lists} />
+      {lists.length < 5 && <CreateListCard setLists={setLists} lists={lists} />}
     </>
   );
 }
 
 export function Lists() {
-  const url = "https://api.smartlist.tech/v2/lists/";
+  const url =
+    "/api/lists/fetch-custom-lists?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
+
   const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
-      }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((res) => res.json())
   );
   if (error) return <div>An error has occured, please try again later</div>;

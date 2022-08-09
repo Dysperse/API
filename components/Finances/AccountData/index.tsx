@@ -1,23 +1,21 @@
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import useSWR from "swr";
 import { AccountHeader } from "./AccountHeader";
 import { Goal } from "./Goal";
 import { Navbar } from "./Navbar";
 
 export function AccountData({ setOpen, scrollTop, account }: any) {
-  const url = "https://api.smartlist.tech/v2/finances/goals/";
+  const url =
+    "/api/finance/goals?" +
+    new URLSearchParams({
+      token: global.session.account.accessToken,
+      accountId: account.account_id,
+    });
 
   const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session.accessToken,
-        accountId: account.account_id,
-      }),
-    }).then((res) => res.json())
+    fetch(url, { method: "POST" }).then((res) => res.json())
   );
 
   if (error)
@@ -55,13 +53,14 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
               background: "rgba(200,200,200,.3)",
             }}
           >
-            You haven't set any goals yet.
+            You haven&apos;t set any goals yet.
           </Box>
         )}
         {!data && (
           <>
-            {[...new Array(10)].map(() => (
+            {[...new Array(10)].map((_: any, id: number) => (
               <Skeleton
+                key={id.toString()}
                 variant="rectangular"
                 height={150}
                 sx={{ borderRadius: 4, mt: 2 }}
@@ -71,8 +70,9 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
           </>
         )}
         {data &&
-          data.data.map((goal: any) => (
+          data.data.map((goal: any, id: number) => (
             <Goal
+              key={id.toString()}
               scrollTop={scrollTop}
               id={goal.id}
               image={goal.image}

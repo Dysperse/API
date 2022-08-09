@@ -1,23 +1,21 @@
-import React, { useState } from "react";
-import Menu from "@mui/material/Menu";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import Skeleton from "@mui/material/Skeleton";
-import TipsAndUpdates from "@mui/icons-material/TipsAndUpdates";
-import { green } from "@mui/material/colors";
 import * as colors from "@mui/material/colors";
-
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
+import { green } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import Skeleton from "@mui/material/Skeleton";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import { useForm, ValidationError } from "@formspree/react";
 import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useForm, ValidationError } from "@formspree/react";
 import { neutralizeBack, revivalBack } from "../history-control";
 
 function ContactForm() {
@@ -25,7 +23,7 @@ function ContactForm() {
   if (state.succeeded) {
     return (
       <Box sx={{ borderRadius: 3, background: "rgba(200,200,200,.3)", p: 2 }}>
-        Thanks for suggesting! We'll review your feedback
+        Thanks for suggesting! We&apos;ll review your feedback
       </Box>
     );
   }
@@ -85,12 +83,15 @@ function SuggestButton() {
   return (
     <>
       <Box
-        sx={{ color: green[global.theme === "dark" ? 100 : 900] }}
+        sx={{
+          color: green[global.theme === "dark" ? 100 : 900],
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+        }}
         onClick={() => setOpen(true)}
       >
-        <TipsAndUpdates
-          sx={{ verticalAlign: "middle", mr: 1, transform: "scale(.8)" }}
-        />
+        <span className="material-symbols-outlined">tips_and_updates</span>
         Suggest an app
       </Box>
       <Dialog
@@ -106,7 +107,7 @@ function SuggestButton() {
           },
         }}
       >
-        <DialogTitle sx={{ fontWeight: "800", py: 3 }}>Feedback</DialogTitle>
+        <DialogTitle sx={{ fontWeight: "700", py: 3 }}>Feedback</DialogTitle>
         <DialogContent>
           <ContactForm />
         </DialogContent>
@@ -119,19 +120,8 @@ const apps = [
   {
     key: 1,
     href: "//my.smartlist.tech",
-    label: "Smartlist",
+    label: "Carbon",
     description: "Home inventory and finance management",
-  },
-  {
-    key: 2,
-    label: "Collaborate",
-    href: "//collaborate.smartlist.tech",
-    description: "Plan events with collaborators in real-time",
-  },
-  {
-    href: "//recipe-generator.smartlist.tech",
-    label: "Recipes",
-    description: "Recipe ideas based on your inventory",
   },
   {
     key: 3,
@@ -175,8 +165,9 @@ function Products() {
         handleChange(1);
       }}
     >
-      {apps.map((category) => (
+      {apps.map((category: any, id: number) => (
         <Accordion
+          key={id.toString()}
           square
           sx={{
             boxShadow: 0,
@@ -264,12 +255,11 @@ export function AppsMenu() {
         {global.session ? (
           <IconButton
             color="inherit"
-            edge="end"
             disableRipple
-            size="large"
             sx={{
-              transition: "none",
               mr: 1,
+              borderRadius: 3,
+              transition: "none",
               color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
               "&:hover": {
                 background: "rgba(200,200,200,.3)",
@@ -298,7 +288,7 @@ export function AppsMenu() {
         )}
       </Tooltip>
       <Menu
-        BackdropProps={{ sx: { opacity: "0!important" } }}
+        BackdropProps={{ sx: { opacity: { sm: "0!important" } } }}
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}

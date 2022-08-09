@@ -1,13 +1,13 @@
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import { TipCard } from "./TipCard";
 
 export function EcoFriendlyTips() {
   return (
-    <Container sx={{ mt: 3 }}>
-      <Typography variant="h5" sx={{ fontWeight: "800", mb: 2 }}>
-        Recommended
+    <Box>
+      <Typography variant="h5" sx={{ fontWeight: "700", mb: 2, mt: 3 }}>
+        Tips
       </Typography>
       <Tabs
         centered
@@ -35,7 +35,7 @@ export function EcoFriendlyTips() {
           },
           "& .MuiTabs-scroller": { borderRadius: 5 },
 
-          maxWidth: "91vw",
+          maxWidth: "82vw",
           my: 2,
           "& .MuiTabs-indicator": {
             borderRadius: 5,
@@ -123,6 +123,6 @@ export function EcoFriendlyTips() {
           icon="mode_cool"
         />
       </Tabs>
-    </Container>
+    </Box>
   );
 }

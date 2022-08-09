@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import CommandPalette from "react-command-palette";
-
+import { useHotkeys } from "react-hotkeys-hook";
+import Box from "@mui/material/Box";
 function atomCommand(suggestion: any) {
   const { name, shortcut } = suggestion;
   return (
@@ -15,6 +16,19 @@ function atomCommand(suggestion: any) {
 export function SearchPopup({ content }: any) {
   const router = useRouter();
   const [ready, setReady] = useState<boolean>(false);
+  useHotkeys("ctrl+/", (e) => {
+    e.preventDefault();
+    document.getElementById("searchTrigger1")!.click();
+  });
+  useHotkeys("ctrl+k", (e) => {
+    e.preventDefault();
+    document.getElementById("searchTrigger1")!.click();
+  });
+  useHotkeys("ctrl+f", (e) => {
+    e.preventDefault();
+    document.getElementById("searchTrigger1")!.click();
+  });
+
   const [commands, setCommands] = useState([
     {
       name: "Dashboard",
@@ -23,10 +37,6 @@ export function SearchPopup({ content }: any) {
     {
       command: () => router.push("/finances"),
       name: "Finances",
-    },
-    {
-      command: () => router.push("/planner"),
-      name: "Planner",
     },
     {
       command: () => router.push("/dashboard"),
@@ -43,14 +53,6 @@ export function SearchPopup({ content }: any) {
     {
       command: () => router.push("/dashboard"),
       name: "Starred",
-    },
-    {
-      command: () => router.push("/home-maintenance"),
-      name: "Home maintenance",
-    },
-    {
-      command: () => router.push("/rooms/kitchen"),
-      name: "Create list",
     },
     {
       command: () => router.push("/rooms/kitchen"),
@@ -104,24 +106,30 @@ export function SearchPopup({ content }: any) {
     },
   ]);
   if (!ready) {
-    fetch("https://api.smartlist.tech/v2/rooms/", {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session.accessToken,
-      }),
-    })
+    fetch(
+      "/api/rooms?" +
+        new URLSearchParams({
+          propertyToken: global.session.property.propertyToken,
+          accessToken: global.session.property.accessToken,
+        }),
+      {
+        method: "POST",
+      }
+    )
       .then((res) => res.json())
       .then((res) => {
-        setCommands([
-          ...commands,
-          ...res.data.map((room) => {
-            return {
-              command: () => router.push("/rooms/" + room.id),
-              name: room.name,
-              shortcut: "Rooms",
-            };
-          }),
-        ]);
+        if (res && res.res) {
+          setCommands([
+            ...commands,
+            ...res.data.map((room) => {
+              return {
+                command: () => router.push("/rooms/" + room.id),
+                name: room.name,
+                shortcut: "Rooms",
+              };
+            }),
+          ]);
+        }
         setReady(true);
       });
   }
@@ -139,66 +147,73 @@ export function SearchPopup({ content }: any) {
       trigger={content}
       renderCommand={atomCommand}
       header={
-        <div
-          style={{
-            color: "rgb(172, 172, 172)",
+        <Box
+          sx={{
+            color: "#232323",
             padding: "10px 15px",
-            background: "rgba(0,0,0,.4)",
+            display: { xs: "none", sm: "inline-block" },
+            background: "#c0adad",
             borderRadius: "15px",
-            display: "inline-block",
+            userSelect: "none",
             fontFamily: "arial",
             fontSize: "12px",
             marginBottom: "6px",
             width: "100%",
           }}
         >
-          <span style={{ paddingRight: "32px" }}>Search for a command</span>
-          <span style={{ paddingRight: "32px" }}>
-            <kbd
-              style={{
-                backgroundColor: "rgb(23, 23, 23)",
-                borderRadius: "4px",
-                color: "#b9b9b9",
-                fontSize: "12px",
-                marginRight: "6px",
-                padding: "2px 4px",
-              }}
-            >
-              ↑↓
-            </kbd>{" "}
-            to navigate
+          <span style={{ paddingRight: "32px", fontSize: "15px" }}>
+            Jump to
           </span>
-          <span style={{ paddingRight: "32px" }}>
-            <kbd
-              style={{
-                backgroundColor: "rgb(23, 23, 23)",
-                borderRadius: "4px",
-                color: "#b9b9b9",
-                fontSize: "12px",
-                marginRight: "6px",
-                padding: "2px 4px",
-              }}
-            >
-              enter
-            </kbd>{" "}
-            to select
-          </span>
-          <span style={{ paddingRight: "32px" }}>
-            <kbd
-              style={{
-                backgroundColor: "rgb(23, 23, 23)",
-                borderRadius: "4px",
-                color: "#b9b9b9",
-                fontSize: "12px",
-                marginRight: "6px",
-                padding: "2px 4px",
-              }}
-            >
-              esc
-            </kbd>{" "}
-            to dismiss
-          </span>
-        </div>
+          <Box sx={{ mt: 1, display: { xs: "none", sm: "block" } }}>
+            <span style={{ paddingRight: "32px" }}>
+              <kbd
+                style={{
+                  backgroundColor: "rgba(200,200,200,.3)",
+                  borderRadius: "4px",
+                  color: "#232323",
+                  fontSize: "12px",
+                  marginRight: "6px",
+                  padding: "2px 4px",
+                }}
+              >
+                ↑↓
+              </kbd>{" "}
+              to navigate
+            </span>
+            <Box sx={{ mt: 1 }} />
+            <span style={{ paddingRight: "32px" }}>
+              <kbd
+                style={{
+                  backgroundColor: "rgba(200,200,200,.3)",
+                  borderRadius: "4px",
+                  color: "#232323",
+                  fontSize: "12px",
+                  marginRight: "6px",
+                  padding: "2px 4px",
+                }}
+              >
+                enter
+              </kbd>{" "}
+              to select
+            </span>
+            <Box sx={{ mt: 1 }} />
+            <span style={{ paddingRight: "32px" }}>
+              <kbd
+                style={{
+                  backgroundColor: "rgba(200,200,200,.3)",
+                  borderRadius: "4px",
+                  color: "#232323",
+                  fontSize: "12px",
+                  marginRight: "6px",
+                  padding: "2px 4px",
+                }}
+              >
+                esc
+              </kbd>{" "}
+              to dismiss
+            </span>
+          </Box>
+        </Box>
       }
       options={{
         allowTypo: true,

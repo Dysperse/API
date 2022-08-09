@@ -11,7 +11,8 @@ export default function App() {
         px: 10,
       }}
     >
-      We're still building our app right now. Stay tuned for further updates!
+      We&apos;re still building our app right now. Stay tuned for further
+      updates!
     </Box>
   );
 }

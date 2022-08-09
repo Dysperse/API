@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
@@ -9,9 +8,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import React, { useEffect, useState } from "react";
-import { CreateListItemButton } from "./CreateListItemButton";
 import { neutralizeBack, revivalBack } from "../../history-control";
+import { Puller } from "../../Puller";
+import { CreateListItemButton } from "./CreateListItemButton";
 
 function ListItem({ item, listItems, setListItems }: any) {
   return (
@@ -28,13 +29,17 @@ function ListItem({ item, listItems, setListItems }: any) {
                 };
               })()
             );
-            fetch("https://api.smartlist.tech/v2/lists/delete-item/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token: global.session ? global.session.accessToken : undefined,
-                id: item.id,
-              }),
-            });
+            fetch(
+              "/api/lists/delete-item?" +
+                new URLSearchParams({
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
+                  id: item.id,
+                }),
+              {
+                method: "POST",
+              }
+            );
           }}
         />
       }
@@ -49,6 +54,8 @@ function ListPopup({
   setDeleted,
   listItems,
   title,
+  lists,
+  setLists,
   id,
   drawerState,
   setDrawerState,
@@ -64,7 +71,7 @@ function ListPopup({
         drawerState
           ? global.theme === "dark"
             ? "hsl(240, 11%, 10%)"
-            : "#808080"
+            : "#cccccc"
           : global.theme === "dark"
           ? "hsl(240, 11%, 20%)"
           : colors[global.themeColor][100]
@@ -77,23 +84,28 @@ function ListPopup({
       swipeAreaWidth={0}
       disableSwipeToOpen={true}
       PaperProps={{
+        elevation: 0,
         sx: {
+          background: colors[themeColor][50],
           width: {
             sm: "50vw",
           },
           maxHeight: "80vh",
-          borderRadius: "40px 40px 0 0",
-          ...(global.theme === "dark" && {
-            background: "hsl(240, 11%, 20%)",
-          }),
+          borderRadius: "30px 30px 0 0",
           mx: "auto",
+          ...(global.theme === "dark" && {
+            background: "hsl(240, 11%, 25%)",
+          }),
         },
       }}
       onClose={() => setDrawerState(false)}
       onOpen={() => setDrawerState(true)}
     >
-      <div
-        style={{
+      <Puller />
+      <Box
+        sx={{
+          p: 3,
+          pt: 4,
           textAlign: "center",
           borderBottom:
             "1px solid " +
@@ -102,75 +114,82 @@ function ListPopup({
               : "rgba(200,200,200,.3)"),
         }}
       >
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-          sx={{ mt: 4, mb: 2, fontWeight: "600" }}
+        <IconButton
+          sx={{ borderRadius: 100, float: "right" }}
+          onClick={() => {
+            setDrawerState(false);
+            setLists(lists.filter((list) => list.id !== id));
+            setDeleted(true);
+            fetch(
+              "/api/lists/delete-custom-list?" +
+                new URLSearchParams({
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
+                  id: id,
+                }),
+              {
+                method: "POST",
+              }
+            );
+          }}
         >
+          <span className="material-symbols-rounded">delete</span>
+        </IconButton>
+        <Typography variant="h5" sx={{ fontWeight: "600" }}>
           {title}
         </Typography>
-        <CreateListItemButton
-          parent={id}
-          setListItems={setListItems}
-          listItems={listItems}
-        />
-        <Button
-          size="large"
-          sx={{ mr: 1, mb: 3, borderRadius: 100 }}
-          variant="outlined"
-          onClick={() => {
-            setDrawerState(false);
-          }}
-        >
-          Share
-        </Button>
-        <Button
-          size="large"
-          sx={{ mb: 3, borderRadius: 100 }}
-          variant="outlined"
-          onClick={() => {
-            setDrawerState(false);
-            setDeleted(true);
-            fetch("https://api.smartlist.tech/v2/lists/delete-list/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token: global.session ? global.session.accessToken : undefined,
-                id: id,
-              }),
-            });
-          }}
-        >
-          Delete
-        </Button>
-      </div>
+      </Box>
       <Box sx={{ p: 3, textAlign: "center", overflow: "scroll" }}>
         {listItems.loading ? (
           <>
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
+            {[...new Array(15)].map((_, i) => (
+              <Skeleton
+                animation="wave"
+                key={i.toString()}
+                variant="rectangular"
+                sx={{
+                  mb: 2,
+                  borderRadius: 3,
+                  height: 35,
+                  width: "100%",
+                }}
+              />
+            ))}
           </>
         ) : (
           <div style={{ textAlign: "left", display: "block" }}>
             {listItems.data.length === 0 ? (
-              <Box sx={{ textAlign: "center", opacity: ".5", py: 6 }}>
-                <Typography variant="h3" sx={{ mb: 2 }}>
+              <Box sx={{ textAlign: "center", py: 6 }}>
+                <Typography variant="h3" sx={{ mb: 2, opacity: 0.7 }}>
                   ¯\_(ツ)_/¯
                 </Typography>
-                <Typography variant="h5">No items yet...</Typography>
+                <Typography variant="h5" sx={{ opacity: 0.7 }}>
+                  No items yet...
+                </Typography>
+                <Box sx={{ mt: 2 }}>
+                  <CreateListItemButton
+                    parent={id}
+                    setListItems={setListItems}
+                    listItems={listItems}
+                  />
+                </Box>
               </Box>
             ) : null}
-            {listItems.data.map((item: any) => (
+            {listItems.data.map((item: any, id: number) => (
               <ListItem
+                key={id.toString()}
                 item={item}
                 listItems={listItems}
                 setListItems={setListItems}
               />
             ))}
+            {listItems.data.length !== 0 && (
+              <CreateListItemButton
+                parent={id}
+                setListItems={setListItems}
+                listItems={listItems}
+              />
+            )}
           </div>
         )}
       </Box>
@@ -179,12 +198,14 @@ function ListPopup({
 }
 
 export function List({
-  count,
   title,
+  lists,
+  setLists,
   description,
   id,
 }: {
-  count: number;
+  lists: any;
+  setLists: any;
   title: string;
   description: string;
   id: number;
@@ -199,13 +220,17 @@ export function List({
   });
 
   const getListItems = async (id: number) => {
-    const data = await fetch("https://api.smartlist.tech/v2/lists/fetch/", {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session ? global.session.accessToken : undefined,
-        parent: id.toString(),
-      }),
-    });
+    const data = await fetch(
+      "/api/lists/items?" +
+        new URLSearchParams({
+          propertyToken: global.session.property.propertyToken,
+          accessToken: global.session.property.accessToken,
+          parent: id.toString(),
+        }),
+      {
+        method: "POST",
+      }
+    );
     const e = await data.json();
 
     setListItems({
@@ -220,6 +245,8 @@ export function List({
       <ListPopup
         title={title}
         id={id}
+        setLists={setLists}
+        lists={lists}
         listItems={listItems}
         drawerState={drawerState}
         setDrawerState={setDrawerState}
@@ -252,7 +279,7 @@ export function List({
                 {title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {count || "0"} item{count !== 1 && "s"}
+                List
               </Typography>
             </CardContent>
           </CardActionArea>

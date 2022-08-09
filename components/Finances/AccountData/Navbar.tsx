@@ -3,7 +3,6 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import { CreateGoalMenu } from "./CreateGoalMenu";
 
 export function Navbar({ setOpen, scrollTop, container, account }: any) {

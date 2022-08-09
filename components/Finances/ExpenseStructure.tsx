@@ -1,7 +1,7 @@
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import Typography from "@mui/material/Typography";
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -19,9 +19,11 @@ export function ExpenseStructure({ transactions }: any) {
     let filtered = transactions.filter((transaction: any) =>
       transaction.category.includes(category)
     );
-    let moneyByCategory = filtered.map((transaction:any) => transaction.amount);
+    let moneyByCategory = filtered.map(
+      (transaction: any) => transaction.amount
+    );
     moneyByCategory = moneyByCategory.reduce(
-      (partialSum:any, a:any) => partialSum + a,
+      (partialSum: any, a: any) => partialSum + a,
       0
     );
     money.push(moneyByCategory);
@@ -43,7 +45,14 @@ export function ExpenseStructure({ transactions }: any) {
       <Typography sx={{ fontWeight: "600", my: 2, ml: 2, mb: 0 }} variant="h5">
         Expense Structure
       </Typography>
-      <CardContent sx={{ p: 0,height:520,maxWidth:"calc(100vw - 100px)",margin:"auto" }}>
+      <CardContent
+        sx={{
+          p: 0,
+          height: 520,
+          maxWidth: "calc(100vw - 100px)",
+          margin: "auto",
+        }}
+      >
         <Pie
           options={{
             maintainAspectRatio: false,
@@ -51,6 +60,9 @@ export function ExpenseStructure({ transactions }: any) {
               padding: {
                 top: 40,
               },
+            },
+            animation: {
+              duration: 0,
             },
             plugins: {
               tooltip: {
@@ -83,20 +95,20 @@ export function ExpenseStructure({ transactions }: any) {
                 label: "# of Votes",
                 data: [...money],
                 backgroundColor: [
-                    "#d50000",
-                    "#c51162",
-                    "#ff9100",
-                    "#2979ff",
-                    "#aa00ff",
-                    "#6200ea",
-                    "#c6ff00",
-                    "#304ffe",
-                    "#00e5ff",
-                    "#1de9b6",
-                    "#76ff03",
-                    "#ff3d00",
-                    "#78909c",
-                    "#651fff"
+                  "#d50000",
+                  "#c51162",
+                  "#ff9100",
+                  "#2979ff",
+                  "#aa00ff",
+                  "#6200ea",
+                  "#c6ff00",
+                  "#304ffe",
+                  "#00e5ff",
+                  "#1de9b6",
+                  "#76ff03",
+                  "#ff3d00",
+                  "#78909c",
+                  "#651fff",
                 ],
                 borderWidth: 0,
               },

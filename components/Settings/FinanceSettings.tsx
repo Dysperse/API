@@ -7,16 +7,13 @@ import ListSubheader from "@mui/material/ListSubheader";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { updateSettings } from "./updateSettings";
 
 export default function AppearanceSettings() {
   const [financePlan, setFinancePlan] = useState<
     "short-term" | "medium-term" | "long-term"
-  >(global.session && global.session.user.financePlan);
-  useEffect(() => {
-    updateSettings("financePlan", financePlan);
-  }, [financePlan]);
+  >(global.session && global.session.account.financePlan);
   return (
     <>
       <Box
@@ -52,13 +49,20 @@ export default function AppearanceSettings() {
               n: "Long term",
               d: "Save money for for education/retirement in a lenient period of time",
             },
-          ].map((plan: any) => (
+          ].map((plan: any, id: number) => (
             <ListItem
-              onClick={() => setFinancePlan(plan.s)}
+              key={id.toString()}
+              onClick={() => {
+                setFinancePlan(plan.s);
+                updateSettings("financePlan", financePlan);
+              }}
               secondaryAction={
                 <Radio
                   edge="end"
-                  onChange={() => setFinancePlan(plan.s)}
+                  onChange={() => {
+                    setFinancePlan(plan.s);
+                    updateSettings("financePlan", financePlan);
+                  }}
                   checked={financePlan === plan.s}
                 />
               }
@@ -82,7 +86,7 @@ export default function AppearanceSettings() {
                 placeholder="daily expense limit"
                 label="Daily limit"
                 defaultValue={
-                  global.session && (global.session.user.budgetDaily ?? 0)
+                  global.session && (global.session.account.budgetDaily ?? 0)
                 }
                 onBlur={(e) => updateSettings("budgetDaily", e.target.value)}
                 id="outlined-start-adornment"
@@ -103,7 +107,7 @@ export default function AppearanceSettings() {
                 size="small"
                 placeholder="monthly expense limit"
                 defaultValue={
-                  global.session && (global.session.user.budgetWeekly ?? 0)
+                  global.session && (global.session.account.budgetWeekly ?? 0)
                 }
                 label="Weekly limit"
                 onBlur={(e) => updateSettings("budgetWeekly", e.target.value)}
@@ -124,7 +128,7 @@ export default function AppearanceSettings() {
                 fullWidth
                 size="small"
                 defaultValue={
-                  global.session && (global.session.user.budgetMonthly ?? 0)
+                  global.session && (global.session.account.budgetMonthly ?? 0)
                 }
                 label="Monthly limit"
                 onBlur={(e) => updateSettings("budgetMonthly", e.target.value)}

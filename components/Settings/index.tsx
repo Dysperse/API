@@ -1,33 +1,29 @@
-import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
-import React, { useEffect, useState } from "react";
-import AccountSettings from "./AccountSettings";
-import App from "./App";
-import Developer from "./Developer";
-import Notifications from "./Notifications";
-import Rooms from "./Rooms";
-import Sync from "./Sync";
-import AppearanceSettings from "./AppearanceSettings";
-import FinanceSettings from "./FinanceSettings";
-import Sessions from "./Sessions";
 import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import * as colors from "@mui/material/colors";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { Puller } from "../Puller";
+import AccountSettings from "./AccountSettings";
+import AppearanceSettings from "./AppearanceSettings";
+import FinanceSettings from "./FinanceSettings";
+import Notifications from "./Notifications";
+import TwoFactorAuth from "./TwoFactorAuth";
 
 function Logout() {
   const [open, setOpen] = useState<boolean>(false);
@@ -39,6 +35,7 @@ function Logout() {
           setOpen(false);
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
             width: "450px",
             maxWidth: "calc(100vw - 20px)",
@@ -103,7 +100,7 @@ function Logout() {
           <Avatar
             sx={{
               color: "#000",
-              background: colors[themeColor][100],
+              background: colors[themeColor][200],
               borderRadius: 4,
             }}
           >
@@ -127,21 +124,9 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
     );
     document
       .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute(
-        "content",
-        open
-          ? window.innerWidth > 900
-            ? "rgb(64, 64, 64)"
-            : global.theme === "dark"
-            ? "hsl(240, 11%, 35%)"
-            : "#eee"
-          : window.innerWidth > 900
-          ? "#808080"
-          : global.theme === "dark"
-          ? "hsl(240, 11%, 25%)"
-          : "#eee"
-      );
+      .setAttribute("content", open ? "#9c9d9c" : "#b8b9b8");
   });
+
   return (
     <>
       <ListItem
@@ -186,61 +171,59 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         ModalProps={{
           keepMounted: true,
         }}
-        anchor="right"
+        anchor="bottom"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
+            width: {
+              sm: "50vw",
+            },
+            maxWidth: "650px",
+            overflow: "scroll",
+            maxHeight: "95vh",
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
             ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 20%)",
+              background: "hsl(240, 11%, 25%)",
             }),
           },
         }}
       >
-        <Box
-          sx={{
-            width: {
-              xs: "100vw",
-              sm: "60vw",
-            },
-            maxWidth: "100vw",
-            height: "100vh",
-            overflow: "scroll",
-          }}
-        >
-          <AppBar
+        <Puller />
+        <Box sx={{ maxHeight: "95vh", overflow: "scroll", pb: 10 }}>
+          <Box sx={{ position: "absolute", top: 0, left: 0, p: 3 }}>
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={() => setOpen(false)}
+              aria-label="close"
+              sx={{ ml: -0.5, background: colors[themeColor][50], zIndex: 1 }}
+            >
+              <span className="material-symbols-rounded">close</span>{" "}
+            </IconButton>
+          </Box>
+          <Typography
             sx={{
-              boxShadow: 0,
-              position: "sticky",
-
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 25%)"
-                  : "rgba(230,230,230,.5)",
-              backdropFilter: "blur(10px)",
-              py: 1,
-              color: global.theme === "dark" ? "#fff" : "#000",
+              textAlign: "center",
+              flex: 1,
+              fontWeight: "400",
+              mb: 2,
+              mt: 15,
             }}
+            variant="h3"
+            component="div"
           >
-            <Toolbar>
-              <IconButton
-                edge="end"
-                color="inherit"
-                onClick={() => setOpen(false)}
-                aria-label="close"
-                sx={{ ml: -0.5 }}
-              >
-                <span className="material-symbols-rounded">chevron_left</span>{" "}
-              </IconButton>
-              <Typography
-                sx={{ ml: 4, flex: 1, fontWeight: "600" }}
-                variant="h6"
-                component="div"
-              >
-                {primary}
-              </Typography>
-            </Toolbar>
-          </AppBar>
+            {primary}
+          </Typography>
+          <Typography
+            sx={{ textAlign: "center", flex: 1, fontWeight: "400", mb: 10 }}
+            component="div"
+          >
+            Account settings
+          </Typography>
           {content}
         </Box>
       </SwipeableDrawer>
@@ -262,41 +245,45 @@ export default function FullScreenDialog({ children }: any) {
   });
 
   useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
         "content",
         open
-          ? window.innerWidth < 992
-            ? global.theme === "darl"
-              ? "hsl(240, 11%, 20%)"
-              : "rgb(230,230,230)"
-            : "#808080"
-          : "hsl(240, 11%, 10%)"
+          ? global.theme === "dark"
+            ? "hsl(240, 11%, 20%)"
+            : "#b8b9b8"
+          : "#b8b9b8"
       );
   });
-
+  useHotkeys("ctrl+,", (e) => {
+    e.preventDefault();
+    document.getElementById("settingsTrigger")!.click();
+  });
   return (
     <div>
-      <div onClick={handleClickOpen}>{children}</div>
+      <div id="settingsTrigger" onClick={handleClickOpen}>
+        {children}
+      </div>
 
       <SwipeableDrawer
-        anchor="right"
+        anchor="bottom"
         swipeAreaWidth={0}
         onOpen={handleClickOpen}
         PaperProps={{
+          elevation: 0,
           sx: {
-            ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 15%)",
-            }),
-            maxWidth: "100vw",
+            background: colors[themeColor][50],
             width: {
-              xs: "100vw",
-              sm: "40vw",
+              sm: "50vw",
             },
+            maxWidth: "650px",
+            maxHeight: "95vh",
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
           },
         }}
         ModalProps={{
@@ -306,46 +293,36 @@ export default function FullScreenDialog({ children }: any) {
         onClose={handleClose}
       >
         <Box sx={{ height: "100vh", overflow: "scroll" }}>
-          <AppBar
-            sx={{
-              boxShadow: 0,
-              position: "sticky",
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 20%)"
-                  : "rgba(255,255,255,.5)",
-              backdropFilter: "blur(10px)",
-              py: 1,
-              color: global.theme === "dark" ? "#fff" : "#000",
-            }}
-          >
-            <Toolbar>
-              <Tooltip title="Back">
-                <IconButton
-                  edge="end"
-                  color="inherit"
-                  onClick={handleClose}
-                  aria-label="close"
-                  sx={{ ml: -0.5 }}
-                >
-                  <span className="material-symbols-rounded">chevron_left</span>{" "}
-                </IconButton>
-              </Tooltip>
-              <Typography
-                sx={{ ml: 4, flex: 1, fontWeight: "600" }}
-                variant="h6"
-                component="div"
-              >
-                Settings
-              </Typography>
-            </Toolbar>
-          </AppBar>
+          <Puller />
+          <Box sx={{ position: "absolute", top: 0, left: 0, p: 3 }}>
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={() => setOpen(false)}
+              aria-label="close"
+              sx={{ ml: -0.5, background: colors[themeColor][50], zIndex: 1 }}
+            >
+              <span className="material-symbols-rounded">close</span>{" "}
+            </IconButton>
+          </Box>
           <Typography
-            sx={{ ml: 4, flex: 1, fontWeight: "600", my: 5 }}
+            sx={{
+              textAlign: "center",
+              flex: 1,
+              fontWeight: "400",
+              mb: 2,
+              mt: 15,
+            }}
             variant="h3"
             component="div"
           >
-            Settings
+            Account
+          </Typography>
+          <Typography
+            sx={{ textAlign: "center", flex: 1, fontWeight: "400", mb: 10 }}
+            component="div"
+          >
+            {global.session.account.email}
           </Typography>
 
           <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
@@ -356,11 +333,53 @@ export default function FullScreenDialog({ children }: any) {
               secondary={"Current theme: " + global.theme}
             />
             <SettingsMenu
+              content={<TwoFactorAuth />}
+              icon="security"
+              primary={
+                <span id="twoFactorAuthSettings">
+                  Two factor authentication
+                  <Chip
+                    component="span"
+                    label="New"
+                    sx={{
+                      display: { xs: "none", sm: "unset" },
+                      height: "auto",
+                      ml: 2,
+                      py: 0.4,
+                      px: 0.7,
+                      background: "#B00200",
+                      color: "#fff",
+                    }}
+                  />
+                </span>
+              }
+              secondary={
+                <>
+                  {global.session.property.role === "owner" &&
+                  global.session.account["2faCode"] &&
+                  global.session.account["2faCode"] === "false" ? (
+                    <span style={{ color: "red" }}>
+                      Your account is at greater risk because 2-factor auth
+                      isn&rsquo;t enabled!
+                      <br />
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  2FA is currently{" "}
+                  {global.session.account["2faCode"] &&
+                  global.session.account["2faCode"] !== "false"
+                    ? "enabled"
+                    : "disabled"}
+                </>
+              }
+            />
+            <SettingsMenu
               id="financeSettingsTrigger"
               content={<FinanceSettings />}
               icon="payments"
               primary={<span id="financeSettingsTrigger">Finances</span>}
-              secondary={<>Budget set to ${global.session.user.budget}</>}
+              secondary={<>Goal: {global.session.account.financePlan}</>}
             />
             <SettingsMenu
               id="accountSettings"
@@ -369,15 +388,10 @@ export default function FullScreenDialog({ children }: any) {
               primary={<span id="accountSettings">Account</span>}
               secondary={
                 <>
-                  {global.session.user.name} &bull; {global.session.user.email}
+                  {global.session.account.name} &bull;{" "}
+                  {global.session.account.email}
                 </>
               }
-            />
-            <SettingsMenu
-              content={<App />}
-              icon="apps"
-              primary="Third-party apps"
-              secondary={<>4 apps connected</>}
             />
             <SettingsMenu
               content={<Notifications />}
@@ -385,43 +399,12 @@ export default function FullScreenDialog({ children }: any) {
               primary="Notifications"
               secondary={
                 <>
-                  If an item's quantity is {global.session.user.notificationMin}{" "}
-                  or less
+                  If an item&apos;s quantity is{" "}
+                  {global.session.account.notificationMin} or less
                 </>
               }
             />
-            <SettingsMenu
-              content={<Developer />}
-              icon="code"
-              primary="Developer"
-              secondary={"API"}
-            />
-            <SettingsMenu
-              content={<App />}
-              icon="smartphone"
-              primary="App"
-              secondary={"Coming soon"}
-            />
-            <SettingsMenu
-              content={<Sessions />}
-              icon="history"
-              primary="Sessions"
-              secondary={<>Accessing on {window.navigator.platform}</>}
-            />
-            <SettingsMenu
-              content={<Rooms />}
-              icon="pin_drop"
-              primary="Rooms"
-              secondary={"10 rooms"}
-            />
-            <SettingsMenu
-              content={<Sync />}
-              icon="sync"
-              primary="Sync"
-              secondary={"Pair your account and share inventory"}
-            />
             <Divider sx={{ mb: 1 }} />
-
             <Logout />
             <ListItem
               button
@@ -437,7 +420,7 @@ export default function FullScreenDialog({ children }: any) {
                 <Avatar
                   sx={{
                     color: "#000",
-                    background: colors[themeColor][100],
+                    background: colors[themeColor][200],
                     borderRadius: 4,
                   }}
                 >

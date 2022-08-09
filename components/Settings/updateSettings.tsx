@@ -1,28 +1,59 @@
+import toast from "react-hot-toast";
+
 export function updateSettings(
   key: string,
   value: string,
-  debug: boolean = false
+  debug: boolean = false,
+  callback: any = () => {},
+  useSyncToken: boolean = false,
+  showSeparateSyncToastMessage: boolean = true
 ) {
-  fetch("https://api.smartlist.tech/v2/account/update/", {
-    method: "POST",
-    body: new URLSearchParams({
-      token: global.session && global.session.accessToken,
+  let url =
+    "/api/account/update?" +
+    new URLSearchParams({
+      token: global.session.account.accessToken,
       data: JSON.stringify({
-        [key]: value
-      })
-    })
+        [key]: value,
+      }),
+    });
+  if (useSyncToken) {
+    url =
+      "/api/account/sync/updateHome?" +
+      new URLSearchParams({
+        accessToken: global.session.property.accessToken,
+        propertyToken: global.session.property.propertyToken,
+        data: JSON.stringify({
+          [key]: value,
+        }),
+      });
+  }
+  let d = fetch(url, {
+    method: "POST",
   })
     .then((res) => res.json())
     .then((res) => {
       fetch(
         "/api/login/?" +
           new URLSearchParams({
-            token: global.session && global.session.accessToken
+            token: global.session && global.session.account.accessToken,
           })
-      );
+      )
+        .then(() => {
+          callback && callback();
+          toast.success(
+            useSyncToken && showSeparateSyncToastMessage
+              ? "Saved! Changes might take some time to appear for other members in your home"
+              : "Saved!"
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("An error occurred while trying to save your settings");
+        });
       if (debug) {
         alert(JSON.stringify(res));
       }
     });
-  // global.session.user[key] = value;
+  return d;
+  // global.session.account[key] = value;
 }

@@ -1,11 +1,10 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import { currency_symbols } from "../AccountList";
 
 export function AccountHeader({
   balance,
-  currency
+  currency,
 }: {
   balance: number;
   currency: string;
@@ -24,11 +23,11 @@ export function AccountHeader({
         color: "white",
         background: "url(/image.png)",
         backgroundSize: "cover",
-        backgroundRepeat: "no-repeat"
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div style={{ textAlign: "center" }}>
-        <Typography gutterBottom variant="h2" sx={{ fontWeight: "800", mt: 5 }}>
+        <Typography gutterBottom variant="h2" sx={{ fontWeight: "700", mt: 5 }}>
           {currency_symbols[currency]}
           {balance}
         </Typography>

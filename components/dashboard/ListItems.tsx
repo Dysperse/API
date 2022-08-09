@@ -1,48 +1,23 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Skeleton from "@mui/material/Skeleton";
-import Typography from "@mui/material/Typography";
-import React from "react";
-import useFetch from "react-fetch-hook";
-import { GenerateListItem } from "./GenerateListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
 import { useState } from "react";
+import useFetch from "react-fetch-hook";
 import { CreateListModal } from "../AddPopup/CreateListModal";
+import { GenerateListItem } from "./GenerateListItem";
 
 function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
   const [items, setItems] = useState<any>(data.data);
 
   return (
     <>
-      {items.map((list: Object, id: number) => (
-        <GenerateListItem {...list} key={id.toString()} />
-      ))}
-      <CreateListModal
-        parent={parent.toString()}
-        title={"item"}
-        items={items}
-        setItems={setItems}
-      >
-        <ListItemButton
-          sx={{ py: 0, borderRadius: 3, transition: "none" }}
-          dense
-        >
-          <ListItemIcon>
-            <span
-              style={{ marginLeft: "-2px" }}
-              className="material-symbols-rounded"
-            >
-              add_circle
-            </span>
-          </ListItemIcon>
-          <ListItemText sx={{ my: 1.4 }} primary={"New list item"} />
-        </ListItemButton>
-      </CreateListModal>
       {items.length === 0 && (
-        <Box sx={{ textAlign: "center" }}>
+        <Box sx={{ textAlign: "center", my: 2 }}>
           <picture>
             <img src={emptyImage} alt="No items" loading="lazy" />
           </picture>
@@ -51,6 +26,59 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
           </Typography>
           <Typography sx={{ display: "block" }}>{emptyText}</Typography>
         </Box>
+      )}
+      {items.map((list: Object, id: number) => (
+        <GenerateListItem
+          {...list}
+          key={id.toString()}
+          items={items}
+          setItems={setItems}
+        />
+      ))}
+      {items.length < 20 && global.session.property.role !== "read-only" && (
+        <CreateListModal
+          parent={parent.toString()}
+          items={items}
+          setItems={setItems}
+        >
+          <ListItemButton
+            disableRipple
+            sx={{
+              ...(items.length === 0 && {
+                textAlign: "center",
+              }),
+              py: 0,
+              borderRadius: 3,
+              color: "#808080",
+              transition: "transform .2s",
+              "&:active": {
+                transition: "none",
+                transform: "scale(.97)",
+                background: "rgba(200,200,200,.3)",
+              },
+            }}
+            dense
+          >
+            <ListItemText
+              sx={{ mt: 1.4 }}
+              primary={
+                <Box
+                  sx={{ display: "inline-flex", alignItems: "center", gap: 4 }}
+                >
+                  <span
+                    style={{ marginLeft: "-2px" }}
+                    className="material-symbols-outlined"
+                  >
+                    add_circle
+                  </span>
+                  <span style={{ color: "#202020", marginLeft: "1px" }}>
+                    New list item
+                  </span>
+                </Box>
+              }
+            />
+          </ListItemButton>
+        </CreateListModal>
       )}
     </>
   );
@@ -69,20 +97,20 @@ export function ListItems({
   emptyText: any;
 }) {
   const { data, isLoading }: any = useFetch(
-    "https://api.smartlist.tech/v2/lists/fetch/",
-    {
-      method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
+    "/api/lists/items?" +
+      new URLSearchParams({
+        propertyToken: global.session.property.propertyToken,
+        accessToken: global.session.property.accessToken,
         parent: parent,
       }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    {
+      method: "POST",
     }
   );
   if (isLoading)
     return (
       <Skeleton
-        height={200}
+        height={300}
         animation="wave"
         variant="rectangular"
         sx={{ borderRadius: "28px" }}

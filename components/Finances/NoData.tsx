@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import Step from "@mui/material/Step";
+import StepContent from "@mui/material/StepContent";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { usePlaidLink } from "react-plaid-link";
-import useFetch from "react-fetch-hook";
 import router from "next/router";
+import React, { useState } from "react";
+import useFetch from "react-fetch-hook";
+import { usePlaidLink } from "react-plaid-link";
+import { updateSettings } from "../Settings/updateSettings";
 function ConnectBankAccount() {
   const [completed, setCompleted] = useState<boolean>(false);
 
@@ -18,31 +19,13 @@ function ConnectBankAccount() {
     const { open, ready } = usePlaidLink({
       token: token,
       onSuccess: (public_token, metadata) => {
-        // send public_token to server
         fetch(`/api/finance/exchangePublicToken?public_token=${public_token}`)
           .then((res) => res.json())
           .then((res) => {
-            global.session.user.financeToken = res.access_token;
-            // alert(res.access_token);
-            fetch("https://api.smartlist.tech/v2/account/update/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token: global.session && global.session.accessToken,
-                data: JSON.stringify({
-                  financeToken: res.access_token,
-                }),
-              }),
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                setCompleted(true);
-                fetch(
-                  "/api/login/?" +
-                    new URLSearchParams({
-                      token: global.session && global.session.accessToken,
-                    })
-                );
-              });
+            global.session.account.financeToken = res.access_token;
+            updateSettings("financeToken", res.access_token, false, () => {
+              setCompleted(true);
+            });
           });
       },
     });
@@ -74,7 +57,7 @@ function ConnectBankAccount() {
   const { isLoading, data }: any = useFetch(
     "/api/finance/createLinkToken/?" +
       new URLSearchParams({
-        access_token: global.session.user.financeToken,
+        access_token: global.session.account.financeToken,
       })
   );
   return isLoading ? (
@@ -101,14 +84,14 @@ function ConnectBankAccount() {
 
 const steps = [
   {
-    label: "Let's get started",
-    description: `You haven't connected your bank account with Smartlist. You'll need to connect your bank account for us to view your transactions and help you save money.`,
+    label: <>Let&apos;s get started</>,
+    description: `You haven&apos;t connected your bank account with Smartlist. You&apos;ll need to connect your bank account for us to view your transactions and help you save money.`,
   },
   {
     label: "Connect your bank account",
     description: (
       <>
-        To let us help you save money and track your expenses, we'll need{" "}
+        To let us help you save money and track your expenses, we&apos;ll need{" "}
         <b>read-only</b> access to your bank accounts. Connect your bank account
         to continue
         <br />
@@ -123,7 +106,7 @@ const steps = [
   {
     label: "Configure notifications",
     caption: "Optional",
-    description: `We'll let you know when you overspend.`,
+    description: <>We&apos;ll let you know when you overspend.</>,
   },
 ];
 
@@ -153,7 +136,7 @@ export default function NoData() {
     >
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
-          <Step key={step.label}>
+          <Step key={index.toString()}>
             <StepLabel
               optional={
                 step.caption ? (
@@ -202,10 +185,10 @@ export default function NoData() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography variant="h6">You're all set!</Typography>
+          <Typography variant="h6">You&apos;re all set!</Typography>
           <Typography variant="body2" sx={{ mt: 1 }}>
             Feel free to explore your finance dashboard, goals, and lessons.
-            You'll be saving money in no time
+            You&apos;ll be saving money in no time
           </Typography>
           <Button
             sx={{
@@ -233,7 +216,7 @@ export default function NoData() {
             }}
             variant="contained"
           >
-            Let's go!
+            Let&apos;s go!
           </Button>
         </Paper>
       )}

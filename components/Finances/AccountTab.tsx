@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tab from "@mui/material/Tab";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AccountData } from "./AccountData";
 import { currency_symbols } from "./AccountList";
-import * as colors from "@mui/material/colors";
 
 export function AccountTab({ account }: any) {
   const [open, setOpen] = useState<boolean>(false);
@@ -25,7 +25,7 @@ export function AccountTab({ account }: any) {
           ? "hsl(240, 11%, 10%)"
           : "#fff"
       );
-  }, [open]);
+  }, [open, scrollTop]);
   return (
     <>
       <CssBaseline />
@@ -49,7 +49,7 @@ export function AccountTab({ account }: any) {
       >
         <Box
           sx={{
-            width: { xs: "100vw", sm: "50vw" },
+            width: { xs: "100vw", sm: "69vw", md: "35vw" },
             overflowY: "scroll",
             borderRadius: { sm: "20px" },
             height: { xs: "100vh", sm: "calc(100vh - 30px)" },
@@ -58,7 +58,7 @@ export function AccountTab({ account }: any) {
           <Box
             onScroll={(e: any) => setScrollTop(e.target.scrollTop)}
             sx={{
-              width: { xs: "100vw", sm: "50vw" },
+              width: { xs: "100vw", sm: "69vw", md: "35vw" },
               overflowY: "scroll",
               borderRadius: { sm: "20px" },
               height: { xs: "100vh", sm: "calc(100vh - 30px)" },

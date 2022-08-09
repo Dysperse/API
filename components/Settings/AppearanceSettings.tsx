@@ -5,45 +5,53 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import React from "react";
 import { updateSettings } from "./updateSettings";
 
 function ThemeColorSettings() {
   return (
     <Box sx={{ my: 4 }}>
       <ListSubheader>Theme color</ListSubheader>
-      {["Red", "Green", "Blue", "Pink", "Purple", "Orange", "Teal", "Cyan"].map(
-        (color) => (
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-          >
-            <ListItem
-              secondaryAction={
-                <Radio
-                  edge="end"
-                  checked={themeColor === color.toLowerCase()}
-                  onChange={() => {
-                    updateSettings("theme", color.toLowerCase());
-                    setThemeColor(color.toLowerCase());
-                  }}
-                />
-              }
-              disablePadding
-            >
-              <ListItemButton
-                sx={{ borderRadius: 2, transition: "none" }}
-                onClick={() => {
+      {[
+        "Brown",
+        "Red",
+        "Green",
+        "Blue",
+        "Pink",
+        "Purple",
+        "Orange",
+        "Teal",
+        "Cyan",
+      ].map((color) => (
+        <RadioGroup
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          key={color}
+        >
+          <ListItem
+            secondaryAction={
+              <Radio
+                edge="end"
+                checked={themeColor === color.toLowerCase()}
+                onChange={() => {
                   updateSettings("theme", color.toLowerCase());
                   setThemeColor(color.toLowerCase());
                 }}
-              >
-                <ListItemText primary={color} />
-              </ListItemButton>
-            </ListItem>
-          </RadioGroup>
-        )
-      )}
+              />
+            }
+            disablePadding
+          >
+            <ListItemButton
+              sx={{ borderRadius: 2, transition: "none" }}
+              onClick={() => {
+                updateSettings("theme", color.toLowerCase());
+                setThemeColor(color.toLowerCase());
+              }}
+            >
+              <ListItemText primary={color === "Brown" ? "Carbon" : color} />
+            </ListItemButton>
+          </ListItem>
+        </RadioGroup>
+      ))}
     </Box>
   );
 }
@@ -64,10 +72,9 @@ export default function AppearanceSettings() {
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
-          // value={value}
-          // onChange={handleChange}
         >
           <ListItem
+            key="light"
             onClick={() => {
               global.setTheme("light");
               updateSettings("darkMode", "false");
@@ -89,6 +96,7 @@ export default function AppearanceSettings() {
             </ListItemButton>
           </ListItem>
           <ListItem
+            key="dark"
             onClick={() => {
               global.setTheme("dark");
               updateSettings("darkMode", "true");

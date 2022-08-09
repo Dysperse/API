@@ -1,16 +1,15 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Autocomplete from "@mui/material/Autocomplete";
-import Button from "@mui/material/Button";
+import * as colors from "@mui/material/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import { AutocompleteData } from "../../AutocompleteData";
+import { Puller } from "../../Puller";
 
 export function CreateListItemButton({
   parent,
@@ -32,7 +31,7 @@ export function CreateListItemButton({
           ? "#404040"
           : global.theme === "dark"
           ? "hsl(240, 11%, 5%)"
-          : "#808080"
+          : "#cccccc"
       );
   });
   const handleClickOpen = () => setOpen(true);
@@ -42,15 +41,19 @@ export function CreateListItemButton({
       name: "",
     },
     onSubmit: (values: { name: string }) => {
-      fetch("https://api.smartlist.tech/v2/lists/create-item/", {
-        method: "POST",
-        body: new URLSearchParams({
-          token: global.session ? global.session.accessToken : undefined,
-          parent: parent.toString(),
-          title: values.name,
-          description: "",
-        }),
-      })
+      fetch(
+        "/api/lists/create-item?" +
+          new URLSearchParams({
+            propertyToken: global.session.property.propertyToken,
+            accessToken: global.session.property.accessToken,
+            parent: parent.toString(),
+            title: values.name,
+            description: "",
+          }),
+        {
+          method: "POST",
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
           let x = listItems.data;
@@ -75,16 +78,17 @@ export function CreateListItemButton({
 
   return (
     <>
-      <Button
+      <FormControlLabel
         onClick={handleClickOpen}
-        size="large"
-        disableElevation
-        sx={{ mr: 1, mb: 3, borderRadius: 100 }}
-        variant="contained"
-        autoFocus
-      >
-        Create item
-      </Button>
+        control={
+          <IconButton sx={{ mr: "1px" }}>
+            <span className="material-symbols-rounded">add_circle</span>
+          </IconButton>
+        }
+        label="New list item"
+        sx={{ m: 0, mt: 0.1, display: "block" }}
+      />
+
       <SwipeableDrawer
         anchor="bottom"
         open={open}
@@ -95,74 +99,51 @@ export function CreateListItemButton({
           keepMounted: true,
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
-              sm: "45vw",
+              sm: "50vw",
             },
+            maxWidth: "600px",
             maxHeight: "80vh",
-            borderRadius: "40px 40px 0 0",
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
             }),
-            mx: "auto",
           },
         }}
         onClose={handleClose}
         onOpen={() => setOpen(true)}
       >
+        <Puller />
         <form onSubmit={formik.handleSubmit}>
-          <DialogTitle sx={{ textAlign: "center" }} id="alert-dialog-title">
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-              sx={{ mt: 4, mb: 2 }}
-            >
-              Create item
-            </Typography>
-          </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <Autocomplete
-                id="name"
-                options={AutocompleteData}
-                freeSolo
-                onChange={(e, d) => formik.setFieldValue("name", d)}
+              <TextField
+                autoFocus
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    borderRadius: "20px",
+                    border: "0!important",
+                  },
+                }}
+                variant="standard"
+                inputRef={(input) =>
+                  setTimeout(() => input && input.focus(), 100)
+                }
+                fullWidth
                 value={formik.values.name}
-                renderInput={(params) => (
-                  <TextField
-                    autoFocus
-                    {...params}
-                    inputRef={(input) =>
-                      setTimeout(() => input && input.focus(), 100)
-                    }
-                    fullWidth
-                    onChange={(e) =>
-                      formik.setFieldValue("name", e.target.value)
-                    }
-                    autoComplete="off"
-                    margin="dense"
-                    label="Name"
-                    variant="filled"
-                  />
-                )}
+                onChange={(e) => formik.setFieldValue("name", e.target.value)}
+                autoComplete="off"
+                margin="dense"
+                placeholder="Item name"
               />
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={handleClose}
-              type="reset"
-              size="large"
-              disableElevation
-              sx={{
-                borderRadius: 100,
-                mb: 1,
-              }}
-              variant="outlined"
-            >
-              Cancel
-            </Button>
             <LoadingButton
               loading={loading}
               onClick={() => setTimeout(() => setLoading(true), 100)}
@@ -171,12 +152,10 @@ export function CreateListItemButton({
               disableElevation
               sx={{
                 mr: 1,
-                mb: 1,
                 borderRadius: 100,
               }}
-              variant="contained"
             >
-              Create
+              Save
             </LoadingButton>
           </DialogActions>
         </form>

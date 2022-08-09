@@ -1,23 +1,13 @@
 import Box from "@mui/material/Box";
-import React from "react";
+import * as colors from "@mui/material/colors";
 
-export function Puller() {
+export function Puller({ variant }: { variant?: "side" }) {
   return (
     <Box
-      className="puller"
+      className={variant === "side" ? "puller-side" : "puller"}
       sx={{
-        width: "50px",
-        backgroundColor:
-          global.theme === "dark" ? "hsl(240, 11%, 30%)" : "#eee",
-        height: "7px",
-        margin: "auto",
-        borderRadius: 9,
-        mt: 1,
-        position: "absolute",
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "inline-block",
+        background: colors[themeColor][50],
       }}
-    />
+    ></Box>
   );
 }

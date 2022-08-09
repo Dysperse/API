@@ -8,8 +8,20 @@ import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import QRCode from "react-qr-code";
 
-export function QrCodeModal({ title, quantity }: any): JSX.Element {
+export function QrCodeModal({ title, quantity, room }: any): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
+  const href =
+    "https://" +
+    window.location.hostname +
+    "/share/" +
+    encodeURIComponent(
+      JSON.stringify({
+        name: global.session.account.name,
+        title: title,
+        quantity: quantity,
+        room: room,
+      })
+    );
   const [qrText, setQrText] = useState(
     `I have ${quantity.trim()} ${title.toLowerCase().trim()} in my inventory`
   );
@@ -32,7 +44,7 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
       <MenuItem disableRipple onClick={handleClickOpen}>
         <span
           className="material-symbols-rounded"
-          style={{ marginRight: "10px" }}
+          style={{ marginRight: "15px" }}
         >
           qr_code_scanner
         </span>
@@ -54,19 +66,7 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
       >
         <DialogTitle sx={{ fontWeight: "800" }}>QR code</DialogTitle>
         <DialogContent sx={{ textAlign: "center" }}>
-          <TextField
-            autoFocus
-            margin="dense"
-            autoComplete={"off"}
-            id="name"
-            type="text"
-            fullWidth
-            label="QR code content"
-            defaultValue={qrText}
-            onChange={(e) => setQrText(e.target.value)}
-            sx={{ mt: 1, mb: 2 }}
-          />
-          <QRCode value={qrText} />
+          <QRCode value={href} />
         </DialogContent>
         <DialogActions>
           <Button
@@ -76,7 +76,7 @@ export function QrCodeModal({ title, quantity }: any): JSX.Element {
             sx={{ borderRadius: 99, px: 3, py: 1 }}
             onClick={handleClose}
           >
-            Download
+            Done
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,21 +1,27 @@
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import * as colors from "@mui/material/colors";
+import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import { encode } from "js-base64";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+import { FloatingActionButton } from "../components/Layout/FloatingActionButton";
 
-function Action({ icon, primary, secondary, href }: any) {
+function Action({ icon, primary, href, onClick }: any) {
   const router = useRouter();
   return (
     <ListItem
       disableRipple
       button
       onClick={() => {
-        router.push(href);
+        if (href) router.push(href);
+        else {
+          onClick && onClick();
+        }
       }}
       secondaryAction={
         <span
@@ -26,6 +32,7 @@ function Action({ icon, primary, secondary, href }: any) {
         </span>
       }
       sx={{
+        mb: 1,
         transition: "transform .2s !important",
         borderRadius: 4,
         "&:active": {
@@ -44,7 +51,7 @@ function Action({ icon, primary, secondary, href }: any) {
         <Avatar
           className="avatar"
           sx={{
-            color: global.theme === "dark" ? "#fff" : "#000",
+            color: global.theme === "dark" ? "#fff" : colors[themeColor][900],
             borderRadius: 4,
             background:
               global.theme === "dark"
@@ -61,99 +68,93 @@ function Action({ icon, primary, secondary, href }: any) {
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={<Typography sx={{ fontWeight: "400" }}>{primary}</Typography>}
-        secondary={secondary}
+        primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
+        // secondary={
+        //   <Typography sx={{ fontWeight: "400", fontSize: "15px" }}>
+        //     {secondary}
+        //   </Typography>
+        // }
       />
     </ListItem>
   );
 }
 
 export default function Categories() {
+  const url =
+    "/api/rooms?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
+
+  const { data, error } = useSWR(url, () =>
+    fetch(url, {
+      method: "POST",
+    }).then((res) => res.json())
+  );
+
   return (
-    <Container sx={{ mb: 3 }}>
-      <Typography
-        variant="h4"
-        sx={{
-          my: { xs: 12, sm: 4 },
-          fontWeight: "800",
-          textAlign: { xs: "center", sm: "left" },
-        }}
-      >
-        Items
-      </Typography>
-      <Action
-        href="/rooms/kitchen"
-        icon="oven_gen"
-        primary="Kitchen"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/bedroom"
-        icon="bedroom_parent"
-        primary="Bedroom"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/bathroom"
-        icon="bathroom"
-        primary="Bathroom"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/garage"
-        icon="garage"
-        primary="Garage"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/dining"
-        icon="dining"
-        primary="Dining room"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/living"
-        icon="living"
-        primary="Living room"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/laundry"
-        icon="local_laundry_service"
-        primary="Laundry room"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/storage"
-        icon="inventory_2"
-        primary="Storage room"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/garden"
-        icon="yard"
-        primary="Garden"
-        secondary="10 items"
-      />
-      <Action
-        href="/rooms/camping"
-        icon="image"
-        primary="Camping"
-        secondary="10 items"
-      />
-      <Divider sx={{ my: 1 }} />
-      <Action
-        href="/starred"
-        icon="star"
-        primary="Starred"
-        secondary="10 items"
-      />
-      <Action
-        href="/trash"
-        icon="delete"
-        primary="Trash"
-        secondary="10 items"
-      />
-    </Container>
+    <>
+      <FloatingActionButton />
+      <Container sx={{ mb: 3 }}>
+        <Typography
+          variant="h3"
+          sx={{
+            my: { xs: 12, sm: 4 },
+            fontWeight: "400",
+            textAlign: { xs: "center", sm: "left" },
+          }}
+        >
+          Inventory
+        </Typography>
+        <Action href="/rooms/kitchen" icon="oven_gen" primary="Kitchen" />
+        <Action href="/rooms/bedroom" icon="bedroom_parent" primary="Bedroom" />
+        <Action href="/rooms/bathroom" icon="bathroom" primary="Bathroom" />
+        <Action href="/rooms/garage" icon="garage" primary="Garage" />
+        <Action href="/rooms/dining" icon="dining" primary="Dining room" />
+        <Action href="/rooms/living" icon="living" primary="Living room" />
+        <Action
+          href="/rooms/laundry"
+          icon="local_laundry_service"
+          primary="Laundry room"
+        />
+        <Action
+          href="/rooms/storage"
+          icon="inventory_2"
+          primary="Storage room"
+        />
+        <Action href="/rooms/garden" icon="yard" primary="Garden" />
+        <Action href="/rooms/camping" icon="camping" primary="Camping" />
+        <Divider sx={{ my: 1 }} />
+        {data &&
+          data.data.map((room: any, id: number) => (
+            <Action
+              href={
+                "/rooms/" + encode(room.id + "," + room.name) + "?custom=true"
+              }
+              icon="label"
+              primary={room.name}
+              key={id.toString()}
+            />
+          ))}
+        <Action
+          onClick={() =>
+            document.getElementById("setCreateRoomModalOpen")!.click()
+          }
+          icon="add_circle"
+          primary="Create room"
+        />
+        <Action
+          onClick={() =>
+            document.getElementById("houseProfileTrigger")!.click()
+          }
+          icon="edit"
+          primary="Manage rooms"
+        />
+        <Divider sx={{ my: 1 }} />
+        <Action href="/starred" icon="star" primary="Starred" />
+        <Action href="/trash" icon="delete" primary="Trash" />
+      </Container>
+    </>
   );
 }

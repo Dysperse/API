@@ -1,17 +1,17 @@
-import { useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Masonry from "@mui/lab/Masonry";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import LoadingButton from "@mui/lab/LoadingButton";
-import toast from "react-hot-toast";
-
+import dayjs from "dayjs";
 function DeleteCard({ item }: any) {
   const [deleted, setDeleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -40,14 +40,18 @@ function DeleteCard({ item }: any) {
           }}
           variant="contained"
           onClick={() => {
-            fetch("https://api.smartlist.tech/v2/items/delete/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token: global.session && global.session.accessToken,
-                id: item.id.toString(),
-                forever: "true",
-              }),
-            })
+            fetch(
+              "/api/inventory/trash?" +
+                new URLSearchParams({
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
+                  id: item.id.toString(),
+                  forever: "true",
+                }),
+              {
+                method: "POST",
+              }
+            )
               .then((res) => {
                 setDeleted(true);
                 setLoading(false);
@@ -74,13 +78,20 @@ function DeleteCard({ item }: any) {
           }}
           variant="outlined"
           onClick={() => {
-            fetch("https://api.smartlist.tech/v2/items/delete/", {
-              method: "POST",
-              body: new URLSearchParams({
-                token: global.session && global.session.accessToken,
-                id: item.id.toString(),
-              }),
-            })
+            fetch(
+              "/api/restore?" +
+                new URLSearchParams({
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
+                  lastUpdated: dayjs(item.lastUpdated).format(
+                    "YYYY-MM-DD HH:mm:ss"
+                  ),
+                  id: item.id.toString(),
+                }),
+              {
+                method: "POST",
+              }
+            )
               .then((res) => {
                 setDeleted(true);
                 setLoading(false);
@@ -103,14 +114,15 @@ function DeleteCard({ item }: any) {
 }
 
 function Items() {
-  const url = "https://api.smartlist.tech/v2/trash/";
+  const url =
+    "/api/inventory/trashed-items?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
   const { data, error }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token: global.session && global.session.accessToken,
-      }),
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     }).then((res) => res.json())
   );
 
@@ -141,8 +153,8 @@ function Items() {
     </>
   ) : (
     <>
-      {data.data.map((item: any) => (
-        <DeleteCard item={item} />
+      {data.data.map((item: any, id: number) => (
+        <DeleteCard item={item} key={id.toString()} />
       ))}
       {data.data.length === 0 && (
         <Box
@@ -152,7 +164,7 @@ function Items() {
             borderRadius: 4,
           }}
         >
-          You haven't deleted any items yet
+          You haven&apos;t deleted any items yet
         </Box>
       )}
     </>
@@ -166,7 +178,7 @@ export default function Render() {
         variant="h4"
         sx={{
           my: { xs: 12, sm: 4 },
-          fontWeight: "800",
+          fontWeight: "700",
           textAlign: { xs: "center", sm: "left" },
         }}
       >

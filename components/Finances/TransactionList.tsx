@@ -1,11 +1,10 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { currency_symbols } from "./AccountList";
-import List from "@mui/material/List";
 
 export function TransactionList({ transactions }: any) {
   return (
@@ -24,8 +23,9 @@ export function TransactionList({ transactions }: any) {
         <Typography sx={{ fontWeight: "600", my: 2, ml: 2 }} variant="h5">
           Recent transactions
         </Typography>
-        {transactions.slice(0, 10).map((transaction: any) => (
+        {transactions.slice(0, 10).map((transaction: any, id: number) => (
           <ListItem
+            key={id.toString()}
             sx={{
               borderBottom:
                 "1px solid " +
@@ -54,8 +54,9 @@ export function TransactionList({ transactions }: any) {
                     {currency_symbols[transaction.iso_currency_code] ?? "$"}
                     {transaction.amount}
                   </Typography>
-                  {transaction.category.map((category) => (
+                  {transaction.category.map((category: any, id: number) => (
                     <Chip
+                      key={id.toString()}
                       label={category}
                       sx={{ mr: 1, mt: 1, borderRadius: 3 }}
                     />

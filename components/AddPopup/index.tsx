@@ -3,21 +3,23 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
+import * as colors from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
 import { styled } from "@mui/material/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
-import { Puller } from "../Puller";
-import { CreateItemModal } from "./CreateItemModal";
-import { CreateListModal } from "./CreateListModal";
-import * as colors from "@mui/material/colors";
 import useSWR from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { Puller } from "../Puller";
+import { CreateItemModal } from "./CreateItemModal";
+
+import { useHotkeys } from "react-hotkeys-hook";
 
 const Root = styled("div")(() => ({
   height: "100%",
@@ -25,19 +27,21 @@ const Root = styled("div")(() => ({
 
 function AddItemOption({
   alias,
-  s = 6,
+  s = 4,
   toggleDrawer,
   icon,
   title,
 }: any): JSX.Element {
   return (
-    <Grid item xs={s}>
-      <CreateItemModal room={title} toggleDrawer={toggleDrawer}>
+    <Grid item xs={12} sm={4}>
+      <CreateItemModal room={title} alias={alias} toggleDrawer={toggleDrawer}>
         <Card
           sx={{
-            textAlign: "center",
+            textAlign: {
+              sm: "center",
+            },
             boxShadow: 0,
-            borderRadius: 6,
+            borderRadius: { xs: 1, sm: 6 },
             transition: "transform .2s",
             "&:active": {
               boxShadow: "none!important",
@@ -50,6 +54,10 @@ function AddItemOption({
             disableRipple
             onClick={() => toggleDrawer(false)}
             sx={{
+              px: {
+                xs: 3,
+                sm: 0,
+              },
               "&:hover": {
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
@@ -60,21 +68,36 @@ function AddItemOption({
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
-                boxShadow:
-                  "inset 0px 0px 0px 2px " +
-                  colors[themeColor][global.theme === "dark" ? 200 : 800],
               },
               "&:active": {
-                boxShadow: "none!important",
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
               },
             }}
           >
-            <CardContent sx={{ p: 1 }}>
+            <CardContent
+              sx={{
+                p: 1,
+                display: {
+                  xs: "flex",
+                  sm: "unset",
+                },
+                gap: 3,
+                alignItems: "center",
+              }}
+            >
               <Typography variant="h4">{icon}</Typography>
-              <Typography>{alias ?? title}</Typography>
+              <Typography
+                sx={{
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  overflow: "hidden",
+                }}
+              >
+                {alias || title}
+              </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
@@ -83,14 +106,17 @@ function AddItemOption({
   );
 }
 function MoreRooms(): JSX.Element {
-  const url = "https://api.smartlist.tech/v2/rooms/";
+  const url =
+    "/api/rooms?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
   const [open, setOpen] = React.useState<boolean>(false);
+
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams({
-        token: global.session.accessToken,
-      }),
     }).then((res) => res.json())
   );
   if (error) {
@@ -102,15 +128,19 @@ function MoreRooms(): JSX.Element {
         anchor="bottom"
         swipeAreaWidth={0}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
               xs: "100vw",
               sm: "50vw",
             },
+            maxHeight: "80vh",
             maxWidth: "700px",
-            "& *:not(.MuiTouchRipple-child, .puller)": {
+            "& .MuiPaper-root": {
               background: "transparent!important",
             },
+            "& *": { transition: "none!important" },
             borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
             ...(global.theme === "dark" && {
@@ -121,74 +151,90 @@ function MoreRooms(): JSX.Element {
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        ModalProps={{
-          keepMounted: true,
-        }}
       >
         <Puller />
         <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
           Other rooms
         </DialogTitle>
-        {!data ? (
-          <Grid container sx={{ p: 2 }}>
-            {[...new Array(12)].map(() => (
-              <Grid
-                item
-                xs={3}
-                sx={{ p: 2, py: 1 }}
-                key={Math.random().toString()}
-              >
-                <div style={{ background: "#eee" }}>
-                  <Skeleton
-                    variant="rectangular"
-                    height={69}
-                    width={"100%"}
-                    animation="wave"
-                    sx={{ borderRadius: 5, background: "red!important" }}
-                  />
-                </div>
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Grid container sx={{ p: 2 }}>
-            <AddItemOption
-              toggleDrawer={() => setOpen(false)}
-              title="Storage room"
-              icon={
-                <span className="material-symbols-rounded">inventory_2</span>
-              }
-            />
-            <AddItemOption
-              toggleDrawer={() => setOpen(false)}
-              title="Camping"
-              icon={<span className="material-symbols-rounded">image</span>}
-            />
-            <AddItemOption
-              toggleDrawer={() => setOpen(false)}
-              title="Garden"
-              icon={<span className="material-symbols-rounded">yard</span>}
-            />
-            {data.data.map((room: any, key: any) => (
+        <Box sx={{ height: "100%", overflow: "scroll" }}>
+          {!data ? (
+            <Grid container sx={{ p: 2 }}>
+              {[...new Array(12)].map(() => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={3}
+                  sx={{ p: 2, py: 1 }}
+                  key={Math.random().toString()}
+                >
+                  <div style={{ background: "#eee" }}>
+                    <Skeleton
+                      variant="rectangular"
+                      height={69}
+                      width={"100%"}
+                      animation="wave"
+                      sx={{ borderRadius: 5, background: "red!important" }}
+                    />
+                  </div>
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Grid container sx={{ p: 2 }}>
               <AddItemOption
-                toggleDrawer={() => setOpen(false)}
-                title={room.id}
-                key={key}
-                alias={room.name}
-                icon={<span className="material-symbols-rounded">label</span>}
+                toggleDrawer={() => {}}
+                title="Storage room"
+                icon={
+                  <span className="material-symbols-rounded">inventory_2</span>
+                }
               />
-            ))}
-          </Grid>
-        )}
+              <AddItemOption
+                toggleDrawer={() => {}}
+                title="Camping"
+                icon={<span className="material-symbols-rounded">camping</span>}
+              />
+              <AddItemOption
+                toggleDrawer={() => {}}
+                title="Garden"
+                icon={<span className="material-symbols-rounded">yard</span>}
+              />
+              {data.data.map((room: any, key: any) => (
+                <AddItemOption
+                  toggleDrawer={() => {}}
+                  title={room.id}
+                  key={key}
+                  alias={room.name}
+                  icon={<span className="material-symbols-rounded">label</span>}
+                />
+              ))}
+            </Grid>
+          )}
+        </Box>
       </SwipeableDrawer>
-      <Grid item xs={6}>
+      <Grid item xs={12} sm={4}>
         <Card
-          sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}
+          sx={{
+            textAlign: {
+              sm: "center",
+            },
+            boxShadow: 0,
+            borderRadius: { xs: 1, sm: 6 },
+            transition: "transform .2s",
+            "&:active": {
+              boxShadow: "none!important",
+              transform: "scale(0.98)",
+              transition: "none",
+            },
+          }}
           onClick={() => setOpen(true)}
         >
           <CardActionArea
             disableRipple
             sx={{
+              px: {
+                xs: 3,
+                sm: 0,
+              },
               "&:hover": {
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
@@ -199,25 +245,40 @@ function MoreRooms(): JSX.Element {
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
-                boxShadow:
-                  "inset 0px 0px 0px 2px " +
-                  colors[themeColor][global.theme === "dark" ? 200 : 800],
               },
               "&:active": {
-                boxShadow: "none!important",
                 background:
                   colors[themeColor][global.theme === "dark" ? 900 : 100] +
                   "!important",
               },
             }}
           >
-            <CardContent sx={{ p: 1 }}>
+            <CardContent
+              sx={{
+                p: 1,
+                display: {
+                  xs: "flex",
+                  sm: "unset",
+                },
+                gap: 3,
+                alignItems: "center",
+              }}
+            >
               <Typography variant="h4">
                 <span className="material-symbols-rounded">
                   add_location_alt
                 </span>
               </Typography>
-              <Typography>More rooms</Typography>
+              <Typography
+                sx={{
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  overflow: "hidden",
+                }}
+              >
+                More&nbsp;rooms
+              </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
@@ -229,16 +290,13 @@ function Content({ toggleDrawer }: any) {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title="Kitchen"
-          icon={<span className="material-symbols-rounded">oven_gen</span>}
-        />
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title="Bathroom"
-          icon={<span className="material-symbols-rounded">bathroom</span>}
-        />
+        {global.session.property.houseType !== "dorm" && (
+          <AddItemOption
+            toggleDrawer={toggleDrawer}
+            title="Kitchen"
+            icon={<span className="material-symbols-rounded">oven_gen</span>}
+          />
+        )}
         <AddItemOption
           toggleDrawer={toggleDrawer}
           title="Bedroom"
@@ -248,121 +306,55 @@ function Content({ toggleDrawer }: any) {
         />
         <AddItemOption
           toggleDrawer={toggleDrawer}
-          title="Garage"
-          icon={<span className="material-symbols-rounded">garage</span>}
+          title="Bathroom"
+          icon={<span className="material-symbols-rounded">bathroom</span>}
         />
+
         <AddItemOption
           toggleDrawer={toggleDrawer}
-          title="Living room"
-          icon={<span className="material-symbols-rounded">living</span>}
+          title="Storage"
+          icon={<span className="material-symbols-rounded">inventory_2</span>}
         />
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title="Dining room"
-          icon={<span className="material-symbols-rounded">dining</span>}
-        />
-        <AddItemOption
-          toggleDrawer={toggleDrawer}
-          title="Laundry room"
-          icon={
-            <span className="material-symbols-rounded">
-              local_laundry_service
-            </span>
-          }
-        />
-        <MoreRooms />
-      </Grid>
-      <Grid container sx={{ p: 1, display: "none" }}>
-        <Grid item xs={6}>
-          <CreateListModal parent="-1" title="reminder">
-            <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
-              <CardActionArea
-                disableRipple
-                onClick={() => toggleDrawer(false)}
-                id="listTrigger_0"
-                sx={{
-                  transition: "transform .2s",
-                  "&:active": {
-                    boxShadow: "none!important",
-                    transform: "scale(0.98)",
-                    transition: "none",
-                  },
-                  "&:focus-within": {
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                    boxShadow:
-                      "inset 0px 0px 0px 2px " +
-                      colors[themeColor][global.theme === "dark" ? 200 : 800],
-                  },
-                  "&:hover": {
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                    boxShadow: "none!important",
-                  },
-                  borderRadius: 6,
-                }}
-              >
-                <CardContent sx={{ p: 1 }}>
-                  <Typography variant="h4">
-                    <span className="material-symbols-rounded">check</span>
-                  </Typography>
-                  <Typography>To-do list</Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </CreateListModal>
-        </Grid>
-        <Grid item xs={6}>
-          <CreateListModal parent="-2" title="item">
-            <Card sx={{ textAlign: "center", boxShadow: 0, borderRadius: 6 }}>
-              <CardActionArea
-                id="listTrigger_1"
-                disableRipple
-                onClick={() => toggleDrawer(false)}
-                sx={{
-                  "&:focus-within": {
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                    boxShadow:
-                      "inset 0px 0px 0px 2px " +
-                      colors[themeColor][global.theme === "dark" ? 200 : 800],
-                  },
-                  "&:hover": {
-                    background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100] +
-                      "!important",
-                    boxShadow: "none!important",
-                  },
-                  borderRadius: 6,
-                  transition: "transform .2s",
-                  "&:active": {
-                    boxShadow: "none!important",
-                    transform: "scale(0.98)",
-                    transition: "none",
-                  },
-                }}
-              >
-                <CardContent sx={{ p: 1 }}>
-                  <Typography variant="h4">
-                    <span className="material-symbols-rounded">
-                      receipt_long
-                    </span>
-                  </Typography>
-                  <Typography>Shopping list</Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </CreateListModal>
-        </Grid>
+        {global.session.property.houseType !== "dorm" && (
+          <>
+            <AddItemOption
+              toggleDrawer={toggleDrawer}
+              title="Garage"
+              icon={<span className="material-symbols-rounded">garage</span>}
+            />
+            <AddItemOption
+              toggleDrawer={toggleDrawer}
+              title={<>Living&nbsp;room</>}
+              icon={<span className="material-symbols-rounded">living</span>}
+            />
+            <AddItemOption
+              toggleDrawer={toggleDrawer}
+              title={<>Dining</>}
+              icon={<span className="material-symbols-rounded">dining</span>}
+            />
+            <AddItemOption
+              toggleDrawer={toggleDrawer}
+              title={<>Laundry&nbsp;room</>}
+              icon={
+                <span className="material-symbols-rounded">
+                  local_laundry_service
+                </span>
+              }
+            />
+            <MoreRooms />
+          </>
+        )}
       </Grid>
     </List>
   );
 }
 export default function AddPopup(props: any) {
   const [open, setOpen] = React.useState<boolean>(false);
+
+  useHotkeys("ctrl+s", (e) => {
+    e.preventDefault();
+    document.getElementById("add_trigger")!.click();
+  });
 
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
@@ -379,7 +371,7 @@ export default function AddPopup(props: any) {
         open
           ? global.theme === "dark"
             ? "hsl(240, 11%, 5%)"
-            : "#808080"
+            : "#cccccc"
           : global.theme === "dark"
           ? "hsl(240, 11%, 10%)"
           : "#fff"
@@ -401,13 +393,24 @@ export default function AddPopup(props: any) {
           },
         }}
       />
-      <Box onClick={toggleDrawer(true)}>{props.children}</Box>
+      <div
+        id="add_trigger"
+        onClick={() => {
+          if (global.session.property.role !== "read-only") {
+            setOpen(true);
+          }
+        }}
+      >
+        {props.children}
+      </div>
 
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
         PaperProps={{
+          elevation: 0,
           sx: {
+            background: colors[themeColor][50],
             width: {
               xs: "100vw",
               sm: "50vw",
@@ -434,11 +437,37 @@ export default function AddPopup(props: any) {
           keepMounted: true,
         }}
       >
-        <Box sx={{ pt: 1 }}>
-          <Puller />
-        </Box>
-        <DialogTitle sx={{ mt: 2, textAlign: "center", fontWeight: "600" }}>
-          Create
+        <Puller />
+        <DialogTitle
+          sx={{
+            display: "flex",
+            mt: 0.5,
+            textAlign: "center",
+            pb: 0,
+            alignItems: "center",
+          }}
+        >
+          <IconButton sx={{ mr: "auto", opacity: 0, pointerEvents: "none" }}>
+            <span className="material-symbols-rounded">view_in_ar</span>
+          </IconButton>
+          <Typography variant="h6" sx={{ mx: "auto", fontWeight: "600" }}>
+            Create item
+          </Typography>
+          <IconButton
+            size="large"
+            onClick={() => window.open("/scan")}
+            sx={{
+              ml: "auto",
+              color: "#000",
+              transition: "none",
+              "&:active": {
+                background: colors[themeColor][100] + "!important",
+              },
+            }}
+            disableRipple
+          >
+            <span className="material-symbols-rounded">view_in_ar</span>
+          </IconButton>
         </DialogTitle>
         <Content toggleDrawer={toggleDrawer} />
       </SwipeableDrawer>
