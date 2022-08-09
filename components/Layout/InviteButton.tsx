@@ -483,7 +483,7 @@ export function InviteButton() {
         {data ? (
           <>
             {data.data.map((house: any, key: number) => (
-              <House key={key} data={house} />
+              <House key={key.toString()} data={house} />
             ))}
           </>
         ) : (
