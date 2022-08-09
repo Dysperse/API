@@ -154,6 +154,7 @@ export function SearchPopup({ content }: any) {
             display: { xs: "none", sm: "inline-block" },
             background: "#c0adad",
             borderRadius: "15px",
+            userSelect: "none",
             fontFamily: "arial",
             fontSize: "12px",
             marginBottom: "6px",
@@ -195,6 +196,7 @@ export function SearchPopup({ content }: any) {
               </kbd>{" "}
               to select
             </span>
+            <Box sx={{ mt: 1 }} />
             <span style={{ paddingRight: "32px" }}>
               <kbd
                 style={{
