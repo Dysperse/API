@@ -22,11 +22,12 @@ import { InvitationsModal } from "../HouseProfile/InvitationsModal";
 import useSWR from "swr";
 import { updateSettings } from "../Settings/updateSettings";
 import toast from "react-hot-toast";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function House({ data }: any) {
   const [open, setOpen] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
-
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [houseType, setHouseType] = React.useState(
     global.session.property.houseType
   );
@@ -42,6 +43,7 @@ function House({ data }: any) {
           if (data.propertyToken === global.session.property.propertyToken) {
             setOpen(true);
           } else {
+            setLoading(true);
             fetch(
               "/api/account/sync/acceptInvitation?" +
                 new URLSearchParams({
@@ -99,7 +101,7 @@ function House({ data }: any) {
         />
         <ListItemIcon>
           {data.propertyToken !== global.session.property.propertyToken ? (
-            "Join"
+            <LoadingButton loading={loading}>Join</LoadingButton>
           ) : (
             <span
               className="material-symbols-rounded"
