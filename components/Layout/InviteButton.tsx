@@ -543,7 +543,9 @@ export function InviteButton() {
           }}
           noWrap
         >
-          {global.session.property.houseName || "Untitled property"}
+          {global.session.property.houseName.substring(0, 12) ||
+            "Untitled property"}
+          {global.session.property.houseName.length > 12 && "..."}
         </Typography>
         <span
           className="material-symbols-rounded"
