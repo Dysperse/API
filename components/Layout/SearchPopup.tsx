@@ -147,13 +147,13 @@ export function SearchPopup({ content }: any) {
       trigger={content}
       renderCommand={atomCommand}
       header={
-        <div
-          style={{
+        <Box
+          sx={{
             color: "#232323",
             padding: "10px 15px",
+            display: { xs: "none", sm: "inline-block" },
             background: "#c0adad",
             borderRadius: "15px",
-            display: "inline-block",
             fontFamily: "arial",
             fontSize: "12px",
             marginBottom: "6px",
@@ -163,55 +163,55 @@ export function SearchPopup({ content }: any) {
           <span style={{ paddingRight: "32px", fontSize: "15px" }}>
             Jump to
           </span>
-          <Box sx={{ mt: 1 }} />
-          <span style={{ paddingRight: "32px" }}>
-            <kbd
-              style={{
-                backgroundColor: "rgba(200,200,200,.3)",
-                borderRadius: "4px",
-                color: "#232323",
-                fontSize: "12px",
-                marginRight: "6px",
-                padding: "2px 4px",
-              }}
-            >
-              ↑↓
-            </kbd>{" "}
-            to navigate
-          </span>
-          <Box sx={{ mt: 1 }} />
-          <span style={{ paddingRight: "32px" }}>
-            <kbd
-              style={{
-                backgroundColor: "rgba(200,200,200,.3)",
-                borderRadius: "4px",
-                color: "#232323",
-                fontSize: "12px",
-                marginRight: "6px",
-                padding: "2px 4px",
-              }}
-            >
-              enter
-            </kbd>{" "}
-            to select
-          </span>
-          <Box sx={{ mt: 1 }} />
-          <span style={{ paddingRight: "32px" }}>
-            <kbd
-              style={{
-                backgroundColor: "rgba(200,200,200,.3)",
-                borderRadius: "4px",
-                color: "#232323",
-                fontSize: "12px",
-                marginRight: "6px",
-                padding: "2px 4px",
-              }}
-            >
-              esc
-            </kbd>{" "}
-            to dismiss
-          </span>
-        </div>
+          <Box sx={{ mt: 1, display: { xs: "none", sm: "block" } }}>
+            <span style={{ paddingRight: "32px" }}>
+              <kbd
+                style={{
+                  backgroundColor: "rgba(200,200,200,.3)",
+                  borderRadius: "4px",
+                  color: "#232323",
+                  fontSize: "12px",
+                  marginRight: "6px",
+                  padding: "2px 4px",
+                }}
+              >
+                ↑↓
+              </kbd>{" "}
+              to navigate
+            </span>
+            <Box sx={{ mt: 1 }} />
+            <span style={{ paddingRight: "32px" }}>
+              <kbd
+                style={{
+                  backgroundColor: "rgba(200,200,200,.3)",
+                  borderRadius: "4px",
+                  color: "#232323",
+                  fontSize: "12px",
+                  marginRight: "6px",
+                  padding: "2px 4px",
+                }}
+              >
+                enter
+              </kbd>{" "}
+              to select
+            </span>
+            <span style={{ paddingRight: "32px" }}>
+              <kbd
+                style={{
+                  backgroundColor: "rgba(200,200,200,.3)",
+                  borderRadius: "4px",
+                  color: "#232323",
+                  fontSize: "12px",
+                  marginRight: "6px",
+                  padding: "2px 4px",
+                }}
+              >
+                esc
+              </kbd>{" "}
+              to dismiss
+            </span>
+          </Box>
+        </Box>
       }
       options={{
         allowTypo: true,
