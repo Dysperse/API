@@ -90,7 +90,9 @@ function House({ data }: any) {
                   ? "productivity"
                   : "visibility"}
               </span>
-              <span style={{ marginTop: "-2.5px" }}>
+              <span
+                style={{ marginTop: data.role === "owner" ? "-2.5px" : "" }}
+              >
                 {data.role == "member"
                   ? "Read, write, and edit access"
                   : data.role == "owner"
@@ -475,7 +477,7 @@ export function InviteButton() {
           },
         }}
         swipeAreaWidth={0}
-        >
+      >
         <Puller />
         <Box sx={{ py: 5, px: 2, textAlign: "center" }}>
           <Typography variant="h5" sx={{ fontWeight: "800" }}>

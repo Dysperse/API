@@ -247,16 +247,25 @@ function Member({ member }): any {
           overflow: "hidden",
           textOverflow: "ellipsis",
           display: "flex",
+          mt: 0.5,
           alignItems: "center",
           gap: "10px",
         }}
       >
         <span className="material-symbols-rounded">
-          {member.role === "member" ? "group" : (member.role == "owner" ? "productivity" : "visibility")}
+          {member.role === "member"
+            ? "group"
+            : member.role == "owner"
+            ? "productivity"
+            : "visibility"}
         </span>
-        {member.role == "member"
-          ? "Read, write, and edit access"
-          : (member.role == "owner" ? "Owner": "Read-only access")}
+        <span style={{ marginTop: member.role === "owner" ? "-4px" : "" }}>
+          {member.role == "member"
+            ? "Read, write, and edit access"
+            : member.role == "owner"
+            ? "Owner"
+            : "Read-only access"}
+        </span>
       </Typography>
       <LoadingButton
         loading={loading}
@@ -309,63 +318,11 @@ export function MemberList() {
 
   const images = data
     ? [
-        {
-          content: (
-            <>
-              <Typography
-                sx={{
-                  fontWeight: "600",
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {global.session.account.name}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {global.session.account.email}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                Current account
-              </Typography>
-              <ProfileMenu>
-                <Button
-                  variant="contained"
-                  sx={{
-                    border: "2px solid transparent !important",
-                    boxShadow: 0,
-                    borderRadius: 4,
-                    width: "100%",
-                    mt: 1.5,
-                  }}
-                >
-                  Account&nbsp;settings
-                </Button>
-              </ProfileMenu>
-            </>
-          ),
-        },
-        ...data.data
-          .filter((e: any) => e.email !== global.session.account.email)
-          .map((member) => {
-            return {
-              content: <Member member={member} />,
-            };
-          }),
+        ...data.data.map((member) => {
+          return {
+            content: <Member member={member} />,
+          };
+        }),
       ]
     : [];
 
