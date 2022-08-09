@@ -475,6 +475,7 @@ export function InviteButton() {
           },
         }}
         swipeAreaWidth={0}
+        >
         <Puller />
         <Box sx={{ py: 5, px: 2, textAlign: "center" }}>
           <Typography variant="h5" sx={{ fontWeight: "800" }}>
