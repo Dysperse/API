@@ -18,7 +18,7 @@ dayjs.extend(relativeTime);
 function Render({ data, Component, pageProps }: any) {
   global.session = data;
   const [theme, setTheme] = useState<"dark" | "light">(
-    data.account.darkMode  ? "dark" : "light"
+    data.account.darkMode ? "dark" : "light"
   );
   const [themeColor, setThemeColor] = useState<
     | "red"
@@ -162,11 +162,25 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
             !isError &&
             (data.account ? (
               <>
-                <Render
-                  Component={Component}
-                  pageProps={pageProps}
-                  data={data}
-                />
+                {data.account.onboarding === 0 ? (
+                  <>
+                    <button
+                      style={{ opacity: 0.4, border: 0, borderRadius: 3 }}
+                      ref={(e) => e && e.click()}
+                      onClick={() => {
+                        router.push("/onboarding");
+                      }}
+                    >
+                      Not redirecting? Click here
+                    </button>
+                  </>
+                ) : (
+                  <Render
+                    Component={Component}
+                    pageProps={pageProps}
+                    data={data}
+                  />
+                )}
               </>
             ) : (
               <LoginPrompt />
