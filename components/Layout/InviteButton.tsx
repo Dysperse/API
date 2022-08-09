@@ -540,12 +540,14 @@ export function InviteButton() {
           sx={{
             fontWeight: "600",
             mr: 2,
+            maxWidth: "40vw",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
           }}
           noWrap
         >
-          {global.session.property.houseName.substring(0, 12) ||
-            "Untitled property"}
-          {global.session.property.houseName.length > 12 && "..."}
+          {global.session.property.houseName || "Untitled property"}
         </Typography>
         <span
           className="material-symbols-rounded"
