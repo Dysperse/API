@@ -156,7 +156,11 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
         router.pathname === "/scan" ||
         router.pathname === "/onboarding") ? (
         <>
-          <RenderComponent Component={Component} pageProps={pageProps} />
+          <RenderComponent
+            Component={Component}
+            data={data}
+            pageProps={pageProps}
+          />
         </>
       ) : (
         <Online>
@@ -195,7 +199,8 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
   );
 }
 
-function RenderComponent({ Component, pageProps }: any) {
+function RenderComponent({ Component, pageProps, data }: any) {
+  global.session = data;
   return (
     <>
       <Component {...pageProps} />
