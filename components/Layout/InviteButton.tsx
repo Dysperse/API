@@ -68,9 +68,14 @@ function House({ data }: any) {
       >
         <ListItemText
           primary={
-            <Typography variant="h6" sx={{ fontWeight: "600" }}>
-              {data.houseName}
-            </Typography>
+            <>
+              <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                {data.houseName}
+              </Typography>
+              {data.accepted !== "true" && (
+                <span style={{ color: "red" }}>Invitation pending</span>
+              )}
+            </>
           }
           secondary={
             <Box
