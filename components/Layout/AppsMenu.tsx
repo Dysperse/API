@@ -258,6 +258,7 @@ export function AppsMenu() {
             disableRipple
             sx={{
               mr: 1,
+              borderRadius: 3,
               transition: "none",
               color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
               "&:hover": {
