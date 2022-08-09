@@ -23,6 +23,7 @@ import useSWR from "swr";
 import { updateSettings } from "../Settings/updateSettings";
 import toast from "react-hot-toast";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Puller } from "../Puller";
 
 function House({ data }: any) {
   const [open, setOpen] = React.useState(false);
@@ -474,7 +475,7 @@ export function InviteButton() {
           },
         }}
         swipeAreaWidth={0}
-      >
+        <Puller />
         <Box sx={{ py: 5, px: 2, textAlign: "center" }}>
           <Typography variant="h5" sx={{ fontWeight: "800" }}>
             Properties
