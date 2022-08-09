@@ -79,8 +79,8 @@ export function Navbar(): JSX.Element {
                   color="inherit"
                   id="searchTrigger1"
                   disableRipple
-                  size="large"
                   sx={{
+                    mr: 0.5,
                     transition: "none",
                     color:
                       global.theme === "dark"
@@ -114,7 +114,6 @@ export function Navbar(): JSX.Element {
               <IconButton
                 color="inherit"
                 disableRipple
-                size="large"
                 sx={{
                   transition: "none",
                   color:
