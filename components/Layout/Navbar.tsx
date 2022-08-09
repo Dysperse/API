@@ -80,7 +80,7 @@ export function Navbar(): JSX.Element {
                   id="searchTrigger1"
                   disableRipple
                   sx={{
-                    mr: 0.5,
+                    mr: 1,
                     transition: "none",
                     color:
                       global.theme === "dark"
