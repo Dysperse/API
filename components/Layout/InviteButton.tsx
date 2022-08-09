@@ -145,7 +145,13 @@ function House({ data }: any) {
         }}
         onOpen={() => setOpen(true)}
       >
-        <Box sx={{ maxHeight: "90vh", overflow: "scroll", borderRadius: 5 }}>
+        <Box
+          sx={{
+            maxHeight: "90vh",
+            overflow: "scroll",
+            borderRadius: "30px 30px 0 0",
+          }}
+        >
           <Box
             sx={{
               background:
