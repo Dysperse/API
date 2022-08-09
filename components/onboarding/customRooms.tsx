@@ -3,20 +3,22 @@ import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
 
-export function CustomRooms() {
+export function CustomRooms({ houseType }: any) {
   const fixedOptions = [
-    "Kitchen",
+    ...(houseType === "dorm" ? [] : ["Kitchen"]),
     "Bedroom",
     "Bathroom",
-    "Garage",
+    ...(houseType === "home" ? ["Garage"] : []),
     "Living room",
-    "Dining room",
-    "Living room",
-    "Laundry room",
+    ...(houseType === "dorm" ? [] : ["Dining room"]),
+    ...(houseType === "dorm" ? [] : ["Laundry room"]),
     "Storage room",
-    "Camping supplies",
-    "Garden",
+    ...(houseType === "dorm" ? [] : ["Camping Supplies"]),
+    ...(houseType === "dorm" ? [] : ["Garden"]),
   ];
+  React.useEffect(() => {
+    setValue(fixedOptions);
+  }, [houseType]);
   const [value, setValue] = React.useState([...fixedOptions]);
 
   return (

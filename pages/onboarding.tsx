@@ -11,11 +11,16 @@ import SwipeableViews from "react-swipeable-views";
 import { Color } from "../components/onboarding/Color";
 import { CustomRooms } from "../components/onboarding/customRooms";
 import { InventoryList } from "../components/onboarding/InventoryList";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 const AutoPlaySwipeableViews = SwipeableViews;
 
 function SwipeableTextMobileStepper() {
-  const [studentMode, setStudentMode] = React.useState<boolean>(false);
+  const [houseType, setHouseType] = React.useState<string>("home");
   const [themeColor, setThemeColor] = React.useState("brown");
   const [mode, setMode] = React.useState<"dark" | "light">("light");
 
@@ -107,7 +112,7 @@ function SwipeableTextMobileStepper() {
           <Color setThemeColor={setThemeColor} color="teal" />
           <Color setThemeColor={setThemeColor} color="cyan" />
           <Color setThemeColor={setThemeColor} color="brown" />
-          <Typography variant="h6" sx={{ my: 3 }}>
+          {/* <Typography variant="h6" sx={{ my: 3 }}>
             Select your appearance
           </Typography>
           <Box
@@ -135,7 +140,7 @@ function SwipeableTextMobileStepper() {
               display: "inline-block",
               background: colors["grey"]["900"],
             }}
-          ></Box>
+          ></Box> */}
         </Box>
       ),
     },
@@ -145,11 +150,33 @@ function SwipeableTextMobileStepper() {
           <Typography variant="h4" sx={{ mt: 6 }}>
             Creating your home
           </Typography>
-          <Typography variant="h6" sx={{ my: 3 }}>
+          <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
+            What kind of property do you own?
+          </Typography>
+          <FormControl onChange={(e: any) => setHouseType(e.target.value)}>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="home"
+              name="radio-buttons-group"
+            >
+              <FormControlLabel
+                value="home"
+                control={<Radio />}
+                label="Single-family home"
+              />
+              <FormControlLabel
+                value="apartment"
+                control={<Radio />}
+                label="Apartment"
+              />
+              <FormControlLabel value="dorm" control={<Radio />} label="Dorm" />
+            </RadioGroup>
+          </FormControl>
+          <Typography variant="h6" sx={{ my: 3, mb: 1 }}>
             If your house has a name, enter it below
           </Typography>
           <TextField
-            value="My home"
+            placeholder={"My " + houseType}
             fullWidth
             variant="filled"
             sx={{ mt: 1 }}
@@ -161,20 +188,9 @@ function SwipeableTextMobileStepper() {
             }}
           />
           <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
-            Are you living in a dorm?
-          </Typography>
-          <Typography sx={{ mt: 1, mb: 1 }}>
-            We&apos;ll tailor your inventory to your student needs
-          </Typography>
-          <Checkbox
-            checked={studentMode}
-            sx={{ ml: -1 }}
-            onChange={() => setStudentMode(!studentMode)}
-          />
-          <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
             Add some rooms
           </Typography>
-          <CustomRooms />
+          <CustomRooms houseType={houseType} />
         </Box>
       ),
     },
