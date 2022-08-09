@@ -45,7 +45,12 @@ img {
 }
 .atom-suggestion {
   border: 0 !important;
+  background: #c4b5b5 !important;
+  color: #232323 !important;
   border-radius: 15px;
+}
+.atom-suggestionHighlighted {
+  background: #c0adad !important;
 }
 .atom-suggestionsContainerOpen {
   border: 0 !important;
@@ -54,6 +59,8 @@ img {
   border-radius: 15px !important;
   border: 0 !important;
   width: 100% !important;
+  background: #b39e9e !important;
+  color: #232323 !important;
   padding: 13px 15px !important;
 }
 .atom-content {
@@ -61,6 +68,7 @@ img {
 }
 .atom-modal {
   border-radius: 28px !important;
+  background: #c4b5b5 !important;
   box-shadow: 0 !important;
   padding: 15px !important;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;

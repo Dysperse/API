@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import CommandPalette from "react-command-palette";
 import { useHotkeys } from "react-hotkeys-hook";
-
+import Box from "@mui/material/Box";
 function atomCommand(suggestion: any) {
   const { name, shortcut } = suggestion;
   return (
@@ -149,9 +149,9 @@ export function SearchPopup({ content }: any) {
       header={
         <div
           style={{
-            color: "rgb(172, 172, 172)",
+            color: "#232323",
             padding: "10px 15px",
-            background: "rgba(0,0,0,.4)",
+            background: "#c0adad",
             borderRadius: "15px",
             display: "inline-block",
             fontFamily: "arial",
@@ -160,13 +160,16 @@ export function SearchPopup({ content }: any) {
             width: "100%",
           }}
         >
-          <span style={{ paddingRight: "32px" }}>Search for a command</span>
+          <span style={{ paddingRight: "32px", fontSize: "15px" }}>
+            Jump to
+          </span>
+          <Box sx={{ mt: 1 }} />
           <span style={{ paddingRight: "32px" }}>
             <kbd
               style={{
-                backgroundColor: "rgb(23, 23, 23)",
+                backgroundColor: "rgba(200,200,200,.3)",
                 borderRadius: "4px",
-                color: "#b9b9b9",
+                color: "#232323",
                 fontSize: "12px",
                 marginRight: "6px",
                 padding: "2px 4px",
@@ -176,12 +179,13 @@ export function SearchPopup({ content }: any) {
             </kbd>{" "}
             to navigate
           </span>
+          <Box sx={{ mt: 1 }} />
           <span style={{ paddingRight: "32px" }}>
             <kbd
               style={{
-                backgroundColor: "rgb(23, 23, 23)",
+                backgroundColor: "rgba(200,200,200,.3)",
                 borderRadius: "4px",
-                color: "#b9b9b9",
+                color: "#232323",
                 fontSize: "12px",
                 marginRight: "6px",
                 padding: "2px 4px",
@@ -191,12 +195,13 @@ export function SearchPopup({ content }: any) {
             </kbd>{" "}
             to select
           </span>
+          <Box sx={{ mt: 1 }} />
           <span style={{ paddingRight: "32px" }}>
             <kbd
               style={{
-                backgroundColor: "rgb(23, 23, 23)",
+                backgroundColor: "rgba(200,200,200,.3)",
                 borderRadius: "4px",
-                color: "#b9b9b9",
+                color: "#232323",
                 fontSize: "12px",
                 marginRight: "6px",
                 padding: "2px 4px",
