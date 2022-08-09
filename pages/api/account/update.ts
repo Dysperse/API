@@ -21,6 +21,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       "budgetMonthly",
       "budgetWeekly",
       "SyncToken",
+      "onboarding",
     ];
 
     const specifiedValues = Object.keys(JSON.parse(req.query.data));

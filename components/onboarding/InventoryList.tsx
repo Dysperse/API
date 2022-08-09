@@ -3,12 +3,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
-export function InventoryList({
-  data,
-}: {
-  data: Array<{ name: string; icon: string }>;
-}) {
+export function InventoryList({ data }: { data: Array<any> }) {
   const [inventory, setInventory] = React.useState<any>([]);
   return (
     <Box>
@@ -23,7 +21,24 @@ export function InventoryList({
               pointerEvents: "none",
             }),
           }}
-          onClick={() => setInventory([...inventory, item.name])}
+          onClick={() => {
+            setInventory([...inventory, item.name]);
+
+            fetch(
+              "/api/inventory/create?" +
+                new URLSearchParams({
+                  accessToken: global.session.property.accessToken,
+                  propertyToken: global.session.property.propertyToken,
+                  name: item.name,
+                  qty: "1",
+                  category: JSON.stringify([]),
+                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                  room: item.room,
+                })
+            ).then(() => {
+              toast.success("Added to inventory!");
+            });
+          }}
         >
           <ListItemIcon>
             <span

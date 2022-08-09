@@ -15,9 +15,10 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { updateSettings } from "../components/Settings/updateSettings";
 const AutoPlaySwipeableViews = SwipeableViews;
+import { cards } from "../components/AddPopup/cards";
 
 function SwipeableTextMobileStepper() {
   const [houseType, setHouseType] = React.useState<string>("home");
@@ -48,6 +49,7 @@ function SwipeableTextMobileStepper() {
   });
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -225,51 +227,7 @@ function SwipeableTextMobileStepper() {
           <Typography variant="h6" sx={{ my: 3, mt: 2 }}>
             Select any items you have
           </Typography>
-          <InventoryList
-            data={[
-              { name: "Bed", icon: "bed" },
-              { name: "Mug", icon: "coffee" },
-              { name: "Fan", icon: "mode_fan" },
-              { name: "Bathtub", icon: "bathtub" },
-              { name: "Coffee maker", icon: "coffee_maker" },
-              { name: "Fire Extinguisher", icon: "fire_extinguisher" },
-              { name: "Remote", icon: "remote_gen" },
-              { name: "Grill", icon: "outdoor_grill" },
-              { name: "Iron", icon: "iron" },
-              { name: "Desk", icon: "desk" },
-              { name: "Umbrella", icon: "umbrella" },
-              { name: "Kettle", icon: "kettle" },
-              { name: "Blanket", icon: "blanket" },
-              { name: "Crib", icon: "crib" },
-              { name: "Couch", icon: "weekend" },
-              { name: "Car", icon: "directions_car" },
-              { name: "Bike", icon: "directions_bike" },
-              { name: "Lightbulb", icon: "lightbulb" },
-              { name: "Helmet", icon: "sports_motorsports" },
-              { name: "Soccer ball", icon: "sports_soccer" },
-              { name: "Grill", icon: "outdoor_grill" },
-              { name: "Microwave", icon: "microwave" },
-              { name: "Laptop", icon: "laptop" },
-              { name: "Game controller", icon: "sports_esports" },
-              { name: "Phone", icon: "smartphone" },
-              { name: "Tablet", icon: "tablet" },
-              { name: "Headphones", icon: "headphones" },
-              { name: "Mouse", icon: "mouse" },
-              { name: "Keyboard", icon: "keyboard" },
-              { name: "Router", icon: "router" },
-              { name: "Printer", icon: "print" },
-              { name: "TV", icon: "home_max" },
-              { name: "Speaker", icon: "speaker" },
-              { name: "Table lamp", icon: "table_lamp" },
-              { name: "Tent", icon: "camping" },
-              { name: "Power drill", icon: "tools_power_drill" },
-              { name: "Wire stripper", icon: "tools_pliers_wire_stripper" },
-              { name: "Ladder", icon: "tools_ladder" },
-              { name: "Leveler", icon: "tools_level" },
-              { name: "Phillips screwdriver", icon: "tools_phillips" },
-              { name: "Flat head screwdriver", icon: "tools_flat_head" },
-            ]}
-          />
+          <InventoryList data={[...cards]} />
         </Box>
       ),
     },
@@ -291,15 +249,21 @@ function SwipeableTextMobileStepper() {
               Click the button below to continue to your dashboard
             </Typography>
 
-            <Button
+            <LoadingButton
               size="large"
+              loading={loading}
               sx={{ mt: 2 }}
               variant="contained"
-              onClick={() => (window.location.href = "/dashboard")}
+              onClick={() => {
+                setLoading(true);
+                updateSettings("onboarding", "1", false, () => {
+                  window.location.href = "/dashboard";
+                });
+              }}
             >
-              Continue to my dashboard
+              Save &amp; Continue to my dashboard
               <span className="material-symbols-rounded">chevron_right</span>
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       ),
