@@ -164,6 +164,7 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
               <>
                 {data.account.onboarding === 0 ? (
                   <>
+                    <Toaster />
                     <button
                       style={{ opacity: 0.4, border: 0, borderRadius: 3 }}
                       ref={(e) => e && e.click()}
