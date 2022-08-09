@@ -130,6 +130,8 @@ function House({ data }: any) {
               sm: "50vw",
             },
             maxWidth: "600px",
+            maxHeight: "90vh",
+            overflow: "hidden",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
@@ -143,266 +145,265 @@ function House({ data }: any) {
         }}
         onOpen={() => setOpen(true)}
       >
-        <Box
-          sx={{
-            background:
-              "linear-gradient(45deg, " +
-              colors[themeColor][900] +
-              ",  " +
-              colors[themeColor][500] +
-              ")",
-            px: 3,
-            height: "40vh",
-            position: "relative",
-            color: "white",
-            borderRadius: "30px 30px 0 0",
-          }}
-        >
+        <Box sx={{ maxHeight: "90vh", overflow: "scroll", borderRadius: 5 }}>
           <Box
             sx={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              m: 2,
+              background:
+                "linear-gradient(45deg, " +
+                colors[themeColor][900] +
+                ",  " +
+                colors[themeColor][500] +
+                ")",
+              px: 3,
+              height: "300px",
+              position: "relative",
+              color: "white",
+              borderRadius: "30px 30px 0 0",
             }}
           >
-            <InvitationsModal />
-            {global.session.property.role !== "read-only" && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                m: 2,
+              }}
+            >
+              {global.session.property.role !== "read-only" && (
+                <IconButton
+                  disableRipple
+                  sx={{
+                    color: "white",
+                    mr: 1,
+                  }}
+                  onClick={() => {
+                    setEditMode(!editMode);
+                  }}
+                >
+                  <span className="material-symbols-rounded">edit</span>
+                </IconButton>
+              )}
               <IconButton
                 disableRipple
+                onClick={() => {
+                  setOpen(false);
+                }}
                 sx={{
                   color: "white",
-                  mr: 1,
-                }}
-                onClick={() => {
-                  setEditMode(!editMode);
+                  mr: 0.2,
                 }}
               >
-                <span className="material-symbols-rounded">edit</span>
+                <span className="material-symbols-rounded">close</span>
               </IconButton>
-            )}
-            <IconButton
-              disableRipple
-              onClick={() => {
-                setOpen(false);
-              }}
-              sx={{
-                color: "white",
-                mr: 0.2,
-              }}
-            >
-              <span className="material-symbols-rounded">close</span>
-            </IconButton>
-          </Box>
-          {editMode ? (
-            <Box
-              sx={{
-                position: "absolute",
-                left: 0,
-                bottom: 0,
-                p: 5,
-                py: 4,
-              }}
-            >
-              <FormControl fullWidth sx={{ mb: 4 }}>
-                <Select
+            </Box>
+            {editMode ? (
+              <Box
+                sx={{
+                  position: "absolute",
+                  left: 0,
+                  bottom: 0,
+                  p: 5,
+                  py: 4,
+                }}
+              >
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Select
+                    variant="standard"
+                    sx={{ color: "#fff", width: "200px" }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={houseType}
+                    label="House type"
+                    onChange={handleChange}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        setHouseType("dorm");
+                        setTimeout(() => {
+                          document.getElementById("nameInput")!.focus();
+                          document.getElementById("nameInput")!.blur();
+                        }, 100);
+                      }}
+                      value={"dorm"}
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <span
+                        className="material-symbols-rounded"
+                        style={{
+                          verticalAlign: "middle",
+                          marginTop: "-3px",
+                          marginRight: "10px",
+                        }}
+                      >
+                        cottage
+                      </span>
+                      Dorm
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setHouseType("apartment");
+                        setTimeout(() => {
+                          document.getElementById("nameInput")!.focus();
+                          document.getElementById("nameInput")!.blur();
+                        }, 100);
+                      }}
+                      value={"apartment"}
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <span
+                        className="material-symbols-rounded"
+                        style={{
+                          verticalAlign: "middle",
+                          marginTop: "-3px",
+                          marginRight: "10px",
+                        }}
+                      >
+                        location_city
+                      </span>
+                      Apartment
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setHouseType("home");
+                        setTimeout(() => {
+                          document.getElementById("nameInput")!.focus();
+                          document.getElementById("nameInput")!.blur();
+                        }, 100);
+                      }}
+                      value={"home"}
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <span
+                        className="material-symbols-rounded"
+                        style={{
+                          verticalAlign: "middle",
+                          marginTop: "-3px",
+                          marginRight: "10px",
+                        }}
+                      >
+                        home
+                      </span>
+                      Home
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  fullWidth
                   variant="standard"
-                  sx={{ color: "#fff", width: "200px" }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={houseType}
-                  label="House type"
-                  onChange={handleChange}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      setHouseType("dorm");
-                      setTimeout(() => {
-                        document.getElementById("nameInput")!.focus();
-                        document.getElementById("nameInput")!.blur();
-                      }, 100);
-                    }}
-                    value={"dorm"}
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    <span
-                      className="material-symbols-rounded"
-                      style={{
-                        verticalAlign: "middle",
-                        marginTop: "-3px",
-                        marginRight: "10px",
-                      }}
-                    >
-                      cottage
-                    </span>
-                    Dorm
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setHouseType("apartment");
-                      setTimeout(() => {
-                        document.getElementById("nameInput")!.focus();
-                        document.getElementById("nameInput")!.blur();
-                      }, 100);
-                    }}
-                    value={"apartment"}
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    <span
-                      className="material-symbols-rounded"
-                      style={{
-                        verticalAlign: "middle",
-                        marginTop: "-3px",
-                        marginRight: "10px",
-                      }}
-                    >
-                      location_city
-                    </span>
-                    Apartment
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setHouseType("home");
-                      setTimeout(() => {
-                        document.getElementById("nameInput")!.focus();
-                        document.getElementById("nameInput")!.blur();
-                      }, 100);
-                    }}
-                    value={"home"}
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    <span
-                      className="material-symbols-rounded"
-                      style={{
-                        verticalAlign: "middle",
-                        marginTop: "-3px",
-                        marginRight: "10px",
-                      }}
-                    >
-                      home
-                    </span>
-                    Home
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                fullWidth
-                variant="standard"
-                sx={{ color: "white" }}
-                InputLabelProps={{
-                  sx: {
-                    color: "#eee",
-                  },
-                }}
-                InputProps={{
-                  sx: {
-                    color: "#fff!important",
-                    fontSize: "50px",
-                    py: 0,
-                  },
-                }}
-                defaultValue={
-                  global.session.property.houseName || "Untitled property"
-                }
-                id="nameInput"
-                label="Home name / Family name / Address"
-                placeholder="1234 Rainbow Road"
-                onBlur={(e: any) => {
-                  fetch(
-                    "/api/account/sync/updateHome?" +
-                      new URLSearchParams({
-                        token: global.session.property.propertyToken,
-                        data: JSON.stringify({
-                          houseName: e.target.value,
-                          houseType: houseType,
+                  sx={{ color: "white" }}
+                  InputLabelProps={{
+                    sx: {
+                      color: "#eee",
+                    },
+                  }}
+                  InputProps={{
+                    sx: {
+                      color: "#fff!important",
+                      fontSize: "50px",
+                      py: 0,
+                    },
+                  }}
+                  defaultValue={
+                    global.session.property.houseName || "Untitled property"
+                  }
+                  id="nameInput"
+                  label="Home name / Family name / Address"
+                  placeholder="1234 Rainbow Road"
+                  onBlur={(e: any) => {
+                    fetch(
+                      "/api/account/sync/updateHome?" +
+                        new URLSearchParams({
+                          token: global.session.property.propertyToken,
+                          data: JSON.stringify({
+                            houseName: e.target.value,
+                            houseType: houseType,
+                          }),
                         }),
-                      }),
-                    {
-                      method: "POST",
-                    }
-                  ).then((res) => {
-                    console.log(res);
-                  });
-                }}
-              />
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                position: "absolute",
-                left: 0,
-                bottom: 0,
-                p: 5,
-                py: 4,
-              }}
-            >
-              <Typography
+                      {
+                        method: "POST",
+                      }
+                    ).then((res) => {
+                      console.log(res);
+                    });
+                  }}
+                />
+              </Box>
+            ) : (
+              <Box
                 sx={{
-                  textTransform: "capitalize",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  mb: 2,
+                  position: "absolute",
+                  left: 0,
+                  bottom: 0,
+                  p: 5,
+                  py: 4,
                 }}
               >
-                <span className="material-symbols-rounded">
-                  {houseType === "dorm"
-                    ? "cottage"
-                    : houseType === "apartment"
-                    ? "location_city"
-                    : "home"}
-                </span>
-                {houseType}
-              </Typography>
-              <Typography variant="h3">
-                {global.session.property.houseName || "Untitled property"}
-              </Typography>
-            </Box>
-          )}
-        </Box>
-        <Box
-          sx={{
-            p: 2.5,
-            px: { sm: 4 },
-            maxHeight: { xs: "50vh", sm: "50vh" },
-            overflow: "scroll",
-          }}
-        >
-          <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
-            Members
-          </Typography>
-          <MemberList />
-          <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
-            <Typography variant="h5" sx={{ fontWeight: "700", my: 2 }}>
-              Rooms
-            </Typography>
-            <Box
-              sx={{
-                ml: "auto",
-              }}
-            >
-              <Button
-                disabled={global.session.property.role === "read-only"}
-                onClick={() => {
-                  document.getElementById("setCreateRoomModalOpen")!.click();
-                }}
-                variant="contained"
-                sx={{
-                  borderRadius: 4,
-                  boxShadow: 0,
-                }}
-              >
-                <span
-                  className="material-symbols-rounded"
-                  style={{ marginRight: "10px" }}
+                <Typography
+                  sx={{
+                    textTransform: "capitalize",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    mb: 2,
+                  }}
                 >
-                  add
-                </span>
-                Create room
-              </Button>
-            </Box>
+                  <span className="material-symbols-rounded">
+                    {houseType === "dorm"
+                      ? "cottage"
+                      : houseType === "apartment"
+                      ? "location_city"
+                      : "home"}
+                  </span>
+                  {houseType}
+                </Typography>
+                <Typography variant="h3">
+                  {global.session.property.houseName || "Untitled property"}
+                </Typography>
+              </Box>
+            )}
           </Box>
-          <RoomList />
+          <Box
+            sx={{
+              p: 2.5,
+              px: { sm: 4 },
+            }}
+          >
+            <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
+              Members
+            </Typography>
+            <MemberList />
+            <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: "700", my: 2 }}>
+                Rooms
+              </Typography>
+              <Box
+                sx={{
+                  ml: "auto",
+                }}
+              >
+                <Button
+                  disabled={global.session.property.role === "read-only"}
+                  onClick={() => {
+                    document.getElementById("setCreateRoomModalOpen")!.click();
+                  }}
+                  variant="contained"
+                  sx={{
+                    borderRadius: 4,
+                    boxShadow: 0,
+                  }}
+                >
+                  <span
+                    className="material-symbols-rounded"
+                    style={{ marginRight: "10px" }}
+                  >
+                    add
+                  </span>
+                  Create room
+                </Button>
+              </Box>
+            </Box>
+            <RoomList />
+          </Box>
         </Box>
       </SwipeableDrawer>
     </>

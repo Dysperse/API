@@ -120,9 +120,18 @@ export function RoomList() {
           index={activeStep}
           onChangeIndex={handleStepChange}
           enableMouseEvents
+          style={{
+            borderRadius: "28px",
+            padding: "0 30px",
+            paddingLeft: "0",
+          }}
+          slideStyle={{
+            padding: "0 10px",
+            paddingLeft: "0",
+          }}
         >
           {images.map((step, index) => (
-            <Box key={index.toString()} sx={{ p: 1 }}>
+            <Box key={index.toString()}>
               <Box
                 sx={{
                   p: 2,

@@ -237,7 +237,7 @@ function Member({ member }): any {
           color: member.accepted === "true" ? "green" : "red",
         }}
       >
-        {member.accepted === "true" ? "" : "Invitation pending"}
+        {member.accepted === "true" ? "Verified" : "Invitation pending"}
       </Typography>
 
       <Typography
@@ -361,13 +361,22 @@ export function MemberList() {
         }}
       >
         <SwipeableViews
+          style={{
+            borderRadius: "28px",
+            padding: "0 30px",
+            paddingLeft: "0",
+          }}
+          slideStyle={{
+            padding: "0 10px",
+            paddingLeft: "0",
+          }}
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={activeStep}
           onChangeIndex={handleStepChange}
           enableMouseEvents
         >
           {images.map((step, index) => (
-            <Box key={index.toString()} sx={{ p: 1 }}>
+            <Box key={index.toString()}>
               <Box
                 sx={{
                   p: 2,
