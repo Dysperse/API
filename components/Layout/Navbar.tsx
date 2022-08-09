@@ -83,7 +83,6 @@ export function Navbar(): JSX.Element {
                   disableRipple
                   size="large"
                   sx={{
-                    mr: 1,
                     transition: "none",
                     color:
                       global.theme === "dark"
@@ -111,48 +110,6 @@ export function Navbar(): JSX.Element {
               </Tooltip>
             }
           />
-          <NotificationsMenu>
-            <Tooltip title="Notifications">
-              {global.session ? (
-                <IconButton
-                  color="inherit"
-                  disableRipple
-                  size="large"
-                  sx={{
-                    transition: "none",
-                    mr: 0.2,
-                    color:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 90%)"
-                        : "#606060",
-                    "&:hover": {
-                      background: "rgba(200,200,200,.3)",
-                      color:
-                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-                    },
-                    "&:focus-within": {
-                      background:
-                        (global.theme === "dark"
-                          ? colors[themeColor]["900"]
-                          : colors[themeColor]["50"]) + "!important",
-                      color:
-                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-                    },
-                  }}
-                >
-                  <span className="material-symbols-rounded">inbox</span>
-                </IconButton>
-              ) : (
-                <Skeleton
-                  variant="circular"
-                  width={40}
-                  sx={{ mr: 0.9 }}
-                  height={40}
-                  animation="wave"
-                />
-              )}
-            </Tooltip>
-          </NotificationsMenu>
           <AppsMenu />
         </Toolbar>
       </AppBar>
