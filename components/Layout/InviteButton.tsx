@@ -36,7 +36,11 @@ function House({ data }: any) {
     <>
       <ListItem
         button
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          if (data.propertyToken === global.session.property.propertyToken) {
+            setOpen(true);
+          }
+        }}
         sx={{
           ...(data.propertyToken === global.session.property.propertyToken && {
             background: colors[themeColor][100] + "!important",
