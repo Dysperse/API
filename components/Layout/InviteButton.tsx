@@ -78,7 +78,16 @@ function House({ data }: any) {
           }
         />
         <ListItemIcon>
-          <span className="material-symbols-rounded">chevron_right</span>
+          {data.propertyToken !== global.session.property.propertyToken ? (
+            "Join"
+          ) : (
+            <span
+              className="material-symbols-rounded"
+              style={{ marginLeft: "15px" }}
+            >
+              chevron_right
+            </span>
+          )}
         </ListItemIcon>
       </ListItem>
       <SwipeableDrawer
