@@ -535,7 +535,7 @@ export function InviteButton() {
       </Button>
       <Popover
         id={id}
-        open={global.session.property.role !== "owner" && popoverOpen}
+        open={global.session.property.role === "owner" && popoverOpen}
         anchorEl={anchorEl}
         onClose={handleClose}
         BackdropProps={{
