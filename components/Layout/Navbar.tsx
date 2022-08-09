@@ -2,17 +2,14 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
-import Skeleton from "@mui/material/Skeleton";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import hexToRgba from "hex-to-rgba";
 import React, { useEffect } from "react";
 import { AppsMenu } from "./AppsMenu";
-import { NotificationsMenu } from "./Notifications";
-import { SearchPopup } from "./SearchPopup";
 import { InviteButton } from "./InviteButton";
+import { SearchPopup } from "./SearchPopup";
 
 function ElevationScroll(props: any) {
   const { children, window } = props;
