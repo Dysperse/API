@@ -286,7 +286,7 @@ function SwipeableTextMobileStepper() {
 
   const maxSteps = images.length;
 
-  return (
+  return global.session ? (
     <ThemeProvider theme={userTheme}>
       <Box
         sx={{
@@ -380,6 +380,8 @@ function SwipeableTextMobileStepper() {
         />
       </Box>
     </ThemeProvider>
+  ) : (
+    <></>
   );
 }
 

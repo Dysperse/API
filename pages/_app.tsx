@@ -155,7 +155,9 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
       (router.pathname === "/share/[index]" ||
         router.pathname === "/scan" ||
         router.pathname === "/onboarding") ? (
-        <Component {...pageProps} />
+        <>
+          <RenderComponent Component={Component} pageProps={pageProps} />
+        </>
       ) : (
         <Online>
           {!isLoading &&
@@ -164,7 +166,6 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
               <>
                 {data.account.onboarding === 0 ? (
                   <>
-                    <Toaster />
                     <button
                       style={{ opacity: 0.4, border: 0, borderRadius: 3 }}
                       ref={(e) => e && e.click()}
@@ -190,6 +191,15 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
       )}
 
       <Script src="/prevent-navigate-history.js"></Script>
+    </>
+  );
+}
+
+function RenderComponent({ Component, pageProps }: any) {
+  return (
+    <>
+      <Component {...pageProps} />
+      <Toaster />
     </>
   );
 }
