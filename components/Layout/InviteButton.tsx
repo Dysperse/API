@@ -545,7 +545,10 @@ export function InviteButton() {
         >
           {global.session.property.houseName || "Untitled property"}
         </Typography>
-        <span className="material-symbols-rounded" style={{ fontSize: "20px" }}>
+        <span
+          className="material-symbols-rounded"
+          style={{ marginLeft: "-10px", fontSize: "20px" }}
+        >
           expand_more
         </span>
       </Button>
