@@ -129,7 +129,6 @@ export function RoomList() {
           }}
           slideStyle={{
             padding: "0 10px",
-            paddingLeft: "0",
           }}
         >
           {images.length === 0 && (
@@ -161,21 +160,6 @@ export function RoomList() {
             </Box>
           ))}
         </SwipeableViews>
-
-        <Box>
-          <IconButton
-            disabled={activeStep === maxSteps - 1 || maxSteps == 0}
-            onClick={handleNext}
-            sx={{
-              color: colors[themeColor][900],
-              background: colors[themeColor][200] + "!important",
-              backdropFilter: "blur(10px)",
-              zIndex: 99,
-            }}
-          >
-            <span className="material-symbols-rounded">chevron_right</span>
-          </IconButton>
-        </Box>
       </Box>
     </>
   );
