@@ -368,10 +368,10 @@ export function MemberList() {
             borderRadius: "28px",
             width: "100%",
             padding: "0 30px",
-            paddingLeft: "0",
           }}
           slideStyle={{
             padding: "0 10px",
+            paddingLeft: 0
           }}
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={activeStep}
