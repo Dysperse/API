@@ -71,8 +71,9 @@ function House({ data }: any) {
           }),
         }}
       >
+
+        <div className="content">
         <ListItemText
-          className="content"
           primary={
             <>
               <Typography variant="h6" sx={{ fontWeight: "600" }}>
@@ -125,6 +126,7 @@ function House({ data }: any) {
             </span>
           )}
         </ListItemIcon>
+       </div>
       </ListItem>
       <SwipeableDrawer
         anchor="bottom"
