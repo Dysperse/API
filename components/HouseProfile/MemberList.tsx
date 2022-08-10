@@ -365,9 +365,9 @@ export function MemberList() {
       >
         <SwipeableViews
           style={{
-            borderRadius: "28px",
+            borderRadius: "20px",
             width: "100%",
-            padding: "0 30px",
+            padding: "0 20px",
           }}
           slideStyle={{
             padding: "0 10px",
