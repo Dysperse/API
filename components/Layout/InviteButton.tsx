@@ -40,6 +40,7 @@ function House({ data }: any) {
     <>
       <ListItem
         button
+        disableRipple
         onClick={() => {
           if (data.propertyToken === global.session.property.propertyToken) {
             setOpen(true);
@@ -61,8 +62,11 @@ function House({ data }: any) {
           }
         }}
         sx={{
+          transition: "all .2s",
+          "&:active": { transform: "scale(.95)", transition:"none", background: colors[themeColor][100] + "!important" },
           ...(data.propertyToken === global.session.property.propertyToken && {
             background: colors[themeColor][100] + "!important",
+            "&:active": { background: colors[themeColor][200] + "!important", transform: "scale(.95)", transition:"none" }
           }),
         }}
       >
