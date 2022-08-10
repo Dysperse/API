@@ -62,71 +62,74 @@ function House({ data }: any) {
           }
         }}
         sx={{
-          "& .content": {transition: "all .2s"},
-          "&:active .content":{transform: "scale(.95)", transition:"none", },
+          transition: "none",
+          "& .content": { transition: "all .2s" },
+          "&:active .content": { transform: "scale(.95)", transition: "none" },
           "&:active": { background: colors[themeColor][100] + "!important" },
           ...(data.propertyToken === global.session.property.propertyToken && {
             background: colors[themeColor][100] + "!important",
-            "&:active": { background: colors[themeColor][200] + "!important"}
+            "&:active": { background: colors[themeColor][200] + "!important" },
           }),
         }}
       >
-
-        <div className="content">
-        <ListItemText
-          primary={
-            <>
-              <Typography variant="h6" sx={{ fontWeight: "600" }}>
-                {data.houseName}
-              </Typography>
-              {data.accepted !== "true" && (
-                <span style={{ color: "red" }}>Invitation pending</span>
-              )}
-            </>
-          }
-          secondary={
-            <Box
-              sx={{
-                color: "#000",
-                maxWidth: "100%",
-                mt: 0.5,
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-              }}
-            >
-              <span className="material-symbols-rounded">
-                {data.role === "member"
-                  ? "group"
-                  : data.role == "owner"
-                  ? "productivity"
-                  : "visibility"}
-              </span>
-              <span
-                style={{ marginTop: data.role === "owner" ? "-2.5px" : "" }}
+        <Box
+          className="content"
+          sx={{ display: "flex", alignItems: "center", width: "100%" }}
+        >
+          <ListItemText
+            primary={
+              <>
+                <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                  {data.houseName}
+                </Typography>
+                {data.accepted !== "true" && (
+                  <span style={{ color: "red" }}>Invitation pending</span>
+                )}
+              </>
+            }
+            secondary={
+              <Box
+                sx={{
+                  color: "#000",
+                  maxWidth: "100%",
+                  mt: 0.5,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
               >
-                {data.role == "member"
-                  ? "Read, write, and edit access"
-                  : data.role == "owner"
-                  ? "Owner"
-                  : "Read-only access"}
+                <span className="material-symbols-rounded">
+                  {data.role === "member"
+                    ? "group"
+                    : data.role == "owner"
+                    ? "productivity"
+                    : "visibility"}
+                </span>
+                <span
+                  style={{ marginTop: data.role === "owner" ? "-2.5px" : "" }}
+                >
+                  {data.role == "member"
+                    ? "Read, write, and edit access"
+                    : data.role == "owner"
+                    ? "Owner"
+                    : "Read-only access"}
+                </span>
+              </Box>
+            }
+          />
+          <ListItemIcon>
+            {data.propertyToken !== global.session.property.propertyToken ? (
+              <LoadingButton loading={loading}>Join</LoadingButton>
+            ) : (
+              <span
+                className="material-symbols-rounded"
+                style={{ marginLeft: "15px" }}
+              >
+                chevron_right
               </span>
-            </Box>
-          }
-        />
-        <ListItemIcon>
-          {data.propertyToken !== global.session.property.propertyToken ? (
-            <LoadingButton loading={loading}>Join</LoadingButton>
-          ) : (
-            <span
-              className="material-symbols-rounded"
-              style={{ marginLeft: "15px" }}
-            >
-              chevron_right
-            </span>
-          )}
-        </ListItemIcon>
-       </div>
+            )}
+          </ListItemIcon>
+        </Box>
       </ListItem>
       <SwipeableDrawer
         anchor="bottom"
