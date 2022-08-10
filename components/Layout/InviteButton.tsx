@@ -62,15 +62,17 @@ function House({ data }: any) {
           }
         }}
         sx={{
-          transition: "all .2s",
-          "&:active": { transform: "scale(.95)", transition:"none", background: colors[themeColor][100] + "!important" },
+          "& .content": {transition: "all .2s"},
+          "&:active .content":{transform: "scale(.95)", transition:"none", },
+          "&:active": { background: colors[themeColor][100] + "!important" },
           ...(data.propertyToken === global.session.property.propertyToken && {
             background: colors[themeColor][100] + "!important",
-            "&:active": { background: colors[themeColor][200] + "!important", transform: "scale(.95)", transition:"none" }
+            "&:active": { background: colors[themeColor][200] + "!important"}
           }),
         }}
       >
         <ListItemText
+          className="content"
           primary={
             <>
               <Typography variant="h6" sx={{ fontWeight: "600" }}>
