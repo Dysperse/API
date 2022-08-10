@@ -372,7 +372,6 @@ export function MemberList() {
           }}
           slideStyle={{
             padding: "0 10px",
-            paddingLeft: "0",
           }}
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={activeStep}
