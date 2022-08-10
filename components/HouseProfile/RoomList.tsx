@@ -131,19 +131,6 @@ export function RoomList() {
             paddingLeft: 0
           }}
         >
-          {images.length === 0 && (
-            <Box
-              sx={{
-                p: 2,
-                userSelect: "none",
-                px: 2.5,
-                borderRadius: 5,
-                background: colors[themeColor][100],
-              }}
-            >
-              You haven&apos;t created any rooms yet
-            </Box>
-          )}
           {images.map((step, index) => (
             <Box key={index.toString()}>
               <Box
@@ -159,6 +146,19 @@ export function RoomList() {
               </Box>
             </Box>
           ))}
+          {images.length === 0 ? (
+            <Box
+              sx={{
+                p: 2,
+                userSelect: "none",
+                px: 2.5,
+                borderRadius: 5,
+                background: colors[themeColor][100],
+              }}
+            >
+              You haven&apos;t created any rooms yet
+            </Box>
+          ):null}
         </SwipeableViews>
       </Box>
     </>
