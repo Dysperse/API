@@ -58,7 +58,7 @@ export default function Document() {
           rel="stylesheet"
         />
         <meta name="description" content="Carbon user dashboard" />
-        <meta name="theme-color" content="#d7ccc8" />
+        <meta name="theme-color" content="#fff" />
         <link
           rel="apple-touch-icon"
           href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/apple-touch-icon/apple-touch-icon.png"
