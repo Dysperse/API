@@ -36,10 +36,11 @@ export function FloatingActionButton() {
             "&:focus-within": {
               boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
             },
+            backdropFilter: "blur(15px)",
             background:
               global.theme === "dark"
-                ? "hsl(240, 11%, 40%)"
-                : colors[themeColor][100],
+              ? "rgba(57, 57, 71, .7)"
+              : colors[themeColor][100],
             color:
               global.theme === "dark"
                 ? "hsl(240, 11%, 95%)"
