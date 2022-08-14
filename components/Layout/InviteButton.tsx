@@ -470,6 +470,11 @@ export function InviteButton() {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+   document.documentElement.classList[global.session.property.role === "owner" && popoverOpen ? "add" : "remove"](
+      "prevent-scroll"
+    );
+  })
 
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
