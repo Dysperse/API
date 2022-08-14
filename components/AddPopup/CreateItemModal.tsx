@@ -295,7 +295,7 @@ export function CreateItemModal({
                     width: "175px",
                     overflow: "hidden",
                     height: "150px",
-                    background: colors[themeColor][100],
+                    background: global.theme == "dark" ? "hsl(240, 11%, 30%)" : colors[themeColor][100],
                     transition: "transform .2s",
                     "&:active": {
                       transform: "scale(.95)",
