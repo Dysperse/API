@@ -80,7 +80,7 @@ export function GenerateListItem({
             }}
           >
             <span
-              className="material-symbols-s"
+              className="material-symbols-rounded"
               style={{ transform: "rotate(45deg)" }}
             >
               push_pin
