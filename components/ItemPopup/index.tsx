@@ -272,7 +272,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           elevation: 0,
           sx: {
             borderRadius: { sm: 5 },
-            mt: { sm: "20p
+            mt: { sm: "20px" },
             mr: { sm: "20px" },
             height: { sm: "calc(100vh - 40px)!important" },
           },
