@@ -135,7 +135,7 @@ export function BottomNav() {
               background: "transparent !important",
             },
             "&.Mui-selected .MuiIcon-root": {
-              background: colors[themeColor][200],
+              background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][200],
             },
           }}
           label="Home"
@@ -158,7 +158,7 @@ export function BottomNav() {
               background: "transparent !important",
             },
             "&.Mui-selected .MuiIcon-root": {
-              background: colors[themeColor][200],
+              background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][200],
             },
           }}
           label="Items"
@@ -181,7 +181,7 @@ export function BottomNav() {
               background: "transparent !important",
             },
             "&.Mui-selected .MuiIcon-root": {
-              background: colors[themeColor][200],
+              background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][200],
             },
           }}
           label="Finances"
@@ -205,7 +205,7 @@ export function BottomNav() {
               background: "transparent !important",
             },
             "&.Mui-selected .MuiIcon-root": {
-              background: colors[themeColor][200],
+              background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][200],
             },
           }}
           label={
