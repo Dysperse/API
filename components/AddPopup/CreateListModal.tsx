@@ -35,6 +35,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
             parent: customParent,
             title: values.name,
             description: values.description,
+            pinned: pinned ? "true" : "false",
           }),
         {
           method: "POST",

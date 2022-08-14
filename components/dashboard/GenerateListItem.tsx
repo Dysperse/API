@@ -1,5 +1,6 @@
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
+import Box from "@mui/material/Box";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
@@ -7,6 +8,7 @@ import * as React from "react";
 // Generates a list item for shopping list / todo list
 export function GenerateListItem({
   items,
+  pinned,
   setItems,
   title,
   description,
@@ -68,6 +70,24 @@ export function GenerateListItem({
         </IconButton>
       </ListItemIcon>
       <ListItemText sx={{ my: 1.4 }} primary={title} secondary={description} />
+      {pinned === "true" && (
+        <ListItemIcon sx={{ ml: -1 }}>
+          <IconButton
+            disableRipple
+            sx={{
+              borderRadius: 3,
+              ml: 5,
+            }}
+          >
+            <span
+              className="material-symbols-s"
+              style={{ transform: "rotate(45deg)" }}
+            >
+              push_pin
+            </span>
+          </IconButton>
+        </ListItemIcon>
+      )}
     </ListItem>
   );
 }

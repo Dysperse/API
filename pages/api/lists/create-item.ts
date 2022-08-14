@@ -17,12 +17,13 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
     const result = await executeQuery({
       query:
-        "INSERT INTO ListItems (parent, user, title, description) VALUES (?, ?, ?, ?)",
+        "INSERT INTO ListItems (parent, user, title, description, pinned) VALUES (?, ?, ?, ?, ?)",
       values: [
         req.query.parent ?? -1,
         req.query.propertyToken ?? false,
         req.query.title ?? "",
         req.query.description ?? "",
+        req.query.pinned ?? "",
       ],
     });
     console.log(result.insertId);
@@ -31,6 +32,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
         id: result.insertId,
         title: req.query.title,
         description: req.query.description,
+        pinned: req.query.pinned,
       },
     });
   } catch (error) {
