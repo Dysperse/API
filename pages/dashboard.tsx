@@ -40,7 +40,7 @@ export default function Dashboard() {
               <ListItems
                 emptyText="Great job — You've finished all your tasks!"
                 emptyImage="https://ouch-cdn2.icons8.com/Gmb2VDsK_0vYJN8H8Q_-pj5cJEKjFQY6buBtji7rJGo/rs:fit:256:171/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzkz/L2E5OTFhYjE3LTNh/MDktNGM2My1iNjhi/LTk1ZDA1NmRhYzNk/MS5zdmc.png"
-                title={"To-do list"}
+                title={"My tasks"}
                 parent={-1}
               />
             </Paper>
