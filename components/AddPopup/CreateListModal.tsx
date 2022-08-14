@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import DialogContent from "@mui/material/DialogContent";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Collapse from "@mui/material/Collapse";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React, { useState } from "react";
@@ -16,12 +17,16 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [customParent, setCustomParent] = useState(parent);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
+  const [pinned, setPinned] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
       name: "",
+      description: "",
     },
     onSubmit: (values: { name: string }) => {
+      setLoading(true);
       fetch(
         "/api/lists/create-item?" +
           new URLSearchParams({
@@ -86,13 +91,10 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
             <TextField
-              inputRef={(input) =>
-                setTimeout(() => input && input.focus(), 100)
-              }
               margin="dense"
               required
               fullWidth
-              placeholder={customParent === "-1" ? "Task name" : "Item name"}
+              placeholder={customParent === "-1" ? "New task" : "Item name"}
               autoComplete="off"
               name="name"
               onChange={formik.handleChange}
@@ -106,6 +108,28 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
               }}
               variant="standard"
             />
+            <Collapse in={showDescription}>
+              <TextField
+                margin="dense"
+                fullWidth
+                placeholder={"Add details"}
+                autoComplete="off"
+                name="description"
+                id="description"
+                onChange={formik.handleChange}
+                value={formik.values.description}
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    mt: -1,
+                    fontSize: "14px",
+                    borderRadius: "20px",
+                    border: "0!important",
+                  },
+                }}
+                variant="standard"
+              />
+            </Collapse>
             {customParent === "-1" &&
               (formik.values.name.toLowerCase().includes("get ") ||
                 formik.values.name.toLowerCase().includes("buy ") ||
@@ -133,13 +157,45 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                   Add this to your to do list instead?
                 </Button>
               )}
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
               <Box sx={{ ml: -1 }}>
                 <IconButton
                   disableRipple
-                  sx={{ borderRadius: 2, color: colors[themeColor]["900"] }}
+                  sx={{
+                    borderRadius: 4,
+                    mr: 0.5,
+                    transition: "none",
+                    color: colors[themeColor]["800"],
+                    ...(pinned && {
+                      background: colors[themeColor]["200"] + "!important",
+                    }),
+                    "&:active": { background: "rgba(0,0,0,0.1)!important" },
+                  }}
+                  onClick={() => setPinned(!pinned)}
                 >
-                  <span className="material-symbols-rounded">notes</span>
+                  <span
+                    style={{ transform: "rotate(-45deg)" }}
+                    className={
+                      "material-symbols-" + (pinned ? "rounded" : "outlined")
+                    }
+                  >
+                    push_pin
+                  </span>
+                </IconButton>
+                <IconButton
+                  disableRipple
+                  sx={{
+                    borderRadius: 4,
+                    color: colors[themeColor]["800"],
+                    transition: "none",
+                    ...(showDescription && {
+                      background: colors[themeColor]["200"] + "!important",
+                    }),
+                    "&:active": { background: "rgba(0,0,0,0.1)!important" },
+                  }}
+                  onClick={() => setShowDescription(!showDescription)}
+                >
+                  <span className="material-symbols-outlined">notes</span>
                 </IconButton>
               </Box>
               <LoadingButton
@@ -147,12 +203,11 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                 disableElevation
                 sx={{
                   ml: "auto",
-                  borderRadius: 100,
+                  borderRadius: 4,
                 }}
                 color="primary"
                 type="submit"
                 loading={loading}
-                onClick={() => setTimeout(() => setLoading(true), 100)}
               >
                 Save
               </LoadingButton>
