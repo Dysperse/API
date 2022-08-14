@@ -167,7 +167,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                     borderRadius: 4,
                     mr: 0.5,
                     transition: "none",
-                    color: colors[themeColor]["800"],
+                    color: global.theme == "dark" ? "#fff" : colors[themeColor]["800"],
                     ...(pinned && {
                       background: colors[themeColor]["200"] + "!important",
                     }),
@@ -188,7 +188,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                   disableRipple
                   sx={{
                     borderRadius: 4,
-                    color: colors[themeColor]["800"],
+                    color: global.theme == "dark" ? "#fff" :colors[themeColor]["800"],
                     transition: "none",
                     ...(showDescription && {
                       background: colors[themeColor]["200"] + "!important",
