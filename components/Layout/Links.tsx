@@ -173,27 +173,41 @@ const ListItem = React.memo(function ListItem({
           "&:hover,&:focus": {
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
-            background: "rgba(200,200,200,.3)",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 17%)"
+                : "rgba(200,200,200,.3)",
           },
           "&:hover span": {
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
           },
           "&:active": {
-            background: "rgba(200,200,200,.4)",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 19%)"
+                : "rgba(200,200,200,.4)",
           },
           ...(router.asPath === asHref && {
             backgroundColor:
-              colors[global.themeColor][global.theme === "dark" ? 900 : 50],
+              global.theme === "dark"
+                ? "hsl(240, 11%, 15%)"
+                : colors[global.themeColor][50],
             "&:hover,&:focus": {
               backgroundColor:
-                colors[global.themeColor][global.theme === "dark" ? 800 : 100],
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 17%)"
+                  : colors[global.themeColor][100],
               color:
                 colors[global.themeColor][global.theme === "dark" ? 100 : 900],
             },
             "&:active": {
+              color:
+                colors[global.themeColor][global.theme === "dark" ? 100 : 900],
               backgroundColor:
-                colors[global.themeColor][global.theme === "dark" ? 700 : 200],
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 19%)"
+                  : colors[global.themeColor][200],
             },
             "& span": {
               color:

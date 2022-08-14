@@ -128,7 +128,7 @@ export function RoomList() {
           }}
           slideStyle={{
             padding: "0 10px",
-            paddingLeft: 0
+            paddingLeft: 0,
           }}
         >
           {images.map((step, index) => (
@@ -139,7 +139,10 @@ export function RoomList() {
                   userSelect: "none",
                   px: 2.5,
                   borderRadius: 5,
-                  background: colors[themeColor][100],
+                  background:
+                    global.theme === "dark"
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][100],
                 }}
               >
                 {step.content}
@@ -158,7 +161,7 @@ export function RoomList() {
             >
               You haven&apos;t created any rooms yet
             </Box>
-          ):null}
+          ) : null}
         </SwipeableViews>
       </Box>
     </>

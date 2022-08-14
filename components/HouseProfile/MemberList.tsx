@@ -88,7 +88,10 @@ function AddPersonModal() {
             sx={{
               fontSize: "15px",
               my: 4,
-              background: colors[themeColor][100],
+              background:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 30%)"
+                  : colors[themeColor][100],
               borderRadius: 5,
               display: "block",
               p: 2,
@@ -371,7 +374,7 @@ export function MemberList() {
           }}
           slideStyle={{
             padding: "0 10px",
-            paddingLeft: 0
+            paddingLeft: 0,
           }}
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={activeStep}
@@ -392,7 +395,10 @@ export function MemberList() {
                   userSelect: "none",
                   px: 2.5,
                   borderRadius: 5,
-                  background: colors[themeColor][100],
+                  background:
+                    global.theme === "dark"
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][100],
                 }}
               >
                 {step.content}

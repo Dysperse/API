@@ -63,10 +63,20 @@ function House({ data }: any) {
           transition: "none",
           "& .content": { transition: "all .2s" },
           "&:active .content": { transform: "scale(.95)", transition: "none" },
-          "&:active": { background: colors[themeColor][100] + "!important" },
+          "&:active": {
+            background:
+              colors[themeColor][global.theme == "dark" ? 800 : 100] +
+              "!important",
+          },
           ...(data.propertyToken === global.session.property.propertyToken && {
-            background: colors[themeColor][100] + "!important",
-            "&:active": { background: colors[themeColor][200] + "!important" },
+            background:
+              colors[themeColor][global.theme == "dark" ? 800 : 100] +
+              "!important",
+            "&:active": {
+              background:
+                colors[themeColor][global.theme == "dark" ? 700 : 200] +
+                "!important",
+            },
           }),
         }}
       >
@@ -88,7 +98,7 @@ function House({ data }: any) {
             secondary={
               <Box
                 sx={{
-                  color: "#000",
+                  color: global.theme === "dark" ? "#eee" : "#000",
                   maxWidth: "100%",
                   mt: 0.5,
                   display: "flex",
@@ -139,7 +149,7 @@ function House({ data }: any) {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
+            background: colors[themeColor][global.theme == "dark" ? 900 : 50],
             width: {
               sm: "50vw",
             },
@@ -469,10 +479,10 @@ export function InviteButton() {
     return () => clearTimeout(timer);
   }, []);
   useEffect(() => {
-   document.documentElement.classList[global.session.property.role === "owner" && popoverOpen ? "add" : "remove"](
-      "prevent-scroll"
-    );
-  })
+    document.documentElement.classList[
+      global.session.property.role === "owner" && popoverOpen ? "add" : "remove"
+    ]("prevent-scroll");
+  });
 
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
