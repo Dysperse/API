@@ -20,12 +20,12 @@ function ElevationScroll(props: any) {
     target: window ? window() : undefined,
   });
   useEffect(() => {
-    if (document) {
+    if (window && document) {
       document
         .querySelector(`meta[name="theme-color"]`)!
         .setAttribute("content", trigger ? colors[themeColor]["100"] : "#fff");
     }
-  }, []);
+  });
   return React.cloneElement(children, {
     sx: trigger
       ? {
