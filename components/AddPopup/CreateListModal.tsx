@@ -34,7 +34,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
             accessToken: global.session.property.accessToken,
             parent: customParent,
             title: values.name,
-            description: "",
+            description: values.description,
           }),
         {
           method: "POST",
