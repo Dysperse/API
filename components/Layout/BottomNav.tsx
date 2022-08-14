@@ -103,7 +103,7 @@ export function BottomNav() {
 
           background:
             global.theme === "dark"
-              ? "rgba(68, 68, 85,.9)"
+              ? "rgba(57, 57, 71, .7)"
               : hexToRgba(colors[themeColor][100], 0.7),
 
           ["@supports not (backdrop-filter: blur(15px))"]: {
@@ -135,7 +135,10 @@ export function BottomNav() {
               background: "transparent !important",
             },
             "&.Mui-selected .MuiIcon-root": {
-              background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][200],
+              background:
+                global.theme == "dark"
+                  ? "hsl(240, 11%, 30%)"
+                  : colors[themeColor][200],
             },
           }}
           label="Home"
@@ -158,7 +161,10 @@ export function BottomNav() {
               background: "transparent !important",
             },
             "&.Mui-selected .MuiIcon-root": {
-              background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][200],
+              background:
+                global.theme == "dark"
+                  ? "hsl(240, 11%, 30%)"
+                  : colors[themeColor][200],
             },
           }}
           label="Items"
@@ -181,7 +187,10 @@ export function BottomNav() {
               background: "transparent !important",
             },
             "&.Mui-selected .MuiIcon-root": {
-              background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][200],
+              background:
+                global.theme == "dark"
+                  ? "hsl(240, 11%, 30%)"
+                  : colors[themeColor][200],
             },
           }}
           label="Finances"
@@ -205,7 +214,10 @@ export function BottomNav() {
               background: "transparent !important",
             },
             "&.Mui-selected .MuiIcon-root": {
-              background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][200],
+              background:
+                global.theme == "dark"
+                  ? "hsl(240, 11%, 30%)"
+                  : colors[themeColor][200],
             },
           }}
           label={
