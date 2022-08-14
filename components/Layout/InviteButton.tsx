@@ -541,7 +541,7 @@ export function InviteButton() {
           userSelect: "none",
           cursor: "pointer",
           "&:active": {
-            background: "rgba(200,200,200,.3)!important",
+            background: global.theme == "dark" ? "hsl(240, 11%, 20%)" : "rgba(200,200,200,.3)!important",
             transition: "none",
             transform: "scale(0.95)",
           },
