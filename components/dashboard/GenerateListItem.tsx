@@ -1,11 +1,17 @@
-import Checkbox from "@mui/material/Checkbox";
-import ListItemButton from "@mui/material/ListItemButton";
+import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
 
 // Generates a list item for shopping list / todo list
-export function GenerateListItem({ items, setItems, title, id }: any) {
+export function GenerateListItem({
+  items,
+  setItems,
+  title,
+  description,
+  id,
+}: any) {
   const [checked, setChecked] = React.useState<boolean>(false);
 
   const deleteItem = (id: any) => {
@@ -22,41 +28,46 @@ export function GenerateListItem({ items, setItems, title, id }: any) {
     );
   };
   return (
-    <ListItemButton
-      disableRipple
+    <ListItem
       key={id.toString()}
       sx={{
         py: 0,
-        borderRadius: 3,
-        transition: "transform .2s",
-        "&:active": {
-          transition: "none",
-          transform: "scale(.97)",
-          background: "rgba(200,200,200,.3)",
-          ...(global.session.property.role !== "read-only" && {
-            transition: "none",
-            transform: "scale(.97)",
-            background: "rgba(200,200,200,.3)",
-          }),
-        },
       }}
       dense
-      onClick={() => {
-        if (global.session.property.role !== "read-only") {
-          deleteItem(id);
-          setChecked(true);
-        }
-      }}
     >
-      <ListItemIcon>
-        <span
-          style={{ marginLeft: "-2px" }}
-          className="material-symbols-outlined"
+      <ListItemIcon sx={{ ml: -1 }}>
+        <IconButton
+          disableRipple
+          sx={{
+            borderRadius: 3,
+            transition: "transform .2s",
+            "&:active": {
+              transition: "none",
+              transform: "scale(.97)",
+              background: "rgba(200,200,200,.3)",
+              ...(global.session.property.role !== "read-only" && {
+                transition: "none",
+                transform: "scale(.97)",
+                background: "rgba(200,200,200,.3)",
+              }),
+            },
+          }}
+          onClick={() => {
+            if (global.session.property.role !== "read-only") {
+              deleteItem(id);
+              setChecked(true);
+            }
+          }}
         >
-          {checked ? "task_alt" : "radio_button_unchecked"}
-        </span>
+          <span
+            style={{ marginLeft: "-2px" }}
+            className="material-symbols-outlined"
+          >
+            {checked ? "task_alt" : "radio_button_unchecked"}
+          </span>
+        </IconButton>
       </ListItemIcon>
-      <ListItemText sx={{ my: 1.4 }} primary={title} />
-    </ListItemButton>
+      <ListItemText sx={{ my: 1.4 }} primary={title} secondary={description} />
+    </ListItem>
   );
 }

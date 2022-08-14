@@ -25,7 +25,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
       name: "",
       description: "",
     },
-    onSubmit: (values: { name: string }) => {
+    onSubmit: (values: { name: string; description: string }) => {
       setLoading(true);
       fetch(
         "/api/lists/create-item?" +
