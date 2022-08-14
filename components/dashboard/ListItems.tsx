@@ -49,7 +49,7 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
               }),
               py: 0,
               borderRadius: 3,
-              color: "#808080",
+              color: global.theme == "dark" ? "#fff" : "#808080",
               transition: "transform .2s",
               "&:active": {
                 transition: "none",
