@@ -271,9 +271,6 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           sx: {
             borderRadius: { sm: 5 },
             mt: { sm: "20px" },
-            ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 20%)",
-            }),
             mr: { sm: "20px" },
             height: { sm: "calc(100vh - 40px)!important" },
           },
@@ -309,6 +306,9 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               xs: "100vw",
             },
             background: colors[themeColor][50],
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
             maxWidth: "100vw",
           }}
         >

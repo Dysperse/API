@@ -468,6 +468,11 @@ export function InviteButton() {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+   document.documentElement.classList[global.session.property.role === "owner" && popoverOpen ? "add" : "remove"](
+      "prevent-scroll"
+    );
+  })
 
   useEffect(() => {
     document.documentElement.classList[open ? "add" : "remove"](
@@ -532,7 +537,7 @@ export function InviteButton() {
           },
           p: 1,
           py: 0,
-          color: "#000",
+          color: global.theme == "dark" ? "#fff" : "#000",
           borderRadius: 3,
           transition: "transform .2s",
           "&:hover": {
