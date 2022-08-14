@@ -214,10 +214,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             fetch(
               "/api/inventory/star?" +
                 new URLSearchParams({
-                  token:
-                    global.session &&
-                    (global.session.account.SyncToken ||
-                      global.session.property.propertyToken),
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
                   id: id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                 }),

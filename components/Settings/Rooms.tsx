@@ -33,9 +33,8 @@ function Room({ data }) {
                   "/api/rooms/delete?" +
                     new URLSearchParams({
                       id: data.id,
-                      token:
-                        global.session.account.SyncToken ||
-                        global.session.property.propertyToken,
+                      propertyToken: global.session.property.propertyToken,
+                      accessToken: global.session.property.accessToken,
                     }),
                   {
                     method: "POST",

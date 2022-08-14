@@ -17,8 +17,6 @@ import React, { useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
-import { Invitations } from "../Invitations";
-import { InvitationsModal } from "../HouseProfile/InvitationsModal";
 import useSWR from "swr";
 import { updateSettings } from "../Settings/updateSettings";
 import toast from "react-hot-toast";
@@ -518,9 +516,6 @@ export function InviteButton() {
         )}
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
-      {!global.session.account.SyncToken &&
-        global.ownerLoaded &&
-        global.session.property.role !== "owner" && <Invitations />}
 
       <Button
         disableRipple
