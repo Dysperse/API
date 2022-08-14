@@ -38,7 +38,7 @@ function Action({ icon, primary, href, onClick }: any) {
         "&:active": {
           transition: "none!important",
           transform: "scale(.97)",
-          background: "rgba(200,200,200,.4)",
+          background: global.theme == "dark" ? "hsl(240, 11%, 20%)" :"rgba(200,200,200,.4)",
         },
         ...(theme === "dark" && {
           "&:hover .avatar": {
