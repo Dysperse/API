@@ -6,7 +6,7 @@ export function Puller({ variant }: { variant?: "side" }) {
     <Box
       className={variant === "side" ? "puller-side" : "puller"}
       sx={{
-        background: colors[themeColor][50],
+        background: global.theme == "dark" ? "hsl(240, 11%, 25%)" : colors[themeColor][50],
       }}
     ></Box>
   );
