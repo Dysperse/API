@@ -310,7 +310,7 @@ export function CreateItemModal({
                   <Box
                     sx={{
                       height: "80px",
-                      background: colors[themeColor][200],
+                      background: global.theme == "dark" ? "hsl(240, 11%, 35%)" : colors[themeColor][200],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
