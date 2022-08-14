@@ -97,6 +97,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
               placeholder={customParent === "-1" ? "New task" : "Item name"}
               autoComplete="off"
               name="name"
+              id="title"
               onChange={formik.handleChange}
               value={formik.values.name}
               InputProps={{
@@ -215,6 +216,21 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
           </DialogContent>
         </form>
       </SwipeableDrawer>
+      <div
+        ref={(e) => {
+          if (open) {
+            if (!showDescription) {
+              document.getElementById("title")!.focus();
+            } else if (
+              showDescription &&
+              document.activeElement == document.getElementById("description")
+            ) {
+              document.getElementById("description")!.focus();
+            }
+          }
+        }}
+      ></div>
+
       <div
         onClick={() => {
           setOpen(true);
