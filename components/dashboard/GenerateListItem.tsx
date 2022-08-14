@@ -1,9 +1,10 @@
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
-import Box from "@mui/material/Box";
+import CardActionArea from "@mui/material/CardActionArea";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
+import toast from "react-hot-toast";
 
 // Generates a list item for shopping list / todo list
 export function GenerateListItem({
@@ -69,7 +70,49 @@ export function GenerateListItem({
           </span>
         </IconButton>
       </ListItemIcon>
-      <ListItemText sx={{ my: 1.4 }} primary={title} secondary={description} />
+      <ListItemText
+        primary={
+          <CardActionArea
+            sx={{
+              borderRadius: 3,
+              p: 1,
+              ml: -1,
+              transition: "none!important",
+              "& *:not(.MuiTouchRipple-child)": {
+                background: "transparent!important",
+              },
+            }}
+            onClick={(e: any) => {
+              navigator.clipboard.writeText(e.target.innerText);
+              toast.success("Copied to clipboard");
+            }}
+          >
+            {title}
+          </CardActionArea>
+        }
+        secondary={
+          description ? (
+            <CardActionArea
+              sx={{
+                borderRadius: 3,
+                p: 1,
+                ml: -1,
+                mt: -1,
+                transition: "none!important",
+                "& *:not(.MuiTouchRipple-child)": {
+                  background: "transparent!important",
+                },
+              }}
+              onClick={(e: any) => {
+                navigator.clipboard.writeText(e.target.innerText);
+                toast.success("Copied to clipboard");
+              }}
+            >
+              {description}
+            </CardActionArea>
+          ) : null
+        }
+      />
       {pinned === "true" && (
         <ListItemIcon sx={{ ml: -1 }}>
           <IconButton
