@@ -300,7 +300,14 @@ export default function FullScreenDialog({ children }: any) {
               color="inherit"
               onClick={() => setOpen(false)}
               aria-label="close"
-              sx={{ ml: -0.5, background: colors[themeColor][50], zIndex: 1 }}
+              sx={{
+                  ml: -0.5,
+                  background: colors[themeColor][50],
+                  zIndex: 1, 
+                  ...(global.theme === "dark" && {
+                     background: "hsl(240, 11%, 25%)",
+                  })
+           }} 
             >
               <span className="material-symbols-rounded">close</span>{" "}
             </IconButton>
