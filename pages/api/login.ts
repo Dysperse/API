@@ -11,7 +11,6 @@ export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
     const token: any = req.query.token ?? "false";
     const info = await getInfo(token);
-
     req.session.user = {
       valid: true,
       ...info,
