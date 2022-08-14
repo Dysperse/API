@@ -23,7 +23,7 @@ function ElevationScroll(props: any) {
     if (document) {
       document
         .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute("content", trigger ? colors[themeColor]["100"] : (global.theme === "dark" ? "hsl(240, 11%, 10%)" : "#fff"));
+        .setAttribute("content", trigger ? (global.theme === "dark" ? "rgb(57, 57, 71)" : colors[themeColor]["100"]) : (global.theme === "dark" ? "hsl(240, 11%, 10%)" : "#fff"));
     }
   });
   return React.cloneElement(children, {
