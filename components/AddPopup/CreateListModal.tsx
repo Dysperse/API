@@ -169,7 +169,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                     transition: "none",
                     color: global.theme == "dark" ? "#fff" : colors[themeColor]["800"],
                     ...(pinned && {
-                      background: colors[themeColor]["200"] + "!important",
+                      background: colors[themeColor][global.theme == "dark" ? "900" : "200"] + "!important",
                     }),
                     "&:active": { background: "rgba(0,0,0,0.1)!important" },
                   }}
@@ -191,7 +191,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                     color: global.theme == "dark" ? "#fff" :colors[themeColor]["800"],
                     transition: "none",
                     ...(showDescription && {
-                      background: colors[themeColor]["200"] + "!important",
+                      background: colors[themeColor][global.theme == "dark" ? "900" :"200"] + "!important",
                     }),
                     "&:active": { background: "rgba(0,0,0,0.1)!important" },
                   }}
