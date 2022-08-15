@@ -290,7 +290,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
                 },
                 background:
                   global.theme === "dark"
-                    ? "hsl(240, 11%, 40%)"
+                    ? "hsl(240, 11%, 30%)"
                     : colors[themeColor][100],
                 color:
                   global.theme === "dark"
@@ -299,7 +299,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
                 "&:hover": {
                   background:
                     global.theme === "dark"
-                      ? "hsl(240, 11%, 50%)"
+                      ? "hsl(240, 11%, 35%)"
                       : colors[themeColor]["200"],
                 },
                 "&:active": {
@@ -309,7 +309,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
                   transition: "none",
                   background:
                     global.theme === "dark"
-                      ? "hsl(240, 11%, 60%)"
+                      ? "hsl(240, 11%, 40%)"
                       : colors[themeColor]["200"],
                 },
                 transition: "transform .2s",
