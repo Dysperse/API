@@ -12,7 +12,7 @@ const handler = async (req, res) => {
     step1.forEach(async (step1Data: any) => {
       const ciphertext = CryptoJS.AES.encrypt(
         step1Data.note,
-        process.env.ENCRYPTION_KEY
+        process.env.INVENTORY_ENCRYPTION_KEY
       ).toString();
 
       await executeQuery({

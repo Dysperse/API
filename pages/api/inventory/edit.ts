@@ -21,15 +21,15 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       values: [
         CryptoJS.AES.encrypt(
           req.query.name,
-          process.env.ENCRYPTION_KEY
+          process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "",
         CryptoJS.AES.encrypt(
           req.query.qty,
-          process.env.ENCRYPTION_KEY
+          process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "",
         CryptoJS.AES.encrypt(
           req.query.category,
-          process.env.ENCRYPTION_KEY
+          process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "",
         req.query.lastUpdated ?? "2022-03-05 12:23:31",
         req.query.id ?? "false",
