@@ -23,7 +23,7 @@ export function Header({
         borderRadius: 5,
         background:
           theme === "dark"
-            ? "hsl(240,11%,25%)!important"
+            ? "hsl(240,11%,18%)!important"
             : "rgba(200,200,200,.3)!important",
         mb: 2,
         py: 3,

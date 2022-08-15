@@ -171,7 +171,7 @@ export function Suggestions({ room, items }: any) {
           borderRadius: "28px",
           p: 1,
           background:
-            global.theme === "dark" ? "hsl(240, 11%, 25%)" : orange[50],
+            global.theme === "dark" ? "hsl(240, 11%, 18%)" : orange[50],
           mb: 2,
         }}
       >

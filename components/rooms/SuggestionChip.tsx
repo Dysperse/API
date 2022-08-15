@@ -36,7 +36,6 @@ export function SuggestionChip({ room, item }: any) {
           sx={{
             mr: 1,
             px: 1,
-            fontWeight: "600",
             borderRadius: 3,
             transition: "transform .2s",
             boxShadow: "none !important",
