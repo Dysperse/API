@@ -1,6 +1,7 @@
 import executeQuery from "../../../lib/db";
 import { validatePerms } from "../../../lib/check-permissions";
 import type { NextApiResponse } from "next";
+import CryptoJS from "crypto-js";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   const perms = await validatePerms(
@@ -19,7 +20,10 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       query:
         "UPDATE Inventory SET note = ?, lastUpdated = ? WHERE id = ? AND user = ?",
       values: [
-        req.query.note ?? "",
+        CryptoJS.AES.encrypt(
+          req.query.note,
+          process.env.ENCRYPTION_KEY
+        ).toString() ?? "",
         req.query.lastUpdated ?? "2022-03-05 12:23:31",
         req.query.id ?? "false",
         req.query.propertyToken ?? false,

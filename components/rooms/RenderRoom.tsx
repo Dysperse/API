@@ -38,7 +38,10 @@ export function RenderRoom({ data, index }: any) {
         (router.query.custom ? decode(index).split(",")[0] : index) && (
         <Box
           sx={{
-            background: "rgba(200,200,200,.4)",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 15%)"
+                : "rgba(200,200,200,.4)",
             borderRadius: 5,
             p: 3,
             mb: 3,

@@ -1,6 +1,7 @@
 import executeQuery from "../../../lib/db";
 import { validatePerms } from "../../../lib/check-permissions";
 import type { NextApiResponse } from "next";
+import CryptoJS from "crypto-js";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   const perms = await validatePerms(
@@ -28,10 +29,19 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
         return {
           id: item.id,
           lastUpdated: item.formattedLastUpdated,
-          amount: item.qty,
-          title: item.name,
+          amount: CryptoJS.AES.decrypt(
+            item.qty,
+            process.env.ENCRYPTION_KEY
+          ).toString(CryptoJS.enc.Utf8),
+          title: CryptoJS.AES.decrypt(
+            item.name,
+            process.env.ENCRYPTION_KEY
+          ).toString(CryptoJS.enc.Utf8),
           categories: [],
-          note: item.note,
+          note: CryptoJS.AES.decrypt(
+            item.note,
+            process.env.ENCRYPTION_KEY
+          ).toString(CryptoJS.enc.Utf8),
           star: item.star,
           room: item.room,
         };
