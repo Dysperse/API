@@ -5,18 +5,18 @@ var CryptoJS = require("crypto-js");
 const handler = async (req, res) => {
   try {
     const step1 = await executeQuery({
-      query: "SELECT * FROM Inventory",
+      query: "SELECT * FROM ListItems",
       values: [],
     });
 
     step1.forEach(async (step1Data: any) => {
       const ciphertext = CryptoJS.AES.encrypt(
-        step1Data.note,
-        process.env.INVENTORY_ENCRYPTION_KEY
+        step1Data.description,
+        process.env.LIST_ENCRYPTION_KEY
       ).toString();
 
       await executeQuery({
-        query: "UPDATE Inventory SET note = ? WHERE id = ?",
+        query: "UPDATE ListItems SET description = ? WHERE id = ?",
         values: [ciphertext, step1Data.id],
       });
     });

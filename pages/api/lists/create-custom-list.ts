@@ -1,6 +1,7 @@
 import executeQuery from "../../../lib/db";
 import { validatePerms } from "../../../lib/check-permissions";
 import type { NextApiResponse } from "next";
+import CryptoJS from "crypto-js";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   const perms = await validatePerms(
@@ -20,7 +21,10 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
         "INSERT INTO ListNames (user, title, description, star) VALUES (?, ?, ?, ?)",
       values: [
         req.query.propertyToken ?? false,
-        req.query.title ?? "",
+        CryptoJS.AES.encrypt(
+          req.query.title,
+          process.env.LIST_ENCRYPTION_KEY
+        ).toString() ?? "",
         req.query.description ?? "",
         "0",
       ],

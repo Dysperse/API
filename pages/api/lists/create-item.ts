@@ -1,6 +1,7 @@
 import executeQuery from "../../../lib/db";
 import { validatePerms } from "../../../lib/check-permissions";
 import type { NextApiResponse } from "next";
+import CryptoJS from "crypto-js";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   const perms = await validatePerms(
@@ -21,12 +22,17 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       values: [
         req.query.parent ?? -1,
         req.query.propertyToken ?? false,
-        req.query.title ?? "",
-        req.query.description ?? "",
+        CryptoJS.AES.encrypt(
+          req.query.title,
+          process.env.LIST_ENCRYPTION_KEY
+        ).toString() ?? "",
+        CryptoJS.AES.encrypt(
+          req.query.description,
+          process.env.LIST_ENCRYPTION_KEY
+        ).toString() ?? "",
         req.query.pinned ?? "",
       ],
     });
-    console.log(result.insertId);
     res.json({
       data: {
         id: result.insertId,
