@@ -39,13 +39,17 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString(CryptoJS.enc.Utf8);
 
+        console.log(decryptedAmount);
+        console.log(decryptedNote);
+        console.log(decryptedTitle);
+
         return {
           id: item.id,
           lastUpdated: item.formattedLastUpdated,
-          amount: decryptedAmount,
-          title: decryptedTitle,
+          amount: decryptedAmount || "",
+          title: decryptedTitle || "",
           categories: [],
-          note: decryptedNote,
+          note: decryptedNote || "",
           star: item.star,
           room: item.room,
         };
