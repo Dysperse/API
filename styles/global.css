@@ -20,6 +20,9 @@ img {
 }
 ::-webkit-scrollbar {
   display: none;
+  -webkit-appearance: none;
+  width: 0px;
+  background: transparent; /* Chrome/Safari/Webkit */
 }
 
 .MuiTouchRipple-rippleVisible {
