@@ -49,7 +49,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
           amount: decryptedAmount || "",
           title: decryptedTitle || "",
           categories: [],
-          note: decryptedNote || "",
+          note: "",
           star: item.star,
           room: item.room,
         };
