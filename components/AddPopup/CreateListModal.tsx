@@ -48,6 +48,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
           setLoading(false);
           setOpen(false);
           toast("Created item!");
+          setShowDescription(false);
         })
         .catch((err: any) => alert(JSON.stringify(err)));
     },
@@ -208,7 +209,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                     "&:active": { background: "rgba(0,0,0,0.1)!important" },
                   }}
                   onClick={() => {
-                    setShowDescription(!showDescription);
+                    setShowDescription(true);
                     setTimeout(() => {
                       document
                         .getElementById(
