@@ -502,7 +502,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 "&:active": {
                   transition: "none",
                   transform: "scale(.97)",
-                  background: "rgba(200,200,200,.3)",
+                  background: global.theme == "dark" ? "hsl(240, 11%, 20%)" :"rgba(200,200,200,.3)",
                 },
               }}
             >
