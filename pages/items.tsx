@@ -1,16 +1,166 @@
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import { encode } from "js-base64";
 import { useRouter } from "next/router";
+import * as React from "react";
 import useSWR from "swr";
 import { FloatingActionButton } from "../components/Layout/FloatingActionButton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { Puller } from "../components/Puller";
+import { neutralizeBack, revivalBack } from "../components/history-control";
+import CircularProgress from "@mui/material/CircularProgress";
+import { ItemCard } from "../components/rooms/ItemCard";
 
+function CategoryModal({ category }: { category: string }) {
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
+  React.useEffect(() => {
+    document.documentElement.classList[open ? "add" : "remove"](
+      "prevent-scroll"
+    );
+  });
+  return (
+    <>
+      <SwipeableDrawer
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+        open={open}
+        anchor="bottom"
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            background: colors[themeColor][50],
+            width: {
+              sm: "50vw",
+            },
+            maxWidth: "600px",
+            maxHeight: "95vh",
+            borderRadius: "30px 30px 0 0",
+            mx: "auto",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 25%)",
+            }),
+          },
+        }}
+      >
+        <Puller />
+        <Box sx={{ p: 3, overflow: "scroll" }}>
+          <Typography
+            sx={{
+              textAlign: "center",
+              my: 4,
+              textTransform: "capitalize",
+              fontWeight: "600",
+            }}
+            variant="h5"
+          >
+            {category}
+          </Typography>
+          {data.map((item: any) => (
+            <Box sx={{ mb: 1 }}>
+              <ItemCard item={item} displayRoom={false} />
+            </Box>
+          ))}
+          {data.length === 0 && <>No items</>}
+        </Box>
+      </SwipeableDrawer>
+      <ListItem
+        button
+        onClick={() => {
+          setLoading(true);
+          fetch(
+            "/api/inventory/category-items?" +
+              new URLSearchParams({
+                propertyToken: global.session.property.propertyToken,
+                accessToken: global.session.property.accessToken,
+                category: category,
+              })
+          )
+            .then((res) => res.json())
+            .then((res) => {
+              setData(res.data);
+              setOpen(true);
+              setLoading(false);
+            })
+            .catch((err) => {
+              alert("An error occured while trying to fetch your items");
+              setLoading(false);
+            });
+        }}
+        sx={{
+          mb: 1,
+          transition: "transform .2s !important",
+          borderRadius: 4,
+          "&:active": {
+            transition: "none!important",
+            transform: "scale(.97)",
+            background:
+              global.theme == "dark"
+                ? "hsl(240, 11%, 20%)"
+                : "rgba(200,200,200,.4)",
+          },
+          ...(theme === "dark" && {
+            "&:hover .avatar": {
+              background: "hsl(240,11%,27%)",
+            },
+          }),
+        }}
+      >
+        <ListItemText
+          primary={
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              {category}{" "}
+              {loading && <CircularProgress size={20} sx={{ ml: "auto" }} />}
+            </Box>
+          }
+        />
+      </ListItem>
+    </>
+  );
+}
+
+function CategoryList() {
+  const url =
+    "/api/inventory/categories?" +
+    new URLSearchParams({
+      propertyToken: global.session.property.propertyToken,
+      accessToken: global.session.property.accessToken,
+    });
+  const { error, data }: any = useSWR(url, () =>
+    fetch(url, { method: "POST" }).then((res) => res.json())
+  );
+
+  return (
+    <>
+      {error && <>An error occured while trying to fetch your items</>}
+      {data ? (
+        <>
+          {[...new Set(data.data)].map((category: any, key: number) => (
+            <CategoryModal category={category} key={key.toString()} />
+          ))}
+        </>
+      ) : (
+        <>Loading...</>
+      )}
+    </>
+  );
+}
 function Action({ icon, primary, href, onClick }: any) {
   const router = useRouter();
   return (
@@ -38,7 +188,10 @@ function Action({ icon, primary, href, onClick }: any) {
         "&:active": {
           transition: "none!important",
           transform: "scale(.97)",
-          background: global.theme == "dark" ? "hsl(240, 11%, 20%)" :"rgba(200,200,200,.4)",
+          background:
+            global.theme == "dark"
+              ? "hsl(240, 11%, 20%)"
+              : "rgba(200,200,200,.4)",
         },
         ...(theme === "dark" && {
           "&:hover .avatar": {
@@ -86,7 +239,15 @@ export default function Categories() {
       propertyToken: global.session.property.propertyToken,
       accessToken: global.session.property.accessToken,
     });
-
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const [viewBy, setViewBy] = React.useState("room");
   const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
@@ -96,6 +257,109 @@ export default function Categories() {
   return (
     <>
       <FloatingActionButton />
+      <Menu
+        BackdropProps={{ sx: { opacity: "0!important" } }}
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+        sx={{
+          transition: "all .2s",
+          "& .MuiPaper-root": {
+            mt: 1,
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+            ml: -1,
+            borderRadius: "15px",
+            minWidth: 180,
+            background:
+              global.theme === "dark"
+                ? colors[global.themeColor][900]
+                : colors[global.themeColor][100],
+
+            color:
+              global.theme === "dark"
+                ? colors[global.themeColor][200]
+                : colors[global.themeColor][800],
+            "& .MuiMenu-list": {
+              padding: "4px",
+            },
+            "& .MuiMenuItem-root": {
+              "&:hover": {
+                background:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][800]
+                    : colors[global.themeColor][200],
+                color:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][100]
+                    : colors[global.themeColor][900],
+                "& .MuiSvgIcon-root": {
+                  color:
+                    global.theme === "dark"
+                      ? colors[global.themeColor][200]
+                      : colors[global.themeColor][800],
+                },
+              },
+              padding: "10px 15px",
+              borderRadius: "15px",
+              marginBottom: "1px",
+
+              "& .MuiSvgIcon-root": {
+                fontSize: 25,
+                color: colors[global.themeColor][700],
+                marginRight: 1.9,
+              },
+              "&:active": {
+                background:
+                  colors[global.themeColor][
+                    global.theme === "dark" ? 700 : 300
+                  ],
+              },
+            },
+          },
+        }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setViewBy("room");
+            handleClose();
+          }}
+          sx={{
+            ...(viewBy === "room" && {
+              background:
+                colors[global.themeColor][global.theme === "dark" ? 700 : 300],
+            }),
+          }}
+        >
+          Room
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setViewBy("category");
+            handleClose();
+          }}
+          sx={{
+            ...(viewBy === "category" && {
+              background:
+                colors[global.themeColor][global.theme === "dark" ? 700 : 300],
+            }),
+          }}
+        >
+          Category
+        </MenuItem>
+      </Menu>
       <Container sx={{ mb: 3 }}>
         <Typography
           variant="h3"
@@ -107,53 +371,84 @@ export default function Categories() {
         >
           Inventory
         </Typography>
-        <Action href="/rooms/kitchen" icon="oven_gen" primary="Kitchen" />
-        <Action href="/rooms/bedroom" icon="bedroom_parent" primary="Bedroom" />
-        <Action href="/rooms/bathroom" icon="bathroom" primary="Bathroom" />
-        <Action href="/rooms/garage" icon="garage" primary="Garage" />
-        <Action href="/rooms/dining" icon="dining" primary="Dining room" />
-        <Action href="/rooms/living" icon="living" primary="Living room" />
-        <Action
-          href="/rooms/laundry"
-          icon="local_laundry_service"
-          primary="Laundry room"
-        />
-        <Action
-          href="/rooms/storage"
-          icon="inventory_2"
-          primary="Storage room"
-        />
-        <Action href="/rooms/garden" icon="yard" primary="Garden" />
-        <Action href="/rooms/camping" icon="camping" primary="Camping" />
-        <Divider sx={{ my: 1 }} />
-        {data &&
-          data.data.map((room: any, id: number) => (
+        <Box sx={{ textAlign: "right", my: 4 }}>
+          <Button
+            onClick={handleClick}
+            disableElevation
+            sx={{ borderRadius: 5, px: 3 }}
+            variant="contained"
+          >
+            View by:
+            <span style={{ textTransform: "capitalize" }}>&nbsp;{viewBy}</span>
+            <span
+              className="material-symbols-rounded"
+              style={{ marginLeft: "10px" }}
+            >
+              expand_more
+            </span>
+          </Button>
+        </Box>
+        {viewBy === "room" ? (
+          <>
+            <Action href="/rooms/kitchen" icon="oven_gen" primary="Kitchen" />
             <Action
-              href={
-                "/rooms/" + encode(room.id + "," + room.name) + "?custom=true"
-              }
-              icon="label"
-              primary={room.name}
-              key={id.toString()}
+              href="/rooms/bedroom"
+              icon="bedroom_parent"
+              primary="Bedroom"
             />
-          ))}
-        <Action
-          onClick={() =>
-            document.getElementById("setCreateRoomModalOpen")!.click()
-          }
-          icon="add_circle"
-          primary="Create room"
-        />
-        <Action
-          onClick={() =>
-            document.getElementById("houseProfileTrigger")!.click()
-          }
-          icon="edit"
-          primary="Manage rooms"
-        />
-        <Divider sx={{ my: 1 }} />
-        <Action href="/starred" icon="star" primary="Starred" />
-        <Action href="/trash" icon="delete" primary="Trash" />
+            <Action href="/rooms/bathroom" icon="bathroom" primary="Bathroom" />
+            <Action href="/rooms/garage" icon="garage" primary="Garage" />
+            <Action href="/rooms/dining" icon="dining" primary="Dining room" />
+            <Action href="/rooms/living" icon="living" primary="Living room" />
+            <Action
+              href="/rooms/laundry"
+              icon="local_laundry_service"
+              primary="Laundry room"
+            />
+            <Action
+              href="/rooms/storage"
+              icon="inventory_2"
+              primary="Storage room"
+            />
+            <Action href="/rooms/garden" icon="yard" primary="Garden" />
+            <Action href="/rooms/camping" icon="camping" primary="Camping" />
+            <Divider sx={{ my: 1 }} />
+            {data &&
+              data.data.map((room: any, id: number) => (
+                <Action
+                  href={
+                    "/rooms/" +
+                    encode(room.id + "," + room.name) +
+                    "?custom=true"
+                  }
+                  icon="label"
+                  primary={room.name}
+                  key={id.toString()}
+                />
+              ))}
+            <Action
+              onClick={() =>
+                document.getElementById("setCreateRoomModalOpen")!.click()
+              }
+              icon="add_circle"
+              primary="Create room"
+            />
+            <Action
+              onClick={() =>
+                document.getElementById("houseProfileTrigger")!.click()
+              }
+              icon="edit"
+              primary="Manage rooms"
+            />
+            <Divider sx={{ my: 1 }} />
+            <Action href="/starred" icon="star" primary="Starred" />
+            <Action href="/trash" icon="delete" primary="Trash" />
+          </>
+        ) : (
+          <>
+            <CategoryList />
+          </>
+        )}
       </Container>
     </>
   );
