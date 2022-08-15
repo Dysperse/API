@@ -458,10 +458,12 @@ export default function AddPopup(props: any) {
             onClick={() => window.open("/scan")}
             sx={{
               ml: "auto",
-              color: "#000",
+              color: global.theme === "dark" ? "#fff" : "#000",
               transition: "none",
               "&:active": {
-                background: colors[themeColor][100] + "!important",
+                background:
+                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  "!important",
               },
             }}
             disableRipple
