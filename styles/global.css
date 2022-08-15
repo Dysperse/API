@@ -162,3 +162,6 @@ img {
   border-radius: 10px;
   transform: translateY(-50%);
 }
+.MuiDialogActions-spacing {
+  background-color: transparent !important;
+}
