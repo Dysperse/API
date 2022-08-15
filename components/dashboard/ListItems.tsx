@@ -71,7 +71,12 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
                   >
                     add_circle
                   </span>
-                  <span style={{ color: global.theme == "dark" ? "#fff" : "#202020", marginLeft: "1px" }}>
+                  <span
+                    style={{
+                      color: global.theme == "dark" ? "#fff" : "#202020",
+                      marginLeft: "-7px",
+                    }}
+                  >
                     New list item
                   </span>
                 </Box>
