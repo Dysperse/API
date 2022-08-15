@@ -32,16 +32,16 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
           amount: CryptoJS.AES.decrypt(
             item.qty,
             process.env.INVENTORY_ENCRYPTION_KEY
-          ),
+          ).toString(CryptoJS.enc.Utf8),
           title: CryptoJS.AES.decrypt(
             item.name,
             process.env.INVENTORY_ENCRYPTION_KEY
-          ),
+          ).toString(CryptoJS.enc.Utf8),
           categories: [],
           note: CryptoJS.AES.decrypt(
             item.note,
             process.env.INVENTORY_ENCRYPTION_KEY
-          ),
+          ).toString(CryptoJS.enc.Utf8),
           star: item.star,
           room: item.room,
         };
