@@ -57,6 +57,7 @@ export function CreateListCard({ lists, setLists }: any) {
       )
         .then((res) => res.json())
         .then((res) => {
+          setLoading(true);
           formik.resetForm();
           setLists([
             ...lists,
@@ -152,6 +153,7 @@ export function CreateListCard({ lists, setLists }: any) {
               margin="dense"
               label="Title (Example: School supplies, Potluck food, etc...)"
               fullWidth
+              required
               autoComplete="off"
               name="title"
               variant="filled"
@@ -186,7 +188,6 @@ export function CreateListCard({ lists, setLists }: any) {
               color="primary"
               type="submit"
               loading={loading}
-              onClick={() => setTimeout(() => setLoading(true), 100)}
               variant="contained"
             >
               Create
