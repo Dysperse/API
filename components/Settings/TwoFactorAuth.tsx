@@ -2,12 +2,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import QRCode from "react-qr-code";
 import base32 from "thirty-two";
 import { v4 as uuidv4 } from "uuid";
+import { updateSettings } from "./updateSettings";
 
 const key = uuidv4();
 const encoded = base32.encode(key);
@@ -21,12 +23,29 @@ const uri =
 export default function App() {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingDisable, setLoadingDisable] = useState<boolean>(false);
 
   return (
     <Box sx={{ p: 5 }}>
       {global.session.account["2faCode"] &&
       global.session.account["2faCode"] !== "false" ? (
-        <Box>2FA is enabled for your account!</Box>
+        <Box>
+          <Typography>2FA is enabled for your account!</Typography>
+          <LoadingButton
+            loading={loadingDisable}
+            onClick={() => {
+              updateSettings("2faCode", "false", false, () => {
+                window.location.reload();
+              });
+              setLoadingDisable(true);
+            }}
+            sx={{ mt: 5, boxShadow: 0, width: "100%", borderRadius: "100px" }}
+            variant="contained"
+            size="large"
+          >
+            Disable
+          </LoadingButton>
+        </Box>
       ) : (
         <Box>
           <Typography sx={{ fontWeight: "600" }} variant="h5">
