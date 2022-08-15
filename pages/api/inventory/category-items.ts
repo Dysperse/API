@@ -17,12 +17,9 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
   try {
     const result = await executeQuery({
-      query: req.query.limit
-        ? "SELECT *, DATE_FORMAT(lastUpdated, '%Y-%m-%d %T') AS formattedLastUpdated FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT ?"
-        : "SELECT *, DATE_FORMAT(lastUpdated, '%Y-%m-%d %T') AS formattedLastUpdated FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT 150",
-      values: req.query.limit
-        ? [req.query.propertyToken ?? false, parseInt(req.query.limit)]
-        : [req.query.propertyToken ?? false, req.query.room ?? "kitchen"],
+      query:
+        "SELECT *, DATE_FORMAT(lastUpdated, '%Y-%m-%d %T') AS formattedLastUpdated FROM Inventory WHERE user = ? AND trash = 0 ORDER BY lastUpdated DESC LIMIT 150",
+      values: [req.query.propertyToken ?? false, req.query.room ?? "kitchen"],
     });
     res.json({
       data: result
