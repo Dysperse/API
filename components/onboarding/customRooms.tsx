@@ -18,7 +18,7 @@ export function CustomRooms({ houseType }: any) {
   ];
   React.useEffect(() => {
     setValue(fixedOptions);
-  }, [houseType]);
+  }, [fixedOptions, houseType]);
   const [value, setValue] = React.useState([...fixedOptions]);
 
   return (
