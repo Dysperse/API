@@ -226,9 +226,7 @@ export default function ReviewExpenses({ transactions, children }: any) {
       .setAttribute(
         "content",
         open
-          ? global.theme === "dark"
-            ? "hsl(240, 11%, 5%)"
-            : colors[themeColor][900]
+          ? colors[themeColor][900]
           : global.theme === "dark"
           ? "hsl(240, 11%, 10%)"
           : "#fff"
