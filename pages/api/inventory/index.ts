@@ -48,7 +48,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
       }),
     });
   } catch (error) {
-    res.status(500).json({ error: process.env.INVENTORY_ENCRYPTION_KEY });
+    res.status(500).json({ error: JSON.stringify(error) });
   }
 };
 export default handler;
