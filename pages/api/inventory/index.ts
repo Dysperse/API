@@ -49,6 +49,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     });
   } catch (error) {
     res.status(500).json({ error: JSON.stringify(error) });
+    throw new Error(error);
   }
 };
 export default handler;
