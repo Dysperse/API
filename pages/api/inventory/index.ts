@@ -29,19 +29,10 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
         return {
           id: item.id,
           lastUpdated: item.formattedLastUpdated,
-          amount: CryptoJS.AES.decrypt(
-            item.qty,
-            process.env.INVENTORY_ENCRYPTION_KEY
-          ).toString(CryptoJS.enc.Utf8),
-          title: CryptoJS.AES.decrypt(
-            item.name,
-            process.env.INVENTORY_ENCRYPTION_KEY
-          ).toString(CryptoJS.enc.Utf8),
+          amount: item.qty,
+          title: item.name,
           categories: [],
-          note: CryptoJS.AES.decrypt(
-            item.note,
-            process.env.INVENTORY_ENCRYPTION_KEY
-          ).toString(CryptoJS.enc.Utf8),
+          note: item.note,
           star: item.star,
           room: item.room,
         };
