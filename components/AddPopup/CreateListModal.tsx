@@ -167,9 +167,15 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                     borderRadius: 4,
                     mr: 0.5,
                     transition: "none",
-                    color: global.theme == "dark" ? "#fff" : colors[themeColor]["800"],
+                    color:
+                      global.theme == "dark"
+                        ? "#fff"
+                        : colors[themeColor]["800"],
                     ...(pinned && {
-                      background: colors[themeColor][global.theme == "dark" ? "900" : "200"] + "!important",
+                      background:
+                        colors[themeColor][
+                          global.theme == "dark" ? "900" : "200"
+                        ] + "!important",
                     }),
                     "&:active": { background: "rgba(0,0,0,0.1)!important" },
                   }}
@@ -188,14 +194,29 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                   disableRipple
                   sx={{
                     borderRadius: 4,
-                    color: global.theme == "dark" ? "#fff" :colors[themeColor]["800"],
+                    color:
+                      global.theme == "dark"
+                        ? "#fff"
+                        : colors[themeColor]["800"],
                     transition: "none",
                     ...(showDescription && {
-                      background: colors[themeColor][global.theme == "dark" ? "900" :"200"] + "!important",
+                      background:
+                        colors[themeColor][
+                          global.theme == "dark" ? "900" : "200"
+                        ] + "!important",
                     }),
                     "&:active": { background: "rgba(0,0,0,0.1)!important" },
                   }}
-                  onClick={() => setShowDescription(!showDescription)}
+                  onClick={() => {
+                    setShowDescription(!showDescription);
+                    setTimeout(() => {
+                      document
+                        .getElementById(
+                          !showDescription ? "description" : "title"
+                        )!
+                        .focus();
+                    }, 100);
+                  }}
                 >
                   <span className="material-symbols-outlined">notes</span>
                 </IconButton>
@@ -218,24 +239,12 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
         </form>
       </SwipeableDrawer>
       <div
-        ref={(e) => {
-          if (open) {
-            if (!showDescription) {
-              document.getElementById("title")!.focus();
-            } else if (
-              showDescription &&
-              document.activeElement == document.getElementById("description")
-            ) {
-              document.getElementById("description")!.focus();
-            }
-          }
-        }}
-      ></div>
-
-      <div
         onClick={() => {
           setOpen(true);
           setCustomParent(parent);
+          setTimeout(() => {
+            document.getElementById("title")!.focus();
+          }, 100);
         }}
       >
         {children}
