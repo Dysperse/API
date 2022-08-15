@@ -216,7 +216,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                           !showDescription ? "description" : "title"
                         )!
                         .focus();
-                    }, 100);
+                    }, 50);
                   }}
                 >
                   <span className="material-symbols-outlined">notes</span>
