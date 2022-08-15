@@ -30,7 +30,7 @@ export function GenerateListItem({
       }
     );
   };
-  return (
+  return checked ? null : (
     <ListItem
       key={id.toString()}
       sx={{
@@ -58,6 +58,7 @@ export function GenerateListItem({
           onClick={() => {
             if (global.session.property.role !== "read-only") {
               deleteItem(id);
+              toast.success("Task completed");
               setChecked(true);
             }
           }}
@@ -66,7 +67,7 @@ export function GenerateListItem({
             style={{ marginLeft: "-2px" }}
             className="material-symbols-outlined"
           >
-            {checked ? "task_alt" : "radio_button_unchecked"}
+            radio_button_unchecked
           </span>
         </IconButton>
       </ListItemIcon>
