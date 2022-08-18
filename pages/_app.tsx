@@ -13,6 +13,8 @@ import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
 import "../styles/global.css";
 import { OfflineBox } from "./_offline";
+import NoSsr from "@mui/material/NoSsr";
+
 dayjs.extend(relativeTime);
 
 function Render({ data, Component, pageProps }: any) {
@@ -142,19 +144,14 @@ function useUser() {
   };
 }
 
-function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
+function RenderApp({ router, Component, pageProps }: any) {
   const { data, isLoading, isError } = useUser();
 
   return (
     <>
-      <Offline>
-        <OfflineBox />
-      </Offline>
-
-      {router &&
-      (router.pathname === "/share/[index]" ||
-        router.pathname === "/scan" ||
-        router.pathname === "/onboarding") ? (
+      {router.pathname === "/share/[index]" ||
+      router.pathname === "/scan" ||
+      router.pathname === "/onboarding" ? (
         <>
           <RenderComponent
             Component={Component}
@@ -188,12 +185,29 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
                   />
                 )}
               </>
+            ) : isError ? (
+              <>An error occured</>
             ) : (
               <LoginPrompt />
             ))}
         </Online>
       )}
-
+    </>
+  );
+}
+function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
+  return (
+    <>
+      <Offline>
+        <OfflineBox />
+      </Offline>
+      <NoSsr>
+        <RenderApp
+          router={router}
+          Component={Component}
+          pageProps={pageProps}
+        />
+      </NoSsr>
       <Script src="/prevent-navigate-history.js"></Script>
     </>
   );
