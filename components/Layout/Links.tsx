@@ -8,6 +8,7 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Tooltip from "@mui/material/Tooltip";
 import ListSubheader from "@mui/material/ListSubheader";
 import Divider from "@mui/material/Divider";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -150,106 +151,115 @@ const ListItem = React.memo(function ListItem({
 }: any) {
   const router = useRouter();
   if (!router.asPath) router.asPath = "/dashboard";
-  return (
-    <Link href={href} as={asHref} replace>
-      <ListItemButton
-        sx={{
-          ...(collapsed && {
-            width: 70,
-          }),
-          pl: 2,
+  const c = (
+    <ListItemButton
+      sx={{
+        ...(collapsed && {
+          width: 70,
+          mx: "auto",
+        }),
+        pl: 2,
+        color: (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+        "& span": {
           color:
             (global.theme === "dark" ? grey[200] : "#606060") + "!important",
-          "& span": {
-            color:
-              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
-          },
-          borderRadius: 3,
-          transition: "margin .2s!important",
-          mb: collapsed ? 1 : 0.2,
-          py: 0.8,
-          "& .MuiTouchRipple-rippleVisible": {
-            animationDuration: ".3s!important",
-          },
-          "& .MuiTouchRipple-child": {
-            filter: "opacity(.2)!important",
-          },
+        },
+        borderRadius: 3,
+        transition: "margin .2s!important",
+        mb: collapsed ? 1 : 0.2,
+        py: 0.8,
+        "& .MuiTouchRipple-rippleVisible": {
+          animationDuration: ".3s!important",
+        },
+        "& .MuiTouchRipple-child": {
+          filter: "opacity(.2)!important",
+        },
+        "&:hover,&:focus": {
+          color:
+            (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
+          background:
+            global.theme === "dark"
+              ? "hsl(240, 11%, 17%)"
+              : "rgba(200,200,200,.3)",
+        },
+        "&:hover span": {
+          color:
+            (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
+        },
+        ...(router.asPath === asHref && {
+          backgroundColor:
+            global.theme === "dark"
+              ? "hsl(240, 11%, 15%)"
+              : colors[global.themeColor][50],
           "&:hover,&:focus": {
-            color:
-              (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
-            background:
+            backgroundColor:
               global.theme === "dark"
                 ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.3)",
+                : colors[global.themeColor][100],
+            color:
+              colors[global.themeColor][global.theme === "dark" ? 100 : 900],
+          },
+
+          "& span": {
+            color:
+              colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
+              "!important",
           },
           "&:hover span": {
             color:
-              (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
+              colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
+              "!important",
           },
+          "&:active span": {
+            color:
+              colors[global.themeColor][global.theme === "dark" ? 200 : 900] +
+              "!important",
+          },
+        }),
+      }}
+    >
+      <ListItemIcon
+        sx={{
+          transform: "translateX(6px)",
           ...(router.asPath === asHref && {
-            backgroundColor:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 15%)"
-                : colors[global.themeColor][50],
-            "&:hover,&:focus": {
-              backgroundColor:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 17%)"
-                  : colors[global.themeColor][100],
-              color:
-                colors[global.themeColor][global.theme === "dark" ? 100 : 900],
-            },
-
-            "& span": {
-              color:
-                colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
-                "!important",
-            },
-            "&:hover span": {
-              color:
-                colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
-                "!important",
-            },
-            "&:active span": {
-              color:
-                colors[global.themeColor][global.theme === "dark" ? 200 : 900] +
-                "!important",
-            },
+            color: colors[global.themeColor][500],
           }),
         }}
       >
-        <ListItemIcon
-          sx={{
-            transform: "translateX(6px)",
-            ...(router.asPath === asHref && {
-              color: colors[global.themeColor][500],
-            }),
-          }}
+        <span
+          className={
+            "material-symbols-" +
+            (router.asPath === asHref ? "rounded" : "outlined")
+          }
         >
-          <span
-            className={
-              "material-symbols-" +
-              (router.asPath === asHref ? "rounded" : "outlined")
-            }
-          >
-            {icon}
-          </span>
-        </ListItemIcon>
-        <ListItemText
-          sx={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            "& *": {
-              fontSize: "15.2px",
-              ...(router.asPath === asHref && {
-                fontWeight: "500",
-              }),
-            },
-          }}
-          primary={text}
-        />
-      </ListItemButton>
+          {icon}
+        </span>
+      </ListItemIcon>
+      <ListItemText
+        sx={{
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          "& *": {
+            fontSize: "15.2px",
+            ...(router.asPath === asHref && {
+              fontWeight: "500",
+            }),
+          },
+        }}
+        primary={text}
+      />
+    </ListItemButton>
+  );
+  return (
+    <Link href={href} as={asHref} replace>
+      {collapsed ? (
+        <Tooltip title={text} placement="right">
+          {c}
+        </Tooltip>
+      ) : (
+        <>{c}</>
+      )}
     </Link>
   );
 });
@@ -267,7 +277,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <>
+      <Box>
         <Box
           sx={{
             display: {
@@ -279,7 +289,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
         >
           <Toolbar />
         </Box>
-        <div style={{ padding: collapsed ? 0 : "10px" }}>
+        <div style={{ padding: "0 10px" }}>
           <AddPopup>
             <Fab
               disabled={global.session.property.role === "read-only"}
@@ -290,11 +300,11 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               aria-label="add"
               sx={{
                 borderRadius: "20px",
-                px: collapsed ? 3 : 4,
-                mb: collapsed ? 4 : 0,
-                transition: "margin .2s, padding .2s, transform .2s !important",
                 maxWidth: "100%",
                 fontSize: "15px",
+                minWidth: !collapsed ? "5px" : "100%",
+                transition: "minWidth .2s, margin .2s,transform .2s !important",
+                ...(collapsed && { mb: 3 }),
                 boxShadow:
                   "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                 "&:focus-within": {
@@ -325,10 +335,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                       ? "hsl(240, 11%, 40%)"
                       : colors[themeColor]["200"],
                 },
-                py: collapsed ? 0.5 : 2,
                 textTransform: "none",
-                height: "auto",
-                maxHeight: "auto",
               }}
             >
               <span
@@ -500,21 +507,26 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             icon="yard"
           />
         )}
-        <ListSubheader
-          component="div"
-          id="nested-list-subheader"
-          sx={{
-            pl: 2,
-            position: {
-              md: "unset",
-            },
-            ...(global.theme === "dark" && {
-              background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
-            }),
-          }}
-        >
-          Other
-        </ListSubheader>
+        <Collapse in={!collapsed}>
+          <ListSubheader
+            sx={{
+              pl: 2,
+              fontSize: "15px",
+              position: {
+                md: "unset",
+              },
+              ...(global.theme === "dark" && {
+                background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
+              }),
+            }}
+          >
+            Other
+          </ListSubheader>
+        </Collapse>
+
+        <Collapse in={collapsed}>
+          <Divider sx={{ my: 1 }} />
+        </Collapse>
         <ListItem
           collapsed={collapsed}
           href="/starred"
@@ -529,7 +541,72 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           text="Trash"
           icon="delete"
         />
-      </>
+        <Collapse in={collapsed}>
+          <Divider sx={{ my: 1 }} />
+        </Collapse>
+        <ListItemButton
+          onClick={() => setCollapsed(!collapsed)}
+          sx={{
+            ...(collapsed && {
+              width: 70,
+              mx: "auto",
+            }),
+            pl: 2,
+            color:
+              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+            "& span": {
+              color:
+                (global.theme === "dark" ? grey[200] : "#606060") +
+                "!important",
+            },
+            borderRadius: 3,
+            transition: "margin .2s!important",
+            mb: collapsed ? 1 : 0.2,
+            py: 0.8,
+            "& .MuiTouchRipple-rippleVisible": {
+              animationDuration: ".3s!important",
+            },
+            "& .MuiTouchRipple-child": {
+              filter: "opacity(.2)!important",
+            },
+            "&:hover,&:focus": {
+              color:
+                (global.theme === "dark" ? grey[200] : grey[900]) +
+                "!important",
+              background:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 17%)"
+                  : "rgba(200,200,200,.3)",
+            },
+            "&:hover span": {
+              color:
+                (global.theme === "dark" ? grey[200] : grey[900]) +
+                "!important",
+            },
+          }}
+        >
+          <ListItemIcon
+            sx={{
+              transform: "translateX(6px)",
+            }}
+          >
+            <span className={"material-symbols-rounded"}>
+              chevron_{collapsed ? "right" : "left"}
+            </span>
+          </ListItemIcon>
+          <ListItemText
+            sx={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              "& *": {
+                fontSize: "15.2px",
+              },
+            }}
+            primary={!collapsed ? "Collapse menu" : "Expand menu"}
+          />
+        </ListItemButton>
+      </Box>
     </List>
   );
 }

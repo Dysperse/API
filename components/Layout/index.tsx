@@ -24,7 +24,7 @@ interface Room {
   name: string;
   id: number;
 }
-function CustomRoom({ room }: { room: Room }) {
+function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;
@@ -128,6 +128,10 @@ function CustomRoom({ room }: { room: Room }) {
           onContextMenu={handleContextMenu}
           sx={{
             pl: 2,
+            ...(collapsed && {
+              width: 70,
+              mx: "auto",
+            }),
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -215,7 +219,7 @@ function CustomRoom({ room }: { room: Room }) {
   );
 }
 
-function CustomRooms() {
+function CustomRooms({ collapsed }: any) {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
@@ -243,7 +247,7 @@ function CustomRooms() {
   return (
     <>
       {data.data.map((room: Room, id: number) => (
-        <CustomRoom room={room} key={id.toString()} />
+        <CustomRoom collapsed={collapsed} room={room} key={id.toString()} />
       ))}
     </>
   );
@@ -279,12 +283,13 @@ function ResponsiveDrawer(props: any): JSX.Element {
           }}
           sx={{
             display: { xs: "none", md: "block" },
-            width: collapsed ? 100 : drawerWidth,
             flexShrink: 0,
             height: "100px",
             borderRight: 0,
             [`& .MuiDrawer-paper`]: {
-              width: collapsed ? 100 : drawerWidth,
+              maxWidth: collapsed ? 100 : drawerWidth,
+              transition: "maxWidth 2s !important",
+              textAlign: collapsed ? "center" : "",
               borderRight: 0,
               zIndex: 1000,
               height: "100vh",
@@ -297,7 +302,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
           <DrawerListItems
             collapsed={collapsed}
             setCollapsed={setCollapsed}
-            customRooms={<CustomRooms />}
+            customRooms={<CustomRooms collapsed={collapsed} />}
           />
         </Drawer>
       </Box>
