@@ -482,6 +482,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
           <Collapse in={!deleted}>
             <SwipeableViews
               resistance
+              index={1}
               onChangeIndex={() => {
                 fetch(
                   "/api/inventory/trash?" +
@@ -501,6 +502,20 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 }, 100);
               }}
             >
+              <Box
+                sx={{
+                  background: colors.red["800"],
+                  width: "100%",
+                  height: "100%",
+                  color: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  px: 2,
+                }}
+              >
+                <span className="material-symbols-rounded">delete</span>
+              </Box>
               <ListItemButton
                 onContextMenu={handleContextMenu}
                 onClick={() => setDrawerState(true)}
