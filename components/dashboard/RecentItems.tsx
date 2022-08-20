@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useSWR from "swr";
 import Item from "../ItemPopup";
+import type { Item as ItemType } from "../../types/item";
 
 export function RecentItems() {
   const url =
@@ -45,8 +46,8 @@ export function RecentItems() {
         <Typography variant="h6" sx={{ mb: 1 }}>
           Recent items
         </Typography>
-        {data.data.map((item: Object) => (
-          <Item key={Math.random().toString()} variant="list" data={item} />
+        {data.data.map((item: ItemType, key: string) => (
+          <Item key={key.toString()} variant="list" data={item} />
         ))}
         {data.data.length === 0 && (
           <Box sx={{ textAlign: "center", my: 2 }}>
