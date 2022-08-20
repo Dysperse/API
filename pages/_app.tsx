@@ -160,7 +160,7 @@ function RenderApp({ router, Component, pageProps }: any) {
           />
         </>
       ) : (
-        <Online>
+        <>
           {/* {isLoading && <>Loading...</>} */}
           {!isLoading &&
             !isError &&
@@ -191,7 +191,7 @@ function RenderApp({ router, Component, pageProps }: any) {
             ) : (
               <LoginPrompt />
             ))}
-        </Online>
+        </>
       )}
     </>
   );
@@ -199,9 +199,9 @@ function RenderApp({ router, Component, pageProps }: any) {
 function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
   return (
     <>
-      <Offline>
-        <OfflineBox />
-      </Offline>
+      {/* <Offline> */}
+      {/* <OfflineBox /> */}
+      {/* </Offline> */}
       <NoSsr>
         <RenderApp
           router={router}
