@@ -412,8 +412,9 @@ export default function Categories() {
                 <>
                   {[...new Array(5)].map((_, i) => (
                     <Skeleton
+                      animation="wave"
                       height={30}
-                      sx={{ mb: 2, borderRadius: 3 }}
+                      sx={{ width: "100%", mb: 2, borderRadius: 3 }}
                       variant="rectangular"
                       key={i.toString()}
                     />
