@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
+import { Offline, Online } from "react-detect-offline";
+import Snackbar from "@mui/material/Snackbar";
 
 export function BottomNav() {
   const trigger = useScrollTrigger();
@@ -111,124 +113,133 @@ export function BottomNav() {
   const matches = useMediaQuery("(max-height: 400px)");
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        position: "fixed",
-        bottom: matches ? -100 : trigger ? -20 : 0,
-        left: 0,
-        transition: "bottom .3s",
-        display: {
-          xs: "block",
-          md: "none",
-        },
-      }}
-    >
-      <BottomNavigation
-        showLabels
-        value={value}
+    <>
+      <Snackbar
+        open={window && window.navigator.onLine === false}
+        autoHideDuration={6000}
+        onClose={() => {}}
+        sx={{ mb: trigger ? 6.5 : 9, transition: "all .3s" }}
+        message="You're offline. Please check your network connection."
+      />
+      <Box
         sx={{
-          py: 0.5,
-          px: "3px",
-          height: "auto",
-          alignItems: "center",
-          backdropFilter: "blur(15px)",
-
-          background:
-            global.theme === "dark"
-              ? "rgba(23,23,28,.7)"
-              : hexToRgba(colors[themeColor][100], 0.7),
-
-          ["@supports not (backdrop-filter: blur(15px))"]: {
-            background: colors[themeColor][100],
+          width: "100%",
+          position: "fixed",
+          bottom: matches ? -100 : trigger ? -20 : 0,
+          left: 0,
+          transition: "bottom .3s",
+          display: {
+            xs: "block",
+            md: "none",
           },
         }}
-        // showLabels
-        onChange={(event, newValue) => {
-          router.events.on("routeChangeComplete", () => {
-            setValue(newValue);
-          });
-          router.events.off("routeChangeComplete", () => {
-            setValue(newValue);
-          });
-        }}
       >
-        <BottomNavigationAction
+        <BottomNavigation
+          showLabels
+          value={value}
           sx={{
-            ...styles,
-          }}
-          label="Home"
-          onClick={() => onLink("/dashboard")}
-          icon={
-            <Icon
-              baseClassName={
-                "material-symbols-" + (value == 0 ? "rounded" : "outlined")
-              }
-            >
-              layers
-            </Icon>
-          }
-        />
-        <BottomNavigationAction
-          sx={{
-            ...styles,
-          }}
-          label="Items"
-          onClick={() => onLink("/items")}
-          icon={
-            <Icon
-              baseClassName={
-                "material-symbols-" + (value == 1 ? "rounded" : "outlined")
-              }
-            >
-              category
-            </Icon>
-          }
-        />
-        <BottomNavigationAction
-          sx={{
-            ...styles,
-          }}
-          label="Finances"
-          onClick={() => onLink("/finances")}
-          icon={
-            <Icon
-              baseClassName={
-                "material-symbols-" + (value == 2 ? "rounded" : "outlined")
-              }
-            >
-              savings
-            </Icon>
-          }
-        />
+            py: 0.5,
+            px: "3px",
+            height: "auto",
+            alignItems: "center",
+            backdropFilter: "blur(15px)",
 
-        <BottomNavigationAction
-          sx={{
-            ...styles,
+            background:
+              global.theme === "dark"
+                ? "rgba(23,23,28,.7)"
+                : hexToRgba(colors[themeColor][100], 0.7),
+
+            ["@supports not (backdrop-filter: blur(15px))"]: {
+              background: colors[themeColor][100],
+            },
           }}
-          label={
-            <span
-              style={{
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Sustainability
-            </span>
-          }
-          onClick={() => onLink("/save-the-planet")}
-          icon={
-            <Icon
-              baseClassName={
-                "material-symbols-" + (value == 3 ? "rounded" : "outlined")
-              }
-            >
-              eco
-            </Icon>
-          }
-        />
-      </BottomNavigation>
-    </Box>
+          // showLabels
+          onChange={(event, newValue) => {
+            router.events.on("routeChangeComplete", () => {
+              setValue(newValue);
+            });
+            router.events.off("routeChangeComplete", () => {
+              setValue(newValue);
+            });
+          }}
+        >
+          <BottomNavigationAction
+            sx={{
+              ...styles,
+            }}
+            label="Home"
+            onClick={() => onLink("/dashboard")}
+            icon={
+              <Icon
+                baseClassName={
+                  "material-symbols-" + (value == 0 ? "rounded" : "outlined")
+                }
+              >
+                layers
+              </Icon>
+            }
+          />
+          <BottomNavigationAction
+            sx={{
+              ...styles,
+            }}
+            label="Items"
+            onClick={() => onLink("/items")}
+            icon={
+              <Icon
+                baseClassName={
+                  "material-symbols-" + (value == 1 ? "rounded" : "outlined")
+                }
+              >
+                category
+              </Icon>
+            }
+          />
+          <BottomNavigationAction
+            sx={{
+              ...styles,
+            }}
+            label="Finances"
+            onClick={() => onLink("/finances")}
+            icon={
+              <Icon
+                baseClassName={
+                  "material-symbols-" + (value == 2 ? "rounded" : "outlined")
+                }
+              >
+                savings
+              </Icon>
+            }
+          />
+
+          <BottomNavigationAction
+            sx={{
+              ...styles,
+            }}
+            label={
+              <span
+                style={{
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Sustainability
+              </span>
+            }
+            onClick={() => onLink("/save-the-planet")}
+            icon={
+              <Icon
+                baseClassName={
+                  "material-symbols-" + (value == 3 ? "rounded" : "outlined")
+                }
+              >
+                eco
+              </Icon>
+            }
+          />
+        </BottomNavigation>
+      </Box>
+    </>
   );
 }
