@@ -51,8 +51,10 @@ export function BottomNav() {
     },
     "& .MuiIcon-root": {
       fontSize: "23px",
-      height: "30px",
-      mb: 0.3,
+      height: "33px",
+      transition: "margin .3s!important",
+      mb: trigger ? 0.6 : 0.3,
+      mt: 0.1,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -60,12 +62,12 @@ export function BottomNav() {
       textAlign: "center",
       position: "relative",
       width: "80%",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     "& .MuiIcon-root::before": {
       content: '""',
       display: "block",
-      borderRadius: "15px",
+      borderRadius: "9999px",
       width: "80%",
       height: "100%",
       left: "50%",
@@ -113,7 +115,7 @@ export function BottomNav() {
       sx={{
         width: "100%",
         position: "fixed",
-        bottom: matches ? -100 : trigger ? -70 : 0,
+        bottom: matches ? -100 : trigger ? -20 : 0,
         left: 0,
         transition: "bottom .3s",
         display: {
