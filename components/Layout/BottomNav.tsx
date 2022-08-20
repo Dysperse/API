@@ -39,14 +39,12 @@ export function BottomNav() {
     minWidth: { xs: "25vw!important", sm: "65px!important" },
     width: { xs: "20vw!important", sm: "65px!important" },
     mr: "-1px",
-    "& span:not(.MuiIcon-root)": {
+    "& span:not(.MuiIcon-root, .MuiTouchRipple-root, .MuiTouchRipple-root *)": {
       fontSize: "13px!important",
-    },
-    "& .MuiTouchRipple-rippleVisible": {
-      left: "-10% !important",
-      top: "-50%!important",
-      width: "30vw!important",
-      height: "30vw!important",
+      maxWidth: "70px",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
     },
     "& .MuiIcon-root": {
       fontSize: "23px",
@@ -73,10 +71,6 @@ export function BottomNav() {
       transform: "translate(-50%) scaleX(.8)",
       position: "absolute",
       zIndex: "-1",
-    },
-    overflow: "visible!important",
-    "& *": {
-      overflow: "visible!important",
     },
     py: 0.5,
   };
