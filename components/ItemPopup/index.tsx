@@ -508,7 +508,7 @@ export default function Item({
                 handleClose();
                 setTimeout(() => {
                   setDeleted(true);
-                }, 100);
+                }, 200);
               }}
             >
               <Box
@@ -622,7 +622,7 @@ export default function Item({
                     handleClose();
                     setTimeout(() => {
                       setDeleted(true);
-                    }, 100);
+                    }, 200);
                   }}
                 >
                   <Box
