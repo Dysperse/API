@@ -27,10 +27,6 @@ const styles = {
   minWidth: { xs: "25vw!important", sm: "65px!important" },
   width: { xs: "20vw!important", sm: "65px!important" },
   mr: "-1px",
-  "&.Mui-selected .MuiIcon-root::before": {
-    background: "rgba(150, 150, 150, .2)",
-    transform: "translateX(-50%)",
-  },
   "& span:not(.MuiIcon-root)": {
     fontSize: "13px!important",
   },
@@ -158,6 +154,13 @@ export function BottomNav() {
                   ? "hsl(240, 11%, 30%)"
                   : colors[themeColor][200],
             },
+            "&.Mui-selected .MuiIcon-root::before": {
+              background:
+                global.theme === "dark"
+                  ? "rgba(150, 150, 150, .2)"
+                  : colors[themeColor][200],
+              transform: "translateX(-50%)",
+            },
           }}
           label="Home"
           disableRipple
@@ -191,6 +194,13 @@ export function BottomNav() {
                 global.theme == "dark"
                   ? "hsl(240, 11%, 30%)"
                   : colors[themeColor][200],
+            },
+            "&.Mui-selected .MuiIcon-root::before": {
+              background:
+                global.theme === "dark"
+                  ? "rgba(150, 150, 150, .2)"
+                  : colors[themeColor][200],
+              transform: "translateX(-50%)",
             },
           }}
           label="Items"
@@ -226,6 +236,13 @@ export function BottomNav() {
                   ? "hsl(240, 11%, 30%)"
                   : colors[themeColor][200],
             },
+            "&.Mui-selected .MuiIcon-root::before": {
+              background:
+                global.theme === "dark"
+                  ? "rgba(150, 150, 150, .2)"
+                  : colors[themeColor][200],
+              transform: "translateX(-50%)",
+            },
           }}
           label="Finances"
           disableRipple
@@ -260,6 +277,13 @@ export function BottomNav() {
                 global.theme == "dark"
                   ? "hsl(240, 11%, 30%)"
                   : colors[themeColor][200],
+            },
+            "&.Mui-selected .MuiIcon-root::before": {
+              background:
+                global.theme === "dark"
+                  ? "rgba(150, 150, 150, .2)"
+                  : colors[themeColor][200],
+              transform: "translateX(-50%)",
             },
           }}
           label={

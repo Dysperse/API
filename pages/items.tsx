@@ -158,7 +158,17 @@ function CategoryList() {
           ))}
         </>
       ) : (
-        <></>
+        <>
+          {[...new Array(5)].map((_, i) => (
+            <Skeleton
+              animation="wave"
+              height={30}
+              sx={{ width: "100%", mb: 2, borderRadius: 3 }}
+              variant="rectangular"
+              key={i.toString()}
+            />
+          ))}
+        </>
       )}
     </>
   );
@@ -409,17 +419,7 @@ export default function Categories() {
                   check
                 </span>
               ) : (
-                <>
-                  {[...new Array(5)].map((_, i) => (
-                    <Skeleton
-                      animation="wave"
-                      height={30}
-                      sx={{ width: "100%", mb: 2, borderRadius: 3 }}
-                      variant="rectangular"
-                      key={i.toString()}
-                    />
-                  ))}
-                </>
+                <></>
               )}
               Room
             </Button>
