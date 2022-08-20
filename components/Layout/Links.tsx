@@ -348,6 +348,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
+                  my: collapsed ? 2 : 0,
                 }}
               >
                 New item

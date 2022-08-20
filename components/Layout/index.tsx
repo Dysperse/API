@@ -294,10 +294,6 @@ function ResponsiveDrawer(props: any): JSX.Element {
           }}
           open
         >
-          {/* <Box sx={{ mt: 10 }} onClick={() => setCollapsed(!collapsed)}>
-            asdfasdfasdfasdfE
-          </Box> */}
-
           <DrawerListItems
             collapsed={collapsed}
             setCollapsed={setCollapsed}
