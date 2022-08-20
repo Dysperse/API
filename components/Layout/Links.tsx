@@ -292,7 +292,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                 borderRadius: "20px",
                 px: collapsed ? 3 : 4,
                 mb: collapsed ? 4 : 0,
-                transition: "margin .2s, padding .2s!important",
+                transition: "margin .2s, padding .2s, transform .2s !important",
                 maxWidth: "100%",
                 fontSize: "15px",
                 boxShadow:
@@ -325,7 +325,6 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                       ? "hsl(240, 11%, 40%)"
                       : colors[themeColor]["200"],
                 },
-                transition: "transform .2s",
                 py: collapsed ? 0.5 : 2,
                 textTransform: "none",
                 height: "auto",
