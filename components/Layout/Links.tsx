@@ -259,7 +259,7 @@ const ListItem = React.memo(function ListItem({
           {c}
         </Tooltip>
       ) : (
-        <>{c}</>
+        c
       )}
     </Link>
   );
@@ -320,7 +320,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                   boxShadow:
                     "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                   transform: "scale(.96)",
-                  transition: "none",
+                  transition: "none!important",
                   background:
                     global.theme === "dark"
                       ? "hsl(240, 11%, 40%)"

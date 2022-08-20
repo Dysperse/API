@@ -26,6 +26,7 @@ import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { ItemActionsMenu } from "./ItemActionsMenu";
 import { StarButton } from "./StarButton";
+import SwipeableViews from "react-swipeable-views";
 
 export default function Item({ displayRoom = false, data, variant }: any) {
   const id = data.id;
@@ -479,60 +480,88 @@ export default function Item({ displayRoom = false, data, variant }: any) {
       <>
         {variant === "list" ? (
           <Collapse in={!deleted}>
-            <ListItemButton
-              onContextMenu={handleContextMenu}
-              onClick={() => setDrawerState(true)}
-              disableRipple
-              sx={{
-                py: 0.1,
-                borderRadius: "10px",
-                transition: "transform .2s",
-                "&:active": {
-                  transition: "none",
-                  transform: "scale(.97)",
-                  background:
-                    global.theme == "dark"
-                      ? "hsl(240, 11%, 20%)"
-                      : "rgba(200,200,200,.3)",
-                },
+            <SwipeableViews
+              resistance
+              onChangeIndex={() => {
+                fetch(
+                  "/api/inventory/trash?" +
+                    new URLSearchParams({
+                      propertyToken: global.session.property.propertyToken,
+                      accessToken: global.session.property.accessToken,
+                      id: id.toString(),
+                      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                    }),
+                  {
+                    method: "POST",
+                  }
+                );
+                handleClose();
+                setTimeout(() => {
+                  setDeleted(true);
+                }, 100);
               }}
             >
-              <ListItemText
+              <ListItemButton
+                onContextMenu={handleContextMenu}
+                onClick={() => setDrawerState(true)}
+                disableRipple
                 sx={{
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  maxWidth: "calc(100vw - 200px)",
-                  overflow: "hidden",
+                  py: 0.1,
+                  borderRadius: "10px",
+                  transition: "transform .2s",
+                  "&:active": {
+                    transition: "none",
+                    transform: "scale(.97)",
+                    background:
+                      global.theme == "dark"
+                        ? "hsl(240, 11%, 20%)"
+                        : "rgba(200,200,200,.3)",
+                  },
                 }}
-                primary={
-                  <Typography sx={{ fontWeight: "400" }}>
-                    {item.title}
-                  </Typography>
-                }
-                secondary={
-                  <Typography sx={{ fontWeight: "300", fontSize: "15px" }}>
-                    {dayjs(item.lastUpdated).fromNow()}
-                  </Typography>
-                }
-              />
-            </ListItemButton>
+              >
+                <ListItemText
+                  sx={{
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    maxWidth: "calc(100vw - 200px)",
+                    overflow: "hidden",
+                  }}
+                  primary={
+                    <Typography sx={{ fontWeight: "400" }}>
+                      {item.title}
+                    </Typography>
+                  }
+                  secondary={
+                    <Typography sx={{ fontWeight: "300", fontSize: "15px" }}>
+                      {dayjs(item.lastUpdated).fromNow()}
+                    </Typography>
+                  }
+                />
+              </ListItemButton>
+              <Box
+                sx={{
+                  background: colors.red["800"],
+                  width: "100%",
+                  height: "100%",
+                  color: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  px: 2,
+                }}
+              >
+                <span className="material-symbols-rounded">delete</span>
+              </Box>
+            </SwipeableViews>
           </Collapse>
         ) : (
           <>
-            {!deleted && (
+            <Collapse in={!deleted} sx={{ borderRadius: 5 }}>
               <Card
                 onContextMenu={handleContextMenu}
                 sx={{
-                  mt: {
-                    xs: 3,
-                    sm: 0.5,
-                  },
                   boxShadow: "0",
-                  // "&:hover": {
-                  //   boxShadow:
-                  //     "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                  // },
                   display: "block",
+                  my: 1,
                   width: "100%",
                   maxWidth: "calc(100vw - 20px)",
                   borderRadius: "28px",
@@ -541,7 +570,6 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                       ? "hsl(240, 11%, 17%)"
                       : "rgba(200,200,200,.3)") + "!important",
                   transition: "transform .2s",
-                  "& *": { transition: "none!important" },
                   "&:active": {
                     transform: "scale(0.98)",
                     transition: "none",
@@ -552,59 +580,95 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 }}
                 onClick={() => setDrawerState(true)}
               >
-                <CardActionArea
-                  disableRipple
-                  sx={{
-                    transition: "none!important",
-                    "&:focus-within": {
-                      background:
-                        (global.theme === "dark"
-                          ? "hsl(240, 11%, 18%)"
-                          : "rgba(200,200,200,.01)") + "!important",
-                    },
-                    borderRadius: "28px",
-                    "&:active": {
-                      boxShadow: "none!important",
-                    },
+                <SwipeableViews
+                  onChangeIndex={() => {
+                    fetch(
+                      "/api/inventory/trash?" +
+                        new URLSearchParams({
+                          propertyToken: global.session.property.propertyToken,
+                          accessToken: global.session.property.accessToken,
+                          id: id.toString(),
+                          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                        }),
+                      {
+                        method: "POST",
+                      }
+                    );
+                    handleClose();
+                    setTimeout(() => {
+                      setDeleted(true);
+                    }, 100);
                   }}
                 >
-                  <CardContent sx={{ p: 3 }}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        display: "block",
-                        mb: 1,
-                      }}
-                    >
-                      {item.title.substring(0, 18) || "(no title)"}
-                      {item.title.length > 18 && "..."}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        mb: 1,
-                      }}
-                    >
-                      {!item.amount.includes(" ") && "Quantity: "}
-                      {displayRoom
-                        ? data.room
-                        : item.amount.substring(0, 18) || "(no quantity)"}
-                      {!displayRoom && item.amount.length > 18 && "..."}
-                    </Typography>
-                    {!displayRoom &&
-                      item.categories.map((category: string) => {
-                        if (category.trim() === "") return false;
-                        return (
-                          <Chip
-                            key={Math.random().toString()}
-                            sx={{ pointerEvents: "none", m: 0.25 }}
-                            label={category}
-                          />
-                        );
-                      })}
-                  </CardContent>
-                </CardActionArea>
+                  <CardActionArea
+                    disableRipple
+                    sx={{
+                      transition: "none!important",
+                      "&:focus-within": {
+                        background:
+                          (global.theme === "dark"
+                            ? "hsl(240, 11%, 18%)"
+                            : "rgba(200,200,200,.01)") + "!important",
+                      },
+                      borderRadius: "28px",
+                      "&:active": {
+                        boxShadow: "none!important",
+                      },
+                    }}
+                  >
+                    <CardContent sx={{ p: 3 }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          display: "block",
+                          mb: 1,
+                        }}
+                      >
+                        {item.title.substring(0, 18) || "(no title)"}
+                        {item.title.length > 18 && "..."}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          mb: 1,
+                        }}
+                      >
+                        {!item.amount.includes(" ") && "Quantity: "}
+                        {displayRoom
+                          ? data.room
+                          : item.amount.substring(0, 18) || "(no quantity)"}
+                        {!displayRoom && item.amount.length > 18 && "..."}
+                      </Typography>
+                      {!displayRoom &&
+                        item.categories.map((category: string) => {
+                          if (category.trim() === "") return false;
+                          return (
+                            <Chip
+                              key={Math.random().toString()}
+                              sx={{ pointerEvents: "none", m: 0.25 }}
+                              label={category}
+                            />
+                          );
+                        })}
+                    </CardContent>
+                  </CardActionArea>
+                  <Box
+                    sx={{
+                      background: colors.red["800"],
+                      width: "100%",
+                      height: "100%",
+                      color: "#fff",
+                      display: "flex",
+                      ml: 1,
+                      alignItems: "center",
+                      px: 2,
+                      borderRadius: "28px",
+                    }}
+                  >
+                    <span className="material-symbols-rounded">delete</span>
+                  </Box>
+                </SwipeableViews>
               </Card>
-            )}
+            </Collapse>
           </>
         )}
       </>

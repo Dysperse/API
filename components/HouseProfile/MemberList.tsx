@@ -367,6 +367,7 @@ export function MemberList() {
         }}
       >
         <SwipeableViews
+          resistance
           style={{
             borderRadius: "20px",
             width: "100%",

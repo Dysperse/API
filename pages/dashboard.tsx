@@ -20,6 +20,9 @@ export default function Dashboard() {
         </title>
       </Head>
       <Container sx={{ mt: 4 }}>
+        <Box sx={{ display: { sm: "none" } }}>
+          <Lists mobile />
+        </Box>
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
             <Paper
@@ -54,7 +57,13 @@ export default function Dashboard() {
               key={(Math.random() + Math.random()).toString()}
               sx={{ boxShadow: 0, p: 0 }}
             >
-              <Lists />
+              <Box
+                sx={{
+                  display: { xs: "none", sm: "unset" },
+                }}
+              >
+                <Lists />
+              </Box>
             </Paper>
           </Masonry>
         </Box>

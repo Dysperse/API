@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { Puller } from "../../Puller";
 import { stopPropagationForTab } from "./Lists";
 
-export function CreateListCard({ lists, setLists }: any) {
+export function CreateListCard({ mobile, lists, setLists }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -102,16 +102,13 @@ export function CreateListCard({ lists, setLists }: any) {
           sx={{ transition: "none!important" }}
         >
           <CardContent>
-            <Typography
-              component="div"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                justifyContent: "center",
-              }}
-            >
-              <span className="material-symbols-rounded">add_circle</span>
+            <Typography component="div">
+              <span
+                className="material-symbols-rounded"
+                style={{ display: "block" }}
+              >
+                add_circle
+              </span>
               Create list
             </Typography>
           </CardContent>

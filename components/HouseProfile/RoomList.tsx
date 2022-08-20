@@ -117,6 +117,7 @@ export function RoomList() {
         }}
       >
         <SwipeableViews
+          resistance
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={activeStep}
           onChangeIndex={handleStepChange}
@@ -131,24 +132,6 @@ export function RoomList() {
             paddingLeft: 0,
           }}
         >
-          {images.map((step, index) => (
-            <Box key={index.toString()}>
-              <Box
-                sx={{
-                  p: 2,
-                  userSelect: "none",
-                  px: 2.5,
-                  borderRadius: 5,
-                  background:
-                    global.theme === "dark"
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][100],
-                }}
-              >
-                {step.content}
-              </Box>
-            </Box>
-          ))}
           {images.length === 0 ? (
             <Box
               sx={{
@@ -161,7 +144,26 @@ export function RoomList() {
             >
               You haven&apos;t created any rooms yet
             </Box>
-          ) : null}
+          ) : (
+            images.map((step, index) => (
+              <Box key={index.toString()}>
+                <Box
+                  sx={{
+                    p: 2,
+                    userSelect: "none",
+                    px: 2.5,
+                    borderRadius: 5,
+                    background:
+                      global.theme === "dark"
+                        ? "hsl(240, 11%, 30%)"
+                        : colors[themeColor][100],
+                  }}
+                >
+                  {step.content}
+                </Box>
+              </Box>
+            ))
+          )}
         </SwipeableViews>
       </Box>
     </>

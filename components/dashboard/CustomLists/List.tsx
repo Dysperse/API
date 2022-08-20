@@ -198,12 +198,14 @@ function ListPopup({
 }
 
 export function List({
+  mobile,
   title,
   lists,
   setLists,
   description,
   id,
 }: {
+  mobile: boolean;
   lists: any;
   setLists: any;
   title: string;
@@ -258,7 +260,7 @@ export function List({
           sx={{
             "& *": { transition: "none!important" },
             mb: 2,
-            width: "100%",
+            mr: 2,
             borderRadius: "28px",
             background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
@@ -275,12 +277,23 @@ export function List({
             }}
           >
             <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
+              <Typography
+                sx={{
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+                gutterBottom={!mobile}
+                variant="h6"
+                component="div"
+              >
                 {title}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                List
-              </Typography>
+              {!mobile && (
+                <Typography variant="body2" color="text.secondary">
+                  List
+                </Typography>
+              )}
             </CardContent>
           </CardActionArea>
         </Card>
