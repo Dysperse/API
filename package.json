@@ -6,7 +6,7 @@
   "author": "Carbon",
   "repository": "https://github.com/Smartlist-App/Smartlist",
   "scripts": {
-    "dev": "next dev -p 6969",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
