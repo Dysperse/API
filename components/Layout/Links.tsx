@@ -1,6 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
 import * as colors from "@mui/material/colors";
 import { grey } from "@mui/material/colors";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -65,7 +64,7 @@ function CreateRoom() {
     <>
       <ListItemButton
         disableRipple
-        sx={{ pl: 4, borderRadius: "0 40px 40px 0", transition: "none" }}
+        sx={{ pl: 4, borderRadius: 5, transition: "none" }}
         onClick={toggleDrawer(true)}
         id="setCreateRoomModalOpen"
       >
@@ -88,7 +87,7 @@ function CreateRoom() {
             "& *:not(.MuiTouchRipple-child, .puller)": {
               background: "transparent!important",
             },
-            borderRadius: "28px 28px 0 0 !important",
+            borderRadius: 5,
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",
@@ -145,17 +144,14 @@ const ListItem = React.memo(function ListItem({
   asHref = "/dashboard",
   text,
   icon,
-  sx = {},
 }: any) {
   const router = useRouter();
   if (!router.asPath) router.asPath = "/dashboard";
   return (
     <Link href={href} as={asHref} replace>
       <ListItemButton
-        disableRipple
         sx={{
-          ...sx,
-          pl: 3,
+          pl: 2,
           transition: "none!important",
           color:
             (global.theme === "dark" ? grey[200] : "#606060") + "!important",
@@ -163,7 +159,9 @@ const ListItem = React.memo(function ListItem({
             color:
               (global.theme === "dark" ? grey[200] : "#606060") + "!important",
           },
-          borderRadius: "0 200px 200px 0",
+          borderRadius: 3,
+          mb: 0.2,
+          py: 0.8,
           "& .MuiTouchRipple-rippleVisible": {
             animationDuration: ".3s!important",
           },
@@ -182,12 +180,6 @@ const ListItem = React.memo(function ListItem({
             color:
               (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
           },
-          "&:active": {
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 19%)"
-                : "rgba(200,200,200,.4)",
-          },
           ...(router.asPath === asHref && {
             backgroundColor:
               global.theme === "dark"
@@ -201,14 +193,7 @@ const ListItem = React.memo(function ListItem({
               color:
                 colors[global.themeColor][global.theme === "dark" ? 100 : 900],
             },
-            "&:active": {
-              color:
-                colors[global.themeColor][global.theme === "dark" ? 100 : 900],
-              backgroundColor:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 19%)"
-                  : colors[global.themeColor][200],
-            },
+
             "& span": {
               color:
                 colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
@@ -235,15 +220,32 @@ const ListItem = React.memo(function ListItem({
             }),
           }}
         >
-          {icon}
+          <span
+            className={
+              "material-symbols-" +
+              (router.asPath === asHref ? "rounded" : "outlined")
+            }
+          >
+            {icon}
+          </span>
         </ListItemIcon>
-        <ListItemText sx={{ "& *": { fontSize: "15.2px" } }} primary={text} />
+        <ListItemText
+          sx={{
+            "& *": {
+              fontSize: "15.2px",
+              ...(router.asPath === asHref && {
+                fontWeight: "500",
+              }),
+            },
+          }}
+          primary={text}
+        />
       </ListItemButton>
     </Link>
   );
 });
 
-export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
+export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClick = () => {
@@ -252,7 +254,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
 
   return (
     <List
-      sx={{ width: "100%" }}
+      sx={{ width: "100%", p: 1 }}
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
@@ -278,9 +280,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               disableRipple
               aria-label="add"
               sx={{
-                width: "100%",
                 borderRadius: "20px",
-                px: 3,
+                px: 4,
+                maxWidth: "100%",
                 fontSize: "15px",
                 boxShadow:
                   "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
@@ -329,7 +331,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               >
                 add_circle
               </span>
-              Create
+              New item
             </Fab>
           </AddPopup>
         </div>
@@ -348,21 +350,18 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           >
             Home
           </ListSubheader>
-          <ListItem
-            text="Overview"
-            icon={<span className="material-symbols-rounded">layers</span>}
-          />
+          <ListItem text="Overview" icon="layers" />
           <ListItem
             href="/finances"
             asHref="/finances"
             text="Finances"
-            icon={<span className="material-symbols-rounded">savings</span>}
+            icon="savings"
           />
           <ListItem
             asHref="/save-the-planet"
             href="/save-the-planet"
             text="Eco friendliness"
-            icon={<span className="material-symbols-rounded">eco</span>}
+            icon="eco"
           />
         </div>
         <div>
@@ -385,29 +384,27 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               href="/rooms/[index]"
               asHref="/rooms/kitchen"
               text="Kitchen"
-              icon={<span className="material-symbols-rounded">oven_gen</span>}
+              icon="oven_gen"
             />
           )}
           <ListItem
             href="/rooms/[index]"
             asHref="/rooms/bedroom"
             text="Bedroom"
-            icon={
-              <span className="material-symbols-rounded">bedroom_parent</span>
-            }
+            icon="bedroom_parent"
           />
           <ListItem
             href="/rooms/[index]"
             asHref="/rooms/bathroom"
             text="Bathroom"
-            icon={<span className="material-symbols-rounded">bathroom</span>}
+            icon="bathroom"
           />
           {global.session.property.houseType !== "dorm" && (
             <ListItem
               href="/rooms/[index]"
               asHref="/rooms/garage"
               text="Garage"
-              icon={<span className="material-symbols-rounded">garage</span>}
+              icon="garage"
             />
           )}
           {global.session.property.houseType !== "dorm" && (
@@ -415,7 +412,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               href="/rooms/[index]"
               asHref="/rooms/dining"
               text="Dining room"
-              icon={<span className="material-symbols-rounded">dining</span>}
+              icon="dining"
             />
           )}
           {global.session.property.houseType !== "dorm" && (
@@ -423,7 +420,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               href="/rooms/[index]"
               asHref="/rooms/living-room"
               text={<>Living room</>}
-              icon={<span className="material-symbols-rounded">living</span>}
+              icon="living"
             />
           )}
           {global.session.property.houseType !== "dorm" && (
@@ -431,11 +428,7 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
               href="/rooms/[index]"
               asHref="/rooms/laundry-room"
               text="Laundry room"
-              icon={
-                <span className="material-symbols-rounded">
-                  local_laundry_service
-                </span>
-              }
+              icon="local_laundry_service"
             />
           )}
           <ListItem
@@ -446,88 +439,25 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
                 Storage {global.session.property.houseType !== "dorm" && "room"}
               </>
             }
-            icon={<span className="material-symbols-rounded">inventory_2</span>}
+            icon="inventory_2"
           />
-          {global.session.property.houseType !== "dorm" && (
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/camping"
-              text="Camping"
-              icon={<span className="material-symbols-rounded">camping</span>}
-            />
-          )}
-          {global.session.property.houseType !== "dorm" && (
-            <ListItem
-              href="/rooms/[index]"
-              asHref="/rooms/garden"
-              text="Garden"
-              icon={<span className="material-symbols-rounded">yard</span>}
-            />
-          )}
         </div>
-
+        {customRooms}
         {global.session.property.houseType !== "dorm" && (
-          <>
-            <ListItemButton
-              disableRipple
-              onClick={handleClick}
-              sx={{
-                pl: 3.5,
-                transition: "none!important",
-                color:
-                  (global.theme === "dark" ? grey[200] : "#606060") +
-                  "!important",
-                "& span": {
-                  color:
-                    (global.theme === "dark" ? grey[200] : "#606060") +
-                    "!important",
-                },
-                borderRadius: "0 200px 200px 0",
-                "& .MuiTouchRipple-rippleVisible": {
-                  animationDuration: ".3s!important",
-                },
-                "& .MuiTouchRipple-child": {
-                  filter: "opacity(.2)!important",
-                },
-                "&:hover,&:focus": {
-                  color:
-                    (global.theme === "dark" ? grey[200] : grey[900]) +
-                    "!important",
-                  background: "rgba(200,200,200,.3)",
-                },
-                "&:hover span": {
-                  color:
-                    (global.theme === "dark" ? grey[200] : grey[900]) +
-                    "!important",
-                },
-                "&:active": {
-                  background: "rgba(200,200,200,.4)",
-                },
-              }}
-            >
-              <ListItemIcon>
-                <span className="material-symbols-rounded">pin_drop</span>
-              </ListItemIcon>
-              <ListItemText primary="More" />
-              <span
-                className="material-symbols-rounded"
-                style={{
-                  transition: "all .2s",
-                  ...(open && {
-                    transform: "rotate(-180deg)",
-                  }),
-                }}
-              >
-                expand_more
-              </span>
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" onClick={handleDrawerToggle}>
-              <List component="div" disablePadding>
-                {customRooms}
-                <CreateRoom />
-              </List>
-            </Collapse>
-          </>
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/camping"
+            text="Camping"
+            icon="camping"
+          />
+        )}
+        {global.session.property.houseType !== "dorm" && (
+          <ListItem
+            href="/rooms/[index]"
+            asHref="/rooms/garden"
+            text="Garden"
+            icon="yard"
+          />
         )}
         <ListSubheader
           component="div"
@@ -548,14 +478,9 @@ export function DrawerListItems({ handleDrawerToggle, customRooms }: any) {
           href="/starred"
           asHref="/starred"
           text="Starred"
-          icon={<span className="material-symbols-rounded">grade</span>}
+          icon="grade"
         />
-        <ListItem
-          href="/trash"
-          asHref="/trash"
-          text="Trash"
-          icon={<span className="material-symbols-rounded">delete</span>}
-        />
+        <ListItem href="/trash" asHref="/trash" text="Trash" icon="delete" />
       </>
     </List>
   );

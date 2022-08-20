@@ -48,6 +48,7 @@ function CustomRoom({ room }: { room: Room }) {
   const handleClose = () => {
     setContextMenu(null);
   };
+  const asHref = "/rooms/" + encode(room.id + "," + room.name) + "?custom=true";
   return (
     <>
       <Menu
@@ -124,10 +125,12 @@ function CustomRoom({ room }: { room: Room }) {
         href={"/rooms/" + encode(room.id + "," + room.name) + "?custom=true"}
       >
         <ListItemButton
-          disableRipple
           onContextMenu={handleContextMenu}
           sx={{
-            pl: 5,
+            pl: 2,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
             transition: "none!important",
             color:
               (global.theme === "dark" ? grey[200] : "#606060") + "!important",
@@ -136,7 +139,9 @@ function CustomRoom({ room }: { room: Room }) {
                 (global.theme === "dark" ? grey[200] : "#606060") +
                 "!important",
             },
-            borderRadius: "0 200px 200px 0",
+            borderRadius: 3,
+            mb: 0.2,
+            py: 0.8,
             "& .MuiTouchRipple-rippleVisible": {
               animationDuration: ".3s!important",
             },
@@ -147,19 +152,60 @@ function CustomRoom({ room }: { room: Room }) {
               color:
                 (global.theme === "dark" ? grey[200] : grey[900]) +
                 "!important",
-              background: "rgba(200,200,200,.3)",
+              background:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 17%)"
+                  : "rgba(200,200,200,.3)",
             },
             "&:hover span": {
               color:
                 (global.theme === "dark" ? grey[200] : grey[900]) +
                 "!important",
             },
-            "&:active": {
-              background: "rgba(200,200,200,.4)",
-            },
+            ...(router.asPath === asHref && {
+              backgroundColor:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 15%)"
+                  : colors[global.themeColor][50],
+              "&:hover,&:focus": {
+                backgroundColor:
+                  global.theme === "dark"
+                    ? "hsl(240, 11%, 17%)"
+                    : colors[global.themeColor][100],
+                color:
+                  colors[global.themeColor][
+                    global.theme === "dark" ? 100 : 900
+                  ],
+              },
+              "& span": {
+                color:
+                  colors[global.themeColor][
+                    global.theme === "dark" ? 100 : 800
+                  ] + "!important",
+              },
+              "&:hover span": {
+                color:
+                  colors[global.themeColor][
+                    global.theme === "dark" ? 100 : 800
+                  ] + "!important",
+              },
+              "&:active span": {
+                color:
+                  colors[global.themeColor][
+                    global.theme === "dark" ? 200 : 900
+                  ] + "!important",
+              },
+            }),
           }}
         >
-          <ListItemIcon>
+          <ListItemIcon
+            sx={{
+              transform: "translateX(6px)",
+              ...(router.asPath === asHref && {
+                color: colors[global.themeColor][500],
+              }),
+            }}
+          >
             <span className="material-symbols-outlined">label</span>
           </ListItemIcon>
           <ListItemText primary={room.name} />
@@ -204,6 +250,8 @@ function CustomRooms() {
 }
 
 function ResponsiveDrawer(props: any): JSX.Element {
+  const [collapsed, setCollapsed] = React.useState(false);
+
   return (
     <Box
       sx={{
@@ -243,7 +291,11 @@ function ResponsiveDrawer(props: any): JSX.Element {
           }}
           open
         >
-          <DrawerListItems customRooms={<CustomRooms />} />
+          <DrawerListItems
+            collapsed={collapsed}
+            setCollapsed={setCollapsed}
+            customRooms={<CustomRooms />}
+          />
         </Drawer>
       </Box>
       <Box
