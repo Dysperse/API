@@ -1,13 +1,12 @@
+import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import Button from "@mui/material/Button";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 
 export function DeleteButton({
-  id,
-  deleted,
+  item,
   setDeleted,
   setDrawerState,
 }: any): JSX.Element {
@@ -41,7 +40,7 @@ export function DeleteButton({
               new URLSearchParams({
                 propertyToken: global.session.property.propertyToken,
                 accessToken: global.session.property.accessToken,
-                id: id.toString(),
+                id: item.id.toString(),
                 lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               }),
             {
@@ -67,7 +66,7 @@ export function DeleteButton({
                       new URLSearchParams({
                         propertyToken: global.session.property.propertyToken,
                         accessToken: global.session.property.accessToken,
-                        id: id.toString(),
+                        id: item.id.toString(),
                         lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                       }),
                     {

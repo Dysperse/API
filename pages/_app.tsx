@@ -161,6 +161,7 @@ function RenderApp({ router, Component, pageProps }: any) {
         </>
       ) : (
         <Online>
+          {/* {isLoading && <>Loading...</>} */}
           {!isLoading &&
             !isError &&
             (data.account ? (

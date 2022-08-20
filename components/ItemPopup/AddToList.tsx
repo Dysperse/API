@@ -84,7 +84,7 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   );
 }
 
-export function AddToListModal({ title, handleClose }: any) {
+export function AddToListModal({ item, handleClose }: any) {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <>
@@ -110,7 +110,7 @@ export function AddToListModal({ title, handleClose }: any) {
           </DialogContentText>
         </DialogTitle>
         <DialogContent>
-          <RoomList title={title} handleClose={() => setOpen(false)} />
+          <RoomList title={item.title} handleClose={() => setOpen(false)} />
         </DialogContent>
         <DialogActions>
           <Button

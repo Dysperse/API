@@ -14,16 +14,7 @@ import { AutocompleteData } from "../AutocompleteData";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../Puller";
 
-export function EditButton({
-  id,
-  title,
-  setTitle,
-  quantity,
-  setQuantity,
-  categories,
-  setCategories,
-  setLastUpdated,
-}: any): JSX.Element {
+export function EditButton({ item, setItemData }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
@@ -36,9 +27,9 @@ export function EditButton({
 
   const formik = useFormik({
     initialValues: {
-      categories: categories,
-      title: title,
-      quantity: quantity,
+      categories: item.categories,
+      title: item.title,
+      quantity: item.quantity,
     },
     onSubmit: async (values: {
       categories: Array<string>;
@@ -50,7 +41,7 @@ export function EditButton({
           new URLSearchParams({
             propertyToken: global.session.property.propertyToken,
             accessToken: global.session.property.accessToken,
-            id: id.toString(),
+            id: item.id.toString(),
             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             name: values.title,
             qty: values.quantity,
@@ -61,10 +52,14 @@ export function EditButton({
         }
       );
 
-      setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
-      setTitle(values.title);
-      setQuantity(values.quantity);
-      setCategories(values.categories);
+      // Update item object
+      setItemData({
+        ...item,
+        title: values.title,
+        quantity: values.quantity,
+        categories: values.categories,
+        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      });
       handleClose();
     },
   });

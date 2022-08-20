@@ -20,7 +20,6 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { DeleteButton } from "./DeleteButton";
@@ -30,15 +29,9 @@ import { StarButton } from "./StarButton";
 
 export default function Item({ displayRoom = false, data, variant }: any) {
   const id = data.id;
-  const [itemData] = useState(data);
-  const [title, setTitle] = useState(data.title);
-  const [quantity, setQuantity] = useState(data.amount);
-  const [star, setStar] = useState(parseInt(itemData.star, 10));
+  const [drawerState, setDrawerState] = useState(false);
+  const [item, setItemData] = useState(data);
   const [deleted, setDeleted] = useState<boolean>(false);
-  const [categories, setCategories] = useState(data.categories);
-  const [note, setNote] = useState(data.note);
-  const [lastUpdated, setLastUpdated] = useState(data.lastUpdated);
-  const [drawerState, setDrawerState] = useState<boolean>(false);
 
   useEffect(() => {
     drawerState ? neutralizeBack(() => setDrawerState(false)) : revivalBack();
@@ -189,8 +182,8 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               encodeURIComponent(
                 JSON.stringify({
                   name: global.session.account.name,
-                  title: title,
-                  quantity: quantity,
+                  title: item.title,
+                  quantity: item.quantity,
                   room: data.room,
                 })
               );
@@ -208,8 +201,14 @@ export default function Item({ displayRoom = false, data, variant }: any) {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
-            setStar((s: number) => +!s);
+            setItemData({
+              ...item,
+              lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            });
+            setItemData({
+              ...item,
+              star: +!item.star,
+            });
             handleClose();
             fetch(
               "/api/inventory/star?" +
@@ -227,13 +226,13 @@ export default function Item({ displayRoom = false, data, variant }: any) {
         >
           <span
             className={
-              "material-symbols-" + (star == 1 ? "rounded" : "outlined")
+              "material-symbols-" + (item.star == 1 ? "rounded" : "outlined")
             }
             style={{ marginRight: "20px" }}
           >
             grade
           </span>
-          {star == 1 ? "Unstar" : "Star"}
+          {item.star == 1 ? "Unstar" : "Star"}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -284,7 +283,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
         {drawerState && (
           <Head>
             <title>
-              {title} &bull; {data.room} &bull;{" "}
+              {item.title} &bull; {data.room} &bull;{" "}
               {global.session.property.houseName.replace(/./, (c) =>
                 c.toUpperCase()
               )}{" "}
@@ -362,41 +361,23 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               </Tooltip>
               <Typography sx={{ flexGrow: 1 }}></Typography>
               {global.session.property.role !== "read-only" && (
-                <StarButton
-                  setLastUpdated={setLastUpdated}
-                  id={id}
-                  star={star}
-                  setStar={setStar}
-                />
+                <StarButton item={item} setItemData={setItemData} />
               )}
               {global.session.property.role !== "read-only" && (
-                <EditButton
-                  id={id}
-                  title={title}
-                  setTitle={setTitle}
-                  quantity={quantity}
-                  setQuantity={setQuantity}
-                  categories={categories}
-                  setCategories={setCategories}
-                  setLastUpdated={setLastUpdated}
-                />
+                <EditButton item={item} setItemData={setItemData} />
               )}
               {global.session.property.role !== "read-only" && (
                 <DeleteButton
-                  id={id}
-                  deleted={deleted}
+                  item={item}
                   setDrawerState={setDrawerState}
                   setDeleted={setDeleted}
                 />
               )}
               <ItemActionsMenu
-                setDrawerState={setDrawerState}
-                id={id}
-                room={data.room}
+                item={item}
+                setItemData={setItemData}
                 setDeleted={setDeleted}
-                star={star}
-                title={title}
-                quantity={quantity}
+                setDrawerState={setDrawerState}
               />
             </Toolbar>
           </AppBar>
@@ -411,7 +392,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
             }}
           >
             <Typography variant="h3" sx={{ fontWeight: "400" }}>
-              {title || "(no title)"}
+              {item.title || "(no title)"}
             </Typography>
             <Typography
               variant="h5"
@@ -419,10 +400,10 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 fontWeight: "700",
               }}
             >
-              Quantity: {quantity || "(no quantity)"}
+              Quantity: {item.quantity || "(no quantity)"}
             </Typography>
             <div>
-              {categories.map((category: string) => {
+              {item.categories.map((category: string) => {
                 return (
                   <Chip
                     key={Math.random().toString()}
@@ -438,8 +419,15 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               onBlur={(e) => {
                 e.target.placeholder = "Click to add note";
                 e.target.spellcheck = false;
-                setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
-                setNote(e.target.value);
+                setItemData({
+                  ...item,
+                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                });
+                // Update item note
+                setItemData({
+                  ...item,
+                  note: e.target.value,
+                });
                 fetch(
                   "/api/inventory/updateNote?" +
                     new URLSearchParams({
@@ -471,7 +459,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
               }}
               spellCheck={false}
               variant="filled"
-              defaultValue={note}
+              defaultValue={item.note}
               maxRows={4}
               onFocus={(e) => {
                 e.target.placeholder = "SHIFT+ENTER for new lines";
@@ -502,7 +490,10 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 "&:active": {
                   transition: "none",
                   transform: "scale(.97)",
-                  background: global.theme == "dark" ? "hsl(240, 11%, 20%)" :"rgba(200,200,200,.3)",
+                  background:
+                    global.theme == "dark"
+                      ? "hsl(240, 11%, 20%)"
+                      : "rgba(200,200,200,.3)",
                 },
               }}
             >
@@ -514,11 +505,13 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                   overflow: "hidden",
                 }}
                 primary={
-                  <Typography sx={{ fontWeight: "400" }}>{title}</Typography>
+                  <Typography sx={{ fontWeight: "400" }}>
+                    {item.title}
+                  </Typography>
                 }
                 secondary={
                   <Typography sx={{ fontWeight: "300", fontSize: "15px" }}>
-                    {dayjs(lastUpdated).fromNow()}
+                    {dayjs(item.lastUpdated).fromNow()}
                   </Typography>
                 }
               />
@@ -553,7 +546,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     transform: "scale(0.98)",
                     transition: "none",
                   },
-                  ...(star === 1 && {
+                  ...(item.star === 1 && {
                     background: deepOrange[global.theme === "dark" ? 900 : 50],
                   }),
                 }}
@@ -583,22 +576,22 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                         mb: 1,
                       }}
                     >
-                      {title.substring(0, 18) || "(no title)"}
-                      {title.length > 18 && "..."}
+                      {item.title.substring(0, 18) || "(no title)"}
+                      {item.title.length > 18 && "..."}
                     </Typography>
                     <Typography
                       sx={{
                         mb: 1,
                       }}
                     >
-                      {!quantity.includes(" ") && "Quantity: "}
+                      {!item.quantity.includes(" ") && "Quantity: "}
                       {displayRoom
                         ? data.room
-                        : quantity.substring(0, 18) || "(no quantity)"}
-                      {!displayRoom && quantity.length > 18 && "..."}
+                        : item.quantity.substring(0, 18) || "(no quantity)"}
+                      {!displayRoom && item.quantity.length > 18 && "..."}
                     </Typography>
                     {!displayRoom &&
-                      categories.map((category: string) => {
+                      item.categories.map((category: string) => {
                         if (category.trim() === "") return false;
                         return (
                           <Chip

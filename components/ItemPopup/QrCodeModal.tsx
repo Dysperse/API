@@ -4,11 +4,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
-import React, { useState } from "react";
+import { useState } from "react";
 import QRCode from "react-qr-code";
 
-export function QrCodeModal({ title, quantity, room }: any): JSX.Element {
+export function QrCodeModal({ item }: any): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const href =
     "https://" +
@@ -17,14 +16,11 @@ export function QrCodeModal({ title, quantity, room }: any): JSX.Element {
     encodeURIComponent(
       JSON.stringify({
         name: global.session.account.name,
-        title: title,
-        quantity: quantity,
-        room: room,
+        title: item.title,
+        quantity: item.quantity,
+        room: item.room,
       })
     );
-  const [qrText, setQrText] = useState(
-    `I have ${quantity.trim()} ${title.toLowerCase().trim()} in my inventory`
-  );
 
   const handleClickOpen = () => {
     setOpen(true);

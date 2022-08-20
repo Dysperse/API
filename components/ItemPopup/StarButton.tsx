@@ -4,9 +4,9 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import dayjs from "dayjs";
 
-export function StarButton({ setLastUpdated, id, star, setStar }: any) {
+export function StarButton({ item, setItemData }: any) {
   return (
-    <Tooltip title={star === 0 ? "Star" : "Unstar"}>
+    <Tooltip title={item.star === 0 ? "Star" : "Unstar"}>
       <IconButton
         disableRipple
         size="large"
@@ -28,7 +28,7 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
                 : colors[themeColor]["100"]) + "!important",
             color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
           },
-          ...(parseInt(star, 10) === 1 && {
+          ...(parseInt(item.star, 10) === 1 && {
             "&:hover": {
               background: global.theme === "dark" ? orange[900] : orange[50],
               color: "#000",
@@ -44,14 +44,17 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
           }),
         }}
         onClick={() => {
-          setLastUpdated(dayjs().format("YYYY-MM-DD HH:mm:ss"));
-          setStar((s: number) => +!s);
+          setItemData({
+            ...item,
+            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            star: +!item.star,
+          });
           fetch(
             "/api/inventory/star?" +
               new URLSearchParams({
                 propertyToken: global.session.property.propertyToken,
                 accessToken: global.session.property.accessToken,
-                id: id.toString(),
+                id: item.id.toString(),
                 lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               }),
             {
@@ -60,7 +63,7 @@ export function StarButton({ setLastUpdated, id, star, setStar }: any) {
           );
         }}
       >
-        {star === 1 ? (
+        {item.star === 1 ? (
           <span
             className="material-symbols-rounded"
             style={{

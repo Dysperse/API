@@ -88,13 +88,10 @@ function Room({
 }
 
 export function ItemActionsMenu({
-  room,
-  setDrawerState,
-  id,
+  item,
+  setItemData,
   setDeleted,
-  title,
-  quantity,
-  star,
+  setDrawerState,
 }: any): JSX.Element {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -161,10 +158,10 @@ export function ItemActionsMenu({
             ].map((room, index) => (
               <Room
                 key={index}
-                room={room}
+                room={item.room}
                 setDrawerState={setDrawerState}
                 setMoveToRoomOpen={setMoveToRoomOpen}
-                id={parseInt(id)}
+                id={parseInt(item.id)}
                 setDeleted={setDeleted}
               />
             ))}
@@ -220,16 +217,18 @@ export function ItemActionsMenu({
         <DialogContent sx={{ width: "450px", maxWidth: "100vw", p: 4, pt: 0 }}>
           <DialogContentText id="alert-dialog-description">
             <Typography variant="body2">{"Title"}</Typography>
-            <Typography>{title}</Typography>
+            <Typography>{item.title}</Typography>
             <br />
             <Typography variant="body2">{"Quantity"}</Typography>
-            <Typography>{quantity || "(no quantity)"}</Typography>
+            <Typography>{item.quantity || "(no quantity)"}</Typography>
             <br />
             <Typography variant="body2">{"Starred"}</Typography>
-            <Typography>{star === 1 ? "Starred" : "Not starred"}</Typography>
+            <Typography>
+              {item.star === 1 ? "Starred" : "Not starred"}
+            </Typography>
             <br />
             <Typography variant="body2">{"ID"}</Typography>
-            <Typography>{id}</Typography>
+            <Typography>{item.id}</Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
@@ -349,31 +348,15 @@ export function ItemActionsMenu({
         <Box onClick={() => setAnchorEl(null)}>
           <InfoButton setOpenInfo={setOpenInfo} />
         </Box>
-        <ShareModal title={title} quantity={quantity} room={room} />
-        {room.toLowerCase() === "kitchen" && (
-          <MenuItem disableRipple onClick={handleClose}>
-            <span
-              style={{ marginRight: "15px" }}
-              className="material-symbols-rounded"
-            >
-              auto_awesome
-            </span>
-            Find recipes
-          </MenuItem>
-        )}
-        {/* <MenuItem disableRipple onClick={handleClose}>
-          <span
-            style={{ marginRight: "15px" }}
-            className="material-symbols-rounded"
-          >
-            person_add
-          </span>
-          Invite collaborators
-        </MenuItem> */}
+        <ShareModal
+          title={item.title}
+          quantity={item.quantity}
+          room={item.room}
+        />
         {global.session.property.role !== "read-only" && (
-          <AddToListModal handleClose={handleClose} title={title} />
+          <AddToListModal handleClose={handleClose} item={item} />
         )}
-        <QrCodeModal room={room} title={title} quantity={quantity} />
+        <QrCodeModal item={item} />
         {global.session.property.role !== "read-only" && (
           <MenuItem
             disableRipple
