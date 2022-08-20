@@ -23,6 +23,7 @@ import React from "react";
 import AddPopup from "../AddPopup";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
+import Cookies from "js-cookie";
 
 function CreateRoom() {
   const router = useRouter();
@@ -545,7 +546,10 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           <Divider sx={{ my: 1 }} />
         </Collapse>
         <ListItemButton
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => {
+            setCollapsed(!collapsed);
+            Cookies.set("collapsed", collapsed ? "false" : "true");
+          }}
           sx={{
             ...(collapsed && {
               width: 70,

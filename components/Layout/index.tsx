@@ -18,6 +18,7 @@ import useSWR from "swr";
 import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
+import Cookies from "js-cookie";
 
 const drawerWidth = 260;
 interface Room {
@@ -254,7 +255,9 @@ function CustomRooms({ collapsed }: any) {
 }
 
 function ResponsiveDrawer(props: any): JSX.Element {
-  const [collapsed, setCollapsed] = React.useState(true);
+  const [collapsed, setCollapsed] = React.useState(
+    Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
+  );
 
   return (
     <Box
