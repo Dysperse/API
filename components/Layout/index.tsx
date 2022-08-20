@@ -61,6 +61,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
           "& .MuiPaper-root": {
             borderRadius: "15px",
             minWidth: 180,
+            boxShadow: "none !important",
             background:
               global.theme === "dark"
                 ? colors[global.themeColor][900]
