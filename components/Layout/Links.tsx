@@ -341,7 +341,15 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               >
                 add_circle
               </span>
-              <Collapse in={!collapsed} orientation="horizontal">
+              <Collapse
+                in={!collapsed}
+                orientation="horizontal"
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 New item
               </Collapse>
             </Fab>
