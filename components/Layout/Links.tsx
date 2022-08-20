@@ -511,7 +511,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               }),
             }}
           >
-            Other
+            More
           </ListSubheader>
         </Collapse>
 
