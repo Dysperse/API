@@ -1,23 +1,30 @@
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
+import NoSsr from "@mui/material/NoSsr";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Head from "next/head";
 import Script from "next/script";
 import { useState } from "react";
-import { Offline, Online } from "react-detect-offline";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
 import "../styles/global.css";
-import { OfflineBox } from "./_offline";
-import NoSsr from "@mui/material/NoSsr";
+import type { Account } from "../types/account";
 
 dayjs.extend(relativeTime);
 
-function Render({ data, Component, pageProps }: any) {
+function Render({
+  data,
+  Component,
+  pageProps,
+}: {
+  data: Account;
+  Component: any;
+  pageProps: any;
+}) {
   global.session = data;
   const [theme, setTheme] = useState<"dark" | "light">(
     data.account.darkMode ? "dark" : "light"
@@ -38,7 +45,7 @@ function Render({ data, Component, pageProps }: any) {
   global.themeColor = themeColor;
   global.setThemeColor = setThemeColor;
 
-  if (data.account.darkMode === "true") {
+  if (data.account.darkMode) {
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute("content", "hsl(240, 11%, 10%)");
@@ -214,8 +221,17 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
   );
 }
 
-function RenderComponent({ Component, pageProps, data }: any) {
+function RenderComponent({
+  Component,
+  pageProps,
+  data,
+}: {
+  Component: any;
+  pageProps: any;
+  data: Account;
+}) {
   global.session = data;
+
   return (
     <>
       <Component {...pageProps} />

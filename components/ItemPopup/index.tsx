@@ -27,8 +27,17 @@ import { EditButton } from "./EditButton";
 import { ItemActionsMenu } from "./ItemActionsMenu";
 import { StarButton } from "./StarButton";
 import SwipeableViews from "react-swipeable-views";
+import type { Item } from "../../types/item";
 
-export default function Item({ displayRoom = false, data, variant }: any) {
+export default function Item({
+  displayRoom = false,
+  data,
+  variant,
+}: {
+  displayRoom?: boolean;
+  data: Item;
+  variant?: "list" | "card";
+}) {
   const id = data.id;
   const [drawerState, setDrawerState] = useState(false);
   const [item, setItemData] = useState(data);

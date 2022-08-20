@@ -5,8 +5,9 @@ import CardContent from "@mui/material/CardContent";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { ItemCard } from "./ItemCard";
+import type { Item } from "../../types/item";
 
-export function ItemList({ items }: { items: any }) {
+export function ItemList({ items }: { items: Array<Item> }) {
   return (
     <Box
       sx={{
@@ -67,26 +68,11 @@ export function ItemList({ items }: { items: any }) {
           </Paper>
         ) : null}
 
-        {items.map(
-          (
-            item: {
-              id: number;
-              lastUpdated: string;
-              amount: string;
-              sync: string;
-              title: string;
-              categories: string;
-              note: string;
-              star: number;
-              room: string;
-            },
-            key: number
-          ) => (
-            <div key={key.toString()}>
-              <ItemCard item={item} />
-            </div>
-          )
-        )}
+        {items.map((item: Item, key: number) => (
+          <div key={key.toString()}>
+            <ItemCard item={item} />
+          </div>
+        ))}
       </Masonry>
     </Box>
   );
