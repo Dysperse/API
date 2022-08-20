@@ -11,12 +11,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 const styles = {
   borderRadius: "15px",
   px: "0!important",
-  transition: "transform .2s",
-  transformOrigin: "center",
-  "&:active": {
-    transform: "scale(.94)",
-    transition: "none",
-  },
   "& *": {
     maxWidth: "70%",
     overflow: "hidden",
