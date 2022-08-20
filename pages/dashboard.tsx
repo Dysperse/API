@@ -19,7 +19,7 @@ export default function Dashboard() {
           &bull; Carbon
         </title>
       </Head>
-      <Container sx={{ mt: 4 }}>
+      <Container sx={{ my: 4 }}>
         <Box sx={{ display: { sm: "none" } }}>
           <Lists mobile />
         </Box>
