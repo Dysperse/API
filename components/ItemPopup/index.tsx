@@ -183,7 +183,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 JSON.stringify({
                   name: global.session.account.name,
                   title: item.title,
-                  quantity: item.quantity,
+                  quantity: item.amount,
                   room: data.room,
                 })
               );
@@ -400,7 +400,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 fontWeight: "700",
               }}
             >
-              Quantity: {item.quantity || "(no quantity)"}
+              Quantity: {item.amount || "(no quantity)"}
             </Typography>
             <div>
               {item.categories.map((category: string) => {
@@ -584,11 +584,11 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                         mb: 1,
                       }}
                     >
-                      {!item.quantity.includes(" ") && "Quantity: "}
+                      {!item.amount.includes(" ") && "Quantity: "}
                       {displayRoom
                         ? data.room
-                        : item.quantity.substring(0, 18) || "(no quantity)"}
-                      {!displayRoom && item.quantity.length > 18 && "..."}
+                        : item.amount.substring(0, 18) || "(no quantity)"}
+                      {!displayRoom && item.amount.length > 18 && "..."}
                     </Typography>
                     {!displayRoom &&
                       item.categories.map((category: string) => {

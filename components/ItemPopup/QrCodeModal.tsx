@@ -17,7 +17,7 @@ export function QrCodeModal({ item }: any): JSX.Element {
       JSON.stringify({
         name: global.session.account.name,
         title: item.title,
-        quantity: item.quantity,
+        quantity: item.amount,
         room: item.room,
       })
     );

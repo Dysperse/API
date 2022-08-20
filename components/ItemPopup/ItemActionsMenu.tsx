@@ -218,7 +218,7 @@ export function ItemActionsMenu({
             <Typography>{item.title}</Typography>
             <br />
             <Typography variant="body2">{"Quantity"}</Typography>
-            <Typography>{item.quantity || "(no quantity)"}</Typography>
+            <Typography>{item.amount || "(no quantity)"}</Typography>
             <br />
             <Typography variant="body2">{"Starred"}</Typography>
             <Typography>
@@ -348,7 +348,7 @@ export function ItemActionsMenu({
         </Box>
         <ShareModal
           title={item.title}
-          quantity={item.quantity}
+          quantity={item.amount}
           room={item.room}
         />
         {global.session.property.role !== "read-only" && (
