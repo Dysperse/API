@@ -8,53 +8,79 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const styles = {
-  borderRadius: "15px",
-  px: "0!important",
-  "& *": {
-    maxWidth: "70%",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  },
-  maxHeight: { sm: "70px" },
-  maxWidth: { xs: "25vw!important", sm: "65px!important" },
-  minWidth: { xs: "25vw!important", sm: "65px!important" },
-  width: { xs: "20vw!important", sm: "65px!important" },
-  mr: "-1px",
-  "& span:not(.MuiIcon-root)": {
-    fontSize: "13px!important",
-  },
-  "& .MuiIcon-root": {
-    fontSize: "23px",
-    height: "30px",
-    mb: 0.3,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "transparent!important",
-    textAlign: "center",
-    position: "relative",
-    width: "80%",
-    maxWidth: "70px",
-  },
-  "& .MuiIcon-root::before": {
-    content: '""',
-    display: "block",
-    borderRadius: "15px",
-    width: "80%",
-    height: "100%",
-    left: "50%",
-    background: "transparent",
-    transition: "transform .2s",
-    transform: "translate(-50%) scaleX(.8)",
-    position: "absolute",
-    zIndex: "-1",
-  },
-
-  py: 0.5,
-};
-
 export function BottomNav() {
+  const styles = {
+    "&:not(.Mui-selected)": {
+      color:
+        (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
+        "!important",
+    },
+    "&.Mui-selected": {
+      color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+      fontWeight: "700",
+      background: "transparent !important",
+    },
+    "&.Mui-selected .MuiIcon-root": {
+      background:
+        global.theme == "dark" ? "hsl(240, 11%, 30%)" : colors[themeColor][200],
+    },
+    "&.Mui-selected .MuiIcon-root::before": {
+      background:
+        global.theme === "dark"
+          ? "rgba(150, 150, 150, .2)"
+          : colors[themeColor][200],
+      transform: "translateX(-50%)",
+    },
+    borderRadius: "15px",
+    px: "0!important",
+
+    maxHeight: { sm: "70px" },
+    maxWidth: { xs: "25vw!important", sm: "65px!important" },
+    minWidth: { xs: "25vw!important", sm: "65px!important" },
+    width: { xs: "20vw!important", sm: "65px!important" },
+    mr: "-1px",
+    "& span:not(.MuiIcon-root)": {
+      fontSize: "13px!important",
+    },
+    "& .MuiTouchRipple-rippleVisible": {
+      left: "-10% !important",
+      top: "-50%!important",
+      width: "30vw!important",
+      height: "30vw!important",
+    },
+    "& .MuiIcon-root": {
+      fontSize: "23px",
+      height: "30px",
+      mb: 0.3,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "transparent!important",
+      textAlign: "center",
+      position: "relative",
+      width: "80%",
+      maxWidth: "70px",
+    },
+    "& .MuiIcon-root::before": {
+      content: '""',
+      display: "block",
+      borderRadius: "15px",
+      width: "80%",
+      height: "100%",
+      left: "50%",
+      background: "transparent",
+      transition: "transform .2s",
+      transform: "translate(-50%) scaleX(.8)",
+      position: "absolute",
+      zIndex: "-1",
+    },
+    overflow: "visible!important",
+    "& *": {
+      overflow: "visible!important",
+    },
+    py: 0.5,
+  };
+
   const router = useRouter();
   let v;
   switch (router.asPath) {
@@ -131,33 +157,8 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            "&:not(.Mui-selected)": {
-              color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
-                "!important",
-            },
-            "&.Mui-selected": {
-              color:
-                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
-              fontWeight: "700",
-              background: "transparent !important",
-            },
-            "&.Mui-selected .MuiIcon-root": {
-              background:
-                global.theme == "dark"
-                  ? "hsl(240, 11%, 30%)"
-                  : colors[themeColor][200],
-            },
-            "&.Mui-selected .MuiIcon-root::before": {
-              background:
-                global.theme === "dark"
-                  ? "rgba(150, 150, 150, .2)"
-                  : colors[themeColor][200],
-              transform: "translateX(-50%)",
-            },
           }}
           label="Home"
-          disableRipple
           onClick={() => onLink("/dashboard")}
           icon={
             <Icon
@@ -172,33 +173,8 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            "&:not(.Mui-selected)": {
-              color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
-                "!important",
-            },
-            "&.Mui-selected": {
-              color:
-                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
-              fontWeight: "700",
-              background: "transparent !important",
-            },
-            "&.Mui-selected .MuiIcon-root": {
-              background:
-                global.theme == "dark"
-                  ? "hsl(240, 11%, 30%)"
-                  : colors[themeColor][200],
-            },
-            "&.Mui-selected .MuiIcon-root::before": {
-              background:
-                global.theme === "dark"
-                  ? "rgba(150, 150, 150, .2)"
-                  : colors[themeColor][200],
-              transform: "translateX(-50%)",
-            },
           }}
           label="Items"
-          disableRipple
           onClick={() => onLink("/items")}
           icon={
             <Icon
@@ -213,33 +189,8 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            "&:not(.Mui-selected)": {
-              color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
-                "!important",
-            },
-            "&.Mui-selected": {
-              color:
-                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
-              fontWeight: "700",
-              background: "transparent !important",
-            },
-            "&.Mui-selected .MuiIcon-root": {
-              background:
-                global.theme == "dark"
-                  ? "hsl(240, 11%, 30%)"
-                  : colors[themeColor][200],
-            },
-            "&.Mui-selected .MuiIcon-root::before": {
-              background:
-                global.theme === "dark"
-                  ? "rgba(150, 150, 150, .2)"
-                  : colors[themeColor][200],
-              transform: "translateX(-50%)",
-            },
           }}
           label="Finances"
-          disableRipple
           onClick={() => onLink("/finances")}
           icon={
             <Icon
@@ -255,30 +206,6 @@ export function BottomNav() {
         <BottomNavigationAction
           sx={{
             ...styles,
-            "&:not(.Mui-selected)": {
-              color:
-                (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
-                "!important",
-            },
-            "&.Mui-selected": {
-              color:
-                global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
-              fontWeight: "700",
-              background: "transparent !important",
-            },
-            "&.Mui-selected .MuiIcon-root": {
-              background:
-                global.theme == "dark"
-                  ? "hsl(240, 11%, 30%)"
-                  : colors[themeColor][200],
-            },
-            "&.Mui-selected .MuiIcon-root::before": {
-              background:
-                global.theme === "dark"
-                  ? "rgba(150, 150, 150, .2)"
-                  : colors[themeColor][200],
-              transform: "translateX(-50%)",
-            },
           }}
           label={
             <span
@@ -291,7 +218,6 @@ export function BottomNav() {
               Sustainability
             </span>
           }
-          disableRipple
           onClick={() => onLink("/save-the-planet")}
           icon={
             <Icon
