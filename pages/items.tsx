@@ -7,7 +7,9 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import Menu from "@mui/material/Menu";
+import Skeleton from "@mui/material/Skeleton";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import { encode } from "js-base64";
@@ -156,7 +158,7 @@ function CategoryList() {
           ))}
         </>
       ) : (
-        <>Loading...</>
+        <></>
       )}
     </>
   );
@@ -371,22 +373,86 @@ export default function Categories() {
         >
           Inventory
         </Typography>
-        <Box sx={{ textAlign: "right", my: 4 }}>
-          <Button
-            onClick={handleClick}
-            disableElevation
-            sx={{ borderRadius: 5, px: 3 }}
-            variant="contained"
+        <Box
+          sx={{
+            my: 4,
+            textAlign: "center",
+          }}
+        >
+          <ButtonGroup
+            variant="outlined"
+            aria-label="outlined primary button group"
           >
-            View by:
-            <span style={{ textTransform: "capitalize" }}>&nbsp;{viewBy}</span>
-            <span
-              className="material-symbols-rounded"
-              style={{ marginLeft: "10px" }}
+            <Button
+              onClick={() => setViewBy("room")}
+              sx={{
+                px: 5,
+                borderRadius: 999,
+                height: 40,
+                transition: "none!important",
+                width: 150,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                ...(viewBy === "room" && {
+                  background:
+                    colors[themeColor][global.theme !== "dark" ? 100 : 900] +
+                    "!important",
+                }),
+              }}
             >
-              expand_more
-            </span>
-          </Button>
+              {viewBy === "room" ? (
+                <span
+                  className="material-symbols-rounded"
+                  style={{ marginRight: "10px" }}
+                >
+                  check
+                </span>
+              ) : (
+                <>
+                  {[...new Array(5)].map((_, i) => (
+                    <Skeleton
+                      height={30}
+                      sx={{ mb: 2, borderRadius: 3 }}
+                      variant="rectangular"
+                      key={i.toString()}
+                    />
+                  ))}
+                </>
+              )}
+              Room
+            </Button>
+            <Button
+              onClick={() => setViewBy("category")}
+              sx={{
+                px: 5,
+                height: 40,
+                borderRadius: 999,
+                transition: "none!important",
+                width: 150,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                ...(viewBy === "category" && {
+                  background:
+                    colors[themeColor][global.theme !== "dark" ? 100 : 900] +
+                    "!important",
+                }),
+              }}
+            >
+              {viewBy === "category" ? (
+                <span
+                  className="material-symbols-rounded"
+                  style={{ marginRight: "10px" }}
+                >
+                  check
+                </span>
+              ) : (
+                <></>
+              )}
+              Category
+            </Button>
+          </ButtonGroup>
         </Box>
         {viewBy === "room" ? (
           <>
