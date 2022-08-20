@@ -2,18 +2,22 @@ import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import Fab from "@mui/material/Fab";
 import AddPopup from "../AddPopup";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 export function FloatingActionButton() {
+  const trigger = useScrollTrigger();
+
   return global.session.property.role === "read-only" ? null : (
     <Box
       sx={{
         position: "fixed",
         zIndex: 1,
+        transition: "bottom .2s",
         bottom: {
           lg: "15px",
           sm: "74px",
           md: "15px",
-          xs: "74px",
+          xs: trigger ? "15px" : "74px",
         },
         right: "12px",
         display: {
@@ -39,8 +43,8 @@ export function FloatingActionButton() {
             backdropFilter: "blur(15px)",
             background:
               global.theme === "dark"
-              ? "rgba(57, 57, 71, .7)"
-              : colors[themeColor][100],
+                ? "rgba(57, 57, 71, .7)"
+                : colors[themeColor][100],
             color:
               global.theme === "dark"
                 ? "hsl(240, 11%, 95%)"

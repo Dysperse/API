@@ -113,7 +113,7 @@ export function BottomNav() {
       sx={{
         width: "100%",
         position: "fixed",
-        bottom: matches ? -100 : trigger ? -100 : 0,
+        bottom: matches ? -100 : trigger ? -70 : 0,
         left: 0,
         transition: "bottom .2s",
         display: {
