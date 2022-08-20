@@ -19,6 +19,7 @@ import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const drawerWidth = 260;
 interface Room {
@@ -26,6 +27,7 @@ interface Room {
   id: number;
 }
 function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
+  const [deleted, setDeleted] = React.useState<boolean>(false);
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;
@@ -50,7 +52,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
     setContextMenu(null);
   };
   const asHref = "/rooms/" + encode(room.id + "," + room.name) + "?custom=true";
-  return (
+  return deleted ? null : (
     <>
       <Menu
         BackdropProps={{
@@ -118,7 +120,36 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
             : undefined
         }
       >
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            if (
+              confirm(
+                "Delete this room including the items in it? This action is irreversible."
+              )
+            ) {
+              setDeleted(true);
+              fetch(
+                "/api/rooms/delete?" +
+                  new URLSearchParams({
+                    id: room.id.toString(),
+                    propertyToken: global.session.property.propertyToken,
+                    accessToken: global.session.property.accessToken,
+                  }),
+                {
+                  method: "POST",
+                }
+              )
+                .then(() => toast.success("Room deleted!"))
+                .catch(() => {
+                  toast.error("Failed to delete room");
+                  setDeleted(false);
+                });
+            }
+          }}
+        >
+          Delete
+        </MenuItem>
         <MenuItem onClick={() => router.push("/rooms/" + room.id)}>
           View
         </MenuItem>
