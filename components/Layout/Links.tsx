@@ -9,8 +9,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
+import Divider from "@mui/material/Divider";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
+import Collapse from "@mui/material/Collapse";
 import Toolbar from "@mui/material/Toolbar";
 import { useFormik } from "formik";
 import { encode } from "js-base64";
@@ -144,6 +146,7 @@ const ListItem = React.memo(function ListItem({
   asHref = "/dashboard",
   text,
   icon,
+  collapsed,
 }: any) {
   const router = useRouter();
   if (!router.asPath) router.asPath = "/dashboard";
@@ -151,8 +154,10 @@ const ListItem = React.memo(function ListItem({
     <Link href={href} as={asHref} replace>
       <ListItemButton
         sx={{
+          ...(collapsed && {
+            width: 70,
+          }),
           pl: 2,
-          transition: "none!important",
           color:
             (global.theme === "dark" ? grey[200] : "#606060") + "!important",
           "& span": {
@@ -160,7 +165,8 @@ const ListItem = React.memo(function ListItem({
               (global.theme === "dark" ? grey[200] : "#606060") + "!important",
           },
           borderRadius: 3,
-          mb: 0.2,
+          transition: "margin .2s!important",
+          mb: collapsed ? 1 : 0.2,
           py: 0.8,
           "& .MuiTouchRipple-rippleVisible": {
             animationDuration: ".3s!important",
@@ -231,6 +237,9 @@ const ListItem = React.memo(function ListItem({
         </ListItemIcon>
         <ListItemText
           sx={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
             "& *": {
               fontSize: "15.2px",
               ...(router.asPath === asHref && {
@@ -270,7 +279,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
         >
           <Toolbar />
         </Box>
-        <div style={{ padding: "10px" }}>
+        <div style={{ padding: collapsed ? 0 : "10px" }}>
           <AddPopup>
             <Fab
               disabled={global.session.property.role === "read-only"}
@@ -281,7 +290,9 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               aria-label="add"
               sx={{
                 borderRadius: "20px",
-                px: 4,
+                px: collapsed ? 3 : 4,
+                mb: collapsed ? 4 : 0,
+                transition: "margin .2s, padding .2s!important",
                 maxWidth: "100%",
                 fontSize: "15px",
                 boxShadow:
@@ -315,7 +326,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                       : colors[themeColor]["200"],
                 },
                 transition: "transform .2s",
-                py: 2,
+                py: collapsed ? 0.5 : 2,
                 textTransform: "none",
                 height: "auto",
                 maxHeight: "auto",
@@ -325,39 +336,45 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                 className="material-symbols-rounded"
                 style={{
                   transition: "all .2s",
-                  marginRight: "20px",
+                  marginRight: collapsed ? 0 : "20px",
                   float: "left",
                 }}
               >
                 add_circle
               </span>
-              New item
+              <Collapse in={!collapsed} orientation="horizontal">
+                New item
+              </Collapse>
             </Fab>
           </AddPopup>
         </div>
         <div>
-          <ListSubheader
-            sx={{
-              pl: 2,
-              position: {
-                md: "unset",
-              },
-              fontSize: "15px",
-              ...(global.theme === "dark" && {
-                background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
-              }),
-            }}
-          >
-            Home
-          </ListSubheader>
-          <ListItem text="Overview" icon="layers" />
+          <Collapse in={!collapsed}>
+            <ListSubheader
+              sx={{
+                pl: 2,
+                position: {
+                  md: "unset",
+                },
+                fontSize: "15px",
+                ...(global.theme === "dark" && {
+                  background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
+                }),
+              }}
+            >
+              Home
+            </ListSubheader>
+          </Collapse>
+          <ListItem collapsed={collapsed} text="Overview" icon="layers" />
           <ListItem
+            collapsed={collapsed}
             href="/finances"
             asHref="/finances"
             text="Finances"
             icon="savings"
           />
           <ListItem
+            collapsed={collapsed}
             asHref="/save-the-planet"
             href="/save-the-planet"
             text="Eco friendliness"
@@ -365,22 +382,29 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           />
         </div>
         <div>
-          <ListSubheader
-            sx={{
-              pl: 2,
-              fontSize: "15px",
-              position: {
-                md: "unset",
-              },
-              ...(global.theme === "dark" && {
-                background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
-              }),
-            }}
-          >
-            {global.session.property.houseType === "dorm" ? "Dorm" : "Rooms"}
-          </ListSubheader>
+          <Collapse in={!collapsed}>
+            <ListSubheader
+              sx={{
+                pl: 2,
+                fontSize: "15px",
+                position: {
+                  md: "unset",
+                },
+                ...(global.theme === "dark" && {
+                  background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
+                }),
+              }}
+            >
+              {global.session.property.houseType === "dorm" ? "Dorm" : "Rooms"}
+            </ListSubheader>
+          </Collapse>
+
+          <Collapse in={collapsed}>
+            <Divider sx={{ my: 1 }} />
+          </Collapse>
           {global.session.property.houseType !== "dorm" && (
             <ListItem
+              collapsed={collapsed}
               href="/rooms/[index]"
               asHref="/rooms/kitchen"
               text="Kitchen"
@@ -388,12 +412,14 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             />
           )}
           <ListItem
+            collapsed={collapsed}
             href="/rooms/[index]"
             asHref="/rooms/bedroom"
             text="Bedroom"
             icon="bedroom_parent"
           />
           <ListItem
+            collapsed={collapsed}
             href="/rooms/[index]"
             asHref="/rooms/bathroom"
             text="Bathroom"
@@ -401,6 +427,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           />
           {global.session.property.houseType !== "dorm" && (
             <ListItem
+              collapsed={collapsed}
               href="/rooms/[index]"
               asHref="/rooms/garage"
               text="Garage"
@@ -409,6 +436,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           )}
           {global.session.property.houseType !== "dorm" && (
             <ListItem
+              collapsed={collapsed}
               href="/rooms/[index]"
               asHref="/rooms/dining"
               text="Dining room"
@@ -417,6 +445,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           )}
           {global.session.property.houseType !== "dorm" && (
             <ListItem
+              collapsed={collapsed}
               href="/rooms/[index]"
               asHref="/rooms/living-room"
               text={<>Living room</>}
@@ -425,6 +454,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           )}
           {global.session.property.houseType !== "dorm" && (
             <ListItem
+              collapsed={collapsed}
               href="/rooms/[index]"
               asHref="/rooms/laundry-room"
               text="Laundry room"
@@ -432,6 +462,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             />
           )}
           <ListItem
+            collapsed={collapsed}
             href="/rooms/[index]"
             asHref="/rooms/storage-room"
             text={
@@ -445,6 +476,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
         {customRooms}
         {global.session.property.houseType !== "dorm" && (
           <ListItem
+            collapsed={collapsed}
             href="/rooms/[index]"
             asHref="/rooms/camping"
             text="Camping"
@@ -453,6 +485,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
         )}
         {global.session.property.houseType !== "dorm" && (
           <ListItem
+            collapsed={collapsed}
             href="/rooms/[index]"
             asHref="/rooms/garden"
             text="Garden"
@@ -475,12 +508,19 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           Other
         </ListSubheader>
         <ListItem
+          collapsed={collapsed}
           href="/starred"
           asHref="/starred"
           text="Starred"
           icon="grade"
         />
-        <ListItem href="/trash" asHref="/trash" text="Trash" icon="delete" />
+        <ListItem
+          collapsed={collapsed}
+          href="/trash"
+          asHref="/trash"
+          text="Trash"
+          icon="delete"
+        />
       </>
     </List>
   );

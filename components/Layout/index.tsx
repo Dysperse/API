@@ -250,7 +250,7 @@ function CustomRooms() {
 }
 
 function ResponsiveDrawer(props: any): JSX.Element {
-  const [collapsed, setCollapsed] = React.useState(false);
+  const [collapsed, setCollapsed] = React.useState(true);
 
   return (
     <Box
@@ -266,7 +266,10 @@ function ResponsiveDrawer(props: any): JSX.Element {
       <Navbar />
       <Box
         component="nav"
-        sx={{ width: { sm: "65px", md: drawerWidth }, flexShrink: { md: 0 } }}
+        sx={{
+          width: { sm: "65px", md: collapsed ? 100 : drawerWidth },
+          flexShrink: { md: 0 },
+        }}
         aria-label="mailbox folders"
       >
         <Drawer
@@ -276,12 +279,12 @@ function ResponsiveDrawer(props: any): JSX.Element {
           }}
           sx={{
             display: { xs: "none", md: "block" },
-            width: drawerWidth,
+            width: collapsed ? 100 : drawerWidth,
             flexShrink: 0,
             height: "100px",
             borderRight: 0,
             [`& .MuiDrawer-paper`]: {
-              width: drawerWidth,
+              width: collapsed ? 100 : drawerWidth,
               borderRight: 0,
               zIndex: 1000,
               height: "100vh",
