@@ -120,7 +120,7 @@ export function SearchPopup({ content }: any) {
       .then((res) => {
         if (res && res.res) {
           setCommands([
-            ...commands,
+            ...(commands || []),
             ...res.data.map((room) => {
               return {
                 command: () => router.push("/rooms/" + room.id),

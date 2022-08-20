@@ -268,10 +268,6 @@ const ListItem = React.memo(function ListItem({
 export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
   const [open, setOpen] = React.useState<boolean>(false);
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
   return (
     <List
       sx={{ width: "100%", p: 1 }}
@@ -284,7 +280,6 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           <AddPopup>
             <Fab
               disabled={global.session.property.role === "read-only"}
-              // onMouseOver={() => setHide(false)}
               variant="extended"
               color="primary"
               disableRipple
