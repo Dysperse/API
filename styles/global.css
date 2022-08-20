@@ -7,9 +7,9 @@ body:not(.prevent-scroll) {
   scroll-behavior: smooth;
   overflow-y: scroll !important;
 }
-.prevent-scroll {
+/* .prevent-scroll {
   overflow: hidden !important;
-}
+} */
 img {
   user-select: none;
 }
