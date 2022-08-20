@@ -22,6 +22,7 @@ import { updateSettings } from "../Settings/updateSettings";
 import toast from "react-hot-toast";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Puller } from "../Puller";
+import Cookies from "js-cookie";
 
 function House({ data }: any) {
   const [open, setOpen] = React.useState(false);
@@ -541,7 +542,10 @@ export function InviteButton() {
           userSelect: "none",
           cursor: "pointer",
           "&:active": {
-            background: global.theme == "dark" ? "hsl(240, 11%, 20%) !important" : "rgba(200,200,200,.3)!important",
+            background:
+              global.theme == "dark"
+                ? "hsl(240, 11%, 20%) !important"
+                : "rgba(200,200,200,.3)!important",
             transition: "none",
             transform: "scale(0.95)",
           },
@@ -579,9 +583,17 @@ export function InviteButton() {
       </Button>
       <Popover
         id={id}
-        open={global.session.property.role === "owner" && popoverOpen}
+        open={
+          !Cookies.get("invitePopover") &&
+          global.session.property.role === "owner" &&
+          popoverOpen
+        }
         anchorEl={anchorEl}
-        onClose={handleClose}
+        onClose={() => {
+          handleClose();
+          // Prevent popover from opening again
+          Cookies.set("invitePopover", "true");
+        }}
         BackdropProps={{
           sx: {
             opacity: "0!important",
