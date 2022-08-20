@@ -31,11 +31,7 @@ function CategoryModal({ category }: { category: string }) {
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-  React.useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
-  });
+
   return (
     <>
       <SwipeableDrawer
