@@ -27,23 +27,40 @@ const styles = {
   minWidth: { xs: "25vw!important", sm: "65px!important" },
   width: { xs: "20vw!important", sm: "65px!important" },
   mr: "-1px",
-  "&.Mui-selected svg": {
-    background: "rgba(150, 150, 150, .7)",
+  "&.Mui-selected .MuiIcon-root::before": {
+    background: "rgba(150, 150, 150, .2)",
+    transform: "translateX(-50%)",
   },
   "& span:not(.MuiIcon-root)": {
     fontSize: "13px!important",
-    display: "none",
   },
   "& .MuiIcon-root": {
     fontSize: "23px",
-    borderRadius: 4,
+    height: "30px",
+    mb: 0.3,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "transparent!important",
     textAlign: "center",
+    position: "relative",
     width: "80%",
     maxWidth: "70px",
-    py: 1.2,
-    height: "auto",
-    overflow: "visible",
   },
+  "& .MuiIcon-root::before": {
+    content: '""',
+    display: "block",
+    borderRadius: "15px",
+    width: "80%",
+    height: "100%",
+    left: "50%",
+    background: "transparent",
+    transition: "transform .2s",
+    transform: "translate(-50%) scaleX(.8)",
+    position: "absolute",
+    zIndex: "-1",
+  },
+
   py: 0.5,
 };
 
@@ -89,6 +106,7 @@ export function BottomNav() {
       }}
     >
       <BottomNavigation
+        showLabels
         value={value}
         sx={{
           py: 0.5,
@@ -103,7 +121,7 @@ export function BottomNav() {
 
           background:
             global.theme === "dark"
-              ? "rgba(57, 57, 71, .7)"
+              ? "rgba(23,23,28,.7)"
               : hexToRgba(colors[themeColor][100], 0.7),
 
           ["@supports not (backdrop-filter: blur(15px))"]: {
@@ -144,7 +162,15 @@ export function BottomNav() {
           label="Home"
           disableRipple
           onClick={() => onLink("/dashboard")}
-          icon={<Icon baseClassName="material-symbols-rounded">layers</Icon>}
+          icon={
+            <Icon
+              baseClassName={
+                "material-symbols-" + (value == 0 ? "rounded" : "outlined")
+              }
+            >
+              layers
+            </Icon>
+          }
         />
         <BottomNavigationAction
           sx={{
@@ -170,7 +196,15 @@ export function BottomNav() {
           label="Items"
           disableRipple
           onClick={() => onLink("/items")}
-          icon={<Icon baseClassName="material-symbols-rounded">category</Icon>}
+          icon={
+            <Icon
+              baseClassName={
+                "material-symbols-" + (value == 1 ? "rounded" : "outlined")
+              }
+            >
+              category
+            </Icon>
+          }
         />
         <BottomNavigationAction
           sx={{
@@ -196,7 +230,15 @@ export function BottomNav() {
           label="Finances"
           disableRipple
           onClick={() => onLink("/finances")}
-          icon={<Icon baseClassName="material-symbols-rounded">savings</Icon>}
+          icon={
+            <Icon
+              baseClassName={
+                "material-symbols-" + (value == 2 ? "rounded" : "outlined")
+              }
+            >
+              savings
+            </Icon>
+          }
         />
 
         <BottomNavigationAction
@@ -233,7 +275,15 @@ export function BottomNav() {
           }
           disableRipple
           onClick={() => onLink("/save-the-planet")}
-          icon={<Icon baseClassName="material-symbols-rounded">eco</Icon>}
+          icon={
+            <Icon
+              baseClassName={
+                "material-symbols-" + (value == 3 ? "rounded" : "outlined")
+              }
+            >
+              eco
+            </Icon>
+          }
         />
       </BottomNavigation>
     </Box>

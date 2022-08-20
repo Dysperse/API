@@ -197,6 +197,7 @@ export function CreateItemModal({
               fontWeight: "600",
               alignItems: "center",
               textTransform: "capitalize",
+              py: 3.5,
             }}
           >
             <IconButton
@@ -241,6 +242,7 @@ export function CreateItemModal({
             sx={{
               height: { xs: "100vh", sm: "auto" },
               pb: { xs: 20, sm: 0 },
+              px: 2.5,
             }}
           >
             <TextField
@@ -295,7 +297,10 @@ export function CreateItemModal({
                     width: "175px",
                     overflow: "hidden",
                     height: "150px",
-                    background: global.theme == "dark" ? "hsl(240, 11%, 30%)" : colors[themeColor][100],
+                    background:
+                      global.theme == "dark"
+                        ? "hsl(240, 11%, 30%)"
+                        : colors[themeColor][100],
                     transition: "transform .2s",
                     "&:active": {
                       transform: "scale(.95)",
@@ -310,7 +315,10 @@ export function CreateItemModal({
                   <Box
                     sx={{
                       height: "80px",
-                      background: global.theme == "dark" ? "hsl(240, 11%, 35%)" : colors[themeColor][200],
+                      background:
+                        global.theme == "dark"
+                          ? "hsl(240, 11%, 35%)"
+                          : colors[themeColor][200],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",

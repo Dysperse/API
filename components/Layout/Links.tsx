@@ -279,17 +279,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
       aria-labelledby="nested-list-subheader"
     >
       <Box>
-        <Box
-          sx={{
-            display: {
-              xs: "none",
-              md: "block",
-            },
-            pt: 2,
-          }}
-        >
-          <Toolbar />
-        </Box>
+        <Toolbar sx={{ mt: 2 }} />
         <div style={{ padding: "0 10px" }}>
           <AddPopup>
             <Fab
@@ -340,14 +330,14 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               }}
             >
               <span
-                className="material-symbols-rounded"
+                className="material-symbols-outlined"
                 style={{
                   transition: "all .2s",
                   marginRight: collapsed ? 0 : "20px",
                   float: "left",
                 }}
               >
-                add_circle
+                add_to_photos
               </span>
               <Collapse
                 in={!collapsed}
@@ -424,7 +414,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               href="/rooms/[index]"
               asHref="/rooms/kitchen"
               text="Kitchen"
-              icon="oven_gen"
+              icon="kitchen"
             />
           )}
           <ListItem
@@ -432,7 +422,7 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             href="/rooms/[index]"
             asHref="/rooms/bedroom"
             text="Bedroom"
-            icon="bedroom_parent"
+            icon="bedroom_child"
           />
           <ListItem
             collapsed={collapsed}

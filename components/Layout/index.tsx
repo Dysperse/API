@@ -274,10 +274,9 @@ function ResponsiveDrawer(props: any): JSX.Element {
       <Box
         component="nav"
         sx={{
-          width: { sm: "65px", md: collapsed ? 100 : drawerWidth },
-          flexShrink: { md: 0 },
+          width: { sm: collapsed ? 100 : drawerWidth },
+          flexShrink: { sm: 0 },
         }}
-        aria-label="mailbox folders"
       >
         <Drawer
           variant="permanent"
@@ -285,7 +284,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: "none", md: "block" },
+            display: { xs: "none", sm: "block" },
             flexShrink: 0,
             height: "100px",
             borderRight: 0,
