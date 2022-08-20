@@ -270,13 +270,26 @@ export function List({
         >
           <CardActionArea
             disableRipple
-            sx={{ p: 1 }}
+            sx={{
+              p: 1,
+            }}
             onClick={() => {
               setDrawerState(true);
               getListItems(id);
             }}
           >
-            <CardContent>
+            <CardContent
+              sx={{
+                ...(mobile && {
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                }),
+              }}
+            >
+              {mobile && (
+                <span className="material-symbols-rounded">list_alt</span>
+              )}
               <Typography
                 sx={{
                   textOverflow: "ellipsis",
