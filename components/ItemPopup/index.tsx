@@ -596,6 +596,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 onClick={() => setDrawerState(true)}
               >
                 <SwipeableViews
+                  index={1}
                   onChangeIndex={() => {
                     fetch(
                       "/api/inventory/trash?" +
@@ -615,6 +616,21 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                     }, 100);
                   }}
                 >
+                  <Box
+                    sx={{
+                      background: colors.red["800"],
+                      width: "100%",
+                      height: "100%",
+                      color: "#fff",
+                      display: "flex",
+                      borderRadius: 5,
+                      alignItems: "center",
+                      justifyContent: "end",
+                      px: 2,
+                    }}
+                  >
+                    <span className="material-symbols-rounded">delete</span>
+                  </Box>
                   <CardActionArea
                     disableRipple
                     sx={{
