@@ -11,12 +11,11 @@ export function ItemList({ items }: { items: any }) {
     <Box
       sx={{
         display: "flex",
-        mr: {
-          sm: -2,
-        },
+        mr: -2,
+        mt: 4,
       }}
     >
-      <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
+      <Masonry columns={{ xs: 1, sm: 3 }} spacing={2}>
         {items.length === 0 ? (
           <Paper
             sx={{

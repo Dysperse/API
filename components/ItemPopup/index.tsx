@@ -561,7 +561,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 sx={{
                   boxShadow: "0",
                   display: "block",
-                  my: 1,
+                  my: 0,
                   width: "100%",
                   maxWidth: "calc(100vw - 20px)",
                   borderRadius: "28px",
