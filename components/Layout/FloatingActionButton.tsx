@@ -17,7 +17,7 @@ export function FloatingActionButton() {
           lg: "15px",
           sm: "74px",
           md: "15px",
-          xs: trigger ? "15px" : "74px",
+          xs: trigger ? "57px" : "74px",
         },
         right: "12px",
         display: {
