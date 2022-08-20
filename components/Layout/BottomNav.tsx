@@ -7,8 +7,11 @@ import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 export function BottomNav() {
+  const trigger = useScrollTrigger();
+
   const styles = {
     "&:not(.Mui-selected)": {
       color:
@@ -108,11 +111,11 @@ export function BottomNav() {
   return (
     <Box
       sx={{
-        width: { xs: "100%", sm: "65px" },
+        width: "100%",
         position: "fixed",
-        bottom: { xs: matches ? -100 : 0, md: "unset" },
-        top: { xs: "unset", md: 0 },
+        bottom: matches ? -100 : trigger ? -100 : 0,
         left: 0,
+        transition: "bottom .2s",
         display: {
           xs: "block",
           md: "none",
@@ -124,14 +127,10 @@ export function BottomNav() {
         value={value}
         sx={{
           py: 0.5,
-          px: { xs: "3px", sm: "0px" },
-          height: { xs: "auto", sm: "100vh" },
+          px: "3px",
+          height: "auto",
           alignItems: "center",
-          flexDirection: { sm: "column" },
           backdropFilter: "blur(15px)",
-          borderTopLeftRadius: { xs: "0px", sm: "0" },
-          borderTopRightRadius: { xs: "0px", sm: "15px" },
-          borderBottomRightRadius: { sm: "15px" },
 
           background:
             global.theme === "dark"
