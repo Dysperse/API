@@ -76,7 +76,7 @@ export function BottomNav() {
   };
 
   const router = useRouter();
-  let v;
+  let v: any = router.asPath;
   switch (router.asPath) {
     case "/dashboard":
       v = 0;
@@ -92,7 +92,11 @@ export function BottomNav() {
       v = 1;
       break;
     default:
-      v = 0;
+      if (router.asPath.includes("/rooms")) {
+        v = 1;
+      } else {
+        v = 0;
+      }
   }
   const [value, setValue] = React.useState(v);
 
