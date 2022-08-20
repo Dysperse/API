@@ -115,7 +115,7 @@ export function BottomNav() {
         position: "fixed",
         bottom: matches ? -100 : trigger ? -70 : 0,
         left: 0,
-        transition: "bottom .2s",
+        transition: "bottom .3s",
         display: {
           xs: "block",
           md: "none",

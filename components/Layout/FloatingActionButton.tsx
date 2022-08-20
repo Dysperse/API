@@ -12,7 +12,7 @@ export function FloatingActionButton() {
       sx={{
         position: "fixed",
         zIndex: 1,
-        transition: "bottom .2s",
+        transition: "bottom .3s",
         bottom: {
           lg: "15px",
           sm: "74px",
