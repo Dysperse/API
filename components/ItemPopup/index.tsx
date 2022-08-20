@@ -576,9 +576,9 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                 sx={{
                   boxShadow: "0",
                   display: "block",
-                  my: 0,
+                  my: 2,
                   width: "100%",
-                  maxWidth: "calc(100vw - 20px)",
+                  maxWidth: "calc(100vw - 32.5px)",
                   borderRadius: "28px",
                   background:
                     (global.theme === "dark"
@@ -627,6 +627,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                       alignItems: "center",
                       justifyContent: "end",
                       px: 2,
+                      mr: 1,
                     }}
                   >
                     <span className="material-symbols-rounded">delete</span>
@@ -690,6 +691,7 @@ export default function Item({ displayRoom = false, data, variant }: any) {
                       color: "#fff",
                       display: "flex",
                       ml: 1,
+                      mr: 1,
                       alignItems: "center",
                       px: 2,
                       borderRadius: "28px",
