@@ -27,14 +27,12 @@ function Room({
   id,
   setDeleted,
   room,
-  key,
   setMoveToRoomOpen,
   setDrawerState,
 }: {
   id: number;
   setDeleted: any;
   room: string;
-  key: number;
   setMoveToRoomOpen: any;
   setDrawerState: any;
 }) {
@@ -157,8 +155,8 @@ export function ItemActionsMenu({
               "Garden",
             ].map((room, index) => (
               <Room
-                key={index}
-                room={item.room}
+                key={index.toString()}
+                room={room}
                 setDrawerState={setDrawerState}
                 setMoveToRoomOpen={setMoveToRoomOpen}
                 id={parseInt(item.id)}
