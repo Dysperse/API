@@ -158,7 +158,7 @@ function AddPersonModal() {
                       email: value,
                       houseName: global.session.property.houseName,
                       houseType: global.session.property.houseType,
-                      role: "member",
+                      role: role,
                     })
                 )
                   .then((res) => res.json())
