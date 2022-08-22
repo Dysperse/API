@@ -567,7 +567,7 @@ export function InviteButton() {
         </Typography>
         <span
           className="material-symbols-rounded"
-          style={{ marginLeft: "-10px", fontSize: "20px" }}
+          style={{ marginLeft: "-5px", marginTop: "-1px", fontSize: "20px" }}
         >
           expand_more
         </span>

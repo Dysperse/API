@@ -163,23 +163,23 @@ function AddPersonModal() {
                 )
                   .then((res) => res.json())
                   .then((res: any) => {
-                    if (res.data === true) {
-                      emailjs
-                        .send(
-                          "service_bhq01y6",
-                          "template_nbjdq1i",
-                          {
-                            to_email: value,
-                            house_name: global.session.property.houseName,
-                          },
-                          "6Q4BZ_DN9bCSJFZYM"
-                        )
-                        .then(() => {
-                          toast.success("Invitation sent!");
-                          setLoading(false);
-                        })
-                        .catch((err) => alert(err));
-                    }
+                    // if (res.data === true) {
+                    emailjs
+                      .send(
+                        "service_bhq01y6",
+                        "template_nbjdq1i",
+                        {
+                          to_email: value,
+                          house_name: global.session.property.houseName,
+                        },
+                        "6Q4BZ_DN9bCSJFZYM"
+                      )
+                      .then(() => {
+                        toast.success("Invitation sent!");
+                        setLoading(false);
+                      })
+                      .catch((err) => alert(err));
+                    // }
                   });
                 setLoading(true);
               } else {

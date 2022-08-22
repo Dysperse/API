@@ -441,6 +441,18 @@ export const cards = [
     icon: "sprinkler",
   },
   {
+    name: "Wheelbarrow",
+    room: "garden",
+    tags: [],
+    icon: "garden_cart",
+  },
+  {
+    name: "Fence",
+    room: "garden",
+    tags: [],
+    icon: "outdoor_garden",
+  },
+  {
     name: "Pots",
     room: "garden",
     tags: [],

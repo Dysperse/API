@@ -175,7 +175,7 @@ export function BottomNav() {
                   "material-symbols-" + (value == 0 ? "rounded" : "outlined")
                 }
               >
-                layers
+                view_timeline
               </Icon>
             }
           />
@@ -207,7 +207,7 @@ export function BottomNav() {
                   "material-symbols-" + (value == 2 ? "rounded" : "outlined")
                 }
               >
-                savings
+                local_mall
               </Icon>
             }
           />

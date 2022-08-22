@@ -89,7 +89,7 @@ export function QuickActions({ transactions }: any) {
         <Action
           primary="Liabilities"
           secondary={"Coming soon"}
-          icon="savings"
+          icon="local_mall"
         />
         <Action primary="Lessons" secondary={"Coming soon"} icon="school" />
         <Action
