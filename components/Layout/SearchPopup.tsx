@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import useSWR from "swr";
 import { Puller } from "../Puller";
+import { updateSettings } from "../Settings/updateSettings";
 
 export function SearchPopup() {
   const ref = React.useRef<HTMLDivElement | null>(null);
@@ -72,7 +73,15 @@ export function SearchPopup() {
   }
 
   return (
-    <>
+    <Box
+      sx={{
+        ...(global.theme === "dark" && {
+          "& *": {
+            color: "#fff!important",
+          },
+        }),
+      }}
+    >
       <Tooltip title="Jump to">
         <IconButton
           onClick={() => {
@@ -201,7 +210,7 @@ export function SearchPopup() {
           </Command>
         </div>
       </SwipeableDrawer>
-    </>
+    </Box>
   );
 }
 
@@ -251,6 +260,26 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         Search Settings...
         <SettingsIcon />
       </Item>
+      <Item
+        shortcut="CTRL ,"
+        onSelect={() => {
+          global.setTheme("light");
+          updateSettings("darkMode", "false");
+        }}
+      >
+        Light mode
+        <Icon icon="light_mode" />
+      </Item>
+      <Item
+        shortcut="CTRL ,"
+        onSelect={() => {
+          global.setTheme("dark");
+          updateSettings("darkMode", "true");
+        }}
+      >
+        Dark mode
+        <Icon icon="dark_mode" />
+      </Item>
       <Item onSelect={() => {}}>
         Dashboard
         <Icon icon="layers" />
@@ -273,6 +302,7 @@ function Home({ searchSettings }: { searchSettings: Function }) {
           { name: "Living room", icon: "living" },
           { name: "Laundry room", icon: "local_laundry_service" },
           { name: "Storage room", icon: "inventory_2" },
+          { name: "Garden", icon: "yard" },
         ].map((room, index) => (
           <Item onSelect={() => {}} key={index.toString()}>
             {room.name}
@@ -289,6 +319,14 @@ function Home({ searchSettings }: { searchSettings: Function }) {
             ))}
           </Box>
         )}
+        <Item onSelect={() => {}}>
+          Starred items
+          <Icon icon="star" />
+        </Item>
+        <Item onSelect={() => {}}>
+          Trash
+          <Icon icon="delete" />
+        </Item>
         <Item onSelect={() => {}}>
           Create room
           <Icon icon="add" />
