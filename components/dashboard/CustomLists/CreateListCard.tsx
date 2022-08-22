@@ -18,9 +18,6 @@ export function CreateListCard({ mobile, lists, setLists }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(

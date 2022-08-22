@@ -119,9 +119,6 @@ function Logout() {
 function SettingsMenu({ content, icon, primary, secondary }: any) {
   const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute("content", open ? "#9c9d9c" : "#b8b9b8");
@@ -201,13 +198,13 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
               onClick={() => setOpen(false)}
               aria-label="close"
               sx={{
-                  ml: -0.5,
-                  background: colors[themeColor][50],
-                  zIndex: 1, 
-                  ...(global.theme === "dark" && {
-                     background: "hsl(240, 11%, 25%)",
-                  })
-           }}
+                ml: -0.5,
+                background: colors[themeColor][50],
+                zIndex: 1,
+                ...(global.theme === "dark" && {
+                  background: "hsl(240, 11%, 25%)",
+                }),
+              }}
             >
               <span className="material-symbols-rounded">close</span>{" "}
             </IconButton>
@@ -308,13 +305,13 @@ export default function FullScreenDialog({ children }: any) {
               onClick={() => setOpen(false)}
               aria-label="close"
               sx={{
-                  ml: -0.5,
-                  background: colors[themeColor][50],
-                  zIndex: 1, 
-                  ...(global.theme === "dark" && {
-                     background: "hsl(240, 11%, 25%)",
-                  })
-           }} 
+                ml: -0.5,
+                background: colors[themeColor][50],
+                zIndex: 1,
+                ...(global.theme === "dark" && {
+                  background: "hsl(240, 11%, 25%)",
+                }),
+              }}
             >
               <span className="material-symbols-rounded">close</span>{" "}
             </IconButton>

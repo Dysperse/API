@@ -2,11 +2,11 @@ body {
   overflow-x: hidden;
   font-weight: 600;
 }
-html:not(.prevent-scroll),
+/* html:not(.prevent-scroll),
 body:not(.prevent-scroll) {
   scroll-behavior: smooth;
   overflow-y: scroll !important;
-}
+} */
 /* .prevent-scroll {
   overflow: hidden !important;
 } */
@@ -37,7 +37,7 @@ img {
 @supports (backdrop-filter: blur(15px)) {
   .MuiBackdrop-root {
     backdrop-filter: blur(15px);
-    background-color: rgba(0, 0, 0, 0.15) !important;
+    background-color: var(--theme) !important;
   }
 }
 
@@ -147,7 +147,8 @@ img {
 
 .puller {
   width: 60px;
-  margin-top: -14px;
+  margin-top: 14px;
+  margin-bottom: 14px;
   height: 7px;
   border-radius: 100px;
   position: absolute;
@@ -171,7 +172,7 @@ img {
 .animateIcon {
   animation: starScale 0.5s forwards;
   transform: scale(0);
-  animation-delay: .1s
+  animation-delay: 0.1s;
 }
 
 @keyframes starScale {

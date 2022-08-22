@@ -218,9 +218,6 @@ export default function ReviewExpenses({ transactions, children }: any) {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
   useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(

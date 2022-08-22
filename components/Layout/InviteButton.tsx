@@ -157,7 +157,7 @@ function House({ data }: any) {
             maxWidth: "600px",
             maxHeight: "90vh",
             overflow: "hidden",
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
@@ -479,17 +479,8 @@ export function InviteButton() {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
-  useEffect(() => {
-    document.documentElement.classList[
-      global.session.property.role === "owner" && popoverOpen ? "add" : "remove"
-    ]("prevent-scroll");
-  });
 
-  useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
-  }, [open]);
+  useEffect(() => {}, [open]);
 
   return (
     <>
@@ -506,7 +497,7 @@ export function InviteButton() {
               sm: "50vw",
             },
             maxWidth: "600px",
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
@@ -552,7 +543,7 @@ export function InviteButton() {
           p: 1,
           py: 0,
           color: global.theme == "dark" ? "#fff" : "#000",
-          borderRadius: 3,
+          borderRadius: 2,
           transition: "transform .2s",
           "&:hover": {
             background: { xs: "transparent", sm: "rgba(200,200,200,.2)" },
@@ -584,7 +575,7 @@ export function InviteButton() {
       <Popover
         id={id}
         open={
-          !Cookies.get("invitePopover") &&
+          !Cookies.get("invitePopup") &&
           global.session.property.role === "owner" &&
           popoverOpen
         }
@@ -592,7 +583,7 @@ export function InviteButton() {
         onClose={() => {
           handleClose();
           // Prevent popover from opening again
-          Cookies.set("invitePopover", "true");
+          Cookies.set("invitePopup", "true");
         }}
         BackdropProps={{
           sx: {
@@ -603,7 +594,9 @@ export function InviteButton() {
           sx: {
             background: "#f50057",
             maxWidth: "200px",
+            borderRadius: 4,
             overflowX: "unset",
+            boxShadow: 0,
             mt: 6,
             overflowY: "unset",
             "&:before": {
@@ -611,9 +604,10 @@ export function InviteButton() {
               position: "absolute",
               marginRight: "-0.71em",
               top: -15,
-              left: 20,
+              right: 30,
               width: 20,
               height: 20,
+              borderRadius: "4px",
               backgroundColor: "#f50057",
               transform: "translate(-50%, 50%) rotate(-45deg)",
               clipPath:
@@ -632,7 +626,7 @@ export function InviteButton() {
             sx={{
               height: "auto",
               px: 1,
-              background: "rgba(255,255,255,.3)",
+              background: "#ff387d",
               mb: 0.5,
             }}
           />

@@ -25,10 +25,7 @@ export default function Dashboard() {
         </Box>
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-            <Paper
-              key={(Math.random() + Math.random()).toString()}
-              sx={{ boxShadow: 0, p: 0 }}
-            >
+            <Paper>
               <ListItems
                 emptyText="Your shopping list is empty"
                 emptyImage="https://ouch-cdn2.icons8.com/sSUvce4XDF1pkQB9MM4uEhuC1jww-uC6qOniWYaDIu8/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNjAx/LzVjMWVmMzYyLWQz/ZWMtNDQ4Zi1iNDYw/LTdmZTVkYWVlYzhk/MC5zdmc.png"
@@ -36,10 +33,7 @@ export default function Dashboard() {
                 parent={-2}
               />
             </Paper>
-            <Paper
-              key={(Math.random() + Math.random()).toString()}
-              sx={{ boxShadow: 0, p: 0 }}
-            >
+            <Paper>
               <ListItems
                 emptyText="Great job — You've finished all your tasks!"
                 emptyImage="https://ouch-cdn2.icons8.com/Gmb2VDsK_0vYJN8H8Q_-pj5cJEKjFQY6buBtji7rJGo/rs:fit:256:171/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzkz/L2E5OTFhYjE3LTNh/MDktNGM2My1iNjhi/LTk1ZDA1NmRhYzNk/MS5zdmc.png"
@@ -47,16 +41,10 @@ export default function Dashboard() {
                 parent={-1}
               />
             </Paper>
-            <Paper
-              key={(Math.random() + Math.random()).toString()}
-              sx={{ elevation: 0 }}
-            >
+            <Paper>
               <RecentItems />
             </Paper>
-            <Paper
-              key={(Math.random() + Math.random()).toString()}
-              sx={{ boxShadow: 0, p: 0 }}
-            >
+            <Paper>
               <Box
                 sx={{
                   display: { xs: "none", sm: "unset" },

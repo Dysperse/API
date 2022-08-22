@@ -361,9 +361,6 @@ export default function AddPopup(props: any) {
   });
 
   useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(

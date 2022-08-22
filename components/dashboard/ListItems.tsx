@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
@@ -127,6 +126,7 @@ export function ListItems({
       sx={{
         borderRadius: "28px",
         width: "100%",
+        maxWidth: "calc(100vw - 32.5px)",
         p: 1,
         background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
         boxShadow: 0,

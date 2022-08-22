@@ -30,6 +30,7 @@ import { StarButton } from "./StarButton";
 import SwipeableViews from "react-swipeable-views";
 import type { Item } from "../../types/item";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 export default function Item({
   displayRoom = false,
@@ -40,6 +41,7 @@ export default function Item({
   data: Item;
   variant?: "list" | "card";
 }) {
+  const router = useRouter();
   const id = data.id;
   const [drawerState, setDrawerState] = useState(false);
   const [item, setItemData] = useState(data);
@@ -76,12 +78,6 @@ export default function Item({
   };
 
   useEffect(() => {
-    document.documentElement.classList[drawerState ? "add" : "remove"](
-      "prevent-scroll"
-    );
-    document.documentElement.classList[contextMenu !== null ? "add" : "remove"](
-      "prevent-scroll"
-    );
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute(
@@ -337,7 +333,7 @@ export default function Item({
         PaperProps={{
           elevation: 0,
           sx: {
-            borderRadius: { sm: 5 },
+            borderRadius: { sm: "28px" },
             mt: { sm: "20px" },
             mr: { sm: "20px" },
             height: { sm: "calc(100vh - 40px)!important" },
@@ -360,13 +356,11 @@ export default function Item({
             </title>
           </Head>
         )}
-        <Puller variant="side" />
-
         <Box
           sx={{
             flexGrow: 1,
             height: "100vh",
-            borderRadius: { sm: 5 },
+            borderRadius: { sm: "28px" },
             overflow: "hidden!important",
             width: {
               sm: "60vw",
@@ -425,7 +419,7 @@ export default function Item({
                   }}
                   onClick={() => setDrawerState(false)}
                 >
-                  <span className="material-symbols-rounded">arrow_back</span>
+                  <span className="material-symbols-rounded">chevron_left</span>
                 </IconButton>
               </Tooltip>
               <Typography sx={{ flexGrow: 1 }}></Typography>
@@ -460,13 +454,15 @@ export default function Item({
               gap: 2,
             }}
           >
-            <Typography variant="h3" sx={{ fontWeight: "400" }}>
+            <Typography variant="h3" sx={{ fontWeight: "900" }}>
               {item.title || "(no title)"}
             </Typography>
             <Typography
-              variant="h5"
+              variant="h6"
               sx={{
-                fontWeight: "700",
+                mt: -1,
+                mb: -2,
+                fontWeight: "300",
               }}
             >
               Quantity: {item.amount || "(no quantity)"}
@@ -477,11 +473,16 @@ export default function Item({
                   <Chip
                     key={Math.random().toString()}
                     label={category}
-                    sx={{ px: 2, mr: 1 }}
+                    onClick={() => {
+                      router.push("/items");
+                      setDrawerState(false);
+                    }}
+                    sx={{ px: 2, mr: 1, mt: 1, mb: 1 }}
                   />
                 );
               })}
             </div>
+
             <TextField
               multiline
               fullWidth
@@ -521,6 +522,7 @@ export default function Item({
               InputProps={{
                 disableUnderline: true,
                 sx: {
+                  position: "fixed",
                   px: 2.5,
                   py: 1.5,
                   borderRadius: "15px",
@@ -549,6 +551,7 @@ export default function Item({
         {variant === "list" ? (
           <Collapse in={!deleted} sx={{ borderRadius: 3, overflow: "hidden" }}>
             <SwipeableViews
+              enableMouseEvents
               index={index}
               slideStyle={{
                 borderRadius: "15px!important",
@@ -559,24 +562,26 @@ export default function Item({
                   handleItemDelete();
                   setTimeout(() => {
                     setDeleted(true);
+                    setSwitchingToIndex(1);
                   }, 200);
                 } else {
                   handleItemStar();
                   setTimeout(() => {
                     setIndex(1);
+                    setSwitchingToIndex(1);
                   }, 200);
                 }
-              }
-}onSwitching={(index) => {
-                    console.log(index);
-                    if (index > 1) {
-                      setSwitchingToIndex(2);
-                    } else if (index < 1) {
-                      setSwitchingToIndex(0);
-                    } else {
-                      setTimeout(() => setSwitchingToIndex(1), 200);
-                    }
-                  }}
+              }}
+              onSwitching={(index) => {
+                console.log(index);
+                if (index > 1) {
+                  setSwitchingToIndex(2);
+                } else if (index < 1) {
+                  setSwitchingToIndex(0);
+                } else {
+                  setTimeout(() => setSwitchingToIndex(1), 200);
+                }
+              }}
             >
               <Box
                 sx={{
@@ -609,6 +614,7 @@ export default function Item({
                 onClick={() => setDrawerState(true)}
                 disableRipple
                 sx={{
+                  pointerEvents: switchingToIndex == 1 ? "" : "none",
                   py: 0.1,
                   borderRadius: "10px",
                   transition: "transform .2s",
@@ -685,6 +691,7 @@ export default function Item({
                 onClick={() => setDrawerState(true)}
               >
                 <SwipeableViews
+                  enableMouseEvents
                   index={index}
                   slideStyle={{
                     borderRadius: "15px!important",
@@ -776,7 +783,8 @@ export default function Item({
                         {!item.amount.includes(" ") && "Quantity: "}
                         {displayRoom
                           ? data.room
-                          : item.amount.substring(0, 18) || "(no quantity)"}
+                          : item.amount.substring(0, 18) ||
+                            "(no quantity specified)"}
                         {!displayRoom && item.amount.length > 18 && "..."}
                       </Typography>
                       {!displayRoom &&

@@ -23,11 +23,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
 
-  React.useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
-  });
+  React.useEffect(() => {});
 
   return (
     <Box

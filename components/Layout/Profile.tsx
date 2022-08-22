@@ -4,9 +4,6 @@ import Settings from "../Settings/index";
 export function ProfileMenu(props: any) {
   const [open, setOpen] = React.useState<boolean>(false);
   useEffect(() => {
-    document.documentElement.classList[open ? "add" : "remove"](
-      "prevent-scroll"
-    );
     document.querySelector(`meta[name="theme-color"]`) &&
       document
         .querySelector(`meta[name="theme-color"]`)!

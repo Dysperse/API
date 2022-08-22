@@ -13,6 +13,7 @@ import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
 import "../styles/global.css";
 import type { Account } from "../types/account";
+import hex2rgba from "hex-to-rgba";
 
 dayjs.extend(relativeTime);
 
@@ -109,7 +110,11 @@ function Render({
       }),
     },
   });
-
+  // set CSS variable to <html>
+  document.documentElement.style.setProperty(
+    "--theme",
+    hex2rgba(colors[themeColor]["700"], 0.15)
+  );
   return (
     <>
       <Head>

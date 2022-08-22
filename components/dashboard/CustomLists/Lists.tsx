@@ -28,6 +28,9 @@ function RenderLists({ mobile, data }: any) {
             id={list.id}
           />
         ))}
+        {lists.length < 5 && (
+          <CreateListCard mobile={mobile} setLists={setLists} lists={lists} />
+        )}
       </Box>
       <Box sx={{ display: { sm: "none" } }}>
         <SwipeableViews
