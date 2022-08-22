@@ -12,6 +12,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
@@ -28,6 +29,7 @@ import { ItemActionsMenu } from "./ItemActionsMenu";
 import { StarButton } from "./StarButton";
 import SwipeableViews from "react-swipeable-views";
 import type { Item } from "../../types/item";
+import toast from "react-hot-toast";
 
 export default function Item({
   displayRoom = false,
@@ -41,6 +43,8 @@ export default function Item({
   const id = data.id;
   const [drawerState, setDrawerState] = useState(false);
   const [item, setItemData] = useState(data);
+  const [switchingToIndex, setSwitchingToIndex] = useState<number>(0);
+  const [index, setIndex] = useState<number>(1);
   const [deleted, setDeleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -99,6 +103,78 @@ export default function Item({
           : colors[global.themeColor]["100"]
       );
   }, [drawerState, contextMenu]);
+
+  const handleItemStar = () => {
+    setItemData({
+      ...item,
+      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      star: +!item.star,
+    });
+    fetch(
+      "/api/inventory/star?" +
+        new URLSearchParams({
+          propertyToken: global.session.property.propertyToken,
+          accessToken: global.session.property.accessToken,
+          id: item.id.toString(),
+          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        }),
+      {
+        method: "POST",
+      }
+    );
+  };
+
+  const handleItemDelete = () => {
+    setDeleted(true);
+    fetch(
+      "/api/inventory/trash?" +
+        new URLSearchParams({
+          propertyToken: global.session.property.propertyToken,
+          accessToken: global.session.property.accessToken,
+          id: id.toString(),
+          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        }),
+      {
+        method: "POST",
+      }
+    );
+    handleClose();
+
+    toast.success((t) => (
+      <span>
+        Item moved to trash
+        <Button
+          size="small"
+          sx={{
+            ml: 2,
+            borderRadius: 999,
+            p: "0!important",
+            width: "auto",
+            minWidth: "auto",
+          }}
+          onClick={() => {
+            toast.dismiss(t.id);
+            setIndex(1);
+            fetch(
+              "/api/inventory/restore?" +
+                new URLSearchParams({
+                  propertyToken: global.session.property.propertyToken,
+                  accessToken: global.session.property.accessToken,
+                  id: item.id.toString(),
+                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                }),
+              {
+                method: "POST",
+              }
+            );
+            setDeleted(false);
+          }}
+        >
+          Undo
+        </Button>
+      </span>
+    ));
+  };
 
   return (
     <>
@@ -244,24 +320,7 @@ export default function Item({
           </span>
           {item.star == 1 ? "Unstar" : "Star"}
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setDeleted(true);
-            fetch(
-              "/api/inventory/trash?" +
-                new URLSearchParams({
-                  propertyToken: global.session.property.propertyToken,
-                  accessToken: global.session.property.accessToken,
-                  id: id.toString(),
-                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                }),
-              {
-                method: "POST",
-              }
-            );
-            handleClose();
-          }}
-        >
+        <MenuItem onClick={handleItemDelete}>
           <span
             className="material-symbols-rounded"
             style={{ marginRight: "20px" }}
@@ -488,42 +547,49 @@ export default function Item({
 
       <>
         {variant === "list" ? (
-          <Collapse in={!deleted}>
+          <Collapse in={!deleted} sx={{ borderRadius: 3, overflow: "hidden" }}>
             <SwipeableViews
-              resistance
-              index={1}
-              onChangeIndex={() => {
-                fetch(
-                  "/api/inventory/trash?" +
-                    new URLSearchParams({
-                      propertyToken: global.session.property.propertyToken,
-                      accessToken: global.session.property.accessToken,
-                      id: id.toString(),
-                      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                    }),
-                  {
-                    method: "POST",
-                  }
-                );
-                handleClose();
-                setTimeout(() => {
-                  setDeleted(true);
-                }, 200);
+              index={index}
+              slideStyle={{
+                borderRadius: "15px!important",
+              }}
+              onChangeIndex={(changedIndex) => {
+                setIndex(changedIndex);
+                if (changedIndex === 2) {
+                  handleItemDelete();
+                  setTimeout(() => {
+                    setDeleted(true);
+                  }, 200);
+                } else {
+                  handleItemStar();
+                  setTimeout(() => {
+                    setIndex(1);
+                  }, 200);
+                }
               }}
             >
               <Box
                 sx={{
-                  background: colors.red["800"],
+                  background: colors.orange[item.star === 1 ? "900" : "100"],
                   width: "100%",
+                  transition: "background .2s",
                   height: "100%",
-                  color: "#fff",
+                  color: item.star === 1 ? "#fff" : "#000",
                   display: "flex",
                   alignItems: "center",
+                  borderRadius: 3,
                   justifyContent: "end",
                   px: 2,
                 }}
               >
-                <span className="material-symbols-rounded">delete</span>
+                <span
+                  className={
+                    "material-symbols-" +
+                    (item.star == 0 ? "outlined" : "rounded")
+                  }
+                >
+                  star
+                </span>
               </Box>
               <ListItemButton
                 onContextMenu={handleContextMenu}
@@ -568,6 +634,7 @@ export default function Item({
                   width: "100%",
                   height: "100%",
                   color: "#fff",
+                  borderRadius: 3,
                   display: "flex",
                   alignItems: "center",
                   px: 2,
@@ -605,41 +672,61 @@ export default function Item({
                 onClick={() => setDrawerState(true)}
               >
                 <SwipeableViews
-                  index={1}
-                  onChangeIndex={() => {
-                    fetch(
-                      "/api/inventory/trash?" +
-                        new URLSearchParams({
-                          propertyToken: global.session.property.propertyToken,
-                          accessToken: global.session.property.accessToken,
-                          id: id.toString(),
-                          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                        }),
-                      {
-                        method: "POST",
-                      }
-                    );
-                    handleClose();
-                    setTimeout(() => {
-                      setDeleted(true);
-                    }, 200);
+                  index={index}
+                  slideStyle={{
+                    borderRadius: "15px!important",
+                  }}
+                  onChangeIndex={(changedIndex) => {
+                    setIndex(changedIndex);
+                    if (changedIndex === 2) {
+                      handleItemDelete();
+                      setTimeout(() => {
+                        setDeleted(true);
+                      }, 200);
+                    } else {
+                      handleItemStar();
+                      setTimeout(() => {
+                        setIndex(1);
+                      }, 200);
+                    }
+                  }}
+                  onSwitching={(index) => {
+                    console.log(index);
+                    if (index > 1) {
+                      setSwitchingToIndex(2);
+                    } else if (index < 1) {
+                      setSwitchingToIndex(0);
+                    } else {
+                      setTimeout(() => setSwitchingToIndex(1), 200);
+                    }
                   }}
                 >
                   <Box
                     sx={{
-                      background: colors.red["800"],
+                      background:
+                        colors.orange[item.star === 1 ? "900" : "100"],
                       width: "100%",
+                      transition: "background .2s",
                       height: "100%",
-                      color: "#fff",
+                      color: item.star === 1 ? "#fff" : "#000",
                       display: "flex",
-                      borderRadius: 5,
                       alignItems: "center",
+                      borderRadius: 5,
                       justifyContent: "end",
                       px: 2,
-                      mr: 1,
                     }}
                   >
-                    <span className="material-symbols-rounded">delete</span>
+                    <span
+                      style={{
+                        display: switchingToIndex === 0 ? "block" : "none",
+                      }}
+                      className={
+                        "animateIcon material-symbols-" +
+                        (item.star == 0 ? "outlined" : "rounded")
+                      }
+                    >
+                      star
+                    </span>
                   </Box>
                   <CardActionArea
                     disableRipple

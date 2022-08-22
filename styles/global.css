@@ -168,3 +168,18 @@ img {
 .MuiDialogActions-spacing {
   background-color: transparent !important;
 }
+.animateIcon {
+  animation: starScale 0.5s forwards;
+}
+
+@keyframes starScale {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
