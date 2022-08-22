@@ -170,6 +170,8 @@ img {
 }
 .animateIcon {
   animation: starScale 0.5s forwards;
+  transform: scale(0);
+  animation-delay: .2s
 }
 
 @keyframes starScale {
