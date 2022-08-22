@@ -200,6 +200,14 @@ export function SearchPopup() {
   );
 }
 
+function Icon({ icon }: { icon: string }) {
+  return (
+    <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
+      {icon}
+    </span>
+  );
+}
+
 function Home({ searchSettings }: { searchSettings: Function }) {
   const { error, data } = useSWR("/api/rooms", () =>
     fetch(
@@ -231,35 +239,20 @@ function Home({ searchSettings }: { searchSettings: Function }) {
           searchSettings();
         }}
       >
-        <SettingsIcon />
         Search Settings...
+        <SettingsIcon />
       </Item>
       <Item onSelect={() => {}}>
-        <span
-          className="material-symbols-outlined"
-          style={{ marginRight: "5px" }}
-        >
-          layers
-        </span>
         Dashboard
+        <Icon icon="layers" />
       </Item>
       <Item onSelect={() => {}}>
-        <span
-          className="material-symbols-outlined"
-          style={{ marginRight: "5px" }}
-        >
-          local_mall
-        </span>
         Finances
+        <Icon icon="local_mall" />
       </Item>
       <Item onSelect={() => {}}>
-        <span
-          className="material-symbols-outlined"
-          style={{ marginRight: "5px" }}
-        >
-          eco
-        </span>
         Sustainability
+        <Icon icon="eco" />
       </Item>
       <Command.Group heading="Rooms">
         {[
@@ -274,12 +267,7 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         ].map((room, index) => (
           <Item onSelect={() => {}} key={index.toString()}>
             {room.name}
-            <span
-              className="material-symbols-outlined"
-              style={{ marginRight: "5px" }}
-            >
-              {room.icon}
-            </span>
+            <Icon icon={room.icon} />
           </Item>
         ))}
         {data && (
@@ -287,35 +275,20 @@ function Home({ searchSettings }: { searchSettings: Function }) {
             {data.data.map((room, index) => (
               <Item key={index}>
                 {room.name}
-                <span
-                  className="material-symbols-outlined"
-                  style={{ marginRight: "5px" }}
-                >
-                  label
-                </span>
+                <Icon icon="label" />
               </Item>
             ))}
           </Box>
         )}
         <Item onSelect={() => {}}>
-          <span
-            className="material-symbols-outlined"
-            style={{ marginRight: "5px" }}
-          >
-            add
-          </span>
-          New room
+          Create room
+          <Icon icon="add" />
         </Item>
       </Command.Group>
       <Command.Group heading="Help">
-        <Item shortcut="⇧ D">
-          <span
-            className="material-symbols-outlined"
-            style={{ marginRight: "5px" }}
-          >
-            help
-          </span>
+        <Item>
           Support
+          <Icon icon="help" />
         </Item>
       </Command.Group>
     </>
