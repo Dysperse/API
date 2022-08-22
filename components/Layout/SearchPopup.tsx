@@ -227,9 +227,13 @@ function Home({ searchSettings }: { searchSettings: Function }) {
           mb: 2,
           mt: 0,
           height: 2,
+          position: "sticky",
+          top: 0,
+          zIndex: 9999,
           borderRadius: 5,
           ...(data && {
             opacity: 0.3,
+            backdropFilter: "blur(10px)",
           }),
         }}
       />{" "}
