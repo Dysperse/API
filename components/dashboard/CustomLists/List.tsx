@@ -351,7 +351,7 @@ export function List({
           sx={{
             mb: 2,
             mr: 2,
-            width: { sm: "100%" },
+            width:  "100%",
             borderRadius: "28px",
             background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
