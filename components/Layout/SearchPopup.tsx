@@ -1,231 +1,43 @@
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import CommandPalette from "react-command-palette";
-import { useHotkeys } from "react-hotkeys-hook";
-import Box from "@mui/material/Box";
-function atomCommand(suggestion: any) {
-  const { name, shortcut } = suggestion;
+import { Command } from "cmdk";
+import React from "react";
+import Backdrop from "@mui/material/Backdrop";
+
+export const SearchPopup = ({ content }: any) => {
+  const [open, setOpen] = React.useState(false);
+
+  // Toggle the menu when ⌘K is pressed
+  React.useEffect(() => {
+    const down = (e) => {
+      if (e.key === "k" && e.ctrlKey) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
+
   return (
-    <div className="atom-item">
-      <span>{name}</span>
-      {shortcut && <kbd className="atom-shortcut">{shortcut}</kbd>}
-    </div>
-  );
-}
+    <>
+      {content}
+      <Backdrop open={open}>
+        <Command label="Command Menu">
+          <Command.Input />
+          <Command.List>
+            <Command.Empty>No results found.</Command.Empty>
 
-export function SearchPopup({ content }: any) {
-  const router = useRouter();
-  const [ready, setReady] = useState<boolean>(false);
-  useHotkeys("ctrl+/", (e) => {
-    e.preventDefault();
-    document.getElementById("searchTrigger1")!.click();
-  });
-  // useHotkeys("ctrl+k", (e) => {
-  //   e.preventDefault();
-  //   document.getElementById("searchTrigger1")!.click();
-  // });
-  useHotkeys("ctrl+f", (e) => {
-    e.preventDefault();
-    document.getElementById("searchTrigger1")!.click();
-  });
+            <Command.Group heading="Letters">
+              <Command.Item>a</Command.Item>
+              <Command.Item>b</Command.Item>
+              <Command.Separator />
+              <Command.Item>c</Command.Item>
+            </Command.Group>
 
-  const [commands, setCommands] = useState([
-    {
-      name: "Dashboard",
-      command: () => router.push("/dashboard"),
-    },
-    {
-      command: () => router.push("/finances"),
-      name: "Finances",
-    },
-    {
-      command: () => router.push("/dashboard"),
-      name: "Settings",
-    },
-    {
-      command: () => router.push("/rooms/kitchen"),
-      name: "Notifications ",
-    },
-    {
-      command: () => router.push("/trash"),
-      name: "Trash",
-    },
-    {
-      command: () => router.push("/dashboard"),
-      name: "Starred",
-    },
-    {
-      command: () => router.push("/rooms/kitchen"),
-      name: "Kitchen",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/bedroom"),
-      name: "Bedroom",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/bathroom"),
-      name: "Bathroom",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/garage"),
-      name: "Garage",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/living-room"),
-      name: "Living room",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/dining-room"),
-      name: "Dining room",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/laundry-room"),
-      name: "Laundry room",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/storage"),
-      name: "Storage room",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/garden"),
-      name: "Garden",
-      shortcut: "Rooms",
-    },
-    {
-      command: () => router.push("/rooms/camping"),
-      name: "Camping",
-      shortcut: "Rooms",
-    },
-  ]);
-  if (!ready) {
-    fetch(
-      "/api/rooms?" +
-        new URLSearchParams({
-          propertyToken: global.session.property.propertyToken,
-          accessToken: global.session.property.accessToken,
-        }),
-      {
-        method: "POST",
-      }
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        if (res && res.res) {
-          setCommands([
-            ...(commands || []),
-            ...res.data.map((room) => {
-              return {
-                command: () => router.push("/rooms/" + room.id),
-                name: room.name,
-                shortcut: "Rooms",
-              };
-            }),
-          ]);
-        }
-        setReady(true);
-      });
-  }
-  return !ready ? (
-    React.cloneElement(content, {
-      style: {
-        pointerEvents: "none",
-        opacity: 0.7,
-      },
-    })
-  ) : (
-    <CommandPalette
-      closeOnSelect
-      placeholder="Jump to"
-      trigger={content}
-      renderCommand={atomCommand}
-      header={
-        <Box
-          sx={{
-            color: "#232323",
-            padding: "10px 15px",
-            display: { xs: "none", sm: "inline-block" },
-            background: "#c0adad",
-            borderRadius: "15px",
-            userSelect: "none",
-            fontFamily: "arial",
-            fontSize: "12px",
-            marginBottom: "6px",
-            width: "100%",
-          }}
-        >
-          <span style={{ paddingRight: "32px", fontSize: "15px" }}>
-            Jump to
-          </span>
-          <Box sx={{ mt: 1, display: { xs: "none", sm: "block" } }}>
-            <span style={{ paddingRight: "32px" }}>
-              <kbd
-                style={{
-                  backgroundColor: "rgba(200,200,200,.3)",
-                  borderRadius: "4px",
-                  color: "#232323",
-                  fontSize: "12px",
-                  marginRight: "6px",
-                  padding: "2px 4px",
-                }}
-              >
-                ↑↓
-              </kbd>{" "}
-              to navigate
-            </span>
-            <Box sx={{ mt: 1 }} />
-            <span style={{ paddingRight: "32px" }}>
-              <kbd
-                style={{
-                  backgroundColor: "rgba(200,200,200,.3)",
-                  borderRadius: "4px",
-                  color: "#232323",
-                  fontSize: "12px",
-                  marginRight: "6px",
-                  padding: "2px 4px",
-                }}
-              >
-                enter
-              </kbd>{" "}
-              to select
-            </span>
-            <Box sx={{ mt: 1 }} />
-            <span style={{ paddingRight: "32px" }}>
-              <kbd
-                style={{
-                  backgroundColor: "rgba(200,200,200,.3)",
-                  borderRadius: "4px",
-                  color: "#232323",
-                  fontSize: "12px",
-                  marginRight: "6px",
-                  padding: "2px 4px",
-                }}
-              >
-                esc
-              </kbd>{" "}
-              to dismiss
-            </span>
-          </Box>
-        </Box>
-      }
-      options={{
-        allowTypo: true,
-        key: "name",
-        keys: ["name"],
-        limit: 7,
-        scoreFn: null,
-        threshold: -Infinity,
-      }}
-      reactModalParentSelector="body"
-      hotKeys="/"
-      commands={commands}
-    />
+            <Command.Item>Apple</Command.Item>
+          </Command.List>
+        </Command>
+      </Backdrop>
+    </>
   );
-}
+};

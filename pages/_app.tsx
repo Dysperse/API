@@ -12,6 +12,7 @@ import useSWR from "swr";
 import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
 import "../styles/global.css";
+import "../styles/search.css";
 import type { Account } from "../types/account";
 import hex2rgba from "hex-to-rgba";
 
