@@ -99,7 +99,7 @@ export function SearchPopup() {
             },
           }}
         >
-          <span className="material-symbols-rounded">search</span>
+          <span className="material-symbols-outlined">search</span>
         </IconButton>
       </Tooltip>
       <SwipeableDrawer
@@ -234,7 +234,7 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         <SettingsIcon />
         Search Settings...
       </Item>
-      <Item>
+      <Item onSelect={() => {}}>
         <span
           className="material-symbols-outlined"
           style={{ marginRight: "5px" }}
@@ -243,7 +243,7 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         </span>
         Dashboard
       </Item>
-      <Item>
+      <Item onSelect={() => {}}>
         <span
           className="material-symbols-outlined"
           style={{ marginRight: "5px" }}
@@ -252,7 +252,7 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         </span>
         Finances
       </Item>
-      <Item>
+      <Item onSelect={() => {}}>
         <span
           className="material-symbols-outlined"
           style={{ marginRight: "5px" }}
@@ -272,34 +272,34 @@ function Home({ searchSettings }: { searchSettings: Function }) {
           { name: "Laundry room", icon: "local_laundry_service" },
           { name: "Storage room", icon: "inventory_2" },
         ].map((room, index) => (
-          <Item key={index}>
+          <Item onSelect={() => {}} key={index.toString()}>
+            {room.name}
             <span
               className="material-symbols-outlined"
               style={{ marginRight: "5px" }}
             >
               {room.icon}
             </span>
-            {room.name}
           </Item>
         ))}
         {data && (
           <Box>
             {data.data.map((room, index) => (
               <Item key={index}>
+                {room.name}
                 <span
                   className="material-symbols-outlined"
                   style={{ marginRight: "5px" }}
                 >
                   label
                 </span>
-                {room.name}
               </Item>
             ))}
           </Box>
         )}
-        <Item>
+        <Item onSelect={() => {}}>
           <span
-            className="material-symbols-rounded"
+            className="material-symbols-outlined"
             style={{ marginRight: "5px" }}
           >
             add
@@ -309,16 +309,13 @@ function Home({ searchSettings }: { searchSettings: Function }) {
       </Command.Group>
       <Command.Group heading="Help">
         <Item shortcut="⇧ D">
-          <DocsIcon />
-          Search Docs...
-        </Item>
-        <Item>
-          <FeedbackIcon />
-          Send Feedback...
-        </Item>
-        <Item>
-          <ContactIcon />
-          Contact Support
+          <span
+            className="material-symbols-outlined"
+            style={{ marginRight: "5px" }}
+          >
+            help
+          </span>
+          Support
         </Item>
       </Command.Group>
     </>

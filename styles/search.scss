@@ -162,6 +162,10 @@
     transition: all 150ms ease;
     transition-property: none;
 
+    & .material-symbols-outlined {
+      order: -1
+    }
+
     &[aria-selected='true'] {
       background: var(--grayA3);
       color: var(--gray12);
