@@ -16,7 +16,7 @@ function RenderLists({ mobile, data }: any) {
   const [lists, setLists] = useState(data);
   return (
     <>
-      <Box sx={{ display: { xs: "none", sm: "block" } }}>
+      <Box>
         {lists.map((list: any, index: number) => (
           <List
             setLists={setLists}
@@ -32,33 +32,6 @@ function RenderLists({ mobile, data }: any) {
           <CreateListCard mobile={mobile} setLists={setLists} lists={lists} />
         )}
       </Box>
-      <Box sx={{ display: { sm: "none" } }}>
-        <SwipeableViews
-          resistance
-          style={{
-            maxWidth: "calc(100vw - 32.5px)",
-            padding: "0 30px",
-            paddingLeft: 0,
-          }}
-          slideStyle={{
-            padding: "0px",
-          }}
-        >
-          {lists.map((list: any, index: number) => (
-            <List
-              setLists={setLists}
-              lists={lists}
-              key={index.toString()}
-              mobile={mobile}
-              title={list.title}
-              description={list.description}
-              id={list.id}
-            />
-          ))}
-          {lists.length < 5 && (
-            <CreateListCard mobile={mobile} setLists={setLists} lists={lists} />
-          )}
-        </SwipeableViews>
       </Box>
     </>
   );
