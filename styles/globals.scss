@@ -186,3 +186,7 @@ img {
     transform: scale(1);
   }
 }
+::selection {
+  background: hotpink;
+  color: white;
+}

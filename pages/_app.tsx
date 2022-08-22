@@ -11,8 +11,8 @@ import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
-import "../styles/global.css";
-import "../styles/search.css";
+import "../styles/globals.scss";
+import "../styles/search.scss";
 import type { Account } from "../types/account";
 import hex2rgba from "hex-to-rgba";
 
