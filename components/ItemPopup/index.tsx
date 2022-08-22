@@ -43,7 +43,7 @@ export default function Item({
   const id = data.id;
   const [drawerState, setDrawerState] = useState(false);
   const [item, setItemData] = useState(data);
-  const [switchingToIndex, setSwitchingToIndex] = useState<number>(0);
+  const [switchingToIndex, setSwitchingToIndex] = useState<number>(1);
   const [index, setIndex] = useState<number>(1);
   const [deleted, setDeleted] = useState<boolean>(false);
 
