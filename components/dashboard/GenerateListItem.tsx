@@ -36,6 +36,7 @@ export function GenerateListItem({
   return checked ? null : (
     <Box sx={{ borderRadius: "15px!important", overflow: "hidden" }}>
       <SwipeableViews
+        disabled={global.session.property.role === "read-only"}
         enableMouseEvents
         index={index}
         slideStyle={{
@@ -58,6 +59,7 @@ export function GenerateListItem({
           <ListItemIcon sx={{ ml: -1 }}>
             <IconButton
               disableRipple
+              disabled={global.session.property.role === "read-only"}
               sx={{
                 borderRadius: 3,
                 transition: "transform .2s",

@@ -25,6 +25,7 @@ function ListItem({ item, listItems, setListItems }: any) {
     <FormControlLabel
       control={
         <Checkbox
+          disabled={global.session.property.role === "read-only"}
           onClick={(e: any) => {
             e.target.checked = false;
             setListItems(
@@ -123,27 +124,29 @@ function ListPopup({
         <Typography variant="h5" sx={{ fontWeight: "600" }}>
           {title}
         </Typography>
-        <IconButton
-          sx={{ borderRadius: 100 }}
-          onClick={() => {
-            setDrawerState(false);
-            setLists(lists.filter((list) => list.id !== id));
-            setDeleted(true);
-            fetch(
-              "/api/lists/delete-custom-list?" +
-                new URLSearchParams({
-                  propertyToken: global.session.property.propertyToken,
-                  accessToken: global.session.property.accessToken,
-                  id: id,
-                }),
-              {
-                method: "POST",
-              }
-            );
-          }}
-        >
-          <span className="material-symbols-rounded">delete</span>
-        </IconButton>
+        {global.session.property.role !== "read-only" && (
+          <IconButton
+            sx={{ borderRadius: 100 }}
+            onClick={() => {
+              setDrawerState(false);
+              setLists(lists.filter((list) => list.id !== id));
+              setDeleted(true);
+              fetch(
+                "/api/lists/delete-custom-list?" +
+                  new URLSearchParams({
+                    propertyToken: global.session.property.propertyToken,
+                    accessToken: global.session.property.accessToken,
+                    id: id,
+                  }),
+                {
+                  method: "POST",
+                }
+              );
+            }}
+          >
+            <span className="material-symbols-rounded">delete</span>
+          </IconButton>
+        )}
       </Box>
       <Box sx={{ p: 3, textAlign: "center", overflow: "scroll" }}>
         {listItems.loading ? (
@@ -173,11 +176,13 @@ function ListPopup({
                   No items yet...
                 </Typography>
                 <Box sx={{ mt: 2 }}>
-                  <CreateListItemButton
-                    parent={id}
-                    setListItems={setListItems}
-                    listItems={listItems}
-                  />
+                  {global.session.property.role !== "read-only" && (
+                    <CreateListItemButton
+                      parent={id}
+                      setListItems={setListItems}
+                      listItems={listItems}
+                    />
+                  )}
                 </Box>
               </Box>
             ) : null}
@@ -189,13 +194,14 @@ function ListPopup({
                 setListItems={setListItems}
               />
             ))}
-            {listItems.data.length !== 0 && (
-              <CreateListItemButton
-                parent={id}
-                setListItems={setListItems}
-                listItems={listItems}
-              />
-            )}
+            {listItems.data.length !== 0 &&
+              global.session.property.role !== "read-only" && (
+                <CreateListItemButton
+                  parent={id}
+                  setListItems={setListItems}
+                  listItems={listItems}
+                />
+              )}
           </div>
         )}
       </Box>

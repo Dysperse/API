@@ -333,7 +333,6 @@ export default function Item({
         PaperProps={{
           elevation: 0,
           sx: {
-            borderRadius: { sm: "28px" },
             mt: { sm: "20px" },
             mr: { sm: "20px" },
             height: { sm: "calc(100vh - 40px)!important" },
@@ -556,20 +555,23 @@ export default function Item({
               slideStyle={{
                 borderRadius: "15px!important",
               }}
+              disabled={global.session.property.role === "read-only"}
               onChangeIndex={(changedIndex) => {
-                setIndex(changedIndex);
-                if (changedIndex === 2) {
-                  handleItemDelete();
-                  setTimeout(() => {
-                    setDeleted(true);
-                    setSwitchingToIndex(1);
-                  }, 200);
-                } else {
-                  handleItemStar();
-                  setTimeout(() => {
-                    setIndex(1);
-                    setSwitchingToIndex(1);
-                  }, 200);
+                if (global.session.property.role !== "read-only") {
+                  setIndex(changedIndex);
+                  if (changedIndex === 2) {
+                    handleItemDelete();
+                    setTimeout(() => {
+                      setDeleted(true);
+                      setSwitchingToIndex(1);
+                    }, 200);
+                  } else {
+                    handleItemStar();
+                    setTimeout(() => {
+                      setIndex(1);
+                      setSwitchingToIndex(1);
+                    }, 200);
+                  }
                 }
               }}
               onSwitching={(index) => {
@@ -583,32 +585,34 @@ export default function Item({
                 }
               }}
             >
-              <Box
-                sx={{
-                  background: colors.orange[item.star === 1 ? "900" : "100"],
-                  width: "100%",
-                  transition: "background .2s",
-                  height: "100%",
-                  color: item.star === 1 ? "#fff" : "#000",
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: 3,
-                  justifyContent: "end",
-                  px: 2,
-                }}
-              >
-                <span
-                  style={{
-                    display: switchingToIndex == 0 ? "block" : "none",
+              {global.session.property.role !== "read-only" && (
+                <Box
+                  sx={{
+                    background: colors.orange[item.star === 1 ? "900" : "100"],
+                    width: "100%",
+                    transition: "background .2s",
+                    height: "100%",
+                    color: item.star === 1 ? "#fff" : "#000",
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: 3,
+                    justifyContent: "end",
+                    px: 2,
                   }}
-                  className={
-                    "animateIcon material-symbols-" +
-                    (item.star == 0 ? "outlined" : "rounded")
-                  }
                 >
-                  star
-                </span>
-              </Box>
+                  <span
+                    style={{
+                      display: switchingToIndex == 0 ? "block" : "none",
+                    }}
+                    className={
+                      "animateIcon material-symbols-" +
+                      (item.star == 0 ? "outlined" : "rounded")
+                    }
+                  >
+                    star
+                  </span>
+                </Box>
+              )}
               <ListItemButton
                 onContextMenu={handleContextMenu}
                 onClick={() => setDrawerState(true)}
@@ -647,20 +651,22 @@ export default function Item({
                   }
                 />
               </ListItemButton>
-              <Box
-                sx={{
-                  background: colors.red["800"],
-                  width: "100%",
-                  height: "100%",
-                  color: "#fff",
-                  borderRadius: 3,
-                  display: "flex",
-                  alignItems: "center",
-                  px: 2,
-                }}
-              >
-                <span className="material-symbols-rounded">delete</span>
-              </Box>
+              {global.session.property.role !== "read-only" && (
+                <Box
+                  sx={{
+                    background: colors.red["800"],
+                    width: "100%",
+                    height: "100%",
+                    color: "#fff",
+                    borderRadius: 3,
+                    display: "flex",
+                    alignItems: "center",
+                    px: 2,
+                  }}
+                >
+                  <span className="material-symbols-rounded">delete</span>
+                </Box>
+              )}
             </SwipeableViews>
           </Collapse>
         ) : (
@@ -693,6 +699,7 @@ export default function Item({
                 <SwipeableViews
                   enableMouseEvents
                   index={index}
+                  disabled={global.session.property.role === "read-only"}
                   slideStyle={{
                     borderRadius: "15px!important",
                   }}

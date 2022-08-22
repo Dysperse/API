@@ -20,10 +20,10 @@ export function SearchPopup({ content }: any) {
     e.preventDefault();
     document.getElementById("searchTrigger1")!.click();
   });
-  useHotkeys("ctrl+k", (e) => {
-    e.preventDefault();
-    document.getElementById("searchTrigger1")!.click();
-  });
+  // useHotkeys("ctrl+k", (e) => {
+  //   e.preventDefault();
+  //   document.getElementById("searchTrigger1")!.click();
+  // });
   useHotkeys("ctrl+f", (e) => {
     e.preventDefault();
     document.getElementById("searchTrigger1")!.click();

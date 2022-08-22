@@ -72,7 +72,7 @@ export function CreateListCard({ mobile, lists, setLists }: any) {
     },
   });
 
-  return (
+  return global.session.property.role == "read-only" ? null : (
     <>
       <Card
         sx={{

@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
 import dayjs from "dayjs";
+
 function DeleteCard({ item }: any) {
   const [deleted, setDeleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,6 +40,7 @@ function DeleteCard({ item }: any) {
             borderRadius: 9,
           }}
           variant="contained"
+          disabled={global.session.property.role === "read-only"}
           onClick={() => {
             fetch(
               "/api/inventory/trash?" +
@@ -77,6 +79,7 @@ function DeleteCard({ item }: any) {
             borderRadius: 9,
           }}
           variant="outlined"
+          disabled={global.session.property.role === "read-only"}
           onClick={() => {
             fetch(
               "/api/restore?" +
