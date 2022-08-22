@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import useSWR from "swr";
+import { Puller } from "../Puller";
 
 export function SearchPopup() {
   const ref = React.useRef<HTMLDivElement | null>(null);
@@ -126,6 +127,7 @@ export function SearchPopup() {
           },
         }}
       >
+        <Puller />
         <div className="vercel">
           <Command
             ref={ref}
@@ -167,7 +169,7 @@ export function SearchPopup() {
               >
                 <Box
                   sx={{
-                    p: 2,
+                    p: 0,
                     background: "rgba(0,0,0,0.1)",
                     width: "100%",
                     borderRadius: 4,
@@ -181,7 +183,9 @@ export function SearchPopup() {
                       alt="No results found"
                     />
                   </picture>
-                  <Typography variant="h6">No results found.</Typography>
+                  <Typography variant="h6" sx={{ mt: -5, mb: 4 }}>
+                    No results found.
+                  </Typography>
                 </Box>
               </Command.Empty>
               {activePage === "home" && (
