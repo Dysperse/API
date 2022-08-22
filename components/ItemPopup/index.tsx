@@ -566,7 +566,17 @@ export default function Item({
                     setIndex(1);
                   }, 200);
                 }
-              }}
+              }
+}onSwitching={(index) => {
+                    console.log(index);
+                    if (index > 1) {
+                      setSwitchingToIndex(2);
+                    } else if (index < 1) {
+                      setSwitchingToIndex(0);
+                    } else {
+                      setTimeout(() => setSwitchingToIndex(1), 200);
+                    }
+                  }}
             >
               <Box
                 sx={{
@@ -584,7 +594,7 @@ export default function Item({
               >
                 <span
                   style={{
-                    display: switchingToIndex === 0 ? "block" : "none",
+                    display: switchingToIndex == 0 ? "block" : "none",
                   }}
                   className={
                     "animateIcon material-symbols-" +
