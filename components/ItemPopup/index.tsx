@@ -583,8 +583,11 @@ export default function Item({
                 }}
               >
                 <span
+                  style={{
+                    display: switchingToIndex === 0 ? "block" : "none",
+                  }}
                   className={
-                    "material-symbols-" +
+                    "animateIcon material-symbols-" +
                     (item.star == 0 ? "outlined" : "rounded")
                   }
                 >
@@ -793,7 +796,14 @@ export default function Item({
                       borderRadius: "28px",
                     }}
                   >
-                    <span className="material-symbols-rounded">delete</span>
+                    <span
+                      style={{
+                        display: switchingToIndex === 2 ? "block" : "none",
+                      }}
+                      className="animateIcon material-symbols-rounded"
+                    >
+                      delete
+                    </span>
                   </Box>
                 </SwipeableViews>
               </Card>
