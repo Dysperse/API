@@ -12,7 +12,6 @@ const handler = async (req: any, res: any) => {
       res.json({
         data: false,
       });
-      return;
     }
     const result = await executeQuery({
       query:
@@ -21,7 +20,7 @@ const handler = async (req: any, res: any) => {
         req.query.propertyToken ?? "",
         uuidv4(),
         req.query.email ?? "",
-        users[0].name,
+        users[0] ? users[0].name : "Unknown user",
         req.query.houseName ?? "Untitled property",
         req.query.houseType ?? "",
         "false",
