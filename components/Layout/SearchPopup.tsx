@@ -156,6 +156,7 @@ export function SearchPopup() {
             <Command.Input
               autoFocus
               placeholder="What do you need?"
+              value={inputValue}
               onValueChange={(value) => {
                 setInputValue(value);
               }}
@@ -188,7 +189,12 @@ export function SearchPopup() {
                 </Box>
               </Command.Empty>
               {activePage === "home" && (
-                <Home searchSettings={() => setPages([...pages, "Settings"])} />
+                <Home
+                  searchSettings={() => {
+                    setPages([...pages, "Settings"]);
+                    setInputValue("");
+                  }}
+                />
               )}
               {activePage === "Settings" && <Settings />}
             </Command.List>
