@@ -15,7 +15,6 @@ export const stopPropagationForTab = (event: any) => {
 function RenderLists({ mobile, data }: any) {
   const [lists, setLists] = useState(data);
   return (
-    <>
       <Box>
         {lists.map((list: any, index: number) => (
           <List
@@ -32,8 +31,6 @@ function RenderLists({ mobile, data }: any) {
           <CreateListCard mobile={mobile} setLists={setLists} lists={lists} />
         )}
       </Box>
-      </Box>
-    </>
   );
 }
 
