@@ -65,10 +65,9 @@ export function SearchPopup() {
       setTimeout(() => {
         if (ref.current) {
           ref.current.style.transform = "";
+          setInputValue("");
         }
       }, 100);
-
-      setInputValue("");
     }
   }
 
