@@ -13,15 +13,13 @@ import Toolbar from "@mui/material/Toolbar";
 import { encode } from "js-base64";
 import Link from "next/link";
 import router from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import useSWR from "swr";
 import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import hex2rgba from "hex-to-rgba";
 
 const drawerWidth = 260;
 interface Room {
@@ -288,180 +286,89 @@ function CustomRooms({ collapsed }: any) {
   );
 }
 
-function Layout({ children, session }): JSX.Element {
+function ResponsiveDrawer(props: any): JSX.Element {
   const [collapsed, setCollapsed] = React.useState(
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
   );
-  global.session = session;
-  const [theme, setTheme] = useState<"dark" | "light">(
-    session.account.darkMode ? "dark" : "light"
-  );
-  const [themeColor, setThemeColor] = useState<
-    | "red"
-    | "green"
-    | "blue"
-    | "pink"
-    | "purple"
-    | "orange"
-    | "teal"
-    | "cyan"
-    | "brown"
-  >(session.account.theme);
-  global.theme = theme;
-  global.setTheme = setTheme;
-  global.themeColor = themeColor;
-  global.setThemeColor = setThemeColor;
-
-  if (session.account.darkMode) {
-    document
-      .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute("content", "hsl(240, 11%, 10%)");
-  }
-
-  const userTheme = createTheme({
-    components: {
-      MuiPaper: {
-        defaultProps: { elevation: 0 },
-      },
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            textTransform: "none",
-          },
-        },
-      },
-      MuiChip: {
-        styleOverrides: {
-          root: {
-            ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 30%)",
-            }),
-          },
-        },
-      },
-      MuiTooltip: {
-        styleOverrides: {
-          tooltip: {
-            borderRadius: "20px",
-            fontSize: "14px",
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 30%)"
-                : colors[themeColor]["A100"],
-            color:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 90%)"
-                : colors[themeColor]["900"],
-            paddingLeft: "13px",
-            paddingRight: "13px",
-            paddingTop: "5px",
-            paddingBottom: "5px",
-          },
-        },
-      },
-    },
-    palette: {
-      primary: {
-        main: colors[themeColor][global.theme === "dark" ? "A200" : "800"],
-      },
-      mode: theme,
-      ...(theme === "dark" && {
-        background: {
-          default: "hsl(240, 11%, 10%)",
-          paper: "hsl(240, 11%, 10%)",
-        },
-        text: {
-          primary: "hsl(240, 11%, 90%)",
-        },
-      }),
-    },
-  });
-  // set CSS variable to <html>
-  document.documentElement.style.setProperty(
-    "--theme",
-    hex2rgba(colors[themeColor]["700"], 0.15)
-  );
 
   return (
-    <ThemeProvider theme={userTheme}>
+    <Box
+      sx={{
+        display: "flex",
+        "& *::selection": {
+          color: "#fff",
+          background: colors[themeColor]["A700"],
+        },
+      }}
+    >
+      <CssBaseline />
+      <Navbar />
       <Box
+        component="nav"
         sx={{
-          display: "flex",
-          "& *::selection": {
-            color: "#fff",
-            background: colors[themeColor]["A700"],
+          width: { sm: collapsed ? 100 : drawerWidth },
+          flexShrink: { sm: 0 },
+        }}
+      >
+        <Drawer
+          variant="permanent"
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: "none", sm: "block" },
+            flexShrink: 0,
+            height: "100px",
+            borderRight: 0,
+            [`& .MuiDrawer-paper`]: {
+              maxWidth: collapsed ? 100 : drawerWidth,
+              transition: "maxWidth 2s !important",
+              textAlign: collapsed ? "center" : "",
+              borderRight: 0,
+              zIndex: 1000,
+              height: "100vh",
+              overflowY: "scroll",
+              boxSizing: "border-box",
+            },
+          }}
+          open
+        >
+          <DrawerListItems
+            collapsed={collapsed}
+            setCollapsed={setCollapsed}
+            customRooms={<CustomRooms collapsed={collapsed} />}
+          />
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 90,
+          p: 0,
+          width: {
+            sm: `calc(100% - 65px)`,
+            md: `calc(100% - ${drawerWidth}px)`,
           },
         }}
       >
-        <CssBaseline />
-        <Navbar />
+        <Toolbar />
         <Box
-          component="nav"
           sx={{
-            width: { sm: collapsed ? 100 : drawerWidth },
-            flexShrink: { sm: 0 },
-          }}
-        >
-          <Drawer
-            variant="permanent"
-            ModalProps={{
-              keepMounted: true,
-            }}
-            sx={{
-              display: { xs: "none", sm: "block" },
-              flexShrink: 0,
-              height: "100px",
-              borderRight: 0,
-              [`& .MuiDrawer-paper`]: {
-                maxWidth: collapsed ? 100 : drawerWidth,
-                transition: "maxWidth 2s !important",
-                textAlign: collapsed ? "center" : "",
-                borderRight: 0,
-                zIndex: 1000,
-                height: "100vh",
-                overflowY: "scroll",
-                boxSizing: "border-box",
-              },
-            }}
-            open
-          >
-            <DrawerListItems
-              collapsed={collapsed}
-              setCollapsed={setCollapsed}
-              customRooms={<CustomRooms collapsed={collapsed} />}
-            />
-          </Drawer>
-        </Box>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 90,
-            p: 0,
-            width: {
-              sm: `calc(100% - 65px)`,
-              md: `calc(100% - ${drawerWidth}px)`,
+            py: {
+              sm: 1,
+              xs: 0.5,
             },
           }}
         >
-          <Toolbar />
-          <Box
-            sx={{
-              py: {
-                sm: 1,
-                xs: 0.5,
-              },
-            }}
-          >
-            {children}
-            <Box sx={{ display: { sm: "none" } }}>
-              <Toolbar />
-            </Box>
+          {props.children}
+          <Box sx={{ display: { sm: "none" } }}>
+            <Toolbar />
           </Box>
-          <BottomNav />
         </Box>
+        <BottomNav />
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 }
 
-export default Layout;
+export default ResponsiveDrawer;
