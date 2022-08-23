@@ -383,82 +383,84 @@ function Layout({ children, session }): JSX.Element {
   );
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        "& *::selection": {
-          color: "#fff",
-          background: colors[themeColor]["A700"],
-        },
-      }}
-    >
-      <CssBaseline />
-      <Navbar />
+    <ThemeProvider theme={userTheme}>
       <Box
-        component="nav"
         sx={{
-          width: { sm: collapsed ? 100 : drawerWidth },
-          flexShrink: { sm: 0 },
-        }}
-      >
-        <Drawer
-          variant="permanent"
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: "none", sm: "block" },
-            flexShrink: 0,
-            height: "100px",
-            borderRight: 0,
-            [`& .MuiDrawer-paper`]: {
-              maxWidth: collapsed ? 100 : drawerWidth,
-              transition: "maxWidth 2s !important",
-              textAlign: collapsed ? "center" : "",
-              borderRight: 0,
-              zIndex: 1000,
-              height: "100vh",
-              overflowY: "scroll",
-              boxSizing: "border-box",
-            },
-          }}
-          open
-        >
-          <DrawerListItems
-            collapsed={collapsed}
-            setCollapsed={setCollapsed}
-            customRooms={<CustomRooms collapsed={collapsed} />}
-          />
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 90,
-          p: 0,
-          width: {
-            sm: `calc(100% - 65px)`,
-            md: `calc(100% - ${drawerWidth}px)`,
+          display: "flex",
+          "& *::selection": {
+            color: "#fff",
+            background: colors[themeColor]["A700"],
           },
         }}
       >
-        <Toolbar />
+        <CssBaseline />
+        <Navbar />
         <Box
+          component="nav"
           sx={{
-            py: {
-              sm: 1,
-              xs: 0.5,
+            width: { sm: collapsed ? 100 : drawerWidth },
+            flexShrink: { sm: 0 },
+          }}
+        >
+          <Drawer
+            variant="permanent"
+            ModalProps={{
+              keepMounted: true,
+            }}
+            sx={{
+              display: { xs: "none", sm: "block" },
+              flexShrink: 0,
+              height: "100px",
+              borderRight: 0,
+              [`& .MuiDrawer-paper`]: {
+                maxWidth: collapsed ? 100 : drawerWidth,
+                transition: "maxWidth 2s !important",
+                textAlign: collapsed ? "center" : "",
+                borderRight: 0,
+                zIndex: 1000,
+                height: "100vh",
+                overflowY: "scroll",
+                boxSizing: "border-box",
+              },
+            }}
+            open
+          >
+            <DrawerListItems
+              collapsed={collapsed}
+              setCollapsed={setCollapsed}
+              customRooms={<CustomRooms collapsed={collapsed} />}
+            />
+          </Drawer>
+        </Box>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 90,
+            p: 0,
+            width: {
+              sm: `calc(100% - 65px)`,
+              md: `calc(100% - ${drawerWidth}px)`,
             },
           }}
         >
-          {children}
-          <Box sx={{ display: { sm: "none" } }}>
-            <Toolbar />
+          <Toolbar />
+          <Box
+            sx={{
+              py: {
+                sm: 1,
+                xs: 0.5,
+              },
+            }}
+          >
+            {children}
+            <Box sx={{ display: { sm: "none" } }}>
+              <Toolbar />
+            </Box>
           </Box>
+          <BottomNav />
         </Box>
-        <BottomNav />
       </Box>
-    </Box>
+    </ThemeProvider>
   );
 }
 
