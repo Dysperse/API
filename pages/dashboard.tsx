@@ -7,16 +7,15 @@ import { Lists } from "../components/dashboard/CustomLists/Lists";
 import { ListItems } from "../components/dashboard/ListItems";
 import { RecentItems } from "../components/dashboard/RecentItems";
 import { sessionData } from "./api/user";
+import Layout from "../components/Layout";
 
-export default function Dashboard() {
+export default function Dashboard({ session }) {
   return (
-    <>
+    <Layout session={session}>
       <Head>
         <title>
           Dashboard &bull;{" "}
-          {global.session.property.houseName.replace(/./, (c) =>
-            c.toUpperCase()
-          )}{" "}
+          {session.property.houseName.replace(/./, (c) => c.toUpperCase())}{" "}
           &bull; Carbon
         </title>
       </Head>
@@ -57,13 +56,12 @@ export default function Dashboard() {
           </Masonry>
         </Box>
       </Container>
-    </>
+    </Layout>
   );
 }
 
 export const getServerSideProps = async ({ req }) => {
   const session = await sessionData(req.cookies.token);
-  console.log(session);
 
   return {
     props: { session: session },

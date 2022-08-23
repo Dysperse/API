@@ -13,13 +13,15 @@ import Toolbar from "@mui/material/Toolbar";
 import { encode } from "js-base64";
 import Link from "next/link";
 import router from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import hex2rgba from "hex-to-rgba";
 
 const drawerWidth = 260;
 interface Room {
@@ -286,9 +288,98 @@ function CustomRooms({ collapsed }: any) {
   );
 }
 
-function ResponsiveDrawer(props: any): JSX.Element {
+function Layout({ children, session }): JSX.Element {
   const [collapsed, setCollapsed] = React.useState(
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
+  );
+  global.session = session;
+  const [theme, setTheme] = useState<"dark" | "light">(
+    session.account.darkMode ? "dark" : "light"
+  );
+  const [themeColor, setThemeColor] = useState<
+    | "red"
+    | "green"
+    | "blue"
+    | "pink"
+    | "purple"
+    | "orange"
+    | "teal"
+    | "cyan"
+    | "brown"
+  >(session.account.theme);
+  global.theme = theme;
+  global.setTheme = setTheme;
+  global.themeColor = themeColor;
+  global.setThemeColor = setThemeColor;
+
+  if (session.account.darkMode) {
+    document
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute("content", "hsl(240, 11%, 10%)");
+  }
+
+  const userTheme = createTheme({
+    components: {
+      MuiPaper: {
+        defaultProps: { elevation: 0 },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: "none",
+          },
+        },
+      },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 30%)",
+            }),
+          },
+        },
+      },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            borderRadius: "20px",
+            fontSize: "14px",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 30%)"
+                : colors[themeColor]["A100"],
+            color:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 90%)"
+                : colors[themeColor]["900"],
+            paddingLeft: "13px",
+            paddingRight: "13px",
+            paddingTop: "5px",
+            paddingBottom: "5px",
+          },
+        },
+      },
+    },
+    palette: {
+      primary: {
+        main: colors[themeColor][global.theme === "dark" ? "A200" : "800"],
+      },
+      mode: theme,
+      ...(theme === "dark" && {
+        background: {
+          default: "hsl(240, 11%, 10%)",
+          paper: "hsl(240, 11%, 10%)",
+        },
+        text: {
+          primary: "hsl(240, 11%, 90%)",
+        },
+      }),
+    },
+  });
+  // set CSS variable to <html>
+  document.documentElement.style.setProperty(
+    "--theme",
+    hex2rgba(colors[themeColor]["700"], 0.15)
   );
 
   return (
@@ -360,7 +451,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
             },
           }}
         >
-          {props.children}
+          {children}
           <Box sx={{ display: { sm: "none" } }}>
             <Toolbar />
           </Box>
@@ -371,4 +462,4 @@ function ResponsiveDrawer(props: any): JSX.Element {
   );
 }
 
-export default ResponsiveDrawer;
+export default Layout;
