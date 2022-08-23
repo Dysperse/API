@@ -158,14 +158,15 @@ const ListItem = React.memo(function ListItem({
         ...(collapsed && {
           width: 70,
           mx: "auto",
+          maxWidth: "calc(100% - 15px)",
         }),
-        pl: 2,
+        pl: collapsed ? 1.8 : 2,
         color: (global.theme === "dark" ? grey[200] : "#606060") + "!important",
         "& span": {
           color:
             (global.theme === "dark" ? grey[200] : "#606060") + "!important",
         },
-        borderRadius: 3,
+        borderRadius: collapsed ? 6 : 3,
         transition: "margin .2s!important",
         mb: collapsed ? 1 : 0.2,
         py: 0.8,
@@ -290,13 +291,8 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                 fontSize: "15px",
                 minWidth: !collapsed ? "5px" : "100%",
                 transition: "minWidth .2s, margin .2s,transform .2s !important",
-                ...(collapsed && { mb: 3 }),
-                boxShadow:
-                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                "&:focus-within": {
-                  boxShadow:
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                },
+                ...(collapsed && { mb: 3, py: 3.5, mt: 2.2 }),
+                boxShadow: "0",
                 background:
                   global.theme === "dark"
                     ? "hsl(240, 11%, 30%)"

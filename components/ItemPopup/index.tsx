@@ -533,7 +533,10 @@ export default function Item({
                   InputProps={{
                     disableUnderline: true,
                     sx: {
-                      background: colors[themeColor][100] + "!important",
+                      background:
+                        colors[themeColor][
+                          global.theme === "dark" ? 900 : 100
+                        ] + "!important",
                       cursor: "pointer",
                       p: 2.5,
                       borderRadius: "15px",
