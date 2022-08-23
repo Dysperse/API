@@ -125,7 +125,7 @@ export function BottomNav() {
         sx={{
           width: "100%",
           position: "fixed",
-          bottom: matches ? -100.1 : trigger ? -20 : 0,
+          bottom: matches ? -100.1 : trigger ? -21 : 0,
           left: 0,
           transition: "bottom .3s",
           display: {
@@ -146,7 +146,7 @@ export function BottomNav() {
 
             background:
               global.theme === "dark"
-                ? "rgba(23,23,28,.7)"
+                ? "rgba(33,33,38,.7)"
                 : hexToRgba(colors[themeColor][100], 0.7),
 
             ["@supports not (backdrop-filter: blur(15px))"]: {

@@ -84,7 +84,7 @@ export function CreateListCard({ mobile, lists, setLists }: any) {
           textAlign: "center",
           background:
             global.theme === "dark"
-              ? "hsl(240, 11%, 20%)"
+              ? "hsl(240, 11%, 15%)"
               : "rgba(200,200,200,.3)",
           transition: "transform .2s",
           "&:active": {
@@ -99,14 +99,26 @@ export function CreateListCard({ mobile, lists, setLists }: any) {
           sx={{ transition: "none!important" }}
         >
           <CardContent>
-            <Typography component="div">
+            <Typography
+              component="div"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                // justifyContent: "center",
+                gap: 2,
+                pl: 1.2,
+                my: 0.5,
+              }}
+            >
+              <span className="material-symbols-rounded">add_circle</span>
               <span
-                className="material-symbols-rounded"
-                style={{ display: "block" }}
+                style={{
+                  fontWeight: "600",
+                  fontSize: "17px",
+                }}
               >
-                add_circle
+                Create list
               </span>
-              Create list
             </Typography>
           </CardContent>
         </CardActionArea>
