@@ -1,10 +1,9 @@
-import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 import { useState } from "react";
 import useSWR from "swr";
 import { CreateListCard } from "./CreateListCard";
 import { List } from "./List";
-import SwipeableViews from "react-swipeable-views";
 
 export const stopPropagationForTab = (event: any) => {
   if (event.key !== "Esc") {
@@ -15,22 +14,22 @@ export const stopPropagationForTab = (event: any) => {
 function RenderLists({ mobile, data }: any) {
   const [lists, setLists] = useState(data);
   return (
-      <Box>
-        {lists.map((list: any, index: number) => (
-          <List
-            setLists={setLists}
-            lists={lists}
-            key={index.toString()}
-            mobile={mobile}
-            title={list.title}
-            description={list.description}
-            id={list.id}
-          />
-        ))}
-        {lists.length < 5 && (
-          <CreateListCard mobile={mobile} setLists={setLists} lists={lists} />
-        )}
-      </Box>
+    <Box>
+      {lists.map((list: any, index: number) => (
+        <List
+          setLists={setLists}
+          lists={lists}
+          key={index.toString()}
+          mobile={mobile}
+          title={list.title}
+          description={list.description}
+          id={list.id}
+        />
+      ))}
+      {lists.length < 5 && (
+        <CreateListCard mobile={mobile} setLists={setLists} lists={lists} />
+      )}
+    </Box>
   );
 }
 
