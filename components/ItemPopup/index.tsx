@@ -534,9 +534,9 @@ export default function Item({
                     disableUnderline: true,
                     sx: {
                       background:
-                        colors[themeColor][
-                          global.theme === "dark" ? 900 : 100
-                        ] + "!important",
+                        (global.theme === "dark"
+                          ? "hsl(240, 11%, 24%)"
+                          : colors[themeColor][100]) + "!important",
                       cursor: "pointer",
                       p: 2.5,
                       borderRadius: "15px",

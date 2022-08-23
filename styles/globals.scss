@@ -187,6 +187,6 @@ img {
   }
 }
 ::selection {
-  background: hotpink;
+  background: var(--theme);
   color: white;
 }
