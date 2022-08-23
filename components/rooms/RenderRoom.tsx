@@ -23,10 +23,6 @@ export function RenderRoom({ data, index }: any) {
         itemCount={data.data.length}
         useAlias={router.query.custom}
       />
-      <Suggestions
-        room={router.query.custom ? decode(index).split(",")[0] : index}
-        items={data.data}
-      />
       <Toolbar
         room={router.query.custom ? decode(index).split(",")[0] : index}
         alias={router.query.custom ? decode(index).split(",")[1] : index}
