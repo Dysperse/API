@@ -32,24 +32,12 @@ export function updateSettings(
   })
     .then((res) => res.json())
     .then((res) => {
-      fetch(
-        "/api/login/?" +
-          new URLSearchParams({
-            token: global.session && global.session.account.accessToken,
-          })
-      )
-        .then(() => {
-          callback && callback();
-          toast.success(
-            useSyncToken && showSeparateSyncToastMessage
-              ? "Saved! Changes might take some time to appear for other members in your home"
-              : "Saved!"
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error("An error occurred while trying to save your settings");
-        });
+      callback && callback();
+      toast.success(
+        useSyncToken && showSeparateSyncToastMessage
+          ? "Saved! Changes might take some time to appear for other members in your home"
+          : "Saved!"
+      );
       if (debug) {
         alert(JSON.stringify(res));
       }

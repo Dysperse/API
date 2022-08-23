@@ -10,6 +10,7 @@ import * as colors from "@mui/material/colors";
 import useSWR from "swr";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
+import ReactDOMServer from "react-dom/server";
 
 export function SearchPopup() {
   const ref = React.useRef<HTMLDivElement | null>(null);
@@ -369,7 +370,10 @@ function Item({
   onSelect?: (value: string) => void;
 }) {
   return (
-    <Command.Item onSelect={onSelect}>
+    <Command.Item
+      onSelect={onSelect}
+      value={ReactDOMServer.renderToStaticMarkup(children)}
+    >
       {children}
       {shortcut && (
         <div cmdk-vercel-shortcuts="">

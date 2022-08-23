@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
+import Grid from "@mui/material/Grid";
 import Collapse from "@mui/material/Collapse";
 import * as colors from "@mui/material/colors";
 import { deepOrange } from "@mui/material/colors";
@@ -22,7 +23,6 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { neutralizeBack, revivalBack } from "../history-control";
-import { Puller } from "../Puller";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { ItemActionsMenu } from "./ItemActionsMenu";
@@ -333,9 +333,7 @@ export default function Item({
         PaperProps={{
           elevation: 0,
           sx: {
-            mt: { sm: "20px" },
-            mr: { sm: "20px" },
-            height: { sm: "calc(100vh - 40px)!important" },
+            background: "transparent",
           },
         }}
         swipeAreaWidth={0}
@@ -357,191 +355,209 @@ export default function Item({
         )}
         <Box
           sx={{
-            flexGrow: 1,
+            p: { sm: 3 },
+            borderRadius: { sm: 5 },
+            overflow: "hidden",
             height: "100vh",
-            borderRadius: { sm: "28px" },
-            overflow: "hidden!important",
-            width: {
-              sm: "60vw",
-              md: "40vw",
-              xs: "100vw",
-            },
-            background: colors[themeColor][50],
-            ...(global.theme === "dark" && {
-              background: "hsl(240, 11%, 20%)",
-            }),
-            maxWidth: "100vw",
+            background: "transparent",
           }}
         >
-          <AppBar
-            position="absolute"
-            sx={{
-              borderTopLeftRadius: "28px!important",
-              borderTopRightRadius: "28px!important",
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 20%)"
-                  : colors[themeColor][50],
-              py: 1,
-              color: global.theme === "dark" ? "#fff" : "#000",
-            }}
-            elevation={0}
-          >
-            <Toolbar>
-              <Tooltip title="Back">
-                <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  disableRipple
-                  aria-label="menu"
-                  sx={{
-                    transition: "none",
-                    mr: 1,
-                    color:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 90%)"
-                        : "#606060",
-                    "&:hover": {
-                      background: "rgba(200,200,200,.3)",
-                      color:
-                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-                    },
-                    "&:focus-within": {
-                      background:
-                        (global.theme === "dark"
-                          ? colors[themeColor]["900"]
-                          : colors[themeColor]["100"]) + "!important",
-                      color:
-                        global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-                    },
-                  }}
-                  onClick={() => setDrawerState(false)}
-                >
-                  <span className="material-symbols-rounded">chevron_left</span>
-                </IconButton>
-              </Tooltip>
-              <Typography sx={{ flexGrow: 1 }}></Typography>
-              {global.session.property.role !== "read-only" && (
-                <StarButton item={item} setItemData={setItemData} />
-              )}
-              {global.session.property.role !== "read-only" && (
-                <EditButton item={item} setItemData={setItemData} />
-              )}
-              {global.session.property.role !== "read-only" && (
-                <DeleteButton
-                  item={item}
-                  setDrawerState={setDrawerState}
-                  setDeleted={setDeleted}
-                />
-              )}
-              <ItemActionsMenu
-                item={item}
-                setItemData={setItemData}
-                setDeleted={setDeleted}
-                setDrawerState={setDrawerState}
-              />
-            </Toolbar>
-          </AppBar>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-              height: "100vh",
-              px: 7,
-              gap: 2,
+              flexGrow: 1,
+              height: "100%",
+              position: "relative",
+              borderRadius: { sm: 5 },
+              overflow: "hidden!important",
+              width: { xs: "100vw", sm: "40vw" },
+              background: colors[themeColor][50],
+              ...(global.theme === "dark" && {
+                background: "hsl(240, 11%, 20%)",
+              }),
+              maxWidth: "100vw",
             }}
           >
-            <Typography variant="h3" sx={{ fontWeight: "900" }}>
-              {item.title || "(no title)"}
-            </Typography>
-            <Typography
-              variant="h6"
+            <AppBar
+              position="absolute"
               sx={{
-                mt: -1,
-                mb: -2,
-                fontWeight: "300",
+                borderTopLeftRadius: "28px!important",
+                borderTopRightRadius: "28px!important",
+                background:
+                  global.theme === "dark"
+                    ? "hsl(240, 11%, 20%)"
+                    : colors[themeColor][50],
+                py: 1,
+                color: global.theme === "dark" ? "#fff" : "#000",
+              }}
+              elevation={0}
+            >
+              <Toolbar>
+                <Tooltip title="Back">
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    disableRipple
+                    aria-label="menu"
+                    sx={{
+                      transition: "none",
+                      mr: 1,
+                      color:
+                        global.theme === "dark"
+                          ? "hsl(240, 11%, 90%)"
+                          : "#606060",
+                      "&:hover": {
+                        background: "rgba(200,200,200,.3)",
+                        color:
+                          global.theme === "dark"
+                            ? "hsl(240, 11%, 95%)"
+                            : "#000",
+                      },
+                      "&:focus-within": {
+                        background:
+                          (global.theme === "dark"
+                            ? colors[themeColor]["900"]
+                            : colors[themeColor]["100"]) + "!important",
+                        color:
+                          global.theme === "dark"
+                            ? "hsl(240, 11%, 95%)"
+                            : "#000",
+                      },
+                    }}
+                    onClick={() => setDrawerState(false)}
+                  >
+                    <span className="material-symbols-rounded">
+                      chevron_left
+                    </span>
+                  </IconButton>
+                </Tooltip>
+                <Typography sx={{ flexGrow: 1 }}></Typography>
+                {global.session.property.role !== "read-only" && (
+                  <StarButton item={item} setItemData={setItemData} />
+                )}
+                {global.session.property.role !== "read-only" && (
+                  <EditButton item={item} setItemData={setItemData} />
+                )}
+                {global.session.property.role !== "read-only" && (
+                  <DeleteButton
+                    item={item}
+                    setDrawerState={setDrawerState}
+                    setDeleted={setDeleted}
+                  />
+                )}
+                <ItemActionsMenu
+                  item={item}
+                  setItemData={setItemData}
+                  setDeleted={setDeleted}
+                  setDrawerState={setDrawerState}
+                />
+              </Toolbar>
+            </AppBar>
+            <Box
+              sx={{
+                height: "100vh",
+                display: "flex",
+                pt: 20,
               }}
             >
-              Quantity: {item.amount || "(no quantity)"}
-            </Typography>
-            <div>
-              {item.categories.map((category: string) => {
-                return (
-                  <Chip
-                    key={Math.random().toString()}
-                    label={category}
-                    onClick={() => {
-                      router.push("/items");
-                      setDrawerState(false);
-                    }}
-                    sx={{ px: 2, mr: 1, mt: 1, mb: 1 }}
-                  />
-                );
-              })}
-            </div>
-
-            <TextField
-              multiline
-              fullWidth
-              onBlur={(e) => {
-                e.target.placeholder = "Click to add note";
-                e.target.spellcheck = false;
-                setItemData({
-                  ...item,
-                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                });
-                // Update item note
-                setItemData({
-                  ...item,
-                  note: e.target.value,
-                });
-                fetch(
-                  "/api/inventory/updateNote?" +
-                    new URLSearchParams({
-                      propertyToken: global.session.property.propertyToken,
-                      accessToken: global.session.property.accessToken,
-                      id: id.toString(),
+              <Box
+                sx={{
+                  width: "100%",
+                  p: 5,
+                }}
+              >
+                <Typography variant="h3" sx={{ fontWeight: "600" }}>
+                  {item.title || "(no title)"}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    my: 1,
+                    mb: 2,
+                    fontWeight: "300",
+                  }}
+                >
+                  Quantity: {item.amount || "(no quantity)"}
+                </Typography>
+                <div>
+                  {item.categories.map((category: string) => {
+                    return (
+                      <Chip
+                        key={Math.random().toString()}
+                        label={category}
+                        onClick={() => {
+                          router.push("/items");
+                          setDrawerState(false);
+                        }}
+                        sx={{ px: 2, mr: 1, mt: 1, mb: 1 }}
+                      />
+                    );
+                  })}
+                </div>
+                <TextField
+                  multiline
+                  fullWidth
+                  onBlur={(e) => {
+                    e.target.placeholder = "Click to add note";
+                    e.target.spellcheck = false;
+                    setItemData({
+                      ...item,
                       lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                    });
+                    // Update item note
+                    setItemData({
+                      ...item,
                       note: e.target.value,
-                    }),
-                  {
-                    method: "POST",
+                    });
+                    fetch(
+                      "/api/inventory/updateNote?" +
+                        new URLSearchParams({
+                          propertyToken: global.session.property.propertyToken,
+                          accessToken: global.session.property.accessToken,
+                          id: id.toString(),
+                          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                          note: e.target.value,
+                        }),
+                      {
+                        method: "POST",
+                      }
+                    );
+                  }}
+                  onKeyUp={(e: any) => {
+                    if (e.code === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      e.target.value = e.target.value.trim();
+                      e.target.blur();
+                    }
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                      background: colors[themeColor][100] + "!important",
+                      cursor: "pointer",
+                      p: 2.5,
+                      borderRadius: "15px",
+                      display: "block",
+                      minHeight: "100px",
+                    },
+                  }}
+                  spellCheck={false}
+                  variant="filled"
+                  defaultValue={item.note}
+                  maxRows={4}
+                  onFocus={(e) => {
+                    e.target.placeholder = "SHIFT+ENTER for new lines";
+                    e.target.spellcheck = true;
+                  }}
+                  disabled={global.session.property.role === "read-only"}
+                  placeholder={
+                    global.session.property.role !== "read-only"
+                      ? "Click to add note"
+                      : "You do not have permission to edit this item"
                   }
-                );
-              }}
-              onKeyUp={(e: any) => {
-                if (e.code === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  e.target.value = e.target.value.trim();
-                  e.target.blur();
-                }
-              }}
-              InputProps={{
-                disableUnderline: true,
-                sx: {
-                  position: "fixed",
-                  px: 2.5,
-                  py: 1.5,
-                  borderRadius: "15px",
-                },
-              }}
-              spellCheck={false}
-              variant="filled"
-              defaultValue={item.note}
-              maxRows={4}
-              onFocus={(e) => {
-                e.target.placeholder = "SHIFT+ENTER for new lines";
-                e.target.spellcheck = true;
-              }}
-              disabled={global.session.property.role === "read-only"}
-              placeholder={
-                global.session.property.role !== "read-only"
-                  ? "Click to add note"
-                  : "You do not have permission to edit this item"
-              }
-            />
+                />
+              </Box>
+            </Box>
           </Box>
         </Box>
       </SwipeableDrawer>
