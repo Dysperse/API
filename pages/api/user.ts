@@ -1,20 +1,19 @@
-import { withIronSessionApiRoute } from "iron-session/next";
+import jwt from "jsonwebtoken";
+import { getInfo } from "./account/info";
 
-declare module "iron-session" {
-  interface IronSessionData {
-    user?: any;
-  }
-}
+export const sessionData = async (providedToken) => {
+  const accessToken = jwt.verify(
+    providedToken,
+    process.env.SECRET_COOKIE_PASSWORD
+  );
+  const token: any = accessToken ?? "false";
+  const info = await getInfo(token);
+  return info;
+};
 
-export default withIronSessionApiRoute(
-  function userRoute(req, res) {
-    res.json(req.session.user);
-  },
-  {
-    cookieName: "session",
-    password: `${process.env.SECRET_COOKIE_PASSWORD}`,
-    cookieOptions: {
-      secure: process.env.NODE_ENV === "production",
-    },
-  }
-);
+const handler = async (req, res) => {
+  const info = await sessionData(req.cookies.token);
+  res.json({ success: true, data: info });
+};
+
+export default handler;

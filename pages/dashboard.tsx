@@ -6,6 +6,7 @@ import Head from "next/head";
 import { Lists } from "../components/dashboard/CustomLists/Lists";
 import { ListItems } from "../components/dashboard/ListItems";
 import { RecentItems } from "../components/dashboard/RecentItems";
+import { sessionData } from "./api/user";
 
 export default function Dashboard() {
   return (
@@ -59,3 +60,12 @@ export default function Dashboard() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req }) => {
+  const session = await sessionData(req.cookies.token);
+  console.log(session);
+
+  return {
+    props: { session: session },
+  };
+};

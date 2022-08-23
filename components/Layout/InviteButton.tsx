@@ -604,7 +604,7 @@ export function InviteButton() {
               position: "absolute",
               marginRight: "-0.71em",
               top: -15,
-              left: 10,
+              left: 30,
               width: 20,
               height: 20,
               borderRadius: "4px",

@@ -1,41 +1,31 @@
-import { Command } from "cmdk";
-import React from "react";
-import Backdrop from "@mui/material/Backdrop";
-const CommandMenu = () => {
-  const [open, setOpen] = React.useState(false);
+import jwt from "jsonwebtoken";
+import { setCookie } from "cookies-next";
 
-  // Toggle the menu when ⌘K is pressed
-  React.useEffect(() => {
-    const down = (e) => {
-      if (e.key === "k" && e.ctrlKey) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
-
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
-
+function ClientSideJS({ e }) {
+  document.cookie = "token=" + e;
+  return <></>;
+}
+export default function Test({ token }) {
   return (
-    <Backdrop open={open}>
-      <Command label="Command Menu">
-        <Command.Input />
-        <Command.List>
-          <Command.Empty>No results found.</Command.Empty>
-
-          <Command.Group heading="Letters">
-            <Command.Item>a</Command.Item>
-            <Command.Item>b</Command.Item>
-            <Command.Separator />
-            <Command.Item>c</Command.Item>
-          </Command.Group>
-
-          <Command.Item>Apple</Command.Item>
-        </Command.List>
-      </Command>
-    </Backdrop>
+    <>
+      {token}
+      <ClientSideJS e={token} />
+    </>
   );
-};
+}
 
-export default CommandMenu;
+export const getServerSideProps = async ({ req, res }) => {
+  const encoded = jwt.sign(
+    req.cookies.token,
+    process.env.SECRET_COOKIE_PASSWORD
+  );
+
+  // const decoded = jwt.verify(
+  //   "eyJhbGciOiJIUzI1NiJ9.NmJkNDYyNzktNmI3OC00ZTQ2LWI4MmYtNjIwZTAwMTM1MmE2.M7c1cLANy0HEbLQ2vX412tcmbIY2V7Cn8PhftuRvHDA",
+  //   "secret"
+  // );
+
+  return {
+    props: { token: encoded },
+  };
+};
