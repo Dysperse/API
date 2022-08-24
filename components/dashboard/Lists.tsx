@@ -3,6 +3,7 @@ import useSWR from "swr";
 import Box from "@mui/material/Box";
 import React from "react";
 import Card from "@mui/material/Card";
+import Skeleton from "@mui/material/Skeleton";
 import Paper from "@mui/material/Paper";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
@@ -212,5 +213,27 @@ export function Lists() {
   const { data, error }: any = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );
-  return <>{data ? <Render data={data} /> : <Box>Loading...</Box>}</>;
+  return (
+    <>
+      {Edata ? (
+        <Render data={data} />
+      ) : (
+        <>
+          {[...new Array(10)].map((_, i) => (
+            <Paper key={i}>
+              <Skeleton
+                animation="wave"
+                variant="rectangular"
+                sx={{
+                  borderRadius: 5,
+                  height: Math.random() * 200 + 200,
+                  mb: 2,
+                }}
+              />
+            </Paper>
+          ))}
+        </>
+      )}
+    </>
+  );
 }
