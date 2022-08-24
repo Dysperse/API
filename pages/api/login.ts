@@ -12,7 +12,6 @@ export default function handler(req, res) {
     "Set-Cookie",
     serialize("token", encoded, {
       path: "/",
-      expires: new Date("Tue, 15 Jan 5000 21:47:38 GMT"),
     })
   );
   // res.json({ success: true, key: encoded });
