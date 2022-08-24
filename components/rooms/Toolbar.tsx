@@ -23,8 +23,6 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
 
-  React.useEffect(() => {});
-
   return (
     <Box
       sx={{

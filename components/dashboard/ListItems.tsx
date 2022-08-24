@@ -1,12 +1,16 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import * as colors from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import React, { useState } from "react";
 import { CreateListModal } from "../AddPopup/CreateListModal";
+import { neutralizeBack, revivalBack } from "../history-control";
 import { GenerateListItem } from "./GenerateListItem";
 
 function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
@@ -103,6 +107,18 @@ export function ListItems({
   emptyText: any;
   data: Array<any>;
 }) {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  React.useEffect(() => {
+    open ? neutralizeBack(handleClose) : revivalBack();
+  });
+
   return (
     <Card
       sx={{
@@ -114,6 +130,97 @@ export function ListItems({
         boxShadow: 0,
       }}
     >
+      <Menu
+        BackdropProps={{ sx: { opacity: "0!important" } }}
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+        sx={{
+          transition: "all .2s",
+          "& .MuiPaper-root": {
+            mt: 1,
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+            ml: -1,
+            borderRadius: "15px",
+            minWidth: 180,
+            background:
+              global.theme === "dark"
+                ? colors[global.themeColor][900]
+                : colors[global.themeColor][100],
+
+            color:
+              global.theme === "dark"
+                ? colors[global.themeColor][200]
+                : colors[global.themeColor][800],
+            "& .MuiMenu-list": {
+              padding: "4px",
+            },
+            "& .MuiMenuItem-root": {
+              "&:hover": {
+                background:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][800]
+                    : colors[global.themeColor][200],
+                color:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][100]
+                    : colors[global.themeColor][900],
+                "& .MuiSvgIcon-root": {
+                  color:
+                    global.theme === "dark"
+                      ? colors[global.themeColor][200]
+                      : colors[global.themeColor][800],
+                },
+              },
+              padding: "10px 15px",
+              borderRadius: "15px",
+              marginBottom: "1px",
+
+              "& .MuiSvgIcon-root": {
+                fontSize: 25,
+                color: colors[global.themeColor][700],
+                marginRight: 1.9,
+              },
+              "&:active": {
+                background:
+                  global.theme === "dark"
+                    ? colors[global.themeColor][700]
+                    : colors[global.themeColor][300],
+              },
+            },
+          },
+        }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <MenuItem sx={{ gap: 2 }}>
+          <span className="material-symbols-outlined">push_pin</span>
+          Pin
+        </MenuItem>
+        <MenuItem sx={{ gap: 2 }}>
+          <span className="material-symbols-outlined">edit</span>
+          Edit description
+        </MenuItem>
+        <MenuItem sx={{ gap: 2 }}>
+          <span className="material-symbols-outlined">share</span>
+          Share
+        </MenuItem>
+        <MenuItem sx={{ gap: 2 }}>
+          <span className="material-symbols-outlined">delete</span>
+          Delete
+        </MenuItem>
+      </Menu>
       <CardContent>
         <Box sx={{ display: "flex", alignItems: "center", mb: 0.1, px: 1 }}>
           <Box>
@@ -131,6 +238,7 @@ export function ListItems({
             )}
           </Box>
           <IconButton
+            onClick={handleClick}
             disableRipple
             sx={{
               transition: "none",
