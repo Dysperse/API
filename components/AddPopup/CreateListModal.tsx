@@ -63,6 +63,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
+        id="create-list-modal"
         ModalProps={{
           keepMounted: true,
         }}
@@ -243,9 +244,6 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
         onClick={() => {
           setOpen(true);
           setCustomParent(parent);
-          setTimeout(() => {
-            document.getElementById("title")!.focus();
-          }, 100);
         }}
       >
         {children}

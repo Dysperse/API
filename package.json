@@ -34,6 +34,7 @@
     "draft-js": "^0.11.7",
     "formik": "^2.2.9",
     "hex-to-rgba": "^2.0.1",
+    "html2canvas": "^1.4.1",
     "iron-session": "^6.1.3",
     "js-base64": "^3.7.2",
     "js-cookie": "^3.0.1",
@@ -56,6 +57,7 @@
     "react-gtm-module": "^2.0.11",
     "react-hot-toast": "2.2.0",
     "react-hotkeys-hook": "^3.4.6",
+    "react-image-to-file": "1.0.0",
     "react-plaid-link": "^3.3.2",
     "react-qr-code": "^2.0.7",
     "react-swipeable-views": "^0.14.0",
@@ -67,6 +69,7 @@
     "serverless-mysql": "^1.5.4",
     "swr": "^1.3.0",
     "thirty-two": "^1.0.2",
+    "use-react-screenshot": "^3.0.0",
     "uuid": "^8.3.2",
     "webpack": "^5.73.0"
   },

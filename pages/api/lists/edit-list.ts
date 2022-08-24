@@ -17,23 +17,15 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
 
   try {
     const result = await executeQuery({
-      query:
-        "INSERT INTO ListNames (user, title, description, star) VALUES (?, ?, ?, ?)",
+      query: "EDIT ListNames SET description = ? WHERE id = ? AND user = ?",
       values: [
-        req.query.propertyToken ?? false,
-        CryptoJS.AES.encrypt(
-          req.query.title,
-          process.env.LIST_ENCRYPTION_KEY
-        ).toString() ?? "",
         req.query.description ?? "",
-        "0",
+        req.query.id ?? "false",
+        req.query.propertyToken ?? false,
       ],
     });
     res.json({
-      id: result.insertId,
-      title: req.query.title,
-      description: req.query.description,
-      star: 0,
+      success: true,
     });
   } catch (error) {
     res.status(500).json({ error: error });
