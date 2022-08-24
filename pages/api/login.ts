@@ -12,6 +12,7 @@ export default function handler(req, res) {
     "Set-Cookie",
     serialize("token", encoded, {
       path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 1 week
     })
   );
   // res.json({ success: true, key: encoded });
