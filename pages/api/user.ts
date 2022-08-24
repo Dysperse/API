@@ -2,11 +2,12 @@ import jwt from "jsonwebtoken";
 import { getInfo } from "./account/info";
 
 export const sessionData = async (providedToken) => {
-  const accessToken = jwt.verify(
+  // console.log("providedToken", providedToken);
+  const { accessToken } = jwt.verify(
     providedToken,
     process.env.SECRET_COOKIE_PASSWORD
   );
-  const token: any = accessToken ?? "false";
+  const token: any = accessToken;
   const info = await getInfo(token);
   return JSON.parse(JSON.stringify(info));
 };

@@ -24,34 +24,22 @@ function ListItem({ item, listItems, setListItems }: any) {
   return (
     <FormControlLabel
       control={
-        <Checkbox
-          disabled={global.session.property.role === "read-only"}
-          onClick={(e: any) => {
-            e.target.checked = false;
-            setListItems(
-              (() => {
-                return {
-                  loading: false,
-                  data: listItems.data.filter((d: any) => d.id !== item.id),
-                };
-              })()
-            );
-            fetch(
-              "/api/lists/delete-item?" +
-                new URLSearchParams({
-                  propertyToken: global.session.property.propertyToken,
-                  accessToken: global.session.property.accessToken,
-                  id: item.id,
-                }),
-              {
-                method: "POST",
-              }
-            );
-          }}
-        />
+        <span
+          style={{ marginLeft: "-2px" }}
+          className="material-symbols-outlined"
+        >
+          radio_button_unchecked
+        </span>
       }
       label={item.title}
-      sx={{ m: 0, display: "block" }}
+      sx={{
+        m: 0,
+        mb: 1,
+        display: "flex",
+        alignItems: "center",
+        pl: 1.3,
+        gap: 2,
+      }}
     />
   );
 }
@@ -92,10 +80,11 @@ function ListPopup({
         sx: {
           background: colors[themeColor][50],
           width: {
-            sm: "50vw",
+            sm: "100vw",
           },
-          maxHeight: "80vh",
-          borderRadius: "30px 30px 0 0",
+          height: "100vh",
+          maxHeight: "100vh",
+          minHeight: "100vh",
           mx: "auto",
           ...(global.theme === "dark" && {
             background: "hsl(240, 11%, 25%)",
@@ -108,17 +97,12 @@ function ListPopup({
       <Puller />
       <Box
         sx={{
-          p: 3,
-          pt: 4,
+          p: 6,
+          pt: 9,
+          pb: 5,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
-          gap: 1,
-          borderBottom:
-            "1px solid " +
-            (global.theme === "dark"
-              ? "hsl(240, 11%, 25%)"
-              : "rgba(200,200,200,.3)"),
+          borderBottom: "1px solid rgba(200, 200, 200, 0.3)",
         }}
       >
         <Typography variant="h5" sx={{ fontWeight: "600" }}>
@@ -126,7 +110,7 @@ function ListPopup({
         </Typography>
         {global.session.property.role !== "read-only" && (
           <IconButton
-            sx={{ borderRadius: 100 }}
+            sx={{ borderRadius: 100, ml: "auto" }}
             onClick={() => {
               setDrawerState(false);
               setLists(lists.filter((list) => list.id !== id));
@@ -137,6 +121,7 @@ function ListPopup({
                     propertyToken: global.session.property.propertyToken,
                     accessToken: global.session.property.accessToken,
                     id: id,
+                    custom: "true",
                   }),
                 {
                   method: "POST",
@@ -148,7 +133,15 @@ function ListPopup({
           </IconButton>
         )}
       </Box>
-      <Box sx={{ p: 3, textAlign: "center", overflow: "scroll" }}>
+      <Box
+        sx={{
+          p: 5,
+          py: 0,
+          textAlign: "center",
+          overflow: "scroll",
+          maxWidth: { sm: "60vw" },
+        }}
+      >
         {listItems.loading ? (
           <>
             {[...new Array(15)].map((_, i) => (
@@ -168,11 +161,8 @@ function ListPopup({
         ) : (
           <div style={{ textAlign: "left", display: "block" }}>
             {listItems.data.length === 0 ? (
-              <Box sx={{ textAlign: "center", py: 6 }}>
-                <Typography variant="h3" sx={{ mb: 2, opacity: 0.7 }}>
-                  ¯\_(ツ)_/¯
-                </Typography>
-                <Typography variant="h5" sx={{ opacity: 0.7 }}>
+              <Box sx={{ textAlign: "left", py: 6 }}>
+                <Typography variant="h5" sx={{ opacity: 0.7, ml: 2, mb: 3 }}>
                   No items yet...
                 </Typography>
                 <Box sx={{ mt: 2 }}>
@@ -351,7 +341,7 @@ export function List({
           sx={{
             mb: 2,
             mr: 2,
-            width:  "100%",
+            width: "100%",
             borderRadius: "28px",
             background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
@@ -417,7 +407,7 @@ export function List({
                 </Typography>
                 {!mobile && (
                   <Typography variant="body2" color="text.secondary">
-                    List
+                    {id}
                   </Typography>
                 )}
               </CardContent>

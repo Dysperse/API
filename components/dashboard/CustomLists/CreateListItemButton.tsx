@@ -1,10 +1,11 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
@@ -78,16 +79,45 @@ export function CreateListItemButton({
 
   return (
     <>
-      <FormControlLabel
+      <ListItem
+        button
+        disableRipple
         onClick={handleClickOpen}
-        control={
-          <IconButton sx={{ mr: "1px" }}>
-            <span className="material-symbols-rounded">add_circle</span>
-          </IconButton>
-        }
-        label="New list item"
-        sx={{ m: 0, mt: 0.1, display: "block" }}
-      />
+        sx={{
+          py: 0,
+          borderRadius: 3,
+          color: global.theme == "dark" ? "#fff" : "#808080",
+          transition: "transform .2s",
+          "&:active": {
+            transition: "none",
+            transform: "scale(.97)",
+            background: "rgba(200,200,200,.3)",
+          },
+        }}
+        dense
+      >
+        <ListItemText
+          sx={{ mt: 1.4 }}
+          primary={
+            <Box sx={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+              <span
+                style={{ marginLeft: "-2px" }}
+                className="material-symbols-outlined"
+              >
+                add_circle
+              </span>
+              <span
+                style={{
+                  color: global.theme == "dark" ? "#fff" : "#202020",
+                  marginLeft: "-7px",
+                }}
+              >
+                New list item
+              </span>
+            </Box>
+          }
+        />
+      </ListItem>
 
       <SwipeableDrawer
         anchor="bottom"
