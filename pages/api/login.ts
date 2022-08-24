@@ -8,13 +8,13 @@ export default function handler(req, res) {
     { expiresIn: "7d" }
   );
   let now = new Date();
-  now.setDate(now.getDate() * 7);
+  now.setDate(now.getDate() * 7 * 4);
 
   res.setHeader(
     "Set-Cookie",
     serialize("token", encoded, {
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 1 week
+      maxAge: 60 * 60 * 24 * 7 * 4, // 1 month
       expires: now
     })
   );
