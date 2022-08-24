@@ -215,7 +215,7 @@ export function Lists() {
   );
   return (
     <>
-      {Edata ? (
+      {data ? (
         <Render data={data} />
       ) : (
         <>
