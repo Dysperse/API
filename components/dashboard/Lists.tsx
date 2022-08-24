@@ -104,6 +104,7 @@ function Render({ data }: any) {
             <DialogContent>
               Good examples of list names are short and descriptive.
               <TextField
+                autoComplete="off"
                 id="listName"
                 required
                 name="name"
@@ -115,6 +116,7 @@ function Render({ data }: any) {
                 label="List name"
               />
               <TextField
+                autoComplete="off"
                 id="description"
                 variant="filled"
                 name="description"

@@ -8,6 +8,6 @@ export default function handler(req, res) {
     { expiresIn: "7d" }
   );
   res.setHeader("Set-Cookie", serialize("token", encoded, { path: "/" }));
-  res.json({ success: true, key: encoded });
-  // res.redirect("/dashboard");
+  // res.json({ success: true, key: encoded });
+  res.redirect("/dashboard");
 }
