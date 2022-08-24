@@ -63,10 +63,19 @@ export function GenerateListItem({
               sx={{
                 borderRadius: 3,
                 transition: "transform .2s",
+                "&:hover": {
+                  background:
+                    global.theme == "dark"
+                      ? "hsl(240, 11%, 20%)"
+                      : "rgba(200,200,200,.3)",
+                },
                 "&:active": {
                   transition: "none",
                   transform: "scale(.97)",
-                  background: "rgba(200,200,200,.3)",
+                  background:
+                    global.theme == "dark"
+                      ? "hsl(240, 11%, 20%)"
+                      : "rgba(200,200,200,.3)",
                   ...(global.session.property.role !== "read-only" && {
                     transition: "none",
                     transform: "scale(.97)",
@@ -91,6 +100,7 @@ export function GenerateListItem({
             </IconButton>
           </ListItemIcon>
           <ListItemText
+            sx={{ ml: -1 }}
             primary={
               <CardActionArea
                 sx={{

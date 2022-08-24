@@ -1,3 +1,5 @@
+import type { Account } from "../../types/account";
+
 export {};
 
 declare global {
@@ -7,5 +9,5 @@ declare global {
   var setThemeColor: any;
   var OneSignal: any;
 
-  var session: any;
+  var session: Account | any;
 }

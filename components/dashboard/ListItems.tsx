@@ -3,15 +3,14 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Skeleton from "@mui/material/Skeleton";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import useFetch from "react-fetch-hook";
 import { CreateListModal } from "../AddPopup/CreateListModal";
 import { GenerateListItem } from "./GenerateListItem";
 
 function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
-  const [items, setItems] = useState<any>(data.data);
+  const [items, setItems] = useState<any>(data);
 
   return (
     <>
@@ -62,7 +61,7 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
               sx={{ mt: 1.4 }}
               primary={
                 <Box
-                  sx={{ display: "inline-flex", alignItems: "center", gap: 4 }}
+                  sx={{ display: "inline-flex", alignItems: "center", gap: 3 }}
                 >
                   <span
                     style={{ marginLeft: "-2px" }}
@@ -91,36 +90,19 @@ function GenerateData({ data, parent, emptyImage, emptyText, title }: any) {
 // Shopping list / todo list
 export function ListItems({
   parent,
+  description,
   title,
   emptyImage,
   emptyText,
+  data,
 }: {
   parent: any;
+  description: string;
   title: any;
   emptyImage: any;
   emptyText: any;
+  data: Array<any>;
 }) {
-  const { data, isLoading }: any = useFetch(
-    "/api/lists/items?" +
-      new URLSearchParams({
-        propertyToken: global.session.property.propertyToken,
-        accessToken: global.session.property.accessToken,
-        id: parent,
-      }),
-    {
-      method: "POST",
-    }
-  );
-  if (isLoading)
-    return (
-      <Skeleton
-        height={300}
-        animation="wave"
-        variant="rectangular"
-        sx={{ borderRadius: "28px" }}
-      />
-    );
-
   return (
     <Card
       sx={{
@@ -133,9 +115,38 @@ export function ListItems({
       }}
     >
       <CardContent>
-        <Typography gutterBottom variant="h6" component="div">
-          {title}
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 0.1, px: 1 }}>
+          <Box>
+            <Typography
+              gutterBottom={!description}
+              variant="h6"
+              component="div"
+            >
+              {title}
+            </Typography>
+            {description && (
+              <Typography sx={{ mb: 1.2 }} variant="body2" component="div">
+                {"description"}
+              </Typography>
+            )}
+          </Box>
+          <IconButton
+            disableRipple
+            sx={{
+              transition: "none",
+              ml: "auto",
+              "&:active": {
+                background:
+                  global.theme == "dark"
+                    ? "hsl(240, 11%, 20%)"
+                    : "rgba(200,200,200,.3)",
+              },
+              display: parent !== -1 && parent !== -2 ? "flex" : "none",
+            }}
+          >
+            <span className="material-symbols-rounded">more_horiz</span>
+          </IconButton>
+        </Box>
         <GenerateData
           data={data}
           parent={parent}
