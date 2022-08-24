@@ -105,7 +105,7 @@ export function ListItems({
       new URLSearchParams({
         propertyToken: global.session.property.propertyToken,
         accessToken: global.session.property.accessToken,
-        parent: parent,
+        id: parent,
       }),
     {
       method: "POST",

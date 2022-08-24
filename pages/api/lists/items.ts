@@ -18,34 +18,28 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
     const result = await executeQuery({
       query: req.query.custom
-        ? `
-        SELECT 
-        ListNames.id AS listId, 
-        ListNames.title AS listTitle, 
-        ListNames.description AS listDescription,
-        ListNames.user AS listUser,
-        ListItems.title AS itemTitle,
-        ListItems.description AS itemDescription,
-        ListItems.pinned AS itemPinned
-          FROM ListNames INNER JOIN ListItems ON 
-        ListItems.parent = ? AND 
-        ListNames.id = ? AND 
-        ListItems.user = ? AND
-        ListNames.user = ?
-        `
-        : "SELECT * FROM ListItems WHERE parent = ? AND user = ? ORDER BY ID ASC",
+        ? "SELECT * FROM ListNames WHERE user = ?;"
+        : "SELECT * FROM ListItems WHERE parent = ? AND user = ? ORDER BY id ASC",
       values: req.query.custom
-        ? [
-            req.query.id,
-            req.query.id,
-            req.query.propertyToken ?? "false",
-            req.query.propertyToken ?? "false",
-          ]
-        : [(req.query.parent, req.query.propertyToken ?? false)],
+        ? [req.query.propertyToken ?? ""]
+        : [req.query.id, req.query.propertyToken ?? ""],
     });
     if (req.query.custom) {
+      const items = await executeQuery({
+        query: "SELECT * FROM ListItems WHERE user = ? ORDER BY ID ASC",
+        values: [req.query.propertyToken ?? false],
+      });
       res.json({
-        data: result,
+        list: result /*.map((list) => {
+          return {
+            ...list,
+            title: CryptoJS.AES.decrypt(
+              list.title,
+              process.env.LIST_ENCRYPTION_KEY
+            ).toString(CryptoJS.enc.Utf8),
+          };
+        }),*/,
+        items: items,
       });
     } else {
       res.json({
