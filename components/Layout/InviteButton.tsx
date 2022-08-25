@@ -507,11 +507,7 @@ export function InviteButton() {
         swipeAreaWidth={0}
       >
         <Puller />
-        <Box sx={{ py: 5, px: 2, textAlign: "center" }}>
-          <Typography variant="h5" sx={{ fontWeight: "800" }}>
-            Groups
-          </Typography>
-        </Box>
+        <Box sx={{ py: 3, px: 2, textAlign: "center" }}></Box>
         {data ? (
           <>
             {data.data.map((house: any, key: number) => (
@@ -550,12 +546,21 @@ export function InviteButton() {
           },
         }}
       >
+        <span
+          className="material-symbols-outlined"
+          style={{ marginRight: "15px", marginLeft: "-4px" }}
+        >
+          {global.session.property.houseType === "dorm"
+            ? "cottage"
+            : global.session.property.houseType === "apartment"
+            ? "location_city"
+            : "home"}
+        </span>
         <Typography
           variant="h6"
           component="div"
           sx={{
             fontWeight: "600",
-            mr: 2,
             maxWidth: "40vw",
             textOverflow: "ellipsis",
             overflow: "hidden",
@@ -565,12 +570,6 @@ export function InviteButton() {
         >
           {global.session.property.houseName || "Untitled property"}
         </Typography>
-        <span
-          className="material-symbols-rounded"
-          style={{ marginLeft: "-5px", marginTop: "-1px", fontSize: "20px" }}
-        >
-          expand_more
-        </span>
       </Button>
       <Popover
         id={id}

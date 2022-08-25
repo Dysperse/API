@@ -129,6 +129,7 @@ function CategoryModal({ category }: { category: string }) {
           }
         />
       </ListItem>
+      <Divider />
     </>
   );
 }
