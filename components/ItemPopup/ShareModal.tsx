@@ -3,12 +3,17 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import MenuItem from "@mui/material/MenuItem";
+import ListItem from "@mui/material/ListItem";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export function ShareModal({ title, quantity, room }: any): JSX.Element {
+export function ShareModal({
+  styles,
+  title,
+  quantity,
+  room,
+}: any): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const href =
     "https://" +
@@ -29,25 +34,9 @@ export function ShareModal({ title, quantity, room }: any): JSX.Element {
   const handleClose = () => {
     setOpen(false);
   };
-  const stopPropagationForTab = (event: any) => {
-    if (event.key !== "Esc") {
-      event.stopPropagation();
-    }
-  };
-
   return (
     <>
-      <MenuItem disableRipple onClick={handleClickOpen}>
-        <span
-          className="material-symbols-rounded"
-          style={{ marginRight: "15px" }}
-        >
-          share
-        </span>
-        Share
-      </MenuItem>
       <Dialog
-        onKeyDown={stopPropagationForTab}
         open={open}
         onClose={handleClose}
         sx={{
@@ -115,6 +104,10 @@ export function ShareModal({ title, quantity, room }: any): JSX.Element {
           </Button>
         </DialogActions>
       </Dialog>
+      <ListItem button sx={styles} onClick={() => setOpen(true)}>
+        <span className="material-symbols-rounded">share</span>
+        Share
+      </ListItem>
     </>
   );
 }

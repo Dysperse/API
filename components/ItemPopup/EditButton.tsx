@@ -13,8 +13,9 @@ import React from "react";
 import { AutocompleteData } from "../AutocompleteData";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../Puller";
+import ListItem from "@mui/material/ListItem";
 
-export function EditButton({ item, setItemData }: any): JSX.Element {
+export function EditButton({ styles, item, setItemData }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
@@ -66,34 +67,10 @@ export function EditButton({ item, setItemData }: any): JSX.Element {
 
   return (
     <div>
-      <Tooltip title="Edit">
-        <IconButton
-          disableRipple
-          size="large"
-          edge="end"
-          color="inherit"
-          aria-label="menu"
-          sx={{
-            transition: "none",
-            mr: 1,
-            color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
-            "&:hover": {
-              background: "rgba(200,200,200,.3)",
-              color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-            },
-            "&:focus-within": {
-              background:
-                (global.theme === "dark"
-                  ? colors[themeColor]["900"]
-                  : colors[themeColor]["100"]) + "!important",
-              color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
-            },
-          }}
-          onClick={handleClickOpen}
-        >
-          <span className="material-symbols-rounded">edit</span>
-        </IconButton>
-      </Tooltip>
+      <ListItem button sx={styles} onClick={handleClickOpen}>
+        <span className="material-symbols-rounded">edit</span>
+        Edit
+      </ListItem>
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}

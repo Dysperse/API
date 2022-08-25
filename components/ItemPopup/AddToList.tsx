@@ -16,7 +16,7 @@ import useSWR from "swr";
 
 function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   const url =
-    "/api/lists/fetch-custom-lists?" +
+    "/api/lists/items?" +
     new URLSearchParams({
       propertyToken: global.session.property.propertyToken,
       accessToken: global.session.property.accessToken,
@@ -46,11 +46,7 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   return (
     <>
       <List sx={{ mt: -1 }}>
-        {[
-          { title: "Shopping list", id: "-2" },
-          { title: "To-do list", id: "-1" },
-          ...data.data,
-        ].map((list: any, id: number) => (
+        {data.map((list: any, id: number) => (
           <ListItem disablePadding key={id.toString()}>
             <ListItemButton
               sx={{ borderRadius: 9, py: 0.5, px: 2 }}
@@ -84,7 +80,7 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   );
 }
 
-export function AddToListModal({ item, handleClose }: any) {
+export function AddToListModal({ styles, item }: any) {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <>
@@ -92,9 +88,9 @@ export function AddToListModal({ item, handleClose }: any) {
         open={open}
         onClose={() => {
           setOpen(false);
-          handleClose();
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
             width: "450px",
             maxWidth: "calc(100vw - 20px)",
@@ -124,15 +120,10 @@ export function AddToListModal({ item, handleClose }: any) {
           </Button>
         </DialogActions>
       </Dialog>
-      <MenuItem disableRipple onClick={() => setOpen(true)}>
-        <span
-          className="material-symbols-rounded"
-          style={{ marginRight: "15px" }}
-        >
-          receipt_long
-        </span>
-        Add to list
-      </MenuItem>
+      <ListItem sx={styles} button onClick={() => setOpen(true)}>
+        <span className="material-symbols-rounded">receipt_long</span> Add to
+        list
+      </ListItem>
     </>
   );
 }

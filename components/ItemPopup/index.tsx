@@ -1,36 +1,35 @@
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
-import Grid from "@mui/material/Grid";
 import Collapse from "@mui/material/Collapse";
 import * as colors from "@mui/material/colors";
 import { deepOrange } from "@mui/material/colors";
-import IconButton from "@mui/material/IconButton";
+import Grid from "@mui/material/Grid";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
-import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import SwipeableViews from "react-swipeable-views";
+import type { Item } from "../../types/item";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
-import { ItemActionsMenu } from "./ItemActionsMenu";
+import { MoveToRoom } from "./MoveToRoom";
+import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
-import SwipeableViews from "react-swipeable-views";
-import type { Item } from "../../types/item";
-import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { AddToListModal } from "./AddToList";
+import { Puller } from "../Puller";
 
 export default function Item({
   displayRoom = false,
@@ -134,6 +133,7 @@ export default function Item({
         method: "POST",
       }
     );
+
     handleClose();
 
     toast.success((t) => (
@@ -171,7 +171,27 @@ export default function Item({
       </span>
     ));
   };
+  const styles = {
+    transition: "none",
+    mr: 1,
+    py: 2,
+    gap: 2,
 
+    color:
+      global.theme === "dark"
+        ? "hsl(240, 11%, 90%)"
+        : colors[themeColor]["800"],
+    "&:hover, &:active": {
+      background:
+        global.theme === "dark"
+          ? "hsl(240, 11%, 25%)"
+          : colors[themeColor][200],
+      color:
+        global.theme === "dark"
+          ? "hsl(240, 11%, 95%)"
+          : colors[themeColor][900],
+    },
+  };
   return (
     <>
       <Menu
@@ -326,18 +346,17 @@ export default function Item({
           Delete
         </MenuItem>
       </Menu>
+
       <SwipeableDrawer
-        sx={{
-          opacity: "1!important",
-        }}
         PaperProps={{
           elevation: 0,
           sx: {
+            maxHeight: "90vh",
             background: "transparent",
           },
         }}
         swipeAreaWidth={0}
-        anchor="right"
+        anchor="bottom"
         open={drawerState}
         onClose={() => setDrawerState(false)}
         onOpen={() => setDrawerState(true)}
@@ -353,214 +372,200 @@ export default function Item({
             </title>
           </Head>
         )}
+
         <Box
           sx={{
-            p: { sm: 3 },
-            borderRadius: { sm: 5 },
-            overflow: "hidden",
-            height: "100vh",
-            background: "transparent",
+            flexGrow: 1,
+            height: "100%",
+            position: "relative",
+            borderRadius: "28px 28px 0 0",
+            overflowY: "scroll!important",
+            background: colors[themeColor][50],
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 20%)",
+            }),
+            maxWidth: "100vw",
+            width: { sm: "70vw" },
+            mx: "auto",
           }}
         >
           <Box
             sx={{
-              flexGrow: 1,
-              height: "100%",
-              position: "relative",
-              borderRadius: { sm: 5 },
-              overflow: "hidden!important",
-              width: { xs: "100vw", sm: "40vw" },
-              background: colors[themeColor][50],
-              ...(global.theme === "dark" && {
-                background: "hsl(240, 11%, 20%)",
-              }),
-              maxWidth: "100vw",
+              position: "sticky",
+              top: 0,
+              height: 40,
+              display: { sm: "none" },
+              zIndex: 9,
+              background:
+                global.theme === "dark"
+                  ? "hsl(240, 11%, 20%)"
+                  : colors[themeColor][50],
             }}
           >
-            <AppBar
-              position="absolute"
-              sx={{
-                borderTopLeftRadius: "28px!important",
-                borderTopRightRadius: "28px!important",
-                background:
-                  global.theme === "dark"
-                    ? "hsl(240, 11%, 20%)"
-                    : colors[themeColor][50],
-                py: 1,
-                color: global.theme === "dark" ? "#fff" : "#000",
-              }}
-              elevation={0}
-            >
-              <Toolbar>
-                <Tooltip title="Back">
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    disableRipple
-                    aria-label="menu"
-                    sx={{
-                      transition: "none",
-                      mr: 1,
-                      color:
-                        global.theme === "dark"
-                          ? "hsl(240, 11%, 90%)"
-                          : "#606060",
-                      "&:hover": {
-                        background: "rgba(200,200,200,.3)",
-                        color:
-                          global.theme === "dark"
-                            ? "hsl(240, 11%, 95%)"
-                            : "#000",
-                      },
-                      "&:focus-within": {
-                        background:
-                          (global.theme === "dark"
-                            ? colors[themeColor]["900"]
-                            : colors[themeColor]["100"]) + "!important",
-                        color:
-                          global.theme === "dark"
-                            ? "hsl(240, 11%, 95%)"
-                            : "#000",
-                      },
-                    }}
-                    onClick={() => setDrawerState(false)}
-                  >
-                    <span className="material-symbols-rounded">
-                      chevron_left
-                    </span>
-                  </IconButton>
-                </Tooltip>
-                <Typography sx={{ flexGrow: 1 }}></Typography>
-                {global.session.property.role !== "read-only" && (
-                  <StarButton item={item} setItemData={setItemData} />
-                )}
-                {global.session.property.role !== "read-only" && (
-                  <EditButton item={item} setItemData={setItemData} />
-                )}
-                {global.session.property.role !== "read-only" && (
-                  <DeleteButton
-                    item={item}
-                    setDrawerState={setDrawerState}
-                    setDeleted={setDeleted}
-                  />
-                )}
-                <ItemActionsMenu
-                  item={item}
-                  setItemData={setItemData}
-                  setDeleted={setDeleted}
-                  setDrawerState={setDrawerState}
-                />
-              </Toolbar>
-            </AppBar>
-            <Box
-              sx={{
-                height: "100vh",
-                display: "flex",
-                pt: 20,
-              }}
-            >
-              <Box
+            <Puller />
+          </Box>
+          <Box sx={{ p: 5, pt: 7 }}>
+            <Grid container spacing={5}>
+              <Grid
+                item
+                xs={12}
+                sm={8}
                 sx={{
+                  alignItems: "center",
+                  display: "flex",
                   width: "100%",
-                  p: 5,
                 }}
               >
-                <Typography variant="h3" sx={{ fontWeight: "600" }}>
-                  {item.title || "(no title)"}
-                </Typography>
-                <Typography
-                  variant="h6"
+                <Box sx={{ width: "100%" }}>
+                  <Typography variant="h3" sx={{ fontWeight: "600" }}>
+                    {item.title || "(no title)"}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      my: 1,
+                      mb: 2,
+                      fontWeight: "300",
+                    }}
+                  >
+                    Quantity: {item.amount || "(no quantity)"}
+                  </Typography>
+                  <div>
+                    {item.categories.map((category: string) => {
+                      return (
+                        <Chip
+                          key={Math.random().toString()}
+                          label={category}
+                          onClick={() => {
+                            router.push("/items");
+                            setDrawerState(false);
+                          }}
+                          sx={{ px: 2, mr: 1, mt: 1, mb: 1 }}
+                        />
+                      );
+                    })}
+                  </div>
+                  <TextField
+                    multiline
+                    fullWidth
+                    onBlur={(e) => {
+                      e.target.placeholder = "Click to add note";
+                      e.target.spellcheck = false;
+                      setItemData({
+                        ...item,
+                        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                      });
+                      // Update item note
+                      setItemData({
+                        ...item,
+                        note: e.target.value,
+                      });
+                      fetch(
+                        "/api/inventory/updateNote?" +
+                          new URLSearchParams({
+                            propertyToken:
+                              global.session.property.propertyToken,
+                            accessToken: global.session.property.accessToken,
+                            id: id.toString(),
+                            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                            note: e.target.value,
+                          }),
+                        {
+                          method: "POST",
+                        }
+                      );
+                    }}
+                    onKeyUp={(e: any) => {
+                      if (e.code === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        e.target.value = e.target.value.trim();
+                        e.target.blur();
+                      }
+                    }}
+                    InputProps={{
+                      disableUnderline: true,
+                      sx: {
+                        background:
+                          (global.theme === "dark"
+                            ? "hsl(240, 11%, 24%)"
+                            : colors[themeColor][100]) + "!important",
+                        cursor: "pointer",
+                        p: 2.5,
+                        borderRadius: "15px",
+                        display: "block",
+                        minHeight: "100px",
+                      },
+                    }}
+                    spellCheck={false}
+                    variant="filled"
+                    defaultValue={item.note}
+                    maxRows={4}
+                    onFocus={(e) => {
+                      e.target.placeholder = "SHIFT+ENTER for new lines";
+                      e.target.spellcheck = true;
+                    }}
+                    disabled={global.session.property.role === "read-only"}
+                    placeholder={
+                      global.session.property.role !== "read-only"
+                        ? "Click to add note"
+                        : "You do not have permission to edit this item"
+                    }
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Box
                   sx={{
-                    my: 1,
-                    mb: 2,
-                    fontWeight: "300",
+                    background:
+                      global.theme === "dark"
+                        ? "hsl(240, 11%, 25%)"
+                        : colors[themeColor][100],
+                    borderRadius: 5,
+                    overflow: "hidden",
                   }}
                 >
-                  Quantity: {item.amount || "(no quantity)"}
-                </Typography>
-                <div>
-                  {item.categories.map((category: string) => {
-                    return (
-                      <Chip
-                        key={Math.random().toString()}
-                        label={category}
-                        onClick={() => {
-                          router.push("/items");
-                          setDrawerState(false);
-                        }}
-                        sx={{ px: 2, mr: 1, mt: 1, mb: 1 }}
+                  <Box sx={{}}>
+                    {global.session.property.role !== "read-only" && (
+                      <StarButton
+                        styles={styles}
+                        item={item}
+                        setItemData={setItemData}
                       />
-                    );
-                  })}
-                </div>
-                <TextField
-                  multiline
-                  fullWidth
-                  onBlur={(e) => {
-                    e.target.placeholder = "Click to add note";
-                    e.target.spellcheck = false;
-                    setItemData({
-                      ...item,
-                      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                    });
-                    // Update item note
-                    setItemData({
-                      ...item,
-                      note: e.target.value,
-                    });
-                    fetch(
-                      "/api/inventory/updateNote?" +
-                        new URLSearchParams({
-                          propertyToken: global.session.property.propertyToken,
-                          accessToken: global.session.property.accessToken,
-                          id: id.toString(),
-                          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                          note: e.target.value,
-                        }),
-                      {
-                        method: "POST",
-                      }
-                    );
-                  }}
-                  onKeyUp={(e: any) => {
-                    if (e.code === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      e.target.value = e.target.value.trim();
-                      e.target.blur();
-                    }
-                  }}
-                  InputProps={{
-                    disableUnderline: true,
-                    sx: {
-                      background:
-                        (global.theme === "dark"
-                          ? "hsl(240, 11%, 24%)"
-                          : colors[themeColor][100]) + "!important",
-                      cursor: "pointer",
-                      p: 2.5,
-                      borderRadius: "15px",
-                      display: "block",
-                      minHeight: "100px",
-                    },
-                  }}
-                  spellCheck={false}
-                  variant="filled"
-                  defaultValue={item.note}
-                  maxRows={4}
-                  onFocus={(e) => {
-                    e.target.placeholder = "SHIFT+ENTER for new lines";
-                    e.target.spellcheck = true;
-                  }}
-                  disabled={global.session.property.role === "read-only"}
-                  placeholder={
-                    global.session.property.role !== "read-only"
-                      ? "Click to add note"
-                      : "You do not have permission to edit this item"
-                  }
-                />
-              </Box>
-            </Box>
+                    )}
+                    {global.session.property.role !== "read-only" && (
+                      <EditButton
+                        styles={styles}
+                        item={item}
+                        setItemData={setItemData}
+                      />
+                    )}
+                    {global.session.property.role !== "read-only" && (
+                      <AddToListModal item={item} styles={styles} />
+                    )}
+                    {global.session.property.role !== "read-only" && (
+                      <DeleteButton
+                        styles={styles}
+                        item={item}
+                        setDrawerState={setDrawerState}
+                        setDeleted={setDeleted}
+                      />
+                    )}
+                    <MoveToRoom
+                      styles={styles}
+                      setDrawerState={setDrawerState}
+                      item={item}
+                      setDeleted={setDeleted}
+                    />
+                    <ShareModal
+                      styles={styles}
+                      title={item.title}
+                      quantity={item.amount}
+                      room={item.room}
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </SwipeableDrawer>
