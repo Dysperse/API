@@ -164,6 +164,7 @@ function RenderApp({ router, Component, pageProps }: any) {
     <>
       {router.pathname === "/share/[index]" ||
       router.pathname === "/scan" ||
+      router.pathname === "/canny-auth" ||
       router.pathname === "/onboarding" ? (
         <>
           <RenderComponent
