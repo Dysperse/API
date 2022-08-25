@@ -12,7 +12,7 @@ export const sessionData = async (providedToken) => {
   return JSON.parse(JSON.stringify(info));
 };
 
-var PrivateKey = "a0b644ac-84fc-2713-9969-faa145b8c8e3";
+const PrivateKey = process.env.CANNY_AUTH_PRIVATE_KEY;
 
 function createCannyToken(user) {
   var userData = {

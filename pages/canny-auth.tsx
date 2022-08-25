@@ -8,7 +8,8 @@ function RenderData({ data }) {
   const url =
     "https://canny.io/api/redirects/sso?companyID=6306f3586e9c6244c28c1d1e&ssoToken=" +
     encodeURIComponent(data) +
-    "&redirect=https://feedback.smartlist.tech/";
+    "&redirect=" +
+    encodeURIComponent("feedback.smartlist.tech");
   window.location.href = url;
   return <></>;
 }
