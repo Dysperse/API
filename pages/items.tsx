@@ -171,6 +171,8 @@ function CategoryList() {
 }
 function Action({ icon, primary, href, onClick }: any) {
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
+
   return (
     <ListItem
       disableRipple
@@ -180,14 +182,21 @@ function Action({ icon, primary, href, onClick }: any) {
         else {
           onClick && onClick();
         }
+        setLoading(true);
       }}
       secondaryAction={
-        <span
-          className="material-symbols-rounded"
-          style={{ marginTop: "10px" }}
-        >
-          chevron_right
-        </span>
+        <>
+          {loading ? (
+            <CircularProgress size={18} sx={{ ml: "auto", mt: "8px" }} />
+          ) : (
+            <span
+              className="material-symbols-rounded"
+              style={{ marginTop: "10px" }}
+            >
+              chevron_right
+            </span>
+          )}
+        </>
       }
       sx={{
         mb: 1,
@@ -372,9 +381,9 @@ export default function Categories() {
         <Typography
           variant="h3"
           sx={{
-            my: { xs: 12, sm: 4 },
+            my: 12,
             fontWeight: "400",
-            textAlign: { xs: "center", sm: "left" },
+            textAlign: "center",
           }}
         >
           Inventory

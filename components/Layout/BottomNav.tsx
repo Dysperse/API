@@ -40,9 +40,9 @@ export function BottomNav() {
     px: "0!important",
 
     maxHeight: { sm: "70px" },
-    maxWidth: { xs: "25vw!important", sm: "65px!important" },
-    minWidth: { xs: "25vw!important", sm: "65px!important" },
-    width: { xs: "20vw!important", sm: "65px!important" },
+    maxWidth: { xs: "25vw!important" },
+    minWidth: { xs: "25vw!important" },
+    width: { xs: "20vw!important" },
     mr: "-1px",
     "& span:not(.MuiIcon-root, .MuiTouchRipple-root, .MuiTouchRipple-root *)": {
       fontSize: "13px!important",

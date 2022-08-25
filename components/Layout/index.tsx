@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Skeleton from "@mui/material/Skeleton";
 import Toolbar from "@mui/material/Toolbar";
 import { encode } from "js-base64";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Link from "next/link";
 import router from "next/router";
 import React from "react";
@@ -306,8 +307,8 @@ function ResponsiveDrawer(props: any): JSX.Element {
       <Box
         component="nav"
         sx={{
-          width: { sm: collapsed ? 100 : drawerWidth },
-          flexShrink: { sm: 0 },
+          width: { md: collapsed ? 100 : drawerWidth },
+          flexShrink: { md: 0 },
         }}
       >
         <Drawer
@@ -316,7 +317,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: "none", md: "block" },
             flexShrink: 0,
             height: "100px",
             borderRight: 0,

@@ -50,7 +50,7 @@ export function Header({
             color: global.theme === "dark" ? "#fff" : "#000",
             borderRadius: 4,
             background: "transparent!important",
-            display: { sm: "none" },
+            display: { md: "none" },
             "&:hover": {
               background:
                 theme === "dark"
@@ -75,16 +75,16 @@ export function Header({
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        sx={{ ml: { sm: -5 }, my: 2 }}
+        sx={{ ml: { md: -5 }, my: 2 }}
         primary={
           <Typography
             sx={{
               fontWeight: "400",
               fontSize: {
                 xs: "25px",
-                sm: "35px",
+                md: "35px",
               },
-              ml: { xs: -0.2, sm: -0.5 },
+              ml: { xs: -0.2, md: -0.5 },
             }}
             gutterBottom
             variant="h4"
