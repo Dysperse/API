@@ -527,6 +527,13 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
           text="Trash"
           icon="delete"
         />
+        <ListItem
+          collapsed={collapsed}
+          href="https://smartlist.canny.io/"
+          asHref="https://smartlist.canny.io/"
+          text="Submit feedback"
+          icon="reviews"
+        />
         <Collapse in={collapsed}>
           <Divider sx={{ my: 1 }} />
         </Collapse>
