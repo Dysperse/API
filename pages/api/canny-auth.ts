@@ -32,7 +32,7 @@ const handler = async (req, res) => {
     id: req.cookies.token,
     name: info.account.name,
   });
-  res.json(cannyToken);
+  res.send(cannyToken);
 };
 
 export default handler;
