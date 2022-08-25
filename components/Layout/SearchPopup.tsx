@@ -108,7 +108,7 @@ export function SearchPopup() {
             },
           }}
         >
-          <span className="material-symbols-outlined">search</span>
+          <span className="material-symbols-outlined">bolt</span>
         </IconButton>
       </Tooltip>
       <SwipeableDrawer

@@ -1,4 +1,5 @@
 import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
@@ -91,8 +92,8 @@ export function Navbar(): JSX.Element {
                 color="inherit"
                 disableRipple
                 sx={{
-                  borderRadius: 3,
                   transition: "none",
+                  p: 0,
                   color:
                     global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
                   "&:hover": {
@@ -110,7 +111,15 @@ export function Navbar(): JSX.Element {
                   },
                 }}
               >
-                <span className="material-symbols-rounded">account_circle</span>
+                <Avatar
+                  src={global.session.account.image}
+                  sx={{
+                    width: 35,
+                    height: 35,
+                  }}
+                >
+                  {global.session.account.name}
+                </Avatar>
               </IconButton>
             </Tooltip>
           </ProfileMenu>
