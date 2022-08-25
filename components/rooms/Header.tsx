@@ -5,6 +5,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
+import { useState } from "react"
 
 export function Header({
   useAlias,
@@ -15,6 +16,7 @@ export function Header({
   room: string;
   itemCount: number;
 }) {
+  const [loading, setLoading] = useState(false)
   const router = useRouter();
   return (
     <ListItem
@@ -43,6 +45,7 @@ export function Header({
         <Avatar
           className="avatar"
           onClick={() => {
+            setLoading (true)
             router.push("/items");
           }}
           sx={{
@@ -66,12 +69,12 @@ export function Header({
             },
           }}
         >
-          <span
+          {loading ? <CircularProgress size={18} sx={{ ml: "auto", mt: "8px" }} /> : <span
             style={{ fontSize: "20px" }}
             className="material-symbols-rounded"
           >
             arrow_back_ios_new
-          </span>
+          </span>}
         </Avatar>
       </ListItemAvatar>
       <ListItemText
