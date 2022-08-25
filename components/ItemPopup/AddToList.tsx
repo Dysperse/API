@@ -46,10 +46,10 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   return (
     <>
       <List sx={{ mt: -1 }}>
-        {data.map((list: any, id: number) => (
+        {data.lists.map((list: any, id: number) => (
           <ListItem disablePadding key={id.toString()}>
             <ListItemButton
-              sx={{ borderRadius: 9, py: 0.5, px: 2 }}
+              sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
               onClick={() => {
                 fetch(
                   "/api/lists/create-item?" +
@@ -71,7 +71,7 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
                   });
               }}
             >
-              <ListItemText primary={list.title} />
+              <ListItemText primary={list.title} secondary={list.description} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -110,10 +110,10 @@ export function AddToListModal({ styles, item }: any) {
         </DialogContent>
         <DialogActions>
           <Button
-            variant="contained"
+            variant="outlined"
             disableElevation
             size="large"
-            sx={{ borderRadius: 99, px: 3, py: 1 }}
+            sx={{ borderWidth: "2px!important",borderRadius:9 }}
             onClick={() => setOpen(false)}
           >
             Cancel

@@ -43,6 +43,7 @@ export function ShareModal({
           transition: "all .2s",
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
             p: 2,
             width: "500px",
@@ -61,13 +62,41 @@ export function ShareModal({
               readOnly: true,
             }}
           />
-        </DialogContent>
-        <DialogActions>
           <Button
-            variant="contained"
+            variant="outlined"
             disableElevation
             size="large"
-            sx={{ borderRadius: 99, px: 3, py: 1 }}
+            sx={{
+              borderRadius: 99,
+              borderWidth: "2px!important",
+              display: "inline-flex",
+              mt: 2,
+              mr: 1,
+              px: 3,
+              py: 1,
+            }}
+            onClick={() => {
+              navigator.share({
+                url: href,
+              });
+              handleClose();
+            }}
+          >
+            Share link
+          </Button>
+          <Button
+            variant="outlined"
+            disableElevation
+            size="large"
+            sx={{
+              borderRadius: 99,
+              borderWidth: "2px!important",
+              display: "inline-flex",
+              mt: 2,
+              mr: 1,
+              px: 3,
+              py: 1,
+            }}
             onClick={() => {
               navigator.clipboard.writeText(href);
               toast.success("Copied link to clipboard");
@@ -76,33 +105,30 @@ export function ShareModal({
           >
             Copy
           </Button>
+
           <Button
             variant="contained"
             disableElevation
             size="large"
-            sx={{ borderRadius: 99, px: 3, py: 1 }}
-            onClick={() => {
-              navigator.share({
-                url: href,
-              });
-              handleClose();
+            sx={{
+              borderRadius: 99,
+              border: "2px solid transparent!important",
+              display: "inline-flex",
+              mt: 2,
+              mr: 1,
+              px: 3,
+              gap: 1.5,
+              py: 1,
             }}
-          >
-            Share
-          </Button>
-          <Button
-            variant="contained"
-            disableElevation
-            size="large"
-            sx={{ borderRadius: 99, px: 3, py: 1 }}
             onClick={() => {
               window.open(href);
               handleClose();
             }}
           >
             Open
+            <span className="material-symbols-rounded">open_in_new</span>
           </Button>
-        </DialogActions>
+        </DialogContent>
       </Dialog>
       <ListItem button sx={styles} onClick={() => setOpen(true)}>
         <span className="material-symbols-rounded">share</span>
