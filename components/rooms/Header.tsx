@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import { useState } from "react"
+import CircularProgress from "@mui/material/CircularProgress";
 
 export function Header({
   useAlias,
