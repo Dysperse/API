@@ -385,7 +385,7 @@ export default function Item({
               background: "hsl(240, 11%, 20%)",
             }),
             maxWidth: "100vw",
-            width: { sm: "70vw" },
+            width: { xs: "100vw", sm: "95vw", md: "80vw", lg: "70vw" },
             mx: "auto",
           }}
         >
@@ -409,7 +409,7 @@ export default function Item({
               <Grid
                 item
                 xs={12}
-                sm={8}
+                sm={6}
                 sx={{
                   alignItems: "center",
                   display: "flex",
@@ -431,7 +431,7 @@ export default function Item({
                     Quantity: {item.amount || "(no quantity)"}
                   </Typography>
                   <div>
-                    {item.categories.map((category: string) => {
+                    {[item.room, ...item.categories].map((category: any) => {
                       return (
                         <Chip
                           key={Math.random().toString()}
@@ -440,7 +440,13 @@ export default function Item({
                             router.push("/items");
                             setDrawerState(false);
                           }}
-                          sx={{ px: 2, mr: 1, mt: 1, mb: 1 }}
+                          sx={{
+                            px: 2,
+                            mr: 1,
+                            mb: 2.5,
+                            mt: -0.5,
+                            textTransform: "capitalize",
+                          }}
                         />
                       );
                     })}
@@ -513,7 +519,7 @@ export default function Item({
                   />
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <Box
                   sx={{
                     background:
