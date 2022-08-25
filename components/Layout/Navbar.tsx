@@ -94,6 +94,7 @@ export function Navbar(): JSX.Element {
                 sx={{
                   transition: "none",
                   p: 0,
+                  ml: 0.6,
                   color:
                     global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
                   "&:hover": {
