@@ -70,7 +70,7 @@ export function Header({
             },
           }}
         >
-          {loading ? <CircularProgress size={18} sx={{ ml: "auto", mt: "8px" }} /> : <span
+          {loading ? <CircularProgress size={18} sx={{ ml: "-5px", }} /> : <span
             style={{ fontSize: "20px" }}
             className="material-symbols-rounded"
           >
