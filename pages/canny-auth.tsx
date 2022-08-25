@@ -4,12 +4,30 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Head from "next/head";
 
+function getQueryParameterByName(name) {
+  var pairStrings = window.location.search.slice(1).split("&");
+  var pairs: any = pairStrings.map(function (pair) {
+    return pair.split("=");
+  });
+  return pairs.reduce(function (value, pair) {
+    if (value) return value;
+    return pair[0] === name ? decodeURIComponent(pair[1]) : null;
+  }, null);
+}
 function RenderData({ data }) {
+  var redirectURL = getQueryParameterByName("redirect");
+  var companyID = getQueryParameterByName("companyID");
+  if (redirectURL.indexOf("https://") !== 0 || !companyID) {
+    return null;
+  }
+
   const url =
-    "https://canny.io/api/redirects/sso?companyID=6306f3586e9c6244c28c1d1e&ssoToken=" +
+    "https://canny.io/api/redirects/sso?companyID=" +
+    companyID +
+    "&ssoToken=" +
     encodeURIComponent(data) +
     "&redirect=" +
-    encodeURIComponent("feedback.smartlist.tech");
+    encodeURIComponent(redirectURL);
   window.location.href = url;
   return <></>;
 }
