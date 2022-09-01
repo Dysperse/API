@@ -121,7 +121,11 @@ function Render({ data }: any) {
                 id="description"
                 variant="filled"
                 name="description"
-                onChange={formik.handleChange}
+                InputProps={{
+                  value: formik.values.description,
+                  onChange: (e) =>
+                    formik.setFieldValue("description", e.target.value),
+                }}
                 margin="dense"
                 fullWidth
                 label="Description (optional)"
