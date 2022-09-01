@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Accounts {
+  id                Int          @id @default(autoincrement())
+  name              String       @db.Text
+  email             String       @db.VarChar(500)
+  password          String       @db.VarChar(100)
+  image             String       @db.VarChar(255)
+  onboarding        String       @db.VarChar(255)
+  theme             String       @default("41308a") @db.VarChar(100)
+  notificationMin   String?      @db.VarChar(100)
+  verifiedEmail     Boolean
+  financePlan       String       @default("") @db.Text
+  currency          String       @default("$") @db.Text
+  FinanceToken      String?      @db.Text
+  verifyToken       String?      @db.Text
+  authorizeToken    String?      @db.Text
+  darkMode          String?      @default("false") @db.Text
+  budgetDaily       Int?         @default(0)
+  budgetWeekly      Int?         @default(0)
+  budgetMonthly     Int?         @default(0)
+  SyncToken         String?      @db.Text
+  twoFactorAuthCode String?      @default("false") @db.Text
+  UserTokens        UserTokens[]
+}
+
+model FinanceBudgets {
+  id       Int    @id @default(autoincrement())
+  login    Int
+  amount   Int
+  category String @db.Text
+  type     String @db.Text
+}
+
+model FinanceGoals {
+  id               Int     @id @default(autoincrement())
+  name             String  @db.Text
+  image            String  @db.Text
+  note             String  @db.Text
+  completed        String  @db.Text
+  minAmountOfMoney String  @db.Text
+  accountId        String  @db.Text
+  user             Int
+  ecoFriendly      String? @default(dbgenerated("(0)")) @db.Text
+}
+
+model Inventory {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.Text
+  qty         String   @db.Text
+  category    String   @db.Text
+  user        String   @db.Text
+  star        Int      @default(0)
+  lastUpdated DateTime @db.DateTime(0)
+  room        String   @default("storageroom") @db.Text
+  trash       Int      @default(0)
+  note        String   @default("") @db.Text
+}
+
+model ListItems {
+  id          Int     @id @default(autoincrement())
+  parent      String  @db.Text
+  user        String  @db.Text
+  title       String  @db.Text
+  description String  @db.Text
+  pinned      String? @default("false") @db.Text
+}
+
+model ListNames {
+  id          Int    @id @default(autoincrement())
+  user        String @db.Text
+  title       String @db.Text
+  description String @db.Text
+  star        String @db.Text
+}
+
+model Rooms {
+  id   Int    @id @default(autoincrement())
+  name String @db.Text
+  user String @db.Text
+}
+
+model SyncTokens {
+  id            Int    @id @default(autoincrement())
+  propertyToken String @db.Text
+  email         String @db.Text
+  name          String @db.Text
+  houseName     String @default("Untitled property") @db.Text
+  houseType     String @default("home") @db.Text
+  accepted      String @db.Text
+  role          String @db.Text
+  accessToken   String @db.Text
+}
+
+model UserTokens {
+  id       Int      @id @default(autoincrement())
+  user     Int
+  token    String   @db.Text
+  Accounts Accounts @relation(fields: [user], references: [id], onUpdate: Restrict, map: "FK_UserId")
+
+  @@index([user], map: "FK_UserId")
+}

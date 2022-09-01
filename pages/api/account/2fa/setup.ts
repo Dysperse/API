@@ -24,7 +24,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     }
 
     await executeQuery({
-      query: "UPDATE Accounts SET 2faCode = ? WHERE id = ?",
+      query: "UPDATE Accounts SET twoFactorAuthCode = ? WHERE id = ?",
       values: [req.query.key, userId ?? false],
     });
 

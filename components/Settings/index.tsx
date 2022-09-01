@@ -367,8 +367,8 @@ export default function FullScreenDialog({ children }: any) {
               secondary={
                 <>
                   {global.session.property.role === "owner" &&
-                  global.session.account["2faCode"] &&
-                  global.session.account["2faCode"] === "false" ? (
+                  global.session.account["twoFactorAuthCode"] &&
+                  global.session.account["twoFactorAuthCode"] === "false" ? (
                     <span style={{ color: "red" }}>
                       Your account is at greater risk because 2-factor auth
                       isn&rsquo;t enabled!
@@ -378,8 +378,8 @@ export default function FullScreenDialog({ children }: any) {
                     ""
                   )}
                   2FA is currently{" "}
-                  {global.session.account["2faCode"] &&
-                  global.session.account["2faCode"] !== "false"
+                  {global.session.account["twoFactorAuthCode"] &&
+                  global.session.account["twoFactorAuthCode"] !== "false"
                     ? "enabled"
                     : "disabled"}
                 </>

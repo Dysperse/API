@@ -27,14 +27,14 @@ export default function App() {
 
   return (
     <Box sx={{ p: 5 }}>
-      {global.session.account["2faCode"] &&
-      global.session.account["2faCode"] !== "false" ? (
+      {global.session.account["twoFactorAuthCode"] &&
+      global.session.account["twoFactorAuthCode"] !== "false" ? (
         <Box>
           <Typography>2FA is enabled for your account!</Typography>
           <LoadingButton
             loading={loadingDisable}
             onClick={() => {
-              updateSettings("2faCode", "false", false, () => {
+              updateSettings("twoFactorAuthCode", "false", false, () => {
                 window.location.reload();
               });
               setLoadingDisable(true);

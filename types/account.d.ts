@@ -29,7 +29,7 @@ export interface AccountData {
   budgetDaily: number;
   budgetWeekly: number;
   budgetMonthly: number;
-  "2faCode": string;
+  twoFactorAuthCode: string;
   accessToken: string;
   financeToken: string;
 }
