@@ -399,7 +399,7 @@ export function ListItems({
                 </Typography>
                 {description && (
                   <Typography sx={{ mb: 1.2 }} variant="body2" component="div">
-                    {"description"}
+                    {description}
                   </Typography>
                 )}
               </Box>
