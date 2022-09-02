@@ -9,7 +9,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
@@ -91,8 +93,5 @@
     "javascript",
     "css"
   ],
-  "description": "Next-gen home inventory and finance management",
-  "prisma": {
-    "seed": "ts-node prisma/client.ts"
-  }
+  "description": "Next-gen home inventory and finance management"
 }
