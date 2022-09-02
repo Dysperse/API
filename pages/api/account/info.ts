@@ -8,23 +8,7 @@ export const getUserData = async (token: string) => {
     },
     select: {
       user: {
-        select: {
-          avatar: true,
-          budgetDaily: true,
-          budgetMonthly: true,
-          budgetWeekly: true,
-          color: true,
-          currentProperty: true,
-          financePlan: true,
-          name: true,
-          currency: true,
-          darkMode: true,
-          email: true,
-          financeToken: true,
-          onboardingComplete: true,
-          verifiedEmail: true,
-          properties: true,
-        },
+        select: true,
       },
     },
   });

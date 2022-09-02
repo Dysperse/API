@@ -10,7 +10,7 @@ generator client {
 }
 
 model User {
-  id                 Int        @id @default(autoincrement())
+  id                 Int        @id @unique @default(autoincrement())
   // User info
   name               String
   email              String     @unique
@@ -34,7 +34,6 @@ model User {
   financeToken       String?    @unique
   sessions           Session[]
   // Properties
-  currentProperty    Int        @default(0)
   properties         Property[]
 }
 
@@ -66,8 +65,9 @@ model Property {
   id           String       @id @default(uuid())
   accessToken  String       @unique @default(uuid())
   propertyName String
+  selected     Boolean      @unique @default(false)
   propertyType String
-  role         String
+  permissions  String
   bannerColor  String       @default("cyan")
   accepted     Boolean      @default(false)
   inventory    Item[]
@@ -84,7 +84,7 @@ model CustomRoom {
   name   String
   pinned Boolean @default(false)
 
-  property   Property @relation(fields: [propertyId], references: [id])
+  Property   Property @relation(fields: [propertyId], references: [id])
   propertyId String
 }
 
@@ -95,7 +95,7 @@ model Item {
   note         String
   lastModified DateTime
   starred      Boolean  @default(false)
-  property     Property @relation(fields: [propertyId], references: [id])
+  Property     Property @relation(fields: [propertyId], references: [id])
   propertyId   String
 }
 
@@ -104,7 +104,7 @@ model List {
   name        String
   description String
   items       ListItem[]
-  property    Property   @relation(fields: [propertyId], references: [id])
+  Property    Property   @relation(fields: [propertyId], references: [id])
   propertyId  String
 }
 
@@ -116,6 +116,6 @@ model ListItem {
   list    List    @relation(fields: [listId], references: [id])
   listId  Int
 
-  property   Property @relation(fields: [propertyId], references: [id])
+  Property   Property @relation(fields: [propertyId], references: [id])
   propertyId String
 }
