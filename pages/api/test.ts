@@ -4,3 +4,5 @@ const handler = async (req, res) => {
   const users = await getAllUsers();
   res.json(users);
 };
+
+export default handler;
