@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { prisma } from "../../../prisma/client";
 
 function exclude(user: any, ...keys: any[]) {
