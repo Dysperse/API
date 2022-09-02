@@ -1,4 +1,4 @@
-import { prisma } from "../../../prisma/client";
+import { prisma } from "../../../lib/client";
 
 // Query returns User or null
 export const getUserData = async (token: string) => {
