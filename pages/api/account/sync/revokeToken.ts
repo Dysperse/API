@@ -30,7 +30,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     });
     await executeQuery({
       query: "UPDATE Accounts SET SyncToken = ? WHERE email = ?",
-      values: [query[0].propertyToken, req.query.email ?? "false"],
+      values: [query[0].id, req.query.email ?? "false"],
     });
     res.json({
       data: result,

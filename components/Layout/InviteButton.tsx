@@ -29,7 +29,7 @@ function House({ data }: any) {
   const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [houseType, setHouseType] = React.useState(
-    global.session.property.houseType
+    global.session.property[global.session.propertyIndex].houseType
   );
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -41,7 +41,10 @@ function House({ data }: any) {
         button
         disableRipple
         onClick={() => {
-          if (data.propertyToken === global.session.property.propertyToken) {
+          if (
+            data.propertyToken ===
+            global.session.property[global.session.propertyIndex].id
+          ) {
             setOpen(true);
           } else {
             setLoading(true);
@@ -69,7 +72,9 @@ function House({ data }: any) {
               colors[themeColor][global.theme == "dark" ? 800 : 100] +
               "!important",
           },
-          ...(data.propertyToken === global.session.property.propertyToken && {
+          ...(data.propertyToken ===
+            global.session.property[global.session.propertyIndex]
+              .propertyToken && {
             background:
               colors[themeColor][global.theme == "dark" ? 800 : 100] +
               "!important",
@@ -127,7 +132,9 @@ function House({ data }: any) {
             }
           />
           <ListItemIcon>
-            {data.propertyToken !== global.session.property.propertyToken ? (
+            {data.propertyToken !==
+            global.session.property[global.session.propertyIndex]
+              .propertyToken ? (
               <LoadingButton loading={loading}>Join</LoadingButton>
             ) : (
               <span
@@ -200,7 +207,8 @@ function House({ data }: any) {
                 m: 2,
               }}
             >
-              {global.session.property.role !== "read-only" && (
+              {global.session.property[global.session.propertyIndex].role !==
+                "read-only" && (
                 <IconButton
                   disableRipple
                   sx={{
@@ -335,7 +343,8 @@ function House({ data }: any) {
                     },
                   }}
                   defaultValue={
-                    global.session.property.houseName || "Untitled property"
+                    global.session.property[global.session.propertyIndex]
+                      .houseName || "Untitled property"
                   }
                   id="nameInput"
                   label="Home name / Family name / Address"
@@ -344,7 +353,10 @@ function House({ data }: any) {
                     fetch(
                       "/api/account/sync/updateHome?" +
                         new URLSearchParams({
-                          token: global.session.property.propertyToken,
+                          token:
+                            global.session.property[
+                              global.session.propertyIndex
+                            ].id,
                           data: JSON.stringify({
                             houseName: e.target.value,
                             houseType: houseType,
@@ -388,7 +400,8 @@ function House({ data }: any) {
                   {houseType}
                 </Typography>
                 <Typography variant="h3">
-                  {global.session.property.houseName || "Untitled property"}
+                  {global.session.property[global.session.propertyIndex]
+                    .houseName || "Untitled property"}
                 </Typography>
               </Box>
             )}
@@ -413,7 +426,10 @@ function House({ data }: any) {
                 }}
               >
                 <Button
-                  disabled={global.session.property.role === "read-only"}
+                  disabled={
+                    global.session.property[global.session.propertyIndex]
+                      .role === "read-only"
+                  }
                   onClick={() => {
                     document.getElementById("setCreateRoomModalOpen")!.click();
                   }}
@@ -550,9 +566,11 @@ export function InviteButton() {
           className="material-symbols-outlined"
           style={{ marginRight: "15px", marginLeft: "-4px" }}
         >
-          {global.session.property.houseType === "dorm"
+          {global.session.property[global.session.propertyIndex].houseType ===
+          "dorm"
             ? "cottage"
-            : global.session.property.houseType === "apartment"
+            : global.session.property[global.session.propertyIndex]
+                .houseType === "apartment"
             ? "location_city"
             : "home"}
         </span>
@@ -568,14 +586,16 @@ export function InviteButton() {
           }}
           noWrap
         >
-          {global.session.property.houseName || "Untitled property"}
+          {global.session.property[global.session.propertyIndex].houseName ||
+            "Untitled property"}
         </Typography>
       </Button>
       <Popover
         id={id}
         open={
           !Cookies.get("invitePopup") &&
-          global.session.property.role === "owner" &&
+          global.session.property[global.session.propertyIndex].role ===
+            "owner" &&
           popoverOpen
         }
         anchorEl={anchorEl}
@@ -631,7 +651,10 @@ export function InviteButton() {
           />
           <br />
           Invite up to 5 people to your{" "}
-          {global.session.property.houseType !== "dorm" ? "home" : "dorm"}
+          {global.session.property[global.session.propertyIndex].houseType !==
+          "dorm"
+            ? "home"
+            : "dorm"}
         </Typography>
       </Popover>
     </>

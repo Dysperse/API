@@ -20,8 +20,9 @@ export function updateSettings(
     url =
       "/api/account/sync/updateHome?" +
       new URLSearchParams({
-        accessToken: global.session.property.accessToken,
-        propertyToken: global.session.property.propertyToken,
+        accessToken:
+          global.session.property[global.session.propertyIndex].accessToken,
+        propertyToken: global.session.property[global.session.propertyIndex].id,
         data: JSON.stringify({
           [key]: value,
         }),

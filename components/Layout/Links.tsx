@@ -44,8 +44,11 @@ function CreateRoom() {
       fetch(
         "/api/rooms/create?" +
           new URLSearchParams({
-            propertyToken: global.session.property.propertyToken,
-            accessToken: global.session.property.accessToken,
+            propertyToken:
+              global.session.property[global.session.propertyIndex]
+                .propertyToken,
+            accessToken:
+              global.session.property[global.session.propertyIndex].accessToken,
             name: values.name,
           }),
         {
@@ -280,7 +283,10 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
         <div style={{ padding: "0 10px" }}>
           <AddPopup>
             <Fab
-              disabled={global.session.property.role === "read-only"}
+              disabled={
+                global.session.property[global.session.propertyIndex].role ===
+                "read-only"
+              }
               variant="extended"
               color="primary"
               disableRipple
@@ -396,14 +402,18 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
                 }),
               }}
             >
-              {global.session.property.houseType === "dorm" ? "Dorm" : "Rooms"}
+              {global.session.property[global.session.propertyIndex]
+                .houseType === "dorm"
+                ? "Dorm"
+                : "Rooms"}
             </ListSubheader>
           </Collapse>
 
           <Collapse in={collapsed}>
             <Divider sx={{ my: 1 }} />
           </Collapse>
-          {global.session.property.houseType !== "dorm" && (
+          {global.session.property[global.session.propertyIndex].houseType !==
+            "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -426,7 +436,8 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             text="Bathroom"
             icon="bathroom"
           />
-          {global.session.property.houseType !== "dorm" && (
+          {global.session.property[global.session.propertyIndex].houseType !==
+            "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -435,7 +446,8 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               icon="garage"
             />
           )}
-          {global.session.property.houseType !== "dorm" && (
+          {global.session.property[global.session.propertyIndex].houseType !==
+            "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -444,7 +456,8 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               icon="dining"
             />
           )}
-          {global.session.property.houseType !== "dorm" && (
+          {global.session.property[global.session.propertyIndex].houseType !==
+            "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -453,7 +466,8 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               icon="living"
             />
           )}
-          {global.session.property.houseType !== "dorm" && (
+          {global.session.property[global.session.propertyIndex].houseType !==
+            "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -468,14 +482,17 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             asHref="/rooms/storage-room"
             text={
               <>
-                Storage {global.session.property.houseType !== "dorm" && "room"}
+                Storage{" "}
+                {global.session.property[global.session.propertyIndex]
+                  .houseType !== "dorm" && "room"}
               </>
             }
             icon="inventory_2"
           />
         </div>
         {customRooms}
-        {global.session.property.houseType !== "dorm" && (
+        {global.session.property[global.session.propertyIndex].houseType !==
+          "dorm" && (
           <ListItem
             collapsed={collapsed}
             href="/rooms/[index]"
@@ -484,7 +501,8 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             icon="camping"
           />
         )}
-        {global.session.property.houseType !== "dorm" && (
+        {global.session.property[global.session.propertyIndex].houseType !==
+          "dorm" && (
           <ListItem
             collapsed={collapsed}
             href="/rooms/[index]"

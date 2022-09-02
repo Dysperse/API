@@ -16,9 +16,9 @@ export default function Room() {
             (c) => c.toUpperCase()
           )}{" "}
           &bull;{" "}
-          {global.session.property.houseName.replace(/./, (c) =>
-            c.toUpperCase()
-          )}{" "}
+          {global.session.property[
+            global.session.propertyIndex
+          ].houseName.replace(/./, (c) => c.toUpperCase())}{" "}
           &bull; Carbon
         </title>
       </Head>

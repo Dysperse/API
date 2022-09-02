@@ -102,8 +102,11 @@ export function CreateItemModal({
       fetch(
         "/api/inventory/create?" +
           new URLSearchParams({
-            propertyToken: global.session.property.propertyToken,
-            accessToken: global.session.property.accessToken,
+            propertyToken:
+              global.session.property[global.session.propertyIndex]
+                .propertyToken,
+            accessToken:
+              global.session.property[global.session.propertyIndex].accessToken,
             room: room.toString().toLowerCase(),
             name: values.title,
             qty: values.quantity,
@@ -143,7 +146,10 @@ export function CreateItemModal({
     <div>
       <div
         onClick={() => {
-          if (global.session.property.role !== "read-only") {
+          if (
+            global.session.property[global.session.propertyIndex].role !==
+            "read-only"
+          ) {
             handleClickOpen();
           }
         }}

@@ -41,7 +41,9 @@ function AddPersonModal() {
       <Button
         onClick={() => setOpen(true)}
         variant="contained"
-        disabled={global.session.property.role !== "owner"}
+        disabled={
+          global.session.property[global.session.propertyIndex].role !== "owner"
+        }
         sx={{
           mb: 2,
           borderRadius: 4,
@@ -154,10 +156,16 @@ function AddPersonModal() {
                 fetch(
                   "/api/account/sync/invite?" +
                     new URLSearchParams({
-                      propertyToken: global.session.property.propertyToken,
+                      propertyToken:
+                        global.session.property[global.session.propertyIndex]
+                          .propertyToken,
                       email: value,
-                      houseName: global.session.property.houseName,
-                      houseType: global.session.property.houseType,
+                      houseName:
+                        global.session.property[global.session.propertyIndex]
+                          .houseName,
+                      houseType:
+                        global.session.property[global.session.propertyIndex]
+                          .houseType,
                       role: role,
                     })
                 )
@@ -170,7 +178,10 @@ function AddPersonModal() {
                         "template_nbjdq1i",
                         {
                           to_email: value,
-                          house_name: global.session.property.houseName,
+                          house_name:
+                            global.session.property[
+                              global.session.propertyIndex
+                            ].houseName,
                         },
                         "6Q4BZ_DN9bCSJFZYM"
                       )
@@ -274,7 +285,8 @@ function Member({ member }): any {
         loading={loading}
         variant="outlined"
         disabled={
-          global.session.property.role !== "owner" || member.role === "owner"
+          global.session.property[global.session.propertyIndex].role !==
+            "owner" || member.role === "owner"
         }
         sx={{
           borderWidth: "2px!important",
@@ -289,8 +301,12 @@ function Member({ member }): any {
               new URLSearchParams({
                 id: member.id,
                 email: member.email,
-                accessToken: global.session.property.accessToken,
-                propertyToken: global.session.property.propertyToken,
+                accessToken:
+                  global.session.property[global.session.propertyIndex]
+                    .accessToken,
+                propertyToken:
+                  global.session.property[global.session.propertyIndex]
+                    .propertyToken,
               }),
             {
               method: "POST",
@@ -312,8 +328,9 @@ export function MemberList() {
   const url =
     "/api/account/sync/member-list?" +
     new URLSearchParams({
-      propertyToken: global.session.property.propertyToken,
-      accessToken: global.session.property.accessToken,
+      propertyToken: global.session.property[global.session.propertyIndex].id,
+      accessToken:
+        global.session.property[global.session.propertyIndex].accessToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {

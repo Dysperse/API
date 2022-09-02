@@ -13,7 +13,7 @@ import { updateSettings } from "./updateSettings";
 export default function AppearanceSettings() {
   const [mode, setMode] = useState<"personal" | "business">("personal");
   const [studentMode, setStudentMode] = useState<boolean>(
-    global.session.property.houseType
+    global.session.property[global.session.propertyIndex].houseType
   );
 
   return (

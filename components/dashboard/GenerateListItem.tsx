@@ -24,8 +24,10 @@ export function GenerateListItem({
     fetch(
       "/api/lists/delete-item?" +
         new URLSearchParams({
-          propertyToken: global.session.property.propertyToken,
-          accessToken: global.session.property.accessToken,
+          propertyToken:
+            global.session.property[global.session.propertyIndex].id,
+          accessToken:
+            global.session.property[global.session.propertyIndex].accessToken,
           id: id,
         }),
       {
@@ -36,7 +38,10 @@ export function GenerateListItem({
   return checked ? null : (
     <Box sx={{ borderRadius: "15px!important", overflow: "hidden" }}>
       <SwipeableViews
-        disabled={global.session.property.role === "read-only"}
+        disabled={
+          global.session.property[global.session.propertyIndex].role ===
+          "read-only"
+        }
         enableMouseEvents
         index={index}
         slideStyle={{
@@ -59,7 +64,10 @@ export function GenerateListItem({
           <ListItemIcon sx={{ ml: -1 }}>
             <IconButton
               disableRipple
-              disabled={global.session.property.role === "read-only"}
+              disabled={
+                global.session.property[global.session.propertyIndex].role ===
+                "read-only"
+              }
               sx={{
                 borderRadius: 3,
                 transition: "transform .2s",
@@ -76,7 +84,8 @@ export function GenerateListItem({
                     global.theme == "dark"
                       ? "hsl(240, 11%, 20%)"
                       : "rgba(200,200,200,.3)",
-                  ...(global.session.property.role !== "read-only" && {
+                  ...(global.session.property[global.session.propertyIndex]
+                    .role !== "read-only" && {
                     transition: "none",
                     transform: "scale(.97)",
                     background: "rgba(200,200,200,.3)",
@@ -84,7 +93,10 @@ export function GenerateListItem({
                 },
               }}
               onClick={() => {
-                if (global.session.property.role !== "read-only") {
+                if (
+                  global.session.property[global.session.propertyIndex].role !==
+                  "read-only"
+                ) {
                   deleteItem(id);
                   toast.success("Task completed");
                   setChecked(true);

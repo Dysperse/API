@@ -134,8 +134,12 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
                 "/api/rooms/delete?" +
                   new URLSearchParams({
                     id: room.id.toString(),
-                    propertyToken: global.session.property.propertyToken,
-                    accessToken: global.session.property.accessToken,
+                    propertyToken:
+                      global.session.property[global.session.propertyIndex]
+                        .propertyToken,
+                    accessToken:
+                      global.session.property[global.session.propertyIndex]
+                        .accessToken,
                   }),
                 {
                   method: "POST",
@@ -257,8 +261,9 @@ function CustomRooms({ collapsed }: any) {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      propertyToken: global.session.property.propertyToken,
-      accessToken: global.session.property.accessToken,
+      propertyToken: global.session.property[global.session.propertyIndex].id,
+      accessToken:
+        global.session.property[global.session.propertyIndex].accessToken,
     });
 
   const { data, error } = useSWR(url, () =>

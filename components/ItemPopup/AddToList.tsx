@@ -17,8 +17,9 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   const url =
     "/api/lists/items?" +
     new URLSearchParams({
-      propertyToken: global.session.property.propertyToken,
-      accessToken: global.session.property.accessToken,
+      propertyToken: global.session.property[global.session.propertyIndex].id,
+      accessToken:
+        global.session.property[global.session.propertyIndex].accessToken,
     });
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
@@ -53,8 +54,12 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
                 fetch(
                   "/api/lists/create-item?" +
                     new URLSearchParams({
-                      propertyToken: global.session.property.propertyToken,
-                      accessToken: global.session.property.accessToken,
+                      propertyToken:
+                        global.session.property[global.session.propertyIndex]
+                          .propertyToken,
+                      accessToken:
+                        global.session.property[global.session.propertyIndex]
+                          .accessToken,
                       parent: list.id,
                       title: title,
                       description: "",
@@ -112,7 +117,7 @@ export function AddToListModal({ styles, item }: any) {
             variant="outlined"
             disableElevation
             size="large"
-            sx={{ borderWidth: "2px!important",borderRadius:9 }}
+            sx={{ borderWidth: "2px!important", borderRadius: 9 }}
             onClick={() => setOpen(false)}
           >
             Cancel

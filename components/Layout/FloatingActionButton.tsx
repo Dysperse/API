@@ -7,7 +7,8 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 export function FloatingActionButton() {
   const trigger = useScrollTrigger();
 
-  return global.session.property.role === "read-only" ? null : (
+  return global.session.property[global.session.propertyIndex].role ===
+    "read-only" ? null : (
     <Box
       sx={{
         position: "fixed",

@@ -40,13 +40,20 @@ function DeleteCard({ item }: any) {
             borderRadius: 9,
           }}
           variant="contained"
-          disabled={global.session.property.role === "read-only"}
+          disabled={
+            global.session.property[global.session.propertyIndex].role ===
+            "read-only"
+          }
           onClick={() => {
             fetch(
               "/api/inventory/trash?" +
                 new URLSearchParams({
-                  propertyToken: global.session.property.propertyToken,
-                  accessToken: global.session.property.accessToken,
+                  propertyToken:
+                    global.session.property[global.session.propertyIndex]
+                      .propertyToken,
+                  accessToken:
+                    global.session.property[global.session.propertyIndex]
+                      .accessToken,
                   id: item.id.toString(),
                   forever: "true",
                 }),
@@ -79,13 +86,20 @@ function DeleteCard({ item }: any) {
             borderRadius: 9,
           }}
           variant="outlined"
-          disabled={global.session.property.role === "read-only"}
+          disabled={
+            global.session.property[global.session.propertyIndex].role ===
+            "read-only"
+          }
           onClick={() => {
             fetch(
               "/api/restore?" +
                 new URLSearchParams({
-                  propertyToken: global.session.property.propertyToken,
-                  accessToken: global.session.property.accessToken,
+                  propertyToken:
+                    global.session.property[global.session.propertyIndex]
+                      .propertyToken,
+                  accessToken:
+                    global.session.property[global.session.propertyIndex]
+                      .accessToken,
                   lastUpdated: dayjs(item.lastUpdated).format(
                     "YYYY-MM-DD HH:mm:ss"
                   ),
@@ -120,8 +134,9 @@ function Items() {
   const url =
     "/api/inventory/trashed-items?" +
     new URLSearchParams({
-      propertyToken: global.session.property.propertyToken,
-      accessToken: global.session.property.accessToken,
+      propertyToken: global.session.property[global.session.propertyIndex].id,
+      accessToken:
+        global.session.property[global.session.propertyIndex].accessToken,
     });
   const { data, error }: any = useSWR(url, () =>
     fetch(url, {
