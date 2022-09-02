@@ -9,12 +9,45 @@ function exclude(user: any, ...keys: any[]) {
 }
 
 // Query returns User or null
-const handler = async (req: any, res: any) => {
-  const getUser: any | null = await prisma.userTokens.findUnique({
+export const getUser = async (token: string) => {
+  const session: any | null = await prisma.session.findUnique({
     where: {
-      id: 1,
+      id: token,
+    },
+    select: {
+      user: {
+        select: {
+          avatar: true,
+          budgetDaily: true,
+          budgetMonthly: true,
+          budgetWeekly: true,
+          color: true,
+          financePlan: true,
+          name: true,
+          currency: true,
+          darkMode: true,
+          email: true,
+          financeToken: true,
+          onboardingComplete: true,
+          verifiedEmail: true,
+          properties: true,
+        },
+      },
     },
   });
-  res.json(exclude(getUser));
+  return session;
+};
+const handler = async (req, res) => {
+  const session = await getUser(req.query.token);
+
+  if (session) {
+    res[process.env.NODE_ENV == "production" ? "json" : "send"](
+      process.env.NODE_ENV == "production"
+        ? session.user
+        : JSON.stringify(session.user, null, 2)
+    );
+  } else {
+    res.status(401).json({ message: "Invalid token" });
+  }
 };
 export default handler;
