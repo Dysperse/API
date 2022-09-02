@@ -61,6 +61,7 @@ model Session {
 
 model Property {
   id           String       @id @default(uuid())
+  accessToken  String       @unique @default(uuid())
   propertyName String
   propertyType String
   role         String
