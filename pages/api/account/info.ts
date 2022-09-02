@@ -1,7 +1,7 @@
 import { prisma } from "../../../prisma/client";
 
 // Query returns User or null
-export const getUser = async (token: string) => {
+export const getInfo = async (token: string) => {
   const session: any | null = await prisma.session.findUnique({
     where: {
       id: token,
@@ -31,7 +31,7 @@ export const getUser = async (token: string) => {
 };
 
 const handler = async (req, res) => {
-  const session = await getUser(req.query.token);
+  const session = await getInfo(req.query.token);
 
   if (session) {
     res[process.env.NODE_ENV == "production" ? "json" : "send"](
