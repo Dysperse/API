@@ -16,13 +16,15 @@ model User {
   avatar             String?
   // Appearance
   darkMode           Boolean    @default(false)
-  color              String     @default("blue")
+  color              String     @default("cyan")
   // Finances
   currency           String     @default("USD")
   financePlan        String     @default("medium")
   budgetDaily        Int        @default(0)
   budgetWeekly       Int        @default(0)
   budgetMonthly      Int        @default(0)
+  budgets            Budget[]
+  goals              Goal[]
   // Data (onboarding, etc...)
   onboardingComplete Boolean    @default(false)
   verifiedEmail      Boolean    @default(false)
@@ -31,6 +33,24 @@ model User {
   sessions           Session[]
   // Properties
   properties         Property[]
+}
+
+model Budget {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+  name   String
+  limit  Int
+}
+
+model Goal {
+  id     Int     @id @default(autoincrement())
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int
+  name   String
+  // https://source.unsplash.com/random/1000x300
+  banner String  @default("https://images.unsplash.com/photo-1659412321527-8cddf2458faa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY2MjA4ODY5OA&ixlib=rb-1.2.1&q=80&w=1000")
+  note   String?
 }
 
 model Session {
@@ -44,13 +64,24 @@ model Property {
   propertyName String
   propertyType String
   role         String
+  bannerColor  String @default("cyan")
 
-  inventory Item[]
-  lists     List[]
-  listItems ListItem[]
+  inventory   Item[]
+  lists       List[]
+  listItems   ListItem[]
+  customRooms CustomRoom[]
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model CustomRoom {
+  id     String  @id @default(uuid())
+  name   String
+  pinned Boolean @default(false)
+
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
 }
 
 model Item {
