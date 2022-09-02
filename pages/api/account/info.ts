@@ -37,6 +37,7 @@ export const getUser = async (token: string) => {
   });
   return session;
 };
+
 const handler = async (req, res) => {
   const session = await getUser(req.query.token);
 
