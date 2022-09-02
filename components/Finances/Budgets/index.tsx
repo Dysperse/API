@@ -39,7 +39,7 @@ function CreateBudgetMenu({ transactions }: any) {
       await fetch(
         "/api/finance/budgets/create?" +
           new URLSearchParams({
-            token: global.session.account.accessToken,
+            token: global.session.user.accessToken,
             type: values.type,
             category: values.category,
             amount: values.amount,
@@ -197,7 +197,7 @@ export function Budgets({ transactions }: { transactions: any }) {
   const url =
     "/api/finance/budgets?" +
     new URLSearchParams({
-      token: global.session.account.accessToken,
+      token: global.session.user.accessToken,
     });
   const { data, error }: any = useSWR(url, () =>
     fetch(url, {
@@ -274,24 +274,24 @@ export function Budgets({ transactions }: { transactions: any }) {
           <Budget
             hardLimit={true}
             category="Today"
-            amount={global.session.account.budgetDaily}
+            amount={global.session.user.budgetDaily}
             type="daily"
           />
           <Budget
             hardLimit={true}
             category="This week"
-            amount={global.session.account.budgetWeekly}
+            amount={global.session.user.budgetWeekly}
             type="weekly"
           />
           <Budget
             hardLimit={true}
             category="This month"
             amountSpent={
-              spentMonth > global.session.account.budgetMonthly
-                ? global.session.account.budgetMonthly
+              spentMonth > global.session.user.budgetMonthly
+                ? global.session.user.budgetMonthly
                 : spentMonth
             }
-            amount={global.session.account.budgetMonthly}
+            amount={global.session.user.budgetMonthly}
             type="monthly"
           />
         </CardContent>

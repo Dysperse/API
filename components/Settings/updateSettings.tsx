@@ -11,7 +11,7 @@ export function updateSettings(
   let url =
     "/api/account/update?" +
     new URLSearchParams({
-      token: global.session.account.accessToken,
+      token: global.session.user.accessToken,
       data: JSON.stringify({
         [key]: value,
       }),
@@ -43,5 +43,5 @@ export function updateSettings(
       }
     });
   return d;
-  // global.session.account[key] = value;
+  // global.session.user[key] = value;
 }

@@ -113,13 +113,13 @@ export function Navbar(): JSX.Element {
                 }}
               >
                 <Avatar
-                  src={global.session.account.image}
+                  src={global.session.user.image}
                   sx={{
                     width: 35,
                     height: 35,
                   }}
                 >
-                  {global.session.account.name}
+                  {global.session.user.name}
                 </Avatar>
               </IconButton>
             </Tooltip>

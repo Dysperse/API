@@ -41,7 +41,7 @@ function Render({
     | "teal"
     | "cyan"
     | "brown"
-  >(data.user.theme);
+  >(data.user.color);
   global.theme = theme;
   global.setTheme = setTheme;
   global.themeColor = themeColor;

@@ -103,7 +103,7 @@ export function Goal({
               fetch(
                 "/api/finance/goals/editNote?" +
                   new URLSearchParams({
-                    token: global.session.account.accessToken,
+                    token: global.session.user.accessToken,
                     id: id.toString(),
                     note: e.target.value,
                   }),
@@ -170,7 +170,7 @@ export function Goal({
                   fetch(
                     "/api/finance/goals/delete?" +
                       new URLSearchParams({
-                        token: global.session.account.accessToken,
+                        token: global.session.user.accessToken,
                         id: id.toString(),
                       }),
                     {

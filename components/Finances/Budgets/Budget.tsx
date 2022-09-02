@@ -21,7 +21,7 @@ function Expenses({ category }: any) {
   const url =
     "/api/finance/fetchTransactions/?" +
     new URLSearchParams({
-      access_token: global.session.account.financeToken,
+      access_token: global.session.user.financeToken,
       start_date: dayjs().subtract(29, "day").format("YYYY-MM-DD"),
       end_date: dayjs().add(7, "day").format("YYYY-MM-DD"),
     });

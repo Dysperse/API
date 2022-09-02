@@ -72,7 +72,7 @@ export function CreateGoalDialog({
                       fetch(
                         "/api/finance/goals/create?" +
                           new URLSearchParams({
-                            token: global.session.account.accessToken,
+                            token: global.session.user.accessToken,
                             name: name,
                             image:
                               "https://images.unsplash.com/photo-1416169607655-0c2b3ce2e1cc?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774",

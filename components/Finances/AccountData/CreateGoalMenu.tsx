@@ -84,7 +84,7 @@ export function CreateGoalMenu({ scrollTop, account }: any): JSX.Element {
       await fetch(
         "/api/finance/goals/create?" +
           new URLSearchParams({
-            token: global.session.account.accessToken,
+            token: global.session.user.accessToken,
             name: values.name,
             minAmountOfMoney: values.minAmountOfMoney,
             image: values.image,

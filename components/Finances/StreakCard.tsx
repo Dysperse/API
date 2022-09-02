@@ -52,7 +52,7 @@ export function StreakCard(): JSX.Element {
   const url =
     "/api/finance/fetchTransactions?" +
     new URLSearchParams({
-      access_token: global.session.account.financeToken,
+      access_token: global.session.user.financeToken,
       start_date: dayjs().subtract(15, "day").format("YYYY-MM-DD"),
       end_date: dayjs().add(3, "day").format("YYYY-MM-DD"),
     });

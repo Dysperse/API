@@ -446,8 +446,8 @@ export function InviteButton() {
   const url =
     "/api/account/sync/invitations?" +
     new URLSearchParams({
-      token: global.session.account.accessToken,
-      email: global.session.account.email,
+      token: global.session.user.accessToken,
+      email: global.session.user.email,
     });
 
   const { data, error }: any = useSWR(url, () =>

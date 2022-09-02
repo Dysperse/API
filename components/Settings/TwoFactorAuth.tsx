@@ -27,8 +27,8 @@ export default function App() {
 
   return (
     <Box sx={{ p: 5 }}>
-      {global.session.account["twoFactorAuthCode"] &&
-      global.session.account["twoFactorAuthCode"] !== "false" ? (
+      {global.session.user["twoFactorAuthCode"] &&
+      global.session.user["twoFactorAuthCode"] !== "false" ? (
         <Box>
           <Typography>2FA is enabled for your account!</Typography>
           <LoadingButton
@@ -124,7 +124,7 @@ export default function App() {
                   new URLSearchParams({
                     key: key,
                     code: code,
-                    token: global.session.account.accessToken,
+                    token: global.session.user.accessToken,
                   }),
                 {
                   method: "POST",
@@ -133,7 +133,7 @@ export default function App() {
                 .then((res) => res.json())
                 .then((res) => {
                   fetch(
-                    "/api/login?token=" + global.session.account.accessToken
+                    "/api/login?token=" + global.session.user.accessToken
                   ).then(() => {
                     if (res.data) {
                       toast.success("2FA setup successful!");

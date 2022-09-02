@@ -9,8 +9,8 @@ export default function Finances() {
   return (
     <Container>
       {global.session &&
-      global.session.account.financeToken &&
-      global.session.account.financeToken.startsWith("access-sandbox-") &&
+      global.session.user.financeToken &&
+      global.session.user.financeToken.startsWith("access-sandbox-") &&
       loginRequired === false ? (
         <AccountList setLoginRequired={setLoginRequired} />
       ) : (

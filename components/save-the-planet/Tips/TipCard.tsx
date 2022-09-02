@@ -36,11 +36,10 @@ export function TipCard({
 }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const { error, data } = useSWR(
-    "/api/finance/accounts?access_token=" + global.session.account.financeToken,
+    "/api/finance/accounts?access_token=" + global.session.user.financeToken,
     () =>
       fetch(
-        "/api/finance/accounts?access_token=" +
-          global.session.account.financeToken
+        "/api/finance/accounts?access_token=" + global.session.user.financeToken
       ).then((res) => res.json())
   );
 
