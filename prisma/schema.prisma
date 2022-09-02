@@ -7,103 +7,81 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Accounts {
-  id                Int          @id @default(autoincrement())
-  name              String       @db.Text
-  email             String       @db.VarChar(500)
-  password          String       @db.VarChar(100)
-  image             String       @db.VarChar(255)
-  onboarding        String       @db.VarChar(255)
-  theme             String       @default("41308a") @db.VarChar(100)
-  notificationMin   String?      @db.VarChar(100)
-  verifiedEmail     Boolean
-  financePlan       String       @default("medium-term") @db.Text
-  currency          String       @default("$") @db.Text
-  FinanceToken      String?      @db.Text
-  verifyToken       String?      @db.Text
-  authorizeToken    String?      @db.Text
-  darkMode          String?      @default("false") @db.Text
-  budgetDaily       Int?         @default(0)
-  budgetWeekly      Int?         @default(0)
-  budgetMonthly     Int?         @default(0)
-  SyncToken         String?      @db.Text
-  twoFactorAuthCode String?      @default("false") @db.Text
-  UserTokens        UserTokens[]
+model User {
+  id                 Int        @id @default(autoincrement())
+  // User info
+  name               String
+  email              String     @unique
+  password           String
+  avatar             String?
+  // Appearance
+  darkMode           Boolean    @default(false)
+  color              String     @default("blue")
+  // Finances
+  currency           String     @default("USD")
+  financePlan        String     @default("medium")
+  budgetDaily        Int        @default(0)
+  budgetWeekly       Int        @default(0)
+  budgetMonthly      Int        @default(0)
+  // Data (onboarding, etc...)
+  onboardingComplete Boolean    @default(false)
+  verifiedEmail      Boolean    @default(false)
+  // Tokens
+  financeToken       String?    @unique
+  sessions           Session[]
+  // Properties
+  properties         Property[]
 }
 
-model FinanceBudgets {
-  id       Int    @id @default(autoincrement())
-  login    Int
-  amount   Int
-  category String @db.Text
-  type     String @db.Text
+model Session {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
 }
 
-model FinanceGoals {
-  id               Int     @id @default(autoincrement())
-  name             String  @db.Text
-  image            String  @db.Text
-  note             String  @db.Text
-  completed        String  @db.Text
-  minAmountOfMoney String  @db.Text
-  accountId        String  @db.Text
-  user             Int
-  ecoFriendly      String? @default(dbgenerated("(0)")) @db.Text
+model Property {
+  id           String @id @default(uuid())
+  propertyName String
+  propertyType String
+  role         String
+
+  inventory Item[]
+  lists     List[]
+  listItems ListItem[]
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
-model Inventory {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.Text
-  qty         String   @db.Text
-  category    String   @db.Text
-  user        String   @db.Text
-  star        Int      @default(0)
-  lastUpdated DateTime @db.DateTime(0)
-  room        String   @default("kitchen") @db.Text
-  trash       Int      @default(0)
-  note        String   @default("") @db.Text
+model Item {
+  id           Int      @id @default(autoincrement())
+  name         String
+  quantity     String
+  note         String
+  lastModified DateTime
+  starred      Boolean  @default(false)
+  property     Property @relation(fields: [propertyId], references: [id])
+  propertyId   String
 }
 
-model ListItems {
-  id          Int    @id @default(autoincrement())
-  parent      String @db.Text
-  user        String @db.Text
-  title       String @db.Text
-  description String @db.Text
-  pinned      String @default("false") @db.Text
+model List {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String
+  starred     Boolean    @default(false)
+  items       ListItem[]
+  property    Property   @relation(fields: [propertyId], references: [id])
+  propertyId  String
 }
 
-model ListNames {
-  id          Int    @id @default(autoincrement())
-  user        String @db.Text
-  title       String @db.Text
-  description String @db.Text
-  star        String @db.Text
-}
+model ListItem {
+  id      Int     @id @default(autoincrement())
+  name    String
+  details String
+  pinned  Boolean @default(false)
+  list    List    @relation(fields: [listId], references: [id])
+  listId  Int
 
-model Rooms {
-  id   Int    @id @default(autoincrement())
-  name String @db.Text
-  user String @db.Text
-}
-
-model SyncTokens {
-  id            Int    @id @default(autoincrement())
-  propertyToken String @db.Text
-  email         String @db.Text
-  name          String @db.Text
-  houseName     String @default("Untitled property") @db.Text
-  houseType     String @default("home") @db.Text
-  accepted      String @db.Text
-  role          String @db.Text
-  accessToken   String @db.Text
-}
-
-model UserTokens {
-  id       Int      @id @default(autoincrement())
-  user     Int
-  token    String   @db.Text
-  Accounts Accounts @relation(fields: [user], references: [id], onUpdate: Restrict, map: "FK_UserId")
-
-  @@index([user], map: "FK_UserId")
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
 }
