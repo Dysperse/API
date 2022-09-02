@@ -1,7 +1,7 @@
-import { getAllUsers } from "../../prisma/user";
+import { getSessions } from "../../prisma/user";
 
 const handler = async (req: any, res: any) => {
-  const users = await getAllUsers();
+  const users = await getSessions();
   res.json(users);
 };
 
