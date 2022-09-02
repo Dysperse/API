@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-const prisma: any = new PrismaClient();
+import { prisma } from "../../../prisma/client";
 
 function exclude(user: any, ...keys: any[]) {
   for (let key of keys) {
