@@ -30,7 +30,7 @@ export const getUserData = async (token: string) => {
   return session;
 };
 
-const handler = async (req, res) => {
+const handler = async (req: any, res: any) => {
   const session = await getUserData(req.query.token);
 
   if (session) {
