@@ -60,16 +60,16 @@ model Session {
 }
 
 model Property {
-  id           String @id @default(uuid())
+  id           String       @id @default(uuid())
   propertyName String
   propertyType String
   role         String
-  bannerColor  String @default("cyan")
-
-  inventory   Item[]
-  lists       List[]
-  listItems   ListItem[]
-  customRooms CustomRoom[]
+  bannerColor  String       @default("cyan")
+  accepted     Boolean      @default(false)
+  inventory    Item[]
+  lists        List[]
+  listItems    ListItem[]
+  customRooms  CustomRoom[]
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
@@ -99,7 +99,6 @@ model List {
   id          Int        @id @default(autoincrement())
   name        String
   description String
-  starred     Boolean    @default(false)
   items       ListItem[]
   property    Property   @relation(fields: [propertyId], references: [id])
   propertyId  String
