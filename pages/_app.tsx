@@ -23,13 +23,13 @@ function Render({
   Component,
   pageProps,
 }: {
-  data: Account;
+  data: any;
   Component: any;
   pageProps: any;
 }) {
   global.session = data;
   const [theme, setTheme] = useState<"dark" | "light">(
-    data.account.darkMode ? "dark" : "light"
+    data.user.darkMode ? "dark" : "light"
   );
   const [themeColor, setThemeColor] = useState<
     | "red"
@@ -41,13 +41,13 @@ function Render({
     | "teal"
     | "cyan"
     | "brown"
-  >(data.account.theme);
+  >(data.user.theme);
   global.theme = theme;
   global.setTheme = setTheme;
   global.themeColor = themeColor;
   global.setThemeColor = setThemeColor;
 
-  if (data.account.darkMode) {
+  if (data.user.darkMode) {
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute("content", "hsl(240, 11%, 10%)");
@@ -178,9 +178,9 @@ function RenderApp({ router, Component, pageProps }: any) {
           {/* {isLoading && <>Loading...</>} */}
           {!isLoading &&
             !isError &&
-            (data.account ? (
+            (data.user ? (
               <>
-                {data.account.onboarding === 0 ? (
+                {data.user.onboarding ? (
                   <>
                     <button
                       style={{ opacity: 0.4, border: 0, borderRadius: 3 }}
@@ -235,7 +235,7 @@ function RenderComponent({
 }: {
   Component: any;
   pageProps: any;
-  data: Account;
+  data: any;
 }) {
   global.session = data;
 

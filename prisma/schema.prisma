@@ -8,31 +8,32 @@ datasource db {
 }
 
 model User {
-  id                 Int        @id @default(autoincrement())
+  id                   Int        @id @default(autoincrement())
   // User info
-  name               String
-  email              String     @unique
-  password           String
-  avatar             String?
+  name                 String
+  email                String     @unique
+  password             String
+  avatar               String?
   // Appearance
-  darkMode           Boolean    @default(false)
-  color              String     @default("cyan")
+  darkMode             Boolean    @default(false)
+  color                String     @default("cyan")
   // Finances
-  currency           String     @default("USD")
-  financePlan        String     @default("medium")
-  budgetDaily        Int        @default(0)
-  budgetWeekly       Int        @default(0)
-  budgetMonthly      Int        @default(0)
-  budgets            Budget[]
-  goals              Goal[]
+  currency             String     @default("USD")
+  financePlan          String     @default("medium")
+  budgetDaily          Int        @default(0)
+  budgetWeekly         Int        @default(0)
+  budgetMonthly        Int        @default(0)
+  budgets              Budget[]
+  goals                Goal[]
   // Data (onboarding, etc...)
-  onboardingComplete Boolean    @default(false)
-  verifiedEmail      Boolean    @default(false)
+  onboardingComplete   Boolean    @default(false)
+  verifiedEmail        Boolean    @default(false)
   // Tokens
-  financeToken       String?    @unique
-  sessions           Session[]
+  financeToken         String?    @unique
+  sessions             Session[]
   // Properties
-  properties         Property[]
+  currentPropertyIndex Int        @default(0)
+  properties           Property[]
 }
 
 model Budget {
