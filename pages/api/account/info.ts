@@ -32,8 +32,9 @@ export const getUserData = async (token: string) => {
 };
 
 const handler = async (req: any, res: any) => {
+  res.send(process.env.DATABASE_URL);
+  return;
   const session = await getUserData(req.query.token);
-
   if (session) {
     res.json(session);
   } else {
