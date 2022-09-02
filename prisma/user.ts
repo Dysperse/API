@@ -1,6 +1,7 @@
 import prisma from "./prisma";
 
-export const getSessions = async () => {
-  const sessions = await prisma.session.findMany({});
-  return sessions;
+// READ
+export const getAllUsers = async () => {
+  const users = await prisma.session.findMany({});
+  return users;
 };

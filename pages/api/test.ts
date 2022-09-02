@@ -1,8 +1,6 @@
-import { getSessions } from "../../prisma/user";
+import { getAllUsers } from "../../prisma/user";
 
-const handler = async (req: any, res: any) => {
-  const users = await getSessions();
-  res.json(users);
-};
-
-export default handler;
+export default async function handle(req, res) {
+  const users = await getAllUsers();
+  return res.json(users);
+}
