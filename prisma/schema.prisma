@@ -17,7 +17,7 @@ model Accounts {
   theme             String       @default("41308a") @db.VarChar(100)
   notificationMin   String?      @db.VarChar(100)
   verifiedEmail     Boolean
-  financePlan       String       @default("") @db.Text
+  financePlan       String       @default("medium-term") @db.Text
   currency          String       @default("$") @db.Text
   FinanceToken      String?      @db.Text
   verifyToken       String?      @db.Text
@@ -59,18 +59,18 @@ model Inventory {
   user        String   @db.Text
   star        Int      @default(0)
   lastUpdated DateTime @db.DateTime(0)
-  room        String   @default("storageroom") @db.Text
+  room        String   @default("kitchen") @db.Text
   trash       Int      @default(0)
   note        String   @default("") @db.Text
 }
 
 model ListItems {
-  id          Int     @id @default(autoincrement())
-  parent      String  @db.Text
-  user        String  @db.Text
-  title       String  @db.Text
-  description String  @db.Text
-  pinned      String? @default("false") @db.Text
+  id          Int    @id @default(autoincrement())
+  parent      String @db.Text
+  user        String @db.Text
+  title       String @db.Text
+  description String @db.Text
+  pinned      String @default("false") @db.Text
 }
 
 model ListNames {
