@@ -1,12 +1,5 @@
 import { prisma } from "../../../prisma/client";
 
-function exclude(user: any, ...keys: any[]) {
-  for (let key of keys) {
-    delete user[key];
-  }
-  return user;
-}
-
 // Query returns User or null
 export const getUser = async (token: string) => {
   const session: any | null = await prisma.session.findUnique({
