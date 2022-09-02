@@ -34,11 +34,7 @@ const handler = async (req: any, res: any) => {
   const session = await getUserData(req.query.token);
 
   if (session) {
-    res[process.env.NODE_ENV == "production" ? "json" : "send"](
-      process.env.NODE_ENV == "production"
-        ? session.user
-        : JSON.stringify(session.user, null, 2)
-    );
+    res.json(session);
   } else {
     res.status(401).json({ message: "Invalid token" });
   }
