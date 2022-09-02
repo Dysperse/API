@@ -14,6 +14,7 @@ export const getUserData = async (token: string) => {
           budgetMonthly: true,
           budgetWeekly: true,
           color: true,
+          currentProperty: true,
           financePlan: true,
           name: true,
           currency: true,

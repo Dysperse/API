@@ -119,7 +119,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
           variant="contained"
           disabled={
             data.length >= 150 ||
-            global.session.property[global.session.propertyIndex].role ===
+            global.session.property[global.session.currentProperty].role ===
               "read-only"
           }
           disableElevation

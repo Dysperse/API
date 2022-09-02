@@ -40,10 +40,10 @@ function Room({
               room: room.toLowerCase().replace(" room", ""),
               lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               propertyToken:
-                global.session.property[global.session.propertyIndex]
+                global.session.property[global.session.currentProperty]
                   .propertyToken,
               accessToken:
-                global.session.property[global.session.propertyIndex]
+                global.session.property[global.session.currentProperty]
                   .accessToken,
             }),
           {

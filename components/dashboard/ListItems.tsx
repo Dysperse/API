@@ -81,7 +81,7 @@ function GenerateData({
         />
       ))}
       {items.length < 20 &&
-        global.session.property[global.session.propertyIndex].role !==
+        global.session.property[global.session.currentProperty].role !==
           "read-only" &&
         !screenshotReady && (
           <CreateListModal
@@ -237,10 +237,10 @@ export function ListItems({
                 "/api/lists/delete-custom-list?" +
                   new URLSearchParams({
                     propertyToken:
-                      global.session.property[global.session.propertyIndex]
+                      global.session.property[global.session.currentProperty]
                         .propertyToken,
                     accessToken:
-                      global.session.property[global.session.propertyIndex]
+                      global.session.property[global.session.currentProperty]
                         .accessToken,
                     id: parent.toString(),
                   }),

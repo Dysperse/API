@@ -109,9 +109,9 @@ function MoreRooms(): JSX.Element {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.propertyIndex].id,
+      propertyToken: global.session.property[global.session.currentProperty].id,
       accessToken:
-        global.session.property[global.session.propertyIndex].accessToken,
+        global.session.property[global.session.currentProperty].accessToken,
     });
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -291,7 +291,7 @@ function Content({ toggleDrawer }: any) {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        {global.session.property[global.session.propertyIndex].houseType !==
+        {global.session.property[global.session.currentProperty].houseType !==
           "dorm" && (
           <AddItemOption
             toggleDrawer={toggleDrawer}
@@ -317,7 +317,7 @@ function Content({ toggleDrawer }: any) {
           title="Storage"
           icon={<span className="material-symbols-rounded">inventory_2</span>}
         />
-        {global.session.property[global.session.propertyIndex].houseType !==
+        {global.session.property[global.session.currentProperty].houseType !==
           "dorm" && (
           <>
             <AddItemOption
@@ -397,7 +397,7 @@ export default function AddPopup(props: any) {
         id="add_trigger"
         onClick={() => {
           if (
-            global.session.property[global.session.propertyIndex].role !==
+            global.session.property[global.session.currentProperty].role !==
             "read-only"
           ) {
             setOpen(true);

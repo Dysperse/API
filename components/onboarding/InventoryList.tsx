@@ -28,10 +28,10 @@ export function InventoryList({ data }: { data: Array<any> }) {
               "/api/inventory/create?" +
                 new URLSearchParams({
                   accessToken:
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .accessToken,
                   propertyToken:
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .propertyToken,
                   name: item.name,
                   qty: "1",

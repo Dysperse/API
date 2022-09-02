@@ -109,9 +109,9 @@ export default function Item({
       "/api/inventory/star?" +
         new URLSearchParams({
           propertyToken:
-            global.session.property[global.session.propertyIndex].id,
+            global.session.property[global.session.currentProperty].id,
           accessToken:
-            global.session.property[global.session.propertyIndex].accessToken,
+            global.session.property[global.session.currentProperty].accessToken,
           id: item.id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         }),
@@ -127,9 +127,9 @@ export default function Item({
       "/api/inventory/trash?" +
         new URLSearchParams({
           propertyToken:
-            global.session.property[global.session.propertyIndex].id,
+            global.session.property[global.session.currentProperty].id,
           accessToken:
-            global.session.property[global.session.propertyIndex].accessToken,
+            global.session.property[global.session.currentProperty].accessToken,
           id: id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         }),
@@ -159,10 +159,10 @@ export default function Item({
               "/api/inventory/restore?" +
                 new URLSearchParams({
                   propertyToken:
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .propertyToken,
                   accessToken:
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .accessToken,
                   id: item.id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -324,10 +324,10 @@ export default function Item({
               "/api/inventory/star?" +
                 new URLSearchParams({
                   propertyToken:
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .propertyToken,
                   accessToken:
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .accessToken,
                   id: id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -378,7 +378,7 @@ export default function Item({
             <title>
               {item.title} &bull; {data.room} &bull;{" "}
               {global.session.property[
-                global.session.propertyIndex
+                global.session.currentProperty
               ].houseName.replace(/./, (c) => c.toUpperCase())}{" "}
               &bull; Carbon
             </title>
@@ -483,11 +483,11 @@ export default function Item({
                           new URLSearchParams({
                             propertyToken:
                               global.session.property[
-                                global.session.propertyIndex
+                                global.session.currentProperty
                               ].id,
                             accessToken:
                               global.session.property[
-                                global.session.propertyIndex
+                                global.session.currentProperty
                               ].accessToken,
                             id: id.toString(),
                             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -528,11 +528,11 @@ export default function Item({
                       e.target.spellcheck = true;
                     }}
                     disabled={
-                      global.session.property[global.session.propertyIndex]
+                      global.session.property[global.session.currentProperty]
                         .role === "read-only"
                     }
                     placeholder={
-                      global.session.property[global.session.propertyIndex]
+                      global.session.property[global.session.currentProperty]
                         .role !== "read-only"
                         ? "Click to add note"
                         : "You do not have permission to edit this item"
@@ -552,7 +552,7 @@ export default function Item({
                   }}
                 >
                   <Box sx={{}}>
-                    {global.session.property[global.session.propertyIndex]
+                    {global.session.property[global.session.currentProperty]
                       .role !== "read-only" && (
                       <StarButton
                         styles={styles}
@@ -560,7 +560,7 @@ export default function Item({
                         setItemData={setItemData}
                       />
                     )}
-                    {global.session.property[global.session.propertyIndex]
+                    {global.session.property[global.session.currentProperty]
                       .role !== "read-only" && (
                       <EditButton
                         styles={styles}
@@ -568,11 +568,11 @@ export default function Item({
                         setItemData={setItemData}
                       />
                     )}
-                    {global.session.property[global.session.propertyIndex]
+                    {global.session.property[global.session.currentProperty]
                       .role !== "read-only" && (
                       <AddToListModal item={item} styles={styles} />
                     )}
-                    {global.session.property[global.session.propertyIndex]
+                    {global.session.property[global.session.currentProperty]
                       .role !== "read-only" && (
                       <DeleteButton
                         styles={styles}
@@ -611,13 +611,13 @@ export default function Item({
                 borderRadius: "15px!important",
               }}
               disabled={
-                global.session.property[global.session.propertyIndex].role ===
+                global.session.property[global.session.currentProperty].role ===
                 "read-only"
               }
               onChangeIndex={(changedIndex) => {
                 if (
-                  global.session.property[global.session.propertyIndex].role !==
-                  "read-only"
+                  global.session.property[global.session.currentProperty]
+                    .role !== "read-only"
                 ) {
                   setIndex(changedIndex);
                   if (changedIndex === 2) {
@@ -646,7 +646,7 @@ export default function Item({
                 }
               }}
             >
-              {global.session.property[global.session.propertyIndex].role !==
+              {global.session.property[global.session.currentProperty].role !==
                 "read-only" && (
                 <Box
                   sx={{
@@ -713,7 +713,7 @@ export default function Item({
                   }
                 />
               </ListItemButton>
-              {global.session.property[global.session.propertyIndex].role !==
+              {global.session.property[global.session.currentProperty].role !==
                 "read-only" && (
                 <Box
                   sx={{
@@ -763,7 +763,7 @@ export default function Item({
                   enableMouseEvents
                   index={index}
                   disabled={
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .role === "read-only"
                   }
                   slideStyle={{

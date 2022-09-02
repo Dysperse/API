@@ -25,9 +25,9 @@ export function GenerateListItem({
       "/api/lists/delete-item?" +
         new URLSearchParams({
           propertyToken:
-            global.session.property[global.session.propertyIndex].id,
+            global.session.property[global.session.currentProperty].id,
           accessToken:
-            global.session.property[global.session.propertyIndex].accessToken,
+            global.session.property[global.session.currentProperty].accessToken,
           id: id,
         }),
       {
@@ -39,7 +39,7 @@ export function GenerateListItem({
     <Box sx={{ borderRadius: "15px!important", overflow: "hidden" }}>
       <SwipeableViews
         disabled={
-          global.session.property[global.session.propertyIndex].role ===
+          global.session.property[global.session.currentProperty].role ===
           "read-only"
         }
         enableMouseEvents
@@ -65,7 +65,7 @@ export function GenerateListItem({
             <IconButton
               disableRipple
               disabled={
-                global.session.property[global.session.propertyIndex].role ===
+                global.session.property[global.session.currentProperty].role ===
                 "read-only"
               }
               sx={{
@@ -84,7 +84,7 @@ export function GenerateListItem({
                     global.theme == "dark"
                       ? "hsl(240, 11%, 20%)"
                       : "rgba(200,200,200,.3)",
-                  ...(global.session.property[global.session.propertyIndex]
+                  ...(global.session.property[global.session.currentProperty]
                     .role !== "read-only" && {
                     transition: "none",
                     transform: "scale(.97)",
@@ -94,8 +94,8 @@ export function GenerateListItem({
               }}
               onClick={() => {
                 if (
-                  global.session.property[global.session.propertyIndex].role !==
-                  "read-only"
+                  global.session.property[global.session.currentProperty]
+                    .role !== "read-only"
                 ) {
                   deleteItem(id);
                   toast.success("Task completed");

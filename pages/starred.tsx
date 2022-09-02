@@ -10,9 +10,9 @@ function Items() {
   const url =
     "/api/inventory/starred-items?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.propertyIndex].id,
+      propertyToken: global.session.property[global.session.currentProperty].id,
       accessToken:
-        global.session.property[global.session.propertyIndex].accessToken,
+        global.session.property[global.session.currentProperty].accessToken,
     });
   const { error, data }: any = useSWR(url, () =>
     fetch(url, { method: "POST" }).then((res) => res.json())

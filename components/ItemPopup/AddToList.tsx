@@ -17,9 +17,9 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   const url =
     "/api/lists/items?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.propertyIndex].id,
+      propertyToken: global.session.property[global.session.currentProperty].id,
       accessToken:
-        global.session.property[global.session.propertyIndex].accessToken,
+        global.session.property[global.session.currentProperty].accessToken,
     });
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
@@ -55,10 +55,10 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
                   "/api/lists/create-item?" +
                     new URLSearchParams({
                       propertyToken:
-                        global.session.property[global.session.propertyIndex]
+                        global.session.property[global.session.currentProperty]
                           .propertyToken,
                       accessToken:
-                        global.session.property[global.session.propertyIndex]
+                        global.session.property[global.session.currentProperty]
                           .accessToken,
                       parent: list.id,
                       title: title,

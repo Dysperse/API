@@ -34,7 +34,7 @@ function Room({ room }: any) {
           borderRadius: 4,
         }}
         disabled={
-          global.session.property[global.session.propertyIndex].role ===
+          global.session.property[global.session.currentProperty].role ===
           "read-only"
         }
         onClick={() => {
@@ -49,10 +49,10 @@ function Room({ room }: any) {
                 new URLSearchParams({
                   id: room.id,
                   propertyToken:
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .propertyToken,
                   accessToken:
-                    global.session.property[global.session.propertyIndex]
+                    global.session.property[global.session.currentProperty]
                       .accessToken,
                 }),
               {
@@ -76,9 +76,9 @@ export function RoomList() {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.propertyIndex].id,
+      propertyToken: global.session.property[global.session.currentProperty].id,
       accessToken:
-        global.session.property[global.session.propertyIndex].accessToken,
+        global.session.property[global.session.currentProperty].accessToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {

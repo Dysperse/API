@@ -34,10 +34,10 @@ function Room({ data }) {
                     new URLSearchParams({
                       id: data.id,
                       propertyToken:
-                        global.session.property[global.session.propertyIndex]
+                        global.session.property[global.session.currentProperty]
                           .propertyToken,
                       accessToken:
-                        global.session.property[global.session.propertyIndex]
+                        global.session.property[global.session.currentProperty]
                           .accessToken,
                     }),
                   {
@@ -66,9 +66,9 @@ export default function Rooms() {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.propertyIndex].id,
+      propertyToken: global.session.property[global.session.currentProperty].id,
       accessToken:
-        global.session.property[global.session.propertyIndex].accessToken,
+        global.session.property[global.session.currentProperty].accessToken,
     });
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {

@@ -31,10 +31,11 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
         "/api/lists/create-item?" +
           new URLSearchParams({
             propertyToken:
-              global.session.property[global.session.propertyIndex]
+              global.session.property[global.session.currentProperty]
                 .propertyToken,
             accessToken:
-              global.session.property[global.session.propertyIndex].accessToken,
+              global.session.property[global.session.currentProperty]
+                .accessToken,
             parent: customParent,
             title: values.name,
             description: values.description,

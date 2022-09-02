@@ -20,10 +20,10 @@ export function StarButton({ styles, item, setItemData }: any) {
           "/api/inventory/star?" +
             new URLSearchParams({
               propertyToken:
-                global.session.property[global.session.propertyIndex]
+                global.session.property[global.session.currentProperty]
                   .propertyToken,
               accessToken:
-                global.session.property[global.session.propertyIndex]
+                global.session.property[global.session.currentProperty]
                   .accessToken,
               id: item.id.toString(),
               lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),

@@ -229,9 +229,9 @@ function Home({ searchSettings }: { searchSettings: Function }) {
       "/api/rooms?" +
         new URLSearchParams({
           accessToken:
-            global.session.property[global.session.propertyIndex].accessToken,
+            global.session.property[global.session.currentProperty].accessToken,
           propertyToken:
-            global.session.property[global.session.propertyIndex].id,
+            global.session.property[global.session.currentProperty].id,
         })
     ).then((res) => res.json())
   );

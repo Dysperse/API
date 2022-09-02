@@ -64,9 +64,9 @@ function RenderSuggestions() {
     "/api/inventory?" +
     new URLSearchParams({
       limit: "500",
-      propertyToken: global.session.property[global.session.propertyIndex].id,
+      propertyToken: global.session.property[global.session.currentProperty].id,
       accessToken:
-        global.session.property[global.session.propertyIndex].accessToken,
+        global.session.property[global.session.currentProperty].accessToken,
     });
   const { error, data } = useSWR(url, () =>
     fetch(url, {
