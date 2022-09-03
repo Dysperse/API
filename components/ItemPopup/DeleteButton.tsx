@@ -17,12 +17,8 @@ export function DeleteButton({
         fetch(
           "/api/inventory/trash?" +
             new URLSearchParams({
-              propertyToken:
-                global.session.property[global.session.currentProperty]
-                  .propertyToken,
-              accessToken:
-                global.session.property[global.session.currentProperty]
-                  .accessToken,
+              propertyToken: global.property.id,
+              accessToken: global.property.accessToken,
               id: item.id.toString(),
               lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             }),
@@ -47,12 +43,8 @@ export function DeleteButton({
                 fetch(
                   "/api/inventory/restore?" +
                     new URLSearchParams({
-                      propertyToken:
-                        global.session.property[global.session.currentProperty]
-                          .propertyToken,
-                      accessToken:
-                        global.session.property[global.session.currentProperty]
-                          .accessToken,
+                      propertyToken: global.property.id,
+                      accessToken: global.property.accessToken,
                       id: item.id.toString(),
                       lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                     }),

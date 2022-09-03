@@ -366,8 +366,7 @@ export default function FullScreenDialog({ children }: any) {
               }
               secondary={
                 <>
-                  {global.session.property[global.session.currentProperty]
-                    .role === "owner" &&
+                  {global.property.role === "owner" &&
                   global.session.user["twoFactorAuthCode"] &&
                   global.session.user["twoFactorAuthCode"] === "false" ? (
                     <span style={{ color: "red" }}>

@@ -12,9 +12,8 @@ export function RecentItems() {
     "/api/inventory?" +
     new URLSearchParams({
       limit: "7",
-      propertyToken: global.session.property[global.session.currentProperty].id,
-      accessToken:
-        global.session.property[global.session.currentProperty].accessToken,
+      propertyToken: global.property.id,
+      accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {

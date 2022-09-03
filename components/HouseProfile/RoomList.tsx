@@ -33,10 +33,7 @@ function Room({ room }: any) {
           mt: 1.5,
           borderRadius: 4,
         }}
-        disabled={
-          global.session.property[global.session.currentProperty].role ===
-          "read-only"
-        }
+        disabled={global.property.role === "read-only"}
         onClick={() => {
           if (
             confirm(
@@ -48,12 +45,8 @@ function Room({ room }: any) {
               "/api/rooms/delete?" +
                 new URLSearchParams({
                   id: room.id,
-                  propertyToken:
-                    global.session.property[global.session.currentProperty]
-                      .propertyToken,
-                  accessToken:
-                    global.session.property[global.session.currentProperty]
-                      .accessToken,
+                  propertyToken: global.property.id,
+                  accessToken: global.property.accessToken,
                 }),
               {
                 method: "POST",
@@ -76,9 +69,8 @@ export function RoomList() {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.currentProperty].id,
-      accessToken:
-        global.session.property[global.session.currentProperty].accessToken,
+      propertyToken: global.property.id,
+      accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {

@@ -228,10 +228,8 @@ function Home({ searchSettings }: { searchSettings: Function }) {
     fetch(
       "/api/rooms?" +
         new URLSearchParams({
-          accessToken:
-            global.session.property[global.session.currentProperty].accessToken,
-          propertyToken:
-            global.session.property[global.session.currentProperty].id,
+          accessToken: global.property.accessToken,
+          propertyToken: global.property.id,
         })
     ).then((res) => res.json())
   );

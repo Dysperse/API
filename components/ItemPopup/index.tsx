@@ -108,10 +108,8 @@ export default function Item({
     fetch(
       "/api/inventory/star?" +
         new URLSearchParams({
-          propertyToken:
-            global.session.property[global.session.currentProperty].id,
-          accessToken:
-            global.session.property[global.session.currentProperty].accessToken,
+          propertyToken: global.property.id,
+          accessToken: global.property.accessToken,
           id: item.id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         }),
@@ -126,10 +124,8 @@ export default function Item({
     fetch(
       "/api/inventory/trash?" +
         new URLSearchParams({
-          propertyToken:
-            global.session.property[global.session.currentProperty].id,
-          accessToken:
-            global.session.property[global.session.currentProperty].accessToken,
+          propertyToken: global.property.id,
+          accessToken: global.property.accessToken,
           id: id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         }),
@@ -158,12 +154,8 @@ export default function Item({
             fetch(
               "/api/inventory/restore?" +
                 new URLSearchParams({
-                  propertyToken:
-                    global.session.property[global.session.currentProperty]
-                      .propertyToken,
-                  accessToken:
-                    global.session.property[global.session.currentProperty]
-                      .accessToken,
+                  propertyToken: global.property.id,
+                  accessToken: global.property.accessToken,
                   id: item.id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                 }),
@@ -323,12 +315,8 @@ export default function Item({
             fetch(
               "/api/inventory/star?" +
                 new URLSearchParams({
-                  propertyToken:
-                    global.session.property[global.session.currentProperty]
-                      .propertyToken,
-                  accessToken:
-                    global.session.property[global.session.currentProperty]
-                      .accessToken,
+                  propertyToken: global.property.id,
+                  accessToken: global.property.accessToken,
                   id: id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                 }),
@@ -527,13 +515,9 @@ export default function Item({
                       e.target.placeholder = "SHIFT+ENTER for new lines";
                       e.target.spellcheck = true;
                     }}
-                    disabled={
-                      global.session.property[global.session.currentProperty]
-                        .role === "read-only"
-                    }
+                    disabled={global.property.role === "read-only"}
                     placeholder={
-                      global.session.property[global.session.currentProperty]
-                        .role !== "read-only"
+                      global.property.role !== "read-only"
                         ? "Click to add note"
                         : "You do not have permission to edit this item"
                     }
@@ -552,28 +536,24 @@ export default function Item({
                   }}
                 >
                   <Box sx={{}}>
-                    {global.session.property[global.session.currentProperty]
-                      .role !== "read-only" && (
+                    {global.property.role !== "read-only" && (
                       <StarButton
                         styles={styles}
                         item={item}
                         setItemData={setItemData}
                       />
                     )}
-                    {global.session.property[global.session.currentProperty]
-                      .role !== "read-only" && (
+                    {global.property.role !== "read-only" && (
                       <EditButton
                         styles={styles}
                         item={item}
                         setItemData={setItemData}
                       />
                     )}
-                    {global.session.property[global.session.currentProperty]
-                      .role !== "read-only" && (
+                    {global.property.role !== "read-only" && (
                       <AddToListModal item={item} styles={styles} />
                     )}
-                    {global.session.property[global.session.currentProperty]
-                      .role !== "read-only" && (
+                    {global.property.role !== "read-only" && (
                       <DeleteButton
                         styles={styles}
                         item={item}
@@ -610,15 +590,9 @@ export default function Item({
               slideStyle={{
                 borderRadius: "15px!important",
               }}
-              disabled={
-                global.session.property[global.session.currentProperty].role ===
-                "read-only"
-              }
+              disabled={global.property.role === "read-only"}
               onChangeIndex={(changedIndex) => {
-                if (
-                  global.session.property[global.session.currentProperty]
-                    .role !== "read-only"
-                ) {
+                if (global.property.role !== "read-only") {
                   setIndex(changedIndex);
                   if (changedIndex === 2) {
                     handleItemDelete();
@@ -646,8 +620,7 @@ export default function Item({
                 }
               }}
             >
-              {global.session.property[global.session.currentProperty].role !==
-                "read-only" && (
+              {global.property.role !== "read-only" && (
                 <Box
                   sx={{
                     background: colors.orange[item.star === 1 ? "900" : "100"],
@@ -713,8 +686,7 @@ export default function Item({
                   }
                 />
               </ListItemButton>
-              {global.session.property[global.session.currentProperty].role !==
-                "read-only" && (
+              {global.property.role !== "read-only" && (
                 <Box
                   sx={{
                     background: colors.red["800"],
@@ -762,10 +734,7 @@ export default function Item({
                 <SwipeableViews
                   enableMouseEvents
                   index={index}
-                  disabled={
-                    global.session.property[global.session.currentProperty]
-                      .role === "read-only"
-                  }
+                  disabled={global.property.role === "read-only"}
                   slideStyle={{
                     borderRadius: "15px!important",
                   }}

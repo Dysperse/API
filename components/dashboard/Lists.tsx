@@ -34,12 +34,8 @@ function Render({ data }: any) {
       fetch(
         "/api/lists/create-custom-list?" +
           new URLSearchParams({
-            accessToken:
-              global.session.property[global.session.currentProperty]
-                .accessToken,
-            propertyToken:
-              global.session.property[global.session.currentProperty]
-                .propertyToken,
+            accessToken: global.property.accessToken,
+            propertyToken: global.property.id,
             title: values.name,
             description: values.description,
           }),
@@ -214,9 +210,8 @@ export function Lists() {
   const url =
     "/api/lists/items?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.currentProperty].id,
-      accessToken:
-        global.session.property[global.session.currentProperty].accessToken,
+      propertyToken: global.property.id,
+      accessToken: global.property.accessToken,
     });
 
   const { data, error }: any = useSWR(url, () =>

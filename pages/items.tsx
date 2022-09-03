@@ -85,12 +85,8 @@ function CategoryModal({ category }: { category: string }) {
           fetch(
             "/api/inventory/category-items?" +
               new URLSearchParams({
-                propertyToken:
-                  global.session.property[global.session.currentProperty]
-                    .propertyToken,
-                accessToken:
-                  global.session.property[global.session.currentProperty]
-                    .accessToken,
+                propertyToken: global.property.id,
+                accessToken: global.property.accessToken,
                 category: category,
               })
           )
@@ -142,9 +138,8 @@ function CategoryList() {
   const url =
     "/api/inventory/categories?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.currentProperty].id,
-      accessToken:
-        global.session.property[global.session.currentProperty].accessToken,
+      propertyToken: global.property.id,
+      accessToken: global.property.accessToken,
     });
   const { error, data }: any = useSWR(url, () =>
     fetch(url, { method: "POST" }).then((res) => res.json())
@@ -259,9 +254,8 @@ export default function Categories() {
   const url =
     "/api/rooms?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.currentProperty].id,
-      accessToken:
-        global.session.property[global.session.currentProperty].accessToken,
+      propertyToken: global.property.id,
+      accessToken: global.property.accessToken,
     });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

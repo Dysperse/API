@@ -41,10 +41,7 @@ function AddPersonModal() {
       <Button
         onClick={() => setOpen(true)}
         variant="contained"
-        disabled={
-          global.session.property[global.session.currentProperty].role !==
-          "owner"
-        }
+        disabled={global.property.role !== "owner"}
         sx={{
           mb: 2,
           borderRadius: 4,
@@ -157,16 +154,10 @@ function AddPersonModal() {
                 fetch(
                   "/api/account/sync/invite?" +
                     new URLSearchParams({
-                      propertyToken:
-                        global.session.property[global.session.currentProperty]
-                          .propertyToken,
+                      propertyToken: global.property.id,
                       email: value,
-                      houseName:
-                        global.session.property[global.session.currentProperty]
-                          .houseName,
-                      houseType:
-                        global.session.property[global.session.currentProperty]
-                          .houseType,
+                      houseName: global.property.houseName,
+                      houseType: global.property.houseType,
                       role: role,
                     })
                 )
@@ -285,10 +276,7 @@ function Member({ member }): any {
       <LoadingButton
         loading={loading}
         variant="outlined"
-        disabled={
-          global.session.property[global.session.currentProperty].role !==
-            "owner" || member.role === "owner"
-        }
+        disabled={global.property.role !== "owner" || member.role === "owner"}
         sx={{
           borderWidth: "2px!important",
           width: "100%",
@@ -302,12 +290,8 @@ function Member({ member }): any {
               new URLSearchParams({
                 id: member.id,
                 email: member.email,
-                accessToken:
-                  global.session.property[global.session.currentProperty]
-                    .accessToken,
-                propertyToken:
-                  global.session.property[global.session.currentProperty]
-                    .propertyToken,
+                accessToken: global.property.accessToken,
+                propertyToken: global.property.id,
               }),
             {
               method: "POST",
@@ -329,9 +313,8 @@ export function MemberList() {
   const url =
     "/api/account/sync/member-list?" +
     new URLSearchParams({
-      propertyToken: global.session.property[global.session.currentProperty].id,
-      accessToken:
-        global.session.property[global.session.currentProperty].accessToken,
+      propertyToken: global.property.id,
+      accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
     fetch(url, {

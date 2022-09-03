@@ -39,12 +39,8 @@ function Room({
               id: id.toString(),
               room: room.toLowerCase().replace(" room", ""),
               lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-              propertyToken:
-                global.session.property[global.session.currentProperty]
-                  .propertyToken,
-              accessToken:
-                global.session.property[global.session.currentProperty]
-                  .accessToken,
+              propertyToken: global.property.id,
+              accessToken: global.property.accessToken,
             }),
           {
             method: "POST",

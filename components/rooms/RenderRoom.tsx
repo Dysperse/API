@@ -54,12 +54,8 @@ export function RenderRoom({ data, index }: any) {
               fetch(
                 "/api/inventory?" +
                   new URLSearchParams({
-                    propertyToken:
-                      global.session.property[global.session.currentProperty]
-                        .propertyToken,
-                    accessToken:
-                      global.session.property[global.session.currentProperty]
-                        .accessToken,
+                    propertyToken: global.property.id,
+                    accessToken: global.property.accessToken,
                     room: router.query.custom
                       ? decode(index).split(",")[0]
                       : index,

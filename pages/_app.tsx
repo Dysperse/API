@@ -29,20 +29,12 @@ function Render({
   const [theme, setTheme] = useState<"dark" | "light">(
     data.user.darkMode ? "dark" : "light"
   );
-  const [themeColor, setThemeColor] = useState<
-    | "red"
-    | "green"
-    | "blue"
-    | "pink"
-    | "purple"
-    | "orange"
-    | "teal"
-    | "cyan"
-    | "brown"
-  >(data.user.color);
+  const [themeColor, setThemeColor] = useState(data.user.color);
+
   global.theme = theme;
-  global.setTheme = setTheme;
   global.themeColor = themeColor;
+
+  global.setTheme = setTheme;
   global.setThemeColor = setThemeColor;
 
   if (data.user.darkMode) {
@@ -109,6 +101,14 @@ function Render({
       }),
     },
   });
+
+  // find active property in the array of properties
+  const selectedProperty =
+    data.user.properties.find((property: any) => property.selected) ||
+    data.user.properties[0];
+
+  global.property = selectedProperty;
+
   // set CSS variable to <html>
   document.documentElement.style.setProperty(
     "--theme",

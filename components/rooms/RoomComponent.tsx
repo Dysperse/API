@@ -9,10 +9,8 @@ export function RoomComponent({ index }: any) {
   const { isLoading, data }: any = useFetch(
     "/api/inventory?" +
       new URLSearchParams({
-        propertyToken:
-          global.session.property[global.session.currentProperty].id,
-        accessToken:
-          global.session.property[global.session.currentProperty].accessToken,
+        propertyToken: global.property.id,
+        accessToken: global.property.accessToken,
         room: router.query.custom
           ? decode(index).split(",")[0]
           : index.toLowerCase().replaceAll("-", ""),
