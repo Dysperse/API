@@ -11,9 +11,7 @@ export default function Dashboard() {
       <Head>
         <title>
           Dashboard &bull;{" "}
-          {global.session.property[
-            global.session.currentProperty
-          ].houseName.replace(/./, (c) => c.toUpperCase())}{" "}
+          {global.session.property.name.replace(/./, (c) => c.toUpperCase())}{" "}
           &bull; Carbon
         </title>
       </Head>

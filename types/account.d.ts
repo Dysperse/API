@@ -38,7 +38,7 @@ export interface PropertyData {
   propertyToken: string;
   email: string;
   name: string;
-  houseName: string;
+  name: string;
   houseType: string;
   accepted: boolean;
   role: string;

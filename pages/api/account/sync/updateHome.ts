@@ -3,7 +3,7 @@ import type { NextApiResponse } from "next";
 
 const handler = async (req: any, res: NextApiResponse<any>) => {
   try {
-    const allowedValues = ["houseName", "houseType"];
+    const allowedValues = ["name", "houseType"];
 
     const specifiedValues = Object.keys(JSON.parse(req.query.data));
     let intersection = specifiedValues.filter((x) => allowedValues.includes(x));

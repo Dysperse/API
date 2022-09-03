@@ -156,7 +156,7 @@ function AddPersonModal() {
                     new URLSearchParams({
                       propertyToken: global.property.id,
                       email: value,
-                      houseName: global.property.houseName,
+                      name: global.property.name,
                       houseType: global.property.houseType,
                       role: role,
                     })
@@ -170,10 +170,7 @@ function AddPersonModal() {
                         "template_nbjdq1i",
                         {
                           to_email: value,
-                          house_name:
-                            global.session.property[
-                              global.session.currentProperty
-                            ].houseName,
+                          house_name: global.session.property.name,
                         },
                         "6Q4BZ_DN9bCSJFZYM"
                       )

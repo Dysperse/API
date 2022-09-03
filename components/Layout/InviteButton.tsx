@@ -87,7 +87,7 @@ function House({ data }: any) {
             primary={
               <>
                 <Typography variant="h6" sx={{ fontWeight: "600" }}>
-                  {data.houseName}
+                  {data.name}
                 </Typography>
                 {data.accepted !== "true" && (
                   <span style={{ color: "red" }}>Invitation pending</span>
@@ -332,9 +332,7 @@ function House({ data }: any) {
                       py: 0,
                     },
                   }}
-                  defaultValue={
-                    global.property.houseName || "Untitled property"
-                  }
+                  defaultValue={global.property.name || "Untitled property"}
                   id="nameInput"
                   label="Home name / Family name / Address"
                   placeholder="1234 Rainbow Road"
@@ -342,12 +340,9 @@ function House({ data }: any) {
                     fetch(
                       "/api/account/sync/updateHome?" +
                         new URLSearchParams({
-                          token:
-                            global.session.property[
-                              global.session.currentProperty
-                            ].id,
+                          token: global.session.property.id,
                           data: JSON.stringify({
-                            houseName: e.target.value,
+                            name: e.target.value,
                             houseType: houseType,
                           }),
                         }),
@@ -389,7 +384,7 @@ function House({ data }: any) {
                   {houseType}
                 </Typography>
                 <Typography variant="h3">
-                  {global.property.houseName || "Untitled property"}
+                  {global.property.name || "Untitled property"}
                 </Typography>
               </Box>
             )}
@@ -569,7 +564,7 @@ export function InviteButton() {
           }}
           noWrap
         >
-          {global.property.houseName || "Untitled property"}
+          {global.property.name || "Untitled property"}
         </Typography>
       </Button>
       <Popover

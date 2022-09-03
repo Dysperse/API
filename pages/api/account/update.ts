@@ -9,7 +9,7 @@ const handler = async (req: any, res: NextApiResponse<any>) => {
     const allowedValues = [
       "name",
       "image",
-      "houseName",
+      "name",
       "familyCount",
       "houseType",
       "houseType",

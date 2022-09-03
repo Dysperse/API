@@ -195,14 +195,7 @@ function SwipeableTextMobileStepper() {
             variant="filled"
             sx={{ mt: 1 }}
             onBlur={(e) => {
-              updateSettings(
-                "houseName",
-                e.target.value,
-                false,
-                null,
-                true,
-                false
-              );
+              updateSettings("name", e.target.value, false, null, true, false);
             }}
             InputProps={{
               sx: {

@@ -15,13 +15,13 @@ const handler = async (req: any, res: any) => {
     }
     const result = await executeQuery({
       query:
-        "INSERT INTO `SyncTokens`(`propertyToken`, `accessToken`, `email`, `name`, `houseName`, `houseType`, `accepted`, `role`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO `SyncTokens`(`propertyToken`, `accessToken`, `email`, `name`, `name`, `houseType`, `accepted`, `role`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       values: [
         req.query.propertyToken ?? "",
         uuidv4(),
         req.query.email ?? "",
         users[0] ? users[0].name : "Unknown user",
-        req.query.houseName ?? "Untitled property",
+        req.query.name ?? "Untitled property",
         req.query.houseType ?? "",
         "false",
         req.query.role ?? "member",
