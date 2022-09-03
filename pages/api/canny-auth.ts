@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { getUserData } from "./account/info";
+import { getUserData } from "./user/info";
 
 export const sessionData = async (providedToken) => {
   // console.log("providedToken", providedToken);
