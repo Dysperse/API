@@ -32,7 +32,7 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 variant="filled"
-                defaultValue={global.session && global.session.user.name}
+                defaultValue={global.user && global.user.name}
                 label="Name"
                 onBlur={(e) => updateSettings("name", e.target.value)}
               />
@@ -46,7 +46,7 @@ export default function AppearanceSettings() {
                 fullWidth
                 disabled
                 variant="filled"
-                defaultValue={global.session && global.session.user.email}
+                defaultValue={global.user && global.user.email}
                 label="Email"
                 onBlur={(e) => updateSettings("email", e.target.value)}
               />
@@ -59,7 +59,7 @@ export default function AppearanceSettings() {
               <TextField
                 fullWidth
                 variant="filled"
-                defaultValue={global.session && global.session.user.image}
+                defaultValue={global.user && global.user.image}
                 label="Profile picture"
                 onBlur={(e) => updateSettings("image", e.target.value)}
               />

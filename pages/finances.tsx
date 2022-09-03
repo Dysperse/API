@@ -8,9 +8,9 @@ export default function Finances() {
   const [loginRequired, setLoginRequired] = useState(false);
   return (
     <Container>
-      {global.session &&
-      global.session.user.financeToken &&
-      global.session.user.financeToken.startsWith("access-sandbox-") &&
+      {global.user &&
+      global.user.financeToken &&
+      global.user.financeToken.startsWith("access-sandbox-") &&
       loginRequired === false ? (
         <AccountList setLoginRequired={setLoginRequired} />
       ) : (

@@ -61,7 +61,7 @@ export function AccountList({ setLoginRequired }: any) {
   const url =
     "/api/finance/fetchTransactions/?" +
     new URLSearchParams({
-      access_token: global.session.user.financeToken,
+      access_token: global.user.financeToken,
       start_date: dayjs().subtract(29, "day").format("YYYY-MM-DD"),
       end_date: dayjs().add(7, "day").format("YYYY-MM-DD"),
     });

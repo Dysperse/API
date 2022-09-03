@@ -10,7 +10,7 @@ export function AccountData({ setOpen, scrollTop, account }: any) {
   const url =
     "/api/finance/goals?" +
     new URLSearchParams({
-      token: global.session.user.accessToken,
+      token: global.user.accessToken,
       accountId: account.account_id,
     });
 

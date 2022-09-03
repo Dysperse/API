@@ -441,16 +441,6 @@ function House({ data }: any) {
 
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
-  const url =
-    "/api/account/sync/invitations?" +
-    new URLSearchParams({
-      token: global.session.user.accessToken,
-      email: global.session.user.email,
-    });
-
-  const { data, error }: any = useSWR(url, () =>
-    fetch(url, { method: "POST" }).then((res) => res.json())
-  );
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
@@ -506,15 +496,9 @@ export function InviteButton() {
       >
         <Puller />
         <Box sx={{ py: 3, px: 2, textAlign: "center" }}></Box>
-        {data ? (
-          <>
-            {data.data.map((house: any, key: number) => (
-              <House key={key.toString()} data={house} />
-            ))}
-          </>
-        ) : (
-          <Box sx={{ p: 3 }}>Loading...</Box>
-        )}
+        {global.user.properties.map((house: any, key: number) => (
+          <House key={key.toString()} data={house} />
+        ))}
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
 

@@ -283,7 +283,7 @@ export default function Item({
               "/share/" +
               encodeURIComponent(
                 JSON.stringify({
-                  name: global.session.user.name,
+                  name: global.user.name,
                   title: item.title,
                   quantity: item.amount,
                   room: data.room,

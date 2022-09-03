@@ -15,7 +15,7 @@ export function QrCodeModal({ item }: any): JSX.Element {
     "/share/" +
     encodeURIComponent(
       JSON.stringify({
-        name: global.session.user.name,
+        name: global.user.name,
         title: item.title,
         quantity: item.amount,
         room: item.room,

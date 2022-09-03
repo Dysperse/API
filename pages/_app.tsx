@@ -25,7 +25,7 @@ function Render({
   Component: any;
   pageProps: any;
 }) {
-  global.session = data;
+  global.user = data.user;
   const [theme, setTheme] = useState<"dark" | "light">(
     data.user.darkMode ? "dark" : "light"
   );
@@ -235,7 +235,7 @@ function RenderComponent({
   pageProps: any;
   data: any;
 }) {
-  global.session = data;
+  global.user = data;
 
   return (
     <>

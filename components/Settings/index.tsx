@@ -333,7 +333,7 @@ export default function FullScreenDialog({ children }: any) {
             sx={{ textAlign: "center", flex: 1, fontWeight: "400", mb: 10 }}
             component="div"
           >
-            {global.session.user.email}
+            {global.user.email}
           </Typography>
 
           <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
@@ -367,8 +367,8 @@ export default function FullScreenDialog({ children }: any) {
               secondary={
                 <>
                   {global.property.role === "owner" &&
-                  global.session.user["twoFactorAuthCode"] &&
-                  global.session.user["twoFactorAuthCode"] === "false" ? (
+                  global.user["twoFactorAuthCode"] &&
+                  global.user["twoFactorAuthCode"] === "false" ? (
                     <span style={{ color: "red" }}>
                       Your account is at greater risk because 2-factor auth
                       isn&rsquo;t enabled!
@@ -378,8 +378,8 @@ export default function FullScreenDialog({ children }: any) {
                     ""
                   )}
                   2FA is currently{" "}
-                  {global.session.user["twoFactorAuthCode"] &&
-                  global.session.user["twoFactorAuthCode"] !== "false"
+                  {global.user["twoFactorAuthCode"] &&
+                  global.user["twoFactorAuthCode"] !== "false"
                     ? "enabled"
                     : "disabled"}
                 </>
@@ -390,7 +390,7 @@ export default function FullScreenDialog({ children }: any) {
               content={<FinanceSettings />}
               icon="payments"
               primary={<span id="financeSettingsTrigger">Finances</span>}
-              secondary={<>Goal: {global.session.user.financePlan}</>}
+              secondary={<>Goal: {global.user.financePlan}</>}
             />
             <SettingsMenu
               id="accountSettings"
@@ -399,7 +399,7 @@ export default function FullScreenDialog({ children }: any) {
               primary={<span id="accountSettings">Account</span>}
               secondary={
                 <>
-                  {global.session.user.name} &bull; {global.session.user.email}
+                  {global.user.name} &bull; {global.user.email}
                 </>
               }
             />
@@ -409,8 +409,8 @@ export default function FullScreenDialog({ children }: any) {
               primary="Notifications"
               secondary={
                 <>
-                  If an item&apos;s quantity is{" "}
-                  {global.session.user.notificationMin} or less
+                  If an item&apos;s quantity is {global.user.notificationMin} or
+                  less
                 </>
               }
             />

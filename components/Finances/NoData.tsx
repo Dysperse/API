@@ -22,7 +22,7 @@ function ConnectBankAccount() {
         fetch(`/api/finance/exchangePublicToken?public_token=${public_token}`)
           .then((res) => res.json())
           .then((res) => {
-            global.session.user.financeToken = res.access_token;
+            global.user.financeToken = res.access_token;
             updateSettings("financeToken", res.access_token, false, () => {
               setCompleted(true);
             });
@@ -57,7 +57,7 @@ function ConnectBankAccount() {
   const { isLoading, data }: any = useFetch(
     "/api/finance/createLinkToken/?" +
       new URLSearchParams({
-        access_token: global.session.user.financeToken,
+        access_token: global.user.financeToken,
       })
   );
   return isLoading ? (

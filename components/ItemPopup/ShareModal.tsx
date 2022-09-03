@@ -21,7 +21,7 @@ export function ShareModal({
     "/share/" +
     encodeURIComponent(
       JSON.stringify({
-        name: global.session.user.name,
+        name: global.user.name,
         title: title,
         quantity: quantity,
         room: room,

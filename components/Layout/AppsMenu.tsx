@@ -159,7 +159,7 @@ export function AppsMenu() {
   return (
     <div>
       <Tooltip title="Apps">
-        {global.session ? (
+        {global.user ? (
           <IconButton
             color="inherit"
             disableRipple
