@@ -9,19 +9,21 @@ export const getUserData = async (token: string) => {
     select: {
       user: {
         select: {
-          avatar: true,
-          budgetDaily: true,
-          budgetMonthly: true,
-          budgetWeekly: true,
-          color: true,
-          financePlan: true,
-          name: true,
-          currency: true,
-          darkMode: true,
+          id: false,
           email: true,
-          financeToken: true,
+          name: true,
+          password: false,
+          avatar: true,
+          darkMode: true,
+          color: true,
+          currency: true,
+          financePlan: true,
+          budgetDaily: true,
+          budgetWeekly: true,
+          budgetMonthly: true,
           onboardingComplete: true,
           verifiedEmail: true,
+          financeToken: true,
           properties: true,
         },
       },
@@ -34,7 +36,7 @@ const handler = async (req: any, res: any) => {
   try {
     const session = await getUserData(req.query.token);
     if (session) {
-      res.json(session);
+      res.send(JSON.stringify(session, null, 2));
     } else {
       res.status(401).json({ message: "Invalid token" });
     }
