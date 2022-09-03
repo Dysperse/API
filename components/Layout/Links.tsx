@@ -370,13 +370,6 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             text="Notes"
             icon="sticky_note_2"
           />
-          <ListItem
-            collapsed={collapsed}
-            asHref="/save-the-planet"
-            href="/save-the-planet"
-            text="Eco friendliness"
-            icon="eco"
-          />
         </div>
         <div>
           <Collapse in={!collapsed}>

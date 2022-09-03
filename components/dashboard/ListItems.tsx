@@ -72,11 +72,12 @@ function GenerateData({
           <Typography sx={{ display: "block" }}>{emptyText}</Typography>
         </Box>
       )}
-      {items.map((list: Object, id: number) => (
+      {items.map((list: any, id: number) => (
         <GenerateListItem
           {...list}
           key={id.toString()}
           items={items}
+          title={list.name}
           setItems={setItems}
         />
       ))}

@@ -520,6 +520,7 @@ export function InviteButton() {
             transform: "scale(0.95)",
           },
           p: 1,
+          gap: 1,
           py: 0,
           color: global.theme == "dark" ? "#fff" : "#000",
           borderRadius: 2,
@@ -529,21 +530,11 @@ export function InviteButton() {
           },
         }}
       >
-        <span
-          className="material-symbols-outlined"
-          style={{ marginRight: "15px", marginLeft: "-4px" }}
-        >
-          {global.property.houseType === "dorm"
-            ? "cottage"
-            : global.property.houseType === "apartment"
-            ? "location_city"
-            : "home"}
-        </span>
         <Typography
           variant="h6"
           component="div"
           sx={{
-            fontWeight: "600",
+            fontWeight: "500",
             maxWidth: "40vw",
             textOverflow: "ellipsis",
             overflow: "hidden",
@@ -553,6 +544,7 @@ export function InviteButton() {
         >
           {global.property.propertyName || "Untitled property"}
         </Typography>
+        <span className="material-symbols-outlined">expand_more</span>
       </Button>
       <Popover
         id={id}

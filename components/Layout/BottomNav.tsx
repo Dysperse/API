@@ -224,7 +224,7 @@ export function BottomNav() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Sustainability
+                Tips
               </span>
             }
             onClick={() => onLink("/save-the-planet")}
@@ -234,7 +234,7 @@ export function BottomNav() {
                   "material-symbols-" + (value == 3 ? "rounded" : "outlined")
                 }
               >
-                eco
+                auto_awesome
               </Icon>
             }
           />

@@ -19,12 +19,14 @@ import { Puller } from "../Puller";
 import { ListItems } from "./ListItems";
 
 function Render({ data }: any) {
-  const [lists, setLists] = React.useState<any>(data.lists);
+  const [lists, setLists] = React.useState<any>(data);
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
+
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -58,14 +60,12 @@ function Render({ data }: any) {
       {lists.map((list) => (
         <ListItems
           key={list.id}
-          data={data.items.filter(
-            (item) => item.parent.toString() === list.id.toString()
-          )}
+          data={list.items}
           emptyText="You haven't added any items to this list yet."
           emptyImage="https://ouch-cdn2.icons8.com/Gmb2VDsK_0vYJN8H8Q_-pj5cJEKjFQY6buBtji7rJGo/rs:fit:256:171/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzkz/L2E5OTFhYjE3LTNh/MDktNGM2My1iNjhi/LTk1ZDA1NmRhYzNk/MS5zdmc.png"
-          title={list.title}
+          title={list.name}
           description={list.description}
-          parent={parseInt(list.id)}
+          parent={list.id}
           setLists={setLists}
           lists={lists}
         />
@@ -209,7 +209,7 @@ function Render({ data }: any) {
 
 export function Lists() {
   const url =
-    "/api/lists/items?" +
+    "/api/property/lists?" +
     new URLSearchParams({
       propertyToken: global.property.id,
       accessToken: global.property.accessToken,

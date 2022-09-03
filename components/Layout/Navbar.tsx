@@ -13,6 +13,14 @@ import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./SearchPopup";
 import { ProfileMenu } from "../Layout/Profile";
 
+import CircularProgress, {
+  circularProgressClasses,
+  CircularProgressProps,
+} from "@mui/material/CircularProgress";
+import LinearProgress, {
+  linearProgressClasses,
+} from "@mui/material/LinearProgress";
+
 const getInitials = (fullName) => {
   const allNames = fullName.trim().split(" ");
   const initials = allNames.reduce((acc, curr, index) => {
