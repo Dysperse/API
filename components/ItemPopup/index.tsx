@@ -37,7 +37,7 @@ export default function Item({
   variant,
 }: {
   displayRoom?: boolean;
-  data: Item;
+  data: any;
   variant?: "list" | "card";
 }) {
   const router = useRouter();
@@ -284,7 +284,7 @@ export default function Item({
               encodeURIComponent(
                 JSON.stringify({
                   name: global.user.name,
-                  title: item.title,
+                  title: item.name,
                   quantity: item.amount,
                   room: data.room,
                 })
@@ -364,7 +364,7 @@ export default function Item({
         {drawerState && (
           <Head>
             <title>
-              {item.title} &bull; {data.room} &bull;{" "}
+              {item.name} &bull; {data.room} &bull;{" "}
               {global.property.propertyName.replace(/./, (c) =>
                 c.toUpperCase()
               )}{" "}
@@ -418,7 +418,7 @@ export default function Item({
               >
                 <Box sx={{ width: "100%" }}>
                   <Typography variant="h3" sx={{ fontWeight: "600" }}>
-                    {item.title || "(no title)"}
+                    {item.name || "(no title)"}
                   </Typography>
                   <Typography
                     variant="h6"
@@ -431,25 +431,27 @@ export default function Item({
                     Quantity: {item.amount || "(no quantity)"}
                   </Typography>
                   <div>
-                    {[item.room, ...item.categories].map((category: any) => {
-                      return (
-                        <Chip
-                          key={Math.random().toString()}
-                          label={category}
-                          onClick={() => {
-                            router.push("/items");
-                            setDrawerState(false);
-                          }}
-                          sx={{
-                            px: 2,
-                            mr: 1,
-                            mb: 2.5,
-                            mt: -0.5,
-                            textTransform: "capitalize",
-                          }}
-                        />
-                      );
-                    })}
+                    {[item.room, ...JSON.parse(item.category)].map(
+                      (category: any) => {
+                        return (
+                          <Chip
+                            key={Math.random().toString()}
+                            label={category}
+                            onClick={() => {
+                              router.push("/items");
+                              setDrawerState(false);
+                            }}
+                            sx={{
+                              px: 2,
+                              mr: 1,
+                              mb: 2.5,
+                              mt: -0.5,
+                              textTransform: "capitalize",
+                            }}
+                          />
+                        );
+                      }
+                    )}
                   </div>
                   <TextField
                     multiline
@@ -563,7 +565,7 @@ export default function Item({
                     />
                     <ShareModal
                       styles={styles}
-                      title={item.title}
+                      title={item.name}
                       quantity={item.amount}
                       room={item.room}
                     />
@@ -670,7 +672,7 @@ export default function Item({
                   }}
                   primary={
                     <Typography sx={{ fontWeight: "400" }}>
-                      {item.title}
+                      {item.name}
                     </Typography>
                   }
                   secondary={
@@ -808,8 +810,8 @@ export default function Item({
                           mb: 1,
                         }}
                       >
-                        {item.title.substring(0, 18) || "(no title)"}
-                        {item.title.length > 18 && "..."}
+                        {item.name.substring(0, 18) || "(no title)"}
+                        {item.name.length > 18 && "..."}
                       </Typography>
                       <Typography
                         sx={{
@@ -824,7 +826,7 @@ export default function Item({
                         {!displayRoom && item.amount.length > 18 && "..."}
                       </Typography>
                       {!displayRoom &&
-                        item.categories.map((category: string) => {
+                        JSON.parse(item.category).map((category: string) => {
                           if (category.trim() === "") return false;
                           return (
                             <Chip
