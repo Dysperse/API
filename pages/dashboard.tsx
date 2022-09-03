@@ -55,8 +55,10 @@ export default function Dashboard() {
         </Box>
         <Box sx={{ mr: -2 }}>
           <Masonry columns={1} spacing={2}>
+            {activeTab === "productivity" && <Lists />}
             {activeTab === "tasks" && <Lists />}
             {activeTab === "recent" && <RecentItems />}
+            {activeTab === "tips" && <RecentItems />}
           </Masonry>
         </Box>
       </Container>
