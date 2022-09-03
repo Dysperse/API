@@ -1,22 +1,22 @@
-import { ListItems } from "./ListItems";
-import useSWR from "swr";
-import Box from "@mui/material/Box";
-import React from "react";
-import Card from "@mui/material/Card";
-import Skeleton from "@mui/material/Skeleton";
-import Paper from "@mui/material/Paper";
-import CardContent from "@mui/material/CardContent";
-import TextField from "@mui/material/TextField";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { Puller } from "../Puller";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { neutralizeBack, revivalBack } from "../history-control";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
+import React from "react";
+import useSWR from "swr";
 import { ErrorHandler } from "../ErrorHandler";
+import { neutralizeBack, revivalBack } from "../history-control";
+import { Puller } from "../Puller";
+import { ListItems } from "./ListItems";
 
 function Render({ data }: any) {
   const [lists, setLists] = React.useState<any>(data.lists);

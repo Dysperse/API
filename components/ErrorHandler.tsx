@@ -7,7 +7,6 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
     <Box
       sx={{
         p: 2,
-        background: "rgba(200,200,200,.5)",
         borderRadius: 5,
         display: "flex",
         color: red["900"],

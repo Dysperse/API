@@ -1,7 +1,12 @@
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import * as colors from "@mui/material/colors";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -9,16 +14,11 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import React, { useState, createRef } from "react";
-import { CreateListModal } from "../AddPopup/CreateListModal";
+import React, { createRef, useState } from "react";
 import { useScreenshot } from "use-react-screenshot";
+import { CreateListModal } from "../AddPopup/CreateListModal";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { GenerateListItem } from "./GenerateListItem";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
 // import download from "downloadjs";
 
 function downloadBlob(blob, name = "list.png") {
