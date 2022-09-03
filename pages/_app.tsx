@@ -15,7 +15,6 @@ import "../styles/globals.scss";
 import "../styles/search.scss";
 import type { Account } from "../types/account";
 import hex2rgba from "hex-to-rgba";
-
 dayjs.extend(relativeTime);
 
 function Render({
