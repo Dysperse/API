@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Masonry from "@mui/lab/Masonry";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -13,8 +14,19 @@ export default function Dashboard() {
   const styles = {
     mr: 1,
     px: 0.7,
-    boxShadow: "0!important",
+    transition: "transform .1s!important",
+    boxShadow: "none!important",
+    "&:active": {
+      transform: "scale(0.95)",
+      transition: "none !important",
+    },
   };
+  const activeTabStyles = {
+    background: colors[themeColor]["800"] + "!important",
+    color: "#fff",
+  };
+  const [activeTab, setActiveTab] = useState("tasks");
+
   return (
     <>
       <Head>
@@ -29,25 +41,22 @@ export default function Dashboard() {
           <Typography variant="h4" sx={{ mb: 3 }}>
             Hey, {global.user.name.split(" ")[0]}.
           </Typography>
-          <Chip label="Productivity" onClick={() => true} sx={styles} />
-          <Chip
-            label="Tasks"
-            onClick={() => true}
-            sx={{
-              ...styles,
-              background: colors[themeColor]["800"] + "!important",
-              color: "#fff",
-            }}
-          />
-          <Chip label="Recent" onClick={() => true} sx={styles} />
-          <Chip label="Tips" onClick={() => true} sx={styles} />
+          {["Productivity", "Tasks", "Recent", "Tips"].map((item) => (
+            <Chip
+              key={item}
+              label={item}
+              onClick={() => setActiveTab(item.toLowerCase())}
+              sx={{
+                ...styles,
+                ...(activeTab === item.toLowerCase() && activeTabStyles),
+              }}
+            />
+          ))}
         </Box>
         <Box sx={{ mr: -2 }}>
-          <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-            <Lists />
-            <Paper>
-              <RecentItems />
-            </Paper>
+          <Masonry columns={1} spacing={2}>
+            {activeTab === "tasks" && <Lists />}
+            {activeTab === "recent" && <RecentItems />}
           </Masonry>
         </Box>
       </Container>
