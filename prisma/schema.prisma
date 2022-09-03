@@ -64,16 +64,16 @@ model Session {
 model Property {
   id           String       @id @default(uuid())
   accessToken  String       @unique @default(uuid())
-  propertyName String
-  selected     Boolean      @unique @default(false)
-  propertyType String
-  permissions  String
+  propertyName String       @default("My Home")
+  propertyType String       @default("apartment")
+  permissions  String       @default("owner")
   bannerColor  String       @default("cyan")
   accepted     Boolean      @default(false)
   inventory    Item[]
   lists        List[]
   listItems    ListItem[]
   customRooms  CustomRoom[]
+  selected     Boolean      @default(false)
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
