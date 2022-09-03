@@ -4,6 +4,7 @@ import NoSsr from "@mui/material/NoSsr";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
 import Script from "next/script";
 import { useState } from "react";
@@ -13,8 +14,6 @@ import Layout from "../components/Layout";
 import LoginPrompt from "../components/LoginPrompt";
 import "../styles/globals.scss";
 import "../styles/search.scss";
-import type { Account } from "../types/account";
-import hex2rgba from "hex-to-rgba";
 dayjs.extend(relativeTime);
 
 function Render({
