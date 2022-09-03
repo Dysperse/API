@@ -92,6 +92,7 @@ model Item {
   id           Int      @id @default(autoincrement())
   name         String
   quantity     String
+  category     String @default("[]")
   note         String
   lastModified DateTime
   starred      Boolean  @default(false)

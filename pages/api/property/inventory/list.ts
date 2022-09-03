@@ -1,7 +1,7 @@
 import { prisma } from "../../../../lib/client";
 
 const handler = async (req: any, res: any) => {
-  const data: any | null = await prisma.inventory.findMany({
+  const data: any | null = await prisma.item.findMany({
     where: {
       propertyId: req.query.propertyId,
       Property: {
