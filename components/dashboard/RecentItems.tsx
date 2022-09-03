@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import useSWR from "swr";
 import Item from "../ItemPopup";
 import type { Item as ItemType } from "../../types/item";
+import { ErrorHandler } from "../ErrorHandler";
 
 export function RecentItems() {
   const url =
@@ -21,19 +22,9 @@ export function RecentItems() {
     }).then((res) => res.json())
   );
 
-  if (error) return <div>failed to load</div>;
-  if (!data)
-    return (
-      <Skeleton
-        variant="rectangular"
-        width={"100%"}
-        height={500}
-        animation="wave"
-        sx={{ borderRadius: "28px" }}
-      />
-    );
-
-  return (
+  return error ? (
+    <ErrorHandler error="An error occured while trying to fetch your items" />
+  ) : data ? (
     <Card
       sx={{
         borderRadius: "28px",
@@ -68,5 +59,13 @@ export function RecentItems() {
         )}
       </CardContent>
     </Card>
+  ) : (
+    <Skeleton
+      variant="rectangular"
+      width={"100%"}
+      height={500}
+      animation="wave"
+      sx={{ borderRadius: "28px" }}
+    />
   );
 }

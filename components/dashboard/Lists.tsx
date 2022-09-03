@@ -16,6 +16,7 @@ import DialogActions from "@mui/material/DialogActions";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { useFormik } from "formik";
+import { ErrorHandler } from "../ErrorHandler";
 
 function Render({ data }: any) {
   const [lists, setLists] = React.useState<any>(data.lists);
@@ -219,7 +220,9 @@ export function Lists() {
   );
   return (
     <>
-      {data ? (
+      {error ? (
+        <ErrorHandler error="An error occured while trying to fetch your lists" />
+      ) : data ? (
         <Render data={data} />
       ) : (
         <>
@@ -231,7 +234,6 @@ export function Lists() {
                 sx={{
                   borderRadius: 5,
                   height: Math.random() * 200 + 200,
-                  mb: 2,
                 }}
               />
             </Paper>
