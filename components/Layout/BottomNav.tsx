@@ -88,7 +88,7 @@ export function BottomNav() {
     case "/dashboard":
       v = 0;
       break;
-    case "/finances":
+    case "/notes":
       v = 1;
       break;
     case "/save-the-planet":
@@ -199,15 +199,15 @@ export function BottomNav() {
             sx={{
               ...styles,
             }}
-            label="Finances"
-            onClick={() => onLink("/finances")}
+            label="Notes"
+            onClick={() => onLink("/notes")}
             icon={
               <Icon
                 baseClassName={
                   "material-symbols-" + (value == 2 ? "rounded" : "outlined")
                 }
               >
-                local_mall
+                sticky_note_2
               </Icon>
             }
           />

@@ -11,16 +11,15 @@ import MenuItem from "@mui/material/MenuItem";
 import Skeleton from "@mui/material/Skeleton";
 import Toolbar from "@mui/material/Toolbar";
 import { encode } from "js-base64";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import router from "next/router";
 import React from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
-import Cookies from "js-cookie";
-import toast from "react-hot-toast";
 
 const drawerWidth = 260;
 interface Room {

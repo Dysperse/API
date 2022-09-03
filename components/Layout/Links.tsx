@@ -362,17 +362,13 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
               Home
             </ListSubheader>
           </Collapse>
+          <ListItem collapsed={collapsed} text="Home" icon="view_timeline" />
           <ListItem
             collapsed={collapsed}
-            text="Overview"
-            icon="view_timeline"
-          />
-          <ListItem
-            collapsed={collapsed}
-            href="/finances"
-            asHref="/finances"
-            text="Finances"
-            icon="local_mall"
+            href="/notes"
+            asHref="/notes"
+            text="Notes"
+            icon="sticky_note_2"
           />
           <ListItem
             collapsed={collapsed}
