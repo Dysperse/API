@@ -77,8 +77,8 @@ export default function LoginPrompt() {
           >
             <picture>
               <img
-                alt="Smartlist logo"
-                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/rounded.png"
+                alt="Carbon logo"
+                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v2/rounded.png"
                 style={{ width: "50px", height: "50px" }}
               />
             </picture>
@@ -87,7 +87,7 @@ export default function LoginPrompt() {
               variant="h5"
               sx={{ fontWeight: "600", textAlign: "center", color: "white" }}
             >
-              Smartlist
+              Carbon
             </Typography>
           </Box>
           <Box
@@ -104,8 +104,7 @@ export default function LoginPrompt() {
               Welcome to Carbon!
             </Typography>
             <Typography>
-              Log into your Carbon account to access your home inventory and
-              finances
+              Log into your Carbon account to access your home inventory
             </Typography>
             <Button
               href="https://login.smartlist.tech/signup/eccbc87e4b5ce2fe28308fd9f2a7baf3"

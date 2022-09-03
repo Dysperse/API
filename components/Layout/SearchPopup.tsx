@@ -286,8 +286,8 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         <Icon icon="layers" />
       </Item>
       <Item onSelect={() => {}}>
-        Finances
-        <Icon icon="local_mall" />
+        Notes
+        <Icon icon="sticky_note_2" />
       </Item>
       <Item onSelect={() => {}}>
         Sustainability

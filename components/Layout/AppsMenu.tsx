@@ -18,7 +18,7 @@ function Products() {
       key: 1,
       href: "//my.smartlist.tech",
       label: "Carbon",
-      description: "Home inventory and finance management",
+      description: "Home inventory",
     },
     {
       key: 3,

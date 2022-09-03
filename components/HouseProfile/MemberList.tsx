@@ -109,7 +109,7 @@ function AddPersonModal() {
               warning
             </span>
             Make sure you trust who you are inviting. Anyone with access can
-            view your finances, lists, rooms, and inventory
+            view your s, lists, rooms, and inventory
           </Box>
           <TextField
             value={value}

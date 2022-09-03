@@ -1,7 +1,7 @@
 ![image](https://user-images.githubusercontent.com/77016441/183128164-b2af0830-dfaf-4c19-8cd8-f964584e41c3.png)
 
 # Smartlist
-## Next-gen home inventory and personal finances
+## Next-gen home inventory
 
 ![CB](https://img.shields.io/badge/Contributors-20-yellow?style=flat)
 ![Frontend](https://img.shields.io/static/v1?label=Frontend&message=HTML,%20CSS,%20JS&color=%3CCOLOR%3E&style=flat)
@@ -23,7 +23,7 @@ Tracking what you have in your home can be painful, and Smartlist makes it easie
 Smartlist started in 2020, around the peak COVID-19 crisis. Smartlist is **non-commercial**, **open-source**, and **free, forever**!
 
 ### By students, for students & families
-Hey! I'm Manu. I started Smartlist as a middle school project. I often found my parents struggling with home inventory, shopping lists, and more. That's why I wanted to build Smartlist: home inventory, lists, and finances, for free!
+Hey! I'm Manu. I started Smartlist as a middle school project. I often found my parents struggling with home inventory, shopping lists, and more. That's why I wanted to build Smartlist: Home inventory for free!
 
 ## Top contributors
 - @ManuTheCoder
