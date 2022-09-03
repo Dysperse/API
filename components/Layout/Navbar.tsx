@@ -13,6 +13,17 @@ import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./SearchPopup";
 import { ProfileMenu } from "../Layout/Profile";
 
+const getInitials = (fullName) => {
+  const allNames = fullName.trim().split(" ");
+  const initials = allNames.reduce((acc, curr, index) => {
+    if (index === 0 || index === allNames.length - 1) {
+      acc = `${acc}${curr.charAt(0).toUpperCase()}`;
+    }
+    return acc;
+  }, "");
+  return initials;
+};
+
 function ElevationScroll(props: any) {
   const { children, window } = props;
   const trigger = useScrollTrigger({
@@ -117,9 +128,10 @@ export function Navbar(): JSX.Element {
                   sx={{
                     width: 35,
                     height: 35,
+                    background: colors[themeColor]["A700"],
                   }}
                 >
-                  {global.user.name}
+                  {getInitials(global.user.name)}
                 </Avatar>
               </IconButton>
             </Tooltip>
