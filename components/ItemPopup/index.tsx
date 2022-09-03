@@ -365,10 +365,8 @@ export default function Item({
           <Head>
             <title>
               {item.title} &bull; {data.room} &bull;{" "}
-              {global.session.property.name.replace(/./, (c) =>
-                c.toUpperCase()
-              )}{" "}
-              &bull; Carbon
+              {global.property.name.replace(/./, (c) => c.toUpperCase())} &bull;
+              Carbon
             </title>
           </Head>
         )}
@@ -469,10 +467,8 @@ export default function Item({
                       fetch(
                         "/api/inventory/updateNote?" +
                           new URLSearchParams({
-                            propertyToken:
-                              global.session.property.id,
-                            accessToken:
-                              global.session.property.accessToken,
+                            propertyToken: global.property.id,
+                            accessToken: global.property.accessToken,
                             id: id.toString(),
                             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                             note: e.target.value,

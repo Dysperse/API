@@ -340,7 +340,7 @@ function House({ data }: any) {
                     fetch(
                       "/api/account/sync/updateHome?" +
                         new URLSearchParams({
-                          token: global.session.property.id,
+                          token: global.property.id,
                           data: JSON.stringify({
                             name: e.target.value,
                             houseType: houseType,

@@ -170,7 +170,7 @@ function AddPersonModal() {
                         "template_nbjdq1i",
                         {
                           to_email: value,
-                          house_name: global.session.property.name,
+                          house_name: global.property.name,
                         },
                         "6Q4BZ_DN9bCSJFZYM"
                       )
