@@ -1,28 +1,27 @@
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import * as colors from "@mui/material/colors";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Popover from "@mui/material/Popover";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
+import Cookies from "js-cookie";
 import React, { useEffect } from "react";
+import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
-import useSWR from "swr";
-import { updateSettings } from "../Settings/updateSettings";
-import toast from "react-hot-toast";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { Puller } from "../Puller";
-import Cookies from "js-cookie";
+import { updateSettings } from "../Settings/updateSettings";
 
 function House({ data }: any) {
   const [open, setOpen] = React.useState(false);
@@ -87,9 +86,9 @@ function House({ data }: any) {
             primary={
               <>
                 <Typography variant="h6" sx={{ fontWeight: "600" }}>
-                  {data.name}
+                  {data.propertyName}
                 </Typography>
-                {data.accepted !== "true" && (
+                {!data.accepted && (
                   <span style={{ color: "red" }}>Invitation pending</span>
                 )}
               </>
@@ -106,18 +105,20 @@ function House({ data }: any) {
                 }}
               >
                 <span className="material-symbols-rounded">
-                  {data.role === "member"
+                  {data.permissions === "member"
                     ? "group"
-                    : data.role == "owner"
+                    : data.permissions == "owner"
                     ? "productivity"
                     : "visibility"}
                 </span>
                 <span
-                  style={{ marginTop: data.role === "owner" ? "-2.5px" : "" }}
+                  style={{
+                    marginTop: data.permissions === "owner" ? "-2.5px" : "",
+                  }}
                 >
-                  {data.role == "member"
+                  {data.permissions == "member"
                     ? "Read, write, and edit access"
-                    : data.role == "owner"
+                    : data.permissions == "owner"
                     ? "Owner"
                     : "Read-only access"}
                 </span>
@@ -198,7 +199,7 @@ function House({ data }: any) {
                 m: 2,
               }}
             >
-              {global.property.role !== "read-only" && (
+              {global.property.permissions !== "read-only" && (
                 <IconButton
                   disableRipple
                   sx={{
@@ -411,7 +412,7 @@ function House({ data }: any) {
                 }}
               >
                 <Button
-                  disabled={global.property.role === "read-only"}
+                  disabled={global.property.permissions === "read-only"}
                   onClick={() => {
                     document.getElementById("setCreateRoomModalOpen")!.click();
                   }}
@@ -557,7 +558,7 @@ export function InviteButton() {
         id={id}
         open={
           !Cookies.get("invitePopup") &&
-          global.property.role === "owner" &&
+          global.property.permissions === "owner" &&
           popoverOpen
         }
         anchorEl={anchorEl}

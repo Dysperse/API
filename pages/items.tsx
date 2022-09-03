@@ -252,9 +252,9 @@ function Action({ icon, primary, href, onClick }: any) {
 
 export default function Categories() {
   const url =
-    "/api/rooms?" +
+    "/api/property/rooms?" +
     new URLSearchParams({
-      propertyToken: global.property.id,
+      propertyId: global.property.id,
       accessToken: global.property.accessToken,
     });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

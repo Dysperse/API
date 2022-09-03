@@ -226,10 +226,10 @@ function Icon({ icon }: { icon: string }) {
 function Home({ searchSettings }: { searchSettings: Function }) {
   const { error, data } = useSWR("/api/rooms", () =>
     fetch(
-      "/api/rooms?" +
+      "/api/property/rooms?" +
         new URLSearchParams({
+          propertyId: global.property.id,
           accessToken: global.property.accessToken,
-          propertyToken: global.property.id,
         })
     ).then((res) => res.json())
   );

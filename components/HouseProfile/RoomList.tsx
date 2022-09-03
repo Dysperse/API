@@ -67,9 +67,9 @@ function Room({ room }: any) {
 }
 export function RoomList() {
   const url =
-    "/api/rooms?" +
+    "/api/property/rooms?" +
     new URLSearchParams({
-      propertyToken: global.property.id,
+      propertyId: global.property.id,
       accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
@@ -80,7 +80,7 @@ export function RoomList() {
 
   const images = data
     ? [
-        ...data.data.map((room) => {
+        ...data.map((room) => {
           return {
             content: <Room room={room} />,
           };

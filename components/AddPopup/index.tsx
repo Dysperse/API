@@ -107,9 +107,9 @@ function AddItemOption({
 }
 function MoreRooms(): JSX.Element {
   const url =
-    "/api/rooms?" +
+    "/api/property/rooms?" +
     new URLSearchParams({
-      propertyToken: global.property.id,
+      propertyId: global.property.id,
       accessToken: global.property.accessToken,
     });
   const [open, setOpen] = React.useState<boolean>(false);
@@ -198,7 +198,7 @@ function MoreRooms(): JSX.Element {
                 title="Garden"
                 icon={<span className="material-symbols-rounded">yard</span>}
               />
-              {data.data.map((room: any, key: any) => (
+              {data.map((room: any, key: any) => (
                 <AddItemOption
                   toggleDrawer={() => {}}
                   title={room.id}

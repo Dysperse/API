@@ -255,7 +255,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
 
 function CustomRooms({ collapsed }: any) {
   const url =
-    "/api/rooms?" +
+    "/api/property/rooms?" +
     new URLSearchParams({
       propertyId: global.property.id,
       accessToken: global.property.accessToken,
