@@ -15,7 +15,8 @@ export default function Room() {
             /./,
             (c) => c.toUpperCase()
           )}{" "}
-          &bull; {global.property.name.replace(/./, (c) => c.toUpperCase())}{" "}
+          &bull;{" "}
+          {global.property.propertyName.replace(/./, (c) => c.toUpperCase())}{" "}
           &bull; Carbon
         </title>
       </Head>

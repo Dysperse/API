@@ -332,7 +332,9 @@ function House({ data }: any) {
                       py: 0,
                     },
                   }}
-                  defaultValue={global.property.name || "Untitled property"}
+                  defaultValue={
+                    global.property.propertyName || "Untitled property"
+                  }
                   id="nameInput"
                   label="Home name / Family name / Address"
                   placeholder="1234 Rainbow Road"
@@ -384,7 +386,7 @@ function House({ data }: any) {
                   {houseType}
                 </Typography>
                 <Typography variant="h3">
-                  {global.property.name || "Untitled property"}
+                  {global.property.propertyName || "Untitled property"}
                 </Typography>
               </Box>
             )}
@@ -564,7 +566,7 @@ export function InviteButton() {
           }}
           noWrap
         >
-          {global.property.name || "Untitled property"}
+          {global.property.propertyName || "Untitled property"}
         </Typography>
       </Button>
       <Popover

@@ -365,8 +365,10 @@ export default function Item({
           <Head>
             <title>
               {item.title} &bull; {data.room} &bull;{" "}
-              {global.property.name.replace(/./, (c) => c.toUpperCase())} &bull;
-              Carbon
+              {global.property.propertyName.replace(/./, (c) =>
+                c.toUpperCase()
+              )}{" "}
+              &bull; Carbon
             </title>
           </Head>
         )}

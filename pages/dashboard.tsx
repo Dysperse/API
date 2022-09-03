@@ -11,8 +11,8 @@ export default function Dashboard() {
       <Head>
         <title>
           Dashboard &bull;{" "}
-          {global.property.name.replace(/./, (c) => c.toUpperCase())} &bull;
-          Carbon
+          {global.property.propertyName.replace(/./, (c) => c.toUpperCase())}{" "}
+          &bull; Carbon
         </title>
       </Head>
       <Container sx={{ mt: 4 }}>
