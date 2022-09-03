@@ -261,13 +261,13 @@ function CustomRooms({ collapsed }: any) {
       accessToken: global.property.accessToken,
     });
 
-  const { rooms, error } = useSWR(url, () =>
+  const { data, error } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
     }).then((res) => res.json())
   );
   if (error) return <>Failed to load rooms!</>;
-  if (!rooms)
+  if (!data)
     return (
       <>
         {[...new Array(10)].map((_: any, id: number) => (
@@ -280,7 +280,7 @@ function CustomRooms({ collapsed }: any) {
 
   return (
     <>
-      {rooms.map((room: Room, id: number) => (
+      {data.map((room: Room, id: number) => (
         <CustomRoom collapsed={collapsed} room={room} key={id.toString()} />
       ))}
     </>
