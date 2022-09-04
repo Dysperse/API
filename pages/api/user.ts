@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import { getUserData } from "./user/info";
 
 export const sessionData = async (providedToken) => {
-  // console.log("providedToken", providedToken);
   const { accessToken } = jwt.verify(
     providedToken,
     process.env.SECRET_COOKIE_PASSWORD
