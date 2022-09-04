@@ -7,7 +7,7 @@
   "repository": "https://github.com/Smartlist-App/Smartlist",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
