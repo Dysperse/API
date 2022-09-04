@@ -95,6 +95,7 @@ model Item {
   lastModified DateTime
   starred      Boolean  @default(false)
   propertyId   String
+  room         String
   category     String   @default("[]")
   Property     Property @relation(fields: [propertyId], references: [id])
 
