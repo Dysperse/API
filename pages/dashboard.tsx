@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
@@ -84,6 +85,7 @@ function Recipe({ recipe }: any) {
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      textTransform: "capitalize",
                       mb: 1,
                       gap: 2,
                     }}
@@ -190,11 +192,14 @@ function Recipe({ recipe }: any) {
 
 function Recipes() {
   const [recipes, setRecipes] = useState<any>([]);
-  const [recipe, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const handleClick = () => {
+    setLoading(true);
     fetch("https://www.themealdb.com/api/json/v1/1/random.php")
       .then((res) => res.json())
       .then((res: any) => {
+        setLoading(false);
         const d: any = [res.meals[0], ...recipes];
         setRecipes(d);
       });
@@ -202,7 +207,8 @@ function Recipes() {
 
   return (
     <Box>
-      <Button
+      <LoadingButton
+        loading={loading}
         onClick={handleClick}
         variant="contained"
         sx={{ borderRadius: 999, width: "100%", gap: 2 }}
@@ -210,7 +216,7 @@ function Recipes() {
         size="large"
       >
         <span className="material-symbols-rounded">shuffle</span>Random
-      </Button>
+      </LoadingButton>
       {recipes.map((recipe: any, id: number) => (
         <Recipe recipe={recipe} key={id} />
       ))}
