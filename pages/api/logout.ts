@@ -1,22 +1,14 @@
-import { withIronSessionApiRoute } from "iron-session/next";
+import { serialize } from "cookie";
+import jwt from "jsonwebtoken";
 
-declare module "iron-session" {
-  interface IronSessionData {
-    user?: any;
-  }
+export default function handler(req, res) {
+  res.setHeader(
+    "Set-Cookie",
+    serialize("token", "", {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7 * 4, // 1 month
+    })
+  );
+  // res.json({ success: true, key: encoded });
+  res.redirect("/dashboard");
 }
-
-export default withIronSessionApiRoute(
-  async function loginRoute(req, res) {
-    req.session.user = {};
-    await req.session.save();
-    res.redirect("/");
-  },
-  {
-    cookieName: "session",
-    password: `${process.env.SECRET_COOKIE_PASSWORD}`,
-    cookieOptions: {
-      secure: process.env.NODE_ENV === "production",
-    },
-  }
-);
