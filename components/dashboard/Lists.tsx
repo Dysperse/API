@@ -84,7 +84,8 @@ function Render({ data }: any) {
                   fullWidth
                   sx={{
                     borderRadius: 999,
-                    background: colors.orange["900"] + "!important",
+                    background: colors.orange["200"] + "!important",
+                    color: colors.orange[900] + "!important",
                   }}
                   variant="contained"
                   disableElevation
@@ -120,7 +121,8 @@ function Render({ data }: any) {
                   fullWidth
                   sx={{
                     borderRadius: 999,
-                    background: colors.orange["900"] + "!important",
+                    background: colors.orange["200"] + "!important",
+                    color: colors.orange[900] + "!important",
                   }}
                   variant="contained"
                   disableElevation
