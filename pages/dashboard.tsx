@@ -9,6 +9,7 @@ import Chip from "@mui/material/Chip";
 import * as colors from "@mui/material/colors";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import Masonry from "@mui/lab/Masonry";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { Lists } from "../components/dashboard/Lists";
@@ -26,6 +27,7 @@ function Recipe({ recipe }: any) {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{
+          elevation: 0,
           sx: {
             maxWidth: "800px",
             mx: "auto",
@@ -217,19 +219,36 @@ function Recipes() {
 
   return (
     <Box>
-      <LoadingButton
-        loading={loading}
-        onClick={handleClick}
-        variant="contained"
-        sx={{ borderRadius: 999, width: "100%", gap: 2 }}
-        disableElevation
-        size="large"
+      <Box
+        sx={{
+          position: "sticky",
+          zIndex: 99,
+          left: 0,
+          px: { xs: 2, sm: 1 },
+          top: { sm: "90px", xs: "80px" },
+        }}
       >
-        <span className="material-symbols-rounded">shuffle</span>Random
-      </LoadingButton>
-      {recipes.map((recipe: any, id: number) => (
-        <Recipe recipe={recipe} key={id} />
-      ))}
+        <LoadingButton
+          loading={loading}
+          onClick={handleClick}
+          variant="contained"
+          sx={{
+            borderRadius: 999,
+            width: "100%",
+            gap: 2,
+            backdropFilter: "blur(10px)",
+          }}
+          disableElevation
+          size="large"
+        >
+          Random<span className="material-symbols-rounded">moving</span>
+        </LoadingButton>
+      </Box>
+      <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 3 }}>
+        {recipes.map((recipe: any, id: number) => (
+          <Recipe recipe={recipe} key={id} />
+        ))}
+      </Masonry>
     </Box>
   );
 }
