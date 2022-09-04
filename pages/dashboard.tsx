@@ -10,7 +10,7 @@ import * as colors from "@mui/material/colors";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Lists } from "../components/dashboard/Lists";
 import { RecentItems } from "../components/dashboard/RecentItems";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -163,7 +163,7 @@ function Recipe({ recipe }: any) {
         </Box>
       </SwipeableDrawer>
 
-      <Card sx={{ mt: 2, background: "rgba(200,200,200,.3)", borderRadius: 5 }}>
+      <Card sx={{ my: 2, background: "rgba(200,200,200,.3)", borderRadius: 5 }}>
         <CardActionArea onClick={() => setOpen(true)}>
           <CardMedia
             component="img"
@@ -206,6 +206,11 @@ function Recipes() {
         setRecipes(d);
       });
   };
+
+  // call `handleClick` on render
+  useEffect(() => {
+    handleClick();
+  }, []);
 
   return (
     <Box>
