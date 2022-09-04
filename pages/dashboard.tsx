@@ -46,7 +46,7 @@ function Recipe({ recipe }: any) {
             <iframe
               src={
                 recipe.strYoutube.replace("/watch?v=", "/embed/") +
-                "?autoplay=1"
+                "?autoplay=1&cc_load_policy=1"
               }
               width="100%"
               height="300"
