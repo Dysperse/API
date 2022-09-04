@@ -114,7 +114,7 @@ export function RenderRoom({ data, index }: any) {
                   <picture>
                     <img
                       alt="No items found"
-                      src="https://ouch-cdn2.icons8.com/Hj-wKD-6E5iYnxo_yY-janABxscaiw4DWw7PW6m3OnI/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvODQ0/LzAzNjE5YWJjLWQ0/ZTQtNGUyMi04ZTli/LWQ2NTliY2M2ZGE3/OC5zdmc.png"
+                      src="https://i.ibb.co/kh7zpKS/tokyo-designing-a-web-page-using-various-design-shapes.png"
                       style={{ width: "200px", maxWidth: "100%" }}
                     />
                   </picture>

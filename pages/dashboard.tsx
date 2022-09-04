@@ -38,7 +38,7 @@ export default function Dashboard() {
       </Head>
       <Container sx={{ mt: 4 }}>
         <Box sx={{ pb: 3, pl: 1 }}>
-          {["Notes", "Lists", "Recent", "Tips"].map((item) => (
+          {["Recent", "Lists", "Tips"].map((item) => (
             <Chip
               key={item}
               label={item}
