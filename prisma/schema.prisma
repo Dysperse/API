@@ -1,122 +1,127 @@
-// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model User {
   id                 Int        @id @unique @default(autoincrement())
-  // User info
   name               String
   email              String     @unique
   password           String
   avatar             String?
-  // Appearance
   darkMode           Boolean    @default(false)
   color              String     @default("cyan")
-  // Finances
   currency           String     @default("USD")
   financePlan        String     @default("medium")
   budgetDaily        Int        @default(0)
   budgetWeekly       Int        @default(0)
   budgetMonthly      Int        @default(0)
-  budgets            Budget[]
-  goals              Goal[]
-  // Data (onboarding, etc...)
   onboardingComplete Boolean    @default(false)
   verifiedEmail      Boolean    @default(false)
-  // Tokens
   financeToken       String?    @unique
-  sessions           Session[]
-  // Properties
+  budgets            Budget[]
+  goals              Goal[]
   properties         Property[]
+  sessions           Session[]
 }
 
 model Budget {
   id     Int    @id @default(autoincrement())
-  user   User   @relation(fields: [userId], references: [id])
   userId Int
   name   String
   limit  Int
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Budget_userId_fkey")
 }
 
 model Goal {
   id     Int     @id @default(autoincrement())
-  user   User    @relation(fields: [userId], references: [id])
   userId Int
   name   String
-  // https://source.unsplash.com/random/1000x300
   banner String  @default("https://images.unsplash.com/photo-1659412321527-8cddf2458faa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY2MjA4ODY5OA&ixlib=rb-1.2.1&q=80&w=1000")
   note   String?
+  user   User    @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Goal_userId_fkey")
 }
 
 model Session {
   id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
   userId Int
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Session_userId_fkey")
 }
 
 model Property {
   id           String       @id @default(uuid())
   accessToken  String       @unique @default(uuid())
   propertyName String       @default("My Home")
+  selected     Boolean      @default(false)
   propertyType String       @default("apartment")
   permissions  String       @default("owner")
   bannerColor  String       @default("cyan")
   accepted     Boolean      @default(false)
+  userId       Int
+  user         User         @relation(fields: [userId], references: [id])
+  customRooms  CustomRoom[]
   inventory    Item[]
   lists        List[]
   listItems    ListItem[]
-  customRooms  CustomRoom[]
-  selected     Boolean      @default(false)
 
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+  @@index([userId], map: "Property_userId_fkey")
 }
 
 model CustomRoom {
-  id     String  @id @default(uuid())
-  name   String
-  pinned Boolean @default(false)
-
-  Property   Property @relation(fields: [propertyId], references: [id])
+  id         String   @id @default(uuid())
+  name       String
+  pinned     Boolean  @default(false)
   propertyId String
+  Property   Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId], map: "CustomRoom_propertyId_fkey")
 }
 
 model Item {
   id           Int      @id @default(autoincrement())
   name         String
   quantity     String
-  category     String   @default("[]")
   note         String
   lastModified DateTime
   starred      Boolean  @default(false)
-  Property     Property @relation(fields: [propertyId], references: [id])
   propertyId   String
+  category     String   @default("[]")
+  Property     Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId], map: "Item_propertyId_fkey")
 }
 
 model List {
   id          Int        @id @default(autoincrement())
   name        String
   description String
-  items       ListItem[]
-  Property    Property   @relation(fields: [propertyId], references: [id])
   propertyId  String
+  Property    Property   @relation(fields: [propertyId], references: [id])
+  items       ListItem[]
+
+  @@index([propertyId], map: "List_propertyId_fkey")
 }
 
 model ListItem {
-  id      Int     @id @default(autoincrement())
-  name    String
-  details String
-  pinned  Boolean @default(false)
-  list    List    @relation(fields: [listId], references: [id])
-  listId  Int
-
-  Property   Property @relation(fields: [propertyId], references: [id])
+  id         Int      @id @default(autoincrement())
+  name       String
+  details    String
+  pinned     Boolean  @default(false)
+  listId     Int
   propertyId String
+  list       List     @relation(fields: [listId], references: [id])
+  Property   Property @relation(fields: [propertyId], references: [id])
+
+  @@index([listId], map: "ListItem_listId_fkey")
+  @@index([propertyId], map: "ListItem_propertyId_fkey")
 }
