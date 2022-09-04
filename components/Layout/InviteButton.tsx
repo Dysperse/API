@@ -27,18 +27,21 @@ function House({ data }: any) {
   const [open, setOpen] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [houseType, setHouseType] = React.useState(global.property.houseType);
+  const [propertyType, setPropertyType] = React.useState(
+    global.property.propertyType
+  );
 
   const handleChange = (event: SelectChangeEvent) => {
-    setHouseType(event.target.value as string);
+    setPropertyType(event.target.value as string);
   };
+  // alert(JSON.stringify(global.property.id == data.id));
   return (
     <>
       <ListItem
         button
         disableRipple
         onClick={() => {
-          if (data.propertyToken === global.property.id) {
+          if (data.id === global.property.id) {
             setOpen(true);
           } else {
             setLoading(true);
@@ -46,10 +49,10 @@ function House({ data }: any) {
               "/api/account/sync/acceptInvitation?" +
                 new URLSearchParams({
                   accessToken: data.accessToken,
-                  propertyToken: data.propertyToken,
+                  propertyToken: data.id,
                 })
             ).then((res) => {
-              updateSettings("SyncToken", data.propertyToken, false, () => {
+              updateSettings("SyncToken", data.id, false, () => {
                 toast.success("Joined!");
                 window.location.href = "/dashboard";
                 window.location.reload();
@@ -66,7 +69,7 @@ function House({ data }: any) {
               colors[themeColor][global.theme == "dark" ? 800 : 100] +
               "!important",
           },
-          ...(data.propertyToken === global.property.id && {
+          ...(data.id === global.property.id && {
             background:
               colors[themeColor][global.theme == "dark" ? 800 : 100] +
               "!important",
@@ -126,7 +129,7 @@ function House({ data }: any) {
             }
           />
           <ListItemIcon>
-            {data.propertyToken !== global.property.id ? (
+            {data.id !== global.property.id ? (
               <LoadingButton loading={loading}>Join</LoadingButton>
             ) : (
               <span
@@ -156,7 +159,7 @@ function House({ data }: any) {
             maxWidth: "600px",
             maxHeight: "90vh",
             overflow: "hidden",
-            borderRadius: "20px 20px 0 0",
+            borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
@@ -242,13 +245,13 @@ function House({ data }: any) {
                     sx={{ color: "#fff", width: "200px" }}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={houseType}
+                    value={propertyType}
                     label="House type"
                     onChange={handleChange}
                   >
                     <MenuItem
                       onClick={() => {
-                        setHouseType("dorm");
+                        setPropertyType("dorm");
                         setTimeout(() => {
                           document.getElementById("nameInput")!.focus();
                           document.getElementById("nameInput")!.blur();
@@ -271,7 +274,7 @@ function House({ data }: any) {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        setHouseType("apartment");
+                        setPropertyType("apartment");
                         setTimeout(() => {
                           document.getElementById("nameInput")!.focus();
                           document.getElementById("nameInput")!.blur();
@@ -294,7 +297,7 @@ function House({ data }: any) {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        setHouseType("home");
+                        setPropertyType("home");
                         setTimeout(() => {
                           document.getElementById("nameInput")!.focus();
                           document.getElementById("nameInput")!.blur();
@@ -346,7 +349,7 @@ function House({ data }: any) {
                           token: global.property.id,
                           data: JSON.stringify({
                             name: e.target.value,
-                            houseType: houseType,
+                            propertyType: propertyType,
                           }),
                         }),
                       {
@@ -378,13 +381,13 @@ function House({ data }: any) {
                   }}
                 >
                   <span className="material-symbols-rounded">
-                    {houseType === "dorm"
+                    {propertyType === "dorm"
                       ? "cottage"
-                      : houseType === "apartment"
+                      : propertyType === "apartment"
                       ? "location_city"
                       : "home"}
                   </span>
-                  {houseType}
+                  {propertyType}
                 </Typography>
                 <Typography variant="h3">
                   {global.property.propertyName || "Untitled property"}
@@ -606,7 +609,7 @@ export function InviteButton() {
           />
           <br />
           Invite up to 5 people to your{" "}
-          {global.property.houseType !== "dorm" ? "home" : "dorm"}
+          {global.property.propertyType !== "dorm" ? "home" : "dorm"}
         </Typography>
       </Popover>
     </>

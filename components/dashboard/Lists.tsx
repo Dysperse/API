@@ -4,12 +4,14 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import DialogActions from "@mui/material/DialogActions";
+import Alert from "@mui/material/Alert";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
+import * as colors from "@mui/material/colors";
 import { useFormik } from "formik";
 import React from "react";
 import useSWR from "swr";
@@ -57,6 +59,80 @@ function Render({ data }: any) {
 
   return (
     <>
+      <Box>
+        {lists &&
+          lists.filter((e) => e.name.toLowerCase() === "to-do").length ===
+            0 && (
+            <Alert
+              icon={
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: colors.orange[900] }}
+                >
+                  lightbulb
+                </span>
+              }
+              severity="info"
+              sx={{
+                mb: 1,
+                borderRadius: 5,
+                background: colors.orange["50"],
+                color: colors.orange[900],
+              }}
+              action={
+                <Button
+                  fullWidth
+                  sx={{
+                    borderRadius: 999,
+                    background: colors.orange["900"] + "!important",
+                  }}
+                  variant="contained"
+                  disableElevation
+                >
+                  Create
+                </Button>
+              }
+            >
+              Tip: Create a to-do list to keep track of your tasks
+            </Alert>
+          )}
+        {lists &&
+          lists.filter((e) => e.name.toLowerCase() === "shopping list")
+            .length === 0 && (
+            <Alert
+              icon={
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: colors.orange[900] }}
+                >
+                  lightbulb
+                </span>
+              }
+              severity="info"
+              sx={{
+                mb: 1,
+                borderRadius: 5,
+                background: colors.orange["50"],
+                color: colors.orange[900],
+              }}
+              action={
+                <Button
+                  fullWidth
+                  sx={{
+                    borderRadius: 999,
+                    background: colors.orange["900"] + "!important",
+                  }}
+                  variant="contained"
+                  disableElevation
+                >
+                  Create
+                </Button>
+              }
+            >
+              Tip: Create a shopping-do list to keep track of your shopping list
+            </Alert>
+          )}
+      </Box>
       {lists.map((list) => (
         <ListItems
           key={list.id}

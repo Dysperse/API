@@ -25,7 +25,7 @@ export default function Dashboard() {
     background: colors[themeColor]["800"] + "!important",
     color: "#fff",
   };
-  const [activeTab, setActiveTab] = useState("tasks");
+  const [activeTab, setActiveTab] = useState("lists");
 
   return (
     <>
@@ -41,7 +41,7 @@ export default function Dashboard() {
           <Typography variant="h4" sx={{ mb: 3 }}>
             Hey, {global.user.name.split(" ")[0]}.
           </Typography>
-          {["Productivity", "Tasks", "Recent", "Tips"].map((item) => (
+          {["Notes", "Lists", "Recent", "Tips"].map((item) => (
             <Chip
               key={item}
               label={item}
@@ -55,8 +55,8 @@ export default function Dashboard() {
         </Box>
         <Box sx={{ mr: -2 }}>
           <Masonry columns={1} spacing={2}>
-            {activeTab === "productivity" && <Lists />}
-            {activeTab === "tasks" && <Lists />}
+            {activeTab === "notes" && <Lists />}
+            {activeTab === "lists" && <Lists />}
             {activeTab === "recent" && <RecentItems />}
             {activeTab === "tips" && <RecentItems />}
           </Masonry>
