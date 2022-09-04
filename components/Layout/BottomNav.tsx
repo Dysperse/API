@@ -12,7 +12,10 @@ import { Offline, Online } from "react-detect-offline";
 import Snackbar from "@mui/material/Snackbar";
 
 export function BottomNav() {
-  const trigger = useScrollTrigger();
+  const trigger = useScrollTrigger({
+    threshold: 0,
+    target: window ? window : undefined,
+  });
 
   const styles = {
     "&:not(.Mui-selected)": {
