@@ -38,7 +38,7 @@ export default function Dashboard() {
       </Head>
       <Container sx={{ mt: 4 }}>
         <Box sx={{ pb: 3, pl: 1 }}>
-          {["Recent", "Lists", "Tips"].map((item) => (
+          {["Recent", "Lists", "Tips", "Recipes"].map((item) => (
             <Chip
               key={item}
               label={item}
@@ -50,10 +50,10 @@ export default function Dashboard() {
             />
           ))}
         </Box>
-        {activeTab === "notes" && <Lists />}
         {activeTab === "lists" && <Lists />}
         {activeTab === "recent" && <RecentItems />}
         {activeTab === "tips" && <RecentItems />}
+        {activeTab === "recipes" && <Lists />}
       </Container>
     </>
   );
