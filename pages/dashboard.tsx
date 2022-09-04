@@ -38,9 +38,6 @@ export default function Dashboard() {
       </Head>
       <Container sx={{ mt: 4 }}>
         <Box sx={{ pb: 3, pl: 1 }}>
-          <Typography variant="h4" sx={{ mb: 3 }}>
-            Hey, {global.user.name.split(" ")[0]}.
-          </Typography>
           {["Notes", "Lists", "Recent", "Tips"].map((item) => (
             <Chip
               key={item}
