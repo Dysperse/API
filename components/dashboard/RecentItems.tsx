@@ -27,6 +27,7 @@ export function RecentItems() {
   ) : data ? (
     <Card
       sx={{
+        mb: 2,
         borderRadius: "28px",
         background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
         boxShadow: 0,
@@ -65,7 +66,7 @@ export function RecentItems() {
       width={"100%"}
       height={500}
       animation="wave"
-      sx={{ borderRadius: "28px" }}
+      sx={{ mb: 2, borderRadius: "28px" }}
     />
   );
 }

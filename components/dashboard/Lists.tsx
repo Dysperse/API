@@ -74,7 +74,7 @@ function Render({ data }: any) {
               }
               severity="info"
               sx={{
-                mb: 1,
+                mb: 2,
                 borderRadius: 5,
                 background: colors.orange["50"],
                 color: colors.orange[900],
@@ -243,6 +243,7 @@ function Render({ data }: any) {
             setTimeout(() => document.getElementById("listName")?.focus());
           }}
           sx={{
+            mb: 2,
             borderRadius: 5,
             userSelect: "none",
             background:
@@ -308,6 +309,7 @@ export function Lists() {
                 animation="wave"
                 variant="rectangular"
                 sx={{
+                  mb: 2,
                   borderRadius: 5,
                   height: Math.random() * 200 + 200,
                 }}

@@ -259,6 +259,7 @@ export function ListItems({
             borderRadius: "28px",
             width: "100%",
             maxWidth: "calc(100vw - 32.5px)",
+            mb: 2,
             p: 1,
             background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
