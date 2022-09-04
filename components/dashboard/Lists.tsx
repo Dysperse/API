@@ -111,7 +111,7 @@ function Render({ data }: any) {
               }
               severity="info"
               sx={{
-                mb: 1,
+                mb: 2,
                 borderRadius: 5,
                 background: colors.orange["50"],
                 color: colors.orange[900],
