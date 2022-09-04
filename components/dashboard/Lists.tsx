@@ -8,6 +8,7 @@ import Alert from "@mui/material/Alert";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -80,18 +81,15 @@ function Render({ data }: any) {
                 color: colors.orange[900],
               }}
               action={
-                <Button
-                  fullWidth
+                <IconButton
                   sx={{
                     borderRadius: 999,
-                    background: colors.orange["200"] + "!important",
+                    background: colors.orange["100"] + "!important",
                     color: colors.orange[900] + "!important",
                   }}
-                  variant="contained"
-                  disableElevation
                 >
-                  Create
-                </Button>
+                  <span className="material-symbols-outlined">add</span>
+                </IconButton>
               }
             >
               Tip: Create a to-do list to keep track of your tasks
@@ -117,18 +115,15 @@ function Render({ data }: any) {
                 color: colors.orange[900],
               }}
               action={
-                <Button
-                  fullWidth
+                <IconButton
                   sx={{
                     borderRadius: 999,
-                    background: colors.orange["200"] + "!important",
+                    background: colors.orange["100"] + "!important",
                     color: colors.orange[900] + "!important",
                   }}
-                  variant="contained"
-                  disableElevation
                 >
-                  Create
-                </Button>
+                  <span className="material-symbols-outlined">add</span>
+                </IconButton>
               }
             >
               Tip: Create a shopping-do list to keep track of your shopping list
