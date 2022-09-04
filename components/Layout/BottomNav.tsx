@@ -150,7 +150,7 @@ export function BottomNav() {
             background:
               global.theme === "dark"
                 ? "rgba(33,33,38,.7)"
-                : hexToRgba(colors[themeColor][100], 0.7),
+                : hexToRgba(colors[themeColor][100], 0.9),
 
             ["@supports not (backdrop-filter: blur(15px))"]: {
               background: colors[themeColor][100],
