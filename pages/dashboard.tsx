@@ -27,6 +27,8 @@ function Recipe({ recipe }: any) {
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
+            maxWidth: "800px",
+            mx: "auto",
             borderRadius: "30px 30px 0 0",
           },
         }}
