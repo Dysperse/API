@@ -56,9 +56,9 @@ export function RenderRoom({ data, index }: any) {
             onClick={() => {
               setUpdateBanner(false);
               fetch(
-                "/api/inventory?" +
+                "/api/property/inventory/list?" +
                   new URLSearchParams({
-                    propertyToken: global.property.id,
+                    propertyId: global.property.id,
                     accessToken: global.property.accessToken,
                     room: router.query.custom
                       ? decode(index).split(",")[0]

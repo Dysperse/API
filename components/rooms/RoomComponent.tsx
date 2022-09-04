@@ -11,7 +11,7 @@ export function RoomComponent({ index }: any) {
   const url =
     "/api/property/inventory/list?" +
     new URLSearchParams({
-      propertyToken: global.property.id,
+      property: global.property.id,
       accessToken: global.property.accessToken,
       room: router.query.custom
         ? decode(index).split(",")[0]

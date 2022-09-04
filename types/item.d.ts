@@ -1,7 +1,7 @@
 export interface Item {
   id: number;
   lastUpdated: string;
-  amount: string;
+  quantity: string;
   title: string;
   categories: string[];
   note: string;

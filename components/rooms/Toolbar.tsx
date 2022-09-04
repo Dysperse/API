@@ -51,7 +51,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
               data.filter(
                 (x) =>
                   x.title.toLowerCase().includes(value.toLowerCase()) ||
-                  x.amount.toLowerCase().includes(value.toLowerCase()) ||
+                  x.quantity.toLowerCase().includes(value.toLowerCase()) ||
                   x.categories
                     .join(",")
                     .toLowerCase()
@@ -252,7 +252,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
             setTimeout(
               () =>
                 setItems(
-                  items.sort((a, b) => a.amount.localeCompare(b.amount))
+                  items.sort((a, b) => a.quantity.localeCompare(b.quantity))
                 ),
               50
             );

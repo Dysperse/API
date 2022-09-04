@@ -22,6 +22,7 @@ import { Puller } from "../components/Puller";
 import { neutralizeBack, revivalBack } from "../components/history-control";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ItemCard } from "../components/rooms/ItemCard";
+import { ErrorHandler } from "../components/ErrorHandler";
 
 function CategoryModal({ category }: { category: string }) {
   const [open, setOpen] = React.useState(false);
@@ -97,7 +98,7 @@ function CategoryModal({ category }: { category: string }) {
               setLoading(false);
             })
             .catch((err) => {
-              alert("An error occured while trying to fetch your items");
+              alert("An error occured while trying to fetch your inventory");
               setLoading(false);
             });
         }}
@@ -136,7 +137,7 @@ function CategoryModal({ category }: { category: string }) {
 
 function CategoryList() {
   const url =
-    "/api/inventory/categories?" +
+    "/api/property/inventory/categories?" +
     new URLSearchParams({
       propertyToken: global.property.id,
       accessToken: global.property.accessToken,
@@ -147,25 +148,29 @@ function CategoryList() {
 
   return (
     <>
-      {error && <>An error occured while trying to fetch your items</>}
-      {data ? (
+      {error && (
+        <ErrorHandler error="An error occured while trying to fetch your items" />
+      )}
+      {!error && data ? (
         <>
           {[...new Set(data.data)].map((category: any, key: number) => (
             <CategoryModal category={category} key={key.toString()} />
           ))}
         </>
       ) : (
-        <>
-          {[...new Array(5)].map((_, i) => (
-            <Skeleton
-              animation="wave"
-              height={30}
-              sx={{ width: "100%", mb: 2, borderRadius: 3 }}
-              variant="rectangular"
-              key={i.toString()}
-            />
-          ))}
-        </>
+        !error && (
+          <>
+            {[...new Array(5)].map((_, i) => (
+              <Skeleton
+                animation="wave"
+                height={30}
+                sx={{ width: "100%", mb: 2, borderRadius: 3 }}
+                variant="rectangular"
+                key={i.toString()}
+              />
+            ))}
+          </>
+        )
       )}
     </>
   );
@@ -487,7 +492,7 @@ export default function Categories() {
             <Action href="/rooms/camping" icon="camping" primary="Camping" />
             <Divider sx={{ my: 1 }} />
             {data &&
-              data.data.map((room: any, id: number) => (
+              data.map((room: any, id: number) => (
                 <Action
                   href={
                     "/rooms/" +

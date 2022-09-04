@@ -285,7 +285,7 @@ export default function Item({
                 JSON.stringify({
                   name: global.user.name,
                   title: item.name,
-                  quantity: item.amount,
+                  quantity: item.quantity,
                   room: data.room,
                 })
               );
@@ -428,7 +428,7 @@ export default function Item({
                       fontWeight: "300",
                     }}
                   >
-                    Quantity: {item.amount || "(no quantity)"}
+                    Quantity: {item.quantity || "(no quantity)"}
                   </Typography>
                   <div>
                     {[item.room, ...JSON.parse(item.category)].map(
@@ -566,7 +566,7 @@ export default function Item({
                     <ShareModal
                       styles={styles}
                       title={item.name}
-                      quantity={item.amount}
+                      quantity={item.quantity}
                       room={item.room}
                     />
                   </Box>
@@ -818,12 +818,12 @@ export default function Item({
                           mb: 1,
                         }}
                       >
-                        {!item.amount.includes(" ") && "Quantity: "}
+                        {!item.quantity.includes(" ") && "Quantity: "}
                         {displayRoom
                           ? data.room
-                          : item.amount.substring(0, 18) ||
+                          : item.quantity.substring(0, 18) ||
                             "(no quantity specified)"}
-                        {!displayRoom && item.amount.length > 18 && "..."}
+                        {!displayRoom && item.quantity.length > 18 && "..."}
                       </Typography>
                       {!displayRoom &&
                         JSON.parse(item.category).map((category: string) => {

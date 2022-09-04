@@ -30,7 +30,7 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
     initialValues: {
       categories: item.categories,
       title: item.title,
-      quantity: item.amount,
+      quantity: item.quantity,
     },
     onSubmit: async (values: {
       categories: Array<string>;
