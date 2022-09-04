@@ -61,84 +61,90 @@ function Recipe({ recipe }: any) {
             </picture>
           )}
           <Box sx={{ p: 4 }}>
-            <Typography variant="body1" component="div">
-              <Typography variant="h5" component="div" gutterBottom>
-                {recipe.strMeal}
-              </Typography>
-              {recipe.strInstructions.split("\n").map(function (item, idx) {
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "800" }}
+              component="div"
+              gutterBottom
+            >
+              {recipe.strMeal}
+            </Typography>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              <b>Ingredients</b>
+            </Typography>
+            {[...new Array(19)].map((_, i) => {
+              if (recipe[`strIngredient${i + 1}`]) {
                 return (
-                  <span
-                    key={idx}
-                    style={{ marginBottom: "10px", display: "block" }}
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      mb: 1,
+                      gap: 2,
+                    }}
                   >
-                    {item}
-                  </span>
-                );
-              })}
-              <Typography variant="h5" sx={{ mb: 2 }}>
-                <b>Ingredients</b>
-              </Typography>
-              {[...new Array(19)].map((_, i) => {
-                if (recipe[`strIngredient${i + 1}`]) {
-                  return (
-                    <Typography
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        mb: 1,
-                        gap: 2,
-                      }}
-                    >
-                      <div>
-                        <span
-                          className="material-symbols-outlined"
-                          style={{ userSelect: "none" }}
-                        >
-                          radio_button_unchecked
-                        </span>
+                    <div>
+                      <span
+                        className="material-symbols-outlined"
+                        style={{ userSelect: "none" }}
+                      >
+                        radio_button_unchecked
+                      </span>
+                    </div>
+                    <Box>
+                      <div style={{ fontWeight: "500" }}>
+                        {recipe[`strIngredient${i + 1}`]}
                       </div>
-                      <Box>
-                        <div style={{ fontWeight: "500" }}>
-                          {recipe[`strIngredient${i + 1}`]}
-                        </div>
-                        {recipe[`strMeasure${i + 1}`]}
-                      </Box>
-                    </Typography>
-                  );
-                }
-              })}
-              <Button
-                href={recipe.strSource}
-                target="_blank"
-                fullWidth
-                variant="outlined"
-                sx={{
-                  gap: 2,
-                  borderWidth: "2px!important",
-                  borderRadius: 5,
-                  mt: 3,
+                      {recipe[`strMeasure${i + 1}`]}
+                    </Box>
+                  </Typography>
+                );
+              }
+            })}
+            <Typography variant="h5" component="div" gutterBottom>
+              Instructions
+            </Typography>
+            {recipe.strInstructions.split("\n").map(function (item, idx) {
+              return (
+                <span
+                  key={idx}
+                  style={{ marginBottom: "10px", display: "block" }}
+                >
+                  {item}
+                </span>
+              );
+            })}
+            <Button
+              href={recipe.strSource}
+              target="_blank"
+              fullWidth
+              variant="outlined"
+              sx={{
+                gap: 2,
+                borderWidth: "2px!important",
+                borderRadius: 5,
+                mt: 3,
+              }}
+            >
+              <span
+                className="material-symbols-outlined"
+                style={{
+                  userSelect: "none",
+                  marginRight: "auto",
+                  opacity: 0,
+                  visibility: "hidden",
                 }}
               >
-                <span
-                  className="material-symbols-outlined"
-                  style={{
-                    userSelect: "none",
-                    marginRight: "auto",
-                    opacity: 0,
-                    visibility: "hidden",
-                  }}
-                >
-                  open_in_new
-                </span>
-                Source
-                <span
-                  className="material-symbols-outlined"
-                  style={{ userSelect: "none", marginLeft: "auto" }}
-                >
-                  open_in_new
-                </span>
-              </Button>
-            </Typography>
+                open_in_new
+              </span>
+              Source
+              <span
+                className="material-symbols-outlined"
+                style={{ userSelect: "none", marginLeft: "auto" }}
+              >
+                open_in_new
+              </span>
+            </Button>
           </Box>
         </Box>
       </SwipeableDrawer>
