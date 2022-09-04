@@ -66,12 +66,14 @@ function Render({ data }: any) {
             0 && (
             <Alert
               icon={
-                <span
-                  className="material-symbols-outlined"
-                  style={{ color: colors.orange[900] }}
-                >
-                  lightbulb
-                </span>
+                <div style={{ marginTop: "5px" }}>
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ color: colors.orange[900] }}
+                  >
+                    lightbulb
+                  </span>
+                </div>
               }
               severity="info"
               sx={{
@@ -79,6 +81,8 @@ function Render({ data }: any) {
                 borderRadius: 5,
                 background: colors.orange["50"],
                 color: colors.orange[900],
+                alignItems: "center",
+                display: "flex",
               }}
               action={
                 <IconButton
@@ -100,16 +104,20 @@ function Render({ data }: any) {
             .length === 0 && (
             <Alert
               icon={
-                <span
-                  className="material-symbols-outlined"
-                  style={{ color: colors.orange[900] }}
-                >
-                  lightbulb
-                </span>
+                <div style={{ marginTop: "5px" }}>
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ color: colors.orange[900] }}
+                  >
+                    lightbulb
+                  </span>
+                </div>
               }
               severity="info"
               sx={{
                 mb: 2,
+                alignItems: "center",
+                display: "flex",
                 borderRadius: 5,
                 background: colors.orange["50"],
                 color: colors.orange[900],
