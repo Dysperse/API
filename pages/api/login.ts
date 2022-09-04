@@ -4,10 +4,8 @@ import jwt from "jsonwebtoken";
 export default function handler(req, res) {
   const encoded = jwt.sign(
     {
-      exp: "7d",
-      data: {
-        accessToken: req.query.token,
-      },
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 * 4,
+      accessToken: req.query.token,
     },
     process.env.SECRET_COOKIE_PASSWORD
   );
