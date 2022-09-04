@@ -63,14 +63,19 @@ function Recipe({ recipe }: any) {
           <Box sx={{ p: 4 }}>
             <Typography
               variant="h4"
-              sx={{ fontWeight: "800" }}
+              sx={{ fontWeight: "700" }}
               component="div"
               gutterBottom
             >
               {recipe.strMeal}
             </Typography>
-            <Typography variant="h5" sx={{ mb: 2 }}>
-              <b>Ingredients</b>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "500" }}
+              component="div"
+              gutterBottom
+            >
+              Ingredients
             </Typography>
             {[...new Array(19)].map((_, i) => {
               if (recipe[`strIngredient${i + 1}`]) {
@@ -101,7 +106,12 @@ function Recipe({ recipe }: any) {
                 );
               }
             })}
-            <Typography variant="h5" component="div" gutterBottom>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "500" }}
+              component="div"
+              gutterBottom
+            >
               Instructions
             </Typography>
             {recipe.strInstructions.split("\n").map(function (item, idx) {
