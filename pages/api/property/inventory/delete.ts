@@ -7,7 +7,6 @@ const handler = async (req: any, res: any) => {
     req.query.property,
     req.query.accessToken
   );
-  console.log(1);
   if (!permissions || permissions === "read-only") {
     res.status(401).json({ error: "Unauthorized" });
     return;

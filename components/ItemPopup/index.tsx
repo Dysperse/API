@@ -450,7 +450,7 @@ export default function Item({
                         note: e.target.value,
                       });
                       fetch(
-                        "/api/inventory/updateNote?" +
+                        "/api/property/inventory/updateNote?" +
                           new URLSearchParams({
                             property: global.property.id,
                             accessToken: global.property.accessToken,
