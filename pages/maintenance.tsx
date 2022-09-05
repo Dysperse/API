@@ -185,14 +185,26 @@ export default function Maintenance(req, res) {
     <Box sx={{ mb: 4 }}>
       <Header count={data ? data.length : 0} />
       <Box sx={{ p: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
-          Upcoming
-        </Typography>
         {data ? (
           <>
-            {data.map((reminder) => (
-              <Reminder reminder={reminder} key={reminder.id.toString()} />
-            ))}
+            <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
+              Upcoming
+            </Typography>
+            {/* Upcoming reminders */}
+            {data
+              .filter((reminder) => dayjs(reminder.nextDue).isAfter(dayjs()))
+              .map((reminder) => (
+                <Reminder key={reminder.id} reminder={reminder} />
+              ))}
+            <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
+              Past
+            </Typography>
+            {/* Past reminders */}
+            {data
+              .filter((reminder) => dayjs(reminder.nextDue).isBefore(dayjs()))
+              .map((reminder) => (
+                <Reminder key={reminder.id} reminder={reminder} />
+              ))}
           </>
         ) : (
           <>
