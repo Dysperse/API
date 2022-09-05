@@ -93,7 +93,7 @@ function Reminder({ reminder }: any) {
               variant="outlined"
               sx={{ borderWidth: "2px!important", borderRadius: 999 }}
             >
-              Postpone for 1 week
+              Postpone
             </Button>
             <Button
               fullWidth
@@ -183,6 +183,15 @@ export default function Maintenance(req, res) {
 
   return (
     <Box sx={{ mb: 4 }}>
+      {/* Calculate upcoming tasks this week */}
+      {JSON.stringify(
+        data.filter((reminder) => {
+          return (
+            dayjs(reminder.nextDue).isAfter(dayjs()) &&
+            dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
+          );
+        })
+      )}
       <Header
         count={
           data
