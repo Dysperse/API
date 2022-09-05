@@ -14,4 +14,5 @@ const handler = async (req: any, res: any) => {
   });
   res.json(data);
 };
+
 export default handler;

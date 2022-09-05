@@ -91,16 +91,17 @@ export function BottomNav() {
     case "/dashboard":
       v = 0;
       break;
-    case "/notes":
-      v = 1;
-      break;
-    case "/save-the-planet":
-      v = 3;
+    case "/tips":
+      v = 2;
       break;
     case "/trash":
     case "/items":
       v = 1;
+    case "/maintenance":
+      v = 3;
       break;
+      break;
+
     default:
       if (router.asPath.includes("/rooms")) {
         v = 1;
@@ -202,15 +203,15 @@ export function BottomNav() {
             sx={{
               ...styles,
             }}
-            label="Notes"
-            onClick={() => onLink("/notes")}
+            label="Tips"
+            onClick={() => onLink("/tips")}
             icon={
               <Icon
                 baseClassName={
                   "material-symbols-" + (value == 2 ? "rounded" : "outlined")
                 }
               >
-                sticky_note_2
+                auto_awesome
               </Icon>
             }
           />
@@ -227,17 +228,17 @@ export function BottomNav() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Tips
+                Maintenance
               </span>
             }
-            onClick={() => onLink("/save-the-planet")}
+            onClick={() => onLink("/maintenance")}
             icon={
               <Icon
                 baseClassName={
                   "material-symbols-" + (value == 3 ? "rounded" : "outlined")
                 }
               >
-                auto_awesome
+                handyman
               </Icon>
             }
           />
