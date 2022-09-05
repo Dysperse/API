@@ -89,8 +89,22 @@ function Reminder({ reminder }: any) {
           <Button
             fullWidth
             size="large"
+            variant="contained"
+            sx={{
+              mt: 2,
+              border: "2px solid transparent !important",
+              borderRadius: 999,
+            }}
+            disableElevation
+            disabled={global.property.permissions === "read-only"}
+          >
+            Postpone for 1 day
+          </Button>
+          <Button
+            fullWidth
+            size="large"
             variant="outlined"
-            sx={{ mt: 2, borderWidth: "2px!important", borderRadius: 999 }}
+            sx={{ mt: 1, borderWidth: "2px!important", borderRadius: 999 }}
           >
             Delete
           </Button>
