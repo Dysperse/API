@@ -254,10 +254,11 @@ export function BottomNav() {
                 <Badge
                   component="div"
                   badgeContent={
-                    data &&
-                    data.filter((reminder) =>
-                      dayjs(reminder.nextDue).isBefore(dayjs())
-                    ).length
+                    data
+                      ? data.filter((reminder) =>
+                          dayjs(reminder.nextDue).isBefore(dayjs())
+                        ).length
+                      : 0
                   }
                   color="error"
                 >
