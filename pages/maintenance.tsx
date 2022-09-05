@@ -166,7 +166,7 @@ function Header({ count }) {
         }}
       >
         <Typography variant="h1">{count}</Typography>
-        <Typography variant="h6">Upcoming tasks</Typography>
+        <Typography variant="h6">Upcoming tasks this week</Typography>
       </Box>
     </Box>
   );
@@ -184,20 +184,15 @@ export default function Maintenance(req, res) {
   return (
     <Box sx={{ mb: 4 }}>
       {/* Calculate upcoming tasks this week */}
-      {JSON.stringify(
-        data.filter((reminder) => {
-          return (
-            dayjs(reminder.nextDue).isAfter(dayjs()) &&
-            dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
-          );
-        })
-      )}
       <Header
         count={
           data
-            ? data.filter((reminder) =>
-                dayjs(reminder.nextDue).isAfter(dayjs())
-              ).length
+            ? data.filter((reminder) => {
+                return (
+                  dayjs(reminder.nextDue).isAfter(dayjs()) &&
+                  dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
+                );
+              }).length
             : 0
         }
       />
@@ -205,17 +200,43 @@ export default function Maintenance(req, res) {
         {data ? (
           <>
             <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
-              Upcoming
+              This week
             </Typography>
             {/* Upcoming reminders */}
             {data
-              .filter((reminder) => dayjs(reminder.nextDue).isAfter(dayjs()))
+              .filter((reminder) => {
+                return (
+                  dayjs(reminder.nextDue).isAfter(dayjs()) &&
+                  dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
+                );
+              })
               .map((reminder) => (
                 <Reminder key={reminder.id} reminder={reminder} />
               ))}
-            <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
-              Due maintenance reminders
+
+            <Typography variant="h5" sx={{ fontWeight: "600", my: 3 }}>
+              Later on
             </Typography>
+            {/* Upcoming reminders */}
+            {data
+              .filter((reminder) => {
+                return (
+                  !(
+                    dayjs(reminder.nextDue).isAfter(dayjs()) &&
+                    dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
+                  ) && !dayjs(reminder.nextDue).isBefore(dayjs())
+                );
+              })
+              .map((reminder) => (
+                <Reminder key={reminder.id} reminder={reminder} />
+              ))}
+            {data.filter((reminder) =>
+              dayjs(reminder.nextDue).isBefore(dayjs())
+            ).length > 0 && (
+              <Typography variant="h5" sx={{ fontWeight: "600", my: 3 }}>
+                Overdue
+              </Typography>
+            )}
             {/* Past reminders */}
             {data
               .filter((reminder) => dayjs(reminder.nextDue).isBefore(dayjs()))
