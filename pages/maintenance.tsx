@@ -128,7 +128,15 @@ function Reminder({ reminder }: any) {
         }}
       >
         <CardActionArea onClick={() => setOpen(true)}>
-          <CardContent sx={{ px: 3.5, py: 3 }}>
+          <CardContent
+            sx={{
+              px: 3.5,
+              py: 3,
+              ...(dayjs(reminder.nextDue).isBefore(dayjs()) && {
+                background: colors.red["50"],
+              }),
+            }}
+          >
             <Typography variant="h6">{reminder.name}</Typography>
             <Typography variant="h6">{reminder.note}</Typography>
             <Typography variant="body2">
@@ -199,6 +207,19 @@ export default function Maintenance(req, res) {
       <Box sx={{ p: 4 }}>
         {data ? (
           <>
+            {data.filter((reminder) =>
+              dayjs(reminder.nextDue).isBefore(dayjs())
+            ).length > 0 && (
+              <Typography variant="h5" sx={{ fontWeight: "600", my: 3 }}>
+                Overdue
+              </Typography>
+            )}
+            {/* Past reminders */}
+            {data
+              .filter((reminder) => dayjs(reminder.nextDue).isBefore(dayjs()))
+              .map((reminder) => (
+                <Reminder key={reminder.id} reminder={reminder} />
+              ))}
             <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
               This week
             </Typography>
@@ -227,19 +248,6 @@ export default function Maintenance(req, res) {
                   ) && !dayjs(reminder.nextDue).isBefore(dayjs())
                 );
               })
-              .map((reminder) => (
-                <Reminder key={reminder.id} reminder={reminder} />
-              ))}
-            {data.filter((reminder) =>
-              dayjs(reminder.nextDue).isBefore(dayjs())
-            ).length > 0 && (
-              <Typography variant="h5" sx={{ fontWeight: "600", my: 3 }}>
-                Overdue
-              </Typography>
-            )}
-            {/* Past reminders */}
-            {data
-              .filter((reminder) => dayjs(reminder.nextDue).isBefore(dayjs()))
               .map((reminder) => (
                 <Reminder key={reminder.id} reminder={reminder} />
               ))}

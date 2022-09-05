@@ -1,23 +1,31 @@
+import Badge from "@mui/material/Badge";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import Icon from "@mui/material/Icon";
+import Snackbar from "@mui/material/Snackbar";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
+import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import * as React from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import { Offline, Online } from "react-detect-offline";
-import Snackbar from "@mui/material/Snackbar";
-import Badge from "@mui/material/Badge";
+import useSWR from "swr";
 
 export function BottomNav() {
-  const [count, setCount] = React.useState(2);
   const trigger = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,
   });
+
+  const url =
+    "/api/property/maintenance/reminders?" +
+    new URLSearchParams({
+      property: global.property.id,
+      accessToken: global.property.accessToken,
+    });
+  const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
 
   const styles = {
     "&:not(.Mui-selected)": {
@@ -233,10 +241,7 @@ export function BottomNav() {
                 Maintenance
               </span>
             }
-            onClick={() => {
-              setCount(0);
-              onLink("/maintenance");
-            }}
+            onClick={() => onLink("/maintenance")}
             icon={
               <Icon
                 baseClassName={
@@ -246,7 +251,16 @@ export function BottomNav() {
                   overflow: "visible",
                 }}
               >
-                <Badge component="div" badgeContent={count} color="error">
+                <Badge
+                  component="div"
+                  badgeContent={
+                    data &&
+                    data.filter((reminder) =>
+                      dayjs(reminder.nextDue).isBefore(dayjs())
+                    ).length
+                  }
+                  color="error"
+                >
                   handyman
                 </Badge>
               </Icon>
