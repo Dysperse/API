@@ -47,7 +47,6 @@ export default function Item({
   const [switchingToIndex, setSwitchingToIndex] = useState<number>(1);
   const [index, setIndex] = useState<number>(1);
   const [deleted, setDeleted] = useState<boolean>(false);
-
   useEffect(() => {
     drawerState ? neutralizeBack(() => setDrawerState(false)) : revivalBack();
   });
@@ -103,15 +102,16 @@ export default function Item({
     setItemData({
       ...item,
       lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-      star: +!item.star,
+      starred: !item.starred,
     });
     fetch(
-      "/api/inventory/star?" +
+      "/api/property/inventory/star?" +
         new URLSearchParams({
-          propertyToken: global.property.id,
+          property: global.property.id,
           accessToken: global.property.accessToken,
           id: item.id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          starred: item.starred,
         }),
       {
         method: "POST",
@@ -124,7 +124,7 @@ export default function Item({
     fetch(
       "/api/inventory/trash?" +
         new URLSearchParams({
-          propertyToken: global.property.id,
+          property: global.property.id,
           accessToken: global.property.accessToken,
           id: id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -154,7 +154,7 @@ export default function Item({
             fetch(
               "/api/inventory/restore?" +
                 new URLSearchParams({
-                  propertyToken: global.property.id,
+                  property: global.property.id,
                   accessToken: global.property.accessToken,
                   id: item.id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -303,38 +303,19 @@ export default function Item({
         </MenuItem>
         <MenuItem
           onClick={() => {
-            setItemData({
-              ...item,
-              lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-            });
-            setItemData({
-              ...item,
-              star: +!item.star,
-            });
+            handleItemStar();
             handleClose();
-            fetch(
-              "/api/inventory/star?" +
-                new URLSearchParams({
-                  propertyToken: global.property.id,
-                  accessToken: global.property.accessToken,
-                  id: id.toString(),
-                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                }),
-              {
-                method: "POST",
-              }
-            );
           }}
         >
           <span
             className={
-              "material-symbols-" + (item.star == 1 ? "rounded" : "outlined")
+              "material-symbols-" + (item.starred ? "rounded" : "outlined")
             }
             style={{ marginRight: "20px" }}
           >
             grade
           </span>
-          {item.star == 1 ? "Unstar" : "Star"}
+          {item.starred ? "Unstar" : "Star"}
         </MenuItem>
         <MenuItem onClick={handleItemDelete}>
           <span
@@ -471,7 +452,7 @@ export default function Item({
                       fetch(
                         "/api/inventory/updateNote?" +
                           new URLSearchParams({
-                            propertyToken: global.property.id,
+                            property: global.property.id,
                             accessToken: global.property.accessToken,
                             id: id.toString(),
                             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -536,7 +517,7 @@ export default function Item({
                       <StarButton
                         styles={styles}
                         item={item}
-                        setItemData={setItemData}
+                        handleItemStar={handleItemStar}
                       />
                     )}
                     {global.property.role !== "read-only" && (
@@ -619,11 +600,11 @@ export default function Item({
               {global.property.role !== "read-only" && (
                 <Box
                   sx={{
-                    background: colors.orange[item.star === 1 ? "900" : "100"],
+                    background: colors.orange[item.starred ? "900" : "100"],
                     width: "100%",
                     transition: "background .2s",
                     height: "100%",
-                    color: item.star === 1 ? "#fff" : "#000",
+                    color: item.starred ? "#fff" : "#000",
                     display: "flex",
                     alignItems: "center",
                     borderRadius: 3,
@@ -637,7 +618,7 @@ export default function Item({
                     }}
                     className={
                       "animateIcon material-symbols-" +
-                      (item.star == 0 ? "outlined" : "rounded")
+                      (!item.starred ? "outlined" : "rounded")
                     }
                   >
                     star
@@ -721,7 +702,7 @@ export default function Item({
                     transform: "scale(0.98)",
                     transition: "none",
                   },
-                  ...(item.star === 1 && {
+                  ...(item.starred && {
                     background: deepOrange[global.theme === "dark" ? 900 : 50],
                   }),
                 }}
@@ -761,12 +742,11 @@ export default function Item({
                 >
                   <Box
                     sx={{
-                      background:
-                        colors.orange[item.star === 1 ? "900" : "100"],
+                      background: colors.orange[item.starred ? "900" : "100"],
                       width: "100%",
                       transition: "background .2s",
                       height: "100%",
-                      color: item.star === 1 ? "#fff" : "#000",
+                      color: item.starred ? "#fff" : "#000",
                       display: "flex",
                       alignItems: "center",
                       borderRadius: 5,
@@ -780,7 +760,7 @@ export default function Item({
                       }}
                       className={
                         "animateIcon material-symbols-" +
-                        (item.star == 0 ? "outlined" : "rounded")
+                        (item.starred == 0 ? "outlined" : "rounded")
                       }
                     >
                       star

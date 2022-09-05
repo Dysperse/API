@@ -1,7 +1,15 @@
 import { prisma } from "../../../../lib/client";
 import CryptoJS from "crypto-js";
-
+import { validatePermissions } from "../../../../lib/validatePermissions";
 const handler = async (req: any, res: any) => {
+  const permissions = await validatePermissions(
+    req.query.property,
+    req.query.accessToken
+  );
+  if (!permissions || permissions === "read-only") {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
   const data: any | null = await prisma.item.create({
     data: {
       name:
@@ -22,7 +30,7 @@ const handler = async (req: any, res: any) => {
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "[]",
       propertyId: {
-        connect: req.query.property.id,
+        connect: req.query.property,
       },
     },
     include: {
