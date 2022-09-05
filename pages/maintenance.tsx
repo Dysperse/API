@@ -166,7 +166,7 @@ function Header({ count }) {
         }}
       >
         <Typography variant="h1">{count}</Typography>
-        <Typography variant="h6">tasks left for this month</Typography>
+        <Typography variant="h6">Upcoming tasks</Typography>
       </Box>
     </Box>
   );
@@ -183,7 +183,15 @@ export default function Maintenance(req, res) {
 
   return (
     <Box sx={{ mb: 4 }}>
-      <Header count={data ? data.length : 0} />
+      <Header
+        count={
+          data
+            ? data.filter((reminder) =>
+                dayjs(reminder.nextDue).isAfter(dayjs())
+              ).length
+            : 0
+        }
+      />
       <Box sx={{ p: 4 }}>
         {data ? (
           <>
@@ -197,7 +205,7 @@ export default function Maintenance(req, res) {
                 <Reminder key={reminder.id} reminder={reminder} />
               ))}
             <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
-              Past
+              Due maintenance reminders
             </Typography>
             {/* Past reminders */}
             {data
