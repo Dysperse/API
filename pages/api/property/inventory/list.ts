@@ -1,4 +1,5 @@
 import { prisma } from "../../../../lib/client";
+import CryptoJS from "crypto-js";
 
 const handler = async (req: any, res: any) => {
   const data: any | null = await prisma.item.findMany({

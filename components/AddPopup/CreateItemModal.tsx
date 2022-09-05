@@ -100,7 +100,7 @@ export function CreateItemModal({
       quantity: string;
     }) => {
       fetch(
-        "/api/inventory/create?" +
+        "/api/property/inventory/create?" +
           new URLSearchParams({
             propertyToken: global.property.id,
             accessToken: global.property.accessToken,
