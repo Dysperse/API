@@ -27,6 +27,8 @@ function Reminder({ reminder }: any) {
         PaperProps={{
           elevation: 0,
           sx: {
+            mx: "auto",
+            maxWidth: "500px",
             background: colors[themeColor]["50"],
             borderRadius: "30px 30px 0 0",
           },

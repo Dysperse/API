@@ -92,7 +92,7 @@ function House({ data }: any) {
                   {data.propertyName}
                 </Typography>
                 {!data.accepted && (
-                  <span style={{ color: "red" }}>Invitation pending</span>
+                  <Chip size="small" color="error" label="Invitation pending" />
                 )}
               </>
             }
