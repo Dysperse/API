@@ -59,20 +59,21 @@ model Session {
 }
 
 model Property {
-  id           String       @id @default(uuid())
-  accessToken  String       @unique @default(uuid())
-  propertyName String       @default("My Home")
-  selected     Boolean      @default(false)
-  propertyType String       @default("apartment")
-  permissions  String       @default("owner")
-  bannerColor  String       @default("cyan")
-  accepted     Boolean      @default(false)
-  userId       Int
-  user         User         @relation(fields: [userId], references: [id])
-  customRooms  CustomRoom[]
-  inventory    Item[]
-  lists        List[]
-  listItems    ListItem[]
+  id                   String                @id @default(uuid())
+  accessToken          String                @unique @default(uuid())
+  propertyName         String                @default("My Home")
+  selected             Boolean               @default(false)
+  propertyType         String                @default("apartment")
+  permissions          String                @default("owner")
+  bannerColor          String                @default("cyan")
+  accepted             Boolean               @default(false)
+  userId               Int
+  user                 User                  @relation(fields: [userId], references: [id])
+  customRooms          CustomRoom[]
+  inventory            Item[]
+  lists                List[]
+  listItems            ListItem[]
+  maintenanceReminders MaintenanceReminder[]
 
   @@index([userId], map: "Property_userId_fkey")
 }
@@ -111,6 +112,17 @@ model List {
   items       ListItem[]
 
   @@index([propertyId], map: "List_propertyId_fkey")
+}
+
+model MaintenanceReminder {
+  id         Int      @id @default(autoincrement())
+  name       String
+  note       String
+  frequency  String
+  lastDone   DateTime
+  nextDue    DateTime
+  Property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
 }
 
 model ListItem {
