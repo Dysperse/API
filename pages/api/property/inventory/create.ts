@@ -24,6 +24,11 @@ const handler = async (req: any, res: any) => {
         ).toString() ?? "",
       lastModified: req.query.lastUpdated ?? "2022-03-05 12:23:31",
       starred: false,
+      note:
+        CryptoJS.AES.encrypt(
+          "",
+          process.env.INVENTORY_ENCRYPTION_KEY
+        ).toString() ?? "",
       category:
         CryptoJS.AES.encrypt(
           req.query.category,
