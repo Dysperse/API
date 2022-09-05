@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import useSWR from "swr";
 
 function Header() {
   // Decrease header size on scroll
@@ -43,6 +44,12 @@ function Header() {
 }
 
 export default function Maintenance(req, res) {
+  const url =
+    "/api/property/maintenance/reminders?" +
+    new URLSearchParams({
+      property: global.property.id,
+      accessToken: global.property.accessToken,
+    });
   return (
     <Box>
       <Header />
