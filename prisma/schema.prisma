@@ -116,11 +116,11 @@ model List {
 
 model MaintenanceReminder {
   id         Int      @id @default(autoincrement())
-  name       String
+  name       String   @default("Maintenance Reminder")
   note       String
-  frequency  String
-  lastDone   DateTime
-  nextDue    DateTime
+  frequency  String   @default("monthly")
+  lastDone   DateTime @default(now())
+  nextDue    DateTime @default(now())
   propertyId String
   Property   Property @relation(fields: [propertyId], references: [id])
 

@@ -86,6 +86,24 @@ function Reminder({ reminder }: any) {
                 : "You do not have permission to edit this item"
             }
           />
+          <Box sx={{ display: "flex", mt: 2, gap: 2 }}>
+            <Button
+              fullWidth
+              size="large"
+              variant="outlined"
+              sx={{ borderWidth: "2px!important", borderRadius: 999 }}
+            >
+              Postpone for 1 week
+            </Button>
+            <Button
+              fullWidth
+              size="large"
+              variant="outlined"
+              sx={{ borderWidth: "2px!important", borderRadius: 999 }}
+            >
+              Delete
+            </Button>
+          </Box>
           <Button
             fullWidth
             size="large"
@@ -98,15 +116,7 @@ function Reminder({ reminder }: any) {
             disableElevation
             disabled={global.property.permissions === "read-only"}
           >
-            Postpone for 1 day
-          </Button>
-          <Button
-            fullWidth
-            size="large"
-            variant="outlined"
-            sx={{ mt: 1, borderWidth: "2px!important", borderRadius: 999 }}
-          >
-            Delete
+            Mark as done
           </Button>
         </Box>
       </SwipeableDrawer>
