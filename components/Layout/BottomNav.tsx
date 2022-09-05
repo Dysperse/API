@@ -10,8 +10,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { Offline, Online } from "react-detect-offline";
 import Snackbar from "@mui/material/Snackbar";
+import Badge from "@mui/material/Badge";
 
 export function BottomNav() {
+  const [count, setCount] = React.useState(2);
   const trigger = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,
@@ -231,14 +233,22 @@ export function BottomNav() {
                 Maintenance
               </span>
             }
-            onClick={() => onLink("/maintenance")}
+            onClick={() => {
+              setCount(0);
+              onLink("/maintenance");
+            }}
             icon={
               <Icon
                 baseClassName={
                   "material-symbols-" + (value == 3 ? "rounded" : "outlined")
                 }
+                sx={{
+                  overflow: "visible",
+                }}
               >
-                handyman
+                <Badge component="div" badgeContent={count} color="error">
+                  handyman
+                </Badge>
               </Icon>
             }
           />

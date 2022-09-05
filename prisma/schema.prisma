@@ -96,8 +96,8 @@ model Item {
   lastModified DateTime
   starred      Boolean  @default(false)
   propertyId   String
-  room         String   @default("kitchen")
   category     String   @default("[]")
+  room         String   @default("kitchen")
   Property     Property @relation(fields: [propertyId], references: [id])
 
   @@index([propertyId], map: "Item_propertyId_fkey")
@@ -121,8 +121,10 @@ model MaintenanceReminder {
   frequency  String
   lastDone   DateTime
   nextDue    DateTime
-  Property   Property @relation(fields: [propertyId], references: [id])
   propertyId String
+  Property   Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId], map: "MaintenanceReminder_propertyId_fkey")
 }
 
 model ListItem {

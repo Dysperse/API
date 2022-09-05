@@ -135,6 +135,8 @@ export function Navbar(): JSX.Element {
                   src={global.user.image}
                   sx={{
                     width: 35,
+                    fontSize: "15px",
+                    fontWeight: "700",
                     height: 35,
                     background: colors[themeColor]["A700"],
                   }}
