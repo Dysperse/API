@@ -72,7 +72,7 @@ export function RenderRoom({ data, index }: any) {
                 .then((res) => {
                   setItems([]);
                   setTimeout(() => {
-                    setItems(res.data);
+                    setItems(res);
                   }, 10);
                 });
             }}
