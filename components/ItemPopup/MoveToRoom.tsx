@@ -34,7 +34,7 @@ function Room({
       onClick={() => {
         setDisabled(true);
         fetch(
-          "/api/inventory/moveToRoom?" +
+          "/api/property/inventory/moveToRoom?" +
             new URLSearchParams({
               id: id.toString(),
               room: room.toLowerCase().replace(" room", ""),
