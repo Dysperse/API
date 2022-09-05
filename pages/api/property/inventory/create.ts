@@ -22,7 +22,7 @@ const handler = async (req: any, res: any) => {
           req.query.quantity,
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "",
-      lastModified: req.query.lastUpdated ?? "2022-03-05 12:23:31",
+      lastModified: new Date(req.query.lastUpdated) ?? "2022-03-05 12:23:31",
       starred: false,
       note:
         CryptoJS.AES.encrypt(
@@ -34,8 +34,8 @@ const handler = async (req: any, res: any) => {
           req.query.category,
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "[]",
-      propertyId: {
-        connect: req.query.property,
+      Property: {
+        connect: { id: req.query.property },
       },
     },
     include: {
