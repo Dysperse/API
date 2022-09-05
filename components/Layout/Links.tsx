@@ -14,9 +14,11 @@ import Divider from "@mui/material/Divider";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Collapse from "@mui/material/Collapse";
+import dayjs from "dayjs";
 import Toolbar from "@mui/material/Toolbar";
 import { useFormik } from "formik";
 import { encode } from "js-base64";
+import Badge from "@mui/material/Badge";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -266,7 +268,12 @@ const ListItem = React.memo(function ListItem({
   );
 });
 
-export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
+export function DrawerListItems({
+  collapsed,
+  setCollapsed,
+  customRooms,
+  maintenance,
+}: any) {
   const [open, setOpen] = React.useState<boolean>(false);
 
   return (
@@ -369,6 +376,29 @@ export function DrawerListItems({ collapsed, setCollapsed, customRooms }: any) {
             asHref="/notes"
             text="Notes"
             icon="sticky_note_2"
+          />
+          <ListItem
+            collapsed={collapsed}
+            href="/maintenance"
+            asHref="/maintenance"
+            text={
+              <>
+                Maintenance
+                <Badge
+                  variant="dot"
+                  sx={{ ml: 3, color: "#fff!important" }}
+                  badgeContent={
+                    maintenance
+                      ? maintenance.filter((reminder) =>
+                          dayjs(reminder.nextDue).isBefore(dayjs())
+                        ).length
+                      : 0
+                  }
+                  color="error"
+                />
+              </>
+            }
+            icon="handyman"
           />
         </div>
         <div>

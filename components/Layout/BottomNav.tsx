@@ -13,19 +13,11 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import useSWR from "swr";
 
-export function BottomNav() {
+export function BottomNav({ maintenance }: any) {
   const trigger = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,
   });
-
-  const url =
-    "/api/property/maintenance/reminders?" +
-    new URLSearchParams({
-      property: global.property.id,
-      accessToken: global.property.accessToken,
-    });
-  const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
 
   const styles = {
     "&:not(.Mui-selected)": {
@@ -254,8 +246,8 @@ export function BottomNav() {
                 <Badge
                   component="div"
                   badgeContent={
-                    data
-                      ? data.filter((reminder) =>
+                    maintenance
+                      ? maintenance.filter((reminder) =>
                           dayjs(reminder.nextDue).isBefore(dayjs())
                         ).length
                       : 0

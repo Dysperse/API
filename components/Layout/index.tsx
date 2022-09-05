@@ -291,6 +291,14 @@ function ResponsiveDrawer(props: any): JSX.Element {
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
   );
 
+  const url =
+    "/api/property/maintenance/reminders?" +
+    new URLSearchParams({
+      property: global.property.id,
+      accessToken: global.property.accessToken,
+    });
+  const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
+
   return (
     <Box
       sx={{
@@ -335,6 +343,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
         >
           <DrawerListItems
             collapsed={collapsed}
+            maintenance={data}
             setCollapsed={setCollapsed}
             customRooms={<CustomRooms collapsed={collapsed} />}
           />
@@ -362,7 +371,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
             <Toolbar />
           </Box>
         </Box>
-        <BottomNav />
+        <BottomNav maintenance={data} />
       </Box>
     </Box>
   );
