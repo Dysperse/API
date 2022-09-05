@@ -122,7 +122,7 @@ export default function Item({
   const handleItemDelete = () => {
     setDeleted(true);
     fetch(
-      "/api/inventory/trash?" +
+      "/api/property/inventory/delete?" +
         new URLSearchParams({
           property: global.property.id,
           accessToken: global.property.accessToken,
@@ -533,7 +533,7 @@ export default function Item({
                     {global.property.role !== "read-only" && (
                       <DeleteButton
                         styles={styles}
-                        item={item}
+                        handleItemDelete={handleItemDelete}
                         setDrawerState={setDrawerState}
                         setDeleted={setDeleted}
                       />
