@@ -1,19 +1,17 @@
 import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import DialogContent from "@mui/material/DialogContent";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React from "react";
 import { AutocompleteData } from "../AutocompleteData";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../Puller";
-import ListItem from "@mui/material/ListItem";
 
 export function EditButton({ styles, item, setItemData }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -28,8 +26,8 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
 
   const formik = useFormik({
     initialValues: {
-      categories: item.categories,
-      title: item.title,
+      categories: JSON.parse(item.category),
+      title: item.name,
       quantity: item.quantity,
     },
     onSubmit: async (values: {
@@ -38,14 +36,14 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
       quantity: string;
     }) => {
       fetch(
-        "/api/inventory/edit?" +
+        "/api/property/inventory/edit?" +
           new URLSearchParams({
-            propertyToken: global.property.id,
+            property: global.property.id,
             accessToken: global.property.accessToken,
             id: item.id.toString(),
             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             name: values.title,
-            qty: values.quantity,
+            quantity: values.quantity,
             category: JSON.stringify(values.categories),
           }),
         {
@@ -113,12 +111,14 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
               defaultValue={formik.values.title}
               name="title"
               variant="filled"
+              autoComplete="off"
             />
             <TextField
               margin="dense"
               label="Quantity"
               fullWidth
               onChange={formik.handleChange}
+              autoComplete="off"
               defaultValue={formik.values.quantity}
               name="quantity"
               variant="filled"
@@ -138,6 +138,7 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
                   label="Categories"
                   name="categories"
                   variant="filled"
+                  autoComplete="off"
                   {...params}
                 />
               )}

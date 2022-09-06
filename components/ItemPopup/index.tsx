@@ -363,7 +363,7 @@ export default function Item({
             position: "relative",
             borderRadius: "28px 28px 0 0",
             overflowY: "scroll!important",
-            background: colors[themeColor][50],
+            background: colors[themeColor][50] + "!important",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",
             }),
@@ -374,8 +374,8 @@ export default function Item({
             sx={{
               position: "sticky",
               top: 0,
-              height: 40,
-              display: { sm: "none" },
+              height: { xs: 40, sm: 0 },
+              // display: { sm: "none" },
               zIndex: 9,
               background:
                 global.theme === "dark"

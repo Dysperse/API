@@ -7,6 +7,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
+import * as colors from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import type { Item } from "../../types/item";
@@ -41,7 +42,8 @@ export function RenderRoom({ data, index }: any) {
             background:
               global.theme === "dark"
                 ? "hsl(240, 11%, 15%)"
-                : "rgba(200,200,200,.4)",
+                : colors[themeColor]["100"],
+            color: colors[themeColor][900],
             borderRadius: 5,
             p: 3,
             mb: 3,
@@ -51,7 +53,12 @@ export function RenderRoom({ data, index }: any) {
         >
           <Typography>New items have been added to this room.</Typography>
           <Button
-            sx={{ ml: "auto", borderWidth: "2px!important", borderRadius: 4 }}
+            sx={{
+              ml: "auto",
+              borderWidth: "2px!important",
+              borderRadius: 4,
+              whiteSpace: "nowrap",
+            }}
             variant="outlined"
             onClick={() => {
               setUpdateBanner(false);
@@ -77,7 +84,13 @@ export function RenderRoom({ data, index }: any) {
                 });
             }}
           >
-            &nbsp;&nbsp;&nbsp;&nbsp;Show&nbsp;changes&nbsp;&nbsp;&nbsp;&nbsp;
+            Show changes
+            <span
+              className="material-symbols-rounded"
+              style={{ marginLeft: "10px" }}
+            >
+              refresh
+            </span>
           </Button>
         </Box>
       )}

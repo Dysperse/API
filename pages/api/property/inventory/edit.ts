@@ -11,7 +11,11 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const data: any | null = await prisma.item.create({
+  //   Update the note on an item
+  const data: any | null = await prisma.item.update({
+    where: {
+      id: parseInt(req.query.id),
+    },
     data: {
       name:
         CryptoJS.AES.encrypt(
@@ -23,28 +27,15 @@ const handler = async (req: any, res: any) => {
           req.query.quantity,
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "",
-      lastModified: new Date(req.query.lastUpdated) ?? "2022-03-05 12:23:31",
-      starred: false,
-      room: req.query.room ?? "kitchen",
-      note:
-        CryptoJS.AES.encrypt(
-          "",
-          process.env.INVENTORY_ENCRYPTION_KEY
-        ).toString() ?? "",
       category:
         CryptoJS.AES.encrypt(
           req.query.category,
           process.env.INVENTORY_ENCRYPTION_KEY
-        ).toString() ?? "[]",
-      Property: {
-        connect: { id: req.query.property },
-      },
-    },
-    include: {
-      Property: true,
+        ).toString() ?? "",
     },
   });
 
   res.json(data);
 };
+
 export default handler;
