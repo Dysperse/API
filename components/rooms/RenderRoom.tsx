@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
 import * as colors from "@mui/material/colors";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Item } from "../../types/item";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
@@ -19,6 +19,13 @@ export function RenderRoom({ data, index }: any) {
   const router = useRouter();
   const [items, setItems] = useState(data);
   const [updateBanner, setUpdateBanner] = useState(false);
+
+  useEffect(() => {
+    if (data !== items) {
+      setUpdateBanner(false);
+      setItems(data);
+    }
+  }, [data, items]);
   global.setUpdateBanner = setUpdateBanner;
 
   return (
