@@ -157,7 +157,7 @@ function Reminder({ reminder }: any) {
 
 function Header({ count }) {
   return (
-    <Box sx={{ p: { sm: 3 } }}>
+    <Box sx={{ p: { sm: 3 }, pt: { sm: 1 } }}>
       <Box
         sx={{
           width: "100%",
@@ -194,6 +194,34 @@ export default function Maintenance(req, res) {
 
   return (
     <Box sx={{ mb: 4 }}>
+      <Box sx={{ px: 3 }}>
+        {data ? (
+          <>
+            {data.filter((reminder) =>
+              dayjs(reminder.nextDue).isBefore(dayjs())
+            ).length > 0 && (
+              <Alert
+                severity="warning"
+                sx={{ mb: 3, borderRadius: 999 }}
+                variant="filled"
+              >
+                You have{" "}
+                {
+                  data.filter((reminder) =>
+                    dayjs(reminder.nextDue).isBefore(dayjs())
+                  ).length
+                }{" "}
+                overdue maintenance task
+                {data.filter((reminder) =>
+                  dayjs(reminder.nextDue).isBefore(dayjs())
+                ).length == 1
+                  ? ""
+                  : "s"}
+              </Alert>
+            )}
+          </>
+        ) : null}
+      </Box>
       {/* Calculate upcoming tasks this week */}
       <Header
         count={
@@ -210,24 +238,6 @@ export default function Maintenance(req, res) {
       <Box sx={{ p: 4 }}>
         {data ? (
           <>
-            {data.filter((reminder) =>
-              dayjs(reminder.nextDue).isBefore(dayjs())
-            ).length > 0 && (
-              <Alert severity="warning" sx={{ mb: 3 }} variant="filled">
-                You have{" "}
-                {
-                  data.filter((reminder) =>
-                    dayjs(reminder.nextDue).isBefore(dayjs())
-                  ).length
-                }{" "}
-                overdue maintenance task
-                {data.filter((reminder) =>
-                  dayjs(reminder.nextDue).isBefore(dayjs())
-                ).length == 1
-                  ? ""
-                  : "s"}
-              </Alert>
-            )}
             {/* Past reminders */}
             {data
               .filter((reminder) => dayjs(reminder.nextDue).isBefore(dayjs()))
