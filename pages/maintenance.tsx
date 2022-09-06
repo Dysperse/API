@@ -7,6 +7,7 @@ import * as colors from "@mui/material/colors";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -212,9 +213,20 @@ export default function Maintenance(req, res) {
             {data.filter((reminder) =>
               dayjs(reminder.nextDue).isBefore(dayjs())
             ).length > 0 && (
-              <Typography variant="h5" sx={{ fontWeight: "600", my: 3 }}>
-                Overdue
-              </Typography>
+              <Alert severity="warning" sx={{ mb: 3 }} variant="filled">
+                You have{" "}
+                {
+                  data.filter((reminder) =>
+                    dayjs(reminder.nextDue).isBefore(dayjs())
+                  ).length
+                }{" "}
+                overdue maintenance task
+                {data.filter((reminder) =>
+                  dayjs(reminder.nextDue).isBefore(dayjs())
+                ).length == 1
+                  ? ""
+                  : "s"}
+              </Alert>
             )}
             {/* Past reminders */}
             {data
