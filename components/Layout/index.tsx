@@ -14,6 +14,7 @@ import { encode } from "js-base64";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import router from "next/router";
+import { ErrorHandler } from "../ErrorHandler";
 import React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
@@ -265,7 +266,12 @@ function CustomRooms({ collapsed }: any) {
       method: "POST",
     }).then((res) => res.json())
   );
-  if (error) return <>Failed to load rooms!</>;
+  if (error)
+    return (
+      <Box sx={{ my: 2 }}>
+        <ErrorHandler error="Couldn't load custom rooms" />
+      </Box>
+    );
   if (!data)
     return (
       <>

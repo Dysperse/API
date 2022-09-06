@@ -333,6 +333,8 @@ export default function Item({
           elevation: 0,
           sx: {
             maxHeight: "90vh",
+            width: { xs: "100vw", sm: "95vw", md: "80vw", lg: "70vw" },
+            mx: "auto",
             background: "transparent",
           },
         }}
@@ -366,8 +368,6 @@ export default function Item({
               background: "hsl(240, 11%, 20%)",
             }),
             maxWidth: "100vw",
-            width: { xs: "100vw", sm: "95vw", md: "80vw", lg: "70vw" },
-            mx: "auto",
           }}
         >
           <Box
