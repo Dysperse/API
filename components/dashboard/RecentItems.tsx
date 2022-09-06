@@ -38,7 +38,7 @@ export function RecentItems() {
         <Typography variant="h6" sx={{ mb: 1 }}>
           Recent items
         </Typography>
-        {data.data.map((item: ItemType, key: string) => (
+        {data.map((item: ItemType, key: string) => (
           <Item key={key.toString()} variant="list" data={item} />
         ))}
         {data.data.length === 0 && (

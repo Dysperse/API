@@ -312,7 +312,7 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         ))}
         {data && (
           <Box>
-            {data.data.map((room, index) => (
+            {data.map((room, index) => (
               <Item key={index}>
                 {room.name}
                 <Icon icon="label" />
