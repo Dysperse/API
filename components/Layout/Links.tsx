@@ -164,7 +164,7 @@ const ListItem = React.memo(function ListItem({
         }),
         pl: collapsed ? 1.8 : 2,
         color: (global.theme === "dark" ? grey[200] : "#606060") + "!important",
-        "& span": {
+        "& span:not(.badge, .badge *)": {
           color:
             (global.theme === "dark" ? grey[200] : "#606060") + "!important",
         },
@@ -186,7 +186,7 @@ const ListItem = React.memo(function ListItem({
               ? "hsl(240, 11%, 17%)"
               : "rgba(200,200,200,.3)",
         },
-        "&:hover span": {
+        "&:hover span:not(.badge, .badge *)": {
           color:
             (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
         },
@@ -204,17 +204,17 @@ const ListItem = React.memo(function ListItem({
               colors[global.themeColor][global.theme === "dark" ? 100 : 900],
           },
 
-          "& span": {
+          "& span:not(.badge, .badge *)": {
             color:
               colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
               "!important",
           },
-          "&:hover span": {
+          "&:hover span:not(.badge, .badge *)": {
             color:
               colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
               "!important",
           },
-          "&:active span": {
+          "&:active span:not(.badge, .badge *)": {
             color:
               colors[global.themeColor][global.theme === "dark" ? 200 : 900] +
               "!important",
@@ -382,11 +382,21 @@ export function DrawerListItems({
             href="/maintenance"
             asHref="/maintenance"
             text={
-              <>
+              <Box sx={{ display: "flex" }}>
                 Maintenance
                 <Badge
-                  variant="dot"
-                  sx={{ ml: 3, color: "#fff!important" }}
+                  className="badge"
+                  sx={{
+                    ml: "auto",
+                    mr: 1.2,
+                    zIndex: -1,
+                    my: "auto",
+                    "& .MuiBadge-badge": {
+                      borderRadius: 2,
+                      background: colors.red["100"],
+                      color: colors.red["900"],
+                    },
+                  }}
                   badgeContent={
                     maintenance
                       ? maintenance.filter((reminder) =>
@@ -396,7 +406,7 @@ export function DrawerListItems({
                   }
                   color="error"
                 />
-              </>
+              </Box>
             }
             icon="handyman"
           />
@@ -573,7 +583,7 @@ export function DrawerListItems({
             pl: 2,
             color:
               (global.theme === "dark" ? grey[200] : "#606060") + "!important",
-            "& span": {
+            "& span:not(.badge, .badge *)": {
               color:
                 (global.theme === "dark" ? grey[200] : "#606060") +
                 "!important",
@@ -597,7 +607,7 @@ export function DrawerListItems({
                   ? "hsl(240, 11%, 17%)"
                   : "rgba(200,200,200,.3)",
             },
-            "&:hover span": {
+            "&:hover span:not(.badge, .badge *)": {
               color:
                 (global.theme === "dark" ? grey[200] : grey[900]) +
                 "!important",

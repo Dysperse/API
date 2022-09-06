@@ -252,6 +252,12 @@ export function BottomNav({ maintenance }: any) {
                         ).length
                       : 0
                   }
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      borderRadius: 2,
+                      fontWeight: "400",
+                    },
+                  }}
                   color="error"
                 >
                   handyman
