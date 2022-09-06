@@ -194,7 +194,7 @@ export default function Maintenance(req, res) {
 
   return (
     <Box sx={{ mb: 4 }}>
-      <Box sx={{ px: 3 }}>
+      <Box sx={{ px: { sm: 3 } }}>
         {data ? (
           <>
             {data.filter((reminder) =>
@@ -202,7 +202,7 @@ export default function Maintenance(req, res) {
             ).length > 0 && (
               <Alert
                 severity="warning"
-                sx={{ mb: 3, borderRadius: 999 }}
+                sx={{ mb: { sm: 3 }, borderRadius: { xs: 0, sm: 999 } }}
                 variant="filled"
               >
                 You have{" "}
