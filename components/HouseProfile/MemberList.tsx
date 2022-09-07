@@ -10,6 +10,7 @@ import { ProfileMenu } from "../Layout/Profile";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import { Puller } from "../Puller";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -17,6 +18,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import emailjs from "@emailjs/browser";
+import { getInitials } from "../Layout/Navbar";
+import { useMediaQuery } from "@mui/material";
 
 function isEmail(email) {
   return String(email)
@@ -210,92 +213,111 @@ function Member({ member }): any {
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
-    <>
-      <Typography
-        sx={{
-          fontWeight: "600",
-          maxWidth: "100%",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {member.user.name}
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          maxWidth: "100%",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {member.user.email}
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          maxWidth: "100%",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          display: "flex",
-          mt: 0.5,
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <span className="material-symbols-rounded">
-          {member.permission === "member"
-            ? "group"
-            : member.permission == "owner"
-            ? "productivity"
-            : "visibility"}
-        </span>
-        <span
-          style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
+    <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ pt: 1 }}>
+        <Avatar
+          src={member.user.name}
+          sx={{
+            width: 45,
+            fontWeight: "700",
+            height: 45,
+            mx: "auto",
+            mb: 1,
+            background: colors["red"]["A700"],
+          }}
         >
-          {member.permission == "member"
-            ? "Read, write, and edit access"
-            : member.permission == "owner"
-            ? "Owner"
-            : "Read-only access"}
-        </span>
-      </Typography>
-      <LoadingButton
-        loading={loading}
-        variant="outlined"
-        disabled={
-          global.property.permission !== "owner" ||
-          member.permission === "owner"
-        }
-        sx={{
-          borderWidth: "2px!important",
-          width: "100%",
-          mt: 1.5,
-          borderRadius: 4,
-        }}
-        onClick={() => {
-          setLoading(true);
-          fetch(
-            "/api/account/sync/revokeToken?" +
-              new URLSearchParams({
-                id: member.id,
-                email: member.email,
-                accessToken: global.property.accessToken,
-                property: global.property.propertyId,
-              }),
-            {
-              method: "POST",
-            }
-          ).then((res) => {
-            toast.success("Removed person from your home");
-            setLoading(false);
-            setDeleted(true);
-          });
-        }}
-      >
-        Remove
-      </LoadingButton>
-    </>
+          {getInitials(member.user.name)}
+        </Avatar>
+      </Box>
+      <Box>
+        <Typography
+          sx={{
+            fontWeight: "600",
+            maxWidth: "100%",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {member.user.name}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            maxWidth: "100%",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {member.user.email}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            maxWidth: "100%",
+            overflow: "hidden",
+            mx: "auto",
+            justifyContent: "center",
+            textOverflow: "ellipsis",
+            display: "flex",
+            mt: 0.5,
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <span className="material-symbols-rounded">
+            {member.permission === "member"
+              ? "group"
+              : member.permission == "owner"
+              ? "productivity"
+              : "visibility"}
+          </span>
+          <span
+            style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
+          >
+            {member.permission == "member"
+              ? "Read, write, and edit access"
+              : member.permission == "owner"
+              ? "Owner"
+              : "Read-only access"}
+          </span>
+        </Typography>
+        <LoadingButton
+          loading={loading}
+          variant="outlined"
+          disabled={
+            global.property.permission !== "owner" ||
+            member.permission === "owner"
+          }
+          sx={{
+            borderWidth: "2px!important",
+            width: "100%",
+            mt: 1.5,
+            borderRadius: 4,
+          }}
+          onClick={() => {
+            setLoading(true);
+            fetch(
+              "/api/account/sync/revokeToken?" +
+                new URLSearchParams({
+                  id: member.id,
+                  email: member.email,
+                  accessToken: global.property.accessToken,
+                  property: global.property.propertyId,
+                }),
+              {
+                method: "POST",
+              }
+            ).then((res) => {
+              toast.success("Removed person from your home");
+              setLoading(false);
+              setDeleted(true);
+            });
+          }}
+        >
+          Remove
+        </LoadingButton>
+      </Box>
+    </Box>
   );
 }
 

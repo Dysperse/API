@@ -27,7 +27,7 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import Cookies from "js-cookie";
 
-function CreateRoom() {
+function CreateRoom({ collapsed }: any) {
   const router = useRouter();
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -69,15 +69,66 @@ function CreateRoom() {
   return (
     <>
       <ListItemButton
-        disableRipple
-        sx={{ pl: 4, borderRadius: 5, transition: "none" }}
         onClick={toggleDrawer(true)}
-        id="setCreateRoomModalOpen"
+        sx={{
+          ...(collapsed && {
+            width: 70,
+            mx: "auto",
+            maxWidth: "calc(100% - 15px)",
+          }),
+          pl: collapsed ? 1.8 : 2,
+          color:
+            (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+          "& span:not(.badge, .badge *)": {
+            color:
+              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+          },
+          borderRadius: collapsed ? 6 : 3,
+          transition: "margin .2s!important",
+          mb: collapsed ? 1 : 0.2,
+          py: 0.8,
+          "& .MuiTouchRipple-rippleVisible": {
+            animationDuration: ".3s!important",
+          },
+          "& .MuiTouchRipple-child": {
+            filter: "opacity(.2)!important",
+          },
+          "&:hover,&:focus": {
+            color:
+              (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 17%)"
+                : "rgba(200,200,200,.3)",
+          },
+          "&:hover span:not(.badge, .badge *)": {
+            color:
+              (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
+          },
+        }}
       >
         <ListItemIcon>
-          <span className="material-symbols-rounded">add_location_alt</span>
+          <span
+            className="material-symbols-rounded"
+            style={{ marginLeft: "5px" }}
+          >
+            add_location_alt
+          </span>
         </ListItemIcon>
-        <ListItemText primary="Create room" />
+        <Collapse
+          in={!collapsed}
+          orientation="horizontal"
+          sx={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            "& *": {
+              fontSize: "15.2px",
+            },
+          }}
+        >
+          <ListItemText primary="Create room" />
+        </Collapse>
       </ListItemButton>
       <SwipeableDrawer
         anchor="bottom"
@@ -553,6 +604,7 @@ export function DrawerListItems({
             icon="yard"
           />
         )}
+        <CreateRoom collapsed={collapsed} />
         <Collapse in={!collapsed}>
           <ListSubheader
             sx={{

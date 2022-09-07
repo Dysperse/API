@@ -21,7 +21,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 
-const getInitials = (fullName) => {
+export const getInitials = (fullName) => {
   const allNames = fullName.trim().split(" ");
   const initials = allNames.reduce((acc, curr, index) => {
     if (index === 0 || index === allNames.length - 1) {
