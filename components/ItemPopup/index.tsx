@@ -658,7 +658,7 @@ export default function Item({
                   }
                   secondary={
                     <Typography sx={{ fontWeight: "300", fontSize: "15px" }}>
-                      {dayjs(item.lastUpdated).fromNow()}
+                      {dayjs(item.lastModified).fromNow()}
                     </Typography>
                   }
                 />

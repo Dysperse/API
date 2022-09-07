@@ -10,16 +10,13 @@ import Item from "../ItemPopup";
 
 export function RecentItems() {
   const url =
-    "/api/inventory?" +
+    "/api/property/inventory/recent?" +
     new URLSearchParams({
-      limit: "7",
-      propertyToken: global.property.id,
+      property: global.property.id,
       accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
+    fetch(url).then((res) => res.json())
   );
 
   return error ? (
@@ -41,7 +38,7 @@ export function RecentItems() {
         {data.map((item: ItemType, key: string) => (
           <Item key={key.toString()} variant="list" data={item} />
         ))}
-        {data.data.length === 0 && (
+        {data.length === 0 && (
           <Box sx={{ textAlign: "center", my: 2 }}>
             <picture>
               <img

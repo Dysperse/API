@@ -31,7 +31,6 @@ const handler = async (req: any, res: any) => {
       ).toString(CryptoJS.enc.Utf8),
     };
   });
-  console.log(e);
   res.json(e);
 };
 export default handler;
