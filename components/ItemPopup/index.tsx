@@ -630,8 +630,10 @@ export default function Item({
                 onClick={() => setDrawerState(true)}
                 disableRipple
                 sx={{
+                  background: "rgba(200,200,200,.3)!important",
                   pointerEvents: switchingToIndex == 1 ? "" : "none",
-                  py: 0.1,
+                  py: 0.4,
+                  px: 2,
                   borderRadius: "10px",
                   transition: "transform .2s",
                   "&:active": {
@@ -657,9 +659,30 @@ export default function Item({
                     </Typography>
                   }
                   secondary={
-                    <Typography sx={{ fontWeight: "300", fontSize: "15px" }}>
-                      {dayjs(item.lastModified).fromNow()}
-                    </Typography>
+                    <>
+                      <Typography
+                        gutterBottom
+                        sx={{ fontWeight: "300", fontSize: "15px" }}
+                      >
+                        {dayjs(item.lastModified).fromNow()}
+                      </Typography>
+                      <Chip
+                        sx={{ textTransform: "capitalize" }}
+                        label={data.room}
+                        size="small"
+                      />
+                      {JSON.parse(item.category).map((category: string) => {
+                        if (category.trim() === "") return false;
+                        return (
+                          <Chip
+                            key={Math.random().toString()}
+                            sx={{ pointerEvents: "none", mx: 0.5 }}
+                            label={category}
+                            size="small"
+                          />
+                        );
+                      })}
+                    </>
                   }
                 />
               </ListItemButton>
