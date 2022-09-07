@@ -122,7 +122,7 @@ export default function Item({
   const handleItemDelete = () => {
     setDeleted(true);
     fetch(
-      "/api/property/inventory/delete?" +
+      "/api/property/inventory/trash?" +
         new URLSearchParams({
           property: global.property.propertyId,
           accessToken: global.property.accessToken,

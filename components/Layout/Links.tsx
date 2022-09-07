@@ -43,6 +43,7 @@ function CreateRoom({ collapsed }: any) {
       name: "",
     },
     onSubmit: async (values: { name: string }) => {
+      setLoading(true);
       fetch(
         "/api/property/rooms/create?" +
           new URLSearchParams({
@@ -59,16 +60,16 @@ function CreateRoom({ collapsed }: any) {
           setLoading(false);
           setOpen(false);
           router.push(
-            "/rooms/" + encode(res.data.id + "," + values.name) + "?custom=true"
+            "/rooms/" + encode(res.id + "," + values.name) + "?custom=true"
           );
           formik.resetForm();
         });
-      setTimeout(() => setLoading(true), 20);
     },
   });
   return (
     <>
       <ListItemButton
+        id="setCreateRoomModalOpen"
         onClick={toggleDrawer(true)}
         sx={{
           ...(collapsed && {
@@ -144,7 +145,7 @@ function CreateRoom({ collapsed }: any) {
             "& *:not(.MuiTouchRipple-child, .puller)": {
               background: "transparent!important",
             },
-            borderRadius: 5,
+            borderRadius: "30px 30px 0 0",
             mx: "auto",
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 20%)",

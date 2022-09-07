@@ -89,6 +89,7 @@ model Item {
   lastModified DateTime
   starred      Boolean  @default(false)
   category     String   @default("[]")
+  trash        Boolean  @default(false)
   room         String   @default("kitchen")
 
   // Property this room belongs to
