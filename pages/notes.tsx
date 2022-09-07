@@ -1,35 +1,50 @@
-import useSWR from "swr";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Skeleton from "@mui/material/Skeleton";
-import { ErrorHandler } from "../components/ErrorHandler";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Paper from "@mui/material/Paper";
 import Masonry from "@mui/lab/Masonry";
+import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
+import CardContent from "@mui/material/CardContent";
+import Container from "@mui/material/Container";
+import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
+import useSWR from "swr";
+import { ErrorHandler } from "../components/ErrorHandler";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { useState } from "react";
+import * as colors from "@mui/material/colors";
+import { Puller } from "../components/Puller";
 
 function CreateNoteModal() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Card sx={{ borderRadius: 5, background: "rgba(200,200,200,.3)" }}>
-      <CardActionArea>
-        <CardContent>
-          <Typography
-            component="div"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              fontWeight: "600",
-            }}
-          >
-            <span className="material-symbols-outlined">add_circle</span>
-            New note
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+      ></SwipeableDrawer>
+      <Card
+        sx={{ borderRadius: 5, background: "rgba(200,200,200,.3)" }}
+        onClick={() => setOpen(true)}
+      >
+        <CardActionArea>
+          <CardContent>
+            <Typography
+              component="div"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                fontWeight: "600",
+              }}
+            >
+              <span className="material-symbols-outlined">add_circle</span>
+              New note
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </>
   );
 }
 
