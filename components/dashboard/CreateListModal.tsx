@@ -17,24 +17,24 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [customParent, setCustomParent] = useState(parent);
-  const [showDescription, setShowDescription] = useState<boolean>(false);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
   const [pinned, setPinned] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
       name: "",
-      description: "",
+      details: "",
     },
-    onSubmit: (values: { name: string; description: string }) => {
+    onSubmit: (values: { name: string; details: string }) => {
       setLoading(true);
       fetch(
-        "/api/lists/create-item?" +
+        "/api/property/lists/createItem?" +
           new URLSearchParams({
-            propertyToken: global.property.id,
+            property: global.property.id,
             accessToken: global.property.accessToken,
-            parent: customParent,
-            title: values.name,
-            description: values.description,
+            list: customParent,
+            name: values.name,
+            details: values.details,
             pinned: pinned ? "true" : "false",
           }),
         {
@@ -43,12 +43,12 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
       )
         .then((res) => res.json())
         .then((res) => {
-          setItems([...items, res.data]);
+          setItems([...items, res]);
           formik.resetForm();
           setLoading(false);
           setOpen(false);
           toast("Created item!");
-          setShowDescription(false);
+          setShowDetails(false);
         })
         .catch((err: any) => alert(JSON.stringify(err)));
     },
@@ -112,16 +112,16 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
               }}
               variant="standard"
             />
-            <Collapse in={showDescription}>
+            <Collapse in={showDetails}>
               <TextField
                 margin="dense"
                 fullWidth
                 placeholder={"Add details"}
                 autoComplete="off"
-                name="description"
-                id="description"
+                name="details"
+                id="details"
                 onChange={formik.handleChange}
-                value={formik.values.description}
+                value={formik.values.details}
                 InputProps={{
                   disableUnderline: true,
                   sx: {
@@ -201,7 +201,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                         ? "#fff"
                         : colors[themeColor]["800"],
                     transition: "none",
-                    ...(showDescription && {
+                    ...(showDetails && {
                       background:
                         colors[themeColor][
                           global.theme == "dark" ? "900" : "200"
@@ -210,12 +210,10 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                     "&:active": { background: "rgba(0,0,0,0.1)!important" },
                   }}
                   onClick={() => {
-                    setShowDescription(true);
+                    setShowDetails(true);
                     setTimeout(() => {
                       document
-                        .getElementById(
-                          !showDescription ? "description" : "title"
-                        )!
+                        .getElementById(!showDetails ? "details" : "title")!
                         .focus();
                     }, 0);
                   }}

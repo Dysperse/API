@@ -29,6 +29,20 @@ const handler = async (req: any, res: any) => {
         list.description,
         process.env.LIST_ENCRYPTION_KEY
       ).toString(CryptoJS.enc.Utf8),
+
+      items: list.items.map((item: any) => {
+        return {
+          ...item,
+          name: CryptoJS.AES.decrypt(
+            item.name,
+            process.env.LIST_ENCRYPTION_KEY
+          ).toString(CryptoJS.enc.Utf8),
+          details: CryptoJS.AES.decrypt(
+            item.details,
+            process.env.LIST_ENCRYPTION_KEY
+          ).toString(CryptoJS.enc.Utf8),
+        };
+      }),
     };
   });
   res.json(e);

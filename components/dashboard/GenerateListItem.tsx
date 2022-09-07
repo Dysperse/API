@@ -12,28 +12,30 @@ import SwipeableViews from "react-swipeable-views";
 // Generates a list item for shopping list / todo list
 export function GenerateListItem({
   items,
+  completed,
   pinned,
   setItems,
   title,
   description,
   id,
 }: any) {
-  const [checked, setChecked] = React.useState<boolean>(false);
   const [index, setIndex] = React.useState<number>(0);
-  const deleteItem = (id: any) => {
+  const deleteItem = (completed: boolean, id: any) => {
     fetch(
-      "/api/lists/delete-item?" +
+      "/api/property/lists/toggleCompleted?" +
         new URLSearchParams({
           propertyToken: global.property.id,
           accessToken: global.property.accessToken,
           id: id,
+          completed: completed ? "false" : "true",
         }),
       {
         method: "POST",
       }
     );
   };
-  return checked ? null : (
+  
+  return (
     <Box sx={{ borderRadius: "15px!important", overflow: "hidden" }}>
       <SwipeableViews
         disabled={global.property.role === "read-only"}
@@ -85,9 +87,17 @@ export function GenerateListItem({
               }}
               onClick={() => {
                 if (global.property.role !== "read-only") {
-                  deleteItem(id);
+                  deleteItem(completed, id);
                   toast.success("Task completed");
-                  setChecked(true);
+                  // Set completed to true from items array
+                  setItems(
+                    items.map((item: any) => {
+                      if (item.id === id) {
+                        item.completed = !item.completed;
+                      }
+                      return item;
+                    })
+                  );
                 }
               }}
             >
@@ -95,7 +105,7 @@ export function GenerateListItem({
                 style={{ marginLeft: "-2px" }}
                 className="material-symbols-outlined"
               >
-                radio_button_unchecked
+                {completed ? "task_alt" : "radio_button_unchecked"}
               </span>
             </IconButton>
           </ListItemIcon>
@@ -164,7 +174,7 @@ export function GenerateListItem({
         </ListItem>
         <Box
           sx={{
-            background: colors.red["800"],
+            background: colors[completed ? "red" : "blue"]["800"],
             width: "100%",
             height: "100%",
             color: "#fff",
@@ -175,7 +185,9 @@ export function GenerateListItem({
             mr: 1,
           }}
         >
-          <span className="material-symbols-rounded">delete</span>
+          <span className="material-symbols-rounded">
+            {completed ? "delete" : "check"}
+          </span>
         </Box>
       </SwipeableViews>
     </Box>

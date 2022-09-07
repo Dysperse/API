@@ -72,7 +72,6 @@ model Property {
   customRooms          CustomRoom[]
   inventory            Item[]
   lists                List[]
-  listItems            ListItem[]
   maintenanceReminders MaintenanceReminder[]
 
   @@index([userId], map: "Property_userId_fkey")
@@ -128,15 +127,13 @@ model MaintenanceReminder {
 }
 
 model ListItem {
-  id         Int      @id @default(autoincrement())
-  name       String
-  details    String
-  pinned     Boolean  @default(false)
-  listId     Int
-  propertyId String
-  list       List     @relation(fields: [listId], references: [id])
-  Property   Property @relation(fields: [propertyId], references: [id])
+  id        Int     @id @default(autoincrement())
+  name      String
+  details   String
+  pinned    Boolean @default(false)
+  completed Boolean @default(false)
+  listId    Int
+  list      List    @relation(fields: [listId], references: [id])
 
   @@index([listId], map: "ListItem_listId_fkey")
-  @@index([propertyId], map: "ListItem_propertyId_fkey")
 }

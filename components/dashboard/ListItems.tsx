@@ -10,13 +10,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import React, { createRef, useState } from "react";
 import { useScreenshot } from "use-react-screenshot";
-import { CreateListModal } from "../AddPopup/CreateListModal";
+import { CreateListModal } from "./CreateListModal";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { GenerateListItem } from "./GenerateListItem";
 // import download from "downloadjs";
@@ -72,15 +73,30 @@ function GenerateData({
           <Typography sx={{ display: "block" }}>{emptyText}</Typography>
         </Box>
       )}
-      {items.map((list: any, id: number) => (
-        <GenerateListItem
-          {...list}
-          key={id.toString()}
-          items={items}
-          title={list.name}
-          setItems={setItems}
-        />
-      ))}
+      {items
+        .filter((item: any) => !item.completed)
+        .map((list: any, id: number) => (
+          <GenerateListItem
+            {...list}
+            key={id.toString()}
+            items={items}
+            title={list.name}
+            setItems={setItems}
+          />
+        ))}
+
+      {items
+        .filter((item: any) => item.completed)
+        .map((list: any, id: number) => (
+          <GenerateListItem
+            {...list}
+            key={id.toString()}
+            items={items}
+            title={list.name}
+            setItems={setItems}
+          />
+        ))}
+
       {items.length < 20 &&
         global.property.role !== "read-only" &&
         !screenshotReady && (
