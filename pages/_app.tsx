@@ -7,7 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
 import Script from "next/script";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import Layout from "../components/Layout";
@@ -42,6 +42,22 @@ function Render({
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute("content", "hsl(240, 11%, 10%)");
   }
+
+  useEffect(() => {
+    global.user = data.user;
+    global.theme = theme;
+    global.themeColor = themeColor;
+    global.setTheme = setTheme;
+    global.setThemeColor = setThemeColor;
+    setThemeColor(data.user.color);
+
+    setTheme(data.user.darkMode ? "dark" : "light");
+    if (data.user.darkMode) {
+      document
+        .querySelector(`meta[name="theme-color"]`)!
+        .setAttribute("content", "hsl(240, 11%, 10%)");
+    }
+  }, [data, setTheme, setThemeColor, theme, themeColor]);
 
   const userTheme = createTheme({
     components: {

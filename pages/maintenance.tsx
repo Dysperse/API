@@ -166,6 +166,8 @@ function Header({ count }) {
             colors.green["100"] +
             " 0%, " +
             colors.green["300"] +
+            " 50%, " +
+            colors.green["200"] +
             " 100%)",
           color: colors.green["900"],
           height: "320px",
