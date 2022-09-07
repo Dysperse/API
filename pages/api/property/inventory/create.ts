@@ -41,7 +41,7 @@ const handler = async (req: any, res: any) => {
       },
     },
     include: {
-      Property: true,
+      property: true,
     },
   });
 
