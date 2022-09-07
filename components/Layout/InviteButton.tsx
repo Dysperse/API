@@ -28,7 +28,7 @@ function House({ data }: any) {
   const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [propertyType, setPropertyType] = React.useState(
-    global.property.propertyType
+    global.property.profile.type
   );
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -337,7 +337,7 @@ function House({ data }: any) {
                     },
                   }}
                   defaultValue={
-                    global.property.propertyName || "Untitled property"
+                    global.property.profile.name || "Untitled property"
                   }
                   id="nameInput"
                   label="Home name / Family name / Address"
@@ -390,7 +390,7 @@ function House({ data }: any) {
                   {propertyType}
                 </Typography>
                 <Typography variant="h3">
-                  {global.property.propertyName || "Untitled property"}
+                  {global.property.profile.name || "Untitled property"}
                 </Typography>
               </Box>
             )}
@@ -545,7 +545,7 @@ export function InviteButton() {
           }}
           noWrap
         >
-          {global.property.propertyName || "Untitled property"}
+          {global.property.profile.name || "Untitled property"}
         </Typography>
         <span className="material-symbols-outlined">expand_more</span>
       </Button>
@@ -609,7 +609,7 @@ export function InviteButton() {
           />
           <br />
           Invite up to 5 people to your{" "}
-          {global.property.propertyType !== "dorm" ? "home" : "dorm"}
+          {global.property.profile.type !== "dorm" ? "home" : "dorm"}
         </Typography>
       </Popover>
     </>

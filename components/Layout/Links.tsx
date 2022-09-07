@@ -458,14 +458,14 @@ export function DrawerListItems({
                 }),
               }}
             >
-              {global.property.houseType === "dorm" ? "Dorm" : "Rooms"}
+              {global.property.profile.type === "dorm" ? "Dorm" : "Rooms"}
             </ListSubheader>
           </Collapse>
 
           <Collapse in={collapsed}>
             <Divider sx={{ my: 1 }} />
           </Collapse>
-          {global.property.houseType !== "dorm" && (
+          {global.property.profile.type !== "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -488,7 +488,7 @@ export function DrawerListItems({
             text="Bathroom"
             icon="bathroom"
           />
-          {global.property.houseType !== "dorm" && (
+          {global.property.profile.type !== "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -497,7 +497,7 @@ export function DrawerListItems({
               icon="garage"
             />
           )}
-          {global.property.houseType !== "dorm" && (
+          {global.property.profile.type !== "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -506,7 +506,7 @@ export function DrawerListItems({
               icon="dining"
             />
           )}
-          {global.property.houseType !== "dorm" && (
+          {global.property.profile.type !== "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -515,7 +515,7 @@ export function DrawerListItems({
               icon="living"
             />
           )}
-          {global.property.houseType !== "dorm" && (
+          {global.property.profile.type !== "dorm" && (
             <ListItem
               collapsed={collapsed}
               href="/rooms/[index]"
@@ -528,12 +528,14 @@ export function DrawerListItems({
             collapsed={collapsed}
             href="/rooms/[index]"
             asHref="/rooms/storage-room"
-            text={<>Storage {global.property.houseType !== "dorm" && "room"}</>}
+            text={
+              <>Storage {global.property.profile.type !== "dorm" && "room"}</>
+            }
             icon="inventory_2"
           />
         </div>
         {customRooms}
-        {global.property.houseType !== "dorm" && (
+        {global.property.profile.type !== "dorm" && (
           <ListItem
             collapsed={collapsed}
             href="/rooms/[index]"
@@ -542,7 +544,7 @@ export function DrawerListItems({
             icon="camping"
           />
         )}
-        {global.property.houseType !== "dorm" && (
+        {global.property.profile.type !== "dorm" && (
           <ListItem
             collapsed={collapsed}
             href="/rooms/[index]"

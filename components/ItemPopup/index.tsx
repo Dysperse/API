@@ -348,7 +348,7 @@ export default function Item({
           <Head>
             <title>
               {item.name} &bull; {data.room} &bull;{" "}
-              {global.property.propertyName.replace(/./, (c) =>
+              {global.property.profile.name.replace(/./, (c) =>
                 c.toUpperCase()
               )}{" "}
               &bull; Carbon

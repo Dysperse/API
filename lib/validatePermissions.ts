@@ -5,9 +5,9 @@ export const validatePermissions = async (
   accessToken: string
 ) => {
   //   Select from property where id = property and accessToken = accessToken
-  const permissions: any | null = await prisma.property.findFirst({
+  const permissions: any | null = await prisma.propertyInvite.findFirst({
     where: {
-      id: { endsWith: property },
+      propertyId: { endsWith: property },
       accessToken: { endsWith: accessToken },
     },
     select: {

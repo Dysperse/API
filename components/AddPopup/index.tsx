@@ -290,7 +290,7 @@ function Content({ toggleDrawer }: any) {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        {global.property.houseType !== "dorm" && (
+        {global.property.profile.type !== "dorm" && (
           <AddItemOption
             toggleDrawer={toggleDrawer}
             title="Kitchen"
@@ -315,7 +315,7 @@ function Content({ toggleDrawer }: any) {
           title="Storage"
           icon={<span className="material-symbols-rounded">inventory_2</span>}
         />
-        {global.property.houseType !== "dorm" && (
+        {global.property.profile.type !== "dorm" && (
           <>
             <AddItemOption
               toggleDrawer={toggleDrawer}
