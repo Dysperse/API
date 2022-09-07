@@ -3,6 +3,8 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import useSWR from "swr";
@@ -22,7 +24,37 @@ function CreateNoteModal() {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-      ></SwipeableDrawer>
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            background: colors[themeColor][50],
+            position: "static",
+            maxWidth: "500px",
+            borderRadius: "20px",
+          },
+        }}
+      >
+        <Puller />
+        <Box sx={{ p: 4, pt: 5 }}>
+          <TextField
+            sx={{ mb: 2 }}
+            fullWidth
+            placeholder="Add a title..."
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                fontSize: "1.5rem",
+              },
+            }}
+            variant="standard"
+          />
+        </Box>
+      </SwipeableDrawer>
       <Card
         sx={{ borderRadius: 5, background: "rgba(200,200,200,.3)" }}
         onClick={() => setOpen(true)}
