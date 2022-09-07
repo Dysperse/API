@@ -59,8 +59,11 @@ model PropertyInvite {
   propertyId  String
   accessToken String   @unique @default(uuid())
 
-  // Is this property currentlyselected?
+  // Is this property currently selected?
   selected Boolean @default(false)
+
+  // Has the user accepted the invite?
+  accepted Boolean @default(false)
 
   // What is the user's role in this property?
   permission String @default("read-only") // read-only, member, admin
