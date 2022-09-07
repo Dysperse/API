@@ -69,7 +69,7 @@ export function RoomList() {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
-      propertyId: global.property.propertyId,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>

@@ -257,7 +257,7 @@ function CustomRooms({ collapsed }: any) {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
-      propertyId: global.property.propertyId,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
 

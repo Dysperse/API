@@ -259,7 +259,7 @@ export default function Categories() {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
-      propertyId: global.property.propertyId,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

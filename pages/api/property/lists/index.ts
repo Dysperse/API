@@ -3,7 +3,7 @@ import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 const handler = async (req: any, res: any) => {
   const permissions = await validatePermissions(
-    req.query.propertyId,
+    req.query.property,
     req.query.accessToken
   );
 
@@ -14,9 +14,8 @@ const handler = async (req: any, res: any) => {
 
   const data: any | null = await prisma.list.findMany({
     where: {
-      propertyId: req.query.propertyId,
       property: {
-        id: req.query.propertyId,
+        id: req.query.property,
       },
     },
     select: {

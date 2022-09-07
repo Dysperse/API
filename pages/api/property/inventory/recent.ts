@@ -4,7 +4,7 @@ import CryptoJS from "crypto-js";
 const handler = async (req: any, res: any) => {
   const data: any | null = await prisma.item.findMany({
     where: {
-      propertyId: req.query.propertyId,
+      property: req.query.property,
       property: {
         id: req.query.property,
         accessToken: req.query.accessToken,

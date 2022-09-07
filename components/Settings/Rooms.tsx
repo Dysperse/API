@@ -62,7 +62,7 @@ export default function Rooms() {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
-      propertyId: global.property.propertyId,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { error, data }: any = useSWR(url, () =>

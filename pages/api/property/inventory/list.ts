@@ -4,7 +4,6 @@ import CryptoJS from "crypto-js";
 const handler = async (req: any, res: any) => {
   const data: any | null = await prisma.item.findMany({
     where: {
-      propertyId: req.query.propertyId,
       room: req.query.room,
       property: {
         id: req.query.property,
@@ -13,7 +12,7 @@ const handler = async (req: any, res: any) => {
     },
   });
   res.json(
-    data.map((item) => {
+    data.map((item: any) => {
       return {
         ...item,
         name: CryptoJS.AES.decrypt(

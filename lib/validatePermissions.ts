@@ -14,5 +14,6 @@ export const validatePermissions = async (
       permission: true,
     },
   });
+  console.log(permissions.permission);
   return permissions.permission;
 };

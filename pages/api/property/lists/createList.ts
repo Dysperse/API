@@ -3,7 +3,6 @@ import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
 const handler = async (req: any, res: any) => {
-  console.log(req.query.accessToken);
   const permissions = await validatePermissions(
     req.query.property,
     req.query.accessToken
@@ -12,7 +11,6 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-
   const data: any | null = await prisma.list.create({
     data: {
       name:
