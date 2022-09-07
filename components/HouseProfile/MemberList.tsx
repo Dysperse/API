@@ -30,10 +30,10 @@ function AddPersonModal() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [role, setRole] = React.useState("member");
+  const [permission, setpermission] = React.useState("member");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setRole(event.target.value as string);
+    setpermission(event.target.value as string);
   };
 
   return (
@@ -41,7 +41,7 @@ function AddPersonModal() {
       <Button
         onClick={() => setOpen(true)}
         variant="contained"
-        disabled={global.property.role !== "owner"}
+        disabled={global.property.permission !== "owner"}
         sx={{
           mb: 2,
           borderRadius: 4,
@@ -123,7 +123,7 @@ function AddPersonModal() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={role}
+              value={permission}
               variant="filled"
               sx={{ mt: 2, pt: 0, pb: 1, mb: 2, height: "90px" }}
               label="Permissions"
@@ -158,7 +158,7 @@ function AddPersonModal() {
                       email: value,
                       name: global.property.profile.name,
                       houseType: global.property.profile.type,
-                      role: role,
+                      permission: permission,
                     })
                 )
                   .then((res) => res.json())
@@ -219,7 +219,7 @@ function Member({ member }): any {
           textOverflow: "ellipsis",
         }}
       >
-        {member.name}
+        {member.user.name}
       </Typography>
       <Typography
         variant="body2"
@@ -229,20 +229,8 @@ function Member({ member }): any {
           textOverflow: "ellipsis",
         }}
       >
-        {member.email}
+        {member.user.email}
       </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          maxWidth: "100%",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          color: member.accepted === "true" ? "green" : "red",
-        }}
-      >
-        {member.accepted === "true" ? "Verified" : "Invitation pending"}
-      </Typography>
-
       <Typography
         variant="body2"
         sx={{
@@ -256,16 +244,18 @@ function Member({ member }): any {
         }}
       >
         <span className="material-symbols-rounded">
-          {member.role === "member"
+          {member.permission === "member"
             ? "group"
-            : member.role == "owner"
+            : member.permission == "owner"
             ? "productivity"
             : "visibility"}
         </span>
-        <span style={{ marginTop: member.role === "owner" ? "-4px" : "" }}>
-          {member.role == "member"
+        <span
+          style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
+        >
+          {member.permission == "member"
             ? "Read, write, and edit access"
-            : member.role == "owner"
+            : member.permission == "owner"
             ? "Owner"
             : "Read-only access"}
         </span>
@@ -273,7 +263,10 @@ function Member({ member }): any {
       <LoadingButton
         loading={loading}
         variant="outlined"
-        disabled={global.property.role !== "owner" || member.role === "owner"}
+        disabled={
+          global.property.permission !== "owner" ||
+          member.permission === "owner"
+        }
         sx={{
           borderWidth: "2px!important",
           width: "100%",
@@ -321,7 +314,7 @@ export function MemberList() {
 
   const images = data
     ? [
-        ...data.data.map((member) => {
+        ...data.map((member) => {
           return {
             content: <Member member={member} />,
           };

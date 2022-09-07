@@ -14,6 +14,16 @@ const handler = async (req: any, res: any) => {
     where: {
       propertyId: req.query.property,
     },
+    select: {
+      id: true,
+      permission: true,
+      user: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+    },
   });
   res.json(data);
 };
