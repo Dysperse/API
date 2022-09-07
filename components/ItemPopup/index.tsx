@@ -632,9 +632,9 @@ export default function Item({
                 sx={{
                   background: "rgba(200,200,200,.3)!important",
                   pointerEvents: switchingToIndex == 1 ? "" : "none",
-                  py: 0.4,
-                  px: 2,
-                  borderRadius: "10px",
+                  py: 2,
+                  px: 3,
+                  borderRadius: 5,
                   transition: "transform .2s",
                   "&:active": {
                     transition: "none",
