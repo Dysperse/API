@@ -134,7 +134,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
                 "/api/rooms/delete?" +
                   new URLSearchParams({
                     id: room.id.toString(),
-                    propertyToken: global.property.id,
+                    propertyToken: global.property.propertyId,
                     accessToken: global.property.accessToken,
                   }),
                 {
@@ -257,7 +257,7 @@ function CustomRooms({ collapsed }: any) {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
-      propertyId: global.property.id,
+      propertyId: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
 
@@ -300,7 +300,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
   const url =
     "/api/property/maintenance/reminders?" +
     new URLSearchParams({
-      property: global.property.id,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));

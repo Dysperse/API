@@ -6,7 +6,7 @@ const handler = async (req: any, res: any) => {
     where: {
       propertyId: req.query.propertyId,
       room: req.query.room,
-      Property: {
+      property: {
         id: req.query.property,
         accessToken: req.query.accessToken,
       },

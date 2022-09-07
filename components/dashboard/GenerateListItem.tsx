@@ -24,7 +24,7 @@ export function GenerateListItem({
     fetch(
       "/api/property/lists/toggleCompleted?" +
         new URLSearchParams({
-          propertyToken: global.property.id,
+          propertyToken: global.property.propertyId,
           accessToken: global.property.accessToken,
           id: id,
           completed: completed ? "false" : "true",

@@ -34,14 +34,14 @@ function House({ data }: any) {
   const handleChange = (event: SelectChangeEvent) => {
     setPropertyType(event.target.value as string);
   };
-  // alert(JSON.stringify(global.property.id == data.id));
+  // alert(JSON.stringify(global.property.propertyId == data.id));
   return (
     <>
       <ListItem
         button
         disableRipple
         onClick={() => {
-          if (data.id === global.property.id) {
+          if (data.id === global.property.propertyId) {
             setOpen(true);
           } else {
             setLoading(true);
@@ -69,7 +69,7 @@ function House({ data }: any) {
               colors[themeColor][global.theme == "dark" ? 800 : 100] +
               "!important",
           },
-          ...(data.id === global.property.id && {
+          ...(data.id === global.property.propertyId && {
             background:
               colors[themeColor][global.theme == "dark" ? 800 : 100] +
               "!important",
@@ -129,7 +129,7 @@ function House({ data }: any) {
             }
           />
           <ListItemIcon>
-            {data.id !== global.property.id ? (
+            {data.id !== global.property.propertyId ? (
               <LoadingButton loading={loading}>Join</LoadingButton>
             ) : (
               <span
@@ -346,7 +346,7 @@ function House({ data }: any) {
                     fetch(
                       "/api/account/sync/updateHome?" +
                         new URLSearchParams({
-                          token: global.property.id,
+                          token: global.property.propertyId,
                           data: JSON.stringify({
                             name: e.target.value,
                             propertyType: propertyType,

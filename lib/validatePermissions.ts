@@ -11,8 +11,8 @@ export const validatePermissions = async (
       accessToken: { endsWith: accessToken },
     },
     select: {
-      permissions: true,
+      permission: true,
     },
   });
-  return permissions.permissions;
+  return permissions.permission;
 };

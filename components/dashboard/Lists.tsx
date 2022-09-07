@@ -44,7 +44,7 @@ function Render({ data }: any) {
         "/api/property/lists/createList?" +
           new URLSearchParams({
             accessToken: global.property.accessToken,
-            property: global.property.id,
+            property: global.property.propertyId,
             name: values.name,
             description: values.description,
           }),
@@ -296,7 +296,7 @@ export function Lists() {
   const url =
     "/api/property/lists?" +
     new URLSearchParams({
-      propertyToken: global.property.id,
+      propertyToken: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
 

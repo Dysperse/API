@@ -30,7 +30,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
       fetch(
         "/api/property/lists/createItem?" +
           new URLSearchParams({
-            property: global.property.id,
+            property: global.property.propertyId,
             accessToken: global.property.accessToken,
             list: customParent,
             name: values.name,

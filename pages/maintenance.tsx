@@ -189,7 +189,7 @@ export default function Maintenance(req, res) {
   const url =
     "/api/property/maintenance/reminders?" +
     new URLSearchParams({
-      property: global.property.id,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));

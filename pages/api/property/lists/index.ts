@@ -1,13 +1,22 @@
 import { prisma } from "../../../../lib/client";
 import CryptoJS from "crypto-js";
-
+import { validatePermissions } from "../../../../lib/validatePermissions";
 const handler = async (req: any, res: any) => {
+  const permissions = await validatePermissions(
+    req.query.propertyId,
+    req.query.accessToken
+  );
+
+  if (!permissions) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+
   const data: any | null = await prisma.list.findMany({
     where: {
       propertyId: req.query.propertyId,
-      Property: {
+      property: {
         id: req.query.propertyId,
-        accessToken: req.query.accessToken,
       },
     },
     select: {
@@ -17,6 +26,7 @@ const handler = async (req: any, res: any) => {
       items: true,
     },
   });
+
   const e = data.map((list: any) => {
     // console.log(list.name);
     return {

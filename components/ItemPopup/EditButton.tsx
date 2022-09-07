@@ -38,7 +38,7 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
       fetch(
         "/api/property/inventory/edit?" +
           new URLSearchParams({
-            property: global.property.id,
+            property: global.property.propertyId,
             accessToken: global.property.accessToken,
             id: item.id.toString(),
             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),

@@ -3,6 +3,7 @@ import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
 const handler = async (req: any, res: any) => {
+  console.log(req.query.accessToken);
   const permissions = await validatePermissions(
     req.query.property,
     req.query.accessToken
@@ -24,12 +25,12 @@ const handler = async (req: any, res: any) => {
           req.query.description,
           process.env.LIST_ENCRYPTION_KEY
         ).toString() ?? "",
-      Property: {
+      property: {
         connect: { id: req.query.property },
       },
     },
     include: {
-      Property: true,
+      property: true,
     },
   });
   console.log(data);

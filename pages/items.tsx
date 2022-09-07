@@ -86,7 +86,7 @@ function CategoryModal({ category }: { category: string }) {
           fetch(
             "/api/inventory/category-items?" +
               new URLSearchParams({
-                propertyToken: global.property.id,
+                propertyToken: global.property.propertyId,
                 accessToken: global.property.accessToken,
                 category: category,
               })
@@ -139,7 +139,7 @@ function CategoryList() {
   const url =
     "/api/property/inventory/categories?" +
     new URLSearchParams({
-      propertyToken: global.property.id,
+      propertyToken: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { error, data }: any = useSWR(url, () =>
@@ -259,7 +259,7 @@ export default function Categories() {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
-      propertyId: global.property.id,
+      propertyId: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

@@ -36,7 +36,7 @@ const handler = async (req: any, res: any) => {
           req.query.category,
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "[]",
-      Property: {
+      property: {
         connect: { id: req.query.property },
       },
     },

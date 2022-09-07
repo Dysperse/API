@@ -45,7 +45,7 @@ function Room({ room }: any) {
               "/api/rooms/delete?" +
                 new URLSearchParams({
                   id: room.id,
-                  propertyToken: global.property.id,
+                  propertyToken: global.property.propertyId,
                   accessToken: global.property.accessToken,
                 }),
               {
@@ -69,7 +69,7 @@ export function RoomList() {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
-      propertyId: global.property.id,
+      propertyId: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>

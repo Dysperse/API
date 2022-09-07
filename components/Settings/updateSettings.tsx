@@ -21,7 +21,7 @@ export function updateSettings(
       "/api/account/sync/updateHome?" +
       new URLSearchParams({
         accessToken: global.property.accessToken,
-        propertyToken: global.property.id,
+        propertyToken: global.property.propertyId,
         data: JSON.stringify({
           [key]: value,
         }),

@@ -109,7 +109,7 @@ function MoreRooms(): JSX.Element {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
-      propertyId: global.property.id,
+      propertyId: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const [open, setOpen] = React.useState<boolean>(false);

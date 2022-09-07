@@ -46,7 +46,7 @@ function CreateRoom() {
       fetch(
         "/api/rooms/create?" +
           new URLSearchParams({
-            propertyToken: global.property.id,
+            propertyToken: global.property.propertyId,
             accessToken: global.property.accessToken,
             name: values.name,
           }),

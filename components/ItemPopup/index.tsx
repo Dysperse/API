@@ -107,7 +107,7 @@ export default function Item({
     fetch(
       "/api/property/inventory/star?" +
         new URLSearchParams({
-          property: global.property.id,
+          property: global.property.propertyId,
           accessToken: global.property.accessToken,
           id: item.id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -124,7 +124,7 @@ export default function Item({
     fetch(
       "/api/property/inventory/delete?" +
         new URLSearchParams({
-          property: global.property.id,
+          property: global.property.propertyId,
           accessToken: global.property.accessToken,
           id: id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -154,7 +154,7 @@ export default function Item({
             fetch(
               "/api/inventory/restore?" +
                 new URLSearchParams({
-                  property: global.property.id,
+                  property: global.property.propertyId,
                   accessToken: global.property.accessToken,
                   id: item.id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -452,7 +452,7 @@ export default function Item({
                       fetch(
                         "/api/property/inventory/updateNote?" +
                           new URLSearchParams({
-                            property: global.property.id,
+                            property: global.property.propertyId,
                             accessToken: global.property.accessToken,
                             id: id.toString(),
                             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),

@@ -102,7 +102,7 @@ export function CreateItemModal({
       fetch(
         "/api/property/inventory/create?" +
           new URLSearchParams({
-            property: global.property.id,
+            property: global.property.propertyId,
             accessToken: global.property.accessToken,
             room: room.toString().toLowerCase(),
             name: values.title,

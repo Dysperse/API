@@ -228,7 +228,7 @@ function Home({ searchSettings }: { searchSettings: Function }) {
     fetch(
       "/api/property/rooms?" +
         new URLSearchParams({
-          propertyId: global.property.id,
+          propertyId: global.property.propertyId,
           accessToken: global.property.accessToken,
         })
     ).then((res) => res.json())

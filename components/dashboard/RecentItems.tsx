@@ -14,7 +14,7 @@ export function RecentItems() {
   const url =
     "/api/property/inventory/recent?" +
     new URLSearchParams({
-      property: global.property.id,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
