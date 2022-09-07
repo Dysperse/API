@@ -8,46 +8,18 @@ datasource db {
 }
 
 model User {
-  id                 Int        @id @unique @default(autoincrement())
+  id                 Int              @id @unique @default(autoincrement())
   name               String
-  email              String     @unique
+  email              String           @unique
   password           String
   avatar             String?
-  darkMode           Boolean    @default(false)
-  color              String     @default("cyan")
-  currency           String     @default("USD")
-  financePlan        String     @default("medium")
-  budgetDaily        Int        @default(0)
-  budgetWeekly       Int        @default(0)
-  budgetMonthly      Int        @default(0)
-  onboardingComplete Boolean    @default(false)
-  verifiedEmail      Boolean    @default(false)
-  financeToken       String?    @unique
-  budgets            Budget[]
-  goals              Goal[]
-  properties         Property[]
+  darkMode           Boolean          @default(false)
+  color              String           @default("cyan")
+  onboardingComplete Boolean          @default(false)
+  verifiedEmail      Boolean          @default(false)
+  // List of active properties and sessions
+  properties         PropertyInvite[]
   sessions           Session[]
-}
-
-model Budget {
-  id     Int    @id @default(autoincrement())
-  userId Int
-  name   String
-  limit  Int
-  user   User   @relation(fields: [userId], references: [id])
-
-  @@index([userId], map: "Budget_userId_fkey")
-}
-
-model Goal {
-  id     Int     @id @default(autoincrement())
-  userId Int
-  name   String
-  banner String  @default("https://images.unsplash.com/photo-1659412321527-8cddf2458faa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY2MjA4ODY5OA&ixlib=rb-1.2.1&q=80&w=1000")
-  note   String?
-  user   User    @relation(fields: [userId], references: [id])
-
-  @@index([userId], map: "Goal_userId_fkey")
 }
 
 model Session {
@@ -59,32 +31,51 @@ model Session {
 }
 
 model Property {
-  id                   String                @id @default(uuid())
-  accessToken          String                @unique @default(uuid())
-  propertyName         String                @default("My Home")
-  selected             Boolean               @default(false)
-  propertyType         String                @default("apartment")
-  permissions          String                @default("owner")
-  bannerColor          String                @default("cyan")
-  accepted             Boolean               @default(false)
-  userId               Int
-  user                 User                  @relation(fields: [userId], references: [id])
+  id      String           @id @default(uuid())
+  // Member list
+  members PropertyInvite[]
+
+  // Property features which are synced
   customRooms          CustomRoom[]
   inventory            Item[]
   lists                List[]
   maintenanceReminders MaintenanceReminder[]
 
-  @@index([userId], map: "Property_userId_fkey")
+  // Information about the property
+  name  String @default("My Property")
+  type  String @default("apartment")
+  color String @default("cyan")
 }
 
-model CustomRoom {
-  id         String   @id @default(uuid())
-  name       String
-  pinned     Boolean  @default(false)
-  propertyId String
-  Property   Property @relation(fields: [propertyId], references: [id])
+model PropertyInvite {
+  id Int @id @unique @default(autoincrement())
 
-  @@index([propertyId], map: "CustomRoom_propertyId_fkey")
+  // This is the user that is invited to the property
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  // This is the property's profile id, containing the property's name, address, etc.
+  profile     Property @relation(fields: [propertyId], references: [id])
+  propertyId  String
+  accessToken String   @unique @default(uuid())
+
+  // Is this property currentlyselected?
+  selected Boolean @default(false)
+
+  // What is the user's role in this property?
+  permission String @default("read-only") // read-only, member, admin
+}
+
+// -------------------------------------------------
+
+model CustomRoom {
+  id     String  @id @default(uuid())
+  name   String
+  pinned Boolean @default(false)
+
+  // Property this room belongs to
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
 }
 
 model Item {
@@ -94,36 +85,23 @@ model Item {
   note         String
   lastModified DateTime
   starred      Boolean  @default(false)
-  propertyId   String
   category     String   @default("[]")
   room         String   @default("kitchen")
-  Property     Property @relation(fields: [propertyId], references: [id])
 
-  @@index([propertyId], map: "Item_propertyId_fkey")
+  // Property this room belongs to
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
 }
 
 model List {
   id          Int        @id @default(autoincrement())
   name        String
   description String
-  propertyId  String
-  Property    Property   @relation(fields: [propertyId], references: [id])
   items       ListItem[]
 
-  @@index([propertyId], map: "List_propertyId_fkey")
-}
-
-model MaintenanceReminder {
-  id         Int      @id @default(autoincrement())
-  name       String   @default("Maintenance Reminder")
-  note       String
-  frequency  String   @default("monthly")
-  lastDone   DateTime @default(now())
-  nextDue    DateTime @default(now())
+  // Property this room belongs to
+  property   Property @relation(fields: [propertyId], references: [id])
   propertyId String
-  Property   Property @relation(fields: [propertyId], references: [id])
-
-  @@index([propertyId], map: "MaintenanceReminder_propertyId_fkey")
 }
 
 model ListItem {
@@ -134,6 +112,17 @@ model ListItem {
   completed Boolean @default(false)
   listId    Int
   list      List    @relation(fields: [listId], references: [id])
+}
 
-  @@index([listId], map: "ListItem_listId_fkey")
+model MaintenanceReminder {
+  id        Int      @id @default(autoincrement())
+  name      String   @default("Maintenance Reminder")
+  note      String
+  frequency String   @default("monthly")
+  lastDone  DateTime @default(now())
+  nextDue   DateTime @default(now())
+
+  // Property this room belongs to
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
 }
