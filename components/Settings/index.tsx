@@ -21,7 +21,6 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import AccountSettings from "./AccountSettings";
 import AppearanceSettings from "./AppearanceSettings";
-import FinanceSettings from "./FinanceSettings";
 import Notifications from "./Notifications";
 import TwoFactorAuth from "./TwoFactorAuth";
 
@@ -384,13 +383,6 @@ export default function FullScreenDialog({ children }: any) {
                     : "disabled"}
                 </>
               }
-            />
-            <SettingsMenu
-              id="financeSettingsTrigger"
-              content={<FinanceSettings />}
-              icon="payments"
-              primary={<span id="financeSettingsTrigger">Finances</span>}
-              secondary={<>Goal: {global.user.financePlan}</>}
             />
             <SettingsMenu
               id="accountSettings"
