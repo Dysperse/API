@@ -86,7 +86,7 @@ function CategoryModal({ category }: { category: string }) {
           fetch(
             "/api/inventory/category-items?" +
               new URLSearchParams({
-                propertyToken: global.property.propertyId,
+                property: global.property.propertyId,
                 accessToken: global.property.accessToken,
                 category: category,
               })
@@ -139,7 +139,7 @@ function CategoryList() {
   const url =
     "/api/property/inventory/categories?" +
     new URLSearchParams({
-      propertyToken: global.property.propertyId,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { error, data }: any = useSWR(url, () =>

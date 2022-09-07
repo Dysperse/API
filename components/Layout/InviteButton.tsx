@@ -34,7 +34,7 @@ function House({ data }: any) {
   const handleChange = (event: SelectChangeEvent) => {
     setPropertyType(event.target.value as string);
   };
-  
+
   return (
     <>
       <ListItem
@@ -49,7 +49,7 @@ function House({ data }: any) {
               "/api/account/sync/acceptInvitation?" +
                 new URLSearchParams({
                   accessToken: data.accessToken,
-                  propertyToken: data.propertyId,
+                  property: data.propertyId,
                 })
             ).then((res) => {
               updateSettings("SyncToken", data.propertyId, false, () => {

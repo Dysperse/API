@@ -10,7 +10,7 @@ function Items() {
   const url =
     "/api/inventory/starred-items?" +
     new URLSearchParams({
-      propertyToken: global.property.propertyId,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { error, data }: any = useSWR(url, () =>

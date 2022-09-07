@@ -252,7 +252,7 @@ export function ListItems({
               fetch(
                 "/api/lists/delete-custom-list?" +
                   new URLSearchParams({
-                    propertyToken: global.property.propertyId,
+                    property: global.property.propertyId,
                     accessToken: global.property.accessToken,
                     id: parent.toString(),
                   }),

@@ -35,7 +35,7 @@ export interface AccountData {
 }
 
 export interface PropertyData {
-  propertyToken: string;
+  property: string;
   email: string;
   name: string;
   name: string;

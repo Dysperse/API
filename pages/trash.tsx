@@ -45,7 +45,7 @@ function DeleteCard({ item }: any) {
             fetch(
               "/api/inventory/trash?" +
                 new URLSearchParams({
-                  propertyToken: global.property.propertyId,
+                  property: global.property.propertyId,
                   accessToken: global.property.accessToken,
                   id: item.id.toString(),
                   forever: "true",
@@ -84,7 +84,7 @@ function DeleteCard({ item }: any) {
             fetch(
               "/api/restore?" +
                 new URLSearchParams({
-                  propertyToken: global.property.propertyId,
+                  property: global.property.propertyId,
                   accessToken: global.property.accessToken,
                   lastUpdated: dayjs(item.lastUpdated).format(
                     "YYYY-MM-DD HH:mm:ss"
@@ -120,7 +120,7 @@ function Items() {
   const url =
     "/api/inventory/trashed-items?" +
     new URLSearchParams({
-      propertyToken: global.property.propertyId,
+      property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
   const { data, error }: any = useSWR(url, () =>

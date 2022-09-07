@@ -33,7 +33,7 @@ function Room({ data }) {
                   "/api/rooms/delete?" +
                     new URLSearchParams({
                       id: data.id,
-                      propertyToken: global.property.propertyId,
+                      property: global.property.propertyId,
                       accessToken: global.property.accessToken,
                     }),
                   {

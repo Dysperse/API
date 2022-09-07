@@ -24,12 +24,11 @@ export function GenerateListItem({
     const url =
       "/api/property/lists/toggleCompleted?" +
       new URLSearchParams({
-        propertyToken: global.property.propertyId,
+        property: global.property.propertyId,
         accessToken: global.property.accessToken,
         id: id,
         completed: completed ? "false" : "true",
       });
-    alert(url);
     fetch(url, {
       method: "POST",
     });
