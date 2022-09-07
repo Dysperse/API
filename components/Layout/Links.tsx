@@ -44,7 +44,7 @@ function CreateRoom({ collapsed }: any) {
     },
     onSubmit: async (values: { name: string }) => {
       fetch(
-        "/api/rooms/create?" +
+        "/api/property/rooms/create?" +
           new URLSearchParams({
             property: global.property.propertyId,
             accessToken: global.property.accessToken,
