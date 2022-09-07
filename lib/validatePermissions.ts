@@ -5,7 +5,6 @@ export const validatePermissions = async (
   accessToken: string
 ) => {
   if (!property || !accessToken) return false;
-  console.log(property, accessToken);
   // Select permissions from `propertyInvite` where `propertyId` is the property ID and `accessToken` is the access token
   const permissions: any | null = await prisma.propertyInvite.findFirst({
     where: {
@@ -17,6 +16,5 @@ export const validatePermissions = async (
     },
   });
 
-  console.log(permissions);
   return permissions ? permissions.permission : false;
 };

@@ -40,6 +40,7 @@ model Property {
   inventory            Item[]
   lists                List[]
   maintenanceReminders MaintenanceReminder[]
+  notes                Note[]
 
   // Information about the property
   name  String @default("My Property")
@@ -72,6 +73,16 @@ model PropertyInvite {
 // -------------------------------------------------
 
 model CustomRoom {
+  id     String  @id @default(uuid())
+  name   String
+  pinned Boolean @default(false)
+
+  // Property this room belongs to
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
+}
+
+model Note {
   id     String  @id @default(uuid())
   name   String
   pinned Boolean @default(false)
