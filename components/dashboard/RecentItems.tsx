@@ -32,9 +32,6 @@ export function RecentItems() {
       }}
     >
       <CardContent>
-        <Typography variant="h6" sx={{ mb: 1 }}>
-          Recent items
-        </Typography>
         {data.map((item: ItemType, key: string) => (
           <Item key={key.toString()} variant="list" data={item} />
         ))}
