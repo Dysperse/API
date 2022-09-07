@@ -93,7 +93,7 @@ export default function Notes() {
                   variant="rectangular"
                   sx={{
                     borderRadius: 5,
-                    background: "rgba(200,200,200,.3)",
+                    background: "rgba(200,200,200,.15)",
                     height: 200,
                   }}
                 />
