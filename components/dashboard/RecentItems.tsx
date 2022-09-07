@@ -24,8 +24,8 @@ export function RecentItems() {
   return error ? (
     <ErrorHandler error="An error occured while trying to fetch your items" />
   ) : data ? (
-    <>
-      <Grid container sx={{ mt: 2 }} spacing={1}>
+    <Box sx={{ mt: -1.5 }}>
+      <Grid container sx={{ mt: 2 }} spacing={1.5}>
         {data.map((item: ItemType, key: string) => (
           <Grid item key={key.toString()} xs={12} sm={3} xl={2}>
             <Item variant="list" data={item} />
@@ -49,7 +49,7 @@ export function RecentItems() {
           </Typography>
         </Box>
       )}
-    </>
+    </Box>
   ) : (
     <Skeleton
       variant="rectangular"
