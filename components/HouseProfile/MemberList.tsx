@@ -213,23 +213,8 @@ function Member({ member }): any {
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
-    <Box sx={{ display: "flex", gap: 2 }}>
-      <Box sx={{ pt: 1 }}>
-        <Avatar
-          src={member.user.name}
-          sx={{
-            width: { xs: 30, sm: 45 },
-            fontWeight: "700",
-            height: { xs: 30, sm: 45 },
-            mx: "auto",
-            mb: 1,
-            background: colors["red"]["A700"],
-          }}
-        >
-          {getInitials(member.user.name)}
-        </Avatar>
-      </Box>
-      <Box>
+    <>
+      <Box sx={{ width: "100%" }}>
         <Typography
           sx={{
             fontWeight: "600",
@@ -256,7 +241,6 @@ function Member({ member }): any {
             maxWidth: "100%",
             overflow: "hidden",
             mx: "auto",
-            justifyContent: "center",
             textOverflow: "ellipsis",
             display: "flex",
             mt: 0.5,
@@ -317,7 +301,7 @@ function Member({ member }): any {
           Remove
         </LoadingButton>
       </Box>
-    </Box>
+    </>
   );
 }
 
