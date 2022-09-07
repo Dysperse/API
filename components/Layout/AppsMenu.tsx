@@ -3,6 +3,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Skeleton from "@mui/material/Skeleton";
@@ -10,7 +11,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { neutralizeBack, revivalBack } from "../history-control";
-import { green } from "@mui/material/colors";
 
 function Products() {
   const apps = [

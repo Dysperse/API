@@ -1,25 +1,20 @@
+import emailjs from "@emailjs/browser";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
-import IconButton from "@mui/material/IconButton";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import SwipeableViews from "react-swipeable-views";
-import { ProfileMenu } from "../Layout/Profile";
-import useSWR from "swr";
 import toast from "react-hot-toast";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Avatar from "@mui/material/Avatar";
-import TextField from "@mui/material/TextField";
+import SwipeableViews from "react-swipeable-views";
+import useSWR from "swr";
 import { Puller } from "../Puller";
-import LoadingButton from "@mui/lab/LoadingButton";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import emailjs from "@emailjs/browser";
-import { getInitials } from "../Layout/Navbar";
-import { useMediaQuery } from "@mui/material";
 
 function isEmail(email) {
   return String(email)

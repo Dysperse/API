@@ -2,8 +2,8 @@ import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import * as React from "react";
 import dayjs from "dayjs";
+import * as React from "react";
 import toast from "react-hot-toast";
 
 export function InventoryList({ data }: { data: Array<any> }) {

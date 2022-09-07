@@ -1,11 +1,6 @@
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
-import Radio from "@mui/material/Radio";
-import Slider from "@mui/material/Slider";
-import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { updateSettings } from "./updateSettings";

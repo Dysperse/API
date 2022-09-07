@@ -1,16 +1,16 @@
-import React from "react";
-import { Command } from "cmdk";
+import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import LinearProgress from "@mui/material/LinearProgress";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import LinearProgress from "@mui/material/LinearProgress";
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { Command } from "cmdk";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 import useSWR from "swr";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
-import ReactDOMServer from "react-dom/server";
 
 export function SearchPopup() {
   const ref = React.useRef<HTMLDivElement | null>(null);

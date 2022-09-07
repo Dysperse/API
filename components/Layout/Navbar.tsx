@@ -8,18 +8,11 @@ import Tooltip from "@mui/material/Tooltip";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import hexToRgba from "hex-to-rgba";
 import React, { useEffect } from "react";
+import { ProfileMenu } from "../Layout/Profile";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./SearchPopup";
-import { ProfileMenu } from "../Layout/Profile";
 
-import CircularProgress, {
-  circularProgressClasses,
-  CircularProgressProps,
-} from "@mui/material/CircularProgress";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
 
 export const getInitials = (fullName) => {
   const allNames = fullName.trim().split(" ");

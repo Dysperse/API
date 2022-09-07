@@ -11,7 +11,6 @@ import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import * as React from "react";
-import useSWR from "swr";
 
 export function BottomNav({ maintenance }: any) {
   const trigger = useScrollTrigger({

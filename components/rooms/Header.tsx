@@ -1,12 +1,12 @@
 import Avatar from "@mui/material/Avatar";
+import CircularProgress from "@mui/material/CircularProgress";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
-import { useState } from "react"
-import CircularProgress from "@mui/material/CircularProgress";
+import { useState } from "react";
 
 export function Header({
   useAlias,

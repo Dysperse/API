@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import Fab from "@mui/material/Fab";
-import AddPopup from "../AddPopup";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
+import AddPopup from "../AddPopup";
 
 export function FloatingActionButton() {
   const trigger = useScrollTrigger();

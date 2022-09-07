@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
-import React from "react";
-import IconButton from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+
 export function ErrorHandler({ error }: { error: string }): JSX.Element {
   return (
     <Box

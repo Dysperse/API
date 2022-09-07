@@ -1,9 +1,6 @@
-import Masonry from "@mui/lab/Masonry";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import Paper from "@mui/material/Paper";
-import Skeleton from "@mui/material/Skeleton";
 import Grid from "@mui/material/Grid";
+import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import type { Item as ItemType } from "../../types/item";

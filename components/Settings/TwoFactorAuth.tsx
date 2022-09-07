@@ -2,7 +2,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import toast from "react-hot-toast";

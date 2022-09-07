@@ -8,7 +8,6 @@ import ListItemText from "@mui/material/ListItemText";
 import * as React from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
-import Grow from "@mui/material/Grow";
 // Generates a list item for shopping list / todo list
 export function GenerateListItem({
   items,

@@ -3,12 +3,12 @@ import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import { blueGrey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
-import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { neutralizeBack, revivalBack } from "../history-control";
 import { CreateItemModal } from "../AddPopup/CreateItemModal";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 export function Toolbar({ alias, room, items, setItems, data }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

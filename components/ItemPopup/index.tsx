@@ -21,15 +21,14 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
-import type { Item } from "../../types/item";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { Puller } from "../Puller";
+import { AddToListModal } from "./AddToList";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
-import { AddToListModal } from "./AddToList";
-import { Puller } from "../Puller";
 
 export default function Item({
   displayRoom = false,
