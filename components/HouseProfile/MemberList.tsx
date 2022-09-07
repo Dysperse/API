@@ -218,9 +218,9 @@ function Member({ member }): any {
         <Avatar
           src={member.user.name}
           sx={{
-            width: 45,
+            width: { xs: 30, sm: 45 },
             fontWeight: "700",
-            height: 45,
+            height: { xs: 30, sm: 45 },
             mx: "auto",
             mb: 1,
             background: colors["red"]["A700"],

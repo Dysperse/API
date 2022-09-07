@@ -170,6 +170,7 @@ export function BottomNav({ maintenance }: any) {
           }}
         >
           <BottomNavigationAction
+            disableRipple
             sx={{
               ...styles,
             }}
@@ -186,6 +187,7 @@ export function BottomNav({ maintenance }: any) {
             }
           />
           <BottomNavigationAction
+            disableRipple
             sx={{
               ...styles,
             }}
@@ -202,6 +204,7 @@ export function BottomNav({ maintenance }: any) {
             }
           />
           <BottomNavigationAction
+            disableRipple
             sx={{
               ...styles,
             }}
@@ -219,6 +222,7 @@ export function BottomNav({ maintenance }: any) {
           />
 
           <BottomNavigationAction
+            disableRipple
             sx={{
               ...styles,
             }}
