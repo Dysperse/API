@@ -308,7 +308,7 @@ function Member({ member }): any {
 
 export function MemberList() {
   const url =
-    "/api/account/sync/member-list?" +
+    "/api/property/members?" +
     new URLSearchParams({
       propertyToken: global.property.propertyId,
       accessToken: global.property.accessToken,

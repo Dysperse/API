@@ -117,7 +117,7 @@ function Reminder({ reminder }: any) {
               borderRadius: 999,
             }}
             disableElevation
-            disabled={global.property.permissions === "read-only"}
+            disabled={global.property.permission === "read-only"}
           >
             Mark as done
           </Button>

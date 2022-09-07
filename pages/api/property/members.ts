@@ -10,11 +10,9 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const data: any | null = await prisma.customRoom.findMany({
+  const data: any | null = await prisma.propertyInvite.findMany({
     where: {
-      property: {
-        id: req.query.property,
-      },
+      propertyId: req.query.property,
     },
   });
   res.json(data);

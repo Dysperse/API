@@ -21,18 +21,18 @@ export function GenerateListItem({
 }: any) {
   const [index, setIndex] = React.useState<number>(1);
   const deleteItem = (completed: boolean, id: any) => {
-    fetch(
+    const url =
       "/api/property/lists/toggleCompleted?" +
-        new URLSearchParams({
-          propertyToken: global.property.propertyId,
-          accessToken: global.property.accessToken,
-          id: id,
-          completed: completed ? "false" : "true",
-        }),
-      {
-        method: "POST",
-      }
-    );
+      new URLSearchParams({
+        propertyToken: global.property.propertyId,
+        accessToken: global.property.accessToken,
+        id: id,
+        completed: completed ? "false" : "true",
+      });
+    alert(url);
+    fetch(url, {
+      method: "POST",
+    });
   };
 
   return (

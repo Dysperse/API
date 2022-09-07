@@ -34,14 +34,14 @@ function House({ data }: any) {
   const handleChange = (event: SelectChangeEvent) => {
     setPropertyType(event.target.value as string);
   };
-  // alert(JSON.stringify(global.property.propertyId == data.id));
+  
   return (
     <>
       <ListItem
         button
         disableRipple
         onClick={() => {
-          if (data.id === global.property.propertyId) {
+          if (data.propertyId === global.property.propertyId) {
             setOpen(true);
           } else {
             setLoading(true);
@@ -49,10 +49,10 @@ function House({ data }: any) {
               "/api/account/sync/acceptInvitation?" +
                 new URLSearchParams({
                   accessToken: data.accessToken,
-                  propertyToken: data.id,
+                  propertyToken: data.propertyId,
                 })
             ).then((res) => {
-              updateSettings("SyncToken", data.id, false, () => {
+              updateSettings("SyncToken", data.propertyId, false, () => {
                 toast.success("Joined!");
                 window.location.href = "/dashboard";
                 window.location.reload();
@@ -69,7 +69,7 @@ function House({ data }: any) {
               colors[themeColor][global.theme == "dark" ? 800 : 100] +
               "!important",
           },
-          ...(data.id === global.property.propertyId && {
+          ...(data.propertyId === global.property.propertyId && {
             background:
               colors[themeColor][global.theme == "dark" ? 800 : 100] +
               "!important",
@@ -89,11 +89,11 @@ function House({ data }: any) {
             primary={
               <>
                 <Typography variant="h6" sx={{ fontWeight: "600" }}>
-                  {data.propertyName}
+                  {data.profile.name}
                 </Typography>
-                {!data.accepted && (
+                {/* {!data.accepted && (
                   <Chip size="small" color="error" label="Invitation pending" />
-                )}
+                )} */}
               </>
             }
             secondary={
@@ -108,20 +108,20 @@ function House({ data }: any) {
                 }}
               >
                 <span className="material-symbols-rounded">
-                  {data.permissions === "member"
+                  {data.permission === "member"
                     ? "group"
-                    : data.permissions == "owner"
+                    : data.permission == "owner"
                     ? "productivity"
                     : "visibility"}
                 </span>
                 <span
                   style={{
-                    marginTop: data.permissions === "owner" ? "-2.5px" : "",
+                    marginTop: data.permission === "owner" ? "-2.5px" : "",
                   }}
                 >
-                  {data.permissions == "member"
+                  {data.permission == "member"
                     ? "Read, write, and edit access"
-                    : data.permissions == "owner"
+                    : data.permission == "owner"
                     ? "Owner"
                     : "Read-only access"}
                 </span>
@@ -129,7 +129,7 @@ function House({ data }: any) {
             }
           />
           <ListItemIcon>
-            {data.id !== global.property.propertyId ? (
+            {data.propertyId !== global.property.propertyId ? (
               <LoadingButton loading={loading}>Join</LoadingButton>
             ) : (
               <span
@@ -202,7 +202,7 @@ function House({ data }: any) {
                 m: 2,
               }}
             >
-              {global.property.permissions !== "read-only" && (
+              {global.property.permission !== "read-only" && (
                 <IconButton
                   disableRipple
                   sx={{
@@ -415,7 +415,7 @@ function House({ data }: any) {
                 }}
               >
                 <Button
-                  disabled={global.property.permissions === "read-only"}
+                  disabled={global.property.permission === "read-only"}
                   onClick={() => {
                     document.getElementById("setCreateRoomModalOpen")!.click();
                   }}
@@ -553,7 +553,7 @@ export function InviteButton() {
         id={id}
         open={
           !Cookies.get("invitePopup") &&
-          global.property.permissions === "owner" &&
+          global.property.permission === "owner" &&
           popoverOpen
         }
         anchorEl={anchorEl}
