@@ -116,20 +116,8 @@ function CreateRoom({ collapsed }: any) {
             add_location_alt
           </span>
         </ListItemIcon>
-        <Collapse
-          in={!collapsed}
-          orientation="horizontal"
-          sx={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            "& *": {
-              fontSize: "15.2px",
-            },
-          }}
-        >
-          <ListItemText primary="Create room" />
-        </Collapse>
+
+        {collapsed ? <></> : <ListItemText primary="Create room" />}
       </ListItemButton>
       <SwipeableDrawer
         anchor="bottom"
@@ -586,6 +574,7 @@ export function DrawerListItems({
             icon="inventory_2"
           />
         </div>
+        <Divider sx={{ my: 1 }} />
         {customRooms}
         {global.property.profile.type !== "dorm" && (
           <ListItem
