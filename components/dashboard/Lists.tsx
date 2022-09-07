@@ -22,6 +22,45 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { ListItems } from "./ListItems";
 
+function ListTip({ tip }) {
+  return (
+    <Alert
+      icon={
+        <div style={{ marginTop: "5px" }}>
+          <span
+            className="material-symbols-outlined"
+            style={{ color: colors.orange[900] }}
+          >
+            lightbulb
+          </span>
+        </div>
+      }
+      severity="info"
+      sx={{
+        mb: 2,
+        alignItems: "center",
+        display: "flex",
+        borderRadius: 5,
+        background: colors.orange["50"],
+        color: colors.orange[900],
+      }}
+      action={
+        <IconButton
+          sx={{
+            borderRadius: 999,
+            background: colors.orange["100"] + "!important",
+            color: colors.orange[900] + "!important",
+          }}
+        >
+          <span className="material-symbols-outlined">add</span>
+        </IconButton>
+      }
+    >
+      {tip}
+    </Alert>
+  );
+}
+
 function Render({ data }: any) {
   const [lists, setLists] = React.useState<any>(data);
   const [open, setOpen] = React.useState<boolean>(false);
@@ -64,82 +103,6 @@ function Render({ data }: any) {
   return (
     <>
       <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
-        {lists &&
-          lists.filter((e) => e.name.toLowerCase() === "to-do").length ===
-            0 && (
-            <Alert
-              icon={
-                <div style={{ marginTop: "5px" }}>
-                  <span
-                    className="material-symbols-outlined"
-                    style={{ color: colors.orange[900] }}
-                  >
-                    lightbulb
-                  </span>
-                </div>
-              }
-              severity="info"
-              sx={{
-                mb: 2,
-                borderRadius: 5,
-                background: colors.orange["50"],
-                color: colors.orange[900],
-                alignItems: "center",
-                display: "flex",
-              }}
-              action={
-                <IconButton
-                  sx={{
-                    borderRadius: 999,
-                    background: colors.orange["100"] + "!important",
-                    color: colors.orange[900] + "!important",
-                  }}
-                >
-                  <span className="material-symbols-outlined">add</span>
-                </IconButton>
-              }
-            >
-              Tip: Create a to-do list to keep track of your tasks
-            </Alert>
-          )}
-        {lists &&
-          lists.filter((e) => e.name.toLowerCase() === "shopping list")
-            .length === 0 && (
-            <Alert
-              icon={
-                <div style={{ marginTop: "5px" }}>
-                  <span
-                    className="material-symbols-outlined"
-                    style={{ color: colors.orange[900] }}
-                  >
-                    lightbulb
-                  </span>
-                </div>
-              }
-              severity="info"
-              sx={{
-                mb: 2,
-                alignItems: "center",
-                display: "flex",
-                borderRadius: 5,
-                background: colors.orange["50"],
-                color: colors.orange[900],
-              }}
-              action={
-                <IconButton
-                  sx={{
-                    borderRadius: 999,
-                    background: colors.orange["100"] + "!important",
-                    color: colors.orange[900] + "!important",
-                  }}
-                >
-                  <span className="material-symbols-outlined">add</span>
-                </IconButton>
-              }
-            >
-              Tip: Create a shopping-do list to keep track of your shopping list
-            </Alert>
-          )}
         {lists.map((list) => (
           <ListItems
             key={list.id}
@@ -153,6 +116,22 @@ function Render({ data }: any) {
             lists={lists}
           />
         ))}
+        {lists &&
+          lists.filter((e) => e.name.toLowerCase() === "shopping list")
+            .length === 0 && (
+            <ListTip tip="Tip: Create a shopping list to keep track of your shopping list" />
+          )}
+
+        {lists &&
+          lists.filter((e) => e.name.toLowerCase() === "to-do").length ===
+            0 && (
+            <ListTip tip="Tip: Create a to-do list to keep track of your tasks" />
+          )}
+        {lists &&
+          lists.filter((e) => e.name.toLowerCase() === "wishlist").length ===
+            0 && (
+            <ListTip tip="Tip: Create a wishlist list to store items you want!" />
+          )}
         <SwipeableDrawer
           open={open}
           anchor="bottom"
