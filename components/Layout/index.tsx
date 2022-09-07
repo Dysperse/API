@@ -336,6 +336,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
             borderRight: 0,
             [`& .MuiDrawer-paper`]: {
               maxWidth: collapsed ? 100 : drawerWidth,
+              width: collapsed ? 100 : drawerWidth,
               transition: "maxWidth 2s !important",
               textAlign: collapsed ? "center" : "",
               borderRight: 0,
