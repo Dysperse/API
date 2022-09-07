@@ -118,6 +118,10 @@ function Render({
     },
   });
 
+  if (data.user.properties.length === 0) {
+    return <Box>0 properties!</Box>;
+  }
+
   // find active property in the array of properties
   const selectedProperty =
     data.user.properties.find((property: any) => property.selected) ||
