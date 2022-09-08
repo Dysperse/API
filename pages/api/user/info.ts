@@ -24,7 +24,6 @@ export const getUserData = async (token: string) => {
               accessToken: true,
               selected: true,
               permission: true,
-
               profile: true,
             },
           },
