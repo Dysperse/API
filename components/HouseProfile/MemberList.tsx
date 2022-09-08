@@ -176,8 +176,12 @@ function AddPersonModal() {
                         toast.success("Invitation sent!");
                         setLoading(false);
                       })
-                      .catch((err) => alert(err));
-                    // setLoading(false);
+                      .catch((err) => {
+                        toast(
+                          "An invitation was sent, but something went wrong while trying to send an email notification"
+                        );
+                        setLoading(false);
+                      });
                   })
                   .catch((err) => {
                     setLoading(false);
