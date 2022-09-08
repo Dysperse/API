@@ -87,7 +87,6 @@ function Render({ data }: any) {
           name: values.name,
           description: values.description,
         });
-      alert(url);
       fetch(url, {
         method: "POST",
       })
