@@ -35,7 +35,11 @@ const handler = async (req: any, res: any) => {
       selected: false,
       permission: req.query.permission,
     },
+    include: {
+      profile: true,
+    },
   });
+  console.log(data);
   res.json(data);
 };
 export default handler;

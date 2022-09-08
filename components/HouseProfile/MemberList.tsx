@@ -162,22 +162,22 @@ function AddPersonModal() {
                 )
                   .then((res) => res.json())
                   .then((res: any) => {
-                    // emailjs
-                    //   .send(
-                    //     "service_bhq01y6",
-                    //     "template_nbjdq1i",
-                    //     {
-                    //       to_email: value,
-                    //       house_name: global.property.profile.name,
-                    //     },
-                    //     "6Q4BZ_DN9bCSJFZYM"
-                    //   )
-                    //   .then(() => {
-                    //     toast.success("Invitation sent!");
-                    //     setLoading(false);
-                    //   })
-                    //   .catch((err) => alert(err));
-                    alert(1);
+                    emailjs
+                      .send(
+                        "service_bhq01y6",
+                        "template_nbjdq1i",
+                        {
+                          to_email: value,
+                          house_name: res.profile.name,
+                        },
+                        "6Q4BZ_DN9bCSJFZYM"
+                      )
+                      .then(() => {
+                        toast.success("Invitation sent!");
+                        setLoading(false);
+                      })
+                      .catch((err) => alert(err));
+                    // setLoading(false);
                   })
                   .catch((err) => {
                     setLoading(false);
