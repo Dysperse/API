@@ -150,34 +150,34 @@ function AddPersonModal() {
             onClick={() => {
               if (isEmail(value)) {
                 fetch(
-                  "/api/account/sync/invite?" +
+                  "/api/property/members/add?" +
                     new URLSearchParams({
                       property: global.property.propertyId,
+                      accessToken: global.property.accessToken,
+
                       email: value,
                       name: global.property.profile.name,
-                      houseType: global.property.profile.type,
                       permission: permission,
                     })
                 )
                   .then((res) => res.json())
                   .then((res: any) => {
-                    // if (res.data === true) {
-                    emailjs
-                      .send(
-                        "service_bhq01y6",
-                        "template_nbjdq1i",
-                        {
-                          to_email: value,
-                          house_name: global.property.profile.name,
-                        },
-                        "6Q4BZ_DN9bCSJFZYM"
-                      )
-                      .then(() => {
-                        toast.success("Invitation sent!");
-                        setLoading(false);
-                      })
-                      .catch((err) => alert(err));
-                    // }
+                    // emailjs
+                    //   .send(
+                    //     "service_bhq01y6",
+                    //     "template_nbjdq1i",
+                    //     {
+                    //       to_email: value,
+                    //       house_name: global.property.profile.name,
+                    //     },
+                    //     "6Q4BZ_DN9bCSJFZYM"
+                    //   )
+                    //   .then(() => {
+                    //     toast.success("Invitation sent!");
+                    //     setLoading(false);
+                    //   })
+                    //   .catch((err) => alert(err));
+                    alert(1);
                   });
                 setLoading(true);
               } else {

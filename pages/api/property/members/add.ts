@@ -1,5 +1,5 @@
-import { prisma } from "../../../lib/client";
-import { validatePermissions } from "../../../lib/validatePermissions";
+import { prisma } from "../../../../lib/client";
+import { validatePermissions } from "../../../../lib/validatePermissions";
 
 const handler = async (req: any, res: any) => {
   const permissions = await validatePermissions(
@@ -10,20 +10,20 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const data: any | null = await prisma.propertyInvite.findMany({
+  const data: any | null = await prisma.propertyInvite.create({
     where: {
       propertyId: req.query.property,
     },
     select: {
       id: true,
       permission: true,
-      user: {
-        select: {
-          name: true,
-          email: true,
-          avatar: true,
-        },
+      property: {
+        connect: { id: req.query.property },
       },
+      user: {
+        connect: { email: req.query.email },
+      },
+      accepted: false,
     },
   });
   res.json(data);
