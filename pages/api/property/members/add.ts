@@ -16,6 +16,7 @@ const handler = async (req: any, res: any) => {
       email: req.query.email,
     },
   });
+
   if (!user) {
     res.status(401).json({ error: "User not found" });
     return;
