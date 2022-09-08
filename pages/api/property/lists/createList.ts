@@ -32,6 +32,10 @@ const handler = async (req: any, res: any) => {
     },
   });
   console.log(data);
-  res.json(data);
+  res.json({
+    ...data,
+    name: req.query.name,
+    description: req.query.description,
+  });
 };
 export default handler;
