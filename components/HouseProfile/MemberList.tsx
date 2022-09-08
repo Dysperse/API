@@ -178,6 +178,12 @@ function AddPersonModal() {
                     //   })
                     //   .catch((err) => alert(err));
                     alert(1);
+                  })
+                  .catch((err) => {
+                    setLoading(false);
+                    toast.error(
+                      "An error occured while trying to send an invite"
+                    );
                   });
                 setLoading(true);
               } else {

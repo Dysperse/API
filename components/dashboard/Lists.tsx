@@ -79,18 +79,18 @@ function Render({ data }: any) {
     },
     onSubmit: async (values) => {
       setLoading(true);
-      fetch(
+      const url =
         "/api/property/lists/createList?" +
-          new URLSearchParams({
-            accessToken: global.property.accessToken,
-            property: global.property.propertyId,
-            name: values.name,
-            description: values.description,
-          }),
-        {
-          method: "POST",
-        }
-      )
+        new URLSearchParams({
+          accessToken: global.property.accessToken,
+          property: global.property.propertyId,
+          name: values.name,
+          description: values.description,
+        });
+      alert(url);
+      fetch(url, {
+        method: "POST",
+      })
         .then((res) => res.json())
         .then((res: any) => {
           setLoading(false);

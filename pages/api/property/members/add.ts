@@ -10,20 +10,29 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const data: any | null = await prisma.propertyInvite.create({
+  // Find email from `user` table
+  const user = await prisma.user.findUnique({
     where: {
-      propertyId: req.query.property,
+      email: req.query.email,
     },
-    select: {
-      id: true,
-      permission: true,
-      property: {
+  });
+  if (!user) {
+    res.status(401).json({ error: "User not found" });
+    return;
+  }
+  // Get user id
+  const userId = user.id;
+  const data: any | null = await prisma.propertyInvite.create({
+    data: {
+      profile: {
         connect: { id: req.query.property },
       },
       user: {
-        connect: { email: req.query.email },
+        connect: { id: userId },
       },
       accepted: false,
+      selected: false,
+      permission: req.query.permission,
     },
   });
   res.json(data);
