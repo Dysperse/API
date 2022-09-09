@@ -12,16 +12,20 @@ const handler = async (req: any, res: any) => {
     return;
   }
 
-  const data: any | null = await prisma.note.findMany({
-    where: {
-      room: req.query.room,
+  const note = await prisma.note.create({
+    data: {
       property: {
-        id: req.query.property,
+        connect: {
+          propertyId: req.query.property,
+        },
       },
+      name: req.query.title,
+      content: req.query.content,
+      pinned: req.query.pinned === "true",
     },
   });
 
-  res.json(data);
+  res.json(note);
 };
 
 export default handler;

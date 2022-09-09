@@ -83,9 +83,11 @@ model CustomRoom {
 }
 
 model Note {
-  id     String  @id @default(uuid())
-  name   String
-  pinned Boolean @default(false)
+  id          String   @id @default(uuid())
+  name        String
+  content     String
+  pinned      Boolean  @default(false)
+  lastUpdated DateTime @default(now())
 
   // Property this room belongs to
   property   Property @relation(fields: [propertyId], references: [id])

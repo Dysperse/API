@@ -13,16 +13,102 @@ import toast from "react-hot-toast";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { useState } from "react";
 import * as colors from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
 import { Puller } from "../components/Puller";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useFormik } from "formik";
 import LinearProgress from "@mui/material/LinearProgress";
+import { Icon } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import hexToRgba from "hex-to-rgba";
+function ColorModal({ formik }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        disableSwipeToOpen
+        open={open}
+        BackdropProps={{
+          sx: {
+            background:
+              hexToRgba(colors[formik.values.color][100], 0.7) + "!important",
+          },
+        }}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            maxWidth: { sm: "470px" },
+            mx: "auto",
+            background: colors[formik.values.color][50],
+            borderRadius: "30px 30px 0 0",
+          },
+        }}
+      >
+        <DialogTitle>Choose a color</DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            {Object.keys(colors)
+              .filter((c) => c !== "common")
+              .map((color) => (
+                <Box
+                  key={color}
+                  sx={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    background: colors[color]["500"],
+                    margin: "5px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    formik.setFieldValue("color", color);
+                    setOpen(false);
+                  }}
+                />
+              ))}
+          </Box>
+        </DialogContent>
+      </SwipeableDrawer>
+      <IconButton
+        disableRipple
+        onClick={() => setOpen(true)}
+        sx={{
+          borderRadius: 4,
+          mr: 0.5,
+          transition: "none",
+          color: global.theme == "dark" ? "#fff" : colors[themeColor]["800"],
+          "&:hover": {
+            background:
+              colors[themeColor][global.theme == "dark" ? "900" : "200"] +
+              "!important",
+          },
+        }}
+      >
+        <span
+          className={
+            "material-symbols-" +
+            (formik.values.pinned ? "rounded" : "outlined")
+          }
+        >
+          palette
+        </span>
+      </IconButton>
+    </>
+  );
+}
 
 function CreateNoteModal({ url }: { url: string }) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
+      color: "red",
+      pinned: false,
       title: "",
       content: "",
     },
@@ -31,9 +117,12 @@ function CreateNoteModal({ url }: { url: string }) {
       fetch(
         "/api/property/notes/create?" +
           new URLSearchParams({
-            ...values,
-            property: global.property.id,
+            property: global.property.propertyId,
             accessToken: global.property.accessToken,
+            title: values.title,
+            content: values.content,
+            pinned: values.pinned ? "true" : "false",
+            color: values.color,
           })
       )
         .then((res) => res.json())
@@ -61,10 +150,16 @@ function CreateNoteModal({ url }: { url: string }) {
           alignItems: "center",
           justifyContent: "center",
         }}
+        BackdropProps={{
+          sx: {
+            background:
+              hexToRgba(colors[formik.values.color][100], 0.7) + "!important",
+          },
+        }}
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
+            background: colors[formik.values.color][50],
             position: "static",
             overflow: "hidden!important",
             maxWidth: "500px",
@@ -77,7 +172,7 @@ function CreateNoteModal({ url }: { url: string }) {
         </Box>
         <LinearProgress
           variant="determinate"
-          value={(formik.values.content.length / 500) * 100}
+          value={(formik.values.content.length / 350) * 100}
           sx={{ height: 2 }}
         />
         <Box sx={{ p: 4, pt: 5 }}>
@@ -104,7 +199,7 @@ function CreateNoteModal({ url }: { url: string }) {
               onChange={(e) =>
                 formik.setFieldValue(
                   "content",
-                  e.target.value.substring(0, 500)
+                  e.target.value.substring(0, 350)
                 )
               }
               name="content"
@@ -118,6 +213,39 @@ function CreateNoteModal({ url }: { url: string }) {
               }}
               variant="standard"
             />
+            <Box sx={{ mt: 2, textAlign: "right" }}>
+              <ColorModal formik={formik} />
+              <IconButton
+                disableRipple
+                sx={{
+                  borderRadius: 4,
+                  mr: 0.5,
+                  transition: "none",
+                  color:
+                    global.theme == "dark" ? "#fff" : colors[themeColor]["800"],
+                  ...(formik.values.pinned && {
+                    background:
+                      colors[themeColor][
+                        global.theme == "dark" ? "900" : "200"
+                      ] + "!important",
+                  }),
+                  "&:active": { background: "rgba(0,0,0,0.1)!important" },
+                }}
+                onClick={() =>
+                  formik.setFieldValue("pinned", !formik.values.pinned)
+                }
+              >
+                <span
+                  style={{ transform: "rotate(-45deg)" }}
+                  className={
+                    "material-symbols-" +
+                    (formik.values.pinned ? "rounded" : "outlined")
+                  }
+                >
+                  push_pin
+                </span>
+              </IconButton>
+            </Box>
             <LoadingButton
               sx={{ mt: 2, borderRadius: "20px" }}
               disableElevation
