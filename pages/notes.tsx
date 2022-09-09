@@ -23,6 +23,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import hexToRgba from "hex-to-rgba";
+
 function ColorModal({ formik }) {
   const [open, setOpen] = useState(false);
   return (
@@ -146,9 +147,9 @@ function CreateNoteModal({ url }: { url: string }) {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          display: { sm: "flex" },
+          alignItems: { sm: "center" },
+          justifyContent: { sm: "center" },
         }}
         BackdropProps={{
           sx: {
@@ -160,9 +161,11 @@ function CreateNoteModal({ url }: { url: string }) {
           elevation: 0,
           sx: {
             background: colors[formik.values.color][50],
-            position: "static",
+            position: { sm: "static" },
+            mx: "auto",
             overflow: "hidden!important",
             maxWidth: "500px",
+            width: "100%",
             borderRadius: "10px",
           },
         }}
