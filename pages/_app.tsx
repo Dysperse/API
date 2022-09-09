@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import Layout from "../components/Layout";
-import LoginPrompt from "../components/LoginPrompt";
+import LoginPrompt from "../components/Auth/Prompt";
 import "../styles/globals.scss";
 import "../styles/search.scss";
 dayjs.extend(relativeTime);
@@ -193,36 +193,11 @@ function RenderApp({ router, Component, pageProps }: any) {
         </>
       ) : (
         <>
-          {/* {isLoading && <>Loading...</>} */}
-          {!isLoading &&
-            !isError &&
-            (data.user ? (
-              <>
-                {data.user.onboarding ? (
-                  <>
-                    <button
-                      style={{ opacity: 0.4, border: 0, borderRadius: 3 }}
-                      ref={(e) => e && e.click()}
-                      onClick={() => {
-                        router.push("/onboarding");
-                      }}
-                    >
-                      Not redirecting? Click here
-                    </button>
-                  </>
-                ) : (
-                  <Render
-                    Component={Component}
-                    pageProps={pageProps}
-                    data={data}
-                  />
-                )}
-              </>
-            ) : isError ? (
-              <>An error occured</>
-            ) : (
-              <LoginPrompt />
-            ))}
+          {isError && <Box>Failed to load</Box>}
+          {!isLoading && !isError && !data.error && (
+            <Render Component={Component} pageProps={pageProps} data={data} />
+          )}
+          {!isLoading && !isError && data.error && <LoginPrompt />}
         </>
       )}
     </>

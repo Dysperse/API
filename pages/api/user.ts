@@ -12,8 +12,12 @@ export const sessionData = async (providedToken) => {
 };
 
 const handler = async (req, res) => {
-  const info = await sessionData(req.cookies.token);
-  res.json(info);
+  if (req.cookies.token) {
+    const info = await sessionData(req.cookies.token);
+    res.json(info);
+  } else {
+    res.status(200).json({ error: true });
+  }
 };
 
 export default handler;
