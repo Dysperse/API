@@ -7,15 +7,47 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
+import toast from "react-hot-toast";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { useState } from "react";
 import * as colors from "@mui/material/colors";
 import { Puller } from "../components/Puller";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useFormik } from "formik";
+import LinearProgress from "@mui/material/LinearProgress";
 
-function CreateNoteModal() {
-  const [open, setOpen] = useState(false);
+function CreateNoteModal({ url }: { url: string }) {
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      content: "",
+    },
+    onSubmit: async (values) => {
+      setLoading(true);
+      fetch(
+        "/api/property/notes/create?" +
+          new URLSearchParams({
+            ...values,
+            property: global.property.id,
+            accessToken: global.property.accessToken,
+          })
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          setLoading(false);
+          mutate(url);
+          toast.error("Created note!");
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error("Couldn't create note. Please try again later.");
+        });
+    },
+  });
 
   return (
     <>
@@ -34,25 +66,70 @@ function CreateNoteModal() {
           sx: {
             background: colors[themeColor][50],
             position: "static",
+            overflow: "hidden!important",
             maxWidth: "500px",
-            borderRadius: "20px",
+            borderRadius: "10px",
           },
         }}
       >
-        <Puller />
+        <Box sx={{ display: { sm: "none" } }}>
+          <Puller />
+        </Box>
+        <LinearProgress
+          variant="determinate"
+          value={(formik.values.content.length / 500) * 100}
+          sx={{ height: 2 }}
+        />
         <Box sx={{ p: 4, pt: 5 }}>
-          <TextField
-            sx={{ mb: 2 }}
-            fullWidth
-            placeholder="Add a title..."
-            InputProps={{
-              disableUnderline: true,
-              sx: {
-                fontSize: "1.5rem",
-              },
-            }}
-            variant="standard"
-          />
+          <form onSubmit={formik.handleSubmit}>
+            <TextField
+              sx={{ mb: 1 }}
+              fullWidth
+              placeholder="Add a title"
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              name="title"
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  fontSize: "1.5rem",
+                },
+              }}
+              variant="standard"
+            />
+            <TextField
+              fullWidth
+              multiline
+              value={formik.values.content}
+              onChange={(e) =>
+                formik.setFieldValue(
+                  "content",
+                  e.target.value.substring(0, 500)
+                )
+              }
+              name="content"
+              placeholder="Write something..."
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  minHeight: "150px",
+                  alignItems: "flex-start",
+                },
+              }}
+              variant="standard"
+            />
+            <LoadingButton
+              sx={{ mt: 2, borderRadius: "20px" }}
+              disableElevation
+              size="large"
+              type="submit"
+              fullWidth
+              variant="contained"
+              loading={loading}
+            >
+              Create
+            </LoadingButton>
+          </form>
         </Box>
       </SwipeableDrawer>
       <Card
@@ -127,7 +204,7 @@ export default function Notes() {
       )}
       {data ? (
         <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
-          <CreateNoteModal />
+          <CreateNoteModal url={url} />
           {data.map((note, key) => (
             <Note key={key} note={note} />
           ))}
