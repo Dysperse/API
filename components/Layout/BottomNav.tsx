@@ -207,15 +207,15 @@ export function BottomNav({ maintenance }: any) {
             sx={{
               ...styles,
             }}
-            label="Tips"
-            onClick={() => onLink("/tips")}
+            label="Notes"
+            onClick={() => onLink("/notes")}
             icon={
               <Icon
                 baseClassName={
                   "material-symbols-" + (value == 2 ? "rounded" : "outlined")
                 }
               >
-                auto_awesome
+                sticky_note_2
               </Icon>
             }
           />
