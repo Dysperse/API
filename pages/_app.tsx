@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import Layout from "../components/Layout";
-import LoginPrompt from "../components/Auth1/Prompt";
+import LoginPrompt from "../components/Auth/Prompt";
 import "../styles/globals.scss";
 import "../styles/search.scss";
 dayjs.extend(relativeTime);
