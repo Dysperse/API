@@ -14,6 +14,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import CardActionArea from "@mui/material/CardActionArea";
 import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
@@ -23,10 +24,38 @@ import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
 
+function Color({ s, color, setColor }: any) {
+  return (
+    <CardActionArea
+      onClick={() => setColor(color)}
+      sx={{
+        width: 36,
+        height: 36,
+        borderRadius: "50%",
+        display: "inline-flex",
+        mr: 1,
+        backgroundColor: colors[color]["A700"],
+      }}
+    >
+      <span
+        className="material-symbols-outlined"
+        style={{
+          color: "#fff",
+          margin: "auto",
+          opacity: s === color ? 1 : 0,
+        }}
+      >
+        check
+      </span>
+    </CardActionArea>
+  );
+}
+
 function House({ data }: any) {
   const [open, setOpen] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [color, setColor] = React.useState<string>(data.color ?? "red");
   const [propertyType, setPropertyType] = React.useState(
     global.property.profile.type
   );
@@ -152,7 +181,7 @@ function House({ data }: any) {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][global.theme == "dark" ? 900 : 50],
+            background: colors[color][global.theme == "dark" ? 900 : 50],
             width: {
               sm: "50vw",
             },
@@ -183,9 +212,9 @@ function House({ data }: any) {
             sx={{
               background:
                 "linear-gradient(45deg, " +
-                colors[themeColor][900] +
+                colors[color][900] +
                 ",  " +
-                colors[themeColor][500] +
+                colors[color][300] +
                 ")",
               px: 3,
               height: "300px",
@@ -332,7 +361,7 @@ function House({ data }: any) {
                   InputProps={{
                     sx: {
                       color: "#fff!important",
-                      fontSize: "50px",
+                      fontSize: "40px",
                       py: 0,
                     },
                   }}
@@ -344,12 +373,12 @@ function House({ data }: any) {
                   placeholder="1234 Rainbow Road"
                   onBlur={(e: any) => {
                     fetch(
-                      "/api/account/sync/updateHome?" +
+                      "/api/property/updateInfo?" +
                         new URLSearchParams({
                           token: global.property.propertyId,
                           data: JSON.stringify({
                             name: e.target.value,
-                            propertyType: propertyType,
+                            type: propertyType,
                           }),
                         }),
                       {
@@ -360,6 +389,15 @@ function House({ data }: any) {
                     });
                   }}
                 />
+                <Box sx={{ mt: 2, overflowX: "scroll", whiteSpace: "nowrap" }}>
+                  <Color setColor={setColor} s={color} color={"red"} />
+                  <Color setColor={setColor} s={color} color={"green"} />
+                  <Color setColor={setColor} s={color} color={"blue"} />
+                  <Color setColor={setColor} s={color} color={"orange"} />
+                  <Color setColor={setColor} s={color} color={"cyan"} />
+                  <Color setColor={setColor} s={color} color={"purple"} />
+                  <Color setColor={setColor} s={color} color={"indigo"} />
+                </Box>
               </Box>
             ) : (
               <Box
@@ -423,6 +461,7 @@ function House({ data }: any) {
                   sx={{
                     borderRadius: 4,
                     boxShadow: 0,
+                    background: colors[color][900] + "!important",
                   }}
                 >
                   <span
