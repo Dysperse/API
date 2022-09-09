@@ -23,6 +23,7 @@ export const getUserData = async (token: string) => {
               propertyId: true,
               accessToken: true,
               selected: true,
+              accepted: true,
               permission: true,
               profile: true,
             },

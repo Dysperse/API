@@ -9,6 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
+import useSWR, { useSWRConfig } from "swr";
 import Popover from "@mui/material/Popover";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -52,7 +53,7 @@ function Color({ s, color, setColor }: any) {
   );
 }
 
-function House({ data }: any) {
+function House({ handleClose, data }: any) {
   const [open, setOpen] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -60,6 +61,7 @@ function House({ data }: any) {
   const [propertyType, setPropertyType] = React.useState(
     global.property.profile.type
   );
+  const { mutate } = useSWRConfig();
 
   const handleChange = (event: SelectChangeEvent) => {
     setPropertyType(event.target.value as string);
@@ -78,17 +80,25 @@ function House({ data }: any) {
             fetch(
               "/api/property/join?" +
                 new URLSearchParams({
-                  accessToken: data.accessToken,
                   property: data.propertyId,
-                  id: data.id,
+                  accessToken: data.accessToken,
+                  email: global.user.email,
                 })
-            ).then((res) => {
-              updateSettings("SyncToken", data.propertyId, false, () => {
+            )
+              .then((res) => {
                 toast.success("Joined!");
-                window.location.href = "/dashboard";
-                window.location.reload();
+                // window.location.href = "/dashboard";
+                // window.location.reload();
+                mutate("/api/user");
+                setLoading(false);
+                handleClose();
+              })
+              .catch((err) => {
+                toast.error(
+                  "An error occured while trying to switch properties!"
+                );
+                setLoading(false);
               });
-            });
           }
         }}
         sx={{
@@ -122,9 +132,9 @@ function House({ data }: any) {
                 <Typography variant="h6" sx={{ fontWeight: "600" }}>
                   {data.profile.name}
                 </Typography>
-                {/* {!data.accepted && (
+                {!data.accepted && (
                   <Chip size="small" color="error" label="Invitation pending" />
-                )} */}
+                )}
               </>
             }
             secondary={
@@ -160,16 +170,12 @@ function House({ data }: any) {
             }
           />
           <ListItemIcon>
-            {data.propertyId !== global.property.propertyId ? (
-              <LoadingButton loading={loading}>Join</LoadingButton>
-            ) : (
-              <span
-                className="material-symbols-rounded"
-                style={{ marginLeft: "15px" }}
-              >
-                chevron_right
-              </span>
-            )}
+            <LoadingButton
+              loading={loading}
+              sx={{ px: 0, minWidth: "auto", borderRadius: 9, ml: "auto" }}
+            >
+              <span className="material-symbols-rounded">chevron_right</span>
+            </LoadingButton>
           </ListItemIcon>
         </Box>
       </ListItem>
@@ -567,7 +573,11 @@ export function InviteButton() {
         </Box>
         <Box sx={{ py: { xs: 3, sm: 0 }, px: 2, textAlign: "center" }} />
         {global.user.properties.map((house: any, key: number) => (
-          <House key={key.toString()} data={house} />
+          <House
+            handleClose={() => setOpen(false)}
+            key={key.toString()}
+            data={house}
+          />
         ))}
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
