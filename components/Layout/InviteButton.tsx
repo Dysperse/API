@@ -85,8 +85,13 @@ function House({ handleClose, data }: any) {
                   email: global.user.email,
                 })
             )
-              .then((res) => {
-                toast.success("Joined!");
+              .then((res) => res.json())
+              .then((res: any) => {
+                toast.success(
+                  <>
+                    Currently viewing&nbsp;<b>{res.profile.name}</b>{" "}
+                  </>
+                );
                 // window.location.href = "/dashboard";
                 // window.location.reload();
                 mutate("/api/user");

@@ -23,6 +23,9 @@ const handler = async (req: any, res: any) => {
       selected: true,
       accepted: true,
     },
+    include: {
+      profile: { name: true },
+    },
   });
 
   res.json(data);
