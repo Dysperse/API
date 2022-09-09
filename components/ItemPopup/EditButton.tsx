@@ -127,7 +127,7 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
               id="categories"
               multiple
               freeSolo
-              options={AutocompleteData}
+              options={[]}
               defaultValue={formik.values.categories}
               onChange={(e, newValue) =>
                 formik.setFieldValue("categories", newValue)
