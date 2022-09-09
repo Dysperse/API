@@ -241,7 +241,7 @@ export default function Prompt() {
                   Welcome to Carbon.
                 </Typography>
                 <Typography sx={{ mb: 2 }}>
-                  We're so excited to have you back
+                  We&apos;re so excited to have you back
                 </Typography>
               </Box>
               <TextField
