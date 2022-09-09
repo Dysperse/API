@@ -33,12 +33,8 @@ export default function Prompt() {
   const [buttonLoading, setButtonLoading] = useState(false);
   const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(true);
 
-  const fetcher = (e: any, o: any) => fetch(e, o).then((res) => res.json());
   const cookies = new Cookies();
-  const theme = useTheme();
 
-  const url = "/api/fetchApp?id=" + window.location.pathname.split("oauth/")[1];
-  const { data, error } = useSWR(url, () => fetcher(url, {}));
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -47,7 +43,7 @@ export default function Prompt() {
     },
     onSubmit: (values) => {
       setButtonLoading(true);
-      fetch("/api/auth", {
+      fetch("/api/login", {
         method: "POST",
         body: new URLSearchParams({
           appId: window.location.pathname.split("oauth/")[1],
@@ -58,21 +54,9 @@ export default function Prompt() {
       })
         .then((res) => res.json())
         .then((res) => {
-          if (res.success === false && res["2fa"] === false) {
-            toast.error("Invalid email or password", toastStyles);
-            setButtonLoading(false);
-          } else if (res.success === false && res["2fa"] === true) {
-            if (!twoFactorModalOpen) {
-              setButtonLoading(false);
-              toast.error("Invalid 2FA code", toastStyles);
-              return;
-            }
-            setButtonLoading(false);
-          } else {
-            cookies.set("accessToken", res.token, { path: "/" });
-            window.location.href = `${res.redirectUri}?token=${res.token}`;
-          }
-        });
+          alert(JSON.stringify(res));
+        })
+        .catch((err) => setButtonLoading(false));
     },
   });
 

@@ -23,6 +23,7 @@
     "@mui/material": "^5.10.4",
     "@mui/styles": "^5.10.3",
     "@prisma/client": "^4.3.1",
+    "argon2": "^0.29.1",
     "cmdk": "^0.1.20",
     "concat-map": "^0.0.1",
     "cookies-next": "^2.1.1",
