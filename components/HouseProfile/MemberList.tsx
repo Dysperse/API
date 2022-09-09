@@ -24,7 +24,7 @@ function isEmail(email) {
     );
 }
 
-function AddPersonModal({ members }: any) {
+function AddPersonModal({ color, members }: any) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -45,6 +45,7 @@ function AddPersonModal({ members }: any) {
           borderRadius: 4,
           ml: "auto",
           boxShadow: 0,
+          backgroundColor: colors[color][900] + "!important",
         }}
       >
         <span
@@ -61,7 +62,7 @@ function AddPersonModal({ members }: any) {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
+            background: colors[color][50],
             width: {
               sm: "50vw",
             },
@@ -89,7 +90,7 @@ function AddPersonModal({ members }: any) {
               background:
                 global.theme === "dark"
                   ? "hsl(240, 11%, 30%)"
-                  : colors[themeColor][100],
+                  : colors[color][100],
               borderRadius: 5,
               display: "block",
               p: 2,
@@ -286,6 +287,10 @@ function Member({ member }): any {
             borderWidth: "2px!important",
             width: "100%",
             mt: 1.5,
+            color: colors.red[900],
+            "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
+              borderColor: colors.red[900] + "!important",
+            },
             borderRadius: 4,
           }}
           onClick={() => {
@@ -320,7 +325,7 @@ function Member({ member }): any {
   );
 }
 
-export function MemberList() {
+export function MemberList({ color }: any) {
   const url =
     "/api/property/members?" +
     new URLSearchParams({
@@ -363,6 +368,7 @@ export function MemberList() {
     <>
       <div style={{ width: "100%", display: "flex", marginTop: "-40px" }}>
         <AddPersonModal
+          color={color}
           members={data ? data.map((member) => member.user.email) : []}
         />
       </div>
@@ -413,7 +419,7 @@ export function MemberList() {
                   background:
                     global.theme === "dark"
                       ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][100],
+                      : colors[color][100],
                 }}
               >
                 {step.content}

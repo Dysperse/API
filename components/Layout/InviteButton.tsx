@@ -23,6 +23,7 @@ import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Color({ s, color, setColor }: any) {
   return (
@@ -442,7 +443,7 @@ function House({ data }: any) {
             <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
               Members
             </Typography>
-            <MemberList />
+            <MemberList color={color} />
             <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
               <Typography variant="h5" sx={{ fontWeight: "700", my: 2 }}>
                 Rooms
@@ -474,7 +475,7 @@ function House({ data }: any) {
                 </Button>
               </Box>
             </Box>
-            <RoomList />
+            <RoomList color={color} />
           </Box>
         </Box>
       </SwipeableDrawer>
@@ -513,23 +514,46 @@ export function InviteButton() {
 
   useEffect(() => {}, [open]);
 
+  const trigger = useMediaQuery("(min-width: 600px)");
+
   return (
     <>
       <SwipeableDrawer
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        anchor="bottom"
+        anchor={trigger ? "top" : "bottom"}
+        BackdropProps={{
+          sx: {
+            background: {
+              sm: "rgba(0,0,0,0)!important",
+            },
+            backdropFilter: { sm: "blur(0px)" },
+          },
+        }}
+        sx={{
+          display: { sm: "flex" },
+          alignItems: { sm: "start" },
+          mt: 9,
+          ml: 3,
+          justifyContent: { sm: "start" },
+        }}
         PaperProps={{
           elevation: 0,
           sx: {
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+            position: { sm: "static!important" },
             background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },
-            maxWidth: "600px",
-            borderRadius: "20px 20px 0 0",
-            mx: "auto",
+            maxWidth: { sm: "300px" },
+            overflow: "hidden!important",
+            borderRadius: {
+              xs: "20px 20px 0 0",
+              sm: 5,
+            },
             ...(global.theme === "dark" && {
               background: "hsl(240, 11%, 25%)",
             }),
@@ -537,8 +561,10 @@ export function InviteButton() {
         }}
         swipeAreaWidth={0}
       >
-        <Puller />
-        <Box sx={{ py: 3, px: 2, textAlign: "center" }}></Box>
+        <Box sx={{ display: { sm: "none" } }}>
+          <Puller />
+        </Box>
+        <Box sx={{ py: { xs: 3, sm: 0 }, px: 2, textAlign: "center" }} />
         {global.user.properties.map((house: any, key: number) => (
           <House key={key.toString()} data={house} />
         ))}

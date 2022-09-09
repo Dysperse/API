@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
 import useSWR from "swr";
 
-function Room({ room }: any) {
+function Room({ color, room }: any) {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   return deleted ? (
     <>This room has been deleted</>
@@ -30,6 +30,10 @@ function Room({ room }: any) {
           borderWidth: "2px!important",
           width: "100%",
           mt: 1.5,
+          color: colors.red[900],
+          "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
+            borderColor: colors.red[900] + "!important",
+          },
           borderRadius: 4,
         }}
         disabled={global.property.role === "read-only"}
@@ -64,7 +68,7 @@ function Room({ room }: any) {
     </>
   );
 }
-export function RoomList() {
+export function RoomList({ color }: any) {
   const url =
     "/api/property/rooms?" +
     new URLSearchParams({
@@ -81,7 +85,7 @@ export function RoomList() {
     ? [
         ...data.map((room) => {
           return {
-            content: <Room room={room} />,
+            content: <Room color={color} room={room} />,
           };
         }),
       ]
@@ -138,7 +142,7 @@ export function RoomList() {
                 userSelect: "none",
                 px: 2.5,
                 borderRadius: 5,
-                background: colors[themeColor][100],
+                background: colors[color][100],
               }}
             >
               You haven&apos;t created any rooms yet
@@ -155,7 +159,7 @@ export function RoomList() {
                     background:
                       global.theme === "dark"
                         ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][100],
+                        : colors[color][100],
                   }}
                 >
                   {step.content}
