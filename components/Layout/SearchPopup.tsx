@@ -158,9 +158,7 @@ export function SearchPopup() {
           >
             <div>
               {pages.map((p) => (
-                <div key={p} cmdk-vercel-badge="">
-                  {p}
-                </div>
+                <div key={p}>{p}</div>
               ))}
             </div>
             <Command.Input
@@ -376,7 +374,7 @@ function Item({
     >
       {children}
       {shortcut && (
-        <div cmdk-vercel-shortcuts="">
+        <div className="cmdk-vercel-shortcuts">
           {shortcut.split(" ").map((key) => {
             return <kbd key={key}>{key}</kbd>;
           })}

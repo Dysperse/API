@@ -89,6 +89,7 @@ function Recipe({ recipe }: any) {
               if (recipe[`strIngredient${i + 1}`]) {
                 return (
                   <Typography
+                    key={i.toString()}
                     sx={{
                       display: "flex",
                       alignItems: "center",
