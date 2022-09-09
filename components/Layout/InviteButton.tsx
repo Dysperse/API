@@ -179,7 +179,11 @@ function House({ handleClose, data }: any) {
               loading={loading}
               sx={{ px: 0, minWidth: "auto", borderRadius: 9, ml: "auto" }}
             >
-              <span className="material-symbols-rounded">chevron_right</span>
+              <span className="material-symbols-rounded">
+                {data.propertyId === global.property.propertyId
+                  ? "settings"
+                  : "chevron_right"}
+              </span>
             </LoadingButton>
           </ListItemIcon>
         </Box>
