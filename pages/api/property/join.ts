@@ -24,7 +24,7 @@ const handler = async (req: any, res: any) => {
       accepted: true,
     },
     include: {
-      profile: { name: true },
+      profile: { select: { name: true } },
     },
   });
 

@@ -87,7 +87,7 @@ function House({ handleClose, data }: any) {
             )
               .then((res) => res.json())
               .then((res: any) => {
-                toast.success(
+                toast(
                   <>
                     Currently viewing&nbsp;<b>{res.profile.name}</b>{" "}
                   </>
