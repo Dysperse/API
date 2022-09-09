@@ -58,6 +58,5 @@ export default async function handler(req, res) {
       expires: now,
     })
   );
-  // res.json({ success: true, key: encoded });
-  res.redirect("/dashboard");
+  res.json({ success: true, key: encoded });
 }

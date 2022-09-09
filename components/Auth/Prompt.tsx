@@ -1,24 +1,17 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import Paper from "@mui/material/Paper";
-import Skeleton from "@mui/material/Skeleton";
-import OtpInput from "react-otp-input";
-import { createTheme, useTheme } from "@mui/material/styles";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
-import Link from "next/link";
 import { useState } from "react";
-import toast from "react-hot-toast";
-import useSWR from "swr";
+import OtpInput from "react-otp-input";
+import { useSWRConfig } from "swr";
 import Cookies from "universal-cookie";
-import { Layout } from "./Layout";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../Puller";
+import { Layout } from "./Layout";
 
 const validateEmail = (email) => {
   return String(email)
@@ -29,9 +22,10 @@ const validateEmail = (email) => {
 };
 export default function Prompt() {
   global.themeColor = "brown";
+  const { mutate } = useSWRConfig();
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(true);
+  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
 
   const cookies = new Cookies();
 
@@ -54,7 +48,7 @@ export default function Prompt() {
       })
         .then((res) => res.json())
         .then((res) => {
-          alert(JSON.stringify(res));
+          mutate("/api/user");
         })
         .catch((err) => setButtonLoading(false));
     },
