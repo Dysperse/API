@@ -24,7 +24,7 @@ function isEmail(email) {
     );
 }
 
-function AddPersonModal() {
+function AddPersonModal({ members }: any) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -148,6 +148,10 @@ function AddPersonModal() {
           <LoadingButton
             loading={loading}
             onClick={() => {
+              if (members.find((member) => member === value)) {
+                toast.error("This person is already a member of this house");
+                return;
+              }
               if (isEmail(value)) {
                 fetch(
                   "/api/property/members/add?" +
@@ -286,22 +290,27 @@ function Member({ member }): any {
           }}
           onClick={() => {
             setLoading(true);
-            fetch(
-              "/api/account/sync/revokeToken?" +
-                new URLSearchParams({
-                  id: member.id,
-                  email: member.email,
-                  accessToken: global.property.accessToken,
-                  property: global.property.propertyId,
-                }),
-              {
-                method: "POST",
-              }
-            ).then((res) => {
-              toast.success("Removed person from your home");
-              setLoading(false);
-              setDeleted(true);
-            });
+            if (
+              confirm(
+                "Remove member from your home? This person cannot join unless you invite them again."
+              )
+            ) {
+              fetch(
+                "/api/property/members/remove?" +
+                  new URLSearchParams({
+                    id: member.id,
+                    accessToken: global.property.accessToken,
+                    property: global.property.propertyId,
+                  }),
+                {
+                  method: "POST",
+                }
+              ).then((res: any) => {
+                toast.success("Removed person from your home");
+                setLoading(false);
+                setDeleted(true);
+              });
+            }
           }}
         >
           Remove
@@ -353,7 +362,9 @@ export function MemberList() {
   return (
     <>
       <div style={{ width: "100%", display: "flex", marginTop: "-40px" }}>
-        <AddPersonModal />
+        <AddPersonModal
+          members={data ? data.map((member) => member.user.email) : []}
+        />
       </div>
       <Box
         sx={{
