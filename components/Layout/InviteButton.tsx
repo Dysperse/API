@@ -76,10 +76,11 @@ function House({ data }: any) {
           } else {
             setLoading(true);
             fetch(
-              "/api/account/sync/acceptInvitation?" +
+              "/api/property/join?" +
                 new URLSearchParams({
                   accessToken: data.accessToken,
                   property: data.propertyId,
+                  id: data.id,
                 })
             ).then((res) => {
               updateSettings("SyncToken", data.propertyId, false, () => {
