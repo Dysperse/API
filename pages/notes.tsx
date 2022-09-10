@@ -107,6 +107,7 @@ function ColorModal({ formik }) {
   );
 }
 function NoteModal({
+  id,
   url,
   create = false,
   open,
@@ -114,6 +115,7 @@ function NoteModal({
   title,
   content,
 }: {
+  id?: number;
   url: string;
   create?: boolean;
   open: boolean;
@@ -126,29 +128,40 @@ function NoteModal({
     initialValues: {
       color: "orange",
       pinned: false,
-      title: "",
-      content: "",
+      title: create ? "" : title,
+      content: create ? "" : content,
     },
     onSubmit: async (values) => {
       setLoading(true);
       fetch(
-        "/api/property/notes/create?" +
-          new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            title: values.title,
-            content: values.content,
-            pinned: values.pinned ? "true" : "false",
-            color: values.color,
-          })
+        create
+          ? "/api/property/notes/create?" +
+              new URLSearchParams({
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                title: values.title,
+                content: values.content,
+                pinned: values.pinned ? "true" : "false",
+                color: values.color,
+              })
+          : "/api/property/notes/edit?" +
+              new URLSearchParams({
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                title: values.title,
+                content: values.content,
+                pinned: values.pinned ? "true" : "false",
+                color: values.color,
+                id: id ? id.toString() : "",
+              })
       )
         .then((res) => res.json())
         .then((res) => {
           setLoading(false);
           mutate(url);
-          toast.success("Created note!");
+          toast.success(create ? "Created note!" : "Updated!");
           setOpen(false);
-          formik.resetForm();
+          if (create) formik.resetForm();
         })
         .catch((err) => {
           setLoading(false);
@@ -161,7 +174,11 @@ function NoteModal({
     <SwipeableDrawer
       anchor="bottom"
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        // Submit form
+        formik.handleSubmit();
+        setOpen(false);
+      }}
       onOpen={() => setOpen(true)}
       sx={{
         display: { sm: "flex" },
@@ -264,21 +281,23 @@ function NoteModal({
               </span>
             </IconButton>
           </Box>
-          <LoadingButton
-            sx={{
-              mt: 2,
-              borderRadius: "20px",
-              background: colors[formik.values.color][900] + "!important",
-            }}
-            disableElevation
-            size="large"
-            type="submit"
-            fullWidth
-            variant="contained"
-            loading={loading}
-          >
-            Create
-          </LoadingButton>
+          {create && (
+            <LoadingButton
+              sx={{
+                mt: 2,
+                borderRadius: "20px",
+                background: colors[formik.values.color][900] + "!important",
+              }}
+              disableElevation
+              size="large"
+              type="submit"
+              fullWidth
+              variant="contained"
+              loading={loading}
+            >
+              {create ? "Create" : "Save"}
+            </LoadingButton>
+          )}
         </form>
       </Box>
     </SwipeableDrawer>
@@ -323,28 +342,40 @@ function CreateNoteModal({ url }: { url: string }) {
   );
 }
 
-function Note({ note }) {
+function Note({ url, note }) {
+  const [open, setOpen] = useState<boolean>(false);
   return (
-    <Card
-      sx={{
-        borderRadius: 5,
-        background: colors[note.color ?? "orange"][50],
-      }}
-    >
-      <CardActionArea>
-        <CardContent sx={{ p: 3 }}>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            sx={{ fontWeight: "500" }}
-          >
-            {note.name}
-          </Typography>
-          <Typography variant="body2">{note.content}</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <>
+      <NoteModal
+        url={url}
+        open={open}
+        setOpen={setOpen}
+        title={note.name}
+        content={note.content}
+        id={note.id}
+      />
+      <Card
+        onClick={() => setOpen(true)}
+        sx={{
+          borderRadius: 5,
+          background: colors[note.color ?? "orange"][50],
+        }}
+      >
+        <CardActionArea>
+          <CardContent sx={{ p: 3 }}>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{ fontWeight: "500" }}
+            >
+              {note.name}
+            </Typography>
+            <Typography variant="body2">{note.content}</Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </>
   );
 }
 
@@ -380,7 +411,7 @@ export default function Notes() {
         <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
           <CreateNoteModal url={url} />
           {data.map((note, key) => (
-            <Note key={key} note={note} />
+            <Note key={key} note={note} url={url} />
           ))}
           {data.length === 0 && (
             <>
