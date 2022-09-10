@@ -182,6 +182,7 @@ function RenderApp({ router, Component, pageProps }: any) {
     <>
       {router.pathname === "/share/[index]" ||
       router.pathname === "/scan" ||
+      router.pathname === "/signup" ||
       router.pathname === "/canny-auth" ||
       router.pathname === "/onboarding" ? (
         <>
@@ -206,9 +207,6 @@ function RenderApp({ router, Component, pageProps }: any) {
 function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
   return (
     <>
-      {/* <Offline> */}
-      {/* <OfflineBox /> */}
-      {/* </Offline> */}
       <NoSsr>
         <RenderApp
           router={router}
