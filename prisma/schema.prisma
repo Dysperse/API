@@ -88,6 +88,7 @@ model Note {
   content     String
   pinned      Boolean  @default(false)
   lastUpdated DateTime @default(now())
+  color       String   @default("orange")
 
   // Property this room belongs to
   property   Property @relation(fields: [propertyId], references: [id])

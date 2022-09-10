@@ -16,10 +16,11 @@ const handler = async (req: any, res: any) => {
     data: {
       property: {
         connect: {
-          propertyId: req.query.property,
+          id: req.query.property,
         },
       },
       name: req.query.title,
+      color: req.query.color ?? "orange",
       content: req.query.content,
       pinned: req.query.pinned === "true",
     },

@@ -82,11 +82,15 @@ function ColorModal({ formik }) {
           borderRadius: 4,
           mr: 0.5,
           transition: "none",
-          color: global.theme == "dark" ? "#fff" : colors[themeColor]["800"],
+          color:
+            global.theme == "dark"
+              ? "#fff"
+              : colors[formik.values.color]["800"],
           "&:hover": {
             background:
-              colors[themeColor][global.theme == "dark" ? "900" : "200"] +
-              "!important",
+              colors[formik.values.color][
+                global.theme == "dark" ? "900" : "200"
+              ] + "!important",
           },
         }}
       >
@@ -102,13 +106,142 @@ function ColorModal({ formik }) {
     </>
   );
 }
+function NoteModal({ create = false, open, setOpen, formik }) {
+  const [loading, setLoading] = useState<boolean>(false);
+  return (
+    <SwipeableDrawer
+      anchor="bottom"
+      open={open}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      sx={{
+        display: { sm: "flex" },
+        alignItems: { sm: "center" },
+        justifyContent: { sm: "center" },
+      }}
+      BackdropProps={{
+        sx: {
+          background:
+            hexToRgba(colors[formik.values.color][100], 0.7) + "!important",
+        },
+      }}
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          background: colors[formik.values.color][50],
+          position: { sm: "static" },
+          mx: "auto",
+          overflow: "hidden!important",
+          maxWidth: "500px",
+          width: "100%",
+          borderRadius: { xs: "30px 30px 0 0", sm: 5 },
+        },
+      }}
+    >
+      <LinearProgress
+        variant="determinate"
+        value={(formik.values.content.length / 350) * 100}
+        sx={{ height: 2, color: colors[formik.values.color][500] }}
+        color="inherit"
+      />
+      <Box sx={{ p: 4, pt: 5 }}>
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            sx={{ mb: 1 }}
+            fullWidth
+            placeholder="Add a title"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            name="title"
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                fontWeight: "900",
+                fontSize: "1.5rem",
+              },
+            }}
+            variant="standard"
+          />
+          <TextField
+            fullWidth
+            multiline
+            value={formik.values.content}
+            onChange={(e) =>
+              formik.setFieldValue("content", e.target.value.substring(0, 350))
+            }
+            name="content"
+            placeholder="Write something..."
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                minHeight: "150px",
+                alignItems: "flex-start",
+              },
+            }}
+            variant="standard"
+          />
+          <Box sx={{ mt: 2, textAlign: "right" }}>
+            <ColorModal formik={formik} />
+            <IconButton
+              disableRipple
+              sx={{
+                borderRadius: 4,
+                mr: 0.5,
+                transition: "none",
+                color:
+                  global.theme == "dark"
+                    ? "#fff"
+                    : colors[formik.values.color]["800"],
+                ...(formik.values.pinned && {
+                  background:
+                    colors[formik.values.color][
+                      global.theme == "dark" ? "900" : "200"
+                    ] + "!important",
+                }),
+                "&:active": { background: "rgba(0,0,0,0.1)!important" },
+              }}
+              onClick={() =>
+                formik.setFieldValue("pinned", !formik.values.pinned)
+              }
+            >
+              <span
+                style={{ transform: "rotate(-45deg)" }}
+                className={
+                  "material-symbols-" +
+                  (formik.values.pinned ? "rounded" : "outlined")
+                }
+              >
+                push_pin
+              </span>
+            </IconButton>
+          </Box>
+          <LoadingButton
+            sx={{
+              mt: 2,
+              borderRadius: "20px",
+              background: colors[formik.values.color][900] + "!important",
+            }}
+            disableElevation
+            size="large"
+            type="submit"
+            fullWidth
+            variant="contained"
+            loading={loading}
+          >
+            Create
+          </LoadingButton>
+        </form>
+      </Box>
+    </SwipeableDrawer>
+  );
+}
 
 function CreateNoteModal({ url }: { url: string }) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
-      color: "red",
+      color: "orange",
       pinned: false,
       title: "",
       content: "",
@@ -130,7 +263,9 @@ function CreateNoteModal({ url }: { url: string }) {
         .then((res) => {
           setLoading(false);
           mutate(url);
-          toast.error("Created note!");
+          toast.success("Created note!");
+          setOpen(false);
+          formik.resetForm();
         })
         .catch((err) => {
           setLoading(false);
@@ -141,128 +276,7 @@ function CreateNoteModal({ url }: { url: string }) {
 
   return (
     <>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={open}
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        sx={{
-          display: { sm: "flex" },
-          alignItems: { sm: "center" },
-          justifyContent: { sm: "center" },
-        }}
-        BackdropProps={{
-          sx: {
-            background:
-              hexToRgba(colors[formik.values.color][100], 0.7) + "!important",
-          },
-        }}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            background: colors[formik.values.color][50],
-            position: { sm: "static" },
-            mx: "auto",
-            overflow: "hidden!important",
-            maxWidth: "500px",
-            width: "100%",
-            borderRadius: "10px",
-          },
-        }}
-      >
-        <Box sx={{ display: { sm: "none" } }}>
-          <Puller />
-        </Box>
-        <LinearProgress
-          variant="determinate"
-          value={(formik.values.content.length / 350) * 100}
-          sx={{ height: 2 }}
-        />
-        <Box sx={{ p: 4, pt: 5 }}>
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              sx={{ mb: 1 }}
-              fullWidth
-              placeholder="Add a title"
-              value={formik.values.title}
-              onChange={formik.handleChange}
-              name="title"
-              InputProps={{
-                disableUnderline: true,
-                sx: {
-                  fontSize: "1.5rem",
-                },
-              }}
-              variant="standard"
-            />
-            <TextField
-              fullWidth
-              multiline
-              value={formik.values.content}
-              onChange={(e) =>
-                formik.setFieldValue(
-                  "content",
-                  e.target.value.substring(0, 350)
-                )
-              }
-              name="content"
-              placeholder="Write something..."
-              InputProps={{
-                disableUnderline: true,
-                sx: {
-                  minHeight: "150px",
-                  alignItems: "flex-start",
-                },
-              }}
-              variant="standard"
-            />
-            <Box sx={{ mt: 2, textAlign: "right" }}>
-              <ColorModal formik={formik} />
-              <IconButton
-                disableRipple
-                sx={{
-                  borderRadius: 4,
-                  mr: 0.5,
-                  transition: "none",
-                  color:
-                    global.theme == "dark" ? "#fff" : colors[themeColor]["800"],
-                  ...(formik.values.pinned && {
-                    background:
-                      colors[themeColor][
-                        global.theme == "dark" ? "900" : "200"
-                      ] + "!important",
-                  }),
-                  "&:active": { background: "rgba(0,0,0,0.1)!important" },
-                }}
-                onClick={() =>
-                  formik.setFieldValue("pinned", !formik.values.pinned)
-                }
-              >
-                <span
-                  style={{ transform: "rotate(-45deg)" }}
-                  className={
-                    "material-symbols-" +
-                    (formik.values.pinned ? "rounded" : "outlined")
-                  }
-                >
-                  push_pin
-                </span>
-              </IconButton>
-            </Box>
-            <LoadingButton
-              sx={{ mt: 2, borderRadius: "20px" }}
-              disableElevation
-              size="large"
-              type="submit"
-              fullWidth
-              variant="contained"
-              loading={loading}
-            >
-              Create
-            </LoadingButton>
-          </form>
-        </Box>
-      </SwipeableDrawer>
+      <NoteModal create open={open} setOpen={setOpen} formik={formik} />
       <Card
         sx={{ borderRadius: 5, background: "rgba(200,200,200,.3)" }}
         onClick={() => setOpen(true)}
@@ -290,11 +304,16 @@ function CreateNoteModal({ url }: { url: string }) {
 
 function Note({ note }) {
   return (
-    <Card>
+    <Card
+      sx={{
+        borderRadius: 5,
+        background: colors[note.color ?? "orange"][50],
+      }}
+    >
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {note.title}
+            {note.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {note.content}
