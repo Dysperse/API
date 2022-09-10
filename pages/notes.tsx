@@ -175,7 +175,9 @@ function NoteModal({
   useEffect(() => {
     formik.setFieldValue("title", title);
     formik.setFieldValue("content", content);
-  }, [title, content, formik]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, content]);
   return (
     <SwipeableDrawer
       anchor="bottom"
