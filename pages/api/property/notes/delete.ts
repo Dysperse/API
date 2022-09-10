@@ -12,11 +12,9 @@ const handler = async (req: any, res: any) => {
     return;
   }
 
-  const data: any | null = await prisma.note.findMany({
+  const data = await prisma.note.delete({
     where: {
-      property: {
-        id: req.query.property,
-      },
+      id: req.query.id,
     },
   });
 

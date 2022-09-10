@@ -291,7 +291,27 @@ function NoteModal({
             {!create && (
               <IconButton
                 disableRipple
-                onClick={() => setOpen(true)}
+                onClick={() => {
+                  fetch(
+                    "/api/property/notes/delete?" +
+                      new URLSearchParams({
+                        property: global.property.propertyId,
+                        accessToken: global.property.accessToken,
+                        id: id ? id.toString() : "",
+                      })
+                  )
+                    .then((res) => res.json())
+                    .then(() => {
+                      mutate(url);
+                      setOpen(false);
+                      toast.success("Deleted note!");
+                    })
+                    .catch((err) => {
+                      toast.error(
+                        "Couldn't delete note. Please try again later."
+                      );
+                    });
+                }}
                 sx={{
                   borderRadius: 4,
                   mr: 0.5,
