@@ -11,7 +11,7 @@ import useSWR, { mutate } from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
 import toast from "react-hot-toast";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as colors from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import { Puller } from "../components/Puller";
@@ -156,12 +156,14 @@ function NoteModal({
               })
       )
         .then((res) => res.json())
-        .then((res) => {
+        .then(() => {
           setLoading(false);
           mutate(url);
-          toast.success(create ? "Created note!" : "Updated!");
           setOpen(false);
-          if (create) formik.resetForm();
+          if (create) {
+            toast.success("Created note!");
+            formik.resetForm();
+          }
         })
         .catch((err) => {
           setLoading(false);
@@ -170,6 +172,10 @@ function NoteModal({
     },
   });
 
+  useEffect(() => {
+    formik.setFieldValue("title", title);
+    formik.setFieldValue("content", content);
+  }, [title, content, formik]);
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -280,6 +286,36 @@ function NoteModal({
                 push_pin
               </span>
             </IconButton>
+            {!create && (
+              <IconButton
+                disableRipple
+                onClick={() => setOpen(true)}
+                sx={{
+                  borderRadius: 4,
+                  mr: 0.5,
+                  transition: "none",
+                  color:
+                    global.theme == "dark"
+                      ? "#fff"
+                      : colors[formik.values.color]["800"],
+                  "&:hover": {
+                    background:
+                      colors[formik.values.color][
+                        global.theme == "dark" ? "900" : "200"
+                      ] + "!important",
+                  },
+                }}
+              >
+                <span
+                  className={
+                    "material-symbols-" +
+                    (formik.values.pinned ? "rounded" : "outlined")
+                  }
+                >
+                  delete
+                </span>
+              </IconButton>
+            )}
           </Box>
           {create && (
             <LoadingButton
@@ -306,7 +342,7 @@ function NoteModal({
 
 function CreateNoteModal({ url }: { url: string }) {
   const [open, setOpen] = useState<boolean>(false);
-
+  const [title, setTitle] = useState<string>("");
   return (
     <>
       <NoteModal
@@ -314,12 +350,15 @@ function CreateNoteModal({ url }: { url: string }) {
         create
         open={open}
         setOpen={setOpen}
-        title=""
+        title={title}
         content=""
       />
       <Card
         sx={{ borderRadius: 5, background: "rgba(200,200,200,.3)" }}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+          setTitle("");
+        }}
       >
         <CardActionArea>
           <CardContent>
@@ -344,18 +383,22 @@ function CreateNoteModal({ url }: { url: string }) {
 
 function Note({ url, note }) {
   const [open, setOpen] = useState<boolean>(false);
+  const [name, setName] = useState<string>(note.name);
   return (
     <>
       <NoteModal
         url={url}
         open={open}
         setOpen={setOpen}
-        title={note.name}
+        title={name}
         content={note.content}
         id={note.id}
       />
       <Card
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+          setName(note.name);
+        }}
         sx={{
           borderRadius: 5,
           background: colors[note.color ?? "orange"][50],
