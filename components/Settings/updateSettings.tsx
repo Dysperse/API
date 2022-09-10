@@ -9,12 +9,10 @@ export function updateSettings(
   showSeparateSyncToastMessage: boolean = true
 ) {
   let url =
-    "/api/account/update?" +
+    "/api/user/update?" +
     new URLSearchParams({
-      token: global.user.accessToken,
-      data: JSON.stringify({
-        [key]: value,
-      }),
+      token: global.user.token,
+      [key]: value,
     });
   if (useSyncToken) {
     url =

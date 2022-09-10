@@ -32,7 +32,13 @@ export const getUserData = async (token: string) => {
       },
     },
   });
-  return session;
+  return {
+    ...session,
+    user: {
+      ...session.user,
+      token: token,
+    },
+  };
 };
 
 const handler = async (req: any, res: any) => {
