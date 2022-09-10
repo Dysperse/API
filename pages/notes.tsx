@@ -106,8 +106,57 @@ function ColorModal({ formik }) {
     </>
   );
 }
-function NoteModal({ create = false, open, setOpen, formik }) {
+function NoteModal({
+  url,
+  create = false,
+  open,
+  setOpen,
+  title,
+  content,
+}: {
+  url: string;
+  create?: boolean;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  title: string;
+  content: string;
+}) {
   const [loading, setLoading] = useState<boolean>(false);
+  const formik = useFormik({
+    initialValues: {
+      color: "orange",
+      pinned: false,
+      title: "",
+      content: "",
+    },
+    onSubmit: async (values) => {
+      setLoading(true);
+      fetch(
+        "/api/property/notes/create?" +
+          new URLSearchParams({
+            property: global.property.propertyId,
+            accessToken: global.property.accessToken,
+            title: values.title,
+            content: values.content,
+            pinned: values.pinned ? "true" : "false",
+            color: values.color,
+          })
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          setLoading(false);
+          mutate(url);
+          toast.success("Created note!");
+          setOpen(false);
+          formik.resetForm();
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error("Couldn't create note. Please try again later.");
+        });
+    },
+  });
+
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -238,45 +287,17 @@ function NoteModal({ create = false, open, setOpen, formik }) {
 
 function CreateNoteModal({ url }: { url: string }) {
   const [open, setOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const formik = useFormik({
-    initialValues: {
-      color: "orange",
-      pinned: false,
-      title: "",
-      content: "",
-    },
-    onSubmit: async (values) => {
-      setLoading(true);
-      fetch(
-        "/api/property/notes/create?" +
-          new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            title: values.title,
-            content: values.content,
-            pinned: values.pinned ? "true" : "false",
-            color: values.color,
-          })
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          setLoading(false);
-          mutate(url);
-          toast.success("Created note!");
-          setOpen(false);
-          formik.resetForm();
-        })
-        .catch((err) => {
-          setLoading(false);
-          toast.error("Couldn't create note. Please try again later.");
-        });
-    },
-  });
 
   return (
     <>
-      <NoteModal create open={open} setOpen={setOpen} formik={formik} />
+      <NoteModal
+        url={url}
+        create
+        open={open}
+        setOpen={setOpen}
+        title=""
+        content=""
+      />
       <Card
         sx={{ borderRadius: 5, background: "rgba(200,200,200,.3)" }}
         onClick={() => setOpen(true)}
@@ -311,13 +332,16 @@ function Note({ note }) {
       }}
     >
       <CardActionArea>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+        <CardContent sx={{ p: 3 }}>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ fontWeight: "500" }}
+          >
             {note.name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {note.content}
-          </Typography>
+          <Typography variant="body2">{note.content}</Typography>
         </CardContent>
       </CardActionArea>
     </Card>
