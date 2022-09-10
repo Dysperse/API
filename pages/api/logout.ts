@@ -1,14 +1,13 @@
-import { serialize } from "cookie";
+// Remove `token` cookie
 import jwt from "jsonwebtoken";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader(
     "Set-Cookie",
-    serialize("token", "", {
+    jwt.sign({}, process.env.SECRET_COOKIE_PASSWORD, {
+      maxAge: -1,
       path: "/",
-      maxAge: 60 * 60 * 24 * 7 * 4, // 1 month
     })
   );
-  // res.json({ success: true, key: encoded });
-  res.redirect("/dashboard");
+  res.json({ status: "ok" });
 }
