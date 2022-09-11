@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-
+import { mutate } from "swr";
 export function updateSettings(
   key: string,
   value: string,
@@ -28,6 +28,7 @@ export function updateSettings(
   })
     .then((res) => res.json())
     .then((res) => {
+      mutate("/api/user");
       callback && callback();
       toast.success("Saved!");
       if (debug) {
