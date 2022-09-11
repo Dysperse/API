@@ -16,10 +16,12 @@ const handler = async (req: any, res: any) => {
     },
   });
   if (!session) {
+    console.log(req.query.token);
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
   const userId = session.user.id;
+  console.log(req.query.color);
   const user = await prisma.user.update({
     where: {
       id: userId,

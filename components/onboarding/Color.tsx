@@ -7,7 +7,7 @@ export function Color({ color, setThemeColor }) {
     <CardActionArea
       onClick={() => {
         setThemeColor(color);
-        updateSettings("theme", color.toLowerCase());
+        updateSettings("color", color.toLowerCase());
       }}
       sx={{
         width: 70,

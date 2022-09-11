@@ -14,22 +14,26 @@ import Layout from "../components/Layout";
 import LoginPrompt from "../components/Auth/Prompt";
 import "../styles/globals.scss";
 import "../styles/search.scss";
+import LoadingButton from "@mui/lab/LoadingButton";
 dayjs.extend(relativeTime);
 
 function Render({
   data,
   Component,
   pageProps,
+  router,
 }: {
   data: any;
   Component: any;
   pageProps: any;
+  router: any;
 }) {
   global.user = data.user;
   const [theme, setTheme] = useState<"dark" | "light">(
     data.user.darkMode ? "dark" : "light"
   );
   const [themeColor, setThemeColor] = useState(data.user.color);
+  const [loadingButton, setLoadingButton] = useState(false);
 
   global.theme = theme;
   global.themeColor = themeColor;
@@ -153,9 +157,28 @@ function Render({
           }}
         >
           <Toaster />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          {data.onboardingComplete ? (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          ) : (
+            <LoadingButton
+              ref={(i) => i && i.click()}
+              loading={loadingButton}
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+              onClick={() => {
+                setLoadingButton(true);
+                router.push("/onboarding");
+              }}
+            >
+              Click here if you&apos;re not being redirected
+            </LoadingButton>
+          )}
         </Box>
       </ThemeProvider>
     </>
@@ -177,7 +200,6 @@ function useUser() {
 
 function RenderApp({ router, Component, pageProps }: any) {
   const { data, isLoading, isError } = useUser();
-
   return (
     <>
       {router.pathname === "/share/[index]" ||
@@ -196,7 +218,12 @@ function RenderApp({ router, Component, pageProps }: any) {
         <>
           {isError && <Box>Failed to load</Box>}
           {!isLoading && !isError && !data.error && (
-            <Render Component={Component} pageProps={pageProps} data={data} />
+            <Render
+              router={router}
+              Component={Component}
+              pageProps={pageProps}
+              data={data}
+            />
           )}
           {!isLoading && !isError && data.error && <LoginPrompt />}
         </>

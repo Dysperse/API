@@ -8,6 +8,7 @@ export function updateSettings(
   useSyncToken: boolean = false,
   showSeparateSyncToastMessage: boolean = true
 ) {
+  alert(global.user.token);
   let url =
     "/api/user/update?" +
     new URLSearchParams({

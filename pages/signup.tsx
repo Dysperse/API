@@ -6,14 +6,13 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import OtpInput from "react-otp-input";
 import { useSWRConfig } from "swr";
-import { useRouter } from "next/router";
-import Cookies from "universal-cookie";
-import { Puller } from "../components/Puller";
 import { Layout } from "../components/Auth/Layout";
+import { Puller } from "../components/Puller";
 
 const validateEmail = (email) => {
   return String(email)

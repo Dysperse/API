@@ -1,7 +1,5 @@
-import { serialize } from "cookie";
-import jwt from "jsonwebtoken";
-import { prisma } from "../../lib/client";
 import argon2 from "argon2";
+import { prisma } from "../../lib/client";
 import { createSession } from "./login";
 
 export default async function handler(req, res) {
