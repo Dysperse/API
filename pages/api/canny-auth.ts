@@ -27,10 +27,10 @@ function createCannyToken(user) {
 const handler = async (req, res) => {
   const info = await sessionData(req.cookies.token);
   const cannyToken = createCannyToken({
-    avatarURL: info.account.image,
-    email: info.account.email,
+    avatarURL: info.user.image,
+    email: info.user.email,
     id: req.cookies.token,
-    name: info.account.name,
+    name: info.user.name,
   });
   res.send(cannyToken);
 };
