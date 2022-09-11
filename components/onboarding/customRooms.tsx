@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import * as React from "react";
 
 export function CustomRooms({ houseType }: any) {
+  //  eslint-disable-next-line react-hooks/exhaustive-deps
   const fixedOptions = [
     ...(houseType === "dorm" ? [] : ["Kitchen"]),
     "Bedroom",
@@ -16,13 +17,12 @@ export function CustomRooms({ houseType }: any) {
     ...(houseType === "dorm" ? [] : ["Camping Supplies"]),
     ...(houseType === "dorm" ? [] : ["Garden"]),
   ];
-  React.useEffect(() => {
-    setValue(fixedOptions);
-  }, [fixedOptions, houseType]);
+
   const [value, setValue] = React.useState([...fixedOptions]);
 
   return (
     <Autocomplete
+      disabled={value.length >= fixedOptions.length + 5}
       multiple
       sx={{
         "& .MuiFilledInput-root": {
@@ -38,6 +38,17 @@ export function CustomRooms({ houseType }: any) {
           ...fixedOptions,
           ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
         ]);
+
+        fetch(
+          "/api/property/rooms/create?" +
+            new URLSearchParams({
+              property: global.property.propertyId,
+              accessToken: global.property.accessToken,
+              name: newValue.filter(
+                (option) => fixedOptions.indexOf(option) === -1
+              ),
+            })
+        );
       }}
       options={top100Films}
       getOptionLabel={(option: any) => option}
@@ -49,13 +60,14 @@ export function CustomRooms({ houseType }: any) {
               {...getTagProps({ index })}
               sx={{
                 "&.Mui-disabled": {
-                  opacity: ".7!important",
+                  opacity: "1!important",
                 },
-                "&.Mui-disabled *:not(.MuiChip-label)": {
+                "& *:not(.MuiChip-label)": {
                   display: "none!important",
                 },
               }}
-              disabled={fixedOptions.indexOf(option.toString()) !== -1}
+              // disabled={fixedOptions.indexOf(option.toString()) !== -1}
+              disabled={true}
             />
           </React.Fragment>
         ))

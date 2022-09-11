@@ -18,10 +18,9 @@ export function updateSettings(
     url =
       "/api/property/updateInfo?" +
       new URLSearchParams({
-        token: global.property.propertyId,
-        data: JSON.stringify({
-          [key]: value,
-        }),
+        property: global.property.propertyId,
+        accessToken: global.property.accessToken,
+        [key]: value,
       });
   }
   let d = fetch(url, {

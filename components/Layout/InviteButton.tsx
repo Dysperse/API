@@ -29,7 +29,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 function Color({ s, color, setColor }: any) {
   return (
     <CardActionArea
-      onClick={() => setColor(color)}
+      onClick={() => {
+        setColor(color);
+        updateSettings("color", color, true, null, true, false);
+      }}
       sx={{
         width: 36,
         height: 36,
@@ -253,6 +256,7 @@ function House({ handleClose, data }: any) {
                   disableRipple
                   sx={{
                     color: "white",
+                    zIndex: 1,
                     mr: 1,
                   }}
                   onClick={() => {
@@ -298,10 +302,14 @@ function House({ handleClose, data }: any) {
                     <MenuItem
                       onClick={() => {
                         setPropertyType("dorm");
-                        setTimeout(() => {
-                          document.getElementById("nameInput")!.focus();
-                          document.getElementById("nameInput")!.blur();
-                        }, 100);
+                        updateSettings(
+                          "type",
+                          propertyType,
+                          false,
+                          null,
+                          true,
+                          false
+                        );
                       }}
                       value={"dorm"}
                       sx={{ display: "flex", alignItems: "center" }}
@@ -321,10 +329,14 @@ function House({ handleClose, data }: any) {
                     <MenuItem
                       onClick={() => {
                         setPropertyType("apartment");
-                        setTimeout(() => {
-                          document.getElementById("nameInput")!.focus();
-                          document.getElementById("nameInput")!.blur();
-                        }, 100);
+                        updateSettings(
+                          "type",
+                          propertyType,
+                          false,
+                          null,
+                          true,
+                          false
+                        );
                       }}
                       value={"apartment"}
                       sx={{ display: "flex", alignItems: "center" }}
@@ -344,10 +356,14 @@ function House({ handleClose, data }: any) {
                     <MenuItem
                       onClick={() => {
                         setPropertyType("home");
-                        setTimeout(() => {
-                          document.getElementById("nameInput")!.focus();
-                          document.getElementById("nameInput")!.blur();
-                        }, 100);
+                        updateSettings(
+                          "type",
+                          propertyType,
+                          false,
+                          null,
+                          true,
+                          false
+                        );
                       }}
                       value={"home"}
                       sx={{ display: "flex", alignItems: "center" }}
@@ -389,21 +405,14 @@ function House({ handleClose, data }: any) {
                   label="Home name / Family name / Address"
                   placeholder="1234 Rainbow Road"
                   onBlur={(e: any) => {
-                    fetch(
-                      "/api/property/updateInfo?" +
-                        new URLSearchParams({
-                          token: global.property.propertyId,
-                          data: JSON.stringify({
-                            name: e.target.value,
-                            type: propertyType,
-                          }),
-                        }),
-                      {
-                        method: "POST",
-                      }
-                    ).then((res) => {
-                      console.log(res);
-                    });
+                    updateSettings(
+                      "name",
+                      e.target.value,
+                      false,
+                      null,
+                      true,
+                      false
+                    );
                   }}
                 />
                 <Box sx={{ mt: 2, overflowX: "scroll", whiteSpace: "nowrap" }}>

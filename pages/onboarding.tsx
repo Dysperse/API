@@ -278,7 +278,7 @@ function SwipeableTextMobileStepper() {
               variant="contained"
               onClick={() => {
                 setLoading(true);
-                updateSettings("onboardingComplete", "1", false, () => {
+                updateSettings("onboardingComplete", "true", false, () => {
                   window.location.href = "/dashboard";
                 });
               }}

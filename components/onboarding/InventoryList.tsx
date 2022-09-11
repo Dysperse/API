@@ -25,10 +25,10 @@ export function InventoryList({ data }: { data: Array<any> }) {
             setInventory([...inventory, item.name]);
 
             fetch(
-              "/api/inventory/create?" +
+              "/api/property/inventory/create?" +
                 new URLSearchParams({
-                  accessToken: global.property.accessToken,
                   property: global.property.propertyId,
+                  accessToken: global.property.accessToken,
                   name: item.name,
                   qty: "1",
                   category: JSON.stringify([]),

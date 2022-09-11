@@ -242,6 +242,7 @@ export default function Prompt() {
                 name="password"
                 onChange={formik.handleChange}
                 fullWidth
+                type="password"
                 variant="filled"
               />
               <Box sx={{ pb: { xs: 15, sm: 0 } }}></Box>

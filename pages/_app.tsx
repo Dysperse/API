@@ -159,7 +159,7 @@ function Render({
           <Toaster />
           {router.pathname === "/onboarding" ? (
             <Component {...pageProps} />
-          ) : data.onboardingComplete ? (
+          ) : data.user.onboardingComplete ? (
             <Layout>
               <Component {...pageProps} />
             </Layout>

@@ -32,7 +32,10 @@ const handler = async (req: any, res: any) => {
       avatar: req.query.avatar || undefined,
       darkMode: req.query.darkMode || undefined,
       color: req.query.color || undefined,
-      onboardingComplete: req.query.onboardingComplete || undefined,
+      onboardingComplete:
+        (req.query.onboardingComplete &&
+          req.query.onboardingComplete === "true") ||
+        undefined,
     },
   });
   res.json(user);

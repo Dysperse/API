@@ -6,7 +6,7 @@ const handler = async (req: any, res: any) => {
     req.query.property,
     req.query.accessToken
   );
-  if (!permissions || permissions !== "member") {
+  if (!permissions || permissions === "read-only") {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
@@ -18,7 +18,7 @@ const handler = async (req: any, res: any) => {
     data: {
       name: req.query.name || undefined,
       type: req.query.type || undefined,
-      bannerColor: req.query.bannerColor || undefined,
+      color: req.query.color || undefined,
     },
   });
 
