@@ -14,8 +14,101 @@ import Layout from "../components/Layout";
 import LoginPrompt from "../components/Auth/Prompt";
 import "../styles/globals.scss";
 import "../styles/search.scss";
+import Grid from "@mui/material/Grid";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Skeleton from "@mui/material/Skeleton";
+import Toolbar from "@mui/material/Toolbar";
+import Container from "@mui/material/Container";
+import AppBar from "@mui/material/AppBar";
 dayjs.extend(relativeTime);
+
+function Loading() {
+  return (
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+      }}
+    >
+      <AppBar
+        sx={{
+          position: "fixed",
+          top: 0,
+          background: "transparent",
+          py: {
+            sm: 1,
+            xs: 0.9,
+          },
+        }}
+        elevation={0}
+      >
+        <Toolbar>
+          <Skeleton
+            animation="wave"
+            sx={{ width: { xs: 130, sm: 200 }, maxWidth: "100%" }}
+          />
+          <Box sx={{ ml: "auto", display: "flex", gap: 1.5 }}>
+            {[...Array(3)].map((_, i) => (
+              <Skeleton
+                variant="circular"
+                animation="wave"
+                width={35}
+                key={i.toString()}
+                height={35}
+                sx={{ maxWidth: "100%" }}
+              />
+            ))}
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      <Grid container spacing={2} sx={{ mt: 10, width: "100%", mx: "auto" }}>
+        <Grid
+          item
+          xs={0}
+          sm={2}
+          xl={3}
+          sx={{ display: { xs: "none", sm: "block" } }}
+        >
+          <Box sx={{ pl: 1 }}>
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              sx={{ mb: 3, borderRadius: 5, height: 50, width: "60%" }}
+            />
+            {[...Array(15)].map((_, i) => (
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                key={i.toString()}
+                sx={{ mb: 3, borderRadius: 2, height: 25 }}
+              />
+            ))}
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={10} xl={9}>
+          <Container sx={{ mt: 5 }}>
+            <Grid container spacing={2.2}>
+              {[...Array(10)].map((_, i) => (
+                <Grid item key={i.toString()} xs={12} sm={6} xl={4}>
+                  <Skeleton
+                    variant="rectangular"
+                    animation="wave"
+                    sx={{ height: 200, borderRadius: 5 }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}
 
 function Render({
   data,
@@ -217,6 +310,7 @@ function RenderApp({ router, Component, pageProps }: any) {
         </>
       ) : (
         <>
+          {isLoading && <Loading />}
           {isError && <Box>Failed to load</Box>}
           {!isLoading && !isError && !data.error && (
             <Render
@@ -241,6 +335,7 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
           Component={Component}
           pageProps={pageProps}
         />
+        {/* <Loading /> */}
       </NoSsr>
       <Script src="/prevent-navigate-history.js"></Script>
     </>
