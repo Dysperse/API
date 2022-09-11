@@ -157,7 +157,9 @@ function Render({
           }}
         >
           <Toaster />
-          {data.onboardingComplete ? (
+          {router.pathname === "/onboarding" ? (
+            <Component {...pageProps} />
+          ) : data.onboardingComplete ? (
             <Layout>
               <Component {...pageProps} />
             </Layout>
@@ -205,8 +207,7 @@ function RenderApp({ router, Component, pageProps }: any) {
       {router.pathname === "/share/[index]" ||
       router.pathname === "/scan" ||
       router.pathname === "/signup" ||
-      router.pathname === "/canny-auth" ||
-      router.pathname === "/onboarding" ? (
+      router.pathname === "/canny-auth" ? (
         <>
           <RenderComponent
             Component={Component}

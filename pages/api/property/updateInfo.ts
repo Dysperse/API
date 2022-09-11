@@ -16,9 +16,9 @@ const handler = async (req: any, res: any) => {
       id: req.query.property,
     },
     data: {
-      name: req.query.name,
-      type: req.query.type,
-      bannerColor: req.query.bannerColor,
+      name: req.query.name || undefined,
+      type: req.query.type || undefined,
+      bannerColor: req.query.bannerColor || undefined,
     },
   });
 

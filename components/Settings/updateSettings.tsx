@@ -5,22 +5,20 @@ export function updateSettings(
   value: string,
   debug: boolean = false,
   callback: any = () => {},
-  useSyncToken: boolean = false,
+  property: boolean = false,
   showSeparateSyncToastMessage: boolean = true
 ) {
-  alert(global.user.token);
   let url =
     "/api/user/update?" +
     new URLSearchParams({
       token: global.user.token,
       [key]: value,
     });
-  if (useSyncToken) {
+  if (property) {
     url =
-      "/api/account/sync/updateHome?" +
+      "/api/property/updateInfo?" +
       new URLSearchParams({
-        accessToken: global.property.accessToken,
-        property: global.property.propertyId,
+        token: global.property.propertyId,
         data: JSON.stringify({
           [key]: value,
         }),
@@ -32,11 +30,7 @@ export function updateSettings(
     .then((res) => res.json())
     .then((res) => {
       callback && callback();
-      toast.success(
-        useSyncToken && showSeparateSyncToastMessage
-          ? "Saved! Changes might take some time to appear for other members in your home"
-          : "Saved!"
-      );
+      toast.success("Saved!");
       if (debug) {
         alert(JSON.stringify(res));
       }

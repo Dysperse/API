@@ -2,11 +2,12 @@ import CardActionArea from "@mui/material/CardActionArea";
 import * as colors from "@mui/material/colors";
 import { updateSettings } from "../Settings/updateSettings";
 
-export function Color({ color, setThemeColor }) {
+export function Color({ color, setThemeColor, handleNext }) {
   return (
     <CardActionArea
       onClick={() => {
         setThemeColor(color);
+        handleNext();
         updateSettings("color", color.toLowerCase());
       }}
       sx={{

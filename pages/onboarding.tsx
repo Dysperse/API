@@ -105,15 +105,51 @@ function SwipeableTextMobileStepper() {
           <Typography variant="h6" sx={{ my: 3 }}>
             What&apos;s your favorite color?
           </Typography>
-          <Color setThemeColor={setThemeColor} color="red" />
-          <Color setThemeColor={setThemeColor} color="green" />
-          <Color setThemeColor={setThemeColor} color="blue" />
-          <Color setThemeColor={setThemeColor} color="pink" />
-          <Color setThemeColor={setThemeColor} color="purple" />
-          <Color setThemeColor={setThemeColor} color="orange" />
-          <Color setThemeColor={setThemeColor} color="teal" />
-          <Color setThemeColor={setThemeColor} color="cyan" />
-          <Color setThemeColor={setThemeColor} color="brown" />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="red"
+          />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="green"
+          />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="blue"
+          />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="pink"
+          />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="purple"
+          />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="orange"
+          />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="teal"
+          />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="cyan"
+          />
+          <Color
+            handleNext={handleNext}
+            setThemeColor={setThemeColor}
+            color="brown"
+          />
           {/* <Typography variant="h6" sx={{ my: 3 }}>
             Select your appearance
           </Typography>
@@ -158,19 +194,12 @@ function SwipeableTextMobileStepper() {
           <FormControl
             onChange={(e: any) => {
               setHouseType(e.target.value);
-              updateSettings(
-                "houseType",
-                e.target.value,
-                false,
-                null,
-                true,
-                false
-              );
+              updateSettings("type", e.target.value, false, () => {}, true);
             }}
           >
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="home"
+              defaultValue="apartment"
               name="radio-buttons-group"
             >
               <FormControlLabel
@@ -249,7 +278,7 @@ function SwipeableTextMobileStepper() {
               variant="contained"
               onClick={() => {
                 setLoading(true);
-                updateSettings("onboarding", "1", false, () => {
+                updateSettings("onboardingComplete", "1", false, () => {
                   window.location.href = "/dashboard";
                 });
               }}
