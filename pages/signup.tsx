@@ -10,6 +10,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import OtpInput from "react-otp-input";
 import { useSWRConfig } from "swr";
+import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 import { Puller } from "../components/Puller";
 import { Layout } from "../components/Auth/Layout";
@@ -22,6 +23,7 @@ const validateEmail = (email) => {
     );
 };
 export default function Prompt() {
+  const router = useRouter();
   global.themeColor = "brown";
   const { mutate } = useSWRConfig();
   // Login form
@@ -49,6 +51,7 @@ export default function Prompt() {
         .then((res) => res.json())
         .then(() => {
           mutate("/api/user");
+          router.push("/");
           toast.success("Welcome to Carbon!");
         })
         .catch(() => {

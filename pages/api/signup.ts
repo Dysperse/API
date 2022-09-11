@@ -5,6 +5,10 @@ import argon2 from "argon2";
 import { createSession } from "./login";
 
 export default async function handler(req, res) {
+  if (req.body.password !== req.body.confirmPassword) {
+    return res.status(401).json({ message: "Passwords do not match" });
+    return;
+  }
   //  Find if email is already in use
   const emailInUse = await prisma.user.findUnique({
     where: {
@@ -42,6 +46,7 @@ export default async function handler(req, res) {
   });
   //   Get property id from property
   const propertyId = property.id;
+  console.log(propertyId);
 
   //   Create a property invite
   const propertyInvite = await prisma.propertyInvite.create({
@@ -49,7 +54,7 @@ export default async function handler(req, res) {
       selected: true,
       accepted: true,
       permission: "owner",
-      property: {
+      profile: {
         connect: {
           id: propertyId,
         },
@@ -61,6 +66,7 @@ export default async function handler(req, res) {
       },
     },
   });
+  console.log(propertyInvite);
 
   res.status(200).json({ message: "Success", session });
 }
