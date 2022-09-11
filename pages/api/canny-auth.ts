@@ -18,7 +18,7 @@ function createCannyToken(user) {
   var userData = {
     avatarURL: user.avatarURL, // optional, but preferred
     email: user.email,
-    id: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NUb2tlbiI6IjZiZDQ2Mjc5LTZiNzgtNGU0Ni1iODJmLTYyMGUwMDEzNTJhNiIsImlhdCI6MTY2MTMyMzI1MywiZXhwIjoxNjYxOTI4MDUzfQ.63b3VH6nqD6XO0MzeH1ml7f3XMVORV5gqt3lLI2GXq0",
+    id: user.id,
     name: user.name,
   };
   return jwt.sign(userData, PrivateKey, { algorithm: "HS256" });
