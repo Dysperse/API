@@ -1,0 +1,66 @@
+import { serialize } from "cookie";
+import jwt from "jsonwebtoken";
+import { prisma } from "../../lib/client";
+import argon2 from "argon2";
+import { createSession } from "./login";
+
+export default async function handler(req, res) {
+  //  Find if email is already in use
+  const emailInUse = await prisma.user.findUnique({
+    where: {
+      email: req.body.email,
+    },
+  });
+  if (emailInUse) {
+    res.status(400).json({ message: "Email already in use" });
+    return;
+  }
+  // Get the user's email and password from the request body
+  const { name, email, password } = req.body;
+  console.log(req.body.name);
+  // Hash the password
+  const hashedPassword = await argon2.hash(password);
+
+  // Create the user in the database
+  const user = await prisma.user.create({
+    data: {
+      name,
+      email,
+      password: hashedPassword,
+    },
+  });
+  //   Get user id from user
+  const id = user.id;
+  // Create a session token in the session table
+  const session = createSession(id, res);
+
+  //   Create a property
+  const property = await prisma.property.create({
+    data: {
+      name: "My Property",
+    },
+  });
+  //   Get property id from property
+  const propertyId = property.id;
+
+  //   Create a property invite
+  const propertyInvite = await prisma.propertyInvite.create({
+    data: {
+      selected: true,
+      accepted: true,
+      permission: "owner",
+      property: {
+        connect: {
+          id: propertyId,
+        },
+      },
+      user: {
+        connect: {
+          id: id,
+        },
+      },
+    },
+  });
+
+  res.status(200).json({ message: "Success", session });
+}

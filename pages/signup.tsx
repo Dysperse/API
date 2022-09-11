@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import OtpInput from "react-otp-input";
 import { useSWRConfig } from "swr";
 import Cookies from "universal-cookie";
@@ -36,7 +37,7 @@ export default function Prompt() {
     },
     onSubmit: (values) => {
       setButtonLoading(true);
-      fetch("/api/create-account", {
+      fetch("/api/signup", {
         method: "POST",
         body: new URLSearchParams({
           name: values.name,
@@ -48,8 +49,12 @@ export default function Prompt() {
         .then((res) => res.json())
         .then(() => {
           mutate("/api/user");
+          toast.success("Welcome to Carbon!");
         })
-        .catch(() => setButtonLoading(false));
+        .catch(() => {
+          setButtonLoading(false);
+          toast.error("An error occurred");
+        });
     },
   });
 
@@ -264,7 +269,7 @@ export default function Prompt() {
                 label="Password"
                 value={formik.values.confirmPassword}
                 sx={{ mb: 1.5 }}
-                name="password"
+                name="confirmPassword"
                 onChange={formik.handleChange}
                 fullWidth
                 variant="filled"
@@ -330,5 +335,6 @@ export default function Prompt() {
 }
 
 const d = () => {
-  const paragraph = "The Apartheid system, introduced in 1948, separated the population in South Africa to four groups: Black, White, Colored, and Indian. People such as Steve Biko, Donald Woods, and Nelson Mandela fought against these policies for equality. The implementation of these policies violated multiple human rights for all people, targeted more towards people of color. "
-}
+  const paragraph =
+    "The Apartheid system, introduced in 1948, separated the population in South Africa to four groups: Black, White, Colored, and Indian. People such as Steve Biko, Donald Woods, and Nelson Mandela fought against these policies for equality. The implementation of these policies violated multiple human rights for all people, targeted more towards people of color. ";
+};

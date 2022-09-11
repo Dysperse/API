@@ -17,6 +17,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { mutate } from "swr";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import AccountSettings from "./AccountSettings";
@@ -78,7 +79,7 @@ function Logout() {
             }}
             onClick={() => {
               setOpen(false);
-              window.location.href = "/api/logout";
+              fetch("/api/logout").then(() => mutate("/api/user"));
             }}
           >
             Sign out
