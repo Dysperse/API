@@ -328,3 +328,7 @@ export default function Prompt() {
     </Layout>
   );
 }
+
+const d = () => {
+  const paragraph = "The Apartheid system, introduced in 1948, separated the population in South Africa to four groups: Black, White, Colored, and Indian. People such as Steve Biko, Donald Woods, and Nelson Mandela fought against these policies for equality. The implementation of these policies violated multiple human rights for all people, targeted more towards people of color. "
+}
