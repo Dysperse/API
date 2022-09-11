@@ -461,8 +461,7 @@ function House({ handleClose, data }: any) {
           </Box>
           <Box
             sx={{
-              p: 2.5,
-              px: { sm: 4 },
+              py: 2.5,
             }}
           >
             <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>

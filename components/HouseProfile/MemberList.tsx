@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
 import useSWR from "swr";
 import { Puller } from "../Puller";
+import useEmblaCarousel from "embla-carousel-react";
 
 function isEmail(email) {
   return String(email)
@@ -294,12 +295,12 @@ function Member({ member }): any {
             borderRadius: 4,
           }}
           onClick={() => {
-            setLoading(true);
             if (
               confirm(
                 "Remove member from your home? This person cannot join unless you invite them again."
               )
             ) {
+              setLoading(true);
               fetch(
                 "/api/property/members/remove?" +
                   new URLSearchParams({
@@ -364,6 +365,8 @@ export function MemberList({ color }: any) {
     setActiveStep(step);
   };
 
+  const [emblaRef] = useEmblaCarousel();
+
   return (
     <>
       <div style={{ width: "100%", display: "flex", marginTop: "-40px" }}>
@@ -372,42 +375,13 @@ export function MemberList({ color }: any) {
           members={data ? data.map((member) => member.user.email) : []}
         />
       </div>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          mt: 1,
-          "& *": {
-            overscrollBehavior: "auto!important",
-          },
-          // "& [data-swipeable]": {
-          //   width: "250px !important",
-          // },
-        }}
-      >
-        <SwipeableViews
-          resistance
-          style={{
-            borderRadius: "20px",
-            width: "100%",
-            padding: "0 20px",
-          }}
-          slideStyle={{
-            padding: "0 10px",
-            paddingLeft: 0,
-          }}
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
-        >
+      <div className="embla" ref={emblaRef}>
+        <div className="embla__container">
           {images.map((step, index) => (
             <Box
               key={index.toString()}
-              sx={{
-                width: "100%",
-              }}
+              className="embla__slide"
+              sx={{ pl: index == 0 ? 0 : 2, flex: "0 0 90%" }}
             >
               <Box
                 sx={{
@@ -426,8 +400,8 @@ export function MemberList({ color }: any) {
               </Box>
             </Box>
           ))}
-        </SwipeableViews>
-      </Box>
+        </div>
+      </div>
     </>
   );
 }

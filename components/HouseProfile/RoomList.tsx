@@ -7,6 +7,7 @@ import * as React from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
 import useSWR from "swr";
+import useEmblaCarousel from "embla-carousel-react";
 
 function Room({ color, room }: any) {
   const [deleted, setDeleted] = React.useState<boolean>(false);
@@ -80,6 +81,7 @@ export function RoomList({ color }: any) {
       method: "POST",
     }).then((res) => res.json())
   );
+  const emblaRef = React.useRef(null);
 
   const images = data
     ? [
@@ -119,55 +121,44 @@ export function RoomList({ color }: any) {
           // },
         }}
       >
-        <SwipeableViews
-          resistance
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
-          style={{
-            borderRadius: "28px",
-            width: "100%",
-            padding: "0 30px",
-          }}
-          slideStyle={{
-            padding: "0 10px",
-            paddingLeft: 0,
-          }}
-        >
-          {images.length === 0 ? (
-            <Box
-              sx={{
-                p: 2,
-                userSelect: "none",
-                px: 2.5,
-                borderRadius: 5,
-                background: colors[color][100],
-              }}
-            >
-              You haven&apos;t created any rooms yet
-            </Box>
-          ) : (
-            images.map((step, index) => (
-              <Box key={index.toString()}>
-                <Box
-                  sx={{
-                    p: 2,
-                    userSelect: "none",
-                    px: 2.5,
-                    borderRadius: 5,
-                    background:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 30%)"
-                        : colors[color][100],
-                  }}
-                >
-                  {step.content}
-                </Box>
+        <div className="embla">
+          <div className="embla__container">
+            {images.length === 0 ? (
+              <Box
+              className="embla__slide"
+              sx={{ pl: index == 0 ? 0 : 2, flex: "0 0 90%" }}
+                sx={{
+                  p: 2,
+                  userSelect: "none",
+                  px: 2.5,
+                  borderRadius: 5,
+                  background: colors[color][100],
+                }}
+              >
+                You haven&apos;t created any rooms yet
               </Box>
-            ))
-          )}
-        </SwipeableViews>
+            ) : (
+              images.map((step, index) => (
+                <Box key={index.toString()}>
+                  <Box
+                    sx={{
+                      p: 2,
+                      userSelect: "none",
+                      px: 2.5,
+                      borderRadius: 5,
+                      background:
+                        global.theme === "dark"
+                          ? "hsl(240, 11%, 30%)"
+                          : colors[color][100],
+                    }}
+                  >
+                    {step.content}
+                  </Box>
+                </Box>
+              ))
+            )}
+          </div>
+        </div>
       </Box>
     </>
   );

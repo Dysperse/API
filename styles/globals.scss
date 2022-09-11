@@ -190,3 +190,13 @@ img {
   background: var(--theme);
   color: gray;
 }
+
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+}
