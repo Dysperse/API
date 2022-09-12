@@ -30,7 +30,10 @@ function Reminder({ reminder }: any) {
           sx: {
             mx: "auto",
             maxWidth: "500px",
-            background: colors[themeColor]["50"],
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 18%)"
+                : colors[themeColor][50],
             borderRadius: "30px 30px 0 0",
           },
         }}
@@ -126,7 +129,9 @@ function Reminder({ reminder }: any) {
       <Card
         sx={{
           mb: 2,
-          background: "rgba(200,200,200,.3)",
+          background: global.user.darkMode
+            ? "hsl(240, 11%, 18%)"
+            : "rgba(200,200,200,.3)",
           borderRadius: 5,
         }}
       >
@@ -136,7 +141,7 @@ function Reminder({ reminder }: any) {
               px: 3.5,
               py: 3,
               ...(dayjs(reminder.nextDue).isBefore(dayjs()) && {
-                background: colors.red["50"],
+                background: colors.red[global.user.darkMode ? 900 : 50],
               }),
             }}
           >
@@ -163,13 +168,13 @@ function Header({ count }) {
           width: "100%",
           background:
             "linear-gradient(45deg, " +
-            colors.green["100"] +
+            colors.green[global.user.darkMode ? 900 : 100] +
             " 0%, " +
-            colors.green["300"] +
+            colors.green[global.user.darkMode ? 500 : 100] +
             " 50%, " +
-            colors.green["200"] +
+            colors.green[global.user.darkMode ? 700 : 100] +
             " 100%)",
-          color: colors.green["900"],
+          color: colors.green[global.user.darkMode ? 900 : 100],
           height: "320px",
           borderRadius: { sm: 10 },
           flexDirection: "column",
@@ -246,9 +251,16 @@ export default function Maintenance(req, res) {
               .map((reminder) => (
                 <Reminder key={reminder.id} reminder={reminder} />
               ))}
-            <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
-              This week
-            </Typography>
+            {data.filter((reminder) => {
+              return (
+                dayjs(reminder.nextDue).isAfter(dayjs()) &&
+                dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
+              );
+            }).length > 0 && (
+              <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
+                This week
+              </Typography>
+            )}
             {/* Upcoming reminders */}
             {data
               .filter((reminder) => {
