@@ -74,8 +74,7 @@ function Member({ member }): any {
               : "Read-only access"}
           </span>
         </Typography>
-        {global.property.permission !== "owner" ||
-        member.permission === "owner" ? null : (
+        {global.property.permission !== "owner" ? null : (
           <LoadingButton
             loading={loading}
             variant="outlined"
@@ -90,6 +89,10 @@ function Member({ member }): any {
               borderRadius: 4,
             }}
             onClick={() => {
+              if (global.property.permission === "owner") {
+                document.getElementById("settingsTrigger")!.click();
+                return;
+              }
               if (
                 confirm(
                   "Remove member from your home? This person cannot join unless you invite them again."
@@ -114,7 +117,7 @@ function Member({ member }): any {
               }
             }}
           >
-            Remove
+            {global.property.permission === "owner" ? "My account" : "Remove"}
           </LoadingButton>
         )}
       </Box>
