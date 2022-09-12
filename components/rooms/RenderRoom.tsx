@@ -1,15 +1,13 @@
 import Masonry from "@mui/lab/Masonry";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import * as colors from "@mui/material/colors";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Item } from "../../types/item";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
