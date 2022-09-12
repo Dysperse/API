@@ -64,7 +64,14 @@ function GenerateData({
       {items.length === 0 && (
         <Box sx={{ textAlign: "center", my: 2 }}>
           <picture>
-            <img src={emptyImage} alt="No items" loading="lazy" />
+            <img
+              src={emptyImage}
+              alt="No items"
+              loading="lazy"
+              style={{
+                ...(global.user.darkMode && { filter: "invert(1)" }),
+              }}
+            />
           </picture>
           <Typography sx={{ display: "block" }} variant="h6">
             No items?!

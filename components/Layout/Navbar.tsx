@@ -13,7 +13,6 @@ import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./SearchPopup";
 
-
 export const getInitials = (fullName) => {
   const allNames = fullName.trim().split(" ");
   const initials = allNames.reduce((acc, curr, index) => {
@@ -131,7 +130,8 @@ export function Navbar(): JSX.Element {
                     fontSize: "15px",
                     fontWeight: "700",
                     height: 35,
-                    background: colors[themeColor]["A700"],
+                    background:
+                      colors[themeColor][global.user.darkMode ? "100" : "A700"],
                   }}
                 >
                   {getInitials(global.user.name)}

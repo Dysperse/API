@@ -21,8 +21,9 @@ export default function Dashboard() {
     },
   };
   const activeTabStyles = {
-    background: colors[themeColor]["800"] + "!important",
-    color: "#fff",
+    background:
+      colors[themeColor][global.user.darkMode ? 100 : 800] + "!important",
+    color: global.user.darkMode ? "#000" : "#fff",
   };
   const [activeTab, setActiveTab] = useState("lists");
 
