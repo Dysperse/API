@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 import { AddPersonModal } from "./AddPersonModal";
 
-function isEmail(email) {
+export function isEmail(email) {
   return String(email)
     .toLowerCase()
     .match(
