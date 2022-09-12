@@ -21,6 +21,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import AppBar from "@mui/material/AppBar";
 dayjs.extend(relativeTime);
+import { experimental_sx as sx } from "@mui/material/styles";
 
 function Loading() {
   return (
@@ -166,6 +167,73 @@ function Render({
           root: {
             textTransform: "none",
           },
+        },
+      },
+      MuiMenu: {
+        defaultProps: {
+          BackdropProps: {
+            sx: {
+              opacity: "0!important",
+            },
+          },
+        },
+        styleOverrides: {
+          root: sx({
+            transition: "all .2s",
+            "& .MuiPaper-root": {
+              mt: 1,
+              boxShadow:
+                "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+              ml: -1,
+              borderRadius: "15px",
+              minWidth: 180,
+              background:
+                global.theme === "dark"
+                  ? colors[global.themeColor][900]
+                  : colors[global.themeColor][100],
+
+              color:
+                global.theme === "dark"
+                  ? colors[global.themeColor][200]
+                  : colors[global.themeColor][800],
+              "& .MuiMenu-list": {
+                padding: "4px",
+              },
+              "& .MuiMenuItem-root": {
+                "&:hover": {
+                  background:
+                    global.theme === "dark"
+                      ? colors[global.themeColor][800]
+                      : colors[global.themeColor][200],
+                  color:
+                    global.theme === "dark"
+                      ? colors[global.themeColor][100]
+                      : colors[global.themeColor][900],
+                  "& .MuiSvgIcon-root": {
+                    color:
+                      global.theme === "dark"
+                        ? colors[global.themeColor][200]
+                        : colors[global.themeColor][800],
+                  },
+                },
+                padding: "10px 15px",
+                borderRadius: "15px",
+                marginBottom: "1px",
+
+                "& .MuiSvgIcon-root": {
+                  fontSize: 25,
+                  color: colors[global.themeColor][700],
+                  marginRight: 1.9,
+                },
+                "&:active": {
+                  background:
+                    global.theme === "dark"
+                      ? colors[global.themeColor][700]
+                      : colors[global.themeColor][300],
+                },
+              },
+            },
+          }),
         },
       },
       MuiChip: {

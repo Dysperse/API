@@ -145,69 +145,12 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
         </Button>
       </CreateItemModal>
       <Menu
-        BackdropProps={{ sx: { opacity: "0!important" } }}
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
-        }}
-        sx={{
-          transition: "all .2s",
-          "& .MuiPaper-root": {
-            mt: 1,
-            boxShadow:
-              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-            ml: -1,
-            borderRadius: "15px",
-            minWidth: 180,
-            background:
-              global.theme === "dark"
-                ? colors[global.themeColor][900]
-                : colors[global.themeColor][100],
-
-            color:
-              global.theme === "dark"
-                ? colors[global.themeColor][200]
-                : colors[global.themeColor][800],
-            "& .MuiMenu-list": {
-              padding: "4px",
-            },
-            "& .MuiMenuItem-root": {
-              "&:hover": {
-                background:
-                  global.theme === "dark"
-                    ? colors[global.themeColor][800]
-                    : colors[global.themeColor][200],
-                color:
-                  global.theme === "dark"
-                    ? colors[global.themeColor][100]
-                    : colors[global.themeColor][900],
-                "& .MuiSvgIcon-root": {
-                  color:
-                    global.theme === "dark"
-                      ? colors[global.themeColor][200]
-                      : colors[global.themeColor][800],
-                },
-              },
-              padding: "10px 15px",
-              borderRadius: "15px",
-              marginBottom: "1px",
-
-              "& .MuiSvgIcon-root": {
-                fontSize: 25,
-                color: colors[global.themeColor][700],
-                marginRight: 1.9,
-              },
-              "&:active": {
-                background:
-                  global.theme === "dark"
-                    ? colors[global.themeColor][700]
-                    : colors[global.themeColor][300],
-              },
-            },
-          },
         }}
         anchorOrigin={{
           vertical: "top",
@@ -223,7 +166,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
             setItems([]);
             setTimeout(
               () =>
-                setItems(items.sort((a, b) => a.title.localeCompare(b.title))),
+                setItems(items.sort((a, b) => a.name.localeCompare(b.name))),
               50
             );
             setTimeout(handleClose, 50);
@@ -237,7 +180,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
             setTimeout(
               () =>
                 setItems(
-                  items.sort((a, b) => a.title.localeCompare(b.title)).reverse()
+                  items.sort((a, b) => a.name.localeCompare(b.name)).reverse()
                 ),
               50
             );
@@ -250,10 +193,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
           onClick={() => {
             setItems([]);
             setTimeout(
-              () =>
-                setItems(
-                  items.sort((a, b) => a.quantity.localeCompare(b.quantity))
-                ),
+              () => setItems(items.sort((a, b) => a.qty.localeCompare(b.qty))),
               50
             );
             setTimeout(handleClose, 50);
@@ -268,7 +208,9 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
               () =>
                 setItems(
                   items
-                    .sort((a, b) => a.lastUpdated.localeCompare(b.lastUpdated))
+                    .sort((a, b) =>
+                      a.lastModified.localeCompare(b.lastModified)
+                    )
                     .reverse()
                 ),
               50
@@ -285,7 +227,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
               () =>
                 setItems(
                   items.sort((a, b) =>
-                    a.lastUpdated.localeCompare(b.lastUpdated)
+                    a.lastModified.localeCompare(b.lastModified)
                   )
                 ),
               50
