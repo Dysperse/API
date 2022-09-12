@@ -64,6 +64,13 @@ export default function Maintenance(req, res) {
         {data ? (
           <>
             {/* Past reminders */}
+            {data.filter((reminder) =>
+              dayjs(reminder.nextDue).isBefore(dayjs())
+            ).length > 0 && (
+              <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
+                Overdue
+              </Typography>
+            )}
             {data
               .filter((reminder) => dayjs(reminder.nextDue).isBefore(dayjs()))
               .map((reminder) => (
