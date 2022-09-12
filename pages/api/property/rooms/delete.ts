@@ -11,15 +11,8 @@ const handler = async (req: any, res: any) => {
     return;
   }
   const data: any | null = await prisma.customRoom.delete({
-    data: {
-      name: req.query.name,
-      pinned: false,
-      property: {
-        connect: { id: req.query.property },
-      },
-    },
-    include: {
-      property: true,
+    where: {
+      id: req.query.id,
     },
   });
 

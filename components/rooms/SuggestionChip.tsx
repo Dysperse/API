@@ -30,7 +30,14 @@ export function SuggestionChip({ room, item }: any) {
               .then((res) => res.json())
               .then((res) => {
                 toast.success("Created item!");
-                global.setUpdateBanner(room);
+                mutate(
+                  "/api/property/inventory/list?" +
+                    new URLSearchParams({
+                      property: global.property.propertyId,
+                      accessToken: global.property.accessToken,
+                      room: room.toString().toLowerCase(),
+                    })
+                );
               });
           }}
           sx={{

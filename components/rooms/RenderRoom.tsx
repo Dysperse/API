@@ -18,15 +18,6 @@ import { Toolbar } from "./Toolbar";
 export function RenderRoom({ data, index }: any) {
   const router = useRouter();
   const [items, setItems] = useState(data);
-  const [updateBanner, setUpdateBanner] = useState(false);
-
-  useEffect(() => {
-    if (data !== items) {
-      setUpdateBanner(false);
-      setItems(data);
-    }
-  }, [data, items]);
-  global.setUpdateBanner = setUpdateBanner;
 
   return (
     <Container key={index} sx={{ mt: 4 }}>
@@ -42,66 +33,6 @@ export function RenderRoom({ data, index }: any) {
         setItems={setItems}
         data={data}
       />
-      {updateBanner ===
-        (router.query.custom ? decode(index).split(",")[0] : index) && (
-        <Box
-          sx={{
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 15%)"
-                : colors[themeColor]["100"],
-            color: colors[themeColor][900],
-            borderRadius: 5,
-            p: 3,
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Typography>New items have been added to this room.</Typography>
-          <Button
-            sx={{
-              ml: "auto",
-              borderWidth: "2px!important",
-              borderRadius: 4,
-              whiteSpace: "nowrap",
-            }}
-            variant="outlined"
-            onClick={() => {
-              setUpdateBanner(false);
-              fetch(
-                "/api/property/inventory/list?" +
-                  new URLSearchParams({
-                    property: global.property.propertyId,
-                    accessToken: global.property.accessToken,
-                    room: router.query.custom
-                      ? decode(index).split(",")[0]
-                      : index,
-                  }),
-                {
-                  method: "POST",
-                }
-              )
-                .then((res) => res.json())
-                .then((res) => {
-                  setItems([]);
-                  setTimeout(() => {
-                    setItems(res);
-                  }, 10);
-                });
-            }}
-          >
-            Show changes
-            <span
-              className="material-symbols-rounded"
-              style={{ marginLeft: "10px" }}
-            >
-              refresh
-            </span>
-          </Button>
-        </Box>
-      )}
-
       <Box
         sx={{
           display: "flex",

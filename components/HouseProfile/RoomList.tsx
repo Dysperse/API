@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
 import useSWR from "swr";
 import useEmblaCarousel from "embla-carousel-react";
-
+import { mutate } from "swr";
 function Room({ color, room }: any) {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   return deleted ? (
@@ -46,7 +46,7 @@ function Room({ color, room }: any) {
           ) {
             setDeleted(true);
             fetch(
-              "/api/rooms/delete?" +
+              "/api/property/rooms/delete?" +
                 new URLSearchParams({
                   id: room.id,
                   property: global.property.propertyId,
@@ -60,6 +60,13 @@ function Room({ color, room }: any) {
               .catch(() => {
                 toast.error("Failed to delete room");
                 setDeleted(false);
+                mutate(
+                  "/api/property/rooms?" +
+                    new URLSearchParams({
+                      property: global.property.propertyId,
+                      accessToken: global.property.accessToken,
+                    })
+                );
               });
           }
         }}

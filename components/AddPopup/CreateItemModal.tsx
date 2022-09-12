@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { AutocompleteData } from "../AutocompleteData";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
@@ -120,9 +121,14 @@ export function CreateItemModal({
           setLoading(false);
           setOpen(false);
           formik.resetForm();
-          if (global.setUpdateBanner) {
-            global.setUpdateBanner(room.toString().toLowerCase());
-          }
+          mutate(
+            "/api/property/inventory/list?" +
+              new URLSearchParams({
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                room: room.toString().toLowerCase(),
+              })
+          );
         });
     },
   });
