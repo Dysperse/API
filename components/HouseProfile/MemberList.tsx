@@ -334,9 +334,7 @@ export function MemberList({ color }: any) {
       accessToken: global.property.accessToken,
     });
   const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
+    fetch(url).then((res) => res.json())
   );
 
   const images = data
@@ -348,22 +346,6 @@ export function MemberList({ color }: any) {
         }),
       ]
     : [];
-
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = images.length;
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step: number) => {
-    setActiveStep(step);
-  };
 
   const [emblaRef] = useEmblaCarousel();
 
