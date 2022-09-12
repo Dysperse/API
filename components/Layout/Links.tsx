@@ -430,7 +430,7 @@ export function DrawerListItems({
                     sx={{
                       ml: "auto",
                       mr: 1.2,
-                      zIndex: -1,
+                      zIndex: 1,
                       my: "auto",
                       "& .MuiBadge-badge": {
                         borderRadius: 2,
