@@ -31,7 +31,7 @@ function Color({ s, color, setColor }: any) {
     <CardActionArea
       onClick={() => {
         setColor(color);
-        updateSettings("color", color, true, null, true, false);
+        updateSettings("color", color, false, null, true, false);
       }}
       sx={{
         width: 36,
