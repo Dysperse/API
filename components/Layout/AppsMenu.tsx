@@ -195,23 +195,11 @@ export function AppsMenu() {
         )}
       </Tooltip>
       <Menu
-        BackdropProps={{ sx: { opacity: { sm: "0!important" } } }}
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        PaperProps={{
-          sx: {
-            borderRadius: "28px",
-            boxShadow:
-              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 30%)"
-                : colors[global.themeColor][100],
-          },
-        }}
         anchorOrigin={{
           vertical: "top",
           horizontal: "right",
