@@ -146,8 +146,10 @@ export function MemberList({ color }: any) {
       ]
     : [];
 
-  const [emblaRef] = useEmblaCarousel();
-
+  const [emblaRef, emblaApi]: any = useEmblaCarousel();
+  React.useEffect(() => {
+    emblaApi.reInit();
+  }, [emblaApi]);
   return (
     <>
       <div style={{ width: "100%", display: "flex", marginTop: "-40px" }}>
