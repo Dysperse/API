@@ -468,7 +468,7 @@ function House({ handleClose, data }: any) {
             <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
               Members
             </Typography>
-            <MemberList color={color} open={open} />
+            <MemberList color={color} />
             <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
               <Typography variant="h5" sx={{ fontWeight: "700", my: 2 }}>
                 Rooms
@@ -500,7 +500,6 @@ function House({ handleClose, data }: any) {
                 </Button>
               </Box>
             </Box>
-            <RoomList color={color} />
             <RoomList color={color} />
           </Box>
         </Box>
