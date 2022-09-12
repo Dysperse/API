@@ -22,9 +22,26 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { ListItems } from "./ListItems";
 
-function ListTip({ tip }) {
+function ListTip({ name, lists, setLists, tip }) {
   return (
     <Alert
+      onClick={() => {
+        const url =
+          "/api/property/lists/createList?" +
+          new URLSearchParams({
+            accessToken: global.property.accessToken,
+            property: global.property.propertyId,
+            name: name,
+            description: "",
+          });
+        fetch(url, {
+          method: "POST",
+        })
+          .then((res) => res.json())
+          .then((res: any) => {
+            setLists([...lists, { ...res, items: [] }]);
+          });
+      }}
       icon={
         <div style={{ marginTop: "5px" }}>
           <span
@@ -118,18 +135,33 @@ function Render({ data }: any) {
         {lists &&
           lists.filter((e) => e.name.toLowerCase() === "shopping list")
             .length === 0 && (
-            <ListTip tip="Tip: Create a shopping list to keep track of your shopping list" />
+            <ListTip
+              setLists={setLists}
+              lists={lists}
+              name="Shopping List"
+              tip="Tip: Create a shopping list to keep track of your shopping list"
+            />
           )}
 
         {lists &&
           lists.filter((e) => e.name.toLowerCase() === "to-do").length ===
             0 && (
-            <ListTip tip="Tip: Create a to-do list to keep track of your tasks" />
+            <ListTip
+              setLists={setLists}
+              lists={lists}
+              name="To-do"
+              tip="Tip: Create a to-do list to keep track of your tasks"
+            />
           )}
         {lists &&
           lists.filter((e) => e.name.toLowerCase() === "wishlist").length ===
             0 && (
-            <ListTip tip="Tip: Create a wishlist list to store items you want!" />
+            <ListTip
+              setLists={setLists}
+              lists={lists}
+              name="Wishlist"
+              tip="Tip: Create a wishlist list to store items you want!"
+            />
           )}
         <SwipeableDrawer
           open={open}

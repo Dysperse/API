@@ -35,7 +35,9 @@ export function AddPersonModal({ color, members }: any) {
           borderRadius: 4,
           ml: "auto",
           boxShadow: 0,
-          backgroundColor: colors[color][900] + "!important",
+          ...(global.property.permission === "owner" && {
+            backgroundColor: colors[color][900] + "!important",
+          }),
         }}
       >
         <span

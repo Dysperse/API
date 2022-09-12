@@ -249,11 +249,11 @@ export function ListItems({
             onClick={() => {
               setLists(lists.filter((list) => list.id !== parent));
               fetch(
-                "/api/lists/delete-custom-list?" +
+                "/api/property/lists/delete-list?" +
                   new URLSearchParams({
                     property: global.property.propertyId,
                     accessToken: global.property.accessToken,
-                    id: parent.toString(),
+                    parent: parent.toString(),
                   }),
                 {
                   method: "POST",

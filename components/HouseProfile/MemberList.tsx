@@ -74,50 +74,49 @@ function Member({ member }): any {
               : "Read-only access"}
           </span>
         </Typography>
-        <LoadingButton
-          loading={loading}
-          variant="outlined"
-          disabled={
-            global.property.permission !== "owner" ||
-            member.permission === "owner"
-          }
-          sx={{
-            borderWidth: "2px!important",
-            width: "100%",
-            mt: 1.5,
-            color: colors.red[900],
-            "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-              borderColor: colors.red[900] + "!important",
-            },
-            borderRadius: 4,
-          }}
-          onClick={() => {
-            if (
-              confirm(
-                "Remove member from your home? This person cannot join unless you invite them again."
-              )
-            ) {
-              setLoading(true);
-              fetch(
-                "/api/property/members/remove?" +
-                  new URLSearchParams({
-                    id: member.id,
-                    accessToken: global.property.accessToken,
-                    property: global.property.propertyId,
-                  }),
-                {
-                  method: "POST",
-                }
-              ).then((res: any) => {
-                toast.success("Removed person from your home");
-                setLoading(false);
-                setDeleted(true);
-              });
-            }
-          }}
-        >
-          Remove
-        </LoadingButton>
+        {global.property.permission !== "owner" ||
+        member.permission === "owner" ? null : (
+          <LoadingButton
+            loading={loading}
+            variant="outlined"
+            sx={{
+              borderWidth: "2px!important",
+              width: "100%",
+              mt: 1.5,
+              color: colors.red[900],
+              "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
+                borderColor: colors.red[900] + "!important",
+              },
+              borderRadius: 4,
+            }}
+            onClick={() => {
+              if (
+                confirm(
+                  "Remove member from your home? This person cannot join unless you invite them again."
+                )
+              ) {
+                setLoading(true);
+                fetch(
+                  "/api/property/members/remove?" +
+                    new URLSearchParams({
+                      id: member.id,
+                      accessToken: global.property.accessToken,
+                      property: global.property.propertyId,
+                    }),
+                  {
+                    method: "POST",
+                  }
+                ).then((res: any) => {
+                  toast.success("Removed person from your home");
+                  setLoading(false);
+                  setDeleted(true);
+                });
+              }
+            }}
+          >
+            Remove
+          </LoadingButton>
+        )}
       </Box>
     </>
   );
