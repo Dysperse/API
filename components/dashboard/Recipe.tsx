@@ -162,7 +162,15 @@ export function Recipe({ recipe }: any): JSX.Element {
         </Box>
       </SwipeableDrawer>
 
-      <Card sx={{ my: 2, background: "rgba(200,200,200,.3)", borderRadius: 5 }}>
+      <Card
+        sx={{
+          my: 2,
+          background: global.user.darkMode
+            ? "hsl(240, 11%, 18%)"
+            : "rgba(200,200,200,.3)",
+          borderRadius: 5,
+        }}
+      >
         <CardActionArea onClick={() => setOpen(true)}>
           <CardMedia
             component="img"

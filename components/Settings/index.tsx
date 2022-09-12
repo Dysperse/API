@@ -99,8 +99,8 @@ function Logout() {
         <ListItemAvatar>
           <Avatar
             sx={{
-              color: "#000",
-              background: colors[themeColor][200],
+              color: global.user.darkMode ? "#fff" : "#000",
+              background: colors[themeColor][global.user.darkMode ? 900 : 200],
               borderRadius: 4,
             }}
           >
@@ -409,34 +409,6 @@ export default function FullScreenDialog({ children }: any) {
             />
             <Divider sx={{ mb: 1 }} />
             <Logout />
-            <ListItem
-              button
-              onClick={() => setOpen(true)}
-              sx={{
-                transiton: "none!important",
-                "& *": { transiton: "none!important" },
-                borderRadius: 4,
-                mb: 1,
-              }}
-            >
-              <ListItemAvatar>
-                <Avatar
-                  sx={{
-                    color: "#000",
-                    background: colors[themeColor][200],
-                    borderRadius: 4,
-                  }}
-                >
-                  <span className="material-symbols-rounded">policy</span>
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Typography sx={{ fontWeight: "600" }}>Legal</Typography>
-                }
-                secondary="Food for lawyers"
-              />
-            </ListItem>
           </List>
         </Box>
       </SwipeableDrawer>
