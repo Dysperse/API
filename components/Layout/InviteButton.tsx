@@ -25,7 +25,6 @@ import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import useEmblaCarousel from "embla-carousel-react";
 
 function Color({ s, color, setColor }: any) {
   return (
@@ -539,7 +538,6 @@ export function InviteButton() {
   }, []);
 
   useEffect(() => {}, [open]);
-  const [emblaRef] = useEmblaCarousel({ axis: "y", dragFree: true });
 
   const trigger = useMediaQuery("(min-width: 600px)");
 
@@ -591,18 +589,14 @@ export function InviteButton() {
         <Box sx={{ display: { sm: "none" } }}>
           <Puller />
         </Box>
-        <Box sx={{ px: 2, textAlign: "center" }} />
-        <div ref={emblaRef}>
-          <div>
-            {global.user.properties.map((house: any, key: number) => (
-              <House
-                handleClose={() => setOpen(false)}
-                key={key.toString()}
-                data={house}
-              />
-            ))}
-          </div>
-        </div>
+        <Box sx={{ py: { xs: 3, sm: 0 }, px: 2, textAlign: "center" }} />
+        {global.user.properties.map((house: any, key: number) => (
+          <House
+            handleClose={() => setOpen(false)}
+            key={key.toString()}
+            data={house}
+          />
+        ))}
       </SwipeableDrawer>
       <div id="new_trigger" onClick={handleClick}></div>
 
