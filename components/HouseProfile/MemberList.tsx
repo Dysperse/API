@@ -148,7 +148,7 @@ export function MemberList({ color }: any) {
 
   const [emblaRef, emblaApi]: any = useEmblaCarousel();
   React.useEffect(() => {
-    emblaApi.reInit();
+    if (emblaApi) emblaApi.reInit();
   }, [emblaApi]);
   return (
     <>
