@@ -443,7 +443,7 @@ function Note({ url, note }) {
           borderRadius: 5,
           background:
             colors[note.color ?? "orange"][global.user.darkMode ? 900 : 50],
-        }}
+        }}  
       >
         <CardActionArea>
           <CardContent sx={{ p: 3 }}>

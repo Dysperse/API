@@ -28,13 +28,12 @@ export function updateSettings(
   })
     .then((res) => res.json())
     .then((res) => {
-      mutate("/api/user");
       callback && callback();
       toast.success("Saved!");
+      mutate("/api/user");
       if (debug) {
         alert(JSON.stringify(res));
       }
     });
   return d;
-  // global.user[key] = value;
 }

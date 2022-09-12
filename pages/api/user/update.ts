@@ -21,7 +21,7 @@ const handler = async (req: any, res: any) => {
     return;
   }
   const userId = session.user.id;
-  console.log(req.query.color);
+
   const user = await prisma.user.update({
     where: {
       id: userId,
@@ -30,8 +30,7 @@ const handler = async (req: any, res: any) => {
       name: req.query.name || undefined,
       email: req.query.email || undefined,
       avatar: req.query.avatar || undefined,
-      darkMode:
-        (req.query.darkMode && req.query.darkMode === "true") || undefined,
+      darkMode: req.query.darkMode === "true" ?? undefined,
       color: req.query.color || undefined,
       onboardingComplete:
         (req.query.onboardingComplete &&
