@@ -25,7 +25,6 @@ import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
 function Color({ s, color, setColor }: any) {
   return (
     <CardActionArea
