@@ -37,7 +37,10 @@ function ColorModal({ formik }) {
         BackdropProps={{
           sx: {
             background:
-              hexToRgba(colors[formik.values.color][100], 0.7) + "!important",
+              hexToRgba(
+                colors[formik.values.color][global.user.darkMode ? 900 : 100],
+                0.7
+              ) + "!important",
           },
         }}
         PaperProps={{
@@ -45,7 +48,8 @@ function ColorModal({ formik }) {
           sx: {
             maxWidth: { sm: "470px" },
             mx: "auto",
-            background: colors[formik.values.color][50],
+            background:
+              colors[formik.values.color][global.user.darkMode ? 900 : 50],
             borderRadius: "30px 30px 0 0",
           },
         }}
@@ -62,7 +66,7 @@ function ColorModal({ formik }) {
                     width: "50px",
                     height: "50px",
                     borderRadius: "50%",
-                    background: colors[color]["500"],
+                    background: colors[color][global.user.darkMode ? 700 : 500],
                     margin: "5px",
                     cursor: "pointer",
                   }}
@@ -85,7 +89,7 @@ function ColorModal({ formik }) {
           color:
             global.theme == "dark"
               ? "#fff"
-              : colors[formik.values.color]["800"],
+              : colors[formik.values.color][global.user.darkMode ? 100 : "800"],
           "&:hover": {
             background:
               colors[formik.values.color][
@@ -196,13 +200,17 @@ function NoteModal({
       BackdropProps={{
         sx: {
           background:
-            hexToRgba(colors[formik.values.color][100], 0.7) + "!important",
+            hexToRgba(
+              colors[formik.values.color][global.user.darkMode ? 900 : 100],
+              0.7
+            ) + "!important",
         },
       }}
       PaperProps={{
         elevation: 0,
         sx: {
-          background: colors[formik.values.color][50],
+          background:
+            colors[formik.values.color][global.user.darkMode ? 900 : 50],
           position: { sm: "static" },
           mx: "auto",
           overflow: "hidden!important",
@@ -215,7 +223,10 @@ function NoteModal({
       <LinearProgress
         variant="determinate"
         value={(formik.values.content.length / 350) * 100}
-        sx={{ height: 2, color: colors[formik.values.color][500] }}
+        sx={{
+          height: 2,
+          color: colors[formik.values.color][global.user.darkMode ? 100 : 500],
+        }}
         color="inherit"
       />
       <Box sx={{ p: 4, pt: 5 }}>
@@ -265,7 +276,9 @@ function NoteModal({
                 color:
                   global.theme == "dark"
                     ? "#fff"
-                    : colors[formik.values.color]["800"],
+                    : colors[formik.values.color][
+                        global.user.darkMode ? 100 : "800"
+                      ],
                 ...(formik.values.pinned && {
                   background:
                     colors[formik.values.color][
@@ -319,11 +332,13 @@ function NoteModal({
                   color:
                     global.theme == "dark"
                       ? "#fff"
-                      : colors[formik.values.color]["800"],
+                      : colors[formik.values.color][
+                          global.user.darkMode ? 100 : 800
+                        ],
                   "&:hover": {
                     background:
                       colors[formik.values.color][
-                        global.theme == "dark" ? "900" : "200"
+                        global.theme == "dark" ? 900 : 200
                       ] + "!important",
                   },
                 }}
@@ -344,7 +359,10 @@ function NoteModal({
               sx={{
                 mt: 2,
                 borderRadius: "20px",
-                background: colors[formik.values.color][900] + "!important",
+                background:
+                  colors[formik.values.color][
+                    global.user.darkMode ? 100 : 900
+                  ] + "!important",
               }}
               disableElevation
               size="large"
@@ -423,7 +441,8 @@ function Note({ url, note }) {
         }}
         sx={{
           borderRadius: 5,
-          background: colors[note.color ?? "orange"][50],
+          background:
+            colors[note.color ?? "orange"][global.user.darkMode ? 900 : 50],
         }}
       >
         <CardActionArea>
