@@ -76,7 +76,7 @@ export function CreateItemModal({
         "content",
         open
           ? global.theme === "dark"
-            ? "hsl(240, 11%, 5%)"
+            ? "hsl(240, 11%, 25%)"
             : colors[themeColor][50]
           : global.theme === "dark"
           ? "hsl(240, 11%, 10%)"
@@ -200,7 +200,7 @@ export function CreateItemModal({
               fontWeight: "600",
               alignItems: "center",
               textTransform: "capitalize",
-              py: 3.5,
+              py: 2.5,
             }}
           >
             <IconButton

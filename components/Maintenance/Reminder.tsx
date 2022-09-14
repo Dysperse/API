@@ -56,6 +56,22 @@ export function Reminder({ reminder }: any) {
             onBlur={(e) => {
               e.target.placeholder = "Click to add note";
               e.target.spellcheck = false;
+              fetch(
+                "/api/property/maintenance/updateNote?" +
+                  new URLSearchParams({
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
+                    id: reminder.id,
+                    note: e.target.value,
+                  })
+              );
+              mutate(
+                "/api/property/maintenance/reminders?" +
+                  new URLSearchParams({
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
+                  })
+              );
             }}
             onKeyUp={(e: any) => {
               if (e.code === "Enter" && !e.shiftKey) {
