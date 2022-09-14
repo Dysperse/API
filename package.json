@@ -40,6 +40,7 @@
     "formik": "^2.2.9",
     "hex-to-rgba": "^2.0.1",
     "html2canvas": "^1.4.1",
+    "ics": "^2.40.0",
     "iron-session": "^6.2.0",
     "js-base64": "^3.7.2",
     "js-cookie": "^3.0.1",
