@@ -70,9 +70,9 @@ export function Reminder({ reminder }: any) {
                 p: 2.5,
                 borderRadius: "15px",
                 display: "block",
-                minHeight: "100px",
               },
             }}
+            minRows={3}
             spellCheck={false}
             variant="filled"
             defaultValue={reminder.note}

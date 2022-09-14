@@ -259,10 +259,10 @@ function NoteModal({
             InputProps={{
               disableUnderline: true,
               sx: {
-                minHeight: "150px",
                 alignItems: "flex-start",
               },
             }}
+            minRows={3}
             variant="standard"
           />
           <Box sx={{ mt: 2, textAlign: "right" }}>
@@ -443,7 +443,7 @@ function Note({ url, note }) {
           borderRadius: 5,
           background:
             colors[note.color ?? "orange"][global.user.darkMode ? 900 : 50],
-        }}  
+        }}
       >
         <CardActionArea>
           <CardContent sx={{ p: 3 }}>
