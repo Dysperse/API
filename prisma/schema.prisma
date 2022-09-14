@@ -17,6 +17,7 @@ model User {
   color              String           @default("cyan")
   onboardingComplete Boolean          @default(false)
   verifiedEmail      Boolean          @default(false)
+  twoFactorSecret    String           @default("")
   // List of active properties and sessions
   properties         PropertyInvite[]
   sessions           Session[]

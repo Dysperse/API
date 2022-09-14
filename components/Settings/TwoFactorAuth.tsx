@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import QRCode from "react-qr-code";
 import base32 from "thirty-two";
 import { v4 as uuidv4 } from "uuid";
+import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
 
 const key = uuidv4();
@@ -26,8 +27,8 @@ export default function App() {
 
   return (
     <Box sx={{ p: 5 }}>
-      {global.user["twoFactorAuthCode"] &&
-      global.user["twoFactorAuthCode"] !== "false" ? (
+      {global.user.twoFactorSecret &&
+      global.user.twoFactorSecret !== "false" ? (
         <Box>
           <Typography>2FA is enabled for your account!</Typography>
           <LoadingButton
@@ -119,9 +120,9 @@ export default function App() {
             onClick={() => {
               setLoading(true);
               fetch(
-                "/api/account/2fa/setup?" +
+                "/api/user/2fa/setup?" +
                   new URLSearchParams({
-                    key: key,
+                    secret: key,
                     code: code,
                     token: global.user.accessToken,
                   }),
@@ -131,17 +132,13 @@ export default function App() {
               )
                 .then((res) => res.json())
                 .then((res) => {
-                  fetch("/api/login?token=" + global.user.accessToken).then(
-                    () => {
-                      if (res.data) {
-                        toast.success("2FA setup successful!");
-                      } else {
-                        toast.error("Invalid 2FA code");
-                      }
-                      setLoading(false);
-                      window.location.reload();
-                    }
-                  );
+                  toast.success("2FA setup successful!");
+                  setLoading(false);
+                  mutate("/api/user");
+                })
+                .catch((err) => {
+                  toast.error("Invalid code!");
+                  setLoading(false);
                 });
             }}
           >
