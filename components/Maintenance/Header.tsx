@@ -14,11 +14,11 @@ function FrequencySetting({ name, formik }: { name: string; formik: any }) {
     <Button
       onClick={() => formik.setFieldValue("frequency", name)}
       sx={{
-        px: 5,
+        px: 3,
+        width: "33.9%",
         borderRadius: 999,
         height: 40,
         transition: "none!important",
-        width: 150,
         textTransform: "capitalize",
         whiteSpace: "nowrap",
         overflow: "hidden",
@@ -26,6 +26,9 @@ function FrequencySetting({ name, formik }: { name: string; formik: any }) {
         ...(formik.values.frequency === name && {
           background:
             colors[themeColor][global.theme !== "dark" ? 100 : 900] +
+            "!important",
+          color:
+            colors[themeColor][global.theme === "dark" ? 50 : 900] +
             "!important",
         }),
       }}
@@ -112,6 +115,11 @@ function CreateMaintenanceModal() {
             />
             <ButtonGroup
               variant="outlined"
+              sx={{
+                flexBasis: "0",
+                display: "flex",
+                width: "100%",
+              }}
               aria-label="outlined primary button group"
             >
               <FrequencySetting name="weekly" formik={formik} />
