@@ -65,8 +65,10 @@ function ListTip({ name, lists, setLists, tip }) {
         <IconButton
           sx={{
             borderRadius: 999,
-            background: colors.orange["100"] + "!important",
-            color: colors.orange[900] + "!important",
+            background:
+              colors.orange[global.user.darkMode ? 100 : 900] + "!important",
+            color:
+              colors.orange[global.user.darkMode ? 900 : 100] + "!important",
           }}
         >
           <span className="material-symbols-outlined">add</span>
