@@ -37,6 +37,9 @@ const handler = async (req: any, res: any) => {
           description: reminder.note || "(No note added)",
           start: arrayDate,
           duration: { minutes: 50 },
+          url: "https://my.smartlist.tech/maintenance",
+          categories: ["Home maintenance"],
+          calName: "Home maintenance (Carbon)",
           uid:
             reminder.id +
             "@reminders." +
