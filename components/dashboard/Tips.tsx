@@ -3,7 +3,16 @@ import Typography from "@mui/material/Typography";
 
 export function Tips(): JSX.Element {
   return (
-    <Box sx={{ background: "rgba(200,200,200,.3)", p: 4, borderRadius: 5 }}>
+    <Box
+      sx={{
+        background:
+          global.theme === "dark"
+            ? "hsl(240, 11%, 13%)"
+            : "rgba(200,200,200,.3)",
+        p: 4,
+        borderRadius: 5,
+      }}
+    >
       <Typography>Coming soon!</Typography>
     </Box>
   );
