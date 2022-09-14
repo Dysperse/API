@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import * as colors from "@mui/material/colors";
+import hexToRgba from "hex-to-rgba";
 import CssBaseline from "@mui/material/CssBaseline";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
@@ -367,7 +368,7 @@ export default function AddPopup(props: any) {
         "content",
         open
           ? global.theme === "dark"
-            ? "hsl(240, 11%, 5%)"
+            ? "hsl(240, 11%, 20%)"
             : "#cccccc"
           : global.theme === "dark"
           ? "hsl(240, 11%, 10%)"
