@@ -446,13 +446,17 @@ export default function AddPopup(props: any) {
             alignItems: "center",
           }}
         >
-          <IconButton sx={{ mr: "auto", opacity: 0, pointerEvents: "none" }}>
+          <IconButton
+            disabled
+            sx={{ mr: "auto", opacity: 0, pointerEvents: "none" }}
+          >
             <span className="material-symbols-rounded">view_in_ar</span>
           </IconButton>
           <Typography variant="h6" sx={{ mx: "auto", fontWeight: "600" }}>
             Create item
           </Typography>
           <IconButton
+            disabled
             size="large"
             onClick={() => window.open("/scan")}
             sx={{
