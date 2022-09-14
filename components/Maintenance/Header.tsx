@@ -167,7 +167,10 @@ function CreateMaintenanceModal() {
             accessToken: global.property.accessToken,
             name: values.name,
             frequency: values.frequency,
+
             nextDue: values.nextDue,
+            lastCompleted: new Date().toISOString(),
+
             note: values.note,
           })
       )

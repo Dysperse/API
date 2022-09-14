@@ -25,6 +25,7 @@ const handler = async (req: any, res: any) => {
       break;
   }
 
+  console.log(nextDue);
   // Create a new maintenance reminder
   const data: any | null = await prisma.maintenanceReminder.create({
     data: {
@@ -35,8 +36,8 @@ const handler = async (req: any, res: any) => {
       },
       name: req.query.name,
       frequency: req.query.frequency,
-      lastCompleted: new Date(req.query.lastCompleted) || new Date(),
-      nextDue: nextDue,
+      lastDone: new Date(req.query.lastCompleted) || new Date(),
+      nextDue: new Date(nextDue),
       note: req.query.note,
     },
   });

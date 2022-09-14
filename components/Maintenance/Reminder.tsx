@@ -17,6 +17,8 @@ import { Puller } from "../Puller";
 export function Reminder({ reminder }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [markAsDoneLoading, setMarkAsDoneLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+
   return (
     <>
       <SwipeableDrawer
@@ -95,19 +97,44 @@ export function Reminder({ reminder }: any) {
             <Button
               fullWidth
               size="large"
+              disabled
               variant="outlined"
               sx={{ borderWidth: "2px!important", borderRadius: 999 }}
             >
               Postpone
             </Button>
-            <Button
+            <LoadingButton
+              loading={deleteLoading}
               fullWidth
+              onClick={() => {
+                setDeleteLoading(true);
+                fetch(
+                  "/api/property/maintenance/delete?" +
+                    new URLSearchParams({
+                      id: reminder.id,
+                      accessToken: global.property.accessToken,
+                      property: global.property.propertyId,
+                    })
+                )
+                  .then((res) => res.json())
+                  .then((res) => {
+                    mutate(
+                      "/api/property/maintenance/reminders?" +
+                        new URLSearchParams({
+                          property: global.property.propertyId,
+                          accessToken: global.property.accessToken,
+                        })
+                    );
+                    setOpen(false);
+                    toast.success("Reminder deleted");
+                  });
+              }}
               size="large"
               variant="outlined"
               sx={{ borderWidth: "2px!important", borderRadius: 999 }}
             >
               Delete
-            </Button>
+            </LoadingButton>
           </Box>
           <LoadingButton
             fullWidth
