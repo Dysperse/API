@@ -1,3 +1,4 @@
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -5,15 +6,17 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import * as colors from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { mutate } from "swr";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 
 export function Reminder({ reminder }: any) {
   const [open, setOpen] = useState<boolean>(false);
-
+  const [markAsDoneLoading, setMarkAsDoneLoading] = useState<boolean>(false);
   return (
     <>
       <SwipeableDrawer
@@ -106,8 +109,36 @@ export function Reminder({ reminder }: any) {
               Delete
             </Button>
           </Box>
-          <Button
+          <LoadingButton
             fullWidth
+            loading={markAsDoneLoading}
+            onClick={() => {
+              setMarkAsDoneLoading(true);
+              fetch(
+                "/api/property/maintenance/markAsDone?" +
+                  new URLSearchParams({
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
+                    id: reminder.id,
+                    frequency: reminder.frequency,
+                    lastCompleted: new Date().toISOString(),
+                  })
+              )
+                .then(() => {
+                  mutate(
+                    "/api/property/maintenance/reminders?" +
+                      new URLSearchParams({
+                        property: global.property.propertyId,
+                        accessToken: global.property.accessToken,
+                      })
+                  );
+                  setMarkAsDoneLoading(false);
+                  setOpen(false);
+                })
+                .catch((err) => {
+                  toast.error("Couldn't mark as done. Please try again later.");
+                });
+            }}
             size="large"
             variant="contained"
             sx={{
@@ -119,7 +150,7 @@ export function Reminder({ reminder }: any) {
             disabled={global.property.permission === "read-only"}
           >
             Mark as done
-          </Button>
+          </LoadingButton>
         </Box>
       </SwipeableDrawer>
       <Card

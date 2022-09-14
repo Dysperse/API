@@ -11,6 +11,19 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
+  let nextDue = new Date(req.query.nextDue);
+
+  switch (req.query.frequency) {
+    case "weekly":
+      nextDue.setDate(nextDue.getDate() + 7);
+      break;
+    case "monthly":
+      nextDue.setMonth(nextDue.getMonth() + 1);
+      break;
+    case "annually":
+      nextDue.setFullYear(nextDue.getFullYear() + 1);
+      break;
+  }
 
   // Create a new maintenance reminder
   const data: any | null = await prisma.maintenanceReminder.create({
@@ -22,7 +35,8 @@ const handler = async (req: any, res: any) => {
       },
       name: req.query.name,
       frequency: req.query.frequency,
-      nextDue: new Date(req.query.nextDue) || new Date(),
+      lastCompleted: new Date(req.query.lastCompleted) || new Date(),
+      nextDue: nextDue,
       note: req.query.note,
     },
   });

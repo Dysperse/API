@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { useState } from "react";
+import { mutate } from "swr";
 import { Puller } from "../Puller";
 
 const useStyles = createStyles((theme) => ({
@@ -174,6 +175,13 @@ function CreateMaintenanceModal() {
         .then((data) => {
           setLoading(false);
           setOpen(false);
+          mutate(
+            "/api/property/maintenance/reminders?" +
+              new URLSearchParams({
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+              })
+          );
         });
     },
   });
