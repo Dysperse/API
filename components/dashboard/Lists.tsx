@@ -54,7 +54,6 @@ function ListTip({ name, lists, setLists, tip }) {
       }
       severity="info"
       sx={{
-        mb: 2,
         alignItems: "center",
         display: "flex",
         borderRadius: 5,
