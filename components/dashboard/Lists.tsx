@@ -46,7 +46,7 @@ function ListTip({ name, lists, setLists, tip }) {
         <div style={{ marginTop: "5px" }}>
           <span
             className="material-symbols-outlined"
-            style={{ color: colors.orange[900] }}
+            style={{ color: colors.orange[global.user.darkMode ? 100 : 900] }}
           >
             lightbulb
           </span>
@@ -58,17 +58,17 @@ function ListTip({ name, lists, setLists, tip }) {
         alignItems: "center",
         display: "flex",
         borderRadius: 5,
-        background: colors.orange[global.user.darkMode ? 100 : 900],
-        color: colors.orange[global.user.darkMode ? 900 : 100],
+        background: colors.orange[global.user.darkMode ? 900 : 50],
+        color: colors.orange[global.user.darkMode ? 100 : 900],
       }}
       action={
         <IconButton
           sx={{
             borderRadius: 999,
             background:
-              colors.orange[global.user.darkMode ? 100 : 900] + "!important",
+              colors.orange[global.user.darkMode ? 800 : 100] + "!important",
             color:
-              colors.orange[global.user.darkMode ? 900 : 100] + "!important",
+              colors.orange[global.user.darkMode ? 100 : 900] + "!important",
           }}
         >
           <span className="material-symbols-outlined">add</span>
