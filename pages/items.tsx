@@ -362,6 +362,9 @@ export default function Categories() {
                   background:
                     colors[themeColor][global.theme !== "dark" ? 100 : 900] +
                     "!important",
+                  color:
+                    colors[themeColor][global.user.darkMode ? 50 : 900] +
+                    "!important",
                 }),
               }}
             >
@@ -391,6 +394,10 @@ export default function Categories() {
                 ...(viewBy === "category" && {
                   background:
                     colors[themeColor][global.theme !== "dark" ? 100 : 900] +
+                    "!important",
+
+                  color:
+                    colors[themeColor][global.user.darkMode ? 50 : 900] +
                     "!important",
                 }),
               }}
