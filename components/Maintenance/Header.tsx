@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { mutate } from "swr";
 import { Puller } from "../Puller";
-
+import Link from "@mui/material/Link";
 const useStyles = createStyles((theme) => ({
   outside: {},
   weekend: {
@@ -52,13 +52,39 @@ function CalendarFeedModal() {
       >
         <Puller />
         <Box sx={{ p: 5 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Recieve reminders and updates to your calendar!
+          </Typography>
           <TextField
-            disabled
+            inputProps={{
+              readOnly: true,
+            }}
             value={url}
             variant="filled"
             fullWidth
             label="Calendar feed URL"
+            sx={{ mb: 2 }}
           />
+          <Link
+            target="_blank"
+            href="https://support.google.com/calendar/answer/37100?hl=en&co=GENIE.Platform%3DDesktop"
+          >
+            Instructions for Google Calendar
+          </Link>
+          <br />
+          <Link
+            target="_blank"
+            href="https://support.microsoft.com/en-us/office/import-or-subscribe-to-a-calendar-in-outlook-on-the-web-503ffaf6-7b86-44fe-8dd6-8099d95f38df#:~:text=Note%3A%C2%A0If%20the%20instructions%20don%27t%20match%20what%20you%20see%2C%20you%20might%20be%20using%20an%20older%20version%20of%20Outlook%20on%20the%20web.%20Try%20the%20Instructions%20for%20classic%20Outlook%20on%20the%20web."
+          >
+            Instructions for Outlook
+          </Link>
+          <br />
+          <Link
+            target="_blank"
+            href="https://support.apple.com/guide/calendar/subscribe-to-calendars-icl1022/mac#:~:text=Subscribe%20to%20a%20calendar&text=Enter%20the%20calendar's%20web%20address,an%20account%20for%20the%20subscription."
+          >
+            Instructions for Apple calendar
+          </Link>
         </Box>
       </SwipeableDrawer>
 
