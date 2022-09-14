@@ -58,8 +58,8 @@ function ListTip({ name, lists, setLists, tip }) {
         alignItems: "center",
         display: "flex",
         borderRadius: 5,
-        background: colors.orange["50"],
-        color: colors.orange[900],
+        background: colors.orange[global.user.darkMode ? 100 : 900],
+        color: colors.orange[global.user.darkMode ? 900 : 100],
       }}
       action={
         <IconButton
