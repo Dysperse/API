@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { createStyles, MantineProvider } from "@mantine/core";
+import { Calendar } from "@mantine/dates";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { Puller } from "../Puller";
-import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import { DatePicker, Calendar, Month } from "@mantine/dates";
+import * as colors from "@mui/material/colors";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
-import { MantineProvider } from "@mantine/core";
-import { createStyles } from "@mantine/core";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { Puller } from "../Puller";
 
 const useStyles = createStyles((theme) => ({
   outside: {},
@@ -77,6 +77,7 @@ function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
                   formik.setFieldValue("nextDue", date);
                   setOpen(false);
                 }}
+                value={date}
               />
             </MantineProvider>
           ) : (
@@ -147,6 +148,8 @@ function FrequencySetting({ name, formik }: { name: string; formik: any }) {
 
 function CreateMaintenanceModal() {
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -155,7 +158,23 @@ function CreateMaintenanceModal() {
       note: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      setLoading(true);
+      fetch(
+        "/api/property/maintenance/create?" +
+          new URLSearchParams({
+            property: global.property.propertyId,
+            accessToken: global.property.accessToken,
+            name: values.name,
+            frequency: values.frequency,
+            nextDue: values.nextDue,
+            note: values.note,
+          })
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setLoading(false);
+          setOpen(false);
+        });
     },
   });
 
@@ -188,6 +207,7 @@ function CreateMaintenanceModal() {
             <TextField
               fullWidth
               id="name"
+              required
               variant="filled"
               name="name"
               label="Name"
@@ -225,10 +245,11 @@ function CreateMaintenanceModal() {
               <FrequencySetting name="annually" formik={formik} />
             </ButtonGroup>
 
-            <Button
+            <LoadingButton
               variant="contained"
               disableElevation
               fullWidth
+              loading={loading}
               sx={{
                 gap: 2,
                 mt: 3,
@@ -236,9 +257,10 @@ function CreateMaintenanceModal() {
                 boxShadow: "none!important",
               }}
               size="large"
+              type="submit"
             >
               Set reminder
-            </Button>
+            </LoadingButton>
           </form>
         </Box>
       </SwipeableDrawer>
