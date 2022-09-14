@@ -434,11 +434,13 @@ export default function AddPopup(props: any) {
           keepMounted: true,
         }}
       >
-        <Puller />
+        <Box sx={{ mb: 2 }}>
+          <Puller />
+        </Box>
         <DialogTitle
           sx={{
             display: "flex",
-            mt: 0.5,
+            mt: 0.8,
             textAlign: "center",
             pb: 0,
             alignItems: "center",
