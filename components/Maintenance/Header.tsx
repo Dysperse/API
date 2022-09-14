@@ -8,7 +8,104 @@ import { Puller } from "../Puller";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import { DatePicker, Calendar, Month } from "@mantine/dates";
+import dayjs from "dayjs";
+import { MantineProvider } from "@mantine/core";
+import { createStyles } from "@mantine/core";
 
+const useStyles = createStyles((theme) => ({
+  outside: {},
+  weekend: {
+    color: "inherit !important",
+  },
+}));
+
+function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
+  const [open, setOpen] = useState(false);
+  const { classes, cx } = useStyles();
+
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            mx: "auto",
+            maxWidth: "500px",
+            minHeight: "100px",
+            minWidth: "auto",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 18%)"
+                : colors[themeColor][50],
+            borderRadius: "30px 30px 0 0",
+          },
+        }}
+      >
+        <Puller />
+        {/* <DatePicker locale="de" /> */}
+        <Box
+          sx={{
+            p: 4,
+            mt: 2,
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          {global.user.darkMode ? (
+            <MantineProvider
+              theme={{
+                colorScheme: "dark",
+              }}
+              withGlobalStyles
+              withNormalizeCSS
+            >
+              <Calendar
+                dayClassName={(date, modifiers) =>
+                  cx({
+                    [classes.outside]: modifiers.outside,
+                    [classes.weekend]: modifiers.weekend,
+                  })
+                }
+                onChange={(date) => {
+                  formik.setFieldValue("nextDue", date);
+                  setOpen(false);
+                }}
+              />
+            </MantineProvider>
+          ) : (
+            <Calendar
+              disableOutsideEvents
+              dayClassName={(date, modifiers) =>
+                cx({
+                  [classes.outside]: modifiers.outside,
+                  [classes.weekend]: modifiers.weekend,
+                })
+              }
+              onChange={(date) => {
+                formik.setFieldValue("nextDue", date);
+                setOpen(false);
+              }}
+            />
+          )}
+        </Box>
+      </SwipeableDrawer>
+      <Button
+        variant="outlined"
+        onClick={() => setOpen(true)}
+        sx={{ width: "100%", my: 1, borderRadius: 9 }}
+      >
+        {date ? dayjs(date).format("MMM D, YYYY") : "Select date"}
+      </Button>
+    </>
+  );
+}
 function FrequencySetting({ name, formik }: { name: string; formik: any }) {
   return (
     <Button
@@ -54,7 +151,7 @@ function CreateMaintenanceModal() {
     initialValues: {
       name: "",
       frequency: "monthly",
-      nextDue: "",
+      nextDue: new Date().toISOString(),
       note: "",
     },
     onSubmit: (values) => {
@@ -113,6 +210,7 @@ function CreateMaintenanceModal() {
               onChange={formik.handleChange}
               sx={{ mb: 2 }}
             />
+            <SelectDateCalendar date={formik.values.nextDue} formik={formik} />
             <ButtonGroup
               variant="outlined"
               sx={{
