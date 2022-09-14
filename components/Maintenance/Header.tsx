@@ -21,6 +21,70 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+function CalendarFeedModal() {
+  const [open, setOpen] = useState(false);
+  const url =
+    "https://my.smartlist.tech/api/property/maintenance/feed?property=" +
+    global.property.propertyId +
+    "&accessToken=" +
+    global.property.accessToken;
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            mx: "auto",
+            maxWidth: "500px",
+            minHeight: "100px",
+            minWidth: "auto",
+            background:
+              global.theme === "dark"
+                ? "hsl(240, 11%, 18%)"
+                : colors[themeColor][50],
+            borderRadius: "30px 30px 0 0",
+          },
+        }}
+      >
+        <Puller />
+        <Box sx={{ p: 5 }}>
+          <TextField
+            disabled
+            value={url}
+            variant="filled"
+            fullWidth
+            label="Calendar feed URL"
+          />
+        </Box>
+      </SwipeableDrawer>
+
+      <Button
+        variant="contained"
+        onClick={() => setOpen(true)}
+        sx={{
+          width: { xs: "100%", sm: "auto" },
+          px: 3,
+          py: 1,
+          mt: 2,
+          background: colors.green["A700"] + "!important",
+          borderRadius: 999,
+          gap: 2,
+          mr: { sm: 2 },
+        }}
+        disableElevation
+        disabled={global.property.permission === "read-only"}
+      >
+        <span className="material-symbols-rounded">event</span>
+        Calendar feed
+      </Button>
+    </>
+  );
+}
+
 function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
   const [open, setOpen] = useState(false);
   const { classes, cx } = useStyles();
@@ -326,6 +390,7 @@ export function Header({ count }) {
         </Box>
       </Box>
       <Box sx={{ px: 5, textAlign: { xs: "center", sm: "right" } }}>
+        <CalendarFeedModal />
         <CreateMaintenanceModal />
       </Box>
     </>

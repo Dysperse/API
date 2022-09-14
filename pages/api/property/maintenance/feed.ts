@@ -1,9 +1,18 @@
 import { prisma } from "../../../../lib/client";
 const ics = require("ics");
+import { validatePermissions } from "../../../../lib/validatePermissions";
 
 let alarms: any = [];
 
 const handler = async (req: any, res: any) => {
+  const permissions = await validatePermissions(
+    req.query.property,
+    req.query.accessToken
+  );
+  if (!permissions || permissions !== "owner") {
+    res.status(401).send("Unauthorized");
+    return;
+  }
   const data: any | null = await prisma.maintenanceReminder.findMany({
     where: {
       property: {
