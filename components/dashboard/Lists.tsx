@@ -95,7 +95,7 @@ function Render({ data }: any) {
       name: "",
       description: "",
     },
-    onSubmit: async (values) => {
+    onSubmit:  (values) => {
       setLoading(true);
       const url =
         "/api/property/lists/createList?" +
