@@ -17,11 +17,9 @@ const handler = async (req: any, res: any) => {
     },
   });
   if (!session) {
-    
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  
 
   const userId = session.user.id;
 
@@ -39,7 +37,7 @@ const handler = async (req: any, res: any) => {
       twoFactorSecret: req.query.secret || undefined,
     },
   });
-  
+
   res.json(user);
 };
 export default handler;

@@ -59,7 +59,6 @@ const handler = async (req: any, res: any) => {
       }),
       (error, value) => {
         if (error) {
-          
         }
 
         resolve(value);
