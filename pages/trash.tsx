@@ -29,7 +29,7 @@ function DeleteCard({ item }: any) {
       }}
     >
       <CardContent>
-        <ItemCard item={item} displayRoom={true} />
+        <ItemCard item={item} displayRoom />
         <LoadingButton
           loading={loading}
           sx={{
