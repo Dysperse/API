@@ -95,7 +95,7 @@ export function CreateItemModal({
       title: "",
       quantity: "",
     },
-    onSubmit: async (values: {
+    onSubmit:  (values: {
       categories: Array<string>;
       title: string;
       quantity: string;
@@ -159,7 +159,7 @@ export function CreateItemModal({
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
-        disableSwipeToOpen={true}
+        disableSwipeToOpen
         PaperProps={{
           elevation: 0,
           sx: {

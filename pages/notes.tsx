@@ -135,7 +135,7 @@ function NoteModal({
       title: create ? "" : title,
       content: create ? "" : content,
     },
-    onSubmit: async (values) => {
+    onSubmit:  (values) => {
       setLoading(true);
       fetch(
         create

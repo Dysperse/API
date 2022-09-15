@@ -529,7 +529,7 @@ export default function Item({
                 }
               }}
               onSwitching={(index) => {
-                console.log(index);
+                
                 if (index > 1) {
                   setSwitchingToIndex(2);
                 } else if (index < 1) {
@@ -695,7 +695,7 @@ export default function Item({
                     }
                   }}
                   onSwitching={(index) => {
-                    console.log(index);
+                    
                     if (index > 1) {
                       setSwitchingToIndex(2);
                     } else if (index < 1) {

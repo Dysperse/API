@@ -1,7 +1,7 @@
 // Remove `token` cookie
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
-export default async function handler(req, res) {
+export default function handler(req, res) {
   res.setHeader(
     "Set-Cookie",
 

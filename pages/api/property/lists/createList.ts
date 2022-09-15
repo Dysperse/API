@@ -31,7 +31,7 @@ const handler = async (req: any, res: any) => {
       property: true,
     },
   });
-  console.log(data);
+
   res.json({
     ...data,
     name: req.query.name,

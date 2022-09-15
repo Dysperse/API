@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   }
   // Get the user's email and password from the request body
   const { name, email, password } = req.body;
-  console.log(req.body.name);
+
   // Hash the password
   const hashedPassword = await argon2.hash(password);
 
@@ -44,7 +44,6 @@ export default async function handler(req, res) {
   });
   //   Get property id from property
   const propertyId = property.id;
-  console.log(propertyId);
 
   //   Create a property invite
   const propertyInvite = await prisma.propertyInvite.create({
@@ -64,7 +63,6 @@ export default async function handler(req, res) {
       },
     },
   });
-  console.log(propertyInvite);
 
   res.status(200).json({ message: "Success", session });
 }
