@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography";
 import Head from "next/head";
 
 function getQueryParameterByName(name) {
-  var pairStrings = window.location.search.slice(1).split("&");
-  var pairs: any = pairStrings.map(function (pair) {
+  let pairStrings = window.location.search.slice(1).split("&");
+  let pairs: any = pairStrings.map(function (pair) {
     return pair.split("=");
   });
   return pairs.reduce(function (value, pair) {
@@ -15,8 +15,8 @@ function getQueryParameterByName(name) {
   }, null);
 }
 function RenderData({ data }) {
-  var redirectURL = getQueryParameterByName("redirect");
-  var companyID = getQueryParameterByName("companyID");
+  let redirectURL = getQueryParameterByName("redirect");
+  let companyID = getQueryParameterByName("companyID");
   if (redirectURL.indexOf("https://") !== 0 || !companyID) {
     return null;
   }
