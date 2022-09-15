@@ -59,7 +59,7 @@ const handler = async (req: any, res: any) => {
       }),
       (error, value) => {
         if (error) {
-          console.log(error);
+          
         }
 
         resolve(value);
