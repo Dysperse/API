@@ -11,6 +11,6 @@ export function Puller({ variant }: { variant?: "side" }) {
             ? "hsl(240, 11%, 35%)"
             : colors[themeColor][100],
       }}
-    ></Box>
+     />
   );
 }

@@ -276,7 +276,7 @@ export default function Prompt() {
                 fullWidth
                 variant="filled"
               />
-              <Box sx={{ pb: { xs: 15, sm: 0 } }}></Box>
+              <Box sx={{ pb: { xs: 15, sm: 0 } }} />
               <Box
                 sx={{
                   display: "flex",
@@ -289,7 +289,7 @@ export default function Prompt() {
                   width: { xs: "100vw", sm: "auto" },
                 }}
               >
-                <div></div>
+                <div />
                 <LoadingButton
                   loading={buttonLoading}
                   type="submit"
