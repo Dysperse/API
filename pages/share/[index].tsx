@@ -36,7 +36,7 @@ function Query({ query }: any) {
 export default function Share() {
   const router = useRouter();
   const query: any = router && router.query.index;
-  console.log(query);
+  
 
   return (
     <>
