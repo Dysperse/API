@@ -157,7 +157,7 @@ function Items() {
   ) : (
     <>
       {data.data.map((item: any, id: number) => (
-        <DeleteCard item={item} key={id.toString()} />
+        <DeleteCard item={item} key={item.id.toString()} />
       ))}
       {data.data.length === 0 && (
         <Box

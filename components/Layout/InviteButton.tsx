@@ -592,7 +592,7 @@ export function InviteButton() {
         {global.user.properties.map((house: any, key: number) => (
           <House
             handleClose={() => setOpen(false)}
-            key={key.toString()}
+            key={house.accessToken.toString()}
             data={house}
           />
         ))}

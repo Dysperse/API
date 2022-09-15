@@ -288,7 +288,7 @@ export function CreateItemModal({
             >
               {filteredCards.map((item, i) => (
                 <Box
-                  key={i}
+                  key={item.id.toString()}
                   onClick={() => {
                     formik.setFieldValue("title", item.name);
                     formik.setFieldValue("categories", item.tags);
