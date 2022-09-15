@@ -597,7 +597,7 @@ export function InviteButton() {
           />
         ))}
       </SwipeableDrawer>
-      <div id="new_trigger" onClick={handleClick}></div>
+      <div id="new_trigger" onClick={handleClick} />
 
       <Button
         disableRipple

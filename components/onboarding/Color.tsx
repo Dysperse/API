@@ -20,6 +20,6 @@ export function Color({ color, setThemeColor, handleNext }) {
         display: "inline-block",
         background: colors[color]["700"],
       }}
-    ></CardActionArea>
+     />
   );
 }

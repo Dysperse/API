@@ -405,7 +405,7 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
         />
         {/* <Loading /> */}
       </NoSsr>
-      <Script src="/prevent-navigate-history.js"></Script>
+      <Script src="/prevent-navigate-history.js" />
     </>
   );
 }
