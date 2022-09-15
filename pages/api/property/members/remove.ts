@@ -16,7 +16,7 @@ const handler = async (req: any, res: any) => {
       id: parseInt(req.query.id),
     },
   });
-  console.log(data);
+
   res.json(data);
 };
 export default handler;

@@ -16,7 +16,6 @@ const handler = async (req: any, res: any) => {
     },
   });
   if (!session) {
-    console.log(req.query.token);
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
