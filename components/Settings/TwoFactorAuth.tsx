@@ -21,6 +21,8 @@ const uri =
   encodedForGoogle;
 
 export default function App() {
+  alert(uri);
+
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingDisable, setLoadingDisable] = useState<boolean>(false);
