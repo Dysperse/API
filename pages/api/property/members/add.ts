@@ -39,7 +39,7 @@ const handler = async (req: any, res: any) => {
       profile: true,
     },
   });
-  
+
   res.json(data);
 };
 export default handler;
