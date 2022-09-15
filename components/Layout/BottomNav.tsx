@@ -101,7 +101,7 @@ export function BottomNav({ maintenance }: any) {
     case "/maintenance":
       v = 3;
       break;
-      break;
+      
 
     default:
       if (router.asPath.includes("/rooms")) {
