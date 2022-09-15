@@ -9,9 +9,9 @@ module.exports = withPlugins(
     [
       withPWA({
         disable: process.env.NODE_ENV == "development",
-        dest: "public"
-      })
-    ]
+        dest: "public",
+      }),
+    ],
   ],
   {
     reactStrictMode: true,
@@ -20,9 +20,9 @@ module.exports = withPlugins(
         {
           source: "/",
           destination: "/dashboard",
-          permanent: true
-        }
+          permanent: true,
+        },
       ];
-    }
+    },
   }
 );
