@@ -3,10 +3,10 @@ import { mutate } from "swr";
 export function updateSettings(
   key: string,
   value: string,
-  debug: boolean = false,
+  debug = false,
   callback: any = () => {},
-  property: boolean = false,
-  showSeparateSyncToastMessage: boolean = true
+  property = false,
+  showSeparateSyncToastMessage = true
 ) {
   let url =
     "/api/user/update?" +

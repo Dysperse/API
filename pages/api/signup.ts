@@ -5,7 +5,6 @@ import { createSession } from "./login";
 export default async function handler(req, res) {
   if (req.body.password !== req.body.confirmPassword) {
     return res.status(401).json({ message: "Passwords do not match" });
-    return;
   }
   //  Find if email is already in use
   const emailInUse = await prisma.user.findUnique({
