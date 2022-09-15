@@ -67,7 +67,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
         ModalProps={{
           keepMounted: true,
         }}
-        disableSwipeToOpen={true}
+        disableSwipeToOpen
         PaperProps={{
           elevation: 0,
           sx: {

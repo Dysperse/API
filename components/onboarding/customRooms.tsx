@@ -30,7 +30,7 @@ export function CustomRooms({ houseType }: any) {
           px: 2,
         },
       }}
-      freeSolo={true}
+      freeSolo
       id="fixed-tags-demo"
       value={value}
       onChange={(event: any, newValue: any) => {
@@ -67,7 +67,7 @@ export function CustomRooms({ houseType }: any) {
                 },
               }}
               // disabled={fixedOptions.indexOf(option.toString()) !== -1}
-              disabled={true}
+              disabled
             />
           </React.Fragment>
         ))

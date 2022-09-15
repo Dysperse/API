@@ -196,7 +196,7 @@ function House({ handleClose, data }: any) {
         ModalProps={{
           keepMounted: true,
         }}
-        disableSwipeToOpen={true}
+        disableSwipeToOpen
         PaperProps={{
           elevation: 0,
           sx: {

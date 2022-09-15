@@ -159,7 +159,7 @@ export function CreateItemModal({
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
-        disableSwipeToOpen={true}
+        disableSwipeToOpen
         PaperProps={{
           elevation: 0,
           sx: {
