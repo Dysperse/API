@@ -42,7 +42,7 @@ function CreateRoom({ collapsed }: any) {
     initialValues: {
       name: "",
     },
-    onSubmit: async (values: { name: string }) => {
+    onSubmit:  (values: { name: string }) => {
       setLoading(true);
       fetch(
         "/api/property/rooms/create?" +

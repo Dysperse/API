@@ -95,7 +95,7 @@ export function CreateItemModal({
       title: "",
       quantity: "",
     },
-    onSubmit: async (values: {
+    onSubmit:  (values: {
       categories: Array<string>;
       title: string;
       quantity: string;
