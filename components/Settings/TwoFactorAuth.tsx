@@ -13,7 +13,7 @@ import { updateSettings } from "./updateSettings";
 
 const key = uuidv4();
 const encoded = base32.encode(key);
-const encodedForGoogle = encoded.toString().replace(/=/g, "");
+const encodedForGoogle = encoded.toString().replace(/[=]/g, "");
 const uri =
   "otpauth://totp/" +
   encodeURIComponent("Carbon") +
