@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import { colors } from "../lib/colors";import Container from "@mui/material/Container";
+import { colors } from "../lib/colors";
+import Container from "@mui/material/Container";
 import Head from "next/head";
 import { useState } from "react";
 import { Lists } from "../components/dashboard/Lists";
@@ -36,7 +37,7 @@ export default function Dashboard() {
         </title>
       </Head>
       <Container sx={{ mt: 4 }}>
-        <Box sx={{ pb: 3, pl: 1 }}>
+        <Box sx={{ pb: 3 }}>
           {["Recent", "Lists", "Tips", "Recipes"].map((item) => (
             <Chip
               key={item}

@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { colors } from "../../lib/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -17,6 +16,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React from "react";
 import useSWR from "swr";
+import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../ErrorHandler";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
@@ -119,7 +119,11 @@ function Render({ data }: any) {
 
   return (
     <>
-      <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
+      <Masonry
+        sx={{ mt: 2 }}
+        columns={{ xs: 1, sm: 2, xl: 3 }}
+        spacing={{ xs: 0, sm: 1 }}
+      >
         {lists.map((list) => (
           <ListItems
             key={list.id}
