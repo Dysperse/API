@@ -23,6 +23,7 @@ const handler = async (req: any, res: any) => {
   const userId = session.user.id;
 
   const login = notp.totp.verify(req.query.code, req.query.secret);
+
   if (!login) {
     res.status(401).json({ error: "Invalid code" });
     return;
