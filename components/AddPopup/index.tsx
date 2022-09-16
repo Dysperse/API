@@ -36,7 +36,7 @@ function AddItemOption({
   alias?: string;
   s?: number;
   toggleDrawer: any;
-  icon: JSX.Element | String;
+  icon: JSX.Element | string;
   title: any;
 }): JSX.Element {
   return (
@@ -398,6 +398,7 @@ export default function AddPopup(props: any) {
         }}
       />
       <div
+        aria-hidden={true}
         id="add_trigger"
         onClick={() => {
           if (global.property.role !== "read-only") {

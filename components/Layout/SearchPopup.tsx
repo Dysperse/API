@@ -22,7 +22,7 @@ export function SearchPopup() {
   const isHome = activePage === "home";
   const router = useRouter();
 
-  const onLink = (href: string) => {
+  const onLink = (href: string): void => {
     router.push(href);
     setOpen(false);
   };
@@ -223,8 +223,8 @@ function Home({
   onLink,
   searchSettings,
 }: {
-  onLink: Function;
-  searchSettings: Function;
+  onLink: (href: string) => any;
+  searchSettings: () => void;
 }) {
   const { error, data } = useSWR("/api/rooms", () =>
     fetch(

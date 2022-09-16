@@ -46,7 +46,7 @@ export function CreateItemModal({
   children,
 }: {
   alias?: string;
-  toggleDrawer: Function;
+  toggleDrawer: () => void;
   room: string;
   children: JSX.Element;
 }) {
