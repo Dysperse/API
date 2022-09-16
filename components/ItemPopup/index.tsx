@@ -87,7 +87,7 @@ export default function Item({
             : global.theme === "dark"
             ? "hsl(240, 11%, 20%)"
             : colors[themeColor][50]
-          : document.documentElement!.scrollTop === 0
+          : document.documentElement?.scrollTop === 0
           ? global.theme === "dark"
             ? "hsl(240, 11%, 10%)"
             : "#fff"

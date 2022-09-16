@@ -331,7 +331,7 @@ function Home({
         </Item>
         <Item
           onSelect={() =>
-            document.getElementById("setCreateRoomModalOpen")!.click()
+            document.getElementById("setCreateRoomModalOpen")?.click()
           }
         >
           Create room

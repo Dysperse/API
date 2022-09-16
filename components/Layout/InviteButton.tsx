@@ -480,7 +480,7 @@ function House({ handleClose, data }: any) {
                 <Button
                   disabled={global.property.permission === "read-only"}
                   onClick={() => {
-                    document.getElementById("setCreateRoomModalOpen")!.click();
+                    document.getElementById("setCreateRoomModalOpen")?.click();
                   }}
                   variant="contained"
                   sx={{
@@ -531,7 +531,7 @@ export function InviteButton() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      document.getElementById("new_trigger")!.click();
+      document.getElementById("new_trigger")?.click();
     }, 1000);
     return () => clearTimeout(timer);
   }, []);

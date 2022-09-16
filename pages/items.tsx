@@ -456,14 +456,14 @@ export default function Categories() {
               ))}
             <Action
               onClick={() =>
-                document.getElementById("setCreateRoomModalOpen")!.click()
+                document.getElementById("setCreateRoomModalOpen")?.click()
               }
               icon="add_circle"
               primary="Create room"
             />
             <Action
               onClick={() =>
-                document.getElementById("houseProfileTrigger")!.click()
+                document.getElementById("houseProfileTrigger")?.click()
               }
               icon="edit"
               primary="Manage rooms"

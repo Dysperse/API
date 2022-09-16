@@ -262,7 +262,7 @@ export default function FullScreenDialog({ children }: any) {
   });
   useHotkeys("ctrl+,", (e) => {
     e.preventDefault();
-    document.getElementById("settingsTrigger")!.click();
+    document.getElementById("settingsTrigger")?.click();
   });
   return (
     <div>

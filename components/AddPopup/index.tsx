@@ -360,7 +360,7 @@ export default function AddPopup(props: any) {
 
   useHotkeys("ctrl+s", (e) => {
     e.preventDefault();
-    document.getElementById("add_trigger")!.click();
+    document.getElementById("add_trigger")?.click();
   });
 
   useEffect(() => {

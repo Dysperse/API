@@ -61,7 +61,7 @@ export function CreateItemModal({
   };
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      open && document.getElementById("nameInput")!.focus();
+      open && document.getElementById("nameInput")?.focus();
     }, 50);
     return () => clearTimeout(timer);
   }, [open]);
@@ -225,7 +225,7 @@ export function CreateItemModal({
             </Typography>
             <IconButton
               size="large"
-              onClick={() => document.getElementById("submitItem")!.click()}
+              onClick={() => document.getElementById("submitItem")?.click()}
               sx={{
                 ml: "auto",
                 opacity: { sm: "0" },

@@ -90,7 +90,7 @@ function Member({ member }): any {
             }}
             onClick={() => {
               if (global.property.permission === "owner") {
-                document.getElementById("settingsTrigger")!.click();
+                document.getElementById("settingsTrigger")?.click();
                 return;
               }
               if (
