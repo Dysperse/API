@@ -34,9 +34,10 @@ export default function App() {
           <LoadingButton
             loading={loadingDisable}
             onClick={() => {
+              setLoadingDisable(true);
               updateSettings("twoFactorSecret", "", false, () => {
                 mutate("/api/user");
-                setLoadingDisable(true);
+                setLoadingDisable(false);
               });
             }}
             sx={{ mt: 5, boxShadow: 0, width: "100%", borderRadius: "100px" }}
