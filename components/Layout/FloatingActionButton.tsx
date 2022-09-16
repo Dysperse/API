@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import Fab from "@mui/material/Fab";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import AddPopup from "../AddPopup";

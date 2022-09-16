@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
-import * as colors from "@mui/material/colors";
+import { colors } from "../lib/colors";
 import MobileStepper from "@mui/material/MobileStepper";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";

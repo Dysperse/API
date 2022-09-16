@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";

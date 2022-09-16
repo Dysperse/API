@@ -2,7 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import { grey } from "@mui/material/colors";
 import DialogTitle from "@mui/material/DialogTitle";
 import Divider from "@mui/material/Divider";
@@ -42,7 +42,7 @@ function CreateRoom({ collapsed }: any) {
     initialValues: {
       name: "",
     },
-    onSubmit:  (values: { name: string }) => {
+    onSubmit: (values: { name: string }) => {
       setLoading(true);
       fetch(
         "/api/property/rooms/create?" +

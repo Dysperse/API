@@ -2,7 +2,7 @@ import emailjs from "@emailjs/browser";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";

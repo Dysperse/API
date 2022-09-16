@@ -1,6 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import Typography from "@mui/material/Typography";
 import useEmblaCarousel from "embla-carousel-react";
 import React from "react";

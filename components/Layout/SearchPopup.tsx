@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import IconButton from "@mui/material/IconButton";
 import LinearProgress from "@mui/material/LinearProgress";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";

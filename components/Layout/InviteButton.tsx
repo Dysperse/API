@@ -2,7 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";

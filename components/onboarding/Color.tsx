@@ -1,5 +1,5 @@
 import CardActionArea from "@mui/material/CardActionArea";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 
 export function Color({ color, setThemeColor, handleNext }) {
@@ -20,6 +20,6 @@ export function Color({ color, setThemeColor, handleNext }) {
         display: "inline-block",
         background: colors[color]["700"],
       }}
-     />
+    />
   );
 }

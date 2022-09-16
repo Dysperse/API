@@ -1,7 +1,7 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import DialogContent from "@mui/material/DialogContent";
 import ListItem from "@mui/material/ListItem";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -30,7 +30,7 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
       title: item.name,
       quantity: item.quantity,
     },
-    onSubmit:  (values: {
+    onSubmit: (values: {
       categories: Array<string>;
       title: string;
       quantity: string;

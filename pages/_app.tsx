@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../lib/colors";
 import NoSsr from "@mui/material/NoSsr";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import dayjs from "dayjs";

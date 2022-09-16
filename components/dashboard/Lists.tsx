@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -95,7 +95,7 @@ function Render({ data }: any) {
       name: "",
       description: "",
     },
-    onSubmit:  (values) => {
+    onSubmit: (values) => {
       setLoading(true);
       const url =
         "/api/property/lists/createList?" +

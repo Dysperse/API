@@ -12,7 +12,7 @@ import { ErrorHandler } from "../components/ErrorHandler";
 import toast from "react-hot-toast";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { useEffect, useState } from "react";
-import * as colors from "@mui/material/colors";
+import { colors } from "../lib/colors";
 import IconButton from "@mui/material/IconButton";
 import { Puller } from "../components/Puller";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -135,7 +135,7 @@ function NoteModal({
       title: create ? "" : title,
       content: create ? "" : content,
     },
-    onSubmit:  (values) => {
+    onSubmit: (values) => {
       setLoading(true);
       fetch(
         create

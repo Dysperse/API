@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { mutate } from "swr";
 import TextField from "@mui/material/TextField";

@@ -5,7 +5,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import { deepOrange } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -529,7 +529,6 @@ export default function Item({
                 }
               }}
               onSwitching={(index) => {
-                
                 if (index > 1) {
                   setSwitchingToIndex(2);
                 } else if (index < 1) {
@@ -695,7 +694,6 @@ export default function Item({
                     }
                   }}
                   onSwitching={(index) => {
-                    
                     if (index > 1) {
                       setSwitchingToIndex(2);
                     } else if (index < 1) {

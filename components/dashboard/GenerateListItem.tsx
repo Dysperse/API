@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import CardActionArea from "@mui/material/CardActionArea";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";

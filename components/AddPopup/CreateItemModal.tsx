@@ -1,7 +1,7 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
