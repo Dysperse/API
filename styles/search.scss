@@ -1,7 +1,6 @@
-
 :root {
-  --font-sans: 'Inter', --apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
-    Droid Sans, Helvetica Neue, sans-serif;
+  --font-sans: "Inter", --apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   --app-bg: var(--gray1);
   --cmdk-shadow: 0 16px 70px rgb(0 0 0 / 20%);
 
@@ -183,15 +182,15 @@
     }
 
     & .material-symbols-outlined {
-      order: -1
+      order: -1;
     }
 
-    &[aria-selected='true'] {
+    &[aria-selected="true"] {
       background: var(--grayA3);
       color: var(--gray12);
     }
 
-    &[aria-disabled='true'] {
+    &[aria-disabled="true"] {
       color: var(--gray8);
       cursor: not-allowed;
     }
