@@ -49,6 +49,7 @@ export default async function handler(req, res) {
     select: {
       id: true,
       password: true,
+      twoFactorSecret: true,
     },
   });
   // If the user doesn't exist, return an error
@@ -61,9 +62,8 @@ export default async function handler(req, res) {
   if (!validPassword) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
-
   if (
-    !req.query.twoFactorCode &&
+    !req.body.twoFactorCode &&
     user.twoFactorSecret !== "" &&
     user.twoFactorSecret !== "false"
   ) {
@@ -75,12 +75,12 @@ export default async function handler(req, res) {
     });
   }
 
-  if (req.query.twoFactorCode) {
+  if (req.body.twoFactorCode) {
     const login = twofactor.verifyToken(
       user.twoFactorSecret,
-      req.query.twoFactorCode
+      req.body.twoFactorCode
     );
-    if (login.delta !== 0) {
+    if (!login || login.delta !== 0) {
       return res.status(401).json({ error: "Invalid code" });
     }
   }
