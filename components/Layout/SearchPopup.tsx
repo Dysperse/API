@@ -348,18 +348,6 @@ function Home({
   );
 }
 
-function Settings() {
-  return (
-    <>
-      {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
-        (room, index) => (
-          <Item key={index.toString()}>{room}</Item>
-        )
-      )}
-    </>
-  );
-}
-
 function Item({
   children,
   shortcut,
@@ -383,6 +371,18 @@ function Item({
         </div>
       )}
     </Command.Item>
+  );
+}
+
+function Settings() {
+  return (
+    <>
+      {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
+        (room, index) => (
+          <Item key={index.toString()}>{room}</Item>
+        )
+      )}
+    </>
   );
 }
 
