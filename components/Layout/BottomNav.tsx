@@ -10,7 +10,7 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
-import * as React from "react";
+import React from "react";
 
 export function BottomNav({ maintenance }: any) {
   const trigger = useScrollTrigger({
@@ -101,7 +101,6 @@ export function BottomNav({ maintenance }: any) {
     case "/maintenance":
       v = 3;
       break;
-      
 
     default:
       if (router.asPath.includes("/rooms")) {

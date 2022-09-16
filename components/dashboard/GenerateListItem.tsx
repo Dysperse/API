@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import * as React from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
 // Generates a list item for shopping list / todo list

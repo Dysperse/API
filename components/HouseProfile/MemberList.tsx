@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import * as colors from "@mui/material/colors";
 import Typography from "@mui/material/Typography";
 import useEmblaCarousel from "embla-carousel-react";
-import * as React from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { AddPersonModal } from "./AddPersonModal";

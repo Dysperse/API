@@ -9,7 +9,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";

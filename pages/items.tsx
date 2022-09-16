@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import { encode } from "js-base64";
 import { useRouter } from "next/router";
-import * as React from "react";
+import React from "react";
 import useSWR from "swr";
 import { FloatingActionButton } from "../components/Layout/FloatingActionButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";

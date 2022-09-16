@@ -6,7 +6,7 @@ import MobileStepper from "@mui/material/MobileStepper";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { Color } from "../components/onboarding/Color";
 import { CustomRooms } from "../components/onboarding/customRooms";

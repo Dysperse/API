@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import * as colors from "@mui/material/colors";
 import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
 import useSWR from "swr";

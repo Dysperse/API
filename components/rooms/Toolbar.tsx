@@ -6,7 +6,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import React from "react";
 import { CreateItemModal } from "../AddPopup/CreateItemModal";
 import { neutralizeBack, revivalBack } from "../history-control";
 
