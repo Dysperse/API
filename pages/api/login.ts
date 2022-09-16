@@ -2,6 +2,7 @@ import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../lib/client";
 import argon2 from "argon2";
+const twofactor = require("node-2fa");
 
 export async function createSession(id: number, res) {
   // Create a session token in the session table
@@ -59,6 +60,29 @@ export default async function handler(req, res) {
 
   if (!validPassword) {
     return res.status(401).json({ message: "Invalid email or password" });
+  }
+
+  if (
+    !req.query.twoFactorCode &&
+    user.twoFactorSecret !== "" &&
+    user.twoFactorSecret !== "false"
+  ) {
+    const newToken = twofactor.generateToken(user.twoFactorSecret);
+    return res.json({
+      twoFactor: true,
+      token: newToken,
+      secret: user.twoFactorSecret,
+    });
+  }
+
+  if (req.query.twoFactorCode) {
+    const login = twofactor.verifyToken(
+      user.twoFactorSecret,
+      req.query.twoFactorCode
+    );
+    if (login.delta !== 0) {
+      return res.status(401).json({ error: "Invalid code" });
+    }
   }
 
   const encoded = await createSession(user.id, res);

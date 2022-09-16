@@ -1,6 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import {colors} from "../../lib/colors"
+import { colors } from "../../lib/colors";
 import Paper from "@mui/material/Paper";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -48,7 +48,14 @@ export default function Prompt() {
       })
         .then((res) => res.json())
         .then((res) => {
-          mutate("/api/user");
+          if (res.twoFactor) {
+            setTwoFactorModalOpen(true);
+            setButtonLoading(false);
+          } else if (res.error) {
+            throw new Error(res.error);
+          } else {
+            mutate("/api/user");
+          }
         })
         .catch((err) => setButtonLoading(false));
     },
