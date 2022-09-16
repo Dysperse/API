@@ -266,7 +266,7 @@ function Render({ data }: any) {
               setTimeout(() => document.getElementById("listName")?.focus());
             }}
             sx={{
-              mb: 2,
+              my: { xs: 2, sm: 0 },
               borderRadius: 5,
               userSelect: "none",
               background:
