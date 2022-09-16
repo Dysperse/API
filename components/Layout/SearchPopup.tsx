@@ -13,6 +13,32 @@ import { Puller } from "../Puller";
 import { useRouter } from "next/router";
 import { updateSettings } from "../Settings/updateSettings";
 
+function Item({
+  children,
+  shortcut,
+  onSelect = () => {},
+}: {
+  children: React.ReactNode;
+  shortcut?: string;
+  onSelect?: (value: string) => void;
+}) {
+  return (
+    <Command.Item
+      onSelect={onSelect}
+      value={ReactDOMServer.renderToStaticMarkup(children)}
+    >
+      {children}
+      {shortcut && (
+        <div className="cmdk-vercel-shortcuts">
+          {shortcut.split(" ").map((key) => {
+            return <kbd key={key}>{key}</kbd>;
+          })}
+        </div>
+      )}
+    </Command.Item>
+  );
+}
+
 export function SearchPopup() {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const [inputValue, setInputValue] = React.useState("");
@@ -345,32 +371,6 @@ function Home({
         </Item>
       </Command.Group>
     </>
-  );
-}
-
-function Item({
-  children,
-  shortcut,
-  onSelect = () => {},
-}: {
-  children: React.ReactNode;
-  shortcut?: string;
-  onSelect?: (value: string) => void;
-}) {
-  return (
-    <Command.Item
-      onSelect={onSelect}
-      value={ReactDOMServer.renderToStaticMarkup(children)}
-    >
-      {children}
-      {shortcut && (
-        <div className="cmdk-vercel-shortcuts">
-          {shortcut.split(" ").map((key) => {
-            return <kbd key={key}>{key}</kbd>;
-          })}
-        </div>
-      )}
-    </Command.Item>
   );
 }
 
