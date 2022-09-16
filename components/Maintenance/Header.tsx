@@ -402,7 +402,8 @@ export function Header({ count }) {
               " 50%, " +
               colors.green[global.user.darkMode ? 700 : 100] +
               " 100%)",
-            color: colors.green[global.user.darkMode ? 900 : 100],
+            color:
+              colors.green[!global.user.darkMode ? 900 : 100] + "!important",
             height: "320px",
             borderRadius: { sm: 10 },
             flexDirection: "column",
