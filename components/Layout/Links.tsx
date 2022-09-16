@@ -231,10 +231,16 @@ const ListItem = React.memo(function ListItem({
             (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
         },
         ...(router.asPath === asHref && {
-          backgroundColor:
-            global.theme === "dark"
-              ? "hsl(240, 11%, 15%)"
-              : colors[global.themeColor][50],
+          background:
+            "linear-gradient(45deg, " +
+            (global.theme === "dark"
+              ? "hsl(240, 11%, 30%)"
+              : colors[themeColor][50]) +
+            "  0%, " +
+            (global.theme === "dark"
+              ? "hsl(240, 11%, 20%)"
+              : colors[themeColor][100]) +
+            " 100%)",
           "&:hover,&:focus": {
             backgroundColor:
               global.theme === "dark"
