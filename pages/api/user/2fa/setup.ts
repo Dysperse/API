@@ -1,6 +1,6 @@
 // Update user settings
 import { prisma } from "../../../../lib/client";
-let notp = require("notp");
+const twofactor = require("node-2fa");
 
 const handler = async (req: any, res: any) => {
   // Get user info from sessions table using accessToken
@@ -21,13 +21,17 @@ const handler = async (req: any, res: any) => {
     return;
   }
   const userId = session.user.id;
+  console.log(req.query);
+  const newToken = twofactor.generateToken(req.query.secret);
 
-  const login = notp.totp.verify(req.query.code, req.query.secret);
+  const login = twofactor.verifyToken(req.query.secret, req.query.code);
+  console.log(login);
 
-  if (!login) {
+  if (!login.delta || !login || login.delta !== 0) {
     res.status(401).json({ error: "Invalid code" });
     return;
   }
+
   const user = await prisma.user.update({
     where: {
       id: userId,

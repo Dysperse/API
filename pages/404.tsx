@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { colors } from "../../lib/colors";
+import { colors } from "../lib/colors";
 import Box from "@mui/material/Box";
 export default function Custom404() {
   // Animated 404 page with icon
