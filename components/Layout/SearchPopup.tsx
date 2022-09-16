@@ -398,6 +398,9 @@ function Settings() {
   );
 }
 
+/**
+ * Settings icon for search popup
+ */
 function SettingsIcon(): JSX.Element {
   return (
     <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
