@@ -51,7 +51,11 @@ export function Recipes() {
           Random<span className="material-symbols-rounded">moving</span>
         </LoadingButton>
       </Box>
-      <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 3 }}>
+      <Masonry
+        sx={{ mt: { xs: 5, sm: 1 } }}
+        columns={{ xs: 1, sm: 3 }}
+        spacing={{ xs: 0, sm: 1 }}
+      >
         {recipes.map((recipe: any, id: number) => (
           <Recipe recipe={recipe} key={id} />
         ))}

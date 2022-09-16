@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
@@ -162,40 +163,41 @@ export function Recipe({ recipe }: any): JSX.Element {
           </Box>
         </Box>
       </SwipeableDrawer>
-
-      <Card
-        sx={{
-          my: 2,
-          background: global.user.darkMode
-            ? "hsl(240, 11%, 18%)"
-            : "rgba(200,200,200,.3)",
-          borderRadius: 5,
-        }}
-      >
-        <CardActionArea onClick={() => setOpen(true)}>
-          <CardMedia
-            component="img"
-            height="180"
-            image={recipe.strMealThumb}
-            alt={recipe.strMeal}
-          />
-          <CardContent>
-            <Typography
-              variant="h5"
-              gutterBottom
-              component="div"
-              sx={{ fontWeight: "600" }}
-            >
-              {recipe.strMeal}
-            </Typography>
-            <Typography variant="body2" gutterBottom color="text.secondary">
-              {recipe.strInstructions.slice(0, 100).trim()}...
-            </Typography>
-            <Chip sx={{ mt: 1, px: 1, mr: 1 }} label={recipe.strCategory} />
-            <Chip sx={{ mt: 1, px: 1, mr: 1 }} label={recipe.strArea} />
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <Paper>
+        <Card
+          sx={{
+            mb: { xs: 2, sm: 0 },
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 18%)"
+              : "rgba(200,200,200,.3)",
+            borderRadius: 5,
+          }}
+        >
+          <CardActionArea onClick={() => setOpen(true)}>
+            <CardMedia
+              component="img"
+              height="180"
+              image={recipe.strMealThumb}
+              alt={recipe.strMeal}
+            />
+            <CardContent>
+              <Typography
+                variant="h5"
+                gutterBottom
+                component="div"
+                sx={{ fontWeight: "600" }}
+              >
+                {recipe.strMeal}
+              </Typography>
+              <Typography variant="body2" gutterBottom color="text.secondary">
+                {recipe.strInstructions.slice(0, 100).trim()}...
+              </Typography>
+              <Chip sx={{ mt: 1, px: 1, mr: 1 }} label={recipe.strCategory} />
+              <Chip sx={{ mt: 1, px: 1, mr: 1 }} label={recipe.strArea} />
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Paper>
     </>
   );
 }
