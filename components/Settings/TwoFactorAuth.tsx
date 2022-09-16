@@ -34,7 +34,7 @@ export default function App() {
           <LoadingButton
             loading={loadingDisable}
             onClick={() => {
-              updateSettings("twoFactorAuthCode", "false", false, () => {
+              updateSettings("twoFactorSecret", "false", false, () => {
                 window.location.reload();
               });
               setLoadingDisable(true);
