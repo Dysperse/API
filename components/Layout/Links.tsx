@@ -341,18 +341,30 @@ export function DrawerListItems({
                 ...(collapsed && { mb: 3, py: 3.5, mt: 2.2 }),
                 boxShadow: "0",
                 background:
-                  global.theme === "dark"
+                  "linear-gradient(45deg, " +
+                  (global.theme === "dark"
                     ? "hsl(240, 11%, 30%)"
-                    : colors[themeColor][100],
+                    : colors[themeColor][200]) +
+                  "  0%, " +
+                  (global.theme === "dark"
+                    ? "hsl(240, 11%, 30%)"
+                    : colors[themeColor][500]) +
+                  " 100%)",
                 color:
                   global.theme === "dark"
                     ? "hsl(240, 11%, 95%)"
                     : colors[themeColor]["900"],
                 "&:hover": {
                   background:
-                    global.theme === "dark"
-                      ? "hsl(240, 11%, 35%)"
-                      : colors[themeColor]["200"],
+                    "linear-gradient(45deg, " +
+                    (global.theme === "dark"
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][300]) +
+                    "  0%, " +
+                    (global.theme === "dark"
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][600]) +
+                    " 100%)",
                 },
                 "&:active": {
                   boxShadow:
