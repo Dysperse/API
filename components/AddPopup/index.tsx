@@ -37,7 +37,7 @@ function AddItemOption({
   s?: number;
   toggleDrawer: any;
   icon: JSX.Element | String;
-  title: string;
+  title: any;
 }): JSX.Element {
   return (
     <Grid item xs={12} sm={4}>
