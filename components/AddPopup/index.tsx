@@ -33,7 +33,7 @@ function AddItemOption({
   icon,
   title,
 }: {
-  alias: string;
+  alias?: string;
   s?: number;
   toggleDrawer: any;
   icon: JSX.Element | String;
