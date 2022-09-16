@@ -53,7 +53,9 @@ export function CreateItemModal({
   const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (global.property.role !== "read-only") {
+      setOpen(true);
+    }
   };
 
   /**
@@ -151,16 +153,8 @@ export function CreateItemModal({
     React.useState<Array<any>>(originalCards);
 
   return (
-    <div>
-      <div
-        onClick={() => {
-          if (global.property.role !== "read-only") {
-            handleClickOpen();
-          }
-        }}
-      >
-        {children}
-      </div>
+    <>
+      <Box onClick={handleClickOpen}>{children}</Box>
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
@@ -425,6 +419,6 @@ export function CreateItemModal({
           </DialogContent>
         </form>
       </SwipeableDrawer>
-    </div>
+    </>
   );
 }
