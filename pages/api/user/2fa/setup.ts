@@ -27,7 +27,7 @@ const handler = async (req: any, res: any) => {
   const login = twofactor.verifyToken(req.query.secret, req.query.code);
   console.log(login);
 
-  if (!login.delta || !login || login.delta !== 0) {
+  if (login.delta !== 0) {
     res.status(401).json({ error: "Invalid code" });
     return;
   }
