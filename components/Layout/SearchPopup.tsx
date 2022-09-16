@@ -10,6 +10,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import useSWR from "swr";
 import { Puller } from "../Puller";
+import { useRouter } from "next/router";
 import { updateSettings } from "../Settings/updateSettings";
 
 export function SearchPopup() {
@@ -19,6 +20,12 @@ export function SearchPopup() {
   const [pages, setPages] = React.useState<string[]>(["home"]);
   const activePage = pages[pages.length - 1];
   const isHome = activePage === "home";
+  const router = useRouter();
+
+  const onLink = (href: string) => {
+    router.push(href);
+    setOpen(false);
+  };
 
   React.useEffect(() => {
     const down = (e) => {
@@ -46,20 +53,6 @@ export function SearchPopup() {
       return x;
     });
   }, []);
-
-  const onKeyDown = React.useCallback(
-    (e: KeyboardEvent) => {
-      if (isHome || inputValue.length) {
-        return;
-      }
-
-      if (e.key === "Backspace") {
-        e.preventDefault();
-        popPage();
-      }
-    },
-    [inputValue.length, isHome, popPage]
-  );
 
   function bounce() {
     if (ref.current) {
@@ -156,10 +149,14 @@ export function SearchPopup() {
               }
             }}
           >
-            <div>
-              {pages.map((p) => (
-                <div key={p}>{p}</div>
-              ))}
+            <div style={{ marginBottom: "10px" }}>
+              {pages
+                .filter((p) => p.toLowerCase() !== "home")
+                .map((p) => (
+                  <div className="cmdk-vercel-badge" key={p}>
+                    {p}
+                  </div>
+                ))}
             </div>
             <Command.Input
               autoFocus
@@ -198,6 +195,7 @@ export function SearchPopup() {
               </Command.Empty>
               {activePage === "home" && (
                 <Home
+                  onLink={onLink}
                   searchSettings={() => {
                     setPages([...pages, "Settings"]);
                     setInputValue("");
@@ -221,7 +219,13 @@ function Icon({ icon }: { icon: string }) {
   );
 }
 
-function Home({ searchSettings }: { searchSettings: Function }) {
+function Home({
+  onLink,
+  searchSettings,
+}: {
+  onLink: Function;
+  searchSettings: Function;
+}) {
   const { error, data } = useSWR("/api/rooms", () =>
     fetch(
       "/api/property/rooms?" +
@@ -279,17 +283,13 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         Dark mode
         <Icon icon="dark_mode" />
       </Item>
-      <Item onSelect={() => {}}>
+      <Item onSelect={() => onLink("/dashboard")}>
         Dashboard
         <Icon icon="layers" />
       </Item>
-      <Item onSelect={() => {}}>
+      <Item onSelect={() => onLink("/notes")}>
         Notes
         <Icon icon="sticky_note_2" />
-      </Item>
-      <Item onSelect={() => {}}>
-        Sustainability
-        <Icon icon="eco" />
       </Item>
       <Command.Group heading="Rooms">
         {[
@@ -303,7 +303,10 @@ function Home({ searchSettings }: { searchSettings: Function }) {
           { name: "Storage room", icon: "inventory_2" },
           { name: "Garden", icon: "yard" },
         ].map((room, index) => (
-          <Item onSelect={() => {}} key={index.toString()}>
+          <Item
+            onSelect={() => onLink("/rooms/" + room.name.toLowerCase())}
+            key={index.toString()}
+          >
             {room.name}
             <Icon icon={room.icon} />
           </Item>
@@ -318,22 +321,26 @@ function Home({ searchSettings }: { searchSettings: Function }) {
             ))}
           </Box>
         )}
-        <Item onSelect={() => {}}>
+        <Item onSelect={() => onLink("/starred-items")}>
           Starred items
           <Icon icon="star" />
         </Item>
-        <Item onSelect={() => {}}>
+        <Item onSelect={() => onLink("/trash")}>
           Trash
           <Icon icon="delete" />
         </Item>
-        <Item onSelect={() => {}}>
+        <Item
+          onSelect={() =>
+            document.getElementById("setCreateRoomModalOpen")!.click()
+          }
+        >
           Create room
           <Icon icon="add" />
         </Item>
       </Command.Group>
       <Command.Group heading="Help">
-        <Item>
-          Support
+        <Item onSelect={() => onLink("mailto:hello@smartlist.tech")}>
+          Support (email)
           <Icon icon="help" />
         </Item>
       </Command.Group>
@@ -344,16 +351,11 @@ function Home({ searchSettings }: { searchSettings: Function }) {
 function Settings() {
   return (
     <>
-      {[
-        "Appearance",
-        "Two-factor auth",
-        "Finances",
-        "Account",
-        "Sign out",
-        "Legal",
-      ].map((room, index) => (
-        <Item key={index.toString()}>{room}</Item>
-      ))}
+      {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
+        (room, index) => (
+          <Item key={index.toString()}>{room}</Item>
+        )
+      )}
     </>
   );
 }
