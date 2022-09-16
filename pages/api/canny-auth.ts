@@ -15,7 +15,7 @@ export const sessionData = async (providedToken) => {
 const PrivateKey = process.env.CANNY_AUTH_PRIVATE_KEY;
 
 function createCannyToken(user) {
-  var userData = {
+  let userData = {
     avatarURL: user.avatarURL, // optional, but preferred
     email: user.email,
     id: user.id,
