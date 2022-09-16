@@ -1,6 +1,6 @@
 // Update user settings
 import { prisma } from "../../../../lib/client";
-var notp = require("notp");
+let notp = require("notp");
 
 const handler = async (req: any, res: any) => {
   // Get user info from sessions table using accessToken
