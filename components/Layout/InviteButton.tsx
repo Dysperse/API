@@ -522,6 +522,10 @@ export function InviteButton() {
     setAnchorEl(event.currentTarget);
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setAnchorEl(null);
     handleClick = () => {};

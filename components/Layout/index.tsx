@@ -49,6 +49,10 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
     );
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setContextMenu(null);
   };

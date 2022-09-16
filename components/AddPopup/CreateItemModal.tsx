@@ -56,6 +56,10 @@ export function CreateItemModal({
     setOpen(true);
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setOpen(false);
   };
@@ -85,10 +89,6 @@ export function CreateItemModal({
   }, [open]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  function setClickLoading() {
-    setLoading(true);
-  }
-
   const formik = useFormik({
     initialValues: {
       categories: [],
@@ -100,6 +100,7 @@ export function CreateItemModal({
       title: string;
       quantity: string;
     }) => {
+      setLoading(true);
       fetch(
         "/api/property/inventory/create?" +
           new URLSearchParams({
@@ -133,6 +134,10 @@ export function CreateItemModal({
     },
   });
 
+  /**
+   * @param e Event passed from the input field
+   * @returns void
+   */
   const handleChipClick = (e) => {
     formik.setFieldValue(
       "quantity",
@@ -413,7 +418,6 @@ export function CreateItemModal({
                 type="submit"
                 id="submitItem"
                 loading={loading}
-                onClick={() => setTimeout(setClickLoading, 10)}
               >
                 Create
               </LoadingButton>

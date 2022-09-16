@@ -241,6 +241,10 @@ export default function FullScreenDialog({ children }: any) {
     setOpen(true);
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setOpen(false);
   };

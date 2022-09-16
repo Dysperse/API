@@ -20,6 +20,10 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
     setOpen(true);
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setOpen(false);
   };

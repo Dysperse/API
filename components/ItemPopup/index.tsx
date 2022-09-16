@@ -70,6 +70,10 @@ export default function Item({
     );
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setContextMenu(null);
   };
