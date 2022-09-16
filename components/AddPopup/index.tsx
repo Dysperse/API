@@ -398,7 +398,7 @@ export default function AddPopup(props: any) {
         }}
       />
       <div
-        aria-hidden={true}
+        aria-hidden
         id="add_trigger"
         onClick={() => {
           if (global.property.role !== "read-only") {
