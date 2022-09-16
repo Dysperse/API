@@ -60,7 +60,7 @@ function ElevationScroll(props: any) {
           background:
             global.theme === "dark"
               ? "rgba(33,33,38,.7)"
-              : hexToRgba(colors[global.themeColor]["100"], 0.9),
+              : hexToRgba(colors[global.themeColor]["100"], 1),
 
           ["@supports not (backdrop-filter: blur(20px))"]: {
             background: colors[themeColor][100],
