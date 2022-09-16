@@ -32,7 +32,13 @@ function AddItemOption({
   toggleDrawer,
   icon,
   title,
-}: any): JSX.Element {
+}: {
+  alias: string;
+  s?: number;
+  toggleDrawer: any;
+  icon: JSX.Element | String;
+  title: string;
+}): JSX.Element {
   return (
     <Grid item xs={12} sm={4}>
       <CreateItemModal room={title} alias={alias} toggleDrawer={toggleDrawer}>

@@ -48,7 +48,7 @@ export function CreateItemModal({
   alias?: string;
   toggleDrawer: Function;
   room: string;
-  children: any;
+  children: JSX.Element;
 }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
