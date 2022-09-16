@@ -4,11 +4,11 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
+import { mutate } from "swr";
 import toast from "react-hot-toast";
 import QRCode from "react-qr-code";
 import base32 from "thirty-two";
 import { v4 as uuidv4 } from "uuid";
-import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
 
 const key = uuidv4();
@@ -35,9 +35,9 @@ export default function App() {
             loading={loadingDisable}
             onClick={() => {
               updateSettings("twoFactorSecret", "", false, () => {
-                window.location.reload();
+                mutate("/api/user");
+                setLoadingDisable(true);
               });
-              setLoadingDisable(true);
             }}
             sx={{ mt: 5, boxShadow: 0, width: "100%", borderRadius: "100px" }}
             variant="contained"
