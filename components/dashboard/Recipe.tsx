@@ -40,6 +40,7 @@ export function Recipe({ recipe }: any): JSX.Element {
         >
           {recipe.strYoutube ? (
             <iframe
+              title={recipe.strMeal}
               sandbox="allow-popups allow-popups-to-escape-sandbox allow-pointer-lock allow-same-origin allow-top-navigation"
               src={
                 recipe.strYoutube.replace("/watch?v=", "/embed/") +
