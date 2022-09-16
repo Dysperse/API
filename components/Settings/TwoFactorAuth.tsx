@@ -124,7 +124,7 @@ export default function App() {
                   new URLSearchParams({
                     secret: key,
                     code: code,
-                    token: global.user.accessToken,
+                    token: global.user.token,
                   }),
                 {
                   method: "POST",

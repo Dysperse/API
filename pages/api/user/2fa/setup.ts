@@ -20,8 +20,7 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-
-  const userId = session.user.id;
+  const userId = session.id;
 
   const login = notp.totp.verify(req.query.code, req.query.secret);
   if (!login) {
