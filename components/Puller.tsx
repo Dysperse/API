@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../lib/colors";
 
 export function Puller({ variant }: { variant?: "side" }) {
   return (
@@ -11,6 +11,6 @@ export function Puller({ variant }: { variant?: "side" }) {
             ? "hsl(240, 11%, 35%)"
             : colors[themeColor][100],
       }}
-     />
+    />
   );
 }

@@ -95,7 +95,7 @@ export function CreateItemModal({
       title: "",
       quantity: "",
     },
-    onSubmit:  (values: {
+    onSubmit: (values: {
       categories: Array<string>;
       title: string;
       quantity: string;
@@ -286,9 +286,9 @@ export function CreateItemModal({
                 my: 2,
               }}
             >
-              {filteredCards.map((item, i) => (
+              {filteredCards.map((item) => (
                 <Box
-                  key={item.id.toString()}
+                  key={item.name.toString()}
                   onClick={() => {
                     formik.setFieldValue("title", item.name);
                     formik.setFieldValue("categories", item.tags);
