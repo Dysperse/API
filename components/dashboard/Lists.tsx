@@ -25,23 +25,6 @@ import { ListItems } from "./ListItems";
 function ListTip({ name, lists, setLists, tip }) {
   return (
     <Alert
-      onClick={() => {
-        const url =
-          "/api/property/lists/createList?" +
-          new URLSearchParams({
-            accessToken: global.property.accessToken,
-            property: global.property.propertyId,
-            name: name,
-            description: "",
-          });
-        fetch(url, {
-          method: "POST",
-        })
-          .then((res) => res.json())
-          .then((res: any) => {
-            setLists([...lists, { ...res, items: [] }]);
-          });
-      }}
       icon={
         <div style={{ marginTop: "5px" }}>
           <span
@@ -57,6 +40,7 @@ function ListTip({ name, lists, setLists, tip }) {
         alignItems: "center",
         display: "flex",
         borderRadius: 5,
+        mb: { xs: 2, sm: 0 },
         background: colors.orange[global.user.darkMode ? 900 : 50],
         color: colors.orange[global.user.darkMode ? 100 : 900],
       }}
@@ -68,6 +52,23 @@ function ListTip({ name, lists, setLists, tip }) {
               colors.orange[global.user.darkMode ? 800 : 100] + "!important",
             color:
               colors.orange[global.user.darkMode ? 100 : 900] + "!important",
+          }}
+          onClick={() => {
+            const url =
+              "/api/property/lists/createList?" +
+              new URLSearchParams({
+                accessToken: global.property.accessToken,
+                property: global.property.propertyId,
+                name: name,
+                description: "",
+              });
+            fetch(url, {
+              method: "POST",
+            })
+              .then((res) => res.json())
+              .then((res: any) => {
+                setLists([...lists, { ...res, items: [] }]);
+              });
           }}
         >
           <span className="material-symbols-outlined">add</span>
