@@ -1,15 +1,27 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import * as colors from "@mui/material/colors";
-import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
-import toast from "react-hot-toast";
-import SwipeableViews from "react-swipeable-views";
-import useSWR from "swr";
 import useEmblaCarousel from "embla-carousel-react";
-import { mutate } from "swr";
-function Room({ color, room }: any) {
+import React from "react";
+import toast from "react-hot-toast";
+import useSWR, { mutate } from "swr";
+import { colors } from "../../lib/colors";
+
+/**
+ * Room card
+ * @param room Room details
+ * @returns JSX.Element
+ */
+function Room({
+  color,
+  room,
+}: {
+  color:string,
+  room: {
+    name: string;
+    id: string;
+  };
+}): JSX.Element {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   return deleted ? (
     <>This room has been deleted</>
@@ -31,9 +43,9 @@ function Room({ color, room }: any) {
           borderWidth: "2px!important",
           width: "100%",
           mt: 1.5,
-          color: colors.red[900],
+          color: colors[color][900],
           "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-            borderColor: colors.red[900] + "!important",
+            borderColor: colors[color][900] + "!important",
           },
           borderRadius: 4,
         }}
@@ -76,6 +88,10 @@ function Room({ color, room }: any) {
     </>
   );
 }
+/**
+ * Room list popup found in house profile
+ * @param color Theme color of home
+ */
 export function RoomList({ color }: any) {
   const url =
     "/api/property/rooms?" +
@@ -83,9 +99,7 @@ export function RoomList({ color }: any) {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
-  const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
-  );
+  const { data } = useSWR(url, () => fetch(url).then((res) => res.json()));
   const [emblaRef] = useEmblaCarousel();
 
   const images = data

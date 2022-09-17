@@ -1,7 +1,7 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
-import * as React from "react";
+import React from "react";
 
 export function CustomRooms({ houseType }: any) {
   //  eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,7 +1,7 @@
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
@@ -59,8 +59,8 @@ function ElevationScroll(props: any) {
           backdropFilter: "blur(20px)",
           background:
             global.theme === "dark"
-              ? "rgba(33,33,38,.7)"
-              : hexToRgba(colors[global.themeColor]["100"], 0.9),
+              ? "hsl(240, 11%, 10%)"
+              : hexToRgba(colors[global.themeColor]["100"], 1),
 
           ["@supports not (backdrop-filter: blur(20px))"]: {
             background: colors[themeColor][100],

@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
 import { updateSettings } from "./updateSettings";
 
 export default function AppearanceSettings() {

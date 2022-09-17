@@ -2,7 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import { grey } from "@mui/material/colors";
 import DialogTitle from "@mui/material/DialogTitle";
 import Divider from "@mui/material/Divider";
@@ -42,7 +42,7 @@ function CreateRoom({ collapsed }: any) {
     initialValues: {
       name: "",
     },
-    onSubmit:  (values: { name: string }) => {
+    onSubmit: (values: { name: string }) => {
       setLoading(true);
       fetch(
         "/api/property/rooms/create?" +
@@ -231,10 +231,16 @@ const ListItem = React.memo(function ListItem({
             (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
         },
         ...(router.asPath === asHref && {
-          backgroundColor:
-            global.theme === "dark"
-              ? "hsl(240, 11%, 15%)"
-              : colors[global.themeColor][50],
+          background:
+            "linear-gradient(45deg, " +
+            (global.theme === "dark"
+              ? "hsl(240, 11%, 30%)"
+              : colors[themeColor][50]) +
+            "  0%, " +
+            (global.theme === "dark"
+              ? "hsl(240, 11%, 20%)"
+              : colors[themeColor][100]) +
+            " 100%)",
           "&:hover,&:focus": {
             backgroundColor:
               global.theme === "dark"
@@ -313,9 +319,12 @@ export function DrawerListItems({
   setCollapsed,
   customRooms,
   maintenance,
-}: any) {
-  const [open, setOpen] = React.useState<boolean>(false);
-
+}: {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+  customRooms: any;
+  maintenance: Array<any>;
+}) {
   return (
     <List
       sx={{ width: "100%", p: 1 }}
@@ -341,18 +350,30 @@ export function DrawerListItems({
                 ...(collapsed && { mb: 3, py: 3.5, mt: 2.2 }),
                 boxShadow: "0",
                 background:
-                  global.theme === "dark"
+                  "linear-gradient(45deg, " +
+                  (global.theme === "dark"
                     ? "hsl(240, 11%, 30%)"
-                    : colors[themeColor][100],
+                    : colors[themeColor][200]) +
+                  "  0%, " +
+                  (global.theme === "dark"
+                    ? "hsl(240, 11%, 30%)"
+                    : colors[themeColor][500]) +
+                  " 100%)",
                 color:
                   global.theme === "dark"
                     ? "hsl(240, 11%, 95%)"
                     : colors[themeColor]["900"],
                 "&:hover": {
                   background:
-                    global.theme === "dark"
-                      ? "hsl(240, 11%, 35%)"
-                      : colors[themeColor]["200"],
+                    "linear-gradient(45deg, " +
+                    (global.theme === "dark"
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][300]) +
+                    "  0%, " +
+                    (global.theme === "dark"
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][600]) +
+                    " 100%)",
                 },
                 "&:active": {
                   boxShadow:

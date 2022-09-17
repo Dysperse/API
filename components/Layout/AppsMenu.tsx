@@ -2,7 +2,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import { green } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -149,6 +149,10 @@ export function AppsMenu() {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };

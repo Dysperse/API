@@ -1,7 +1,6 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import * as colors from "@mui/material/colors";
 import DialogContent from "@mui/material/DialogContent";
 import ListItem from "@mui/material/ListItem";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -10,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React from "react";
-import { AutocompleteData } from "../AutocompleteData";
+import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 
 export function EditButton({ styles, item, setItemData }: any): JSX.Element {
@@ -20,6 +19,10 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
     setOpen(true);
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setOpen(false);
   };
@@ -30,7 +33,7 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
       title: item.name,
       quantity: item.quantity,
     },
-    onSubmit:  (values: {
+    onSubmit: (values: {
       categories: Array<string>;
       title: string;
       quantity: string;

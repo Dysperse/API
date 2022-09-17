@@ -2,7 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -13,6 +13,13 @@ import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 
+/**
+ * Create list modal
+ * @param children Children
+ * @param parent Parent
+ * @param items Items
+ * @param setItems Set items
+ */
 export function CreateListModal({ children, parent, items, setItems }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);

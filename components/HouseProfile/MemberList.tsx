@@ -1,19 +1,20 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import Typography from "@mui/material/Typography";
 import useEmblaCarousel from "embla-carousel-react";
-import * as React from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { AddPersonModal } from "./AddPersonModal";
 
-export function isEmail(email) {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
+/**
+ * Check if a string is a valid email address
+ * @param email Original email string
+ * @returns Is the email valid? True/False
+ */
+export function isEmail(email: string): boolean {
+  return /\S+@\S+\.\S+/.test(email);
 }
 
 function Member({ member }): any {
@@ -90,7 +91,7 @@ function Member({ member }): any {
             }}
             onClick={() => {
               if (global.property.permission === "owner") {
-                document.getElementById("settingsTrigger")!.click();
+                document.getElementById("settingsTrigger")?.click();
                 return;
               }
               if (
@@ -109,7 +110,7 @@ function Member({ member }): any {
                   {
                     method: "POST",
                   }
-                ).then((res: any) => {
+                ).then(() => {
                   toast.success("Removed person from your home");
                   setLoading(false);
                   setDeleted(true);
@@ -132,7 +133,7 @@ export function MemberList({ color }: any) {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
-  const { data, error } = useSWR(url, () =>
+  const { data } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
     }).then((res) => res.json())

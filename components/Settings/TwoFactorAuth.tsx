@@ -5,23 +5,16 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import QRCode from "react-qr-code";
-import base32 from "thirty-two";
-import { v4 as uuidv4 } from "uuid";
 import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
-
-const key = uuidv4();
-const encoded = base32.encode(key);
-const encodedForGoogle = encoded.toString().replace(/[=]/g, "");
-const uri =
-  "otpauth://totp/" +
-  encodeURIComponent("Carbon") +
-  "?secret=" +
-  encodedForGoogle;
+const twofactor = require("node-2fa");
 
 export default function App() {
-  alert(uri);
+  const secret = twofactor.generateSecret({
+    name: "Carbon",
+    account: global.user.email,
+  });
+  const [newSecret] = useState(secret);
 
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,10 +29,11 @@ export default function App() {
           <LoadingButton
             loading={loadingDisable}
             onClick={() => {
-              updateSettings("twoFactorAuthCode", "false", false, () => {
-                window.location.reload();
-              });
               setLoadingDisable(true);
+              updateSettings("twoFactorSecret", "", false, () => {
+                mutate("/api/user");
+                setLoadingDisable(false);
+              });
             }}
             sx={{ mt: 5, boxShadow: 0, width: "100%", borderRadius: "100px" }}
             variant="contained"
@@ -89,7 +83,15 @@ export default function App() {
               textAlign: "center",
             }}
           >
-            <QRCode value={uri} size={170} />
+            <picture>
+              <img
+                src={newSecret.qr}
+                alt="QR code"
+                style={{
+                  width: "100%",
+                }}
+              />
+            </picture>
           </div>
 
           <Typography variant="h6" sx={{ mt: 4, fontWeight: "700" }}>
@@ -97,6 +99,7 @@ export default function App() {
             below:
           </Typography>
           <TextField
+            variant="filled"
             label="6-digit code (without spaces)"
             placeholder="*******"
             fullWidth
@@ -109,7 +112,7 @@ export default function App() {
                 : code.toString()
             }
             onChange={(e) => {
-              setCode(e.target.value);
+              setCode(e.target.value.replace(" ", ""));
             }}
             sx={{ mt: 2 }}
           />
@@ -124,9 +127,9 @@ export default function App() {
               fetch(
                 "/api/user/2fa/setup?" +
                   new URLSearchParams({
-                    secret: key,
-                    code: code,
-                    token: global.user.accessToken,
+                    ...newSecret,
+                    code,
+                    token: global.user.token,
                   }),
                 {
                   method: "POST",
@@ -134,6 +137,9 @@ export default function App() {
               )
                 .then((res) => res.json())
                 .then((res) => {
+                  if (res.error) {
+                    throw new Error(res.error);
+                  }
                   toast.success("2FA setup successful!");
                   setLoading(false);
                   mutate("/api/user");

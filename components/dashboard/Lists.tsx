@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import * as colors from "@mui/material/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -17,6 +16,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React from "react";
 import useSWR from "swr";
+import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../ErrorHandler";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
@@ -25,23 +25,6 @@ import { ListItems } from "./ListItems";
 function ListTip({ name, lists, setLists, tip }) {
   return (
     <Alert
-      onClick={() => {
-        const url =
-          "/api/property/lists/createList?" +
-          new URLSearchParams({
-            accessToken: global.property.accessToken,
-            property: global.property.propertyId,
-            name: name,
-            description: "",
-          });
-        fetch(url, {
-          method: "POST",
-        })
-          .then((res) => res.json())
-          .then((res: any) => {
-            setLists([...lists, { ...res, items: [] }]);
-          });
-      }}
       icon={
         <div style={{ marginTop: "5px" }}>
           <span
@@ -57,6 +40,7 @@ function ListTip({ name, lists, setLists, tip }) {
         alignItems: "center",
         display: "flex",
         borderRadius: 5,
+        mb: { xs: 2, sm: 0 },
         background: colors.orange[global.user.darkMode ? 900 : 50],
         color: colors.orange[global.user.darkMode ? 100 : 900],
       }}
@@ -68,6 +52,23 @@ function ListTip({ name, lists, setLists, tip }) {
               colors.orange[global.user.darkMode ? 800 : 100] + "!important",
             color:
               colors.orange[global.user.darkMode ? 100 : 900] + "!important",
+          }}
+          onClick={() => {
+            const url =
+              "/api/property/lists/createList?" +
+              new URLSearchParams({
+                accessToken: global.property.accessToken,
+                property: global.property.propertyId,
+                name: name,
+                description: "",
+              });
+            fetch(url, {
+              method: "POST",
+            })
+              .then((res) => res.json())
+              .then((res: any) => {
+                setLists([...lists, { ...res, items: [] }]);
+              });
           }}
         >
           <span className="material-symbols-outlined">add</span>
@@ -95,7 +96,7 @@ function Render({ data }: any) {
       name: "",
       description: "",
     },
-    onSubmit:  (values) => {
+    onSubmit: (values) => {
       setLoading(true);
       const url =
         "/api/property/lists/createList?" +
@@ -119,7 +120,11 @@ function Render({ data }: any) {
 
   return (
     <>
-      <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
+      <Masonry
+        sx={{ mt: 2 }}
+        columns={{ xs: 1, sm: 2, xl: 3 }}
+        spacing={{ xs: 0, sm: 1 }}
+      >
         {lists.map((list) => (
           <ListItems
             key={list.id}
@@ -261,7 +266,7 @@ function Render({ data }: any) {
               setTimeout(() => document.getElementById("listName")?.focus());
             }}
             sx={{
-              mb: 2,
+              my: { xs: 2, sm: 0 },
               borderRadius: 5,
               userSelect: "none",
               background:

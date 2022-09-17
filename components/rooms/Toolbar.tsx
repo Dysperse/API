@@ -1,12 +1,11 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import * as colors from "@mui/material/colors";
 import { blueGrey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import React from "react";
 import { CreateItemModal } from "../AddPopup/CreateItemModal";
 import { neutralizeBack, revivalBack } from "../history-control";
 
@@ -16,6 +15,10 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -113,7 +116,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
           &nbsp;Sort&nbsp;by&nbsp;
         </Typography>
       </Button>
-      <CreateItemModal room={room} alias={alias} toggleDrawer={() => {}}>
+      <CreateItemModal room={room} alias={alias}>
         <Button
           id="basic-button"
           variant="contained"

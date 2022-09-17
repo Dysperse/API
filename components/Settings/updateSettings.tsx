@@ -5,8 +5,7 @@ export function updateSettings(
   value: string,
   debug = false,
   callback: any = () => {},
-  property = false,
-  showSeparateSyncToastMessage = true
+  property = false
 ) {
   let url =
     "/api/user/update?" +

@@ -1,30 +1,32 @@
+import LoadingButton from "@mui/lab/LoadingButton";
 import Masonry from "@mui/lab/Masonry";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import LinearProgress from "@mui/material/LinearProgress";
 import Skeleton from "@mui/material/Skeleton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useFormik } from "formik";
+import hexToRgba from "hex-to-rgba";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR, { mutate } from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
-import toast from "react-hot-toast";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { useEffect, useState } from "react";
-import * as colors from "@mui/material/colors";
-import IconButton from "@mui/material/IconButton";
-import { Puller } from "../components/Puller";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { useFormik } from "formik";
-import LinearProgress from "@mui/material/LinearProgress";
-import { Icon } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import hexToRgba from "hex-to-rgba";
+import { colors } from "../lib/colors";
 
-function ColorModal({ formik }) {
+/**
+ * Color picker for note modal
+ * @param formik Formik instance
+ * @returns JSX.Element
+ */
+function ColorModal({ formik }):JSX.Element {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -110,6 +112,17 @@ function ColorModal({ formik }) {
     </>
   );
 }
+/**
+ * Note modal
+ * @param id Note ID
+ * @param url Note URL
+ * @param create Should I create the note or edit it?
+ * @param open Is the note modal open?
+ * @param setOpen Open/Close the note modal
+ * @param title Note title
+ * @param content Note content
+ * @returns
+ */
 function NoteModal({
   id,
   url,
@@ -135,7 +148,7 @@ function NoteModal({
       title: create ? "" : title,
       content: create ? "" : content,
     },
-    onSubmit:  (values) => {
+    onSubmit: (values) => {
       setLoading(true);
       fetch(
         create
@@ -169,7 +182,7 @@ function NoteModal({
             formik.resetForm();
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setLoading(false);
           toast.error("Couldn't create note. Please try again later.");
         });
@@ -319,7 +332,7 @@ function NoteModal({
                       setOpen(false);
                       toast.success("Deleted note!");
                     })
-                    .catch((err) => {
+                    .catch(() => {
                       toast.error(
                         "Couldn't delete note. Please try again later."
                       );
@@ -463,7 +476,11 @@ function Note({ url, note }) {
   );
 }
 
-export default function Notes() {
+/**
+ * Notes page component
+ * @returns JSX.Element
+ */
+export default function Notes(): JSX.Element {
   const url =
     "/api/property/notes?" +
     new URLSearchParams({

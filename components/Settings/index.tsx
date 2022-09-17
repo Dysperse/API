@@ -2,7 +2,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -241,6 +241,10 @@ export default function FullScreenDialog({ children }: any) {
     setOpen(true);
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setOpen(false);
   };
@@ -262,7 +266,7 @@ export default function FullScreenDialog({ children }: any) {
   });
   useHotkeys("ctrl+,", (e) => {
     e.preventDefault();
-    document.getElementById("settingsTrigger")!.click();
+    document.getElementById("settingsTrigger")?.click();
   });
   return (
     <div>

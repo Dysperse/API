@@ -2,6 +2,7 @@ import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../lib/client";
 import argon2 from "argon2";
+const twofactor = require("node-2fa");
 
 export async function createSession(id: number, res) {
   // Create a session token in the session table
@@ -39,7 +40,7 @@ export async function createSession(id: number, res) {
 
 export default async function handler(req, res) {
   // Get the user's email and password from the request body
-  const { email, password } = req.body;
+  const { email } = req.body;
   // Find the user in the database
   const user = await prisma.user.findUnique({
     where: {
@@ -48,6 +49,7 @@ export default async function handler(req, res) {
     select: {
       id: true,
       password: true,
+      twoFactorSecret: true,
     },
   });
   // If the user doesn't exist, return an error
@@ -59,6 +61,28 @@ export default async function handler(req, res) {
 
   if (!validPassword) {
     return res.status(401).json({ message: "Invalid email or password" });
+  }
+  if (
+    !req.body.twoFactorCode &&
+    user.twoFactorSecret !== "" &&
+    user.twoFactorSecret !== "false"
+  ) {
+    const newToken = twofactor.generateToken(user.twoFactorSecret);
+    return res.json({
+      twoFactor: true,
+      token: newToken,
+      secret: user.twoFactorSecret,
+    });
+  }
+
+  if (req.body.twoFactorCode) {
+    const login = twofactor.verifyToken(
+      user.twoFactorSecret,
+      req.body.twoFactorCode
+    );
+    if (!login || login.delta !== 0) {
+      return res.status(401).json({ error: "Invalid code" });
+    }
   }
 
   const encoded = await createSession(user.id, res);

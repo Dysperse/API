@@ -3,7 +3,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import dayjs from "dayjs";
-import * as React from "react";
+import React from "react";
 import toast from "react-hot-toast";
 
 export function InventoryList({ data }: { data: Array<any> }) {

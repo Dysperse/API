@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../lib/colors";
 import NoSsr from "@mui/material/NoSsr";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import dayjs from "dayjs";
@@ -7,6 +7,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
 import Script from "next/script";
+import MuiLink from "@mui/material/Link";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
@@ -18,6 +20,7 @@ import Grid from "@mui/material/Grid";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Skeleton from "@mui/material/Skeleton";
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import AppBar from "@mui/material/AppBar";
 dayjs.extend(relativeTime);
@@ -379,7 +382,57 @@ function RenderApp({ router, Component, pageProps }: any) {
       ) : (
         <>
           {isLoading && <Loading />}
-          {isError && <Box>Failed to load</Box>}
+          {isError && (
+            <Box
+              sx={{
+                position: "fixed",
+                top: 0,
+                textAlign: "center",
+                background: "hsl(240, 11%, 10%)",
+                height: "100%",
+                width: "100%",
+                color: "#fff",
+                left: 0,
+              }}
+            >
+              <Box
+                sx={{
+                  position: "fixed",
+                  p: 5,
+                  borderRadius: 5,
+                  top: "50%",
+                  textAlign: "center",
+                  background: "hsl(240, 11%, 13%)",
+                  left: "50%",
+                  maxWidth: "calc(100vw - 20px)",
+                  width: "350px",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <picture>
+                  <img
+                    src="https://ouch-cdn2.icons8.com/Bh6aoLoD1Gekl7Hw6fjn3oyLfFtjucGDN0kAdxuxVOA/rs:fit:256:235/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMTAz/LzkyZTI5ODc5LTQw/NjQtNDBkOC1iYzE3/LTQzZTM3YWNkYTJi/Yi5zdmc.png"
+                    alt="An error occured"
+                  />
+                  <Typography variant="h5" sx={{ textAlign: "center" }}>
+                    An error occured
+                  </Typography>
+                  <Typography variant="body1" sx={{ textAlign: "center" }}>
+                    Please try again later. If the problem persists, please
+                    contact us at{" "}
+                    <Link href="mailto:hello@smartlist.tech" target="_blank">
+                      <MuiLink
+                        href="mailto:hello@smartlist.tech"
+                        target="_blank"
+                      >
+                        hello@smartlist.tech
+                      </MuiLink>
+                    </Link>
+                  </Typography>
+                </picture>
+              </Box>
+            </Box>
+          )}
           {!isLoading && !isError && !data.error && (
             <Render
               router={router}

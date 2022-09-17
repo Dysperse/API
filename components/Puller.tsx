@@ -1,6 +1,10 @@
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../lib/colors";
 
+/**
+ * @name Puller
+ * @description A puller is a component that pulls in swipeable drawers from bottom of the screen.
+ */
 export function Puller({ variant }: { variant?: "side" }) {
   return (
     <Box
@@ -11,6 +15,6 @@ export function Puller({ variant }: { variant?: "side" }) {
             ? "hsl(240, 11%, 35%)"
             : colors[themeColor][100],
       }}
-     />
+    />
   );
 }

@@ -1,7 +1,7 @@
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import * as colors from "@mui/material/colors";
+import { colors } from "../lib/colors";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import { encode } from "js-base64";
 import { useRouter } from "next/router";
-import * as React from "react";
+import React from "react";
 import useSWR from "swr";
 import { FloatingActionButton } from "../components/Layout/FloatingActionButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -97,7 +97,7 @@ function CategoryModal({ category }: { category: string }) {
               setOpen(true);
               setLoading(false);
             })
-            .catch((err) => {
+            .catch(() => {
               alert("An error occured while trying to fetch your inventory");
               setLoading(false);
             });
@@ -264,9 +264,10 @@ export default function Categories() {
     });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -279,6 +280,9 @@ export default function Categories() {
 
   return (
     <>
+      {error && (
+        <ErrorHandler error="An error occured while trying to fetch your items" />
+      )}
       <FloatingActionButton />
       <Menu
         id="basic-menu"
@@ -456,14 +460,14 @@ export default function Categories() {
               ))}
             <Action
               onClick={() =>
-                document.getElementById("setCreateRoomModalOpen")!.click()
+                document.getElementById("setCreateRoomModalOpen")?.click()
               }
               icon="add_circle"
               primary="Create room"
             />
             <Action
               onClick={() =>
-                document.getElementById("houseProfileTrigger")!.click()
+                document.getElementById("houseProfileTrigger")?.click()
               }
               icon="edit"
               primary="Manage rooms"

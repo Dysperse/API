@@ -4,7 +4,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -14,7 +14,8 @@ import { useState } from "react";
 import { mutate } from "swr";
 import { Puller } from "../Puller";
 import Link from "@mui/material/Link";
-const useStyles = createStyles((theme) => ({
+
+const useStyles = createStyles(() => ({
   outside: {},
   weekend: {
     color: "inherit !important",
@@ -265,7 +266,7 @@ function CreateMaintenanceModal() {
           })
       )
         .then((res) => res.json())
-        .then((data) => {
+        .then(() => {
           setLoading(false);
           setOpen(false);
           mutate(
@@ -402,7 +403,8 @@ export function Header({ count }) {
               " 50%, " +
               colors.green[global.user.darkMode ? 700 : 100] +
               " 100%)",
-            color: colors.green[global.user.darkMode ? 900 : 100],
+            color:
+              colors.green[!global.user.darkMode ? 900 : 100] + "!important",
             height: "320px",
             borderRadius: { sm: 10 },
             flexDirection: "column",

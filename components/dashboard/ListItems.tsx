@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import * as colors from "@mui/material/colors";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -55,8 +54,14 @@ function GenerateData({
   parent,
   emptyImage,
   emptyText,
-  title,
-}: any) {
+}: {
+  screenshotReady: boolean;
+  data: Array<any>;
+  parent: string | number;
+  emptyImage: string;
+  emptyText: string | JSX.Element;
+  title: string;
+}) {
   const [items, setItems] = useState<any>(data);
 
   return (
@@ -189,6 +194,10 @@ export function ListItems({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -282,6 +291,7 @@ export function ListItems({
             width: "100%",
             maxWidth: "calc(100vw - 32.5px)",
             p: 1,
+            mb: { xs: 2, sm: 0 },
             background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
           }}

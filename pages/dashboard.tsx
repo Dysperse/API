@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import * as colors from "@mui/material/colors";
+import { colors } from "../lib/colors";
 import Container from "@mui/material/Container";
 import Head from "next/head";
 import { useState } from "react";
@@ -22,8 +22,16 @@ export default function Dashboard() {
   };
   const activeTabStyles = {
     background:
-      colors[themeColor][global.user.darkMode ? 100 : 800] + "!important",
-    color: global.user.darkMode ? "#000" : "#fff",
+      "linear-gradient(45deg, " +
+      (global.theme === "dark"
+        ? "hsl(240, 11%, 60%)"
+        : colors[themeColor][800]) +
+      "  0%, " +
+      (global.theme === "dark"
+        ? "hsl(240, 11%, 30%)"
+        : colors[themeColor][500]) +
+      " 100%)",
+    color: "#fff",
   };
   const [activeTab, setActiveTab] = useState("lists");
 
@@ -37,7 +45,7 @@ export default function Dashboard() {
         </title>
       </Head>
       <Container sx={{ mt: 4 }}>
-        <Box sx={{ pb: 3, pl: 1 }}>
+        <Box sx={{ pb: 3 }}>
           {["Recent", "Lists", "Tips", "Recipes"].map((item) => (
             <Chip
               key={item}

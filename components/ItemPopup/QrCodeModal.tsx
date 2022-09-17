@@ -26,6 +26,10 @@ export function QrCodeModal({ item }: any): JSX.Element {
     setOpen(true);
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setOpen(false);
   };

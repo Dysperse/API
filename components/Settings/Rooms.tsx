@@ -93,7 +93,7 @@ export default function Rooms() {
           primary={
             <Button
               onClick={() => {
-                document.getElementById("setCreateRoomModalOpen")!.click();
+                document.getElementById("setCreateRoomModalOpen")?.click();
               }}
               sx={{ mt: 1, borderWidth: "2px!important", borderRadius: 3 }}
               variant="outlined"

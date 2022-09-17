@@ -2,14 +2,14 @@ import emailjs from "@emailjs/browser";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
@@ -173,7 +173,7 @@ export function AddPersonModal({ color, members }: any) {
                         toast.success("Invitation sent!");
                         setLoading(false);
                       })
-                      .catch((err) => {
+                      .catch(() => {
                         toast(
                           "An invitation was sent, but something went wrong while trying to send an email notification",
                           { duration: 10000 }
@@ -181,7 +181,7 @@ export function AddPersonModal({ color, members }: any) {
                         setLoading(false);
                       });
                   })
-                  .catch((err) => {
+                  .catch(() => {
                     setLoading(false);
                     toast.error(
                       "An error occured while trying to send an invite"

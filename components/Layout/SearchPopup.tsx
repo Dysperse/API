@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import * as colors from "@mui/material/colors";
+import { colors } from "../../lib/colors";
 import IconButton from "@mui/material/IconButton";
 import LinearProgress from "@mui/material/LinearProgress";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -10,7 +10,38 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import useSWR from "swr";
 import { Puller } from "../Puller";
+import { useRouter } from "next/router";
 import { updateSettings } from "../Settings/updateSettings";
+
+/**
+ * @param children Children to render
+ * @returns void
+ */
+function Item({
+  children,
+  shortcut,
+  onSelect = () => {},
+}: {
+  children: React.ReactNode;
+  shortcut?: string;
+  onSelect?: (value: string) => void;
+}) {
+  return (
+    <Command.Item
+      onSelect={onSelect}
+      value={ReactDOMServer.renderToStaticMarkup(children)}
+    >
+      {children}
+      {shortcut && (
+        <div className="cmdk-vercel-shortcuts">
+          {shortcut.split(" ").map((key) => {
+            return <kbd key={key}>{key}</kbd>;
+          })}
+        </div>
+      )}
+    </Command.Item>
+  );
+}
 
 export function SearchPopup() {
   const ref = React.useRef<HTMLDivElement | null>(null);
@@ -19,8 +50,22 @@ export function SearchPopup() {
   const [pages, setPages] = React.useState<string[]>(["home"]);
   const activePage = pages[pages.length - 1];
   const isHome = activePage === "home";
+  const router = useRouter();
+
+  /**
+   * @param href Link
+   * @returns void
+   */
+  const onLink = (href: string): void => {
+    router.push(href);
+    setOpen(false);
+  };
 
   React.useEffect(() => {
+    /**
+     * @param e Event passed by the browser
+     * @returns void
+     */
     const down = (e) => {
       if (
         (e.key === "k" && e.ctrlKey) ||
@@ -46,20 +91,6 @@ export function SearchPopup() {
       return x;
     });
   }, []);
-
-  const onKeyDown = React.useCallback(
-    (e: KeyboardEvent) => {
-      if (isHome || inputValue.length) {
-        return;
-      }
-
-      if (e.key === "Backspace") {
-        e.preventDefault();
-        popPage();
-      }
-    },
-    [inputValue.length, isHome, popPage]
-  );
 
   function bounce() {
     if (ref.current) {
@@ -156,10 +187,14 @@ export function SearchPopup() {
               }
             }}
           >
-            <div>
-              {pages.map((p) => (
-                <div key={p}>{p}</div>
-              ))}
+            <div style={{ marginBottom: "10px" }}>
+              {pages
+                .filter((p) => p.toLowerCase() !== "home")
+                .map((p) => (
+                  <div className="cmdk-vercel-badge" key={p}>
+                    {p}
+                  </div>
+                ))}
             </div>
             <Command.Input
               autoFocus
@@ -198,6 +233,7 @@ export function SearchPopup() {
               </Command.Empty>
               {activePage === "home" && (
                 <Home
+                  onLink={onLink}
                   searchSettings={() => {
                     setPages([...pages, "Settings"]);
                     setInputValue("");
@@ -221,8 +257,14 @@ function Icon({ icon }: { icon: string }) {
   );
 }
 
-function Home({ searchSettings }: { searchSettings: Function }) {
-  const { error, data } = useSWR("/api/rooms", () =>
+function Home({
+  onLink,
+  searchSettings,
+}: {
+  onLink: (href: string) => any;
+  searchSettings: () => void;
+}) {
+  const { data } = useSWR("/api/rooms", () =>
     fetch(
       "/api/property/rooms?" +
         new URLSearchParams({
@@ -279,17 +321,13 @@ function Home({ searchSettings }: { searchSettings: Function }) {
         Dark mode
         <Icon icon="dark_mode" />
       </Item>
-      <Item onSelect={() => {}}>
+      <Item onSelect={() => onLink("/dashboard")}>
         Dashboard
         <Icon icon="layers" />
       </Item>
-      <Item onSelect={() => {}}>
+      <Item onSelect={() => onLink("/notes")}>
         Notes
         <Icon icon="sticky_note_2" />
-      </Item>
-      <Item onSelect={() => {}}>
-        Sustainability
-        <Icon icon="eco" />
       </Item>
       <Command.Group heading="Rooms">
         {[
@@ -303,7 +341,10 @@ function Home({ searchSettings }: { searchSettings: Function }) {
           { name: "Storage room", icon: "inventory_2" },
           { name: "Garden", icon: "yard" },
         ].map((room, index) => (
-          <Item onSelect={() => {}} key={index.toString()}>
+          <Item
+            onSelect={() => onLink("/rooms/" + room.name.toLowerCase())}
+            key={index.toString()}
+          >
             {room.name}
             <Icon icon={room.icon} />
           </Item>
@@ -318,22 +359,26 @@ function Home({ searchSettings }: { searchSettings: Function }) {
             ))}
           </Box>
         )}
-        <Item onSelect={() => {}}>
+        <Item onSelect={() => onLink("/starred-items")}>
           Starred items
           <Icon icon="star" />
         </Item>
-        <Item onSelect={() => {}}>
+        <Item onSelect={() => onLink("/trash")}>
           Trash
           <Icon icon="delete" />
         </Item>
-        <Item onSelect={() => {}}>
+        <Item
+          onSelect={() =>
+            document.getElementById("setCreateRoomModalOpen")?.click()
+          }
+        >
           Create room
           <Icon icon="add" />
         </Item>
       </Command.Group>
       <Command.Group heading="Help">
-        <Item>
-          Support
+        <Item onSelect={() => onLink("mailto:hello@smartlist.tech")}>
+          Support (email)
           <Icon icon="help" />
         </Item>
       </Command.Group>
@@ -344,167 +389,22 @@ function Home({ searchSettings }: { searchSettings: Function }) {
 function Settings() {
   return (
     <>
-      {[
-        "Appearance",
-        "Two-factor auth",
-        "Finances",
-        "Account",
-        "Sign out",
-        "Legal",
-      ].map((room, index) => (
-        <Item key={index.toString()}>{room}</Item>
-      ))}
+      {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
+        (room, index) => (
+          <Item key={index.toString()}>{room}</Item>
+        )
+      )}
     </>
   );
 }
 
-function Item({
-  children,
-  shortcut,
-  onSelect = () => {},
-}: {
-  children: React.ReactNode;
-  shortcut?: string;
-  onSelect?: (value: string) => void;
-}) {
-  return (
-    <Command.Item
-      onSelect={onSelect}
-      value={ReactDOMServer.renderToStaticMarkup(children)}
-    >
-      {children}
-      {shortcut && (
-        <div className="cmdk-vercel-shortcuts">
-          {shortcut.split(" ").map((key) => {
-            return <kbd key={key}>{key}</kbd>;
-          })}
-        </div>
-      )}
-    </Command.Item>
-  );
-}
-
-function SettingsIcon() {
+/**
+ * Settings icon for search popup
+ */
+function SettingsIcon(): JSX.Element {
   return (
     <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
       settings
     </span>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg
-      fill="none"
-      height="24"
-      shapeRendering="geometricPrecision"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-      viewBox="0 0 24 24"
-      width="24"
-    >
-      <path d="M12 5v14" />
-      <path d="M5 12h14" />
-    </svg>
-  );
-}
-
-function TeamsIcon() {
-  return (
-    <svg
-      fill="none"
-      height="24"
-      shapeRendering="geometricPrecision"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-      viewBox="0 0 24 24"
-      width="24"
-    >
-      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M23 21v-2a4 4 0 00-3-3.87" />
-      <path d="M16 3.13a4 4 0 010 7.75" />
-    </svg>
-  );
-}
-
-function CopyIcon() {
-  return (
-    <svg
-      fill="none"
-      height="24"
-      shapeRendering="geometricPrecision"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-      viewBox="0 0 24 24"
-      width="24"
-    >
-      <path d="M8 17.929H6c-1.105 0-2-.912-2-2.036V5.036C4 3.91 4.895 3 6 3h8c1.105 0 2 .911 2 2.036v1.866m-6 .17h8c1.105 0 2 .91 2 2.035v10.857C20 21.09 19.105 22 18 22h-8c-1.105 0-2-.911-2-2.036V9.107c0-1.124.895-2.036 2-2.036z" />
-    </svg>
-  );
-}
-
-function DocsIcon() {
-  return (
-    <svg
-      fill="none"
-      height="24"
-      shapeRendering="geometricPrecision"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-      viewBox="0 0 24 24"
-      width="24"
-    >
-      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-      <path d="M14 2v6h6" />
-      <path d="M16 13H8" />
-      <path d="M16 17H8" />
-      <path d="M10 9H8" />
-    </svg>
-  );
-}
-
-function FeedbackIcon() {
-  return (
-    <svg
-      fill="none"
-      height="24"
-      shapeRendering="geometricPrecision"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-      viewBox="0 0 24 24"
-      width="24"
-    >
-      <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
-    </svg>
-  );
-}
-
-function ContactIcon() {
-  return (
-    <svg
-      fill="none"
-      height="24"
-      shapeRendering="geometricPrecision"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-      viewBox="0 0 24 24"
-      width="24"
-    >
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-      <path d="M22 6l-10 7L2 6" />
-    </svg>
   );
 }
