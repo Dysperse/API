@@ -106,9 +106,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
           View
         </MenuItem>
       </Menu>
-      <Link
-        href={"/rooms/" + encode(room.id + "," + room.name) + "?custom=true"}
-      >
+      <Link href={`/rooms/${encode(room.id + "," + room.name)}?custom=true`}>
         <ListItemButton
           onContextMenu={handleContextMenu}
           sx={{
