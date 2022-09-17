@@ -107,6 +107,17 @@ function ColorModal({ formik }) {
     </>
   );
 }
+/**
+ * Note modal
+ * @param id Note ID
+ * @param url Note URL
+ * @param create Should I create the note or edit it?
+ * @param open Is the note modal open?
+ * @param setOpen Open/Close the note modal
+ * @param title Note title
+ * @param content Note content
+ * @returns
+ */
 function NoteModal({
   id,
   url,
@@ -464,7 +475,7 @@ function Note({ url, note }) {
  * Notes page component
  * @returns JSX.Element
  */
-export default function Notes():JSX.Element {
+export default function Notes(): JSX.Element {
   const url =
     "/api/property/notes?" +
     new URLSearchParams({
