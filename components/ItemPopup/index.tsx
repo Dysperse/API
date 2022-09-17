@@ -80,8 +80,8 @@ export default function Item({
 
   useEffect(() => {
     document
-      .querySelector(`meta[name="theme-color"]`)?
-      .setAttribute(
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute(
         "content",
         drawerState === true
           ? window.innerWidth > 900
