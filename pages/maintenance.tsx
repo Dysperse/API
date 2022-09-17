@@ -7,7 +7,7 @@ import useSWR from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
 import { Reminder } from "../components/Maintenance/Reminder";
 import { Header } from "../components/Maintenance/Header";
-
+import type { Reminder as ReminderType } from "../types/maintenance";
 /**
  * Top-level component for the maintenance page
  */
@@ -18,6 +18,7 @@ export default function Maintenance() {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
     }).toString();
+  alert(url);
   const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
 
   return (
@@ -25,7 +26,7 @@ export default function Maintenance() {
       <Box sx={{ px: { sm: 3 } }}>
         {data ? (
           <>
-            {data.filter((reminder) =>
+            {data.filter((reminder: ReminderType) =>
               dayjs(reminder.nextDue).isBefore(dayjs())
             ).length > 0 && (
               <Alert
@@ -35,12 +36,12 @@ export default function Maintenance() {
               >
                 You have{" "}
                 {
-                  data.filter((reminder) =>
+                  data.filter((reminder: ReminderType) =>
                     dayjs(reminder.nextDue).isBefore(dayjs())
                   ).length
                 }{" "}
                 overdue maintenance task
-                {data.filter((reminder) =>
+                {data.filter((reminder: ReminderType) =>
                   dayjs(reminder.nextDue).isBefore(dayjs())
                 ).length == 1
                   ? ""
@@ -54,7 +55,7 @@ export default function Maintenance() {
       <Header
         count={
           data
-            ? data.filter((reminder) => {
+            ? data.filter((reminder: ReminderType) => {
                 return (
                   dayjs(reminder.nextDue).isAfter(dayjs()) &&
                   dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
@@ -67,7 +68,7 @@ export default function Maintenance() {
         {data ? (
           <>
             {/* Past reminders */}
-            {data.filter((reminder) =>
+            {data.filter((reminder: ReminderType) =>
               dayjs(reminder.nextDue).isBefore(dayjs())
             ).length > 0 && (
               <Typography variant="h5" sx={{ fontWeight: "600", mb: 3 }}>
@@ -75,11 +76,13 @@ export default function Maintenance() {
               </Typography>
             )}
             {data
-              .filter((reminder) => dayjs(reminder.nextDue).isBefore(dayjs()))
-              .map((reminder) => (
+              .filter((reminder: ReminderType) =>
+                dayjs(reminder.nextDue).isBefore(dayjs())
+              )
+              .map((reminder: ReminderType) => (
                 <Reminder key={reminder.id} reminder={reminder} />
               ))}
-            {data.filter((reminder) => {
+            {data.filter((reminder: ReminderType) => {
               return (
                 dayjs(reminder.nextDue).isAfter(dayjs()) &&
                 dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
@@ -91,13 +94,13 @@ export default function Maintenance() {
             )}
             {/* Upcoming reminders */}
             {data
-              .filter((reminder) => {
+              .filter((reminder: ReminderType) => {
                 return (
                   dayjs(reminder.nextDue).isAfter(dayjs()) &&
                   dayjs(reminder.nextDue).isBefore(dayjs().add(7, "day"))
                 );
               })
-              .map((reminder) => (
+              .map((reminder: ReminderType) => (
                 <Reminder key={reminder.id} reminder={reminder} />
               ))}
 
@@ -106,7 +109,7 @@ export default function Maintenance() {
             </Typography>
             {/* Upcoming reminders */}
             {data
-              .filter((reminder) => {
+              .filter((reminder: ReminderType) => {
                 return (
                   !(
                     dayjs(reminder.nextDue).isAfter(dayjs()) &&
@@ -114,7 +117,7 @@ export default function Maintenance() {
                   ) && !dayjs(reminder.nextDue).isBefore(dayjs())
                 );
               })
-              .map((reminder) => (
+              .map((reminder: ReminderType) => (
                 <Reminder key={reminder.id} reminder={reminder} />
               ))}
           </>
