@@ -1,6 +1,10 @@
 import { prisma } from "../../../lib/client";
 
-// Query returns User or null
+/**
+ * Get user data from sessions table using accessToken
+ * @param {string} token
+ * @returns {any}
+ */
 export const getUserData = async (token: string) => {
   const session: any | null = await prisma.session.findUnique({
     where: {
@@ -42,6 +46,12 @@ export const getUserData = async (token: string) => {
   };
 };
 
+/**
+ * API handler for the /api/user/info endpoint
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 const handler = async (req: any, res: any) => {
   try {
     const session = await getUserData(req.query.token);

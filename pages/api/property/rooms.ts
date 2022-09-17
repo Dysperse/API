@@ -1,6 +1,12 @@
 import { prisma } from "../../../lib/client";
 import { validatePermissions } from "../../../lib/validatePermissions";
 
+/**
+ * API handler for the /api/property/updateInfo endpoint
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 const handler = async (req: any, res: any) => {
   const permissions = await validatePermissions(
     req.query.property,

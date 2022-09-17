@@ -2,6 +2,12 @@
 import { prisma } from "../../../../lib/client";
 import * as twofactor from "node-2fa";
 
+/**
+ * API handler for the /api/user/update endpoint
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 const handler = async (req: any, res: any) => {
   // Get user info from sessions table using accessToken
   const session: any | null = await prisma.session.findUnique({

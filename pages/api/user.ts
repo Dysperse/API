@@ -1,6 +1,11 @@
 import jwt from "jsonwebtoken";
 import { getUserData } from "./user/info";
 
+/**
+ * Get session data from the auth cookie
+ * @param {any} providedToken
+ * @returns {any}
+ */
 export const sessionData = async (providedToken) => {
   const { accessToken } = jwt.verify(
     providedToken,

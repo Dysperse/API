@@ -1,6 +1,12 @@
 import { prisma } from "../../../../lib/client";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
+/**
+ * API handler
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 const handler = async (req: any, res: any) => {
   // Toggle star status on on an item
   const permissions = await validatePermissions(

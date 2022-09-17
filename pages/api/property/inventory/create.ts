@@ -2,6 +2,12 @@ import { prisma } from "../../../../lib/client";
 import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
+/**
+ * API handler
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 const handler = async (req: any, res: any) => {
   const permissions = await validatePermissions(
     req.query.property,

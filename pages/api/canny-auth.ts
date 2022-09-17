@@ -1,6 +1,11 @@
 import jwt from "jsonwebtoken";
 import { getUserData } from "./user/info";
 
+/**
+ * Get session data from the auth cookie
+ * @param {any} providedToken
+ * @returns {any}
+ */
 export const sessionData = async (providedToken) => {
   // console.log("providedToken", providedToken);
   const { accessToken } = jwt.verify(
@@ -14,6 +19,11 @@ export const sessionData = async (providedToken) => {
 
 const PrivateKey = process.env.CANNY_AUTH_PRIVATE_KEY;
 
+/**
+ * Create a Canny token
+ * @param {any} user
+ * @returns {any}
+ */
 function createCannyToken(user) {
   let userData = {
     avatarURL: user.avatarURL, // optional, but preferred
@@ -24,6 +34,12 @@ function createCannyToken(user) {
   return jwt.sign(userData, PrivateKey, { algorithm: "HS256" });
 }
 
+/**
+ * Handler function for the /api/canny-auth endpoint
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 const handler = async (req, res) => {
   const info = await sessionData(req.cookies.token);
   const cannyToken = createCannyToken({

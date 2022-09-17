@@ -2,6 +2,12 @@ import argon2 from "argon2";
 import { prisma } from "../../lib/client";
 import { createSession } from "./login";
 
+/**
+ * API handler for the /api/signup endpoint
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 export default async function handler(req, res) {
   if (req.body.password !== req.body.confirmPassword) {
     return res.status(401).json({ message: "Passwords do not match" });

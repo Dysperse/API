@@ -4,6 +4,12 @@ import { prisma } from "../../lib/client";
 import argon2 from "argon2";
 import * as twofactor from "node-2fa";
 
+/**
+ * Creates a session and stores it in the database
+ * @param {number} id
+ * @param {any} res
+ * @returns {any}
+ */
 export async function createSession(id: number, res) {
   // Create a session token in the session table
   const session = await prisma.session.create({
@@ -38,6 +44,12 @@ export async function createSession(id: number, res) {
   return encoded;
 }
 
+/**
+ * API handler for the /api/login endpoint
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 export default async function handler(req, res) {
   // Get the user's email and password from the request body
   const { email } = req.body;
