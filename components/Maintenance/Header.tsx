@@ -109,7 +109,7 @@ function CalendarFeedModal(): JSX.Element {
         disabled={global.property.permission === "read-only"}
       >
         <span className="material-symbols-rounded">event</span>
-        Calendar feed
+        Feed
       </Button>
     </>
   );
@@ -401,7 +401,7 @@ function CreateMaintenanceModal() {
         disabled={global.property.permission === "read-only"}
       >
         <span className="material-symbols-rounded">add</span>
-        Add new task
+        New task
       </Button>
     </>
   );
