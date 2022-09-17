@@ -480,8 +480,6 @@ export default function Item({
                       <DeleteButton
                         styles={styles}
                         handleItemDelete={handleItemDelete}
-                        setDrawerState={setDrawerState}
-                        setDeleted={setDeleted}
                       />
                     )}
                     <MoveToRoom

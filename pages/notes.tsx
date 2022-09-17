@@ -1,28 +1,25 @@
+import LoadingButton from "@mui/lab/LoadingButton";
 import Masonry from "@mui/lab/Masonry";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import LinearProgress from "@mui/material/LinearProgress";
 import Skeleton from "@mui/material/Skeleton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useFormik } from "formik";
+import hexToRgba from "hex-to-rgba";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR, { mutate } from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
-import toast from "react-hot-toast";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { useEffect, useState } from "react";
 import { colors } from "../lib/colors";
-import IconButton from "@mui/material/IconButton";
-import { Puller } from "../components/Puller";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { useFormik } from "formik";
-import LinearProgress from "@mui/material/LinearProgress";
-import { Icon } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import hexToRgba from "hex-to-rgba";
 
 function ColorModal({ formik }) {
   const [open, setOpen] = useState(false);
@@ -169,7 +166,7 @@ function NoteModal({
             formik.resetForm();
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setLoading(false);
           toast.error("Couldn't create note. Please try again later.");
         });

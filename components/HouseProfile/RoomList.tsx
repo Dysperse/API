@@ -1,15 +1,13 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { colors } from "../../lib/colors";
-import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import toast from "react-hot-toast";
-import SwipeableViews from "react-swipeable-views";
-import useSWR from "swr";
-import useEmblaCarousel from "embla-carousel-react";
-import { mutate } from "swr";
-function Room({ color, room }: any) {
+import useSWR, { mutate } from "swr";
+import { colors } from "../../lib/colors";
+
+function Room({ room }: any) {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   return deleted ? (
     <>This room has been deleted</>

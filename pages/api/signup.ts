@@ -46,7 +46,7 @@ export default async function handler(req, res) {
   const propertyId = property.id;
 
   //   Create a property invite
-  const propertyInvite = await prisma.propertyInvite.create({
+  await prisma.propertyInvite.create({
     data: {
       selected: true,
       accepted: true,

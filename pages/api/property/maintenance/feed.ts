@@ -21,7 +21,7 @@ const handler = async (req: any, res: any) => {
     },
   });
   // Set header to .ics
-  const d = await new Promise((resolve, reject) => {
+  const d = await new Promise((resolve) => {
     ics.createEvents(
       data.map((reminder) => {
         alarms.push({

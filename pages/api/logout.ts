@@ -1,5 +1,4 @@
 // Remove `token` cookie
-import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 export default function handler(req, res) {
   res.setHeader(

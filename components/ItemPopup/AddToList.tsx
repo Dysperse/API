@@ -64,7 +64,7 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
                   }
                 )
                   .then((res) => res.json())
-                  .then((res) => {
+                  .then(() => {
                     toast.success("Added item!");
                     handleClose();
                   });

@@ -133,7 +133,7 @@ export function Reminder({ reminder }: any) {
                     })
                 )
                   .then((res) => res.json())
-                  .then((res) => {
+                  .then(() => {
                     mutate(
                       "/api/property/maintenance/reminders?" +
                         new URLSearchParams({
@@ -178,7 +178,7 @@ export function Reminder({ reminder }: any) {
                   setMarkAsDoneLoading(false);
                   setOpen(false);
                 })
-                .catch((err) => {
+                .catch(() => {
                   toast.error("Couldn't mark as done. Please try again later.");
                 });
             }}
