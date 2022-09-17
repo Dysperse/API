@@ -270,7 +270,7 @@ function Home({
         new URLSearchParams({
           property: global.property.propertyId,
           accessToken: global.property.accessToken,
-        })
+        }).toString()
     ).then((res) => res.json())
   );
 

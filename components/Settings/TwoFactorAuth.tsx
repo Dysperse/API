@@ -130,7 +130,7 @@ export default function App() {
                     ...newSecret,
                     code,
                     token: global.user.token,
-                  }),
+                  }).toString(),
                 {
                   method: "POST",
                 }

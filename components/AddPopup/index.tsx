@@ -132,7 +132,7 @@ function MoreRooms(): JSX.Element {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const [open, setOpen] = React.useState<boolean>(false);
 
   const { error, data }: any = useSWR(url, () =>

@@ -106,7 +106,7 @@ function Member({ member }): any {
                       id: member.id,
                       accessToken: global.property.accessToken,
                       property: global.property.propertyId,
-                    }),
+                    }).toString(),
                   {
                     method: "POST",
                   }
@@ -132,7 +132,7 @@ export function MemberList({ color }: any) {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { data } = useSWR(url, () =>
     fetch(url, {
       method: "POST",

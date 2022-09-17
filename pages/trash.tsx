@@ -49,7 +49,7 @@ function DeleteCard({ item }: any) {
                   accessToken: global.property.accessToken,
                   id: item.id.toString(),
                   forever: "true",
-                }),
+                }).toString(),
               {
                 method: "POST",
               }
@@ -90,7 +90,7 @@ function DeleteCard({ item }: any) {
                     "YYYY-MM-DD HH:mm:ss"
                   ),
                   id: item.id.toString(),
-                }),
+                }).toString(),
               {
                 method: "POST",
               }
@@ -122,7 +122,7 @@ function Items() {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { data, error }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",

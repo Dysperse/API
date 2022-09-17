@@ -34,7 +34,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
                   category: JSON.stringify([]),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                   room: item.room,
-                })
+                }).toString()
             ).then(() => {
               toast.success("Added to inventory!");
             });

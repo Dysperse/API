@@ -160,7 +160,7 @@ function NoteModal({
                 content: values.content,
                 pinned: values.pinned ? "true" : "false",
                 color: values.color,
-              })
+              }).toString()
           : "/api/property/notes/edit?" +
               new URLSearchParams({
                 property: global.property.propertyId,
@@ -170,7 +170,7 @@ function NoteModal({
                 pinned: values.pinned ? "true" : "false",
                 color: values.color,
                 id: id ? id.toString() : "",
-              })
+              }).toString()
       )
         .then((res) => res.json())
         .then(() => {
@@ -324,7 +324,7 @@ function NoteModal({
                         property: global.property.propertyId,
                         accessToken: global.property.accessToken,
                         id: id ? id.toString() : "",
-                      })
+                      }).toString()
                   )
                     .then((res) => res.json())
                     .then(() => {
@@ -486,7 +486,7 @@ export default function Notes(): JSX.Element {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );

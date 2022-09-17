@@ -16,7 +16,7 @@ export function RoomComponent({ index }: any) {
       room: router.query.custom
         ? decode(index).split(",")[0]
         : index.toLowerCase().replaceAll("-", ""),
-    });
+    }).toString();
 
   const { error, data }: any = useSWR(url, () =>
     fetch(url).then((res) => res.json())

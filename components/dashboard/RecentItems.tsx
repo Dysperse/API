@@ -13,7 +13,7 @@ export function RecentItems() {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );

@@ -85,7 +85,7 @@ function House({ handleClose, data }: any) {
                   property: data.propertyId,
                   accessToken: data.accessToken,
                   email: global.user.email,
-                })
+                }).toString()
             )
               .then((res) => res.json())
               .then((res: any) => {

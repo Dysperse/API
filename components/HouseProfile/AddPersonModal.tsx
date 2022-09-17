@@ -155,7 +155,7 @@ export function AddPersonModal({ color, members }: any) {
                       email: value,
                       name: global.property.profile.name,
                       permission: permission,
-                    })
+                    }).toString()
                 )
                   .then((res) => res.json())
                   .then((res: any) => {

@@ -40,7 +40,7 @@ function Room({
               lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               property: global.property.propertyId,
               accessToken: global.property.accessToken,
-            }),
+            }).toString(),
           {
             method: "POST",
           }

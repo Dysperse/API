@@ -63,14 +63,14 @@ export function Reminder({ reminder }: any) {
                     accessToken: global.property.accessToken,
                     id: reminder.id,
                     note: e.target.value,
-                  })
+                  }).toString()
               );
               mutate(
                 "/api/property/maintenance/reminders?" +
                   new URLSearchParams({
                     property: global.property.propertyId,
                     accessToken: global.property.accessToken,
-                  })
+                  }).toString()
               );
             }}
             onKeyUp={(e: any) => {
@@ -130,7 +130,7 @@ export function Reminder({ reminder }: any) {
                       id: reminder.id,
                       accessToken: global.property.accessToken,
                       property: global.property.propertyId,
-                    })
+                    }).toString()
                 )
                   .then((res) => res.json())
                   .then(() => {
@@ -139,7 +139,7 @@ export function Reminder({ reminder }: any) {
                         new URLSearchParams({
                           property: global.property.propertyId,
                           accessToken: global.property.accessToken,
-                        })
+                        }).toString()
                     );
                     setOpen(false);
                     toast.success("Reminder deleted");
@@ -165,7 +165,7 @@ export function Reminder({ reminder }: any) {
                     id: reminder.id,
                     frequency: reminder.frequency,
                     lastCompleted: new Date().toISOString(),
-                  })
+                  }).toString()
               )
                 .then(() => {
                   mutate(
@@ -173,7 +173,7 @@ export function Reminder({ reminder }: any) {
                       new URLSearchParams({
                         property: global.property.propertyId,
                         accessToken: global.property.accessToken,
-                      })
+                      }).toString()
                   );
                   setMarkAsDoneLoading(false);
                   setOpen(false);

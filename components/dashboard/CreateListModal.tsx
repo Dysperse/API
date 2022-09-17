@@ -43,7 +43,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
             name: values.name,
             details: values.details,
             pinned: pinned ? "true" : "false",
-          }),
+          }).toString(),
         {
           method: "POST",
         }

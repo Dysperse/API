@@ -48,7 +48,7 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
             name: values.title,
             quantity: values.quantity,
             category: JSON.stringify(values.categories),
-          }),
+          }).toString(),
         {
           method: "POST",
         }

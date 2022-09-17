@@ -63,7 +63,7 @@ function Room({
                   id: room.id,
                   property: global.property.propertyId,
                   accessToken: global.property.accessToken,
-                }),
+                }).toString(),
               {
                 method: "POST",
               }
@@ -77,7 +77,7 @@ function Room({
                     new URLSearchParams({
                       property: global.property.propertyId,
                       accessToken: global.property.accessToken,
-                    })
+                    }).toString()
                 );
               });
           }
@@ -98,7 +98,7 @@ export function RoomList({ color }: any) {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { data } = useSWR(url, () => fetch(url).then((res) => res.json()));
   const [emblaRef] = useEmblaCarousel();
 

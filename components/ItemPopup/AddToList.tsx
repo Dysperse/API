@@ -19,7 +19,7 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
@@ -58,7 +58,7 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
                       parent: list.id,
                       title: title,
                       description: "",
-                    }),
+                    }).toString(),
                   {
                     method: "POST",
                   }

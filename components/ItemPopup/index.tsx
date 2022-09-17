@@ -115,7 +115,7 @@ export default function Item({
           id: item.id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
           starred: item.starred,
-        }),
+        }).toString(),
       {
         method: "POST",
       }
@@ -131,7 +131,7 @@ export default function Item({
           accessToken: global.property.accessToken,
           id: id.toString(),
           lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        }),
+        }).toString(),
       {
         method: "POST",
       }
@@ -161,7 +161,7 @@ export default function Item({
                   accessToken: global.property.accessToken,
                   id: item.id.toString(),
                   lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                }),
+                }).toString(),
               {
                 method: "POST",
               }
@@ -403,7 +403,7 @@ export default function Item({
                             id: id.toString(),
                             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                             note: e.target.value,
-                          }),
+                          }).toString(),
                         {
                           method: "POST",
                         }

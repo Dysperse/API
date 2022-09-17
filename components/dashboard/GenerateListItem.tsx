@@ -39,7 +39,7 @@ export function GenerateListItem({
         accessToken: global.property.accessToken,
         id: id,
         completed: completed ? "false" : "true",
-      });
+      }).toString();
     fetch(url, {
       method: "POST",
     });

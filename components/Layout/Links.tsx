@@ -50,7 +50,7 @@ function CreateRoom({ collapsed }: any) {
             property: global.property.propertyId,
             accessToken: global.property.accessToken,
             name: values.name,
-          }),
+          }).toString(),
         {
           method: "POST",
         }

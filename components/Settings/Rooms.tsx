@@ -35,7 +35,7 @@ function Room({ data }) {
                       id: data.id,
                       property: global.property.propertyId,
                       accessToken: global.property.accessToken,
-                    }),
+                    }).toString(),
                   {
                     method: "POST",
                   }
@@ -64,7 +64,7 @@ export default function Rooms() {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",

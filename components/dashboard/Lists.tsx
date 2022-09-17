@@ -61,7 +61,7 @@ function ListTip({ name, lists, setLists, tip }) {
                 property: global.property.propertyId,
                 name: name,
                 description: "",
-              });
+              }).toString();
             fetch(url, {
               method: "POST",
             })
@@ -105,7 +105,7 @@ function Render({ data }: any) {
           property: global.property.propertyId,
           name: values.name,
           description: values.description,
-        });
+        }).toString();
       fetch(url, {
         method: "POST",
       })
@@ -314,7 +314,7 @@ export function Lists() {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
 
   const { data, error }: any = useSWR(url, () =>
     fetch(url).then((res) => res.json())

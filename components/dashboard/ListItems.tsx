@@ -270,7 +270,7 @@ export function ListItems({
                     property: global.property.propertyId,
                     accessToken: global.property.accessToken,
                     parent: parent.toString(),
-                  }),
+                  }).toString(),
                 {
                   method: "POST",
                 }

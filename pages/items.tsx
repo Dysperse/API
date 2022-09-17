@@ -89,7 +89,7 @@ function CategoryModal({ category }: { category: string }) {
                 property: global.property.propertyId,
                 accessToken: global.property.accessToken,
                 category: category,
-              })
+              }).toString()
           )
             .then((res) => res.json())
             .then((res) => {
@@ -141,7 +141,7 @@ function CategoryList() {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { error, data }: any = useSWR(url, () =>
     fetch(url, { method: "POST" }).then((res) => res.json())
   );
@@ -261,7 +261,7 @@ export default function Categories() {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   /**

@@ -12,7 +12,7 @@ export function updateSettings(
     new URLSearchParams({
       token: global.user.token,
       [key]: value,
-    });
+    }).toString();
   if (property) {
     url =
       "/api/property/updateInfo?" +
@@ -20,7 +20,7 @@ export function updateSettings(
         property: global.property.propertyId,
         accessToken: global.property.accessToken,
         [key]: value,
-      });
+      }).toString();
   }
   let d = fetch(url, {
     method: "POST",

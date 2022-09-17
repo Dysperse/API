@@ -125,7 +125,7 @@ export function CreateItemModal({
             qty: values.quantity,
             category: JSON.stringify(values.categories),
             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-          }),
+          }).toString(),
         {
           method: "POST",
         }
@@ -142,7 +142,7 @@ export function CreateItemModal({
                 property: global.property.propertyId,
                 accessToken: global.property.accessToken,
                 room: room.toString().toLowerCase(),
-              })
+              }).toString()
           );
         });
     },

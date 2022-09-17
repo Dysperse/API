@@ -14,7 +14,7 @@ export default function Maintenance() {
     new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    });
+    }).toString();
   const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
 
   return (

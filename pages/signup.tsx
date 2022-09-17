@@ -38,7 +38,7 @@ export default function Prompt() {
           email: values.email,
           password: values.password,
           confirmPassword: values.confirmPassword,
-        }),
+        }).toString(),
       })
         .then((res) => res.json())
         .then(() => {

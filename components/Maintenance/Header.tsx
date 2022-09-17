@@ -263,7 +263,7 @@ function CreateMaintenanceModal() {
             lastCompleted: new Date().toISOString(),
 
             note: values.note,
-          })
+          }).toString()
       )
         .then((res) => res.json())
         .then(() => {
@@ -274,7 +274,7 @@ function CreateMaintenanceModal() {
               new URLSearchParams({
                 property: global.property.propertyId,
                 accessToken: global.property.accessToken,
-              })
+              }).toString()
           );
         });
     },

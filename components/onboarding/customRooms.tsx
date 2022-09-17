@@ -47,7 +47,7 @@ export function CustomRooms({ houseType }: any) {
               name: newValue.filter(
                 (option) => fixedOptions.indexOf(option) === -1
               ),
-            })
+            }).toString()
         );
       }}
       options={top100Films}
