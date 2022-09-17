@@ -397,6 +397,11 @@ export function SearchPopup() {
   );
 }
 
+/**
+ * Icon function
+ * @param {any} {icon}:{icon:string}
+ * @returns {any}
+ */
 function Icon({ icon }: { icon: string }) {
   return (
     <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>

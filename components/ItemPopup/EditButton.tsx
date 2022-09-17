@@ -22,6 +22,10 @@ import { Puller } from "../Puller";
 export function EditButton({ styles, item, setItemData }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 
+  /**
+   * Description
+   * @returns {any}
+   */
   const handleClickOpen = () => {
     setOpen(true);
   };

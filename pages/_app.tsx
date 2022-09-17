@@ -363,6 +363,10 @@ function Render({
   );
 }
 
+/**
+ * Fetches user session data
+ * @returns {any}
+ */
 function useUser() {
   const url = "/api/user";
   const { data, error } = useSWR(url, () =>

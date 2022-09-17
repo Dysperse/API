@@ -16,7 +16,6 @@ import { Puller } from "../Puller";
 import Link from "@mui/material/Link";
 
 const useStyles = createStyles(() => ({
-  outside: {},
   weekend: {
     color: "inherit !important",
   },
@@ -116,6 +115,12 @@ function CalendarFeedModal(): JSX.Element {
   );
 }
 
+/**
+ * Date calendar component
+ * @param {any} {date
+ * @param {any} formik}:{date:any;formik:any}
+ * @returns {any}
+ */
 function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
   const [open, setOpen] = useState(false);
   const { classes, cx } = useStyles();
@@ -203,6 +208,13 @@ function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
     </>
   );
 }
+
+/**
+ * Select frequency settiong
+ * @param {any} {name
+ * @param {any} formik}:{name:string;formik:any}
+ * @returns {any}
+ */
 function FrequencySetting({ name, formik }: { name: string; formik: any }) {
   return (
     <Button
@@ -242,6 +254,10 @@ function FrequencySetting({ name, formik }: { name: string; formik: any }) {
   );
 }
 
+/**
+ * Create maintenance modal
+ * @returns {any}
+ */
 function CreateMaintenanceModal() {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -392,6 +408,11 @@ function CreateMaintenanceModal() {
   );
 }
 
+/**
+ * Bannner for maintenance, which shows upcoming tasks the current week
+ * @param {any} {count}
+ * @returns {any}
+ */
 export function Header({ count }) {
   return (
     <>

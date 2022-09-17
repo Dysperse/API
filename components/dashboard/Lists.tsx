@@ -88,6 +88,11 @@ function ListTip({ name, lists, setLists, tip }) {
   );
 }
 
+/**
+ * Renders the list data
+ * @param {any} {data}
+ * @returns {any}
+ */
 function Render({ data }: any) {
   const [lists, setLists] = React.useState<any>(data);
   const [open, setOpen] = React.useState<boolean>(false);
@@ -316,6 +321,10 @@ function Render({ data }: any) {
   );
 }
 
+/**
+ * Lists component
+ * @returns {any}
+ */
 export function Lists() {
   const url =
     "/api/property/lists?" +

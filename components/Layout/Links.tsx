@@ -37,6 +37,11 @@ function CreateRoom({ collapsed }: any) {
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
 
+  /**
+   * Toggle the drawer's open state
+   * @param {boolean} newOpen
+   * @returns {any}
+   */
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -326,6 +331,13 @@ const ListItem = React.memo(function ListItem({
   );
 });
 
+/**
+ * List items in drawer
+ * @param collapsed - Is the drawer colapsed
+ * @param setCollapsed - Make the drawer collapsed / uncollapsed
+ * @param customRooms - Custom rooms component
+ * @param maintenance - Maintenance reminder count
+ */
 export function DrawerListItems({
   collapsed,
   setCollapsed,

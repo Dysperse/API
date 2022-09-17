@@ -244,9 +244,19 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
     </>
   );
 }
+
+/**
+ * Swttings drawer component
+ * @param {any} {children} - Children to add in trigger component
+ * @returns {any}
+ */
 export default function FullScreenDialog({ children }: any) {
   const [open, setOpen] = React.useState<boolean>(false);
 
+  /**
+   * Open the settings drawer
+   * @returns {any}
+   */
   const handleClickOpen = () => {
     setOpen(true);
   };

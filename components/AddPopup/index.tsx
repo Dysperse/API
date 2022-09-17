@@ -408,6 +408,11 @@ export default function AddPopup(props: any): JSX.Element {
       );
   }, [open]);
 
+  /**
+   * Toggles the drawer's open state
+   * @param {boolean} newOpen
+   * @returns {any}
+   */
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };

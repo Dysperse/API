@@ -17,6 +17,11 @@ export function isEmail(email: string): boolean {
   return /\S+@\S+\.\S+/.test(email);
 }
 
+/**
+ * Member card
+ * @param {any} {member}
+ * @returns {any}
+ */
 function Member({ member }): any {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -125,6 +130,12 @@ function Member({ member }): any {
     </>
   );
 }
+
+/**
+ * Member list
+ * @param {any} {color}
+ * @returns {any}
+ */
 
 export function MemberList({ color }: any) {
   const url =

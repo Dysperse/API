@@ -7,6 +7,13 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+/**
+ * Share modal
+ * @param styles
+ * @param title
+ * @param quantity
+ * @param room
+ */
 export function ShareModal({
   styles,
   title,

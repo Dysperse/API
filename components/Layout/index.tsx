@@ -37,6 +37,11 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
     mouseY: number;
   } | null>(null);
 
+  /**
+   * Handles right click trigger
+   * @param {React.MouseEvent} event
+   * @returns {any}
+   */
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
     setContextMenu(

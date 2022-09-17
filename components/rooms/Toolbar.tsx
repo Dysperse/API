@@ -21,6 +21,12 @@ import { neutralizeBack, revivalBack } from "../history-control";
 export function Toolbar({ alias, room, items, setItems, data }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  /**
+   * Handles the click for the filter menu
+   * @param {React.MouseEvent<HTMLButtonElement>} event
+   * @returns {any}
+   */
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };

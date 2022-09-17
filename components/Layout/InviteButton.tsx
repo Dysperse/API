@@ -79,6 +79,11 @@ function House({ handleClose, data }: any) {
   );
   const { mutate } = useSWRConfig();
 
+  /**
+   * Description
+   * @param {SelectChangeEvent} event
+   * @returns {any}
+   */
   const handleChange = (event: SelectChangeEvent) => {
     setPropertyType(event.target.value as string);
   };
@@ -508,6 +513,11 @@ export function InviteButton() {
     null
   );
 
+  /**
+   * Description
+   * @param {React.MouseEvent<any>} event
+   * @returns {any}
+   */
   let handleClick = (event: React.MouseEvent<any>) => {
     setAnchorEl(event.currentTarget);
   };

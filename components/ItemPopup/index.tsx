@@ -29,7 +29,12 @@ import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
-
+/**
+ * Item popup
+ * @param {boolean} displayRoom - Display the room name?
+ * @param {any} data - Item data
+ * @param {variant} variant - The variant of the trigger
+ */
 export default function Item({
   displayRoom = false,
   data,
@@ -55,6 +60,11 @@ export default function Item({
     mouseY: number;
   } | null>(null);
 
+  /**
+   * Overrides default context menu and opens the custom one
+   * @param {React.MouseEvent} event
+   * @returns {any}
+   */
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
     setContextMenu(
@@ -101,6 +111,10 @@ export default function Item({
       );
   }, [drawerState, contextMenu]);
 
+  /**
+   * Callback for clicking on the star button
+   * @returns {any}
+   */
   const handleItemStar = () => {
     setItemData({
       ...item,
@@ -122,6 +136,10 @@ export default function Item({
     );
   };
 
+  /**
+   * Callback for deleting an item
+   * @returns {any}
+   */
   const handleItemDelete = () => {
     setDeleted(true);
     fetch(

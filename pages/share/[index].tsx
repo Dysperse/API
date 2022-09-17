@@ -5,6 +5,11 @@ import Typography from "@mui/material/Typography";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
+/**
+ * Query function
+ * @param {any} {query}
+ * @returns {any}
+ */
 function Query({ query }: any) {
   let of = false;
   if (
@@ -33,10 +38,13 @@ function Query({ query }: any) {
   );
 }
 
+/**
+ * Top-level component for the share page
+ * @returns {any}
+ */
 export default function Share() {
   const router = useRouter();
   const query: any = router && router.query.index;
-  
 
   return (
     <>

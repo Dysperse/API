@@ -32,7 +32,14 @@ export function GenerateListItem({
   id: string | number;
 }): JSX.Element {
   const [index, setIndex] = React.useState<number>(1);
-  const deleteItem = (completed: boolean, id: any) => {
+
+/**
+ * Handles an item delete button click trigger
+ * @param {boolean} completed
+ * @param {any} id
+ * @returns {any}
+ */
+ const deleteItem = (completed: boolean, id: any) => {
     const url =
       "/api/property/lists/toggleCompleted?" +
       new URLSearchParams({

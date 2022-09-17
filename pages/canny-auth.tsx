@@ -18,6 +18,12 @@ function getQueryParameterByName(name) {
     return pair[0] === name ? decodeURIComponent(pair[1]) : null;
   }, null);
 }
+
+/**
+ * Renders the data once loaded to redirect to the sso page
+ * @param {any} {data}
+ * @returns {any}
+ */
 function RenderData({ data }) {
   let redirectURL = getQueryParameterByName("redirect");
   let companyID = getQueryParameterByName("companyID");

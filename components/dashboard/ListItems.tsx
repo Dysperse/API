@@ -18,7 +18,6 @@ import { useScreenshot } from "use-react-screenshot";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { CreateListModal } from "./CreateListModal";
 import { GenerateListItem } from "./GenerateListItem";
-// import download from "downloadjs";
 
 /**
  * Description
@@ -53,7 +52,14 @@ function downloadBlob(blob, name = "list.png") {
   // Remove link from body
   document.body.removeChild(link);
 }
-
+/**
+ * Description
+ * @param {any} {screenshotReady} - Is the screenshot ready?
+ * @param data
+ * @param parent
+ * @param emptyImage
+ * @param emptyText
+ */
 function GenerateData({
   screenshotReady,
   data,
@@ -197,6 +203,12 @@ export function ListItems({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [deleted, setDeleted] = React.useState(false);
   const open = Boolean(anchorEl);
+
+  /**
+   * Description
+   * @param {React.MouseEvent<HTMLButtonElement>} event
+   * @returns {any}
+   */
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -215,6 +227,11 @@ export function ListItems({
   const ref: any = createRef();
   const [image, takeScreenshot] = useScreenshot();
   const [screenshotReady, setScreenshotReady] = useState(false);
+
+  /**
+   * Description
+   * @returns {any}
+   */
   const getImage = () => {
     setScreenshotReady(true);
     takeScreenshot(ref.current);

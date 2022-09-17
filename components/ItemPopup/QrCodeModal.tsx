@@ -27,6 +27,10 @@ export function QrCodeModal({ item }: any): JSX.Element {
       })
     );
 
+  /**
+   * Description
+   * @returns {any}
+   */
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -38,6 +42,12 @@ export function QrCodeModal({ item }: any): JSX.Element {
   const handleClose = () => {
     setOpen(false);
   };
+
+  /**
+   * Description
+   * @param {any} event
+   * @returns {any}
+   */
   const stopPropagationForTab = (event: any) => {
     if (event.key !== "Esc") {
       event.stopPropagation();

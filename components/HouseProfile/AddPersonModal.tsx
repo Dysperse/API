@@ -26,6 +26,11 @@ export function AddPersonModal({ color, members }: any) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [permission, setpermission] = React.useState("member");
 
+  /**
+   * Add person modal
+   * @param {SelectChangeEvent} event
+   * @returns {any}
+   */
   const handleChange = (event: SelectChangeEvent) => {
     setpermission(event.target.value as string);
   };

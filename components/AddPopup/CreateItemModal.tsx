@@ -64,6 +64,10 @@ export function CreateItemModal({
 }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
+  /**
+   * Opens the item modal
+   * @returns {any}
+   */
   const handleClickOpen = () => {
     if (global.property.role !== "read-only") {
       setOpen(true);
