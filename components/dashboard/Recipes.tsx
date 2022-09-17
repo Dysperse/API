@@ -28,6 +28,12 @@ export function Recipes() {
       });
   };
 
+  // call `handleClick` on render
+  useEffect(() => {
+    handleClick();
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Box>
       <Box
