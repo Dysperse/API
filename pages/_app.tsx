@@ -364,6 +364,25 @@ function useUser() {
   };
 }
 
+function RenderComponent({
+  Component,
+  pageProps,
+  data,
+}: {
+  Component: any;
+  pageProps: any;
+  data: any;
+}) {
+  global.user = data;
+
+  return (
+    <>
+      <Component {...pageProps} />
+      <Toaster />
+    </>
+  );
+}
+
 function RenderApp({ router, Component, pageProps }: any) {
   const { data, isLoading, isError } = useUser();
   return (
@@ -459,25 +478,6 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
         {/* <Loading /> */}
       </NoSsr>
       <Script src="/prevent-navigate-history.js" />
-    </>
-  );
-}
-
-function RenderComponent({
-  Component,
-  pageProps,
-  data,
-}: {
-  Component: any;
-  pageProps: any;
-  data: any;
-}) {
-  global.user = data;
-
-  return (
-    <>
-      <Component {...pageProps} />
-      <Toaster />
     </>
   );
 }

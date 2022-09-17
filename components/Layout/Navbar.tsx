@@ -11,7 +11,7 @@ import React, { useEffect } from "react";
 import { ProfileMenu } from "../Layout/Profile";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
-import { SearchPopup } from "./SearchPopup";
+import { SearchPopup } from "./Search";
 
 export const getInitials = (fullName) => {
   const allNames = fullName.trim().split(" ");

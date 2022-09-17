@@ -50,7 +50,7 @@ export function CustomRooms({ houseType }: any) {
             }).toString()
         );
       }}
-      options={top100Films}
+      options={[]}
       getOptionLabel={(option: any) => option}
       renderTags={(tagValue, getTagProps) =>
         tagValue.map((option, index) => (
@@ -82,6 +82,3 @@ export function CustomRooms({ houseType }: any) {
     />
   );
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [];

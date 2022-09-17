@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
+import { colors } from "../../../lib/colors";
 import IconButton from "@mui/material/IconButton";
 import LinearProgress from "@mui/material/LinearProgress";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -9,9 +9,20 @@ import { Command } from "cmdk";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import useSWR from "swr";
-import { Puller } from "../Puller";
+import { Puller } from "../../Puller";
 import { useRouter } from "next/router";
-import { updateSettings } from "../Settings/updateSettings";
+import { updateSettings } from "../../Settings/updateSettings";
+
+/**
+ * Settings icon for search popup
+ */
+function SettingsIcon(): JSX.Element {
+  return (
+    <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
+      settings
+    </span>
+  );
+}
 
 /**
  * @param children Children to render
@@ -40,6 +51,145 @@ function Item({
         </div>
       )}
     </Command.Item>
+  );
+}
+function Settings() {
+  return (
+    <>
+      {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
+        (room, index) => (
+          <Item key={index.toString()}>{room}</Item>
+        )
+      )}
+    </>
+  );
+}
+function Home({
+  onLink,
+  searchSettings,
+}: {
+  onLink: (href: string) => any;
+  searchSettings: () => void;
+}) {
+  const { data } = useSWR("/api/rooms", () =>
+    fetch(
+      "/api/property/rooms?" +
+        new URLSearchParams({
+          property: global.property.propertyId,
+          accessToken: global.property.accessToken,
+        }).toString()
+    ).then((res) => res.json())
+  );
+
+  return (
+    <>
+      <LinearProgress
+        variant={data ? "determinate" : "indeterminate"}
+        sx={{
+          mb: 2,
+          mt: 0,
+          height: 2,
+          position: "sticky",
+          top: 0,
+          zIndex: 9999,
+          borderRadius: 5,
+          ...(data && {
+            opacity: 0.3,
+            backdropFilter: "blur(10px)",
+          }),
+        }}
+      />{" "}
+      <Item
+        shortcut="CTRL ,"
+        onSelect={() => {
+          searchSettings();
+        }}
+      >
+        Search Settings...
+        <SettingsIcon />
+      </Item>
+      <Item
+        shortcut="CTRL ,"
+        onSelect={() => {
+          global.setTheme("light");
+          updateSettings("darkMode", "false");
+        }}
+      >
+        Light mode
+        <Icon icon="light_mode" />
+      </Item>
+      <Item
+        shortcut="CTRL ,"
+        onSelect={() => {
+          global.setTheme("dark");
+          updateSettings("darkMode", "true");
+        }}
+      >
+        Dark mode
+        <Icon icon="dark_mode" />
+      </Item>
+      <Item onSelect={() => onLink("/dashboard")}>
+        Dashboard
+        <Icon icon="layers" />
+      </Item>
+      <Item onSelect={() => onLink("/notes")}>
+        Notes
+        <Icon icon="sticky_note_2" />
+      </Item>
+      <Command.Group heading="Rooms">
+        {[
+          { name: "Kitchen", icon: "oven_gen" },
+          { name: "Bedroom", icon: "bedroom_parent" },
+          { name: "Bathroom", icon: "bathroom" },
+          { name: "Garage", icon: "garage" },
+          { name: "Dining room", icon: "local_dining" },
+          { name: "Living room", icon: "living" },
+          { name: "Laundry room", icon: "local_laundry_service" },
+          { name: "Storage room", icon: "inventory_2" },
+          { name: "Garden", icon: "yard" },
+        ].map((room, index) => (
+          <Item
+            onSelect={() => onLink("/rooms/" + room.name.toLowerCase())}
+            key={index.toString()}
+          >
+            {room.name}
+            <Icon icon={room.icon} />
+          </Item>
+        ))}
+        {data && (
+          <Box>
+            {data.map((room, index) => (
+              <Item key={room.name.toLowerCase()}>
+                {room.name}
+                <Icon icon="label" />
+              </Item>
+            ))}
+          </Box>
+        )}
+        <Item onSelect={() => onLink("/starred-items")}>
+          Starred items
+          <Icon icon="star" />
+        </Item>
+        <Item onSelect={() => onLink("/trash")}>
+          Trash
+          <Icon icon="delete" />
+        </Item>
+        <Item
+          onSelect={() =>
+            document.getElementById("setCreateRoomModalOpen")?.click()
+          }
+        >
+          Create room
+          <Icon icon="add" />
+        </Item>
+      </Command.Group>
+      <Command.Group heading="Help">
+        <Item onSelect={() => onLink("mailto:hello@smartlist.tech")}>
+          Support (email)
+          <Icon icon="help" />
+        </Item>
+      </Command.Group>
+    </>
   );
 }
 
@@ -253,158 +403,6 @@ function Icon({ icon }: { icon: string }) {
   return (
     <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
       {icon}
-    </span>
-  );
-}
-
-function Home({
-  onLink,
-  searchSettings,
-}: {
-  onLink: (href: string) => any;
-  searchSettings: () => void;
-}) {
-  const { data } = useSWR("/api/rooms", () =>
-    fetch(
-      "/api/property/rooms?" +
-        new URLSearchParams({
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-        }).toString()
-    ).then((res) => res.json())
-  );
-
-  return (
-    <>
-      <LinearProgress
-        variant={data ? "determinate" : "indeterminate"}
-        sx={{
-          mb: 2,
-          mt: 0,
-          height: 2,
-          position: "sticky",
-          top: 0,
-          zIndex: 9999,
-          borderRadius: 5,
-          ...(data && {
-            opacity: 0.3,
-            backdropFilter: "blur(10px)",
-          }),
-        }}
-      />{" "}
-      <Item
-        shortcut="CTRL ,"
-        onSelect={() => {
-          searchSettings();
-        }}
-      >
-        Search Settings...
-        <SettingsIcon />
-      </Item>
-      <Item
-        shortcut="CTRL ,"
-        onSelect={() => {
-          global.setTheme("light");
-          updateSettings("darkMode", "false");
-        }}
-      >
-        Light mode
-        <Icon icon="light_mode" />
-      </Item>
-      <Item
-        shortcut="CTRL ,"
-        onSelect={() => {
-          global.setTheme("dark");
-          updateSettings("darkMode", "true");
-        }}
-      >
-        Dark mode
-        <Icon icon="dark_mode" />
-      </Item>
-      <Item onSelect={() => onLink("/dashboard")}>
-        Dashboard
-        <Icon icon="layers" />
-      </Item>
-      <Item onSelect={() => onLink("/notes")}>
-        Notes
-        <Icon icon="sticky_note_2" />
-      </Item>
-      <Command.Group heading="Rooms">
-        {[
-          { name: "Kitchen", icon: "oven_gen" },
-          { name: "Bedroom", icon: "bedroom_parent" },
-          { name: "Bathroom", icon: "bathroom" },
-          { name: "Garage", icon: "garage" },
-          { name: "Dining room", icon: "local_dining" },
-          { name: "Living room", icon: "living" },
-          { name: "Laundry room", icon: "local_laundry_service" },
-          { name: "Storage room", icon: "inventory_2" },
-          { name: "Garden", icon: "yard" },
-        ].map((room, index) => (
-          <Item
-            onSelect={() => onLink("/rooms/" + room.name.toLowerCase())}
-            key={index.toString()}
-          >
-            {room.name}
-            <Icon icon={room.icon} />
-          </Item>
-        ))}
-        {data && (
-          <Box>
-            {data.map((room, index) => (
-              <Item key={room.name.toLowerCase()}>
-                {room.name}
-                <Icon icon="label" />
-              </Item>
-            ))}
-          </Box>
-        )}
-        <Item onSelect={() => onLink("/starred-items")}>
-          Starred items
-          <Icon icon="star" />
-        </Item>
-        <Item onSelect={() => onLink("/trash")}>
-          Trash
-          <Icon icon="delete" />
-        </Item>
-        <Item
-          onSelect={() =>
-            document.getElementById("setCreateRoomModalOpen")?.click()
-          }
-        >
-          Create room
-          <Icon icon="add" />
-        </Item>
-      </Command.Group>
-      <Command.Group heading="Help">
-        <Item onSelect={() => onLink("mailto:hello@smartlist.tech")}>
-          Support (email)
-          <Icon icon="help" />
-        </Item>
-      </Command.Group>
-    </>
-  );
-}
-
-function Settings() {
-  return (
-    <>
-      {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
-        (room, index) => (
-          <Item key={index.toString()}>{room}</Item>
-        )
-      )}
-    </>
-  );
-}
-
-/**
- * Settings icon for search popup
- */
-function SettingsIcon(): JSX.Element {
-  return (
-    <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
-      settings
     </span>
   );
 }
