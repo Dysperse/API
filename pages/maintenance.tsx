@@ -8,6 +8,7 @@ import { ErrorHandler } from "../components/ErrorHandler";
 import { Reminder } from "../components/Maintenance/Reminder";
 import { Header } from "../components/Maintenance/Header";
 import type { Reminder as ReminderType } from "../types/maintenance";
+
 /**
  * Top-level component for the maintenance page
  */
@@ -18,7 +19,7 @@ export default function Maintenance() {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
     }).toString();
-  alert(url);
+
   const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
 
   return (
