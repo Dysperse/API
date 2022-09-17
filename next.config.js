@@ -1,8 +1,8 @@
 /**
  * @type {import('next').NextConfig}
  */
-import withPlugins from "next-compose-plugins";
-import withPWA from "next-pwa";
+const withPlugins = require("next-compose-plugins");
+const withPWA = require("next-pwa");
 
 module.exports = withPlugins(
   [
