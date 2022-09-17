@@ -37,7 +37,7 @@ export default function Prompt() {
           email: values.email,
           password: values.password,
           twoFactorCode: values.twoFactorCode,
-        }).toString(),
+        }),
       })
         .then((res) => res.json())
         .then((res) => {
