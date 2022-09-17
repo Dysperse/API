@@ -529,7 +529,7 @@ export default function Notes(): JSX.Element {
           ))}
           {data.length === 0 && (
             <>
-              {[...Array(10)].map((_, key) => (
+              {[...new Array(10)].map((_, key) => (
                 <Skeleton
                   key={key}
                   animation={false}
@@ -546,7 +546,7 @@ export default function Notes(): JSX.Element {
         </Masonry>
       ) : (
         <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
-          {[...Array(10)].map((_, key) => (
+          {[...new Array(10)].map((_, key) => (
             <Skeleton
               key={key}
               animation={false}

@@ -60,7 +60,7 @@ function Loading(): JSX.Element {
             sx={{ width: { xs: 130, sm: 200 }, maxWidth: "100%" }}
           />
           <Box sx={{ ml: "auto", display: "flex", gap: 1.5 }}>
-            {[...Array(3)].map((_, i) => (
+            {[...new Array(3)].map((_, i) => (
               <Skeleton
                 variant="circular"
                 animation="wave"
@@ -88,7 +88,7 @@ function Loading(): JSX.Element {
               animation="wave"
               sx={{ mb: 3, borderRadius: 5, height: 50, width: "60%" }}
             />
-            {[...Array(15)].map((_, i) => (
+            {[...new Array(15)].map((_, i) => (
               <Skeleton
                 variant="rectangular"
                 animation="wave"
@@ -101,7 +101,7 @@ function Loading(): JSX.Element {
         <Grid item xs={12} sm={10} xl={9}>
           <Container sx={{ mt: 5 }}>
             <Grid container spacing={2.2}>
-              {[...Array(10)].map((_, i) => (
+              {[...new Array(10)].map((_, i) => (
                 <Grid item key={i.toString()} xs={12} sm={6} xl={4}>
                   <Skeleton
                     variant="rectangular"

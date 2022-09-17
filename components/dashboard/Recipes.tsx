@@ -66,8 +66,8 @@ export function Recipes() {
         columns={{ xs: 1, sm: 3 }}
         spacing={{ xs: 0, sm: 1 }}
       >
-        {recipes.map((recipe: Meal, id: number) => (
-          <Recipe recipe={recipe} key={id} />
+        {recipes.map((recipe: Meal) => (
+          <Recipe recipe={recipe} key={recipe.strMeal} />
         ))}
       </Masonry>
     </Box>
