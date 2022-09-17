@@ -25,7 +25,7 @@ export function GenerateListItem({
   items: Array<any>;
   completed: boolean;
   pinned: boolean;
-  setItems: Function;
+  setItems: (items: Array<any>) => void;
   title: string | JSX.Element;
   description: string | JSX.Element;
   id: string | number;

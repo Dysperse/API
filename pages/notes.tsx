@@ -26,7 +26,7 @@ import { colors } from "../lib/colors";
  * @param formik Formik instance
  * @returns JSX.Element
  */
-function ColorModal({ formik }): JSX.Element {
+function ColorModal({ formik }):JSX.Element {
   const [open, setOpen] = useState(false);
   return (
     <>
