@@ -121,7 +121,7 @@ export default function Prompt() {
                 display: "flex",
                 justifyContent: "center",
                 "& *::selection": {
-                  background: colors.brown[900] + "!important",
+                  background: `${colors.brown[900]} !important`,
                   color: "#fff!important",
                 },
                 "& input": {

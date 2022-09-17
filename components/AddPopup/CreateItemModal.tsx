@@ -89,7 +89,8 @@ export function CreateItemModal({
   });
   React.useEffect(() => {
     document
-      .querySelector(`meta[name="theme-color"]`)?.setAttribute(
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute(
         "content",
         open
           ? global.theme === "dark"
@@ -227,7 +228,7 @@ export function CreateItemModal({
                 color: global.theme == "dark" ? "#fff" : "#000",
                 transition: "none",
                 "&:active": {
-                  background: colors[themeColor][100] + "!important",
+                  background: `${colors[themeColor][100]}!important`,
                 },
               }}
               disableRipple
@@ -247,7 +248,7 @@ export function CreateItemModal({
                 color: global.theme == "dark" ? "#fff" : "#000",
                 transition: "none",
                 "&:active": {
-                  background: colors[themeColor][100] + "!important",
+                  background: `${colors.brown[100]} !important`,
                 },
               }}
               disableRipple

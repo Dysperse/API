@@ -65,7 +65,8 @@ export default function Prompt() {
   // };
 
   document
-    .querySelector(`meta[name="theme-color"]`)?.setAttribute("content", "#6b4b4b");
+    .querySelector(`meta[name="theme-color"]`)
+    ?.setAttribute("content", "#6b4b4b");
 
   return (
     <Layout>
@@ -125,7 +126,7 @@ export default function Prompt() {
                 display: "flex",
                 justifyContent: "center",
                 "& *::selection": {
-                  background: colors.brown[900] + "!important",
+                  background: `${colors.brown[900]} !important`,
                   color: "#fff!important",
                 },
                 "& input": {
