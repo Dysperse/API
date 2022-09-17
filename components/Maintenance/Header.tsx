@@ -14,7 +14,8 @@ import { useState } from "react";
 import { mutate } from "swr";
 import { Puller } from "../Puller";
 import Link from "@mui/material/Link";
-const useStyles = createStyles((theme) => ({
+
+const useStyles = createStyles(() => ({
   outside: {},
   weekend: {
     color: "inherit !important",
@@ -265,7 +266,7 @@ function CreateMaintenanceModal() {
           })
       )
         .then((res) => res.json())
-        .then((data) => {
+        .then(() => {
           setLoading(false);
           setOpen(false);
           mutate(

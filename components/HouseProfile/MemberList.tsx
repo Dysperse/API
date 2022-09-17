@@ -109,7 +109,7 @@ function Member({ member }): any {
                   {
                     method: "POST",
                   }
-                ).then((res: any) => {
+                ).then(() => {
                   toast.success("Removed person from your home");
                   setLoading(false);
                   setDeleted(true);
@@ -132,7 +132,7 @@ export function MemberList({ color }: any) {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
-  const { data, error } = useSWR(url, () =>
+  const { data } = useSWR(url, () =>
     fetch(url, {
       method: "POST",
     }).then((res) => res.json())
