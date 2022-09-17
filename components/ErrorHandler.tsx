@@ -3,9 +3,8 @@ import { red } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 
 /**
- * @error Error text
- * @param {Object} props Props
- * @returns {JSX.Element} JSX
+ * @param {string} error Error text
+ * @returns {JSX.Element} JSX element
  */
 export function ErrorHandler({ error }: { error: string }): JSX.Element {
   /**
