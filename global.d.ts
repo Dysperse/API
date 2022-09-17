@@ -1,13 +1,14 @@
-import type { Account } from "../../types/account";
-
+import type { User } from "../../types/session";
+import type { Color } from "../../types/color";
 export {};
 
 declare global {
   var theme: string;
-  var setTheme: any;
+  var setTheme: Function;
   var themeColor: any;
-  var setThemeColor: any;
+  var setThemeColor: Color;
   var OneSignal: any;
 
-  var session: Account | any;
+  var user: User;
+  var property: Property;
 }

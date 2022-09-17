@@ -119,7 +119,7 @@ function CalendarFeedModal(): JSX.Element {
 /**
  * Date calendar component
  * @param {any} {date
- * @param {any} formik}:{date:any;formik:any}
+ * @param {any} formik}
  * @returns {any}
  */
 function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
@@ -213,7 +213,7 @@ function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
 /**
  * Select frequency settiong
  * @param {any} {name
- * @param {any} formik}:{name:string;formik:any}
+ * @param {any} formik}
  * @returns {any}
  */
 function FrequencySetting({ name, formik }: { name: string; formik: any }) {

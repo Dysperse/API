@@ -16,7 +16,7 @@ import useSWR from "swr";
 /**
  * Description
  * @param {any} {title
- * @param {any} handleClose}:{title:string;handleClose:any}
+ * @param {any} handleClose}
  * @returns {any}
  */
 function RoomList({ title, handleClose }: { title: string; handleClose: any }) {

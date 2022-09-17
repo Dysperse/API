@@ -18,7 +18,6 @@ model User {
   onboardingComplete Boolean          @default(false)
   verifiedEmail      Boolean          @default(false)
   twoFactorSecret    String           @default("")
-  // List of active properties and sessions
   properties         PropertyInvite[]
   sessions           Session[]
 }
@@ -32,68 +31,54 @@ model Session {
 }
 
 model Property {
-  id      String           @id @default(uuid())
-  // Member list
-  members PropertyInvite[]
-
-  // Property features which are synced
+  id                   String                @id @default(uuid())
+  name                 String                @default("My Property")
+  type                 String                @default("apartment")
+  color                String                @default("cyan")
   customRooms          CustomRoom[]
   inventory            Item[]
   lists                List[]
   maintenanceReminders MaintenanceReminder[]
   notes                Note[]
-
-  // Information about the property
-  name  String @default("My Property")
-  type  String @default("apartment")
-  color String @default("cyan")
+  members              PropertyInvite[]
 }
 
 model PropertyInvite {
-  id Int @id @unique @default(autoincrement())
-
-  // This is the user that is invited to the property
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-
-  // This is the property's profile id, containing the property's name, address, etc.
-  profile     Property @relation(fields: [propertyId], references: [id])
+  id          Int      @id @unique @default(autoincrement())
+  userId      Int
   propertyId  String
+  selected    Boolean  @default(false)
+  permission  String   @default("read-only")
   accessToken String   @unique @default(uuid())
+  accepted    Boolean  @default(false)
+  profile     Property @relation(fields: [propertyId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
 
-  // Is this property currently selected?
-  selected Boolean @default(false)
-
-  // Has the user accepted the invite?
-  accepted Boolean @default(false)
-
-  // What is the user's role in this property?
-  permission String @default("read-only") // read-only, member, admin
+  @@index([propertyId], map: "PropertyInvite_propertyId_fkey")
+  @@index([userId], map: "PropertyInvite_userId_fkey")
 }
 
-// -------------------------------------------------
-
 model CustomRoom {
-  id     String  @id @default(uuid())
-  name   String
-  pinned Boolean @default(false)
-
-  // Property this room belongs to
-  property   Property @relation(fields: [propertyId], references: [id])
+  id         String   @id @default(uuid())
+  name       String
+  pinned     Boolean  @default(false)
   propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId], map: "CustomRoom_propertyId_fkey")
 }
 
 model Note {
   id          String   @id @default(uuid())
   name        String
-  content     String
   pinned      Boolean  @default(false)
+  propertyId  String
+  content     String
   lastUpdated DateTime @default(now())
   color       String   @default("orange")
+  property    Property @relation(fields: [propertyId], references: [id])
 
-  // Property this room belongs to
-  property   Property @relation(fields: [propertyId], references: [id])
-  propertyId String
+  @@index([propertyId], map: "Note_propertyId_fkey")
 }
 
 model Item {
@@ -104,23 +89,23 @@ model Item {
   lastModified DateTime
   starred      Boolean  @default(false)
   category     String   @default("[]")
-  trash        Boolean  @default(false)
   room         String   @default("kitchen")
+  propertyId   String
+  trash        Boolean  @default(false)
+  property     Property @relation(fields: [propertyId], references: [id])
 
-  // Property this room belongs to
-  property   Property @relation(fields: [propertyId], references: [id])
-  propertyId String
+  @@index([propertyId], map: "Item_propertyId_fkey")
 }
 
 model List {
   id          Int        @id @default(autoincrement())
   name        String
   description String
+  propertyId  String
+  property    Property   @relation(fields: [propertyId], references: [id])
   items       ListItem[]
 
-  // Property this room belongs to
-  property   Property @relation(fields: [propertyId], references: [id])
-  propertyId String
+  @@index([propertyId], map: "List_propertyId_fkey")
 }
 
 model ListItem {
@@ -131,17 +116,19 @@ model ListItem {
   completed Boolean @default(false)
   listId    Int
   list      List    @relation(fields: [listId], references: [id])
+
+  @@index([listId], map: "ListItem_listId_fkey")
 }
 
 model MaintenanceReminder {
-  id        Int      @id @default(autoincrement())
-  name      String   @default("Maintenance Reminder")
-  note      String
-  frequency String   @default("monthly")
-  lastDone  DateTime @default(now())
-  nextDue   DateTime @default(now())
-
-  // Property this room belongs to
-  property   Property @relation(fields: [propertyId], references: [id])
+  id         Int      @id @default(autoincrement())
+  name       String   @default("Maintenance Reminder")
+  note       String
+  frequency  String   @default("monthly")
+  lastDone   DateTime @default(now())
+  nextDue    DateTime @default(now())
   propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId], map: "MaintenanceReminder_propertyId_fkey")
 }
