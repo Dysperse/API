@@ -429,8 +429,8 @@ export function Header({ count }) {
               " 100%)",
             color:
               colors.green[!global.user.darkMode ? 900 : 100] + "!important",
-            height: "320px",
-            pb: { xs: 4, sm: 0 },
+            height: { xs: "300px", sm: "320px" },
+            pb: { xs: 2, sm: 0 },
             borderRadius: { sm: 10 },
             flexDirection: "column",
             display: "flex",
