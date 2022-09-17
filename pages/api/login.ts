@@ -2,7 +2,7 @@ import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../lib/client";
 import argon2 from "argon2";
-import twofactor from "node-2fa";
+const twofactor = require("node-2fa");
 
 export async function createSession(id: number, res) {
   // Create a session token in the session table
