@@ -33,19 +33,19 @@ export function GenerateListItem({
 }): JSX.Element {
   const [index, setIndex] = React.useState<number>(1);
 
-/**
- * Handles an item delete button click trigger
- * @param {boolean} completed
- * @param {any} id
- * @returns {any}
- */
- const deleteItem = (completed: boolean, id: number) => {
+  /**
+   * Handles an item delete button click trigger
+   * @param {boolean} completed
+   * @param {any} id
+   * @returns {any}
+   */
+  const deleteItem = (completed: boolean, id: number) => {
     const url =
       "/api/property/lists/toggleCompleted?" +
       new URLSearchParams({
         property: global.property.propertyId,
         accessToken: global.property.accessToken,
-        id: id,
+        id: id.toString(),
         completed: completed === true ? "false" : "true",
       }).toString();
     fetch(url, {
@@ -123,7 +123,7 @@ export function GenerateListItem({
               }}
               onClick={() => {
                 if (global.property.role !== "read-only") {
-                  deleteItem(completed, id);
+                  deleteItem(completed, parseInt(id, 10));
                   setItems(
                     items.map((item: any) => {
                       if (item.id === id) {
