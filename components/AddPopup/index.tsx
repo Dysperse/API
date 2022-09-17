@@ -12,6 +12,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { styled } from "@mui/material/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
+import type { Room } from "../../types/room";
 import React, { useEffect } from "react";
 import useSWR from "swr";
 import { colors } from "../../lib/colors";
@@ -135,7 +136,7 @@ function MoreRooms(): JSX.Element {
     }).toString();
   const [open, setOpen] = React.useState<boolean>(false);
 
-  const { error, data }: any = useSWR(url, () =>
+  const { error, data } = useSWR<Room[]>(url, () =>
     fetch(url, {
       method: "POST",
     }).then((res) => res.json())
@@ -219,11 +220,11 @@ function MoreRooms(): JSX.Element {
                 title="Garden"
                 icon={<span className="material-symbols-rounded">yard</span>}
               />
-              {data.map((room: any, key: any) => (
+              {data.map((room: Room) => (
                 <AddItemOption
                   toggleDrawer={() => {}}
-                  title={room.id}
-                  key={key}
+                  title={room.id.toString()}
+                  key={room.id.toString()}
                   alias={room.name}
                   icon={<span className="material-symbols-rounded">label</span>}
                 />
