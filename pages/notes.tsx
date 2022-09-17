@@ -460,7 +460,11 @@ function Note({ url, note }) {
   );
 }
 
-export default function Notes() {
+/**
+ * Notes page component
+ * @returns JSX.Element
+ */
+export default function Notes():JSX.Element {
   const url =
     "/api/property/notes?" +
     new URLSearchParams({
