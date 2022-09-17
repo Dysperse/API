@@ -56,7 +56,8 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
   const handleClose = () => {
     setContextMenu(null);
   };
-  const asHref = "/rooms/" + encode(room.id + "," + room.name) + "?custom=true";
+  const asHref = `/rooms/${encode(room.id + "," + room.name)}?custom=true`;
+  
   return deleted ? null : (
     <>
       <Menu

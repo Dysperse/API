@@ -116,16 +116,15 @@ export function CreateItemModal({
     }) => {
       setLoading(true);
       fetch(
-        "/api/property/inventory/create?" +
-          new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            room: room.toString().toLowerCase(),
-            name: values.title,
-            qty: values.quantity,
-            category: JSON.stringify(values.categories),
-            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-          }).toString(),
+        `/api/property/inventory/create?${new URLSearchParams({
+          property: global.property.propertyId,
+          accessToken: global.property.accessToken,
+          room: room.toString().toLowerCase(),
+          name: values.title,
+          qty: values.quantity,
+          category: JSON.stringify(values.categories),
+          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        }).toString()}`,
         {
           method: "POST",
         }
