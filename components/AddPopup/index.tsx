@@ -39,6 +39,11 @@ function AddItemOption({
   icon: JSX.Element | string;
   title: any;
 }): JSX.Element {
+  /** 
+   * Handle drawer close
+   */
+  const handleDrawerClose = () => toggleDrawer(false)
+  
   return (
     <Grid item xs={12} sm={4}>
       <CreateItemModal room={title} alias={alias} toggleDrawer={toggleDrawer}>
@@ -59,7 +64,7 @@ function AddItemOption({
         >
           <CardActionArea
             disableRipple
-            onClick={() => toggleDrawer(false)}
+            onClick={handleDrawerClose}
             sx={{
               px: {
                 xs: 3,

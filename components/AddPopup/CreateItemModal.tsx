@@ -19,7 +19,12 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
 
-function shuffle(array: Array<any>) {
+function shuffle(
+  array: Array<{
+    name: string;
+    icon: string;
+  }>
+) {
   let currentIndex = array.length,
     randomIndex;
 
@@ -152,6 +157,21 @@ export function CreateItemModal({
   const [filteredCards, setFilteredCards] =
     React.useState<Array<any>>(originalCards);
 
+  /**
+   * Handle submit click
+   */
+  const clickSubmitItem = () => document.getElementById("submitItem")?.click();
+
+  /**
+   * Set field values
+   * @param item Item data
+   */
+  const setFieldValues = (item) => {
+    formik.setFieldValue("title", item.name);
+    formik.setFieldValue("categories", item.tags);
+    formik.setFieldValue("quantity", 1);
+  };
+
   return (
     <>
       <Box onClick={handleClickOpen}>{children}</Box>
@@ -224,7 +244,7 @@ export function CreateItemModal({
             </Typography>
             <IconButton
               size="large"
-              onClick={() => document.getElementById("submitItem")?.click()}
+              onClick={clickSubmitItem}
               sx={{
                 ml: "auto",
                 opacity: { sm: "0" },
@@ -288,11 +308,8 @@ export function CreateItemModal({
               {filteredCards.map((item) => (
                 <Box
                   key={item.name.toString()}
-                  onClick={() => {
-                    formik.setFieldValue("title", item.name);
-                    formik.setFieldValue("categories", item.tags);
-                    formik.setFieldValue("quantity", 1);
-                  }}
+                  onClick={() => setFieldValues(item)}
+                  component="div"
                   sx={{
                     userSelect: "none",
                     display: "inline-block",
