@@ -21,12 +21,15 @@ import { ErrorHandler } from "../ErrorHandler";
 import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
+import type { Room } from "../../types/room";
 
 const drawerWidth = 260;
-interface Room {
-  name: string;
-  id: number;
-}
+
+/**
+ * @description Custom room link
+ * @param collapsed Boolean, whether the drawer is collapsed or not
+ * @param index String, the room name
+ */
 function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [contextMenu, setContextMenu] = React.useState<{
@@ -238,8 +241,8 @@ function CustomRooms({ collapsed }: any) {
 
   return (
     <>
-      {data.map((room: Room, id: number) => (
-        <CustomRoom collapsed={collapsed} room={room} key={id.toString()} />
+      {data.map((room: Room) => (
+        <CustomRoom collapsed={collapsed} room={room} key={room.name} />
       ))}
     </>
   );
