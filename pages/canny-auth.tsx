@@ -9,8 +9,8 @@ import Head from "next/head";
  * @param name - Name of query parameter
  */
 function getQueryParameterByName(name) {
-  let pairStrings = window.location.search.slice(1).split("&");
-  let pairs: any = pairStrings.map(function (pair) {
+  const pairStrings = window.location.search.slice(1).split("&");
+  const pairs: any = pairStrings.map(function (pair) {
     return pair.split("=");
   });
   return pairs.reduce(function (value, pair) {
@@ -25,8 +25,8 @@ function getQueryParameterByName(name) {
  * @returns {any}
  */
 function RenderData({ data }) {
-  let redirectURL = getQueryParameterByName("redirect");
-  let companyID = getQueryParameterByName("companyID");
+  const redirectURL = getQueryParameterByName("redirect");
+  const companyID = getQueryParameterByName("companyID");
   if (redirectURL.indexOf("https://") !== 0 || !companyID) {
     return null;
   }

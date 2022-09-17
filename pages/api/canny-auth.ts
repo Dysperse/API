@@ -25,7 +25,7 @@ const PrivateKey = process.env.CANNY_AUTH_PRIVATE_KEY;
  * @returns {any}
  */
 function createCannyToken(user) {
-  let userData = {
+  const userData = {
     avatarURL: user.avatarURL, // optional, but preferred
     email: user.email,
     id: user.id,

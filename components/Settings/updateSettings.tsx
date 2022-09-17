@@ -32,7 +32,7 @@ export function updateSettings(
         [key]: value,
       }).toString();
   }
-  let d = fetch(url, {
+  const d = fetch(url, {
     method: "POST",
   })
     .then((res) => res.json())

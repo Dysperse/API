@@ -31,7 +31,7 @@ export async function createSession(id: number, res) {
     },
     process.env.SECRET_COOKIE_PASSWORD
   );
-  let now = new Date();
+  const now = new Date();
   now.setDate(now.getDate() * 7 * 4);
   res.setHeader(
     "Set-Cookie",
