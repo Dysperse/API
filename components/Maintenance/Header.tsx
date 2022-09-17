@@ -444,7 +444,15 @@ export function Header({ count }) {
           <Typography variant="h6">Upcoming tasks this week</Typography>
         </Box>
       </Box>
-      <Box sx={{ px: 5, textAlign: { xs: "center", sm: "right" } }}>
+      <Box
+        sx={{
+          px: { xs: 1, sm: 5 },
+          textAlign: { xs: "center", sm: "right" },
+
+          display: { xs: "flex", sm: "block" },
+          gap: 2,
+        }}
+      >
         <CalendarFeedModal />
         <CreateMaintenanceModal />
       </Box>
