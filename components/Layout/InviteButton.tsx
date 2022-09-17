@@ -321,14 +321,7 @@ function House({ handleClose, data }: any) {
                     <MenuItem
                       onClick={() => {
                         setPropertyType("apartment");
-                        updateSettings(
-                          "type",
-                          propertyType,
-                          false,
-                          null,
-                          true,
-                          false
-                        );
+                        updateSettings("type", propertyType, false, null, true);
                       }}
                       value={"apartment"}
                       sx={{ display: "flex", alignItems: "center" }}
@@ -348,14 +341,7 @@ function House({ handleClose, data }: any) {
                     <MenuItem
                       onClick={() => {
                         setPropertyType("home");
-                        updateSettings(
-                          "type",
-                          propertyType,
-                          false,
-                          null,
-                          true,
-                          false
-                        );
+                        updateSettings("type", propertyType, false, null, true);
                       }}
                       value={"home"}
                       sx={{ display: "flex", alignItems: "center" }}
@@ -397,14 +383,7 @@ function House({ handleClose, data }: any) {
                   label="Home name / Family name / Address"
                   placeholder="1234 Rainbow Road"
                   onBlur={(e: any) => {
-                    updateSettings(
-                      "name",
-                      e.target.value,
-                      false,
-                      null,
-                      true,
-                      false
-                    );
+                    updateSettings("name", e.target.value, false, null, true);
                   }}
                 />
                 <Box sx={{ mt: 2, overflowX: "scroll", whiteSpace: "nowrap" }}>
