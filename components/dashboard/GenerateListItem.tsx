@@ -179,7 +179,7 @@ export function GenerateListItem({
               ) : null
             }
           />
-          {pinned === "true" && (
+          {pinned && (
             <ListItemIcon sx={{ ml: -1 }}>
               <IconButton
                 disableRipple
