@@ -113,7 +113,6 @@ function Products() {
               },
           }}
           expanded={expanded === category.key}
-          // onChange={handleChange(category.key)}
           onMouseOver={() => handleChange(category.key)}
           onClick={() => category.href !== "" && window.open(category.href)}
           onFocus={() => handleChange(category.key)}
