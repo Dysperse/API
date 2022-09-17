@@ -1,5 +1,8 @@
 import Box from "@mui/material/Box";
 
+/**
+ * Top-level component for the notification settings page.
+ */
 export default function Notifications() {
   return (
     <Box

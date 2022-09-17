@@ -4,6 +4,9 @@ import ListItemText from "@mui/material/ListItemText";
 import TextField from "@mui/material/TextField";
 import { updateSettings } from "./updateSettings";
 
+/**
+ * Top-level component for the account settings page.
+ */
 export default function AppearanceSettings() {
   return (
     <>

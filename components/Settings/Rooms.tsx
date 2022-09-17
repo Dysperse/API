@@ -6,6 +6,10 @@ import React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 
+/**
+ * Component for a room card
+ * @param {string} data - Room data, including name and ID
+ */
 function Room({ data }) {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   return deleted ? null : (
@@ -57,7 +61,9 @@ function Room({ data }) {
     </ListItem>
   );
 }
-
+/**
+ * Top-level component for the room settings page.
+ */
 export default function Rooms() {
   const url =
     "/api/property/rooms?" +

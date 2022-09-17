@@ -25,6 +25,9 @@ import AppearanceSettings from "./AppearanceSettings";
 import Notifications from "./Notifications";
 import TwoFactorAuth from "./TwoFactorAuth";
 
+/**
+ * Logout modal
+ */
 function Logout() {
   const [open, setOpen] = useState<boolean>(false);
   return (
@@ -116,6 +119,13 @@ function Logout() {
   );
 }
 
+/**
+ * Top-level component for the settings page.
+ * @param content content
+ * @param icon Icon
+ * @param primary Settings option heading
+ * @param secondary Secondary text for the settings option
+ */
 function SettingsMenu({ content, icon, primary, secondary }: any) {
   const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {

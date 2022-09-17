@@ -7,6 +7,9 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import { updateSettings } from "./updateSettings";
 
+/**
+ * Function to change theme color (Not dark mode!)
+ */
 function ThemeColorSettings() {
   return (
     <Box sx={{ my: 4 }}>
@@ -56,6 +59,9 @@ function ThemeColorSettings() {
   );
 }
 
+/**
+ * Top-level component for the appearance settings page.
+ */
 export default function AppearanceSettings() {
   return (
     <>

@@ -9,6 +9,9 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
 
+/**
+ * Top-level component for the two-factor authentication settings page.
+ */
 export default function App() {
   const secret = twofactor.generateSecret({
     name: "Carbon",

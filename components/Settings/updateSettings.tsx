@@ -1,5 +1,15 @@
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+
+/**
+ * Function to update a user's setting and save it to the database.
+ * @param key - The key of the setting to update.
+ * @param value - The value of the setting to update.
+ * @param debug - Show the result of the save
+ * @param callback - Callback function to run after the setting is saved.
+ * @param property - Update property settings, or user settings?
+ * @returns Object
+ */
 export function updateSettings(
   key: string,
   value: string,

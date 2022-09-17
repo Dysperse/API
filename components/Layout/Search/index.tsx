@@ -246,6 +246,9 @@ export function SearchPopup() {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
+  /**
+   * Function to pop a page
+   */
   const popPage = React.useCallback(() => {
     setPages((pages) => {
       const x = [...pages];
@@ -253,18 +256,6 @@ export function SearchPopup() {
       return x;
     });
   }, []);
-
-  function bounce() {
-    if (ref.current) {
-      ref.current.style.transform = "scale(0.96)";
-      setTimeout(() => {
-        if (ref.current) {
-          ref.current.style.transform = "";
-          setInputValue("");
-        }
-      }, 100);
-    }
-  }
 
   return (
     <Box
@@ -334,10 +325,6 @@ export function SearchPopup() {
           <Command
             ref={ref}
             onKeyDown={(e: React.KeyboardEvent) => {
-              if (e.key === "Enter") {
-                bounce();
-              }
-
               if (isHome || inputValue.length) {
                 return;
               }
@@ -345,7 +332,6 @@ export function SearchPopup() {
               if (e.key === "Backspace") {
                 e.preventDefault();
                 popPage();
-                bounce();
               }
             }}
           >
