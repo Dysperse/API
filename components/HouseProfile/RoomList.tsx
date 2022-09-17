@@ -7,7 +7,19 @@ import toast from "react-hot-toast";
 import useSWR, { mutate } from "swr";
 import { colors } from "../../lib/colors";
 
-function Room({ room }: any) {
+/**
+ * Room card
+ * @param room Room details
+ * @returns JSX.Element
+ */
+function Room({
+  room,
+}: {
+  room: {
+    name: string;
+    id: string;
+  };
+}): JSX.Element {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   return deleted ? (
     <>This room has been deleted</>
@@ -74,6 +86,10 @@ function Room({ room }: any) {
     </>
   );
 }
+/**
+ * Room list popup found in house profile
+ * @param color Theme color of home
+ */
 export function RoomList({ color }: any) {
   const url =
     "/api/property/rooms?" +
