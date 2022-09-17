@@ -97,7 +97,7 @@ function CategoryModal({ category }: { category: string }) {
               setOpen(true);
               setLoading(false);
             })
-            .catch((err) => {
+            .catch(() => {
               alert("An error occured while trying to fetch your inventory");
               setLoading(false);
             });
@@ -264,9 +264,10 @@ export default function Categories() {
     });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -279,6 +280,9 @@ export default function Categories() {
 
   return (
     <>
+      {error && (
+        <ErrorHandler error="An error occured while trying to fetch your items" />
+      )}
       <FloatingActionButton />
       <Menu
         id="basic-menu"

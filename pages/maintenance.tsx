@@ -8,7 +8,7 @@ import { ErrorHandler } from "../components/ErrorHandler";
 import { Reminder } from "../components/Maintenance/Reminder";
 import { Header } from "../components/Maintenance/Header";
 
-export default function Maintenance(req, res) {
+export default function Maintenance() {
   const url =
     "/api/property/maintenance/reminders?" +
     new URLSearchParams({

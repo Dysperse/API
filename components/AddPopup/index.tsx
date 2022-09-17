@@ -3,8 +3,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import { colors } from "../../lib/colors";
-import hexToRgba from "hex-to-rgba";
 import CssBaseline from "@mui/material/CssBaseline";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
@@ -16,6 +14,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import useSWR from "swr";
+import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";
@@ -26,22 +25,33 @@ const Root = styled("div")(() => ({
   height: "100%",
 }));
 
+/**
+ * Item popup option
+ * @param alias Room alias to replace room title
+ * @param toggleDrawer Function to toggle drawer
+ * @param icon Icon to display in drawer
+ * @param title Title to display in drawer
+ * @returns JSX.Element
+ */
 function AddItemOption({
   alias,
-  s = 4,
   toggleDrawer,
   icon,
   title,
 }: {
   alias?: string;
-  s?: number;
-  toggleDrawer: any;
-  icon: JSX.Element | String;
-  title: any;
+  toggleDrawer: (toggle: boolean) => void;
+  icon: JSX.Element | string;
+  title: JSX.Element | string;
 }): JSX.Element {
+  /**
+   * Handle drawer close
+   */
+  const handleDrawerClose = () => toggleDrawer(false);
+
   return (
     <Grid item xs={12} sm={4}>
-      <CreateItemModal room={title} alias={alias} toggleDrawer={toggleDrawer}>
+      <CreateItemModal room={title} alias={alias}>
         <Card
           sx={{
             textAlign: {
@@ -59,7 +69,7 @@ function AddItemOption({
         >
           <CardActionArea
             disableRipple
-            onClick={() => toggleDrawer(false)}
+            onClick={handleDrawerClose}
             sx={{
               px: {
                 xs: 3,
@@ -112,6 +122,10 @@ function AddItemOption({
     </Grid>
   );
 }
+/**
+ * More rooms collapsible
+ * @returns JSX.Element
+ */
 function MoreRooms(): JSX.Element {
   const url =
     "/api/property/rooms?" +
@@ -293,7 +307,12 @@ function MoreRooms(): JSX.Element {
     </>
   );
 }
-function Content({ toggleDrawer }: any) {
+/**
+ *
+ * @param toggleDrawer Function to toggle the drawer
+ * @returns JSX.Element
+ */
+function Content({ toggleDrawer }: any): JSX.Element {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
@@ -355,7 +374,14 @@ function Content({ toggleDrawer }: any) {
     </List>
   );
 }
-export default function AddPopup(props: any) {
+
+/**
+ * Select room to create item popup
+ * @param props
+ * @returns JSX.Element
+ */
+
+export default function AddPopup(props: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 
   useHotkeys("ctrl+s", (e) => {
@@ -398,6 +424,7 @@ export default function AddPopup(props: any) {
         }}
       />
       <div
+        aria-hidden
         id="add_trigger"
         onClick={() => {
           if (global.property.role !== "read-only") {

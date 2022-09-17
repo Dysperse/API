@@ -21,9 +21,7 @@ const handler = async (req: any, res: any) => {
     return;
   }
   const userId = session.user.id;
-
-  const newToken = twofactor.generateToken(req.query.secret);
-
+  twofactor.generateToken(req.query.secret);
   const login = twofactor.verifyToken(req.query.secret, req.query.code);
 
   if (login.delta !== 0) {

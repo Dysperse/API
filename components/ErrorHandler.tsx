@@ -2,7 +2,19 @@ import Box from "@mui/material/Box";
 import { red } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 
+/**
+ * @error Error text
+ * @param {Object} props Props
+ * @returns {JSX.Element} JSX
+ */
 export function ErrorHandler({ error }: { error: string }): JSX.Element {
+  /**
+   * Reload the page
+   */
+  const reloadWindow = () => {
+    window.location.reload();
+  };
+
   return (
     <Box
       sx={{
@@ -19,7 +31,7 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
       {error}
       <IconButton
         color="inherit"
-        onClick={() => window.location.reload()}
+        onClick={reloadWindow}
         sx={{
           borderRadius: 5,
           ml: "auto",

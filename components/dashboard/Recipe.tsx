@@ -5,12 +5,13 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import type { Meal } from "../../types/recipe";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-export function Recipe({ recipe }: any): JSX.Element {
+export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
   const [open, setOpen] = useState(false);
 
   return (
@@ -40,6 +41,7 @@ export function Recipe({ recipe }: any): JSX.Element {
         >
           {recipe.strYoutube ? (
             <iframe
+              title={recipe.strMeal}
               sandbox="allow-popups allow-popups-to-escape-sandbox allow-pointer-lock allow-same-origin allow-top-navigation"
               src={
                 recipe.strYoutube.replace("/watch?v=", "/embed/") +

@@ -1,36 +1,36 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import CardActionArea from "@mui/material/CardActionArea";
 import Chip from "@mui/material/Chip";
-import { colors } from "../../lib/colors";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import useSWR, { useSWRConfig } from "swr";
 import Popover from "@mui/material/Popover";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useSWRConfig } from "swr";
+import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
-import useMediaQuery from "@mui/material/useMediaQuery";
 function Color({ s, color, setColor }: any) {
   return (
     <CardActionArea
       onClick={() => {
         setColor(color);
-        updateSettings("color", color, false, null, true, false);
+        updateSettings("color", color, false, null, true);
       }}
       sx={{
         width: 36,
@@ -100,7 +100,7 @@ function House({ handleClose, data }: any) {
                 setLoading(false);
                 handleClose();
               })
-              .catch((err) => {
+              .catch(() => {
                 toast.error(
                   "An error occured while trying to switch properties!"
                 );
@@ -307,7 +307,6 @@ function House({ handleClose, data }: any) {
                           false,
                           null,
                           true,
-                          false
                         );
                       }}
                       value={"dorm"}
@@ -522,6 +521,10 @@ export function InviteButton() {
     setAnchorEl(event.currentTarget);
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setAnchorEl(null);
     handleClick = () => {};
@@ -589,7 +592,7 @@ export function InviteButton() {
           <Puller />
         </Box>
         <Box sx={{ py: { xs: 3, sm: 0 }, px: 2, textAlign: "center" }} />
-        {global.user.properties.map((house: any, key: number) => (
+        {global.user.properties.map((house: any) => (
           <House
             handleClose={() => setOpen(false)}
             key={house.accessToken.toString()}

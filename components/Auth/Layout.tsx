@@ -14,7 +14,12 @@ const darkTheme = createTheme({
   },
 });
 
-export function Layout({ children }) {
+/**
+ * Layout for the app, including navbar, sidenav, etc
+ * @param children Children 
+ * @returns JSX.Element
+ */
+export function Layout({ children }):JSX.Element {
   return (
     <>
       <Head>

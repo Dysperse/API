@@ -173,7 +173,7 @@ export function AddPersonModal({ color, members }: any) {
                         toast.success("Invitation sent!");
                         setLoading(false);
                       })
-                      .catch((err) => {
+                      .catch(() => {
                         toast(
                           "An invitation was sent, but something went wrong while trying to send an email notification",
                           { duration: 10000 }
@@ -181,7 +181,7 @@ export function AddPersonModal({ color, members }: any) {
                         setLoading(false);
                       });
                   })
-                  .catch((err) => {
+                  .catch(() => {
                     setLoading(false);
                     toast.error(
                       "An error occured while trying to send an invite"

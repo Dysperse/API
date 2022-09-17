@@ -3,6 +3,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Masonry from "@mui/lab/Masonry";
 import { useState, useEffect } from "react";
 import { Recipe } from "./Recipe";
+import type { Recipes, Meal } from "../../types/recipe";
 
 export function Recipes() {
   const [recipes, setRecipes] = useState<any>([]);
@@ -56,7 +57,7 @@ export function Recipes() {
         columns={{ xs: 1, sm: 3 }}
         spacing={{ xs: 0, sm: 1 }}
       >
-        {recipes.map((recipe: any, id: number) => (
+        {recipes.map((recipe: Meal, id: number) => (
           <Recipe recipe={recipe} key={id} />
         ))}
       </Masonry>

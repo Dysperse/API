@@ -4,11 +4,8 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import { mutate } from "swr";
 import toast from "react-hot-toast";
-import QRCode from "react-qr-code";
-import base32 from "thirty-two";
-import { v4 as uuidv4 } from "uuid";
+import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
 const twofactor = require("node-2fa");
 
@@ -17,7 +14,7 @@ export default function App() {
     name: "Carbon",
     account: global.user.email,
   });
-  const [newSecret, setNewSecret] = useState(secret);
+  const [newSecret] = useState(secret);
 
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState<boolean>(false);

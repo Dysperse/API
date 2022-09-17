@@ -54,12 +54,12 @@ function DeleteCard({ item }: any) {
                 method: "POST",
               }
             )
-              .then((res) => {
+              .then(() => {
                 setDeleted(true);
                 setLoading(false);
                 toast.success("Item deleted forever");
               })
-              .catch((err) => {
+              .catch(() => {
                 toast.error(
                   "An error occured while trying to delete this item. Please try again"
                 );
@@ -95,12 +95,12 @@ function DeleteCard({ item }: any) {
                 method: "POST",
               }
             )
-              .then((res) => {
+              .then(() => {
                 setDeleted(true);
                 setLoading(false);
                 toast.success("Item restored");
               })
-              .catch((err) => {
+              .catch(() => {
                 toast.error(
                   "An error occured while trying to restore this item. Please try again"
                 );
@@ -156,7 +156,7 @@ function Items() {
     </>
   ) : (
     <>
-      {data.data.map((item: any, id: number) => (
+      {data.data.map((item: any) => (
         <DeleteCard item={item} key={item.id.toString()} />
       ))}
       {data.data.length === 0 && (

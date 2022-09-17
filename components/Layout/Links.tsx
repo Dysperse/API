@@ -319,9 +319,12 @@ export function DrawerListItems({
   setCollapsed,
   customRooms,
   maintenance,
-}: any) {
-  const [open, setOpen] = React.useState<boolean>(false);
-
+}: {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+  customRooms: any;
+  maintenance: Array<any>;
+}) {
   return (
     <List
       sx={{ width: "100%", p: 1 }}

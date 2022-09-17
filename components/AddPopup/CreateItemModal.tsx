@@ -19,7 +19,17 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
 
-function shuffle(array: Array<any>) {
+/**
+ * Shuffles array in place. ES6 version
+ * @param array Array to be shuffled
+ * @returns
+ */
+function shuffle(
+  array: Array<{
+    name: string;
+    icon: string;
+  }>
+) {
   let currentIndex = array.length,
     randomIndex;
 
@@ -38,24 +48,32 @@ function shuffle(array: Array<any>) {
 
   return array;
 }
-
+/**
+ * Prompt to create an item
+ * @param alias Alias of the room
+ * @param children Children for the trigger
+ */
 export function CreateItemModal({
   alias,
-  toggleDrawer,
   room,
   children,
 }: {
   alias?: string;
-  toggleDrawer: Function;
-  room: string;
+  room: JSX.Element | string;
   children: JSX.Element;
 }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (global.property.role !== "read-only") {
+      setOpen(true);
+    }
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setOpen(false);
   };
@@ -85,10 +103,6 @@ export function CreateItemModal({
   }, [open]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  function setClickLoading() {
-    setLoading(true);
-  }
-
   const formik = useFormik({
     initialValues: {
       categories: [],
@@ -100,6 +114,7 @@ export function CreateItemModal({
       title: string;
       quantity: string;
     }) => {
+      setLoading(true);
       fetch(
         "/api/property/inventory/create?" +
           new URLSearchParams({
@@ -133,29 +148,30 @@ export function CreateItemModal({
     },
   });
 
-  const handleChipClick = (e) => {
-    formik.setFieldValue(
-      "quantity",
-      formik.values.quantity + " " + e.target.innerText
-    );
-  };
   const originalCards = shuffle(
     cards.filter((card) => card.room === room.toString().toLowerCase())
   );
   const [filteredCards, setFilteredCards] =
     React.useState<Array<any>>(originalCards);
 
+  /**
+   * Handle submit click
+   */
+  const clickSubmitItem = () => document.getElementById("submitItem")?.click();
+
+  /**
+   * Set field values
+   * @param item Item data
+   */
+  const setFieldValues = (item) => {
+    formik.setFieldValue("title", item.name);
+    formik.setFieldValue("categories", item.tags);
+    formik.setFieldValue("quantity", 1);
+  };
+
   return (
-    <div>
-      <div
-        onClick={() => {
-          if (global.property.role !== "read-only") {
-            handleClickOpen();
-          }
-        }}
-      >
-        {children}
-      </div>
+    <>
+      <Box onClick={handleClickOpen}>{children}</Box>
       <SwipeableDrawer
         anchor="bottom"
         swipeAreaWidth={0}
@@ -225,7 +241,7 @@ export function CreateItemModal({
             </Typography>
             <IconButton
               size="large"
-              onClick={() => document.getElementById("submitItem")?.click()}
+              onClick={clickSubmitItem}
               sx={{
                 ml: "auto",
                 opacity: { sm: "0" },
@@ -289,11 +305,8 @@ export function CreateItemModal({
               {filteredCards.map((item) => (
                 <Box
                   key={item.name.toString()}
-                  onClick={() => {
-                    formik.setFieldValue("title", item.name);
-                    formik.setFieldValue("categories", item.tags);
-                    formik.setFieldValue("quantity", 1);
-                  }}
+                  onClick={() => setFieldValues(item)}
+                  component="div"
                   sx={{
                     userSelect: "none",
                     display: "inline-block",
@@ -413,7 +426,6 @@ export function CreateItemModal({
                 type="submit"
                 id="submitItem"
                 loading={loading}
-                onClick={() => setTimeout(setClickLoading, 10)}
               >
                 Create
               </LoadingButton>
@@ -421,6 +433,6 @@ export function CreateItemModal({
           </DialogContent>
         </form>
       </SwipeableDrawer>
-    </div>
+    </>
   );
 }

@@ -70,6 +70,10 @@ export default function Item({
     );
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setContextMenu(null);
   };
@@ -476,8 +480,6 @@ export default function Item({
                       <DeleteButton
                         styles={styles}
                         handleItemDelete={handleItemDelete}
-                        setDrawerState={setDrawerState}
-                        setDeleted={setDeleted}
                       />
                     )}
                     <MoveToRoom

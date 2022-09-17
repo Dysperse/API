@@ -49,6 +49,10 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
     );
   };
 
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setContextMenu(null);
   };
@@ -247,7 +251,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
-  const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
+  const { data } = useSWR(url, () => fetch(url).then((r) => r.json()));
 
   return (
     <Box

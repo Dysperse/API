@@ -54,8 +54,14 @@ function GenerateData({
   parent,
   emptyImage,
   emptyText,
-  title,
-}: any) {
+}: {
+  screenshotReady: boolean;
+  data: Array<any>;
+  parent: string | number;
+  emptyImage: string;
+  emptyText: string | JSX.Element;
+  title: string;
+}) {
   const [items, setItems] = useState<any>(data);
 
   return (
@@ -188,6 +194,10 @@ export function ListItems({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  /**
+   * Closes the popup
+   * @returns void
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };
