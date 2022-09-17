@@ -266,7 +266,7 @@ export function SearchPopup() {
     setPages((pages) => {
       const pgs = [...pages];
       pgs.splice(-1, 1);
-      return x;
+      return pgs;
     });
   }, []);
 

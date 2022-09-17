@@ -80,7 +80,7 @@ function CreateRoom({ collapsed }: any) {
     <>
       <ListItemButton
         id="setCreateRoomModalOpen"
-        onClick={toggleDrawer(true)}
+        onClick={() => toggleDrawer(true)}
         sx={{
           ...(collapsed && {
             width: 70,
