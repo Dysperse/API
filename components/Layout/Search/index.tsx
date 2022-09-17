@@ -53,6 +53,9 @@ function Item({
     </Command.Item>
   );
 }
+/**
+ * Settings options
+ */
 function Settings() {
   return (
     <>
@@ -64,6 +67,12 @@ function Settings() {
     </>
   );
 }
+
+/**
+ * @param onLink Click handler for links
+ * @param searchSettings Search settings
+ * @returns JSX.Element
+ */
 function Home({
   onLink,
   searchSettings,
@@ -193,6 +202,9 @@ function Home({
   );
 }
 
+/**
+ * Top-level page component
+ */
 export function SearchPopup() {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const [inputValue, setInputValue] = React.useState("");

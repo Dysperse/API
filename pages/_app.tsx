@@ -26,7 +26,11 @@ import AppBar from "@mui/material/AppBar";
 dayjs.extend(relativeTime);
 import { experimental_sx as sx } from "@mui/material/styles";
 
-function Loading() {
+/**
+ * Loading screen
+ * @returns JSX.Element
+ */
+function Loading(): JSX.Element {
   return (
     <Box
       sx={{
@@ -114,6 +118,14 @@ function Loading() {
   );
 }
 
+/**
+ * Main function, including layout and theme.
+ * @param data User session data
+ * @param Component Top-level page component
+ * @param pageProps Page props
+ * @param router Next.JS router
+ * @returns JSX.Element
+ */
 function Render({
   data,
   Component,
@@ -364,6 +376,13 @@ function useUser() {
   };
 }
 
+/**
+ * Function to just render a component, instead of adding a layout for the whole page
+ * @param data data
+ * @param Component Top-level page component
+ * @param pageProps Page props
+ * @returns JSX.Element
+ */
 function RenderComponent({
   Component,
   pageProps,
@@ -383,6 +402,13 @@ function RenderComponent({
   );
 }
 
+/**
+ * Function to check whether to add a layout or not
+ * @param router Next.JS router
+ * @param Component Top-level page component
+ * @param pageProps Page props
+ * @returns JSX.Element
+ */
 function RenderApp({ router, Component, pageProps }: any) {
   const { data, isLoading, isError } = useUser();
   return (
@@ -466,6 +492,12 @@ function RenderApp({ router, Component, pageProps }: any) {
     </>
   );
 }
+
+/**
+ * NoSsr wrapper to prevent server-side rendering
+ * @param router Next.JS router
+ * @returns JSX.Element
+ */
 function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
   return (
     <>
