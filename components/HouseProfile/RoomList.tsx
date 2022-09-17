@@ -13,8 +13,10 @@ import { colors } from "../../lib/colors";
  * @returns JSX.Element
  */
 function Room({
+  color,
   room,
 }: {
+  color:string,
   room: {
     name: string;
     id: string;
@@ -41,9 +43,9 @@ function Room({
           borderWidth: "2px!important",
           width: "100%",
           mt: 1.5,
-          color: colors.red[900],
+          color: colors[color][900],
           "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-            borderColor: colors.red[900] + "!important",
+            borderColor: colors[color][900] + "!important",
           },
           borderRadius: 4,
         }}
