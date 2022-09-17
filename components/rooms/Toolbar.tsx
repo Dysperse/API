@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { colors } from "../../lib/colors";
 import { blueGrey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -117,7 +116,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
           &nbsp;Sort&nbsp;by&nbsp;
         </Typography>
       </Button>
-      <CreateItemModal room={room} alias={alias} toggleDrawer={() => {}}>
+      <CreateItemModal room={room} alias={alias}>
         <Button
           id="basic-button"
           variant="contained"

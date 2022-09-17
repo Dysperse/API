@@ -55,7 +55,14 @@ function GenerateData({
   emptyImage,
   emptyText,
   title,
-}: any) {
+}: {
+  screenshotReady: boolean;
+  data: Array<any>;
+  parent: string | number;
+  emptyImage: string;
+  emptyText: string | JSX.Element;
+  title: string;
+}) {
   const [items, setItems] = useState<any>(data);
 
   return (

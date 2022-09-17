@@ -26,9 +26,6 @@ export function ShareModal({
         room: room,
       })
     );
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   /**
    * Closes the popup

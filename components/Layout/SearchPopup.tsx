@@ -264,7 +264,7 @@ function Home({
   onLink: (href: string) => any;
   searchSettings: () => void;
 }) {
-  const { error, data } = useSWR("/api/rooms", () =>
+  const { data } = useSWR("/api/rooms", () =>
     fetch(
       "/api/property/rooms?" +
         new URLSearchParams({

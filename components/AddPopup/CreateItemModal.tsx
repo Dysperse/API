@@ -139,16 +139,6 @@ export function CreateItemModal({
     },
   });
 
-  /**
-   * @param e Event passed from the input field
-   * @returns void
-   */
-  const handleChipClick = (e) => {
-    formik.setFieldValue(
-      "quantity",
-      formik.values.quantity + " " + e.target.innerText
-    );
-  };
   const originalCards = shuffle(
     cards.filter((card) => card.room === room.toString().toLowerCase())
   );
