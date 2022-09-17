@@ -57,8 +57,8 @@ function Settings() {
   return (
     <>
       {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
-        (room, index) => (
-          <Item key={index.toString()}>{room}</Item>
+        (room) => (
+          <Item key={room.name.toString()}>{room}</Item>
         )
       )}
     </>
@@ -147,10 +147,10 @@ function Home({
           { name: "Laundry room", icon: "local_laundry_service" },
           { name: "Storage room", icon: "inventory_2" },
           { name: "Garden", icon: "yard" },
-        ].map((room, index) => (
+        ].map((room: { name: string; icon: string }) => (
           <Item
             onSelect={() => onLink("/rooms/" + room.name.toLowerCase())}
-            key={index.toString()}
+            key={room.name}
           >
             {room.name}
             <Icon icon={room.icon} />
@@ -158,7 +158,7 @@ function Home({
         ))}
         {data && (
           <Box>
-            {data.map((room, index) => (
+            {data.map((room: { name: string; icon: string; id: number }) => (
               <Item key={room.name.toLowerCase()}>
                 {room.name}
                 <Icon icon="label" />

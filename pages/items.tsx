@@ -71,7 +71,7 @@ function CategoryModal({ category }: { category: string }) {
           >
             {category}
           </Typography>
-          {data.map((item: any, key: number) => (
+          {data.map((item: any) => (
             <Box sx={{ mb: 1 }} key={item.id.toString()}>
               <ItemCard item={item} displayRoom={false} />
             </Box>

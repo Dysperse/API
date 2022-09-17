@@ -144,7 +144,7 @@ export default function App() {
                   setLoading(false);
                   mutate("/api/user");
                 })
-                .catch((err) => {
+                .catch(() => {
                   toast.error("Invalid code!");
                   setLoading(false);
                 });
