@@ -57,8 +57,8 @@ function Settings() {
   return (
     <>
       {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
-        (room) => (
-          <Item key={room.name.toString()}>{room}</Item>
+        (room: string) => (
+          <Item key={room.toString()}>{room}</Item>
         )
       )}
     </>
