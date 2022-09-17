@@ -301,13 +301,7 @@ function House({ handleClose, data }: any) {
                     <MenuItem
                       onClick={() => {
                         setPropertyType("dorm");
-                        updateSettings(
-                          "type",
-                          propertyType,
-                          false,
-                          null,
-                          true,
-                        );
+                        updateSettings("type", propertyType, false, null, true);
                       }}
                       value={"dorm"}
                       sx={{ display: "flex", alignItems: "center" }}
@@ -600,7 +594,7 @@ export function InviteButton() {
           />
         ))}
       </SwipeableDrawer>
-      <div id="new_trigger" onClick={handleClick} />
+      <Box id="new_trigger" onClick={handleClick} />
 
       <Button
         disableRipple

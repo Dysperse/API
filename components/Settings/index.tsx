@@ -270,9 +270,9 @@ export default function FullScreenDialog({ children }: any) {
   });
   return (
     <div>
-      <div id="settingsTrigger" onClick={handleClickOpen}>
+      <Box id="settingsTrigger" onClick={handleClickOpen}>
         {children}
-      </div>
+      </Box>
 
       <SwipeableDrawer
         anchor="bottom"
