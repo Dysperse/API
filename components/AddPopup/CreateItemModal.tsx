@@ -46,13 +46,11 @@ function shuffle(
 
 export function CreateItemModal({
   alias,
-  toggleDrawer,
   room,
   children,
 }: {
   alias?: string;
-  toggleDrawer: () => void;
-  room: string;
+  room: JSX.Element | string;
   children: JSX.Element;
 }) {
   const [open, setOpen] = React.useState<boolean>(false);

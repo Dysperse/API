@@ -28,25 +28,23 @@ const Root = styled("div")(() => ({
 
 function AddItemOption({
   alias,
-  s = 4,
   toggleDrawer,
   icon,
   title,
 }: {
   alias?: string;
-  s?: number;
-  toggleDrawer: any;
+  toggleDrawer: (toggle: boolean) => void;
   icon: JSX.Element | string;
-  title: any;
+  title: JSX.Element | string;
 }): JSX.Element {
-  /** 
+  /**
    * Handle drawer close
    */
-  const handleDrawerClose = () => toggleDrawer(false)
-  
+  const handleDrawerClose = () => toggleDrawer(false);
+
   return (
     <Grid item xs={12} sm={4}>
-      <CreateItemModal room={title} alias={alias} toggleDrawer={toggleDrawer}>
+      <CreateItemModal room={title} alias={alias}>
         <Card
           sx={{
             textAlign: {
