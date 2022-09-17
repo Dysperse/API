@@ -28,7 +28,7 @@ const drawerWidth = 260;
 /**
  * @description Custom room link
  * @param collapsed Boolean, whether the drawer is collapsed or not
- * @param index String, the room name
+ * @param room String, the room name
  */
 function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
   const [deleted, setDeleted] = React.useState<boolean>(false);
