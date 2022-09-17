@@ -12,6 +12,7 @@ import { ProfileMenu } from "../Layout/Profile";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
+import { useRouter } from "next/router";
 
 /**
  * Returns the initials of a name
@@ -36,6 +37,8 @@ export const getInitials = (fullName) => {
  */
 function ElevationScroll(props: any) {
   const { children, window } = props;
+  const router = useRouter();
+
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
@@ -84,8 +87,18 @@ function ElevationScroll(props: any) {
             xs: 0.9,
           },
           // transition: "all .2s",
-          background:
-            global.theme === "dark" ? "rgba(0,0,0,0)" : "rgba(255,255,255,.5)",
+          background: {
+            xs:
+              global.theme === "dark"
+                ? "rgba(0,0,0,0)"
+                : router.asPath === "/maintenance"
+                ? colors.green[100]
+                : "rgba(255,255,255,.5)",
+            sm:
+              global.theme === "dark"
+                ? "rgba(0,0,0,0)"
+                : "rgba(255,255,255,.5)",
+          },
           backdropFilter: "blur(10px)",
         },
   });
