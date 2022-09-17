@@ -155,8 +155,8 @@ function Render({
     setTheme(data.user.darkMode ? "dark" : "light");
     if (data.user.darkMode) {
       document
-        .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute("content", "hsl(240, 11%, 10%)");
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute("content", "hsl(240, 11%, 10%)");
     }
   }, [data, setTheme, setThemeColor, theme, themeColor]);
 

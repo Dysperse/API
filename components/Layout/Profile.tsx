@@ -7,8 +7,8 @@ export function ProfileMenu(props: any) {
   useEffect(() => {
     document.querySelector(`meta[name="theme-color"]`) &&
       document
-        .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute(
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute(
           "content",
           open
             ? global.theme === "dark"

@@ -34,8 +34,8 @@ function ElevationScroll(props: any) {
   useEffect(() => {
     if (document) {
       document
-        .querySelector(`meta[name="theme-color"]`)!
-        .setAttribute(
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute(
           "content",
           trigger
             ? global.theme === "dark"
