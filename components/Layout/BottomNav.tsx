@@ -115,8 +115,6 @@ export function BottomNav({ maintenance }: any) {
         setValue(0);
       }
   }
-  const [value, setValue] = React.useState(value);
-
   /**
    * Handles button click
    * @param {any} href
