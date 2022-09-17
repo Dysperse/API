@@ -14,6 +14,19 @@ import { useRouter } from "next/router";
 import { updateSettings } from "../../Settings/updateSettings";
 
 /**
+ * Icon function
+ * @param {any} {icon}:{icon:string}
+ * @returns {any}
+ */
+function Icon({ icon }: { icon: string }) {
+  return (
+    <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
+      {icon}
+    </span>
+  );
+}
+
+/**
  * Settings icon for search popup
  */
 function SettingsIcon(): JSX.Element {
@@ -394,18 +407,5 @@ export function SearchPopup() {
         </div>
       </SwipeableDrawer>
     </Box>
-  );
-}
-
-/**
- * Icon function
- * @param {any} {icon}:{icon:string}
- * @returns {any}
- */
-function Icon({ icon }: { icon: string }) {
-  return (
-    <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
-      {icon}
-    </span>
   );
 }
