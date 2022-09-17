@@ -92,29 +92,32 @@ export function BottomNav({ maintenance }: any) {
   };
 
   const router = useRouter();
-  const url = router.asPath;
   const [value, setValue] = React.useState<number>(0);
 
-  switch (router.asPath) {
-    case "/dashboard":
-      setValue(0);
-      break;
-    case "/trash":
-    case "/items":
-      setValue(1);
-    case "/notes":
-      setValue(2);
-      break;
-    case "/maintenance":
-      setValue(3);
-      break;
-    default:
-      if (router.asPath.includes("/rooms")) {
-        setValue(1);
-      } else {
+  React.useEffect(() => {
+    const url = router.asPath;
+
+    switch (url) {
+      case "/dashboard":
         setValue(0);
-      }
-  }
+        break;
+      case "/trash":
+      case "/items":
+        setValue(1);
+      case "/notes":
+        setValue(2);
+        break;
+      case "/maintenance":
+        setValue(3);
+        break;
+      default:
+        if (router.asPath.includes("/rooms")) {
+          setValue(1);
+        } else {
+          setValue(0);
+        }
+    }
+  }, []);
   /**
    * Handles button click
    * @param {any} href

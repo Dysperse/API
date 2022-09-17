@@ -23,16 +23,10 @@ export function Recipes() {
       .then((res) => res.json())
       .then((res: any) => {
         setLoading(false);
-        const recipes: any = [res.meals[0], ...recipes];
-        setRecipes(recipes);
+        const recipeList: any = [res.meals[0], ...recipes];
+        setRecipes(recipeList);
       });
   };
-
-  // call `handleClick` on render
-  useEffect(() => {
-    handleClick();
-    //  eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Box>
