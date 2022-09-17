@@ -218,11 +218,13 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                   }}
                   onClick={() => {
                     setShowDetails(true);
-                    setTimeout(() => {
-                      document
-                        .getElementById(!showDetails ? "details" : "title")!
-                        .focus();
-                    }, 0);
+                    setTimeout(
+                      () =>
+                        document
+                          .getElementById(!showDetails ? "details" : "title")
+                          ?.focus(),
+                      0
+                    );
                   }}
                 >
                   <span className="material-symbols-outlined">notes</span>
