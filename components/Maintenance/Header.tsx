@@ -100,7 +100,6 @@ function CalendarFeedModal(): JSX.Element {
           width: { xs: "100%", sm: "auto" },
           px: 3,
           py: 1,
-          mt: 2,
           background: colors.green["A700"] + "!important",
           borderRadius: 999,
           gap: 2,
@@ -394,7 +393,6 @@ function CreateMaintenanceModal() {
           width: { xs: "100%", sm: "auto" },
           px: 3,
           py: 1,
-          mt: 2,
           background: colors.green["A700"] + "!important",
           borderRadius: 999,
           gap: 2,
@@ -446,7 +444,11 @@ export function Header({ count }) {
       </Box>
       <Box
         sx={{
-          px: { xs: 1, sm: 5 },
+          px: { xs: 3, sm: 5 },
+          py: { xs: 2, sm: 0 },
+          background: { xs: colors.green["100"] },
+          borderBottomRightRadius: { xs: 30, sm: 0 },
+          borderBottomLeftRadius: { xs: 30, sm: 0 },
           textAlign: { xs: "center", sm: "right" },
 
           display: { xs: "flex", sm: "block" },
