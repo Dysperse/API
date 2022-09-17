@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
 
+// 2FA
+// @ts-ignore
 const twofactor = require("node-2fa");
 
 export default function App() {
