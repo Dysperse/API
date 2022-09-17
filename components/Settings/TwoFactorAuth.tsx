@@ -3,14 +3,11 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
-
-// 2FA
-// @ts-ignore
-import twofactor from "node-2fa";
 
 export default function App() {
   const secret = twofactor.generateSecret({
