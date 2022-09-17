@@ -26,6 +26,14 @@ const Root = styled("div")(() => ({
   height: "100%",
 }));
 
+/**
+ *
+ * @param alias Room alias to replace room title
+ * @param toggleDrawer Function to toggle drawer
+ * @param icon Icon to display in drawer
+ * @param title Title to display in drawer
+ * @returns
+ */
 function AddItemOption({
   alias,
   toggleDrawer,
