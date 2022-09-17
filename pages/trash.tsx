@@ -13,6 +13,10 @@ import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
 import dayjs from "dayjs";
 
+/**
+ * Delete card component, including delete and restore buttons
+ * @param {Object} item - Item data
+ */
 function DeleteCard({ item }: any) {
   const [deleted, setDeleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);

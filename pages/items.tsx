@@ -24,6 +24,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { ItemCard } from "../components/rooms/ItemCard";
 import { ErrorHandler } from "../components/ErrorHandler";
 
+/**
+ * Category modal
+ * @param {string} category - The category name
+ */
 function CategoryModal({ category }: { category: string }) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -135,6 +139,9 @@ function CategoryModal({ category }: { category: string }) {
   );
 }
 
+/**
+ * Component to dispay items by category
+ */
 function CategoryList() {
   const url =
     "/api/property/inventory/categories?" +
@@ -175,6 +182,14 @@ function CategoryList() {
     </>
   );
 }
+
+/**
+ * Room button
+ * @param {string | JSX.Element} icon - The room's icon
+ * @param {string | JSX.Element} primary - The room's name
+ * @param {string} href - The room's link
+ * @param {Function} onClick - Callback function for the room's click event
+ */
 function Action({ icon, primary, href, onClick }: any) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -255,6 +270,9 @@ function Action({ icon, primary, href, onClick }: any) {
   );
 }
 
+/**
+ * Top-level component for the items page
+ */
 export default function Categories() {
   const url =
     "/api/property/rooms?" +

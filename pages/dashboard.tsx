@@ -9,6 +9,9 @@ import { RecentItems } from "../components/dashboard/RecentItems";
 import { Recipes } from "../components/dashboard/Recipes";
 import { Tips } from "../components/dashboard/Tips";
 
+/**
+ * Top-level component for the dashboard page.
+ */
 export default function Dashboard() {
   const styles = {
     mr: 1,

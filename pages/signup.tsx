@@ -14,6 +14,9 @@ import { useSWRConfig } from "swr";
 import { Layout } from "../components/Auth/Layout";
 import { Puller } from "../components/Puller";
 
+/**
+ * Top-level component for the signup page.
+ */
 export default function Prompt() {
   const router = useRouter();
   global.themeColor = "brown";

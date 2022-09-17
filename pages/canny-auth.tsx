@@ -4,6 +4,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Head from "next/head";
 
+/**
+ * Gets query parameter by name
+ * @param name - Name of query parameter
+ */
 function getQueryParameterByName(name) {
   let pairStrings = window.location.search.slice(1).split("&");
   let pairs: any = pairStrings.map(function (pair) {
@@ -32,6 +36,9 @@ function RenderData({ data }) {
   return <></>;
 }
 
+/**
+ * Top-level component for the Canny SSO page.
+ */
 export default function CannyAuth() {
   const url = "/api/canny-auth";
   const { data, error } = useSWR(url, () =>

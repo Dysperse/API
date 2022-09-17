@@ -1,6 +1,9 @@
 import { Head, Html, Main, NextScript } from "next/document";
 import Script from "next/script";
 
+/**
+ * Top-level component for the document.
+ */
 export default function Document() {
   return (
     <Html>
@@ -14,10 +17,7 @@ export default function Document() {
           })(window,document,'script','dataLayer','GTM-PPH4TH4');
          `}
         </Script>
-        <script
-          src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
-          async
-         />
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async />
         <Script id="onesignal-script" strategy="afterInteractive">
           {`
            window.OneSignal = window.OneSignal || [];

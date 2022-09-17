@@ -6,6 +6,9 @@ import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
 
+/**
+ * Items component to load inventory
+ */
 function Items() {
   const url =
     "/api/inventory/starred-items?" +
@@ -48,6 +51,9 @@ function Items() {
   );
 }
 
+/**
+ * Top-level component for the starred page.
+ */
 export default function Render() {
   return (
     <Box sx={{ p: 3 }}>

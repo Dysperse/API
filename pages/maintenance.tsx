@@ -8,6 +8,9 @@ import { ErrorHandler } from "../components/ErrorHandler";
 import { Reminder } from "../components/Maintenance/Reminder";
 import { Header } from "../components/Maintenance/Header";
 
+/**
+ * Top-level component for the maintenance page
+ */
 export default function Maintenance() {
   const url =
     "/api/property/maintenance/reminders?" +

@@ -18,6 +18,10 @@ import { InventoryList } from "../components/onboarding/InventoryList";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { colors } from "../lib/colors";
 const AutoPlaySwipeableViews = SwipeableViews;
+
+/**
+ * Top-level component for the onboarding page.
+ */
 function SwipeableTextMobileStepper() {
   const [houseType, setHouseType] = React.useState<string>("home");
   const [themeColor, setThemeColor] = React.useState("brown");

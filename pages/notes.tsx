@@ -392,6 +392,10 @@ function NoteModal({
   );
 }
 
+/**
+ * Create a note modal
+ * @param {string} url - The url to mutate
+ */
 function CreateNoteModal({ url }: { url: string }) {
   const [open, setOpen] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
