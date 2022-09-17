@@ -57,7 +57,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
     setContextMenu(null);
   };
   const asHref = `/rooms/${encode(
-    room.id + "," + room.name
+    `${room.id.toString()},${room.name.toString()}`
   ).toString()}?custom=true`;
 
   return deleted ? null : (
@@ -106,7 +106,11 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
           View
         </MenuItem>
       </Menu>
-      <Link href={`/rooms/${encode(room.id + "," + room.name)}?custom=true`}>
+      <Link
+        href={`/rooms/${encode(
+          room.id.toString() + "," + room.name.toString()
+        ).toString()}?custom=true`}
+      >
         <ListItemButton
           onContextMenu={handleContextMenu}
           sx={{
