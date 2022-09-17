@@ -10,3 +10,7 @@ enabled = true
 [[transformers]]
 name = "prettier"
 enabled = true
+
+[[analyzers]]
+name = "test-coverage"
+enabled = true
