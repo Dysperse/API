@@ -446,7 +446,7 @@ export function Header({ count }) {
         sx={{
           px: { xs: 3, sm: 5 },
           py: { xs: 2, sm: 0 },
-          background: { xs: colors.green["100"] },
+          background: { xs: colors.green["100"], sm: "transparent" },
           borderBottomRightRadius: { xs: 30, sm: 0 },
           borderBottomLeftRadius: { xs: 30, sm: 0 },
           textAlign: { xs: "center", sm: "right" },
