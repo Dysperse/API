@@ -26,7 +26,7 @@ import { colors } from "../lib/colors";
  * @param formik Formik instance
  * @returns JSX.Element
  */
-function ColorModal({ formik }):JSX.Element {
+function ColorModal({ formik }): JSX.Element {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -511,8 +511,8 @@ export default function Notes(): JSX.Element {
       {data ? (
         <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
           <CreateNoteModal url={url} />
-          {data.map((note, key) => (
-            <Note key={key} note={note} url={url} />
+          {data.map((note: any) => (
+            <Note key={note.id} note={note} url={url} />
           ))}
           {data.length === 0 && (
             <>
