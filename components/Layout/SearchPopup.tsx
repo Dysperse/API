@@ -352,7 +352,7 @@ function Home({
         {data && (
           <Box>
             {data.map((room, index) => (
-              <Item key={index}>
+              <Item key={room.name.toLowerCase()}>
                 {room.name}
                 <Icon icon="label" />
               </Item>

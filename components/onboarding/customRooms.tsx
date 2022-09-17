@@ -54,7 +54,7 @@ export function CustomRooms({ houseType }: any) {
       getOptionLabel={(option: any) => option}
       renderTags={(tagValue, getTagProps) =>
         tagValue.map((option, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={option.toString()}>
             <Chip
               label={option}
               {...getTagProps({ index })}
