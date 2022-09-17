@@ -19,6 +19,11 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
 
+/**
+ * Shuffles array in place. ES6 version
+ * @param array Array to be shuffled
+ * @returns
+ */
 function shuffle(
   array: Array<{
     name: string;
@@ -43,7 +48,11 @@ function shuffle(
 
   return array;
 }
-
+/**
+ * Prompt to create an item
+ * @param alias Alias of the room
+ * @param children Children for the trigger
+ */
 export function CreateItemModal({
   alias,
   room,
