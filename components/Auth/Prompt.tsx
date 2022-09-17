@@ -65,8 +65,7 @@ export default function Prompt() {
   // };
 
   document
-    .querySelector(`meta[name="theme-color"]`)?
-    .setAttribute("content", "#6b4b4b");
+    .querySelector(`meta[name="theme-color"]`)?.setAttribute("content", "#6b4b4b");
 
   return (
     <Layout>

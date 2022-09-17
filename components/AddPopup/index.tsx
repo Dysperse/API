@@ -395,8 +395,8 @@ export default function AddPopup(props: any): JSX.Element {
 
   useEffect(() => {
     document
-      .querySelector(`meta[name="theme-color"]`)?
-      .setAttribute(
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute(
         "content",
         open
           ? global.theme === "dark"
