@@ -492,7 +492,11 @@ export default function Notes(): JSX.Element {
   );
 
   return (
-    <Container>
+    <Box
+      sx={{
+        px: 5,
+      }}
+    >
       <Typography
         variant="h3"
         sx={{
@@ -509,7 +513,7 @@ export default function Notes(): JSX.Element {
         />
       )}
       {data ? (
-        <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
+        <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 2 }}>
           <CreateNoteModal url={url} />
           {data.map((note: any) => (
             <Note key={note.id} note={note} url={url} />
@@ -547,6 +551,6 @@ export default function Notes(): JSX.Element {
           ))}
         </Masonry>
       )}
-    </Container>
+    </Box>
   );
 }
