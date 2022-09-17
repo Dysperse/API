@@ -10,7 +10,7 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  
+
   const data: any | null = await prisma.listItem.update({
     where: {
       id: parseInt(req.query.id),
