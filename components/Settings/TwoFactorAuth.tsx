@@ -10,7 +10,7 @@ import { updateSettings } from "./updateSettings";
 
 // 2FA
 // @ts-ignore
-const twofactor = require("node-2fa");
+import twofactor from "node-2fa";
 
 export default function App() {
   const secret = twofactor.generateSecret({
