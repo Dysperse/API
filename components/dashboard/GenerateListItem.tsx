@@ -38,7 +38,7 @@ export function GenerateListItem({
         property: global.property.propertyId,
         accessToken: global.property.accessToken,
         id: id,
-        completed: completed ? "false" : "true",
+        completed: completed === true ? "false" : "true",
       }).toString();
     fetch(url, {
       method: "POST",
