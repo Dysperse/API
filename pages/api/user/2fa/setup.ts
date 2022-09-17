@@ -22,7 +22,7 @@ const handler = async (req: any, res: any) => {
   }
   const userId = session.user.id;
   twofactor.generateToken(req.query.secret);
-  const login = twofactor.verifyToken(req.query.secret, req.query.code);
+  const login: any = twofactor.verifyToken(req.query.secret, req.query.code);
 
   if (login.delta !== 0) {
     res.status(401).json({ error: "Invalid code" });
