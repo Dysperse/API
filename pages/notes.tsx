@@ -21,7 +21,12 @@ import useSWR, { mutate } from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
 import { colors } from "../lib/colors";
 
-function ColorModal({ formik }) {
+/**
+ * Color picker for note modal
+ * @param formik Formik instance
+ * @returns JSX.Element
+ */
+function ColorModal({ formik }): JSX.Element {
   const [open, setOpen] = useState(false);
   return (
     <>
