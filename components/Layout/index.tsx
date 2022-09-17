@@ -56,8 +56,10 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
   const handleClose = () => {
     setContextMenu(null);
   };
-  const asHref = `/rooms/${encode(room.id + "," + room.name)}?custom=true`;
-  
+  const asHref = `/rooms/${encode(
+    room.id + "," + room.name
+  ).toString()}?custom=true`;
+
   return deleted ? null : (
     <>
       <Menu
@@ -100,7 +102,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
         >
           Delete
         </MenuItem>
-        <MenuItem onClick={() => router.push("/rooms/" + room.id)}>
+        <MenuItem onClick={() => router.push(`/rooms/${room.id.toString()}`)}>
           View
         </MenuItem>
       </Menu>
