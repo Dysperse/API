@@ -7,11 +7,12 @@ import CardContent from "@mui/material/CardContent";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
+import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
-import dayjs from "dayjs";
+import type { Item } from "../types/item";
 
 /**
  * Delete card component, including delete and restore buttons
@@ -164,7 +165,7 @@ function Items() {
     </>
   ) : (
     <>
-      {data.data.map((item: any) => (
+      {data.data.map((item: Item) => (
         <DeleteCard item={item} key={item.id.toString()} />
       ))}
       {data.data.length === 0 && (

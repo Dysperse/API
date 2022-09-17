@@ -5,6 +5,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
+import type { Item } from "../types/item";
 
 /**
  * Items component to load inventory
@@ -39,7 +40,7 @@ function Items() {
     </>
   ) : (
     <>
-      {data.data.map((item: any) => (
+      {data.data.map((item: Item) => (
         <Paper
           sx={{ boxShadow: 0, p: 0 }}
           key={(Math.random() + Math.random()).toString()}

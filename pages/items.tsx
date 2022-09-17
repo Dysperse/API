@@ -23,6 +23,7 @@ import { neutralizeBack, revivalBack } from "../components/history-control";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ItemCard } from "../components/rooms/ItemCard";
 import { ErrorHandler } from "../components/ErrorHandler";
+import type { Item } from "../types/item";
 
 /**
  * Category modal
@@ -75,7 +76,7 @@ function CategoryModal({ category }: { category: string }) {
           >
             {category}
           </Typography>
-          {data.map((item: any) => (
+          {data.map((item: Item) => (
             <Box sx={{ mb: 1 }} key={item.id.toString()}>
               <ItemCard item={item} displayRoom={false} />
             </Box>
