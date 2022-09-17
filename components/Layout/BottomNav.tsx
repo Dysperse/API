@@ -93,7 +93,7 @@ export function BottomNav({ maintenance }: any) {
 
   const router = useRouter();
   const url = router.asPath;
-  const [value, setValue] = useState(0);
+  const [value, setValue] = React.useState<number>(0);
 
   switch (router.asPath) {
     case "/dashboard":
