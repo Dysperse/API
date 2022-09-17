@@ -120,8 +120,8 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
   const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
     document
-      .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute("content", open ? "#9c9d9c" : "#b8b9b8");
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute("content", open ? "#9c9d9c" : "#b8b9b8");
   });
 
   return (
@@ -254,8 +254,8 @@ export default function FullScreenDialog({ children }: any) {
 
   useEffect(() => {
     document
-      .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute(
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute(
         "content",
         open
           ? global.theme === "dark"
