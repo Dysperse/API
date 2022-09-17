@@ -13,6 +13,13 @@ import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 
+/**
+ * Create list modal
+ * @param children Children
+ * @param parent Parent
+ * @param items Items
+ * @param setItems Set items
+ */
 export function CreateListModal({ children, parent, items, setItems }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);

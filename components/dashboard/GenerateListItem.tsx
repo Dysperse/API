@@ -8,7 +8,11 @@ import ListItemText from "@mui/material/ListItemText";
 import React from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
-// Generates a list item for shopping list / todo list
+/**
+ * @description Generates a list item for shopping list / todo list
+ * @param items Items
+ * @returns JSX.Element
+ */
 export function GenerateListItem({
   items,
   completed,
@@ -17,7 +21,15 @@ export function GenerateListItem({
   title,
   description,
   id,
-}: any) {
+}: {
+  items: Array<any>;
+  completed: boolean;
+  pinned: boolean;
+  setItems: Function;
+  title: string | JSX.Element;
+  description: string | JSX.Element;
+  id: string | number;
+}): JSX.Element {
   const [index, setIndex] = React.useState<number>(1);
   const deleteItem = (completed: boolean, id: any) => {
     const url =

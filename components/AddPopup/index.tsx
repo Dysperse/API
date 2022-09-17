@@ -122,6 +122,10 @@ function AddItemOption({
     </Grid>
   );
 }
+/**
+ * More rooms collapsible
+ * @returns JSX.Element
+ */
 function MoreRooms(): JSX.Element {
   const url =
     "/api/property/rooms?" +
@@ -303,7 +307,12 @@ function MoreRooms(): JSX.Element {
     </>
   );
 }
-function Content({ toggleDrawer }: any) {
+/**
+ *
+ * @param toggleDrawer Function to toggle the drawer
+ * @returns JSX.Element
+ */
+function Content({ toggleDrawer }: any): JSX.Element {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
@@ -365,7 +374,14 @@ function Content({ toggleDrawer }: any) {
     </List>
   );
 }
-export default function AddPopup(props: any) {
+
+/**
+ * Select room to create item popup
+ * @param props
+ * @returns JSX.Element
+ */
+
+export default function AddPopup(props: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 
   useHotkeys("ctrl+s", (e) => {

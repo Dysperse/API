@@ -12,6 +12,9 @@ import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { Layout } from "./Layout";
 
+/**
+ * Login prompt
+ */
 export default function Prompt() {
   global.themeColor = "brown";
   const { mutate } = useSWRConfig();
