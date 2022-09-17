@@ -16,6 +16,12 @@ export const sessionData = async (providedToken) => {
   return JSON.parse(JSON.stringify(info));
 };
 
+/**
+ * API route to get user data
+ * @param {any} req
+ * @param {any} res
+ * @returns {any}
+ */
 const handler = async (req, res) => {
   if (req.cookies.token) {
     const info = await sessionData(req.cookies.token);

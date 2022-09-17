@@ -53,14 +53,24 @@ function SwipeableTextMobileStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [loading, setLoading] = React.useState<boolean>(false);
 
+  /**
+   * Move to the next step in the onboarding process.
+   * @returns {any}
+   */
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-
+  /**
+   * Move to the previous step in the onboarding process.
+   */
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  /**
+   * Handles the step change
+   * @param {number} step The step to change to
+   */
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };

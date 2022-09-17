@@ -158,6 +158,12 @@ function Products() {
 export function AppsMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  /**
+   * Handles app menu trigger
+   * @param {React.MouseEvent<HTMLElement>} event
+   * @returns {any}
+   */
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };

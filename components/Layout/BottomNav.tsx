@@ -116,6 +116,11 @@ export function BottomNav({ maintenance }: any) {
   }
   const [value, setValue] = React.useState(v);
 
+  /**
+   * Handles button click
+   * @param {any} href
+   * @returns {any}
+   */
   const onLink = (href: any) => {
     router.push(href);
   };

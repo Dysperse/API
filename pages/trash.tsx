@@ -120,6 +120,10 @@ function DeleteCard({ item }: any) {
   );
 }
 
+/**
+ * Description
+ * @returns {any}
+ */
 function Items() {
   const url =
     "/api/inventory/trashed-items?" +
@@ -178,6 +182,10 @@ function Items() {
   );
 }
 
+/**
+ * Top level component for the trash page
+ * @returns {any}
+ */
 export default function Render() {
   return (
     <Box sx={{ p: 3 }}>

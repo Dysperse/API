@@ -437,6 +437,12 @@ function CreateNoteModal({ url }: { url: string }) {
   );
 }
 
+/**
+ * Note modal
+ * @param {any} {url
+ * @param {any} note}
+ * @returns {any}
+ */
 function Note({ url, note }) {
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>(note.name);

@@ -13,6 +13,10 @@ export function Recipes() {
   const [recipes, setRecipes] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Handles random recipe click
+   * @returns {any}
+   */
   const handleClick = () => {
     setLoading(true);
     fetch("https://www.themealdb.com/api/json/v1/1/random.php")

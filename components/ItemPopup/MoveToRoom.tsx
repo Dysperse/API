@@ -13,6 +13,15 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 
+/**
+ * @description A room
+ * @param room Room
+ * @param setDrawerState Set drawer state
+ * @param setOpen Set open
+ * @param id ID
+ * @param setDeleted Set deleted
+ * @returns JSX.Element
+ */
 function Room({
   id,
   setDeleted,
