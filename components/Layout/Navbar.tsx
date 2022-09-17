@@ -56,6 +56,8 @@ function ElevationScroll(props: any) {
               : colors[themeColor]["100"]
             : global.theme === "dark"
             ? "hsl(240, 11%, 10%)"
+            : router.asPath === "/maintenance"
+            ? colors.green[100]
             : "#fff"
         );
     }
