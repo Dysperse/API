@@ -30,7 +30,7 @@ function Color({ s, color, setColor }: any) {
     <CardActionArea
       onClick={() => {
         setColor(color);
-        updateSettings("color", color, false, null, true, false);
+        updateSettings("color", color, false, null, true);
       }}
       sx={{
         width: 36,
@@ -307,7 +307,6 @@ function House({ handleClose, data }: any) {
                           false,
                           null,
                           true,
-                          false
                         );
                       }}
                       value={"dorm"}
