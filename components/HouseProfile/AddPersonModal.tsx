@@ -14,6 +14,12 @@ import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
 
+/**
+ * Description
+ * @param {any} {color
+ * @param {any} members}
+ * @returns {any}
+ */
 export function AddPersonModal({ color, members }: any) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");

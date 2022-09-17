@@ -13,6 +13,12 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 
+/**
+ * Description
+ * @param {any} {title
+ * @param {any} handleClose}:{title:string;handleClose:any}
+ * @returns {any}
+ */
 function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   const url =
     "/api/lists/items?" +
@@ -79,6 +85,12 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
   );
 }
 
+/**
+ * Description
+ * @param {any} {styles}
+ * @param {any} item}
+ * @returns {any}
+ */
 export function AddToListModal({ styles, item }: any) {
   const [open, setOpen] = useState<boolean>(false);
   return (

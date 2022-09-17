@@ -253,6 +253,11 @@ function CustomRooms({ collapsed }: any) {
   );
 }
 
+/**
+ * Drawer component
+ * @param {any} props
+ * @returns {any}
+ */
 function ResponsiveDrawer(props: any): JSX.Element {
   const [collapsed, setCollapsed] = React.useState(
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false

@@ -7,6 +7,10 @@ import type { Item as ItemType } from "../../types/item";
 import { ErrorHandler } from "../ErrorHandler";
 import Item from "../ItemPopup";
 
+/**
+ * Description
+ * @returns {any}
+ */
 export function RecentItems() {
   const url =
     "/api/property/inventory/recent?" +

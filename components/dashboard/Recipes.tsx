@@ -5,6 +5,10 @@ import { useState, useEffect } from "react";
 import { Recipe } from "./Recipe";
 import type { Recipes, Meal } from "../../types/recipe";
 
+/**
+ * Description
+ * @returns {any}
+ */
 export function Recipes() {
   const [recipes, setRecipes] = useState<any>([]);
   const [loading, setLoading] = useState(false);
@@ -23,6 +27,7 @@ export function Recipes() {
   // call `handleClick` on render
   useEffect(() => {
     handleClick();
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

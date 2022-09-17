@@ -11,6 +11,11 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
+/**
+ * Description
+ * @param {any} {recipe}:{recipe:Meal}
+ * @returns {any}
+ */
 export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
   const [open, setOpen] = useState(false);
 

@@ -12,6 +12,13 @@ import React from "react";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 
+/**
+ * Description
+ * @param {any} {styles
+ * @param {any} item
+ * @param {any} setItemData}
+ * @returns {any}
+ */
 export function EditButton({ styles, item, setItemData }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 

@@ -20,6 +20,12 @@ import { CreateListModal } from "./CreateListModal";
 import { GenerateListItem } from "./GenerateListItem";
 // import download from "downloadjs";
 
+/**
+ * Description
+ * @param {any} blob
+ * @param {any} name="list.png"
+ * @returns {any}
+ */
 function downloadBlob(blob, name = "list.png") {
   // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)
   const blobUrl = URL.createObjectURL(blob);

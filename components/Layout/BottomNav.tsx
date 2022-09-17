@@ -12,6 +12,11 @@ import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import React from "react";
 
+/**
+ * Bottom navigation bar
+ * @param {any} {maintenance}
+ * @returns {any}
+ */
 export function BottomNav({ maintenance }: any) {
   const trigger = useScrollTrigger({
     threshold: 0,

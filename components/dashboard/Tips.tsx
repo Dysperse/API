@@ -1,6 +1,10 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
+/**
+ * Description
+ * @returns {any}
+ */
 export function Tips(): JSX.Element {
   return (
     <Box

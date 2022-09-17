@@ -4,6 +4,10 @@ import Fab from "@mui/material/Fab";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import AddPopup from "../AddPopup";
 
+/**
+ * Floating action button
+ * @returns {any}
+ */
 export function FloatingActionButton() {
   const trigger = useScrollTrigger();
 

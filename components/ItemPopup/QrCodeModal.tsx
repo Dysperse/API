@@ -7,6 +7,11 @@ import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import QRCode from "react-qr-code";
 
+/**
+ * Description
+ * @param {any} {item}
+ * @returns {any}
+ */
 export function QrCodeModal({ item }: any): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const href =

@@ -75,6 +75,14 @@ function Room({
   );
 }
 
+/**
+ * Description
+ * @param {any} {styles
+ * @param {any} item
+ * @param {any} setDeleted
+ * @param {any} setDrawerState}
+ * @returns {any}
+ */
 export function MoveToRoom({ styles, item, setDeleted, setDrawerState }) {
   const [open, setOpen] = useState<boolean>(false);
 

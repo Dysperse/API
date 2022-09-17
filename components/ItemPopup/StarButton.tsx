@@ -1,5 +1,12 @@
 import ListItem from "@mui/material/ListItem";
 
+/**
+ * Description
+ * @param {any} {styles
+ * @param {any} item
+ * @param {any} handleItemStar}
+ * @returns {any}
+ */
 export function StarButton({ styles, item, handleItemStar }: any) {
   return (
     <ListItem button sx={styles} onClick={handleItemStar}>

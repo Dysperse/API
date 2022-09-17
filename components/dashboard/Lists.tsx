@@ -22,6 +22,14 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { ListItems } from "./ListItems";
 
+/**
+ * Description
+ * @param {any} {name
+ * @param {any} lists
+ * @param {any} setLists
+ * @param {any} tip}
+ * @returns {any}
+ */
 function ListTip({ name, lists, setLists, tip }) {
   return (
     <Alert

@@ -12,6 +12,10 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { neutralizeBack, revivalBack } from "../history-control";
 
+/**
+ * Product list
+ * @returns {any}
+ */
 function Products() {
   const apps = [
     {
@@ -59,6 +63,10 @@ function Products() {
 
   const [expanded, setExpanded] = React.useState(1);
 
+  /**
+   * @param {any} panel
+   * @returns {any}
+   */
   const handleChange = (panel: any) => {
     setExpanded(panel);
   };
@@ -143,6 +151,10 @@ function Products() {
   );
 }
 
+/**
+ * Apps menu
+ * @returns {any}
+ */
 export function AppsMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
