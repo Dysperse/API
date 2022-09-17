@@ -41,7 +41,7 @@ export async function createSession(id: number, res) {
 export default async function handler(req, res) {
   // Get the user's email and password from the request body
   const { email } = req.body;
-  console.log(req.body);
+
   // Find the user in the database
   const user = await prisma.user.findUnique({
     where: {
