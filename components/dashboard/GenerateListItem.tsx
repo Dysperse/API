@@ -39,7 +39,7 @@ export function GenerateListItem({
  * @param {any} id
  * @returns {any}
  */
- const deleteItem = (completed: boolean, id: any) => {
+ const deleteItem = (completed: boolean, id: number) => {
     const url =
       "/api/property/lists/toggleCompleted?" +
       new URLSearchParams({
