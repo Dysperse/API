@@ -1,7 +1,3 @@
-export interface Recipes {
-  meals: Meal[];
-}
-
 export interface Meal {
   idMeal: string;
   strMeal: string;

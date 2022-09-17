@@ -3,7 +3,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Masonry from "@mui/lab/Masonry";
 import { useState, useEffect } from "react";
 import { Recipe } from "./Recipe";
-import type { Recipes, Meal } from "../../types/recipe";
+import type { Meal } from "../../types/recipe";
 
 /**
  * Description
@@ -23,7 +23,7 @@ export function Recipes() {
       .then((res) => res.json())
       .then((res: any) => {
         setLoading(false);
-        const recipeList: any = [res.meals[0], ...recipes];
+        const recipeList: Meal[] = [res.meals[0], ...recipes];
         setRecipes(recipeList);
       });
   };
