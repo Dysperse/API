@@ -1,5 +1,5 @@
 import { prisma } from "../../../../lib/client";
-const ics = require("ics");
+import ics from "ics";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
 let alarms: any = [];

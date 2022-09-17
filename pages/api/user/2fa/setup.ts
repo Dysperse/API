@@ -1,6 +1,6 @@
 // Update user settings
 import { prisma } from "../../../../lib/client";
-const twofactor = require("node-2fa");
+import twofactor from "node-2fa";
 
 const handler = async (req: any, res: any) => {
   // Get user info from sessions table using accessToken
