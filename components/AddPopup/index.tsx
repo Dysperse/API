@@ -27,12 +27,12 @@ const Root = styled("div")(() => ({
 }));
 
 /**
- *
+ * Item popup option
  * @param alias Room alias to replace room title
  * @param toggleDrawer Function to toggle drawer
  * @param icon Icon to display in drawer
  * @param title Title to display in drawer
- * @returns
+ * @returns JSX.Element
  */
 function AddItemOption({
   alias,
