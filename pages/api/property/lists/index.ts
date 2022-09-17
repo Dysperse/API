@@ -33,7 +33,7 @@ const handler = async (req: any, res: any) => {
     },
   });
 
-  const e = data.map((list: any) => {
+  const lists = data.map((list: any) => {
     // console.log(list.name);
     return {
       ...list,
@@ -61,6 +61,6 @@ const handler = async (req: any, res: any) => {
       }),
     };
   });
-  res.json(e);
+  res.json(lists);
 };
 export default handler;

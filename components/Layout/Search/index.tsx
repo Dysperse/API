@@ -264,8 +264,8 @@ export function SearchPopup() {
    */
   const popPage = React.useCallback(() => {
     setPages((pages) => {
-      const x = [...pages];
-      x.splice(-1, 1);
+      const pgs = [...pages];
+      pgs.splice(-1, 1);
       return x;
     });
   }, []);

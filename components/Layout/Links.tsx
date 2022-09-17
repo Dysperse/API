@@ -211,7 +211,7 @@ const ListItem = React.memo(function ListItem({
 }: any) {
   const router = useRouter();
   if (!router.asPath) router.asPath = "/dashboard";
-  const c = (
+  const template = (
     <ListItemButton
       sx={{
         ...(collapsed && {
@@ -322,10 +322,10 @@ const ListItem = React.memo(function ListItem({
     <Link href={href} as={asHref} replace>
       {collapsed ? (
         <Tooltip title={text} placement="right">
-          {c}
+          {template}
         </Tooltip>
       ) : (
-        c
+        template
       )}
     </Link>
   );

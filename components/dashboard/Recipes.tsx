@@ -23,8 +23,8 @@ export function Recipes() {
       .then((res) => res.json())
       .then((res: any) => {
         setLoading(false);
-        const d: any = [res.meals[0], ...recipes];
-        setRecipes(d);
+        const recipes: any = [res.meals[0], ...recipes];
+        setRecipes(recipes);
       });
   };
 

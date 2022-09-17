@@ -32,7 +32,7 @@ export function updateSettings(
         [key]: value,
       }).toString();
   }
-  const d = fetch(url, {
+  const fetcher = fetch(url, {
     method: "POST",
   })
     .then((res) => res.json())
@@ -44,5 +44,5 @@ export function updateSettings(
         alert(JSON.stringify(res));
       }
     });
-  return d;
+  return fetcher;
 }

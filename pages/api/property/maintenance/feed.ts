@@ -27,7 +27,7 @@ const handler = async (req: any, res: any) => {
     },
   });
   // Set header to .ics
-  const d = await new Promise((resolve) => {
+  const icsCalendar = await new Promise((resolve) => {
     ics.createEvents(
       data.map((reminder) => {
         alarms.push({
@@ -72,6 +72,6 @@ const handler = async (req: any, res: any) => {
     );
   });
   res.setHeader("Content-type", "text/calendar; charset=utf-8");
-  res.send(d);
+  res.send(icsCalendar);
 };
 export default handler;
