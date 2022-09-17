@@ -316,7 +316,7 @@ function NoteModal({
                       setOpen(false);
                       toast.success("Deleted note!");
                     })
-                    .catch((err) => {
+                    .catch(() => {
                       toast.error(
                         "Couldn't delete note. Please try again later."
                       );

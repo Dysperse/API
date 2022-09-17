@@ -54,7 +54,6 @@ function GenerateData({
   parent,
   emptyImage,
   emptyText,
-  title,
 }: {
   screenshotReady: boolean;
   data: Array<any>;

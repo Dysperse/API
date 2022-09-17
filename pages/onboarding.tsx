@@ -1,29 +1,27 @@
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import { colors } from "../lib/colors";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import MobileStepper from "@mui/material/MobileStepper";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import SwipeableViews from "react-swipeable-views";
+import { cards } from "../components/AddPopup/cards";
 import { Color } from "../components/onboarding/Color";
 import { CustomRooms } from "../components/onboarding/customRooms";
 import { InventoryList } from "../components/onboarding/InventoryList";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { updateSettings } from "../components/Settings/updateSettings";
+import { colors } from "../lib/colors";
 const AutoPlaySwipeableViews = SwipeableViews;
-import { cards } from "../components/AddPopup/cards";
-
 function SwipeableTextMobileStepper() {
   const [houseType, setHouseType] = React.useState<string>("home");
   const [themeColor, setThemeColor] = React.useState("brown");
-  const [mode, setMode] = React.useState<"dark" | "light">("light");
+  const [mode] = React.useState<"dark" | "light">("light");
 
   const userTheme = createTheme({
     palette: {
@@ -224,7 +222,7 @@ function SwipeableTextMobileStepper() {
             variant="filled"
             sx={{ mt: 1 }}
             onBlur={(e) => {
-              updateSettings("name", e.target.value, false, null, true, false);
+              updateSettings("name", e.target.value, false, null, true);
             }}
             InputProps={{
               sx: {

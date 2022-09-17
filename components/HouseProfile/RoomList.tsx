@@ -81,9 +81,7 @@ export function RoomList({ color }: any) {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
     });
-  const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
-  );
+  const { data } = useSWR(url, () => fetch(url).then((res) => res.json()));
   const [emblaRef] = useEmblaCarousel();
 
   const images = data

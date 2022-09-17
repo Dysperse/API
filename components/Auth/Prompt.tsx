@@ -1,6 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
 import Paper from "@mui/material/Paper";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -9,25 +8,16 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useSWRConfig } from "swr";
-import Cookies from "universal-cookie";
+import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { Layout } from "./Layout";
 
-const validateEmail = (email) => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-};
 export default function Prompt() {
   global.themeColor = "brown";
   const { mutate } = useSWRConfig();
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
   const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
-
-  const cookies = new Cookies();
 
   const formik = useFormik({
     initialValues: {
@@ -57,19 +47,19 @@ export default function Prompt() {
             mutate("/api/user");
           }
         })
-        .catch((err) => setButtonLoading(false));
+        .catch(() => setButtonLoading(false));
     },
   });
 
-  const toastStyles = {
-    style: {
-      borderRadius: "10px",
-      background: "#333",
-      color: "#fff",
-      padding: "10px",
-      paddingLeft: "20px",
-    },
-  };
+  // const toastStyles = {
+  //   style: {
+  //     borderRadius: "10px",
+  //     background: "#333",
+  //     color: "#fff",
+  //     padding: "10px",
+  //     paddingLeft: "20px",
+  //   },
+  // };
 
   document
     .querySelector(`meta[name="theme-color"]`)!
