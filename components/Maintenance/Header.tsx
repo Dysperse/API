@@ -16,6 +16,7 @@ import { Puller } from "../Puller";
 import Link from "@mui/material/Link";
 
 const useStyles = createStyles(() => ({
+  outside: {},
   weekend: {
     color: "inherit !important",
   },
