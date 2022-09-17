@@ -39,7 +39,7 @@ export function GenerateListItem({
    * @param {any} id
    * @returns {any}
    */
-  const deleteItem = (completed: boolean, id: number) => {
+  const deleteItem = (completed: boolean, id: string | number) => {
     const url =
       "/api/property/lists/toggleCompleted?" +
       new URLSearchParams({
@@ -123,7 +123,7 @@ export function GenerateListItem({
               }}
               onClick={() => {
                 if (global.property.role !== "read-only") {
-                  deleteItem(completed, parseInt(id, 10));
+                  deleteItem(completed, parseInt(id.toString(), 10));
                   setItems(
                     items.map((item: any) => {
                       if (item.id === id) {
