@@ -3,6 +3,11 @@ import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import React from "react";
 
+/**
+ * Custom rooms add component
+ * @param {any} {houseType}
+ * @returns {any}
+ */
 export function CustomRooms({ houseType }: any) {
   //  eslint-disable-next-line react-hooks/exhaustive-deps
   const fixedOptions = [

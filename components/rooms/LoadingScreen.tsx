@@ -4,7 +4,11 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 
-export function LoadingScreen() {
+/**
+ * Loading screen
+ * @returns {JSX.Element}
+ */
+export function LoadingScreen(): JSX.Element {
   return (
     <Container sx={{ mt: 4 }}>
       <Skeleton

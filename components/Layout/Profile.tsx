@@ -2,6 +2,11 @@ import React, { useEffect } from "react";
 import Settings from "../Settings/index";
 import Box from "@mui/material/Box";
 
+/**
+ * Profile menu
+ * @param {any} props
+ * @returns {any}
+ */
 export function ProfileMenu(props: any) {
   const [open, setOpen] = React.useState<boolean>(false);
   useEffect(() => {

@@ -6,6 +6,11 @@ import { ErrorHandler } from "../ErrorHandler";
 import { LoadingScreen } from "./LoadingScreen";
 import { RenderRoom } from "./RenderRoom";
 
+/**
+ * Room component to load inventory
+ * @param {any} {index}
+ * @returns {any}
+ */
 export function RoomComponent({ index }: any) {
   const router = useRouter();
   const url =

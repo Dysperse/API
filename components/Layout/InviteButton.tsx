@@ -25,6 +25,14 @@ import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
+
+/**
+ * Color component for house profile
+ * @param {any} {s
+ * @param {any} color
+ * @param {any} setColor}
+ * @returns {any}
+ */
 function Color({ s, color, setColor }: any) {
   return (
     <CardActionArea
@@ -55,6 +63,12 @@ function Color({ s, color, setColor }: any) {
   );
 }
 
+/**
+ * House popup
+ * @param {any} {handleClose
+ * @param {any} data}
+ * @returns {any}
+ */
 function House({ handleClose, data }: any) {
   const [open, setOpen] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
@@ -479,6 +493,10 @@ function House({ handleClose, data }: any) {
   );
 }
 
+/**
+ * Invite button to trigger property list
+ * @returns {any}
+ */
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
 

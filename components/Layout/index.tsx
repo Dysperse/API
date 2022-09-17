@@ -209,6 +209,11 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
   );
 }
 
+/**
+ * Custom rooms component
+ * @param {any} {collapsed}
+ * @returns {any}
+ */
 function CustomRooms({ collapsed }: any) {
   const url =
     "/api/property/rooms?" +

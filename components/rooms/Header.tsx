@@ -8,6 +8,12 @@ import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
+/**
+ * Header component for the room
+ * @param useAlias
+ * @param room
+ * @param itemCount
+ */
 export function Header({
   useAlias,
   room,
@@ -17,7 +23,7 @@ export function Header({
   room: string;
   itemCount: number;
 }) {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   return (
     <ListItem
@@ -46,7 +52,7 @@ export function Header({
         <Avatar
           className="avatar"
           onClick={() => {
-            setLoading (true)
+            setLoading(true);
             router.push("/items");
           }}
           sx={{
@@ -70,12 +76,16 @@ export function Header({
             },
           }}
         >
-          {loading ? <CircularProgress size={18} sx={{ ml: "-5px", }} /> : <span
-            style={{ fontSize: "20px" }}
-            className="material-symbols-rounded"
-          >
-            arrow_back_ios_new
-          </span>}
+          {loading ? (
+            <CircularProgress size={18} sx={{ ml: "-5px" }} />
+          ) : (
+            <span
+              style={{ fontSize: "20px" }}
+              className="material-symbols-rounded"
+            >
+              arrow_back_ios_new
+            </span>
+          )}
         </Avatar>
       </ListItemAvatar>
       <ListItemText

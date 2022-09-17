@@ -2,6 +2,13 @@ import CardActionArea from "@mui/material/CardActionArea";
 import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 
+/**
+ * Color component
+ * @param {any} {color
+ * @param {any} setThemeColor
+ * @param {any} handleNext}
+ * @returns {any}
+ */
 export function Color({ color, setThemeColor, handleNext }) {
   return (
     <CardActionArea

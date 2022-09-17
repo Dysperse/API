@@ -1,5 +1,8 @@
 import { prisma } from "./client";
 
+/**
+ * Fetches the permissions of a user
+ */
 export const validatePermissions = async (
   property: string,
   accessToken: string

@@ -14,6 +14,11 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 
+/**
+ * Reminder component
+ * @param {any} {reminder}
+ * @returns {any}
+ */
 export function Reminder({ reminder }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [markAsDoneLoading, setMarkAsDoneLoading] = useState<boolean>(false);

@@ -27,6 +27,11 @@ import AddPopup from "../AddPopup";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 
+/**
+ * Create room popup
+ * @param {any} {collapsed}
+ * @returns {any}
+ */
 function CreateRoom({ collapsed }: any) {
   const router = useRouter();
   const [open, setOpen] = React.useState<boolean>(false);
@@ -184,7 +189,14 @@ function CreateRoom({ collapsed }: any) {
     </>
   );
 }
-
+/**
+ * List item
+ * @param href
+ * @param asHref
+ * @param text
+ * @param icon
+ * @param collapsed
+ */
 const ListItem = React.memo(function ListItem({
   href = "/dashboard",
   asHref = "/dashboard",

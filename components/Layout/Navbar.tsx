@@ -13,6 +13,11 @@ import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
 
+/**
+ * Returns the initials of a name
+ * @param {any} fullName
+ * @returns {any}
+ */
 export const getInitials = (fullName) => {
   const allNames = fullName.trim().split(" ");
   const initials = allNames.reduce((acc, curr, index) => {
@@ -24,6 +29,11 @@ export const getInitials = (fullName) => {
   return initials;
 };
 
+/**
+ * Navbar scroll trigger
+ * @param {any} props
+ * @returns {any}
+ */
 function ElevationScroll(props: any) {
   const { children, window } = props;
   const trigger = useScrollTrigger({
@@ -81,6 +91,10 @@ function ElevationScroll(props: any) {
   });
 }
 
+/**
+ * Navbar component
+ * @returns {any}
+ */
 export function Navbar(): JSX.Element {
   return (
     <ElevationScroll>

@@ -9,6 +9,15 @@ import React from "react";
 import { CreateItemModal } from "../AddPopup/CreateItemModal";
 import { neutralizeBack, revivalBack } from "../history-control";
 
+/**
+ * Toolbar for a room
+ * @param {any} {alias
+ * @param {any} room
+ * @param {any} items
+ * @param {any} setItems
+ * @param {any} data}
+ * @returns {any}
+ */
 export function Toolbar({ alias, room, items, setItems, data }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

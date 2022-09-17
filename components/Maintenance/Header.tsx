@@ -22,7 +22,11 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-function CalendarFeedModal() {
+/**
+ * Calendar component for create reminder popup
+ * @returns {any}
+ */
+function CalendarFeedModal(): JSX.Element {
   const [open, setOpen] = useState(false);
   const url =
     "https://my.smartlist.tech/api/property/maintenance/feed?property=" +

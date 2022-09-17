@@ -6,6 +6,11 @@ import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
 
+/**
+ * Inventory list
+ * @param {any} {data}:{data:Array<any>}
+ * @returns {any}
+ */
 export function InventoryList({ data }: { data: Array<any> }) {
   const [inventory, setInventory] = React.useState<any>([]);
   return (
