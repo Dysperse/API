@@ -245,14 +245,14 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
           </DialogContent>
         </form>
       </SwipeableDrawer>
-      <div
+      <Box
         onClick={() => {
           setOpen(true);
           setCustomParent(parent);
         }}
       >
         {children}
-      </div>
+      </Box>
     </>
   );
 }
