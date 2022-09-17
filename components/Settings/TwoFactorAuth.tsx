@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
 
+const twofactor = require("node-2fa");
+
 export default function App() {
   const secret = twofactor.generateSecret({
     name: "Carbon",
