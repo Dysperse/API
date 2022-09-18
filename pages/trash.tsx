@@ -21,103 +21,104 @@ import type { Item } from "../types/item";
 function DeleteCard({ item }: any) {
   const [deleted, setDeleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  return deleted ? (
-    <></>
-  ) : (
-    <Card
-      sx={{
-        background:
-          global.theme === "dark"
-            ? "hsl(240, 11%, 25%)"
-            : "rgba(200,200,200,.3)",
-        borderRadius: "28px",
-      }}
-    >
-      <CardContent>
-        <ItemCard item={item} displayRoom />
-        <LoadingButton
-          loading={loading}
-          sx={{
-            float: "right",
-            boxShadow: 0,
-            m: 0.5,
-            mb: 2,
-            borderRadius: 9,
-          }}
-          variant="contained"
-          disabled={global.property.role === "read-only"}
-          onClick={() => {
-            fetch(
-              "/api/inventory/trash?" +
-                new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                  id: item.id.toString(),
-                  forever: "true",
-                }).toString(),
-              {
-                method: "POST",
-              }
-            )
-              .then(() => {
-                setDeleted(true);
-                setLoading(false);
-                toast.success("Item deleted forever");
-              })
-              .catch(() => {
-                toast.error(
-                  "An error occured while trying to delete this item. Please try again"
-                );
-                setLoading(false);
-              });
-            setLoading(true);
-          }}
-        >
-          Delete
-        </LoadingButton>
-        <Button
-          sx={{
-            float: "right",
-            boxShadow: 0,
-            m: 0.5,
-            mb: 2,
-            borderRadius: 9,
-          }}
-          variant="outlined"
-          disabled={global.property.role === "read-only"}
-          onClick={() => {
-            fetch(
-              "/api/restore?" +
-                new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                  lastUpdated: dayjs(item.lastUpdated).format(
-                    "YYYY-MM-DD HH:mm:ss"
-                  ),
-                  id: item.id.toString(),
-                }).toString(),
-              {
-                method: "POST",
-              }
-            )
-              .then(() => {
-                setDeleted(true);
-                setLoading(false);
-                toast.success("Item restored");
-              })
-              .catch(() => {
-                toast.error(
-                  "An error occured while trying to restore this item. Please try again"
-                );
-                setLoading(false);
-              });
-            setLoading(true);
-          }}
-        >
-          Restore
-        </Button>
-      </CardContent>
-    </Card>
+
+  return (
+    !deleted && (
+      <Card
+        sx={{
+          background:
+            global.theme === "dark"
+              ? "hsl(240, 11%, 25%)"
+              : "rgba(200,200,200,.3)",
+          borderRadius: "28px",
+        }}
+      >
+        <CardContent>
+          <ItemCard item={item} displayRoom />
+          <LoadingButton
+            loading={loading}
+            sx={{
+              float: "right",
+              boxShadow: 0,
+              m: 0.5,
+              mb: 2,
+              borderRadius: 9,
+            }}
+            variant="contained"
+            disabled={global.property.role === "read-only"}
+            onClick={() => {
+              fetch(
+                "/api/inventory/trash?" +
+                  new URLSearchParams({
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
+                    id: item.id.toString(),
+                    forever: "true",
+                  }).toString(),
+                {
+                  method: "POST",
+                }
+              )
+                .then(() => {
+                  setDeleted(true);
+                  setLoading(false);
+                  toast.success("Item deleted forever");
+                })
+                .catch(() => {
+                  toast.error(
+                    "An error occured while trying to delete this item. Please try again"
+                  );
+                  setLoading(false);
+                });
+              setLoading(true);
+            }}
+          >
+            Delete
+          </LoadingButton>
+          <Button
+            sx={{
+              float: "right",
+              boxShadow: 0,
+              m: 0.5,
+              mb: 2,
+              borderRadius: 9,
+            }}
+            variant="outlined"
+            disabled={global.property.role === "read-only"}
+            onClick={() => {
+              fetch(
+                "/api/restore?" +
+                  new URLSearchParams({
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
+                    lastUpdated: dayjs(item.lastUpdated).format(
+                      "YYYY-MM-DD HH:mm:ss"
+                    ),
+                    id: item.id.toString(),
+                  }).toString(),
+                {
+                  method: "POST",
+                }
+              )
+                .then(() => {
+                  setDeleted(true);
+                  setLoading(false);
+                  toast.success("Item restored");
+                })
+                .catch(() => {
+                  toast.error(
+                    "An error occured while trying to restore this item. Please try again"
+                  );
+                  setLoading(false);
+                });
+              setLoading(true);
+            }}
+          >
+            Restore
+          </Button>
+        </CardContent>
+      </Card>
+    )
   );
 }
 

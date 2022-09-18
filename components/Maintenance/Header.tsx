@@ -239,15 +239,13 @@ function FrequencySetting({ name, formik }: { name: string; formik: any }) {
         }),
       }}
     >
-      {formik.values.frequency === name ? (
+      {formik.values.frequency === name && (
         <span
           className="material-symbols-rounded"
           style={{ marginRight: "10px" }}
         >
           check
         </span>
-      ) : (
-        <></>
       )}
       {name}
     </Button>

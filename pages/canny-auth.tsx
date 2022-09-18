@@ -39,7 +39,7 @@ function RenderData({ data }) {
     "&redirect=" +
     encodeURIComponent(redirectURL);
   window.location.href = url;
-  return <></>;
+  return <div></div>;
 }
 
 /**

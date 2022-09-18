@@ -128,7 +128,7 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
           </span>
         </ListItemIcon>
 
-        {collapsed ? <></> : <ListItemText primary="Create room" />}
+        {!collapsed && <ListItemText primary="Create room" />}
       </ListItemButton>
       <SwipeableDrawer
         anchor="bottom"
@@ -519,7 +519,7 @@ export function DrawerListItems({
                     <span className="material-symbols-outlined">handyman</span>
                   </Badge>
                 ) : (
-                  <>handyman</>
+                  "handyman"
                 )}
               </>
             }

@@ -207,18 +207,16 @@ function Action({ icon, primary, href, onClick }: any) {
         setLoading(true);
       }}
       secondaryAction={
-        <>
-          {loading ? (
-            <CircularProgress size={18} sx={{ ml: "auto", mt: "8px" }} />
-          ) : (
-            <span
-              className="material-symbols-rounded"
-              style={{ marginTop: "10px" }}
-            >
-              chevron_right
-            </span>
-          )}
-        </>
+        loading ? (
+          <CircularProgress size={18} sx={{ ml: "auto", mt: "8px" }} />
+        ) : (
+          <span
+            className="material-symbols-rounded"
+            style={{ marginTop: "10px" }}
+          >
+            chevron_right
+          </span>
+        )
       }
       sx={{
         mb: 1,
@@ -391,15 +389,13 @@ export default function Categories() {
                 }),
               }}
             >
-              {viewBy === "room" ? (
+              {viewBy === "room" && (
                 <span
                   className="material-symbols-rounded"
                   style={{ marginRight: "10px" }}
                 >
                   check
                 </span>
-              ) : (
-                <></>
               )}
               Room
             </Button>
@@ -425,15 +421,13 @@ export default function Categories() {
                 }),
               }}
             >
-              {viewBy === "category" ? (
+              {viewBy === "category" && (
                 <span
                   className="material-symbols-rounded"
                   style={{ marginRight: "10px" }}
                 >
                   check
                 </span>
-              ) : (
-                <></>
               )}
               Category
             </Button>
@@ -496,9 +490,7 @@ export default function Categories() {
             <Action href="/trash" icon="delete" primary="Trash" />
           </>
         ) : (
-          <>
-            <CategoryList />
-          </>
+          <CategoryList />
         )}
       </Container>
     </>

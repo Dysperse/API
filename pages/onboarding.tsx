@@ -306,79 +306,57 @@ function SwipeableTextMobileStepper() {
 
   const maxSteps = images.length;
 
-  return global.user ? (
-    <ThemeProvider theme={userTheme}>
-      <Box
-        sx={{
-          position: "fixed",
-          userSelect: "none",
-          top: 0,
-          left: 0,
-          background: colors[themeColor][mode === "dark" ? "900" : "100"],
-          height: "100vh",
-          width: "100vw",
-          ...(mode === "dark" && {
-            color: "#fff",
-          }),
-        }}
-      >
-        <AutoPlaySwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
-        >
-          {images.map((step, index) => (
-            <Box
-              sx={{
-                height: "100vh",
-              }}
-              key={index.toString()}
-            >
-              {step.content}
-            </Box>
-          ))}
-        </AutoPlaySwipeableViews>
-        <MobileStepper
-          steps={maxSteps}
+  return (
+    global.user && (
+      <ThemeProvider theme={userTheme}>
+        <Box
           sx={{
-            "& .MuiMobileStepper-dots": {
-              display: "none",
-            },
-            transition: "all .2s",
-            bottom: 0,
-            ...((activeStep === 0 || activeStep === maxSteps - 1) && {
-              bottom: "-50px",
-            }),
             position: "fixed",
-            background: "transparent",
-            backdropFilter: "blur(10px)",
+            userSelect: "none",
+            top: 0,
+            left: 0,
+            background: colors[themeColor][mode === "dark" ? "900" : "100"],
+            height: "100vh",
+            width: "100vw",
+            ...(mode === "dark" && {
+              color: "#fff",
+            }),
           }}
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="large"
-              sx={{
-                transition: "opacity .2s",
-                transitionDelay: ".2s",
-                ...((activeStep === 0 || activeStep === maxSteps - 1) && {
-                  pointerEvents: "none",
-                }),
-              }}
-              variant="contained"
-              onClick={handleNext}
-            >
-              Next
-              <span
-                className="material-symbols-rounded"
-                style={{ marginLeft: "10px" }}
+        >
+          <AutoPlaySwipeableViews
+            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+            index={activeStep}
+            onChangeIndex={handleStepChange}
+            enableMouseEvents
+          >
+            {images.map((step, index) => (
+              <Box
+                sx={{
+                  height: "100vh",
+                }}
+                key={index.toString()}
               >
-                chevron_right
-              </span>
-            </Button>
-          }
-          backButton={
-            <>
+                {step.content}
+              </Box>
+            ))}
+          </AutoPlaySwipeableViews>
+          <MobileStepper
+            steps={maxSteps}
+            sx={{
+              "& .MuiMobileStepper-dots": {
+                display: "none",
+              },
+              transition: "all .2s",
+              bottom: 0,
+              ...((activeStep === 0 || activeStep === maxSteps - 1) && {
+                bottom: "-50px",
+              }),
+              position: "fixed",
+              background: "transparent",
+              backdropFilter: "blur(10px)",
+            }}
+            activeStep={activeStep}
+            nextButton={
               <Button
                 size="large"
                 sx={{
@@ -387,21 +365,43 @@ function SwipeableTextMobileStepper() {
                   ...((activeStep === 0 || activeStep === maxSteps - 1) && {
                     pointerEvents: "none",
                   }),
-                  px: 1.5,
-                  minWidth: "auto",
                 }}
                 variant="contained"
-                onClick={handleBack}
+                onClick={handleNext}
               >
-                <span className="material-symbols-rounded">chevron_left</span>
+                Next
+                <span
+                  className="material-symbols-rounded"
+                  style={{ marginLeft: "10px" }}
+                >
+                  chevron_right
+                </span>
               </Button>
-            </>
-          }
-        />
-      </Box>
-    </ThemeProvider>
-  ) : (
-    <></>
+            }
+            backButton={
+              <>
+                <Button
+                  size="large"
+                  sx={{
+                    transition: "opacity .2s",
+                    transitionDelay: ".2s",
+                    ...((activeStep === 0 || activeStep === maxSteps - 1) && {
+                      pointerEvents: "none",
+                    }),
+                    px: 1.5,
+                    minWidth: "auto",
+                  }}
+                  variant="contained"
+                  onClick={handleBack}
+                >
+                  <span className="material-symbols-rounded">chevron_left</span>
+                </Button>
+              </>
+            }
+          />
+        </Box>
+      </ThemeProvider>
+    )
   );
 }
 

@@ -12,7 +12,6 @@ model User {
   name               String
   email              String           @unique
   password           String
-  avatar             String?
   darkMode           Boolean          @default(false)
   color              String           @default("cyan")
   onboardingComplete Boolean          @default(false)
