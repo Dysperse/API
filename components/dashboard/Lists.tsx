@@ -344,8 +344,8 @@ export function Lists() {
         <Render data={data} />
       ) : (
         <>
-          {[...new Array(10)].map((_, i) => (
-            <Paper key={i}>
+          {[...new Array(10)].map(() => (
+            <Paper key={Math.random().toString()}>
               <Skeleton
                 animation="wave"
                 variant="rectangular"

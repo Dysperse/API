@@ -124,11 +124,11 @@ export default function Maintenance() {
           </>
         ) : (
           <>
-            {[...new Array(5)].map((_, i) => (
+            {[...new Array(5)].map(() => (
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                key={i}
+                key={Math.random().toString()}
                 height={130}
                 sx={{ mb: 3, borderRadius: 10 }}
               />

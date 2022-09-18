@@ -91,7 +91,7 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
               if (recipe[`strIngredient${i + 1}`]) {
                 return (
                   <Typography
-                    key={i.toString()}
+                    key={recipe[`strIngredient${i + 1}`].toString()}
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -126,10 +126,10 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
             >
               Instructions
             </Typography>
-            {recipe.strInstructions.split("\n").map(function (item, idx) {
+            {recipe.strInstructions.split("\n").map(function (item) {
               return (
                 <span
-                  key={idx}
+                  key={item}
                   style={{ marginBottom: "10px", display: "block" }}
                 >
                   {item}

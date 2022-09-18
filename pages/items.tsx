@@ -168,13 +168,13 @@ function CategoryList() {
       ) : (
         !error && (
           <>
-            {[...new Array(5)].map((_, i) => (
+            {[...new Array(5)].map(() => (
               <Skeleton
                 animation="wave"
                 height={30}
                 sx={{ width: "100%", mb: 2, borderRadius: 3 }}
                 variant="rectangular"
-                key={i.toString()}
+                key={Math.random().toString()}
               />
             ))}
           </>
