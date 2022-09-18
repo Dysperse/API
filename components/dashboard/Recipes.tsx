@@ -21,7 +21,7 @@ export function Recipes() {
     setLoading(true);
     fetch("https://www.themealdb.com/api/json/v1/1/random.php")
       .then((res) => res.json())
-      .then((res: any) => {
+      .then((res: { meals: Meal[] }) => {
         setLoading(false);
         const recipeList: Meal[] = [res.meals[0], ...recipes];
         setRecipes(recipeList);
