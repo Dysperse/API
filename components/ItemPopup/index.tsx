@@ -122,14 +122,13 @@ export default function Item({
       starred: !item.starred,
     });
     fetch(
-      "/api/property/inventory/star?" +
-        new URLSearchParams({
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-          id: item.id.toString(),
-          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-          starred: item.starred,
-        }).toString(),
+      `/api/property/inventory/star?${new URLSearchParams({
+        property: global.property.propertyId,
+        accessToken: global.property.accessToken,
+        id: item.id.toString(),
+        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        starred: item.starred,
+      }).toString()}`,
       {
         method: "POST",
       }
@@ -143,13 +142,12 @@ export default function Item({
   const handleItemDelete = () => {
     setDeleted(true);
     fetch(
-      "/api/property/inventory/trash?" +
-        new URLSearchParams({
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-          id: id.toString(),
-          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        }).toString(),
+      `/api/property/inventory/trash?${new URLSearchParams({
+        property: global.property.propertyId,
+        accessToken: global.property.accessToken,
+        id: id.toString(),
+        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      }).toString()}`,
       {
         method: "POST",
       }
@@ -173,13 +171,12 @@ export default function Item({
             toast.dismiss(t.id);
             setIndex(1);
             fetch(
-              "/api/inventory/restore?" +
-                new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                  id: item.id.toString(),
-                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                }).toString(),
+              `/api/inventory/restore?${new URLSearchParams({
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                id: item.id.toString(),
+                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              }).toString()}`,
               {
                 method: "POST",
               }
@@ -414,14 +411,15 @@ export default function Item({
                         note: e.target.value,
                       });
                       fetch(
-                        "/api/property/inventory/updateNote?" +
-                          new URLSearchParams({
+                        `/api/property/inventory/updateNote?${new URLSearchParams(
+                          {
                             property: global.property.propertyId,
                             accessToken: global.property.accessToken,
                             id: id.toString(),
                             lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                             note: e.target.value,
-                          }).toString(),
+                          }
+                        ).toString()}`,
                         {
                           method: "POST",
                         }

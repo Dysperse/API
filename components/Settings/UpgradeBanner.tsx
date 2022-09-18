@@ -11,12 +11,10 @@ import LinearProgress from "@mui/material/LinearProgress";
  * Upgrade banner
  */
 export function UpgradeBanner() {
-  const url =
-    "/api/property/inventory/count?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/inventory/count?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
 
   const { data } = useSWR(url, () => fetch(url).then((r) => r.json()));
 

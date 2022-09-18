@@ -99,12 +99,11 @@ function House({ handleClose, data }: any) {
           } else {
             setLoading(true);
             fetch(
-              "/api/property/join?" +
-                new URLSearchParams({
-                  property: data.propertyId,
-                  accessToken: data.accessToken,
-                  email: global.user.email,
-                }).toString()
+              `/api/property/join?${new URLSearchParams({
+                property: data.propertyId,
+                accessToken: data.accessToken,
+                email: global.user.email,
+              }).toString()}`
             )
               .then((res) => res.json())
               .then((res: any) => {

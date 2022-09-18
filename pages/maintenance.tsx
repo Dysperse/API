@@ -14,11 +14,10 @@ import type { Reminder as ReminderType } from "../types/maintenance";
  */
 export default function Maintenance() {
   const url =
-    "/api/property/maintenance/reminders?" +
-    new URLSearchParams({
+    `/api/property/maintenance/reminders?${new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    }).toString();
+    }).toString()}`;
 
   const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
 

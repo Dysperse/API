@@ -45,14 +45,13 @@ export function CustomRooms({ houseType }: any) {
         ]);
 
         fetch(
-          "/api/property/rooms/create?" +
-            new URLSearchParams({
-              property: global.property.propertyId,
-              accessToken: global.property.accessToken,
-              name: newValue.filter(
-                (option) => fixedOptions.indexOf(option) === -1
-              ),
-            }).toString()
+          `${"/api/property/rooms/create?"}${new URLSearchParams({
+            property: global.property.propertyId,
+            accessToken: global.property.accessToken,
+            name: newValue.filter(
+              (option) => fixedOptions.indexOf(option) === -1
+            ),
+          }).toString()}`
         );
       }}
       options={[]}

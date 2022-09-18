@@ -20,12 +20,10 @@ import useSWR from "swr";
  * @returns {any}
  */
 function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
-  const url =
-    "/api/lists/items?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/lists/items?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",
@@ -56,14 +54,13 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
             sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
             onClick={() => {
               fetch(
-                "/api/lists/create-item?" +
-                  new URLSearchParams({
-                    property: global.property.propertyId,
-                    accessToken: global.property.accessToken,
-                    parent: list.id,
-                    title: title,
-                    description: "",
-                  }).toString(),
+                `/api/lists/create-item?${new URLSearchParams({
+                  property: global.property.propertyId,
+                  accessToken: global.property.accessToken,
+                  parent: list.id,
+                  title: title,
+                  description: "",
+                }).toString()}`,
                 {
                   method: "POST",
                 }

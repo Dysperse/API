@@ -50,16 +50,15 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
       quantity: string;
     }) => {
       fetch(
-        "/api/property/inventory/edit?" +
-          new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            id: item.id.toString(),
-            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-            name: values.title,
-            quantity: values.quantity,
-            category: JSON.stringify(values.categories),
-          }).toString(),
+        `/api/property/inventory/edit?${new URLSearchParams({
+          property: global.property.propertyId,
+          accessToken: global.property.accessToken,
+          id: item.id.toString(),
+          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          name: values.title,
+          quantity: values.quantity,
+          category: JSON.stringify(values.categories),
+        }).toString()}`,
         {
           method: "POST",
         }

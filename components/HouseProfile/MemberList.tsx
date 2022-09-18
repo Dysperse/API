@@ -105,12 +105,11 @@ function Member({ member }): any {
             ) {
               setLoading(true);
               fetch(
-                "/api/property/members/remove?" +
-                  new URLSearchParams({
-                    id: member.id,
-                    accessToken: global.property.accessToken,
-                    property: global.property.propertyId,
-                  }).toString(),
+                `/api/property/members/remove?${new URLSearchParams({
+                  id: member.id,
+                  accessToken: global.property.accessToken,
+                  property: global.property.propertyId,
+                }).toString()}`,
                 {
                   method: "POST",
                 }
@@ -136,12 +135,10 @@ function Member({ member }): any {
  */
 
 export function MemberList({ color }: any) {
-  const url =
-    "/api/property/members?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/members?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { data } = useSWR(url, () =>
     fetch(url, {
       method: "POST",

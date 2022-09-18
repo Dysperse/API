@@ -11,12 +11,10 @@ import type { Item } from "../types/item";
  * Items component to load inventory
  */
 function Items() {
-  const url =
-    "/api/inventory/starred-items?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/inventory/starred-items?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { error, data }: any = useSWR(url, () =>
     fetch(url, { method: "POST" }).then((res) => res.json())
   );

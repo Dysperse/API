@@ -40,14 +40,12 @@ export function GenerateListItem({
    * @returns {any}
    */
   const deleteItem = (completed: boolean, id: string | number) => {
-    const url =
-      "/api/property/lists/toggleCompleted?" +
-      new URLSearchParams({
-        property: global.property.propertyId,
-        accessToken: global.property.accessToken,
-        id: id.toString(),
-        completed: completed === true ? "false" : "true",
-      }).toString();
+    const url = `/api/property/lists/toggleCompleted?${new URLSearchParams({
+      property: global.property.propertyId,
+      accessToken: global.property.accessToken,
+      id: id.toString(),
+      completed: completed === true ? "false" : "true",
+    }).toString()}`;
     fetch(url, {
       method: "POST",
     });

@@ -58,12 +58,11 @@ function Room({
           ) {
             setDeleted(true);
             fetch(
-              "/api/property/rooms/delete?" +
-                new URLSearchParams({
-                  id: room.id,
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                }).toString(),
+              `/api/property/rooms/delete?${new URLSearchParams({
+                id: room.id,
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+              }).toString()}`,
               {
                 method: "POST",
               }
@@ -73,11 +72,10 @@ function Room({
                 toast.error("Failed to delete room");
                 setDeleted(false);
                 mutate(
-                  "/api/property/rooms?" +
-                    new URLSearchParams({
+                  `/api/property/rooms?${new URLSearchParams({
                       property: global.property.propertyId,
                       accessToken: global.property.accessToken,
-                    }).toString()
+                    }).toString()}`
                 );
               });
           }
@@ -94,11 +92,10 @@ function Room({
  */
 export function RoomList({ color }: any) {
   const url =
-    "/api/property/rooms?" +
-    new URLSearchParams({
+    `/api/property/rooms?${new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    }).toString();
+    }).toString()}`;
   const { data } = useSWR(url, () => fetch(url).then((res) => res.json()));
   const [emblaRef] = useEmblaCarousel();
 

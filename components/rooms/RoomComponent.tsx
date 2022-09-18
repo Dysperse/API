@@ -14,14 +14,13 @@ import { RenderRoom } from "./RenderRoom";
 export function RoomComponent({ index }: any) {
   const router = useRouter();
   const url =
-    "/api/property/inventory/list?" +
-    new URLSearchParams({
+   `${ "/api/property/inventory/list?"}${new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
       room: router.query.custom
         ? decode(index).split(",")[0]
         : index.toLowerCase().replaceAll("-", ""),
-    }).toString();
+    }).toString()}`;
 
   const { error, data }: any = useSWR(url, () =>
     fetch(url).then((res) => res.json())

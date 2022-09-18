@@ -90,12 +90,11 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
             ) {
               setDeleted(true);
               fetch(
-                "/api/rooms/delete?" +
-                  new URLSearchParams({
-                    id: room.id.toString(),
-                    property: global.property.propertyId,
-                    accessToken: global.property.accessToken,
-                  }).toString(),
+                `/api/rooms/delete?${new URLSearchParams({
+                  id: room.id.toString(),
+                  property: global.property.propertyId,
+                  accessToken: global.property.accessToken,
+                }).toString()}`,
                 {
                   method: "POST",
                 }
@@ -222,10 +221,10 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
 function CustomRooms({ collapsed }: any) {
   const url =
     "/api/property/rooms?" +
-    new URLSearchParams({
+    `${new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    }).toString();
+    }).toString()}`;
 
   const { data, error } = useSWR(url, () =>
     fetch(url, {
@@ -268,12 +267,10 @@ function ResponsiveDrawer(props: any): JSX.Element {
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
   );
 
-  const url =
-    "/api/property/maintenance/reminders?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/maintenance/reminders?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { data } = useSWR(url, () => fetch(url).then((r) => r.json()));
 
   return (

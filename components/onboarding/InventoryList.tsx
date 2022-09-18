@@ -30,16 +30,15 @@ export function InventoryList({ data }: { data: Array<any> }) {
             setInventory([...inventory, item.name]);
 
             fetch(
-              "/api/property/inventory/create?" +
-                new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                  name: item.name,
-                  qty: "1",
-                  category: JSON.stringify([]),
-                  lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                  room: item.room,
-                }).toString()
+              `/api/property/inventory/create?${new URLSearchParams({
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                name: item.name,
+                qty: "1",
+                category: JSON.stringify([]),
+                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                room: item.room,
+              }).toString()}`
             ).then(() => {
               toast.success("Added to inventory!");
             });

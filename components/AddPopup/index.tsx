@@ -130,10 +130,10 @@ function AddItemOption({
 function MoreRooms(): JSX.Element {
   const url =
     "/api/property/rooms?" +
-    new URLSearchParams({
+    `${new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-    }).toString();
+    }).toString()}`;
   const [open, setOpen] = React.useState<boolean>(false);
 
   const { error, data } = useSWR<Room[]>(url, () =>

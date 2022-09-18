@@ -17,20 +17,16 @@ export function updateSettings(
   callback: any = () => {},
   property = false
 ) {
-  let url =
-    "/api/user/update?" +
-    new URLSearchParams({
-      token: global.user.token,
-      [key]: value,
-    }).toString();
+  let url = `/api/user/update?${new URLSearchParams({
+    token: global.user.token,
+    [key]: value,
+  }).toString()}`;
   if (property) {
-    url =
-      "/api/property/updateInfo?" +
-      new URLSearchParams({
-        property: global.property.propertyId,
-        accessToken: global.property.accessToken,
-        [key]: value,
-      }).toString();
+    url = `/api/property/updateInfo?${new URLSearchParams({
+      property: global.property.propertyId,
+      accessToken: global.property.accessToken,
+      [key]: value,
+    }).toString()}`;
   }
   const fetcher = fetch(url, {
     method: "POST",

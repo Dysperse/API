@@ -56,12 +56,11 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
     onSubmit: (values: { name: string }) => {
       setLoading(true);
       fetch(
-        "/api/property/rooms/create?" +
-          new URLSearchParams({
+        `/api/property/rooms/create?${new URLSearchParams({
             property: global.property.propertyId,
             accessToken: global.property.accessToken,
             name: values.name,
-          }).toString(),
+          }).toString()}`,
         {
           method: "POST",
         }

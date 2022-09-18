@@ -89,12 +89,11 @@ function CategoryModal({ category }: { category: string }) {
         onClick={() => {
           setLoading(true);
           fetch(
-            "/api/inventory/category-items?" +
-              new URLSearchParams({
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-                category: category,
-              }).toString()
+            `/api/inventory/category-items?${new URLSearchParams({
+              property: global.property.propertyId,
+              accessToken: global.property.accessToken,
+              category: category,
+            }).toString()}`
           )
             .then((res) => res.json())
             .then((res) => {
@@ -144,12 +143,10 @@ function CategoryModal({ category }: { category: string }) {
  * Component to dispay items by category
  */
 function CategoryList() {
-  const url =
-    "/api/property/inventory/categories?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/inventory/categories?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { error, data }: any = useSWR(url, () =>
     fetch(url, { method: "POST" }).then((res) => res.json())
   );
@@ -273,12 +270,10 @@ function Action({ icon, primary, href, onClick }: any) {
  * Top-level component for the items page
  */
 export default function Categories() {
-  const url =
-    "/api/property/rooms?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/rooms?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   /**

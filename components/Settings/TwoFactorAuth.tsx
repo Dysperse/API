@@ -128,12 +128,11 @@ export default function App() {
             onClick={() => {
               setLoading(true);
               fetch(
-                "/api/user/2fa/setup?" +
-                  new URLSearchParams({
-                    ...newSecret,
-                    code,
-                    token: global.user.token,
-                  }).toString(),
+                `/api/user/2fa/setup?${new URLSearchParams({
+                  ...newSecret,
+                  code,
+                  token: global.user.token,
+                }).toString()}`,
                 {
                   method: "POST",
                 }

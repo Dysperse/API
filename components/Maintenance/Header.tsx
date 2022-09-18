@@ -270,29 +270,27 @@ function CreateMaintenanceModal() {
     onSubmit: (values) => {
       setLoading(true);
       fetch(
-        "/api/property/maintenance/create?" +
-          new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            name: values.name,
-            frequency: values.frequency,
+        `/api/property/maintenance/create?${new URLSearchParams({
+          property: global.property.propertyId,
+          accessToken: global.property.accessToken,
+          name: values.name,
+          frequency: values.frequency,
 
-            nextDue: values.nextDue,
-            lastCompleted: new Date().toISOString(),
+          nextDue: values.nextDue,
+          lastCompleted: new Date().toISOString(),
 
-            note: values.note,
-          }).toString()
+          note: values.note,
+        }).toString()}`
       )
         .then((res) => res.json())
         .then(() => {
           setLoading(false);
           setOpen(false);
           mutate(
-            "/api/property/maintenance/reminders?" +
-              new URLSearchParams({
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-              }).toString()
+            `/api/property/maintenance/reminders?${new URLSearchParams({
+              property: global.property.propertyId,
+              accessToken: global.property.accessToken,
+            }).toString()}`
           );
         });
     },

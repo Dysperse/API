@@ -62,20 +62,18 @@ export function Reminder({ reminder }: any) {
               e.target.placeholder = "Click to add note";
               e.target.spellcheck = false;
               fetch(
-                "/api/property/maintenance/updateNote?" +
-                  new URLSearchParams({
+                `/api/property/maintenance/updateNote?${new URLSearchParams({
                     property: global.property.propertyId,
                     accessToken: global.property.accessToken,
                     id: reminder.id,
                     note: e.target.value,
-                  }).toString()
+                  }).toString()}`
               );
               mutate(
-                "/api/property/maintenance/reminders?" +
-                  new URLSearchParams({
+                `/api/property/maintenance/reminders?${new URLSearchParams({
                     property: global.property.propertyId,
                     accessToken: global.property.accessToken,
-                  }).toString()
+                  }).toString()}`
               );
             }}
             onKeyUp={(e: any) => {
@@ -130,21 +128,19 @@ export function Reminder({ reminder }: any) {
               onClick={() => {
                 setDeleteLoading(true);
                 fetch(
-                  "/api/property/maintenance/delete?" +
-                    new URLSearchParams({
+                  `/api/property/maintenance/delete?${new URLSearchParams({
                       id: reminder.id,
                       accessToken: global.property.accessToken,
                       property: global.property.propertyId,
-                    }).toString()
+                    }).toString()}`
                 )
                   .then((res) => res.json())
                   .then(() => {
                     mutate(
-                      "/api/property/maintenance/reminders?" +
-                        new URLSearchParams({
+                      `/api/property/maintenance/reminders?${new URLSearchParams({
                           property: global.property.propertyId,
                           accessToken: global.property.accessToken,
-                        }).toString()
+                        }).toString()}`
                     );
                     setOpen(false);
                     toast.success("Reminder deleted");
@@ -163,22 +159,20 @@ export function Reminder({ reminder }: any) {
             onClick={() => {
               setMarkAsDoneLoading(true);
               fetch(
-                "/api/property/maintenance/markAsDone?" +
-                  new URLSearchParams({
+                `/api/property/maintenance/markAsDone?${new URLSearchParams({
                     property: global.property.propertyId,
                     accessToken: global.property.accessToken,
                     id: reminder.id,
                     frequency: reminder.frequency,
                     lastCompleted: new Date().toISOString(),
-                  }).toString()
+                  }).toString()}`
               )
                 .then(() => {
                   mutate(
-                    "/api/property/maintenance/reminders?" +
-                      new URLSearchParams({
+                    `/api/property/maintenance/reminders?${new URLSearchParams({
                         property: global.property.propertyId,
                         accessToken: global.property.accessToken,
-                      }).toString()
+                      }).toString()}`
                   );
                   setMarkAsDoneLoading(false);
                   setOpen(false);

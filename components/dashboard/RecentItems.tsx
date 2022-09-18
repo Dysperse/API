@@ -12,12 +12,10 @@ import Item from "../ItemPopup";
  * @returns {any}
  */
 export function RecentItems() {
-  const url =
-    "/api/property/inventory/recent?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/inventory/recent?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );

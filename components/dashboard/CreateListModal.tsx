@@ -36,14 +36,14 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
       setLoading(true);
       fetch(
         "/api/property/lists/createItem?" +
-          new URLSearchParams({
+          `${new URLSearchParams({
             property: global.property.propertyId,
             accessToken: global.property.accessToken,
             list: customParent,
             name: values.name,
             details: values.details,
             pinned: pinned ? "true" : "false",
-          }).toString(),
+          }).toString()}`,
         {
           method: "POST",
         }

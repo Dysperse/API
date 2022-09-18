@@ -34,12 +34,11 @@ function Room({ data }) {
               ) {
                 setDeleted(true);
                 fetch(
-                  "/api/rooms/delete?" +
-                    new URLSearchParams({
-                      id: data.id,
-                      property: global.property.propertyId,
-                      accessToken: global.property.accessToken,
-                    }).toString(),
+                  `/api/rooms/delete?${new URLSearchParams({
+                    id: data.id,
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
+                  }).toString()}`,
                   {
                     method: "POST",
                   }
@@ -65,12 +64,10 @@ function Room({ data }) {
  * Top-level component for the room settings page.
  */
 export default function Rooms() {
-  const url =
-    "/api/property/rooms?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/rooms?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { error, data }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",

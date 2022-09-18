@@ -42,14 +42,13 @@ function Room({
       onClick={() => {
         setDisabled(true);
         fetch(
-          "/api/property/inventory/moveToRoom?" +
-            new URLSearchParams({
-              id: id.toString(),
-              room: room.toLowerCase().replace(" room", ""),
-              lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-              property: global.property.propertyId,
-              accessToken: global.property.accessToken,
-            }).toString(),
+          `/api/property/inventory/moveToRoom?${new URLSearchParams({
+            id: id.toString(),
+            room: room.toLowerCase().replace(" room", ""),
+            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            property: global.property.propertyId,
+            accessToken: global.property.accessToken,
+          }).toString()}`,
           {
             method: "POST",
           }

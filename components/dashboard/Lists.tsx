@@ -62,14 +62,12 @@ function ListTip({ name, lists, setLists, tip }) {
               colors.orange[global.user.darkMode ? 100 : 900] + "!important",
           }}
           onClick={() => {
-            const url =
-              "/api/property/lists/createList?" +
-              new URLSearchParams({
-                accessToken: global.property.accessToken,
-                property: global.property.propertyId,
-                name: name,
-                description: "",
-              }).toString();
+            const url = `/api/property/lists/createList?${new URLSearchParams({
+              accessToken: global.property.accessToken,
+              property: global.property.propertyId,
+              name: name,
+              description: "",
+            }).toString()}`;
             fetch(url, {
               method: "POST",
             })
@@ -111,14 +109,12 @@ function Render({ data }: any) {
     },
     onSubmit: (values) => {
       setLoading(true);
-      const url =
-        "/api/property/lists/createList?" +
-        new URLSearchParams({
-          accessToken: global.property.accessToken,
-          property: global.property.propertyId,
-          name: values.name,
-          description: values.description,
-        }).toString();
+      const url = `/api/property/lists/createList?${new URLSearchParams({
+        accessToken: global.property.accessToken,
+        property: global.property.propertyId,
+        name: values.name,
+        description: values.description,
+      }).toString()}`;
       fetch(url, {
         method: "POST",
       })
@@ -323,12 +319,10 @@ function Render({ data }: any) {
  * @returns {any}
  */
 export function Lists() {
-  const url =
-    "/api/property/lists?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/lists?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
 
   const { data, error }: any = useSWR(url, () =>
     fetch(url).then((res) => res.json())

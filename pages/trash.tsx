@@ -47,13 +47,12 @@ function DeleteCard({ item }: any): JSX.Element | null {
           disabled={global.property.role === "read-only"}
           onClick={() => {
             fetch(
-              "/api/inventory/trash?" +
-                new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                  id: item.id.toString(),
-                  forever: "true",
-                }).toString(),
+              `/api/inventory/trash?${new URLSearchParams({
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                id: item.id.toString(),
+                forever: "true",
+              }).toString()}`,
               {
                 method: "POST",
               }
@@ -86,15 +85,14 @@ function DeleteCard({ item }: any): JSX.Element | null {
           disabled={global.property.role === "read-only"}
           onClick={() => {
             fetch(
-              "/api/restore?" +
-                new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                  lastUpdated: dayjs(item.lastUpdated).format(
-                    "YYYY-MM-DD HH:mm:ss"
-                  ),
-                  id: item.id.toString(),
-                }).toString(),
+              `/api/restore?${new URLSearchParams({
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                lastUpdated: dayjs(item.lastUpdated).format(
+                  "YYYY-MM-DD HH:mm:ss"
+                ),
+                id: item.id.toString(),
+              }).toString()}`,
               {
                 method: "POST",
               }
@@ -125,12 +123,10 @@ function DeleteCard({ item }: any): JSX.Element | null {
  * @returns {any}
  */
 function Items() {
-  const url =
-    "/api/inventory/trashed-items?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/inventory/trashed-items?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { data, error }: any = useSWR(url, () =>
     fetch(url, {
       method: "POST",

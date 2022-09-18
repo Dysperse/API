@@ -158,15 +158,14 @@ export function AddPersonModal({ color, members }: any) {
               }
               if (isEmail(value)) {
                 fetch(
-                  "/api/property/members/add?" +
-                    new URLSearchParams({
-                      property: global.property.propertyId,
-                      accessToken: global.property.accessToken,
+                  `/api/property/members/add?${new URLSearchParams({
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
 
-                      email: value,
-                      name: global.property.profile.name,
-                      permission: permission,
-                    }).toString()
+                    email: value,
+                    name: global.property.profile.name,
+                    permission: permission,
+                  }).toString()}`
                 )
                   .then((res) => res.json())
                   .then((res: any) => {

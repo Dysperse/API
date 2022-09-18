@@ -151,25 +151,23 @@ function NoteModal({
       setLoading(true);
       fetch(
         create
-          ? "/api/property/notes/create?" +
-              new URLSearchParams({
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-                title: values.title,
-                content: values.content,
-                pinned: values.pinned ? "true" : "false",
-                color: values.color,
-              }).toString()
-          : "/api/property/notes/edit?" +
-              new URLSearchParams({
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-                title: values.title,
-                content: values.content,
-                pinned: values.pinned ? "true" : "false",
-                color: values.color,
-                id: id ? id.toString() : "",
-              }).toString()
+          ? `/api/property/notes/create?${new URLSearchParams({
+              property: global.property.propertyId,
+              accessToken: global.property.accessToken,
+              title: values.title,
+              content: values.content,
+              pinned: values.pinned ? "true" : "false",
+              color: values.color,
+            }).toString()}`
+          : `/api/property/notes/edit?${new URLSearchParams({
+              property: global.property.propertyId,
+              accessToken: global.property.accessToken,
+              title: values.title,
+              content: values.content,
+              pinned: values.pinned ? "true" : "false",
+              color: values.color,
+              id: id ? id.toString() : "",
+            }).toString()}`
       )
         .then((res) => res.json())
         .then(() => {
@@ -318,12 +316,11 @@ function NoteModal({
                 disableRipple
                 onClick={() => {
                   fetch(
-                    "/api/property/notes/delete?" +
-                      new URLSearchParams({
-                        property: global.property.propertyId,
-                        accessToken: global.property.accessToken,
-                        id: id ? id.toString() : "",
-                      }).toString()
+                    `/api/property/notes/delete?${new URLSearchParams({
+                      property: global.property.propertyId,
+                      accessToken: global.property.accessToken,
+                      id: id ? id.toString() : "",
+                    }).toString()}`
                   )
                     .then((res) => res.json())
                     .then(() => {
@@ -490,12 +487,10 @@ function Note({ url, note }) {
  * @returns JSX.Element
  */
 export default function Notes(): JSX.Element {
-  const url =
-    "/api/property/notes?" +
-    new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString();
+  const url = `/api/property/notes?${new URLSearchParams({
+    property: global.property.propertyId,
+    accessToken: global.property.accessToken,
+  }).toString()}`;
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );

@@ -95,11 +95,10 @@ function Home({
 }) {
   const { data } = useSWR("/api/rooms", () =>
     fetch(
-      "/api/property/rooms?" +
-        new URLSearchParams({
+      `/api/property/rooms?${new URLSearchParams({
           property: global.property.propertyId,
           accessToken: global.property.accessToken,
-        }).toString()
+        }).toString()}`
     ).then((res) => res.json())
   );
 
