@@ -1,19 +1,18 @@
 import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
+import BoringAvatar from "boring-avatars";
 import hexToRgba from "hex-to-rgba";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { colors } from "../../lib/colors";
 import { ProfileMenu } from "../Layout/Profile";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
-import { useRouter } from "next/router";
-import BoringAvatar from "boring-avatars";
 
 /**
  * Returns the initials of a name

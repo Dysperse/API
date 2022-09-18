@@ -18,7 +18,7 @@ const handler = async (req: any, res: any) => {
     return;
   }
 
-  let lastCompleted = new Date(req.query.lastCompleted);
+  const lastCompleted = new Date(req.query.lastCompleted);
   let nextDue = new Date();
 
   switch (req.query.frequency) {

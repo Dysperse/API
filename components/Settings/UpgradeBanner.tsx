@@ -18,7 +18,7 @@ export function UpgradeBanner() {
       accessToken: global.property.accessToken,
     }).toString();
 
-  const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
+  const { data } = useSWR(url, () => fetch(url).then((r) => r.json()));
 
   return (
     <Box

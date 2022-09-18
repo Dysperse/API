@@ -17,7 +17,7 @@ const handler = async (req: any, res: any) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  let nextDue = new Date(req.query.nextDue);
+  const nextDue = new Date(req.query.nextDue);
 
   switch (req.query.frequency) {
     case "weekly":

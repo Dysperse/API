@@ -161,8 +161,8 @@ function CategoryList() {
       )}
       {!error && data ? (
         <>
-          {[...new Set(data.data)].map((category: any, key: number) => (
-            <CategoryModal category={category} key={key.toString()} />
+          {[...new Set(data.data)].map((category: any) => (
+            <CategoryModal category={category} key={category.toString()} />
           ))}
         </>
       ) : (

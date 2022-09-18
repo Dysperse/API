@@ -2,7 +2,7 @@ import { prisma } from "../../../../lib/client";
 import ics from "ics";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
-let alarms: any = [];
+const alarms: any = [];
 
 /**
  * API handler

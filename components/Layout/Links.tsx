@@ -33,7 +33,7 @@ import { Puller } from "../Puller";
  * @param {any} {collapsed}
  * @returns {any}
  */
-function CreateRoom({ collapsed }: any) {
+function CreateRoom({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
