@@ -362,17 +362,17 @@ export function DrawerListItems({
             <Fab
               disabled={global.property.role === "read-only"}
               variant="extended"
-              color="primary"
               disableRipple
+              color="primary"
               aria-label="add"
               sx={{
                 borderRadius: "20px",
                 maxWidth: "100%",
                 fontSize: "15px",
                 minWidth: !collapsed ? "5px" : "100%",
+                boxShadow: "none!important",
                 transition: "minWidth .2s, margin .2s,transform .2s !important",
                 ...(collapsed && { mb: 3, py: 3.5, mt: 2.2 }),
-                boxShadow: "0",
                 background:
                   "linear-gradient(45deg, " +
                   (global.theme === "dark"
@@ -404,10 +404,6 @@ export function DrawerListItems({
                     "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                   transform: "scale(.96)",
                   transition: "none!important",
-                  background:
-                    global.theme === "dark"
-                      ? "hsl(240, 11%, 40%)"
-                      : colors[themeColor]["200"],
                 },
                 textTransform: "none",
               }}
@@ -420,7 +416,7 @@ export function DrawerListItems({
                   float: "left",
                 }}
               >
-                add_to_photos
+                add
               </span>
               <Collapse
                 in={!collapsed}
