@@ -59,7 +59,7 @@ export function FloatingActionButton() {
                   ? "hsl(240, 11%, 50%)"
                   : colors[themeColor]["200"],
             },
-            "&:active": {
+            "&:focus,&:active": {
               boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
               transform: "scale(.96)",
               transition: "none",

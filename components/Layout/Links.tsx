@@ -19,6 +19,7 @@ import Tooltip from "@mui/material/Tooltip";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { encode } from "js-base64";
+import AddIcon from "@mui/icons-material/Add";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -213,20 +214,21 @@ const ListItem = React.memo(function ListItem({
   if (!router.asPath) router.asPath = "/dashboard";
   const template = (
     <ListItemButton
+      disableRipple={collapsed}
       sx={{
         ...(collapsed && {
           width: 70,
           mx: "auto",
           maxWidth: "calc(100% - 15px)",
         }),
-        pl: collapsed ? 1.8 : 2,
+        pl: collapsed ? null : 2,
         color: (global.theme === "dark" ? grey[200] : "#606060") + "!important",
         "& span:not(.badge, .badge *)": {
           color:
             (global.theme === "dark" ? grey[200] : "#606060") + "!important",
         },
-        borderRadius: collapsed ? 6 : 3,
-        transition: "margin .2s!important",
+        borderRadius: collapsed ? 8 : 3,
+        transition: "border-radius .2s, margin .2s!important",
         mb: collapsed ? 1 : 0.2,
         py: 0.8,
         "& .MuiTouchRipple-rippleVisible": {
@@ -248,6 +250,7 @@ const ListItem = React.memo(function ListItem({
             (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
         },
         ...(router.asPath === asHref && {
+          borderRadius: collapsed ? 4 : 3,
           background:
             "linear-gradient(45deg, " +
             (global.theme === "dark"
@@ -359,78 +362,75 @@ export function DrawerListItems({
         <Toolbar sx={{ mt: 2 }} />
         <div style={{ padding: "0 10px" }}>
           <AddPopup>
-            <Fab
-              disabled={global.property.role === "read-only"}
-              variant="extended"
-              disableRipple
-              color="primary"
-              aria-label="add"
-              sx={{
-                borderRadius: "20px",
-                maxWidth: "100%",
-                fontSize: "15px",
-                minWidth: !collapsed ? "5px" : "100%",
-                boxShadow: "none!important",
-                transition: "minWidth .2s, margin .2s,transform .2s !important",
-                ...(collapsed && { mb: 3, py: 3.5, mt: 2.2 }),
-                background:
-                  "linear-gradient(45deg, " +
-                  (global.theme === "dark"
-                    ? "hsl(240, 11%, 30%)"
-                    : colors[themeColor][200]) +
-                  "  0%, " +
-                  (global.theme === "dark"
-                    ? "hsl(240, 11%, 30%)"
-                    : colors[themeColor][500]) +
-                  " 100%)",
-                color:
-                  global.theme === "dark"
-                    ? "hsl(240, 11%, 95%)"
-                    : colors[themeColor]["900"],
-                "&:hover": {
+            <div>
+              <Fab
+                disabled={global.property.role === "read-only"}
+                variant={collapsed ? "circular" : "extended"}
+                disableRipple
+                color="primary"
+                aria-label="add"
+                sx={{
+                  borderRadius: collapsed ? "100%" : "20px",
+                  fontSize: "15px",
+                  boxShadow: "none!important",
+                  transition:
+                    "minWidth .2s,border-radius .2s, margin .2s,transform .2s !important",
+                  ...(collapsed && {
+                    mt: 2.2,
+                    mb: 3,
+                  }),
+                  "&:hover": {
+                    ...(collapsed && {
+                      borderRadius: 5,
+                    }),
+                  },
                   background:
                     "linear-gradient(45deg, " +
                     (global.theme === "dark"
                       ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][300]) +
+                      : colors[themeColor][200]) +
                     "  0%, " +
                     (global.theme === "dark"
                       ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][600]) +
+                      : colors[themeColor][500]) +
                     " 100%)",
-                },
-                "&:active": {
-                  boxShadow:
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  transform: "scale(.96)",
-                  transition: "none!important",
-                },
-                textTransform: "none",
-              }}
-            >
-              <span
-                className="material-symbols-outlined"
-                style={{
-                  transition: "all .2s",
-                  marginRight: collapsed ? 0 : "20px",
-                  float: "left",
+                  color:
+                    global.theme === "dark"
+                      ? "hsl(240, 11%, 95%)"
+                      : colors[themeColor]["900"],
+                  "&:active": {
+                    background:
+                      "linear-gradient(90deg, " +
+                      (global.theme === "dark"
+                        ? "hsl(240, 11%, 30%)"
+                        : colors[themeColor][200]) +
+                      "  0%, " +
+                      (global.theme === "dark"
+                        ? "hsl(240, 11%, 30%)"
+                        : colors[themeColor][500]) +
+                      " 100%)",
+                    boxShadow:
+                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                    transform: "scale(.96)",
+                  },
+                  textTransform: "none",
                 }}
               >
-                add
-              </span>
-              <Collapse
-                in={!collapsed}
-                orientation="horizontal"
-                sx={{
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  my: collapsed ? 2 : 0,
-                }}
-              >
-                New item
-              </Collapse>
-            </Fab>
+                <AddIcon sx={{ mr: collapsed ? 0 : 1 }} />
+                <Collapse
+                  in={!collapsed}
+                  orientation="horizontal"
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    my: collapsed ? 2 : 0,
+                  }}
+                >
+                  New item
+                </Collapse>
+              </Fab>
+            </div>
           </AddPopup>
         </div>
         <div>
