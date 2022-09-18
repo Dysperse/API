@@ -1,4 +1,4 @@
 export interface Room {
   name: string;
-  id: number;
+  readonly id: number;
 }

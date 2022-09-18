@@ -1,5 +1,5 @@
 export interface Meal {
-  idMeal: string;
+  readonly idMeal: string;
   strMeal: string;
   strDrinkAlternate?: any;
   strCategory: string;

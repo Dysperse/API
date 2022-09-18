@@ -13,8 +13,8 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 /**
  * Description
- * @param {any} {recipe}:{recipe:Meal}
- * @returns {any}
+ * @param { Meal } {recipe} : { recipe: Meal }
+ * @returns {JSX.Element}
  */
 export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
   const [open, setOpen] = useState(false);

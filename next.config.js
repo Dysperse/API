@@ -2,28 +2,20 @@
  * @type {import('next').NextConfig}
  */
 
-const withPlugins = require("next-compose-plugins");
-const withPWA = require("next-pwa");
+const withPWA = require('next-pwa')({
+  disable: process.env.NODE_ENV == "development",
+  dest: "public",
+})
 
-module.exports = withPlugins(
-  [
-    [
-      withPWA({
-        disable: process.env.NODE_ENV == "development",
-        dest: "public",
-      }),
-    ],
-  ],
-  {
-    reactStrictMode: true,
-    async redirects() {
-      return [
-        {
-          source: "/",
-          destination: "/dashboard",
-          permanent: true,
-        },
-      ];
-    },
-  }
-);
+module.exports = withPWA({
+  reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/dashboard",
+        permanent: true,
+      },
+    ];
+  },
+})

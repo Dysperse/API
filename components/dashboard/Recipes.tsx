@@ -6,7 +6,7 @@ import { Recipe } from "./Recipe";
 import type { Meal } from "../../types/recipe";
 
 /**
- * Description
+ * Recipe component
  * @returns {JSX.Element}
  */
 export function Recipes(): JSX.Element {

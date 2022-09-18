@@ -16,8 +16,8 @@ export interface User {
 }
 
 export interface Property {
-  propertyId: string;
-  accessToken: string;
+  readonly propertyId: string;
+  readonly accessToken: string;
   selected: boolean;
   accepted: boolean;
   permission: string;
@@ -25,7 +25,7 @@ export interface Property {
 }
 
 export interface Profile {
-  id: string;
+  readonly id: string;
   name: string;
   type: string;
   color: string;

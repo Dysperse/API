@@ -1,5 +1,5 @@
 export interface Reminder {
-  id: number;
+  readonly id: number;
   name: string;
   note: string;
   frequency: string;
