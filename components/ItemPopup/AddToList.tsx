@@ -49,39 +49,37 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
       </>
     );
   return (
-    <>
-      <List sx={{ mt: -1 }}>
-        {data.lists.map((list: any, id: number) => (
-          <ListItem disablePadding key={id.toString()}>
-            <ListItemButton
-              sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
-              onClick={() => {
-                fetch(
-                  "/api/lists/create-item?" +
-                    new URLSearchParams({
-                      property: global.property.propertyId,
-                      accessToken: global.property.accessToken,
-                      parent: list.id,
-                      title: title,
-                      description: "",
-                    }).toString(),
-                  {
-                    method: "POST",
-                  }
-                )
-                  .then((res) => res.json())
-                  .then(() => {
-                    toast.success("Added item!");
-                    handleClose();
-                  });
-              }}
-            >
-              <ListItemText primary={list.title} secondary={list.description} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </>
+    <List sx={{ mt: -1 }}>
+      {data.lists.map((list: any, id: number) => (
+        <ListItem disablePadding key={id.toString()}>
+          <ListItemButton
+            sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
+            onClick={() => {
+              fetch(
+                "/api/lists/create-item?" +
+                  new URLSearchParams({
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
+                    parent: list.id,
+                    title: title,
+                    description: "",
+                  }).toString(),
+                {
+                  method: "POST",
+                }
+              )
+                .then((res) => res.json())
+                .then(() => {
+                  toast.success("Added item!");
+                  handleClose();
+                });
+            }}
+          >
+            <ListItemText primary={list.title} secondary={list.description} />
+          </ListItemButton>
+        </ListItem>
+      ))}
+    </List>
   );
 }
 
