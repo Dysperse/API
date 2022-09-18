@@ -9,7 +9,7 @@ import type { Meal } from "../../types/recipe";
  * Description
  * @returns {any}
  */
-export function Recipes() {
+export function Recipes(): any {
   const [recipes, setRecipes] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +17,7 @@ export function Recipes() {
    * Handles random recipe click
    * @returns {any}
    */
-  const handleClick = () => {
+  const handleClick = (): any => {
     setLoading(true);
     fetch("https://www.themealdb.com/api/json/v1/1/random.php")
       .then((res) => res.json())
