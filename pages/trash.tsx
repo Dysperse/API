@@ -18,13 +18,11 @@ import type { Item } from "../types/item";
  * Delete card component, including delete and restore buttons
  * @param {Object} item - Item data
  */
-function DeleteCard({ item }: any): JSX.Element {
+function DeleteCard({ item }: any): JSX.Element | null {
   const [deleted, setDeleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  return deleted ? (
-    <></>
-  ) : (
+  return deleted ? null : (
     <Card
       sx={{
         background:

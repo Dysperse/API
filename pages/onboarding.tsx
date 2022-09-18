@@ -379,24 +379,22 @@ function SwipeableTextMobileStepper() {
               </Button>
             }
             backButton={
-              <>
-                <Button
-                  size="large"
-                  sx={{
-                    transition: "opacity .2s",
-                    transitionDelay: ".2s",
-                    ...((activeStep === 0 || activeStep === maxSteps - 1) && {
-                      pointerEvents: "none",
-                    }),
-                    px: 1.5,
-                    minWidth: "auto",
-                  }}
-                  variant="contained"
-                  onClick={handleBack}
-                >
-                  <span className="material-symbols-rounded">chevron_left</span>
-                </Button>
-              </>
+              <Button
+                size="large"
+                sx={{
+                  transition: "opacity .2s",
+                  transitionDelay: ".2s",
+                  ...((activeStep === 0 || activeStep === maxSteps - 1) && {
+                    pointerEvents: "none",
+                  }),
+                  px: 1.5,
+                  minWidth: "auto",
+                }}
+                variant="contained"
+                onClick={handleBack}
+              >
+                <span className="material-symbols-rounded">chevron_left</span>
+              </Button>
             }
           />
         </Box>

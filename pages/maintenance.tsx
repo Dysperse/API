@@ -26,7 +26,7 @@ export default function Maintenance() {
     <Box sx={{ mb: 4 }}>
       <Box sx={{ px: { sm: 3 } }}>
         {data ? (
-          <>
+          <div>
             {data.filter((reminder: ReminderType) =>
               dayjs(reminder.nextDue).isBefore(dayjs())
             ).length > 0 && (
@@ -49,7 +49,7 @@ export default function Maintenance() {
                   : "s"}
               </Alert>
             )}
-          </>
+          </div>
         ) : null}
       </Box>
       {/* Calculate upcoming tasks this week */}

@@ -415,84 +415,71 @@ function RenderComponent({
  */
 function RenderApp({ router, Component, pageProps }: any) {
   const { data, isLoading, isError } = useUser();
-  return (
+  return router.pathname === "/share/[index]" ||
+    router.pathname === "/scan" ||
+    router.pathname === "/signup" ||
+    router.pathname === "/canny-auth" ? (
+    <RenderComponent Component={Component} data={data} pageProps={pageProps} />
+  ) : (
     <>
-      {router.pathname === "/share/[index]" ||
-      router.pathname === "/scan" ||
-      router.pathname === "/signup" ||
-      router.pathname === "/canny-auth" ? (
-        <>
-          <RenderComponent
-            Component={Component}
-            data={data}
-            pageProps={pageProps}
-          />
-        </>
-      ) : (
-        <>
-          {isLoading && <Loading />}
-          {isError && (
-            <Box
-              sx={{
-                position: "fixed",
-                top: 0,
-                textAlign: "center",
-                background: "hsl(240, 11%, 10%)",
-                height: "100%",
-                width: "100%",
-                color: "#fff",
-                left: 0,
-              }}
-            >
-              <Box
-                sx={{
-                  position: "fixed",
-                  p: 5,
-                  borderRadius: 5,
-                  top: "50%",
-                  textAlign: "center",
-                  background: "hsl(240, 11%, 13%)",
-                  left: "50%",
-                  maxWidth: "calc(100vw - 20px)",
-                  width: "350px",
-                  transform: "translate(-50%, -50%)",
-                }}
-              >
-                <picture>
-                  <img
-                    src="https://ouch-cdn2.icons8.com/Bh6aoLoD1Gekl7Hw6fjn3oyLfFtjucGDN0kAdxuxVOA/rs:fit:256:235/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMTAz/LzkyZTI5ODc5LTQw/NjQtNDBkOC1iYzE3/LTQzZTM3YWNkYTJi/Yi5zdmc.png"
-                    alt="An error occured"
-                  />
-                  <Typography variant="h5" sx={{ textAlign: "center" }}>
-                    An error occured
-                  </Typography>
-                  <Typography variant="body1" sx={{ textAlign: "center" }}>
-                    Please try again later. If the problem persists, please
-                    contact us at{" "}
-                    <Link href="mailto:hello@smartlist.tech" target="_blank">
-                      <MuiLink
-                        href="mailto:hello@smartlist.tech"
-                        target="_blank"
-                      >
-                        hello@smartlist.tech
-                      </MuiLink>
-                    </Link>
-                  </Typography>
-                </picture>
-              </Box>
-            </Box>
-          )}
-          {!isLoading && !isError && !data.error && (
-            <Render
-              router={router}
-              Component={Component}
-              pageProps={pageProps}
-              data={data}
-            />
-          )}
-          {!isLoading && !isError && data.error && <LoginPrompt />}
-        </>
+      {isLoading && <Loading />}
+      {isError && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            textAlign: "center",
+            background: "hsl(240, 11%, 10%)",
+            height: "100%",
+            width: "100%",
+            color: "#fff",
+            left: 0,
+          }}
+        >
+          <Box
+            sx={{
+              position: "fixed",
+              p: 5,
+              borderRadius: 5,
+              top: "50%",
+              textAlign: "center",
+              background: "hsl(240, 11%, 13%)",
+              left: "50%",
+              maxWidth: "calc(100vw - 20px)",
+              width: "350px",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <picture>
+              <img
+                src="https://ouch-cdn2.icons8.com/Bh6aoLoD1Gekl7Hw6fjn3oyLfFtjucGDN0kAdxuxVOA/rs:fit:256:235/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMTAz/LzkyZTI5ODc5LTQw/NjQtNDBkOC1iYzE3/LTQzZTM3YWNkYTJi/Yi5zdmc.png"
+                alt="An error occured"
+              />
+              <Typography variant="h5" sx={{ textAlign: "center" }}>
+                An error occured
+              </Typography>
+              <Typography variant="body1" sx={{ textAlign: "center" }}>
+                Please try again later. If the problem persists, please contact
+                us at{" "}
+                <Link href="mailto:hello@smartlist.tech" target="_blank">
+                  <MuiLink href="mailto:hello@smartlist.tech" target="_blank">
+                    hello@smartlist.tech
+                  </MuiLink>
+                </Link>
+              </Typography>
+            </picture>
+          </Box>
+        </Box>
       )}
+      {!isLoading && !isError && !data.error && (
+        <Render
+          router={router}
+          Component={Component}
+          pageProps={pageProps}
+          data={data}
+        />
+      )}
+      {!isLoading && !isError && data.error && <LoginPrompt />}
     </>
   );
 }
