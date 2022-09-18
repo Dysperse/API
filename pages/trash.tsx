@@ -22,7 +22,9 @@ function DeleteCard({ item }: any): JSX.Element {
   const [deleted, setDeleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  return deleted ? null : (
+  return deleted ? (
+    <></>
+  ) : (
     <Card
       sx={{
         background:
