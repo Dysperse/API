@@ -459,7 +459,7 @@ export default function Categories() {
             <Action href="/rooms/camping" icon="camping" primary="Camping" />
             <Divider sx={{ my: 1 }} />
             {data &&
-              data.map((room: any, id: number) => (
+              data.map((room: any) => (
                 <Action
                   href={
                     "/rooms/" +
@@ -468,7 +468,7 @@ export default function Categories() {
                   }
                   icon="label"
                   primary={room.name}
-                  key={id.toString()}
+                  key={room.id.toString()}
                 />
               ))}
             <Action

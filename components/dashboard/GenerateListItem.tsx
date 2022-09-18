@@ -88,7 +88,7 @@ export function GenerateListItem({
           </span>
         </Box>
         <ListItem
-          key={id.toString()}
+          key={Math.random().toString()}
           sx={{
             py: 0,
           }}

@@ -529,9 +529,9 @@ export default function Notes(): JSX.Element {
           ))}
           {data.length === 0 && (
             <>
-              {[...new Array(10)].map((_, key) => (
+              {[...new Array(10)].map(() => (
                 <Skeleton
-                  key={key}
+                  key={Math.random().toString()}
                   animation={false}
                   variant="rectangular"
                   sx={{
@@ -546,9 +546,9 @@ export default function Notes(): JSX.Element {
         </Masonry>
       ) : (
         <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 3 }}>
-          {[...new Array(10)].map((_, key) => (
+          {[...new Array(10)].map(() => (
             <Skeleton
-              key={key}
+              key={Math.random().toString()}
               animation={false}
               variant="rectangular"
               sx={{

@@ -98,10 +98,10 @@ function GenerateData({
       )}
       {items
         .filter((item: any) => !item.completed)
-        .map((list: any, id: number) => (
+        .map((list: any) => (
           <GenerateListItem
             {...list}
-            key={id.toString()}
+            key={list.id.toString()}
             items={items}
             title={list.name}
             setItems={setItems}
@@ -110,10 +110,10 @@ function GenerateData({
 
       {items
         .filter((item: any) => item.completed)
-        .map((list: any, id: number) => (
+        .map((list: any) => (
           <GenerateListItem
             {...list}
-            key={id.toString()}
+            key={list.id.toString()}
             items={items}
             title={list.name}
             setItems={setItems}

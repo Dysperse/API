@@ -145,7 +145,7 @@ export function MoveToRoom({ styles, item, setDeleted, setDrawerState }) {
               "Storage room",
               "Camping",
               "Garden",
-            ].map((room, index) => (
+            ].map((room) => (
               <Room
                 key={Math.random().toString()}
                 room={room}

@@ -15,9 +15,9 @@ export function InventoryList({ data }: { data: Array<any> }) {
   const [inventory, setInventory] = React.useState<any>([]);
   return (
     <Box>
-      {data.map((item, id) => (
+      {data.map((item) => (
         <ListItem
-          key={id.toString()}
+          key={item.name.toString()}
           button
           sx={{
             borderRadius: 5,
