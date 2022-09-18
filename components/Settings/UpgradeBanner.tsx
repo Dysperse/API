@@ -7,6 +7,9 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 import LinearProgress from "@mui/material/LinearProgress";
 
+/**
+ * Upgrade banner
+ */
 export function UpgradeBanner() {
   const url =
     "/api/property/inventory/count?" +
