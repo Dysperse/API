@@ -9,56 +9,54 @@ import { updateSettings } from "./updateSettings";
  */
 export default function AppearanceSettings() {
   return (
-    <>
-      <Box
-        sx={{
-          py: 1,
-          px: {
-            sm: 10,
-          },
-        }}
-      >
-        <ListItem>
-          <ListItemText
-            primary={
-              <TextField
-                fullWidth
-                variant="filled"
-                defaultValue={global.user && global.user.name}
-                label="Name"
-                onBlur={(e) => updateSettings("name", e.target.value)}
-              />
-            }
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary={
-              <TextField
-                fullWidth
-                disabled
-                variant="filled"
-                defaultValue={global.user && global.user.email}
-                label="Email"
-                onBlur={(e) => updateSettings("email", e.target.value)}
-              />
-            }
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary={
-              <TextField
-                fullWidth
-                variant="filled"
-                defaultValue={global.user && global.user.image}
-                label="Profile picture"
-                onBlur={(e) => updateSettings("image", e.target.value)}
-              />
-            }
-          />
-        </ListItem>
-      </Box>
-    </>
+    <Box
+      sx={{
+        py: 1,
+        px: {
+          sm: 10,
+        },
+      }}
+    >
+      <ListItem>
+        <ListItemText
+          primary={
+            <TextField
+              fullWidth
+              variant="filled"
+              defaultValue={global.user && global.user.name}
+              label="Name"
+              onBlur={(e) => updateSettings("name", e.target.value)}
+            />
+          }
+        />
+      </ListItem>
+      <ListItem>
+        <ListItemText
+          primary={
+            <TextField
+              fullWidth
+              disabled
+              variant="filled"
+              defaultValue={global.user && global.user.email}
+              label="Email"
+              onBlur={(e) => updateSettings("email", e.target.value)}
+            />
+          }
+        />
+      </ListItem>
+      <ListItem>
+        <ListItemText
+          primary={
+            <TextField
+              fullWidth
+              variant="filled"
+              defaultValue={global.user && global.user.image}
+              label="Profile picture"
+              onBlur={(e) => updateSettings("image", e.target.value)}
+            />
+          }
+        />
+      </ListItem>
+    </Box>
   );
 }

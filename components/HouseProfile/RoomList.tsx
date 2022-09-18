@@ -16,7 +16,7 @@ function Room({
   color,
   room,
 }: {
-  color:string,
+  color: string;
   room: {
     name: string;
     id: string;
@@ -113,48 +113,46 @@ export function RoomList({ color }: any) {
     : [];
 
   return (
-    <>
-      <div className="embla" ref={emblaRef}>
-        <div className="embla__container">
-          {images.length === 0 ? (
+    <div className="embla" ref={emblaRef}>
+      <div className="embla__container">
+        {images.length === 0 ? (
+          <Box
+            className="embla__slide"
+            sx={{
+              pl: 0,
+              flex: "0 0 90%",
+              userSelect: "none",
+              borderRadius: 5,
+              background: colors[color][100],
+            }}
+          >
+            You haven&apos;t created any rooms yet
+          </Box>
+        ) : (
+          images.map((step, index) => (
             <Box
+              key={index.toString()}
               className="embla__slide"
-              sx={{
-                pl: 0,
-                flex: "0 0 90%",
-                userSelect: "none",
-                borderRadius: 5,
-                background: colors[color][100],
-              }}
+              sx={{ pl: index == 0 ? 0 : 2, flex: "0 0 90%" }}
             >
-              You haven&apos;t created any rooms yet
-            </Box>
-          ) : (
-            images.map((step, index) => (
               <Box
-                key={index.toString()}
-                className="embla__slide"
-                sx={{ pl: index == 0 ? 0 : 2, flex: "0 0 90%" }}
+                sx={{
+                  p: 2,
+                  userSelect: "none",
+                  px: 2.5,
+                  borderRadius: 5,
+                  background:
+                    global.theme === "dark"
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[color][100],
+                }}
               >
-                <Box
-                  sx={{
-                    p: 2,
-                    userSelect: "none",
-                    px: 2.5,
-                    borderRadius: 5,
-                    background:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 30%)"
-                        : colors[color][100],
-                  }}
-                >
-                  {step.content}
-                </Box>
+                {step.content}
               </Box>
-            ))
-          )}
-        </div>
+            </Box>
+          ))
+        )}
       </div>
-    </>
+    </div>
   );
 }
