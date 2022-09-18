@@ -6,6 +6,7 @@ import { colors } from "../../lib/colors";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContentText from "@mui/material/DialogContentText";
+import Alert from "@mui/material/Alert";
 import DialogTitle from "@mui/material/DialogTitle";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -24,6 +25,85 @@ import AccountSettings from "./AccountSettings";
 import AppearanceSettings from "./AppearanceSettings";
 import Notifications from "./Notifications";
 import TwoFactorAuth from "./TwoFactorAuth";
+import toast from "react-hot-toast";
+
+function UpgradeBanner() {
+  return (
+    <Box
+      sx={{
+        px: { xs: 1, sm: 5 },
+      }}
+    >
+      <Box
+        sx={{
+          border: "2px solid" + colors.orange["500"].toString(),
+          color: colors.orange["800"].toString(),
+          borderRadius: 5,
+          px: 3,
+          py: 2,
+        }}
+      >
+        <Typography
+          sx={{
+            whiteSpace: "nowrap",
+          }}
+        >
+          Upgrade to{" "}
+          <Box
+            sx={{
+              px: 1,
+              py: 0.2,
+              color: colors.orange["50"].toString(),
+              borderRadius: 1,
+              background: colors.orange["700"],
+              display: "inline",
+            }}
+          >
+            SUPER
+          </Box>
+        </Typography>
+        <Typography
+          sx={{
+            color: colors.orange[900].toString(),
+            fontSize: "0.8rem",
+            fontWeight: "500",
+            mt: 1,
+          }}
+        >
+          With Carbon Super, you can invite more members, store more items, and
+          support us! You can always downgrade later and access all features.
+        </Typography>
+        <Typography
+          sx={{
+            color: colors.orange[900].toString(),
+            fontSize: "0.8rem",
+            fontWeight: "500",
+            mt: 1,
+          }}
+        >
+          As an early supporter, you can get Carbon Super for free for the first
+          month!
+        </Typography>
+        <Button
+          variant="contained"
+          disableElevation
+          onClick={() => {
+            toast("Coming soon!");
+          }}
+          sx={{
+            width: "100%",
+            borderRadius: 5,
+            mt: 2,
+            background: colors.orange["700"] + "!important",
+            color: "#fff",
+          }}
+        >
+          $0.30 / month
+        </Button>
+      </Box>
+    </Box>
+  );
+}
 
 /**
  * Logout modal
@@ -359,6 +439,7 @@ export default function FullScreenDialog({ children }: any) {
           >
             {global.user.email}
           </Typography>
+          <UpgradeBanner />
 
           <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
             <SettingsMenu

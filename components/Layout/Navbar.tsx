@@ -13,6 +13,7 @@ import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
 import { useRouter } from "next/router";
+import BoringAvatar from "boring-avatars";
 
 /**
  * Returns the initials of a name
@@ -152,19 +153,18 @@ export function Navbar(): JSX.Element {
                   },
                 }}
               >
-                <Avatar
-                  src={global.user.image}
-                  sx={{
-                    width: 35,
-                    fontSize: "15px",
-                    fontWeight: "700",
-                    height: 35,
-                    background:
-                      colors[themeColor][global.user.darkMode ? "100" : "A700"],
-                  }}
-                >
-                  {getInitials(global.user.name)}
-                </Avatar>
+                <BoringAvatar
+                  size={35}
+                  name={global.user.name}
+                  variant="beam"
+                  colors={[
+                    "#801245",
+                    "#F4F4DD",
+                    "#DCDBAF",
+                    "#5D5C49",
+                    "#3D3D34",
+                  ]}
+                />
               </IconButton>
             </Tooltip>
           </ProfileMenu>
