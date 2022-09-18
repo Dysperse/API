@@ -343,21 +343,19 @@ export function Lists() {
       ) : data ? (
         <Render data={data} />
       ) : (
-        <>
-          {[...new Array(10)].map(() => (
-            <Paper key={Math.random().toString()}>
-              <Skeleton
-                animation="wave"
-                variant="rectangular"
-                sx={{
-                  mb: 2,
-                  borderRadius: 5,
-                  height: Math.random() * 200 + 200,
-                }}
-              />
-            </Paper>
-          ))}
-        </>
+        [...new Array(10)].map(() => (
+          <Paper key={Math.random().toString()}>
+            <Skeleton
+              animation="wave"
+              variant="rectangular"
+              sx={{
+                mb: 2,
+                borderRadius: 5,
+                height: Math.random() * 200 + 200,
+              }}
+            />
+          </Paper>
+        ))
       )}
     </>
   );
