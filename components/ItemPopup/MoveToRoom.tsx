@@ -147,7 +147,7 @@ export function MoveToRoom({ styles, item, setDeleted, setDrawerState }) {
               "Garden",
             ].map((room, index) => (
               <Room
-                key={index.toString()}
+                key={Math.random().toString()}
                 room={room}
                 setDrawerState={setDrawerState}
                 setOpen={setOpen}

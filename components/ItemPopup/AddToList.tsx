@@ -44,14 +44,14 @@ function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
     return (
       <>
         {[...new Array(10)].map((_: any, id: number) => (
-          <Skeleton animation="wave" key={id.toString()} />
+          <Skeleton animation="wave" key={Math.random().toString()} />
         ))}
       </>
     );
   return (
     <List sx={{ mt: -1 }}>
-      {data.lists.map((list: any, id: number) => (
-        <ListItem disablePadding key={id.toString()}>
+      {data.lists.map((list: any) => (
+        <ListItem disablePadding key={list.id.toString()}>
           <ListItemButton
             sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
             onClick={() => {

@@ -131,7 +131,7 @@ export function RoomList({ color }: any) {
         ) : (
           images.map((step, index) => (
             <Box
-              key={index.toString()}
+              key={Math.random().toString()}
               className="embla__slide"
               sx={{ pl: index == 0 ? 0 : 2, flex: "0 0 90%" }}
             >

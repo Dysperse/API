@@ -334,7 +334,7 @@ function SwipeableTextMobileStepper() {
                 sx={{
                   height: "100vh",
                 }}
-                key={index.toString()}
+                key={Math.random().toString()}
               >
                 {step.content}
               </Box>
