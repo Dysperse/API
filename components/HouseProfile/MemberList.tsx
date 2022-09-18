@@ -28,106 +28,104 @@ function Member({ member }): any {
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
-    <>
-      <Box sx={{ width: "100%" }}>
-        <Typography
+    <Box sx={{ width: "100%" }}>
+      <Typography
+        sx={{
+          fontWeight: "600",
+          maxWidth: "100%",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {member.user.name}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          maxWidth: "100%",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {member.user.email}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          maxWidth: "100%",
+          overflow: "hidden",
+          mx: "auto",
+          textOverflow: "ellipsis",
+          display: "flex",
+          mt: 0.5,
+          alignItems: "center",
+          gap: "10px",
+        }}
+      >
+        <span className="material-symbols-rounded">
+          {member.permission === "member"
+            ? "group"
+            : member.permission == "owner"
+            ? "productivity"
+            : "visibility"}
+        </span>
+        <span
+          style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
+        >
+          {member.permission == "member"
+            ? "Read, write, and edit access"
+            : member.permission == "owner"
+            ? "Owner"
+            : "Read-only access"}
+        </span>
+      </Typography>
+      {global.property.permission !== "owner" ? null : (
+        <LoadingButton
+          loading={loading}
+          variant="outlined"
           sx={{
-            fontWeight: "600",
-            maxWidth: "100%",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
+            borderWidth: "2px!important",
+            width: "100%",
+            mt: 1.5,
+            color: colors.red[900],
+            "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
+              borderColor: colors.red[900] + "!important",
+            },
+            borderRadius: 4,
+          }}
+          onClick={() => {
+            if (global.property.permission === "owner") {
+              document.getElementById("settingsTrigger")?.click();
+              return;
+            }
+            if (
+              confirm(
+                "Remove member from your home? This person cannot join unless you invite them again."
+              )
+            ) {
+              setLoading(true);
+              fetch(
+                "/api/property/members/remove?" +
+                  new URLSearchParams({
+                    id: member.id,
+                    accessToken: global.property.accessToken,
+                    property: global.property.propertyId,
+                  }).toString(),
+                {
+                  method: "POST",
+                }
+              ).then(() => {
+                toast.success("Removed person from your home");
+                setLoading(false);
+                setDeleted(true);
+              });
+            }
           }}
         >
-          {member.user.name}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            maxWidth: "100%",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {member.user.email}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            maxWidth: "100%",
-            overflow: "hidden",
-            mx: "auto",
-            textOverflow: "ellipsis",
-            display: "flex",
-            mt: 0.5,
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <span className="material-symbols-rounded">
-            {member.permission === "member"
-              ? "group"
-              : member.permission == "owner"
-              ? "productivity"
-              : "visibility"}
-          </span>
-          <span
-            style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
-          >
-            {member.permission == "member"
-              ? "Read, write, and edit access"
-              : member.permission == "owner"
-              ? "Owner"
-              : "Read-only access"}
-          </span>
-        </Typography>
-        {global.property.permission !== "owner" ? null : (
-          <LoadingButton
-            loading={loading}
-            variant="outlined"
-            sx={{
-              borderWidth: "2px!important",
-              width: "100%",
-              mt: 1.5,
-              color: colors.red[900],
-              "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-                borderColor: colors.red[900] + "!important",
-              },
-              borderRadius: 4,
-            }}
-            onClick={() => {
-              if (global.property.permission === "owner") {
-                document.getElementById("settingsTrigger")?.click();
-                return;
-              }
-              if (
-                confirm(
-                  "Remove member from your home? This person cannot join unless you invite them again."
-                )
-              ) {
-                setLoading(true);
-                fetch(
-                  "/api/property/members/remove?" +
-                    new URLSearchParams({
-                      id: member.id,
-                      accessToken: global.property.accessToken,
-                      property: global.property.propertyId,
-                    }).toString(),
-                  {
-                    method: "POST",
-                  }
-                ).then(() => {
-                  toast.success("Removed person from your home");
-                  setLoading(false);
-                  setDeleted(true);
-                });
-              }
-            }}
-          >
-            {global.property.permission === "owner" ? "My account" : "Remove"}
-          </LoadingButton>
-        )}
-      </Box>
-    </>
+          {global.property.permission === "owner" ? "My account" : "Remove"}
+        </LoadingButton>
+      )}
+    </Box>
   );
 }
 

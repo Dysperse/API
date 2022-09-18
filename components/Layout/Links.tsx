@@ -492,36 +492,34 @@ export function DrawerListItems({
               </Box>
             }
             icon={
-              <>
-                {collapsed ? (
-                  <Badge
-                    className="badge"
-                    sx={{
-                      ml: "auto",
-                      mr: 1.2,
-                      zIndex: -1,
-                      my: "auto",
-                      "& .MuiBadge-badge": {
-                        borderRadius: 2,
-                        background: colors.red["100"],
-                        color: colors.red["900"],
-                      },
-                    }}
-                    badgeContent={
-                      maintenance
-                        ? maintenance.filter((reminder) =>
-                            dayjs(reminder.nextDue).isBefore(dayjs())
-                          ).length
-                        : 0
-                    }
-                    color="error"
-                  >
-                    <span className="material-symbols-outlined">handyman</span>
-                  </Badge>
-                ) : (
-                  "handyman"
-                )}
-              </>
+              collapsed ? (
+                <Badge
+                  className="badge"
+                  sx={{
+                    ml: "auto",
+                    mr: 1.2,
+                    zIndex: -1,
+                    my: "auto",
+                    "& .MuiBadge-badge": {
+                      borderRadius: 2,
+                      background: colors.red["100"],
+                      color: colors.red["900"],
+                    },
+                  }}
+                  badgeContent={
+                    maintenance
+                      ? maintenance.filter((reminder) =>
+                          dayjs(reminder.nextDue).isBefore(dayjs())
+                        ).length
+                      : 0
+                  }
+                  color="error"
+                >
+                  <span className="material-symbols-outlined">handyman</span>
+                </Badge>
+              ) : (
+                "handyman"
+              )
             }
           />
         </div>

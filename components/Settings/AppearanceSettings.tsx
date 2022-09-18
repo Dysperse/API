@@ -64,67 +64,65 @@ function ThemeColorSettings() {
  */
 export default function AppearanceSettings() {
   return (
-    <>
-      <Box
-        sx={{
-          py: 1,
-          px: {
-            sm: 10,
-          },
-        }}
+    <Box
+      sx={{
+        py: 1,
+        px: {
+          sm: 10,
+        },
+      }}
+    >
+      <ThemeColorSettings />
+      <ListSubheader>Theme</ListSubheader>
+      <RadioGroup
+        aria-labelledby="demo-controlled-radio-buttons-group"
+        name="controlled-radio-buttons-group"
       >
-        <ThemeColorSettings />
-        <ListSubheader>Theme</ListSubheader>
-        <RadioGroup
-          aria-labelledby="demo-controlled-radio-buttons-group"
-          name="controlled-radio-buttons-group"
+        <ListItem
+          key="light"
+          onClick={() => {
+            global.setTheme("light");
+            updateSettings("darkMode", "false");
+          }}
+          secondaryAction={
+            <Radio
+              edge="end"
+              onChange={() => {
+                global.setTheme("light");
+                updateSettings("darkMode", "false");
+              }}
+              checked={global.theme === "light"}
+            />
+          }
+          disablePadding
         >
-          <ListItem
-            key="light"
-            onClick={() => {
-              global.setTheme("light");
-              updateSettings("darkMode", "false");
-            }}
-            secondaryAction={
-              <Radio
-                edge="end"
-                onChange={() => {
-                  global.setTheme("light");
-                  updateSettings("darkMode", "false");
-                }}
-                checked={global.theme === "light"}
-              />
-            }
-            disablePadding
-          >
-            <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
-              <ListItemText primary="Light" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            key="dark"
-            onClick={() => {
-              global.setTheme("dark");
-              updateSettings("darkMode", "true");
-            }}
-            secondaryAction={
-              <Radio
-                edge="end"
-                onChange={() => {
-                  global.setTheme("dark");
-                  updateSettings("darkMode", "true");
-                }}
-                checked={global.theme === "dark"}
-              />
-            }
-            disablePadding
-          >
-            <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
-              <ListItemText primary="Dark" />
-            </ListItemButton>
-          </ListItem>
-        </RadioGroup>
-      </Box>
-    </>
+          <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
+            <ListItemText primary="Light" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem
+          key="dark"
+          onClick={() => {
+            global.setTheme("dark");
+            updateSettings("darkMode", "true");
+          }}
+          secondaryAction={
+            <Radio
+              edge="end"
+              onChange={() => {
+                global.setTheme("dark");
+                updateSettings("darkMode", "true");
+              }}
+              checked={global.theme === "dark"}
+            />
+          }
+          disablePadding
+        >
+          <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
+            <ListItemText primary="Dark" />
+          </ListItemButton>
+        </ListItem>
+      </RadioGroup>
+    </Box>
   );
 }

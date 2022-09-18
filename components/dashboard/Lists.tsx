@@ -132,192 +132,189 @@ function Render({ data }: any) {
   });
 
   return (
-    <>
-      <Masonry
-        sx={{ mt: 2 }}
-        columns={{ xs: 1, sm: 2, xl: 3 }}
-        spacing={{ xs: 0, sm: 1 }}
-      >
-        {lists.map((list) => (
-          <ListItems
-            key={list.id}
-            data={list.items}
-            emptyText="You haven't added any items to this list yet."
-            emptyImage="https://ouch-cdn2.icons8.com/Gmb2VDsK_0vYJN8H8Q_-pj5cJEKjFQY6buBtji7rJGo/rs:fit:256:171/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzkz/L2E5OTFhYjE3LTNh/MDktNGM2My1iNjhi/LTk1ZDA1NmRhYzNk/MS5zdmc.png"
-            title={list.name}
-            description={list.description}
-            parent={list.id}
+    <Masonry
+      sx={{ mt: 2 }}
+      columns={{ xs: 1, sm: 2, xl: 3 }}
+      spacing={{ xs: 0, sm: 1 }}
+    >
+      {lists.map((list) => (
+        <ListItems
+          key={list.id}
+          data={list.items}
+          emptyText="You haven't added any items to this list yet."
+          emptyImage="https://ouch-cdn2.icons8.com/Gmb2VDsK_0vYJN8H8Q_-pj5cJEKjFQY6buBtji7rJGo/rs:fit:256:171/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzkz/L2E5OTFhYjE3LTNh/MDktNGM2My1iNjhi/LTk1ZDA1NmRhYzNk/MS5zdmc.png"
+          title={list.name}
+          description={list.description}
+          parent={list.id}
+          setLists={setLists}
+          lists={lists}
+        />
+      ))}
+      {lists &&
+        lists.filter((e) => e.name.toLowerCase() === "shopping list").length ===
+          0 && (
+          <ListTip
             setLists={setLists}
             lists={lists}
+            name="Shopping List"
+            tip="Tip: Create a shopping list to keep track of your shopping list"
           />
-        ))}
-        {lists &&
-          lists.filter((e) => e.name.toLowerCase() === "shopping list")
-            .length === 0 && (
-            <ListTip
-              setLists={setLists}
-              lists={lists}
-              name="Shopping List"
-              tip="Tip: Create a shopping list to keep track of your shopping list"
-            />
-          )}
+        )}
 
-        {lists &&
-          lists.filter((e) => e.name.toLowerCase() === "to-do").length ===
-            0 && (
-            <ListTip
-              setLists={setLists}
-              lists={lists}
-              name="To-do"
-              tip="Tip: Create a to-do list to keep track of your tasks"
-            />
-          )}
-        {lists &&
-          lists.filter((e) => e.name.toLowerCase() === "wishlist").length ===
-            0 && (
-            <ListTip
-              setLists={setLists}
-              lists={lists}
-              name="Wishlist"
-              tip="Tip: Create a wishlist list to store items you want!"
-            />
-          )}
-        <SwipeableDrawer
-          open={open}
-          anchor="bottom"
-          sx={{
-            display: "flex",
-            alignItems: { xs: "end", sm: "center" },
-            height: "100vh",
-            justifyContent: "center",
-          }}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              borderRadius: "28px",
-              borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
-              borderBottomRightRadius: { xs: 0, sm: "28px!important" },
-              position: "unset",
-              mx: "auto",
-              maxWidth: { sm: "30vw", xs: "100vw" },
-              overflow: "hidden",
-            },
-          }}
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(false)}
-          disableSwipeToOpen
-        >
-          <Box sx={{ display: { sm: "none" } }}>
-            <Puller />
+      {lists &&
+        lists.filter((e) => e.name.toLowerCase() === "to-do").length === 0 && (
+          <ListTip
+            setLists={setLists}
+            lists={lists}
+            name="To-do"
+            tip="Tip: Create a to-do list to keep track of your tasks"
+          />
+        )}
+      {lists &&
+        lists.filter((e) => e.name.toLowerCase() === "wishlist").length ===
+          0 && (
+          <ListTip
+            setLists={setLists}
+            lists={lists}
+            name="Wishlist"
+            tip="Tip: Create a wishlist list to store items you want!"
+          />
+        )}
+      <SwipeableDrawer
+        open={open}
+        anchor="bottom"
+        sx={{
+          display: "flex",
+          alignItems: { xs: "end", sm: "center" },
+          height: "100vh",
+          justifyContent: "center",
+        }}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            borderRadius: "28px",
+            borderBottomLeftRadius: { xs: 0, sm: "28px!important" },
+            borderBottomRightRadius: { xs: 0, sm: "28px!important" },
+            position: "unset",
+            mx: "auto",
+            maxWidth: { sm: "30vw", xs: "100vw" },
+            overflow: "hidden",
+          },
+        }}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(false)}
+        disableSwipeToOpen
+      >
+        <Box sx={{ display: { sm: "none" } }}>
+          <Puller />
+        </Box>
+        <form onSubmit={formik.handleSubmit}>
+          <Box sx={{ p: 2 }}>
+            <DialogTitle variant="h6" sx={{ fontWeight: "900" }}>
+              Create list
+            </DialogTitle>
+            <DialogContent>
+              Good examples of list names are short and descriptive.
+              <TextField
+                autoComplete="off"
+                id="listName"
+                required
+                name="name"
+                onChange={formik.handleChange}
+                variant="filled"
+                fullWidth
+                margin="dense"
+                sx={{ mt: 3 }}
+                label="List name"
+              />
+              <TextField
+                autoComplete="off"
+                id="description"
+                variant="filled"
+                name="description"
+                InputProps={{
+                  value: formik.values.description,
+                  onChange: (e) =>
+                    formik.setFieldValue("description", e.target.value),
+                }}
+                margin="dense"
+                fullWidth
+                label="Description (optional)"
+              />
+            </DialogContent>
+            <DialogActions sx={{ px: 3 }}>
+              <Button
+                disableElevation
+                type="reset"
+                onClick={() => setOpen(false)}
+                variant="outlined"
+                size="large"
+                sx={{ borderRadius: 999, borderWidth: "2px!important" }}
+              >
+                Cancel
+              </Button>
+              <LoadingButton
+                disableElevation
+                loading={loading}
+                type="submit"
+                variant="contained"
+                size="large"
+                sx={{
+                  borderRadius: 999,
+                  border: "2px solid transparent!important",
+                }}
+              >
+                Create
+              </LoadingButton>
+            </DialogActions>
           </Box>
-          <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ p: 2 }}>
-              <DialogTitle variant="h6" sx={{ fontWeight: "900" }}>
-                Create list
-              </DialogTitle>
-              <DialogContent>
-                Good examples of list names are short and descriptive.
-                <TextField
-                  autoComplete="off"
-                  id="listName"
-                  required
-                  name="name"
-                  onChange={formik.handleChange}
-                  variant="filled"
-                  fullWidth
-                  margin="dense"
-                  sx={{ mt: 3 }}
-                  label="List name"
-                />
-                <TextField
-                  autoComplete="off"
-                  id="description"
-                  variant="filled"
-                  name="description"
-                  InputProps={{
-                    value: formik.values.description,
-                    onChange: (e) =>
-                      formik.setFieldValue("description", e.target.value),
-                  }}
-                  margin="dense"
-                  fullWidth
-                  label="Description (optional)"
-                />
-              </DialogContent>
-              <DialogActions sx={{ px: 3 }}>
-                <Button
-                  disableElevation
-                  type="reset"
-                  onClick={() => setOpen(false)}
-                  variant="outlined"
-                  size="large"
-                  sx={{ borderRadius: 999, borderWidth: "2px!important" }}
-                >
-                  Cancel
-                </Button>
-                <LoadingButton
-                  disableElevation
-                  loading={loading}
-                  type="submit"
-                  variant="contained"
-                  size="large"
-                  sx={{
-                    borderRadius: 999,
-                    border: "2px solid transparent!important",
-                  }}
-                >
-                  Create
-                </LoadingButton>
-              </DialogActions>
-            </Box>
-          </form>
-        </SwipeableDrawer>
-        <Paper>
-          <Card
-            onClick={() => {
-              setOpen(true);
-              setTimeout(() => document.getElementById("listName")?.focus());
-            }}
-            sx={{
-              my: { xs: 2, sm: 0 },
-              borderRadius: 5,
-              userSelect: "none",
+        </form>
+      </SwipeableDrawer>
+      <Paper>
+        <Card
+          onClick={() => {
+            setOpen(true);
+            setTimeout(() => document.getElementById("listName")?.focus());
+          }}
+          sx={{
+            my: { xs: 2, sm: 0 },
+            borderRadius: 5,
+            userSelect: "none",
+            background:
+              global.theme == "dark"
+                ? "hsl(240, 11%, 13%)"
+                : "rgba(200,200,200,.3)",
+            cursor: "pointer",
+            "&:hover": {
               background:
                 global.theme == "dark"
-                  ? "hsl(240, 11%, 13%)"
-                  : "rgba(200,200,200,.3)",
-              cursor: "pointer",
-              "&:hover": {
-                background:
-                  global.theme == "dark"
-                    ? "hsl(240, 11%, 15%)"
-                    : "rgba(200,200,200,.4)",
-              },
-              "&:active": {
-                background:
-                  global.theme == "dark"
-                    ? "hsl(240, 11%, 20%)"
-                    : "rgba(200,200,200,.5)",
-              },
+                  ? "hsl(240, 11%, 15%)"
+                  : "rgba(200,200,200,.4)",
+            },
+            "&:active": {
+              background:
+                global.theme == "dark"
+                  ? "hsl(240, 11%, 20%)"
+                  : "rgba(200,200,200,.5)",
+            },
+          }}
+        >
+          <CardContent
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              py: 3,
+              px: 3.5,
+              fontWeight: "600",
             }}
           >
-            <CardContent
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                py: 3,
-                px: 3.5,
-                fontWeight: "600",
-              }}
-            >
-              <span className="material-symbols-outlined">add_circle</span>
-              Create list
-            </CardContent>
-          </Card>
-        </Paper>
-      </Masonry>
-    </>
+            <span className="material-symbols-outlined">add_circle</span>
+            Create list
+          </CardContent>
+        </Card>
+      </Paper>
+    </Masonry>
   );
 }
 
@@ -336,27 +333,23 @@ export function Lists() {
   const { data, error }: any = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );
-  return (
-    <>
-      {error ? (
-        <ErrorHandler error="An error occured while trying to fetch your lists" />
-      ) : data ? (
-        <Render data={data} />
-      ) : (
-        [...new Array(10)].map(() => (
-          <Paper key={Math.random().toString()}>
-            <Skeleton
-              animation="wave"
-              variant="rectangular"
-              sx={{
-                mb: 2,
-                borderRadius: 5,
-                height: Math.random() * 200 + 200,
-              }}
-            />
-          </Paper>
-        ))
-      )}
-    </>
+  return error ? (
+    <ErrorHandler error="An error occured while trying to fetch your lists" />
+  ) : data ? (
+    <Render data={data} />
+  ) : (
+    [...new Array(10)].map(() => (
+      <Paper key={Math.random().toString()}>
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          sx={{
+            mb: 2,
+            borderRadius: 5,
+            height: Math.random() * 200 + 200,
+          }}
+        />
+      </Paper>
+    ))
   );
 }
