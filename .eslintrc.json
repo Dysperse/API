@@ -1,4 +1,7 @@
 {
   "extends": "next/core-web-vitals",
-  "react/jsx-max-depth": [5, { "max": 5 }]
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "max-depth": "off"
+  }
 }
