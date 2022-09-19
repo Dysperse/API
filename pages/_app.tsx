@@ -437,6 +437,11 @@ function RenderApp({ router, Component, pageProps }: any) {
           }}
         >
           <Box
+            ref={() =>
+              document
+                .querySelector(`meta[name="theme-color"]`)
+                ?.setAttribute("content", "hsl(240, 11%, 10%)")
+            }
             sx={{
               position: "fixed",
               p: 5,
