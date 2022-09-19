@@ -318,7 +318,7 @@ function Render({ data }: any) {
  * Lists component
  * @returns {any}
  */
-export function Lists() {
+export function Lists(): JSX.Element {
   const url = `/api/property/lists?${new URLSearchParams({
     property: global.property.propertyId,
     accessToken: global.property.accessToken,
@@ -332,18 +332,20 @@ export function Lists() {
   ) : data ? (
     <Render data={data} />
   ) : (
-    [...new Array(10)].map(() => (
-      <Paper key={Math.random().toString()}>
-        <Skeleton
-          animation="wave"
-          variant="rectangular"
-          sx={{
-            mb: 2,
-            borderRadius: 5,
-            height: Math.random() * 200 + 200,
-          }}
-        />
-      </Paper>
-    ))
+    <>
+      {[...new Array(10)].map(() => (
+        <Paper key={Math.random().toString()}>
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            sx={{
+              mb: 2,
+              borderRadius: 5,
+              height: Math.random() * 200 + 200,
+            }}
+          />
+        </Paper>
+      ))}
+    </>
   );
 }
