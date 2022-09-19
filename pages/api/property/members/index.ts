@@ -27,7 +27,6 @@ const handler = async (req: any, res: any) => {
         select: {
           name: true,
           email: true,
-          avatar: true,
         },
       },
     },
