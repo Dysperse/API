@@ -96,8 +96,8 @@ export function RenderRoom({ data, index }: any) {
             </Paper>
           ) : null}
 
-          {items.map((item: Item, key: number) => (
-            <div key={key.toString()}>
+          {items.map((item: Item) => (
+            <div key={item.id.toString()}>
               <ItemCard item={item} />
             </div>
           ))}

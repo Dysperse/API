@@ -108,8 +108,8 @@ export default function Rooms() {
       </ListItem>
       {data ? (
         <>
-          {data.data.map((room: any, key: number) => (
-            <Room data={room} key={key.toString()} />
+          {data.data.map((room: { id: string; name: string }) => (
+            <Room data={room} key={room.id.toString()} />
           ))}
         </>
       ) : (

@@ -25,8 +25,8 @@ export function RecentItems() {
   ) : data ? (
     <Box sx={{ mt: -1.5 }}>
       <Grid container sx={{ mt: 2 }} spacing={1.5}>
-        {data.map((item: ItemType, key: string) => (
-          <Grid item key={key.toString()} xs={12} sm={3} xl={2}>
+        {data.map((item: ItemType) => (
+          <Grid item key={item.id.toString()} xs={12} sm={3} xl={2}>
             <Item variant="list" data={item} />
           </Grid>
         ))}

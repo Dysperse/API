@@ -240,8 +240,8 @@ function CustomRooms({ collapsed }: any) {
   if (!data)
     return (
       <>
-        {[...new Array(10)].map((_: any, id: number) => (
-          <Box sx={{ px: 4, py: 2 }} key={id.toString()}>
+        {[...new Array(10)].map(() => (
+          <Box sx={{ px: 4, py: 2 }} key={Math.random().toString()}>
             <Skeleton width={"200px"} animation={"wave"} />
           </Box>
         ))}
