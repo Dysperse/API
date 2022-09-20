@@ -6,19 +6,24 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import Box from "@mui/material/Box";
-import { sendStatusCode } from "next/dist/server/api-utils";
+import toast from "react-hot-toast";
 
 /**
  * Verify if 2fa code is correct
  * @returns JSX.Element
  */
-export default function Prompt({ callback }: { callback: Function }) {
+export function Prompt({
+  open,
+  setOpen,
+  callback,
+}: {
+  open: boolean;
+  setOpen: Function;
+  callback: Function;
+}) {
   const userHasEnabled2fa =
     user.twoFactorSecret !== "" && user.twoFactorSecret !== "false";
 
-  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(
-    userHasEnabled2fa ? true : false
-  );
   const [buttonLoading, setButtonLoading] = useState(false);
   const [code, setCode] = useState("");
 
@@ -28,13 +33,38 @@ export default function Prompt({ callback }: { callback: Function }) {
     }
   }, [callback, userHasEnabled2fa]);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    setButtonLoading(true);
+    fetch(
+      `/api/user/2fa/verify?${new URLSearchParams({
+        code: code,
+        token: global.user.token,
+      })}`
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          callback();
+          setOpen(false);
+        } else {
+          toast.error("Invalid code");
+          setCode("");
+        }
+        setButtonLoading(false);
+      })
+      .catch(() => {
+        toast.error(
+          "An error occured while verifying your code. Please try again later."
+        );
+        setButtonLoading(false);
+      });
+  };
   return (
     <SwipeableDrawer
       anchor="bottom"
-      open={twoFactorModalOpen}
+      open={open}
       onClose={() => {}}
-      onOpen={() => setTwoFactorModalOpen(true)}
+      onOpen={() => setOpen(true)}
       disableSwipeToOpen
       PaperProps={{
         sx: {
@@ -88,7 +118,8 @@ export default function Prompt({ callback }: { callback: Function }) {
               textAlign: "center",
               borderRadius: "10px",
               border: "1px solid #ccc",
-              height: "35px",
+              height: "45px",
+              minWidth: "45px",
               px: 1.5,
               fontWeight: "900",
               // Selection
@@ -102,7 +133,6 @@ export default function Prompt({ callback }: { callback: Function }) {
             value={code}
             onChange={(value) => setCode(value)}
             numInputs={6}
-            //   separator={<span>-</span>}
           />
         </Box>
         <LoadingButton

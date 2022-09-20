@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-
+import { Prompt } from "../Auth/twoFactorPrompt";
 /**
  * Description
  * @param {any} {color
@@ -27,6 +27,7 @@ export function AddPersonModal({ color, members }: any) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [permission, setpermission] = React.useState("member");
 
+  const [twoFactorPrompt, setTwoFactorPrompt] = React.useState(false);
   /**
    * Add person modal
    * @param {SelectChangeEvent} event
@@ -39,7 +40,7 @@ export function AddPersonModal({ color, members }: any) {
   return (
     <>
       <Button
-        onClick={() => setOpen(true)}
+        onClick={() => setTwoFactorPrompt(true)}
         variant="contained"
         disabled={global.property.permission !== "owner"}
         sx={{
@@ -60,6 +61,13 @@ export function AddPersonModal({ color, members }: any) {
         </span>
         Add person
       </Button>
+      <Prompt
+        open={twoFactorPrompt}
+        setOpen={setTwoFactorPrompt}
+        callback={() => {
+          setOpen(true);
+        }}
+      />
       <SwipeableDrawer
         open={open}
         onOpen={() => setOpen(true)}

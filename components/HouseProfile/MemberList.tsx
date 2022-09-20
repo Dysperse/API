@@ -158,12 +158,12 @@ export function MemberList({ color }: any): JSX.Element {
     />
   ) : (
     <>
-      <div style={{ width: "100%", display: "flex", marginTop: "-40px" }}>
+      <Box style={{ width: "100%", display: "flex", marginTop: "-40px" }}>
         <AddPersonModal
           color={color}
           members={loading ? [] : data.map((member) => member.user.email)}
         />
-      </div>
+      </Box>
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {images.map((step, index) => (
