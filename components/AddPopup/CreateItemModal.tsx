@@ -220,7 +220,7 @@ export function CreateItemModal({
                 mr: "auto",
                 opacity: { sm: "0" },
                 pointerEvents: { sm: "none" },
-                color: global.theme == "dark" ? "#fff" : "#000",
+                color: global.user.darkMode ? "#fff" : "#000",
                 transition: "none",
                 "&:active": {
                   background: `${colors[themeColor][100]}!important`,
@@ -240,7 +240,7 @@ export function CreateItemModal({
                 ml: "auto",
                 opacity: { sm: "0" },
                 pointerEvents: { sm: "none" },
-                color: global.theme == "dark" ? "#fff" : "#000",
+                color: global.user.darkMode ? "#fff" : "#000",
                 transition: "none",
                 "&:active": {
                   background: `${colors.brown[100]} !important`,
@@ -307,10 +307,9 @@ export function CreateItemModal({
                     width: "175px",
                     overflow: "hidden",
                     height: "150px",
-                    background:
-                      global.theme == "dark"
-                        ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][100],
+                    background: global.user.darkMode
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][100],
                     transition: "transform .2s",
                     "&:active": {
                       transform: "scale(.95)",
@@ -325,10 +324,9 @@ export function CreateItemModal({
                   <Box
                     sx={{
                       height: "80px",
-                      background:
-                        global.theme == "dark"
-                          ? "hsl(240, 11%, 35%)"
-                          : colors[themeColor][200],
+                      background: global.user.darkMode
+                        ? "hsl(240, 11%, 35%)"
+                        : colors[themeColor][200],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",

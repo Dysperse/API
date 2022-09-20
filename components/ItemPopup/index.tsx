@@ -547,10 +547,9 @@ export default function Item({
                   style={{
                     display: switchingToIndex == 0 ? "block" : "none",
                   }}
-                  className={
-                    "animateIcon material-symbols-" +
-                    (!item.starred ? "outlined" : "rounded")
-                  }
+                  className={`animateIcon material-symbols-${
+                    item.starred ? "rounded" : "outlined"
+                  }`}
                 >
                   star
                 </span>
@@ -570,10 +569,9 @@ export default function Item({
                 "&:active": {
                   transition: "none",
                   transform: "scale(.97)",
-                  background:
-                    global.theme == "dark"
-                      ? "hsl(240, 11%, 20%)"
-                      : "rgba(200,200,200,.3)",
+                  background: global.user.darkMode
+                    ? "hsl(240, 11%, 20%)"
+                    : "rgba(200,200,200,.3)",
                 },
               }}
             >
@@ -710,10 +708,9 @@ export default function Item({
                   style={{
                     display: switchingToIndex === 0 ? "block" : "none",
                   }}
-                  className={
-                    "animateIcon material-symbols-" +
-                    (item.starred == 0 ? "outlined" : "rounded")
-                  }
+                  className={`animateIcon material-symbols-${
+                    item.starred ? "rounded" : "rounded"
+                  }`}
                 >
                   star
                 </span>

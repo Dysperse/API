@@ -263,22 +263,19 @@ function Render({ data }: any) {
             my: { xs: 2, sm: 0 },
             borderRadius: 5,
             userSelect: "none",
-            background:
-              global.theme == "dark"
-                ? "hsl(240, 11%, 13%)"
-                : "rgba(200,200,200,.3)",
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 13%)"
+              : "rgba(200,200,200,.3)",
             cursor: "pointer",
             "&:hover": {
-              background:
-                global.theme == "dark"
-                  ? "hsl(240, 11%, 15%)"
-                  : "rgba(200,200,200,.4)",
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 15%)"
+                : "rgba(200,200,200,.4)",
             },
             "&:active": {
-              background:
-                global.theme == "dark"
-                  ? "hsl(240, 11%, 20%)"
-                  : "rgba(200,200,200,.5)",
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 20%)"
+                : "rgba(200,200,200,.5)",
             },
           }}
         >

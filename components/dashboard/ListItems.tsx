@@ -137,7 +137,7 @@ function GenerateData({
                 }),
                 py: 0,
                 borderRadius: 3,
-                color: global.theme == "dark" ? "#fff" : "#808080",
+                color: global.user.darkMode ? "#fff" : "#808080",
                 transition: "transform .2s",
                 "&:active": {
                   transition: "none",
@@ -165,7 +165,7 @@ function GenerateData({
                     </span>
                     <span
                       style={{
-                        color: global.theme == "dark" ? "#fff" : "#202020",
+                        color: global.user.darkMode ? "#fff" : "#202020",
                         marginLeft: "-7px",
                       }}
                     >
@@ -403,10 +403,9 @@ export function ListItems({
                   opacity: screenshotReady ? 0 : 1,
                   ml: "auto",
                   "&:active": {
-                    background:
-                      global.theme == "dark"
-                        ? "hsl(240, 11%, 20%)"
-                        : "rgba(200,200,200,.3)",
+                    background: global.user.darkMode
+                      ? "hsl(240, 11%, 20%)"
+                      : "rgba(200,200,200,.3)",
                   },
                   display: parent !== -1 && parent !== -2 ? "flex" : "none",
                 }}

@@ -96,18 +96,16 @@ export function GenerateListItem({
                 borderRadius: 3,
                 transition: "transform .2s",
                 "&:hover": {
-                  background:
-                    global.theme == "dark"
-                      ? "hsl(240, 11%, 20%)"
-                      : "rgba(200,200,200,.3)",
+                  background: global.user.darkMode
+                    ? "hsl(240, 11%, 20%)"
+                    : "rgba(200,200,200,.3)",
                 },
                 "&:active": {
                   transition: "none",
                   transform: "scale(.97)",
-                  background:
-                    global.theme == "dark"
-                      ? "hsl(240, 11%, 20%)"
-                      : "rgba(200,200,200,.3)",
+                  background: global.user.darkMode
+                    ? "hsl(240, 11%, 20%)"
+                    : "rgba(200,200,200,.3)",
                   ...(global.property.role !== "read-only" && {
                     transition: "none",
                     transform: "scale(.97)",

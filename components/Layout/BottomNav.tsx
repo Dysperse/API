@@ -35,8 +35,9 @@ export function BottomNav({ maintenance }: any) {
       background: "transparent !important",
     },
     "&.Mui-selected .MuiIcon-root": {
-      background:
-        global.theme == "dark" ? "hsl(240, 11%, 30%)" : colors[themeColor][200],
+      background: global.user.darkMode
+        ? "hsl(240, 11%, 30%)"
+        : colors[themeColor][200],
     },
     "&.Mui-selected .MuiIcon-root::before": {
       background:

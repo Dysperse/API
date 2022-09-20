@@ -128,16 +128,16 @@ function House({ handleClose, data }: any) {
           "&:active .content": { transform: "scale(.95)", transition: "none" },
           "&:active": {
             background:
-              colors[themeColor][global.theme == "dark" ? 800 : 100] +
+              colors[themeColor][global.user.darkMode ? 800 : 100] +
               "!important",
           },
           ...(data.propertyId === global.property.propertyId && {
             background:
-              colors[themeColor][global.theme == "dark" ? 800 : 100] +
+              colors[themeColor][global.user.darkMode ? 800 : 100] +
               "!important",
             "&:active": {
               background:
-                colors[themeColor][global.theme == "dark" ? 700 : 200] +
+                colors[themeColor][global.user.darkMode ? 700 : 200] +
                 "!important",
             },
           }),
@@ -214,7 +214,7 @@ function House({ handleClose, data }: any) {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[color][global.theme == "dark" ? 900 : 50],
+            background: colors[color][global.user.darkMode ? 900 : 50],
             width: {
               sm: "50vw",
             },
@@ -607,17 +607,16 @@ export function InviteButton() {
           userSelect: "none",
           cursor: "pointer",
           "&:active": {
-            background:
-              global.theme == "dark"
-                ? "hsl(240, 11%, 20%) !important"
-                : "rgba(200,200,200,.3)!important",
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 20%) !important"
+              : "rgba(200,200,200,.3)!important",
             transition: "none",
             transform: "scale(0.95)",
           },
           p: 1,
           gap: 1,
           py: 0,
-          color: global.theme == "dark" ? "#fff" : "#000",
+          color: global.user.darkMode ? "#fff" : "#000",
           borderRadius: 2,
           transition: "transform .2s",
           "&:hover": {

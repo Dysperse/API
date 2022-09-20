@@ -89,14 +89,13 @@ function ColorModal({ formik }): JSX.Element {
           borderRadius: 4,
           mr: 0.5,
           transition: "none",
-          color:
-            global.theme == "dark"
-              ? "#fff"
-              : colors[formik.values.color][global.user.darkMode ? 100 : "800"],
+          color: global.user.darkMode
+            ? "#fff"
+            : colors[formik.values.color][global.user.darkMode ? 100 : "800"],
           "&:hover": {
             background:
               colors[formik.values.color][
-                global.theme == "dark" ? "900" : "200"
+                global.user.darkMode ? "900" : "200"
               ] + "!important",
           },
         }}
@@ -287,16 +286,15 @@ function NoteModal({
                 borderRadius: 4,
                 mr: 0.5,
                 transition: "none",
-                color:
-                  global.theme == "dark"
-                    ? "#fff"
-                    : colors[formik.values.color][
-                        global.user.darkMode ? 100 : "800"
-                      ],
+                color: global.user.darkMode
+                  ? "#fff"
+                  : colors[formik.values.color][
+                      global.user.darkMode ? 100 : "800"
+                    ],
                 ...(formik.values.pinned && {
                   background:
                     colors[formik.values.color][
-                      global.theme == "dark" ? "900" : "200"
+                      global.user.darkMode ? "900" : "200"
                     ] + "!important",
                 }),
                 "&:active": { background: "rgba(0,0,0,0.1)!important" },
@@ -337,16 +335,15 @@ function NoteModal({
                   borderRadius: 4,
                   mr: 0.5,
                   transition: "none",
-                  color:
-                    global.theme == "dark"
-                      ? "#fff"
-                      : colors[formik.values.color][
-                          global.user.darkMode ? 100 : 800
-                        ],
+                  color: global.user.darkMode
+                    ? "#fff"
+                    : colors[formik.values.color][
+                        global.user.darkMode ? 100 : 800
+                      ],
                   "&:hover": {
                     background:
                       colors[formik.values.color][
-                        global.theme == "dark" ? 900 : 200
+                        global.user.darkMode ? 900 : 200
                       ] + "!important",
                   },
                 }}
