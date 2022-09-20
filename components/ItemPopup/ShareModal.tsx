@@ -21,18 +21,14 @@ export function ShareModal({
   room,
 }: any): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
-  const href =
-    "https://" +
-    window.location.hostname +
-    "/share/" +
-    encodeURIComponent(
-      JSON.stringify({
-        name: global.user.name,
-        title: title,
-        quantity: quantity,
-        room: room,
-      })
-    );
+  const href = `https://${window.location.hostname}/share/${encodeURIComponent(
+    JSON.stringify({
+      name: global.user.name,
+      title: title,
+      quantity: quantity,
+      room: room,
+    })
+  )}`;
 
   /**
    * Closes the popup

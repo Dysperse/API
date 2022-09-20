@@ -32,7 +32,7 @@ const handler = async (req: any, res: any) => {
       data.map((reminder) => {
         alarms.push({
           action: "audio",
-          description: "Reminder: " + reminder.name,
+          description: `Reminder: ${reminder.name}`,
           trigger: { hours: 2, minutes: 30, before: true },
           repeat: 2,
           attachType: "VALUE=URI",
@@ -55,11 +55,7 @@ const handler = async (req: any, res: any) => {
           url: "https://my.smartlist.tech/maintenance",
           categories: ["Home maintenance"],
           calName: "Home maintenance (Carbon)",
-          uid:
-            reminder.id +
-            "@reminders." +
-            req.query.property +
-            ".my.smartlist.tech",
+          uid: `${reminder.id}@reminders.${req.query.property}.my.smartlist.tech`,
           alarms: alarms,
         };
       }),

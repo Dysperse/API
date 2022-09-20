@@ -7,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { useState } from "react";
 import OtpInput from "react-otp-input";
+import Link from "next/link";
+import Button from "@mui/material/Button";
 import { useSWRConfig } from "swr";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
@@ -290,20 +292,23 @@ export default function Prompt() {
               </Box>
             </Box>
           </form>
+          <Link href="/signup">
+            <Button
+              sx={{
+                textTransform: "none",
+                mt: 1,
+                py: 0,
+                float: "right",
+                textAlign: "center",
+                mx: "auto",
+                transition: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              Create an account
+            </Button>
+          </Link>
         </Paper>
-        {/* <Link href={"/signup/" + window.location.pathname.split("oauth/")[1]}>
-          <Button
-            sx={{
-              textTransform: "none",
-              mt: 1,
-              py: 0,
-              transition: "none",
-              "&:hover": { textDecoration: "underline" },
-            }}
-          >
-            Create an account
-          </Button>
-        </Link> */}
       </Box>
     </Layout>
   );

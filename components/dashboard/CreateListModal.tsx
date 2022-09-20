@@ -182,9 +182,9 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                 >
                   <span
                     style={{ transform: "rotate(-45deg)" }}
-                    className={
-                      "material-symbols-" + (pinned ? "rounded" : "outlined")
-                    }
+                    className={`material-symbols-${
+                      pinned ? "rounded" : "outlined"
+                    }`}
                   >
                     push_pin
                   </span>

@@ -366,7 +366,7 @@ export default function FullScreenDialog({ children }: any) {
               content={<AppearanceSettings />}
               icon="palette"
               primary="Appearance"
-              secondary={"Current theme: " + global.theme}
+              secondary={`Current theme: ${global.theme}`}
             />
             <SettingsMenu
               content={<TwoFactorAuth />}

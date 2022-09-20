@@ -29,11 +29,7 @@ const useStyles = createStyles(() => ({
  */
 function CalendarFeedModal(): JSX.Element {
   const [open, setOpen] = useState(false);
-  const url =
-    "https://my.smartlist.tech/api/property/maintenance/feed?property=" +
-    global.property.propertyId +
-    "&accessToken=" +
-    global.property.accessToken;
+  const url = `https://my.smartlist.tech/api/property/maintenance/feed?property=${global.property.propertyId}&accessToken=${global.property.accessToken}`;
   return (
     <>
       <SwipeableDrawer
@@ -406,14 +402,11 @@ export function Header({ count }) {
         <Box
           sx={{
             width: "100%",
-            background:
-              "linear-gradient(45deg, " +
-              colors.green[global.user.darkMode ? 900 : 100] +
-              " 0%, " +
-              colors.green[global.user.darkMode ? 500 : 100] +
-              " 50%, " +
-              colors.green[global.user.darkMode ? 700 : 100] +
-              " 100%)",
+            background: `linear-gradient(45deg, ${
+              colors.green[global.user.darkMode ? 900 : 100]
+            } 0%, ${colors.green[global.user.darkMode ? 500 : 100]} 50%, ${
+              colors.green[global.user.darkMode ? 700 : 100]
+            } 100%)`,
             color: `${
               colors.green[!global.user.darkMode ? 900 : 100]
             }!important"`,

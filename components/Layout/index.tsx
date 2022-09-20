@@ -110,7 +110,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
       </Menu>
       <Link
         href={`/rooms/${encode(
-          room.id.toString() + "," + room.name.toString()
+          `${room.id.toString()},${room.name.toString()}`
         ).toString()}?custom=true`}
       >
         <ListItemButton

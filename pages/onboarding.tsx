@@ -231,7 +231,7 @@ function SwipeableTextMobileStepper() {
             If your house has a name, enter it below
           </Typography>
           <TextField
-            placeholder={"My " + houseType}
+            placeholder={`My ${houseType}`}
             fullWidth
             variant="filled"
             sx={{ mt: 1 }}

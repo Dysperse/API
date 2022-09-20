@@ -31,13 +31,9 @@ function RenderData({ data }) {
     return null;
   }
 
-  const url =
-    "https://canny.io/api/redirects/sso?companyID=" +
-    companyID +
-    "&ssoToken=" +
-    encodeURIComponent(data) +
-    "&redirect=" +
-    encodeURIComponent(redirectURL);
+  const url = `https://canny.io/api/redirects/sso?companyID=${companyID}&ssoToken=${encodeURIComponent(
+    data
+  )}&redirect=${encodeURIComponent(redirectURL)}`;
   window.location.href = url;
   return <div />;
 }

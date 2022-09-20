@@ -49,7 +49,7 @@ export function UpgradeBanner() {
       )}
       <Box
         sx={{
-          border: "2px solid" + colors.orange["500"].toString(),
+          border: `2px solid ${colors.orange["500"].toString()}`,
           color: colors.orange["800"].toString(),
           borderRadius: 5,
           px: 3,

@@ -314,19 +314,6 @@ export default function Prompt() {
             </Box>
           </form>
         </Paper>
-        {/* <Link href={"/signup/" + window.location.pathname.split("oauth/")[1]}>
-          <Button
-            sx={{
-              textTransform: "none",
-              mt: 1,
-              py: 0,
-              transition: "none",
-              "&:hover": { textDecoration: "underline" },
-            }}
-          >
-            Create an account
-          </Button>
-        </Link> */}
       </Box>
     </Layout>
   );

@@ -99,10 +99,9 @@ function ColorModal({ formik }): JSX.Element {
         }}
       >
         <span
-          className={
-            "material-symbols-" +
-            (formik.values.pinned ? "rounded" : "outlined")
-          }
+          className={`material-symbols-${
+            formik.values.pinned ? "rounded" : "outlined"
+          }`}
         >
           palette
         </span>
@@ -303,10 +302,9 @@ function NoteModal({
             >
               <span
                 style={{ transform: "rotate(-45deg)" }}
-                className={
-                  "material-symbols-" +
-                  (formik.values.pinned ? "rounded" : "outlined")
-                }
+                className={`${"material-symbols-"}${
+                  formik.values.pinned ? "rounded" : "outlined"
+                }`}
               >
                 push_pin
               </span>
@@ -348,10 +346,9 @@ function NoteModal({
                 }}
               >
                 <span
-                  className={
-                    "material-symbols-" +
-                    (formik.values.pinned ? "rounded" : "outlined")
-                  }
+                  className={`material-symbols-${
+                    formik.values.pinned ? "rounded" : "outlined"
+                  }`}
                 >
                   delete
                 </span>

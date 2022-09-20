@@ -217,18 +217,16 @@ export default function Item({
         </MenuItem>
         <MenuItem
           onClick={() => {
-            const href =
-              "https://" +
-              window.location.hostname +
-              "/share/" +
-              encodeURIComponent(
-                JSON.stringify({
-                  name: global.user.name,
-                  title: item.name,
-                  quantity: item.quantity,
-                  room: data.room,
-                })
-              );
+            const href = `https://${
+              window.location.hostname
+            }/share/${encodeURIComponent(
+              JSON.stringify({
+                name: global.user.name,
+                title: item.name,
+                quantity: item.quantity,
+                room: data.room,
+              })
+            )}`;
 
             navigator.share({ url: href }).then(handleClose);
           }}
@@ -248,9 +246,9 @@ export default function Item({
           }}
         >
           <span
-            className={
-              "material-symbols-" + (item.starred ? "rounded" : "outlined")
-            }
+            className={`material-symbols-${
+              item.starred ? "rounded" : "outlined"
+            }`}
             style={{ marginRight: "20px" }}
           >
             grade

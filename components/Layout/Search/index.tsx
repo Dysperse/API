@@ -164,7 +164,7 @@ function Home({
           { name: "Garden", icon: "yard" },
         ].map((room: { name: string; icon: string }) => (
           <Item
-            onSelect={() => onLink("/rooms/" + room.name.toLowerCase())}
+            onSelect={() => onLink(`/rooms/${room.name.toLowerCase()}`)}
             key={room.name}
           >
             {room.name}

@@ -233,16 +233,13 @@ const ListItem = React.memo(function ListItem({
         },
         ...(router.asPath === asHref && {
           borderRadius: collapsed ? 4 : 3,
-          background:
-            "linear-gradient(45deg, " +
-            (global.user.darkMode
-              ? "hsl(240, 11%, 30%)"
-              : colors[themeColor][50]) +
-            "  0%, " +
-            (global.user.darkMode
+          background: `linear-gradient(45deg, ${
+            global.user.darkMode ? "hsl(240, 11%, 30%)" : colors[themeColor][50]
+          }  0%, ${
+            global.user.darkMode
               ? "hsl(240, 11%, 20%)"
-              : colors[themeColor][100]) +
-            " 100%)",
+              : colors[themeColor][100]
+          } 100%)`,
           "&:hover,&:focus": {
             backgroundColor: global.user.darkMode
               ? "hsl(240, 11%, 17%)"
@@ -277,10 +274,9 @@ const ListItem = React.memo(function ListItem({
         }}
       >
         <span
-          className={
-            "material-symbols-" +
-            (router.asPath === asHref ? "rounded" : "outlined")
-          }
+          className={`material-symbols-${
+            router.asPath === asHref ? "rounded" : "outlined"
+          }`}
         >
           {icon}
         </span>
@@ -368,31 +364,29 @@ export function DrawerListItems({
                     }),
                   },
                   ...(!global.itemLimitReached && {
-                    background:
-                      "linear-gradient(45deg, " +
-                      (global.user.darkMode
+                    background: `linear-gradient(45deg, ${
+                      global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][200]) +
-                      "  0%, " +
-                      (global.user.darkMode
+                        : colors[themeColor][200]
+                    }  0%, ${
+                      global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][500]) +
-                      " 100%)",
+                        : colors[themeColor][500]
+                    } 100%)`,
                   }),
                   color: global.user.darkMode
                     ? "hsl(240, 11%, 95%)"
                     : colors[themeColor]["900"],
                   "&:active": {
-                    background:
-                      "linear-gradient(90deg, " +
-                      (global.user.darkMode
+                    background: `${"linear-gradient(90deg, "}${
+                      global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][200]) +
-                      "  0%, " +
-                      (global.user.darkMode
+                        : colors[themeColor][200]
+                    }  0%, ${
+                      global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][500]) +
-                      " 100%)",
+                        : colors[themeColor][500]
+                    } 100%)`,
                     boxShadow:
                       "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                     transform: "scale(.96)",

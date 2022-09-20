@@ -187,9 +187,9 @@ export function BottomNav({ maintenance }: any) {
             onClick={() => onLink("/dashboard")}
             icon={
               <Icon
-                baseClassName={
-                  "material-symbols-" + (value == 0 ? "rounded" : "outlined")
-                }
+                baseClassName={`material-symbols-${
+                  value == 0 ? "rounded" : "outlined"
+                }`}
               >
                 view_timeline
               </Icon>
@@ -204,9 +204,9 @@ export function BottomNav({ maintenance }: any) {
             onClick={() => onLink("/items")}
             icon={
               <Icon
-                baseClassName={
-                  "material-symbols-" + (value == 1 ? "rounded" : "outlined")
-                }
+                baseClassName={`material-symbols-${
+                  value == 1 ? "rounded" : "outlined"
+                }`}
               >
                 category
               </Icon>
@@ -221,9 +221,9 @@ export function BottomNav({ maintenance }: any) {
             onClick={() => onLink("/notes")}
             icon={
               <Icon
-                baseClassName={
-                  "material-symbols-" + (value == 2 ? "rounded" : "outlined")
-                }
+                baseClassName={`material-symbols-${
+                  value == 2 ? "rounded" : "outlined"
+                }`}
               >
                 sticky_note_2
               </Icon>
@@ -249,9 +249,9 @@ export function BottomNav({ maintenance }: any) {
             onClick={() => onLink("/maintenance")}
             icon={
               <Icon
-                baseClassName={
-                  "material-symbols-" + (value == 3 ? "rounded" : "outlined")
-                }
+                baseClassName={`material-symbols-${
+                  value == 3 ? "rounded" : "outlined"
+                }`}
                 sx={{
                   overflow: "visible",
                 }}
