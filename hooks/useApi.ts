@@ -2,6 +2,9 @@ import React from "react";
 import useSWR from "swr";
 import type { ApiResponse } from "../types/client";
 
+/**
+ * Creates the url for the API endpoint
+ */
 const getInfo = (path, initialParams, property) => {
   const params = {
     ...initialParams,
@@ -14,6 +17,12 @@ const getInfo = (path, initialParams, property) => {
     url: `/api/${path}/?${new URLSearchParams(params).toString()}`,
   };
 };
+/**
+ * @description A custom hook to fetch data from the API with SWR.
+ * @param path The path to the API endpoint
+ * @param initialParams The parameters to pass to the API
+ * @returns The data from the API
+ */
 export function useApi(path: string, initialParams: any = {}): ApiResponse {
   const { url } = getInfo(path, initialParams, global.property);
 
@@ -39,6 +48,9 @@ export function useApi(path: string, initialParams: any = {}): ApiResponse {
   return returned;
 }
 
+/**
+ * Without SWR
+ */
 export async function fetchApiWithoutHook(
   path: string,
   initialParams: any = {}
