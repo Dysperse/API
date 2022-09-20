@@ -15,13 +15,13 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React from "react";
-import useSWR from "swr";
+import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { ListItems } from "./ListItems";
-
 /**
  * Description
  * @param {any} {name
@@ -316,36 +316,33 @@ function Render({ data }: any) {
 
 /**
  * Lists component
- * @returns {any}
+ * @returns {JSX.Element}
  */
 export function Lists(): JSX.Element {
-  const url = `/api/property/lists?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
+  const { error, loading, data }: ApiResponse = useApi("property/lists");
 
-  const { data, error }: any = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
-  );
-  return error ? (
-    <ErrorHandler error="An error occured while trying to fetch your lists" />
-  ) : data ? (
-    <Render data={data} />
-  ) : (
+  return (
     <>
-      {[...new Array(10)].map(() => (
-        <Paper key={Math.random().toString()}>
-          <Skeleton
-            animation="wave"
-            variant="rectangular"
-            sx={{
-              mb: 2,
-              borderRadius: 5,
-              height: Math.random() * 200 + 200,
-            }}
-          />
-        </Paper>
-      ))}
+      {error && (
+        <ErrorHandler error="An error occured while trying to fetch your lists" />
+      )}
+      {loading ? (
+        [...new Array(10)].map(() => (
+          <Paper key={Math.random().toString()}>
+            <Skeleton
+              animation="wave"
+              variant="rectangular"
+              sx={{
+                mb: 2,
+                borderRadius: 5,
+                height: Math.random() * 200 + 200,
+              }}
+            />
+          </Paper>
+        ))
+      ) : (
+        <Render data={data} />
+      )}
     </>
   );
 }

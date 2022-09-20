@@ -7,6 +7,9 @@ import React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { AddPersonModal } from "./AddPersonModal";
+import { useApi } from "../../hooks/useApi";
+import type { ApiResponse } from "../../types/client";
+import { ErrorHandler } from "../ErrorHandler";
 
 /**
  * Check if a string is a valid email address
@@ -131,19 +134,11 @@ function Member({ member }): any {
 /**
  * Member list
  * @param {any} {color}
- * @returns {any}
+ * @returns {JSX.Element}
  */
 
-export function MemberList({ color }: any) {
-  const url = `/api/property/members?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-  const { data } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
-  );
+export function MemberList({ color }: any): JSX.Element {
+  const { error, loading, data }: ApiResponse = useApi("property/members");
 
   const images = data
     ? [
@@ -156,6 +151,7 @@ export function MemberList({ color }: any) {
     : [];
 
   const [emblaRef, emblaApi]: any = useEmblaCarousel();
+
   React.useEffect(() => {
     if (emblaApi) {
       setTimeout(() => {
@@ -163,12 +159,17 @@ export function MemberList({ color }: any) {
       }, 1000);
     }
   }, [emblaApi]);
-  return (
+
+  return error ? (
+    <ErrorHandler
+      error={"An error occured while trying to fetch your members"}
+    />
+  ) : (
     <>
       <div style={{ width: "100%", display: "flex", marginTop: "-40px" }}>
         <AddPersonModal
           color={color}
-          members={data ? data.map((member) => member.user.email) : []}
+          members={loading ? [] : data.map((member) => member.user.email)}
         />
       </div>
       <div className="embla" ref={emblaRef}>

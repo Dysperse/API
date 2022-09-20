@@ -57,10 +57,10 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
       setLoading(true);
       fetch(
         `/api/property/rooms/create?${new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            name: values.name,
-          }).toString()}`,
+          property: global.property.propertyId,
+          accessToken: global.property.accessToken,
+          name: values.name,
+        }).toString()}`,
         {
           method: "POST",
         }
@@ -373,7 +373,7 @@ export function DrawerListItems({
                   fontSize: "15px",
                   boxShadow: "none!important",
                   transition:
-                    "minWidth .2s,border-radius .2s, margin .2s,transform .2s !important",
+                    "minWidth .2s, border-radius .2s ease-in-out, margin .2s,transform .2s !important",
                   ...(collapsed && {
                     mt: 2.2,
                     mb: 3,

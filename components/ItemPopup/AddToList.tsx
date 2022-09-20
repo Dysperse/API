@@ -12,23 +12,23 @@ import Skeleton from "@mui/material/Skeleton";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
+import type { ApiResponse } from "../../types/client";
+import { useApi } from "../../hooks/useApi";
 
 /**
  * Description
  * @param {any} {title
  * @param {any} handleClose}
- * @returns {any}
+ * @returns {JSX.Element}
  */
-function RoomList({ title, handleClose }: { title: string; handleClose: any }) {
-  const url = `/api/lists/items?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-  const { error, data }: any = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
-  );
+function RoomList({
+  title,
+  handleClose,
+}: {
+  title: string;
+  handleClose: any;
+}): JSX.Element {
+  const { data, error }: ApiResponse = useApi("property/lists");
 
   if (error) {
     return (

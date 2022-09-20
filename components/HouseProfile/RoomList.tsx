@@ -6,23 +6,18 @@ import React from "react";
 import toast from "react-hot-toast";
 import useSWR, { mutate } from "swr";
 import { colors } from "../../lib/colors";
+import { useApi } from "../../hooks/useApi";
+import type { ApiResponse } from "../../types/client";
+import type { Room as RoomType } from "../../types/room";
 
 /**
  * Room card
  * @param room Room details
  * @returns JSX.Element
  */
-function Room({
-  color,
-  room,
-}: {
-  color: string;
-  room: {
-    name: string;
-    id: string;
-  };
-}): JSX.Element {
+function Room({ color, room }: { color: string; room: RoomType }): JSX.Element {
   const [deleted, setDeleted] = React.useState<boolean>(false);
+
   return deleted ? (
     <>This room has been deleted</>
   ) : (
@@ -59,7 +54,7 @@ function Room({
             setDeleted(true);
             fetch(
               `/api/property/rooms/delete?${new URLSearchParams({
-                id: room.id,
+                id: room.id.toString(),
                 property: global.property.propertyId,
                 accessToken: global.property.accessToken,
               }).toString()}`,
@@ -73,9 +68,9 @@ function Room({
                 setDeleted(false);
                 mutate(
                   `/api/property/rooms?${new URLSearchParams({
-                      property: global.property.propertyId,
-                      accessToken: global.property.accessToken,
-                    }).toString()}`
+                    property: global.property.propertyId,
+                    accessToken: global.property.accessToken,
+                  }).toString()}`
                 );
               });
           }
@@ -91,17 +86,12 @@ function Room({
  * @param color Theme color of home
  */
 export function RoomList({ color }: any) {
-  const url =
-    `/api/property/rooms?${new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString()}`;
-  const { data } = useSWR(url, () => fetch(url).then((res) => res.json()));
+  const { data }: ApiResponse = useApi("property/rooms");
   const [emblaRef] = useEmblaCarousel();
 
   const images = data
     ? [
-        ...data.map((room) => {
+        ...data.map((room: RoomType) => {
           return {
             content: <Room color={color} room={room} />,
           };

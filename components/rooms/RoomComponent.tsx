@@ -1,7 +1,8 @@
-import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import { useApi } from "../../hooks/useApi";
+import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
 import { LoadingScreen } from "./LoadingScreen";
 import { RenderRoom } from "./RenderRoom";
@@ -9,30 +10,27 @@ import { RenderRoom } from "./RenderRoom";
 /**
  * Room component to load inventory
  * @param {any} {index}
- * @returns {any}
+ * @returns {JSX.Element}
  */
-export function RoomComponent({ index }: any) {
+
+export function RoomComponent({ index }: any): JSX.Element {
   const router = useRouter();
-  const url =
-   `${ "/api/property/inventory/list?"}${new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
+  const { error, loading, data }: ApiResponse = useApi(
+    "property/inventory/list",
+    {
       room: router.query.custom
         ? decode(index).split(",")[0]
         : index.toLowerCase().replaceAll("-", ""),
-    }).toString()}`;
-
-  const { error, data }: any = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
+    }
   );
 
   return error ? (
-    <Box sx={{ p: 2 }}>
+    <Container sx={{ mt: 1 }}>
       <ErrorHandler error="An error occured while trying to fetch this room's contents" />
-    </Box>
-  ) : data ? (
-    <RenderRoom data={data} index={index} />
-  ) : (
+    </Container>
+  ) : loading ? (
     <LoadingScreen />
+  ) : (
+    <RenderRoom data={data} index={index} />
   );
 }

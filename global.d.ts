@@ -5,8 +5,8 @@ export {};
 declare global {
   var theme: string;
   var setTheme: Function;
-  var themeColor: any;
-  var setThemeColor: Color;
+  var themeColor: Color;
+  var setThemeColor: () => void;
   var OneSignal: any;
 
   var user: User;

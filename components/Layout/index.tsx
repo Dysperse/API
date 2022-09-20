@@ -22,6 +22,9 @@ import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
 import type { Room } from "../../types/room";
+import type { ApiResponse } from "../../types/client";
+
+import { useApi } from "../../hooks/useApi";
 
 const drawerWidth = 260;
 
@@ -216,21 +219,11 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
 /**
  * Custom rooms component
  * @param {any} {collapsed}
- * @returns {any}
+ * @returns {JSX.Element}
  */
-function CustomRooms({ collapsed }: any) {
-  const url =
-    "/api/property/rooms?" +
-    `${new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString()}`;
+function CustomRooms({ collapsed }: any): JSX.Element {
+  const { error, data }: ApiResponse = useApi("property/rooms");
 
-  const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
-  );
   if (error)
     return (
       <Box sx={{ my: 2 }}>

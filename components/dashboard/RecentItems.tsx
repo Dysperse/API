@@ -2,27 +2,32 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import useSWR from "swr";
+import { useApi } from "../../hooks/useApi";
+import type { ApiResponse } from "../../types/client";
 import type { Item as ItemType } from "../../types/item";
 import { ErrorHandler } from "../ErrorHandler";
 import Item from "../ItemPopup";
 
 /**
- * Description
- * @returns {any}
+ * Recent items
+ * @returns {JSX.Element}
  */
-export function RecentItems() {
-  const url = `/api/property/inventory/recent?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-  const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
+export function RecentItems(): JSX.Element {
+  const { error, loading, data }: ApiResponse = useApi(
+    "property/inventory/recent"
   );
 
   return error ? (
     <ErrorHandler error="An error occured while trying to fetch your items" />
-  ) : data ? (
+  ) : loading ? (
+    <Skeleton
+      variant="rectangular"
+      width={"100%"}
+      height={500}
+      animation="wave"
+      sx={{ mb: 2, borderRadius: "28px" }}
+    />
+  ) : (
     <Box sx={{ mt: -1.5 }}>
       <Grid container sx={{ mt: 2 }} spacing={1.5}>
         {data.map((item: ItemType) => (
@@ -52,13 +57,5 @@ export function RecentItems() {
         </Box>
       )}
     </Box>
-  ) : (
-    <Skeleton
-      variant="rectangular"
-      width={"100%"}
-      height={500}
-      animation="wave"
-      sx={{ mb: 2, borderRadius: "28px" }}
-    />
   );
 }
