@@ -8,6 +8,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
+import { Prompt } from "../Auth/twoFactorPrompt";
 
 /**
  * Top-level component for the two-factor authentication settings page.
@@ -18,7 +19,7 @@ export default function App() {
     account: global.user.email,
   });
   const [newSecret] = useState(secret);
-
+  const [open, setOpen] = useState(false);
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingDisable, setLoadingDisable] = useState<boolean>(false);
@@ -29,15 +30,20 @@ export default function App() {
       global.user.twoFactorSecret !== "false" ? (
         <Box>
           <Typography>2FA is enabled for your account!</Typography>
-          <LoadingButton
-            loading={loadingDisable}
-            onClick={() => {
+          <Prompt
+            open={open}
+            setOpen={setOpen}
+            callback={() => {
               setLoadingDisable(true);
               updateSettings("twoFactorSecret", "", false, () => {
                 mutate("/api/user");
                 setLoadingDisable(false);
               });
             }}
+          />
+          <LoadingButton
+            loading={loadingDisable}
+            onClick={() => setOpen(true)}
             sx={{ mt: 5, boxShadow: 0, width: "100%", borderRadius: "100px" }}
             variant="contained"
             size="large"

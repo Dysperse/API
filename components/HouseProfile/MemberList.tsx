@@ -96,7 +96,7 @@ function Member({ member }): any {
             borderRadius: 4,
           }}
           onClick={() => {
-            if (global.property.permission === "owner") {
+            if (member.permission === "owner") {
               document.getElementById("settingsTrigger")?.click();
               return;
             }
@@ -116,7 +116,7 @@ function Member({ member }): any {
             }
           }}
         >
-          {global.property.permission === "owner" ? "My account" : "Remove"}
+          {member.permission === "owner" ? "My account" : "Remove"}
         </LoadingButton>
       )}
     </Box>

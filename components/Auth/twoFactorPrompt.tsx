@@ -63,7 +63,7 @@ export function Prompt({
     <SwipeableDrawer
       anchor="bottom"
       open={open}
-      onClose={() => {}}
+      onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       disableSwipeToOpen
       PaperProps={{

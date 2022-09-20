@@ -22,7 +22,7 @@ function Products() {
       key: 1,
       href: "//my.smartlist.tech",
       label: "Carbon",
-      description: "Home inventory",
+      description: "Next-gen personal home inventory",
     },
     {
       key: 3,
@@ -85,7 +85,7 @@ function Products() {
           key={category.label.toString()}
           square
           sx={{
-            boxShadow: 0,
+            boxShadow: "none!important",
             margin: "0!important",
             borderRadius: "9px",
             cursor: "pointer",
