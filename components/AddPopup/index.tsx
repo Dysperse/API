@@ -19,7 +19,8 @@ import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";
-
+import { useApi } from "../../hooks/useApi";
+import type { ApiResponse } from "../../types/client";
 import { useHotkeys } from "react-hotkeys-hook";
 
 const Root = styled("div")(() => ({
@@ -128,19 +129,9 @@ function AddItemOption({
  * @returns JSX.Element
  */
 function MoreRooms(): JSX.Element {
-  const url =
-    "/api/property/rooms?" +
-    `${new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString()}`;
+  const { error, data } = useApi("property/rooms");
   const [open, setOpen] = React.useState<boolean>(false);
 
-  const { error, data } = useSWR<Room[]>(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
-  );
   if (error) {
     return <>An error occured while trying to fetch your rooms. </>;
   }

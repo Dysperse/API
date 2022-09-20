@@ -18,6 +18,7 @@ import { AutocompleteData } from "../AutocompleteData";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * Shuffles array in place. ES6 version
@@ -119,34 +120,25 @@ export function CreateItemModal({
       quantity: string;
     }) => {
       setLoading(true);
-      fetch(
-        `/api/property/inventory/create?${new URLSearchParams({
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-          room: room.toString().toLowerCase(),
-          name: values.title,
-          qty: values.quantity,
-          category: JSON.stringify(values.categories),
-          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        }).toString()}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((res) => res.json())
-        .then(() => {
-          toast("Created item!");
-          setLoading(false);
-          setOpen(false);
-          formik.resetForm();
-          mutate(
-            `/api/property/inventory/list?${new URLSearchParams({
-              property: global.property.propertyId,
-              accessToken: global.property.accessToken,
-              room: room.toString().toLowerCase(),
-            }).toString()}`
-          );
-        });
+      fetchApiWithoutHook("property/inventory/create", {
+        room: room.toString().toLowerCase(),
+        name: values.title,
+        qty: values.quantity,
+        category: JSON.stringify(values.categories),
+        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      }).then(() => {
+        toast("Created item!");
+        setLoading(false);
+        setOpen(false);
+        formik.resetForm();
+        mutate(
+          `/api/property/inventory/list?${new URLSearchParams({
+            property: global.property.propertyId,
+            accessToken: global.property.accessToken,
+            room: room.toString().toLowerCase(),
+          }).toString()}`
+        );
+      });
     },
   });
 

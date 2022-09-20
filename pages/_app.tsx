@@ -6,7 +6,11 @@ import Grid from "@mui/material/Grid";
 import MuiLink from "@mui/material/Link";
 import NoSsr from "@mui/material/NoSsr";
 import Skeleton from "@mui/material/Skeleton";
-import { createTheme, experimental_sx as sx, ThemeProvider } from "@mui/material/styles";
+import {
+  createTheme,
+  experimental_sx as sx,
+  ThemeProvider,
+} from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
@@ -142,6 +146,10 @@ function Render({
   );
   const [themeColor, setThemeColor] = useState(data.user.color);
   const [loadingButton, setLoadingButton] = useState(false);
+
+  const [itemLimitReached, setItemLimitReached] = useState(true);
+  global.itemLimitReached = itemLimitReached;
+  global.setItemLimitReached = setItemLimitReached;
 
   global.theme = theme;
   global.themeColor = themeColor;

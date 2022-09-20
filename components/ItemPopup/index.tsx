@@ -159,17 +159,10 @@ export default function Item({
           onClick={() => {
             toast.dismiss(t.id);
             setIndex(1);
-            fetch(
-              `/api/inventory/restore?${new URLSearchParams({
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-                id: item.id.toString(),
-                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-              }).toString()}`,
-              {
-                method: "POST",
-              }
-            );
+            fetchApiWithoutHook("/property/inventory/restore", {
+              id: item.id.toString(),
+              lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            });
             setDeleted(false);
           }}
         >
@@ -399,20 +392,11 @@ export default function Item({
                         ...item,
                         note: e.target.value,
                       });
-                      fetch(
-                        `/api/property/inventory/updateNote?${new URLSearchParams(
-                          {
-                            property: global.property.propertyId,
-                            accessToken: global.property.accessToken,
-                            id: id.toString(),
-                            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                            note: e.target.value,
-                          }
-                        ).toString()}`,
-                        {
-                          method: "POST",
-                        }
-                      );
+                      fetchApiWithoutHook("property/inventory/updateNote", {
+                        id: id.toString(),
+                        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                        note: e.target.value,
+                      });
                     }}
                     onKeyUp={(e: any) => {
                       if (e.code === "Enter" && !e.shiftKey) {

@@ -21,6 +21,9 @@ export function UpgradeBanner() {
     >
       {data && (
         <Box
+          ref={() => {
+            global.setItemLimitReached(data >= 250);
+          }}
           sx={{
             background: colors.orange["100"].toString(),
             color: colors.orange["800"].toString(),

@@ -365,7 +365,10 @@ export function DrawerListItems({
           <AddPopup>
             <div>
               <Fab
-                disabled={global.property.role === "read-only"}
+                disabled={
+                  global.property.role === "read-only" ||
+                  global.itemLimitReached
+                }
                 variant={collapsed ? "circular" : "extended"}
                 disableRipple
                 color="primary"
@@ -385,16 +388,18 @@ export function DrawerListItems({
                       borderRadius: 5,
                     }),
                   },
-                  background:
-                    "linear-gradient(45deg, " +
-                    (global.theme === "dark"
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][200]) +
-                    "  0%, " +
-                    (global.theme === "dark"
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][500]) +
-                    " 100%)",
+                  ...(!global.itemLimitReached && {
+                    background:
+                      "linear-gradient(45deg, " +
+                      (global.theme === "dark"
+                        ? "hsl(240, 11%, 30%)"
+                        : colors[themeColor][200]) +
+                      "  0%, " +
+                      (global.theme === "dark"
+                        ? "hsl(240, 11%, 30%)"
+                        : colors[themeColor][500]) +
+                      " 100%)",
+                  }),
                   color:
                     global.theme === "dark"
                       ? "hsl(240, 11%, 95%)"
