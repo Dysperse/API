@@ -2,6 +2,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
 import React from "react";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * Custom rooms add component
@@ -44,15 +45,13 @@ export function CustomRooms({ houseType }: any) {
           ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
         ]);
 
-        fetch(
-          `${"/api/property/rooms/create?"}${new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            name: newValue.filter(
-              (option) => fixedOptions.indexOf(option) === -1
-            ),
-          }).toString()}`
-        );
+        fetchApiWithoutHook("property/rooms/create", {
+          property: global.property.propertyId,
+          accessToken: global.property.accessToken,
+          name: newValue.filter(
+            (option) => fixedOptions.indexOf(option) === -1
+          ),
+        });
       }}
       options={[]}
       getOptionLabel={(option: any) => option}

@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * @description A room
@@ -41,18 +42,11 @@ function Room({
       button
       onClick={() => {
         setDisabled(true);
-        fetch(
-          `/api/property/inventory/moveToRoom?${new URLSearchParams({
-            id: id.toString(),
-            room: room.toLowerCase().replace(" room", ""),
-            lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-          }).toString()}`,
-          {
-            method: "POST",
-          }
-        ).then(() => {
+        fetchApiWithoutHook("property/inventory/moveToRoom", {
+          id: id.toString(),
+          room: room.toLowerCase().replace(" room", ""),
+          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        }).then(() => {
           setDisabled(false);
           setDeleted(true);
           setOpen(false);

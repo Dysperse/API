@@ -14,6 +14,7 @@ import { useState } from "react";
 import { mutate } from "swr";
 import { Puller } from "../Puller";
 import Link from "@mui/material/Link";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 const useStyles = createStyles(() => ({
   outside: {},
@@ -269,19 +270,12 @@ function CreateMaintenanceModal() {
     },
     onSubmit: (values) => {
       setLoading(true);
-      fetch(
-        `/api/property/maintenance/create?${new URLSearchParams({
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-          name: values.name,
-          frequency: values.frequency,
-
-          nextDue: values.nextDue,
-          lastCompleted: new Date().toISOString(),
-
-          note: values.note,
-        }).toString()}`
-      )
+      fetchApiWithoutHook("property/maintenance/create", {
+        name: values.name,
+        frequency: values.frequency,
+        nextDue: values.nextDue,
+        lastCompleted: new Date().toISOString(),
+      })
         .then((res) => res.json())
         .then(() => {
           setLoading(false);

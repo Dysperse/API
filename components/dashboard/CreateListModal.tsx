@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * Create list modal
@@ -34,21 +35,12 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
     },
     onSubmit: (values: { name: string; details: string }) => {
       setLoading(true);
-      fetch(
-        "/api/property/lists/createItem?" +
-          `${new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            list: customParent,
-            name: values.name,
-            details: values.details,
-            pinned: pinned ? "true" : "false",
-          }).toString()}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((res) => res.json())
+      fetchApiWithoutHook("property/inventory/trash", {
+        list: customParent,
+        name: values.name,
+        details: values.details,
+        pinned: pinned ? "true" : "false",
+      })
         .then((res) => {
           setItems([...items, res]);
           formik.resetForm();

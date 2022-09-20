@@ -19,6 +19,7 @@ import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSWRConfig } from "swr";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { MemberList } from "../HouseProfile/MemberList";
@@ -98,14 +99,9 @@ function House({ handleClose, data }: any) {
             setOpen(true);
           } else {
             setLoading(true);
-            fetch(
-              `/api/property/join?${new URLSearchParams({
-                property: data.propertyId,
-                accessToken: data.accessToken,
-                email: global.user.email,
-              }).toString()}`
-            )
-              .then((res) => res.json())
+            fetchApiWithoutHook("property/join", {
+              email: global.user.email,
+            })
               .then((res: any) => {
                 toast(
                   <>

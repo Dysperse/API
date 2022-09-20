@@ -5,6 +5,7 @@ import ListItemText from "@mui/material/ListItemText";
 import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * Inventory list
@@ -29,17 +30,13 @@ export function InventoryList({ data }: { data: Array<any> }) {
           onClick={() => {
             setInventory([...inventory, item.name]);
 
-            fetch(
-              `/api/property/inventory/create?${new URLSearchParams({
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-                name: item.name,
-                qty: "1",
-                category: JSON.stringify([]),
-                lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                room: item.room,
-              }).toString()}`
-            ).then(() => {
+            fetchApiWithoutHook("property/inventory/create", {
+              name: item.name,
+              qty: "1",
+              category: JSON.stringify([]),
+              lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              room: item.room,
+            }).then(() => {
               toast.success("Added to inventory!");
             });
           }}

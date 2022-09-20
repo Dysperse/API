@@ -27,6 +27,7 @@ import React from "react";
 import AddPopup from "../AddPopup";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * Create room popup
@@ -55,27 +56,16 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
     },
     onSubmit: (values: { name: string }) => {
       setLoading(true);
-      fetch(
-        `/api/property/rooms/create?${new URLSearchParams({
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-          name: values.name,
-        }).toString()}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          setLoading(false);
-          setOpen(false);
-          router.push(
-            `/rooms/${encode(
-              `${res.id},${values.name}`
-            ).toString()}?custom=true`
-          );
-          formik.resetForm();
-        });
+      fetchApiWithoutHook("property/rooms/create", {
+        name: values.name,
+      }).then((res) => {
+        setLoading(false);
+        setOpen(false);
+        router.push(
+          `/rooms/${encode(`${res.id},${values.name}`).toString()}?custom=true`
+        );
+        formik.resetForm();
+      });
     },
   });
   return (

@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { ItemCard } from "../components/rooms/ItemCard";
-import { useApi } from "../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
 import type { Item } from "../types/item";
 
@@ -47,17 +47,10 @@ function DeleteCard({ item }: any): JSX.Element | null {
           variant="contained"
           disabled={global.property.role === "read-only"}
           onClick={() => {
-            fetch(
-              `/api/inventory/trash?${new URLSearchParams({
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-                id: item.id.toString(),
-                forever: "true",
-              }).toString()}`,
-              {
-                method: "POST",
-              }
-            )
+            fetchApiWithoutHook("inventory/trash", {
+              id: item.id.toString(),
+              forever: "true",
+            })
               .then(() => {
                 setDeleted(true);
                 setLoading(false);
@@ -85,19 +78,12 @@ function DeleteCard({ item }: any): JSX.Element | null {
           variant="outlined"
           disabled={global.property.role === "read-only"}
           onClick={() => {
-            fetch(
-              `/api/restore?${new URLSearchParams({
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-                lastUpdated: dayjs(item.lastUpdated).format(
-                  "YYYY-MM-DD HH:mm:ss"
-                ),
-                id: item.id.toString(),
-              }).toString()}`,
-              {
-                method: "POST",
-              }
-            )
+            fetchApiWithoutHook("restore", {
+              lastUpdated: dayjs(item.lastUpdated).format(
+                "YYYY-MM-DD HH:mm:ss"
+              ),
+              id: item.id.toString(),
+            })
               .then(() => {
                 setDeleted(true);
                 setLoading(false);

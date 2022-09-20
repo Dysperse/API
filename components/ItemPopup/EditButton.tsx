@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React from "react";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 
@@ -49,20 +50,13 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
       title: string;
       quantity: string;
     }) => {
-      fetch(
-        `/api/property/inventory/edit?${new URLSearchParams({
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-          id: item.id.toString(),
-          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-          name: values.title,
-          quantity: values.quantity,
-          category: JSON.stringify(values.categories),
-        }).toString()}`,
-        {
-          method: "POST",
-        }
-      );
+      fetchApiWithoutHook("property/inventory/edit", {
+        id: item.id.toString(),
+        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        name: values.title,
+        quantity: values.quantity,
+        category: JSON.stringify(values.categories),
+      });
 
       // Update item object
       setItemData({

@@ -13,6 +13,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * Description
@@ -157,17 +158,11 @@ export function AddPersonModal({ color, members }: any) {
                 return;
               }
               if (isEmail(value)) {
-                fetch(
-                  `/api/property/members/add?${new URLSearchParams({
-                    property: global.property.propertyId,
-                    accessToken: global.property.accessToken,
-
-                    email: value,
-                    name: global.property.profile.name,
-                    permission: permission,
-                  }).toString()}`
-                )
-                  .then((res) => res.json())
+                fetchApiWithoutHook("property/members/add", {
+                  email: value,
+                  name: global.property.profile.name,
+                  permission: permission,
+                })
                   .then((res: any) => {
                     emailjs
                       .send(

@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * Reminder component
@@ -61,19 +62,15 @@ export function Reminder({ reminder }: any) {
             onBlur={(e) => {
               e.target.placeholder = "Click to add note";
               e.target.spellcheck = false;
-              fetch(
-                `/api/property/maintenance/updateNote?${new URLSearchParams({
-                    property: global.property.propertyId,
-                    accessToken: global.property.accessToken,
-                    id: reminder.id,
-                    note: e.target.value,
-                  }).toString()}`
-              );
+              fetchApiWithoutHook("property/maintenance/updateNote", {
+                id: reminder.id,
+                note: e.target.value,
+              });
               mutate(
                 `/api/property/maintenance/reminders?${new URLSearchParams({
-                    property: global.property.propertyId,
-                    accessToken: global.property.accessToken,
-                  }).toString()}`
+                  property: global.property.propertyId,
+                  accessToken: global.property.accessToken,
+                }).toString()}`
               );
             }}
             onKeyUp={(e: any) => {
@@ -127,24 +124,18 @@ export function Reminder({ reminder }: any) {
               fullWidth
               onClick={() => {
                 setDeleteLoading(true);
-                fetch(
-                  `/api/property/maintenance/delete?${new URLSearchParams({
-                      id: reminder.id,
-                      accessToken: global.property.accessToken,
+                fetchApiWithoutHook("property/maintenance/delete", {
+                  id: reminder.id,
+                }).then(() => {
+                  mutate(
+                    `/api/property/maintenance/reminders?${new URLSearchParams({
                       property: global.property.propertyId,
+                      accessToken: global.property.accessToken,
                     }).toString()}`
-                )
-                  .then((res) => res.json())
-                  .then(() => {
-                    mutate(
-                      `/api/property/maintenance/reminders?${new URLSearchParams({
-                          property: global.property.propertyId,
-                          accessToken: global.property.accessToken,
-                        }).toString()}`
-                    );
-                    setOpen(false);
-                    toast.success("Reminder deleted");
-                  });
+                  );
+                  setOpen(false);
+                  toast.success("Reminder deleted");
+                });
               }}
               size="large"
               variant="outlined"
@@ -158,21 +149,17 @@ export function Reminder({ reminder }: any) {
             loading={markAsDoneLoading}
             onClick={() => {
               setMarkAsDoneLoading(true);
-              fetch(
-                `/api/property/maintenance/markAsDone?${new URLSearchParams({
-                    property: global.property.propertyId,
-                    accessToken: global.property.accessToken,
-                    id: reminder.id,
-                    frequency: reminder.frequency,
-                    lastCompleted: new Date().toISOString(),
-                  }).toString()}`
-              )
+              fetchApiWithoutHook("property/maintenance/markAsDone", {
+                id: reminder.id,
+                frequency: reminder.frequency,
+                lastCompleted: new Date().toISOString(),
+              })
                 .then(() => {
                   mutate(
                     `/api/property/maintenance/reminders?${new URLSearchParams({
-                        property: global.property.propertyId,
-                        accessToken: global.property.accessToken,
-                      }).toString()}`
+                      property: global.property.propertyId,
+                      accessToken: global.property.accessToken,
+                    }).toString()}`
                   );
                   setMarkAsDoneLoading(false);
                   setOpen(false);

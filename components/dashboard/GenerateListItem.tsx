@@ -8,6 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import React from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 /**
  * @description Generates a list item for shopping list / todo list
@@ -40,14 +41,9 @@ export function GenerateListItem({
    * @returns {any}
    */
   const deleteItem = (completed: boolean, id: string | number) => {
-    const url = `/api/property/lists/toggleCompleted?${new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
+    fetchApiWithoutHook("property/lists/toggleCompleted", {
       id: id.toString(),
       completed: completed === true ? "false" : "true",
-    }).toString()}`;
-    fetch(url, {
-      method: "POST",
     });
   };
 

@@ -5,7 +5,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import type { Room as RoomType } from "../../types/room";
@@ -52,16 +52,9 @@ function Room({ color, room }: { color: string; room: RoomType }): JSX.Element {
             )
           ) {
             setDeleted(true);
-            fetch(
-              `/api/property/rooms/delete?${new URLSearchParams({
-                id: room.id.toString(),
-                property: global.property.propertyId,
-                accessToken: global.property.accessToken,
-              }).toString()}`,
-              {
-                method: "POST",
-              }
-            )
+            fetchApiWithoutHook("property/rooms/delete", {
+              id: room.id.toString(),
+            })
               .then(() => toast.success("Room deleted!"))
               .catch(() => {
                 toast.error("Failed to delete room");

@@ -23,7 +23,7 @@ import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
 
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 
 const drawerWidth = 260;
 
@@ -91,16 +91,9 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
               )
             ) {
               setDeleted(true);
-              fetch(
-                `/api/rooms/delete?${new URLSearchParams({
-                  id: room.id.toString(),
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                }).toString()}`,
-                {
-                  method: "POST",
-                }
-              )
+              fetchApiWithoutHook("rooms/delete", {
+                id: room.id.toString(),
+              })
                 .then(() => toast.success("Room deleted!"))
                 .catch(() => {
                   toast.error("Failed to delete room");

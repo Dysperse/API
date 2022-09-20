@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import toast from "react-hot-toast";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
@@ -106,16 +106,9 @@ function Member({ member }): any {
               )
             ) {
               setLoading(true);
-              fetch(
-                `/api/property/members/remove?${new URLSearchParams({
-                  id: member.id,
-                  accessToken: global.property.accessToken,
-                  property: global.property.propertyId,
-                }).toString()}`,
-                {
-                  method: "POST",
-                }
-              ).then(() => {
+              fetchApiWithoutHook("property/members/remove", {
+                id: member.id,
+              }).then(() => {
                 toast.success("Removed person from your home");
                 setLoading(false);
                 setDeleted(true);

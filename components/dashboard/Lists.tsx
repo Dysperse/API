@@ -15,7 +15,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import React from "react";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
@@ -62,19 +62,12 @@ function ListTip({ name, lists, setLists, tip }) {
               colors.orange[global.user.darkMode ? 100 : 900] + "!important",
           }}
           onClick={() => {
-            const url = `/api/property/lists/createList?${new URLSearchParams({
-              accessToken: global.property.accessToken,
-              property: global.property.propertyId,
+            fetchApiWithoutHook("property/lists/createList", {
               name: name,
               description: "",
-            }).toString()}`;
-            fetch(url, {
-              method: "POST",
-            })
-              .then((res) => res.json())
-              .then((res: any) => {
-                setLists([...lists, { ...res, items: [] }]);
-              });
+            }).then((res: any) => {
+              setLists([...lists, { ...res, items: [] }]);
+            });
           }}
         >
           <span className="material-symbols-outlined">add</span>
@@ -109,21 +102,15 @@ function Render({ data }: any) {
     },
     onSubmit: (values) => {
       setLoading(true);
-      const url = `/api/property/lists/createList?${new URLSearchParams({
-        accessToken: global.property.accessToken,
-        property: global.property.propertyId,
+
+      fetchApiWithoutHook("property/lists/createList", {
         name: values.name,
         description: values.description,
-      }).toString()}`;
-      fetch(url, {
-        method: "POST",
-      })
-        .then((res) => res.json())
-        .then((res: any) => {
-          setLoading(false);
-          setOpen(false);
-          setLists([...lists, { ...res, items: [] }]);
-        });
+      }).then((res: any) => {
+        setLoading(false);
+        setOpen(false);
+        setLists([...lists, { ...res, items: [] }]);
+      });
     },
   });
 

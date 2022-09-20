@@ -15,6 +15,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import React, { createRef, useState } from "react";
 import { useScreenshot } from "use-react-screenshot";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { CreateListModal } from "./CreateListModal";
 import { GenerateListItem } from "./GenerateListItem";
@@ -287,16 +288,9 @@ export function ListItems({
             }}
             onClick={() => {
               setLists(lists.filter((list) => list.id !== parent));
-              fetch(
-                `/api/property/lists/delete-list?${new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                  parent: parent.toString(),
-                }).toString()}`,
-                {
-                  method: "POST",
-                }
-              ).then(() => {
+              fetchApiWithoutHook("property/lists/delete-list", {
+                parent: parent.toString(),
+              }).then(() => {
                 setDialogOpen(false);
                 setTimeout(() => setDeleted(true), 200);
               });

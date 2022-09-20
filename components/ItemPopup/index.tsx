@@ -159,7 +159,7 @@ export default function Item({
           onClick={() => {
             toast.dismiss(t.id);
             setIndex(1);
-            fetchApiWithoutHook("/property/inventory/restore", {
+            fetchApiWithoutHook("property/inventory/restore", {
               id: item.id.toString(),
               lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             });

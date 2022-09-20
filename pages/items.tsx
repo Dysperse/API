@@ -21,7 +21,7 @@ import { neutralizeBack, revivalBack } from "../components/history-control";
 import { FloatingActionButton } from "../components/Layout/FloatingActionButton";
 import { Puller } from "../components/Puller";
 import { ItemCard } from "../components/rooms/ItemCard";
-import { useApi } from "../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
 import type { Item } from "../types/item";
@@ -89,14 +89,9 @@ function CategoryModal({ category }: { category: string }) {
         button
         onClick={() => {
           setLoading(true);
-          fetch(
-            `/api/inventory/category-items?${new URLSearchParams({
-              property: global.property.propertyId,
-              accessToken: global.property.accessToken,
-              category: category,
-            }).toString()}`
-          )
-            .then((res) => res.json())
+          fetchApiWithoutHook("inventory/category-items", {
+            category: category,
+          })
             .then((res) => {
               setData(res.data);
               setOpen(true);

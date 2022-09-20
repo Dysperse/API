@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
-import { useApi } from "../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
 
@@ -151,27 +151,29 @@ function NoteModal({
     },
     onSubmit: (values) => {
       setLoading(true);
-      fetch(
-        create
-          ? `/api/property/notes/create?${new URLSearchParams({
-              property: global.property.propertyId,
-              accessToken: global.property.accessToken,
-              title: values.title,
-              content: values.content,
-              pinned: values.pinned ? "true" : "false",
-              color: values.color,
-            }).toString()}`
-          : `/api/property/notes/edit?${new URLSearchParams({
-              property: global.property.propertyId,
-              accessToken: global.property.accessToken,
-              title: values.title,
-              content: values.content,
-              pinned: values.pinned ? "true" : "false",
-              color: values.color,
-              id: id ? id.toString() : "",
-            }).toString()}`
+      fetchApiWithoutHook(
+        create ? "property/notes/create" : "property/notes/edit",
+        {
+          ...(create
+            ? {
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                title: values.title,
+                content: values.content,
+                pinned: values.pinned ? "true" : "false",
+                color: values.color,
+              }
+            : {
+                property: global.property.propertyId,
+                accessToken: global.property.accessToken,
+                title: values.title,
+                content: values.content,
+                pinned: values.pinned ? "true" : "false",
+                color: values.color,
+                id: id ? id.toString() : "",
+              }),
+        }
       )
-        .then((res) => res.json())
         .then(() => {
           setLoading(false);
           mutate(url);
@@ -317,14 +319,9 @@ function NoteModal({
               <IconButton
                 disableRipple
                 onClick={() => {
-                  fetch(
-                    `/api/property/notes/delete?${new URLSearchParams({
-                      property: global.property.propertyId,
-                      accessToken: global.property.accessToken,
-                      id: id ? id.toString() : "",
-                    }).toString()}`
-                  )
-                    .then((res) => res.json())
+                  fetchApiWithoutHook("property/notes/delete", {
+                    id: id ? id.toString() : "",
+                  })
                     .then(() => {
                       mutate(url);
                       setOpen(false);

@@ -11,7 +11,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import type { ApiResponse } from "../../types/client";
 
 /**
@@ -52,23 +52,14 @@ function RoomList({
           <ListItemButton
             sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
             onClick={() => {
-              fetch(
-                `/api/lists/create-item?${new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                  parent: list.id,
-                  title: title,
-                  description: "",
-                }).toString()}`,
-                {
-                  method: "POST",
-                }
-              )
-                .then((res) => res.json())
-                .then(() => {
-                  toast.success("Added item!");
-                  handleClose();
-                });
+              fetchApiWithoutHook("lists/create-item", {
+                parent: list.id,
+                title: title,
+                description: "",
+              }).then(() => {
+                toast.success("Added item!");
+                handleClose();
+              });
             }}
           >
             <ListItemText primary={list.title} secondary={list.description} />
