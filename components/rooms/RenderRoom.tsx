@@ -16,7 +16,7 @@ import { Toolbar } from "./Toolbar";
 /**
  * Renders a room based on the inventory data passed in the data object
  * @param {any} {data}
- * @param {any} index}
+ * @param {any} {index}
  * @returns {any}
  */
 export function RenderRoom({ data, index }: any) {
