@@ -70,7 +70,9 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
           setLoading(false);
           setOpen(false);
           router.push(
-            "/rooms/" + encode(res.id + "," + values.name) + "?custom=true"
+            `/rooms/${encode(
+              `${res.id},${values.name}`
+            ).toString()}?custom=true`
           );
           formik.resetForm();
         });

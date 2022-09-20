@@ -443,11 +443,9 @@ export default function Categories() {
             {data &&
               data.map((room: any) => (
                 <Action
-                  href={
-                    "/rooms/" +
-                    encode(room.id + "," + room.name) +
-                    "?custom=true"
-                  }
+                  href={`/rooms/${encode(
+                    `${room.id},${room.name}`
+                  ).toString()}?custom=true`}
                   icon="label"
                   primary={room.name}
                   key={room.id.toString()}
