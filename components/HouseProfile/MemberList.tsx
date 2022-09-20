@@ -24,7 +24,7 @@ export function isEmail(email: string): boolean {
  * @param {any} {member}
  * @returns {any}
  */
-function Member({ member }): any {
+function Member({ setOpen, member }): any {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   return deleted ? (
@@ -98,6 +98,7 @@ function Member({ member }): any {
           onClick={() => {
             if (member.permission === "owner") {
               document.getElementById("settingsTrigger")?.click();
+              setOpen(false);
               return;
             }
             if (
@@ -129,14 +130,14 @@ function Member({ member }): any {
  * @returns {JSX.Element}
  */
 
-export function MemberList({ color }: any): JSX.Element {
+export function MemberList({ color, setOpen }: any): JSX.Element {
   const { error, loading, data }: ApiResponse = useApi("property/members");
 
   const images = data
     ? [
         ...data.map((member) => {
           return {
-            content: <Member member={member} />,
+            content: <Member setOpen={setOpen} member={member} />,
           };
         }),
       ]
