@@ -1,13 +1,15 @@
 import Avatar from "@mui/material/Avatar";
 import CircularProgress from "@mui/material/CircularProgress";
 import ListItem from "@mui/material/ListItem";
+import Box from "@mui/material/Box";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
+import { colors } from "../../lib/colors";
 import { useRouter } from "next/router";
 import { useState } from "react";
-
+import BoringAvatar from "boring-avatars";
 /**
  * Header component for the room
  * @param useAlias
@@ -30,6 +32,7 @@ export function Header({
       sx={{
         transition: "transform .2s !important",
         borderRadius: 5,
+        overflow: "hidden",
         background:
           theme === "dark"
             ? "hsl(240,11%,18%)!important"
@@ -48,77 +51,79 @@ export function Header({
         }),
       }}
     >
-      <ListItemAvatar>
-        <Avatar
-          className="avatar"
-          onClick={() => {
-            setLoading(true);
-            router.push("/items");
-          }}
-          sx={{
-            cursor: "pointer",
-            color: global.theme === "dark" ? "#fff" : "#000",
-            borderRadius: 4,
-            background: "transparent!important",
-            display: { md: "none" },
-            "&:hover": {
-              background:
-                theme === "dark"
-                  ? "hsl(240,11%,30%)"
-                  : "rgba(200,200,200,.3)!important",
-            },
-            "&:active": {
-              transition: "none!important",
-              background:
-                theme === "dark"
-                  ? "hsl(240,11%,30%)"
-                  : "rgba(200,200,200,.4)!important",
-            },
-          }}
-        >
-          {loading ? (
-            <CircularProgress size={18} sx={{ ml: "-5px" }} />
-          ) : (
-            <span
-              style={{ fontSize: "20px" }}
-              className="material-symbols-rounded"
+      <Box
+        sx={{
+          zIndex: 999,
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          color: "#fff",
+        }}
+      >
+        <ListItemText
+          sx={{ my: 2, textAlign: "center" }}
+          primary={
+            <Typography
+              sx={{
+                fontWeight: "400",
+                fontSize: {
+                  xs: "25px",
+                  md: "35px",
+                },
+              }}
+              gutterBottom
+              variant="h4"
             >
-              arrow_back_ios_new
-            </span>
-          )}
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        sx={{ ml: { md: -5 }, my: 2 }}
-        primary={
-          <Typography
-            sx={{
-              fontWeight: "400",
-              fontSize: {
-                xs: "25px",
-                md: "35px",
-              },
-              ml: { xs: -0.2, md: -0.5 },
-            }}
-            gutterBottom
-            variant="h4"
-          >
-            {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
-              useAlias ? decode(room).split(",")[1] : room
-            )}
-          </Typography>
-        }
-        secondary={
-          <Typography
-            sx={{
-              color: theme === "dark" ? "white" : "black",
-              fontWeight: "600",
-            }}
-          >
-            {itemCount} out of 150 item limit
-          </Typography>
-        }
-      />
+              {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
+                useAlias
+                  ? decode(room).split(",")[1]
+                  : room.replaceAll("-", " ")
+              )}
+            </Typography>
+          }
+          secondary={
+            <Typography
+              sx={{
+                color: "inherit",
+                fontWeight: "600",
+              }}
+            >
+              {itemCount} item{itemCount !== 1 && "s"}
+            </Typography>
+          }
+        />
+      </Box>
+      <Box
+        sx={{
+          "& *": {
+            position: "absolute",
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            display: "inline-block",
+          },
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,.1)",
+            zIndex: 1,
+          }}
+        ></div>
+        <BoringAvatar
+          colors={["#E6A06F", "#9E9C71", "#5E8271", "#33454E", "#242739"]}
+          square={true}
+          size={"100vw"}
+          name={room.toString()}
+          variant="marble"
+        />
+      </Box>
     </ListItem>
   );
 }
