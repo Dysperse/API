@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
 import { grey } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
@@ -17,12 +16,13 @@ import router from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
+import { colors } from "../../lib/colors";
+import type { ApiResponse } from "../../types/client";
+import type { Room } from "../../types/room";
 import { ErrorHandler } from "../ErrorHandler";
 import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
-import type { Room } from "../../types/room";
-import type { ApiResponse } from "../../types/client";
 
 import { useApi } from "../../hooks/useApi";
 
@@ -259,12 +259,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
   const [collapsed, setCollapsed] = React.useState(
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
   );
-
-  const url = `/api/property/maintenance/reminders?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-  const { data } = useSWR(url, () => fetch(url).then((r) => r.json()));
+  const { data }: ApiResponse = useApi("property/maintenance/reminders");
 
   return (
     <Box

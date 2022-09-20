@@ -5,7 +5,6 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
-import { colors } from "../../lib/colors";
 import { deepOrange } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -21,6 +20,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
+import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { AddToListModal } from "./AddToList";
@@ -29,6 +29,7 @@ import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
+
 /**
  * Item popup
  * @param {boolean} displayRoom - Display the room name?
