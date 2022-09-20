@@ -8,7 +8,7 @@ export function useApi(path: string, initialParams: any = {}): ApiResponse {
     property: global.property.propertyId,
     accessToken: global.property.accessToken,
   };
-  const url = `/api/${path}/?${new URLSearchParams(params)}`;
+  const url = `/api/${path}/?${new URLSearchParams(params).toString()}`;
 
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
