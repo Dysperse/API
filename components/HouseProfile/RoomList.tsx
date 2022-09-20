@@ -1,14 +1,17 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import useEmblaCarousel from "embla-carousel-react";
-import React from "react";
+import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import type { ApiResponse } from "../../types/client";
 import type { Room as RoomType } from "../../types/room";
+import IconButton from "@mui/material/IconButton";
 
 /**
  * Room card
@@ -79,8 +82,26 @@ function Room({ color, room }: { color: string; room: RoomType }): JSX.Element {
  * @param color Theme color of home
  */
 export function RoomList({ color }: any) {
+  const wheelGestures = WheelGesturesPlugin();
+  const trigger = useMediaQuery("(max-width: 600px)");
   const { data }: ApiResponse = useApi("property/rooms");
-  const [emblaRef] = useEmblaCarousel();
+  const [emblaRef, emblaApi]: any = useEmblaCarousel(
+    {
+      dragFree: true,
+      slidesToScroll: trigger ? 2 : 2,
+    },
+    [wheelGestures]
+  );
+
+  const scrollPrev = useCallback(
+    () => emblaApi && emblaApi.scrollPrev(),
+    [emblaApi]
+  );
+
+  const scrollNext = useCallback(
+    () => emblaApi && emblaApi.scrollNext(),
+    [emblaApi]
+  );
 
   const images = data
     ? [
@@ -93,45 +114,79 @@ export function RoomList({ color }: any) {
     : [];
 
   return (
-    <div className="embla" ref={emblaRef}>
-      <div className="embla__container">
-        {images.length === 0 ? (
-          <Box
-            className="embla__slide"
-            sx={{
-              pl: 0,
-              flex: "0 0 90%",
-              userSelect: "none",
-              borderRadius: 5,
-              background: colors[color][100],
-            }}
-          >
-            You haven&apos;t created any rooms yet
-          </Box>
-        ) : (
-          images.map((step, index) => (
+    <Box
+      sx={{
+        display: "flex",
+        gap: 0.5,
+        alignItems: "center",
+      }}
+    >
+      {!trigger && (
+        <IconButton
+          onClick={scrollPrev}
+          sx={{
+            background: `${colors[color][100]}!important`,
+            color: `${colors[color][900]}!important`,
+          }}
+        >
+          <span className="material-symbols-rounded">chevron_left</span>
+        </IconButton>
+      )}
+      <div className="embla" ref={emblaRef}>
+        <div className="embla__container">
+          {images.length === 0 ? (
             <Box
-              key={Math.random().toString()}
               className="embla__slide"
-              sx={{ pl: index == 0 ? 0 : 2, flex: "0 0 90%" }}
+              sx={{
+                p: 0.5,
+                flex: "0 0 100%",
+                userSelect: "none",
+                borderRadius: 5,
+                background: colors[color][100],
+              }}
             >
+              You haven&apos;t created any rooms yet
+            </Box>
+          ) : (
+            images.map((step, index) => (
               <Box
+                key={Math.random().toString()}
+                className="embla__slide"
                 sx={{
-                  p: 2,
-                  userSelect: "none",
-                  px: 2.5,
-                  borderRadius: 5,
-                  background: global.user.darkMode
-                    ? "hsl(240, 11%, 30%)"
-                    : colors[color][100],
+                  pl: index == 0 ? 0 : 2,
+                  // flex: "0 0" + (trigger ? " 100%" : " 50%"),
+                  flex: "0 0 50%",
                 }}
               >
-                {step.content}
+                <Box
+                  sx={{
+                    p: 2,
+                    userSelect: "none",
+                    px: 2.5,
+                    borderRadius: 5,
+                    background: global.user.darkMode
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[color][100],
+                  }}
+                >
+                  {step.content}
+                </Box>
               </Box>
-            </Box>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
-    </div>
+      {!trigger && (
+        <IconButton
+          onClick={scrollNext}
+          sx={{
+            background: `${colors[color][100]}!important`,
+            color: `${colors[color][900]}!important`,
+          }}
+        >
+          <span className="material-symbols-rounded">chevron_right</span>
+        </IconButton>
+      )}
+    </Box>
   );
 }

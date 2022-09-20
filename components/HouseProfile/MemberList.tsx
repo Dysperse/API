@@ -1,11 +1,14 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import useEmblaCarousel from "embla-carousel-react";
+import Typography from "@mui/material/Typography";
 import React from "react";
 import toast from "react-hot-toast";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import BoringAvatar from "boring-avatars";
 import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
 import { AddPersonModal } from "./AddPersonModal";
@@ -132,6 +135,7 @@ function Member({ setOpen, member }): any {
 
 export function MemberList({ color, setOpen }: any): JSX.Element {
   const { error, loading, data }: ApiResponse = useApi("property/members");
+  const trigger = useMediaQuery("(max-width: 600px)");
 
   const images = data
     ? [
@@ -143,7 +147,13 @@ export function MemberList({ color, setOpen }: any): JSX.Element {
       ]
     : [];
 
-  const [emblaRef, emblaApi]: any = useEmblaCarousel();
+  const [emblaRef, emblaApi]: any = useEmblaCarousel(
+    {
+      dragFree: true,
+      slidesToScroll: 2,
+    },
+    [WheelGesturesPlugin()]
+  );
 
   React.useEffect(() => {
     if (emblaApi) {
@@ -165,32 +175,43 @@ export function MemberList({ color, setOpen }: any): JSX.Element {
           members={loading ? [] : data.map((member) => member.user.email)}
         />
       </Box>
-      <div className="embla" ref={emblaRef}>
-        <div className="embla__container">
-          {images.map((step, index) => (
-            <Box
-              key={Math.random().toString()}
-              className="embla__slide"
-              sx={{ pl: index == 0 ? 0 : 2, flex: "0 0 90%" }}
-            >
+      <Box
+        sx={{
+          display: "flex",
+          gap: 0.5,
+          alignItems: "center",
+        }}
+      >
+        <div className="embla" ref={emblaRef}>
+          <div className="embla__container">
+            {images.map((step, index) => (
               <Box
+                key={Math.random().toString()}
+                className="embla__slide"
                 sx={{
-                  p: 2,
-                  width: "100%",
-                  userSelect: "none",
-                  px: 2.5,
-                  borderRadius: 5,
-                  background: global.user.darkMode
-                    ? "hsl(240, 11%, 30%)"
-                    : colors[color][100],
+                  pl: index == 0 ? 0 : 2,
+                  flex: "0 0 50%",
                 }}
               >
-                {step.content}
+                <Box
+                  sx={{
+                    p: 2,
+                    width: "100%",
+                    userSelect: "none",
+                    px: 2.5,
+                    borderRadius: 5,
+                    background: global.user.darkMode
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[color][100],
+                  }}
+                >
+                  {step.content}
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      </Box>
     </>
   );
 }
