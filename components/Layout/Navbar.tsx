@@ -149,7 +149,7 @@ export function Navbar(): JSX.Element {
           <ProfileMenu>
             <Tooltip title="My account">
               <Badge
-                badgeContent={0}
+                badgeContent={1}
                 color="warning"
                 variant="dot"
                 anchorOrigin={{
