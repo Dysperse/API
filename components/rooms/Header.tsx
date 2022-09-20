@@ -117,7 +117,7 @@ export function Header({
           }}
         ></div>
         <BoringAvatar
-          colors={["#E6A06F", "#9E9C71", "#5E8271", "#33454E", "#242739"]}
+          colors={["#741952", "#FE3174", "#F1C15D", "#94BB68", "#09A3AD"]}
           square={true}
           size={"100vw"}
           name={room.toString()}

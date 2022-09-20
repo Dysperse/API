@@ -7,7 +7,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Item } from "../../types/item";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
@@ -22,6 +22,10 @@ import { Toolbar } from "./Toolbar";
 export function RenderRoom({ data, index }: any) {
   const router = useRouter();
   const [items, setItems] = useState(data);
+
+  useEffect(() => {
+    setItems(data);
+  }, [data]);
 
   return (
     <Container key={index} sx={{ mt: 4 }}>

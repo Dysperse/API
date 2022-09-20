@@ -132,10 +132,10 @@ export function CreateItemModal({
         setOpen(false);
         formik.resetForm();
         mutate(
-          `/api/property/inventory/list?${new URLSearchParams({
+          `/api/property/inventory/list/?${new URLSearchParams({
+            room: room.toString().toLowerCase(),
             property: global.property.propertyId,
             accessToken: global.property.accessToken,
-            room: room.toString().toLowerCase(),
           }).toString()}`
         );
       });
