@@ -329,7 +329,7 @@ function SwipeableTextMobileStepper() {
             onChangeIndex={handleStepChange}
             enableMouseEvents
           >
-            {images.map((step, index) => (
+            {images.map((step) => (
               <Box
                 sx={{
                   height: "100vh",

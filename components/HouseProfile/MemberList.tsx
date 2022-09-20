@@ -1,15 +1,14 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
 import Typography from "@mui/material/Typography";
 import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import toast from "react-hot-toast";
-import useSWR from "swr";
-import { AddPersonModal } from "./AddPersonModal";
 import { useApi } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
+import { AddPersonModal } from "./AddPersonModal";
 
 /**
  * Check if a string is a valid email address
