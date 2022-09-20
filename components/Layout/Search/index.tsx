@@ -1,16 +1,17 @@
 import Box from "@mui/material/Box";
-import { colors } from "../../../lib/colors";
 import IconButton from "@mui/material/IconButton";
 import LinearProgress from "@mui/material/LinearProgress";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { Command } from "cmdk";
+import { useRouter } from "next/router";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
-import useSWR from "swr";
+import { useApi } from "../../../hooks/useApi";
+import { colors } from "../../../lib/colors";
+import type { ApiResponse } from "../../../types/client";
 import { Puller } from "../../Puller";
-import { useRouter } from "next/router";
 import { updateSettings } from "../../Settings/updateSettings";
 
 /**
@@ -93,14 +94,7 @@ function Home({
   onLink: (href: string) => any;
   searchSettings: () => void;
 }) {
-  const { data } = useSWR("/api/rooms", () =>
-    fetch(
-      `/api/property/rooms?${new URLSearchParams({
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-        }).toString()}`
-    ).then((res) => res.json())
-  );
+  const { data }: ApiResponse = useApi("property/rooms");
 
   return (
     <>
