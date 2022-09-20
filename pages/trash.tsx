@@ -26,10 +26,9 @@ function DeleteCard({ item }: any): JSX.Element | null {
   return deleted ? null : (
     <Card
       sx={{
-        background:
-          global.theme === "dark"
-            ? "hsl(240, 11%, 25%)"
-            : "rgba(200,200,200,.3)",
+        background: global.user.darkMode
+          ? "hsl(240, 11%, 25%)"
+          : "rgba(200,200,200,.3)",
         borderRadius: "28px",
       }}
     >

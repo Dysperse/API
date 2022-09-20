@@ -107,7 +107,7 @@ export function UpgradeBanner() {
             width: "100%",
             borderRadius: 5,
             mt: 2,
-            background: colors.orange["700"] + "!important",
+            background: `${colors.orange["700"]}!important`,
             color: "#fff",
           }}
         >

@@ -40,7 +40,7 @@ function Room({ color, room }: { color: string; room: RoomType }): JSX.Element {
           mt: 1.5,
           color: colors[color][900],
           "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-            borderColor: colors[color][900] + "!important",
+            borderColor: `${colors[color][900]}!important`,
           },
           borderRadius: 4,
         }}
@@ -121,10 +121,9 @@ export function RoomList({ color }: any) {
                   userSelect: "none",
                   px: 2.5,
                   borderRadius: 5,
-                  background:
-                    global.theme === "dark"
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[color][100],
+                  background: global.user.darkMode
+                    ? "hsl(240, 11%, 30%)"
+                    : colors[color][100],
                 }}
               >
                 {step.content}

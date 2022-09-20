@@ -97,17 +97,17 @@ export default function Item({
         "content",
         drawerState === true
           ? window.innerWidth > 900
-            ? global.theme === "dark"
+            ? global.user.darkMode
               ? "hsl(240, 11%, 5%)"
               : "#cccccc"
-            : global.theme === "dark"
+            : global.user.darkMode
             ? "hsl(240, 11%, 20%)"
             : colors[themeColor][50]
           : document.documentElement?.scrollTop === 0
-          ? global.theme === "dark"
+          ? global.user.darkMode
             ? "hsl(240, 11%, 10%)"
             : "#fff"
-          : global.theme === "dark"
+          : global.user.darkMode
           ? "hsl(240, 11%, 20%)"
           : colors[global.themeColor]["100"]
       );
@@ -177,19 +177,16 @@ export default function Item({
     py: 2,
     gap: 2,
 
-    color:
-      global.theme === "dark"
-        ? "hsl(240, 11%, 90%)"
-        : colors[themeColor]["800"],
+    color: global.user.darkMode
+      ? "hsl(240, 11%, 90%)"
+      : colors[themeColor]["800"],
     "&:hover, &:active": {
-      background:
-        global.theme === "dark"
-          ? "hsl(240, 11%, 25%)"
-          : colors[themeColor][200],
-      color:
-        global.theme === "dark"
-          ? "hsl(240, 11%, 95%)"
-          : colors[themeColor][900],
+      background: global.user.darkMode
+        ? "hsl(240, 11%, 25%)"
+        : colors[themeColor][200],
+      color: global.user.darkMode
+        ? "hsl(240, 11%, 95%)"
+        : colors[themeColor][900],
     },
   };
   return (
@@ -306,8 +303,8 @@ export default function Item({
             position: "relative",
             borderRadius: "28px 28px 0 0",
             overflowY: "scroll!important",
-            background: colors[themeColor][50] + "!important",
-            ...(global.theme === "dark" && {
+            background: `${colors[themeColor][50]}!important`,
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 20%)",
             }),
             maxWidth: "100vw",
@@ -320,10 +317,9 @@ export default function Item({
               height: { xs: 40, sm: 0 },
               // display: { sm: "none" },
               zIndex: 9,
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 20%)"
-                  : colors[themeColor][50],
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 20%)"
+                : colors[themeColor][50],
             }}
           >
             <Puller />
@@ -408,10 +404,11 @@ export default function Item({
                     InputProps={{
                       disableUnderline: true,
                       sx: {
-                        background:
-                          (global.theme === "dark"
+                        background: `${
+                          global.user.darkMode
                             ? "hsl(240, 11%, 24%)"
-                            : colors[themeColor][100]) + "!important",
+                            : colors[themeColor][100]
+                        }!important`,
                         cursor: "pointer",
                         p: 2.5,
                         borderRadius: "15px",
@@ -439,10 +436,9 @@ export default function Item({
               <Grid item xs={12} sm={6}>
                 <Box
                   sx={{
-                    background:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 25%)"
-                        : colors[themeColor][100],
+                    background: global.user.darkMode
+                      ? "hsl(240, 11%, 25%)"
+                      : colors[themeColor][100],
                     borderRadius: 5,
                     overflow: "hidden",
                   }}
@@ -644,17 +640,18 @@ export default function Item({
               width: "100%",
               maxWidth: "calc(100vw - 32.5px)",
               borderRadius: "28px",
-              background:
-                (global.theme === "dark"
+              background: `${
+                global.user.darkMode
                   ? "hsl(240, 11%, 17%)"
-                  : "rgba(200,200,200,.3)") + "!important",
+                  : "rgba(200,200,200,.3)"
+              }!important`,
               transition: "transform .2s",
               "&:active": {
                 transform: "scale(0.98)",
                 transition: "none",
               },
               ...(item.starred && {
-                background: deepOrange[global.theme === "dark" ? 900 : 50],
+                background: deepOrange[global.user.darkMode ? 900 : 50],
               }),
             }}
             onClick={() => setDrawerState(true)}
@@ -720,10 +717,11 @@ export default function Item({
                 sx={{
                   transition: "none!important",
                   "&:focus-within": {
-                    background:
-                      (global.theme === "dark"
+                    background: `${
+                      global.user.darkMode
                         ? "hsl(240, 11%, 18%)"
-                        : "rgba(200,200,200,.01)") + "!important",
+                        : "rgba(200,200,200,.01)"
+                    }!important`,
                   },
                   borderRadius: "28px",
                   "&:active": {

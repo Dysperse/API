@@ -39,7 +39,7 @@ function Products() {
     },
     {
       key: 5,
-      bg: green[global.theme === "dark" ? 900 : 200],
+      bg: green[global.user.darkMode ? 900 : 200],
       href: "https://feedback.smartlist.tech/",
       target: "_blank",
       label: (
@@ -54,7 +54,7 @@ function Products() {
         </>
       ),
       description: (
-        <div style={{ color: green[global.theme === "dark" ? 300 : 700] }}>
+        <div style={{ color: green[global.user.darkMode ? 300 : 700] }}>
           Have any ideas for apps? Let us know!
         </div>
       ),
@@ -93,7 +93,7 @@ function Products() {
             "&:hover, &.Mui-expanded": {
               background:
                 category.bg ??
-                (global.theme === "dark"
+                (global.user.darkMode
                   ? "hsl(240, 11%, 40%)"
                   : colors[global.themeColor][200]),
             },
@@ -123,10 +123,9 @@ function Products() {
             sx={{
               minHeight: "35px!important",
               maxHeight: "35px!important",
-              color:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 90%)"
-                  : colors[global.themeColor][900],
+              color: global.user.darkMode
+                ? "hsl(240, 11%, 90%)"
+                : colors[global.themeColor][900],
             }}
           >
             {category.label}
@@ -135,10 +134,9 @@ function Products() {
             <Typography
               variant="body2"
               sx={{
-                color:
-                  global.theme === "dark"
-                    ? "hsl(240, 11%, 80%)"
-                    : colors[global.themeColor][700],
+                color: global.user.darkMode
+                  ? "hsl(240, 11%, 80%)"
+                  : colors[global.themeColor][700],
               }}
             >
               {category.description}
@@ -188,17 +186,18 @@ export function AppsMenu() {
               mr: 1,
               borderRadius: 3,
               transition: "none",
-              color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
+              color: global.user.darkMode ? "hsl(240, 11%, 90%)" : "#606060",
               "&:hover": {
                 background: "rgba(200,200,200,.3)",
-                color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
               },
               "&:focus-within": {
-                background:
-                  (global.theme === "dark"
+                background: `${
+                  global.user.darkMode
                     ? colors[themeColor]["900"]
-                    : colors[themeColor]["50"]) + "!important",
-                color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                    : colors[themeColor]["50"]
+                }!important`,
+                color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
               },
             }}
             onClick={handleClick}

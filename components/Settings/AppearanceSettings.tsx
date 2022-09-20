@@ -113,7 +113,7 @@ export default function AppearanceSettings() {
                 global.setTheme("dark");
                 updateSettings("darkMode", "true");
               }}
-              checked={global.theme === "dark"}
+              checked={global.user.darkMode}
             />
           }
           disablePadding

@@ -308,7 +308,7 @@ export function ListItems({
             maxWidth: "calc(100vw - 32.5px)",
             p: 1,
             mb: { xs: 2, sm: 0 },
-            background: global.theme === "dark" ? "hsl(240, 11%, 13%)" : "#eee",
+            background: global.user.darkMode ? "hsl(240, 11%, 13%)" : "#eee",
             boxShadow: 0,
           }}
         >

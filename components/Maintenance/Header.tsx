@@ -48,10 +48,9 @@ function CalendarFeedModal(): JSX.Element {
             maxWidth: "500px",
             minHeight: "100px",
             minWidth: "auto",
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 18%)"
-                : colors[themeColor][50],
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 18%)"
+              : colors[themeColor][50],
             borderRadius: "30px 30px 0 0",
           },
         }}
@@ -101,7 +100,7 @@ function CalendarFeedModal(): JSX.Element {
           width: { xs: "100%", sm: "auto" },
           px: 3,
           py: 1,
-          background: colors.green["A700"] + "!important",
+          background: `${colors.green["A700"]}!important`,
           borderRadius: 999,
           gap: 2,
           mr: { sm: 2 },
@@ -140,10 +139,9 @@ function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
             maxWidth: "500px",
             minHeight: "100px",
             minWidth: "auto",
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 18%)"
-                : colors[themeColor][50],
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 18%)"
+              : colors[themeColor][50],
             borderRadius: "30px 30px 0 0",
           },
         }}
@@ -234,9 +232,9 @@ function FrequencySetting({ name, formik }: { name: string; formik: any }) {
           background:
             colors[themeColor][global.theme !== "dark" ? 100 : 900] +
             "!important",
-          color:
-            colors[themeColor][global.theme === "dark" ? 50 : 900] +
-            "!important",
+          color: `${
+            colors[themeColor][global.user.darkMode ? 50 : 900]
+          }!important`,
         }),
       }}
     >
@@ -302,10 +300,9 @@ function CreateMaintenanceModal() {
           sx: {
             mx: "auto",
             maxWidth: "500px",
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 18%)"
-                : colors[themeColor][50],
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 18%)"
+              : colors[themeColor][50],
             borderRadius: "30px 30px 0 0",
           },
         }}
@@ -383,7 +380,7 @@ function CreateMaintenanceModal() {
           width: { xs: "100%", sm: "auto" },
           px: 3,
           py: 1,
-          background: colors.green["A700"] + "!important",
+          background: `${colors.green["A700"]}!important`,
           borderRadius: 999,
           gap: 2,
         }}
@@ -417,8 +414,9 @@ export function Header({ count }) {
               " 50%, " +
               colors.green[global.user.darkMode ? 700 : 100] +
               " 100%)",
-            color:
-              colors.green[!global.user.darkMode ? 900 : 100] + "!important",
+            color: `${
+              colors.green[!global.user.darkMode ? 900 : 100]
+            }!important"`,
             height: { xs: "300px", sm: "320px" },
             pb: { xs: 2, sm: 0 },
             borderRadius: { sm: 10 },

@@ -39,11 +39,10 @@ function ColorModal({ formik }): JSX.Element {
         open={open}
         BackdropProps={{
           sx: {
-            background:
-              hexToRgba(
-                colors[formik.values.color][global.user.darkMode ? 900 : 100],
-                0.7
-              ) + "!important",
+            background: `${hexToRgba(
+              colors[formik.values.color][global.user.darkMode ? 900 : 100],
+              0.7
+            )}!important`,
           },
         }}
         PaperProps={{
@@ -93,10 +92,9 @@ function ColorModal({ formik }): JSX.Element {
             ? "#fff"
             : colors[formik.values.color][global.user.darkMode ? 100 : "800"],
           "&:hover": {
-            background:
-              colors[formik.values.color][
-                global.user.darkMode ? "900" : "200"
-              ] + "!important",
+            background: `${
+              colors[formik.values.color][global.user.darkMode ? "900" : "200"]
+            }!important`,
           },
         }}
       >
@@ -212,11 +210,10 @@ function NoteModal({
       }}
       BackdropProps={{
         sx: {
-          background:
-            hexToRgba(
-              colors[formik.values.color][global.user.darkMode ? 900 : 100],
-              0.7
-            ) + "!important",
+          background: `${hexToRgba(
+            colors[formik.values.color][global.user.darkMode ? 900 : 100],
+            0.7
+          )}!important`,
         },
       }}
       PaperProps={{
@@ -292,10 +289,11 @@ function NoteModal({
                       global.user.darkMode ? 100 : "800"
                     ],
                 ...(formik.values.pinned && {
-                  background:
+                  background: `${
                     colors[formik.values.color][
                       global.user.darkMode ? "900" : "200"
-                    ] + "!important",
+                    ]
+                  }!important`,
                 }),
                 "&:active": { background: "rgba(0,0,0,0.1)!important" },
               }}
@@ -341,10 +339,11 @@ function NoteModal({
                         global.user.darkMode ? 100 : 800
                       ],
                   "&:hover": {
-                    background:
+                    background: `${
                       colors[formik.values.color][
                         global.user.darkMode ? 900 : 200
-                      ] + "!important",
+                      ]
+                    }!important`,
                   },
                 }}
               >
@@ -364,10 +363,9 @@ function NoteModal({
               sx={{
                 mt: 2,
                 borderRadius: "20px",
-                background:
-                  colors[formik.values.color][
-                    global.user.darkMode ? 100 : 900
-                  ] + "!important",
+                background: `${
+                  colors[formik.values.color][global.user.darkMode ? 100 : 900]
+                }!important`,
               }}
               disableElevation
               size="large"

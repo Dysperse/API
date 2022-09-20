@@ -58,7 +58,7 @@ function CategoryModal({ category }: { category: string }) {
             maxHeight: "95vh",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },
@@ -226,12 +226,11 @@ function Action({ icon, primary, href, onClick }: any) {
         <Avatar
           className="avatar"
           sx={{
-            color: global.theme === "dark" ? "#fff" : colors[themeColor][900],
+            color: global.user.darkMode ? "#fff" : colors[themeColor][900],
             borderRadius: 4,
-            background:
-              global.theme === "dark"
-                ? "hsl(240,11%,17%)"
-                : colors[themeColor][100],
+            background: global.user.darkMode
+              ? "hsl(240,11%,17%)"
+              : colors[themeColor][100],
           }}
         >
           <span
@@ -301,7 +300,7 @@ export default function Categories() {
           sx={{
             ...(viewBy === "room" && {
               background:
-                colors[global.themeColor][global.theme === "dark" ? 700 : 300],
+                colors[global.themeColor][global.user.darkMode ? 700 : 300],
             }),
           }}
         >
@@ -315,7 +314,7 @@ export default function Categories() {
           sx={{
             ...(viewBy === "category" && {
               background:
-                colors[global.themeColor][global.theme === "dark" ? 700 : 300],
+                colors[global.themeColor][global.user.darkMode ? 700 : 300],
             }),
           }}
         >

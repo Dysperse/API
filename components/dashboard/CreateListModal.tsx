@@ -78,7 +78,7 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
             maxHeight: "80vh",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },
@@ -198,10 +198,9 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
                       : colors[themeColor]["800"],
                     transition: "none",
                     ...(showDetails && {
-                      background:
-                        colors[themeColor][
-                          global.user.darkMode ? "900" : "200"
-                        ] + "!important",
+                      background: `${
+                        colors[themeColor][global.user.darkMode ? "900" : "200"]
+                      }!important`,
                     }),
                     "&:active": { background: "rgba(0,0,0,0.1)!important" },
                   }}

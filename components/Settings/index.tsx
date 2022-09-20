@@ -150,12 +150,11 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
         <ListItemAvatar>
           <Avatar
             sx={{
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color: global.user.darkMode ? "#fff" : "#000",
               borderRadius: 4,
-              background:
-                global.theme === "dark"
-                  ? colors[themeColor][900]
-                  : colors[themeColor][100],
+              background: global.user.darkMode
+                ? colors[themeColor][900]
+                : colors[themeColor][100],
             }}
           >
             <span
@@ -194,7 +193,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
             maxHeight: "95vh",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },
@@ -212,7 +211,7 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
                 ml: -0.5,
                 background: colors[themeColor][50],
                 zIndex: 1,
-                ...(global.theme === "dark" && {
+                ...(global.user.darkMode && {
                   background: "hsl(240, 11%, 25%)",
                 }),
               }}
@@ -279,7 +278,7 @@ export default function FullScreenDialog({ children }: any) {
       ?.setAttribute(
         "content",
         open
-          ? global.theme === "dark"
+          ? global.user.darkMode
             ? "hsl(240, 11%, 20%)"
             : "#b8b9b8"
           : "#b8b9b8"
@@ -310,7 +309,7 @@ export default function FullScreenDialog({ children }: any) {
             maxHeight: "95vh",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },
@@ -333,7 +332,7 @@ export default function FullScreenDialog({ children }: any) {
                 ml: -0.5,
                 background: colors[themeColor][50],
                 zIndex: 1,
-                ...(global.theme === "dark" && {
+                ...(global.user.darkMode && {
                   background: "hsl(240, 11%, 25%)",
                 }),
               }}

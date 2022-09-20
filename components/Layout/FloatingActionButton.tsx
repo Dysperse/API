@@ -45,28 +45,24 @@ export function FloatingActionButton() {
               boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
             },
             backdropFilter: "blur(15px)",
-            background:
-              global.theme === "dark"
-                ? "rgba(57, 57, 71, .7)"
-                : colors[themeColor][100],
-            color:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 95%)"
-                : colors[themeColor]["900"],
+            background: global.user.darkMode
+              ? "rgba(57, 57, 71, .7)"
+              : colors[themeColor][100],
+            color: global.user.darkMode
+              ? "hsl(240, 11%, 95%)"
+              : colors[themeColor]["900"],
             "&:hover": {
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 50%)"
-                  : colors[themeColor]["200"],
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 50%)"
+                : colors[themeColor]["200"],
             },
             "&:focus,&:active": {
               boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
               transform: "scale(.96)",
               transition: "none",
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 60%)"
-                  : colors[themeColor]["200"],
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 60%)"
+                : colors[themeColor]["200"],
             },
             transition: "transform .2s",
 

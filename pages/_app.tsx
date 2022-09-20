@@ -209,33 +209,28 @@ function Render({
               ml: -1,
               borderRadius: "15px",
               minWidth: 180,
-              background:
-                global.theme === "dark"
-                  ? colors[global.themeColor][900]
-                  : colors[global.themeColor][100],
+              background: global.user.darkMode
+                ? colors[global.themeColor][900]
+                : colors[global.themeColor][100],
 
-              color:
-                global.theme === "dark"
-                  ? colors[global.themeColor][200]
-                  : colors[global.themeColor][800],
+              color: global.user.darkMode
+                ? colors[global.themeColor][200]
+                : colors[global.themeColor][800],
               "& .MuiMenu-list": {
                 padding: "4px",
               },
               "& .MuiMenuItem-root": {
                 "&:hover": {
-                  background:
-                    global.theme === "dark"
-                      ? colors[global.themeColor][800]
-                      : colors[global.themeColor][200],
-                  color:
-                    global.theme === "dark"
-                      ? colors[global.themeColor][100]
-                      : colors[global.themeColor][900],
+                  background: global.user.darkMode
+                    ? colors[global.themeColor][800]
+                    : colors[global.themeColor][200],
+                  color: global.user.darkMode
+                    ? colors[global.themeColor][100]
+                    : colors[global.themeColor][900],
                   "& .MuiSvgIcon-root": {
-                    color:
-                      global.theme === "dark"
-                        ? colors[global.themeColor][200]
-                        : colors[global.themeColor][800],
+                    color: global.user.darkMode
+                      ? colors[global.themeColor][200]
+                      : colors[global.themeColor][800],
                   },
                 },
                 padding: "10px 15px",
@@ -248,10 +243,9 @@ function Render({
                   marginRight: 1.9,
                 },
                 "&:active": {
-                  background:
-                    global.theme === "dark"
-                      ? colors[global.themeColor][700]
-                      : colors[global.themeColor][300],
+                  background: global.user.darkMode
+                    ? colors[global.themeColor][700]
+                    : colors[global.themeColor][300],
                 },
               },
             },
@@ -261,7 +255,7 @@ function Render({
       MuiChip: {
         styleOverrides: {
           root: {
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 30%)",
             }),
           },
@@ -272,14 +266,12 @@ function Render({
           tooltip: {
             borderRadius: "20px",
             fontSize: "14px",
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 30%)"
-                : colors[themeColor]["A100"],
-            color:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 90%)"
-                : colors[themeColor]["900"],
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 30%)"
+              : colors[themeColor]["A100"],
+            color: global.user.darkMode
+              ? "hsl(240, 11%, 90%)"
+              : colors[themeColor]["900"],
             paddingLeft: "13px",
             paddingRight: "13px",
             paddingTop: "5px",
@@ -290,7 +282,7 @@ function Render({
     },
     palette: {
       primary: {
-        main: colors[themeColor][global.theme === "dark" ? "A200" : "800"],
+        main: colors[themeColor][global.user.darkMode ? "A200" : "800"],
       },
       mode: theme,
       ...(theme === "dark" && {
@@ -335,7 +327,7 @@ function Render({
           sx={{
             "& *::selection": {
               color: "#fff!important",
-              background: colors[themeColor]["A700"] + "!important",
+              background: `${colors[themeColor]["A700"]}!important`,
             },
           }}
         >

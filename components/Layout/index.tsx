@@ -125,12 +125,11 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
             overflow: "hidden",
             textOverflow: "ellipsis",
             transition: "none!important",
-            color:
-              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+            color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
             "& span": {
-              color:
-                (global.theme === "dark" ? grey[200] : "#606060") +
-                "!important",
+              color: `${
+                global.user.darkMode ? grey[200] : "#606060"
+              }!important`,
             },
             borderRadius: 3,
             mb: 0.2,
@@ -142,51 +141,43 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
               filter: "opacity(.2)!important",
             },
             "&:hover,&:focus": {
-              color:
-                (global.theme === "dark" ? grey[200] : grey[900]) +
-                "!important",
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 17%)"
-                  : "rgba(200,200,200,.3)",
+              color: `${
+                global.user.darkMode ? grey[200] : grey[900]
+              }!important`,
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 17%)"
+                : "rgba(200,200,200,.3)",
             },
             "&:hover span": {
-              color:
-                (global.theme === "dark" ? grey[200] : grey[900]) +
-                "!important",
+              color: `${
+                global.user.darkMode ? grey[200] : grey[900]
+              }!important`,
             },
             ...(router.asPath === asHref && {
-              backgroundColor:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 15%)"
-                  : colors[global.themeColor][50],
+              backgroundColor: global.user.darkMode
+                ? "hsl(240, 11%, 15%)"
+                : colors[global.themeColor][50],
               "&:hover,&:focus": {
-                backgroundColor:
-                  global.theme === "dark"
-                    ? "hsl(240, 11%, 17%)"
-                    : colors[global.themeColor][100],
+                backgroundColor: global.user.darkMode
+                  ? "hsl(240, 11%, 17%)"
+                  : colors[global.themeColor][100],
                 color:
-                  colors[global.themeColor][
-                    global.theme === "dark" ? 100 : 900
-                  ],
+                  colors[global.themeColor][global.user.darkMode ? 100 : 900],
               },
               "& span": {
                 color:
-                  colors[global.themeColor][
-                    global.theme === "dark" ? 100 : 800
-                  ] + "!important",
+                  colors[global.themeColor][global.user.darkMode ? 100 : 800] +
+                  "!important",
               },
               "&:hover span": {
                 color:
-                  colors[global.themeColor][
-                    global.theme === "dark" ? 100 : 800
-                  ] + "!important",
+                  colors[global.themeColor][global.user.darkMode ? 100 : 800] +
+                  "!important",
               },
               "&:active span": {
                 color:
-                  colors[global.themeColor][
-                    global.theme === "dark" ? 200 : 900
-                  ] + "!important",
+                  colors[global.themeColor][global.user.darkMode ? 200 : 900] +
+                  "!important",
               },
             }),
           }}

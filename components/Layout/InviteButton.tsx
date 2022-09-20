@@ -161,7 +161,7 @@ function House({ handleClose, data }: any) {
             secondary={
               <Box
                 sx={{
-                  color: global.theme === "dark" ? "#eee" : "#000",
+                  color: global.user.darkMode ? "#eee" : "#000",
                   maxWidth: "100%",
                   mt: 0.5,
                   display: "flex",
@@ -223,7 +223,7 @@ function House({ handleClose, data }: any) {
             overflow: "hidden",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },
@@ -472,7 +472,7 @@ function House({ handleClose, data }: any) {
                   sx={{
                     borderRadius: 4,
                     boxShadow: 0,
-                    background: colors[color][900] + "!important",
+                    background: `${colors[color][900]}!important`,
                   }}
                 >
                   <span
@@ -577,7 +577,7 @@ export function InviteButton() {
               xs: "20px 20px 0 0",
               sm: 5,
             },
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },

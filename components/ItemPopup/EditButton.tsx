@@ -100,7 +100,7 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
             },
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },

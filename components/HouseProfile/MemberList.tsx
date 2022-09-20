@@ -91,7 +91,7 @@ function Member({ member }): any {
             mt: 1.5,
             color: colors.red[900],
             "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-              borderColor: colors.red[900] + "!important",
+              borderColor: `${colors.red[900]}!important`,
             },
             borderRadius: 4,
           }}
@@ -179,10 +179,9 @@ export function MemberList({ color }: any): JSX.Element {
                   userSelect: "none",
                   px: 2.5,
                   borderRadius: 5,
-                  background:
-                    global.theme === "dark"
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[color][100],
+                  background: global.user.darkMode
+                    ? "hsl(240, 11%, 30%)"
+                    : colors[color][100],
                 }}
               >
                 {step.content}

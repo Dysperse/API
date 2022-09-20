@@ -37,10 +37,9 @@ export function Reminder({ reminder }: any) {
           sx: {
             mx: "auto",
             maxWidth: "500px",
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 18%)"
-                : colors[themeColor][50],
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 18%)"
+              : colors[themeColor][50],
             borderRadius: "30px 30px 0 0",
           },
         }}
@@ -83,10 +82,11 @@ export function Reminder({ reminder }: any) {
             InputProps={{
               disableUnderline: true,
               sx: {
-                background:
-                  (global.theme === "dark"
+                background: `${
+                  global.user.darkMode
                     ? "hsl(240, 11%, 24%)"
-                    : colors[themeColor][100]) + "!important",
+                    : colors[themeColor][100]
+                }!important`,
                 cursor: "pointer",
                 p: 2.5,
                 borderRadius: "15px",

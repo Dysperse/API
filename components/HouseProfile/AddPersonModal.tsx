@@ -48,7 +48,7 @@ export function AddPersonModal({ color, members }: any) {
           ml: "auto",
           boxShadow: 0,
           ...(global.property.permission === "owner" && {
-            backgroundColor: colors[color][900] + "!important",
+            backgroundColor: `${colors[color][900]}!important`,
           }),
         }}
       >
@@ -75,7 +75,7 @@ export function AddPersonModal({ color, members }: any) {
             maxHeight: "95vh",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },
@@ -91,10 +91,9 @@ export function AddPersonModal({ color, members }: any) {
             sx={{
               fontSize: "15px",
               my: 4,
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 30%)"
-                  : colors[color][100],
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 30%)"
+                : colors[color][100],
               borderRadius: 5,
               display: "block",
               p: 2,

@@ -266,7 +266,7 @@ export function SearchPopup() {
   return (
     <Box
       sx={{
-        ...(global.theme === "dark" && {
+        ...(global.user.darkMode && {
           "& *": {
             color: "#fff!important",
           },
@@ -284,17 +284,18 @@ export function SearchPopup() {
             borderRadius: 3,
             mr: 1,
             transition: "none",
-            color: global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
+            color: global.user.darkMode ? "hsl(240, 11%, 90%)" : "#606060",
             "&:hover": {
               background: "rgba(200,200,200,.3)",
-              color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+              color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
             },
             "&:focus-within": {
-              background:
-                (global.theme === "dark"
+              background: `${
+                global.user.darkMode
                   ? colors[themeColor]["900"]
-                  : colors[themeColor]["50"]) + "!important",
-              color: global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                  : colors[themeColor]["50"]
+              }!important`,
+              color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
             },
           }}
         >
@@ -320,7 +321,7 @@ export function SearchPopup() {
             maxHeight: "95vh",
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },

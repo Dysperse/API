@@ -26,11 +26,11 @@ export function BottomNav({ maintenance }: any) {
   const styles = {
     "&:not(.Mui-selected)": {
       color:
-        (global.theme === "dark" ? "#ccc" : colors[themeColor]["800"]) +
+        (global.user.darkMode ? "#ccc" : colors[themeColor]["800"]) +
         "!important",
     },
     "&.Mui-selected": {
-      color: global.theme === "dark" ? "#ccc" : colors[themeColor]["900"],
+      color: global.user.darkMode ? "#ccc" : colors[themeColor]["900"],
       fontWeight: "700",
       background: "transparent !important",
     },
@@ -40,10 +40,9 @@ export function BottomNav({ maintenance }: any) {
         : colors[themeColor][200],
     },
     "&.Mui-selected .MuiIcon-root::before": {
-      background:
-        global.theme === "dark"
-          ? "rgba(150, 150, 150, .2)"
-          : colors[themeColor][200],
+      background: global.user.darkMode
+        ? "rgba(150, 150, 150, .2)"
+        : colors[themeColor][200],
       transform: "translateX(-50%)",
     },
     borderRadius: "15px",
@@ -161,10 +160,9 @@ export function BottomNav({ maintenance }: any) {
             alignItems: "center",
             backdropFilter: "blur(15px)",
 
-            background:
-              global.theme === "dark"
-                ? "rgba(33,33,38,.7)"
-                : hexToRgba(colors[themeColor][100], 0.9),
+            background: global.user.darkMode
+              ? "rgba(33,33,38,.7)"
+              : hexToRgba(colors[themeColor][100], 0.9),
 
             ["@supports not (backdrop-filter: blur(15px))"]: {
               background: colors[themeColor][100],

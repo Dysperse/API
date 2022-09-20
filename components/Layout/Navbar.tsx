@@ -51,10 +51,10 @@ function ElevationScroll(props: any) {
         ?.setAttribute(
           "content",
           trigger
-            ? global.theme === "dark"
+            ? global.user.darkMode
               ? "rgba(33,33,38)"
               : colors[themeColor]["100"]
-            : global.theme === "dark"
+            : global.user.darkMode
             ? "hsl(240, 11%, 10%)"
             : router.asPath === "/maintenance"
             ? colors.green[100]
@@ -65,24 +65,23 @@ function ElevationScroll(props: any) {
   return React.cloneElement(children, {
     sx: trigger
       ? {
-          color: global.theme === "dark" ? "white" : "black",
+          color: global.user.darkMode ? "white" : "black",
           py: {
             sm: 1,
             xs: 0.9,
           },
           pr: 0.4,
           backdropFilter: "blur(20px)",
-          background:
-            global.theme === "dark"
-              ? "hsl(240, 11%, 10%)"
-              : hexToRgba(colors[global.themeColor]["100"], 1),
+          background: global.user.darkMode
+            ? "hsl(240, 11%, 10%)"
+            : hexToRgba(colors[global.themeColor]["100"], 1),
 
           ["@supports not (backdrop-filter: blur(20px))"]: {
             background: colors[themeColor][100],
           },
         }
       : {
-          color: global.theme === "dark" ? "white" : "black",
+          color: global.user.darkMode ? "white" : "black",
           pr: 0.4,
           py: {
             sm: 1,
@@ -90,16 +89,12 @@ function ElevationScroll(props: any) {
           },
           // transition: "all .2s",
           background: {
-            xs:
-              global.theme === "dark"
-                ? "rgba(0,0,0,0)"
-                : router.asPath === "/maintenance"
-                ? colors.green[100]
-                : "rgba(255,255,255,.5)",
-            sm:
-              global.theme === "dark"
-                ? "rgba(0,0,0,0)"
-                : "rgba(255,255,255,.5)",
+            xs: global.user.darkMode
+              ? "rgba(0,0,0,0)"
+              : router.asPath === "/maintenance"
+              ? colors.green[100]
+              : "rgba(255,255,255,.5)",
+            sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.5)",
           },
           backdropFilter: "blur(10px)",
         },
@@ -135,20 +130,20 @@ export function Navbar(): JSX.Element {
                   transition: "none",
                   p: 0,
                   ml: 0.6,
-                  color:
-                    global.theme === "dark" ? "hsl(240, 11%, 90%)" : "#606060",
+                  color: global.user.darkMode
+                    ? "hsl(240, 11%, 90%)"
+                    : "#606060",
                   "&:hover": {
                     background: "rgba(200,200,200,.3)",
-                    color:
-                      global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
                   },
                   "&:focus-within": {
-                    background:
-                      (global.theme === "dark"
+                    background: `${
+                      global.user.darkMode
                         ? colors[themeColor]["900"]
-                        : colors[themeColor]["50"]) + "!important",
-                    color:
-                      global.theme === "dark" ? "hsl(240, 11%, 95%)" : "#000",
+                        : colors[themeColor]["50"]
+                    }!important`,
+                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
                   },
                 }}
               >

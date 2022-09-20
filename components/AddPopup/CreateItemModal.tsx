@@ -98,10 +98,10 @@ export function CreateItemModal({
       ?.setAttribute(
         "content",
         open
-          ? global.theme === "dark"
+          ? global.user.darkMode
             ? "hsl(240, 11%, 25%)"
             : colors[themeColor][50]
-          : global.theme === "dark"
+          : global.user.darkMode
           ? "hsl(240, 11%, 10%)"
           : "#fff"
       );
@@ -182,7 +182,7 @@ export function CreateItemModal({
             maxHeight: "100vh",
             borderRadius: { sm: "30px 30px 0 0" },
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },

@@ -16,10 +16,10 @@ export function ProfileMenu(props: any) {
         ?.setAttribute(
           "content",
           open
-            ? global.theme === "dark"
+            ? global.user.darkMode
               ? "hsl(240, 11%, 10%)"
               : "#cccccc"
-            : global.theme === "dark"
+            : global.user.darkMode
             ? "hsl(240, 11%, 10%)"
             : "#fff"
         );

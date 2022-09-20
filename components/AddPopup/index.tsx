@@ -79,18 +79,18 @@ function AddItemOption({
               },
               "&:hover": {
                 background:
-                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  colors[themeColor][global.user.darkMode ? 900 : 100] +
                   "!important",
               },
               borderRadius: 6,
               "&:focus-within": {
                 background:
-                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  colors[themeColor][global.user.darkMode ? 900 : 100] +
                   "!important",
               },
               "&:active": {
                 background:
-                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  colors[themeColor][global.user.darkMode ? 900 : 100] +
                   "!important",
               },
             }}
@@ -156,7 +156,7 @@ function MoreRooms(): JSX.Element {
             "& *": { transition: "none!important" },
             borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 20%)",
             }),
           },
@@ -250,18 +250,18 @@ function MoreRooms(): JSX.Element {
               },
               "&:hover": {
                 background:
-                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  colors[themeColor][global.user.darkMode ? 900 : 100] +
                   "!important",
               },
               borderRadius: 6,
               "&:focus-within": {
                 background:
-                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  colors[themeColor][global.user.darkMode ? 900 : 100] +
                   "!important",
               },
               "&:active": {
                 background:
-                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  colors[themeColor][global.user.darkMode ? 900 : 100] +
                   "!important",
               },
             }}
@@ -391,10 +391,10 @@ export default function AddPopup(props: any): JSX.Element {
       ?.setAttribute(
         "content",
         open
-          ? global.theme === "dark"
+          ? global.user.darkMode
             ? "hsl(240, 11%, 20%)"
             : "#cccccc"
-          : global.theme === "dark"
+          : global.user.darkMode
           ? "hsl(240, 11%, 10%)"
           : "#fff"
       );
@@ -449,7 +449,7 @@ export default function AddPopup(props: any): JSX.Element {
             },
             borderRadius: "28px 28px 0 0 !important",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 20%)",
             }),
           },
@@ -492,11 +492,11 @@ export default function AddPopup(props: any): JSX.Element {
             onClick={() => window.open("/scan")}
             sx={{
               ml: "auto",
-              color: global.theme === "dark" ? "#fff" : "#000",
+              color: global.user.darkMode ? "#fff" : "#000",
               transition: "none",
               "&:active": {
                 background:
-                  colors[themeColor][global.theme === "dark" ? 900 : 100] +
+                  colors[themeColor][global.user.darkMode ? 900 : 100] +
                   "!important",
               },
             }}

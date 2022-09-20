@@ -80,11 +80,9 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
             maxWidth: "calc(100% - 15px)",
           }),
           pl: collapsed ? 1.8 : 2,
-          color:
-            (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+          color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
           "& span:not(.badge, .badge *)": {
-            color:
-              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+            color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
           },
           borderRadius: collapsed ? 6 : 3,
           transition: "margin .2s!important",
@@ -97,16 +95,13 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
             filter: "opacity(.2)!important",
           },
           "&:hover,&:focus": {
-            color:
-              (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
-            background:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.3)",
+            color: `${global.user.darkMode ? grey[200] : grey[900]}!important`,
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 17%)"
+              : "rgba(200,200,200,.3)",
           },
           "&:hover span:not(.badge, .badge *)": {
-            color:
-              (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
+            color: `${global.user.darkMode ? grey[200] : grey[900]}!important`,
           },
         }}
       >
@@ -137,7 +132,7 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
             },
             borderRadius: "30px 30px 0 0",
             mx: "auto",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 20%)",
             }),
           },
@@ -213,10 +208,9 @@ const ListItem = React.memo(function ListItem({
           maxWidth: "calc(100% - 15px)",
         }),
         pl: collapsed ? null : 2,
-        color: (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+        color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
         "& span:not(.badge, .badge *)": {
-          color:
-            (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+          color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
         },
         borderRadius: collapsed ? 8 : 3,
         transition: "border-radius .2s, margin .2s!important",
@@ -229,51 +223,46 @@ const ListItem = React.memo(function ListItem({
           filter: "opacity(.2)!important",
         },
         "&:hover,&:focus": {
-          color:
-            (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
-          background:
-            global.theme === "dark"
-              ? "hsl(240, 11%, 17%)"
-              : "rgba(200,200,200,.3)",
+          color: `${global.user.darkMode ? grey[200] : grey[900]}!important`,
+          background: global.user.darkMode
+            ? "hsl(240, 11%, 17%)"
+            : "rgba(200,200,200,.3)",
         },
         "&:hover span:not(.badge, .badge *)": {
-          color:
-            (global.theme === "dark" ? grey[200] : grey[900]) + "!important",
+          color: `${global.user.darkMode ? grey[200] : grey[900]}!important`,
         },
         ...(router.asPath === asHref && {
           borderRadius: collapsed ? 4 : 3,
           background:
             "linear-gradient(45deg, " +
-            (global.theme === "dark"
+            (global.user.darkMode
               ? "hsl(240, 11%, 30%)"
               : colors[themeColor][50]) +
             "  0%, " +
-            (global.theme === "dark"
+            (global.user.darkMode
               ? "hsl(240, 11%, 20%)"
               : colors[themeColor][100]) +
             " 100%)",
           "&:hover,&:focus": {
-            backgroundColor:
-              global.theme === "dark"
-                ? "hsl(240, 11%, 17%)"
-                : colors[global.themeColor][100],
-            color:
-              colors[global.themeColor][global.theme === "dark" ? 100 : 900],
+            backgroundColor: global.user.darkMode
+              ? "hsl(240, 11%, 17%)"
+              : colors[global.themeColor][100],
+            color: colors[global.themeColor][global.user.darkMode ? 100 : 900],
           },
 
           "& span:not(.badge, .badge *)": {
             color:
-              colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
+              colors[global.themeColor][global.user.darkMode ? 100 : 800] +
               "!important",
           },
           "&:hover span:not(.badge, .badge *)": {
             color:
-              colors[global.themeColor][global.theme === "dark" ? 100 : 800] +
+              colors[global.themeColor][global.user.darkMode ? 100 : 800] +
               "!important",
           },
           "&:active span:not(.badge, .badge *)": {
             color:
-              colors[global.themeColor][global.theme === "dark" ? 200 : 900] +
+              colors[global.themeColor][global.user.darkMode ? 200 : 900] +
               "!important",
           },
         }),
@@ -381,27 +370,26 @@ export function DrawerListItems({
                   ...(!global.itemLimitReached && {
                     background:
                       "linear-gradient(45deg, " +
-                      (global.theme === "dark"
+                      (global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
                         : colors[themeColor][200]) +
                       "  0%, " +
-                      (global.theme === "dark"
+                      (global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
                         : colors[themeColor][500]) +
                       " 100%)",
                   }),
-                  color:
-                    global.theme === "dark"
-                      ? "hsl(240, 11%, 95%)"
-                      : colors[themeColor]["900"],
+                  color: global.user.darkMode
+                    ? "hsl(240, 11%, 95%)"
+                    : colors[themeColor]["900"],
                   "&:active": {
                     background:
                       "linear-gradient(90deg, " +
-                      (global.theme === "dark"
+                      (global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
                         : colors[themeColor][200]) +
                       "  0%, " +
-                      (global.theme === "dark"
+                      (global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
                         : colors[themeColor][500]) +
                       " 100%)",
@@ -438,7 +426,7 @@ export function DrawerListItems({
                   md: "unset",
                 },
                 fontSize: "15px",
-                ...(global.theme === "dark" && {
+                ...(global.user.darkMode && {
                   background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
                 }),
               }}
@@ -528,7 +516,7 @@ export function DrawerListItems({
                 position: {
                   md: "unset",
                 },
-                ...(global.theme === "dark" && {
+                ...(global.user.darkMode && {
                   background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
                 }),
               }}
@@ -638,7 +626,7 @@ export function DrawerListItems({
               position: {
                 md: "unset",
               },
-              ...(global.theme === "dark" && {
+              ...(global.user.darkMode && {
                 background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
               }),
             }}
@@ -693,12 +681,11 @@ export function DrawerListItems({
               mx: "auto",
             }),
             pl: 2,
-            color:
-              (global.theme === "dark" ? grey[200] : "#606060") + "!important",
+            color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
             "& span:not(.badge, .badge *)": {
-              color:
-                (global.theme === "dark" ? grey[200] : "#606060") +
-                "!important",
+              color: `${
+                global.user.darkMode ? grey[200] : "#606060"
+              }!important`,
             },
             borderRadius: 3,
             transition: "margin .2s!important",
@@ -711,18 +698,17 @@ export function DrawerListItems({
               filter: "opacity(.2)!important",
             },
             "&:hover,&:focus": {
-              color:
-                (global.theme === "dark" ? grey[200] : grey[900]) +
-                "!important",
-              background:
-                global.theme === "dark"
-                  ? "hsl(240, 11%, 17%)"
-                  : "rgba(200,200,200,.3)",
+              color: `${
+                global.user.darkMode ? grey[200] : grey[900]
+              }!important`,
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 17%)"
+                : "rgba(200,200,200,.3)",
             },
             "&:hover span:not(.badge, .badge *)": {
-              color:
-                (global.theme === "dark" ? grey[200] : grey[900]) +
-                "!important",
+              color: `${
+                global.user.darkMode ? grey[200] : grey[900]
+              }!important`,
             },
           }}
         >

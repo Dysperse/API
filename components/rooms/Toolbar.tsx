@@ -92,11 +92,13 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
             px: 2,
             mt: { xs: 1, sm: 0 },
             width: { xs: "100%", sm: "300px" },
-            background:
-              global.theme === "dark" ? "hsl(240, 11%, 25%)" : blueGrey[50],
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 25%)"
+              : blueGrey[50],
             "&.Mui-focused": {
-              background:
-                global.theme === "dark" ? "hsl(240, 11%, 30%)" : blueGrey[100],
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 30%)"
+                : blueGrey[100],
             },
           },
         }}
