@@ -15,6 +15,7 @@ export function useApi(path: string, initialParams: any = {}): ApiResponse {
   );
   const [returned, setReturned] = React.useState<ApiResponse>({
     data,
+    url,
     loading: !error && !data,
     error: error,
   });
@@ -22,10 +23,11 @@ export function useApi(path: string, initialParams: any = {}): ApiResponse {
   React.useEffect(() => {
     setReturned({
       data,
+      url,
       loading: !error && !data,
       error: error,
     });
-  }, [data, error]);
+  }, [url, data, error]);
 
   return returned;
 }

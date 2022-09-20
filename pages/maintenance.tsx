@@ -8,18 +8,13 @@ import { ErrorHandler } from "../components/ErrorHandler";
 import { Reminder } from "../components/Maintenance/Reminder";
 import { Header } from "../components/Maintenance/Header";
 import type { Reminder as ReminderType } from "../types/maintenance";
-
+import { useApi } from "../hooks/useApi";
+import type { ApiResponse } from "../types/client";
 /**
  * Top-level component for the maintenance page
  */
 export default function Maintenance() {
-  const url =
-    `/api/property/maintenance/reminders?${new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-    }).toString()}`;
-
-  const { data, error } = useSWR(url, () => fetch(url).then((r) => r.json()));
+  const { error, data }: ApiResponse = useApi("property/maintenance/reminders");
 
   return (
     <Box sx={{ mb: 4 }}>

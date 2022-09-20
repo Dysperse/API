@@ -24,6 +24,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { ItemCard } from "../components/rooms/ItemCard";
 import { ErrorHandler } from "../components/ErrorHandler";
 import type { Item } from "../types/item";
+import { useApi } from "../hooks/useApi";
+import type { ApiResponse } from "../types/client";
 
 /**
  * Category modal
@@ -143,13 +145,7 @@ function CategoryModal({ category }: { category: string }) {
  * Component to dispay items by category
  */
 function CategoryList() {
-  const url = `/api/property/inventory/categories?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-  const { error, data }: any = useSWR(url, () =>
-    fetch(url, { method: "POST" }).then((res) => res.json())
-  );
+  const { error, data }: ApiResponse = useApi("property/inventory/categories");
 
   return (
     <>
@@ -270,10 +266,6 @@ function Action({ icon, primary, href, onClick }: any) {
  * Top-level component for the items page
  */
 export default function Categories() {
-  const url = `/api/property/rooms?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   /**
@@ -284,11 +276,7 @@ export default function Categories() {
     setAnchorEl(null);
   };
   const [viewBy, setViewBy] = React.useState("room");
-  const { data, error } = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
-  );
+  const { data, error }: ApiResponse = useApi("property/rooms");
 
   return (
     <>

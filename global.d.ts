@@ -6,7 +6,7 @@ declare global {
   var theme: string;
   var setTheme: Function;
   var themeColor: Color;
-  var setThemeColor: () => void;
+  var setThemeColor: Function;
   var OneSignal: any;
 
   var user: User;

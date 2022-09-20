@@ -6,18 +6,16 @@ import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
 import type { Item } from "../types/item";
+import { useApi } from "../hooks/useApi";
+import type { ApiResponse } from "../types/client";
 
 /**
  * Items component to load inventory
+ * @returns {JSX.Element}
  */
-function Items() {
-  const url = `/api/inventory/starred-items?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-  const { error, data }: any = useSWR(url, () =>
-    fetch(url, { method: "POST" }).then((res) => res.json())
-  );
+function Items(): JSX.Element {
+  const { error, data }: ApiResponse = useApi("property/inventory/starred");
+
   if (error) return <>An error occured, please try again later</>;
   return !data ? (
     <>

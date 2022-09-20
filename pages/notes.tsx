@@ -19,6 +19,8 @@ import toast from "react-hot-toast";
 import useSWR, { mutate } from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
 import { colors } from "../lib/colors";
+import { useApi } from "../hooks/useApi";
+import type { ApiResponse } from "../types/client";
 
 /**
  * Color picker for note modal
@@ -487,13 +489,7 @@ function Note({ url, note }) {
  * @returns JSX.Element
  */
 export default function Notes(): JSX.Element {
-  const url = `/api/property/notes?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-  const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
-  );
+  const { url, error, data }: ApiResponse = useApi("property/notes");
 
   return (
     <Box

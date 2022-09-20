@@ -13,6 +13,8 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
 import type { Item } from "../types/item";
+import { useApi } from "../hooks/useApi";
+import type { ApiResponse } from "../types/client";
 
 /**
  * Delete card component, including delete and restore buttons
@@ -123,14 +125,8 @@ function DeleteCard({ item }: any): JSX.Element | null {
  * @returns {any}
  */
 function Items() {
-  const url = `/api/inventory/trashed-items?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-  const { data, error }: any = useSWR(url, () =>
-    fetch(url, {
-      method: "POST",
-    }).then((res) => res.json())
+  const { error, data }: ApiResponse = useApi(
+    "property/inventory/trashed-items"
   );
 
   if (error) {

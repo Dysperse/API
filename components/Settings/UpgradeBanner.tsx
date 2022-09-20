@@ -1,22 +1,17 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { colors } from "../../lib/colors";
-import Typography from "@mui/material/Typography";
-import React from "react";
-import toast from "react-hot-toast";
-import useSWR from "swr";
 import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
+import toast from "react-hot-toast";
+import { useApi } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
+import type { ApiResponse } from "../../types/client";
 
 /**
  * Upgrade banner
  */
 export function UpgradeBanner() {
-  const url = `/api/property/inventory/count?${new URLSearchParams({
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
-  }).toString()}`;
-
-  const { data } = useSWR(url, () => fetch(url).then((r) => r.json()));
+  const { data }: ApiResponse = useApi("property/inventory/count");
 
   return (
     <Box
