@@ -46,11 +46,11 @@ export default function Prompt() {
           if (res.twoFactor) {
             setTwoFactorModalOpen(true);
             setButtonLoading(false);
+            return;
           } else if (res.error) {
             throw new Error(res.error);
-          } else {
-            mutate("/api/user");
           }
+          mutate("/api/user");
         })
         .catch(() => setButtonLoading(false));
     },

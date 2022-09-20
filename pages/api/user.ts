@@ -27,7 +27,7 @@ const handler = async (req, res) => {
     const info = await sessionData(req.cookies.token);
     res.json(info);
   } else {
-    res.status(200).json({ error: true });
+    res.status(401).json({ error: true });
   }
 };
 
