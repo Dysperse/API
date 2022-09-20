@@ -1,30 +1,29 @@
+import LoadingButton from "@mui/lab/LoadingButton";
+import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import { colors } from "../lib/colors";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import MuiLink from "@mui/material/Link";
 import NoSsr from "@mui/material/NoSsr";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Skeleton from "@mui/material/Skeleton";
+import { createTheme, experimental_sx as sx, ThemeProvider } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
-import Script from "next/script";
-import MuiLink from "@mui/material/Link";
 import Link from "next/link";
+import Script from "next/script";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
-import Layout from "../components/Layout";
 import LoginPrompt from "../components/Auth/Prompt";
+import Layout from "../components/Layout";
+import { colors } from "../lib/colors";
 import "../styles/globals.scss";
 import "../styles/search.scss";
-import Grid from "@mui/material/Grid";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Skeleton from "@mui/material/Skeleton";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import AppBar from "@mui/material/AppBar";
 dayjs.extend(relativeTime);
-import { experimental_sx as sx } from "@mui/material/styles";
 
 /**
  * Loading screen

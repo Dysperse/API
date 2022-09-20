@@ -15,7 +15,6 @@ import Link from "next/link";
 import router from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
-import useSWR from "swr";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import type { Room } from "../../types/room";

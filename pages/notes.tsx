@@ -16,10 +16,10 @@ import { useFormik } from "formik";
 import hexToRgba from "hex-to-rgba";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import useSWR, { mutate } from "swr";
+import { mutate } from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
-import { colors } from "../lib/colors";
 import { useApi } from "../hooks/useApi";
+import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
 
 /**

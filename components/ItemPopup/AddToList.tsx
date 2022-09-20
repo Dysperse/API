@@ -11,9 +11,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import useSWR from "swr";
-import type { ApiResponse } from "../../types/client";
 import { useApi } from "../../hooks/useApi";
+import type { ApiResponse } from "../../types/client";
 
 /**
  * Description

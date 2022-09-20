@@ -1,5 +1,5 @@
-import useSWR from "swr";
 import React from "react";
+import useSWR from "swr";
 import type { ApiResponse } from "../types/client";
 
 export function useApi(path: string, initialParams: any = {}): ApiResponse {

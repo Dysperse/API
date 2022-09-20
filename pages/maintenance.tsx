@@ -1,15 +1,14 @@
+import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
-import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
-import useSWR from "swr";
 import { ErrorHandler } from "../components/ErrorHandler";
-import { Reminder } from "../components/Maintenance/Reminder";
 import { Header } from "../components/Maintenance/Header";
-import type { Reminder as ReminderType } from "../types/maintenance";
+import { Reminder } from "../components/Maintenance/Reminder";
 import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
+import type { Reminder as ReminderType } from "../types/maintenance";
 /**
  * Top-level component for the maintenance page
  */

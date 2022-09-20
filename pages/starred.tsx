@@ -3,11 +3,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
-import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
-import type { Item } from "../types/item";
 import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
+import type { Item } from "../types/item";
 
 /**
  * Items component to load inventory
@@ -36,7 +35,7 @@ function Items(): JSX.Element {
     </>
   ) : (
     <>
-      {data.data.map((item: Item) => (
+      {data.map((item: Item) => (
         <Paper
           sx={{ boxShadow: 0, p: 0 }}
           key={(Math.random() + Math.random()).toString()}

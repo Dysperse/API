@@ -1,31 +1,30 @@
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { colors } from "../lib/colors";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Menu from "@mui/material/Menu";
-import Skeleton from "@mui/material/Skeleton";
 import MenuItem from "@mui/material/MenuItem";
+import Skeleton from "@mui/material/Skeleton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import { encode } from "js-base64";
 import { useRouter } from "next/router";
 import React from "react";
-import useSWR from "swr";
-import { FloatingActionButton } from "../components/Layout/FloatingActionButton";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { Puller } from "../components/Puller";
-import { neutralizeBack, revivalBack } from "../components/history-control";
-import CircularProgress from "@mui/material/CircularProgress";
-import { ItemCard } from "../components/rooms/ItemCard";
 import { ErrorHandler } from "../components/ErrorHandler";
-import type { Item } from "../types/item";
+import { neutralizeBack, revivalBack } from "../components/history-control";
+import { FloatingActionButton } from "../components/Layout/FloatingActionButton";
+import { Puller } from "../components/Puller";
+import { ItemCard } from "../components/rooms/ItemCard";
 import { useApi } from "../hooks/useApi";
+import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
+import type { Item } from "../types/item";
 
 /**
  * Category modal
@@ -154,7 +153,7 @@ function CategoryList() {
       )}
       {!error && data ? (
         <>
-          {[...new Set(data.data)].map((category: any) => (
+          {[...new Set(data)].map((category: any) => (
             <CategoryModal category={category} key={category.toString()} />
           ))}
         </>

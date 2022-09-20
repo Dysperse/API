@@ -4,9 +4,9 @@ import Typography from "@mui/material/Typography";
 import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import toast from "react-hot-toast";
-import useSWR, { mutate } from "swr";
-import { colors } from "../../lib/colors";
+import { mutate } from "swr";
 import { useApi } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import type { Room as RoomType } from "../../types/room";
 

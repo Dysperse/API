@@ -10,11 +10,10 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import useSWR from "swr";
 import { ItemCard } from "../components/rooms/ItemCard";
-import type { Item } from "../types/item";
 import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
+import type { Item } from "../types/item";
 
 /**
  * Delete card component, including delete and restore buttons
@@ -156,13 +155,14 @@ function Items() {
     </>
   ) : (
     <>
-      {data.data.map((item: Item) => (
+      {data.map((item: Item) => (
         <DeleteCard item={item} key={item.id.toString()} />
       ))}
-      {data.data.length === 0 && (
+      {data.length === 0 && (
         <Box
           sx={{
-            width: "100%",
+            width: "100%!important",
+            p: 4,
             background: "rgba(200,200,200,.3)",
             borderRadius: 4,
           }}
