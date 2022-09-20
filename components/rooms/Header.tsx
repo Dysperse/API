@@ -115,7 +115,7 @@ export function Header({
             background: "rgba(0,0,0,.1)",
             zIndex: 1,
           }}
-        ></div>
+         />
         <BoringAvatar
           colors={["#741952", "#FE3174", "#F1C15D", "#94BB68", "#09A3AD"]}
           square={true}
