@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
@@ -114,26 +115,19 @@ export default function Item({
 
   /**
    * Callback for clicking on the star button
-   * @returns {any}
+   * @returns {void}
    */
-  const handleItemStar = () => {
+  const handleItemStar = (): void => {
     setItemData({
       ...item,
       lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       starred: !item.starred,
     });
-    fetch(
-      `/api/property/inventory/star?${new URLSearchParams({
-        property: global.property.propertyId,
-        accessToken: global.property.accessToken,
-        id: item.id.toString(),
-        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        starred: item.starred,
-      }).toString()}`,
-      {
-        method: "POST",
-      }
-    );
+    fetchApiWithoutHook("property/inventory/star", {
+      id: item.id.toString(),
+      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      starred: item.starred,
+    });
   };
 
   /**
@@ -142,17 +136,11 @@ export default function Item({
    */
   const handleItemDelete = () => {
     setDeleted(true);
-    fetch(
-      `/api/property/inventory/trash?${new URLSearchParams({
-        property: global.property.propertyId,
-        accessToken: global.property.accessToken,
-        id: id.toString(),
-        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-      }).toString()}`,
-      {
-        method: "POST",
-      }
-    );
+
+    fetchApiWithoutHook("property/inventory/trash", {
+      id: id.toString(),
+      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    });
 
     handleClose();
 

@@ -2,13 +2,20 @@ import React from "react";
 import useSWR from "swr";
 import type { ApiResponse } from "../types/client";
 
-export function useApi(path: string, initialParams: any = {}): ApiResponse {
+const getInfo = (path, initialParams, property) => {
   const params = {
     ...initialParams,
-    property: global.property.propertyId,
-    accessToken: global.property.accessToken,
+    property: property.propertyId,
+    accessToken: property.accessToken,
   };
-  const url = `/api/${path}/?${new URLSearchParams(params).toString()}`;
+
+  return {
+    params,
+    url: `/api/${path}/?${new URLSearchParams(params).toString()}`,
+  };
+};
+export function useApi(path: string, initialParams: any = {}): ApiResponse {
+  const { url } = getInfo(path, initialParams, global.property);
 
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
@@ -30,4 +37,14 @@ export function useApi(path: string, initialParams: any = {}): ApiResponse {
   }, [url, data, error]);
 
   return returned;
+}
+
+export async function fetchApiWithoutHook(
+  path: string,
+  initialParams: any = {}
+): Promise<any> {
+  const { url } = getInfo(path, initialParams, global.property);
+
+  const res = await fetch(url);
+  return await res.json();
 }
