@@ -42,7 +42,7 @@ export function Prompt({
           callback();
           setOpen(false);
         } else {
-          toast.error("Invalid code");
+          toast.error("Invalid code!");
           setCode("");
         }
         setButtonLoading(false);
