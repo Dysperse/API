@@ -54,7 +54,9 @@ function ElevationScroll(props: any) {
           trigger
             ? global.user.darkMode
               ? "rgba(33,33,38)"
-              : colors[themeColor]["100"]
+              : colors[router.asPath === "/maintenance" ? "green" : themeColor][
+                  "100"
+                ]
             : global.user.darkMode
             ? "hsl(240, 11%, 10%)"
             : router.asPath === "/maintenance"
@@ -84,7 +86,11 @@ function ElevationScroll(props: any) {
       ? {
           "& .MuiBadge-badge": {
             transform: "none",
-            border: `2px solid ${colors[themeColor][100]}`,
+            border: `2px solid ${
+              colors[
+                router.asPath === "/maintenance" ? "green" : themeColor
+              ][100]
+            }`,
             width: 12,
             height: 12,
             borderRadius: "50%",
@@ -98,10 +104,18 @@ function ElevationScroll(props: any) {
           backdropFilter: "blur(20px)",
           background: global.user.darkMode
             ? "hsl(240, 11%, 10%)"
-            : hexToRgba(colors[global.themeColor]["100"], 1),
+            : hexToRgba(
+                colors[router.asPath === "/maintenance" ? "green" : themeColor][
+                  "100"
+                ],
+                1
+              ),
 
           ["@supports not (backdrop-filter: blur(20px))"]: {
-            background: colors[themeColor][100],
+            background:
+              colors[
+                router.asPath === "/maintenance" ? "green" : themeColor
+              ][100],
           },
         }
       : {
