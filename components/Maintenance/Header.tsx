@@ -423,8 +423,8 @@ export function Header({ count }) {
       </Box>
       <Box
         sx={{
-          px: { xs: 3, sm: 5 },
-          py: { xs: 2, sm: 0 },
+          px: { xs: 5, sm: 5 },
+          py: { xs: 3, sm: 0 },
           background: { xs: colors.green["100"], sm: "transparent" },
           borderBottomRightRadius: { xs: 30, sm: 0 },
           borderBottomLeftRadius: { xs: 30, sm: 0 },
