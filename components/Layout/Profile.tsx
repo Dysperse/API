@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Settings from "../Settings/index";
 import Box from "@mui/material/Box";
+import { colors } from "../../lib/colors";
 
 /**
  * Profile menu
