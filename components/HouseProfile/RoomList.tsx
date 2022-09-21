@@ -154,7 +154,6 @@ export function RoomList({ color }: any) {
                 className="embla__slide"
                 sx={{
                   pl: index == 0 ? 0 : 2,
-                  // flex: "0 0" + (trigger ? " 100%" : " 50%"),
                   flex: "0 0 50%",
                 }}
               >

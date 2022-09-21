@@ -1,14 +1,15 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import useEmblaCarousel from "embla-carousel-react";
 import Typography from "@mui/material/Typography";
-import React from "react";
-import toast from "react-hot-toast";
+import IconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import BoringAvatar from "boring-avatars";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import React, { useCallback } from "react";
+import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
-import BoringAvatar from "boring-avatars";
 import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
 import { AddPersonModal } from "./AddPersonModal";
@@ -33,57 +34,69 @@ function Member({ setOpen, member }): any {
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
-    <Box sx={{ width: "100%" }}>
-      <Typography
-        sx={{
-          fontWeight: "600",
-          maxWidth: "100%",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {member.user.name}
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          maxWidth: "100%",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {member.user.email}
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          maxWidth: "100%",
-          overflow: "hidden",
-          mx: "auto",
-          textOverflow: "ellipsis",
-          display: "flex",
-          mt: 0.5,
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <span className="material-symbols-rounded">
-          {member.permission === "member"
-            ? "group"
-            : member.permission == "owner"
-            ? "productivity"
-            : "visibility"}
-        </span>
-        <span
-          style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
-        >
-          {member.permission == "member"
-            ? "Read, write, and edit access"
-            : member.permission == "owner"
-            ? "Owner"
-            : "Read-only access"}
-        </span>
-      </Typography>
+    <Box>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box>
+          <BoringAvatar
+            size={35}
+            name={member.user.name}
+            variant="beam"
+            colors={["#801245", "#F4F4DD", "#DCDBAF", "#5D5C49", "#3D3D34"]}
+          />
+        </Box>
+        <Box>
+          <Typography
+            sx={{
+              fontWeight: "600",
+              maxWidth: "100%",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {member.user.name}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              maxWidth: "100%",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {member.user.email}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              maxWidth: "100%",
+              overflow: "hidden",
+              mx: "auto",
+              textOverflow: "ellipsis",
+              display: "flex",
+              mt: 0.5,
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <span className="material-symbols-rounded">
+              {member.permission === "member"
+                ? "group"
+                : member.permission == "owner"
+                ? "productivity"
+                : "visibility"}
+            </span>
+            <span
+              style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
+            >
+              {member.permission == "member"
+                ? "Member"
+                : member.permission == "owner"
+                ? "Owner"
+                : "Read-only access"}
+            </span>
+          </Typography>
+        </Box>
+      </Box>
       {global.property.permission !== "owner" ? null : (
         <LoadingButton
           loading={loading}
@@ -136,7 +149,6 @@ function Member({ setOpen, member }): any {
 export function MemberList({ color, setOpen }: any): JSX.Element {
   const { error, loading, data }: ApiResponse = useApi("property/members");
   const trigger = useMediaQuery("(max-width: 600px)");
-
   const images = data
     ? [
         ...data.map((member) => {
@@ -150,9 +162,17 @@ export function MemberList({ color, setOpen }: any): JSX.Element {
   const [emblaRef, emblaApi]: any = useEmblaCarousel(
     {
       dragFree: true,
-      slidesToScroll: 2,
     },
     [WheelGesturesPlugin()]
+  );
+  const scrollPrev = useCallback(
+    () => emblaApi && emblaApi.scrollPrev(),
+    [emblaApi]
+  );
+
+  const scrollNext = useCallback(
+    () => emblaApi && emblaApi.scrollNext(),
+    [emblaApi]
   );
 
   React.useEffect(() => {
@@ -182,6 +202,17 @@ export function MemberList({ color, setOpen }: any): JSX.Element {
           alignItems: "center",
         }}
       >
+        {!trigger && (
+          <IconButton
+            onClick={scrollPrev}
+            sx={{
+              background: `${colors[color][100]}!important`,
+              color: `${colors[color][900]}!important`,
+            }}
+          >
+            <span className="material-symbols-rounded">chevron_left</span>
+          </IconButton>
+        )}
         <div className="embla" ref={emblaRef}>
           <div className="embla__container">
             {images.map((step, index) => (
@@ -190,13 +221,12 @@ export function MemberList({ color, setOpen }: any): JSX.Element {
                 className="embla__slide"
                 sx={{
                   pl: index == 0 ? 0 : 2,
-                  flex: "0 0 50%",
+                  flex: "0 0 100%",
                 }}
               >
                 <Box
                   sx={{
                     p: 2,
-                    width: "100%",
                     userSelect: "none",
                     px: 2.5,
                     borderRadius: 5,
@@ -211,6 +241,17 @@ export function MemberList({ color, setOpen }: any): JSX.Element {
             ))}
           </div>
         </div>
+        {!trigger && (
+          <IconButton
+            onClick={scrollNext}
+            sx={{
+              background: `${colors[color][100]}!important`,
+              color: `${colors[color][900]}!important`,
+            }}
+          >
+            <span className="material-symbols-rounded">chevron_right</span>
+          </IconButton>
+        )}
       </Box>
     </>
   );
