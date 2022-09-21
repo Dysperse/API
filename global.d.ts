@@ -4,9 +4,9 @@ export {};
 
 declare global {
   var theme: string;
-  var setTheme: Function;
+  var setTheme: (e) => any;
   var themeColor: Color;
-  var setThemeColor: Function;
+  var setThemeColor: (e) => any;
   var OneSignal: any;
 
   var user: User;

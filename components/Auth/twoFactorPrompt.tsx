@@ -19,8 +19,8 @@ export function Prompt({
   callback,
 }: {
   open: boolean;
-  setOpen: Function;
-  callback: Function;
+  setOpen: (e: boolean) => any;
+  callback: () => any;
 }) {
   const userHasEnabled2fa =
     user.twoFactorSecret !== "" && user.twoFactorSecret !== "false";
