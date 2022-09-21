@@ -93,7 +93,6 @@ function CalendarFeedModal(): JSX.Element {
         variant="contained"
         onClick={() => setOpen(true)}
         sx={{
-          width: { xs: "100%", sm: "auto" },
           px: 3,
           py: 1,
           background: `${colors.green["A700"]}!important`,
@@ -104,8 +103,7 @@ function CalendarFeedModal(): JSX.Element {
         disableElevation
         disabled={global.property.permission === "read-only"}
       >
-        <span className="material-symbols-rounded">event</span>
-        Feed
+        <span className="material-symbols-rounded">more_vert</span>
       </Button>
     </>
   );
@@ -376,6 +374,7 @@ function CreateMaintenanceModal() {
           width: { xs: "100%", sm: "auto" },
           px: 3,
           py: 1,
+          mr: { sm: 1 },
           background: `${colors.green["A700"]}!important`,
           borderRadius: 999,
           gap: 2,
@@ -435,8 +434,8 @@ export function Header({ count }) {
           gap: 2,
         }}
       >
-        <CalendarFeedModal />
         <CreateMaintenanceModal />
+        <CalendarFeedModal />
       </Box>
     </>
   );
