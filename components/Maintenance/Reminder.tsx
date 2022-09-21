@@ -28,6 +28,8 @@ export function Reminder({ reminder }: any) {
   return (
     <>
       <SwipeableDrawer
+        disableSwipeToOpen
+        swipeAreaWidth={0}
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}

@@ -33,6 +33,8 @@ function CalendarFeedModal(): JSX.Element {
   return (
     <>
       <SwipeableDrawer
+        disableSwipeToOpen
+        swipeAreaWidth={0}
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
@@ -122,6 +124,8 @@ function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
   return (
     <>
       <SwipeableDrawer
+        disableSwipeToOpen
+        swipeAreaWidth={0}
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
@@ -285,6 +289,8 @@ function CreateMaintenanceModal() {
   return (
     <>
       <SwipeableDrawer
+        disableSwipeToOpen
+        swipeAreaWidth={0}
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
