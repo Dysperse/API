@@ -34,7 +34,7 @@ export function Prompt({
       `/api/user/2fa/verify?${new URLSearchParams({
         code: code,
         token: global.user.token,
-      })}`
+      }).toString()}`
     )
       .then((res) => res.json())
       .then((res) => {
