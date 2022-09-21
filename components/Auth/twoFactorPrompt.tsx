@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import OtpInput from "react-otp-input";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
-import Box from "@mui/material/Box";
-import toast from "react-hot-toast";
-import Button from "@mui/material/Button";
 
 /**
  * Verify if 2fa code is correct
