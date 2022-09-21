@@ -68,7 +68,9 @@ function ElevationScroll(props: any) {
   const badgeStyles = {
     "& .MuiBadge-badge": {
       transform: "none",
-      border: "2px solid white",
+      border:
+        "2px solid " +
+        (router.asPath === "/maintenance" ? colors.green[100] : "#fff"),
       width: 12,
       height: 12,
       borderRadius: "50%",
