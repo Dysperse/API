@@ -8,8 +8,9 @@ import { colors } from "../../lib/colors";
  * @param {any} props
  * @returns {any}
  */
-export function ProfileMenu(props: any) {
+export function ProfileMenu(props: any): any {
   const [open, setOpen] = React.useState<boolean>(false);
+
   useEffect(() => {
     document.querySelector(`meta[name="theme-color"]`) &&
       document
