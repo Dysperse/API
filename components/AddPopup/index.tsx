@@ -393,7 +393,7 @@ export default function AddPopup(props: any): JSX.Element {
         open
           ? global.user.darkMode
             ? "hsl(240, 11%, 20%)"
-            : "#cccccc"
+            : colors[themeColor][50]
           : global.user.darkMode
           ? "hsl(240, 11%, 10%)"
           : "#fff"

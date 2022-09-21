@@ -99,7 +99,7 @@ export default function Item({
           ? window.innerWidth > 900
             ? global.user.darkMode
               ? "hsl(240, 11%, 5%)"
-              : "#cccccc"
+              : colors[themeColor][50]
             : global.user.darkMode
             ? "hsl(240, 11%, 20%)"
             : colors[themeColor][50]

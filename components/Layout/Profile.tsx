@@ -18,7 +18,7 @@ export function ProfileMenu(props: any) {
           open
             ? global.user.darkMode
               ? "hsl(240, 11%, 10%)"
-              : "#cccccc"
+              : colors[themeColor][50]
             : global.user.darkMode
             ? "hsl(240, 11%, 10%)"
             : "#fff"
