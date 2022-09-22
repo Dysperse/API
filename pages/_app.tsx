@@ -89,7 +89,7 @@ function Loading(): JSX.Element {
           xl={3}
           sx={{ display: { xs: "none", sm: "block" } }}
         >
-          <Box sx={{ pl: 1, pt: { sm: 15 }, pl: { sm: 2 } }}>
+          <Box sx={{ pt: { sm: 15 }, pl: { sm: 2 } }}>
             <Skeleton
               variant="rectangular"
               animation="wave"
