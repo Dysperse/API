@@ -151,7 +151,7 @@ function House({ handleClose, data }: any): any {
       >
         <ListItem
           // className="content"
-          sx={{ gap: 1.5, pl: 0, py: 0 }}
+          sx={{ gap: 1.5, px: 0, py: 0 }}
           // sx={{ display: "flex", alignItems: "center", width: "100%" }}
         >
           <ListItemAvatar sx={{ width: "auto", minWidth: "auto" }}>
@@ -201,7 +201,7 @@ function House({ handleClose, data }: any): any {
                   }}
                 >
                   {data.permission == "member"
-                    ? "Read, write, and edit access"
+                    ? "Member"
                     : data.permission == "owner"
                     ? "Owner"
                     : "Read-only access"}
