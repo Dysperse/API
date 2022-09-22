@@ -74,7 +74,6 @@ function GenerateData({
   parent: string | number;
   emptyImage: string;
   emptyText: string;
-  title: string;
 }) {
   const [items, setItems] = useState<Item[]>(data);
 
