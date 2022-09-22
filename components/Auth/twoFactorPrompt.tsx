@@ -28,6 +28,9 @@ export function Prompt({
   const [buttonLoading, setButtonLoading] = useState(false);
   const [code, setCode] = useState("");
 
+  /**
+   * Handles verification of 2fa code
+   */
   const handleSubmit = () => {
     setButtonLoading(true);
     fetch(

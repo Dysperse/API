@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import { colors } from "../lib/colors";
 
+/**
+ * Changes the top app bar color
+ * @param open Is the modal open?
+ * @param nestedModals How many nested modals are open?
+ */
 export function useStatusBar(open: boolean, nestedModals = 0.5) {
   const tag: any = document.querySelector("meta[name=theme-color]");
   const isScrolledToTop = window.scrollY === 0;

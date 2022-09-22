@@ -498,6 +498,10 @@ export default function Categories() {
     </>
   );
 }
+
+/**
+ * Rooms popup
+ */
 function Rooms() {
   const { data, error } = useApi("property/rooms");
 
