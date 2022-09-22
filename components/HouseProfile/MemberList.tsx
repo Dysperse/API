@@ -13,7 +13,7 @@ import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
 import { AddPersonModal } from "./AddPersonModal";
-
+import type { Member as MemberType } from "../../types/houseProfile";
 /**
  * Check if a string is a valid email address
  * @param email Original email string
@@ -28,7 +28,13 @@ export function isEmail(email: string): boolean {
  * @param {any} {member}
  * @returns {any}
  */
-function Member({ setOpen, member }): any {
+function Member({
+  setOpen,
+  member,
+}: {
+  setOpen: (open: boolean) => void;
+  member: MemberType;
+}): JSX.Element {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   return deleted ? (
@@ -146,7 +152,13 @@ function Member({ setOpen, member }): any {
  * @returns {JSX.Element}
  */
 
-export function MemberList({ color, setOpen }: any): JSX.Element {
+export function MemberList({
+  color,
+  setOpen,
+}: {
+  color: string;
+  setOpen: (open: boolean) => void;
+}): JSX.Element {
   const { error, loading, data }: ApiResponse = useApi("property/members");
   const trigger = useMediaQuery("(max-width: 600px)");
   const images = data

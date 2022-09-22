@@ -81,7 +81,7 @@ function Room({ color, room }: { color: string; room: RoomType }): JSX.Element {
  * Room list popup found in house profile
  * @param color Theme color of home
  */
-export function RoomList({ color }: any) {
+export function RoomList({ color }: { color: string }) {
   const wheelGestures = WheelGesturesPlugin();
   const trigger = useMediaQuery("(max-width: 600px)");
   const { data }: ApiResponse = useApi("property/rooms");

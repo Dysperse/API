@@ -12,6 +12,7 @@ import React from "react";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
+import type { Item } from "../../types/item";
 
 /**
  * Description
@@ -20,7 +21,15 @@ import { Puller } from "../Puller";
  * @param {any} setItemData}
  * @returns {any}
  */
-export function EditButton({ styles, item, setItemData }: any): JSX.Element {
+export function EditButton({
+  styles,
+  item,
+  setItemData,
+}: {
+  styles: Object;
+  item: Item;
+  setItemData: (item: Item) => void;
+}): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 
   /**
@@ -41,12 +50,12 @@ export function EditButton({ styles, item, setItemData }: any): JSX.Element {
 
   const formik = useFormik({
     initialValues: {
-      categories: JSON.parse(item.category),
-      title: item.name,
+      categories: item.categories,
+      title: item.title,
       quantity: item.quantity,
     },
     onSubmit: (values: {
-      categories: Array<string>;
+      categories: string[];
       title: string;
       quantity: string;
     }) => {
