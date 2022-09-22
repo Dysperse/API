@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import type { List } from "../../types/list";
 
 /**
  * Create list modal
@@ -21,7 +22,17 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
  * @param items Items
  * @param setItems Set items
  */
-export function CreateListModal({ children, parent, items, setItems }: any) {
+export function CreateListModal({
+  children,
+  parent,
+  items,
+  setItems,
+}: {
+  children: JSX.Element;
+  parent: string | number;
+  items: List[];
+  setItems: (items: List[]) => void;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [customParent, setCustomParent] = useState(parent);

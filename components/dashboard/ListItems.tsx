@@ -19,14 +19,15 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { CreateListModal } from "./CreateListModal";
 import { GenerateListItem } from "./GenerateListItem";
+import type { Item, List } from "../../types/list";
 
 /**
  * Description
  * @param {any} blob
  * @param {any} name="list.png"
- * @returns {any}
+ * @returns {void}
  */
-function downloadBlob(blob, name = "list.png") {
+function downloadBlob(blob, name = "list.png"): void {
   // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)
   const blobUrl = URL.createObjectURL(blob);
 
@@ -69,10 +70,10 @@ function GenerateData({
   emptyText,
 }: {
   screenshotReady: boolean;
-  data: Array<any>;
+  data: Item[];
   parent: string | number;
-  emptyImage: string;
-  emptyText: string | JSX.Element;
+  emptyImage: JSX.Element;
+  emptyText: string;
   title: string;
 }) {
   const [items, setItems] = useState<any>(data);
@@ -97,30 +98,25 @@ function GenerateData({
           <Typography sx={{ display: "block" }}>{emptyText}</Typography>
         </Box>
       )}
+      {/* Group by completed === true */}
       {items
-        .filter((item: any) => !item.completed)
-        .map((list: any) => (
+        .sort((a, b) => {
+          if (a.completed === b.completed) {
+            return 0;
+          }
+          if (a.completed) {
+            return 1;
+          }
+          return -1;
+        })
+        .map((item: Item) => (
           <GenerateListItem
-            {...list}
-            key={list.id.toString()}
+            key={item.id.toString()}
             items={items}
-            title={list.name}
             setItems={setItems}
+            itemData={item}
           />
         ))}
-
-      {items
-        .filter((item: any) => item.completed)
-        .map((list: any) => (
-          <GenerateListItem
-            {...list}
-            key={list.id.toString()}
-            items={items}
-            title={list.name}
-            setItems={setItems}
-          />
-        ))}
-
       {items.length < 20 &&
         global.property.role !== "read-only" &&
         !screenshotReady && (
@@ -192,14 +188,14 @@ export function ListItems({
   lists,
   setLists,
 }: {
-  parent: any;
+  parent: string | number;
   description: string;
-  title: any;
-  emptyImage: any;
-  emptyText: any;
+  title: string;
+  emptyImage: string | JSX.Element;
+  emptyText: string | JSX.Element;
   data: Array<any>;
-  lists: any;
-  setLists: any;
+  lists: List[];
+  setLists: (lists: List[]) => void;
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [deleted, setDeleted] = React.useState(false);

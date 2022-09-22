@@ -9,6 +9,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import type { Item } from "../../types/list";
 
 /**
  * @description Generates a list item for shopping list / todo list
@@ -17,20 +18,12 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
  */
 export function GenerateListItem({
   items,
-  completed,
-  pinned,
   setItems,
-  title,
-  description,
-  id,
+  itemData,
 }: {
-  items: Array<any>;
-  completed: boolean;
-  pinned: boolean;
-  setItems: (items: Array<any>) => void;
-  title: string | JSX.Element;
-  description: string | JSX.Element;
-  id: string | number;
+  items: Item[];
+  setItems: (items: Item[]) => void;
+  itemData: Item;
 }): JSX.Element {
   const [index, setIndex] = React.useState<number>(1);
 
@@ -65,7 +58,7 @@ export function GenerateListItem({
       >
         <Box
           sx={{
-            background: colors[completed ? "red" : "blue"]["800"],
+            background: colors[itemData.completed ? "red" : "blue"]["800"],
             width: "100%",
             height: "100%",
             color: "#fff",
@@ -78,7 +71,7 @@ export function GenerateListItem({
           }}
         >
           <span className="material-symbols-rounded">
-            {completed ? "delete" : "check"}
+            {itemData.completed ? "delete" : "check"}
           </span>
         </Box>
         <ListItem
@@ -115,10 +108,13 @@ export function GenerateListItem({
               }}
               onClick={() => {
                 if (global.property.role !== "read-only") {
-                  deleteItem(completed, parseInt(id.toString(), 10));
+                  deleteItem(
+                    itemData.completed,
+                    parseInt(itemData.id.toString(), 10)
+                  );
                   setItems(
                     items.map((item: any) => {
-                      if (item.id === id) {
+                      if (item.id === itemData.id) {
                         item.completed = !item.completed;
                       }
                       return item;
@@ -131,7 +127,7 @@ export function GenerateListItem({
                 style={{ marginLeft: "-2px" }}
                 className="material-symbols-outlined"
               >
-                {completed ? "task_alt" : "radio_button_unchecked"}
+                {itemData.completed ? "task_alt" : "radio_button_unchecked"}
               </span>
             </IconButton>
           </ListItemIcon>
@@ -153,11 +149,11 @@ export function GenerateListItem({
                   toast.success("Copied to clipboard");
                 }}
               >
-                {title}
+                {itemData.name}
               </CardActionArea>
             }
             secondary={
-              description ? (
+              itemData.details ? (
                 <CardActionArea
                   sx={{
                     borderRadius: 3,
@@ -174,12 +170,12 @@ export function GenerateListItem({
                     toast.success("Copied to clipboard");
                   }}
                 >
-                  {description}
+                  {itemData.details}
                 </CardActionArea>
               ) : null
             }
           />
-          {pinned && (
+          {itemData.pinned && (
             <ListItemIcon sx={{ ml: -1 }}>
               <IconButton
                 disableRipple

@@ -1,9 +1,9 @@
 /**
  * Overrides the default browser back button
  * @param {any} callback
- * @returns {any}
+ * @returns {void}
  */
-export const neutralizeBack = (callback: any) => {
+export const neutralizeBack = (callback: () => void): void => {
   window.history.pushState(null, "", window.location.href);
   window.onpopstate = () => {
     window.history.pushState(null, "", window.location.href);

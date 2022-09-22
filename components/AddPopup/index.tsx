@@ -194,25 +194,25 @@ function MoreRooms(): JSX.Element {
           ) : (
             <Grid container sx={{ p: 2 }}>
               <AddItemOption
-              toggleDrawer={() => setOpen(false)}
+                toggleDrawer={() => setOpen(false)}
                 title="Storage room"
                 icon={
                   <span className="material-symbols-rounded">inventory_2</span>
                 }
               />
               <AddItemOption
-              toggleDrawer={() => setOpen(false)}
+                toggleDrawer={() => setOpen(false)}
                 title="Camping"
                 icon={<span className="material-symbols-rounded">camping</span>}
               />
               <AddItemOption
-              toggleDrawer={() => setOpen(false)}
+                toggleDrawer={() => setOpen(false)}
                 title="Garden"
                 icon={<span className="material-symbols-rounded">yard</span>}
               />
               {data.map((room: Room) => (
                 <AddItemOption
-                toggleDrawer={() => setOpen(false)}
+                  toggleDrawer={() => setOpen(false)}
                   title={room.id.toString()}
                   key={room.id.toString()}
                   alias={room.name}
@@ -303,7 +303,11 @@ function MoreRooms(): JSX.Element {
  * @param toggleDrawer Function to toggle the drawer
  * @returns JSX.Element
  */
-function Content({ toggleDrawer }: any): JSX.Element {
+function Content({
+  toggleDrawer,
+}: {
+  toggleDrawer: (open: boolean) => void;
+}): JSX.Element {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
@@ -372,7 +376,11 @@ function Content({ toggleDrawer }: any): JSX.Element {
  * @returns JSX.Element
  */
 
-export default function AddPopup(props: any): JSX.Element {
+export default function AddPopup({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 
   useHotkeys("ctrl+s", (e) => {
@@ -415,7 +423,7 @@ export default function AddPopup(props: any): JSX.Element {
           }
         }}
       >
-        {props.children}
+        {children}
       </div>
 
       <SwipeableDrawer
@@ -441,11 +449,7 @@ export default function AddPopup(props: any): JSX.Element {
           },
         }}
         open={open}
-        onClose={() => {
-          // router.push(window.location.pathname);
-          // router.reload(window.location.pathname);
-          setOpen(false);
-        }}
+        onClose={() => setOpen(false)}
         onOpen={toggleDrawer(true)}
         ModalProps={{
           keepMounted: true,
