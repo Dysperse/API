@@ -45,7 +45,7 @@ function SettingsIcon(): JSX.Element {
 function Item({
   children,
   shortcut,
-  onSelect = () => {},
+  onSelect = () => null,
 }: {
   children: React.ReactNode;
   shortcut?: string;
@@ -304,10 +304,8 @@ export function SearchPopup() {
       </Tooltip>
       <SwipeableDrawer
         open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-        onOpen={() => {}}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
         disableSwipeToOpen
         anchor="bottom"
         PaperProps={{

@@ -15,4 +15,4 @@ export const neutralizeBack = (callback: any) => {
  * Restores the default browser back button
  * @returns {any}
  */
-export const revivalBack = () => {};
+export const revivalBack = () => null;

@@ -182,7 +182,7 @@ function SwipeableTextMobileStepper() {
           <FormControl
             onChange={(e: any) => {
               setHouseType(e.target.value);
-              updateSettings("type", e.target.value, false, () => {}, true);
+              updateSettings("type", e.target.value, false, () => null, true);
             }}
           >
             <RadioGroup

@@ -133,7 +133,7 @@ export function BottomNav({ maintenance }: any) {
       <Snackbar
         open={window && window.navigator.onLine === false}
         autoHideDuration={6000}
-        onClose={() => {}}
+        onClose={() => null}
         sx={{ mb: trigger ? 6.5 : 9, transition: "all .3s" }}
         message="You're offline. Please check your network connection."
       />
