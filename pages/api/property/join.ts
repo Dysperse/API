@@ -22,7 +22,7 @@ const handler = async (req: any, res: any) => {
 
   const data: any | null = await prisma.propertyInvite.update({
     where: {
-      accessToken: req.query.accessToken,
+      accessToken: req.query.accessToken1,
     },
     data: {
       selected: true,

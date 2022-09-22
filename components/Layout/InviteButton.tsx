@@ -103,6 +103,7 @@ function House({ handleClose, data }: any): any {
             setLoading(true);
             fetchApiWithoutHook("property/join", {
               email: global.user.email,
+              accessToken1: data.accessToken,
             })
               .then((res: any) => {
                 toast(
