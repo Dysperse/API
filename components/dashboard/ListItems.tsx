@@ -221,7 +221,7 @@ export function ListItems({
   });
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const ref: any = createRef();
+  const ref = createRef<HTMLDivElement>();
   const [image, takeScreenshot] = useScreenshot();
   const [screenshotReady, setScreenshotReady] = useState(false);
 
