@@ -311,7 +311,7 @@ function Render({
   // set CSS variable to <html>
   document.documentElement.style.setProperty(
     "--theme",
-    hex2rgba(colors[themeColor]["700"], 0.15)
+    hex2rgba(colors[themeColor]["100"], 0.5)
   );
   return (
     <>

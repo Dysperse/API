@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { styled } from "@mui/material/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
@@ -385,20 +386,7 @@ export default function AddPopup(props: any): JSX.Element {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        open
-          ? global.user.darkMode
-            ? "hsl(240, 11%, 20%)"
-            : colors[themeColor][50]
-          : global.user.darkMode
-          ? "hsl(240, 11%, 10%)"
-          : "#fff"
-      );
-  }, [open]);
+  useStatusBar(open);
 
   /**
    * Toggles the drawer's open state
