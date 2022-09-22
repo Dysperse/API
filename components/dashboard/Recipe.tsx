@@ -48,10 +48,10 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
             <iframe
               title={recipe.strMeal}
               sandbox="allow-popups allow-popups-to-escape-sandbox allow-pointer-lock allow-same-origin allow-top-navigation"
-              src={
-                recipe.strYoutube.replace("/watch?v=", "/embed/") +
-                "?autoplay=1&cc_load_policy=1"
-              }
+              src={`${recipe.strYoutube.replace(
+                "/watch?v=",
+                "/embed/"
+              )}?autoplay=1&cc_load_policy=1`}
               width="100%"
               height="300"
               style={{ borderRadius: "30px 30px 0 0" }}
