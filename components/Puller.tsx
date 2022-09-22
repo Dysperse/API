@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import { colors } from "../lib/colors";
 
 /**
@@ -7,9 +6,9 @@ import { colors } from "../lib/colors";
  */
 export function Puller({ variant }: { variant?: "side" }) {
   return (
-    <Box
+    <div
       className={variant === "side" ? "puller-side" : "puller"}
-      sx={{
+      style={{
         background: global.user
           ? global.user.darkMode
             ? "hsl(240, 11%, 35%)"

@@ -358,13 +358,7 @@ export function SearchPopup() {
               }}
             />
             <Command.List>
-              <Command.Empty
-                style={
-                  {
-                    // height: "auto",
-                  }
-                }
-              >
+              <Command.Empty>
                 <Box
                   sx={{
                     p: 0,
