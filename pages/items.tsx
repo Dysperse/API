@@ -114,7 +114,7 @@ function CategoryModal({ category }: { category: string }) {
               : "rgba(200,200,200,.4)",
           },
           ...(theme === "dark" && {
-            "&:hover .avatar": {
+            "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",
             },
           }),
@@ -219,7 +219,7 @@ function Action({ count = 0, icon, primary, href, onClick }: any) {
             : "rgba(200,200,200,.4)",
         },
         ...(theme === "dark" && {
-          "&:hover .avatar": {
+          "&:hover .MuiAvatar-root": {
             background: "hsl(240,11%,27%)",
           },
         }),
@@ -227,7 +227,6 @@ function Action({ count = 0, icon, primary, href, onClick }: any) {
     >
       <ListItemAvatar>
         <Avatar
-          className="avatar"
           sx={{
             color: global.user.darkMode ? "#fff" : colors[themeColor][900],
             borderRadius: 4,
