@@ -161,7 +161,7 @@ function House({ handleClose, data }: any): any {
                 backgroundColor: colors[data.profile.color]["A700"],
                 marginRight: 1,
               }}
-            ></Box>
+            />
           </ListItemAvatar>
           <ListItemText
             primary={
