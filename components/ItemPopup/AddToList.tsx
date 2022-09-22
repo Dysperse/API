@@ -78,7 +78,7 @@ function RoomList({
  * @param {any} item}
  * @returns {any}
  */
-export function AddToListModal({ styles, item }: any) {
+export function AddToListModal({ styles, item }: { styles: any; item: Item }) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open, 1);
 
