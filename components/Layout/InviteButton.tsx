@@ -127,8 +127,11 @@ function House({ handleClose, data }: any): any {
         }}
         sx={{
           transition: "none",
-          "& .content": { transition: "all .2s" },
-          "&:active .content": { transform: "scale(.95)", transition: "none" },
+          "& .MuiListItem-root": { transition: "all .2s" },
+          "&:active .MuiListItem-root": {
+            transform: "scale(.95)",
+            transition: "none",
+          },
           "&:active": {
             background: `${
               colors[themeColor][global.user.darkMode ? 800 : 100]
@@ -147,7 +150,7 @@ function House({ handleClose, data }: any): any {
         }}
       >
         <ListItem
-          className="content"
+          // className="content"
           sx={{ gap: 1.5, pl: 0, py: 0 }}
           // sx={{ display: "flex", alignItems: "center", width: "100%" }}
         >

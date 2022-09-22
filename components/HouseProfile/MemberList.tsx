@@ -189,7 +189,7 @@ export function MemberList({ color, setOpen }: any): JSX.Element {
     />
   ) : (
     <>
-      <Box style={{ width: "100%", display: "flex", marginTop: "-40px" }}>
+      <Box sx={{ width: "100%", display: "flex", marginTop: "-40px" }}>
         <AddPersonModal
           color={color}
           members={loading ? [] : data.map((member) => member.user.email)}
