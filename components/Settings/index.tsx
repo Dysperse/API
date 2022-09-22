@@ -12,6 +12,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
@@ -129,11 +130,7 @@ function Logout() {
  */
 function SettingsMenu({ content, icon, primary, secondary }: any) {
   const [open, setOpen] = useState<boolean>(false);
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute("content", open ? "#9c9d9c" : "#b8b9b8");
-  });
+  useStatusBar(open, 1);
 
   return (
     <>
@@ -271,19 +268,8 @@ export default function FullScreenDialog({ children }: any) {
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+  useStatusBar(open);
 
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        open
-          ? global.user.darkMode
-            ? "hsl(240, 11%, 20%)"
-            : "#b8b9b8"
-          : "#b8b9b8"
-      );
-  });
   useHotkeys("ctrl+,", (e) => {
     e.preventDefault();
     document.getElementById("settingsTrigger")?.click();

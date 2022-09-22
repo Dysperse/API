@@ -21,7 +21,11 @@ export function useStatusBar(open: boolean, nestedModals = 0.5) {
     } else {
       tag.setAttribute(
         "content",
-        isScrolledToTop ? darkModeResets.top : darkModeResets.bottom
+        nestedModals === 0.5
+          ? isScrolledToTop
+            ? darkModeResets.top
+            : darkModeResets.bottom
+          : colors[themeColor][(nestedModals - 0.5) * 100]
       );
     }
   }, [

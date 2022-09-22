@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Settings from "../Settings/index";
 import Box from "@mui/material/Box";
 import { colors } from "../../lib/colors";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 /**
  * Profile menu
@@ -11,21 +12,7 @@ import { colors } from "../../lib/colors";
 export function ProfileMenu(props: any): any {
   const [open, setOpen] = React.useState<boolean>(false);
 
-  useEffect(() => {
-    document.querySelector(`meta[name="theme-color"]`) &&
-      document
-        .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute(
-          "content",
-          open
-            ? global.user.darkMode
-              ? "hsl(240, 11%, 10%)"
-              : colors[themeColor][50]
-            : global.user.darkMode
-            ? "hsl(240, 11%, 10%)"
-            : "#fff"
-        );
-  }, [open]);
+  useStatusBar(open);
 
   return (
     <Settings>
