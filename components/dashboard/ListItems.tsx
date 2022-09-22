@@ -72,7 +72,7 @@ function GenerateData({
   screenshotReady: boolean;
   data: Item[];
   parent: string | number;
-  emptyImage: JSX.Element;
+  emptyImage: string;
   emptyText: string;
   title: string;
 }) {
@@ -191,8 +191,8 @@ export function ListItems({
   parent: string | number;
   description: string;
   title: string;
-  emptyImage: string | JSX.Element;
-  emptyText: string | JSX.Element;
+  emptyImage: string;
+  emptyText: string;
   data: Array<any>;
   lists: List[];
   setLists: (lists: List[]) => void;
