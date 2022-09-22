@@ -81,7 +81,7 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
           }),
           pl: collapsed ? 1.8 : 2,
           color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
-          "& span:not(.badge, .badge *)": {
+          "& span:not(.MuiBadge-root, .MuiBadge-root *)": {
             color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
           },
           borderRadius: collapsed ? 6 : 3,
@@ -100,7 +100,7 @@ function CreateRoom({ collapsed }: { collapsed: boolean }) {
               ? "hsl(240, 11%, 17%)"
               : "rgba(200,200,200,.3)",
           },
-          "&:hover span:not(.badge, .badge *)": {
+          "&:hover span:not(.MuiBadge-root, .MuiBadge-root *)": {
             color: `${global.user.darkMode ? grey[200] : grey[900]}!important`,
           },
         }}
@@ -209,7 +209,7 @@ const ListItem = React.memo(function ListItem({
         }),
         pl: collapsed ? null : 2,
         color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
-        "& span:not(.badge, .badge *)": {
+        "& span:not(.MuiBadge-root, .MuiBadge-root *)": {
           color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
         },
         borderRadius: collapsed ? 8 : 3,
@@ -228,7 +228,7 @@ const ListItem = React.memo(function ListItem({
             ? "hsl(240, 11%, 17%)"
             : "rgba(200,200,200,.3)",
         },
-        "&:hover span:not(.badge, .badge *)": {
+        "&:hover span:not(.MuiBadge-root, .MuiBadge-root *)": {
           color: `${global.user.darkMode ? grey[200] : grey[900]}!important`,
         },
         ...(router.asPath === asHref && {
@@ -247,17 +247,17 @@ const ListItem = React.memo(function ListItem({
             color: colors[global.themeColor][global.user.darkMode ? 100 : 900],
           },
 
-          "& span:not(.badge, .badge *)": {
+          "& span:not(.MuiBadge-root, .MuiBadge-root *)": {
             color: `${
               colors[global.themeColor][global.user.darkMode ? 100 : 800]
             }!important`,
           },
-          "&:hover span:not(.badge, .badge *)": {
+          "&:hover span:not(.MuiBadge-root, .MuiBadge-root *)": {
             color: `${
               colors[global.themeColor][global.user.darkMode ? 100 : 800]
             }!important`,
           },
-          "&:active span:not(.badge, .badge *)": {
+          "&:active span:not(.MuiBadge-root, .MuiBadge-root *)": {
             color: `${
               colors[global.themeColor][global.user.darkMode ? 200 : 900]
             }!important`,
@@ -445,7 +445,6 @@ export function DrawerListItems({
                 Maintenance
                 {!collapsed && (
                   <Badge
-                    className="badge"
                     sx={{
                       ml: "auto",
                       mr: 1.2,
@@ -472,7 +471,6 @@ export function DrawerListItems({
             icon={
               collapsed ? (
                 <Badge
-                  className="badge"
                   sx={{
                     ml: "auto",
                     mr: 1.2,
@@ -676,7 +674,7 @@ export function DrawerListItems({
             }),
             pl: 2,
             color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
-            "& span:not(.badge, .badge *)": {
+            "& span:not(.MuiBadge-root, .MuiBadge-root *)": {
               color: `${
                 global.user.darkMode ? grey[200] : "#606060"
               }!important`,
@@ -699,7 +697,7 @@ export function DrawerListItems({
                 ? "hsl(240, 11%, 17%)"
                 : "rgba(200,200,200,.3)",
             },
-            "&:hover span:not(.badge, .badge *)": {
+            "&:hover span:not(.MuiBadge-root, .MuiBadge-root *)": {
               color: `${
                 global.user.darkMode ? grey[200] : grey[900]
               }!important`,
