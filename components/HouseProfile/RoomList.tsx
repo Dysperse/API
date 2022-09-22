@@ -119,6 +119,7 @@ export function RoomList({ color }: any) {
         display: "flex",
         gap: 2,
         alignItems: "center",
+        width: "100%",
       }}
     >
       {!trigger && (
@@ -138,14 +139,17 @@ export function RoomList({ color }: any) {
             <Box
               className="embla__slide"
               sx={{
-                p: 0.5,
                 flex: "0 0 100%",
                 userSelect: "none",
+                width: "100%",
+                p: 3,
                 borderRadius: 5,
                 background: colors[color][100],
               }}
             >
-              You haven&apos;t created any rooms yet
+              <div style={{ width: "100%" }}>
+                You haven&apos;t created any rooms yet
+              </div>
             </Box>
           ) : (
             images.map((step, index) => (

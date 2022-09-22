@@ -27,7 +27,7 @@ import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
-
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 /**
  * Color component for house profile
  * @param {any} {s
@@ -146,10 +146,23 @@ function House({ handleClose, data }: any): any {
           }),
         }}
       >
-        <Box
+        <ListItem
           className="content"
-          sx={{ display: "flex", alignItems: "center", width: "100%" }}
+          sx={{ gap: 1.5, pl: 0, py: 0 }}
+          // sx={{ display: "flex", alignItems: "center", width: "100%" }}
         >
+          <ListItemAvatar sx={{ width: "auto", minWidth: "auto" }}>
+            <Box
+              sx={{
+                width: 20,
+                height: 20,
+                mt: -2.5,
+                borderRadius: "50%",
+                backgroundColor: colors[data.profile.color]["A700"],
+                marginRight: 1,
+              }}
+            ></Box>
+          </ListItemAvatar>
           <ListItemText
             primary={
               <>
@@ -205,7 +218,7 @@ function House({ handleClose, data }: any): any {
               </span>
             </LoadingButton>
           </ListItemIcon>
-        </Box>
+        </ListItem>
       </ListItem>
       <SwipeableDrawer
         anchor="bottom"
