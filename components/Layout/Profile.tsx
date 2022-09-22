@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import Settings from "../Settings/index";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
+import React from "react";
 import { useStatusBar } from "../../hooks/useStatusBar";
+import Settings from "../Settings/index";
 
 /**
  * Profile menu

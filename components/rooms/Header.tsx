@@ -1,15 +1,9 @@
-import Avatar from "@mui/material/Avatar";
-import CircularProgress from "@mui/material/CircularProgress";
-import ListItem from "@mui/material/ListItem";
 import Box from "@mui/material/Box";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import { decode } from "js-base64";
-import { colors } from "../../lib/colors";
-import { useRouter } from "next/router";
-import { useState } from "react";
 import BoringAvatar from "boring-avatars";
+import { decode } from "js-base64";
 /**
  * Header component for the room
  * @param useAlias
@@ -25,8 +19,6 @@ export function Header({
   room: string;
   itemCount: number;
 }) {
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
   return (
     <ListItem
       sx={{

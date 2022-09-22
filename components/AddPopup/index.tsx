@@ -9,20 +9,18 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { styled } from "@mui/material/styles";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
-import type { Room } from "../../types/room";
 import React, { useEffect } from "react";
-import useSWR from "swr";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useApi } from "../../hooks/useApi";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
+import type { Room } from "../../types/room";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";
-import { useApi } from "../../hooks/useApi";
-import type { ApiResponse } from "../../types/client";
-import { useHotkeys } from "react-hotkeys-hook";
 
 const Root = styled("div")(() => ({
   height: "100%",
