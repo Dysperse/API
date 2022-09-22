@@ -30,6 +30,7 @@ import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
+import type { Item as ItemType } from "../../types/item";
 
 /**
  * Item popup

@@ -15,6 +15,7 @@ import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import type { ApiResponse } from "../../types/client";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import type { List as ListType } from "../../types/list";
+import type { Item as ItemType } from "../../types/item";
 
 /**
  * Description
@@ -78,7 +79,13 @@ function RoomList({
  * @param {any} item}
  * @returns {any}
  */
-export function AddToListModal({ styles, item }: { styles: any; item: Item }) {
+export function AddToListModal({
+  styles,
+  item,
+}: {
+  styles: any;
+  item: ItemType;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open, 1);
 
