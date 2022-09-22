@@ -24,7 +24,7 @@ import AccountSettings from "./AccountSettings";
 import AppearanceSettings from "./AppearanceSettings";
 import Notifications from "./Notifications";
 import TwoFactorAuth from "./TwoFactorAuth";
-import { UpgradeBanner } from "./UpgradeBanner";
+import { UpgradeBanner } from "./ItemBanner";
 
 /**
  * Logout modal
