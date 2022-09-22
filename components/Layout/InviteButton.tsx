@@ -538,7 +538,6 @@ export function InviteButton() {
    */
   const handleClose = () => {
     setAnchorEl(null);
-    handleClick = () => {};
   };
   const popoverOpen = Boolean(anchorEl);
   const id = popoverOpen ? "simple-popover" : undefined;
@@ -549,8 +548,6 @@ export function InviteButton() {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {}, [open]);
 
   const trigger = useMediaQuery("(min-width: 600px)");
 

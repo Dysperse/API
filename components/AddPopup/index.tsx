@@ -36,7 +36,7 @@ const Root = styled("div")(() => ({
  */
 function AddItemOption({
   alias,
-  toggleDrawer,
+  toggleDrawer = () => {},
   icon,
   title,
 }: {
@@ -194,25 +194,21 @@ function MoreRooms(): JSX.Element {
           ) : (
             <Grid container sx={{ p: 2 }}>
               <AddItemOption
-                toggleDrawer={() => {}}
                 title="Storage room"
                 icon={
                   <span className="material-symbols-rounded">inventory_2</span>
                 }
               />
               <AddItemOption
-                toggleDrawer={() => {}}
                 title="Camping"
                 icon={<span className="material-symbols-rounded">camping</span>}
               />
               <AddItemOption
-                toggleDrawer={() => {}}
                 title="Garden"
                 icon={<span className="material-symbols-rounded">yard</span>}
               />
               {data.map((room: Room) => (
                 <AddItemOption
-                  toggleDrawer={() => {}}
                   title={room.id.toString()}
                   key={room.id.toString()}
                   alias={room.name}
