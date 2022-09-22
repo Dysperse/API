@@ -76,7 +76,7 @@ function GenerateData({
   emptyText: string;
   title: string;
 }) {
-  const [items, setItems] = useState<any>(data);
+  const [items, setItems] = useState<Item[]>(data);
 
   return (
     <>
