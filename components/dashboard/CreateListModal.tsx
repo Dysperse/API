@@ -35,8 +35,8 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
     },
     onSubmit: (values: { name: string; details: string }) => {
       setLoading(true);
-      fetchApiWithoutHook("property/inventory/trash", {
-        list: customParent,
+      fetchApiWithoutHook("property/lists/createItem", {
+        list: parent,
         name: values.name,
         details: values.details,
         pinned: pinned ? "true" : "false",
@@ -49,7 +49,10 @@ export function CreateListModal({ children, parent, items, setItems }: any) {
           toast("Created item!");
           setShowDetails(false);
         })
-        .catch((err: any) => alert(JSON.stringify(err)));
+        .catch((err: any) => {
+          alert(JSON.stringify(err));
+          setLoading(false);
+        });
     },
   });
 
