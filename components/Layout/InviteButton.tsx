@@ -76,7 +76,7 @@ function House({ handleClose, data }: any): any {
   useStatusBar(open, 1);
   const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [color, setColor] = React.useState<string>(data.color ?? "red");
+  const [color, setColor] = React.useState<string>(data.profile.color ?? "red");
   const [propertyType, setPropertyType] = React.useState(
     global.property.profile.type
   );
@@ -634,7 +634,7 @@ export function InviteButton() {
           }}
           noWrap
         >
-          {global.property.profile.name || "Untitled property"}
+          {global.property.profile.name || "My property"}
         </Typography>
         <span className="material-symbols-outlined">expand_more</span>
       </Button>

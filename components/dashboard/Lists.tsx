@@ -48,7 +48,7 @@ function ListTip({ name, lists, setLists, tip }) {
         alignItems: "center",
         display: "flex",
         borderRadius: 5,
-        mb: { xs: 2, sm: 0 },
+        mb: { xs: 2, sm: 1 },
         background: colors.orange[global.user.darkMode ? 900 : 50],
         color: colors.orange[global.user.darkMode ? 100 : 900],
       }}
