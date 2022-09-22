@@ -137,7 +137,6 @@ export function RoomList({ color }: any) {
         <div className="embla__container">
           {images.length === 0 ? (
             <Box
-              className="embla__slide"
               sx={{
                 flex: "0 0 100%",
                 userSelect: "none",
@@ -155,7 +154,6 @@ export function RoomList({ color }: any) {
             images.map((step, index) => (
               <Box
                 key={Math.random().toString()}
-                className="embla__slide"
                 sx={{
                   pl: index == 0 ? 0 : 2,
                   flex: "0 0 50%",

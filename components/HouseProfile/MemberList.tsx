@@ -218,7 +218,6 @@ export function MemberList({ color, setOpen }: any): JSX.Element {
             {images.map((step, index) => (
               <Box
                 key={Math.random().toString()}
-                className="embla__slide"
                 sx={{
                   pl: index == 0 ? 0 : 2,
                   flex: "0 0 100%",
