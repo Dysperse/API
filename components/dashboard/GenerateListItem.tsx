@@ -170,10 +170,7 @@ export function GenerateListItem({
                       background: "transparent!important",
                     },
                   }}
-                  onClick={(e: any) => {
-                    navigator.clipboard.writeText(e.target.innerText);
-                    toast.success("Copied to clipboard");
-                  }}
+                  onClick={copyToClipboard}
                 >
                   {itemData.details}
                 </CardActionArea>
