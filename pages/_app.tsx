@@ -89,7 +89,7 @@ function Loading(): JSX.Element {
           xl={3}
           sx={{ display: { xs: "none", sm: "block" } }}
         >
-          <Box sx={{ pl: 1 }}>
+          <Box sx={{ pl: 1, pt: { sm: 15 }, pl: { sm: 2 } }}>
             <Skeleton
               variant="rectangular"
               animation="wave"
@@ -106,7 +106,7 @@ function Loading(): JSX.Element {
           </Box>
         </Grid>
         <Grid item xs={12} sm={10} xl={9}>
-          <Container sx={{ mt: 5 }}>
+          <Container sx={{ mt: { xs: 5, sm: 15 } }}>
             <Grid container spacing={2.2}>
               {[...new Array(10)].map(() => (
                 <Grid item key={Math.random().toString()} xs={12} sm={6} xl={4}>

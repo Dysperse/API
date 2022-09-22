@@ -238,7 +238,7 @@ const ListItem = React.memo(function ListItem({
           }  0%, ${
             global.user.darkMode
               ? "hsl(240, 11%, 20%)"
-              : colors[themeColor][100]
+              : colors[themeColor][200]
           } 100%)`,
           "&:hover,&:focus": {
             backgroundColor: global.user.darkMode
@@ -367,11 +367,11 @@ export function DrawerListItems({
                     background: `linear-gradient(45deg, ${
                       global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][200]
+                        : colors[themeColor][100]
                     }  0%, ${
                       global.user.darkMode
                         ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][500]
+                        : colors[themeColor][300]
                     } 100%)`,
                   }),
                   color: global.user.darkMode
