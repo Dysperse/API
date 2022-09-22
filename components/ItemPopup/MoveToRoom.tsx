@@ -13,6 +13,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 /**
  * @description A room
@@ -87,6 +88,7 @@ function Room({
  */
 export function MoveToRoom({ styles, item, setDeleted, setDrawerState }) {
   const [open, setOpen] = useState<boolean>(false);
+  useStatusBar(open, 1);
 
   return (
     <>

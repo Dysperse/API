@@ -6,6 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 /**
  * Share modal
@@ -37,6 +38,8 @@ export function ShareModal({
   const handleClose = () => {
     setOpen(false);
   };
+  useStatusBar(open, 1);
+
   return (
     <>
       <Dialog

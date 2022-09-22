@@ -15,6 +15,7 @@ import { mutate } from "swr";
 import { Puller } from "../Puller";
 import Link from "@mui/material/Link";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 const useStyles = createStyles(() => ({
   outside: {},
@@ -120,6 +121,7 @@ function CalendarFeedModal(): JSX.Element {
 function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
   const [open, setOpen] = useState(false);
   const { classes, cx } = useStyles();
+  useStatusBar(open, 1);
 
   return (
     <>
@@ -256,6 +258,7 @@ function FrequencySetting({ name, formik }: { name: string; formik: any }) {
 function CreateMaintenanceModal() {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  useStatusBar(open);
 
   const formik = useFormik({
     initialValues: {
