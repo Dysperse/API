@@ -77,7 +77,11 @@ function Loading(): JSX.Element {
         </Toolbar>
       </AppBar>
 
-      <Grid container spacing={2} sx={{ mt: 10, width: "100%", mx: "auto" }}>
+      <Grid
+        container
+        spacing={{ xs: 0, sm: 2 }}
+        sx={{ mt: 10, width: "100%", mx: "auto" }}
+      >
         <Grid
           item
           xs={0}
