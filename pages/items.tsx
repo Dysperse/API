@@ -177,10 +177,13 @@ function CategoryList() {
  * @param {string} href - The room's link
  * @param {Function} onClick - Callback function for the room's click event
  */
-function Action({ icon, primary, href, onClick }: any) {
+function Action({ count = 0, icon, primary, href, onClick }: any) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
-
+  const itemCount =
+    count && count.byRoom[primary.toLowerCase()]
+      ? count.byRoom[primary.toLowerCase()]
+      : 0;
   return (
     <ListItem
       disableRipple
@@ -243,11 +246,11 @@ function Action({ icon, primary, href, onClick }: any) {
       </ListItemAvatar>
       <ListItemText
         primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
-        // secondary={
-        //   <Typography sx={{ fontWeight: "400", fontSize: "15px" }}>
-        //     {secondary}
-        //   </Typography>
-        // }
+        secondary={
+          <Typography sx={{ fontWeight: "400", fontSize: "15px" }}>
+            {itemCount} item{itemCount !== 1 && "s"}
+          </Typography>
+        }
       />
     </ListItem>
   );
@@ -267,13 +270,10 @@ export default function Categories() {
     setAnchorEl(null);
   };
   const [viewBy, setViewBy] = React.useState("room");
-  const { data, error }: ApiResponse = useApi("property/rooms");
+  const { data } = useApi("property/inventory/count");
 
   return (
     <>
-      {error && (
-        <ErrorHandler error="An error occured while trying to fetch your items" />
-      )}
       <FloatingActionButton />
       <Menu
         id="basic-menu"
@@ -348,6 +348,7 @@ export default function Categories() {
                 px: 5,
                 borderRadius: 999,
                 height: 40,
+                borderWidth: "2px!important",
                 transition: "none!important",
                 width: 150,
                 whiteSpace: "nowrap",
@@ -378,6 +379,7 @@ export default function Categories() {
               sx={{
                 px: 5,
                 height: 40,
+                borderWidth: "2px!important",
                 borderRadius: 999,
                 transition: "none!important",
                 width: 150,
@@ -409,40 +411,68 @@ export default function Categories() {
         </Box>
         {viewBy === "room" ? (
           <>
-            <Action href="/rooms/kitchen" icon="oven_gen" primary="Kitchen" />
+            <Action
+              href="/rooms/kitchen"
+              icon="oven_gen"
+              primary="Kitchen"
+              count={data}
+            />
             <Action
               href="/rooms/bedroom"
               icon="bedroom_parent"
               primary="Bedroom"
+              count={data}
             />
-            <Action href="/rooms/bathroom" icon="bathroom" primary="Bathroom" />
-            <Action href="/rooms/garage" icon="garage" primary="Garage" />
-            <Action href="/rooms/dining" icon="dining" primary="Dining room" />
-            <Action href="/rooms/living" icon="living" primary="Living room" />
+            <Action
+              count={data}
+              href="/rooms/bathroom"
+              icon="bathroom"
+              primary="Bathroom"
+            />
+            <Action
+              count={data}
+              href="/rooms/garage"
+              icon="garage"
+              primary="Garage"
+            />
+            <Action
+              count={data}
+              href="/rooms/dining"
+              icon="dining"
+              primary="Dining room"
+            />
+            <Action
+              count={data}
+              href="/rooms/living"
+              icon="living"
+              primary="Living room"
+            />
             <Action
               href="/rooms/laundry"
+              count={data}
               icon="local_laundry_service"
               primary="Laundry room"
             />
             <Action
               href="/rooms/storage"
+              count={data}
               icon="inventory_2"
               primary="Storage room"
             />
-            <Action href="/rooms/garden" icon="yard" primary="Garden" />
-            <Action href="/rooms/camping" icon="camping" primary="Camping" />
+            <Action
+              href="/rooms/garden"
+              count={data}
+              icon="yard"
+              primary="Garden"
+            />
+            <Action
+              href="/rooms/camping"
+              count={data}
+              icon="camping"
+              primary="Camping"
+            />
             <Divider sx={{ my: 1 }} />
-            {data &&
-              data.map((room: any) => (
-                <Action
-                  href={`/rooms/${encode(
-                    `${room.id},${room.name}`
-                  ).toString()}?custom=true`}
-                  icon="label"
-                  primary={room.name}
-                  key={room.id.toString()}
-                />
-              ))}
+            <Rooms />
             <Action
               onClick={() =>
                 document.getElementById("setCreateRoomModalOpen")?.click()
@@ -465,6 +495,28 @@ export default function Categories() {
           <CategoryList />
         )}
       </Container>
+    </>
+  );
+}
+function Rooms() {
+  const { data, error } = useApi("property/rooms");
+
+  return (
+    <>
+      {data &&
+        data.map((room: any) => (
+          <Action
+            href={`/rooms/${encode(
+              `${room.id},${room.name}`
+            ).toString()}?custom=true`}
+            icon="label"
+            primary={room.name}
+            key={room.id.toString()}
+          />
+        ))}
+      {error && (
+        <ErrorHandler error="An error occured while trying to fetch your items" />
+      )}
     </>
   );
 }

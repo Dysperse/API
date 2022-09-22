@@ -10,7 +10,6 @@ import type { ApiResponse } from "../../types/client";
  */
 export function UpgradeBanner() {
   const { data }: ApiResponse = useApi("property/inventory/count");
-
   return !data ? null : (
     <Box sx={{ px: 4 }}>
       <Box
@@ -34,9 +33,9 @@ export function UpgradeBanner() {
             backgroundColor: colors.orange["100"].toString(),
           }}
           variant="determinate"
-          value={(data / 250) * 100}
+          value={(data.count / 250) * 100}
         />
-        <Typography>{data} out of 250 items</Typography>
+        <Typography>{data.count} out of 250 items</Typography>
       </Box>
     </Box>
   );

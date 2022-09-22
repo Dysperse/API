@@ -281,7 +281,7 @@ export function SearchPopup() {
           color="inherit"
           disableRipple
           sx={{
-            borderRadius: 3,
+            borderRadius: 4,
             mr: 1,
             transition: "none",
             color: global.user.darkMode ? "hsl(240, 11%, 90%)" : "#606060",
