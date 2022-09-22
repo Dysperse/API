@@ -43,7 +43,7 @@ export function GenerateListItem({
   /**
    * @description Copies text to clipboard
    */
-  const copyToClipboard = () => {
+  const copyToClipboard = (e) => {
     navigator.clipboard.writeText(e.target.innerText);
     toast.success("Copied to clipboard");
   };
