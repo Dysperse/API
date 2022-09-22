@@ -130,18 +130,18 @@ function House({ handleClose, data }: any): any {
           "& .content": { transition: "all .2s" },
           "&:active .content": { transform: "scale(.95)", transition: "none" },
           "&:active": {
-            background:
-              colors[themeColor][global.user.darkMode ? 800 : 100] +
-              "!important",
+            background: `${
+              colors[themeColor][global.user.darkMode ? 800 : 100]
+            }!important`,
           },
           ...(data.propertyId === global.property.propertyId && {
-            background:
-              colors[themeColor][global.user.darkMode ? 800 : 100] +
-              "!important",
+            background: `${
+              colors[themeColor][global.user.darkMode ? 800 : 100]
+            }!important`,
             "&:active": {
-              background:
-                colors[themeColor][global.user.darkMode ? 700 : 200] +
-                "!important",
+              background: `${
+                colors[themeColor][global.user.darkMode ? 700 : 200]
+              }!important`,
             },
           }),
         }}

@@ -229,9 +229,9 @@ function FrequencySetting({ name, formik }: { name: string; formik: any }) {
         overflow: "hidden",
         textOverflow: "ellipsis",
         ...(formik.values.frequency === name && {
-          background:
-            colors[themeColor][global.theme !== "dark" ? 100 : 900] +
-            "!important",
+          background: `${
+            colors[themeColor][global.theme !== "dark" ? 100 : 900]
+          }!important`,
           color: `${
             colors[themeColor][global.user.darkMode ? 50 : 900]
           }!important`,

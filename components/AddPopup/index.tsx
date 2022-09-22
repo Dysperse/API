@@ -79,20 +79,20 @@ function AddItemOption({
                 sm: 0,
               },
               "&:hover": {
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : 100] +
-                  "!important",
+                background: `${
+                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                }!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : 100] +
-                  "!important",
+                background: `${
+                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                }!important`,
               },
               "&:active": {
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : 100] +
-                  "!important",
+                background: `${
+                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                }!important`,
               },
             }}
           >
@@ -250,20 +250,20 @@ function MoreRooms(): JSX.Element {
                 sm: 0,
               },
               "&:hover": {
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : 100] +
-                  "!important",
+                background: `${
+                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                }!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : 100] +
-                  "!important",
+                background: `${
+                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                }!important`,
               },
               "&:active": {
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : 100] +
-                  "!important",
+                background: `${
+                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                }!important`,
               },
             }}
           >
@@ -483,9 +483,9 @@ export default function AddPopup(props: any): JSX.Element {
               color: global.user.darkMode ? "#fff" : "#000",
               transition: "none",
               "&:active": {
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : 100] +
-                  "!important",
+                background: `${
+                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                }!important`,
               },
             }}
             disableRipple

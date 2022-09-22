@@ -355,12 +355,12 @@ export default function Categories() {
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 ...(viewBy === "room" && {
-                  background:
-                    colors[themeColor][global.theme !== "dark" ? 100 : 900] +
-                    "!important",
-                  color:
-                    colors[themeColor][global.user.darkMode ? 50 : 900] +
-                    "!important",
+                  background: `${
+                    colors[themeColor][global.theme !== "dark" ? 100 : 900]
+                  }!important`,
+                  color: `${
+                    colors[themeColor][global.user.darkMode ? 50 : 900]
+                  }!important`,
                 }),
               }}
             >
@@ -387,13 +387,13 @@ export default function Categories() {
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 ...(viewBy === "category" && {
-                  background:
-                    colors[themeColor][global.theme !== "dark" ? 100 : 900] +
-                    "!important",
+                  background: `${
+                    colors[themeColor][global.theme !== "dark" ? 100 : 900]
+                  }!important`,
 
-                  color:
-                    colors[themeColor][global.user.darkMode ? 50 : 900] +
-                    "!important",
+                  color: `${
+                    colors[themeColor][global.user.darkMode ? 50 : 900]
+                  }!important`,
                 }),
               }}
             >

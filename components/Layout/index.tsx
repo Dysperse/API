@@ -165,19 +165,19 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
                   colors[global.themeColor][global.user.darkMode ? 100 : 900],
               },
               "& span": {
-                color:
-                  colors[global.themeColor][global.user.darkMode ? 100 : 800] +
-                  "!important",
+                color: `${
+                  colors[global.themeColor][global.user.darkMode ? 100 : 800]
+                }!important`,
               },
               "&:hover span": {
-                color:
-                  colors[global.themeColor][global.user.darkMode ? 100 : 800] +
-                  "!important",
+                color: `${
+                  colors[global.themeColor][global.user.darkMode ? 100 : 800]
+                }!important`,
               },
               "&:active span": {
-                color:
-                  colors[global.themeColor][global.user.darkMode ? 200 : 900] +
-                  "!important",
+                color: `${
+                  colors[global.themeColor][global.user.darkMode ? 200 : 900]
+                }!important`,
               },
             }),
           }}

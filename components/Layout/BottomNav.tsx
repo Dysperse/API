@@ -25,9 +25,9 @@ export function BottomNav({ maintenance }: any) {
 
   const styles = {
     "&:not(.Mui-selected)": {
-      color:
-        (global.user.darkMode ? "#ccc" : colors[themeColor]["800"]) +
-        "!important",
+      color: `${
+        global.user.darkMode ? "#ccc" : colors[themeColor]["800"]
+      }!important`,
     },
     "&.Mui-selected": {
       color: global.user.darkMode ? "#ccc" : colors[themeColor]["900"],

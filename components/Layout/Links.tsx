@@ -248,19 +248,19 @@ const ListItem = React.memo(function ListItem({
           },
 
           "& span:not(.badge, .badge *)": {
-            color:
-              colors[global.themeColor][global.user.darkMode ? 100 : 800] +
-              "!important",
+            color: `${
+              colors[global.themeColor][global.user.darkMode ? 100 : 800]
+            }!important`,
           },
           "&:hover span:not(.badge, .badge *)": {
-            color:
-              colors[global.themeColor][global.user.darkMode ? 100 : 800] +
-              "!important",
+            color: `${
+              colors[global.themeColor][global.user.darkMode ? 100 : 800]
+            }!important`,
           },
           "&:active span:not(.badge, .badge *)": {
-            color:
-              colors[global.themeColor][global.user.darkMode ? 200 : 900] +
-              "!important",
+            color: `${
+              colors[global.themeColor][global.user.darkMode ? 200 : 900]
+            }!important`,
           },
         }),
       }}
