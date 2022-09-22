@@ -193,7 +193,7 @@ export function ListItems({
   title: string;
   emptyImage: string;
   emptyText: string;
-  data: Array<any>;
+  data: Item[];
   lists: List[];
   setLists: (lists: List[]) => void;
 }) {

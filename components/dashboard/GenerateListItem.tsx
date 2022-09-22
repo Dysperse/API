@@ -40,6 +40,14 @@ export function GenerateListItem({
     });
   };
 
+  /**
+   * @description Copies text to clipboard
+   */
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(e.target.innerText);
+    toast.success("Copied to clipboard");
+  };
+
   return (
     <Box sx={{ borderRadius: "15px!important", overflow: "hidden" }}>
       <SwipeableViews
@@ -113,7 +121,7 @@ export function GenerateListItem({
                     parseInt(itemData.id.toString(), 10)
                   );
                   setItems(
-                    items.map((item: any) => {
+                    items.map((item: Item) => {
                       if (item.id === itemData.id) {
                         item.completed = !item.completed;
                       }
@@ -144,10 +152,7 @@ export function GenerateListItem({
                     background: "transparent!important",
                   },
                 }}
-                onClick={(e: any) => {
-                  navigator.clipboard.writeText(e.target.innerText);
-                  toast.success("Copied to clipboard");
-                }}
+                onClick={copyToClipboard}
               >
                 {itemData.name}
               </CardActionArea>

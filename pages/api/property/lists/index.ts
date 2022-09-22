@@ -1,6 +1,7 @@
 import { prisma } from "../../../../lib/client";
 import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
+import type { Item } from "../../../../types/list";
 
 /**
  * API handler
@@ -46,7 +47,7 @@ const handler = async (req: any, res: any) => {
         process.env.LIST_ENCRYPTION_KEY
       ).toString(CryptoJS.enc.Utf8),
 
-      items: list.items.map((item: any) => {
+      items: list.items.map((item: Item) => {
         return {
           ...item,
           name: CryptoJS.AES.decrypt(
