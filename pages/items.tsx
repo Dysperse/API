@@ -256,6 +256,32 @@ function Action({ count = 0, icon, primary, href, onClick }: any) {
 }
 
 /**
+ * Rooms popup
+ */
+function Rooms() {
+  const { data, error } = useApi("property/rooms");
+
+  return (
+    <>
+      {data &&
+        data.map((room: any) => (
+          <Action
+            href={`/rooms/${encode(
+              `${room.id},${room.name}`
+            ).toString()}?custom=true`}
+            icon="label"
+            primary={room.name}
+            key={room.id.toString()}
+          />
+        ))}
+      {error && (
+        <ErrorHandler error="An error occured while trying to fetch your items" />
+      )}
+    </>
+  );
+}
+
+/**
  * Top-level component for the items page
  */
 export default function Categories() {
@@ -494,32 +520,6 @@ export default function Categories() {
           <CategoryList />
         )}
       </Container>
-    </>
-  );
-}
-
-/**
- * Rooms popup
- */
-function Rooms() {
-  const { data, error } = useApi("property/rooms");
-
-  return (
-    <>
-      {data &&
-        data.map((room: any) => (
-          <Action
-            href={`/rooms/${encode(
-              `${room.id},${room.name}`
-            ).toString()}?custom=true`}
-            icon="label"
-            primary={room.name}
-            key={room.id.toString()}
-          />
-        ))}
-      {error && (
-        <ErrorHandler error="An error occured while trying to fetch your items" />
-      )}
     </>
   );
 }
