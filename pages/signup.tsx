@@ -36,12 +36,12 @@ export default function Prompt() {
       setButtonLoading(true);
       fetch("/api/signup", {
         method: "POST",
-        body: new URLSearchParams({
+        body: JSON.stringify({
           name: values.name,
           email: values.email,
           password: values.password,
           confirmPassword: values.confirmPassword,
-        }).toString(),
+        }),
       })
         .then((res) => res.json())
         .then(() => {
@@ -56,16 +56,9 @@ export default function Prompt() {
     },
   });
 
-  // const toastStyles = {
-  //   style: {
-  //     borderRadius: "10px",
-  //     background: "#333",
-  //     color: "#fff",
-  //     padding: "10px",
-  //     paddingLeft: "20px",
-  //   },
-  // };
-
+  document
+    .querySelector(`meta[name="theme-color"]`)
+    ?.setAttribute("content", window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b");
   return (
     <Layout>
       <Box

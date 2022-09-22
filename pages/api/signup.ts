@@ -6,24 +6,25 @@ import { createSession } from "./login";
  * API handler for the /api/signup endpoint
  * @param {any} req
  * @param {any} res
- * @returns {any}
  */
-export default async function handler(req, res) {
-  if (req.body.password !== req.body.confirmPassword) {
+export default async function handler(req: any, res: any) {
+  const body = JSON.parse(req.body);
+  if (body.password !== body.confirmPassword) {
     return res.status(401).json({ message: "Passwords do not match" });
   }
   //  Find if email is already in use
   const emailInUse = await prisma.user.findUnique({
     where: {
-      email: req.body.email,
+      email: body.email,
     },
   });
+
   if (emailInUse) {
     res.status(400).json({ message: "Email already in use" });
     return;
   }
   // Get the user's email and password from the request body
-  const { name, email, password } = req.body;
+  const { name, email, password } = body;
 
   // Hash the password
   const hashedPassword = await argon2.hash(password);

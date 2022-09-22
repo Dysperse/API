@@ -9,7 +9,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useEffect } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { cards } from "../components/AddPopup/cards";
 import { Color } from "../components/onboarding/Color";
@@ -48,6 +48,11 @@ function SwipeableTextMobileStepper() {
         },
       },
     },
+  });
+  useEffect(() => {
+    document
+      .querySelector("meta[name='theme-color']")
+      ?.setAttribute("content", colors[themeColor][100]);
   });
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -162,35 +167,6 @@ function SwipeableTextMobileStepper() {
             setThemeColor={setThemeColor}
             color="brown"
           />
-          {/* <Typography variant="h6" sx={{ my: 3 }}>
-            Select your appearance
-          </Typography>
-          <Box
-            onClick={() => setMode("light")}
-            sx={{
-              width: 50,
-              height: 50,
-              borderRadius: 5,
-              mr: 1,
-              mt: 1,
-              cursor: "pointer",
-              display: "inline-block",
-              background: colors["grey"]["100"],
-            }}
-          ></Box>{" "}
-          <Box
-            onClick={() => setMode("dark")}
-            sx={{
-              width: 50,
-              height: 50,
-              borderRadius: 5,
-              mr: 1,
-              mt: 1,
-              cursor: "pointer",
-              display: "inline-block",
-              background: colors["grey"]["900"],
-            }}
-          ></Box> */}
         </Box>
       ),
     },
@@ -305,7 +281,6 @@ function SwipeableTextMobileStepper() {
   ];
 
   const maxSteps = images.length;
-
   return (
     global.user && (
       <ThemeProvider theme={userTheme}>

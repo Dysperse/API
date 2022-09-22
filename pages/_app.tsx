@@ -502,7 +502,6 @@ function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
           Component={Component}
           pageProps={pageProps}
         />
-        {/* <Loading /> */}
       </NoSsr>
       <Script src="/prevent-navigate-history.js" />
     </>
