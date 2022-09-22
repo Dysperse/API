@@ -2,6 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import Chip from "@mui/material/Chip";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
@@ -66,12 +67,13 @@ function Color({ s, color, setColor }: any) {
 
 /**
  * House popup
- * @param {any} {handleClose
- * @param {any} data}
+ * @param {any} {handleClose}
+ * @param {any} {data}
  * @returns {any}
  */
-function House({ handleClose, data }: any) {
+function House({ handleClose, data }: any): any {
   const [open, setOpen] = React.useState(false);
+  useStatusBar(open, 1);
   const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [color, setColor] = React.useState<string>(data.color ?? "red");
@@ -494,6 +496,7 @@ function House({ handleClose, data }: any) {
  */
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
+  useStatusBar(open);
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
