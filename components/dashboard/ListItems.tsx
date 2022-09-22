@@ -414,7 +414,6 @@ export function ListItems({
               parent={parent}
               emptyImage={emptyImage}
               emptyText={emptyText}
-              title={title}
             />
           </CardContent>
         </Card>

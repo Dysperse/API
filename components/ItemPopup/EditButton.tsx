@@ -26,7 +26,7 @@ export function EditButton({
   item,
   setItemData,
 }: {
-  styles: Object;
+  styles: any;
   item: Item;
   setItemData: (item: Item) => void;
 }): JSX.Element {
