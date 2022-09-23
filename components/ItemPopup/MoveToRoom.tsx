@@ -46,7 +46,7 @@ function Room({
         fetchApiWithoutHook("property/inventory/moveToRoom", {
           id: id.toString(),
           room: room.toLowerCase().replace(" room", ""),
-          lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+          lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         }).then(() => {
           setDisabled(false);
           setDeleted(true);

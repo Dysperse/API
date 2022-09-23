@@ -28,6 +28,7 @@ import AddPopup from "../AddPopup";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { Room } from "../../types/room";
 
 /**
  * Create room popup
@@ -195,7 +196,13 @@ const ListItem = React.memo(function ListItem({
   text,
   icon,
   collapsed,
-}: any) {
+}: {
+  href?: string;
+  asHref?: string;
+  text: JSX.Element | string;
+  icon: JSX.Element | string;
+  collapsed: boolean;
+}) {
   const router = useRouter();
   if (!router.asPath) router.asPath = "/dashboard";
   const template = (
@@ -325,7 +332,7 @@ export function DrawerListItems({
 }: {
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
-  customRooms: any;
+  customRooms: JSX.Element;
   maintenance: Array<any>;
 }) {
   return (
@@ -334,147 +341,119 @@ export function DrawerListItems({
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <Box>
-        <Toolbar sx={{ mt: 2 }} />
-        <div style={{ padding: "0 10px" }}>
-          <AddPopup>
-            <div>
-              <Fab
-                disabled={
-                  global.property.role === "read-only" ||
-                  global.itemLimitReached
-                }
-                variant={collapsed ? "circular" : "extended"}
-                disableRipple
-                color="primary"
-                aria-label="add"
-                sx={{
-                  borderRadius: collapsed ? "100%" : "20px",
-                  fontSize: "15px",
-                  boxShadow: "none!important",
-                  transition:
-                    "minWidth .2s, border-radius .2s ease-in-out, margin .2s,transform .2s !important",
-                  ...(collapsed && {
-                    mt: 2.2,
-                    mb: 3,
-                  }),
-                  "&:hover": {
-                    ...(collapsed && {
-                      borderRadius: 5,
-                    }),
-                  },
-                  ...(!global.itemLimitReached && {
-                    background: `linear-gradient(45deg, ${
-                      global.user.darkMode
-                        ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][100]
-                    }  0%, ${
-                      global.user.darkMode
-                        ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][300]
-                    } 100%)`,
-                  }),
-                  color: global.user.darkMode
-                    ? "hsl(240, 11%, 95%)"
-                    : colors[themeColor]["900"],
-                  "&:active": {
-                    background: `${"linear-gradient(90deg, "}${
-                      global.user.darkMode
-                        ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][200]
-                    }  0%, ${
-                      global.user.darkMode
-                        ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][500]
-                    } 100%)`,
-                    boxShadow:
-                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                    transform: "scale(.96)",
-                  },
-                  textTransform: "none",
-                }}
-              >
-                <AddIcon sx={{ mr: collapsed ? 0 : 1 }} />
-                <Collapse
-                  in={!collapsed}
-                  orientation="horizontal"
-                  sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    my: collapsed ? 2 : 0,
-                  }}
-                >
-                  New item
-                </Collapse>
-              </Fab>
-            </div>
-          </AddPopup>
-        </div>
-        <div>
-          <Collapse in={!collapsed}>
-            <ListSubheader
+      <Toolbar sx={{ mt: 2 }} />
+      <div style={{ padding: "0 10px" }}>
+        <AddPopup>
+          <div>
+            <Fab
+              disabled={
+                global.property.role === "read-only" || global.itemLimitReached
+              }
+              variant={collapsed ? "circular" : "extended"}
+              disableRipple
+              color="primary"
+              aria-label="add"
               sx={{
-                pl: 2,
-                position: {
-                  md: "unset",
-                },
+                borderRadius: collapsed ? "100%" : "20px",
                 fontSize: "15px",
-                ...(global.user.darkMode && {
-                  background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
+                boxShadow: "none!important",
+                transition:
+                  "minWidth .2s, border-radius .2s ease-in-out, margin .2s,transform .2s !important",
+                ...(collapsed && {
+                  mt: 2.2,
+                  mb: 3,
                 }),
+                "&:hover": {
+                  ...(collapsed && {
+                    borderRadius: 5,
+                  }),
+                },
+                ...(!global.itemLimitReached && {
+                  background: `linear-gradient(45deg, ${
+                    global.user.darkMode
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][100]
+                  }  0%, ${
+                    global.user.darkMode
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][300]
+                  } 100%)`,
+                }),
+                color: global.user.darkMode
+                  ? "hsl(240, 11%, 95%)"
+                  : colors[themeColor]["900"],
+                "&:active": {
+                  background: `${"linear-gradient(90deg, "}${
+                    global.user.darkMode
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][200]
+                  }  0%, ${
+                    global.user.darkMode
+                      ? "hsl(240, 11%, 30%)"
+                      : colors[themeColor][500]
+                  } 100%)`,
+                  boxShadow:
+                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  transform: "scale(.96)",
+                },
+                textTransform: "none",
               }}
             >
-              Home
-            </ListSubheader>
-          </Collapse>
-          <ListItem collapsed={collapsed} text="Home" icon="view_timeline" />
-          <ListItem
-            collapsed={collapsed}
-            href="/notes"
-            asHref="/notes"
-            text="Notes"
-            icon="sticky_note_2"
-          />
-          <ListItem
-            collapsed={collapsed}
-            href="/maintenance"
-            asHref="/maintenance"
-            text={
-              <Box sx={{ display: "flex" }}>
-                Maintenance
-                {!collapsed && (
-                  <Badge
-                    sx={{
-                      ml: "auto",
-                      mr: 1.2,
-                      zIndex: 1,
-                      my: "auto",
-                      "& .MuiBadge-badge": {
-                        borderRadius: 2,
-                        background: colors.red["100"],
-                        color: colors.red["900"],
-                      },
-                    }}
-                    badgeContent={
-                      maintenance
-                        ? maintenance.filter((reminder) =>
-                            dayjs(reminder.nextDue).isBefore(dayjs())
-                          ).length
-                        : 0
-                    }
-                    color="error"
-                  />
-                )}
-              </Box>
-            }
-            icon={
-              collapsed ? (
+              <AddIcon sx={{ mr: collapsed ? 0 : 1 }} />
+              <Collapse
+                in={!collapsed}
+                orientation="horizontal"
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  my: collapsed ? 2 : 0,
+                }}
+              >
+                New item
+              </Collapse>
+            </Fab>
+          </div>
+        </AddPopup>
+      </div>
+      <div>
+        <Collapse in={!collapsed}>
+          <ListSubheader
+            sx={{
+              pl: 2,
+              position: {
+                md: "unset",
+              },
+              fontSize: "15px",
+              ...(global.user.darkMode && {
+                background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
+              }),
+            }}
+          >
+            Home
+          </ListSubheader>
+        </Collapse>
+        <ListItem collapsed={collapsed} text="Home" icon="view_timeline" />
+        <ListItem
+          collapsed={collapsed}
+          href="/notes"
+          asHref="/notes"
+          text="Notes"
+          icon="sticky_note_2"
+        />
+        <ListItem
+          collapsed={collapsed}
+          href="/maintenance"
+          asHref="/maintenance"
+          text={
+            <Box sx={{ display: "flex" }}>
+              Maintenance
+              {!collapsed && (
                 <Badge
                   sx={{
                     ml: "auto",
                     mr: 1.2,
-                    zIndex: -1,
+                    zIndex: 1,
                     my: "auto",
                     "& .MuiBadge-badge": {
                       borderRadius: 2,
@@ -490,126 +469,42 @@ export function DrawerListItems({
                       : 0
                   }
                   color="error"
-                >
-                  <span className="material-symbols-outlined">handyman</span>
-                </Badge>
-              ) : (
-                "handyman"
-              )
-            }
-          />
-        </div>
-        <div>
-          <Collapse in={!collapsed}>
-            <ListSubheader
-              sx={{
-                pl: 2,
-                fontSize: "15px",
-                position: {
-                  md: "unset",
-                },
-                ...(global.user.darkMode && {
-                  background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
-                }),
-              }}
-            >
-              {global.property.profile.type === "dorm" ? "Dorm" : "Rooms"}
-            </ListSubheader>
-          </Collapse>
-
-          <Collapse in={collapsed}>
-            <Divider sx={{ my: 1 }} />
-          </Collapse>
-          {global.property.profile.type !== "dorm" && (
-            <ListItem
-              collapsed={collapsed}
-              href="/rooms/[index]"
-              asHref="/rooms/kitchen"
-              text="Kitchen"
-              icon="kitchen"
-            />
-          )}
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/bedroom"
-            text="Bedroom"
-            icon="bedroom_child"
-          />
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/bathroom"
-            text="Bathroom"
-            icon="bathroom"
-          />
-          {global.property.profile.type !== "dorm" && (
-            <ListItem
-              collapsed={collapsed}
-              href="/rooms/[index]"
-              asHref="/rooms/garage"
-              text="Garage"
-              icon="garage"
-            />
-          )}
-          {global.property.profile.type !== "dorm" && (
-            <ListItem
-              collapsed={collapsed}
-              href="/rooms/[index]"
-              asHref="/rooms/dining"
-              text="Dining room"
-              icon="dining"
-            />
-          )}
-          {global.property.profile.type !== "dorm" && (
-            <ListItem
-              collapsed={collapsed}
-              href="/rooms/[index]"
-              asHref="/rooms/living-room"
-              text={<>Living room</>}
-              icon="living"
-            />
-          )}
-          {global.property.profile.type !== "dorm" && (
-            <ListItem
-              collapsed={collapsed}
-              href="/rooms/[index]"
-              asHref="/rooms/laundry-room"
-              text="Laundry room"
-              icon="local_laundry_service"
-            />
-          )}
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/storage-room"
-            text={
-              <>Storage {global.property.profile.type !== "dorm" && "room"}</>
-            }
-            icon="inventory_2"
-          />
-        </div>
-        <Divider sx={{ my: 1 }} />
-        {customRooms}
-        {global.property.profile.type !== "dorm" && (
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/camping"
-            text="Camping"
-            icon="camping"
-          />
-        )}
-        {global.property.profile.type !== "dorm" && (
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/garden"
-            text="Garden"
-            icon="yard"
-          />
-        )}
-        <CreateRoom collapsed={collapsed} />
+                />
+              )}
+            </Box>
+          }
+          icon={
+            collapsed ? (
+              <Badge
+                sx={{
+                  ml: "auto",
+                  mr: 1.2,
+                  zIndex: -1,
+                  my: "auto",
+                  "& .MuiBadge-badge": {
+                    borderRadius: 2,
+                    background: colors.red["100"],
+                    color: colors.red["900"],
+                  },
+                }}
+                badgeContent={
+                  maintenance
+                    ? maintenance.filter((reminder) =>
+                        dayjs(reminder.nextDue).isBefore(dayjs())
+                      ).length
+                    : 0
+                }
+                color="error"
+              >
+                <span className="material-symbols-outlined">handyman</span>
+              </Badge>
+            ) : (
+              "handyman"
+            )
+          }
+        />
+      </div>
+      <div>
         <Collapse in={!collapsed}>
           <ListSubheader
             sx={{
@@ -623,109 +518,212 @@ export function DrawerListItems({
               }),
             }}
           >
-            More
+            {global.property.profile.type === "dorm" ? "Dorm" : "Rooms"}
           </ListSubheader>
         </Collapse>
 
         <Collapse in={collapsed}>
           <Divider sx={{ my: 1 }} />
         </Collapse>
+        {global.property.profile.type !== "dorm" && (
+          <ListItem
+            collapsed={collapsed}
+            href="/rooms/[index]"
+            asHref="/rooms/kitchen"
+            text="Kitchen"
+            icon="kitchen"
+          />
+        )}
         <ListItem
           collapsed={collapsed}
-          href="/starred"
-          asHref="/starred"
-          text="Starred"
-          icon="grade"
+          href="/rooms/[index]"
+          asHref="/rooms/bedroom"
+          text="Bedroom"
+          icon="bedroom_child"
         />
         <ListItem
           collapsed={collapsed}
-          href="/trash"
-          asHref="/trash"
-          text="Trash"
-          icon="delete"
+          href="/rooms/[index]"
+          asHref="/rooms/bathroom"
+          text="Bathroom"
+          icon="bathroom"
         />
-        <Divider sx={{ my: 1 }} />
+        {global.property.profile.type !== "dorm" && (
+          <ListItem
+            collapsed={collapsed}
+            href="/rooms/[index]"
+            asHref="/rooms/garage"
+            text="Garage"
+            icon="garage"
+          />
+        )}
+        {global.property.profile.type !== "dorm" && (
+          <ListItem
+            collapsed={collapsed}
+            href="/rooms/[index]"
+            asHref="/rooms/dining"
+            text="Dining room"
+            icon="dining"
+          />
+        )}
+        {global.property.profile.type !== "dorm" && (
+          <ListItem
+            collapsed={collapsed}
+            href="/rooms/[index]"
+            asHref="/rooms/living-room"
+            text={<>Living room</>}
+            icon="living"
+          />
+        )}
+        {global.property.profile.type !== "dorm" && (
+          <ListItem
+            collapsed={collapsed}
+            href="/rooms/[index]"
+            asHref="/rooms/laundry-room"
+            text="Laundry room"
+            icon="local_laundry_service"
+          />
+        )}
         <ListItem
           collapsed={collapsed}
-          href="https://smartlist.canny.io/general-feedback"
-          asHref="https://smartlist.canny.io/general-feedback"
-          text="Submit feedback"
-          icon="chat"
+          href="/rooms/[index]"
+          asHref="/rooms/storage-room"
+          text={
+            <>Storage {global.property.profile.type !== "dorm" && "room"}</>
+          }
+          icon="inventory_2"
         />
+      </div>
+      <Divider sx={{ my: 1 }} />
+      {customRooms}
+      {global.property.profile.type !== "dorm" && (
         <ListItem
           collapsed={collapsed}
-          href="https://smartlist.canny.io/feature-requests"
-          asHref="https://smartlist.canny.io/feature-requests"
-          text="Suggest a feature"
-          icon="reviews"
+          href="/rooms/[index]"
+          asHref="/rooms/camping"
+          text="Camping"
+          icon="camping"
         />
-        <Collapse in={collapsed}>
-          <Divider sx={{ my: 1 }} />
-        </Collapse>
-        <ListItemButton
-          onClick={() => {
-            setCollapsed(!collapsed);
-            Cookies.set("collapsed", collapsed ? "false" : "true");
-          }}
+      )}
+      {global.property.profile.type !== "dorm" && (
+        <ListItem
+          collapsed={collapsed}
+          href="/rooms/[index]"
+          asHref="/rooms/garden"
+          text="Garden"
+          icon="yard"
+        />
+      )}
+      <CreateRoom collapsed={collapsed} />
+      <Collapse in={!collapsed}>
+        <ListSubheader
           sx={{
-            ...(collapsed && {
-              width: 70,
-              mx: "auto",
-            }),
             pl: 2,
-            color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
-            "& span:not(.MuiBadge-root, .MuiBadge-root *)": {
-              color: `${
-                global.user.darkMode ? grey[200] : "#606060"
-              }!important`,
+            fontSize: "15px",
+            position: {
+              md: "unset",
             },
-            borderRadius: 3,
-            transition: "margin .2s!important",
-            mb: collapsed ? 1 : 0.2,
-            py: 0.8,
-            "& .MuiTouchRipple-rippleVisible": {
-              animationDuration: ".3s!important",
-            },
-            "& .MuiTouchRipple-child": {
-              filter: "opacity(.2)!important",
-            },
-            "&:hover,&:focus": {
-              color: `${
-                global.user.darkMode ? grey[200] : grey[900]
-              }!important`,
-              background: global.user.darkMode
-                ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.3)",
-            },
-            "&:hover span:not(.MuiBadge-root, .MuiBadge-root *)": {
-              color: `${
-                global.user.darkMode ? grey[200] : grey[900]
-              }!important`,
-            },
+            ...(global.user.darkMode && {
+              background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
+            }),
           }}
         >
-          <ListItemIcon
-            sx={{
-              transform: "translateX(6px)",
-            }}
-          >
-            <span className={"material-symbols-rounded"}>
-              chevron_{collapsed ? "right" : "left"}
-            </span>
-          </ListItemIcon>
-          <ListItemText
-            sx={{
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              "& *": {
-                fontSize: "15.2px",
-              },
-            }}
-            primary={!collapsed ? "Collapse menu" : "Expand menu"}
-          />
-        </ListItemButton>
-      </Box>
+          More
+        </ListSubheader>
+      </Collapse>
+
+      <Collapse in={collapsed}>
+        <Divider sx={{ my: 1 }} />
+      </Collapse>
+      <ListItem
+        collapsed={collapsed}
+        href="/starred"
+        asHref="/starred"
+        text="Starred"
+        icon="grade"
+      />
+      <ListItem
+        collapsed={collapsed}
+        href="/trash"
+        asHref="/trash"
+        text="Trash"
+        icon="delete"
+      />
+      <Divider sx={{ my: 1 }} />
+      <ListItem
+        collapsed={collapsed}
+        href="https://smartlist.canny.io/general-feedback"
+        asHref="https://smartlist.canny.io/general-feedback"
+        text="Submit feedback"
+        icon="chat"
+      />
+      <ListItem
+        collapsed={collapsed}
+        href="https://smartlist.canny.io/feature-requests"
+        asHref="https://smartlist.canny.io/feature-requests"
+        text="Suggest a feature"
+        icon="reviews"
+      />
+      <Collapse in={collapsed}>
+        <Divider sx={{ my: 1 }} />
+      </Collapse>
+      <ListItemButton
+        onClick={() => {
+          setCollapsed(!collapsed);
+          Cookies.set("collapsed", collapsed ? "false" : "true");
+        }}
+        sx={{
+          ...(collapsed && {
+            width: 70,
+            mx: "auto",
+          }),
+          pl: 2,
+          color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
+          "& span:not(.MuiBadge-root, .MuiBadge-root *)": {
+            color: `${global.user.darkMode ? grey[200] : "#606060"}!important`,
+          },
+          borderRadius: 3,
+          transition: "margin .2s!important",
+          mb: collapsed ? 1 : 0.2,
+          py: 0.8,
+          "& .MuiTouchRipple-rippleVisible": {
+            animationDuration: ".3s!important",
+          },
+          "& .MuiTouchRipple-child": {
+            filter: "opacity(.2)!important",
+          },
+          "&:hover,&:focus": {
+            color: `${global.user.darkMode ? grey[200] : grey[900]}!important`,
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 17%)"
+              : "rgba(200,200,200,.3)",
+          },
+          "&:hover span:not(.MuiBadge-root, .MuiBadge-root *)": {
+            color: `${global.user.darkMode ? grey[200] : grey[900]}!important`,
+          },
+        }}
+      >
+        <ListItemIcon
+          sx={{
+            transform: "translateX(6px)",
+          }}
+        >
+          <span className={"material-symbols-rounded"}>
+            chevron_{collapsed ? "right" : "left"}
+          </span>
+        </ListItemIcon>
+        <ListItemText
+          sx={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            "& *": {
+              fontSize: "15.2px",
+            },
+          }}
+          primary={!collapsed ? "Collapse menu" : "Expand menu"}
+        />
+      </ListItemButton>
     </List>
   );
 }

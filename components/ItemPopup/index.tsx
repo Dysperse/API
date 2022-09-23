@@ -44,7 +44,7 @@ export default function Item({
   variant,
 }: {
   displayRoom?: boolean;
-  data: any;
+  data: ItemType;
   variant?: "list" | "card";
 }) {
   const router = useRouter();
@@ -121,12 +121,12 @@ export default function Item({
   const handleItemStar = (): void => {
     setItemData({
       ...item,
-      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       starred: !item.starred,
     });
     fetchApiWithoutHook("property/inventory/star", {
       id: item.id.toString(),
-      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       starred: item.starred,
     });
   };
@@ -140,7 +140,7 @@ export default function Item({
 
     fetchApiWithoutHook("property/inventory/trash", {
       id: id.toString(),
-      lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     });
 
     handleClose();
@@ -162,7 +162,7 @@ export default function Item({
             setIndex(1);
             fetchApiWithoutHook("property/inventory/restore", {
               id: item.id.toString(),
-              lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             });
             setDeleted(false);
           }}
@@ -351,7 +351,7 @@ export default function Item({
                   </Typography>
                   <div>
                     {[item.room, ...JSON.parse(item.category)].map(
-                      (category: any) => {
+                      (category: string) => {
                         return (
                           <Chip
                             key={Math.random().toString()}
@@ -380,7 +380,7 @@ export default function Item({
                       e.target.spellcheck = false;
                       setItemData({
                         ...item,
-                        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                       });
                       // Update item note
                       setItemData({
@@ -389,11 +389,11 @@ export default function Item({
                       });
                       fetchApiWithoutHook("property/inventory/updateNote", {
                         id: id.toString(),
-                        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                         note: e.target.value,
                       });
                     }}
-                    onKeyUp={(e: any) => {
+                    onKeyUp={(e) => {
                       if (e.code === "Enter" && !e.shiftKey) {
                         e.preventDefault();
                         e.target.value = e.target.value.trim();

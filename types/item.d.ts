@@ -1,10 +1,12 @@
 export interface Item {
   readonly id: number;
-  lastUpdated: string;
+  name: string;
   quantity: string;
-  title: string;
-  categories: string[];
   note: string;
-  star: number;
+  lastModified: string;
+  starred: boolean;
+  category: string[];
   room: string;
+  propertyId: string;
+  trash: boolean;
 }

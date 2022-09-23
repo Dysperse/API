@@ -50,30 +50,30 @@ export function EditButton({
 
   const formik = useFormik({
     initialValues: {
-      categories: item.categories,
-      title: item.title,
+      category: item.category,
+      name: item.name,
       quantity: item.quantity,
     },
     onSubmit: (values: {
-      categories: string[];
-      title: string;
+      category: string[];
+      name: string;
       quantity: string;
     }) => {
       fetchApiWithoutHook("property/inventory/edit", {
         id: item.id.toString(),
-        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        name: values.title,
+        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        name: values.name,
         quantity: values.quantity,
-        category: JSON.stringify(values.categories),
+        category: JSON.stringify(values.category),
       });
 
       // Update item object
       setItemData({
         ...item,
-        title: values.title,
+        name: values.name,
         quantity: values.quantity,
-        categories: values.categories,
-        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        category: values.category,
+        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       });
       handleClose();
     },
@@ -124,7 +124,7 @@ export function EditButton({
               label="Title"
               fullWidth
               onChange={formik.handleChange}
-              defaultValue={formik.values.title}
+              defaultValue={formik.values.name}
               name="title"
               variant="filled"
               autoComplete="off"
@@ -144,7 +144,7 @@ export function EditButton({
               multiple
               freeSolo
               options={[]}
-              defaultValue={formik.values.categories}
+              defaultValue={formik.values.category}
               onChange={(e, newValue) =>
                 formik.setFieldValue("categories", newValue)
               }

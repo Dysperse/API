@@ -125,7 +125,7 @@ export function CreateItemModal({
         name: values.title,
         qty: values.quantity,
         category: JSON.stringify(values.categories),
-        lastUpdated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       }).then(() => {
         toast("Created item!");
         setLoading(false);

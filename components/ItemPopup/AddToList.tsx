@@ -113,7 +113,7 @@ export function AddToListModal({
           </DialogContentText>
         </DialogTitle>
         <DialogContent>
-          <RoomList title={item.title} handleClose={() => setOpen(false)} />
+          <RoomList title={item.name} handleClose={() => setOpen(false)} />
         </DialogContent>
         <DialogActions>
           <Button

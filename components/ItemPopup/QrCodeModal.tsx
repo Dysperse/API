@@ -17,7 +17,7 @@ export function QrCodeModal({ item }: any): JSX.Element {
   const href = `https://${window.location.hostname}/share/${encodeURIComponent(
     JSON.stringify({
       name: global.user.name,
-      title: item.title,
+      title: item.name,
       quantity: item.quantity,
       room: item.room,
     })

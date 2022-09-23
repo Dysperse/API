@@ -78,7 +78,7 @@ function DeleteCard({ item }: any): JSX.Element | null {
           disabled={global.property.role === "read-only"}
           onClick={() => {
             fetchApiWithoutHook("restore", {
-              lastUpdated: dayjs(item.lastUpdated).format(
+              lastModified: dayjs(item.lastUpdated).format(
                 "YYYY-MM-DD HH:mm:ss"
               ),
               id: item.id.toString(),
