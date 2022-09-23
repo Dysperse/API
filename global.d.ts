@@ -1,6 +1,6 @@
 import type { Color } from "../../types/color";
 import type { User } from "../../types/session";
-export { };
+export {};
 
 declare global {
   var theme: string;
