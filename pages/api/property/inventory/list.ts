@@ -42,10 +42,12 @@ const handler = async (req, res) => {
           item.note,
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString(CryptoJS.enc.Utf8),
-        category: CryptoJS.AES.decrypt(
-          item.category,
-          process.env.INVENTORY_ENCRYPTION_KEY
-        ).toString(CryptoJS.enc.Utf8),
+        category: JSON.parse(
+          CryptoJS.AES.decrypt(
+            item.category,
+            process.env.INVENTORY_ENCRYPTION_KEY
+          ).toString(CryptoJS.enc.Utf8)
+        ),
       };
     })
   );

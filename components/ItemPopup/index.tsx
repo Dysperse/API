@@ -350,27 +350,25 @@ export default function Item({
                     Quantity: {item.quantity || "(no quantity)"}
                   </Typography>
                   <div>
-                    {[item.room, ...JSON.parse(item.category)].map(
-                      (category: string) => {
-                        return (
-                          <Chip
-                            key={Math.random().toString()}
-                            label={category}
-                            onClick={() => {
-                              router.push("/items");
-                              setDrawerState(false);
-                            }}
-                            sx={{
-                              px: 2,
-                              mr: 1,
-                              mb: 2.5,
-                              mt: -0.5,
-                              textTransform: "capitalize",
-                            }}
-                          />
-                        );
-                      }
-                    )}
+                    {[item.room, ...item.category].map((category: string) => {
+                      return (
+                        <Chip
+                          key={Math.random().toString()}
+                          label={category}
+                          onClick={() => {
+                            router.push("/items");
+                            setDrawerState(false);
+                          }}
+                          sx={{
+                            px: 2,
+                            mr: 1,
+                            mb: 2.5,
+                            mt: -0.5,
+                            textTransform: "capitalize",
+                          }}
+                        />
+                      );
+                    })}
                   </div>
                   <TextField
                     multiline
@@ -393,7 +391,7 @@ export default function Item({
                         note: e.target.value,
                       });
                     }}
-                    onKeyUp={(e) => {
+                    onKeyUp={(e: any) => {
                       if (e.code === "Enter" && !e.shiftKey) {
                         e.preventDefault();
                         e.target.value = e.target.value.trim();
@@ -595,7 +593,7 @@ export default function Item({
                       label={data.room}
                       size="small"
                     />
-                    {JSON.parse(item.category).map((category: string) => {
+                    {item.category.map((category: string) => {
                       if (category.trim() === "") return false;
                       return (
                         <Chip
@@ -752,7 +750,7 @@ export default function Item({
                     {!displayRoom && item.quantity.length > 18 && "..."}
                   </Typography>
                   {!displayRoom &&
-                    JSON.parse(item.category).map((category: string) => {
+                    item.category.map((category: string) => {
                       if (category.trim() === "") return false;
                       return (
                         <Chip
