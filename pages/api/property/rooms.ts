@@ -9,7 +9,7 @@ import { validatePermissions } from "../../../lib/validatePermissions";
  */
 const handler = async (req, res) => {
   const permissions: null | string = await validatePermissions(
-  const permissions: null | string = await validatePermissions
+    req.query.property,
     req.query.accessToken
   );
   if (!permissions) {
