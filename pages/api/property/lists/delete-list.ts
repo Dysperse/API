@@ -26,7 +26,7 @@ const handler = async (req, res) => {
   });
 
   // Delete list where id = req.query.listId
-  const data2: any | null = await prisma.list.delete({
+  const data2 = await prisma.list.delete({
     where: {
       id: parseInt(req.query.parent),
     },

@@ -1,7 +1,7 @@
 import { prisma } from "../../../../lib/client";
 import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-
+import type { Item } from "../../../../types/item";
 /**
  * API handler
  * @param {any} req
@@ -28,7 +28,7 @@ const handler = async (req, res) => {
     },
   });
   res.json(
-    data.map((item: any) => {
+    data.map((item: Item) => {
       return {
         ...item,
         name: CryptoJS.AES.decrypt(

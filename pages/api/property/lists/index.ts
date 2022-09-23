@@ -2,6 +2,7 @@ import { prisma } from "../../../../lib/client";
 import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 import type { Item } from "../../../../types/list";
+import type { List } from "../../../../types/list";
 
 /**
  * API handler
@@ -34,7 +35,7 @@ const handler = async (req, res) => {
     },
   });
 
-  const lists = data.map((list: any) => {
+  const lists = data.map((list: List) => {
     // console.log(list.name);
     return {
       ...list,

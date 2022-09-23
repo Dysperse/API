@@ -2,7 +2,13 @@ import { prisma } from "../../../../lib/client";
 import ics from "ics";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
-const alarms: any = [];
+const alarms: {
+  action: string;
+  description: string;
+  trigger: { hours: number; minutes: number; before: boolean };
+  repeat: number;
+  attachType: string;
+}[] = [];
 
 /**
  * API handler
@@ -36,7 +42,6 @@ const handler = async (req, res) => {
           trigger: { hours: 2, minutes: 30, before: true },
           repeat: 2,
           attachType: "VALUE=URI",
-          // attach: "Glass",
         });
         // convert reminder.lastDone to array ([2018, 1, 15, 12, 15])
         const arrayDate = [
