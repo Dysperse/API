@@ -27,6 +27,7 @@ import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
+import type { House } from "../../types/houseProfile";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 /**
  * Color component for house profile
@@ -84,7 +85,7 @@ function House({
   data,
 }: {
   handleClose: () => void;
-  data: any;
+  data: House;
 }): JSX.Element {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open, 1);

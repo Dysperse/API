@@ -80,7 +80,7 @@ function Products() {
         handleChange(1);
       }}
     >
-      {apps.map((category: any) => (
+      {apps.map((category) => (
         <Accordion
           key={category.label.toString()}
           square

@@ -32,7 +32,7 @@ const drawerWidth = 260;
  * @param collapsed Boolean, whether the drawer is collapsed or not
  * @param room String, the room name
  */
-function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
+function CustomRoom({ collapsed, room }: { collapsed: boolean; room: Room }) {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
@@ -204,7 +204,7 @@ function CustomRoom({ collapsed, room }: { collapsed: any; room: Room }) {
  * @param {any} {collapsed}
  * @returns {JSX.Element}
  */
-function CustomRooms({ collapsed }: any): JSX.Element {
+function CustomRooms({ collapsed }: { collapsed: boolean }): JSX.Element {
   const { error, data }: ApiResponse = useApi("property/rooms");
 
   if (error)
@@ -235,10 +235,14 @@ function CustomRooms({ collapsed }: any): JSX.Element {
 
 /**
  * Drawer component
- * @param {any} props
+ * @param {any} {children} Children
  * @returns {any}
  */
-function ResponsiveDrawer(props: any): JSX.Element {
+function ResponsiveDrawer({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element {
   const [collapsed, setCollapsed] = React.useState(
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
   );
@@ -312,7 +316,7 @@ function ResponsiveDrawer(props: any): JSX.Element {
             mt: { xs: 1.8, sm: 2 },
           }}
         >
-          {props.children}
+          {children}
           <Box sx={{ display: { sm: "none" } }}>
             <Toolbar />
           </Box>

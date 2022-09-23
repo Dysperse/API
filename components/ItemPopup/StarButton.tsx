@@ -1,5 +1,5 @@
 import ListItem from "@mui/material/ListItem";
-
+import type { Item } from "../../types/item";
 /**
  * Description
  * @param {any} {styles
@@ -7,7 +7,15 @@ import ListItem from "@mui/material/ListItem";
  * @param {any} handleItemStar}
  * @returns {any}
  */
-export function StarButton({ styles, item, handleItemStar }: any) {
+export function StarButton({
+  styles,
+  item,
+  handleItemStar,
+}: {
+  styles: any;
+  item: Item;
+  handleItemStar: () => void;
+}) {
   return (
     <ListItem button sx={styles} onClick={handleItemStar}>
       {item.starred ? (

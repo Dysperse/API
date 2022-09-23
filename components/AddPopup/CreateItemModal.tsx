@@ -145,8 +145,7 @@ export function CreateItemModal({
   const originalCards = shuffle(
     cards.filter((card) => card.room === room.toString().toLowerCase())
   );
-  const [filteredCards, setFilteredCards] =
-    React.useState<Array<any>>(originalCards);
+  const [filteredCards, setFilteredCards] = React.useState(originalCards);
 
   /**
    * Handle submit click

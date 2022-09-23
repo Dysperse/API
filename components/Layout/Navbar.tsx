@@ -36,7 +36,9 @@ export const getInitials = (fullName) => {
  * @param {any} props
  * @returns {any}
  */
-function ElevationScroll(props: any) {
+function ElevationScroll(
+  props: React.Prop
+) {
   const { children, window } = props;
   const router = useRouter();
 

@@ -11,13 +11,14 @@ import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import React from "react";
+import type { Reminder } from "../../types/maintenance";
 
 /**
  * Bottom navigation bar
  * @param {any} {maintenance}
  * @returns {any}
  */
-export function BottomNav({ maintenance }: any) {
+export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
   const trigger = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,
