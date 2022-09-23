@@ -7,7 +7,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  * @param {any} res
  * @returns {any}
  */
-const handler = async (req: any, res) => {
+const handler = async (req, res) => {
   // Validate permissions
   const permissions = await validatePermissions(
     req.query.property,

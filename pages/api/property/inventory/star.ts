@@ -7,7 +7,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  * @param {any} res
  * @returns {any}
  */
-const handler = async (req: any, res) => {
+const handler = async (req, res) => {
   // Toggle star status on on an item
   const permissions = await validatePermissions(
     req.query.property,

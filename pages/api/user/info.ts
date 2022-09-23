@@ -51,7 +51,7 @@ export const getUserData = async (token: string) => {
  * @param {any} res
  * @returns {any}
  */
-const handler = async (req: any, res) => {
+const handler = async (req, res) => {
   try {
     const session = await getUserData(req.query.token);
     if (session) {

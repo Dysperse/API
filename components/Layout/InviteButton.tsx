@@ -125,8 +125,6 @@ function House({
                     Currently viewing&nbsp;<b>{res.profile.name}</b>{" "}
                   </>
                 );
-                // window.location.href = "/dashboard";
-                // window.location.reload();
                 mutate("/api/user");
                 setLoading(false);
                 handleClose();

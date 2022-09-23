@@ -6,7 +6,7 @@ import { prisma } from "../../../lib/client";
  * @param {any} res
  * @returns {any}
  */
-const handler = async (req: any, res) => {
+const handler = async (req, res) => {
   //   Set selected to false for all other properties of the user email
   await prisma.propertyInvite.updateMany({
     where: {
