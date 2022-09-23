@@ -2,7 +2,6 @@ import emailjs from "@emailjs/browser";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { colors } from "../../lib/colors";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -11,17 +10,24 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import toast from "react-hot-toast";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
+import { Prompt } from "../Auth/twoFactorPrompt";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { Prompt } from "../Auth/twoFactorPrompt";
 /**
  * Description
  * @param {any} {color
  * @param {any} members}
  * @returns {any}
  */
-export function AddPersonModal({ color, members }: any) {
+export function AddPersonModal({
+  color,
+  members,
+}: {
+  color: string;
+  members: string[];
+}) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -170,7 +176,7 @@ export function AddPersonModal({ color, members }: any) {
                   name: global.property.profile.name,
                   permission: permission,
                 })
-                  .then((res: any) => {
+                  .then((res) => {
                     emailjs
                       .send(
                         "service_bhq01y6",

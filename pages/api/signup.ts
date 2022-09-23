@@ -7,7 +7,7 @@ import { createSession } from "./login";
  * @param {any} req
  * @param {any} res
  */
-export default async function handler(req: any, res: any) {
+export default async function handler(req: any, res) {
   const body = JSON.parse(req.body);
   if (body.password !== body.confirmPassword) {
     return res.status(401).json({ message: "Passwords do not match" });

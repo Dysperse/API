@@ -8,7 +8,7 @@ import * as twofactor from "node-2fa";
  * @param {any} res
  * @returns {any}
  */
-const handler = async (req: any, res: any) => {
+const handler = async (req: any, res) => {
   // Get user info from sessions table using accessToken
   const session: any | null = await prisma.session.findUnique({
     where: {

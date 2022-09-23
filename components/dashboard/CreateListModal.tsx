@@ -60,10 +60,7 @@ export function CreateListModal({
           toast("Created item!");
           setShowDetails(false);
         })
-        .catch((err: any) => {
-          alert(JSON.stringify(err));
-          setLoading(false);
-        });
+        .catch(() => setLoading(false));
     },
   });
 

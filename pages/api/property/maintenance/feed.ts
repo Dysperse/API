@@ -10,7 +10,7 @@ const alarms: any = [];
  * @param {any} res
  * @returns {any}
  */
-const handler = async (req: any, res: any) => {
+const handler = async (req: any, res) => {
   const permissions = await validatePermissions(
     req.query.property,
     req.query.accessToken

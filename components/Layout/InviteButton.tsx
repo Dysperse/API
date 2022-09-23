@@ -35,7 +35,15 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
  * @param {any} setColor}
  * @returns {any}
  */
-function Color({ s, color, setColor }: any) {
+function Color({
+  s,
+  color,
+  setColor,
+}: {
+  s: string;
+  color: string;
+  setColor: (color: string) => void;
+}) {
   return (
     <CardActionArea
       onClick={() => {
@@ -71,7 +79,13 @@ function Color({ s, color, setColor }: any) {
  * @param {any} {data}
  * @returns {any}
  */
-function House({ handleClose, data }: any): any {
+function House({
+  handleClose,
+  data,
+}: {
+  handleClose: () => void;
+  data: any;
+}): JSX.Element {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open, 1);
   const [editMode, setEditMode] = React.useState(false);
@@ -105,7 +119,7 @@ function House({ handleClose, data }: any): any {
               email: global.user.email,
               accessToken1: data.accessToken,
             })
-              .then((res: any) => {
+              .then((res) => {
                 toast(
                   <>
                     Currently viewing&nbsp;<b>{res.profile.name}</b>{" "}

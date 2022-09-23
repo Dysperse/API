@@ -98,7 +98,6 @@ function CategoryModal({ category }: { category: string }) {
               setLoading(false);
             })
             .catch(() => {
-              alert("An error occured while trying to fetch your inventory");
               setLoading(false);
             });
         }}

@@ -18,6 +18,7 @@ import React from "react";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
+import type { List } from "../../types/list";
 import { ErrorHandler } from "../ErrorHandler";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
@@ -67,7 +68,7 @@ function ListTip({ name, lists, setLists, tip }) {
             fetchApiWithoutHook("property/lists/createList", {
               name: name,
               description: "",
-            }).then((res: any) => {
+            }).then((res: List) => {
               setLists([...lists, { ...res, items: [] }]);
             });
           }}
@@ -84,9 +85,9 @@ function ListTip({ name, lists, setLists, tip }) {
 /**
  * Renders the list data
  * @param {any} {data}
- * @returns {any}
+ * @returns {JSX.Element}
  */
-function Render({ data }: any) {
+function Render({ data }: { data: List[] }): JSX.Element {
   const [lists, setLists] = React.useState<any>(data);
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -108,7 +109,7 @@ function Render({ data }: any) {
       fetchApiWithoutHook("property/lists/createList", {
         name: values.name,
         description: values.description,
-      }).then((res: any) => {
+      }).then((res: List[]) => {
         setLoading(false);
         setOpen(false);
         setLists([...lists, { ...res, items: [] }]);
