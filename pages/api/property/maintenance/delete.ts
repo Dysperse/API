@@ -9,7 +9,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  */
 const handler = async (req, res) => {
   // Validate permissions
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -18,7 +18,7 @@ const handler = async (req, res) => {
     return;
   }
   // Delete maintenance reminder
-  const data: any | null = await prisma.maintenanceReminder.delete({
+  const data = await prisma.maintenanceReminder.delete({
     where: {
       id: parseInt(req.query.id),
     },

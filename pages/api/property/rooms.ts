@@ -8,15 +8,15 @@ import { validatePermissions } from "../../../lib/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
-    req.query.property,
+  const permissions: null | string = await validatePermissions(
+  const permissions: null | string = await validatePermissions
     req.query.accessToken
   );
   if (!permissions) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const data: any | null = await prisma.customRoom.findMany({
+  const data = await prisma.customRoom.findMany({
     where: {
       property: {
         id: req.query.property,

@@ -9,7 +9,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -18,7 +18,7 @@ const handler = async (req, res) => {
     return;
   }
 
-  const data: any | null = await prisma.item.findMany({
+  const data = await prisma.item.findMany({
     where: {
       room: req.query.room,
       starred: true,

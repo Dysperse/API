@@ -9,7 +9,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  */
 const handler = async (req, res) => {
   // Validate permissions
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -32,7 +32,7 @@ const handler = async (req, res) => {
   }
 
   // Create a new maintenance reminder
-  const data: any | null = await prisma.maintenanceReminder.create({
+  const data = await prisma.maintenanceReminder.create({
     data: {
       property: {
         connect: {

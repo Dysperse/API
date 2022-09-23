@@ -8,7 +8,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -17,7 +17,7 @@ const handler = async (req, res) => {
     return;
   }
   //   Delete user from `propertyInvite` table
-  const data: any | null = await prisma.propertyInvite.delete({
+  const data = await prisma.propertyInvite.delete({
     where: {
       id: parseInt(req.query.id),
     },

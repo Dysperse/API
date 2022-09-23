@@ -8,7 +8,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -29,7 +29,7 @@ const handler = async (req, res) => {
   }
   // Get user id
   const userId = user.id;
-  const data: any | null = await prisma.propertyInvite.create({
+  const data = await prisma.propertyInvite.create({
     data: {
       profile: {
         connect: { id: req.query.property },

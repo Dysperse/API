@@ -7,7 +7,7 @@ import { prisma } from "../../../../lib/client";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const data: any | null = await prisma.maintenanceReminder.findMany({
+  const data = await prisma.maintenanceReminder.findMany({
     where: {
       property: {
         id: req.query.property,

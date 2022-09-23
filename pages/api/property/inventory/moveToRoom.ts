@@ -8,7 +8,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -17,7 +17,7 @@ const handler = async (req, res) => {
     return;
   }
   //   Update the note on an item
-  const data: any | null = await prisma.item.update({
+  const data = await prisma.item.update({
     where: {
       id: parseInt(req.query.id),
     },

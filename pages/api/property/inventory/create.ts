@@ -9,7 +9,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -17,7 +17,7 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const data: any | null = await prisma.item.create({
+  const data = await prisma.item.create({
     data: {
       name:
         CryptoJS.AES.encrypt(

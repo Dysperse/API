@@ -10,7 +10,7 @@ import type { Item } from "../../../../types/list";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -20,7 +20,7 @@ const handler = async (req, res) => {
     return;
   }
 
-  const data: any | null = await prisma.list.findMany({
+  const data = await prisma.list.findMany({
     where: {
       property: {
         id: req.query.property,

@@ -20,7 +20,7 @@ const handler = async (req, res) => {
     },
   });
 
-  const data: any | null = await prisma.propertyInvite.update({
+  const data = await prisma.propertyInvite.update({
     where: {
       accessToken: req.query.accessToken1,
     },

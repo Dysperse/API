@@ -11,7 +11,7 @@ const alarms: any = [];
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
+  const permissions: null | string = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
@@ -19,7 +19,7 @@ const handler = async (req, res) => {
     res.status(401).send("Unauthorized");
     return;
   }
-  const data: any | null = await prisma.maintenanceReminder.findMany({
+  const data = await prisma.maintenanceReminder.findMany({
     where: {
       property: {
         id: req.query.property ?? "false",
