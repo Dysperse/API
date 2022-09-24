@@ -29,7 +29,7 @@ const handler = async (req, res) => {
   // Set header to .ics
   const icsCalendar = await new Promise((resolve) => {
     ics.createEvents(
-      data.map((reminder) => {
+      data.map((reminder: any) => {
         alarms.push({
           action: "audio",
           description: `Reminder: ${reminder.name}`,
