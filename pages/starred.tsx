@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { ItemCard } from "../components/rooms/ItemCard";
 import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
-import type { Item } from "../types/item";
+import type { Item } from "@prisma/client";
 
 /**
  * Items component to load inventory

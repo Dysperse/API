@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { ItemCard } from "../components/rooms/ItemCard";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
-import type { Item } from "../types/item";
+import type { Item } from "@prisma/client";
 
 /**
  * Delete card component, including delete and restore buttons

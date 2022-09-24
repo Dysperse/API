@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-import type { Item } from "../../types/list";
+import type { Item } from "@prisma/client";
 
 /**
  * Create list modal

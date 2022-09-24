@@ -17,7 +17,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
-import type { Room } from "../../types/room";
+import type { CustomRoom as Room } from "@prisma/client";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";

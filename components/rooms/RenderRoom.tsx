@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import type { Item } from "../../types/item";
+import type { Item } from "@prisma/client";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
 import { Toolbar } from "./Toolbar";

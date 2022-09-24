@@ -12,7 +12,7 @@ import React from "react";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
-import type { Item } from "../../types/item";
+import type { Item } from "@prisma/client";
 
 /**
  * Description
@@ -50,7 +50,7 @@ export function EditButton({
 
   const formik = useFormik({
     initialValues: {
-      category: item.category,
+      category: [...item.category],
       name: item.name,
       quantity: item.quantity,
     },
@@ -72,8 +72,8 @@ export function EditButton({
         ...item,
         name: values.name,
         quantity: values.quantity,
-        category: values.category,
-        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        category: JSON.stringify(values.category),
+        lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
       });
       handleClose();
     },

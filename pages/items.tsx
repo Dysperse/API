@@ -24,7 +24,7 @@ import { ItemCard } from "../components/rooms/ItemCard";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
-import type { Item } from "../types/item";
+import type { Item } from "@prisma/client";
 
 /**
  * Category modal
