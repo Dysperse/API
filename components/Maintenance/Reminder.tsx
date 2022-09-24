@@ -52,7 +52,7 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
       note: target.value,
     });
     mutate(
-      `/api/property/maintenance/reminders?${new URLSearchParams({
+      `/api/property/maintenance/reminders/?${new URLSearchParams({
         property: global.property.propertyId,
         accessToken: global.property.accessToken,
       }).toString()}`
@@ -152,10 +152,12 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
                   id: reminder.id,
                 }).then(() => {
                   mutate(
-                    `/api/property/maintenance/reminders?${new URLSearchParams({
-                      property: global.property.propertyId,
-                      accessToken: global.property.accessToken,
-                    }).toString()}`
+                    `/api/property/maintenance/reminders/?${new URLSearchParams(
+                      {
+                        property: global.property.propertyId,
+                        accessToken: global.property.accessToken,
+                      }
+                    ).toString()}`
                   );
                   setOpen(false);
                   toast.success("Reminder deleted");
@@ -180,10 +182,12 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
               })
                 .then(() => {
                   mutate(
-                    `/api/property/maintenance/reminders?${new URLSearchParams({
-                      property: global.property.propertyId,
-                      accessToken: global.property.accessToken,
-                    }).toString()}`
+                    `/api/property/maintenance/reminders/?${new URLSearchParams(
+                      {
+                        property: global.property.propertyId,
+                        accessToken: global.property.accessToken,
+                      }
+                    ).toString()}`
                   );
                   setMarkAsDoneLoading(false);
                   setOpen(false);
@@ -226,7 +230,6 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
             }}
           >
             <Typography variant="h6">{reminder.name}</Typography>
-            <Typography variant="h6">{reminder.note}</Typography>
             <Typography variant="body2">
               <span style={{ textTransform: "capitalize" }}>
                 {reminder.frequency}

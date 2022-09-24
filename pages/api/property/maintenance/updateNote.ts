@@ -22,7 +22,7 @@ const handler = async (req, res) => {
 
   const data = await prisma.maintenanceReminder.update({
     where: {
-      id: req.query.id,
+      id: parseInt(req.query.id, 10),
     },
     data: {
       note: req.query.note,
