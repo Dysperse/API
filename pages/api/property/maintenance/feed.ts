@@ -2,13 +2,7 @@ import { prisma } from "../../../../lib/client";
 import ics from "ics";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
-const alarms: {
-  action: string;
-  description: string;
-  trigger: { hours: number; minutes: number; before: boolean };
-  repeat: number;
-  attachType: string;
-}[] = [];
+const alarms: any[] = [];
 
 /**
  * API handler
