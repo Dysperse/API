@@ -42,9 +42,9 @@ export function CustomRooms({ houseType }: { houseType: string }) {
     fetchApiWithoutHook("property/rooms/create", {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
-      name: newValue.filter(
-        (option: string) => fixedOptions.indexOf(option) === -1
-      ),
+      name: newValue
+        .filter((option: string) => fixedOptions.indexOf(option) === -1)
+        .toString(),
     });
   };
 
