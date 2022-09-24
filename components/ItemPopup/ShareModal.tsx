@@ -21,7 +21,7 @@ export function ShareModal({
   quantity,
   room,
 }: {
-  styles: any;
+  styles: { [key: string]: string | number | boolean };
   title: string;
   quantity: string;
   room: string;

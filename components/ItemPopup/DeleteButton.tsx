@@ -11,7 +11,7 @@ export function DeleteButton({
   styles,
 }: {
   handleItemDelete: () => void;
-  styles: any;
+  styles: { [key: string]: string | number | boolean };
 }): JSX.Element {
   return (
     <ListItem button sx={styles} onClick={handleItemDelete}>

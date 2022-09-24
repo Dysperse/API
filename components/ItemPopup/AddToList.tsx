@@ -83,7 +83,7 @@ export function AddToListModal({
   styles,
   item,
 }: {
-  styles: any;
+  styles: { [key: string]: string | number | boolean };
   item: ItemType;
 }) {
   const [open, setOpen] = useState<boolean>(false);

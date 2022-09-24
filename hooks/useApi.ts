@@ -23,7 +23,12 @@ const getInfo = (path, initialParams, property) => {
  * @param initialParams The parameters to pass to the API
  * @returns The data from the API
  */
-export function useApi(path: string, initialParams: any = {}): ApiResponse {
+export function useApi(
+  path: string,
+  initialParams: {
+    [key: string]: string | number | boolean;
+  } = {}
+): ApiResponse {
   const { url } = getInfo(path, initialParams, global.property);
 
   const { data, error } = useSWR(url, () =>

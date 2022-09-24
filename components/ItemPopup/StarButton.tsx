@@ -13,7 +13,7 @@ export function StarButton({
   item,
   handleItemStar,
 }: {
-  styles: any;
+  styles: { [key: string]: string | number | boolean };
   item: Item;
   handleItemStar: () => void;
 }): JSX.Element {
