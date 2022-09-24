@@ -17,7 +17,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
-import type { Room } from "../../types/room";
+import type { CustomRoom as Room } from "@prisma/client";
 import { ErrorHandler } from "../ErrorHandler";
 import { BottomNav } from "./BottomNav";
 import { DrawerListItems } from "./Links";

@@ -10,7 +10,7 @@ import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import type { ApiResponse } from "../../types/client";
-import type { Room as RoomType } from "../../types/room";
+import type { CustomRoom as RoomType } from "@prisma/client";
 import IconButton from "@mui/material/IconButton";
 
 /**

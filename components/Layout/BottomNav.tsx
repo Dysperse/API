@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import React from "react";
-import type { Reminder } from "../../types/maintenance";
+import type { MaintenanceReminder as Reminder } from "@prisma/client";
 
 /**
  * Bottom navigation bar
@@ -118,7 +118,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
           setValue(0);
         }
     }
-  }, []);
+  }, [router.asPath]);
   /**
    * Handles button click
    * @param {any} href
