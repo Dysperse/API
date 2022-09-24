@@ -130,7 +130,7 @@ function NoteModal({
   title,
   content,
 }: {
-  id?: number;
+  id?: string;
   url: string;
   create?: boolean;
   open: boolean;
@@ -435,7 +435,7 @@ function CreateNoteModal({ url }: { url: string }) {
 function Note({ url, note }: { url: string; note: Note }) {
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>(note.name);
- 
+
   return (
     <>
       <NoteModal
@@ -444,7 +444,7 @@ function Note({ url, note }: { url: string; note: Note }) {
         setOpen={setOpen}
         title={name}
         content={note.content}
-        id={parseInt(note.id)}
+        id={note.id}
       />
       <Card
         onClick={() => {

@@ -12,11 +12,11 @@ const handler = async (req, res) => {
     req.query.property,
     req.query.accessToken
   );
+
   if (!permissions || permissions === "read-only") {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-
   const note = await prisma.note.update({
     data: {
       name: req.query.title,
