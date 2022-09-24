@@ -9,7 +9,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import SwipeableViews from "react-swipeable-views";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-import type { Item } from "../../types/list";
+import type { ListItem as Item } from "@prisma/client";
 
 /**
  * @description Generates a list item for shopping list / todo list
