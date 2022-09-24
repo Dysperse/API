@@ -39,7 +39,7 @@ export function CustomRooms({ houseType }: any) {
       freeSolo
       id="fixed-tags-demo"
       value={value}
-      onChange={(event: any, newValue: any) => {
+      onChange={(_, newValue: any) => {
         setValue([
           ...fixedOptions,
           ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),

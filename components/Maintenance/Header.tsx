@@ -118,7 +118,7 @@ function CalendarFeedModal(): JSX.Element {
  * @param {any} formik}
  * @returns {any}
  */
-function SelectDateCalendar({ date, formik }: { date: any; formik: any }) {
+function SelectDateCalendar({ date, formik }: { date: Date; formik: any }) {
   const [open, setOpen] = useState(false);
   const { classes, cx } = useStyles();
   useStatusBar(open, 1);
@@ -342,7 +342,10 @@ function CreateMaintenanceModal() {
               onChange={formik.handleChange}
               sx={{ mb: 2 }}
             />
-            <SelectDateCalendar date={formik.values.nextDue} formik={formik} />
+            <SelectDateCalendar
+              date={new Date(formik.values.nextDue)}
+              formik={formik}
+            />
             <ButtonGroup
               variant="outlined"
               sx={{

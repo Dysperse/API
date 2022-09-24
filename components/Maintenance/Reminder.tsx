@@ -25,6 +25,49 @@ export function Reminder({ reminder }: any) {
   const [markAsDoneLoading, setMarkAsDoneLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
+  /**
+   *Handles update note
+   * @param { React.FocusEvent<HTMLInputElement> } e
+   */
+  const handleUpdateNote = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (e.code === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      target.value = target.value.trim();
+      target.blur();
+    }
+  };
+  /**
+   * Handles note blur update
+   * @param { React.FocusEvent<HTMLInputElement> } e
+   */
+  const handleNoteBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+
+    target.placeholder = "Click to add note";
+    target.spellcheck = false;
+    fetchApiWithoutHook("property/maintenance/updateNote", {
+      id: reminder.id,
+      note: target.value,
+    });
+    mutate(
+      `/api/property/maintenance/reminders?${new URLSearchParams({
+        property: global.property.propertyId,
+        accessToken: global.property.accessToken,
+      }).toString()}`
+    );
+  };
+
+  /**
+   * Handles focus event
+   */
+
+  const handleFocusEvent = (e: React.FocusEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    target.placeholder = "SHIFT+ENTER for new lines";
+    target.spellcheck = true;
+  };
+
   return (
     <>
       <SwipeableDrawer
@@ -60,27 +103,8 @@ export function Reminder({ reminder }: any) {
           <TextField
             multiline
             fullWidth
-            onBlur={(e) => {
-              e.target.placeholder = "Click to add note";
-              e.target.spellcheck = false;
-              fetchApiWithoutHook("property/maintenance/updateNote", {
-                id: reminder.id,
-                note: e.target.value,
-              });
-              mutate(
-                `/api/property/maintenance/reminders?${new URLSearchParams({
-                  property: global.property.propertyId,
-                  accessToken: global.property.accessToken,
-                }).toString()}`
-              );
-            }}
-            onKeyUp={(e: any) => {
-              if (e.code === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                e.target.value = e.target.value.trim();
-                e.target.blur();
-              }
-            }}
+            onBlur={handleNoteBlur}
+            onKeyUp={handleUpdateNote}
             InputProps={{
               disableUnderline: true,
               sx: {
@@ -100,10 +124,7 @@ export function Reminder({ reminder }: any) {
             variant="filled"
             defaultValue={reminder.note}
             maxRows={4}
-            onFocus={(e) => {
-              e.target.placeholder = "SHIFT+ENTER for new lines";
-              e.target.spellcheck = true;
-            }}
+            onFocus={handleFocusEvent}
             disabled={global.property.role === "read-only"}
             placeholder={
               global.property.role !== "read-only"
