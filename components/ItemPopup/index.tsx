@@ -190,6 +190,20 @@ export default function Item({
         : colors[themeColor][900],
     },
   };
+  /**
+   * Callback for note key press
+   * @param {React.KeyboardEvent} event
+   */
+
+  const handleUpdateNote = (e: React.KeyboardEvent) => {
+    const target: HTMLInputElement = e.target as HTMLInputElement;
+
+    if (e.code === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      target.value = target.value.trim();
+      target.blur();
+    }
+  };
   return (
     <>
       <Menu
@@ -391,13 +405,7 @@ export default function Item({
                         note: e.target.value,
                       });
                     }}
-                    onKeyUp={(e: any) => {
-                      if (e.code === "Enter" && !e.shiftKey) {
-                        e.preventDefault();
-                        e.target.value = e.target.value.trim();
-                        e.target.blur();
-                      }
-                    }}
+                    onKeyUp={handleUpdateNote}
                     InputProps={{
                       disableUnderline: true,
                       sx: {
