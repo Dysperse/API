@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import Head from "next/head";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 /**
  * Query function

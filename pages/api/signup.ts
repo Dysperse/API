@@ -1,5 +1,4 @@
 import argon2 from "argon2";
-import { NextRequest } from "next/server";
 import { prisma } from "../../lib/client";
 import { createSession } from "./login";
 
