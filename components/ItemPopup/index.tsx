@@ -7,13 +7,12 @@ import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
 import { deepOrange } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import type { Item as ItemType } from "@prisma/client";
 import dayjs from "dayjs";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -30,7 +29,6 @@ import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
-import type { Item as ItemType } from "@prisma/client";
 
 /**
  * Item popup
