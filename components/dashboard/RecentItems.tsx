@@ -4,7 +4,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import { useApi } from "../../hooks/useApi";
 import type { ApiResponse } from "../../types/client";
-import type { Item as ItemType } from "../../types/item";
+import type { Item as ItemType } from "@prisma/client";
 import { ErrorHandler } from "../ErrorHandler";
 import Item from "../ItemPopup";
 

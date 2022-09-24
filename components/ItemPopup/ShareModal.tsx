@@ -20,7 +20,12 @@ export function ShareModal({
   title,
   quantity,
   room,
-}: any): JSX.Element {
+}: {
+  styles: any;
+  title: string;
+  quantity: string;
+  room: string;
+}): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const href = `https://${window.location.hostname}/share/${encodeURIComponent(
     JSON.stringify({

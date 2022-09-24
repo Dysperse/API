@@ -1,5 +1,6 @@
 import ListItem from "@mui/material/ListItem";
 import type { Item } from "@prisma/client";
+
 /**
  * Description
  * @param {any} {styles
@@ -15,7 +16,7 @@ export function StarButton({
   styles: any;
   item: Item;
   handleItemStar: () => void;
-}) {
+}): JSX.Element {
   return (
     <ListItem button sx={styles} onClick={handleItemStar}>
       {item.starred ? (

@@ -14,8 +14,8 @@ import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import type { ApiResponse } from "../../types/client";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import type { List as ListType } from "../../types/list";
-import type { Item as ItemType } from "../../types/item";
+import type { List as ListType } from "@prisma/client";
+import type { Item as ItemType } from "@prisma/client";
 
 /**
  * Description

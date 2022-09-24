@@ -44,7 +44,9 @@ export function QrCodeModal({ item }: any): JSX.Element {
    * @param {any} event
    * @returns {any}
    */
-  const stopPropagationForTab = (event: any) => {
+  const stopPropagationForTab = (
+    event: React.KeyboardEvent<HTMLDivElement>
+  ) => {
     if (event.key !== "Esc") {
       event.stopPropagation();
     }

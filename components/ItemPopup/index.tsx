@@ -30,7 +30,7 @@ import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
-import type { Item as ItemType } from "../../types/item";
+import type { Item as ItemType } from "@prisma/client";
 
 /**
  * Item popup
@@ -121,7 +121,7 @@ export default function Item({
   const handleItemStar = (): void => {
     setItemData({
       ...item,
-      lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
       starred: !item.starred,
     });
     fetchApiWithoutHook("property/inventory/star", {
@@ -392,7 +392,9 @@ export default function Item({
                       e.target.spellcheck = false;
                       setItemData({
                         ...item,
-                        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                        lastModified: new Date(
+                          dayjs().format("YYYY-MM-DD HH:mm:ss")
+                        ),
                       });
                       // Update item note
                       setItemData({
@@ -601,7 +603,7 @@ export default function Item({
                       label={data.room}
                       size="small"
                     />
-                    {item.category.map((category: string) => {
+                    {JSON.parse(item.category).map((category: string) => {
                       if (category.trim() === "") return false;
                       return (
                         <Chip
@@ -758,7 +760,7 @@ export default function Item({
                     {!displayRoom && item.quantity.length > 18 && "..."}
                   </Typography>
                   {!displayRoom &&
-                    item.category.map((category: string) => {
+                    JSON.parse(item.category).map((category: string) => {
                       if (category.trim() === "") return false;
                       return (
                         <Chip
