@@ -84,13 +84,7 @@ function Loading(): JSX.Element {
         spacing={{ xs: 0, sm: 2 }}
         sx={{ mt: 10, width: "100%", mx: "auto" }}
       >
-        <Grid
-          item
-          xs={0}
-          sm={2}
-          xl={3}
-          sx={{ display: { xs: "none", sm: "block" } }}
-        >
+        <Grid item xs={0} sm={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <Box sx={{ pt: { sm: 15 }, pl: { sm: 2 } }}>
             <Skeleton
               variant="rectangular"
@@ -107,7 +101,7 @@ function Loading(): JSX.Element {
             ))}
           </Box>
         </Grid>
-        <Grid item xs={12} sm={10} xl={9}>
+        <Grid item xs={12} sm={10}>
           <Container sx={{ mt: { xs: 5, sm: 15 } }}>
             <Grid container spacing={2.2}>
               {[...new Array(10)].map(() => (
