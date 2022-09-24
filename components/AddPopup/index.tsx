@@ -134,6 +134,11 @@ function MoreRooms(): JSX.Element {
   if (error) {
     return <>An error occured while trying to fetch your rooms. </>;
   }
+  /**
+   * Handle drawer toggle
+   */
+  const handleClickOpen = () => setOpen(true);
+
   return (
     <>
       <SwipeableDrawer
@@ -238,7 +243,7 @@ function MoreRooms(): JSX.Element {
               transition: "none",
             },
           }}
-          onClick={() => setOpen(true)}
+          onClick={handleClickOpen}
         >
           <CardActionArea
             disableRipple
@@ -403,6 +408,15 @@ export default function AddPopup({
     setOpen(newOpen);
   };
 
+  /**
+   * handleAddItemDrawerOpen
+   */
+  const handleAddItemDrawerOpen = () => {
+    if (global.property.role !== "read-only") {
+      setOpen(true);
+    }
+  };
+
   return (
     <Root>
       <CssBaseline />
@@ -414,15 +428,7 @@ export default function AddPopup({
           },
         }}
       />
-      <div
-        aria-hidden
-        id="add_trigger"
-        onClick={() => {
-          if (global.property.role !== "read-only") {
-            setOpen(true);
-          }
-        }}
-      >
+      <div aria-hidden id="add_trigger" onClick={handleAddItemDrawerOpen}>
         {children}
       </div>
 

@@ -57,6 +57,13 @@ export function Prompt({
         setButtonLoading(false);
       });
   };
+  /**
+   * handleOpen
+   */
+  const handleOpen = () => {
+    setOpen(false);
+    callback();
+  };
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -195,10 +202,7 @@ export function Prompt({
             </Button>
             <Button
               variant="outlined"
-              onClick={() => {
-                setOpen(false);
-                callback();
-              }}
+              onClick={handleOpen}
               size="large"
               sx={{
                 width: "100%",
