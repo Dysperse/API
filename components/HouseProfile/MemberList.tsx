@@ -29,9 +29,11 @@ export function isEmail(email: string): boolean {
  * @returns {any}
  */
 function Member({
+  color,
   setOpen,
   member,
 }: {
+  color: string;
   setOpen: (open: boolean) => void;
   member: MemberType;
 }): JSX.Element {
@@ -108,13 +110,13 @@ function Member({
           loading={loading}
           variant="outlined"
           sx={{
+            "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
+              borderColor: `${colors[color][900]}!important`,
+            },
             borderWidth: "2px!important",
             width: "100%",
             mt: 1.5,
-            color: colors.red[900],
-            "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-              borderColor: `${colors.red[900]}!important`,
-            },
+            color: colors[color][900],
             borderRadius: 4,
           }}
           onClick={() => {
@@ -165,7 +167,7 @@ export function MemberList({
     ? [
         ...data.map((member) => {
           return {
-            content: <Member setOpen={setOpen} member={member} />,
+            content: <Member color={color} setOpen={setOpen} member={member} />,
           };
         }),
       ]
