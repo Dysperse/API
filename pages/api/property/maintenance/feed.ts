@@ -1,6 +1,7 @@
 import { prisma } from "../../../../lib/client";
 import ics from "ics";
 import { validatePermissions } from "../../../../lib/validatePermissions";
+import { rejects } from "assert";
 
 const alarms: any = [];
 
@@ -19,7 +20,7 @@ const handler = async (req, res) => {
     res.status(401).send("Unauthorized");
     return;
   }
-  const data = await prisma.maintenanceReminder.findMany({
+  const data: any = await prisma.maintenanceReminder.findMany({
     where: {
       property: {
         id: req.query.property ?? "false",
@@ -27,7 +28,7 @@ const handler = async (req, res) => {
     },
   });
   // Set header to .ics
-  const icsCalendar = await new Promise((resolve) => {
+  const icsCalendar = await new Promise((resolve, reject) => {
     ics.createEvents(
       data.map((reminder: any) => {
         alarms.push({
@@ -60,6 +61,7 @@ const handler = async (req, res) => {
       }),
       (error, value) => {
         if (error) {
+          reject(error);
         }
 
         resolve(value);
