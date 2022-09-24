@@ -50,9 +50,7 @@ function Query({
  */
 export default function Share() {
   const router = useRouter();
-  const query: {
-    [key: string]: string;
-  } = router && router.query.index;
+  const query: any = router && router.query.index;
 
   return (
     <>
@@ -109,7 +107,7 @@ export default function Share() {
           }}
         >
           {query ? (
-            <Query query={JSON.parse(query)} />
+            <Query query={query} />
           ) : (
             <>
               <Skeleton
