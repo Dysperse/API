@@ -4,6 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import MenuItem from "@mui/material/MenuItem";
+import { Item } from "@prisma/client";
 import { useState } from "react";
 import QRCode from "react-qr-code";
 
@@ -12,7 +13,7 @@ import QRCode from "react-qr-code";
  * @param {any} {item}
  * @returns {any}
  */
-export function QrCodeModal({ item }: any): JSX.Element {
+export function QrCodeModal({ item }: { item: Item }): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const href = `https://${window.location.hostname}/share/${encodeURIComponent(
     JSON.stringify({

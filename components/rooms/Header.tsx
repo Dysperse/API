@@ -15,7 +15,7 @@ export function Header({
   room,
   itemCount,
 }: {
-  useAlias: any;
+  useAlias?: string | null;
   room: string;
   itemCount: number;
 }) {

@@ -9,7 +9,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
  * @param {any} {houseType}
  * @returns {any}
  */
-export function CustomRooms({ houseType }: any) {
+export function CustomRooms({ houseType }: { houseType: string }) {
   //  eslint-disable-next-line react-hooks/exhaustive-deps
   const fixedOptions = [
     ...(houseType === "dorm" ? [] : ["Kitchen"]),
@@ -63,7 +63,7 @@ export function CustomRooms({ houseType }: any) {
       value={value}
       onChange={handleChange}
       options={[]}
-      getOptionLabel={(option: any) => option}
+      getOptionLabel={(option: string) => option}
       renderTags={(tagValue, getTagProps) =>
         tagValue.map((option, index) => (
           <React.Fragment key={option.toString()}>

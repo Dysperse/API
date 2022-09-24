@@ -67,7 +67,7 @@ function Products() {
    * @param {any} panel
    * @returns {any}
    */
-  const handleChange = (panel: any) => {
+  const handleChange = (panel: number) => {
     setExpanded(panel);
   };
 

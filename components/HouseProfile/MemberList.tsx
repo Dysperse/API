@@ -173,7 +173,7 @@ export function MemberList({
       ]
     : [];
 
-  const [emblaRef, emblaApi]: any = useEmblaCarousel(
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       dragFree: true,
     },

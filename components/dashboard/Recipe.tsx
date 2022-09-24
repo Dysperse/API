@@ -137,7 +137,7 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
               );
             })}
             <Button
-              href={recipe.strSource}
+              href={recipe.strSource.toString()}
               target="_blank"
               fullWidth
               variant="outlined"

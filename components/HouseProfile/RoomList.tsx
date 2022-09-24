@@ -85,7 +85,7 @@ export function RoomList({ color }: { color: string }) {
   const wheelGestures = WheelGesturesPlugin();
   const trigger = useMediaQuery("(max-width: 600px)");
   const { data }: ApiResponse = useApi("property/rooms");
-  const [emblaRef, emblaApi]: any = useEmblaCarousel(
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       dragFree: true,
       slidesToScroll: trigger ? 2 : 2,

@@ -26,7 +26,7 @@ export function EditButton({
   item,
   setItemData,
 }: {
-  styles: { [key: string]: string | number | boolean };
+  styles: { [key: string]: string | number | boolean | Object };
   item: Item;
   setItemData: (item: Item) => void;
 }): JSX.Element {
