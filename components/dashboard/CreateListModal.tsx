@@ -144,33 +144,6 @@ export function CreateListModal({
                 variant="standard"
               />
             </Collapse>
-            {customParent === "-1" &&
-              (formik.values.name.toLowerCase().includes("get ") ||
-                formik.values.name.toLowerCase().includes("buy ") ||
-                formik.values.name.toLowerCase().includes("bring ") ||
-                formik.values.name.toLowerCase().includes("shop ")) && (
-                <Button
-                  variant="outlined"
-                  sx={{ borderWidth: "2px!important" }}
-                  size="small"
-                  onClick={() => setCustomParent("-2")}
-                >
-                  Add this to your shopping list instead?
-                </Button>
-              )}
-            {customParent === "-2" &&
-              (formik.values.name.toLowerCase().includes("pay ") ||
-                formik.values.name.toLowerCase().includes("fix ") ||
-                formik.values.name.toLowerCase().includes("throw ")) && (
-                <Button
-                  variant="outlined"
-                  sx={{ borderWidth: "2px!important" }}
-                  size="small"
-                  onClick={() => setCustomParent("-1")}
-                >
-                  Add this to your to do list instead?
-                </Button>
-              )}
             <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
               <Box sx={{ ml: -1 }}>
                 <IconButton
