@@ -105,7 +105,7 @@ function ElevationScroll(props) {
           pr: 0.4,
           backdropFilter: "blur(20px)",
           background: global.user.darkMode
-            ? "hsl(240, 11%, 10%)"
+            ? "rgba(33,33,38)"
             : hexToRgba(
                 colors[router.asPath === "/maintenance" ? "green" : themeColor][
                   "100"
