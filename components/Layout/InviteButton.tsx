@@ -106,6 +106,14 @@ function House({
     setPropertyType(event.target.value as string);
   };
 
+  /**
+   * Callback for updating note blur event
+   * @param { React.FocusEvent<HTMLInputElement> } event
+   */
+  const handleUpdateName = (event: React.FocusEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    updateSettings("name", target.value, false, null, true);
+  };
   return (
     <>
       <ListItem
@@ -423,9 +431,9 @@ function House({
                   id="nameInput"
                   label="Home name / Family name / Address"
                   placeholder="1234 Rainbow Road"
-                  onBlur={(e: any) => {
-                    updateSettings("name", e.target.value, false, null, true);
-                  }}
+                  onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+                    handleUpdateName(e)
+                  }
                 />
                 <Box sx={{ mt: 2, overflowX: "scroll", whiteSpace: "nowrap" }}>
                   <Color setColor={setColor} s={color} color={"red"} />
