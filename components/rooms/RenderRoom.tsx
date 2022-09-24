@@ -19,7 +19,7 @@ import { Toolbar } from "./Toolbar";
  * @param {any} {index}
  * @returns {any}
  */
-export function RenderRoom({ data, index }: any) {
+export function RenderRoom({ data, index }: { data: Item[]; index: string }) {
   const router = useRouter();
   const [items, setItems] = useState(data);
 
