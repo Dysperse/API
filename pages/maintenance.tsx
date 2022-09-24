@@ -8,7 +8,8 @@ import { Header } from "../components/Maintenance/Header";
 import { Reminder } from "../components/Maintenance/Reminder";
 import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
-import type { Reminder as ReminderType } from "../types/maintenance";
+import { MaintenanceReminder as ReminderType } from "@prisma/client";
+
 /**
  * Top-level component for the maintenance page
  */
