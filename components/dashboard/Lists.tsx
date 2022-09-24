@@ -18,7 +18,7 @@ import React from "react";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
-import type { List } from "../../types/list";
+import type { List } from "@prisma/client";
 import { ErrorHandler } from "../ErrorHandler";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";

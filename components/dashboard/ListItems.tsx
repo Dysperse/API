@@ -19,7 +19,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { CreateListModal } from "./CreateListModal";
 import { GenerateListItem } from "./GenerateListItem";
-import type { List } from "../../types/list";
+import type { List } from "@prisma/client";
 import type { ListItem as Item } from "@prisma/client";
 
 /**
