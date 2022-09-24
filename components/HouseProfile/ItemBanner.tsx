@@ -36,7 +36,7 @@ export function UpgradeBanner({ color }: { color: string }) {
           variant="determinate"
           value={(data.count / 250) * 100}
         />
-        <Typography>{data.count} out of 250 items</Typography>
+        <Typography>{data.count} out of 250 items. </Typography>
       </Box>
     </Box>
   );
