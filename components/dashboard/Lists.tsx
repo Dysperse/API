@@ -120,7 +120,7 @@ function Render({ data }: { data: List[] }): JSX.Element {
   return (
     <Masonry
       sx={{ mt: 2 }}
-      columns={{ xs: 1, sm: 2, xl: 3 }}
+      columns={{ xs: 1, sm: 2 }}
       spacing={{ xs: 0, sm: 1 }}
     >
       {lists.map((list) => (
@@ -200,7 +200,8 @@ function Render({ data }: { data: List[] }): JSX.Element {
               Create list
             </DialogTitle>
             <DialogContent>
-              Good examples of list names are short and descriptive.
+              PRO TIP: You can share lists with members who aren&apos;t invited
+              to your home!
               <TextField
                 autoComplete="off"
                 id="listName"
