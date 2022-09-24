@@ -435,6 +435,7 @@ function CreateNoteModal({ url }: { url: string }) {
 function Note({ url, note }: { url: string; note: Note }) {
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>(note.name);
+ 
   return (
     <>
       <NoteModal

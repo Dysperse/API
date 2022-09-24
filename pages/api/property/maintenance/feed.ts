@@ -17,7 +17,7 @@ const alarms: {
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions: null | string = await validatePermissions(
+  const permissions = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );

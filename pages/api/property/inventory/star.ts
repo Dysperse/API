@@ -9,7 +9,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  */
 const handler = async (req, res) => {
   // Toggle star status on on an item
-  const permissions: null | string = await validatePermissions(
+  const permissions = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
