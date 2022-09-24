@@ -513,13 +513,9 @@ function SmartlistApp({
 }): JSX.Element {
   return (
     <>
-      <NoSsr>
-        <RenderApp
-          router={router}
-          Component={Component}
-          pageProps={pageProps}
-        />
-      </NoSsr>
+      {/* <NoSsr> */}
+      <RenderApp router={router} Component={Component} pageProps={pageProps} />
+      {/* </NoSsr> */}
       <Script src="/prevent-navigate-history.js" />
     </>
   );
