@@ -549,8 +549,9 @@ export function InviteButton() {
    * @param {React.MouseEvent<any>} event
    * @returns {any}
    */
-  const handleClick = (event: React.MouseEvent<any>) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (event) => {
+    const target = event.currentTarget as HTMLButtonElement;
+    setAnchorEl(target);
   };
 
   /**

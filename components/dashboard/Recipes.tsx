@@ -10,7 +10,7 @@ import type { Meal } from "../../types/recipe";
  * @returns {JSX.Element}
  */
 export function Recipes(): JSX.Element {
-  const [recipes, setRecipes] = useState<any>([]);
+  const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(false);
 
   /**

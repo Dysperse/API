@@ -16,6 +16,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
+import { MaintenanceReminder } from "@prisma/client";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { encode } from "js-base64";
@@ -332,7 +333,7 @@ export function DrawerListItems({
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
   customRooms: JSX.Element;
-  maintenance: Array<any>;
+  maintenance: Array<MaintenanceReminder>;
 }) {
   return (
     <List
