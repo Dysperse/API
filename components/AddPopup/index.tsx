@@ -44,11 +44,6 @@ function AddItemOption({
   icon: JSX.Element | string;
   title: JSX.Element | string;
 }): JSX.Element {
-  /**
-   * Handle drawer close
-   */
-  const handleDrawerClose = () => toggleDrawer(false);
-
   return (
     <Grid item xs={12} sm={4}>
       <CreateItemModal room={title} alias={alias}>

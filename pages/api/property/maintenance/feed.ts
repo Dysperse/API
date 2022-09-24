@@ -1,7 +1,6 @@
 import { prisma } from "../../../../lib/client";
 import ics from "ics";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-import { rejects } from "assert";
 
 const alarms: any = [];
 
