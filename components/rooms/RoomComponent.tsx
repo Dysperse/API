@@ -13,7 +13,7 @@ import { RenderRoom } from "./RenderRoom";
  * @returns {JSX.Element}
  */
 
-export function RoomComponent({ index }: any): JSX.Element {
+export function RoomComponent({ index }: { index: string }): JSX.Element {
   const router = useRouter();
   const { error, loading, data }: ApiResponse = useApi(
     "property/inventory/list",
