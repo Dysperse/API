@@ -29,6 +29,8 @@ import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
 import type { House } from "../../types/houseProfile";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
+import { UpgradeBanner } from "../HouseProfile/ItemBanner";
+
 /**
  * Color component for house profile
  * @param {any} {s
@@ -485,6 +487,8 @@ function House({
               px: { sm: "30px" },
             }}
           >
+            <UpgradeBanner color={color} />
+
             <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
               Members
             </Typography>
@@ -586,6 +590,7 @@ export function InviteButton() {
               sm: "rgba(0,0,0,0)!important",
             },
             backdropFilter: { sm: "blur(0px)" },
+            opacity: { sm: "0!important" },
           },
         }}
         sx={{

@@ -133,7 +133,13 @@ export function RoomList({ color }: { color: string }) {
           <span className="material-symbols-rounded">chevron_left</span>
         </IconButton>
       )}
-      <div className="embla" ref={emblaRef}>
+      <div
+        className="embla"
+        ref={emblaRef}
+        style={{
+          width: "100%",
+        }}
+      >
         <div className="embla__container">
           {images.length === 0 ? (
             <Box
@@ -146,8 +152,8 @@ export function RoomList({ color }: { color: string }) {
                 background: colors[color][100],
               }}
             >
-              <div style={{ width: "100%" }}>
-                You haven&apos;t created any rooms yet
+              <div style={{ width: "100%", display: "flex" }}>
+                You haven&apos;t created any rooms yet!
               </div>
             </Box>
           ) : (

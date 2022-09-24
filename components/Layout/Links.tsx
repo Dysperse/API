@@ -35,7 +35,7 @@ import { Puller } from "../Puller";
  * @param {any} {collapsed}
  * @returns {any}
  */
-function CreateRoom({ collapsed }: { collapsed: boolean }) {
+function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
   const router = useRouter();
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
