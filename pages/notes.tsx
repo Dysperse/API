@@ -12,6 +12,7 @@ import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { Note } from "@prisma/client";
 import { useFormik } from "formik";
 import hexToRgba from "hex-to-rgba";
 import { useEffect, useState } from "react";
@@ -431,7 +432,7 @@ function CreateNoteModal({ url }: { url: string }) {
  * @param {any} note}
  * @returns {any}
  */
-function Note({ url, note }) {
+function Note({ url, note }: { url: string; note: Note }) {
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>(note.name);
   return (
@@ -442,7 +443,7 @@ function Note({ url, note }) {
         setOpen={setOpen}
         title={name}
         content={note.content}
-        id={note.id}
+        id={parseInt(note.id)}
       />
       <Card
         onClick={() => {
@@ -504,7 +505,7 @@ export default function Notes(): JSX.Element {
       {data ? (
         <Masonry sx={{ mt: 2 }} columns={{ xs: 1, sm: 2, xl: 2 }}>
           <CreateNoteModal url={url} />
-          {data.map((note: any) => (
+          {data.map((note: Note) => (
             <Note key={note.id} note={note} url={url} />
           ))}
           {data.length === 0 && (
