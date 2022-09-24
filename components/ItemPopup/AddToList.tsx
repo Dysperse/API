@@ -55,10 +55,10 @@ function RoomList({
           <ListItemButton
             sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
             onClick={() => {
-              fetchApiWithoutHook("lists/create-item", {
-                parent: list.id,
-                title: title,
-                description: "",
+              fetchApiWithoutHook("property/lists/createItem", {
+                list: list.id,
+                name: title,
+                details: "",
               }).then(() => {
                 toast.success("Added item!");
                 handleClose();

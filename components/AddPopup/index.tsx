@@ -70,7 +70,6 @@ function AddItemOption({
         >
           <CardActionArea
             disableRipple
-            onClick={handleDrawerClose}
             sx={{
               px: {
                 xs: 3,
@@ -473,16 +472,19 @@ export default function AddPopup({
             alignItems: "center",
           }}
         >
-          <IconButton
+          {/* <IconButton
             disabled
             sx={{ mr: "auto", opacity: 0, pointerEvents: "none" }}
           >
             <span className="material-symbols-rounded">view_in_ar</span>
-          </IconButton>
-          <Typography variant="h6" sx={{ mx: "auto", fontWeight: "600" }}>
+          </IconButton> */}
+          <Typography
+            variant="h6"
+            sx={{ my: 1, mx: "auto", fontWeight: "600" }}
+          >
             Create item
           </Typography>
-          <IconButton
+          {/* <IconButton
             disabled
             size="large"
             onClick={() => window.open("/scan")}
@@ -499,7 +501,7 @@ export default function AddPopup({
             disableRipple
           >
             <span className="material-symbols-rounded">view_in_ar</span>
-          </IconButton>
+          </IconButton> */}
         </DialogTitle>
         <Content toggleDrawer={toggleDrawer} />
       </SwipeableDrawer>

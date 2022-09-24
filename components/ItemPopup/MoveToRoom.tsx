@@ -86,7 +86,7 @@ function Room({
  * @param {any} setDrawerState}
  * @returns {any}
  */
-export function MoveToRoom({ styles, item, setDeleted, setDrawerState }) {
+export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open, 1);
 
@@ -140,16 +140,18 @@ export function MoveToRoom({ styles, item, setDeleted, setDrawerState }) {
               "Storage room",
               "Camping",
               "Garden",
-            ].map((room) => (
-              <Room
-                key={Math.random().toString()}
-                room={room}
-                setDrawerState={setDrawerState}
-                setOpen={setOpen}
-                id={parseInt(item.id)}
-                setDeleted={setDeleted}
-              />
-            ))}
+            ]
+              .filter((index) => index.toLowerCase() !== room.toLowerCase())
+              .map((index) => (
+                <Room
+                  key={Math.random().toString()}
+                  room={index}
+                  setDrawerState={setDrawerState}
+                  setOpen={setOpen}
+                  id={parseInt(item.id)}
+                  setDeleted={setDeleted}
+                />
+              ))}
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>

@@ -49,7 +49,6 @@ export function Header({
           display: "flex",
           alignItems: "center",
           width: "100%",
-          color: "#fff",
         }}
       >
         <ListItemText
@@ -83,37 +82,6 @@ export function Header({
               {itemCount} item{itemCount !== 1 && "s"}
             </Typography>
           }
-        />
-      </Box>
-      <Box
-        sx={{
-          "& *": {
-            position: "absolute",
-            left: 0,
-            top: 0,
-            right: 0,
-            bottom: 0,
-            display: "inline-block",
-          },
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,.1)",
-            zIndex: 1,
-          }}
-        />
-        <BoringAvatar
-          colors={["#741952", "#FE3174", "#F1C15D", "#94BB68", "#09A3AD"]}
-          square
-          size={"100vw"}
-          name={room.toString()}
-          variant="marble"
         />
       </Box>
     </ListItem>

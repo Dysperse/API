@@ -170,8 +170,8 @@ img {
   }
 }
 ::selection {
-  background: var(--theme);
-  color: gray;
+  color: #fff;
+  background: var(--bg);
 }
 
 .embla {

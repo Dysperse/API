@@ -313,6 +313,7 @@ function Render({
     "--theme",
     hex2rgba(colors[themeColor]["100"], 0.5)
   );
+  document.documentElement.style.setProperty("--bg", colors[themeColor][900]);
   return (
     <>
       <Head>

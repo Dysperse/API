@@ -286,7 +286,13 @@ export default function Item({
           elevation: 0,
           sx: {
             maxHeight: "90vh",
-            width: { xs: "100vw", sm: "95vw", md: "80vw", lg: "70vw" },
+            width: {
+              xs: "100vw",
+              sm: "95vw",
+              md: "80vw",
+              lg: "70vw",
+              xl: "60vw",
+            },
             mx: "auto",
             background: "transparent",
           },
@@ -343,6 +349,7 @@ export default function Item({
                 item
                 xs={12}
                 sm={6}
+                xl={7}
                 sx={{
                   alignItems: "center",
                   display: "flex",
@@ -364,25 +371,27 @@ export default function Item({
                     Quantity: {item.quantity || "(no quantity)"}
                   </Typography>
                   <div>
-                    {[item.room, ...item.category].map((category: string) => {
-                      return (
-                        <Chip
-                          key={Math.random().toString()}
-                          label={category}
-                          onClick={() => {
-                            router.push("/items");
-                            setDrawerState(false);
-                          }}
-                          sx={{
-                            px: 2,
-                            mr: 1,
-                            mb: 2.5,
-                            mt: -0.5,
-                            textTransform: "capitalize",
-                          }}
-                        />
-                      );
-                    })}
+                    {[item.room, ...JSON.parse(item.category)].map(
+                      (category: string) => {
+                        return (
+                          <Chip
+                            key={Math.random().toString()}
+                            label={category}
+                            onClick={() => {
+                              router.push("/items");
+                              setDrawerState(false);
+                            }}
+                            sx={{
+                              px: 2,
+                              mr: 1,
+                              mb: 2.5,
+                              mt: -0.5,
+                              textTransform: "capitalize",
+                            }}
+                          />
+                        );
+                      }
+                    )}
                   </div>
                   <TextField
                     multiline
@@ -440,7 +449,7 @@ export default function Item({
                   />
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6} xl={5}>
                 <Box
                   sx={{
                     background: global.user.darkMode
@@ -475,6 +484,7 @@ export default function Item({
                       />
                     )}
                     <MoveToRoom
+                      room={data.room}
                       styles={styles}
                       setDrawerState={setDrawerState}
                       item={item}
@@ -493,32 +503,51 @@ export default function Item({
           </Box>
         </Box>
       </SwipeableDrawer>
-
-      {variant === "list" ? (
-        <Collapse in={!deleted} sx={{ borderRadius: 3, overflow: "hidden" }}>
+      <Collapse in={!deleted} sx={{ borderRadius: 5 }}>
+        <Card
+          onContextMenu={handleContextMenu}
+          sx={{
+            boxShadow: "0",
+            display: "block",
+            my: 1.5,
+            width: "100%",
+            maxWidth: "calc(100vw - 32.5px)",
+            borderRadius: "28px",
+            background: `${
+              global.user.darkMode
+                ? "hsl(240, 11%, 17%)"
+                : "rgba(200,200,200,.3)"
+            }!important`,
+            transition: "transform .2s",
+            "&:active": {
+              transform: "scale(0.98)",
+              transition: "none",
+            },
+            ...(item.starred && {
+              background: deepOrange[global.user.darkMode ? 900 : 50],
+            }),
+          }}
+          onClick={() => setDrawerState(true)}
+        >
           <SwipeableViews
             enableMouseEvents
             index={index}
+            disabled={global.property.role === "read-only"}
             slideStyle={{
               borderRadius: "15px!important",
             }}
-            disabled={global.property.role === "read-only"}
             onChangeIndex={(changedIndex) => {
-              if (global.property.role !== "read-only") {
-                setIndex(changedIndex);
-                if (changedIndex === 2) {
-                  handleItemDelete();
-                  setTimeout(() => {
-                    setDeleted(true);
-                    setSwitchingToIndex(1);
-                  }, 200);
-                } else {
-                  handleItemStar();
-                  setTimeout(() => {
-                    setIndex(1);
-                    setSwitchingToIndex(1);
-                  }, 200);
-                }
+              setIndex(changedIndex);
+              if (changedIndex === 2) {
+                handleItemDelete();
+                setTimeout(() => {
+                  setDeleted(true);
+                }, 200);
+              } else {
+                handleItemStar();
+                setTimeout(() => {
+                  setIndex(1);
+                }, 200);
               }
             }}
             onSwitching={(index) => {
@@ -531,274 +560,117 @@ export default function Item({
               }
             }}
           >
-            {global.property.role !== "read-only" && (
-              <Box
-                sx={{
-                  background: colors.orange[item.starred ? "900" : "100"],
-                  width: "100%",
-                  transition: "background .2s",
-                  height: "100%",
-                  color: item.starred ? "#fff" : "#000",
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: 3,
-                  justifyContent: "end",
-                  px: 2,
+            <Box
+              sx={{
+                background: colors.orange[item.starred ? "900" : "100"],
+                width: "100%",
+                transition: "background .2s",
+                height: "100%",
+                color: item.starred ? "#fff" : "#000",
+                display: "flex",
+                alignItems: "center",
+                borderRadius: 5,
+                justifyContent: "end",
+                px: 2,
+              }}
+            >
+              <span
+                style={{
+                  display: switchingToIndex === 0 ? "block" : "none",
                 }}
+                className={`animateIcon material-symbols-${
+                  item.starred ? "rounded" : "rounded"
+                }`}
               >
-                <span
-                  style={{
-                    display: switchingToIndex == 0 ? "block" : "none",
-                  }}
-                  className={`animateIcon material-symbols-${
-                    item.starred ? "rounded" : "outlined"
-                  }`}
-                >
-                  star
-                </span>
-              </Box>
-            )}
-            <ListItemButton
-              onContextMenu={handleContextMenu}
-              onClick={() => setDrawerState(true)}
+                star
+              </span>
+            </Box>
+            <CardActionArea
               disableRipple
               sx={{
-                background: "rgba(200,200,200,.3)!important",
-                pointerEvents: switchingToIndex == 1 ? "" : "none",
-                py: 2,
-                px: 3,
-                borderRadius: 5,
-                transition: "transform .2s",
+                transition: "none!important",
+                "&:focus-within": {
+                  background: `${
+                    global.user.darkMode
+                      ? "hsl(240, 11%, 18%)"
+                      : "rgba(200,200,200,.01)"
+                  }!important`,
+                },
+                borderRadius: "28px",
                 "&:active": {
-                  transition: "none",
-                  transform: "scale(.97)",
-                  background: global.user.darkMode
-                    ? "hsl(240, 11%, 20%)"
-                    : "rgba(200,200,200,.3)",
+                  boxShadow: "none!important",
                 },
               }}
             >
-              <ListItemText
-                sx={{
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  maxWidth: "calc(100vw - 200px)",
-                  overflow: "hidden",
-                }}
-                primary={
-                  <Typography sx={{ fontWeight: "400" }}>
-                    {item.name}
-                  </Typography>
-                }
-                secondary={
-                  <>
-                    <Typography
-                      gutterBottom
-                      sx={{ fontWeight: "300", fontSize: "15px" }}
-                    >
-                      {dayjs(item.lastModified).fromNow()}
-                    </Typography>
+              <CardContent sx={{ p: 3 }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    display: "block",
+                    mb: 1,
+                  }}
+                >
+                  {item.name.substring(0, 18) || "(no title)"}
+                  {item.name.length > 18 && "..."}
+                </Typography>
+                <Typography
+                  sx={{
+                    mb: 1,
+                  }}
+                >
+                  {variant === "list" && (
                     <Chip
-                      sx={{ textTransform: "capitalize" }}
+                      key={Math.random().toString()}
+                      sx={{ pointerEvents: "none", m: 0.25 }}
                       label={data.room}
-                      size="small"
                     />
-                    {JSON.parse(item.category).map((category: string) => {
-                      if (category.trim() === "") return false;
-                      return (
-                        <Chip
-                          key={Math.random().toString()}
-                          sx={{ pointerEvents: "none", mx: 0.5 }}
-                          label={category}
-                          size="small"
-                        />
-                      );
-                    })}
-                  </>
-                }
-              />
-            </ListItemButton>
-            {global.property.role !== "read-only" && (
-              <Box
-                sx={{
-                  background: colors.red["800"],
-                  width: "100%",
-                  height: "100%",
-                  color: "#fff",
-                  borderRadius: 3,
-                  display: "flex",
-                  alignItems: "center",
-                  px: 2,
-                }}
-              >
-                <span className="material-symbols-rounded">delete</span>
-              </Box>
-            )}
-          </SwipeableViews>
-        </Collapse>
-      ) : (
-        <Collapse in={!deleted} sx={{ borderRadius: 5 }}>
-          <Card
-            onContextMenu={handleContextMenu}
-            sx={{
-              boxShadow: "0",
-              display: "block",
-              my: 1.5,
-              width: "100%",
-              maxWidth: "calc(100vw - 32.5px)",
-              borderRadius: "28px",
-              background: `${
-                global.user.darkMode
-                  ? "hsl(240, 11%, 17%)"
-                  : "rgba(200,200,200,.3)"
-              }!important`,
-              transition: "transform .2s",
-              "&:active": {
-                transform: "scale(0.98)",
-                transition: "none",
-              },
-              ...(item.starred && {
-                background: deepOrange[global.user.darkMode ? 900 : 50],
-              }),
-            }}
-            onClick={() => setDrawerState(true)}
-          >
-            <SwipeableViews
-              enableMouseEvents
-              index={index}
-              disabled={global.property.role === "read-only"}
-              slideStyle={{
-                borderRadius: "15px!important",
-              }}
-              onChangeIndex={(changedIndex) => {
-                setIndex(changedIndex);
-                if (changedIndex === 2) {
-                  handleItemDelete();
-                  setTimeout(() => {
-                    setDeleted(true);
-                  }, 200);
-                } else {
-                  handleItemStar();
-                  setTimeout(() => {
-                    setIndex(1);
-                  }, 200);
-                }
-              }}
-              onSwitching={(index) => {
-                if (index > 1) {
-                  setSwitchingToIndex(2);
-                } else if (index < 1) {
-                  setSwitchingToIndex(0);
-                } else {
-                  setTimeout(() => setSwitchingToIndex(1), 200);
-                }
+                  )}
+                  {!item.quantity.includes(" ") && "Quantity: "}
+                  {displayRoom
+                    ? data.room
+                    : item.quantity.substring(0, 18) ||
+                      "(no quantity specified)"}
+                  {!displayRoom && item.quantity.length > 18 && "..."}
+                </Typography>
+                {!displayRoom &&
+                  JSON.parse(item.category).map((category: string) => {
+                    if (category.trim() === "") return false;
+                    return (
+                      <Chip
+                        key={Math.random().toString()}
+                        sx={{ pointerEvents: "none", m: 0.25 }}
+                        label={category}
+                      />
+                    );
+                  })}
+              </CardContent>
+            </CardActionArea>
+            <Box
+              sx={{
+                background: colors.red["800"],
+                width: "100%",
+                height: "100%",
+                color: "#fff",
+                display: "flex",
+                ml: 1,
+                mr: 1,
+                alignItems: "center",
+                px: 2,
+                borderRadius: "28px",
               }}
             >
-              <Box
-                sx={{
-                  background: colors.orange[item.starred ? "900" : "100"],
-                  width: "100%",
-                  transition: "background .2s",
-                  height: "100%",
-                  color: item.starred ? "#fff" : "#000",
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: 5,
-                  justifyContent: "end",
-                  px: 2,
+              <span
+                style={{
+                  display: switchingToIndex === 2 ? "block" : "none",
                 }}
+                className="animateIcon material-symbols-rounded"
               >
-                <span
-                  style={{
-                    display: switchingToIndex === 0 ? "block" : "none",
-                  }}
-                  className={`animateIcon material-symbols-${
-                    item.starred ? "rounded" : "rounded"
-                  }`}
-                >
-                  star
-                </span>
-              </Box>
-              <CardActionArea
-                disableRipple
-                sx={{
-                  transition: "none!important",
-                  "&:focus-within": {
-                    background: `${
-                      global.user.darkMode
-                        ? "hsl(240, 11%, 18%)"
-                        : "rgba(200,200,200,.01)"
-                    }!important`,
-                  },
-                  borderRadius: "28px",
-                  "&:active": {
-                    boxShadow: "none!important",
-                  },
-                }}
-              >
-                <CardContent sx={{ p: 3 }}>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      display: "block",
-                      mb: 1,
-                    }}
-                  >
-                    {item.name.substring(0, 18) || "(no title)"}
-                    {item.name.length > 18 && "..."}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      mb: 1,
-                    }}
-                  >
-                    {!item.quantity.includes(" ") && "Quantity: "}
-                    {displayRoom
-                      ? data.room
-                      : item.quantity.substring(0, 18) ||
-                        "(no quantity specified)"}
-                    {!displayRoom && item.quantity.length > 18 && "..."}
-                  </Typography>
-                  {!displayRoom &&
-                    JSON.parse(item.category).map((category: string) => {
-                      if (category.trim() === "") return false;
-                      return (
-                        <Chip
-                          key={Math.random().toString()}
-                          sx={{ pointerEvents: "none", m: 0.25 }}
-                          label={category}
-                        />
-                      );
-                    })}
-                </CardContent>
-              </CardActionArea>
-              <Box
-                sx={{
-                  background: colors.red["800"],
-                  width: "100%",
-                  height: "100%",
-                  color: "#fff",
-                  display: "flex",
-                  ml: 1,
-                  mr: 1,
-                  alignItems: "center",
-                  px: 2,
-                  borderRadius: "28px",
-                }}
-              >
-                <span
-                  style={{
-                    display: switchingToIndex === 2 ? "block" : "none",
-                  }}
-                  className="animateIcon material-symbols-rounded"
-                >
-                  delete
-                </span>
-              </Box>
-            </SwipeableViews>
-          </Card>
-        </Collapse>
-      )}
+                delete
+              </span>
+            </Box>
+          </SwipeableViews>
+        </Card>
+      </Collapse>
     </>
   );
 }
