@@ -580,6 +580,9 @@ export function InviteButton() {
   return (
     <>
       <SwipeableDrawer
+        ModalProps={{
+          keepMounted: true,
+        }}
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}

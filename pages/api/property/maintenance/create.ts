@@ -43,7 +43,7 @@ const handler = async (req, res) => {
       frequency: req.query.frequency,
       lastDone: new Date(req.query.lastCompleted) || new Date(),
       nextDue: new Date(nextDue),
-      note: req.query.note,
+      note: req.query.note || "",
     },
   });
   res.json(data);

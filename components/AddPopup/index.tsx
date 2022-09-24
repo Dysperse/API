@@ -35,12 +35,10 @@ const Root = styled("div")(() => ({
  */
 function AddItemOption({
   alias,
-  toggleDrawer = () => null,
   icon,
   title,
 }: {
   alias?: string;
-  toggleDrawer: (toggle: boolean) => void;
   icon: JSX.Element | string;
   title: JSX.Element | string;
 }): JSX.Element {
@@ -192,25 +190,21 @@ function MoreRooms(): JSX.Element {
           ) : (
             <Grid container sx={{ p: 2 }}>
               <AddItemOption
-                toggleDrawer={() => setOpen(false)}
                 title="Storage room"
                 icon={
                   <span className="material-symbols-rounded">inventory_2</span>
                 }
               />
               <AddItemOption
-                toggleDrawer={() => setOpen(false)}
                 title="Camping"
                 icon={<span className="material-symbols-rounded">camping</span>}
               />
               <AddItemOption
-                toggleDrawer={() => setOpen(false)}
                 title="Garden"
                 icon={<span className="material-symbols-rounded">yard</span>}
               />
               {data.map((room: Room) => (
                 <AddItemOption
-                  toggleDrawer={() => setOpen(false)}
                   title={room.id.toString()}
                   key={room.id.toString()}
                   alias={room.name}
@@ -301,58 +295,46 @@ function MoreRooms(): JSX.Element {
  * @param toggleDrawer Function to toggle the drawer
  * @returns JSX.Element
  */
-function Content({
-  toggleDrawer,
-}: {
-  toggleDrawer: (open: boolean) => void;
-}): JSX.Element {
+function Content(): JSX.Element {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
         {global.property.profile.type !== "dorm" && (
           <AddItemOption
-            toggleDrawer={toggleDrawer}
             title="Kitchen"
             icon={<span className="material-symbols-rounded">oven_gen</span>}
           />
         )}
         <AddItemOption
-          toggleDrawer={toggleDrawer}
           title="Bedroom"
           icon={
             <span className="material-symbols-rounded">bedroom_parent</span>
           }
         />
         <AddItemOption
-          toggleDrawer={toggleDrawer}
           title="Bathroom"
           icon={<span className="material-symbols-rounded">bathroom</span>}
         />
 
         <AddItemOption
-          toggleDrawer={toggleDrawer}
           title="Storage"
           icon={<span className="material-symbols-rounded">inventory_2</span>}
         />
         {global.property.profile.type !== "dorm" && (
           <>
             <AddItemOption
-              toggleDrawer={toggleDrawer}
               title="Garage"
               icon={<span className="material-symbols-rounded">garage</span>}
             />
             <AddItemOption
-              toggleDrawer={toggleDrawer}
               title={<>Living&nbsp;room</>}
               icon={<span className="material-symbols-rounded">living</span>}
             />
             <AddItemOption
-              toggleDrawer={toggleDrawer}
               title={<>Dining</>}
               icon={<span className="material-symbols-rounded">dining</span>}
             />
             <AddItemOption
-              toggleDrawer={toggleDrawer}
               title={<>Laundry&nbsp;room</>}
               icon={
                 <span className="material-symbols-rounded">
@@ -466,38 +448,14 @@ export default function AddPopup({
             alignItems: "center",
           }}
         >
-          {/* <IconButton
-            disabled
-            sx={{ mr: "auto", opacity: 0, pointerEvents: "none" }}
-          >
-            <span className="material-symbols-rounded">view_in_ar</span>
-          </IconButton> */}
           <Typography
             variant="h6"
             sx={{ my: 1, mx: "auto", fontWeight: "600" }}
           >
             Create item
           </Typography>
-          {/* <IconButton
-            disabled
-            size="large"
-            onClick={() => window.open("/scan")}
-            sx={{
-              ml: "auto",
-              color: global.user.darkMode ? "#fff" : "#000",
-              transition: "none",
-              "&:active": {
-                background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
-                }!important`,
-              },
-            }}
-            disableRipple
-          >
-            <span className="material-symbols-rounded">view_in_ar</span>
-          </IconButton> */}
         </DialogTitle>
-        <Content toggleDrawer={toggleDrawer} />
+        <Content />
       </SwipeableDrawer>
     </Root>
   );
