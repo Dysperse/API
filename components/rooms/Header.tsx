@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import BoringAvatar from "boring-avatars";
 import { decode } from "js-base64";
 /**
  * Header component for the room
