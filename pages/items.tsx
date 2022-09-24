@@ -191,7 +191,7 @@ function Action({
   icon: string | JSX.Element;
   primary: string;
   href?: string;
-  onClick?: () => null;
+  onClick?;
 }) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
