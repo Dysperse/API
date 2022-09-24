@@ -61,7 +61,7 @@ export async function fetchApiWithoutHook(
   initialParams: {
     [key: string]: string | number | boolean;
   } = {}
-): Promise<any> {
+): Promise<ApiResponse> {
   const { url } = getInfo(path, initialParams, global.property);
 
   const res = await fetch(url);

@@ -39,7 +39,7 @@ export const getUserData = async (token: string) => {
   return {
     ...session,
     user: {
-      ...session.user,
+      ...session?.user,
       token: token,
     },
   };

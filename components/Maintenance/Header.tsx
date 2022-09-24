@@ -274,18 +274,16 @@ function CreateMaintenanceModal() {
         frequency: values.frequency,
         nextDue: values.nextDue,
         lastCompleted: new Date().toISOString(),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          setLoading(false);
-          setOpen(false);
-          mutate(
-            `/api/property/maintenance/reminders?${new URLSearchParams({
-              property: global.property.propertyId,
-              accessToken: global.property.accessToken,
-            }).toString()}`
-          );
-        });
+      }).then(() => {
+        setLoading(false);
+        setOpen(false);
+        mutate(
+          `/api/property/maintenance/reminders?${new URLSearchParams({
+            property: global.property.propertyId,
+            accessToken: global.property.accessToken,
+          }).toString()}`
+        );
+      });
     },
   });
 
