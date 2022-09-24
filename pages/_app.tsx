@@ -399,10 +399,10 @@ function RenderComponent({
   global.user = data;
 
   return (
-    <>
+    <NoSsr>
       <Component {...pageProps} />
       <Toaster />
-    </>
+    </NoSsr>
   );
 }
 
