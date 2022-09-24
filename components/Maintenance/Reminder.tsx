@@ -42,7 +42,7 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
    * Handles note blur update
    * @param { React.FocusEvent<HTMLInputElement> } e
    */
-  const handleNoteBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleNoteBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
 
     target.placeholder = "Click to add note";
