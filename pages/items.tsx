@@ -24,7 +24,7 @@ import { ItemCard } from "../components/rooms/ItemCard";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
-import type { Item } from "@prisma/client";
+import type { CustomRoom, Item } from "@prisma/client";
 
 /**
  * Category modal
@@ -176,7 +176,23 @@ function CategoryList() {
  * @param {string} href - The room's link
  * @param {Function} onClick - Callback function for the room's click event
  */
-function Action({ count = 0, icon, primary, href, onClick }: any) {
+function Action({
+  count,
+  icon,
+  primary,
+  href,
+  onClick,
+}: {
+  count?: {
+    byRoom: {
+      [key: string]: string | number | boolean;
+    };
+  };
+  icon: string | JSX.Element;
+  primary: string;
+  href?: string;
+  onClick?: Function;
+}) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const itemCount =
@@ -263,7 +279,7 @@ function Rooms() {
   return (
     <>
       {data &&
-        data.map((room: any) => (
+        data.map((room: CustomRoom) => (
           <Action
             href={`/rooms/${encode(
               `${room.id},${room.name}`

@@ -180,9 +180,10 @@ function SwipeableTextMobileStepper() {
             What kind of property do you own?
           </Typography>
           <FormControl
-            onChange={(e: any) => {
-              setHouseType(e.target.value);
-              updateSettings("type", e.target.value, false, () => null, true);
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const target = e.target as HTMLInputElement;
+              setHouseType(target.value);
+              updateSettings("type", target.value, false, () => null, true);
             }}
           >
             <RadioGroup

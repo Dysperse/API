@@ -61,7 +61,7 @@ export function Toolbar({
     const target = e.target as HTMLInputElement;
     if (e.code === "Enter") target.blur();
   };
-  
+
   return (
     <Box
       sx={{
@@ -76,7 +76,7 @@ export function Toolbar({
         placeholder="Search"
         id="outlined-size-small"
         onKeyDown={handleBlurEvent}
-        onBlur={(e: any) => {
+        onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
           const value = e.target.value;
           if (value === "") {
             setItems(data);

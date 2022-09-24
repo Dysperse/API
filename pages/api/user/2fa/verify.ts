@@ -28,7 +28,10 @@ const handler = async (req, res) => {
   }
   const twoFactorSecret = session.user.twoFactorSecret;
   twofactor.generateToken(twoFactorSecret);
-  const login: any = twofactor.verifyToken(twoFactorSecret, req.query.code);
+  const login: null | { delta: number } = twofactor.verifyToken(
+    twoFactorSecret,
+    req.query.code
+  );
 
   res.json({
     success: login && login.delta === 0,

@@ -128,7 +128,17 @@ function Logout() {
  * @param primary Settings option heading
  * @param secondary Secondary text for the settings option
  */
-function SettingsMenu({ content, icon, primary, secondary }: any) {
+function SettingsMenu({
+  content,
+  icon,
+  primary,
+  secondary,
+}: {
+  content: React.ReactNode;
+  icon: React.ReactNode;
+  primary: string | React.ReactNode;
+  secondary: string | React.ReactNode;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open, 1);
 
@@ -247,7 +257,11 @@ function SettingsMenu({ content, icon, primary, secondary }: any) {
  * @param {any} {children} - Children to add in trigger component
  * @returns {any}
  */
-export default function FullScreenDialog({ children }: any) {
+export default function FullScreenDialog({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [open, setOpen] = React.useState<boolean>(false);
 
   /**
@@ -397,7 +411,6 @@ export default function FullScreenDialog({ children }: any) {
               }
             />
             <SettingsMenu
-              id="accountSettings"
               content={<AccountSettings />}
               icon="account_circle"
               primary={<span id="accountSettings">Account</span>}

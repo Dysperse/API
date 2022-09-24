@@ -7,7 +7,9 @@ import { colors } from "../lib/colors";
  * @param nestedModals How many nested modals are open?
  */
 export function useStatusBar(open: boolean, nestedModals = 0.5) {
-  const tag: any = document.querySelector("meta[name=theme-color]");
+  const tag: HTMLMetaElement = document.querySelector(
+    "meta[name=theme-color]"
+  ) as HTMLMetaElement;
   const isScrolledToTop = window.scrollY === 0;
   const isDarkMode = global.user.darkMode;
 

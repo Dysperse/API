@@ -3,20 +3,14 @@ import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 
 /**
  * Query function
  * @param {any} {query}
  * @returns {any}
  */
-function Query({
-  query,
-}: {
-  query: {
-    [key: string]: string;
-  };
-}) {
+function Query({ query }) {
   let of = false;
   if (
     query.quantity.toLowerCase().endsWith("boxes") ||
@@ -50,7 +44,7 @@ function Query({
  */
 export default function Share() {
   const router = useRouter();
-  const query: any = router && router.query.index;
+  const query = router && router.query.index;
 
   return (
     <>

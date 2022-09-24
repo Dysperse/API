@@ -13,13 +13,15 @@ import {
 } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { User } from "@prisma/client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
 import Link from "next/link";
+import { NextRouter } from "next/router";
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import LoginPrompt from "../components/Auth/Prompt";
@@ -27,6 +29,7 @@ import Layout from "../components/Layout";
 import { colors } from "../lib/colors";
 import "../styles/globals.scss";
 import "../styles/search.scss";
+import { Property, Session } from "../types/session";
 dayjs.extend(relativeTime);
 
 /**
@@ -139,10 +142,10 @@ function Render({
   pageProps,
   router,
 }: {
-  data: any;
-  Component: any;
-  pageProps: any;
-  router: any;
+  data: Session;
+  Component: typeof React.Component;
+  pageProps: JSX.Element;
+  router: NextRouter;
 }) {
   global.user = data.user;
   const [theme, setTheme] = useState<"dark" | "light">(
@@ -307,7 +310,7 @@ function Render({
 
   // find active property in the array of properties
   const selectedProperty =
-    data.user.properties.find((property: any) => property.selected) ||
+    data.user.properties.find((property: Property) => property.selected) ||
     data.user.properties[0];
 
   global.property = selectedProperty;
@@ -395,9 +398,9 @@ function RenderComponent({
   pageProps,
   data,
 }: {
-  Component: any;
-  pageProps: any;
-  data: any;
+  data: Session;
+  Component: typeof React.Component;
+  pageProps: JSX.Element;
 }) {
   global.user = data;
 
@@ -416,7 +419,15 @@ function RenderComponent({
  * @param pageProps Page props
  * @returns JSX.Element
  */
-function RenderApp({ router, Component, pageProps }: any) {
+function RenderApp({
+  router,
+  Component,
+  pageProps,
+}: {
+  Component: typeof React.Component;
+  pageProps: JSX.Element;
+  router: NextRouter;
+}) {
   const { data, isLoading, isError } = useUser();
   return router.pathname === "/share/[index]" ||
     router.pathname === "/scan" ||
@@ -497,7 +508,15 @@ function RenderApp({ router, Component, pageProps }: any) {
  * @param router Next.JS router
  * @returns JSX.Element
  */
-function SmartlistApp({ router, Component, pageProps }: any): JSX.Element {
+function SmartlistApp({
+  router,
+  Component,
+  pageProps,
+}: {
+  Component: typeof React.Component;
+  pageProps: JSX.Element;
+  router: NextRouter;
+}): JSX.Element {
   return (
     <>
       <NoSsr>

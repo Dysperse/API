@@ -10,10 +10,9 @@ import Head from "next/head";
  */
 function getQueryParameterByName(name) {
   const pairStrings = window.location.search.slice(1).split("&");
-  const pairs: any = pairStrings.map(function (pair) {
-    return pair.split("=");
-  });
-  return pairs.reduce(function (value, pair) {
+  const pairs: any = pairStrings.map((pair) => pair.split("="));
+
+  return pairs.reduce((value, pair) => {
     if (value) return value;
     return pair[0] === name ? decodeURIComponent(pair[1]) : null;
   }, null);

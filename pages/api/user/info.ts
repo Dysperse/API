@@ -6,7 +6,7 @@ import { prisma } from "../../../lib/client";
  * @returns {any}
  */
 export const getUserData = async (token: string) => {
-  const session: any | null = await prisma.session.findUnique({
+  const session = await prisma.session.findUnique({
     where: {
       id: token,
     },

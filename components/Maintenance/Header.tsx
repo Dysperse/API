@@ -118,7 +118,7 @@ function CalendarFeedModal(): JSX.Element {
  * @param {any} formik}
  * @returns {any}
  */
-function SelectDateCalendar({ date, formik }: { date: Date; formik: any }) {
+function SelectDateCalendar({ date, formik }: { date: Date; formik }) {
   const [open, setOpen] = useState(false);
   const { classes, cx } = useStyles();
   useStatusBar(open, 1);
@@ -214,7 +214,7 @@ function SelectDateCalendar({ date, formik }: { date: Date; formik: any }) {
  * @param {any} formik}
  * @returns {any}
  */
-function FrequencySetting({ name, formik }: { name: string; formik: any }) {
+function FrequencySetting({ name, formik }: { name: string; formik }) {
   return (
     <Button
       onClick={() => formik.setFieldValue("frequency", name)}

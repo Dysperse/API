@@ -58,7 +58,9 @@ export function useApi(
  */
 export async function fetchApiWithoutHook(
   path: string,
-  initialParams: any = {}
+  initialParams: {
+    [key: string]: string | number | boolean;
+  } = {}
 ): Promise<any> {
   const { url } = getInfo(path, initialParams, global.property);
 

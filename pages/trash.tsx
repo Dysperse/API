@@ -19,7 +19,7 @@ import type { Item } from "@prisma/client";
  * Delete card component, including delete and restore buttons
  * @param {Object} item - Item data
  */
-function DeleteCard({ item }: any): JSX.Element | null {
+function DeleteCard({ item }: { item: Item }): JSX.Element | null {
   const [deleted, setDeleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -78,7 +78,7 @@ function DeleteCard({ item }: any): JSX.Element | null {
           disabled={global.property.role === "read-only"}
           onClick={() => {
             fetchApiWithoutHook("restore", {
-              lastModified: dayjs(item.lastUpdated).format(
+              lastModified: dayjs(item.lastModified).format(
                 "YYYY-MM-DD HH:mm:ss"
               ),
               id: item.id.toString(),

@@ -12,7 +12,7 @@ export const sessionData = async (providedToken) => {
     providedToken,
     process.env.SECRET_COOKIE_PASSWORD
   );
-  const token: any = accessToken;
+  const token: string = accessToken;
   const info = await getUserData(token);
   return JSON.parse(JSON.stringify(info));
 };

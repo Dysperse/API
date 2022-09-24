@@ -1,4 +1,5 @@
 import argon2 from "argon2";
+import { NextRequest } from "next/server";
 import { prisma } from "../../lib/client";
 import { createSession } from "./login";
 
@@ -7,7 +8,7 @@ import { createSession } from "./login";
  * @param {any} req
  * @param {any} res
  */
-export default async function handler(req: any, res) {
+export default async function handler(req, res) {
   const body = JSON.parse(req.body);
   if (body.password !== body.confirmPassword) {
     return res.status(401).json({ message: "Passwords do not match" });

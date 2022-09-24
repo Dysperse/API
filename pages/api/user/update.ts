@@ -9,7 +9,7 @@ import { prisma } from "../../../lib/client";
  */
 const handler = async (req, res) => {
   // Get user info from sessions table using accessToken
-  const session: any | null = await prisma.session.findUnique({
+  const session = await prisma.session.findUnique({
     where: {
       id: req.query.token,
     },
@@ -33,7 +33,6 @@ const handler = async (req, res) => {
     data: {
       name: req.query.name || undefined,
       email: req.query.email || undefined,
-      avatar: req.query.avatar || undefined,
       twoFactorSecret: req.query.twoFactorSecret == "" ? "" : undefined,
       darkMode: req.query.darkMode === "true" ?? undefined,
       color: req.query.color || undefined,
