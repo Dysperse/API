@@ -26,6 +26,28 @@ export function CustomRooms({ houseType }: any) {
 
   const [value, setValue] = React.useState([...fixedOptions]);
 
+  /**
+   * Handles change
+   * @param _
+   * @param newValue  New value
+   */
+  const handleChange = (_, newValue: any) => {
+    setValue([
+      ...fixedOptions,
+      ...newValue.filter(
+        (option: string) => fixedOptions.indexOf(option) === -1
+      ),
+    ]);
+
+    fetchApiWithoutHook("property/rooms/create", {
+      property: global.property.propertyId,
+      accessToken: global.property.accessToken,
+      name: newValue.filter(
+        (option: string) => fixedOptions.indexOf(option) === -1
+      ),
+    });
+  };
+
   return (
     <Autocomplete
       disabled={value.length >= fixedOptions.length + 5}
@@ -39,20 +61,7 @@ export function CustomRooms({ houseType }: any) {
       freeSolo
       id="fixed-tags-demo"
       value={value}
-      onChange={(_, newValue: any) => {
-        setValue([
-          ...fixedOptions,
-          ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
-        ]);
-
-        fetchApiWithoutHook("property/rooms/create", {
-          property: global.property.propertyId,
-          accessToken: global.property.accessToken,
-          name: newValue.filter(
-            (option) => fixedOptions.indexOf(option) === -1
-          ),
-        });
-      }}
+      onChange={handleChange}
       options={[]}
       getOptionLabel={(option: any) => option}
       renderTags={(tagValue, getTagProps) =>
