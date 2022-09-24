@@ -32,7 +32,7 @@ export function RenderRoom({ data, index }: any) {
       <Header
         room={index}
         itemCount={data.length}
-        useAlias={router.query.custom}
+        useAlias={router?.query?.custom?.toString()}
       />
       <Toolbar
         room={router.query.custom ? decode(index).split(",")[0] : index}

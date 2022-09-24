@@ -14,7 +14,7 @@ export function updateSettings(
   key: string,
   value: string,
   debug = false,
-  callback: () => void = () => null,
+  callback: null | (() => void) = null,
   property = false
 ) {
   let url = `/api/user/update?${new URLSearchParams({
