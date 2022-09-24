@@ -5,17 +5,21 @@ import Settings from "../Settings/index";
 
 /**
  * Profile menu
- * @param {any} props
+ * @param {any} {children}
  * @returns {any}
  */
-export function ProfileMenu(props: any): any {
+export function ProfileMenu({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
 
   useStatusBar(open);
 
   return (
     <Settings>
-      <Box onClick={() => setOpen(true)}>{props.children}</Box>
+      <Box onClick={() => setOpen(true)}>{children}</Box>
     </Settings>
   );
 }

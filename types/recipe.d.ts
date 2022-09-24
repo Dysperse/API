@@ -1,7 +1,7 @@
 export interface Meal {
   readonly idMeal: string;
   strMeal: string;
-  strDrinkAlternate?: any;
+  strDrinkAlternate?: string | number;
   strCategory: string;
   strArea: string;
   strInstructions: string;
@@ -23,11 +23,11 @@ export interface Meal {
   strIngredient13?: string;
   strIngredient14?: string;
   strIngredient15?: string;
-  strIngredient16?: any;
-  strIngredient17?: any;
-  strIngredient18?: any;
-  strIngredient19?: any;
-  strIngredient20?: any;
+  strIngredient16?: string | number;
+  strIngredient17?: string | number;
+  strIngredient18?: string | number;
+  strIngredient19?: string | number;
+  strIngredient20?: string | number;
   strMeasure1?: string;
   strMeasure2?: string;
   strMeasure3?: string;
@@ -43,13 +43,13 @@ export interface Meal {
   strMeasure13?: string;
   strMeasure14?: string;
   strMeasure15?: string;
-  strMeasure16?: any;
-  strMeasure17?: any;
-  strMeasure18?: any;
-  strMeasure19?: any;
-  strMeasure20?: any;
-  strSource: any;
-  strImageSource: any;
-  strCreativeCommonsConfirmed: any;
-  dateModified: any;
+  strMeasure16?: string | number;
+  strMeasure17?: string | number;
+  strMeasure18?: string | number;
+  strMeasure19?: string | number;
+  strMeasure20?: string | number;
+  strSource: string | number;
+  strImageSource: string | number;
+  strCreativeCommonsConfirmed: string | number;
+  dateModified: string | number;
 }

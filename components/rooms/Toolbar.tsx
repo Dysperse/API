@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { CreateItemModal } from "../AddPopup/CreateItemModal";
 import { neutralizeBack, revivalBack } from "../history-control";
+import type { Item } from "@prisma/client";
 
 /**
  * Toolbar for a room
@@ -18,7 +19,19 @@ import { neutralizeBack, revivalBack } from "../history-control";
  * @param {any} data}
  * @returns {any}
  */
-export function Toolbar({ alias, room, items, setItems, data }: any) {
+export function Toolbar({
+  alias,
+  room,
+  items,
+  setItems,
+  data,
+}: {
+  alias: string;
+  room: string;
+  items: Item[];
+  setItems: (items: Item[]) => void;
+  data: Item[];
+}) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -41,6 +54,14 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
 
+  /**
+   * Handles blur event
+   */
+  const handleBlurEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (e.code === "Enter") target.blur();
+  };
+  
   return (
     <Box
       sx={{
@@ -54,9 +75,7 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
       <TextField
         placeholder="Search"
         id="outlined-size-small"
-        onKeyDown={(e: any) => {
-          if (e.code === "Enter") e.target.blur();
-        }}
+        onKeyDown={handleBlurEvent}
         onBlur={(e: any) => {
           const value = e.target.value;
           if (value === "") {
@@ -67,10 +86,10 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
           setTimeout(() => {
             setItems(
               data.filter(
-                (x) =>
-                  x.title.toLowerCase().includes(value.toLowerCase()) ||
-                  x.quantity.toLowerCase().includes(value.toLowerCase()) ||
-                  x.categories
+                (item) =>
+                  item.name.toLowerCase().includes(value.toLowerCase()) ||
+                  item.quantity.toLowerCase().includes(value.toLowerCase()) ||
+                  JSON.parse(item.category)
                     .join(",")
                     .toLowerCase()
                     .includes(value.toLowerCase())
@@ -213,7 +232,10 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
           onClick={() => {
             setItems([]);
             setTimeout(
-              () => setItems(items.sort((a, b) => a.qty.localeCompare(b.qty))),
+              () =>
+                setItems(
+                  items.sort((a, b) => a.quantity.localeCompare(b.quantity))
+                ),
               50
             );
             setTimeout(handleClose, 50);
@@ -229,7 +251,9 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
                 setItems(
                   items
                     .sort((a, b) =>
-                      a.lastModified.localeCompare(b.lastModified)
+                      a.lastModified
+                        .toString()
+                        .localeCompare(b.lastModified.toString())
                     )
                     .reverse()
                 ),
@@ -247,7 +271,9 @@ export function Toolbar({ alias, room, items, setItems, data }: any) {
               () =>
                 setItems(
                   items.sort((a, b) =>
-                    a.lastModified.localeCompare(b.lastModified)
+                    a.lastModified
+                      .toString()
+                      .localeCompare(b.lastModified.toString())
                   )
                 ),
               50

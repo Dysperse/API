@@ -32,10 +32,10 @@ function Room({
   setDrawerState,
 }: {
   id: number;
-  setDeleted: any;
+  setDeleted: (deleted: boolean) => void;
   room: string;
-  setOpen: any;
-  setDrawerState: any;
+  setOpen: (open: boolean) => void;
+  setDrawerState: (state: boolean) => void;
 }) {
   const [disabled, setDisabled] = useState(false);
   return (

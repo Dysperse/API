@@ -10,7 +10,7 @@ import * as twofactor from "node-2fa";
  */
 const handler = async (req, res) => {
   // Get user info from sessions table using accessToken
-  const session: any | null = await prisma.session.findUnique({
+  const session = await prisma.session.findUnique({
     where: {
       id: req.query.token,
     },
@@ -28,9 +28,9 @@ const handler = async (req, res) => {
   }
   const userId = session.user.id;
   twofactor.generateToken(req.query.secret);
-  const login: any = twofactor.verifyToken(req.query.secret, req.query.code);
+  const login = twofactor.verifyToken(req.query.secret, req.query.code);
 
-  if (login.delta !== 0) {
+  if (!login || login.delta !== 0) {
     res.status(401).json({ error: "Invalid code" });
     return;
   }

@@ -124,7 +124,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
    * @param {any} href
    * @returns {any}
    */
-  const onLink = (href: any) => {
+  const onLink = (href: string) => {
     router.push(href);
   };
   const matches = useMediaQuery("(max-height: 400px)");

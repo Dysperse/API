@@ -14,13 +14,14 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { MaintenanceReminder } from "@prisma/client";
 
 /**
  * Reminder component
  * @param {any} {reminder}
  * @returns {any}
  */
-export function Reminder({ reminder }: any) {
+export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
   const [open, setOpen] = useState<boolean>(false);
   const [markAsDoneLoading, setMarkAsDoneLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);

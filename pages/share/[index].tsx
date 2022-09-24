@@ -10,7 +10,13 @@ import { useRouter } from "next/router";
  * @param {any} {query}
  * @returns {any}
  */
-function Query({ query }: any) {
+function Query({
+  query,
+}: {
+  query: {
+    [key: string]: string;
+  };
+}) {
   let of = false;
   if (
     query.quantity.toLowerCase().endsWith("boxes") ||
@@ -44,7 +50,9 @@ function Query({ query }: any) {
  */
 export default function Share() {
   const router = useRouter();
-  const query: any = router && router.query.index;
+  const query: {
+    [key: string]: string;
+  } = router && router.query.index;
 
   return (
     <>
