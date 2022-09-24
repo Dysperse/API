@@ -31,7 +31,7 @@ export function CustomRooms({ houseType }: any) {
    * @param _
    * @param newValue  New value
    */
-  const handleChange = (_, newValue: any) => {
+  const handleChange = (_, newValue: string[]) => {
     setValue([
       ...fixedOptions,
       ...newValue.filter(
