@@ -1,19 +1,18 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Collapse from "@mui/material/Collapse";
-import { colors } from "../../lib/colors";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
+import type { ListItem as Item } from "@prisma/client";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import type { ListItem as Item } from "@prisma/client";
 
 /**
  * Create list modal
