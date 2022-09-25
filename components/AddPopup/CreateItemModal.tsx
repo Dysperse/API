@@ -123,22 +123,27 @@ export function CreateItemModal({
       fetchApiWithoutHook("property/inventory/create", {
         room: room.toString().toLowerCase(),
         name: values.title,
-        qty: values.quantity,
+        quantity: values.quantity,
         category: JSON.stringify(values.categories),
         lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-      }).then(() => {
-        toast("Created item!");
-        setLoading(false);
-        setOpen(false);
-        formik.resetForm();
-        mutate(
-          `/api/property/inventory/list/?${new URLSearchParams({
-            room: room.toString().toLowerCase(),
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-          }).toString()}`
-        );
-      });
+      })
+        .then(() => {
+          toast("Created item!");
+          setLoading(false);
+          setOpen(false);
+          formik.resetForm();
+          mutate(
+            `/api/property/inventory/list/?${new URLSearchParams({
+              room: room.toString().toLowerCase(),
+              property: global.property.propertyId,
+              accessToken: global.property.accessToken,
+            }).toString()}`
+          );
+        })
+        .catch((err) => {
+          toast.error("Couldn't create item. Please try again.");
+          setLoading(false);
+        });
     },
   });
 
@@ -235,6 +240,7 @@ export function CreateItemModal({
             <IconButton
               size="large"
               onClick={clickSubmitItem}
+              disabled={loading}
               sx={{
                 ml: "auto",
                 opacity: { sm: "0" },
@@ -261,6 +267,7 @@ export function CreateItemModal({
               autoFocus
               margin="dense"
               label="Item name"
+              required
               fullWidth
               autoComplete={"off"}
               onChange={(e) => {

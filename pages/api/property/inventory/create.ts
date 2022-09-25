@@ -17,20 +17,22 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
+
   const data = await prisma.item.create({
     data: {
       name:
         CryptoJS.AES.encrypt(
           req.query.name,
           process.env.INVENTORY_ENCRYPTION_KEY
-        ).toString() ?? "",
+        ).toString() || "",
       quantity:
         CryptoJS.AES.encrypt(
           req.query.quantity,
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString() ?? "",
-      lastModified: new Date(req.query.lastUpdated) ?? "2022-03-05 12:23:31",
+      lastModified: new Date(req.query.lastModified) || new Date(),
       starred: false,
+      trash: false,
       room: req.query.room ?? "kitchen",
       note:
         CryptoJS.AES.encrypt(

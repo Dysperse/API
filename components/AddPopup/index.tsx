@@ -52,11 +52,12 @@ function AddItemOption({
             },
             boxShadow: 0,
             borderRadius: { xs: 1, sm: 6 },
-            transition: "transform .2s",
+            transition: "transform .2s, border-radius .2s",
             "&:active": {
               boxShadow: "none!important",
               transform: "scale(0.98)",
-              transition: "none",
+              transition: "border-radius .2s, transform 0s!important",
+              borderRadius: { xs: 9, sm: 9 },
             },
           }}
         >
@@ -102,6 +103,7 @@ function AddItemOption({
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                   width: "100%",
+                  fontWeight: "600",
                   overflow: "hidden",
                 }}
               >
@@ -279,6 +281,7 @@ function MoreRooms(): JSX.Element {
                   whiteSpace: "nowrap",
                   width: "100%",
                   overflow: "hidden",
+                  fontWeight: "700",
                 }}
               >
                 More&nbsp;rooms
