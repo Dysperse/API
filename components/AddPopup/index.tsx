@@ -421,6 +421,7 @@ export default function AddPopup({
               xs: "100vw",
               sm: "50vw",
             },
+            maxHeight: "80vh",
             maxWidth: "700px",
             "& *:not(.MuiTouchRipple-child, .puller)": {
               background: "transparent!important",
@@ -439,26 +440,29 @@ export default function AddPopup({
           keepMounted: true,
         }}
       >
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ pb: 4 }}>
           <Puller />
         </Box>
-        <DialogTitle
+        <Box
           sx={{
-            display: "flex",
-            mt: 0.8,
-            textAlign: "center",
-            pb: 0,
-            alignItems: "center",
+            maxHeight: "70vh",
+            overflowY: "auto",
           }}
         >
-          <Typography
-            variant="h6"
-            sx={{ my: 1, mx: "auto", fontWeight: "600" }}
+          <DialogTitle
+            sx={{
+              display: "flex",
+              textAlign: "center",
+              alignItems: "center",
+            }}
           >
-            Create item
-          </Typography>
-        </DialogTitle>
-        <Content />
+            <Typography variant="h6" sx={{ mx: "auto", fontWeight: "600" }}>
+              Create item
+            </Typography>
+          </DialogTitle>
+
+          <Content />
+        </Box>
       </SwipeableDrawer>
     </Root>
   );
