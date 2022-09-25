@@ -18,7 +18,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
  */
 export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
   const [open, setOpen] = useState(false);
-
+  const url = recipe.strYoutube.replace("/watch?v=", "/embed/");
   return (
     <>
       <SwipeableDrawer
@@ -47,11 +47,9 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
           {recipe.strYoutube ? (
             <iframe
               title={recipe.strMeal}
-              sandbox="allow-popups allow-popups-to-escape-sandbox allow-pointer-lock allow-same-origin allow-top-navigation"
-              src={`${recipe.strYoutube.replace(
-                "/watch?v=",
-                "/embed/"
-              )}?autoplay=1&cc_load_policy=1`}
+              sandbox="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              src={url}
               width="100%"
               height="300"
               style={{ borderRadius: "30px 30px 0 0" }}
