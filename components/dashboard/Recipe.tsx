@@ -47,7 +47,7 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
           {recipe.strYoutube ? (
             <iframe
               title={recipe.strMeal}
-              sandbox="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               src={url}
               width="100%"
