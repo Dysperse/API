@@ -63,7 +63,7 @@ export function Recipes(): JSX.Element {
       </Box>
       <Masonry
         sx={{ mt: { xs: 5, sm: 1 } }}
-        columns={{ xs: 1, sm: 3 }}
+        columns={{ xs: 1, sm: 3, lg: 3 }}
         spacing={{ xs: 0, sm: 1 }}
       >
         {recipes.map((recipe: Meal) => (
