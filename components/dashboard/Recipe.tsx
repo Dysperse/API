@@ -136,37 +136,39 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
                 </span>
               );
             })}
-            <Button
-              href={recipe.strSource.toString()}
-              target="_blank"
-              fullWidth
-              variant="outlined"
-              sx={{
-                gap: 2,
-                borderWidth: "2px!important",
-                borderRadius: 5,
-                mt: 3,
-              }}
-            >
-              <span
-                className="material-symbols-outlined"
-                style={{
-                  userSelect: "none",
-                  marginRight: "auto",
-                  opacity: 0,
-                  visibility: "hidden",
+            {recipe.strSource && (
+              <Button
+                href={recipe.strSource.toString()}
+                target="_blank"
+                fullWidth
+                variant="outlined"
+                sx={{
+                  gap: 2,
+                  borderWidth: "2px!important",
+                  borderRadius: 5,
+                  mt: 3,
                 }}
               >
-                open_in_new
-              </span>
-              Source
-              <span
-                className="material-symbols-outlined"
-                style={{ userSelect: "none", marginLeft: "auto" }}
-              >
-                open_in_new
-              </span>
-            </Button>
+                <span
+                  className="material-symbols-outlined"
+                  style={{
+                    userSelect: "none",
+                    marginRight: "auto",
+                    opacity: 0,
+                    visibility: "hidden",
+                  }}
+                >
+                  open_in_new
+                </span>
+                Source
+                <span
+                  className="material-symbols-outlined"
+                  style={{ userSelect: "none", marginLeft: "auto" }}
+                >
+                  open_in_new
+                </span>
+              </Button>
+            )}
           </Box>
         </Box>
       </SwipeableDrawer>
