@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -25,8 +25,6 @@ model Session {
   id     String @id @default(uuid())
   userId Int
   user   User   @relation(fields: [userId], references: [id])
-
-  @@index([userId], map: "Session_userId_fkey")
 }
 
 model Property {
@@ -52,9 +50,6 @@ model PropertyInvite {
   accepted    Boolean  @default(false)
   profile     Property @relation(fields: [propertyId], references: [id])
   user        User     @relation(fields: [userId], references: [id])
-
-  @@index([propertyId], map: "PropertyInvite_propertyId_fkey")
-  @@index([userId], map: "PropertyInvite_userId_fkey")
 }
 
 model CustomRoom {
@@ -63,8 +58,6 @@ model CustomRoom {
   pinned     Boolean  @default(false)
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
-
-  @@index([propertyId], map: "CustomRoom_propertyId_fkey")
 }
 
 model Note {
@@ -76,8 +69,6 @@ model Note {
   lastUpdated DateTime @default(now())
   color       String   @default("orange")
   property    Property @relation(fields: [propertyId], references: [id])
-
-  @@index([propertyId], map: "Note_propertyId_fkey")
 }
 
 model Item {
@@ -92,8 +83,6 @@ model Item {
   propertyId   String
   trash        Boolean  @default(false)
   property     Property @relation(fields: [propertyId], references: [id])
-
-  @@index([propertyId], map: "Item_propertyId_fkey")
 }
 
 model List {
@@ -103,8 +92,6 @@ model List {
   propertyId  String
   property    Property   @relation(fields: [propertyId], references: [id])
   items       ListItem[]
-
-  @@index([propertyId], map: "List_propertyId_fkey")
 }
 
 model ListItem {
@@ -115,8 +102,6 @@ model ListItem {
   completed Boolean @default(false)
   listId    Int
   list      List    @relation(fields: [listId], references: [id])
-
-  @@index([listId], map: "ListItem_listId_fkey")
 }
 
 model MaintenanceReminder {
@@ -128,6 +113,4 @@ model MaintenanceReminder {
   nextDue    DateTime @default(now())
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
-
-  @@index([propertyId], map: "MaintenanceReminder_propertyId_fkey")
 }
