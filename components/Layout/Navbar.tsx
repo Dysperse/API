@@ -159,7 +159,7 @@ export function Navbar(): JSX.Element {
             <InviteButton />
           </Box>
           <SearchPopup />
-          <Box sx={{ display: { xs: "none", sm: "unset" } }}>
+          <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
             <AppsMenu />
           </Box>
           <ProfileMenu>
