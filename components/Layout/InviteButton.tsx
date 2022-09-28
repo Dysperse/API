@@ -641,17 +641,14 @@ export function InviteButton() {
       <Box id="new_trigger" onClick={handleClick} />
 
       <Button
-        disableRipple
         id="houseProfileTrigger"
         onClick={() => setOpen(true)}
         sx={{
           display: "flex",
           userSelect: "none",
           cursor: "pointer",
+          background: "transparent!important",
           "&:active": {
-            background: global.user.darkMode
-              ? "hsl(240, 11%, 20%) !important"
-              : "rgba(200,200,200,.3)!important",
             transition: "none",
             transform: "scale(0.95)",
           },
@@ -661,9 +658,6 @@ export function InviteButton() {
           color: global.user.darkMode ? "#fff" : "#000",
           borderRadius: 2,
           transition: "transform .2s",
-          "&:hover": {
-            background: { xs: "transparent", sm: "rgba(200,200,200,.2)" },
-          },
         }}
       >
         <Typography
