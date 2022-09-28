@@ -113,7 +113,7 @@ export function Header({
           }}
           className="avatar"
         >
-          <span className="material-symbols-rounded">more_vert</span>
+          <span className="material-symbols-rounded">more_horiz</span>
         </IconButton>
       </ListItemAvatar>
     </ListItem>
