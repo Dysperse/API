@@ -1,4 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -72,7 +73,7 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
     <>
       <ListItemButton
         id="setCreateRoomModalOpen"
-        onClick={() => toggleDrawer(true)}
+        onClick={() => setOpen(true)}
         sx={{
           ...(collapsed && {
             width: 70,
@@ -126,10 +127,7 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
               xs: "100vw",
               sm: "50vw",
             },
-            maxWidth: "700px",
-            "& *:not(.MuiTouchRipple-child, .puller)": {
-              background: "transparent!important",
-            },
+            maxWidth: "500px",
             borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.user.darkMode && {
@@ -142,33 +140,34 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
         onOpen={toggleDrawer(true)}
       >
         <Puller />
-        <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
-          Create room
-        </DialogTitle>
         <Box sx={{ p: 3 }}>
+          <Typography sx={{ textAlign: "center", my: 2 }} variant="h6">
+            Create room
+          </Typography>
           <form onSubmit={formik.handleSubmit}>
             <TextField
               margin="dense"
               label="Room name"
+              variant="filled"
               onChange={formik.handleChange}
               value={formik.values.name}
               fullWidth
               autoComplete={"off"}
               name="name"
-              variant="outlined"
             />
 
             <LoadingButton
+              disableElevation
+              variant="contained"
               sx={{
                 mt: 1,
-                mr: 1,
+                width: "100%",
                 borderRadius: 9,
                 float: "right",
                 borderWidth: "2px!important",
                 boxShadow: 0,
               }}
               size="large"
-              variant="outlined"
               type="submit"
               color="primary"
               loading={loading}
