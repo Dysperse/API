@@ -1,6 +1,8 @@
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
 /**
@@ -50,8 +52,20 @@ export function Header({
           width: "100%",
         }}
       >
+        <ListItemAvatar sx={{ mr: 2 }}>
+          <IconButton
+            sx={{
+              background: "transparent",
+              transition: "background .2s",
+            }}
+            className="avatar"
+          >
+            <span className="material-symbols-rounded">chevron_left</span>
+          </IconButton>
+        </ListItemAvatar>
+
         <ListItemText
-          sx={{ my: 2, textAlign: "center" }}
+          sx={{ my: 1.4, textAlign: "center" }}
           primary={
             <Typography
               sx={{
@@ -83,6 +97,17 @@ export function Header({
           }
         />
       </Box>
+      <ListItemAvatar sx={{ mr: 2 }}>
+        <IconButton
+          sx={{
+            background: "transparent",
+            transition: "background .2s",
+          }}
+          className="avatar"
+        >
+          <span className="material-symbols-rounded">more_vert</span>
+        </IconButton>
+      </ListItemAvatar>
     </ListItem>
   );
 }

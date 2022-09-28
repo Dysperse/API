@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { blueGrey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
@@ -111,13 +111,11 @@ export function Toolbar({
             px: 2,
             mt: { xs: 1, sm: 0 },
             width: { xs: "100%", sm: "300px" },
-            background: global.user.darkMode
-              ? "hsl(240, 11%, 25%)"
-              : blueGrey[50],
+            background: global.user.darkMode ? "hsl(240, 11%, 25%)" : grey[200],
             "&.Mui-focused": {
               background: global.user.darkMode
                 ? "hsl(240, 11%, 30%)"
-                : blueGrey[100],
+                : grey[300],
             },
           },
         }}

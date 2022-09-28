@@ -201,7 +201,6 @@ function Action({
       : 0;
   return (
     <ListItem
-      disableRipple
       button
       onClick={() => {
         if (href) router.push(href);
@@ -224,14 +223,13 @@ function Action({
       }
       sx={{
         mb: 1,
-        transition: "transform .2s !important",
+        transition: "transform .1s !important",
+        background: "transparent!important",
+
         borderRadius: 4,
         "&:active": {
-          transition: "none!important",
-          transform: "scale(.97)",
-          background: global.user.darkMode
-            ? "hsl(240, 11%, 20%)"
-            : "rgba(200,200,200,.4)",
+          transform: "scale(.99)",
+          background: "transparent!important",
         },
         ...(theme === "dark" && {
           "&:hover .MuiAvatar-root": {
