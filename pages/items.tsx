@@ -360,43 +360,39 @@ export default function Categories() {
         </MenuItem>
       </Menu>
       <Container sx={{ mb: 3 }}>
-        {/* <Typography
-          variant="h3"
-          sx={{
-            my: 12,
-            fontWeight: "400",
-            textAlign: "center",
-          }}
-        >
-          Inventory
-        </Typography> */}
         <Box
           sx={{
             my: 4,
+            borderRadius: "15px!important",
             textAlign: "center",
           }}
         >
           <ButtonGroup
             variant="outlined"
             sx={{
-              px: 2,
+              p: 0.2,
+              borderRadius: "15px!important",
               width: "100%",
+              background: `${
+                colors[themeColor][global.theme !== "dark" ? 100 : 900]
+              }!important`,
             }}
             aria-label="outlined primary button group"
           >
             <Button
+              variant="contained"
+              disableElevation
               onClick={() => setViewBy("room")}
               sx={{
                 px: 5,
-                borderRadius: 999,
                 height: 40,
-                borderWidth: "2px!important",
+                borderRadius: "15px!important",
                 transition: "none!important",
                 width: "50%",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                ...(viewBy === "room" && {
+                ...(viewBy !== "room" && {
                   background: `${
                     colors[themeColor][global.theme !== "dark" ? 100 : 900]
                   }!important`,
@@ -406,29 +402,22 @@ export default function Categories() {
                 }),
               }}
             >
-              {viewBy === "room" && (
-                <span
-                  className="material-symbols-rounded"
-                  style={{ marginRight: "10px" }}
-                >
-                  check
-                </span>
-              )}
               Room
             </Button>
             <Button
+              variant="contained"
+              disableElevation
               onClick={() => setViewBy("category")}
               sx={{
                 px: 5,
-                height: 40,
+                borderRadius: "15px!important",
                 borderWidth: "2px!important",
-                borderRadius: 999,
                 transition: "none!important",
                 width: "50%",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                ...(viewBy === "category" && {
+                ...(viewBy !== "category" && {
                   background: `${
                     colors[themeColor][global.theme !== "dark" ? 100 : 900]
                   }!important`,
@@ -439,14 +428,6 @@ export default function Categories() {
                 }),
               }}
             >
-              {viewBy === "category" && (
-                <span
-                  className="material-symbols-rounded"
-                  style={{ marginRight: "10px" }}
-                >
-                  check
-                </span>
-              )}
               Category
             </Button>
           </ButtonGroup>
