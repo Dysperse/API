@@ -385,6 +385,7 @@ export default function Categories() {
               onClick={() => setViewBy("room")}
               sx={{
                 px: 5,
+                mr: 0.1,
                 height: 40,
                 borderRadius: "15px!important",
                 transition: "none!important",
