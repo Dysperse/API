@@ -43,9 +43,9 @@ export function FloatingActionButton() {
             borderRadius: "20px",
             px: 3,
             fontSize: "15px",
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+            boxShadow: "none",
             "&:focus-within": {
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              boxShadow: "none",
             },
             backdropFilter: "blur(15px)",
             background: global.user.darkMode
@@ -60,7 +60,7 @@ export function FloatingActionButton() {
                 : colors[themeColor]["200"],
             },
             "&:focus,&:active": {
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              boxShadow: "none",
               transform: "scale(.96)",
               transition: "none",
               background: global.user.darkMode
