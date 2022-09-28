@@ -386,7 +386,6 @@ export default function Categories() {
               sx={{
                 px: 5,
                 mr: 0.1,
-                height: 40,
                 borderRadius: "15px!important",
                 transition: "none!important",
                 width: "50%",
