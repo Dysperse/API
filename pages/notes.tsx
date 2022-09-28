@@ -199,7 +199,9 @@ function NoteModal({
       open={open}
       onClose={() => {
         // Submit form
-        formik.handleSubmit();
+        if (formik.values.content !== "") {
+          formik.handleSubmit();
+        }
         setOpen(false);
       }}
       onOpen={() => setOpen(true)}
