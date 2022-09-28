@@ -55,12 +55,12 @@ function ElevationScroll(props) {
             ? global.user.darkMode
               ? "rgba(33,33,38)"
               : colors[router.asPath === "/maintenance" ? "green" : themeColor][
-                  "100"
+                  "50"
                 ]
             : global.user.darkMode
             ? "hsl(240, 11%, 10%)"
             : router.asPath === "/maintenance"
-            ? colors.green[100]
+            ? colors.green[50]
             : "#fff"
         );
     }
@@ -108,17 +108,10 @@ function ElevationScroll(props) {
             ? "rgba(33,33,38)"
             : hexToRgba(
                 colors[router.asPath === "/maintenance" ? "green" : themeColor][
-                  "100"
+                  "50"
                 ],
                 1
               ),
-
-          ["@supports not (backdrop-filter: blur(20px))"]: {
-            background:
-              colors[
-                router.asPath === "/maintenance" ? "green" : themeColor
-              ][100],
-          },
         }
       : {
           ...badgeStyles,
