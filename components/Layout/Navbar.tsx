@@ -143,7 +143,7 @@ function ElevationScroll(props) {
 }
 
 /**
- * Navbar component
+ * Navbar component for layout
  * @returns {any}
  */
 export function Navbar(): JSX.Element {
