@@ -687,7 +687,7 @@ export function InviteButton() {
         onClose={() => {
           handleClose();
           // Prevent popover from opening again
-          Cookies.set("invitePopup", "true");
+          Cookies.set("invitePopup", "true", { expires: 69 });
         }}
         BackdropProps={{
           sx: {
