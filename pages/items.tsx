@@ -360,7 +360,7 @@ export default function Categories() {
         </MenuItem>
       </Menu>
       <Container sx={{ mb: 3 }}>
-        <Typography
+        {/* <Typography
           variant="h3"
           sx={{
             my: 12,
@@ -369,7 +369,7 @@ export default function Categories() {
           }}
         >
           Inventory
-        </Typography>
+        </Typography> */}
         <Box
           sx={{
             my: 4,
@@ -378,6 +378,10 @@ export default function Categories() {
         >
           <ButtonGroup
             variant="outlined"
+            sx={{
+              px: 2,
+              width: "100%",
+            }}
             aria-label="outlined primary button group"
           >
             <Button
@@ -388,7 +392,7 @@ export default function Categories() {
                 height: 40,
                 borderWidth: "2px!important",
                 transition: "none!important",
-                width: 150,
+                width: "50%",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -420,7 +424,7 @@ export default function Categories() {
                 borderWidth: "2px!important",
                 borderRadius: 999,
                 transition: "none!important",
-                width: 150,
+                width: "50%",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
