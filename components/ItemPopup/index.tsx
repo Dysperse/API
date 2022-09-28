@@ -545,12 +545,21 @@ export default function Item({
                 variant="h6"
                 sx={{
                   display: "block",
-                  mb: 0.5,
                 }}
               >
                 {item.name.substring(0, 18) || "(no title)"}
                 {item.name.length > 18 && "..."}
               </Typography>
+
+              <Typography variant="body1">
+                {!item.quantity ||
+                  (!item.quantity.includes(" ") && "Quantity: ")}
+                {displayRoom
+                  ? data.room
+                  : item.quantity.substring(0, 18) || "No quantity specified"}
+                {!displayRoom && item.quantity.length > 18 && "..."}
+              </Typography>
+
               {variant === "list" && (
                 <Chip
                   key={Math.random().toString()}
@@ -558,11 +567,6 @@ export default function Item({
                   label={data.room}
                 />
               )}
-              {!item.quantity || (!item.quantity.includes(" ") && "Quantity: ")}
-              {displayRoom
-                ? data.room
-                : item.quantity.substring(0, 18) || "No quantity specified"}
-              {!displayRoom && item.quantity.length > 18 && "..."}
               {!displayRoom &&
                 JSON.parse(item.category).map((category: string) => {
                   if (category.trim() === "") return false;
@@ -574,7 +578,6 @@ export default function Item({
                     />
                   );
                 })}
-              <Box sx={{ mb: 1 }} />
             </CardContent>
           </CardActionArea>
         </Card>
