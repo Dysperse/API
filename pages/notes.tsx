@@ -485,19 +485,10 @@ export default function Notes(): JSX.Element {
   return (
     <Box
       sx={{
+        mt: 8,
         px: 5,
       }}
     >
-      <Typography
-        variant="h3"
-        sx={{
-          my: 12,
-          fontWeight: "400",
-          textAlign: "center",
-        }}
-      >
-        Notes
-      </Typography>
       {error && (
         <ErrorHandler
           error={"An error occured while trying to fetch your notes"}
