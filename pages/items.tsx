@@ -184,7 +184,7 @@ function Action({
   href,
   onClick,
 }: {
-  disableLoading: boolean;
+  disableLoading?: boolean;
   count?: {
     byRoom: {
       [key: string]: string | number | boolean;
