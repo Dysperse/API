@@ -54,6 +54,7 @@ export function Header({
       >
         <ListItemAvatar sx={{ mr: 2 }}>
           <IconButton
+            size="large"
             sx={{
               background: "transparent",
               transition: "background .2s",
@@ -97,8 +98,9 @@ export function Header({
           }
         />
       </Box>
-      <ListItemAvatar sx={{ mr: 2 }}>
+      <ListItemAvatar sx={{ ml: 2 }}>
         <IconButton
+          size="large"
           sx={{
             background: "transparent",
             transition: "background .2s",
