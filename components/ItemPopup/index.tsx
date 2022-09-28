@@ -519,6 +519,9 @@ export default function Item({
             ...(item.starred && {
               background: deepOrange[global.user.darkMode ? 900 : 50],
             }),
+            "&:active": {
+              transform: "scale(0.98)",
+            },
             "& *:not(.MuiTouchRipple-root *)": {
               background: "transparent!important",
             },
