@@ -179,10 +179,12 @@ function CategoryList() {
 function Action({
   count,
   icon,
+  disableLoading = false,
   primary,
   href,
   onClick,
 }: {
+  disableLoading: boolean;
   count?: {
     byRoom: {
       [key: string]: string | number | boolean;
@@ -210,7 +212,7 @@ function Action({
         setLoading(true);
       }}
       secondaryAction={
-        loading ? (
+        !disableLoading && loading ? (
           <CircularProgress size={18} sx={{ ml: "auto", mt: "8px" }} />
         ) : (
           <span
@@ -500,6 +502,7 @@ export default function Categories() {
               onClick={() =>
                 document.getElementById("setCreateRoomModalOpen")?.click()
               }
+              disableLoading
               icon="add_circle"
               primary="Create room"
             />
