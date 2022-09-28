@@ -3,7 +3,5 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - init: npm install && npm run build
+  - init: npm install && npm run dev
     command: npm run start
-
-
