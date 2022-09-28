@@ -6,6 +6,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import { decode } from "js-base64";
+import { CreateItemModal } from "../AddPopup/CreateItemModal";
 /**
  * Header component for the room
  * @param useAlias
@@ -14,10 +15,12 @@ import { decode } from "js-base64";
  */
 export function Header({
   useAlias,
+  alias,
   room,
   itemCount,
 }: {
   useAlias?: string | null;
+  alias: string;
   room: string;
   itemCount: number;
 }) {
@@ -105,16 +108,18 @@ export function Header({
         />
       </Box>
       <ListItemAvatar sx={{ ml: 2 }}>
-        <IconButton
-          size="large"
-          sx={{
-            background: "transparent",
-            transition: "background .2s",
-          }}
-          className="avatar"
-        >
-          <span className="material-symbols-rounded">more_horiz</span>
-        </IconButton>
+        <CreateItemModal room={room} alias={alias}>
+          <IconButton
+            size="large"
+            sx={{
+              background: "transparent",
+              transition: "background .2s",
+            }}
+            className="avatar"
+          >
+            <span className="material-symbols-rounded">add</span>
+          </IconButton>
+        </CreateItemModal>
       </ListItemAvatar>
     </ListItem>
   );

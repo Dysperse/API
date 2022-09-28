@@ -141,46 +141,11 @@ export function Toolbar({
         <Typography
           sx={{
             ml: 1,
-            display: {
-              xs: "none",
-              sm: "inline",
-            },
           }}
         >
           &nbsp;Sort&nbsp;by&nbsp;
         </Typography>
       </Button>
-      <CreateItemModal room={room} alias={alias}>
-        <Button
-          id="basic-button"
-          variant="contained"
-          disabled={data.length >= 150 || global.property.role === "read-only"}
-          disableElevation
-          sx={{
-            borderRadius: 10,
-            ml: 1,
-            mt: { xs: 1, sm: 0 },
-            py: 1,
-            verticalAlign: "middle",
-          }}
-          aria-controls={open ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-        >
-          <span className="material-symbols-rounded">add_circle</span>
-          <Typography
-            sx={{
-              ml: 1,
-              display: {
-                xs: "none",
-                sm: "inline",
-              },
-            }}
-          >
-            &nbsp;New&nbsp;item&nbsp;
-          </Typography>
-        </Button>
-      </CreateItemModal>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
