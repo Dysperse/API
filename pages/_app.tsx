@@ -266,10 +266,10 @@ function Render({
           tooltip: {
             borderRadius: "20px",
             fontSize: "14px",
-            background: global.user.darkMode
+            color: global.user.darkMode
               ? "hsl(240, 11%, 30%)"
               : colors[themeColor]["A100"],
-            color: global.user.darkMode
+            background: global.user.darkMode
               ? "hsl(240, 11%, 90%)"
               : colors[themeColor]["900"],
             paddingLeft: "13px",
