@@ -105,6 +105,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
       case "/trash":
       case "/items":
         setValue(1);
+        break;
       case "/notes":
         setValue(2);
         break;
