@@ -4,6 +4,7 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
+import { useRouter } from "next/router";
 import { decode } from "js-base64";
 /**
  * Header component for the room
@@ -20,6 +21,8 @@ export function Header({
   room: string;
   itemCount: number;
 }) {
+  const router = useRouter();
+  
   return (
     <ListItem
       sx={{
@@ -54,6 +57,9 @@ export function Header({
       >
         <ListItemAvatar sx={{ mr: 2 }}>
           <IconButton
+            onClick={() => {
+              router.push("/items");
+            }}
             size="large"
             sx={{
               background: "transparent",
