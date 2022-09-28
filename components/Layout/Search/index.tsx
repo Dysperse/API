@@ -322,6 +322,9 @@ export function SearchPopup() {
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
+            "& input": {
+              background: "transparent!important",
+            },
           },
         }}
       >
