@@ -22,7 +22,7 @@ export function Header({
   itemCount: number;
 }) {
   const router = useRouter();
-  
+
   return (
     <ListItem
       sx={{
@@ -76,7 +76,7 @@ export function Header({
           primary={
             <Typography
               sx={{
-                fontWeight: "400",
+                fontWeight: "900",
                 fontSize: {
                   xs: "25px",
                   md: "35px",
@@ -96,7 +96,7 @@ export function Header({
             <Typography
               sx={{
                 color: "inherit",
-                fontWeight: "600",
+                fontWeight: "500",
               }}
             >
               {itemCount} item{itemCount !== 1 && "s"}
