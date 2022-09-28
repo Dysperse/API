@@ -1,4 +1,3 @@
-import AddIcon from "@mui/icons-material/Add";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
@@ -399,7 +398,12 @@ export function DrawerListItems({
                 textTransform: "none",
               }}
             >
-              <AddIcon sx={{ mr: collapsed ? 0 : 1 }} />
+              <span
+                style={{ marginLeft: collapsed ? "0" : "10px" }}
+                className="material-symbols-rounded"
+              >
+                add
+              </span>
               <Collapse
                 in={!collapsed}
                 orientation="horizontal"
