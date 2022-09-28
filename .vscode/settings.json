@@ -1,5 +1,5 @@
 {
-    "editor.tabCompletion": "on",
-    "diffEditor.codeLens": true,
-    "editor.formatOnSave": true
+  "editor.tabCompletion": "on",
+  "diffEditor.codeLens": true,
+  "editor.formatOnSave": true
 }
