@@ -557,20 +557,19 @@ export default function Item({
                 sx={{
                   mb: 1,
                 }}
-              >
-                {variant === "list" && (
-                  <Chip
-                    key={Math.random().toString()}
-                    sx={{ pointerEvents: "none", m: 0.25 }}
-                    label={data.room}
-                  />
-                )}
-                {!item.quantity.includes(" ") && "Quantity: "}
-                {displayRoom
-                  ? data.room
-                  : item.quantity.substring(0, 18) || "(no quantity specified)"}
-                {!displayRoom && item.quantity.length > 18 && "..."}
-              </Typography>
+              ></Typography>
+              {variant === "list" && (
+                <Chip
+                  key={Math.random().toString()}
+                  sx={{ pointerEvents: "none", m: 0.25 }}
+                  label={data.room}
+                />
+              )}
+              {!item.quantity.includes(" ") && "Quantity: "}
+              {displayRoom
+                ? data.room
+                : item.quantity.substring(0, 18) || "(no quantity specified)"}
+              {!displayRoom && item.quantity.length > 18 && "..."}
               {!displayRoom &&
                 JSON.parse(item.category).map((category: string) => {
                   if (category.trim() === "") return false;
