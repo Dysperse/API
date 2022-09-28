@@ -578,6 +578,7 @@ export default function Item({
                     />
                   );
                 })}
+              <Box sx={{ mb: 0.5 }} />
             </CardContent>
           </CardActionArea>
         </Card>
