@@ -5,7 +5,6 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
-import { deepOrange } from "@mui/material/colors";
 import Grid from "@mui/material/Grid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -513,11 +512,13 @@ export default function Item({
             background: `${
               global.user.darkMode
                 ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.3)"
+                : "rgba(200,200,200,.25)"
             }!important`,
             transition: "transform .2s",
+            border: "2px solid #fff",
             ...(item.starred && {
-              background: deepOrange[global.user.darkMode ? 900 : 50],
+              background: colors.orange["50"],
+              borderColor: colors.orange[global.user.darkMode ? 50 : 300],
             }),
             "&:active": {
               transform: "scale(0.98)",
