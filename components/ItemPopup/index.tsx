@@ -509,36 +509,32 @@ export default function Item({
             my: 1.5,
             width: "100%",
             maxWidth: "calc(100vw - 32.5px)",
-            borderRadius: "28px",
+            borderRadius: 5,
             background: `${
               global.user.darkMode
                 ? "hsl(240, 11%, 17%)"
                 : "rgba(200,200,200,.3)"
             }!important`,
             transition: "transform .2s",
-            "&:active": {
-              transform: "scale(0.98)",
-              transition: "none",
-            },
             ...(item.starred && {
               background: deepOrange[global.user.darkMode ? 900 : 50],
             }),
+            "& *:not(.MuiTouchRipple-root *)": {
+              background: "transparent!important",
+            },
           }}
           onClick={() => setDrawerState(true)}
         >
           <CardActionArea
-            disableRipple
             sx={{
               transition: "none!important",
               "&:focus-within": {
-                background: `${
-                  global.user.darkMode
-                    ? "hsl(240, 11%, 18%)"
-                    : "rgba(200,200,200,.01)"
-                }!important`,
+                background: "transparent!important",
               },
-              borderRadius: "28px",
+              background: "transparent!important",
+              borderRadius: 5,
               "&:active": {
+                transition: "none",
                 boxShadow: "none!important",
               },
             }}
@@ -548,7 +544,7 @@ export default function Item({
                 variant="h6"
                 sx={{
                   display: "block",
-                  mb: 1,
+                  mb: 0.5,
                 }}
               >
                 {item.name.substring(0, 18) || "(no title)"}
