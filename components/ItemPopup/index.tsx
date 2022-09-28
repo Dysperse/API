@@ -515,14 +515,11 @@ export default function Item({
                 : "rgba(200,200,200,.25)"
             }!important`,
             transition: "transform .2s",
-            border: "2px solid #fff",
+            border: "2px solid transparent",
             ...(item.starred && {
               background: colors.orange["50"],
               borderColor: colors.orange[global.user.darkMode ? 50 : 300],
             }),
-            "&:active": {
-              transform: "scale(0.98)",
-            },
             "& *:not(.MuiTouchRipple-root *)": {
               background: "transparent!important",
             },
