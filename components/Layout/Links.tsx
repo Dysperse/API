@@ -131,7 +131,7 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
             "& *:not(.MuiTouchRipple-child, .puller)": {
               background: "transparent!important",
             },
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 20%)",

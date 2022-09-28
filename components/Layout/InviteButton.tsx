@@ -263,7 +263,7 @@ function House({
             maxWidth: "600px",
             maxHeight: "90vh",
             overflow: "hidden",
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
@@ -280,7 +280,7 @@ function House({
           sx={{
             maxHeight: "90vh",
             overflow: "scroll",
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
           }}
         >
           <Box
@@ -290,7 +290,7 @@ function House({
               height: "300px",
               position: "relative",
               color: "white",
-              borderRadius: "30px 30px 0 0",
+              borderRadius: "20px 20px 0 0",
             }}
           >
             <Box

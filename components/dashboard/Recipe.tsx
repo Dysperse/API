@@ -31,7 +31,7 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
           sx: {
             maxWidth: "800px",
             mx: "auto",
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
           },
         }}
         disableSwipeToOpen
@@ -40,7 +40,7 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
           sx={{
             maxHeight: "90vh",
             height: "90vh",
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
             overflow: "scroll!important",
           }}
         >
@@ -52,7 +52,7 @@ export function Recipe({ recipe }: { recipe: Meal }): JSX.Element {
               src={url}
               width="100%"
               height="300"
-              style={{ borderRadius: "30px 30px 0 0" }}
+              style={{ borderRadius: "20px 20px 0 0" }}
               frameBorder="0"
             />
           ) : (

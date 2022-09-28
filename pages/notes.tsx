@@ -53,7 +53,7 @@ function ColorModal({ formik }): JSX.Element {
             mx: "auto",
             background:
               colors[formik.values.color][global.user.darkMode ? 900 : 50],
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
           },
         }}
       >
@@ -226,7 +226,7 @@ function NoteModal({
           overflow: "hidden!important",
           maxWidth: "500px",
           width: "100%",
-          borderRadius: { xs: "30px 30px 0 0", sm: 5 },
+          borderRadius: { xs: "20px 20px 0 0", sm: 5 },
         },
       }}
     >

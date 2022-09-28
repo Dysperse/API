@@ -86,7 +86,7 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
             background: global.user.darkMode
               ? "hsl(240, 11%, 18%)"
               : colors[themeColor][50],
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
           },
         }}
       >

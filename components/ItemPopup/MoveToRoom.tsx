@@ -112,7 +112,7 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
             },
             maxWidth: "600px",
             maxHeight: "95vh",
-            borderRadius: "30px 30px 0 0",
+            borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
