@@ -5,7 +5,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import OtpInput from "react-otp-input";
+import AuthCode from "react-auth-code-input";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 
@@ -112,33 +112,11 @@ export function Prompt({
             <Box
               sx={{
                 textAlign: "center",
-                display: "flex",
-                justifyContent: "center",
-                "& *::selection": {
-                  background: `${colors.brown[900]} !important`,
-                  color: "#fff!important",
-                },
-                "& input": {
-                  p: 1,
-                  fontSize: "1.3rem",
-                  textAlign: "center",
-                  borderRadius: "10px",
-                  border: "1px solid #ccc",
-                  height: "45px",
-                  minWidth: "45px",
-                  px: 1.5,
-                  fontWeight: "900",
-                  // Selection
-                  display: "block!important",
-                  margin: "0 5px",
-                  outline: "none",
-                },
               }}
             >
-              <OtpInput
-                value={code}
+              <AuthCode
+                allowedCharacters="numeric"
                 onChange={(value) => setCode(value)}
-                numInputs={6}
               />
             </Box>
             <LoadingButton

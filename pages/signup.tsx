@@ -9,7 +9,8 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import OtpInput from "react-otp-input";
+import AuthCode from "react-auth-code-input";
+
 import { useSWRConfig } from "swr";
 import { Layout } from "../components/Auth/Layout";
 import { Puller } from "../components/Puller";
@@ -114,33 +115,11 @@ export default function Prompt() {
             <Box
               sx={{
                 textAlign: "center",
-                display: "flex",
-                justifyContent: "center",
-                "& *::selection": {
-                  background: `${colors.brown[900]} !important`,
-                  color: "#fff!important",
-                },
-                "& input": {
-                  p: 1,
-                  fontSize: "1.3rem",
-                  textAlign: "center",
-                  borderRadius: "10px",
-                  border: "1px solid #ccc",
-                  height: "35px",
-                  px: 1.5,
-                  fontWeight: "900",
-                  // Selection
-                  display: "block!important",
-                  margin: "0 5px",
-                  outline: "none",
-                },
               }}
             >
-              <OtpInput
-                value={otpCode}
+              <AuthCode
+                allowedCharacters="numeric"
                 onChange={(value) => setOtpCode(value)}
-                numInputs={6}
-                //   separator={<span>-</span>}
               />
             </Box>
             <LoadingButton

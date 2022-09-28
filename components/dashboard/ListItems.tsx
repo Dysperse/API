@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import React, { createRef, useState } from "react";
-import { useScreenshot } from "use-react-screenshot";
+// import { useScreenshot } from "use-react-screenshot";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { CreateListModal } from "./CreateListModal";
@@ -222,7 +222,9 @@ export function ListItems({
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const ref = createRef<HTMLDivElement>();
-  const [image, takeScreenshot] = useScreenshot();
+  // const [image, takeScreenshot] = useScreenshot();
+  const image = "";
+  // const takeScreenshot = () => {};
   const [screenshotReady, setScreenshotReady] = useState(false);
 
   /**
@@ -231,7 +233,6 @@ export function ListItems({
    */
   const getImage = () => {
     setScreenshotReady(true);
-    takeScreenshot(ref.current);
     setScreenshotReady(false);
   };
 

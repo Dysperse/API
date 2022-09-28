@@ -399,7 +399,7 @@ export function DrawerListItems({
               }}
             >
               <span
-                style={{ marginLeft: collapsed ? "0" : "10px" }}
+                style={{ marginRight: collapsed ? "0" : "10px" }}
                 className="material-symbols-rounded"
               >
                 add

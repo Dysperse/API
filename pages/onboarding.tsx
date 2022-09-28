@@ -10,14 +10,12 @@ import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
-import SwipeableViews from "react-swipeable-views";
 import { cards } from "../components/AddPopup/cards";
 import { Color } from "../components/onboarding/Color";
 import { CustomRooms } from "../components/onboarding/customRooms";
 import { InventoryList } from "../components/onboarding/InventoryList";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { colors } from "../lib/colors";
-const AutoPlaySwipeableViews = SwipeableViews;
 
 /**
  * Top-level component for the onboarding page.
@@ -299,23 +297,16 @@ function SwipeableTextMobileStepper() {
             }),
           }}
         >
-          <AutoPlaySwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-            index={activeStep}
-            onChangeIndex={handleStepChange}
-            enableMouseEvents
-          >
-            {images.map((step) => (
-              <Box
-                sx={{
-                  height: "100vh",
-                }}
-                key={Math.random().toString()}
-              >
-                {step.content}
-              </Box>
-            ))}
-          </AutoPlaySwipeableViews>
+          {images.map((step) => (
+            <Box
+              sx={{
+                height: "100vh",
+              }}
+              key={Math.random().toString()}
+            >
+              {step.content}
+            </Box>
+          ))}
           <MobileStepper
             steps={maxSteps}
             sx={{
