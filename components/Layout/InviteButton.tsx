@@ -285,7 +285,7 @@ function House({
         >
           <Box
             sx={{
-              background: `linear-gradient(45deg, ${colors[color][900]},  ${colors[color][300]})`,
+              background: `linear-gradient(45deg, ${colors[color]["900"]},  ${colors[color]["800"]})`,
               px: 3,
               height: "300px",
               position: "relative",

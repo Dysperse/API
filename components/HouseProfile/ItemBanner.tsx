@@ -18,6 +18,7 @@ export function UpgradeBanner({ color }: { color: string }) {
           color: colors[color]["900"].toString(),
           borderRadius: 5,
           px: 3,
+          mt: 2,
           py: 2,
           mb: 5,
         }}

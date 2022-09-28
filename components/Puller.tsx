@@ -12,8 +12,8 @@ export function Puller({ variant }: { variant?: "side" }) {
         background: global.user
           ? global.user.darkMode
             ? "hsl(240, 11%, 35%)"
-            : colors[themeColor][100]
-          : colors["brown"][100],
+            : colors[themeColor][400]
+          : colors["brown"][400],
       }}
     />
   );

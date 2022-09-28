@@ -14,6 +14,7 @@ import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../ErrorHandler";
 import { AddPersonModal } from "./AddPersonModal";
 import type { Member as MemberType } from "../../types/houseProfile";
+
 /**
  * Check if a string is a valid email address
  * @param email Original email string
@@ -213,6 +214,7 @@ export function MemberList({
         sx={{
           display: "flex",
           gap: 2,
+          width: "100%",
           alignItems: "center",
         }}
       >
@@ -227,8 +229,8 @@ export function MemberList({
             <span className="material-symbols-rounded">chevron_left</span>
           </IconButton>
         )}
-        <div className="embla" ref={emblaRef}>
-          <div className="embla__container">
+        <div className="embla" ref={emblaRef} style={{ width: "100%" }}>
+          <div className="embla__container" style={{ width: "100%" }}>
             {images.map((step, index) => (
               <Box
                 key={Math.random().toString()}
