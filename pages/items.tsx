@@ -365,6 +365,7 @@ export default function Categories() {
         <Box
           sx={{
             my: 4,
+            px: 1,
             borderRadius: "15px!important",
             textAlign: "center",
           }}
