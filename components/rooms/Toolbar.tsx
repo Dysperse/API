@@ -9,6 +9,7 @@ import React from "react";
 import { CreateItemModal } from "../AddPopup/CreateItemModal";
 import { neutralizeBack, revivalBack } from "../history-control";
 import type { Item } from "@prisma/client";
+import CardActionArea from "@mui/material/CardActionArea";
 
 /**
  * Toolbar for a room
@@ -72,55 +73,33 @@ export function Toolbar({
         justifyContent: "end",
       }}
     >
-      <TextField
-        placeholder="Search"
-        id="outlined-size-small"
-        onKeyDown={handleBlurEvent}
-        onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-          const value = e.target.value;
-          if (value === "") {
-            setItems(data);
-            return;
-          }
-          setItems([]);
-          setTimeout(() => {
-            setItems(
-              data.filter(
-                (item) =>
-                  item.name.toLowerCase().includes(value.toLowerCase()) ||
-                  item.quantity.toLowerCase().includes(value.toLowerCase()) ||
-                  JSON.parse(item.category)
-                    .join(",")
-                    .toLowerCase()
-                    .includes(value.toLowerCase())
-              )
-            );
-          }, 50);
+      <Button
+        id="basic-button"
+        variant="text"
+        disableElevation
+        sx={{
+          backgroundColor: `${grey[200]}!important`,
+          borderRadius: 10,
+          mt: { xs: 1, sm: 0 },
+          width: "100%",
+          textAlign: "left",
+          color: `${grey[600]}!important`,
+          textTransform: "none",
+          justifyContent: "start",
+          py: 1,
+          px: 2,
+          verticalAlign: "middle",
         }}
-        size="small"
-        variant="standard"
-        autoComplete="off"
-        InputProps={{
-          disableUnderline: true,
-          sx: {
-            borderRadius: "20px",
-            border: "0!important",
-            pb: 0.6,
-            pt: 1,
-            mr: 0.5,
-            px: 2,
-            mt: { xs: 1, sm: 0 },
-            width: { xs: "100%", sm: "300px" },
-            background: global.user.darkMode ? "hsl(240, 11%, 25%)" : grey[200],
-            "&.Mui-focused": {
-              background: global.user.darkMode
-                ? "hsl(240, 11%, 30%)"
-                : grey[300],
-            },
-          },
-        }}
-        sx={{ verticalAlign: "middle" }}
-      />
+      >
+        <span className="material-symbols-rounded">search</span>
+        <Typography
+          sx={{
+            ml: 1,
+          }}
+        >
+          Find an item
+        </Typography>
+      </Button>
       <Button
         id="basic-button"
         variant="contained"
@@ -130,6 +109,7 @@ export function Toolbar({
           ml: 1,
           mt: { xs: 1, sm: 0 },
           py: 1,
+          px: 1,
           verticalAlign: "middle",
         }}
         aria-controls={open ? "basic-menu" : undefined}
@@ -138,13 +118,6 @@ export function Toolbar({
         onClick={handleClick}
       >
         <span className="material-symbols-rounded">filter_alt</span>
-        <Typography
-          sx={{
-            ml: 1,
-          }}
-        >
-          &nbsp;Sort&nbsp;by&nbsp;
-        </Typography>
       </Button>
       <Menu
         id="basic-menu"
