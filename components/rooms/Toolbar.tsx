@@ -12,6 +12,102 @@ import type { Item } from "@prisma/client";
 import CardActionArea from "@mui/material/CardActionArea";
 
 /**
+ * Search bar
+ */
+function SearchBar({
+  items,
+  setItems,
+  data,
+}: {
+  items: Item[];
+  setItems: (items: Item[]) => void;
+  data: Item[];
+}) {
+  /**
+   * Handles blur event
+   */
+  const handleBlurEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (e.code === "Enter") target.blur();
+  };
+
+  return (
+    <Button
+      id="basic-button"
+      variant="text"
+      disableFocusRipple
+      disableElevation
+      sx={{
+        backgroundColor: `${grey[200]}!important`,
+        borderRadius: 10,
+        mt: { xs: 1, sm: 0 },
+        width: "100%",
+        textAlign: "left",
+        color: `${grey[600]}!important`,
+        textTransform: "none",
+        justifyContent: "start",
+        py: 1,
+        px: 2,
+        "& *": {
+          pointerEvents: "none",
+        },
+        "& *:focus": {
+          pointerEvents: "auto!important",
+        },
+        verticalAlign: "middle",
+      }}
+      onClick={() => {
+        document.getElementById("outlined-size-small")?.focus();
+      }}
+    >
+      <span className="material-symbols-rounded">search</span>
+      <TextField
+        placeholder="Search"
+        id="outlined-size-small"
+        onKeyDown={handleBlurEvent}
+        onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+          const value = e.target.value;
+          if (value === "") {
+            setItems(data);
+            return;
+          }
+          setItems([]);
+          setTimeout(() => {
+            setItems(
+              data.filter(
+                (item) =>
+                  item.name.toLowerCase().includes(value.toLowerCase()) ||
+                  item.quantity.toLowerCase().includes(value.toLowerCase()) ||
+                  JSON.parse(item.category)
+                    .join(",")
+                    .toLowerCase()
+                    .includes(value.toLowerCase())
+              )
+            );
+          }, 50);
+        }}
+        size="small"
+        variant="standard"
+        fullWidth
+        autoComplete="off"
+        InputProps={{
+          disableUnderline: true,
+          sx: {
+            border: "0!important",
+            mr: 0.5,
+            px: 2,
+
+            mt: { xs: 1, sm: 0 },
+            width: "100%",
+            background: global.user.darkMode ? "hsl(240, 11%, 25%)" : grey[200],
+          },
+        }}
+      />
+    </Button>
+  );
+}
+
+/**
  * Toolbar for a room
  * @param {any} {alias
  * @param {any} room
@@ -54,15 +150,6 @@ export function Toolbar({
   React.useEffect(() => {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
-
-  /**
-   * Handles blur event
-   */
-  const handleBlurEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    if (e.code === "Enter") target.blur();
-  };
-
   return (
     <Box
       sx={{
@@ -73,33 +160,7 @@ export function Toolbar({
         justifyContent: "end",
       }}
     >
-      <Button
-        id="basic-button"
-        variant="text"
-        disableElevation
-        sx={{
-          backgroundColor: `${grey[200]}!important`,
-          borderRadius: 10,
-          mt: { xs: 1, sm: 0 },
-          width: "100%",
-          textAlign: "left",
-          color: `${grey[600]}!important`,
-          textTransform: "none",
-          justifyContent: "start",
-          py: 1,
-          px: 2,
-          verticalAlign: "middle",
-        }}
-      >
-        <span className="material-symbols-rounded">search</span>
-        <Typography
-          sx={{
-            ml: 1,
-          }}
-        >
-          Find an item
-        </Typography>
-      </Button>
+      <SearchBar items={items} setItems={setItems} data={data} />
       <Button
         id="basic-button"
         variant="contained"
