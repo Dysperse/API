@@ -32,6 +32,33 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import { UpgradeBanner } from "../HouseProfile/ItemBanner";
 
 /**
+ * Select option
+ */
+
+function SelectOption({
+  label,
+  value,
+  setPropertyType,
+}: {
+  label: JSX.Element;
+  value: string;
+  setPropertyType: (propertyType: string) => void;
+}) {
+  return (
+    <MenuItem
+      onClick={() => {
+        setPropertyType("dorm");
+        updateSettings("type", value, false, null, true);
+      }}
+      value={value}
+      sx={{ display: "flex", alignItems: "center" }}
+    >
+      {label}
+    </MenuItem>
+  );
+}
+
+/**
  * Color component for house profile
  * @param {any} {s
  * @param {any} color
@@ -349,66 +376,32 @@ function House({
                     label="House type"
                     onChange={handleChange}
                   >
-                    <MenuItem
-                      onClick={() => {
-                        setPropertyType("dorm");
-                        updateSettings("type", propertyType, false, null, true);
-                      }}
-                      value={"dorm"}
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      <span
-                        className="material-symbols-rounded"
-                        style={{
-                          verticalAlign: "middle",
-                          marginTop: "-3px",
-                          marginRight: "10px",
-                        }}
-                      >
-                        cottage
-                      </span>
-                      Dorm
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        setPropertyType("apartment");
-                        updateSettings("type", propertyType, false, null, true);
-                      }}
-                      value={"apartment"}
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      <span
-                        className="material-symbols-rounded"
-                        style={{
-                          verticalAlign: "middle",
-                          marginTop: "-3px",
-                          marginRight: "10px",
-                        }}
-                      >
-                        location_city
-                      </span>
-                      Apartment
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        setPropertyType("home");
-                        updateSettings("type", propertyType, false, null, true);
-                      }}
-                      value={"home"}
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      <span
-                        className="material-symbols-rounded"
-                        style={{
-                          verticalAlign: "middle",
-                          marginTop: "-3px",
-                          marginRight: "10px",
-                        }}
-                      >
-                        home
-                      </span>
-                      Home
-                    </MenuItem>
+                    {["Apartment", "House", "Dorm"].map((property) => (
+                      <SelectOption
+                        key={property}
+                        setPropertyType={setPropertyType}
+                        value={property.toLowerCase()}
+                        label={
+                          <>
+                            <span
+                              className="material-symbols-rounded"
+                              style={{
+                                verticalAlign: "middle",
+                                marginTop: "-3px",
+                                marginRight: "10px",
+                              }}
+                            >
+                              {property === "Apartment"
+                                ? "apartment"
+                                : property === "House"
+                                ? "home"
+                                : "cottage"}
+                            </span>
+                            {property}
+                          </>
+                        }
+                      />
+                    ))}
                   </Select>
                 </FormControl>
                 <TextField
