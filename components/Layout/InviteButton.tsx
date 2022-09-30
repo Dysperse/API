@@ -10,6 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
 import Popover from "@mui/material/Popover";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -30,33 +31,6 @@ import { updateSettings } from "../Settings/updateSettings";
 import type { House } from "../../types/houseProfile";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import { UpgradeBanner } from "../HouseProfile/ItemBanner";
-
-/**
- * Select option
- */
-
-function SelectOption({
-  label,
-  value,
-  setPropertyType,
-}: {
-  label: JSX.Element;
-  value: string;
-  setPropertyType: (propertyType: string) => void;
-}) {
-  return (
-    <MenuItem
-      onClick={() => {
-        setPropertyType("dorm");
-        updateSettings("type", value, false, null, true);
-      }}
-      value={value}
-      sx={{ display: "flex", alignItems: "center" }}
-    >
-      {label}
-    </MenuItem>
-  );
-}
 
 /**
  * Color component for house profile
@@ -124,6 +98,16 @@ function House({
   const [propertyType, setPropertyType] = React.useState(
     global.property.profile.type
   );
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = (type) => {
+    updateSettings("type", type, false, null, true);
+    setPropertyType(type);
+  };
+
   const { mutate } = useSWRConfig();
 
   /**
@@ -366,43 +350,72 @@ function House({
                   py: 4,
                 }}
               >
-                <FormControl fullWidth sx={{ mb: 4 }}>
-                  <Select
-                    variant="standard"
-                    sx={{ color: "#fff", width: "200px" }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={propertyType}
-                    label="House type"
-                    onChange={handleChange}
+                <Button
+                  variant="outlined"
+                  sx={{
+                    border: "0!important",
+                    borderBottom: "1px solid #313131 !important",
+                    py: 1.5,
+                    color: "#fff",
+                    width: "50%",
+                    textAlign: "left",
+                    alignItems: "flex-start",
+                    justifyContent: "flex-start",
+                    borderRadius: 0,
+                    borderTopLeftRadius: 19,
+                    borderTopRightRadius: 19,
+                  }}
+                  aria-haspopup="true"
+                  className="rippleDark"
+                  disabled={global.property.permission === "read-only"}
+                  onClick={handleClick}
+                >
+                  <Typography
+                    sx={{
+                      textTransform: "capitalize",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
                   >
-                    {["Apartment", "House", "Dorm"].map((property) => (
-                      <SelectOption
-                        key={property}
-                        setPropertyType={setPropertyType}
-                        value={property.toLowerCase()}
-                        label={
-                          <>
-                            <span
-                              className="material-symbols-rounded"
-                              style={{
-                                verticalAlign: "middle",
-                                marginTop: "-3px",
-                                marginRight: "10px",
-                              }}
-                            >
-                              {property === "Apartment"
-                                ? "apartment"
-                                : property === "House"
-                                ? "home"
-                                : "cottage"}
-                            </span>
-                            {property}
-                          </>
-                        }
-                      />
-                    ))}
-                  </Select>
+                    <span className="material-symbols-rounded">
+                      {propertyType === "dorm"
+                        ? "cottage"
+                        : propertyType === "apartment"
+                        ? "location_city"
+                        : "home"}
+                    </span>
+                    {propertyType}
+                  </Typography>
+                </Button>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={() => {
+                      setAnchorEl(null);
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() => handleCloseMenu("house")}
+                      value="house"
+                    >
+                      House
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => handleCloseMenu("apartment")}
+                      value="house"
+                    >
+                      Apartment
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => handleCloseMenu("dorm")}
+                      value="house"
+                    >
+                      Dorm
+                    </MenuItem>
+                  </Menu>
                 </FormControl>
                 <TextField
                   fullWidth
@@ -410,7 +423,7 @@ function House({
                   sx={{ color: "white" }}
                   InputLabelProps={{
                     sx: {
-                      color: "#eee",
+                      color: "#eee!important",
                     },
                   }}
                   InputProps={{
