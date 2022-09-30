@@ -186,7 +186,7 @@ export default function Prompt() {
           >
             <picture>
               <img
-                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v2/windows11/LargeTile.scale-125.png"
+                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v2/rounded.png"
                 width="80"
                 height="80"
                 alt="logo"
