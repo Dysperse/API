@@ -9,6 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Popover from "@mui/material/Popover";
@@ -31,6 +33,191 @@ import { updateSettings } from "../Settings/updateSettings";
 import type { House } from "../../types/houseProfile";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import { UpgradeBanner } from "../HouseProfile/ItemBanner";
+
+/**
+ * Edit property
+ */
+
+function EditProperty({
+  open,
+  setOpen,
+  color,
+  setColor,
+  propertyType,
+  setPropertyType,
+}: {
+  color: string;
+  setOpen: (open: boolean) => void;
+  propertyType: string;
+  setColor: (color: string) => void;
+  setPropertyType: (propertyType: string) => void;
+  open: boolean;
+}) {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  /**
+   * Handles click event
+   * @param event Event
+   */
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  /**
+   * Set property type
+   */
+  const handleCloseMenu = (type) => {
+    updateSettings("type", type, false, null, true);
+    setPropertyType(type);
+    setAnchorEl(null);
+  };
+
+  /**
+   * Callback for updating note blur event
+   * @param { React.FocusEvent<HTMLInputElement> } event
+   */
+  const handleUpdateName = (event: React.FocusEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    updateSettings("name", target.value, false, null, true);
+  };
+
+  return (
+    <SwipeableDrawer
+      anchor="right"
+      open={open}
+      swipeAreaWidth={0}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      PaperProps={{
+        sx: {
+          background: colors[color]["100"].toString(),
+          color: colors[color]["900"].toString(),
+          px: 3,
+          width: "100%",
+          py: 2,
+          mx: "auto",
+        },
+      }}
+    >
+      <Box
+        sx={{
+          height: "100vh",
+          p: 3,
+          pt: 10,
+        }}
+      >
+        <AppBar
+          position="fixed"
+          sx={{
+            p: 2,
+            background: colors[color]["100"].toString(),
+            color: colors[color]["900"].toString(),
+            boxShadow: "none",
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              sx={{ mr: 1 }}
+              aria-label="menu"
+              onClick={() => setOpen(false)}
+            >
+              <span className="material-symbols-rounded">arrow_back</span>
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Edit property
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <TextField
+          fullWidth
+          variant="filled"
+          sx={{ color: "white" }}
+          defaultValue={global.property.profile.name || "Untitled property"}
+          id="nameInput"
+          label="Home name / Family name / Address"
+          placeholder="1234 Rainbow Road"
+          onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
+            handleUpdateName(e)
+          }
+        />
+
+        <Button
+          variant="outlined"
+          sx={{
+            border: "0!important",
+            background: "rgba(0,0,0,0.1)",
+            mt: 3,
+            borderBottom: "1px solid #313131 !important",
+            py: 2,
+            px: 1.5,
+            width: "100%",
+            textAlign: "left",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+            borderRadius: 0,
+            borderTopLeftRadius: 6,
+            borderTopRightRadius: 6,
+          }}
+          aria-haspopup="true"
+          disabled={global.property.permission === "read-only"}
+          onClick={handleClick}
+        >
+          <Typography
+            sx={{
+              textTransform: "capitalize",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <span className="material-symbols-rounded">
+              {propertyType === "dorm"
+                ? "cottage"
+                : propertyType === "apartment"
+                ? "location_city"
+                : "home"}
+            </span>
+            {propertyType}
+          </Typography>
+        </Button>
+        <FormControl fullWidth sx={{ mb: 4 }}>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => {
+              setAnchorEl(null);
+            }}
+          >
+            <MenuItem onClick={() => handleCloseMenu("house")} value="house">
+              House
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleCloseMenu("apartment")}
+              value="house"
+            >
+              Apartment
+            </MenuItem>
+            <MenuItem onClick={() => handleCloseMenu("dorm")} value="house">
+              Dorm
+            </MenuItem>
+          </Menu>
+        </FormControl>
+
+        <Box sx={{ mt: 2, overflowX: "scroll", whiteSpace: "nowrap" }}>
+          <Color setColor={setColor} s={color} color={"red"} />
+          <Color setColor={setColor} s={color} color={"green"} />
+          <Color setColor={setColor} s={color} color={"blue"} />
+          <Color setColor={setColor} s={color} color={"orange"} />
+          <Color setColor={setColor} s={color} color={"cyan"} />
+          <Color setColor={setColor} s={color} color={"purple"} />
+          <Color setColor={setColor} s={color} color={"indigo"} />
+        </Box>
+      </Box>
+    </SwipeableDrawer>
+  );
+}
 
 /**
  * Color component for house profile
@@ -98,43 +285,20 @@ function House({
   const [propertyType, setPropertyType] = React.useState(
     global.property.profile.type
   );
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  /**
-   * Handles click event
-   * @param event Event
-   */
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  /**
-   * Set property type
-   */
-  const handleCloseMenu = (type) => {
-    updateSettings("type", type, false, null, true);
-    setPropertyType(type);
-    setAnchorEl(null);
-  };
 
   const { mutate } = useSWRConfig();
-
-  /**
-   * Callback for updating note blur event
-   * @param { React.FocusEvent<HTMLInputElement> } event
-   */
-  const handleUpdateName = (event: React.FocusEvent<HTMLInputElement>) => {
-    const target = event.target as HTMLInputElement;
-    updateSettings("name", target.value, false, null, true);
-  };
-
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)
       ?.setAttribute(
         "content",
-        open ? colors[color][800] : colors[themeColor][50]
+        open
+          ? editMode
+            ? colors[color][100]
+            : colors[color][800]
+          : colors[themeColor][50]
       );
-  });
+  }, [open]);
   return (
     <>
       <ListItem
@@ -315,6 +479,27 @@ function House({
               sx={{
                 position: "absolute",
                 top: 0,
+                left: 0,
+                m: 2,
+              }}
+            >
+              <IconButton
+                disableRipple
+                onClick={() => {
+                  setOpen(false);
+                }}
+                sx={{
+                  color: "white",
+                  mr: 0.2,
+                }}
+              >
+                <span className="material-symbols-rounded">chevron_left</span>
+              </IconButton>
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
                 right: 0,
                 m: 2,
               }}
@@ -334,165 +519,46 @@ function House({
                   <span className="material-symbols-rounded">edit</span>
                 </IconButton>
               )}
-              <IconButton
-                disableRipple
-                onClick={() => {
-                  setOpen(false);
-                }}
-                sx={{
-                  color: "white",
-                  mr: 0.2,
-                }}
-              >
-                <span className="material-symbols-rounded">close</span>
-              </IconButton>
             </Box>
-            {editMode ? (
-              <Box
+            <EditProperty
+              color={color}
+              setOpen={setEditMode}
+              propertyType={propertyType}
+              setPropertyType={setPropertyType}
+              setColor={setColor}
+              open={editMode}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                p: 5,
+                py: 4,
+              }}
+            >
+              <Typography
                 sx={{
-                  position: "absolute",
-                  left: 0,
-                  bottom: 0,
-                  p: 5,
-                  py: 4,
+                  textTransform: "capitalize",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  mb: 2,
                 }}
               >
-                <Button
-                  variant="outlined"
-                  sx={{
-                    border: "0!important",
-                    borderBottom: "1px solid #313131 !important",
-                    py: 1.5,
-                    color: "#fff",
-                    width: "50%",
-                    textAlign: "left",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                    borderRadius: 0,
-                    borderTopLeftRadius: 19,
-                    borderTopRightRadius: 19,
-                  }}
-                  aria-haspopup="true"
-                  className="rippleDark"
-                  disabled={global.property.permission === "read-only"}
-                  onClick={handleClick}
-                >
-                  <Typography
-                    sx={{
-                      textTransform: "capitalize",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <span className="material-symbols-rounded">
-                      {propertyType === "dorm"
-                        ? "cottage"
-                        : propertyType === "apartment"
-                        ? "location_city"
-                        : "home"}
-                    </span>
-                    {propertyType}
-                  </Typography>
-                </Button>
-                <FormControl fullWidth sx={{ mb: 4 }}>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={() => {
-                      setAnchorEl(null);
-                    }}
-                  >
-                    <MenuItem
-                      onClick={() => handleCloseMenu("house")}
-                      value="house"
-                    >
-                      House
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => handleCloseMenu("apartment")}
-                      value="house"
-                    >
-                      Apartment
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => handleCloseMenu("dorm")}
-                      value="house"
-                    >
-                      Dorm
-                    </MenuItem>
-                  </Menu>
-                </FormControl>
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  sx={{ color: "white" }}
-                  InputLabelProps={{
-                    sx: {
-                      color: "#eee!important",
-                    },
-                  }}
-                  InputProps={{
-                    sx: {
-                      color: "#fff!important",
-                      fontSize: "40px",
-                      py: 0,
-                    },
-                  }}
-                  defaultValue={
-                    global.property.profile.name || "Untitled property"
-                  }
-                  id="nameInput"
-                  label="Home name / Family name / Address"
-                  placeholder="1234 Rainbow Road"
-                  onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-                    handleUpdateName(e)
-                  }
-                />
-                <Box sx={{ mt: 2, overflowX: "scroll", whiteSpace: "nowrap" }}>
-                  <Color setColor={setColor} s={color} color={"red"} />
-                  <Color setColor={setColor} s={color} color={"green"} />
-                  <Color setColor={setColor} s={color} color={"blue"} />
-                  <Color setColor={setColor} s={color} color={"orange"} />
-                  <Color setColor={setColor} s={color} color={"cyan"} />
-                  <Color setColor={setColor} s={color} color={"purple"} />
-                  <Color setColor={setColor} s={color} color={"indigo"} />
-                </Box>
-              </Box>
-            ) : (
-              <Box
-                sx={{
-                  position: "absolute",
-                  left: 0,
-                  bottom: 0,
-                  p: 5,
-                  py: 4,
-                }}
-              >
-                <Typography
-                  sx={{
-                    textTransform: "capitalize",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    mb: 2,
-                  }}
-                >
-                  <span className="material-symbols-rounded">
-                    {propertyType === "dorm"
-                      ? "cottage"
-                      : propertyType === "apartment"
-                      ? "location_city"
-                      : "home"}
-                  </span>
-                  {propertyType}
-                </Typography>
-                <Typography variant="h3">
-                  {global.property.profile.name || "Untitled property"}
-                </Typography>
-              </Box>
-            )}
+                <span className="material-symbols-rounded">
+                  {propertyType === "dorm"
+                    ? "cottage"
+                    : propertyType === "apartment"
+                    ? "location_city"
+                    : "home"}
+                </span>
+                {propertyType}
+              </Typography>
+              <Typography variant="h3">
+                {global.property.profile.name || "Untitled property"}
+              </Typography>
+            </Box>
           </Box>
           <Box
             sx={{
