@@ -88,11 +88,12 @@ function EditProperty({
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       PaperProps={{
+        elevation: 0,
         sx: {
           background: colors[color]["100"].toString(),
           color: colors[color]["900"].toString(),
           px: 3,
-          width: "100%",
+          width: { xs: "100%", sm: "50vw" },
           py: 2,
           mx: "auto",
         },
@@ -101,14 +102,15 @@ function EditProperty({
       <Box
         sx={{
           height: "100vh",
-          p: 3,
+          px: 2,
           pt: 10,
         }}
       >
         <AppBar
-          position="fixed"
+          position="absolute"
           sx={{
             p: 2,
+            py: 1,
             background: colors[color]["100"].toString(),
             color: colors[color]["900"].toString(),
             boxShadow: "none",
@@ -122,7 +124,7 @@ function EditProperty({
               aria-label="menu"
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">arrow_back</span>
+              <span className="material-symbols-rounded">chevron_left</span>
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Edit property
