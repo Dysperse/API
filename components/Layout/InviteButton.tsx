@@ -130,7 +130,10 @@ function House({
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute("content", open ? colors[color][800] : "#fff");
+      ?.setAttribute(
+        "content",
+        open ? colors[color][800] : colors[themeColor][50]
+      );
   });
   return (
     <>
