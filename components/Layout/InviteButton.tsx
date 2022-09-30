@@ -207,15 +207,20 @@ function EditProperty({
           </Menu>
         </FormControl>
 
-        <Box sx={{ mt: 2, overflowX: "scroll", whiteSpace: "nowrap" }}>
-          <Color setColor={setColor} s={color} color={"red"} />
-          <Color setColor={setColor} s={color} color={"green"} />
-          <Color setColor={setColor} s={color} color={"blue"} />
-          <Color setColor={setColor} s={color} color={"orange"} />
-          <Color setColor={setColor} s={color} color={"cyan"} />
-          <Color setColor={setColor} s={color} color={"purple"} />
-          <Color setColor={setColor} s={color} color={"indigo"} />
-        </Box>
+        <Color setColor={setColor} s={color} color={"pink"} />
+        <Color setColor={setColor} s={color} color={"red"} />
+        <Color setColor={setColor} s={color} color={"green"} />
+        <Color setColor={setColor} s={color} color={"teal"} />
+        <Color setColor={setColor} s={color} color={"cyan"} />
+        <Color setColor={setColor} s={color} color={"blue"} />
+        <Color setColor={setColor} s={color} color={"indigo"} />
+        <Color setColor={setColor} s={color} color={"purple"} />
+        <Color setColor={setColor} s={color} color={"deepPurple"} />
+        <Color setColor={setColor} s={color} color={"orange"} />
+        <Color setColor={setColor} s={color} color={"deepOrange"} />
+        <Color setColor={setColor} s={color} color={"lime"} />
+        <Color setColor={setColor} s={color} color={"indigo"} />
+        <Color setColor={setColor} s={color} color={"brown"} />
       </Box>
     </SwipeableDrawer>
   );
@@ -249,6 +254,7 @@ function Color({
         borderRadius: "50%",
         display: "inline-flex",
         mr: 1,
+        mb: 1,
         backgroundColor: colors[color]["A700"],
       }}
     >
