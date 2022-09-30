@@ -188,3 +188,33 @@ img {
 .embla__slide {
   flex: 0 0 100%;
 }
+
+.auth-code-input {
+  padding: 10px;
+  width: 45px;
+  height: 45px;
+  outline: none;
+  border-radius: 10px;
+  border: 0;
+  background: var(--theme);
+  color: #000;
+  font-family: "Kantumruy Pro", sans-serif;
+  font-weight: 900;
+  font-size: 15px;
+  text-align: center;
+}
+
+@media screen and (max-width: 900px) {
+  .auth-code-input {
+    width: 35px;
+    height: 35px;
+    font-size: 12px;
+  }
+}
+
+.auth-code-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px
+}
