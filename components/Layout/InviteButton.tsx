@@ -100,24 +100,23 @@ function House({
   );
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+  /**
+   * Handles click event
+   * @param event Event
+   */
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  /**
+   * Set property type
+   */
   const handleCloseMenu = (type) => {
     updateSettings("type", type, false, null, true);
     setPropertyType(type);
+    setAnchorEl(null);
   };
 
   const { mutate } = useSWRConfig();
-
-  /**
-   * Description
-   * @param {SelectChangeEvent} event
-   * @returns {any}
-   */
-  const handleChange = (event: SelectChangeEvent) => {
-    setPropertyType(event.target.value as string);
-  };
 
   /**
    * Callback for updating note blur event
@@ -127,6 +126,12 @@ function House({
     const target = event.target as HTMLInputElement;
     updateSettings("name", target.value, false, null, true);
   };
+
+  useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute("content", open ? colors[color][800] : "#fff");
+  });
   return (
     <>
       <ListItem
@@ -258,7 +263,7 @@ function House({
         </ListItem>
       </ListItem>
       <SwipeableDrawer
-        anchor="bottom"
+        anchor="right"
         swipeAreaWidth={0}
         ModalProps={{
           keepMounted: true,
@@ -268,18 +273,19 @@ function House({
           elevation: 0,
           sx: {
             background: colors[color][global.user.darkMode ? 900 : 50],
-            width: {
-              sm: "50vw",
-            },
+            height: "500px",
+            width: { xs: "100vw", md: "80vw", sm: "50vw" },
             maxWidth: "600px",
-            maxHeight: "90vh",
-            overflow: "hidden",
-            borderRadius: "20px 20px 0 0",
-            mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
+            overflow: "scroll",
           },
+        }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
         open={open}
         onClose={() => {
@@ -289,9 +295,8 @@ function House({
       >
         <Box
           sx={{
-            maxHeight: "90vh",
             overflow: "scroll",
-            borderRadius: "20px 20px 0 0",
+            height: "100vh",
           }}
         >
           <Box
@@ -301,7 +306,6 @@ function House({
               height: "300px",
               position: "relative",
               color: "white",
-              borderRadius: "20px 20px 0 0",
             }}
           >
             <Box
