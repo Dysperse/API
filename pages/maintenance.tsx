@@ -139,6 +139,34 @@ function Suggestion({ suggestion, currentReminders, misc = false }) {
               {item}
             </Typography>
           ))}
+
+          {suggestion.steps && (
+            <>
+              {
+                <>
+                  <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
+                    Steps
+                  </Typography>
+                  {suggestion.steps.map((item) => (
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        display: "flex",
+                        gap: 1.5,
+                        my: 1,
+                        alignItems: "center",
+                      }}
+                    >
+                      <span className="material-symbols-outlined">
+                        radio_button_unchecked
+                      </span>
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                    </Typography>
+                  ))}
+                </>
+              }
+            </>
+          )}
         </Box>
       </SwipeableDrawer>
       <Card sx={{ backgroundColor: "rgba(200,200,200,0.3)", borderRadius: 5 }}>
