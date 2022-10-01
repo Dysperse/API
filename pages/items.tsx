@@ -367,9 +367,11 @@ export default function Categories() {
             my: 4,
             px: 1,
             borderRadius: "15px!important",
-            textAlign: "center",
           }}
         >
+          <Typography sx={{ my: 5, fontWeight: "600" }} variant="h5">
+            Inventory
+          </Typography>
           <ButtonGroup
             variant="outlined"
             sx={{
