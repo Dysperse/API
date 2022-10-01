@@ -16,6 +16,7 @@ import { Puller } from "../Puller";
 import Link from "@mui/material/Link";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
+import toast from "react-hot-toast";
 
 const useStyles = createStyles(() => ({
   outside: {},
@@ -63,6 +64,15 @@ function CalendarFeedModal(): JSX.Element {
             inputProps={{
               readOnly: true,
             }}
+            id={"calendarFeedUrl"}
+            onClick={({ target }: { target: any }) => {
+              // Select text
+              target.select();
+              target.setSelectionRange(0, 99999); /*For mobile devices*/
+
+              navigator.clipboard.writeText(url);
+              toast.success("Copied to clipboard!");
+            }}
             value={url}
             variant="filled"
             fullWidth
@@ -96,7 +106,7 @@ function CalendarFeedModal(): JSX.Element {
         variant="contained"
         onClick={() => setOpen(true)}
         sx={{
-          px: 3,
+          px: { xs: 0, sm: 3 },
           py: 1,
           background: `${colors.green["A700"]}!important`,
           borderRadius: 999,
@@ -381,9 +391,12 @@ function CreateMaintenanceModal() {
         variant="contained"
         onClick={() => setOpen(true)}
         sx={{
-          width: { xs: "100%", sm: "auto" },
-          px: 3,
+          width: { sm: "auto" },
+          ml: "auto",
+          px: { xs: 0, sm: 3 },
           py: 1,
+          display: "flex",
+          alignItems: "center",
           mr: { sm: 1 },
           background: `${colors.green["A700"]}!important`,
           borderRadius: 999,
@@ -393,7 +406,7 @@ function CreateMaintenanceModal() {
         disabled={global.property.permission === "read-only"}
       >
         <span className="material-symbols-rounded">add</span>
-        New task
+        <Box sx={{ display: { xs: "none", sm: "inline" } }}>New task</Box>
       </Button>
     </>
   );
@@ -419,15 +432,22 @@ export function Header({ count }) {
             color: `${
               colors.green[!global.user.darkMode ? 900 : 100]
             } !important`,
-            height: { xs: "300px", sm: "320px" },
-            borderRadius: { sm: 10 },
-            flexDirection: "column",
+            height: { xs: "150px", sm: "320px" },
             display: "flex",
-            alignItems: "center",
+            borderRadius: { sm: 5 },
+            px: 5,
+            pt: { xs: 4, sm: 0 },
+            flexDirection: "column",
             justifyContent: "center",
+            alignItems: { sm: "center" },
           }}
         >
-          <Typography variant="h1">{count}</Typography>
+          <Typography
+            variant="h1"
+            sx={{ fontSize: { xs: "60px", sm: "70px" } }}
+          >
+            {count}
+          </Typography>
           <Typography variant="h6">Upcoming tasks this week</Typography>
         </Box>
       </Box>
@@ -436,8 +456,6 @@ export function Header({ count }) {
           px: { xs: 5, sm: 5 },
           py: { xs: 3, sm: 0 },
           background: { xs: colors.green["100"], sm: "transparent" },
-          borderBottomRightRadius: { xs: 30, sm: 0 },
-          borderBottomLeftRadius: { xs: 30, sm: 0 },
           textAlign: { xs: "center", sm: "right" },
 
           display: { xs: "flex", sm: "block" },
