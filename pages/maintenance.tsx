@@ -19,7 +19,7 @@ import { useState } from "react";
  */
 export default function Maintenance() {
   const { error, data }: ApiResponse = useApi("property/maintenance/reminders");
-  const [viewBy, setViewBy] = useState<"all" | "upcoming">("all");
+  const [viewBy, setViewBy] = useState<"all" | "upcoming">("upcoming");
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -150,7 +150,10 @@ export default function Maintenance() {
             {/* Upcoming reminders */}
             {viewBy === "upcoming" &&
               data.filter((reminder: ReminderType) => {
-                return dayjs(reminder.nextDue).isAfter(dayjs());
+                return (
+                  dayjs(reminder.nextDue).isAfter(dayjs()) &&
+                  dayjs(reminder.nextDue).isBefore(dayjs().add(30, "day"))
+                );
               }).length === 0 && (
                 <Box
                   sx={{
@@ -166,7 +169,10 @@ export default function Maintenance() {
             {viewBy === "upcoming" &&
               data
                 .filter((reminder: ReminderType) => {
-                  return dayjs(reminder.nextDue).isAfter(dayjs());
+                  return (
+                    dayjs(reminder.nextDue).isAfter(dayjs()) &&
+                    dayjs(reminder.nextDue).isBefore(dayjs().add(30, "day"))
+                  );
                 })
                 .map((reminder: ReminderType) => (
                   <Reminder key={reminder.id} reminder={reminder} />
