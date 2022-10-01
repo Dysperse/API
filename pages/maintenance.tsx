@@ -23,6 +23,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import AutoHeight from "embla-carousel-auto-height";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../components/Puller";
+import Autoplay from "embla-carousel-autoplay";
 
 function Suggestion({ reactKey, suggestion, currentReminders, misc = false }) {
   const [open, setOpen] = useState(false);
@@ -215,11 +216,13 @@ function Suggestion({ reactKey, suggestion, currentReminders, misc = false }) {
 function Suggested({ currentReminders }: { currentReminders: ReminderType[] }) {
   const suggestions = getSuggestions();
   const trigger = useMediaQuery("(max-width: 600px)");
+  const autoplay = Autoplay({ delay: 4000, stopOnLastSnap: true });
+
   const [emblaRef] = useEmblaCarousel(
     {
       slidesToScroll: trigger ? 1 : 3,
     },
-    [WheelGesturesPlugin(), AutoHeight()]
+    [WheelGesturesPlugin(), AutoHeight(), autoplay]
   );
 
   return (
