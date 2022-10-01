@@ -13,6 +13,152 @@ import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
 import { MaintenanceReminder as ReminderType } from "@prisma/client";
 import { useState } from "react";
+import { getSuggestions } from "../components/Maintenance/suggestions";
+import CardContent from "@mui/material/CardContent";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import AutoHeight from "embla-carousel-auto-height";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { Puller } from "../components/Puller";
+
+function Suggestion({ suggestion, currentReminders, misc = false }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Box
+      sx={{
+        flex: "0 0 100%",
+      }}
+    >
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            borderRadius: "20px 20px 0 0",
+            backgroundColor: colors[themeColor][900],
+            color: colors[themeColor][50],
+          },
+        }}
+      >
+        <Puller />
+        <Box sx={{ p: 3, mt: 5 }}>
+          <Typography variant="h6" sx={{ fontWeight: "600" }}>
+            {suggestion.name}
+          </Typography>
+          <Typography sx={{ mt: 1, mb: 2, color: colors[themeColor][100] }}>
+            {suggestion.description}
+          </Typography>
+          {suggestion.warning && (
+            <Alert
+              severity="warning"
+              sx={{
+                mb: 2,
+                borderRadius: 3,
+                color: colors[themeColor][50],
+                borderWidth: "2px!important",
+              }}
+              variant="outlined"
+            >
+              {suggestion.warning}
+            </Alert>
+          )}
+          {suggestion.fact && (
+            <Alert
+              severity="info"
+              sx={{
+                mb: 2,
+                borderRadius: 3,
+                color: colors[themeColor][50],
+                borderWidth: "2px!important",
+              }}
+              variant="outlined"
+            >
+              {suggestion.fact}
+            </Alert>
+          )}
+          <Typography
+            sx={{ display: "flex", mb: 1.5, gap: 1.5, alignItems: "center" }}
+          >
+            <span className="material-symbols-rounded">schedule</span>{" "}
+            {suggestion.time} min
+          </Typography>
+          <Typography
+            sx={{ display: "flex", mb: 1.5, gap: 1.5, alignItems: "center" }}
+          >
+            <span className="material-symbols-rounded">today</span>{" "}
+            {suggestion.frequency}
+          </Typography>
+          <Typography
+            sx={{
+              textTransform: "capitalize",
+              display: "flex",
+              gap: 1.5,
+              mb: 1.5,
+              alignItems: "center",
+            }}
+          >
+            <span className="material-symbols-rounded">lightbulb</span>{" "}
+            {suggestion.difficulty}
+          </Typography>
+        </Box>
+      </SwipeableDrawer>
+      <Card sx={{ backgroundColor: "rgba(200,200,200,0.3)", borderRadius: 5 }}>
+        <CardActionArea onClick={() => setOpen(true)}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              {suggestion.name}
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              {suggestion.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Box>
+  );
+}
+
+/**
+ * Suggested maintenance reminders
+ */
+function Suggested({ currentReminders }: { currentReminders: ReminderType[] }) {
+  const suggestions = getSuggestions();
+  const [emblaRef, emblaApi] = useEmblaCarousel({}, [
+    WheelGesturesPlugin(),
+    AutoHeight(),
+  ]);
+
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 2 }}>
+      <div className="embla" ref={emblaRef} style={{ width: "100%" }}>
+        <div
+          className="embla__container"
+          style={{
+            width: "100%",
+            gap: "10px",
+            alignItems: "flex-start",
+            transition: "height .2s",
+          }}
+        >
+          {suggestions.misc.map((suggestion: any) => (
+            <Suggestion
+              key={suggestion.id}
+              currentReminders={currentReminders}
+              suggestion={suggestion}
+              misc
+            />
+          ))}
+        </div>
+      </div>
+    </Box>
+  );
+}
 
 /**
  * Top-level component for the maintenance page
@@ -65,6 +211,7 @@ export default function Maintenance() {
         }
       />
       <Box sx={{ p: 4 }}>
+        <Suggested currentReminders={data ? data : []} />
         <ButtonGroup
           variant="outlined"
           sx={{
