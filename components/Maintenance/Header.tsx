@@ -424,14 +424,8 @@ export function Header({ count }) {
         <Box
           sx={{
             width: "100%",
-            background: `linear-gradient(45deg, ${
-              colors.green[global.user.darkMode ? 900 : 100]
-            } 0%, ${colors.green[global.user.darkMode ? 500 : 100]} 50%, ${
-              colors.green[global.user.darkMode ? 700 : 100]
-            } 100%)`,
-            color: `${
-              colors.green[!global.user.darkMode ? 900 : 100]
-            } !important`,
+            background: colors.green[800],
+            color: `${colors.green[100]} !important`,
             height: { xs: "150px", sm: "320px" },
             display: "flex",
             borderRadius: { sm: 5 },
@@ -455,7 +449,7 @@ export function Header({ count }) {
         sx={{
           px: { xs: 5, sm: 5 },
           py: { xs: 3, sm: 0 },
-          background: { xs: colors.green["100"], sm: "transparent" },
+          background: { xs: colors.green[800], sm: "transparent" },
           textAlign: { xs: "center", sm: "right" },
 
           display: { xs: "flex", sm: "block" },

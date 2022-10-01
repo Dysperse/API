@@ -742,7 +742,7 @@ export function InviteButton() {
           p: 1,
           gap: 1,
           py: 0,
-          color: global.user.darkMode ? "#fff" : "#000",
+          color: "inherit",
           borderRadius: 2,
           transition: "transform .2s",
         }}
