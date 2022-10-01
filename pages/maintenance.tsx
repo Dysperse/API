@@ -18,18 +18,23 @@ import CardContent from "@mui/material/CardContent";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import useEmblaCarousel from "embla-carousel-react";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import AutoHeight from "embla-carousel-auto-height";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../components/Puller";
 
-function Suggestion({ suggestion, currentReminders, misc = false }) {
+function Suggestion({ reactKey, suggestion, currentReminders, misc = false }) {
   const [open, setOpen] = useState(false);
 
   return (
     <Box
       sx={{
-        flex: "0 0 100%",
+        height: "100%",
+        flex: {
+          xs: "0 0 90%",
+          sm: "0 0 33.333333%",
+        },
       }}
     >
       <SwipeableDrawer
@@ -176,8 +181,20 @@ function Suggestion({ suggestion, currentReminders, misc = false }) {
           )}
         </Box>
       </SwipeableDrawer>
-      <Card sx={{ backgroundColor: "rgba(200,200,200,0.3)", borderRadius: 5 }}>
-        <CardActionArea onClick={() => setOpen(true)}>
+      <Card
+        sx={{
+          height: "100%",
+          backgroundColor: "rgba(200,200,200,0.3)",
+          borderRadius: 5,
+          ml: reactKey === 0 ? -3 : 0,
+        }}
+      >
+        <CardActionArea
+          onClick={() => setOpen(true)}
+          sx={{
+            height: "100%",
+          }}
+        >
           <CardContent>
             <Typography variant="h6" gutterBottom>
               {suggestion.name}
@@ -197,13 +214,25 @@ function Suggestion({ suggestion, currentReminders, misc = false }) {
  */
 function Suggested({ currentReminders }: { currentReminders: ReminderType[] }) {
   const suggestions = getSuggestions();
-  const [emblaRef, emblaApi] = useEmblaCarousel({}, [
-    WheelGesturesPlugin(),
-    AutoHeight(),
-  ]);
+  const trigger = useMediaQuery("(max-width: 600px)");
+  const [emblaRef] = useEmblaCarousel(
+    {
+      slidesToScroll: trigger ? 1 : 3,
+    },
+    [WheelGesturesPlugin(), AutoHeight()]
+  );
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 2 }}>
+    <Box
+      sx={{
+        borderRadius: 5,
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        mb: 2,
+      }}
+    >
       <div className="embla" ref={emblaRef} style={{ width: "100%" }}>
         <div
           className="embla__container"
@@ -214,9 +243,10 @@ function Suggested({ currentReminders }: { currentReminders: ReminderType[] }) {
             transition: "height .2s",
           }}
         >
-          {suggestions.misc.map((suggestion: any) => (
+          {suggestions.misc.map((suggestion: any, id) => (
             <Suggestion
               key={suggestion.id}
+              reactKey={id}
               currentReminders={currentReminders}
               suggestion={suggestion}
               misc
@@ -285,6 +315,8 @@ export default function Maintenance() {
           sx={{
             p: 0.2,
             mb: 2,
+            maxWidth: { sm: "400px" },
+            mx: "auto",
             borderRadius: "15px!important",
             width: "100%",
             background: `${
