@@ -46,6 +46,8 @@ function Suggestion({ reactKey, suggestion, currentReminders, misc = false }) {
         PaperProps={{
           elevation: 0,
           sx: {
+            maxWidth: "700px",
+            mx: "auto",
             borderRadius: "20px 20px 0 0",
             backgroundColor: colors[themeColor][900],
             color: colors[themeColor][50],
@@ -185,9 +187,9 @@ function Suggestion({ reactKey, suggestion, currentReminders, misc = false }) {
       <Card
         sx={{
           height: "100%",
+          width: "100%",
           backgroundColor: "rgba(200,200,200,0.3)",
           borderRadius: 5,
-          ml: reactKey === 0 ? -3 : 0,
         }}
       >
         <CardActionArea
@@ -201,7 +203,9 @@ function Suggestion({ reactKey, suggestion, currentReminders, misc = false }) {
               {suggestion.name}
             </Typography>
             <Typography variant="body2" gutterBottom>
-              {suggestion.description}
+              {suggestion.description.length > 55
+                ? suggestion.description.slice(0, 55) + "..."
+                : suggestion.description}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -221,6 +225,7 @@ function Suggested({ currentReminders }: { currentReminders: ReminderType[] }) {
   const [emblaRef] = useEmblaCarousel(
     {
       slidesToScroll: trigger ? 1 : 3,
+      align: "start",
     },
     [WheelGesturesPlugin(), AutoHeight(), autoplay]
   );
@@ -236,7 +241,11 @@ function Suggested({ currentReminders }: { currentReminders: ReminderType[] }) {
         mb: 2,
       }}
     >
-      <div className="embla" ref={emblaRef} style={{ width: "100%" }}>
+      <div
+        className="embla"
+        ref={emblaRef}
+        style={{ maxWidth: "calc(100vw - 65px)" }}
+      >
         <div
           className="embla__container"
           style={{
