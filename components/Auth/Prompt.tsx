@@ -128,6 +128,8 @@ export default function Prompt() {
               }}
             >
               <AuthCode
+                containerClassName="auth-code-container"
+                inputClassName="auth-code-input"
                 allowedCharacters="numeric"
                 onChange={(value) =>
                   formik.setFieldValue("twoFactorCode", value)
