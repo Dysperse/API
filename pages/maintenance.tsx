@@ -43,11 +43,12 @@ function Suggestion({ suggestion, currentReminders, misc = false }) {
             borderRadius: "20px 20px 0 0",
             backgroundColor: colors[themeColor][900],
             color: colors[themeColor][50],
+            maxHeight: "90vh",
           },
         }}
       >
         <Puller />
-        <Box sx={{ p: 3, mt: 5 }}>
+        <Box sx={{ p: 3, mt: 5, overflow: "scroll" }}>
           <Typography variant="h6" sx={{ fontWeight: "600" }}>
             {suggestion.name}
           </Typography>
@@ -57,13 +58,13 @@ function Suggestion({ suggestion, currentReminders, misc = false }) {
           {suggestion.warning && (
             <Alert
               severity="warning"
+              variant="filled"
               sx={{
                 mb: 2,
                 borderRadius: 3,
-                color: colors[themeColor][50],
                 borderWidth: "2px!important",
               }}
-              variant="outlined"
+              // variant="outlined"
             >
               {suggestion.warning}
             </Alert>
@@ -71,19 +72,25 @@ function Suggestion({ suggestion, currentReminders, misc = false }) {
           {suggestion.fact && (
             <Alert
               severity="info"
+              variant="filled"
               sx={{
                 mb: 2,
                 borderRadius: 3,
-                color: colors[themeColor][50],
                 borderWidth: "2px!important",
               }}
-              variant="outlined"
+              // variant="outlined"
             >
               {suggestion.fact}
             </Alert>
           )}
           <Typography
-            sx={{ display: "flex", mb: 1.5, gap: 1.5, alignItems: "center" }}
+            sx={{
+              display: "flex",
+              mb: 1.5,
+              gap: 1.5,
+              alignItems: "center",
+              mt: 3,
+            }}
           >
             <span className="material-symbols-rounded">schedule</span>{" "}
             {suggestion.time} min
