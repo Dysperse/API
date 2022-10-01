@@ -188,7 +188,8 @@ function Suggestion({ reactKey, suggestion, currentReminders, misc = false }) {
         sx={{
           height: "100%",
           width: "100%",
-          backgroundColor: "rgba(200,200,200,0.3)",
+          backgroundColor: colors.orange[50],
+          color: colors.orange[900],
           borderRadius: 5,
         }}
       >
@@ -238,7 +239,7 @@ function Suggested({ currentReminders }: { currentReminders: ReminderType[] }) {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        mb: 2,
+        mb: 4,
       }}
     >
       <div
@@ -321,6 +322,12 @@ export default function Maintenance() {
         }
       />
       <Box sx={{ p: 4 }}>
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: "600", mb: 1, color: colors.orange[900] }}
+        >
+          Suggested
+        </Typography>
         <Suggested currentReminders={data ? data : []} />
         <ButtonGroup
           variant="outlined"
