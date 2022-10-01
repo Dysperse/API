@@ -16,18 +16,14 @@ const darkTheme = createTheme({
 
 /**
  * Layout for the app, including navbar, sidenav, etc
- * @param children Children 
+ * @param children Children
  * @returns JSX.Element
  */
-export function Layout({ children }):JSX.Element {
+export function Layout({ children }): JSX.Element {
   return (
     <>
       <Head>
         <title>Login &bull; Carbon</title>
-        <link
-          href="https://i.ibb.co/2snZjPZ/48x48-modified-1.png"
-          rel="shortcut icon"
-        />
       </Head>
       <ThemeProvider theme={darkTheme}>
         <Box
