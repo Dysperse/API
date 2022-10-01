@@ -395,7 +395,7 @@ function CreateMaintenanceModal() {
           ml: "auto",
           px: { xs: 0, sm: 3 },
           py: 1,
-          display: "flex",
+          display: "inline-flex",
           alignItems: "center",
           mr: { sm: 1 },
           background: `${colors.green["A700"]}!important`,

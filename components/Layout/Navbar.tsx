@@ -45,6 +45,7 @@ function ElevationScroll(props) {
     threshold: 0,
     target: window ? window() : undefined,
   });
+
   useEffect(() => {
     if (document) {
       document
@@ -88,42 +89,82 @@ function ElevationScroll(props) {
       ? {
           "& .MuiBadge-badge": {
             transform: "none",
-            border: `2px solid ${
-              colors[router.asPath === "/maintenance" ? "green" : themeColor][
-                router.asPath === "/maintenance" ? 800 : 100
-              ]
-            }`,
+            border: {
+              xs: `2px solid ${
+                colors[router.asPath === "/maintenance" ? "green" : themeColor][
+                  router.asPath === "/maintenance" ? 800 : 100
+                ]
+              }`,
+              sm: `2px solid ${
+                colors[
+                  router.asPath === "/maintenance" ? "green" : themeColor
+                ][50]
+              }`,
+            },
             width: 12,
             height: 12,
             borderRadius: "50%",
           },
-          color: global.user.darkMode
-            ? "white"
-            : router.asPath === "/maintenance"
-            ? colors.green[100]
-            : "black",
+          color: {
+            xs: global.user.darkMode
+              ? "white"
+              : router.asPath === "/maintenance"
+              ? colors.green[100]
+              : "black",
+            sm: global.user.darkMode ? "white" : "black",
+          },
           py: {
             sm: 1,
             xs: 0.9,
           },
           pr: 0.4,
           backdropFilter: "blur(20px)",
-          background: global.user.darkMode
-            ? "rgba(33,33,38)"
-            : hexToRgba(
-                colors[router.asPath === "/maintenance" ? "green" : themeColor][
-                  router.asPath === "/maintenance" ? 800 : 50
-                ],
-                1
-              ),
+          background: {
+            xs: global.user.darkMode
+              ? "rgba(33,33,38)"
+              : hexToRgba(
+                  colors[
+                    router.asPath === "/maintenance" ? "green" : themeColor
+                  ][router.asPath === "/maintenance" ? 800 : 50],
+                  1
+                ),
+            sm: global.user.darkMode
+              ? "rgba(33,33,38)"
+              : hexToRgba(
+                  colors[
+                    router.asPath === "/maintenance" ? "green" : themeColor
+                  ][50],
+                  1
+                ),
+          },
         }
       : {
-          ...badgeStyles,
-          color: global.user.darkMode
-            ? "white"
-            : router.asPath === "/maintenance"
-            ? colors.green[100]
-            : "black",
+          "& .MuiBadge-badge": {
+            transform: "none",
+            border: {
+              xs: `2px solid ${
+                colors[router.asPath === "/maintenance" ? "green" : themeColor][
+                  router.asPath === "/maintenance" ? 800 : 100
+                ]
+              }`,
+              sm: `2px solid ${
+                colors[
+                  router.asPath === "/maintenance" ? "green" : themeColor
+                ][50]
+              }`,
+            },
+            width: 12,
+            height: 12,
+            borderRadius: "50%",
+          },
+          color: {
+            xs: global.user.darkMode
+              ? "white"
+              : router.asPath === "/maintenance"
+              ? colors.green[100]
+              : "black",
+            sm: global.user.darkMode ? "white" : "black",
+          },
           pr: 0.4,
           py: {
             sm: 1,
