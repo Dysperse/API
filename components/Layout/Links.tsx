@@ -424,6 +424,7 @@ export function DrawerListItems({
           <ListSubheader
             sx={{
               pl: 2,
+              mt: 2,
               position: {
                 md: "unset",
               },
