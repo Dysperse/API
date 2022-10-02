@@ -268,9 +268,15 @@ export function SearchPopup() {
     <>
       <Button
         onClick={() => setOpen(true)}
+        disableFocusRipple
         sx={{
           background: `${colors[themeColor][50]}!important`,
+          transition: "none !important",
           filter: "brightness(95%)",
+          "&:hover": {
+            background: `${colors[themeColor][100]}!important`,
+            filter: "brightness(100%)",
+          },
           width: "40vw",
           justifyContent: "start",
           "& .MuiTouchRipple-rippleVisible": {
