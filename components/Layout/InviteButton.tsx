@@ -659,28 +659,25 @@ export function InviteButton() {
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        anchor={trigger ? "left" : "bottom"}
+        anchor={trigger ? "top" : "bottom"}
         BackdropProps={{
           sx: {
             background: {
               sm: "rgba(0,0,0,0)!important",
             },
             backdropFilter: { sm: "blur(0px)" },
-            opacity: { sm: "0!important" },
           },
         }}
         sx={{
           display: { sm: "flex" },
           alignItems: { sm: "start" },
-          mt: 9,
-          ml: 3,
+          mt: 3,
+          ml: 2,
           justifyContent: { sm: "start" },
         }}
         PaperProps={{
           elevation: 0,
           sx: {
-            boxShadow:
-              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
             position: { sm: "static!important" },
             background: colors[themeColor][50],
             width: {
