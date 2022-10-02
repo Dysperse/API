@@ -187,6 +187,25 @@ const miscSuggestions = [
       "Inspect the plumbing",
     ],
   },
+  {
+    name: "Clean your driveway",
+    description:
+      "Clean your driveway every 6 months to remove dirt and stains. This will help keep your driveway looking new.",
+    fact: "A regular power wash will get rid of annoying weeds, as well as the dirt they need to grow in",
+    difficulty: "medium",
+    frequency: "monthly",
+    cost: 0,
+    time: 60,
+    supplies: ["power washer"],
+    steps: [
+      "Turn on the power washer",
+      "Spray the driveway with water",
+      "Spray the driveway with detergent",
+      "Scrub the driveway with a brush",
+      "Rinse the driveway with water",
+      "Let the driveway dry under the sun",
+    ],
+  },
 ];
 
 export const getSuggestions = () => {
