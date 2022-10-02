@@ -270,11 +270,15 @@ export function SearchPopup() {
         onClick={() => setOpen(true)}
         disableFocusRipple
         sx={{
-          background: `${colors[themeColor][50]}!important`,
+          background: global.user.darkMode
+            ? "hsl(240,11%,15%)!important"
+            : `${colors[themeColor][50]}!important`,
           transition: "none !important",
           filter: "brightness(95%)",
           "&:hover": {
-            background: `${colors[themeColor][100]}!important`,
+            background: global.user.darkMode
+              ? "hsl(240,11%,20%)!important"
+              : `${colors[themeColor][100]}!important`,
             filter: "brightness(100%)",
           },
           width: "40vw",
@@ -284,12 +288,15 @@ export function SearchPopup() {
           },
           px: 3,
           ml: "auto",
-          color: "#303030",
+          color: global.user.darkMode
+            ? "hsl(240,11%,95%)!important"
+            : "#303030",
           display: { xs: "none", sm: "flex" },
           py: 1.5,
           gap: 2,
           borderRadius: 5,
         }}
+        className={global.user.darkMode ? "rippleDark" : ""}
       >
         <span className="material-symbols-rounded">bolt</span>
         Jump to (CTRL + K)

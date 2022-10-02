@@ -14,10 +14,13 @@ import { TextField, Typography } from "@mui/material";
 import { colors } from "../lib/colors";
 import { Color } from "../components/onboarding/Color";
 import FormControl from "@mui/material/FormControl";
+import { useRouter } from "next/router";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { updateSettings } from "../components/Settings/updateSettings";
+import { cards } from "../components/AddPopup/cards";
+import { InventoryList } from "../components/onboarding/InventoryList";
 
 function StepContent({ forStep, currentStep, setCurrentStep, content }) {
   return forStep === currentStep ? (
@@ -25,7 +28,7 @@ function StepContent({ forStep, currentStep, setCurrentStep, content }) {
       {content}
       <Box
         sx={{
-          display: currentStep == 1 ? "none" : "flex",
+          display: currentStep == 1 || currentStep == 4 ? "none" : "flex",
           justifyContent: "flex-end",
           mt: 2,
         }}
@@ -35,7 +38,7 @@ function StepContent({ forStep, currentStep, setCurrentStep, content }) {
           variant="contained"
           disableElevation
           size="large"
-          className="ripple-dark"
+          className="rippleDark"
           sx={{
             borderRadius: 9999,
           }}
@@ -116,6 +119,7 @@ function QontoStepIcon(props: StepIconProps) {
 }
 
 export default function Onboarding() {
+  const router = useRouter();
   const steps = [
     "Welcome to Carbon!",
     "Customize your theme",
@@ -314,6 +318,53 @@ export default function Onboarding() {
       >
         Let&apos;s build up your inventory.
       </Typography>
+
+      <InventoryList data={[...cards]} />
+    </>,
+    <>
+      <Typography
+        variant="h5"
+        sx={{
+          fontWeight: 600,
+        }}
+      >
+        You&apos;re all set!
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{
+          fontWeight: 400,
+          marginTop: 2,
+          mb: 1.5,
+        }}
+      >
+        You&apos;re all set! You can always come back to this page by clicking
+        on the &quot;Onboarding&quot; button in the sidebar.
+      </Typography>
+
+      <Button
+        variant="contained"
+        size="large"
+        sx={{
+          width: "100%",
+          borderRadius: 99999,
+          mt: 2,
+        }}
+        onClick={() => {
+          updateSettings(
+            "onboardingComplete",
+            "true",
+            false,
+            () => {
+              router.push("/");
+            },
+            false
+          );
+        }}
+        disableElevation
+      >
+        Go to my dashboard
+      </Button>
     </>,
   ];
   const [step, setStep] = useState(0);
@@ -350,6 +401,8 @@ export default function Onboarding() {
           left: "50%",
           transform: "translate(-50%, -50%)",
           zIndex: 2,
+          maxHeight: "80vh",
+          overflowY: "auto",
           width: "100%",
           maxWidth: "700px",
           backgroundColor: global.user.darkMode ? "hsl(240,11%,10%)" : "white",
@@ -360,7 +413,12 @@ export default function Onboarding() {
       >
         <Stepper
           sx={{
-            p: 0,
+            p: 1,
+            position: "sticky",
+            backdropFilter: "blur(20px)",
+            zIndex: 999,
+            top: 0,
+            borderRadius: 999,
             width: "100",
           }}
           activeStep={step}
