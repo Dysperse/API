@@ -46,8 +46,8 @@ function SearchBar({
         color: `${grey[600]}!important`,
         textTransform: "none",
         justifyContent: "start",
-        py: 1,
         px: 2,
+        pt: 1,
         "& *": {
           pointerEvents: "none",
         },
