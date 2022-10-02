@@ -191,7 +191,7 @@ const miscSuggestions = [
     name: "Clean your driveway",
     description:
       "Clean your driveway every 6 months to remove dirt and stains. This will help keep your driveway looking new.",
-    fact: "A regular power wash will get rid of annoying weeds, as well as the dirt they need to grow in",
+    fact: "Algae and oil will erode your concrete over time. With regular power washing, you can prevent cracks and untimely aging, so your concrete surface lasts for much longer.",
     difficulty: "medium",
     frequency: "monthly",
     cost: 0,
