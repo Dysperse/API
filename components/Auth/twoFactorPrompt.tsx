@@ -72,6 +72,7 @@ export function Prompt({
       onOpen={() => setOpen(true)}
       disableSwipeToOpen
       PaperProps={{
+        elevation: 0,
         sx: {
           background: colors.brown[50],
           borderRadius: "20px 20px 0 0",
