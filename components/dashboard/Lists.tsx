@@ -91,12 +91,14 @@ function Render({ data }: { data: List[] }): JSX.Element {
   const [lists, setLists] = React.useState<any>(data);
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
+
   React.useEffect(() => {
     setLists(data);
   }, [data]);
+
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  }, [open]);
 
   const formik = useFormik({
     initialValues: {
@@ -105,7 +107,6 @@ function Render({ data }: { data: List[] }): JSX.Element {
     },
     onSubmit: (values) => {
       setLoading(true);
-
       fetchApiWithoutHook("property/lists/createList", {
         name: values.name,
         description: values.description,
@@ -183,7 +184,7 @@ function Render({ data }: { data: List[] }): JSX.Element {
             borderBottomRightRadius: { xs: 0, sm: "28px!important" },
             position: "unset",
             mx: "auto",
-            maxWidth: { sm: "30vw", xs: "100vw" },
+            maxWidth: { sm: "450px", xs: "100vw" },
             overflow: "hidden",
           },
         }}
@@ -276,7 +277,11 @@ function Render({ data }: { data: List[] }): JSX.Element {
                 ? "hsl(240, 11%, 15%)"
                 : "rgba(200,200,200,.4)",
             },
+            transition: "transform 0.2s",
+
             "&:active": {
+              transform: "scale(0.98)",
+              transition: "none",
               background: global.user.darkMode
                 ? "hsl(240, 11%, 20%)"
                 : "rgba(200,200,200,.5)",

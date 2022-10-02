@@ -63,14 +63,14 @@ export function Loading(): JSX.Element {
       >
         <Toolbar>
           <Skeleton
-            animation="wave"
+            animation={false}
             sx={{ width: { xs: 130, sm: 200 }, maxWidth: "100%" }}
           />
           <Box sx={{ ml: "auto", display: "flex", gap: 1.5 }}>
             {[...new Array(3)].map(() => (
               <Skeleton
                 variant="circular"
-                animation="wave"
+                animation={false}
                 width={35}
                 key={Math.random().toString()}
                 height={35}
@@ -90,13 +90,13 @@ export function Loading(): JSX.Element {
           <Box sx={{ pt: { sm: 15 }, pl: { sm: 2 } }}>
             <Skeleton
               variant="rectangular"
-              animation="wave"
+              animation={false}
               sx={{ mb: 3, borderRadius: 5, height: 50, width: "60%" }}
             />
             {[...new Array(15)].map(() => (
               <Skeleton
                 variant="rectangular"
-                animation="wave"
+                animation={false}
                 key={Math.random().toString()}
                 sx={{ mb: 3, borderRadius: 2, height: 25 }}
               />
@@ -110,7 +110,7 @@ export function Loading(): JSX.Element {
                 <Grid item key={Math.random().toString()} xs={12} sm={6} xl={4}>
                   <Skeleton
                     variant="rectangular"
-                    animation="wave"
+                    animation={false}
                     sx={{ height: 200, borderRadius: 5 }}
                   />
                 </Grid>

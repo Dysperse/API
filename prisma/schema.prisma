@@ -29,7 +29,7 @@ model Session {
 
 model Property {
   id                   String                @id @default(uuid())
-  name                 String                @default("My Property")
+  name                 String                @default("My property")
   type                 String                @default("apartment")
   color                String                @default("cyan")
   customRooms          CustomRoom[]
