@@ -308,7 +308,6 @@ function House({
     <>
       <ListItem
         button
-        disableRipple
         onClick={() => {
           if (data.propertyId === global.property.propertyId) {
             setOpen(true);
@@ -715,6 +714,7 @@ export function InviteButton() {
       <Box id="new_trigger" onClick={handleClick} />
 
       <Button
+        disableFocusRipple
         id="houseProfileTrigger"
         onClick={() => setOpen(true)}
         sx={{
@@ -750,7 +750,6 @@ export function InviteButton() {
         </Typography>
         <span className="material-symbols-outlined">expand_more</span>
       </Button>
-      
     </>
   );
 }
