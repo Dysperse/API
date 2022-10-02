@@ -195,12 +195,18 @@ export function Navbar(): JSX.Element {
         <Toolbar>
           <Box
             sx={{
-              flexGrow: 1,
+              flexGrow: { xs: 1, sm: "unset" },
             }}
           >
             <InviteButton />
           </Box>
-          <SearchPopup />
+          <Box
+            sx={{
+              mx: { sm: "auto" },
+            }}
+          >
+            <SearchPopup />
+          </Box>
           <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
             <AppsMenu />
           </Box>

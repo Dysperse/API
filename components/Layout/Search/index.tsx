@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import LinearProgress from "@mui/material/LinearProgress";
+import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
@@ -225,8 +226,8 @@ export function SearchPopup() {
    * @returns void
    */
   const onLink = (href: string): void => {
-    router.push(href);
     setOpen(false);
+    router.push(href);
   };
 
   React.useEffect(() => {
@@ -264,15 +265,29 @@ export function SearchPopup() {
   }, []);
 
   return (
-    <Box
-      sx={{
-        ...(global.user.darkMode && {
-          "& *": {
-            color: "#fff!important",
+    <>
+      <Button
+        onClick={() => setOpen(true)}
+        sx={{
+          background: `${colors[themeColor][50]}!important`,
+          filter: "brightness(95%)",
+          width: "40vw",
+          justifyContent: "start",
+          "& .MuiTouchRipple-rippleVisible": {
+            transitionDuration: ".2s!important",
           },
-        }),
-      }}
-    >
+          px: 3,
+          ml: "auto",
+          color: "#303030",
+          display: { xs: "none", sm: "flex" },
+          py: 1.5,
+          gap: 2,
+          borderRadius: 5,
+        }}
+      >
+        <span className="material-symbols-rounded">bolt</span>
+        Jump to (CTRL + K)
+      </Button>
       <Tooltip title="Jump to">
         <IconButton
           onClick={() => {
@@ -284,6 +299,7 @@ export function SearchPopup() {
             borderRadius: 4,
             mr: 1,
             transition: "none",
+            display: { xs: "flex", sm: "none" },
             color: global.user.darkMode
               ? "hsl(240, 11%, 90%)"
               : router.asPath === "/maintenance"
@@ -406,6 +422,6 @@ export function SearchPopup() {
           </Command>
         </div>
       </SwipeableDrawer>
-    </Box>
+    </>
   );
 }
