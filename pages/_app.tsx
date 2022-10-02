@@ -427,6 +427,7 @@ function RenderApp({
 }) {
   const { data, isLoading, isError } = useUser();
   return router.pathname === "/share/[index]" ||
+    router.pathname === "/invite/[id]" ||
     router.pathname === "/scan" ||
     router.pathname === "/signup" ||
     router.pathname === "/canny-auth" ? (

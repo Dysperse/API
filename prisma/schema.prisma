@@ -38,6 +38,7 @@ model Property {
   maintenanceReminders MaintenanceReminder[]
   notes                Note[]
   members              PropertyInvite[]
+  PropertyLinkInvites  PropertyLinkInvite[]
 }
 
 model PropertyInvite {
@@ -113,4 +114,12 @@ model MaintenanceReminder {
   nextDue    DateTime @default(now())
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model PropertyLinkInvite {
+  id         Int      @id @default(autoincrement())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  token      String   @unique @default(uuid())
+  accepted   Boolean  @default(false)
 }

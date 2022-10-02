@@ -5,12 +5,21 @@ import type { ApiResponse } from "../types/client";
 /**
  * Creates the url for the API endpoint
  */
-const getInfo = (path, initialParams, property) => {
-  const params = {
-    ...initialParams,
-    property: property.propertyId,
-    accessToken: property.accessToken,
-  };
+const getInfo = (
+  path,
+  initialParams,
+  property,
+  removeDefaultParams = false
+) => {
+  const params = removeDefaultParams
+    ? {
+        ...initialParams,
+      }
+    : {
+        ...initialParams,
+        property: property.propertyId,
+        accessToken: property.accessToken,
+      };
 
   return {
     params,
@@ -27,9 +36,15 @@ export function useApi(
   path: string,
   initialParams: {
     [key: string]: string | number | boolean;
-  } = {}
+  } = {},
+  removeDefaultParams = false
 ): ApiResponse {
-  const { url } = getInfo(path, initialParams, global.property);
+  const { url } = getInfo(
+    path,
+    initialParams,
+    global.property,
+    removeDefaultParams
+  );
 
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())

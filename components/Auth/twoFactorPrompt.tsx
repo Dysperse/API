@@ -64,6 +64,7 @@ export function Prompt({
     setOpen(false);
     callback();
   };
+
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -125,7 +126,11 @@ export function Prompt({
             <LoadingButton
               variant="contained"
               loading={buttonLoading}
-              onClick={handleSubmit}
+              onClick={
+                process.env.NODE_ENV === "development"
+                  ? handleOpen
+                  : handleSubmit
+              }
               size="large"
               sx={{
                 width: "100%",

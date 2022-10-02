@@ -15,6 +15,105 @@ import { colors } from "../../lib/colors";
 import { Prompt } from "../Auth/twoFactorPrompt";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
+
+function LinkToken({ color }) {
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [token, setToken] = React.useState("");
+  const url = `https://${window.location.hostname}/invite/${token}`;
+
+  return (
+    <>
+      <LoadingButton
+        loading={loading}
+        onClick={() => {
+          setLoading(true);
+          fetchApiWithoutHook("property/members/createLink").then((res) => {
+            setLoading(false);
+            setToken(res.token);
+            setOpen(true);
+          });
+        }}
+        variant="outlined"
+        size="large"
+        sx={{
+          borderWidth: "2px!important",
+          borderRadius: 4,
+          transition: "none!important",
+          mt: 1,
+          float: "right",
+        }}
+      >
+        Copy member invite link
+      </LoadingButton>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            maxWidth: "400px",
+            mx: "auto",
+            borderRadius: "20px 20px 0 0",
+            background: colors[color][100],
+          },
+        }}
+      >
+        <Puller />
+        <Box
+          sx={{
+            p: 5,
+          }}
+        >
+          <Typography gutterBottom variant="h6" sx={{ fontWeight: 600 }}>
+            Member invite link
+          </Typography>
+          <Typography gutterBottom>
+            This link is only valid once and will expire in 24 hours. Do not
+            share this link with anyone you do not trust.
+          </Typography>
+          <TextField
+            variant="filled"
+            value={url}
+            fullWidth
+            InputProps={{
+              readOnly: true,
+            }}
+            label="Invite URL"
+          />
+          <Button
+            fullWidth
+            disableElevation
+            variant="outlined"
+            size="large"
+            sx={{ mt: 2, borderRadius: 999, borderWidth: "2px!important" }}
+            onClick={() => {
+              navigator.clipboard.writeText(url);
+              toast.success("Copied to clipboard");
+            }}
+          >
+            Copy
+          </Button>
+          <Button
+            fullWidth
+            disableElevation
+            variant="contained"
+            size="large"
+            sx={{ mt: 1, borderRadius: 999 }}
+            onClick={() => {
+              window.open(url, "_blank");
+            }}
+          >
+            Open
+          </Button>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
+
 /**
  * Description
  * @param {any} {color
@@ -125,7 +224,7 @@ export function AddPersonModal({
               warning
             </span>
             Make sure you trust who you are inviting. Anyone with access can
-            view your s, lists, rooms, and inventory
+            view your lists, rooms, and inventory
           </Box>
           <TextField
             value={value}
@@ -217,11 +316,13 @@ export function AddPersonModal({
               borderRadius: 4,
               transition: "none!important",
               mt: 1,
+              ml: 1,
               float: "right",
             }}
           >
             Send invitation
           </LoadingButton>
+          <LinkToken color={color} />
         </Box>
       </SwipeableDrawer>
     </>
