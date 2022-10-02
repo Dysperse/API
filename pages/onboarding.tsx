@@ -1,373 +1,369 @@
-import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
+import { Loading } from "./_app";
+import { useState } from "react";
+import StepConnector, {
+  stepConnectorClasses,
+} from "@mui/material/StepConnector";
+import { StepIconProps } from "@mui/material/StepIcon";
+import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import MobileStepper from "@mui/material/MobileStepper";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import React, { useEffect } from "react";
-import { cards } from "../components/AddPopup/cards";
-import { Color } from "../components/onboarding/Color";
-import { CustomRooms } from "../components/onboarding/customRooms";
-import { InventoryList } from "../components/onboarding/InventoryList";
-import { updateSettings } from "../components/Settings/updateSettings";
+import { TextField, Typography } from "@mui/material";
 import { colors } from "../lib/colors";
+import { Color } from "../components/onboarding/Color";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { updateSettings } from "../components/Settings/updateSettings";
 
-/**
- * Top-level component for the onboarding page.
- */
-function SwipeableTextMobileStepper() {
-  const [houseType, setHouseType] = React.useState<string>("home");
-  const [themeColor, setThemeColor] = React.useState("brown");
-  const [mode] = React.useState<"dark" | "light">("light");
-
-  const userTheme = createTheme({
-    palette: {
-      mode: mode,
-      primary: {
-        main: colors[themeColor][mode === "light" ? "700" : "100"],
-      },
-    },
-    components: {
-      MuiPaper: {
-        defaultProps: { elevation: 0 },
-      },
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            borderRadius: "15px",
-            textTransform: "none",
-            boxShadow: "none!important",
-          },
-        },
-      },
-    },
-  });
-  useEffect(() => {
-    document
-      .querySelector("meta[name='theme-color']")
-      ?.setAttribute("content", colors[themeColor][100]);
-  });
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [loading, setLoading] = React.useState<boolean>(false);
-
-  /**
-   * Move to the next step in the onboarding process.
-   * @returns {any}
-   */
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-  /**
-   * Move to the previous step in the onboarding process.
-   */
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  /**
-   * Handles the step change
-   * @param {number} step The step to change to
-   */
-  const handleStepChange = (step: number) => {
-    setActiveStep(step);
-  };
-
-  const images = [
-    {
-      content: (
-        <Box
+function StepContent({ forStep, currentStep, setCurrentStep, content }) {
+  return forStep === currentStep ? (
+    <Box>
+      {content}
+      <Box
+        sx={{
+          display: currentStep == 1 ? "none" : "flex",
+          justifyContent: "flex-end",
+          mt: 2,
+        }}
+      >
+        <Button
+          onClick={() => setCurrentStep(currentStep + 1)}
+          variant="contained"
+          disableElevation
+          size="large"
+          className="ripple-dark"
           sx={{
-            display: "flex",
-            alignItems: "center",
-            height: "100%",
+            borderRadius: 9999,
           }}
         >
-          <Box sx={{ p: 5 }}>
-            <Typography variant="h2" sx={{ mb: 2, mt: 6 }}>
-              Welcome to Carbon!
-            </Typography>
-            <Typography variant="h6">
-              Thanks for creating a Carbon account! Track your home inventory
-              and expenses with ease.
-            </Typography>
-
-            <Button
-              size="large"
-              sx={{ mt: 2 }}
-              variant="contained"
-              onClick={handleNext}
-            >
-              Get started{" "}
-              <span className="material-symbols-rounded">chevron_right</span>
-            </Button>
-          </Box>
-        </Box>
-      ),
+          Next
+        </Button>
+      </Box>
+    </Box>
+  ) : null;
+}
+const QontoConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 10,
+    left: "calc(-50% + 16px)",
+    right: "calc(50% + 16px)",
+  },
+  [`&.${stepConnectorClasses.active}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: colors[themeColor ?? "brown"][500],
     },
-
-    {
-      content: (
-        <Box sx={{ p: 5 }}>
-          <Typography variant="h4" sx={{ mb: 1, mt: 6 }}>
-            Customize your Carbon
-          </Typography>
-          <Typography variant="h6" sx={{ my: 3 }}>
-            What&apos;s your favorite color?
-          </Typography>
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="red"
-          />
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="green"
-          />
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="blue"
-          />
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="pink"
-          />
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="purple"
-          />
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="orange"
-          />
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="teal"
-          />
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="cyan"
-          />
-          <Color
-            handleNext={handleNext}
-            setThemeColor={setThemeColor}
-            color="brown"
-          />
-        </Box>
-      ),
+  },
+  [`&.${stepConnectorClasses.completed}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: colors[themeColor ?? "brown"][500],
     },
-    {
-      content: (
-        <Box sx={{ p: 5, pb: 20 }}>
-          <Typography variant="h4" sx={{ mt: 6 }}>
-            Creating your home
-          </Typography>
-          <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
-            What kind of property do you own?
-          </Typography>
-          <FormControl
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const target = e.target as HTMLInputElement;
-              setHouseType(target.value);
-              updateSettings("type", target.value, false, () => null, true);
-            }}
-          >
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="apartment"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel
-                value="home"
-                control={<Radio />}
-                label="Single-family home"
-              />
-              <FormControlLabel
-                value="apartment"
-                control={<Radio />}
-                label="Apartment"
-              />
-              <FormControlLabel value="dorm" control={<Radio />} label="Dorm" />
-            </RadioGroup>
-          </FormControl>
-          <Typography variant="h6" sx={{ my: 3, mb: 1 }}>
-            If your house has a name, enter it below
-          </Typography>
-          <TextField
-            placeholder={`My ${houseType}`}
-            fullWidth
-            variant="filled"
-            sx={{ mt: 1 }}
-            onBlur={(e) => {
-              updateSettings("name", e.target.value, false, null, true);
-            }}
-            InputProps={{
-              sx: {
-                pb: 2,
-                height: "50px",
-              },
-            }}
-          />
-          <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
-            Add some rooms
-          </Typography>
-          <CustomRooms houseType={houseType} />
-        </Box>
-      ),
-    },
-    {
-      content: (
-        <Box sx={{ p: 5, pb: 20 }}>
-          <Typography variant="h4" sx={{ mt: 6 }}>
-            Building your inventory
-          </Typography>
-          <Typography variant="h6" sx={{ my: 3, mt: 2 }}>
-            Select any items you have
-          </Typography>
-          <InventoryList data={[...cards]} />
-        </Box>
-      ),
-    },
+  },
+  [`& .${stepConnectorClasses.line}`]: {
+    borderColor:
+      theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
+    borderTopWidth: 3,
+    borderRadius: 1,
+  },
+}));
 
-    {
-      content: (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
-          <Box sx={{ p: 5 }}>
-            <Typography variant="h2" sx={{ mb: 2, mt: 6 }}>
-              You&apos;re all set!
-            </Typography>
-            <Typography variant="h6">
-              Click the button below to continue to your dashboard
-            </Typography>
-
-            <LoadingButton
-              size="large"
-              loading={loading}
-              sx={{ mt: 2 }}
-              variant="contained"
-              onClick={() => {
-                setLoading(true);
-                updateSettings("onboardingComplete", "true", false, () => {
-                  window.location.href = "/dashboard";
-                });
-              }}
-            >
-              Save &amp; Continue to my dashboard
-              <span className="material-symbols-rounded">chevron_right</span>
-            </LoadingButton>
-          </Box>
-        </Box>
-      ),
+const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
+  ({ theme, ownerState }) => ({
+    color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",
+    display: "flex",
+    height: 22,
+    alignItems: "center",
+    ...(ownerState.active && {
+      color: colors[themeColor ?? "brown"][500],
+    }),
+    "& .QontoStepIcon-completedIcon": {
+      color: colors[themeColor ?? "brown"][500],
+      zIndex: 1,
+      fontSize: 18,
     },
-  ];
+    "& .QontoStepIcon-circle": {
+      width: 8,
+      height: 8,
+      borderRadius: "50%",
+      marginLeft: "10px",
+      backgroundColor: "currentColor",
+    },
+  })
+);
 
-  const maxSteps = images.length;
+function QontoStepIcon(props: StepIconProps) {
+  const { active, completed, className } = props;
+
   return (
-    global.user && (
-      <ThemeProvider theme={userTheme}>
-        <Box
-          sx={{
-            position: "fixed",
-            userSelect: "none",
-            top: 0,
-            left: 0,
-            background: colors[themeColor][mode === "dark" ? "900" : "100"],
-            height: "100vh",
-            width: "100vw",
-            ...(mode === "dark" && {
-              color: "#fff",
-            }),
+    <QontoStepIconRoot ownerState={{ active }} className={className}>
+      {completed ? (
+        <span
+          className="material-symbols-rounded"
+          style={{
+            color: colors[themeColor ?? "brown"][500],
           }}
         >
-          {images.map((step) => (
-            <Box
-              sx={{
-                height: "100vh",
-              }}
-              key={Math.random().toString()}
-            >
-              {step.content}
-            </Box>
-          ))}
-          <MobileStepper
-            steps={maxSteps}
-            sx={{
-              "& .MuiMobileStepper-dots": {
-                display: "none",
-              },
-              transition: "all .2s",
-              bottom: 0,
-              ...((activeStep === 0 || activeStep === maxSteps - 1) && {
-                bottom: "-50px",
-              }),
-              position: "fixed",
-              background: "transparent",
-              backdropFilter: "blur(10px)",
-            }}
-            activeStep={activeStep}
-            nextButton={
-              <Button
-                size="large"
-                sx={{
-                  transition: "opacity .2s",
-                  transitionDelay: ".2s",
-                  ...((activeStep === 0 || activeStep === maxSteps - 1) && {
-                    pointerEvents: "none",
-                  }),
-                }}
-                variant="contained"
-                onClick={handleNext}
-              >
-                Next
-                <span
-                  className="material-symbols-rounded"
-                  style={{ marginLeft: "10px" }}
-                >
-                  chevron_right
-                </span>
-              </Button>
-            }
-            backButton={
-              <Button
-                size="large"
-                sx={{
-                  transition: "opacity .2s",
-                  transitionDelay: ".2s",
-                  ...((activeStep === 0 || activeStep === maxSteps - 1) && {
-                    pointerEvents: "none",
-                  }),
-                  px: 1.5,
-                  minWidth: "auto",
-                }}
-                variant="contained"
-                onClick={handleBack}
-              >
-                <span className="material-symbols-rounded">chevron_left</span>
-              </Button>
-            }
-          />
-        </Box>
-      </ThemeProvider>
-    )
+          check
+        </span>
+      ) : (
+        <div className="QontoStepIcon-circle" />
+      )}
+    </QontoStepIconRoot>
   );
 }
 
-export default SwipeableTextMobileStepper;
+export default function Onboarding() {
+  const steps = [
+    "Welcome to Carbon!",
+    "Customize your theme",
+    "Edit your home",
+    "Add some items",
+    "You're all set!",
+  ];
+
+  const [type, setType] = useState(global.property.profile.type || "apartment");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setType(event.target.value as string);
+    updateSettings(
+      "type",
+      event.target.value as string,
+      false,
+      () => null,
+      true
+    );
+  };
+
+  const content = [
+    <>
+      <Typography
+        variant="h5"
+        sx={{
+          fontWeight: 600,
+        }}
+      >
+        Welcome to Carbon!
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{
+          fontWeight: 400,
+          marginTop: 2,
+        }}
+      >
+        Thanks for choosing Carbon! We&apos;re excited to have you here.
+        Let&apos;s get started by personalizing your theme and entering some
+        basic information about your home.
+      </Typography>
+    </>,
+    <>
+      <Typography
+        variant="h5"
+        sx={{
+          fontWeight: 600,
+        }}
+      >
+        Choose your look and feel
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{
+          fontWeight: 400,
+          marginTop: 2,
+          mb: 1.5,
+        }}
+      >
+        What&apos;s your favorite color? We&apos;ll use this to customize your
+        dashboard.
+      </Typography>
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="red"
+      />
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="green"
+      />
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="blue"
+      />
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="pink"
+      />
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="purple"
+      />
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="orange"
+      />
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="teal"
+      />
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="cyan"
+      />
+      <Color
+        handleNext={() => null}
+        setThemeColor={setThemeColor}
+        color="brown"
+      />
+
+      <Typography variant="h6" sx={{ mt: 4 }}>
+        Select a theme
+      </Typography>
+      <Color
+        handleNext={() => setStep(step + 1)}
+        setThemeColor={setThemeColor}
+        color="grey"
+      />
+      <Color
+        handleNext={() => setStep(step + 1)}
+        setThemeColor={setThemeColor}
+        color="white"
+      />
+    </>,
+    <>
+      <Typography
+        variant="h5"
+        sx={{
+          fontWeight: 600,
+        }}
+      >
+        Your home
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{
+          fontWeight: 400,
+          marginTop: 2,
+          mb: 1.5,
+        }}
+      >
+        Tell us a little bit about your home.
+      </Typography>
+
+      <TextField
+        variant="filled"
+        label="Your home's name/address"
+        placeholder="The Johnson's"
+        defaultValue={global.property.profile.name}
+        onBlur={(event) => {
+          updateSettings(
+            "name",
+            event.target.value as string,
+            false,
+            () => null,
+            true
+          );
+        }}
+        margin="dense"
+        fullWidth
+      />
+      <FormControl fullWidth margin="dense">
+        <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>
+          Type
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={type}
+          sx={{ pl: 0.2 }}
+          variant="filled"
+          label="Age"
+          onChange={handleChange}
+        >
+          <MenuItem value="dorm">Dorm</MenuItem>
+          <MenuItem value="apartment">Apartment</MenuItem>
+          <MenuItem value="home">Home</MenuItem>
+        </Select>
+      </FormControl>
+    </>,
+  ];
+  const [step, setStep] = useState(0);
+
+  return (
+    <Box>
+      <Box
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          position: "absolute",
+          zIndex: 1,
+          top: 0,
+          left: 0,
+        }}
+      >
+        <Loading />
+      </Box>
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 1,
+          backdropFilter: "blur(20px)",
+        }}
+      />
+      <Box
+        sx={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 2,
+          width: "100%",
+          maxWidth: "700px",
+          backgroundColor: global.user.darkMode ? "hsl(240,11%,10%)" : "white",
+          color: global.user.darkMode ? "white" : "hsl(240,11%,10%)",
+          borderRadius: "10px",
+          padding: "20px",
+        }}
+      >
+        <Stepper
+          sx={{
+            p: 0,
+            width: "100",
+          }}
+          activeStep={step}
+          connector={<QontoConnector />}
+        >
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel StepIconComponent={QontoStepIcon}></StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <Box sx={{ mt: 2, p: 2 }}>
+          {content.map((_, i) => (
+            <StepContent
+              key={Math.random()}
+              forStep={i}
+              currentStep={step}
+              setCurrentStep={setStep}
+              content={content[i]}
+            />
+          ))}
+        </Box>
+      </Box>
+    </Box>
+  );
+}

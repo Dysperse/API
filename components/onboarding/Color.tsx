@@ -13,20 +13,38 @@ export function Color({ color, setThemeColor, handleNext }) {
   return (
     <CardActionArea
       onClick={() => {
-        setThemeColor(color);
+        if (color == "grey" || color == "white") {
+          updateSettings("darkMode", color == "grey" ? "true" : "false");
+        } else {
+          updateSettings("color", color.toLowerCase());
+        }
+
+        // setThemeColor(color);
         handleNext();
-        updateSettings("color", color.toLowerCase());
       }}
       sx={{
-        width: 70,
-        height: 70,
+        width: 40,
+        height: 40,
         borderRadius: 5,
         mr: 2,
         mt: 1,
         cursor: "pointer",
-        display: "inline-block",
-        background: colors[color]["700"],
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background:
+          color === "grey"
+            ? "hsl(240,11%,5%)"
+            : color === "white"
+            ? "#eee"
+            : colors[color]["700"],
       }}
-    />
+    >
+      {color === global.themeColor && (
+        <span className="material-symbols-rounded" style={{ color: "#fff" }}>
+          check
+        </span>
+      )}
+    </CardActionArea>
   );
 }

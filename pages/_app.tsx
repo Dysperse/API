@@ -35,13 +35,15 @@ dayjs.extend(relativeTime);
  * Loading screen
  * @returns JSX.Element
  */
-function Loading(): JSX.Element {
+export function Loading(): JSX.Element {
   return (
     <Box
       sx={{
         position: "fixed",
         top: 0,
         left: 0,
+        background:
+          global.user && global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
         width: "100%",
         height: "100%",
         overflow: "hidden",
@@ -314,6 +316,7 @@ function Render({
     hex2rgba(colors[themeColor ?? "brown"]["100"], 0.5)
   );
   document.documentElement.style.setProperty("--bg", colors[themeColor][900]);
+
   return (
     <>
       <Head>
@@ -333,7 +336,7 @@ function Render({
           }}
         >
           <Toaster />
-          {router.pathname === "/onboarding" ? (
+          {window.location.pathname == "/onboarding" ? (
             <Component {...pageProps} />
           ) : data.user.onboardingComplete ? (
             <Layout>
