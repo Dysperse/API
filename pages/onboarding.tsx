@@ -295,6 +295,26 @@ export default function Onboarding() {
         </Select>
       </FormControl>
     </>,
+    <>
+      <Typography
+        variant="h5"
+        sx={{
+          fontWeight: 600,
+        }}
+      >
+        Add some items
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{
+          fontWeight: 400,
+          marginTop: 2,
+          mb: 1.5,
+        }}
+      >
+        Let&apos;s build up your inventory.
+      </Typography>
+    </>,
   ];
   const [step, setStep] = useState(0);
 
