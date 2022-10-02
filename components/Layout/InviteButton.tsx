@@ -1,38 +1,35 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import Chip from "@mui/material/Chip";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Toolbar from "@mui/material/Toolbar";
-import AppBar from "@mui/material/AppBar";
-import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import Popover from "@mui/material/Popover";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
+import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSWRConfig } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
+import type { House } from "../../types/houseProfile";
 import { neutralizeBack, revivalBack } from "../history-control";
+import { UpgradeBanner } from "../HouseProfile/ItemBanner";
 import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
-import type { House } from "../../types/houseProfile";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import { UpgradeBanner } from "../HouseProfile/ItemBanner";
 
 /**
  * Edit property
@@ -652,16 +649,6 @@ export function InviteButton() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const popoverOpen = Boolean(anchorEl);
-  const id = popoverOpen ? "simple-popover" : undefined;
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      document.getElementById("new_trigger")?.click();
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
   const trigger = useMediaQuery("(min-width: 600px)");
 
   return (
@@ -763,68 +750,7 @@ export function InviteButton() {
         </Typography>
         <span className="material-symbols-outlined">expand_more</span>
       </Button>
-      <Popover
-        id={id}
-        open={
-          !Cookies.get("invitePopup") &&
-          global.property.permission === "owner" &&
-          popoverOpen
-        }
-        anchorEl={anchorEl}
-        onClose={() => {
-          handleClose();
-          Cookies.set("invitePopup", "true", { expires: 69 });
-        }}
-        BackdropProps={{
-          sx: {
-            opacity: "0!important",
-          },
-        }}
-        PaperProps={{
-          sx: {
-            background: "#f50057",
-            maxWidth: "200px",
-            borderRadius: 4,
-            overflowX: "unset",
-            boxShadow: 0,
-            mt: 6,
-            overflowY: "unset",
-            "&:before": {
-              content: '""',
-              position: "absolute",
-              marginRight: "-0.71em",
-              top: -15,
-              left: 30,
-              width: 20,
-              height: 20,
-              borderRadius: "4px",
-              backgroundColor: "#f50057",
-              transform: "translate(-50%, 50%) rotate(-45deg)",
-              clipPath:
-                "polygon(-5px -5px, calc(100% + 5px) -5px, calc(100% + 5px) calc(100% + 5px))",
-            },
-          },
-        }}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      >
-        <Typography sx={{ p: 2 }}>
-          <Chip
-            label="New"
-            sx={{
-              height: "auto",
-              px: 1,
-              background: "#ff387d",
-              mb: 0.5,
-            }}
-          />
-          <br />
-          Invite up to 5 people to your{" "}
-          {global.property.profile.type !== "dorm" ? "home" : "dorm"}
-        </Typography>
-      </Popover>
+      
     </>
   );
 }
