@@ -659,7 +659,7 @@ export function InviteButton() {
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        anchor={trigger ? "top" : "bottom"}
+        anchor={trigger ? "left" : "bottom"}
         BackdropProps={{
           sx: {
             background: {
