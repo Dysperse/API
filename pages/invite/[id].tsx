@@ -155,6 +155,7 @@ export default function Onboarding() {
                   "/signup?close=true",
                   "Please sign in to your Carbon account"
                 );
+                setLoading(false)
               }
             }}
           >
