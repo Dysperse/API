@@ -54,8 +54,8 @@ export default function Onboarding() {
             zIndex: 2,
             maxHeight: "80vh",
             overflowY: "auto",
-            width: "100%",
-            maxWidth: "500px",
+            maxWidth: "calc(100vw - 40px)",
+            width: "500px",
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,10%)"
               : "white",
