@@ -1,16 +1,19 @@
+import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useRouter } from "next/router";
 import { Loading } from "../_app";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import Head from "next/head";
 import CircularProgress from "@mui/material/CircularProgress";
+const popup = require("window-popup").windowPopup;
 
 export default function Onboarding() {
   const router = useRouter();
   const id = window.location.pathname.split("/invite/")[1];
+  const [loading, setLoading] = React.useState(false);
   const { data, error } = useApi(
     "property/members/inviteLinkInfo",
     {
@@ -108,7 +111,8 @@ export default function Onboarding() {
             inventory, lists, tasks, and more with your housemates.
           </Typography>
 
-          <Button
+          <LoadingButton
+            loading={loading}
             variant="contained"
             size="large"
             disableElevation
@@ -124,11 +128,23 @@ export default function Onboarding() {
               },
             }}
             onClick={() => {
-              router.push(`/property/${data.property.id}`);
+              setLoading(true);
+              setTimeout(() => setLoading(false), 1000);
+              if (global.user.email) {
+                alert(1);
+              } else {
+                popup(
+                  500,
+                  1000,
+                  "/signup?close=true",
+                  "Please sign in to your Carbon account"
+                );
+              }
+              // router.push(`/property/${data.property.id}`);
             }}
           >
             Join
-          </Button>
+          </LoadingButton>
         </Box>
       ) : (
         <Box

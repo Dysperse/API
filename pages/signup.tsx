@@ -4,6 +4,8 @@ import { colors } from "../lib/colors";
 import Paper from "@mui/material/Paper";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Link from "next/link";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -244,6 +246,29 @@ export default function Prompt() {
                 fullWidth
                 variant="filled"
               />
+              <Link
+                href={
+                  window.location.href.includes("?close=true")
+                    ? "/?close=true"
+                    : "/"
+                }
+              >
+                <Button
+                  sx={{
+                    textTransform: "none",
+                    mt: 1,
+                    py: 0,
+                    mb: { xs: 10, sm: 0 },
+                    float: "right",
+                    textAlign: "center",
+                    mx: "auto",
+                    transition: "none",
+                    "&:hover": { textDecoration: "underline" },
+                  }}
+                >
+                  I already have an account
+                </Button>
+              </Link>
               <Box sx={{ pb: { xs: 15, sm: 0 } }} />
               <Box
                 sx={{
@@ -252,6 +277,7 @@ export default function Prompt() {
                   position: { xs: "fixed", sm: "unset" },
                   bottom: 0,
                   left: 0,
+                  zIndex: 1,
                   py: 1,
                   background: "#c4b5b5",
                   width: { xs: "100vw", sm: "auto" },

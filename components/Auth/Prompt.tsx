@@ -272,7 +272,13 @@ export default function Prompt() {
               </Box>
             </Box>
           </form>
-          <Link href="/signup">
+          <Link
+            href={
+              window.location.href.includes("?close=true")
+                ? "/signup?close=true"
+                : "/signup"
+            }
+          >
             <Button
               sx={{
                 textTransform: "none",

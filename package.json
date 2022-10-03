@@ -51,7 +51,8 @@
     "swr": "^1.3.0",
     "thirty-two": "^1.0.2",
     "typescript": "^4.8.4",
-    "webpack": "^5.74.0"
+    "webpack": "^5.74.0",
+    "window-popup": "^1.1.0"
   },
   "keywords": [
     "react",
