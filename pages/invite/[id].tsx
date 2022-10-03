@@ -140,7 +140,7 @@ export default function Onboarding() {
             zIndex: 2,
           }}
         >
-          <CircularProgress />
+          <CircularProgress size="small" />
         </Box>
       )}
     </Box>
