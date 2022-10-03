@@ -48,6 +48,12 @@ export default function Prompt() {
       })
         .then((res) => res.json())
         .then(() => {
+          if (window.location.href.includes("?close=true")) {
+            mutate("/api/user").then(() => {
+              window.close();
+            });
+            return;
+          }
           mutate("/api/user");
           router.push("/");
           toast.success("Welcome to Carbon!");

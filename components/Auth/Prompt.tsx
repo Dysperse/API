@@ -50,6 +50,12 @@ export default function Prompt() {
           } else if (res.error) {
             throw new Error(res.error);
           }
+          if (window.location.href.includes("?close=true")) {
+            mutate("/api/user").then(() => {
+              window.close();
+            });
+            return;
+          }
           mutate("/api/user");
         })
         .catch(() => setButtonLoading(false));

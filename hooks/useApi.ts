@@ -75,9 +75,15 @@ export async function fetchApiWithoutHook(
   path: string,
   initialParams: {
     [key: string]: string | number | boolean;
-  } = {}
+  } = {},
+  removeDefaultParams = false
 ) {
-  const { url } = getInfo(path, initialParams, global.property);
+  const { url } = getInfo(
+    path,
+    initialParams,
+    global.property,
+    removeDefaultParams
+  );
 
   const res = await fetch(url);
   return await res.json();

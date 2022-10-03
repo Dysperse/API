@@ -4,11 +4,13 @@ import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useRouter } from "next/router";
 import { Loading } from "../_app";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import Head from "next/head";
 import CircularProgress from "@mui/material/CircularProgress";
+import { mutate } from "swr";
 const popup = require("window-popup").windowPopup;
+import toast from "react-hot-toast";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -59,11 +61,8 @@ export default function Onboarding() {
             overflowY: "auto",
             maxWidth: "calc(100vw - 40px)",
             width: "500px",
-            backgroundColor: global.user.darkMode
-              ? "hsl(240,11%,10%)"
-              : "white",
-            color: global.user.darkMode ? "white" : "hsl(240,11%,10%)",
             borderRadius: "10px",
+            background: "#fff",
             padding: 4,
           }}
         >
@@ -129,9 +128,26 @@ export default function Onboarding() {
             }}
             onClick={() => {
               setLoading(true);
-              setTimeout(() => setLoading(false), 1000);
-              if (global.user.email) {
-                alert(1);
+              if (global.user.user.email) {
+                fetchApiWithoutHook(
+                  "property/members/acceptInviteByLink",
+                  {
+                    token: id as string,
+                    email: global.user.user.email,
+                    property: data.property.id,
+                  },
+                  true
+                )
+                  .then((res) => {
+                    mutate("/api/user");
+                    router.push("/");
+                    setLoading(false);
+                  })
+                  .catch((err) => {
+                    toast.error(
+                      "Something went wrong while accepting the invite. Please try again later."
+                    );
+                  });
               } else {
                 popup(
                   500,
