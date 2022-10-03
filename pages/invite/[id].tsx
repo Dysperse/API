@@ -49,7 +49,19 @@ export default function Onboarding() {
           backdropFilter: "blur(20px)",
         }}
       />
-      {data ? (
+      {data && data.error ? (
+        <Box
+          sx={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 2,
+          }}
+        >
+          The invite link is invalid or has already been used.
+        </Box>
+      ) : data ? (
         <Box
           sx={{
             position: "fixed",
@@ -155,7 +167,7 @@ export default function Onboarding() {
                   "/signup?close=true",
                   "Please sign in to your Carbon account"
                 );
-                setLoading(false)
+                setLoading(false);
               }
             }}
           >

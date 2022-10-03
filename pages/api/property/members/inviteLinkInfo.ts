@@ -16,6 +16,6 @@ const handler = async (req, res) => {
     },
   });
 
-  res.json(data);
+  res.json(data ? data : { error: "Invalid token" });
 };
 export default handler;
