@@ -138,12 +138,12 @@ export default function Onboarding() {
                   },
                   true
                 )
-                  .then((res) => {
+                  .then(() => {
                     mutate("/api/user");
                     router.push("/");
                     setLoading(false);
                   })
-                  .catch((err) => {
+                  .catch(() => {
                     toast.error(
                       "Something went wrong while accepting the invite. Please try again later."
                     );
@@ -156,7 +156,6 @@ export default function Onboarding() {
                   "Please sign in to your Carbon account"
                 );
               }
-              // router.push(`/property/${data.property.id}`);
             }}
           >
             Join
