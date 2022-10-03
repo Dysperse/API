@@ -128,7 +128,7 @@ export default function Onboarding() {
             }}
             onClick={() => {
               setLoading(true);
-              if (global.user.user.email) {
+              if (global.user.user && global.user.user.email) {
                 fetchApiWithoutHook(
                   "property/members/acceptInviteByLink",
                   {
