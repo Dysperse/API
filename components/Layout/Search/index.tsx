@@ -315,14 +315,14 @@ export function SearchPopup() {
             display: { xs: "flex", sm: "none" },
             color: global.user.darkMode
               ? "hsl(240, 11%, 90%)"
-              : router.asPath === "/maintenance"
+              : router.asPath === "/tidy"
               ? "inherit"
               : "#606060",
             "&:hover": {
               background: "rgba(200,200,200,.3)",
               color: global.user.darkMode
                 ? "hsl(240, 11%, 95%)"
-                : router.asPath === "/maintenance"
+                : router.asPath === "/tidy"
                 ? "inherit"
                 : "#fff",
             },
@@ -330,9 +330,9 @@ export function SearchPopup() {
               background: `${
                 global.user.darkMode
                   ? colors[themeColor]["900"]
-                  : colors[
-                      router.asPath === "/maintenance" ? "green" : themeColor
-                    ][router.asPath === "/maintenance" ? 700 : 50]
+                  : colors[router.asPath === "/tidy" ? "green" : themeColor][
+                      router.asPath === "/tidy" ? 700 : 50
+                    ]
               }!important`,
             },
           }}

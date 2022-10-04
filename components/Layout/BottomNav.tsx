@@ -109,7 +109,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
       case "/notes":
         setValue(2);
         break;
-      case "/maintenance":
+      case "/tidy":
         setValue(3);
         break;
       default:
@@ -245,10 +245,10 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
                   whiteSpace: "nowrap",
                 }}
               >
-                Maintenance
+                Tidy
               </span>
             }
-            onClick={() => onLink("/maintenance")}
+            onClick={() => onLink("/tidy")}
             icon={
               <Icon
                 baseClassName={`material-symbols-${
@@ -258,27 +258,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
                   overflow: "visible",
                 }}
               >
-                <Badge
-                  component="div"
-                  badgeContent={
-                    maintenance
-                      ? maintenance.filter((reminder) =>
-                          dayjs(
-                            reminder.lastDone.toString().split("T")[0]
-                          ).isBefore(dayjs())
-                        ).length
-                      : 0
-                  }
-                  sx={{
-                    "& .MuiBadge-badge": {
-                      borderRadius: 2,
-                      fontWeight: "400",
-                    },
-                  }}
-                  color="error"
-                >
-                  handyman
-                </Badge>
+                auto_awesome
               </Icon>
             }
           />

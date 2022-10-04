@@ -447,69 +447,10 @@ export function DrawerListItems({
         />
         <ListItem
           collapsed={collapsed}
-          href="/maintenance"
-          asHref="/maintenance"
-          text={
-            <Box sx={{ display: "flex" }}>
-              Maintenance
-              {!collapsed && (
-                <Badge
-                  sx={{
-                    ml: "auto",
-                    mr: 1.2,
-                    zIndex: 1,
-                    my: "auto",
-                    "& .MuiBadge-badge": {
-                      borderRadius: 2,
-                      background: colors.red["100"],
-                      color: colors.red["900"],
-                    },
-                  }}
-                  badgeContent={
-                    maintenance
-                      ? maintenance.filter((reminder) =>
-                          dayjs(
-                            reminder.lastDone.toString().split("T")[0]
-                          ).isBefore(dayjs())
-                        ).length
-                      : 0
-                  }
-                  color="error"
-                />
-              )}
-            </Box>
-          }
-          icon={
-            collapsed ? (
-              <Badge
-                sx={{
-                  ml: "auto",
-                  mr: 1.2,
-                  zIndex: -1,
-                  my: "auto",
-                  "& .MuiBadge-badge": {
-                    borderRadius: 2,
-                    background: colors.red["100"],
-                    color: colors.red["900"],
-                  },
-                }}
-                badgeContent={
-                  maintenance
-                    ? maintenance.filter((reminder) =>
-                        dayjs(
-                          reminder.lastDone.toString().split("T")[0]
-                        ).isBefore(dayjs())
-                      ).length
-                    : 0
-                }
-                color="error"
-              >
-                <span className="material-symbols-outlined">handyman</span>
-              </Badge>
-            ) : (
-              "handyman"
-            )
-          }
+          href="/tidy"
+          asHref="/tidy"
+          text="Tidy"
+          icon="auto_awesome"
         />
       </div>
       <div>

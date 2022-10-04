@@ -55,10 +55,10 @@ function ElevationScroll(props) {
           trigger
             ? global.user.darkMode
               ? "rgba(33,33,38)"
-              : colors[themeColor][router.asPath === "/maintenance" ? 800 : 50]
+              : colors[themeColor][router.asPath === "/tidy" ? 800 : 50]
             : global.user.darkMode
             ? "hsl(240, 11%, 10%)"
-            : router.asPath === "/maintenance"
+            : router.asPath === "/tidy"
             ? colors[themeColor][800]
             : "#fff"
         );
@@ -68,7 +68,7 @@ function ElevationScroll(props) {
     "& .MuiBadge-badge": {
       transform: "none",
       border: `2px solid ${
-        router.asPath === "/maintenance" ? colors[themeColor][100] : "#fff"
+        router.asPath === "/tidy" ? colors[themeColor][100] : "#fff"
       }`,
       width: 12,
       height: 12,
@@ -89,7 +89,7 @@ function ElevationScroll(props) {
             transform: "none",
             border: {
               xs: `2px solid ${
-                colors[themeColor][router.asPath === "/maintenance" ? 800 : 100]
+                colors[themeColor][router.asPath === "/tidy" ? 800 : 100]
               }`,
               sm: `2px solid ${colors[themeColor][50]}`,
             },
@@ -100,7 +100,7 @@ function ElevationScroll(props) {
           color: {
             xs: global.user.darkMode
               ? "white"
-              : router.asPath === "/maintenance"
+              : router.asPath === "/tidy"
               ? colors[themeColor][100]
               : "black",
             sm: global.user.darkMode ? "white" : "black",
@@ -115,9 +115,7 @@ function ElevationScroll(props) {
             xs: global.user.darkMode
               ? "rgba(33,33,38)"
               : hexToRgba(
-                  colors[themeColor][
-                    router.asPath === "/maintenance" ? 800 : 50
-                  ],
+                  colors[themeColor][router.asPath === "/tidy" ? 800 : 50],
                   1
                 ),
             sm: global.user.darkMode
@@ -130,7 +128,7 @@ function ElevationScroll(props) {
             transform: "none",
             border: {
               xs: `2px solid ${
-                colors[themeColor][router.asPath === "/maintenance" ? 800 : 100]
+                colors[themeColor][router.asPath === "/tidy" ? 800 : 100]
               }`,
               sm: `2px solid ${colors[themeColor][50]}`,
             },
@@ -141,7 +139,7 @@ function ElevationScroll(props) {
           color: {
             xs: global.user.darkMode
               ? "white"
-              : router.asPath === "/maintenance"
+              : router.asPath === "/tidy"
               ? colors[themeColor][100]
               : "black",
             sm: global.user.darkMode ? "white" : "black",
@@ -155,7 +153,7 @@ function ElevationScroll(props) {
           background: {
             xs: global.user.darkMode
               ? "rgba(0,0,0,0)"
-              : router.asPath === "/maintenance"
+              : router.asPath === "/tidy"
               ? colors[themeColor][800]
               : "rgba(255,255,255,.5)",
             sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.5)",
