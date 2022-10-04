@@ -282,6 +282,39 @@ export default function Maintenance() {
                 "MMMM D, YYYY"
               )}
             </Typography>
+            {data
+              .filter(
+                (reminder: ReminderType) =>
+                  dayjs(reminder.lastDone.toString().split("T")[0]).format(
+                    "MM/DD/YYYY"
+                  ) ===
+                  dayjs(new Date(currentDate).toISOString()).format(
+                    "MM/DD/YYYY"
+                  )
+              )
+              .map((reminder: ReminderType) => (
+                <Reminder key={reminder.id} reminder={reminder} />
+              ))}
+
+            {data.filter(
+              (reminder: ReminderType) =>
+                dayjs(reminder.lastDone.toString().split("T")[0]).format(
+                  "MM/DD/YYYY"
+                ) ===
+                dayjs(new Date(currentDate).toISOString()).format("MM/DD/YYYY")
+            ).length === 0 && (
+              <Box
+                sx={{
+                  borderRadius: 5,
+                  background: "rgba(200,200,200,.3)",
+                  p: 3,
+                  mb: 4,
+                }}
+              >
+                Great job! You don&apos;t have any maintenance tasks today!
+              </Box>
+            )}
+
             {data.filter((reminder: ReminderType) =>
               dayjs(reminder.nextDue).isBefore(dayjs())
             ).length > 0 && (
