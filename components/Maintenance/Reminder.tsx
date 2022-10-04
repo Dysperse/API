@@ -99,7 +99,7 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
             <span style={{ textTransform: "capitalize" }}>
               {reminder.frequency}
             </span>{" "}
-            &bull; Due {dayjs(reminder.nextDue).fromNow()}
+            &bull; Due {dayjs(reminder.lastDone).fromNow()}
           </Typography>
           <TextField
             multiline
@@ -178,7 +178,7 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
               fetchApiWithoutHook("property/maintenance/markAsDone", {
                 id: reminder.id,
                 frequency: reminder.frequency,
-                lastCompleted: new Date().toISOString(),
+                lastDone: new Date().toISOString(),
               })
                 .then(() => {
                   mutate(
@@ -224,7 +224,7 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
             sx={{
               px: 3.5,
               py: 3,
-              ...(dayjs(reminder.nextDue).isBefore(dayjs()) && {
+              ...(dayjs(reminder.lastDone).isBefore(dayjs()) && {
                 background: colors.red[global.user.darkMode ? 900 : 50],
               }),
             }}
@@ -234,7 +234,7 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
               <span style={{ textTransform: "capitalize" }}>
                 {reminder.frequency}
               </span>{" "}
-              &bull; Due {dayjs(reminder.nextDue).fromNow()}
+              &bull; Due {dayjs(reminder.lastDone).fromNow()}
             </Typography>
           </CardContent>
         </CardActionArea>
