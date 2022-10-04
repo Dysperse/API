@@ -231,7 +231,7 @@ function Suggested({ currentReminders }: { currentReminders: ReminderType[] }) {
 export default function Maintenance() {
   const { error, data }: ApiResponse = useApi("property/maintenance/reminders");
 
-  const [currentDate, setCurrentDate] = useState(dayjs().format("DD/MM/YYYY"));
+  const [currentDate, setCurrentDate] = useState(dayjs().format("MM/DD/YYYY"));
 
   return (
     <Box sx={{ mb: 4 }}>
@@ -271,6 +271,31 @@ export default function Maintenance() {
       <Box sx={{ p: 3 }}>
         {data ? (
           <>
+            <Typography
+              sx={{
+                my: 1,
+                fontWeight: "600",
+              }}
+              variant="h6"
+            >
+              {dayjs(new Date(currentDate).toISOString()).format(
+                "MMMM D, YYYY"
+              )}
+            </Typography>
+            {data.filter((reminder: ReminderType) =>
+              dayjs(reminder.nextDue).isBefore(dayjs())
+            ).length > 0 && (
+              <Typography
+                sx={{
+                  my: 1,
+                  color: colors.red[900],
+                  fontWeight: "600",
+                }}
+                variant="h6"
+              >
+                Overdue maintenance tasks
+              </Typography>
+            )}
             {data
               .filter((reminder: ReminderType) =>
                 dayjs(reminder.nextDue).isBefore(dayjs())

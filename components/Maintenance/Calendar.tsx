@@ -15,12 +15,12 @@ function Day({ i, date, currentDate, setCurrentDate, data }) {
     <Box
       key={Math.random().toString()}
       onMouseDown={() => {
-        setCurrentDate(date.format("DD/MM/YYYY"));
+        setCurrentDate(date.format("MM/DD/YYYY"));
       }}
       sx={{
         py: 1.5,
         display: "inline-flex",
-        ...(currentDate === date.format("DD/MM/YYYY") && {
+        ...(currentDate === date.format("MM/DD/YYYY") && {
           backgroundColor: colors[themeColor][900],
         }),
         transition: "transform .2s",
@@ -87,7 +87,7 @@ export function Calendar({ data, currentDate, setCurrentDate }) {
     >
       {Array.from({ length: 69 }, (_, i) => i).map((i) => {
         const date = dayjs().add(i - 1, "day");
-        return (
+        return data ? (
           <Day
             i={i}
             date={date}
@@ -95,7 +95,7 @@ export function Calendar({ data, currentDate, setCurrentDate }) {
             setCurrentDate={setCurrentDate}
             data={data}
           />
-        );
+        ) : null;
       })}
     </Box>
   );
