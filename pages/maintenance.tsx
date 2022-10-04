@@ -244,7 +244,9 @@ export default function Maintenance() {
         {data ? (
           <div>
             {data.filter((reminder: ReminderType) =>
-              dayjs(reminder.nextDue).isBefore(dayjs())
+              dayjs(reminder.lastDone.toString().split("T")[0]).isBefore(
+                dayjs()
+              )
             ).length > 0 && (
               <Alert
                 severity="warning"
@@ -257,12 +259,16 @@ export default function Maintenance() {
                 You have{" "}
                 {
                   data.filter((reminder: ReminderType) =>
-                    dayjs(reminder.nextDue).isBefore(dayjs())
+                    dayjs(reminder.lastDone.toString().split("T")[0]).isBefore(
+                      dayjs()
+                    )
                   ).length
                 }{" "}
                 overdue maintenance task
                 {data.filter((reminder: ReminderType) =>
-                  dayjs(reminder.nextDue).isBefore(dayjs())
+                  dayjs(reminder.lastDone.toString().split("T")[0]).isBefore(
+                    dayjs()
+                  )
                 ).length == 1
                   ? ""
                   : "s"}
@@ -319,7 +325,9 @@ export default function Maintenance() {
             )}
 
             {data.filter((reminder: ReminderType) =>
-              dayjs(reminder.nextDue).isBefore(dayjs())
+              dayjs(reminder.lastDone.toString().split("T")[0]).isBefore(
+                dayjs()
+              )
             ).length > 0 && (
               <Typography
                 sx={{
@@ -334,16 +342,9 @@ export default function Maintenance() {
             )}
             {data
               .filter((reminder: ReminderType) =>
-                dayjs(reminder.nextDue).isBefore(dayjs())
-              )
-              .map((reminder: ReminderType) => (
-                <Reminder key={reminder.id} reminder={reminder} />
-              ))}
-
-            {/* Get reminders to the currentDate*/}
-            {data
-              .filter((reminder: ReminderType) =>
-                dayjs(reminder.nextDue).isSame(dayjs(currentDate), "day")
+                dayjs(reminder.lastDone.toString().split("T")[0]).isBefore(
+                  dayjs()
+                )
               )
               .map((reminder: ReminderType) => (
                 <Reminder key={reminder.id} reminder={reminder} />

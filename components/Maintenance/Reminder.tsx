@@ -99,7 +99,8 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
             <span style={{ textTransform: "capitalize" }}>
               {reminder.frequency}
             </span>{" "}
-            &bull; Due {dayjs(reminder.lastDone).fromNow()}
+            &bull; Due{" "}
+            {dayjs(reminder.lastDone.toString().split("T")[0]).fromNow()}
           </Typography>
           <TextField
             multiline
@@ -224,7 +225,9 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
             sx={{
               px: 3.5,
               py: 3,
-              ...(dayjs(reminder.lastDone).isBefore(dayjs()) && {
+              ...(dayjs(reminder.lastDone.toString().split("T")[0]).isBefore(
+                dayjs()
+              ) && {
                 background: colors.red[global.user.darkMode ? 900 : 50],
               }),
             }}
@@ -234,7 +237,8 @@ export function Reminder({ reminder }: { reminder: MaintenanceReminder }) {
               <span style={{ textTransform: "capitalize" }}>
                 {reminder.frequency}
               </span>{" "}
-              &bull; Due {dayjs(reminder.lastDone).fromNow()}
+              &bull; Due{" "}
+              {dayjs(reminder.lastDone.toString().split("T")[0]).fromNow()}
             </Typography>
           </CardContent>
         </CardActionArea>
