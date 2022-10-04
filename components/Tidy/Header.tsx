@@ -141,8 +141,6 @@ export function Header({
             ))}
           </Stepper>
         </Box>
-        <Button onClick={() => setStep(step - 1)}>Back</Button>
-        <Button onClick={() => setStep(step + 1)}>Next</Button>
       </Box>
     </>
   );
