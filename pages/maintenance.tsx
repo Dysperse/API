@@ -24,11 +24,7 @@ function Suggestion({ reactKey, suggestion, currentReminders, misc = false }) {
   return (
     <Box
       sx={{
-        height: "100%",
-        flex: {
-          xs: "0 0 90%",
-          sm: "0 0 33.333333%",
-        },
+        mb: 2,
       }}
     >
       <SwipeableDrawer
@@ -272,14 +268,7 @@ export default function Maintenance() {
           </div>
         ) : null}
       </Box>
-      <Box sx={{ p: 4 }}>
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: "600", mb: 1, color: colors.orange[900] }}
-        >
-          Suggested
-        </Typography>
-        <Suggested currentReminders={data ? data : []} />
+      <Box sx={{ p: 3 }}>
         {data ? (
           <>
             {data
@@ -298,6 +287,14 @@ export default function Maintenance() {
               .map((reminder: ReminderType) => (
                 <Reminder key={reminder.id} reminder={reminder} />
               ))}
+
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: "600", mb: 1, color: colors.orange[900] }}
+            >
+              Suggested
+            </Typography>
+            <Suggested currentReminders={data ? data : []} />
           </>
         ) : (
           <>
