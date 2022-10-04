@@ -124,6 +124,13 @@ export default function Onboarding() {
 
           <LoadingButton
             loading={loading}
+            disabled={
+              global.user &&
+              global.user.user &&
+              global.user.user.properties.find(
+                (p) => p.propertyId == data.property.id
+              )
+            }
             variant="contained"
             size="large"
             disableElevation
@@ -171,7 +178,13 @@ export default function Onboarding() {
               }
             }}
           >
-            Join
+            {global.user &&
+            global.user.user &&
+            global.user.user.properties.find(
+              (p) => p.propertyId == data.property.id
+            )
+              ? "You're already in this home"
+              : "Join"}
           </LoadingButton>
         </Box>
       ) : (

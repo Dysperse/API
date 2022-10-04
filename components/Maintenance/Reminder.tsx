@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { MaintenanceReminder } from "@prisma/client";
+import { getSuggestions } from "./suggestions";
 
 /**
  * Reminder component
