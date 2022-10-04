@@ -239,6 +239,11 @@ export default function Maintenance() {
 
   return (
     <Box sx={{ mb: 4 }}>
+      <Header
+        currentDate={currentDate}
+        setCurrentDate={setCurrentDate}
+        data={data}
+      />
       <Box sx={{ px: { sm: 3 } }}>
         {data ? (
           <div>
@@ -267,11 +272,6 @@ export default function Maintenance() {
           </div>
         ) : null}
       </Box>
-      <Header
-        currentDate={currentDate}
-        setCurrentDate={setCurrentDate}
-        data={data}
-      />
       <Box sx={{ p: 4 }}>
         <Typography
           variant="h6"
