@@ -240,7 +240,7 @@ export default function Maintenance() {
         setCurrentDate={setCurrentDate}
         data={data}
       />
-      <Box sx={{ px: { sm: 3 } }}>
+      <Box sx={{ px: { sm: 3 }, position: "sticky", top: "70px", zIndex: 99 }}>
         {data ? (
           <div>
             {data.filter((reminder: ReminderType) =>
@@ -248,7 +248,10 @@ export default function Maintenance() {
             ).length > 0 && (
               <Alert
                 severity="warning"
-                sx={{ mb: { sm: 3 }, borderRadius: { xs: 0, sm: 999 } }}
+                sx={{
+                  mb: { sm: 3 },
+                  borderRadius: { xs: 0, sm: 999 },
+                }}
                 variant="filled"
               >
                 You have{" "}
