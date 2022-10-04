@@ -263,7 +263,9 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
                   badgeContent={
                     maintenance
                       ? maintenance.filter((reminder) =>
-                          dayjs(reminder.nextDue).isBefore(dayjs())
+                          dayjs(
+                            reminder.lastDone.toString().split("T")[0]
+                          ).isBefore(dayjs())
                         ).length
                       : 0
                   }

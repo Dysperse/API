@@ -468,7 +468,9 @@ export function DrawerListItems({
                   badgeContent={
                     maintenance
                       ? maintenance.filter((reminder) =>
-                          dayjs(reminder.nextDue).isBefore(dayjs())
+                          dayjs(
+                            reminder.lastDone.toString().split("T")[0]
+                          ).isBefore(dayjs())
                         ).length
                       : 0
                   }
@@ -494,7 +496,9 @@ export function DrawerListItems({
                 badgeContent={
                   maintenance
                     ? maintenance.filter((reminder) =>
-                        dayjs(reminder.nextDue).isBefore(dayjs())
+                        dayjs(
+                          reminder.lastDone.toString().split("T")[0]
+                        ).isBefore(dayjs())
                       ).length
                     : 0
                 }
