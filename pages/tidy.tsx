@@ -9,6 +9,7 @@ import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
 import { Puller } from "../components/Puller";
 import { colors } from "../lib/colors";
+import ListItem from "@mui/material/ListItem";
 
 /**
  * Intro
@@ -35,6 +36,8 @@ function Intro({ setStep }) {
           sx={{
             p: 3,
             pt: 5,
+            maxHeight: "70vh",
+            overflowY: "auto",
           }}
         >
           <Typography variant="h6" sx={{ fontWeight: "600" }}>
@@ -50,7 +53,18 @@ function Intro({ setStep }) {
             "Laundry Room",
             "Storage Room",
             "Garden",
-          ]}
+          ].map((room) => (
+            <ListItem
+              button
+              key={room}
+              sx={{
+                mt: 1,
+                borderRadius: 3,
+              }}
+            >
+              <Typography variant="body1">{room}</Typography>
+            </ListItem>
+          ))}
         </Box>
       </SwipeableDrawer>
 
