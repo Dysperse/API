@@ -198,7 +198,7 @@ const miscSuggestions = [
     time: 60,
     supplies: ["power washer"],
     steps: [
-      "Turn on the power washer",
+      "Turn on the  power washer",
       "Spray the driveway with water",
       "Spray the driveway with detergent",
       "Scrub the driveway with a brush",

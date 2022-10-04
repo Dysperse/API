@@ -17,6 +17,7 @@ import Link from "@mui/material/Link";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import toast from "react-hot-toast";
+import { Calendar as CalendarList } from "./Calendar";
 
 const useStyles = createStyles(() => ({
   outside: {},
@@ -417,47 +418,28 @@ function CreateMaintenanceModal() {
  * @param {any} {count}
  * @returns {any}
  */
-export function Header({ count }) {
+export function Header({ currentDate, setCurrentDate, data }) {
   return (
     <>
       <Box sx={{ p: { sm: 3 }, pt: { sm: 1 } }}>
         <Box
           sx={{
             width: "100%",
-            background: colors.green[800],
-            color: `${colors.green[100]} !important`,
-            height: { xs: "150px", sm: "320px" },
-            display: "flex",
+            background: colors[themeColor][800],
+            color: `${colors[themeColor][100]} !important`,
             borderRadius: { sm: 5 },
-            px: 5,
-            pt: { xs: 4, sm: 0 },
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: { sm: "center" },
+            pb: 3,
+            display: "block",
+            py: { sm: 3 },
+            userSelect: "none",
           }}
         >
-          <Typography
-            variant="h1"
-            sx={{ fontSize: { xs: "60px", sm: "70px" } }}
-          >
-            {count}
-          </Typography>
-          <Typography variant="h6">Upcoming tasks this week</Typography>
+          <CalendarList
+            data={data}
+            currentDate={currentDate}
+            setCurrentDate={setCurrentDate}
+          />
         </Box>
-      </Box>
-      <Box
-        sx={{
-          px: { xs: 5, sm: 5 },
-          py: { xs: 3, sm: 0 },
-          background: { xs: colors.green[800], sm: "transparent" },
-          textAlign: { xs: "center", sm: "right" },
-
-          display: { xs: "flex", sm: "block" },
-          gap: 2,
-        }}
-      >
-        <CreateMaintenanceModal />
-        <CalendarFeedModal />
       </Box>
     </>
   );
