@@ -243,7 +243,7 @@ const ListItem = React.memo(function ListItem({
           }  0%, ${
             global.user.darkMode
               ? "hsl(240, 11%, 20%)"
-              : colors[themeColor][200]
+              : colors[themeColor][100]
           } 100%)`,
           "&:hover,&:focus": {
             backgroundColor: global.user.darkMode

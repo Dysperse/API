@@ -14,7 +14,7 @@ function Day({ i, date, currentDate, setCurrentDate, data }) {
   return (
     <Box
       key={Math.random().toString()}
-      onClick={() => {
+      onMouseDown={() => {
         setCurrentDate(date.format("DD/MM/YYYY"));
       }}
       sx={{
@@ -25,8 +25,8 @@ function Day({ i, date, currentDate, setCurrentDate, data }) {
         }),
         transition: "transform .2s",
         "&:active": {
+          backgroundColor: colors[themeColor][900],
           transform: "scale(0.95)",
-          transition: "none",
         },
         borderRadius: 6,
         width: "55px",
