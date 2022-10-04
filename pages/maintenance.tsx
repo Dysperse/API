@@ -247,7 +247,7 @@ export default function Maintenance() {
               dayjs(reminder.nextDue).isBefore(dayjs())
             ).length > 0 && (
               <Alert
-                severity="warning"
+                severity="info"
                 sx={{
                   mb: { sm: 3 },
                   borderRadius: { xs: 0, sm: 999 },
