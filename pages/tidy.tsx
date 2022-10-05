@@ -10,6 +10,8 @@ import type { ApiResponse } from "../types/client";
 import { Puller } from "../components/Puller";
 import { colors } from "../lib/colors";
 import ListItem from "@mui/material/ListItem";
+import Item from "../components/ItemPopup";
+import { Item as ItemType } from "@prisma/client";
 
 /**
  * Intro
@@ -119,19 +121,41 @@ function Intro({
  * Declutter
  */
 function Declutter({ room, setStep }) {
-  const { error, data } = useApi("/api/property/tidy/declutter", {
+  const { error, data } = useApi("property/tidy/excess", {
     room,
+    quantity: 1,
   });
+
   return (
     <>
       <Typography variant="h6" sx={{ mb: 2 }}>
         Items you might have excess of
       </Typography>
-      {JSON.stringify(data)}
+      {data && data.length == 0 && (
+        <Box
+          sx={{
+            p: 3,
+            background: "rgba(200,200,200,.3)",
+            borderRadius: 5,
+          }}
+        >
+          You don&apos;t have any excess items in this room.
+        </Box>
+      )}
+      {data && data.map((item: ItemType) => <Item data={item} key={item.id} />)}
       {error && (
         <ErrorHandler
           error={"An error occured while trying to fetch your inventory"}
         />
+      )}
+
+      <Typography variant="h6" sx={{ my: 2, mt: 5 }}>
+        Items you haven&apos;t edited in a while
+      </Typography>
+      {room === "Kitchen" && (
+        <Typography variant="body1" sx={{ mt: -1 }}>
+          Check for expiration dates!
+        </Typography>
       )}
 
       <Button
