@@ -5,9 +5,20 @@ import IconButton from "@mui/material/IconButton";
 import { colors } from "../../lib/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../Puller";
+import { useStatusBar } from "../../hooks/useStatusBar";
+import { useFormik } from "formik";
 
 function CreateModal() {
   const [open, setOpen] = useState(false);
+  useStatusBar(open);
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+    },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   return (
     <>
