@@ -178,7 +178,14 @@ function CreateModal() {
 
           <form onSubmit={formik.handleSubmit}>
             <div className="embla" ref={emblaRef} style={{ height: "auto" }}>
-              <div className="embla__container" style={{ height: "auto" }}>
+              <div
+                className="embla__container"
+                style={{
+                  height: "auto",
+                  alignItems: "flex-start",
+                  transition: "height .2s",
+                }}
+              >
                 <Box className="embla__slide" sx={{ p: 2, height: "auto" }}>
                   <TextField
                     required
