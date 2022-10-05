@@ -12,7 +12,7 @@ import { colors } from "../lib/colors";
 import ListItem from "@mui/material/ListItem";
 import Item from "../components/ItemPopup";
 import { Item as ItemType } from "@prisma/client";
-
+import dayjs from "dayjs";
 /**
  * Intro
  */
@@ -130,11 +130,34 @@ function OldItems({ room }: { room: string }) {
           error={"Couldn't fetch your inventory. Please try again later"}
         />
       )}
+      {data &&
+        data.filter((item: ItemType) => {
+          return dayjs(item.lastModified).isBefore(
+            dayjs().subtract(1, "month")
+          );
+        }).length === 0 && (
+          <Box
+            sx={{
+              p: 3,
+              mt: 2,
+              background: "rgba(200,200,200,.3)",
+              borderRadius: 5,
+            }}
+          >
+            You don&apos;t have any old items in this room.
+          </Box>
+        )}
       {data && (
         <>
-          {data.map((item: ItemType) => (
-            <Item data={item} />
-          ))}
+          {data
+            .filter((item: ItemType) => {
+              return dayjs(item.lastModified).isBefore(
+                dayjs().subtract(1, "month")
+              );
+            })
+            .map((item: ItemType) => (
+              <Item data={item} />
+            ))}
         </>
       )}
     </>
