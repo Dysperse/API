@@ -14,7 +14,13 @@ import ListItem from "@mui/material/ListItem";
 /**
  * Intro
  */
-function Intro({ setStep }) {
+function Intro({
+  setStep,
+  setRoom,
+}: {
+  setStep: (step: number) => void;
+  setRoom: (room: string) => void;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -57,6 +63,11 @@ function Intro({ setStep }) {
             <ListItem
               button
               key={room}
+              onClick={() => {
+                setOpen(false);
+                setRoom(room);
+                setTimeout(() => setStep(0), 500);
+              }}
               sx={{
                 mt: 1,
                 borderRadius: 3,
@@ -105,6 +116,38 @@ function Intro({ setStep }) {
   );
 }
 /**
+ * Declutter
+ */
+function Declutter({ room, setStep }) {
+  const { error, data } = useApi("/api/property/tidy/declutter", {
+    room,
+  });
+  return (
+    <>
+      <Typography variant="h6" sx={{ mb: 2 }}>
+        Items you might have excess of
+      </Typography>
+      {JSON.stringify(data)}
+      {error && (
+        <ErrorHandler
+          error={"An error occured while trying to fetch your inventory"}
+        />
+      )}
+
+      <Button
+        size="large"
+        variant="contained"
+        sx={{ borderRadius: 999, mt: 2 }}
+        onClick={() => setStep(1)}
+        disableElevation
+        fullWidth
+      >
+        Continue
+      </Button>
+    </>
+  );
+}
+/**
  * Step content
  */
 function StepContent({
@@ -127,14 +170,21 @@ export default function Maintenance() {
   const { error, data }: ApiResponse = useApi("property/maintenance/reminders");
 
   const [step, setStep] = useState<number>(-1);
+  const [room, setRoom] = useState<string>("");
 
   return (
     <Box sx={{ mb: 4 }}>
       <Header step={step} setStep={setStep} />
       <Box sx={{ p: 3 }}>
         <StepContent
-          content={<Intro setStep={setStep} />}
+          content={<Intro setRoom={setRoom} setStep={setStep} />}
           step={-1}
+          currentStep={step}
+          setCurrentStep={setStep}
+        />
+        <StepContent
+          content={<Declutter room={room} setStep={setStep} />}
+          step={0}
           currentStep={step}
           setCurrentStep={setStep}
         />
