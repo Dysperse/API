@@ -20,9 +20,7 @@ const handler = async (req, res) => {
   // Query the database for all MaintenanceReminders
   const data = await prisma.maintenanceReminder.findMany({
     where: {
-      property: {
-        id: req.query.property,
-      },
+      propertyId: req.query.property,
     },
   });
   // Return the data
