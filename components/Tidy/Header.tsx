@@ -161,20 +161,17 @@ function CreateModal() {
               zIndex: 999,
               top: 0,
               borderRadius: 999,
-              width: "100",
             }}
             activeStep={step}
             connector={<QontoConnector />}
+            alternativeLabel
           >
             {["Details", "Repeat"].map((label) => (
               <Step key={label}>
-                <StepLabel StepIconComponent={QontoStepIcon}></StepLabel>
+                <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
               </Step>
             ))}
           </Stepper>
-          <Typography variant="h6" align="left" sx={{ ml: 2, mt: 2 }}>
-            {step === 0 ? "Create new reminder" : "When should it repeat?"}
-          </Typography>
 
           <form onSubmit={formik.handleSubmit}>
             <div className="embla" ref={emblaRef} style={{ height: "auto" }}>
@@ -280,9 +277,9 @@ function CreateModal() {
                     size="large"
                     sx={{ mt: 2, borderRadius: 99 }}
                     type="button"
-                    onClick={moveNext}
+                    onClick={() => formik.handleSubmit()}
                   >
-                    Next
+                    Create
                   </Button>
                 </Box>
               </div>
