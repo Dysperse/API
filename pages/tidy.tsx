@@ -117,6 +117,30 @@ function Intro({
     </>
   );
 }
+
+function OldItems({ room }: { room: string }) {
+  const { data, error } = useApi("property/inventory/list", {
+    room: room.toLowerCase(),
+  });
+
+  return (
+    <>
+      {error && (
+        <ErrorHandler
+          error={"Couldn't fetch your inventory. Please try again later"}
+        />
+      )}
+      {data && (
+        <>
+          {data.map((item: ItemType) => (
+            <Item data={item} />
+          ))}
+        </>
+      )}
+    </>
+  );
+}
+
 /**
  * Declutter
  */
@@ -150,13 +174,15 @@ function Declutter({ room, setStep }) {
       )}
 
       <Typography variant="h6" sx={{ my: 2, mt: 5 }}>
-        Items you haven&apos;t edited in a while
+        Old items you haven&apos;t edited in a while
       </Typography>
       {room === "Kitchen" && (
         <Typography variant="body1" sx={{ mt: -1 }}>
           Check for expiration dates!
         </Typography>
       )}
+
+      <OldItems room={room} />
 
       <Button
         size="large"
