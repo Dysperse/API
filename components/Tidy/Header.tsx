@@ -31,17 +31,19 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: colors[themeColor ?? "brown"][500],
+      borderColor: colors[themeColor ?? "brown"][900],
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: colors[themeColor ?? "brown"][500],
+      borderColor: colors[themeColor ?? "brown"][900],
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
     borderColor:
-      theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
+      theme.palette.mode === "dark"
+        ? theme.palette.grey[800]
+        : colors[themeColor][100],
     borderTopWidth: 3,
     borderRadius: 1,
   },
@@ -49,15 +51,18 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
 
 const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
   ({ theme, ownerState }) => ({
-    color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",
+    color:
+      theme.palette.mode === "dark"
+        ? theme.palette.grey[700]
+        : colors[themeColor][200],
     display: "flex",
     height: 22,
     alignItems: "center",
     ...(ownerState.active && {
-      color: colors[themeColor ?? "brown"][500],
+      color: colors[themeColor ?? "brown"][900],
     }),
     "& .QontoStepIcon-completedIcon": {
-      color: colors[themeColor ?? "brown"][500],
+      color: colors[themeColor ?? "brown"][900],
       zIndex: 1,
       fontSize: 18,
     },
@@ -80,7 +85,7 @@ function QontoStepIcon(props: StepIconProps) {
         <span
           className="material-symbols-rounded"
           style={{
-            color: colors[themeColor ?? "brown"][500],
+            color: colors[themeColor ?? "brown"][900],
           }}
         >
           check
@@ -149,10 +154,8 @@ function CreateModal() {
       >
         <Puller />
         <Box sx={{ p: 3, mt: 3 }}>
-          <Typography variant="h6">Create new reminder</Typography>
           <Stepper
             sx={{
-              p: 1,
               position: "sticky",
               backdropFilter: "blur(20px)",
               zIndex: 999,
@@ -169,6 +172,10 @@ function CreateModal() {
               </Step>
             ))}
           </Stepper>
+          <Typography variant="h6" align="left" sx={{ ml: 2, mt: 2 }}>
+            Create new reminder
+          </Typography>
+
           <form onSubmit={formik.handleSubmit}>
             <div className="embla" ref={emblaRef} style={{ height: "auto" }}>
               <div className="embla__container" style={{ height: "auto" }}>
