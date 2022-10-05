@@ -173,7 +173,7 @@ function CreateModal() {
             ))}
           </Stepper>
           <Typography variant="h6" align="left" sx={{ ml: 2, mt: 2 }}>
-            Create new reminder
+            {step === 0 ? "Create new reminder" : "When should it repeat?"}
           </Typography>
 
           <form onSubmit={formik.handleSubmit}>
