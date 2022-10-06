@@ -22,6 +22,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import AutoHeight from "embla-carousel-auto-height";
 import { Select } from "@mui/material";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -117,7 +118,13 @@ function CreateModal() {
       on: "friday",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
+      fetchApiWithoutHook("property/tidy/create", {
+        name: values.name,
+        frequency: values.repeat,
+        on: values.on,
+        lastDone: new Date().toISOString(),
+      });
     },
   });
 
@@ -155,18 +162,11 @@ function CreateModal() {
         <Puller />
         <Box sx={{ p: 3, mt: 3 }}>
           <Stepper
-            sx={{
-              position: "sticky",
-              backdropFilter: "blur(20px)",
-              zIndex: 999,
-              top: 0,
-              borderRadius: 999,
-            }}
             activeStep={step}
             connector={<QontoConnector />}
             alternativeLabel
           >
-            {["Details", "Repeat"].map((label) => (
+            {["Details", "Frequency"].map((label) => (
               <Step key={label}>
                 <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
               </Step>
@@ -219,13 +219,8 @@ function CreateModal() {
                       name="repeat"
                     >
                       <MenuItem value="weekly">weekly</MenuItem>
-                      <MenuItem value="every other week">
-                        every other week
-                      </MenuItem>
                       <MenuItem value="monthly">monthly</MenuItem>
-                      <MenuItem value="every other month">
-                        every other month
-                      </MenuItem>
+                      <MenuItem value="every 6 months">every 6 months</MenuItem>
                       <MenuItem value="yearly">yearly</MenuItem>
                     </Select>{" "}
                     {formik.values.repeat === "monthly" ? "on the" : "on"}{" "}
@@ -239,8 +234,8 @@ function CreateModal() {
                       name="on"
                     >
                       {(formik.values.repeat === "monthly" ||
-                      formik.values.repeat === "every other month"
-                        ? ["first week", "last week"]
+                      formik.values.repeat === "every 6 months"
+                        ? ["the first week", "the last week"]
                         : formik.values.repeat === "yearly"
                         ? [
                             "January",

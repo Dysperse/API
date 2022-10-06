@@ -1,6 +1,7 @@
 import { prisma } from "../../../../lib/client";
+import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-
+import type { Item } from "@prisma/client";
 /**
  * API handler
  * @param {any} req
@@ -16,13 +17,22 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  // Query the database for all MaintenanceReminders
-  const data = await prisma.maintenanceReminder.findMany({
-    where: {
-      propertyId: req.query.property,
+
+  //   Create maintenance reminder
+  const data = await prisma.maintenanceReminder.create({
+    data: {
+      name: req.query.name,
+      note: "",
+      frequency: req.query.frequency,
+      on: req.query.on,
+      lastDone: new Date(req.query.lastDone),
+      property: {
+        connect: {
+          id: req.query.property,
+        },
+      },
     },
   });
-  // Return the data
   res.json(data);
 };
 

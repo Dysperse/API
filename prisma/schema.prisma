@@ -110,9 +110,10 @@ model MaintenanceReminder {
   name      String
   note      String?
   frequency String
+  on        String
   lastDone  DateTime
 
-  Property   Property? @relation(fields: [propertyId], references: [id])
+  property   Property? @relation(fields: [propertyId], references: [id])
   propertyId String?
 }
 

@@ -1,14 +1,13 @@
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
-import { useState } from "react";
+import Typography from "@mui/material/Typography";
+import { MaintenanceReminder } from "@prisma/client";
 import { ErrorHandler } from "../components/ErrorHandler";
 import { Header } from "../components/Tidy/Header";
 import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
-import { MaintenanceReminder } from "@prisma/client";
-import Typography from "@mui/material/Typography";
 
 function Reminder({ data }: { data: MaintenanceReminder }) {
   return (

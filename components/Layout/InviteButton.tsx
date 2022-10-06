@@ -677,6 +677,7 @@ export function InviteButton() {
           justifyContent: { sm: "start" },
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
             boxShadow: "none!important",
             position: { sm: "static!important" },
