@@ -324,7 +324,7 @@ function Render({
           name="viewport"
           content="width=device-width,initial-scale=1,user-scalable=no"
         />
-        <title>Carbon: Your new home organizer</title>
+        <title>Carbon: Next-gen personal home inventory</title>
       </Head>
       <ThemeProvider theme={userTheme}>
         <Box
