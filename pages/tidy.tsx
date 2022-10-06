@@ -76,13 +76,15 @@ function Reminder({ data }: { data: MaintenanceReminder }) {
               {data.frequency}
             </span>{" "}
             on {data.on}
-            <LinearProgress
-              variant="determinate"
-              value={percent}
-              sx={{ mt: 2, borderRadius: 5, height: 9 }}
-            />
           </Typography>
-          {daysLeft} day{daysLeft !== 1 && "s"} remaining
+          <Typography variant="body2" color="text.secondary">
+            {daysLeft} day{daysLeft !== 1 && "s"} remaining
+          </Typography>
+          <LinearProgress
+            variant="determinate"
+            value={percent}
+            sx={{ mt: 2, borderRadius: 5, height: 9 }}
+          />
         </CardContent>
       </CardActionArea>
     </Card>
