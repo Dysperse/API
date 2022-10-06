@@ -81,14 +81,8 @@ function Reminder({ data }: { data: MaintenanceReminder }) {
               value={percent}
               sx={{ mt: 2, borderRadius: 5, height: 9 }}
             />
-            <Button
-              onClick={() => {
-                alert(daysLeft);
-              }}
-            >
-              Button
-            </Button>
           </Typography>
+          {daysLeft} day{daysLeft !== 1 && "s"} remaining
         </CardContent>
       </CardActionArea>
     </Card>
