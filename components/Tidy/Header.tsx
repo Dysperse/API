@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
+import LoadingButton from "@mui/lab/LoadingButton";
 import IconButton from "@mui/material/IconButton";
 import { colors } from "../../lib/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -13,6 +14,7 @@ import { useFormik } from "formik";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
+import { mutate } from "swr";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
@@ -118,15 +120,26 @@ function CreateModal() {
       on: "friday",
     },
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
+      setLoading(true);
       fetchApiWithoutHook("property/tidy/create", {
         name: values.name,
         frequency: values.repeat,
         on: values.on,
         lastDone: new Date().toISOString(),
+      }).then((res) => {
+        setLoading(false);
+        setOpen(false);
+        mutate(
+          "/api/property/tidy/reminders/?" +
+            new URLSearchParams({
+              property: global.property.propertyId,
+              accessToken: global.property.accessToken,
+            })
+        );
       });
     },
   });
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
@@ -192,6 +205,7 @@ function CreateModal() {
                     disabled={emblaApi?.selectedScrollSnap() !== 0}
                     variant="filled"
                     name="name"
+                    onChange={formik.handleChange}
                     autoComplete="off"
                   />
                   <Button
@@ -265,7 +279,8 @@ function CreateModal() {
                       ))}
                     </Select>
                   </Typography>
-                  <Button
+                  <LoadingButton
+                    loading={loading}
                     variant="contained"
                     fullWidth
                     disableElevation
@@ -275,7 +290,7 @@ function CreateModal() {
                     onClick={() => formik.handleSubmit()}
                   >
                     Create
-                  </Button>
+                  </LoadingButton>
                 </Box>
               </div>
             </div>
