@@ -370,9 +370,8 @@ export default function Item({
                         background: `${
                           global.user.darkMode
                             ? "hsl(240, 11%, 24%)"
-                            : colors[themeColor][100]
+                            : colors[themeColor][50]
                         }!important`,
-                        p: 2,
                         fontWeight: "600",
                         fontSize: "20px",
                         textDecoration: "underline",
