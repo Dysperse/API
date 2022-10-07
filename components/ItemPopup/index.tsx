@@ -34,7 +34,7 @@ import { useApi } from "../../hooks/useApi";
  */
 function CategoryModal() {
   const [open, setOpen] = useState(false);
-  const {data, error} = useApi("/api/property/inventory/categories");
+  const { data, error } = useApi("property/inventory/categories");
 
   return (
     <>
@@ -46,7 +46,7 @@ function CategoryModal() {
         disableSwipeToOpen
       >
         <Puller />
-        <Box sx={{ p: 2 }}></Box>
+        <Box sx={{ p: 2 }}>{data && JSON.stringify(data)}</Box>
       </SwipeableDrawer>
       <Chip
         key={Math.random().toString()}
