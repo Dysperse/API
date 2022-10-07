@@ -5,7 +5,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthCode from "react-auth-code-input";
 import Link from "next/link";
 import Button from "@mui/material/Button";
@@ -13,6 +13,7 @@ import { useSWRConfig } from "swr";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { Layout } from "./Layout";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 /**
  * Login prompt
@@ -23,6 +24,12 @@ export default function Prompt() {
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
   const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
+
+  useEffect(() => {
+    twoFactorModalOpen
+      ? neutralizeBack(() => setTwoFactorModalOpen(false))
+      : revivalBack();
+  }, [twoFactorModalOpen]);
 
   const formik = useFormik({
     initialValues: {

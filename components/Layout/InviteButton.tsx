@@ -77,6 +77,10 @@ function EditProperty({
     updateSettings("name", target.value, false, null, true);
   };
 
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
+
   return (
     <SwipeableDrawer
       anchor="right"
@@ -304,6 +308,10 @@ function House({
           : colors[themeColor][50]
       );
   }, [open]);
+
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   return (
     <>
       <ListItem

@@ -22,6 +22,7 @@ import { ErrorHandler } from "../components/ErrorHandler";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
+import { neutralizeBack, revivalBack } from "../components/history-control";
 
 /**
  * Color picker for note modal
@@ -30,6 +31,10 @@ import type { ApiResponse } from "../types/client";
  */
 function ColorModal({ formik }): JSX.Element {
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
+
   return (
     <>
       <SwipeableDrawer
@@ -193,6 +198,9 @@ function NoteModal({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, content]);
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   return (
     <SwipeableDrawer
       anchor="bottom"

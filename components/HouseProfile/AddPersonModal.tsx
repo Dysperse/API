@@ -15,12 +15,16 @@ import { colors } from "../../lib/colors";
 import { Prompt } from "../Auth/twoFactorPrompt";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 function LinkToken({ color }) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [token, setToken] = React.useState("");
   const url = `https://${window.location.hostname}/invite/${token}`;
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   return (
     <>
@@ -141,6 +145,10 @@ export function AddPersonModal({
   const handleChange = (event: SelectChangeEvent) => {
     setpermission(event.target.value as string);
   };
+
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   return (
     <>

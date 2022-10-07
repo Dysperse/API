@@ -9,13 +9,14 @@ import Link from "next/link";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import AuthCode from "react-auth-code-input";
 
 import { useSWRConfig } from "swr";
 import { Layout } from "../components/Auth/Layout";
 import { Puller } from "../components/Puller";
+import { neutralizeBack, revivalBack } from "../components/history-control";
 
 /**
  * Top-level component for the signup page.
@@ -28,6 +29,11 @@ export default function Prompt() {
   const [buttonLoading, setButtonLoading] = useState(false);
   const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
   const [otpCode, setOtpCode] = useState<any>("");
+  useEffect(() => {
+    twoFactorModalOpen
+      ? neutralizeBack(() => setTwoFactorModalOpen(false))
+      : revivalBack();
+  });
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -68,6 +74,7 @@ export default function Prompt() {
   document
     .querySelector(`meta[name="theme-color"]`)
     ?.setAttribute("content", window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b");
+
   return (
     <Layout>
       <Box

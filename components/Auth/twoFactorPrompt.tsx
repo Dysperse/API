@@ -3,10 +3,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import React, { useState } from "react";
 import AuthCode from "react-auth-code-input";
+import toast from "react-hot-toast";
 import { colors } from "../../lib/colors";
+import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 
 /**
@@ -64,6 +65,9 @@ export function Prompt({
     setOpen(false);
     callback();
   };
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   return (
     <SwipeableDrawer

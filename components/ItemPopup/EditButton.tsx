@@ -13,6 +13,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import type { Item } from "@prisma/client";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 /**
  * Description
@@ -85,6 +86,9 @@ export function EditButton({
       });
       handleClose();
     },
+  });
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
   return (

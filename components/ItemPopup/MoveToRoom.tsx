@@ -9,11 +9,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
+import { neutralizeBack, revivalBack } from "../history-control";
 
 /**
  * @description A room
@@ -89,7 +90,9 @@ function Room({
 export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open, 1);
-
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   return (
     <>
       <SwipeableDrawer

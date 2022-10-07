@@ -14,6 +14,7 @@ import { colors } from "../../../lib/colors";
 import type { ApiResponse } from "../../../types/client";
 import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
+import { neutralizeBack, revivalBack } from "../../history-control";
 
 /**
  * Icon function
@@ -263,6 +264,9 @@ export function SearchPopup() {
       return pgs;
     });
   }, []);
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   return (
     <>

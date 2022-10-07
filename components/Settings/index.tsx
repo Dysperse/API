@@ -140,7 +140,9 @@ function SettingsMenu({
 }) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open, 1);
-
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
   return (
     <>
       <ListItem
@@ -287,6 +289,7 @@ export default function FullScreenDialog({
     e.preventDefault();
     document.getElementById("settingsTrigger")?.click();
   });
+
   return (
     <div>
       <Box id="settingsTrigger" onClick={handleClickOpen}>
