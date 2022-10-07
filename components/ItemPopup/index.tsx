@@ -27,7 +27,45 @@ import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
+import { useApi } from "../../hooks/useApi";
 
+/**
+ * Category modal
+ */
+function CategoryModal() {
+  const [open, setOpen] = useState(false);
+  const {data, error} = useApi("/api/property/inventory/categories");
+
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+      >
+        <Puller />
+        <Box sx={{ p: 2 }}></Box>
+      </SwipeableDrawer>
+      <Chip
+        key={Math.random().toString()}
+        label={"+"}
+        onClick={() => {
+          setOpen(true);
+        }}
+        sx={{
+          px: 1.5,
+          mr: 1,
+          mb: 2.5,
+          mt: -0.5,
+          background: "rgba(0,0,0,.2)!important",
+          textTransform: "capitalize",
+        }}
+      />
+    </>
+  );
+}
 /**
  * Item popup
  * @param {boolean} displayRoom - Display the room name?
@@ -354,7 +392,7 @@ export default function Item({
               >
                 <Box sx={{ width: "100%" }}>
                   <TextField
-                    value={item.name || "(no title)"}
+                    defaultValue={item.name || "(no title)"}
                     sx={{
                       mb: 2,
                     }}
@@ -373,7 +411,7 @@ export default function Item({
                             : colors[themeColor][50]
                         }!important`,
                         fontWeight: "600",
-                        fontSize: "20px",
+                        fontSize: "25px",
                         textDecoration: "underline",
                         textAlign: "right!important",
                         borderRadius: "15px",
@@ -386,7 +424,6 @@ export default function Item({
                       (category: string) => {
                         return (
                           <Chip
-                            size="small"
                             key={Math.random().toString()}
                             label={category}
                             onClick={() => {
@@ -404,6 +441,8 @@ export default function Item({
                         );
                       }
                     )}
+
+                    <CategoryModal />
                   </div>
 
                   <Box
@@ -419,18 +458,19 @@ export default function Item({
                       sx={{
                         my: 1,
                         mb: 2,
-                        fontWeight: "300",
+                        fontWeight: "500",
                       }}
                     >
                       Quantity
                     </Typography>
                     <Box sx={{ ml: "auto" }}>
                       <TextField
-                        value={item.quantity}
+                        defaultValue={item.quantity}
                         variant="standard"
                         onChange={(e) => {
                           // alert(e.target.value);
                         }}
+                        placeholder="0"
                         multiline
                         fullWidth
                         InputProps={{
@@ -442,6 +482,7 @@ export default function Item({
                                 : colors[themeColor][100]
                             }!important`,
                             p: 2,
+                            py: 1,
                             textAlign: "right!important",
                             maxWidth: "100px",
                             borderRadius: "15px",
@@ -625,7 +666,7 @@ export default function Item({
                     {item.name.length > 18 && "..."}
                   </Typography>
                   <div className="override">
-                    {[item.room, ...JSON.parse(item.category)].map(
+                    {[, ...JSON.parse(item.category)].map(
                       (category: string) => {
                         return (
                           <Chip
