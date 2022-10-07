@@ -563,7 +563,11 @@ export default function Item({
               {variant === "list" && (
                 <Chip
                   key={Math.random().toString()}
-                  sx={{ pointerEvents: "none", m: 0.25 }}
+                  sx={{
+                    pointerEvents: "none",
+                    m: 0.25,
+                    textTransform: "capitalize",
+                  }}
                   label={data.room}
                 />
               )}
