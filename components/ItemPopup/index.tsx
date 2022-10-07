@@ -316,7 +316,7 @@ export default function Item({
             flexGrow: 1,
             height: "100%",
             position: "relative",
-            borderRadius: "28px 28px 0 0",
+            borderRadius: "20px 20px 0 0",
             overflowY: "scroll!important",
             background: `${colors[themeColor][50]}!important`,
             ...(global.user.darkMode && {
@@ -353,24 +353,41 @@ export default function Item({
                 }}
               >
                 <Box sx={{ width: "100%" }}>
-                  <Typography variant="h3" sx={{ fontWeight: "600" }}>
-                    {item.name || "(no title)"}
-                  </Typography>
-                  <Typography
-                    variant="h6"
+                  <TextField
+                    value={item.name || "(no title)"}
                     sx={{
-                      my: 1,
                       mb: 2,
-                      fontWeight: "300",
                     }}
-                  >
-                    Quantity: {item.quantity || "(no quantity)"}
-                  </Typography>
+                    variant="standard"
+                    onChange={(e) => {
+                      // alert(e.target.value);
+                    }}
+                    multiline
+                    fullWidth
+                    InputProps={{
+                      disableUnderline: true,
+                      sx: {
+                        background: `${
+                          global.user.darkMode
+                            ? "hsl(240, 11%, 24%)"
+                            : colors[themeColor][100]
+                        }!important`,
+                        p: 2,
+                        fontWeight: "600",
+                        fontSize: "20px",
+                        textDecoration: "underline",
+                        textAlign: "right!important",
+                        borderRadius: "15px",
+                        display: "block",
+                      },
+                    }}
+                  />
                   <div>
                     {[item.room, ...JSON.parse(item.category)].map(
                       (category: string) => {
                         return (
                           <Chip
+                            size="small"
                             key={Math.random().toString()}
                             label={category}
                             onClick={() => {
@@ -378,7 +395,7 @@ export default function Item({
                               setDrawerState(false);
                             }}
                             sx={{
-                              px: 2,
+                              px: 1.5,
                               mr: 1,
                               mb: 2.5,
                               mt: -0.5,
@@ -389,6 +406,52 @@ export default function Item({
                       }
                     )}
                   </div>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 3,
+                      mb: 2,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        my: 1,
+                        mb: 2,
+                        fontWeight: "300",
+                      }}
+                    >
+                      Quantity
+                    </Typography>
+                    <Box sx={{ ml: "auto" }}>
+                      <TextField
+                        value={item.quantity}
+                        variant="standard"
+                        onChange={(e) => {
+                          // alert(e.target.value);
+                        }}
+                        multiline
+                        fullWidth
+                        InputProps={{
+                          disableUnderline: true,
+                          sx: {
+                            background: `${
+                              global.user.darkMode
+                                ? "hsl(240, 11%, 24%)"
+                                : colors[themeColor][100]
+                            }!important`,
+                            p: 2,
+                            textAlign: "right!important",
+                            maxWidth: "100px",
+                            borderRadius: "15px",
+                            display: "block",
+                          },
+                        }}
+                      />
+                    </Box>
+                  </Box>
                   <TextField
                     multiline
                     fullWidth
@@ -509,19 +572,22 @@ export default function Item({
             width: "100%",
             maxWidth: "calc(100vw - 32.5px)",
             borderRadius: 5,
-            background: `${
-              global.user.darkMode
-                ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.25)"
-            }!important`,
+            background: {
+              xs: "transparent",
+              sm: `${
+                global.user.darkMode
+                  ? "hsl(240, 11%, 17%)"
+                  : "rgba(200,200,200,.25)"
+              }!important`,
+            },
             transition: "transform .2s",
             border: "2px solid transparent",
             ...(item.starred && {
               background: colors.orange["50"],
               borderColor: colors.orange[global.user.darkMode ? 50 : 300],
             }),
-            "& *:not(.MuiTouchRipple-root *)": {
-              background: "transparent!important",
+            "& *:not(.MuiTouchRipple-root *, .override *)": {
+              background: "transparent",
             },
           }}
           onClick={() => setDrawerState(true)}
@@ -541,48 +607,54 @@ export default function Item({
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Typography
-                variant="h6"
+              <Box
                 sx={{
-                  display: "block",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                {item.name.substring(0, 18) || "(no title)"}
-                {item.name.length > 18 && "..."}
-              </Typography>
-
-              <Typography variant="body1">
-                {!item.quantity ||
-                  (!item.quantity.includes(" ") && "Quantity: ")}
-                {displayRoom
-                  ? data.room
-                  : item.quantity.substring(0, 18) || "No quantity specified"}
-                {!displayRoom && item.quantity.length > 18 && "..."}
-              </Typography>
-
-              {variant === "list" && (
-                <Chip
-                  key={Math.random().toString()}
-                  sx={{
-                    pointerEvents: "none",
-                    m: 0.25,
-                    textTransform: "capitalize",
-                  }}
-                  label={data.room}
-                />
-              )}
-              {!displayRoom &&
-                JSON.parse(item.category).map((category: string) => {
-                  if (category.trim() === "") return false;
-                  return (
-                    <Chip
-                      key={Math.random().toString()}
-                      sx={{ pointerEvents: "none", m: 0.25 }}
-                      label={category}
-                    />
-                  );
-                })}
-              <Box sx={{ mb: 0.5 }} />
+                <Box>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{
+                      display: "block",
+                    }}
+                  >
+                    {item.name.substring(0, 18) || "(no title)"}
+                    {item.name.length > 18 && "..."}
+                  </Typography>
+                  <div className="override">
+                    {[item.room, ...JSON.parse(item.category)].map(
+                      (category: string) => {
+                        return (
+                          <Chip
+                            size="small"
+                            key={Math.random().toString()}
+                            label={category}
+                            sx={{
+                              px: 1.5,
+                              mr: 1,
+                              mb: 2.5,
+                              mt: -0.5,
+                              textTransform: "capitalize",
+                            }}
+                          />
+                        );
+                      }
+                    )}
+                  </div>
+                </Box>
+                <Typography variant="body1" sx={{ ml: "auto" }}>
+                  {!item.quantity ||
+                    (!item.quantity.includes(" ") && "Quantity: ")}
+                  {displayRoom
+                    ? data.room
+                    : item.quantity.substring(0, 18) || ""}
+                  {!displayRoom && item.quantity.length > 18 && "..."}
+                </Typography>
+              </Box>
             </CardContent>
           </CardActionArea>
         </Card>
