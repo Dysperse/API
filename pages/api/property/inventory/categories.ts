@@ -21,6 +21,7 @@ const handler = async (req, res) => {
   const data = await prisma.item.findMany({
     where: {
       room: req.query.room,
+      trash: false,
       property: {
         id: req.query.property,
       },

@@ -6,18 +6,21 @@ import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Collapse from "@mui/material/Collapse";
 import Grid from "@mui/material/Grid";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import type { Item as ItemType } from "@prisma/client";
+import BoringAvatar from "boring-avatars";
 import dayjs from "dayjs";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
@@ -27,12 +30,11 @@ import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
-import { useApi } from "../../hooks/useApi";
 
 /**
  * Category modal
  */
-function CategoryModal() {
+function CategoryModal({ item }: { item: ItemType }) {
   const [open, setOpen] = useState(false);
   const { data, error } = useApi("property/inventory/categories");
 
@@ -44,9 +46,78 @@ function CategoryModal() {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            background: colors[themeColor][50],
+            borderRadius: "20px 20px 0 0",
+          },
+        }}
       >
         <Puller />
-        <Box sx={{ p: 2 }}>{data && JSON.stringify(data)}</Box>
+        <Box sx={{ p: 2, mt: 2, maxHeight: "60vh", overflowY: "auto" }}>
+          {data && data.length === 0 && (
+            <Box
+              sx={{
+                p: 2,
+                background: "rgba(200,200,200,.3)",
+                borderRadius: 5,
+              }}
+            >
+              You don&apos;t have any categories yet.
+            </Box>
+          )}
+          {data &&
+            data.map((category) => (
+              <ListItem
+                button
+                key={category}
+                sx={{ gap: 2, borderRadius: 999 }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    position: "relative",
+                  }}
+                >
+                  {JSON.parse(item.category).includes(category) && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        mt: 0.5,
+                        color: "#fff",
+                        transform: "translate(-50%,-50%)",
+                        zIndex: 9999,
+                      }}
+                    >
+                      <span className="material-symbols-rounded">check</span>
+                    </Box>
+                  )}
+                  <BoringAvatar name={category} size={30} />
+                </Box>
+                <ListItemText
+                  primary={category}
+                  sx={{
+                    "& *": { fontWeight: "600" },
+                  }}
+                />
+              </ListItem>
+            ))}
+          <Button
+            disableElevation
+            size="large"
+            variant="contained"
+            sx={{
+              mt: 2,
+              width: "100%",
+              borderRadius: 999,
+            }}
+          >
+            Create
+          </Button>
+        </Box>
       </SwipeableDrawer>
       <Chip
         key={Math.random().toString()}
@@ -443,7 +514,7 @@ export default function Item({
                       }
                     )}
 
-                    <CategoryModal />
+                    <CategoryModal item={item} />
                   </div>
 
                   <Box
