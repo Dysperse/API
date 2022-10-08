@@ -116,12 +116,11 @@
     border: none;
     width: 100%;
     font-size: 17px;
+    margin-top: -40px;
     padding: 8px 8px 16px 8px;
     outline: none;
     background: var(--bg);
     color: var(--gray12);
-    // border-bottom: 1px solid var(--gray6);
-    // margin-bottom: 16px;
     border-radius: 0;
 
     &::placeholder {
