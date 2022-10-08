@@ -318,31 +318,13 @@ export default function FullScreenDialog({
       >
         <Box sx={{ height: "100vh", overflow: "scroll" }}>
           <Puller />
-          <Box sx={{ position: "absolute", top: 0, left: 0, p: 3 }}>
-            <IconButton
-              edge="end"
-              color="inherit"
-              onClick={() => setOpen(false)}
-              aria-label="close"
-              sx={{
-                ml: -0.5,
-                background: colors[themeColor][50],
-                zIndex: 1,
-                ...(global.user.darkMode && {
-                  background: "hsl(240, 11%, 25%)",
-                }),
-              }}
-            >
-              <span className="material-symbols-rounded">close</span>{" "}
-            </IconButton>
-          </Box>
           <Box sx={{ px: 5 }}>
             <Typography
               sx={{
                 flex: 1,
                 fontWeight: "900",
                 mb: 1,
-                mt: 13,
+                mt: 10,
               }}
               variant="h5"
               component="div"
