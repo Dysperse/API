@@ -173,7 +173,7 @@ function CreateModal() {
         }}
       >
         <Puller />
-        <Box sx={{ p: 3, mt: 3 }}>
+        <Box sx={{ p: 3, pt: 0 }}>
           <Stepper
             activeStep={step}
             connector={<QontoConnector />}

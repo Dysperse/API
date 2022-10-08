@@ -97,13 +97,13 @@
   [cmdk-root] {
     width: 100%;
     padding: 18px;
+    padding-top: 0;
     padding-bottom: 0;
     background: transparent;
     overflow: hidden;
     font-family: var(--font-sans);
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
-    box-shadow: var(--cmdk-shadow);
     transition: transform 100ms ease;
 
     .dark & {

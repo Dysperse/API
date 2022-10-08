@@ -163,9 +163,7 @@ function MoreRooms(): JSX.Element {
         onClose={() => setOpen(false)}
       >
         <Puller />
-        <DialogTitle sx={{ mt: 2, textAlign: "center" }}>
-          Other rooms
-        </DialogTitle>
+        <DialogTitle sx={{ textAlign: "center" }}>Other rooms</DialogTitle>
         <Box sx={{ height: "100%", overflow: "scroll" }}>
           {!data ? (
             <Grid container sx={{ p: 2 }}>
@@ -440,9 +438,7 @@ export default function AddPopup({
           keepMounted: true,
         }}
       >
-        <Box sx={{ pb: 4 }}>
-          <Puller />
-        </Box>
+        <Puller />
         <Box
           sx={{
             maxHeight: "70vh",
