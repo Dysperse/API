@@ -25,9 +25,9 @@ export default function Dashboard() {
   };
   const activeTabStyles = {
     background: `${"linear-gradient(45deg, "}${
-      global.user.darkMode ? "hsl(240, 11%, 60%)" : colors[themeColor][700]
+      global.user.darkMode ? "hsl(240, 11%, 60%)" : colors[themeColor][800]
     }  0%, ${
-      global.user.darkMode ? "hsl(240, 11%, 30%)" : colors[themeColor][500]
+      global.user.darkMode ? "hsl(240, 11%, 30%)" : colors[themeColor][900]
     } 100%)`,
     color: "#fff",
   };
