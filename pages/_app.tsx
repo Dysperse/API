@@ -473,7 +473,7 @@ function RenderApp({
           >
             <picture>
               <img
-                src="https://ouch-cdn2.icons8.com/Bh6aoLoD1Gekl7Hw6fjn3oyLfFtjucGDN0kAdxuxVOA/rs:fit:256:235/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMTAz/LzkyZTI5ODc5LTQw/NjQtNDBkOC1iYzE3/LTQzZTM3YWNkYTJi/Yi5zdmc.png"
+                src="https://i.ibb.co/1GnBXX4/image.png"
                 alt="An error occured"
               />
               <Typography variant="h5" sx={{ textAlign: "center" }}>
