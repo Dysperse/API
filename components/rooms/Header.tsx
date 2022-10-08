@@ -80,6 +80,7 @@ export function Header({
             <Typography
               sx={{
                 fontWeight: "900",
+                textDecoration: "underline",
                 fontSize: {
                   xs: "25px",
                   md: "35px",

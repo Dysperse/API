@@ -178,6 +178,7 @@ export default function Item({
     });
 
     handleClose();
+    setDrawerState(false);
 
     toast.success((t) => (
       <span>
@@ -468,10 +469,12 @@ export default function Item({
                         defaultValue={item.quantity}
                         variant="standard"
                         onChange={(e) => {
-                          // alert(e.target.value);
+                          setItemData({
+                            ...item,
+                            quantity: e.target.value,
+                          });
                         }}
                         placeholder="0"
-                        multiline
                         fullWidth
                         InputProps={{
                           disableUnderline: true,
@@ -484,7 +487,7 @@ export default function Item({
                             p: 2,
                             py: 1,
                             textAlign: "right!important",
-                            maxWidth: "100px",
+                            maxWidth: "150px",
                             borderRadius: "15px",
                             display: "block",
                           },
@@ -619,12 +622,12 @@ export default function Item({
             }!important`,
 
             transition: "transform .2s",
-            border: "2px solid transparent",
+            border: "0px solid transparent",
 
             mb: { xs: 2, sm: 0 },
             ...(item.starred && {
-              background: colors.orange["50"],
-              borderColor: colors.orange[global.user.darkMode ? 50 : 300],
+              borderWidth: "2px",
+              borderColor: colors.orange[global.user.darkMode ? 50 : 700],
             }),
             "& *:not(.MuiTouchRipple-root *, .override *)": {
               background: "transparent",
@@ -687,12 +690,11 @@ export default function Item({
                   </div>
                 </Box>
                 <Typography variant="body1" sx={{ ml: "auto" }}>
-                  {!item.quantity ||
-                    (!item.quantity.includes(" ") && "Quantity: ")}
                   {displayRoom
                     ? data.room
                     : item.quantity.substring(0, 18) || ""}
                   {!displayRoom && item.quantity.length > 18 && "..."}
+                  {!item.quantity || (!item.quantity.includes(" ") && " pcs.")}
                 </Typography>
               </Box>
             </CardContent>
