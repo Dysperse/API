@@ -40,9 +40,9 @@ img {
   background-color: rgba(0, 0, 0, 0.25) !important;
 }
 @supports (backdrop-filter: blur(5px)) {
-  .MuiBackdrop-root {
-    backdrop-filter: blur(5px);
-    background-color: var(--theme) !important;
+  .MuiBackdrop-root:not(.override-bg) {
+    backdrop-filter: blur(2px);
+    background-color: var(--bgtheme) !important;
   }
 }
 

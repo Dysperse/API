@@ -63,24 +63,15 @@ function ElevationScroll(props) {
             : "#fff"
         );
     }
-  });
-  const badgeStyles = {
-    "& .MuiBadge-badge": {
-      transform: "none",
-      border: `2px solid ${
-        router.asPath === "/tidy" ? colors[themeColor][100] : "#fff"
-      }`,
-      width: 12,
-      height: 12,
-      borderRadius: "50%",
-    },
-    "& .active .MuiBadge-badge": {
-      borderColor: "red!important",
-    },
-    "& .MuiBadge-invisible": {
-      transform: "scale(0) translate(0px, 0px) !important",
-    },
-  };
+  }, [
+    trigger,
+    global.user.darkMode,
+    router.asPath,
+    themeColor,
+    document,
+    window,
+  ]);
+
   return React.cloneElement(children, {
     className: trigger ? "active" : "",
     sx: trigger
@@ -110,14 +101,10 @@ function ElevationScroll(props) {
             xs: 0.9,
           },
           pr: 0.4,
-          backdropFilter: "blur(20px)",
           background: {
             xs: global.user.darkMode
               ? "rgba(33,33,38)"
-              : hexToRgba(
-                  colors[themeColor][router.asPath === "/tidy" ? 800 : 50],
-                  1
-                ),
+              : colors[themeColor][router.asPath === "/tidy" ? 800 : 100],
             sm: global.user.darkMode
               ? "rgba(33,33,38)"
               : hexToRgba(colors[themeColor][50], 1),
@@ -126,12 +113,13 @@ function ElevationScroll(props) {
       : {
           "& .MuiBadge-badge": {
             transform: "none",
-            border: {
-              xs: `2px solid ${
-                colors[themeColor][router.asPath === "/tidy" ? 800 : 100]
-              }`,
-              sm: `2px solid ${colors[themeColor][50]}`,
-            },
+            border:
+              router.asPath !== "/tidy"
+                ? "2px solid #fff"
+                : {
+                    xs: `2px solid ${colors[themeColor][800]}`,
+                    sm: `2px solid #fff`,
+                  },
             width: 12,
             height: 12,
             borderRadius: "50%",
@@ -155,8 +143,8 @@ function ElevationScroll(props) {
               ? "rgba(0,0,0,0)"
               : router.asPath === "/tidy"
               ? colors[themeColor][800]
-              : "rgba(255,255,255,.5)",
-            sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.5)",
+              : "#fff",
+            sm: global.user.darkMode ? "rgba(0,0,0,0)" : "#fff",
           },
           backdropFilter: "blur(10px)",
         },

@@ -17,6 +17,7 @@ import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import hexToRgba from "hex-to-rgba";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSWRConfig } from "swr";
@@ -462,7 +463,6 @@ function House({
             height: "100vh",
             mx: "auto",
             width: { xs: "100vw", md: "80vw", sm: "50vw" },
-            borderRadius: "20px 20px 0 0",
             maxWidth: "600px",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
@@ -484,8 +484,6 @@ function House({
         <Box
           sx={{
             overflow: "scroll",
-            borderRadius: "20px 20px 0 0",
-            height: "calc(100vh - 20px)",
           }}
         >
           <Box
@@ -495,7 +493,6 @@ function House({
               height: "300px",
               position: "relative",
               color: "white",
-              borderRadius: "20px 20px 0 0",
             }}
           >
             <Box

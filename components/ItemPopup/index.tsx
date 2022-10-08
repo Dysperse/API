@@ -589,6 +589,7 @@ export default function Item({
                     </Typography>
                     <Box sx={{ ml: "auto" }}>
                       <TextField
+                        autoComplete="off"
                         defaultValue={item.quantity}
                         variant="standard"
                         id="quantity"

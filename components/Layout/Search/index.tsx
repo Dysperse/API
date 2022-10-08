@@ -328,7 +328,7 @@ export function SearchPopup() {
                 ? "hsl(240, 11%, 95%)"
                 : router.asPath === "/tidy"
                 ? "inherit"
-                : "#fff",
+                : "#000",
             },
             "&:focus-within": {
               background: `${

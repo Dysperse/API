@@ -208,7 +208,7 @@ function SettingsMenu({
         }}
       >
         <Puller />
-        <Box sx={{ maxHeight: "95vh", overflow: "scroll", pb: 10 }}>
+        <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
           <Box sx={{ position: "absolute", top: 0, left: 0, p: 3 }}>
             <IconButton
               edge="end"
@@ -227,25 +227,19 @@ function SettingsMenu({
               <span className="material-symbols-rounded">close</span>{" "}
             </IconButton>
           </Box>
-          <Typography
-            sx={{
-              textAlign: "center",
-              flex: 1,
-              fontWeight: "400",
-              mb: 2,
-              mt: 15,
-            }}
-            variant="h3"
-            component="div"
-          >
-            {primary}
-          </Typography>
-          <Typography
-            sx={{ textAlign: "center", flex: 1, fontWeight: "400", mb: 10 }}
-            component="div"
-          >
-            Account settings
-          </Typography>
+          <Box sx={{ px: 2 }}>
+            <Typography
+              sx={{
+                flex: 1,
+                fontWeight: "900",
+                mt: 15,
+              }}
+              variant="h5"
+              component="div"
+            >
+              {primary}
+            </Typography>
+          </Box>
           {content}
         </Box>
       </SwipeableDrawer>
@@ -342,25 +336,26 @@ export default function FullScreenDialog({
               <span className="material-symbols-rounded">close</span>{" "}
             </IconButton>
           </Box>
-          <Typography
-            sx={{
-              textAlign: "center",
-              flex: 1,
-              fontWeight: "400",
-              mb: 2,
-              mt: 15,
-            }}
-            variant="h3"
-            component="div"
-          >
-            Account
-          </Typography>
-          <Typography
-            sx={{ textAlign: "center", flex: 1, fontWeight: "400", mb: 10 }}
-            component="div"
-          >
-            {global.user.email}
-          </Typography>
+          <Box sx={{ px: 5 }}>
+            <Typography
+              sx={{
+                flex: 1,
+                fontWeight: "900",
+                mb: 1,
+                mt: 13,
+              }}
+              variant="h5"
+              component="div"
+            >
+              Account
+            </Typography>
+            <Typography
+              sx={{ flex: 1, fontWeight: "400", mb: 3 }}
+              component="div"
+            >
+              {global.user.name}
+            </Typography>
+          </Box>
 
           <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
             <SettingsMenu

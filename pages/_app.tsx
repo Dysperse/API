@@ -315,6 +315,10 @@ function Render({
     "--theme",
     hex2rgba(colors[themeColor ?? "brown"]["100"], 0.5)
   );
+  document.documentElement.style.setProperty(
+    "--bgtheme",
+    hex2rgba(colors[themeColor ?? "brown"]["400"], 0.3)
+  );
   document.documentElement.style.setProperty("--bg", colors[themeColor][900]);
 
   return (
