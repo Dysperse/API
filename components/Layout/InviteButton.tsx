@@ -508,7 +508,7 @@ function House({
                   mr: 0.2,
                 }}
               >
-                <span className="material-symbols-rounded">chevron_left</span>
+                <span className="material-symbols-rounded">expand_more</span>
               </IconButton>
             </Box>
             <Box
