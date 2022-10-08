@@ -15,6 +15,7 @@ import type { ApiResponse } from "../../../types/client";
 import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
 import { neutralizeBack, revivalBack } from "../../history-control";
+import { useStatusBar } from "../../../hooks/useStatusBar";
 
 /**
  * Icon function
@@ -267,6 +268,7 @@ export function SearchPopup() {
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+  useStatusBar(open);
 
   return (
     <>
@@ -276,13 +278,13 @@ export function SearchPopup() {
         sx={{
           background: global.user.darkMode
             ? "hsl(240,11%,15%)!important"
-            : `${colors[themeColor][50]}!important`,
+            : `${colors[themeColor][100]}!important`,
           transition: "none !important",
           filter: "brightness(95%)",
           "&:hover": {
             background: global.user.darkMode
               ? "hsl(240,11%,20%)!important"
-              : `${colors[themeColor][100]}!important`,
+              : `${colors[themeColor][200]}!important`,
             filter: "brightness(100%)",
           },
           width: "40vw",

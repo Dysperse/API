@@ -107,7 +107,7 @@ function ElevationScroll(props) {
               : colors[themeColor][router.asPath === "/tidy" ? 800 : 100],
             sm: global.user.darkMode
               ? "rgba(33,33,38)"
-              : hexToRgba(colors[themeColor][50], 1),
+              : hexToRgba(colors[themeColor][100], 1),
           },
         }
       : {
