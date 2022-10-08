@@ -520,7 +520,7 @@ export default function Item({
                             : colors[themeColor][50]
                         }!important`,
                         fontWeight: "600",
-                        fontSize: "25px",
+                        fontSize: "30px",
                         textDecoration: "underline",
                         textAlign: "right!important",
                         borderRadius: "15px",
