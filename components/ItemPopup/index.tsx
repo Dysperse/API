@@ -10,6 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import useEmblaCarousel from "embla-carousel-react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -232,6 +233,8 @@ export default function Item({
   const handleClose = () => {
     setContextMenu(null);
   };
+
+  const [emblaRef] = useEmblaCarousel({});
 
   useEffect(() => {
     document
@@ -739,70 +742,87 @@ export default function Item({
           }}
           onClick={() => setDrawerState(true)}
         >
-          <CardActionArea
-            sx={{
-              transition: "none!important",
-              "&:focus-within": {
-                background: "transparent!important",
-              },
-              background: "transparent!important",
-              borderRadius: 5,
-              "&:active": {
-                transition: "none",
-                boxShadow: "none!important",
-              },
-            }}
-          >
-            <CardContent sx={{ px: 3, py: 2 }}>
+          <div className="embla" ref={emblaRef}>
+            <div className="embla__container">
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  width: "100%",
                   alignItems: "center",
+                  justifyContent: "space-between",
+                  px: 2,
+                  background: colors.red[500],
                 }}
               >
-                <Box>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
+                E
+              </Box>
+              <CardActionArea
+                sx={{
+                  transition: "none!important",
+                  "&:focus-within": {
+                    background: "transparent!important",
+                  },
+                  background: "transparent!important",
+                  borderRadius: 5,
+                  "&:active": {
+                    transition: "none",
+                    boxShadow: "none!important",
+                  },
+                }}
+              >
+                <CardContent sx={{ px: 3, py: 2 }}>
+                  <Box
                     sx={{
-                      display: "block",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
                   >
-                    {item.name.substring(0, 18) || "(no title)"}
-                    {item.name.length > 18 && "..."}
-                  </Typography>
-                  <div className="override">
-                    {[item.room, ...JSON.parse(item.category)].map(
-                      (category: string) => {
-                        return (
-                          <Chip
-                            size="small"
-                            key={Math.random().toString()}
-                            label={category}
-                            sx={{
-                              pointerEvents: "none",
-                              px: 1.5,
-                              mr: 1,
-                              mb: 1,
-                              textTransform: "capitalize",
-                            }}
-                          />
-                        );
-                      }
-                    )}
-                  </div>
-                </Box>
-                <Typography variant="body1" sx={{ ml: "auto" }}>
-                  {displayRoom
-                    ? data.room
-                    : item.quantity.substring(0, 18) || ""}
-                  {!displayRoom && item.quantity.length > 18 && "..."}
-                  {!item.quantity || (!item.quantity.includes(" ") && " pcs.")}
-                </Typography>
-              </Box>
-            </CardContent>
-          </CardActionArea>
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{
+                          display: "block",
+                        }}
+                      >
+                        {item.name.substring(0, 18) || "(no title)"}
+                        {item.name.length > 18 && "..."}
+                      </Typography>
+                      <div className="override">
+                        {[item.room, ...JSON.parse(item.category)].map(
+                          (category: string) => {
+                            return (
+                              <Chip
+                                size="small"
+                                key={Math.random().toString()}
+                                label={category}
+                                sx={{
+                                  pointerEvents: "none",
+                                  px: 1.5,
+                                  mr: 1,
+                                  mb: 1,
+                                  textTransform: "capitalize",
+                                }}
+                              />
+                            );
+                          }
+                        )}
+                      </div>
+                    </Box>
+                    <Typography variant="body1" sx={{ ml: "auto" }}>
+                      {displayRoom
+                        ? data.room
+                        : item.quantity.substring(0, 18) || ""}
+                      {!displayRoom && item.quantity.length > 18 && "..."}
+                      {!item.quantity ||
+                        (!item.quantity.includes(" ") && " pcs.")}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </CardActionArea>
+            </div>
+          </div>
         </Card>
       </Collapse>
     </>
