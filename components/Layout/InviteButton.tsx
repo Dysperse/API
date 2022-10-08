@@ -83,7 +83,7 @@ function EditProperty({
 
   return (
     <SwipeableDrawer
-      anchor="right"
+      anchor="bottom"
       open={open}
       swipeAreaWidth={0}
       onClose={() => setOpen(false)}
@@ -91,11 +91,12 @@ function EditProperty({
       PaperProps={{
         elevation: 0,
         sx: {
-          background: colors[color]["100"].toString(),
+          background: colors[color]["50"].toString(),
           color: colors[color]["900"].toString(),
           px: 3,
           width: { xs: "100%", sm: "50vw" },
           py: 2,
+          maxHeight: "100vh",
           mx: "auto",
         },
       }}
@@ -112,7 +113,7 @@ function EditProperty({
           sx={{
             p: 2,
             py: 1,
-            background: colors[color]["100"].toString(),
+            background: colors[color]["50"].toString(),
             color: colors[color]["900"].toString(),
             boxShadow: "none",
           }}
@@ -121,11 +122,11 @@ function EditProperty({
             <IconButton
               edge="start"
               color="inherit"
-              sx={{ mr: 1 }}
+              sx={{ mr: 2 }}
               aria-label="menu"
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">chevron_left</span>
+              <span className="material-symbols-rounded">close</span>
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Edit property
@@ -171,6 +172,7 @@ function EditProperty({
               textTransform: "capitalize",
               display: "flex",
               alignItems: "center",
+              color: "black",
               gap: "10px",
             }}
           >
@@ -442,7 +444,7 @@ function House({
         </ListItem>
       </ListItem>
       <SwipeableDrawer
-        anchor="right"
+        anchor="bottom"
         swipeAreaWidth={0}
         ModalProps={{
           keepMounted: true,
@@ -452,7 +454,8 @@ function House({
           elevation: 0,
           sx: {
             background: colors[color][global.user.darkMode ? 900 : 50],
-            height: "500px",
+            height: "100vh",
+            mx: "auto",
             width: { xs: "100vw", md: "80vw", sm: "50vw" },
             maxWidth: "600px",
             ...(global.user.darkMode && {
