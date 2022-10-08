@@ -29,7 +29,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
       tag.setAttribute(
         "content",
         router.asPath === "/tidy"
-          ? colors[themeColor][500]
+          ? colors[themeColor][700]
           : colors[themeColor][nestedModals * (isScrolledToTop ? 1 : 2) * 100]
       );
     } else {
