@@ -34,7 +34,13 @@ import { StarButton } from "./StarButton";
 /**
  * Category modal
  */
-function CategoryModal({ item }: { item: ItemType }) {
+function CategoryModal({
+  setItemData,
+  item,
+}: {
+  setItemData: any;
+  item: ItemType;
+}) {
   const [open, setOpen] = useState(false);
   const { data, error } = useApi("property/inventory/categories");
 
@@ -51,6 +57,8 @@ function CategoryModal({ item }: { item: ItemType }) {
           sx: {
             background: colors[themeColor][50],
             borderRadius: "20px 20px 0 0",
+            mx: "auto",
+            maxWidth: "500px",
           },
         }}
       >
@@ -73,6 +81,26 @@ function CategoryModal({ item }: { item: ItemType }) {
                 button
                 key={category}
                 sx={{ gap: 2, borderRadius: 999 }}
+                onClick={() => {
+                  if (JSON.parse(item.category).includes(category)) {
+                    setItemData({
+                      ...item,
+                      category: JSON.stringify(
+                        JSON.parse(item.category).filter(
+                          (c: string) => c !== category
+                        )
+                      ),
+                    });
+                  } else {
+                    setItemData({
+                      ...item,
+                      category: JSON.stringify([
+                        ...JSON.parse(item.category),
+                        category,
+                      ]),
+                    });
+                  }
+                }}
               >
                 <Box
                   sx={{
@@ -501,7 +529,14 @@ export default function Item({
                       },
                     }}
                   />
-                  <div>
+                  <div
+                    style={{
+                      maxWidth: "100%",
+                      overflowX: "auto",
+                      overflowY: "visible",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {[item.room, ...JSON.parse(item.category)].map(
                       (category: string) => {
                         return (
@@ -516,7 +551,6 @@ export default function Item({
                               px: 1.5,
                               mr: 1,
                               mb: 2.5,
-                              mt: -0.5,
                               textTransform: "capitalize",
                             }}
                           />
@@ -524,22 +558,31 @@ export default function Item({
                       }
                     )}
 
-                    <CategoryModal item={item} />
+                    <CategoryModal setItemData={setItemData} item={item} />
                   </div>
 
                   <Box
+                    onClick={() => {
+                      document?.getElementById("quantity")?.focus();
+                    }}
                     sx={{
                       display: "flex",
                       gap: 3,
                       mb: 2,
                       alignItems: "center",
+                      background: `${
+                        global.user.darkMode
+                          ? "hsl(240, 11%, 24%)"
+                          : colors[themeColor][100]
+                      }!important`,
+                      borderRadius: "15px",
+                      px: 2.5,
+                      py: 1.5,
                     }}
                   >
                     <Typography
                       variant="body1"
                       sx={{
-                        my: 1,
-                        mb: 2,
                         fontWeight: "500",
                       }}
                     >
@@ -549,6 +592,7 @@ export default function Item({
                       <TextField
                         defaultValue={item.quantity}
                         variant="standard"
+                        id="quantity"
                         onChange={(e) => {
                           setItemData({
                             ...item,
@@ -560,14 +604,14 @@ export default function Item({
                         InputProps={{
                           disableUnderline: true,
                           sx: {
-                            background: `${
-                              global.user.darkMode
-                                ? "hsl(240, 11%, 24%)"
-                                : colors[themeColor][100]
-                            }!important`,
+                            fontWeight: "500",
+                            textDecorationThickness: 6,
                             p: 2,
-                            py: 1,
-                            textAlign: "right!important",
+                            py: 0,
+                            textDecoration: "underline",
+                            "& *": {
+                              textAlign: "right!important",
+                            },
                             maxWidth: "150px",
                             borderRadius: "15px",
                             display: "block",
@@ -639,6 +683,7 @@ export default function Item({
                       ? "hsl(240, 11%, 25%)"
                       : colors[themeColor][100],
                     borderRadius: 5,
+                    mt: { xs: -2.5, sm: 0 },
                     overflow: "hidden",
                   }}
                 >
@@ -650,13 +695,7 @@ export default function Item({
                         handleItemStar={handleItemStar}
                       />
                     )}
-                    {global.property.role !== "read-only" && (
-                      <EditButton
-                        styles={styles}
-                        item={item}
-                        setItemData={setItemData}
-                      />
-                    )}
+
                     {global.property.role !== "read-only" && (
                       <AddToListModal item={item} styles={styles} />
                     )}
