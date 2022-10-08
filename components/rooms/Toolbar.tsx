@@ -96,8 +96,6 @@ function SearchBar({
             border: "0!important",
             mr: 0.5,
             px: 2,
-
-            mt: { xs: 1, sm: 0 },
             width: "100%",
             background: global.user.darkMode ? "hsl(240, 11%, 25%)" : grey[200],
           },

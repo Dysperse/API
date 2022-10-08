@@ -608,20 +608,20 @@ export default function Item({
           sx={{
             boxShadow: "0",
             display: "block",
-            my: 1,
+            my: { sm: 1 },
             width: "100%",
             maxWidth: "calc(100vw - 32.5px)",
             borderRadius: 5,
-            background: {
-              xs: "transparent",
-              sm: `${
-                global.user.darkMode
-                  ? "hsl(240, 11%, 17%)"
-                  : "rgba(200,200,200,.25)"
-              }!important`,
-            },
+            background: `${
+              global.user.darkMode
+                ? "hsl(240, 11%, 17%)"
+                : "rgba(200,200,200,.2)"
+            }!important`,
+
             transition: "transform .2s",
             border: "2px solid transparent",
+
+            mb: { xs: 2, sm: 0 },
             ...(item.starred && {
               background: colors.orange["50"],
               borderColor: colors.orange[global.user.darkMode ? 50 : 300],
@@ -646,7 +646,7 @@ export default function Item({
               },
             }}
           >
-            <CardContent sx={{ p: 3 }}>
+            <CardContent sx={{ px: 3, py: 2 }}>
               <Box
                 sx={{
                   display: "flex",
@@ -666,7 +666,7 @@ export default function Item({
                     {item.name.length > 18 && "..."}
                   </Typography>
                   <div className="override">
-                    {[, ...JSON.parse(item.category)].map(
+                    {[item.room, ...JSON.parse(item.category)].map(
                       (category: string) => {
                         return (
                           <Chip
@@ -674,9 +674,9 @@ export default function Item({
                             key={Math.random().toString()}
                             label={category}
                             sx={{
+                              pointerEvents: "none",
                               px: 1.5,
                               mr: 1,
-                              mb: 2.5,
                               mt: -0.5,
                               textTransform: "capitalize",
                             }}
