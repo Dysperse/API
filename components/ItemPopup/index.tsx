@@ -167,7 +167,6 @@ function CategoryModal({
           px: 1.5,
           mr: 1,
           mb: 2.5,
-          mt: -0.5,
           background: "rgba(0,0,0,.2)!important",
           textTransform: "capitalize",
         }}
