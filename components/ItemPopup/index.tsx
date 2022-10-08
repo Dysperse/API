@@ -784,7 +784,7 @@ export default function Item({
                               pointerEvents: "none",
                               px: 1.5,
                               mr: 1,
-                              mt: -0.5,
+                              mb: 1,
                               textTransform: "capitalize",
                             }}
                           />
