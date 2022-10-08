@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
  * @param open Is the modal open?
  * @param nestedModals How many nested modals are open?
  */
-export function useStatusBar(open: boolean, nestedModals = 0.5) {
+export function useStatusBar(open: boolean, nestedModals = 1) {
   const router = useRouter();
   const tag: HTMLMetaElement = document.querySelector(
     "meta[name=theme-color]"
@@ -21,7 +21,7 @@ export function useStatusBar(open: boolean, nestedModals = 0.5) {
 
   const darkModeResets = {
     top: isDarkMode ? "hsl(240, 11%, 5%)" : "#fff",
-    bottom: isDarkMode ? "hsl(240, 11%, 10%)" : colors[themeColor][100],
+    bottom: isDarkMode ? "hsl(240, 11%, 10%)" : colors[themeColor][200],
   };
 
   useEffect(() => {
@@ -37,11 +37,7 @@ export function useStatusBar(open: boolean, nestedModals = 0.5) {
         "content",
         router.asPath === "/tidy"
           ? colors[themeColor][800]
-          : nestedModals === 0.5
-          ? isScrolledToTop
-            ? darkModeResets.top
-            : darkModeResets.bottom
-          : colors[themeColor][(nestedModals - 0.5) * 100]
+          : colors[themeColor][nestedModals * 100]
       );
     }
   }, [

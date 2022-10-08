@@ -55,7 +55,7 @@ function ElevationScroll(props) {
           trigger
             ? global.user.darkMode
               ? "rgba(33,33,38)"
-              : colors[themeColor][router.asPath === "/tidy" ? 800 : 50]
+              : colors[themeColor][router.asPath === "/tidy" ? 800 : 100]
             : global.user.darkMode
             ? "hsl(240, 11%, 10%)"
             : router.asPath === "/tidy"

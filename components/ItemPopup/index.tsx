@@ -472,20 +472,7 @@ export default function Item({
             maxWidth: "100vw",
           }}
         >
-          <Box
-            sx={{
-              position: "sticky",
-              top: 0,
-              height: { xs: 40, sm: 0 },
-              // display: { sm: "none" },
-              zIndex: 9,
-              background: global.user.darkMode
-                ? "hsl(240, 11%, 20%)"
-                : colors[themeColor][50],
-            }}
-          >
-            <Puller />
-          </Box>
+          <Puller />
           <Box sx={{ p: 5, pt: 7 }}>
             <Grid container spacing={5}>
               <Grid
