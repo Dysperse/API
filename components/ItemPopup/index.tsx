@@ -741,12 +741,9 @@ export default function Item({
             }!important`,
 
             transition: "transform .2s",
-            border: "0px solid transparent",
-
             mb: { xs: 2, sm: 0 },
             ...(item.starred && {
-              borderWidth: "2px",
-              borderColor: colors.orange[global.user.darkMode ? 50 : 700],
+              background: colors.orange[50],
             }),
             "& *:not(.MuiTouchRipple-root *, .override *)": {
               background: "transparent",
