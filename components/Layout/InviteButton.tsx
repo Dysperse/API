@@ -96,7 +96,8 @@ function EditProperty({
           px: 3,
           width: { xs: "100%", sm: "50vw" },
           py: 2,
-          maxHeight: "100vh",
+          maxHeight: "calc(100vh - 20px)",
+          borderRadius: "20px 20px 0 0",
           mx: "auto",
         },
       }}
@@ -105,6 +106,8 @@ function EditProperty({
         sx={{
           height: "100vh",
           px: 2,
+          borderRadius: "20px 20px 0 0",
+
           pt: 10,
         }}
       >
@@ -112,6 +115,8 @@ function EditProperty({
           position="absolute"
           sx={{
             p: 2,
+            borderRadius: "20px 20px 0 0",
+
             py: 1,
             background: colors[color]["50"].toString(),
             color: colors[color]["900"].toString(),
@@ -126,7 +131,7 @@ function EditProperty({
               aria-label="menu"
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">close</span>
+              <span className="material-symbols-rounded">expand_more</span>
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Edit property
@@ -457,6 +462,7 @@ function House({
             height: "100vh",
             mx: "auto",
             width: { xs: "100vw", md: "80vw", sm: "50vw" },
+            borderRadius: "20px 20px 0 0",
             maxWidth: "600px",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
@@ -478,7 +484,8 @@ function House({
         <Box
           sx={{
             overflow: "scroll",
-            height: "100vh",
+            borderRadius: "20px 20px 0 0",
+            height: "calc(100vh - 20px)",
           }}
         >
           <Box
@@ -488,6 +495,7 @@ function House({
               height: "300px",
               position: "relative",
               color: "white",
+              borderRadius: "20px 20px 0 0",
             }}
           >
             <Box
