@@ -9,6 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import LinearProgress from "@mui/material/LinearProgress";
 import Skeleton from "@mui/material/Skeleton";
+import { useStatusBar } from "../hooks/useStatusBar";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -34,7 +35,7 @@ function ColorModal({ formik }): JSX.Element {
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-
+  useStatusBar(open, 2);
   return (
     <>
       <SwipeableDrawer
@@ -201,6 +202,8 @@ function NoteModal({
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+  useStatusBar(open);
+
   return (
     <SwipeableDrawer
       anchor="bottom"
