@@ -68,7 +68,7 @@ function CategoryModal({ item }: { item: ItemType }) {
             </Box>
           )}
           {data &&
-            data.map((category) => (
+            [...new Set(data)].map((category: any) => (
               <ListItem
                 button
                 key={category}
@@ -95,7 +95,17 @@ function CategoryModal({ item }: { item: ItemType }) {
                       <span className="material-symbols-rounded">check</span>
                     </Box>
                   )}
-                  <BoringAvatar name={category} size={30} />
+                  <BoringAvatar
+                    name={category}
+                    size={30}
+                    colors={[
+                      "#264653",
+                      "#2a9d8f",
+                      "#e9c46a",
+                      "#f4a261",
+                      "#e76f51",
+                    ]}
+                  />
                 </Box>
                 <ListItemText
                   primary={category}
