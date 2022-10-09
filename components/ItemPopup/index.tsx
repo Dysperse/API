@@ -236,8 +236,6 @@ export default function Item({
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
-    dragFree: true,
-    
   });
   emblaApi?.on("select", () => {
     setDrawerState(false);
