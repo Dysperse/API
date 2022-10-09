@@ -9,6 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
+import BoringAvatar from "boring-avatars";
 import MenuItem from "@mui/material/MenuItem";
 import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -106,6 +107,7 @@ function CategoryModal({ category }: { category: string }) {
         sx={{
           mb: 1,
           transition: "transform .2s !important",
+          gap: 2,
           borderRadius: 4,
           "&:active": {
             transition: "none!important",
@@ -121,6 +123,11 @@ function CategoryModal({ category }: { category: string }) {
           }),
         }}
       >
+        <BoringAvatar
+          name={category}
+          size={30}
+          colors={["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"]}
+        />
         <ListItemText
           primary={
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -130,7 +137,6 @@ function CategoryModal({ category }: { category: string }) {
           }
         />
       </ListItem>
-      <Divider />
     </>
   );
 }
