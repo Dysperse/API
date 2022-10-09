@@ -65,7 +65,7 @@ function CategoryModal({ category }: { category: string }) {
         }}
       >
         <Puller />
-        <Box sx={{ p: 3, overflow: "scroll" }}>
+        <Box sx={{ p: 3, pt: 0, overflow: "scroll" }}>
           <Typography
             sx={{
               textAlign: "center",
@@ -77,11 +77,13 @@ function CategoryModal({ category }: { category: string }) {
           >
             {category}
           </Typography>
-          {data.map((item: Item) => (
-            <Box sx={{ mb: 1 }} key={item.id.toString()}>
-              <ItemCard item={item} displayRoom={false} />
-            </Box>
-          ))}
+          {data
+            .filter((item) => item)
+            .map((item: Item) => (
+              <Box sx={{ mb: 1 }} key={item.id.toString()}>
+                <ItemCard item={item} displayRoom={false} />
+              </Box>
+            ))}
           {data.length === 0 && <>No items</>}
         </Box>
       </SwipeableDrawer>
@@ -89,11 +91,11 @@ function CategoryModal({ category }: { category: string }) {
         button
         onClick={() => {
           setLoading(true);
-          fetchApiWithoutHook("inventory/category-items", {
+          fetchApiWithoutHook("property/inventory/categoryList", {
             category: category,
           })
             .then((res) => {
-              setData(res.data);
+              setData(res);
               setOpen(true);
               setLoading(false);
             })

@@ -234,7 +234,9 @@ export default function Item({
     setContextMenu(null);
   };
 
-  const [emblaRef] = useEmblaCarousel({});
+  const [emblaRef] = useEmblaCarousel({
+    startIndex: 1,
+  });
 
   useEffect(() => {
     document
@@ -747,17 +749,22 @@ export default function Item({
               <Box
                 sx={{
                   display: "flex",
-                  width: "100%",
+                  flex: "0 0 100%",
+                  flexGrow: 1,
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  borderRadius: 5,
+                  mr: 1,
+                  justifyContent: "end",
                   px: 2,
-                  background: colors.red[500],
+                  color: "#fff",
+                  background: colors.red[900] + "!important",
                 }}
               >
-                E
+                <span className="material-symbols-rounded">delete</span>
               </Box>
               <CardActionArea
                 sx={{
+                  flex: "0 0 100%",
                   transition: "none!important",
                   "&:focus-within": {
                     background: "transparent!important",
