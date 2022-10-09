@@ -467,7 +467,9 @@ function House({
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
+            borderRadius: { sm: "20px 20px 0 0" },
             overflow: "scroll",
+            maxHeight: { sm: "90vh" },
           },
         }}
         sx={{
@@ -484,6 +486,7 @@ function House({
         <Box
           sx={{
             overflow: "scroll",
+            borderRadius: { sm: "20px 20px 0 0" },
           }}
         >
           <Box
@@ -492,6 +495,7 @@ function House({
               px: 3,
               height: "300px",
               position: "relative",
+              borderRadius: { sm: "20px 20px 0 0" },
               color: "white",
             }}
           >
