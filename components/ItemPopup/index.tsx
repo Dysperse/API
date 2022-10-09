@@ -723,7 +723,6 @@ export default function Item({
       </SwipeableDrawer>
       <Collapse in={!deleted} sx={{ borderRadius: 5 }}>
         <Card
-          onContextMenu={handleContextMenu}
           sx={{
             boxShadow: "0",
             display: "block",
@@ -746,7 +745,6 @@ export default function Item({
               background: "transparent",
             },
           }}
-          onClick={() => setDrawerState(true)}
         >
           <div className="embla" ref={emblaRef}>
             <div className="embla__container">
@@ -767,6 +765,8 @@ export default function Item({
                 <span className="material-symbols-rounded">delete</span>
               </Box>
               <CardActionArea
+                onContextMenu={handleContextMenu}
+                onClick={() => setDrawerState(true)}
                 sx={{
                   flex: "0 0 100%",
                   transition: "none!important",
