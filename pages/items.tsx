@@ -105,10 +105,13 @@ function CategoryModal({ category }: { category: string }) {
             });
         }}
         sx={{
-          mb: 1,
+          mb: 2,
           transition: "transform .2s !important",
           gap: 2,
           borderRadius: 4,
+          background: global.user.darkMode
+            ? "hsl(240, 11%, 20%)"
+            : "rgba(200,200,200,.2)",
           "&:active": {
             transition: "none!important",
             transform: "scale(.97)",
