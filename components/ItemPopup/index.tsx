@@ -234,8 +234,12 @@ export default function Item({
     setContextMenu(null);
   };
 
-  const [emblaRef] = useEmblaCarousel({
+  const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
+  });
+  emblaApi?.on("select", () => {
+    setDrawerState(false);
+    handleItemDelete();
   });
 
   useEffect(() => {
@@ -753,7 +757,7 @@ export default function Item({
                   flexGrow: 1,
                   alignItems: "center",
                   borderRadius: 5,
-                  mr: 1,
+                  mr: 0.5,
                   justifyContent: "end",
                   px: 2,
                   color: "#fff",
