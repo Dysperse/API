@@ -28,24 +28,12 @@ export default function AppearanceSettings() {
           primary={
             <TextField
               fullWidth
-              disabled
+              InputProps={{
+                readOnly: true,
+              }}
               variant="filled"
               defaultValue={global.user && global.user.email}
               label="Email"
-              onBlur={(e) => updateSettings("email", e.target.value)}
-            />
-          }
-        />
-      </ListItem>
-      <ListItem>
-        <ListItemText
-          primary={
-            <TextField
-              fullWidth
-              variant="filled"
-              defaultValue={global.user && global.user.image}
-              label="Profile picture"
-              onBlur={(e) => updateSettings("image", e.target.value)}
             />
           }
         />
