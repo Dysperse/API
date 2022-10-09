@@ -153,6 +153,12 @@ function SettingsMenu({
           "& *": { transiton: { sm: "none!important" } },
           borderRadius: 4,
           mb: 1,
+          "&:hover": {
+            background: colors[themeColor][global.user.darkMode ? 800 : 100],
+            "& .MuiAvatar-root": {
+              background: colors[themeColor][global.user.darkMode ? 900 : 200],
+            },
+          },
         }}
       >
         <ListItemAvatar>
