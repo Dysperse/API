@@ -717,7 +717,7 @@ export function InviteButton() {
         <Box sx={{ display: { sm: "none" } }}>
           <Puller />
         </Box>
-        <Box sx={{ py: { xs: 3, sm: 0 }, px: 2, textAlign: "center" }} />
+        <Box sx={{ px: 2, textAlign: "center" }} />
         {global.user.properties.map((house: House) => (
           <House
             handleClose={() => setOpen(false)}
