@@ -14,7 +14,7 @@ img {
   display: none;
   -webkit-appearance: none;
   width: 0px;
-  background: transparent; 
+  background: transparent;
 }
 
 .MuiTouchRipple-rippleVisible {
@@ -22,11 +22,10 @@ img {
 }
 .MuiTouchRipple-child {
   filter: opacity(0.4) !important;
-  background: radial-gradient(#000,  #fff);
+  background: radial-gradient(#000, #fff);
 }
 .rippleDark .MuiTouchRipple-child {
-  background: radial-gradient(#fff,  #000) !important;
-
+  background: radial-gradient(#fff, #000) !important;
 }
 .MuiBackdrop-root {
   background-color: rgba(0, 0, 0, 0.25) !important;
@@ -197,5 +196,5 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px
+  gap: 5px;
 }
