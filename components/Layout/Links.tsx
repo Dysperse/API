@@ -294,7 +294,7 @@ const ListItem = React.memo(function ListItem({
           "& *": {
             fontSize: "15.2px",
             ...(router.asPath === asHref && {
-              fontWeight: "500",
+              fontWeight: "700",
             }),
           },
         }}

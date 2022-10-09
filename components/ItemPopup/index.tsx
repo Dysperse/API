@@ -729,6 +729,7 @@ export default function Item({
             my: { sm: 1 },
             width: "100%",
             maxWidth: "calc(100vw - 32.5px)",
+            userSelect: "none",
             borderRadius: 5,
             background: `${
               global.user.darkMode

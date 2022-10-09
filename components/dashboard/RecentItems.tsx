@@ -31,7 +31,7 @@ export function RecentItems(): JSX.Element {
     <Box sx={{ mt: -1.5 }}>
       <Grid container sx={{ mt: 2 }} spacing={1.5}>
         {data.map((item: ItemType) => (
-          <Grid item key={item.id.toString()} xs={12} sm={3} xl={2}>
+          <Grid item key={item.id.toString()} xs={12} sm={3}>
             <Item variant="list" data={item} />
           </Grid>
         ))}

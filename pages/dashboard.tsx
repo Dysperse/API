@@ -17,6 +17,7 @@ export default function Dashboard() {
     mr: 1,
     px: 0.7,
     transition: "transform .1s!important",
+    fontWeight: "500",
     boxShadow: "none!important",
     "&:active": {
       transform: "scale(0.95)",

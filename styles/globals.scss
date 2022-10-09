@@ -2,14 +2,6 @@ body {
   overflow-x: hidden;
   font-weight: 600;
 }
-/* html:not(.prevent-scroll),
-body:not(.prevent-scroll) {
-  scroll-behavior: smooth;
-  overflow-y: scroll !important;
-} */
-/* .prevent-scroll {
-  overflow: hidden !important;
-} */
 img {
   user-select: none;
 }
@@ -22,7 +14,7 @@ img {
   display: none;
   -webkit-appearance: none;
   width: 0px;
-  background: transparent; /* Chrome/Safari/Webkit */
+  background: transparent; 
 }
 
 .MuiTouchRipple-rippleVisible {
