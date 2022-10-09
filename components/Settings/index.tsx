@@ -104,7 +104,7 @@ function Logout() {
           <Avatar
             sx={{
               color: global.user.darkMode ? "#fff" : "#000",
-              background: colors[themeColor][global.user.darkMode ? 900 : 200],
+              background: colors[themeColor][global.user.darkMode ? 900 : 100],
               borderRadius: 4,
             }}
           >
@@ -207,32 +207,15 @@ function SettingsMenu({
           },
         }}
       >
-        <Puller />
         <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
-          <Box sx={{ position: "absolute", top: 0, left: 0, p: 3 }}>
-            <IconButton
-              edge="end"
-              color="inherit"
-              onClick={() => setOpen(false)}
-              aria-label="close"
-              sx={{
-                ml: -0.5,
-                background: colors[themeColor][50],
-                zIndex: 1,
-                ...(global.user.darkMode && {
-                  background: "hsl(240, 11%, 25%)",
-                }),
-              }}
-            >
-              <span className="material-symbols-rounded">close</span>{" "}
-            </IconButton>
-          </Box>
+          <Puller />
+
           <Box sx={{ px: 2 }}>
             <Typography
               sx={{
                 flex: 1,
                 fontWeight: "900",
-                mt: 15,
+                mt: 5,
               }}
               variant="h5"
               component="div"
@@ -316,7 +299,7 @@ export default function FullScreenDialog({
         open={open}
         onClose={handleClose}
       >
-        <Box sx={{ height: "100vh", overflow: "scroll" }}>
+        <Box sx={{ height: "auto", overflow: "scroll" }}>
           <Puller />
           <Box sx={{ px: 5 }}>
             <Typography
@@ -324,7 +307,7 @@ export default function FullScreenDialog({
                 flex: 1,
                 fontWeight: "900",
                 mb: 1,
-                mt: 10,
+                mt: 5,
               }}
               variant="h5"
               component="div"
@@ -409,7 +392,6 @@ export default function FullScreenDialog({
                 </>
               }
             />
-            <Divider sx={{ mb: 1 }} />
             <Logout />
           </List>
         </Box>
