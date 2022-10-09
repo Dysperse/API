@@ -66,15 +66,28 @@ export function Loading(): JSX.Element {
             animation={false}
             sx={{ width: { xs: 130, sm: 200 }, maxWidth: "100%" }}
           />
+          <Skeleton
+            animation={false}
+            variant="rectangular"
+            sx={{
+              height: 40,
+              borderRadius: 5,
+              mx: "auto",
+              width: { xs: 0, sm: "500px" },
+              maxWidth: "100%",
+            }}
+          />
           <Box sx={{ ml: "auto", display: "flex", gap: 1.5 }}>
-            {[...new Array(3)].map(() => (
+            {[...new Array(2)].map((id) => (
               <Skeleton
                 variant="circular"
                 animation={false}
                 width={35}
                 key={Math.random().toString()}
                 height={35}
-                sx={{ maxWidth: "100%" }}
+                sx={{
+                  maxWidth: "100%",
+                }}
               />
             ))}
           </Box>
