@@ -101,7 +101,7 @@ export function CreateListModal({
       >
         <Puller />
         <form onSubmit={formik.handleSubmit}>
-          <DialogContent>
+          <DialogContent sx={{ pt: 0, mt: -1 }}>
             <TextField
               margin="dense"
               required
@@ -212,7 +212,7 @@ export function CreateListModal({
                 type="submit"
                 loading={loading}
               >
-                Save
+                Create
               </LoadingButton>
             </Box>
           </DialogContent>
