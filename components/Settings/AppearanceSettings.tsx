@@ -66,7 +66,7 @@ export default function AppearanceSettings() {
   return (
     <Box>
       <ThemeColorSettings />
-      <ListSubheader>Theme</ListSubheader>
+      <ListSubheader sx={{ mt: 3 }}>Theme</ListSubheader>
       <RadioGroup
         aria-labelledby="demo-controlled-radio-buttons-group"
         name="controlled-radio-buttons-group"
