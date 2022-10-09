@@ -25,7 +25,7 @@ export default function App() {
   const [loadingDisable, setLoadingDisable] = useState<boolean>(false);
 
   return (
-    <Box sx={{ p: 5 }}>
+    <Box>
       {global.user.twoFactorSecret &&
       global.user.twoFactorSecret !== "false" ? (
         <Box>

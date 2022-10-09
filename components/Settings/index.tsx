@@ -216,20 +216,21 @@ function SettingsMenu({
         <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
           <Puller />
 
-          <Box sx={{ px: 2 }}>
+          <Box sx={{ px: 5 }}>
             <Typography
               sx={{
                 flex: 1,
                 fontWeight: "900",
                 mt: 5,
+                mb: 3,
               }}
               variant="h5"
               component="div"
             >
               {primary}
             </Typography>
+            {content}
           </Box>
-          {content}
         </Box>
       </SwipeableDrawer>
     </>

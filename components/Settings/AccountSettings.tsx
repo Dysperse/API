@@ -9,14 +9,7 @@ import { updateSettings } from "./updateSettings";
  */
 export default function AppearanceSettings() {
   return (
-    <Box
-      sx={{
-        py: 1,
-        px: {
-          sm: 10,
-        },
-      }}
-    >
+    <Box>
       <ListItem>
         <ListItemText
           primary={

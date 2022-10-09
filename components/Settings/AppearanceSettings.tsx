@@ -12,7 +12,7 @@ import { updateSettings } from "./updateSettings";
  */
 function ThemeColorSettings() {
   return (
-    <Box sx={{ my: 4 }}>
+    <Box>
       <ListSubheader>Theme color</ListSubheader>
       {[
         "Brown",
@@ -64,14 +64,7 @@ function ThemeColorSettings() {
  */
 export default function AppearanceSettings() {
   return (
-    <Box
-      sx={{
-        py: 1,
-        px: {
-          sm: 10,
-        },
-      }}
-    >
+    <Box>
       <ThemeColorSettings />
       <ListSubheader>Theme</ListSubheader>
       <RadioGroup
