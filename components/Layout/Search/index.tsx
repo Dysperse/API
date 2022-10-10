@@ -309,6 +309,7 @@ export function SearchPopup() {
       </Button>
       <Tooltip title="Jump to">
         <IconButton
+          disableRipple
           onClick={() => {
             setOpen(true);
           }}
@@ -316,20 +317,17 @@ export function SearchPopup() {
           sx={{
             borderRadius: 94,
             mr: 1,
-            transition: "none",
             display: { xs: "flex", sm: "none" },
             color: global.user.darkMode
               ? "hsl(240, 11%, 90%)"
               : router.asPath === "/tidy"
               ? "inherit"
               : "#606060",
-            "&:hover": {
-              background: "rgba(200,200,200,.3)",
-              color: global.user.darkMode
-                ? "hsl(240, 11%, 95%)"
-                : router.asPath === "/tidy"
-                ? "inherit"
-                : "#000",
+            transition: "all .2s",
+            "&:active": {
+              opacity: 0.75,
+              transform: "scale(0.95)",
+              transition: "none",
             },
           }}
         >

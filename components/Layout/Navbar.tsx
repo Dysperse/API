@@ -187,7 +187,6 @@ export function Navbar(): JSX.Element {
                 color="inherit"
                 disableRipple
                 sx={{
-                  transition: "none",
                   p: 0,
                   ml: 0.6,
                   color: global.user.darkMode
@@ -204,6 +203,12 @@ export function Navbar(): JSX.Element {
                         : colors[themeColor]["50"]
                     }!important`,
                     color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                  transition: "all .2s",
+                  "&:active": {
+                    opacity: 0.75,
+                    transform: "scale(0.95)",
+                    transition: "none",
                   },
                 }}
               >
