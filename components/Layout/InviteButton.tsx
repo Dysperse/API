@@ -741,16 +741,11 @@ export function InviteButton() {
           userSelect: "none",
           cursor: "pointer",
           background: "transparent!important",
-          "&:active": {
-            transition: "none",
-            transform: "scale(0.95)",
-          },
           p: 1,
           gap: 1,
           py: 0,
           color: "inherit",
           borderRadius: 2,
-          transition: "transform .2s",
         }}
       >
         <Typography

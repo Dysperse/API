@@ -164,7 +164,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
 
             background: global.user.darkMode
               ? "rgba(33,33,38,.7)"
-              : hexToRgba(colors[themeColor][100], 0.6),
+              : hexToRgba(colors[themeColor][100], 0.9),
 
             ["@supports not (backdrop-filter: blur(15px))"]: {
               background: colors[themeColor][100],

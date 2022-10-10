@@ -14,13 +14,16 @@ import { Tips } from "../components/dashboard/Tips";
  */
 export default function Dashboard() {
   const styles = {
+    userSelect: "none",
+    cursor: "pointer",
     mr: 1,
     px: 0.7,
-    transition: "transform .1s!important",
+    transition: "all .1s!important",
     fontWeight: "500",
     boxShadow: "none!important",
     "&:active": {
       transform: "scale(0.95)",
+      opacity: 0.75,
       transition: "none !important",
     },
   };
@@ -45,7 +48,7 @@ export default function Dashboard() {
             <Chip
               key={item}
               label={item}
-              onClick={() => setActiveTab(item.toLowerCase())}
+              onMouseDown={() => setActiveTab(item.toLowerCase())}
               sx={{
                 ...styles,
                 ...(activeTab === item.toLowerCase() && activeTabStyles),
