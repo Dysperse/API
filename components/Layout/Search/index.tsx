@@ -313,9 +313,8 @@ export function SearchPopup() {
             setOpen(true);
           }}
           color="inherit"
-          disableRipple
           sx={{
-            borderRadius: 4,
+            borderRadius: 94,
             mr: 1,
             transition: "none",
             display: { xs: "flex", sm: "none" },
@@ -331,15 +330,6 @@ export function SearchPopup() {
                 : router.asPath === "/tidy"
                 ? "inherit"
                 : "#000",
-            },
-            "&:focus-within": {
-              background: `${
-                global.user.darkMode
-                  ? colors[themeColor]["900"]
-                  : colors[router.asPath === "/tidy" ? "green" : themeColor][
-                      router.asPath === "/tidy" ? 700 : 50
-                    ]
-              }!important`,
             },
           }}
         >
