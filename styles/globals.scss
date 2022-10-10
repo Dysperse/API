@@ -107,10 +107,6 @@ img {
 .MuiIconButton-root:not(:active) .material-symbols-rounded {
   transition: transform 0.2s;
 }
-.MuiDrawer-paper *,
-.MuiBackdrop-root {
-  overscroll-behavior: none !important;
-}
 
 .MuiIconButton-root .MuiTouchRipple-rippleVisible {
   animation-duration: 0.3s !important;

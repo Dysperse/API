@@ -542,11 +542,21 @@ export default function Item({
                     InputProps={{
                       disableUnderline: true,
                       sx: {
-                        textDecoration: "underline",
-                        fontWeight: "500",
-                        py: 0,
-                        maxWidth: "250px",
                         borderRadius: "15px",
+                        py: 0,
+                        "& *::placeholder": {
+                          color: global.user.darkMode
+                            ? "hsl(240, 11%, 24%)"
+                            : colors[themeColor][500],
+                        },
+                        color: global.user.darkMode
+                          ? "hsl(240, 11%, 24%)"
+                          : colors[themeColor][900],
+                        ...(item.quantity !== "" && {
+                          textDecoration: "underline",
+                        }),
+                        fontWeight: "500",
+                        maxWidth: "250px",
                         display: "block",
                       },
                     }}
@@ -614,6 +624,11 @@ export default function Item({
                     InputProps={{
                       disableUnderline: true,
                       sx: {
+                        "& *::placeholder": {
+                          color: global.user.darkMode
+                            ? "hsl(240, 11%, 24%)"
+                            : colors[themeColor][900],
+                        },
                         background: `${
                           global.user.darkMode
                             ? "hsl(240, 11%, 24%)"
@@ -664,27 +679,31 @@ export default function Item({
                     )}
 
                     {global.property.role !== "read-only" && (
-                      <AddToListModal item={item} styles={styles} />
-                    )}
-                    {global.property.role !== "read-only" && (
-                      <DeleteButton
+                      <MoveToRoom
+                        room={data.room}
                         styles={styles}
-                        handleItemDelete={handleItemDelete}
+                        setDrawerState={setDrawerState}
+                        item={item}
+                        setDeleted={setDeleted}
                       />
                     )}
-                    <MoveToRoom
-                      room={data.room}
-                      styles={styles}
-                      setDrawerState={setDrawerState}
-                      item={item}
-                      setDeleted={setDeleted}
-                    />
                     <ShareModal
                       styles={styles}
                       title={item.name}
                       quantity={item.quantity}
                       room={item.room}
                     />
+
+                    {global.property.role !== "read-only" && (
+                      <AddToListModal item={item} styles={styles} />
+                    )}
+
+                    {global.property.role !== "read-only" && (
+                      <DeleteButton
+                        styles={styles}
+                        handleItemDelete={handleItemDelete}
+                      />
+                    )}
                   </>
                 </Box>
               </Grid>
