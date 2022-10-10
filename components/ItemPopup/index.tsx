@@ -168,7 +168,11 @@ function CategoryModal({
           px: 1.5,
           mr: 1,
           mb: 2.5,
-          background: "rgba(0,0,0,.2)!important",
+          background: `${colors[themeColor][200]}!important`,
+          "&:hover": {
+            background: `${colors[themeColor][300]}!important`,
+          },
+          transition: "none",
           textTransform: "capitalize",
         }}
       />
@@ -482,7 +486,7 @@ export default function Item({
           }}
         >
           <Puller />
-          <Box sx={{ p: 5, pt: 7 }}>
+          <Box sx={{ p: 5 }}>
             <Grid container spacing={5}>
               <Grid
                 item
@@ -490,17 +494,12 @@ export default function Item({
                 sm={6}
                 xl={7}
                 sx={{
-                  alignItems: "center",
-                  display: "flex",
                   width: "100%",
                 }}
               >
                 <Box sx={{ width: "100%" }}>
                   <TextField
                     defaultValue={item.name || "(no title)"}
-                    sx={{
-                      mb: 2,
-                    }}
                     variant="standard"
                     onChange={(e) => {
                       // alert(e.target.value);
@@ -519,6 +518,34 @@ export default function Item({
                         fontSize: "30px",
                         textDecoration: "underline",
                         textAlign: "right!important",
+                        borderRadius: "15px",
+                        display: "block",
+                      },
+                    }}
+                  />
+                  <TextField
+                    autoComplete="off"
+                    defaultValue={item.quantity}
+                    variant="standard"
+                    id="quantity"
+                    onChange={(e) => {
+                      setItemData({
+                        ...item,
+                        quantity: e.target.value,
+                      });
+                    }}
+                    placeholder="Click to add quantity"
+                    fullWidth
+                    sx={{
+                      mb: 2,
+                    }}
+                    InputProps={{
+                      disableUnderline: true,
+                      sx: {
+                        textDecoration: "underline",
+                        fontWeight: "500",
+                        py: 0,
+                        maxWidth: "250px",
                         borderRadius: "15px",
                         display: "block",
                       },
@@ -543,6 +570,11 @@ export default function Item({
                               setDrawerState(false);
                             }}
                             sx={{
+                              background: `${colors[themeColor][100]}!important`,
+                              "&:hover": {
+                                background: `${colors[themeColor][200]}!important`,
+                              },
+                              transition: "none",
                               px: 1.5,
                               mr: 1,
                               mb: 2.5,
@@ -555,67 +587,6 @@ export default function Item({
 
                     <CategoryModal setItemData={setItemData} item={item} />
                   </div>
-
-                  <Box
-                    onClick={() => {
-                      document?.getElementById("quantity")?.focus();
-                    }}
-                    sx={{
-                      display: "flex",
-                      gap: 3,
-                      mb: 2,
-                      alignItems: "center",
-                      background: `${
-                        global.user.darkMode
-                          ? "hsl(240, 11%, 24%)"
-                          : colors[themeColor][100]
-                      }!important`,
-                      borderRadius: "15px",
-                      px: 2.5,
-                      py: 1.5,
-                    }}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: "500",
-                      }}
-                    >
-                      Quantity
-                    </Typography>
-                    <Box sx={{ ml: "auto" }}>
-                      <TextField
-                        autoComplete="off"
-                        defaultValue={item.quantity}
-                        variant="standard"
-                        id="quantity"
-                        onChange={(e) => {
-                          setItemData({
-                            ...item,
-                            quantity: e.target.value,
-                          });
-                        }}
-                        placeholder="0"
-                        fullWidth
-                        InputProps={{
-                          disableUnderline: true,
-                          sx: {
-                            fontWeight: "500",
-                            textDecorationThickness: 6,
-                            p: 2,
-                            py: 0,
-                            textDecoration: "underline",
-                            "& *": {
-                              textAlign: "right!important",
-                            },
-                            maxWidth: "150px",
-                            borderRadius: "15px",
-                            display: "block",
-                          },
-                        }}
-                      />
-                    </Box>
-                  </Box>
                   <TextField
                     multiline
                     fullWidth
@@ -683,7 +654,7 @@ export default function Item({
                     overflow: "hidden",
                   }}
                 >
-                  <Box sx={{}}>
+                  <>
                     {global.property.role !== "read-only" && (
                       <StarButton
                         styles={styles}
@@ -714,7 +685,7 @@ export default function Item({
                       quantity={item.quantity}
                       room={item.room}
                     />
-                  </Box>
+                  </>
                 </Box>
               </Grid>
             </Grid>

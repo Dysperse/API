@@ -120,7 +120,7 @@ export function Loading(): JSX.Element {
           <Container sx={{ mt: { xs: 5, sm: 15 } }}>
             <Grid container spacing={2.2}>
               {[...new Array(10)].map(() => (
-                <Grid item key={Math.random().toString()} xs={12} sm={6} xl={4}>
+                <Grid item key={Math.random().toString()} xs={12} sm={6}>
                   <Skeleton
                     variant="rectangular"
                     animation={false}
