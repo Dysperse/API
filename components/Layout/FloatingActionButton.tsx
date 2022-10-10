@@ -19,9 +19,9 @@ export function FloatingActionButton() {
         transition: "bottom .3s",
         bottom: {
           lg: "15px",
-          sm: "74px",
+          sm: "15px",
           md: "15px",
-          xs: trigger ? "57px" : "74px",
+          xs: trigger ? "57px" : "15px",
         },
         right: "12px",
         display: {
