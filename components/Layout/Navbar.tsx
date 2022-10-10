@@ -183,57 +183,43 @@ export function Navbar(): JSX.Element {
           </Box>
           <ProfileMenu>
             <Tooltip title="My account">
-              <Badge
-                badgeContent={1}
-                color="warning"
-                variant="dot"
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
+              <IconButton
+                color="inherit"
+                disableRipple
+                sx={{
+                  transition: "none",
+                  p: 0,
+                  ml: 0.6,
+                  color: global.user.darkMode
+                    ? "hsl(240, 11%, 90%)"
+                    : "#606060",
+                  "&:hover": {
+                    background: "rgba(200,200,200,.3)",
+                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                  "&:focus-within": {
+                    background: `${
+                      global.user.darkMode
+                        ? colors[themeColor]["900"]
+                        : colors[themeColor]["50"]
+                    }!important`,
+                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                  },
                 }}
               >
-                <IconButton
-                  color="inherit"
-                  disableRipple
-                  sx={{
-                    transition: "none",
-                    p: 0,
-                    ml: 0.6,
-                    color: global.user.darkMode
-                      ? "hsl(240, 11%, 90%)"
-                      : "#606060",
-                    "&:hover": {
-                      background: "rgba(200,200,200,.3)",
-                      color: global.user.darkMode
-                        ? "hsl(240, 11%, 95%)"
-                        : "#000",
-                    },
-                    "&:focus-within": {
-                      background: `${
-                        global.user.darkMode
-                          ? colors[themeColor]["900"]
-                          : colors[themeColor]["50"]
-                      }!important`,
-                      color: global.user.darkMode
-                        ? "hsl(240, 11%, 95%)"
-                        : "#000",
-                    },
-                  }}
-                >
-                  <BoringAvatar
-                    size={35}
-                    name={global.user.name}
-                    variant="beam"
-                    colors={[
-                      "#801245",
-                      "#F4F4DD",
-                      "#DCDBAF",
-                      "#5D5C49",
-                      "#3D3D34",
-                    ]}
-                  />
-                </IconButton>
-              </Badge>
+                <BoringAvatar
+                  size={35}
+                  name={global.user.name}
+                  variant="beam"
+                  colors={[
+                    "#801245",
+                    "#F4F4DD",
+                    "#DCDBAF",
+                    "#5D5C49",
+                    "#3D3D34",
+                  ]}
+                />
+              </IconButton>
             </Tooltip>
           </ProfileMenu>
         </Toolbar>
