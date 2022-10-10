@@ -143,7 +143,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
         sx={{
           width: "100%",
           position: "fixed",
-          bottom: matches ? -100.1 : trigger ? -21 : 0,
+          bottom: matches ? -100.1 : trigger ? -71 : 0,
           left: 0,
           transition: "bottom .3s",
           display: {

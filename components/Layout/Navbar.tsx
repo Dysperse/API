@@ -76,7 +76,9 @@ function ElevationScroll(props) {
     className: trigger ? "active" : "",
     sx: trigger
       ? {
+          transition: "background .1s",
           "& .MuiBadge-badge": {
+            transition: "border .1s",
             transform: "none",
             border: {
               xs: `2px solid ${
@@ -111,7 +113,9 @@ function ElevationScroll(props) {
           },
         }
       : {
+          transition: "background .1s",
           "& .MuiBadge-badge": {
+            transition: "border .1s",
             transform: "none",
             border:
               router.asPath !== "/tidy"
