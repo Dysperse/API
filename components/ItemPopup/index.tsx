@@ -627,7 +627,7 @@ export default function Item({
                         "& *::placeholder": {
                           color: global.user.darkMode
                             ? "hsl(240, 11%, 24%)"
-                            : colors[themeColor][900],
+                            : colors[themeColor][700],
                         },
                         background: `${
                           global.user.darkMode
