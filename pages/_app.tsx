@@ -283,7 +283,7 @@ function Render({
             fontSize: "14px",
             color: global.user.darkMode
               ? "hsl(240, 11%, 30%)"
-              : colors[themeColor]["A100"],
+              : colors[themeColor]["50"],
             background: global.user.darkMode
               ? "hsl(240, 11%, 90%)"
               : colors[themeColor]["900"],

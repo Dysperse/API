@@ -182,7 +182,13 @@ export function Navbar(): JSX.Element {
             <AppsMenu />
           </Box>
           <ProfileMenu>
-            <Tooltip title="My account">
+            <Tooltip
+              title="My account"
+              placement="bottom-start"
+              PopperProps={{
+                sx: { pointerEvents: "none" },
+              }}
+            >
               <IconButton
                 color="inherit"
                 disableRipple
