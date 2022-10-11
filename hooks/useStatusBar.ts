@@ -12,12 +12,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
   const tag: HTMLMetaElement = document.querySelector(
     "meta[name=theme-color]"
   ) as HTMLMetaElement;
-  const isScrolledToTop = window.scrollY === 0;
   const isDarkMode = global.user.darkMode;
-
-  if (!isScrolledToTop) {
-    nestedModals = 1;
-  }
 
   const darkModeResets = {
     top: isDarkMode ? "hsl(240, 11%, 5%)" : "#fff",
@@ -30,7 +25,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
         "content",
         router.asPath === "/tidy"
           ? colors[themeColor][700]
-          : colors[themeColor][nestedModals * (isScrolledToTop ? 1 : 2) * 100]
+          : colors[themeColor][nestedModals * 100]
       );
     } else {
       tag.setAttribute(
@@ -43,7 +38,6 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
   }, [
     open,
     nestedModals,
-    isScrolledToTop,
     darkModeResets.bottom,
     darkModeResets.top,
     tag,
