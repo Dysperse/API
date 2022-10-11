@@ -35,11 +35,5 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
           : colors[themeColor][nestedModals * 100]
       );
     }
-  }, [
-    open,
-    nestedModals,
-    darkModeResets.bottom,
-    darkModeResets.top,
-    tag,
-  ]);
+  }, [open, nestedModals, darkModeResets.bottom, darkModeResets.top, tag]);
 }
