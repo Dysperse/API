@@ -57,7 +57,7 @@ export function FloatingActionButton() {
             "&:hover": {
               background: global.user.darkMode
                 ? "hsl(240, 11%, 50%)"
-                : colors[themeColor]["200"],
+                : colors[themeColor]["100"],
             },
             "&:focus,&:active": {
               boxShadow: "none",
@@ -65,7 +65,7 @@ export function FloatingActionButton() {
               transition: "none",
               background: global.user.darkMode
                 ? "hsl(240, 11%, 60%)"
-                : colors[themeColor]["200"],
+                : colors[themeColor]["100"],
             },
             transition: "transform .2s",
 
