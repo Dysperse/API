@@ -36,6 +36,7 @@ export const getInitials = (fullName) => {
  * @returns {any}
  */
 export function Navbar(): JSX.Element {
+const router = useRouter()
   return (
       <AppBar elevation={0} position="fixed" sx={{
           transition: "background .1s",
