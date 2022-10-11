@@ -38,12 +38,12 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
     "&.Mui-selected .MuiIcon-root": {
       background: global.user.darkMode
         ? "hsl(240, 11%, 30%)"
-        : colors[themeColor][200],
+        : colors[themeColor][100],
     },
     "&.Mui-selected .MuiIcon-root::before": {
       background: global.user.darkMode
         ? "rgba(150, 150, 150, .2)"
-        : colors[themeColor][200],
+        : colors[themeColor][100],
       transform: "translateX(-50%)",
     },
     borderRadius: "15px",
@@ -164,7 +164,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
 
             background: global.user.darkMode
               ? "rgba(33,33,38,.7)"
-              : hexToRgba(colors[themeColor][100], 0.9),
+              : hexToRgba(colors[themeColor][50], 0.9),
 
             ["@supports not (backdrop-filter: blur(15px))"]: {
               background: colors[themeColor][100],
