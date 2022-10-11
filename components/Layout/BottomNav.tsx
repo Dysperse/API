@@ -181,7 +181,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
           }}
         >
           <BottomNavigationAction
-            disableRipple
+            
             sx={{
               ...styles,
             }}
@@ -198,7 +198,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
             }
           />
           <BottomNavigationAction
-            disableRipple
+            
             sx={{
               ...styles,
             }}
@@ -215,7 +215,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
             }
           />
           <BottomNavigationAction
-            disableRipple
+            
             sx={{
               ...styles,
             }}
@@ -233,7 +233,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
           />
 
           <BottomNavigationAction
-            disableRipple
+            
             sx={{
               ...styles,
             }}
