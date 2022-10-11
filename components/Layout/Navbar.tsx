@@ -41,14 +41,22 @@ function ElevationScroll(props) {
   const router = useRouter();
 
   const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
     target: window ? window() : undefined,
   });
 
   return React.cloneElement(children, {
     className: trigger ? "active" : "",
-    sx: {
+  });
+}
+
+/**
+ * Navbar component for layout
+ * @returns {any}
+ */
+export function Navbar(): JSX.Element {
+  return (
+    <ElevationScroll>
+      <AppBar elevation={0} position="fixed" sx={{
           transition: "background .1s",
           "& .MuiBadge-badge": {
             transition: "border .1s",
@@ -87,18 +95,7 @@ function ElevationScroll(props) {
             sm: global.user.darkMode ? "rgba(0,0,0,0)" : "#fff",
           },
           backdropFilter: "blur(10px)",
-        },
-  });
-}
-
-/**
- * Navbar component for layout
- * @returns {any}
- */
-export function Navbar(): JSX.Element {
-  return (
-    <ElevationScroll>
-      <AppBar elevation={0} position="fixed">
+}}>
         <Toolbar>
           <Box
             sx={{
