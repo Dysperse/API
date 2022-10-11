@@ -32,30 +32,11 @@ export const getInitials = (fullName) => {
 };
 
 /**
- * Navbar scroll trigger
- * @param {any} props
- * @returns {any}
- */
-function ElevationScroll(props) {
-  const { children, window } = props;
-  const router = useRouter();
-
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-  });
-
-  return React.cloneElement(children, {
-    className: trigger ? "active" : "",
-  });
-}
-
-/**
  * Navbar component for layout
  * @returns {any}
  */
 export function Navbar(): JSX.Element {
   return (
-    <ElevationScroll>
       <AppBar elevation={0} position="fixed" sx={{
           transition: "background .1s",
           "& .MuiBadge-badge": {
@@ -168,6 +149,5 @@ export function Navbar(): JSX.Element {
           </ProfileMenu>
         </Toolbar>
       </AppBar>
-    </ElevationScroll>
   );
 }
