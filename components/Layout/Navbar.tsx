@@ -46,73 +46,9 @@ function ElevationScroll(props) {
     target: window ? window() : undefined,
   });
 
-  useEffect(() => {
-    if (document) {
-      document
-        .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute(
-          "content",
-          trigger
-            ? global.user.darkMode
-              ? "rgba(33,33,38)"
-              : colors[themeColor][router.asPath === "/tidy" ? 800 : 100]
-            : global.user.darkMode
-            ? "hsl(240, 11%, 10%)"
-            : router.asPath === "/tidy"
-            ? colors[themeColor][800]
-            : "#fff"
-        );
-    }
-  }, [
-    trigger,
-    global.user.darkMode,
-    router.asPath,
-    themeColor,
-    document,
-    window,
-  ]);
-
   return React.cloneElement(children, {
     className: trigger ? "active" : "",
-    sx: trigger
-      ? {
-          transition: "background .1s",
-          "& .MuiBadge-badge": {
-            transition: "border .1s",
-            transform: "none",
-            border: {
-              xs: `2px solid ${
-                colors[themeColor][router.asPath === "/tidy" ? 800 : 100]
-              }`,
-              sm: `2px solid ${colors[themeColor][50]}`,
-            },
-            width: 12,
-            height: 12,
-            borderRadius: "50%",
-          },
-          color: {
-            xs: global.user.darkMode
-              ? "white"
-              : router.asPath === "/tidy"
-              ? colors[themeColor][100]
-              : "black",
-            sm: global.user.darkMode ? "white" : "black",
-          },
-          py: {
-            sm: 1,
-            xs: 0.9,
-          },
-          pr: 0.4,
-          background: {
-            xs: global.user.darkMode
-              ? "rgba(33,33,38)"
-              : colors[themeColor][router.asPath === "/tidy" ? 800 : 100],
-            sm: global.user.darkMode
-              ? "rgba(33,33,38)"
-              : hexToRgba(colors[themeColor][100], 1),
-          },
-        }
-      : {
+    sx: {
           transition: "background .1s",
           "& .MuiBadge-badge": {
             transition: "border .1s",
