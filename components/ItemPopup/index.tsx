@@ -185,6 +185,7 @@ function CategoryModal({
  * @param {any} data - Item data
  * @param {variant} variant - The variant of the trigger
  */
+
 export default function Item({
   displayRoom = false,
   data,
@@ -242,6 +243,7 @@ export default function Item({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
   });
+
   emblaApi?.on("select", () => {
     setDrawerState(false);
     handleItemDelete();
