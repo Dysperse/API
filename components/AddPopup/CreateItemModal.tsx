@@ -389,6 +389,7 @@ export function CreateItemModal({
                   borderRadius: 100,
                   m: 1,
                   mr: 0,
+                  width: { xs: "100%", sm: "auto" },
                 }}
                 size="large"
                 variant="contained"
