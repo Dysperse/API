@@ -19,7 +19,8 @@ import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 /**
  * Shuffles array in place. ES6 version
  * @param array Array to be shuffled
@@ -88,6 +89,14 @@ export function CreateItemModal({
     }, 50);
     return () => clearTimeout(timer);
   }, [open]);
+
+  const [emblaRef] = useEmblaCarousel(
+    {
+      dragFree: true,
+      align: "start",
+    },
+    [WheelGesturesPlugin()]
+  );
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
@@ -206,15 +215,15 @@ export function CreateItemModal({
           <Puller />
         </Box>
         <form onSubmit={formik.handleSubmit}>
-          <DialogTitle
+          <Box
             component="div"
             sx={{
               display: "flex",
               textAlign: "center",
               fontWeight: "600",
               alignItems: "center",
+              p: { xs: 2, sm: 0 },
               textTransform: "capitalize",
-              py: 2.5,
             }}
           >
             <IconButton
@@ -255,7 +264,7 @@ export function CreateItemModal({
             >
               <span className="material-symbols-rounded">check</span>
             </IconButton>
-          </DialogTitle>
+          </Box>
           <DialogContent
             sx={{
               height: { xs: "100vh", sm: "auto" },
@@ -290,6 +299,8 @@ export function CreateItemModal({
               }}
             />
             <Box
+              className="embla"
+              ref={emblaRef}
               sx={{
                 width: "100%",
                 whiteSpace: "nowrap",
@@ -302,67 +313,70 @@ export function CreateItemModal({
                 my: 2,
               }}
             >
-              {filteredCards.map((item) => (
-                <Box
-                  key={item.name.toString()}
-                  onClick={() => setFieldValues(item)}
-                  component="div"
-                  sx={{
-                    userSelect: "none",
-                    display: "inline-block",
-                    width: "175px",
-                    overflow: "hidden",
-                    height: "150px",
-                    background: global.user.darkMode
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][100],
-                    transition: "transform .2s",
-                    "&:active": {
-                      transform: "scale(.95)",
-                      transition: "none",
-                      background: colors[themeColor][100],
-                    },
-                    cursor: "pointer",
-                    mr: 2,
-                    borderRadius: 6,
-                  }}
-                >
+              <div className="embla__container">
+                {filteredCards.map((item) => (
                   <Box
+                    key={item.name.toString()}
+                    onClick={() => setFieldValues(item)}
+                    component="div"
                     sx={{
-                      height: "80px",
+                      userSelect: "none",
+                      display: "inline-block",
+                      width: "175px",
+                      flex: "0 0 175px",
+                      overflow: "hidden",
+                      height: "150px",
                       background: global.user.darkMode
-                        ? "hsl(240, 11%, 35%)"
-                        : colors[themeColor][200],
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
+                        ? "hsl(240, 11%, 30%)"
+                        : colors[themeColor][100],
+                      transition: "transform .2s",
+                      "&:active": {
+                        transform: "scale(.95)",
+                        transition: "none",
+                        background: colors[themeColor][100],
+                      },
+                      cursor: "pointer",
+                      mr: 2,
+                      borderRadius: 6,
                     }}
                   >
-                    <span
-                      style={{ fontSize: "30px" }}
-                      className="material-symbols-rounded"
+                    <Box
+                      sx={{
+                        height: "80px",
+                        background: global.user.darkMode
+                          ? "hsl(240, 11%, 35%)"
+                          : colors[themeColor][200],
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "100%",
+                      }}
                     >
-                      {item.icon}
-                    </span>
-                  </Box>
-                  <Box
-                    sx={{
-                      height: "70px",
-                      display: "flex",
-                      alignItems: "center",
-                      px: 2,
-                    }}
-                  >
-                    <Box>
-                      <Typography variant="body2">Add</Typography>
-                      <Typography sx={{ fontWeight: "700" }}>
-                        {item.name}
-                      </Typography>
+                      <span
+                        style={{ fontSize: "30px" }}
+                        className="material-symbols-rounded"
+                      >
+                        {item.icon}
+                      </span>
+                    </Box>
+                    <Box
+                      sx={{
+                        height: "70px",
+                        display: "flex",
+                        alignItems: "center",
+                        px: 2,
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="body2">Add</Typography>
+                        <Typography sx={{ fontWeight: "700" }}>
+                          {item.name}
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
-              ))}
+                ))}
+              </div>
             </Box>
             <Autocomplete
               id="categories"
