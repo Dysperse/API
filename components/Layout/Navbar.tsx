@@ -36,119 +36,115 @@ export const getInitials = (fullName) => {
  * @returns {any}
  */
 export function Navbar(): JSX.Element {
-const router = useRouter()
+  const router = useRouter();
   return (
-      <AppBar elevation={0} position="fixed" sx={{
-          transition: "background .1s",
-          "& .MuiBadge-badge": {
-            transition: "border .1s",
-            transform: "none",
-            border:
-              router.asPath !== "/tidy"
-                ? "2px solid #fff"
-                : {
-                    xs: `2px solid ${colors[themeColor][800]}`,
-                    sm: `2px solid #fff`,
-                  },
-            width: 12,
-            height: 12,
-            borderRadius: "50%",
-          },
-          color: {
-            xs: global.user.darkMode
-              ? "white"
-              : router.asPath === "/tidy"
-              ? colors[themeColor][100]
-              : "black",
-            sm: global.user.darkMode ? "white" : "black",
-          },
-          pr: 0.4,
-          py: {
-            sm: 1,
-            xs: 0.9,
-          },
-          // transition: "all .2s",
-          background: {
-            xs: global.user.darkMode
-              ? "rgba(0,0,0,0)"
-              : router.asPath === "/tidy"
-              ? colors[themeColor][800]
-              : "#fff",
-            sm: global.user.darkMode ? "rgba(0,0,0,0)" : "#fff",
-          },
-          backdropFilter: "blur(10px)",
-}}>
-        <Toolbar>
-          <Box
-            sx={{
-              flexGrow: { xs: 1, sm: "unset" },
+    <AppBar
+      elevation={0}
+      position="fixed"
+      sx={{
+        transition: "background .1s",
+        "& .MuiBadge-badge": {
+          transition: "border .1s",
+          transform: "none",
+          border:
+            router.asPath !== "/tidy"
+              ? "2px solid #fff"
+              : {
+                  xs: `2px solid ${colors[themeColor][800]}`,
+                  sm: `2px solid #fff`,
+                },
+          width: 12,
+          height: 12,
+          borderRadius: "50%",
+        },
+        color: {
+          xs: global.user.darkMode
+            ? "white"
+            : router.asPath === "/tidy"
+            ? colors[themeColor][100]
+            : "black",
+          sm: global.user.darkMode ? "white" : "black",
+        },
+        pr: 0.4,
+        py: {
+          sm: 1,
+          xs: 0.9,
+        },
+        // transition: "all .2s",
+        background: {
+          xs: global.user.darkMode
+            ? "rgba(0,0,0,0)"
+            : router.asPath === "/tidy"
+            ? colors[themeColor][800]
+            : "rgba(255,255,255,.8)",
+          sm: global.user.darkMode ? "rgba(0,0,0,0)" : "#fff",
+        },
+        backdropFilter: "blur(10px)",
+      }}
+    >
+      <Toolbar>
+        <Box
+          sx={{
+            flexGrow: { xs: 1, sm: "unset" },
+          }}
+        >
+          <InviteButton />
+        </Box>
+        <Box
+          sx={{
+            mx: { sm: "auto" },
+          }}
+        >
+          <SearchPopup />
+        </Box>
+        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
+          <AppsMenu />
+        </Box>
+        <ProfileMenu>
+          <Tooltip
+            title="My account"
+            placement="bottom-start"
+            PopperProps={{
+              sx: { pointerEvents: "none" },
             }}
           >
-            <InviteButton />
-          </Box>
-          <Box
-            sx={{
-              mx: { sm: "auto" },
-            }}
-          >
-            <SearchPopup />
-          </Box>
-          <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
-            <AppsMenu />
-          </Box>
-          <ProfileMenu>
-            <Tooltip
-              title="My account"
-              placement="bottom-start"
-              PopperProps={{
-                sx: { pointerEvents: "none" },
+            <IconButton
+              color="inherit"
+              disableRipple
+              sx={{
+                p: 0,
+                ml: 0.6,
+                color: global.user.darkMode ? "hsl(240, 11%, 90%)" : "#606060",
+                "&:hover": {
+                  background: "rgba(200,200,200,.3)",
+                  color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                },
+                "&:focus-within": {
+                  background: `${
+                    global.user.darkMode
+                      ? colors[themeColor]["900"]
+                      : colors[themeColor]["50"]
+                  }!important`,
+                  color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                },
+                transition: "all .2s",
+                "&:active": {
+                  opacity: 0.5,
+                  transform: "scale(0.95)",
+                  transition: "none",
+                },
               }}
             >
-              <IconButton
-                color="inherit"
-                disableRipple
-                sx={{
-                  p: 0,
-                  ml: 0.6,
-                  color: global.user.darkMode
-                    ? "hsl(240, 11%, 90%)"
-                    : "#606060",
-                  "&:hover": {
-                    background: "rgba(200,200,200,.3)",
-                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-                  },
-                  "&:focus-within": {
-                    background: `${
-                      global.user.darkMode
-                        ? colors[themeColor]["900"]
-                        : colors[themeColor]["50"]
-                    }!important`,
-                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-                  },
-                  transition: "all .2s",
-                  "&:active": {
-                    opacity: 0.5,
-                    transform: "scale(0.95)",
-                    transition: "none",
-                  },
-                }}
-              >
-                <BoringAvatar
-                  size={35}
-                  name={global.user.name}
-                  variant="beam"
-                  colors={[
-                    "#801245",
-                    "#F4F4DD",
-                    "#DCDBAF",
-                    "#5D5C49",
-                    "#3D3D34",
-                  ]}
-                />
-              </IconButton>
-            </Tooltip>
-          </ProfileMenu>
-        </Toolbar>
-      </AppBar>
+              <BoringAvatar
+                size={35}
+                name={global.user.name}
+                variant="beam"
+                colors={["#801245", "#F4F4DD", "#DCDBAF", "#5D5C49", "#3D3D34"]}
+              />
+            </IconButton>
+          </Tooltip>
+        </ProfileMenu>
+      </Toolbar>
+    </AppBar>
   );
 }

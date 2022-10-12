@@ -316,7 +316,7 @@ export function SearchPopup() {
           color="inherit"
           sx={{
             borderRadius: 94,
-            mr: 1,
+            mr: 1.5,
             display: { xs: "flex", sm: "none" },
             color: global.user.darkMode
               ? "hsl(240, 11%, 90%)"
