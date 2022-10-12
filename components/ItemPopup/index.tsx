@@ -31,6 +31,7 @@ import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 /**
  * Category modal
@@ -205,6 +206,7 @@ export default function Item({
     drawerState ? neutralizeBack(() => setDrawerState(false)) : revivalBack();
   });
 
+  useStatusBar(drawerState);
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;
@@ -245,29 +247,6 @@ export default function Item({
     setDrawerState(false);
     handleItemDelete();
   });
-
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        drawerState === true
-          ? window.innerWidth > 900
-            ? global.user.darkMode
-              ? "hsl(240, 11%, 5%)"
-              : colors[themeColor][50]
-            : global.user.darkMode
-            ? "hsl(240, 11%, 20%)"
-            : colors[themeColor][50]
-          : document.documentElement?.scrollTop === 0
-          ? global.user.darkMode
-            ? "hsl(240, 11%, 10%)"
-            : "#fff"
-          : global.user.darkMode
-          ? "hsl(240, 11%, 20%)"
-          : colors[global.themeColor]["100"]
-      );
-  }, [drawerState, contextMenu]);
 
   /**
    * Callback for clicking on the star button
