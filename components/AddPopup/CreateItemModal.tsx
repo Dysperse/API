@@ -237,7 +237,7 @@ export function CreateItemModal({
                 color: global.user.darkMode ? "#fff" : "#000",
                 transition: "none",
                 "&:active": {
-                  background: `${colors[themeColor][100]}!important`,
+                  opacity: 0.5,
                 },
               }}
               disableRipple
@@ -258,7 +258,7 @@ export function CreateItemModal({
                 color: global.user.darkMode ? "#fff" : "#000",
                 transition: "none",
                 "&:active": {
-                  background: `${colors.brown[100]} !important`,
+                  opacity: 0.5,
                 },
               }}
               disableRipple
