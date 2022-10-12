@@ -21,6 +21,7 @@ import { cards } from "./cards";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { CircularProgress } from "@mui/material";
 /**
  * Shuffles array in place. ES6 version
  * @param array Array to be shuffled
@@ -262,7 +263,19 @@ export function CreateItemModal({
               }}
               disableRipple
             >
-              <span className="material-symbols-rounded">check</span>
+              {loading ? (
+                <CircularProgress
+                  size={24}
+                  color="inherit"
+                  sx={{
+                    opacity: 0.5,
+                    animationDuration: ".5s",
+                  }}
+                  disableShrink
+                />
+              ) : (
+                <span className="material-symbols-rounded">check</span>
+              )}
             </IconButton>
           </Box>
           <DialogContent
@@ -313,71 +326,69 @@ export function CreateItemModal({
                 my: 2,
               }}
             >
-              <div className="embla__viewport">
-                <div className="embla__container">
-                  {filteredCards.map((item) => (
+              <div className="embla__container">
+                {filteredCards.map((item) => (
+                  <Box
+                    key={item.name.toString()}
+                    onClick={() => setFieldValues(item)}
+                    component="div"
+                    sx={{
+                      userSelect: "none",
+                      display: "inline-block",
+                      width: "175px",
+                      flex: "0 0 175px",
+                      overflow: "hidden",
+                      height: "150px",
+                      background: global.user.darkMode
+                        ? "hsl(240, 11%, 30%)"
+                        : colors[themeColor][100],
+                      transition: "transform .2s",
+                      "&:active": {
+                        transform: "scale(.95)",
+                        transition: "none",
+                        background: colors[themeColor][100],
+                      },
+                      cursor: "pointer",
+                      mr: 2,
+                      borderRadius: 6,
+                    }}
+                  >
                     <Box
-                      key={item.name.toString()}
-                      onClick={() => setFieldValues(item)}
-                      component="div"
                       sx={{
-                        userSelect: "none",
-                        display: "inline-block",
-                        width: "175px",
-                        flex: "0 0 175px",
-                        overflow: "hidden",
-                        height: "150px",
+                        height: "80px",
                         background: global.user.darkMode
-                          ? "hsl(240, 11%, 30%)"
-                          : colors[themeColor][100],
-                        transition: "transform .2s",
-                        "&:active": {
-                          transform: "scale(.95)",
-                          transition: "none",
-                          background: colors[themeColor][100],
-                        },
-                        cursor: "pointer",
-                        mr: 2,
-                        borderRadius: 6,
+                          ? "hsl(240, 11%, 35%)"
+                          : colors[themeColor][200],
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "100%",
                       }}
                     >
-                      <Box
-                        sx={{
-                          height: "80px",
-                          background: global.user.darkMode
-                            ? "hsl(240, 11%, 35%)"
-                            : colors[themeColor][200],
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          width: "100%",
-                        }}
+                      <span
+                        style={{ fontSize: "30px" }}
+                        className="material-symbols-rounded"
                       >
-                        <span
-                          style={{ fontSize: "30px" }}
-                          className="material-symbols-rounded"
-                        >
-                          {item.icon}
-                        </span>
-                      </Box>
-                      <Box
-                        sx={{
-                          height: "70px",
-                          display: "flex",
-                          alignItems: "center",
-                          px: 2,
-                        }}
-                      >
-                        <Box>
-                          <Typography variant="body2">Add</Typography>
-                          <Typography sx={{ fontWeight: "700" }}>
-                            {item.name}
-                          </Typography>
-                        </Box>
+                        {item.icon}
+                      </span>
+                    </Box>
+                    <Box
+                      sx={{
+                        height: "70px",
+                        display: "flex",
+                        alignItems: "center",
+                        px: 2,
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="body2">Add</Typography>
+                        <Typography sx={{ fontWeight: "700" }}>
+                          {item.name}
+                        </Typography>
                       </Box>
                     </Box>
-                  ))}
-                </div>
+                  </Box>
+                ))}
               </div>
             </Box>
             <Autocomplete
