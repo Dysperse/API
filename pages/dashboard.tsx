@@ -22,13 +22,12 @@ export default function Dashboard() {
     fontWeight: "500",
     boxShadow: "none!important",
     "&:active": {
-      transform: "scale(0.95)",
       opacity: 0.75,
       transition: "none !important",
     },
   };
   const activeTabStyles = {
-    background: `${colors[themeColor]["A400"]} !important`,
+    background: `${colors[themeColor]["A100"]} !important`,
     color: "#000",
   };
   const [activeTab, setActiveTab] = useState("lists");
