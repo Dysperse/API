@@ -325,7 +325,7 @@ export function SearchPopup() {
               : "#606060",
             transition: "all .2s",
             "&:active": {
-              opacity: 0.75,
+              opacity: 0.5,
               transform: "scale(0.95)",
               transition: "none",
             },
