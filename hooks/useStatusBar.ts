@@ -12,13 +12,6 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
   const tag: HTMLMetaElement = document.querySelector(
     "meta[name=theme-color]"
   ) as HTMLMetaElement;
-  const isDarkMode = global.user.darkMode;
-
-  const darkModeResets = {
-    top: isDarkMode ? "hsl(240, 11%, 5%)" : "#fff",
-    bottom: isDarkMode ? "hsl(240, 11%, 10%)" : colors[themeColor][200],
-  };
-
   useEffect(() => {
     if (open) {
       tag.setAttribute(
@@ -28,18 +21,16 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
           : colors[themeColor][nestedModals * 100]
       );
     } else {
-      tag.setAttribute(
-        "content",
-        router.asPath === "/tidy"
-          ? colors[themeColor][800]
-          : colors[themeColor][nestedModals * 100]
-      );
+      if (nestedModals > 1) {
+        tag.setAttribute(
+          "content",
+          router.asPath === "/tidy"
+            ? colors[themeColor][800]
+            : colors[themeColor][nestedModals * 100]
+        );
+      } else {
+        tag.setAttribute("content", "#fff");
+      }
     }
-  }, [
-    open,
-    nestedModals,
-    darkModeResets.bottom,
-    darkModeResets.top,
-    tag,
-  ]);
+  }, [open, nestedModals, tag]);
 }
