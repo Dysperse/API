@@ -21,10 +21,6 @@ export default function Dashboard() {
     transition: "all .1s!important",
     fontWeight: "500",
     boxShadow: "none!important",
-    "&:active": {
-      opacity: 0.75,
-      transition: "none !important",
-    },
   };
   const activeTabStyles = {
     background: `${colors[themeColor]["A100"]} !important`,
@@ -47,7 +43,7 @@ export default function Dashboard() {
             <Chip
               key={item}
               label={item}
-              onMouseDown={() => setActiveTab(item.toLowerCase())}
+              onClick={() => setActiveTab(item.toLowerCase())}
               sx={{
                 ...styles,
                 ...(activeTab === item.toLowerCase() && activeTabStyles),
