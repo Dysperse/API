@@ -641,7 +641,10 @@ function House({
  */
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
-  useStatusBar(open);
+  const trigger1 = useMediaQuery("(max-width:600px)");
+  if (trigger1) {
+    useStatusBar(open);
+  }
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
@@ -740,12 +743,16 @@ export function InviteButton() {
           display: "flex",
           userSelect: "none",
           cursor: "pointer",
+          transition: "none",
           background: "transparent!important",
           p: 1,
           gap: 1,
           py: 0,
           color: "inherit",
           borderRadius: 2,
+          "&:hover": {
+            background: { sm: "rgba(200,200,200,.3)!important" },
+          },
         }}
       >
         <Typography
@@ -757,6 +764,9 @@ export function InviteButton() {
             textOverflow: "ellipsis",
             overflow: "hidden",
             whiteSpace: "nowrap",
+            "&:hover": {
+              textDecoration: { sm: "underline" },
+            },
           }}
           noWrap
         >

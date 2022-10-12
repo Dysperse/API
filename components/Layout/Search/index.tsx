@@ -278,13 +278,12 @@ export function SearchPopup() {
         sx={{
           background: global.user.darkMode
             ? "hsl(240,11%,15%)!important"
-            : `${colors[themeColor][100]}!important`,
+            : `${colors[themeColor][50]}!important`,
           transition: "none !important",
-          filter: "brightness(95%)",
-          "&:hover": {
+          "&:hover, &:active": {
             background: global.user.darkMode
               ? "hsl(240,11%,20%)!important"
-              : `${colors[themeColor][200]}!important`,
+              : `${colors[themeColor][100]}!important`,
             filter: "brightness(100%)",
           },
           width: "40vw",

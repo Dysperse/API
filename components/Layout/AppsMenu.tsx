@@ -183,21 +183,14 @@ export function AppsMenu() {
             color="inherit"
             disableRipple
             sx={{
+              borderRadius: 94,
               mr: 1,
-              borderRadius: 4,
-              transition: "none",
               color: global.user.darkMode ? "hsl(240, 11%, 90%)" : "#606060",
-              "&:hover": {
-                background: "rgba(200,200,200,.3)",
-                color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-              },
-              "&:focus-within": {
-                background: `${
-                  global.user.darkMode
-                    ? colors[themeColor]["900"]
-                    : colors[themeColor]["50"]
-                }!important`,
-                color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+              transition: "all .2s",
+              "&:active": {
+                opacity: 0.5,
+                transform: "scale(0.95)",
+                transition: "none",
               },
             }}
             onClick={handleClick}
