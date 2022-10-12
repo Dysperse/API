@@ -313,7 +313,7 @@ export function CreateItemModal({
                 my: 2,
               }}
             >
-              <div class="embla__viewport">
+              <div className="embla__viewport">
                 <div className="embla__container">
                   {filteredCards.map((item) => (
                     <Box
