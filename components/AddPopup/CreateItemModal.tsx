@@ -22,6 +22,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { CircularProgress } from "@mui/material";
+import { useStatusBar } from "../../hooks/useStatusBar";
 /**
  * Shuffles array in place. ES6 version
  * @param array Array to be shuffled
@@ -102,20 +103,7 @@ export function CreateItemModal({
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-  React.useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        open
-          ? global.user.darkMode
-            ? "hsl(240, 11%, 25%)"
-            : colors[themeColor][50]
-          : global.user.darkMode
-          ? "hsl(240, 11%, 10%)"
-          : "#fff"
-      );
-  }, [open]);
+  useStatusBar(open);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const formik = useFormik({
@@ -194,7 +182,7 @@ export function CreateItemModal({
             },
             maxWidth: "600px",
             maxHeight: "100vh",
-            borderRadius: { sm: "20px 20px 0 0" },
+            borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
@@ -205,90 +193,19 @@ export function CreateItemModal({
         onClose={handleClose}
         onOpen={() => setOpen(true)}
       >
-        <Box
-          sx={{
-            display: {
-              xs: "none",
-              sm: "block",
-            },
-          }}
-        >
-          <Puller />
-        </Box>
+        <Puller />
         <form onSubmit={formik.handleSubmit}>
-          <Box
-            component="div"
-            sx={{
-              display: "flex",
-              textAlign: "center",
-              fontWeight: "600",
-              alignItems: "center",
-              p: { xs: 2, sm: 0 },
-              textTransform: "capitalize",
-            }}
-          >
-            <IconButton
-              size="large"
-              onClick={handleClose}
-              sx={{
-                mr: "auto",
-                opacity: { sm: "0" },
-                pointerEvents: { sm: "none" },
-                color: global.user.darkMode ? "#fff" : "#000",
-                transition: "none",
-                "&:active": {
-                  opacity: 0.5,
-                },
-              }}
-              disableRipple
-            >
-              <span className="material-symbols-rounded">close</span>
-            </IconButton>
-            <Typography component="div" variant="h6" sx={{ fontWeight: "600" }}>
-              {alias ?? room}
-            </Typography>
-            <IconButton
-              size="large"
-              onClick={clickSubmitItem}
-              disabled={loading}
-              sx={{
-                ml: "auto",
-                opacity: { sm: "0" },
-                pointerEvents: { sm: "none" },
-                color: global.user.darkMode ? "#fff" : "#000",
-                transition: "none",
-                "&:active": {
-                  opacity: 0.5,
-                },
-              }}
-              disableRipple
-            >
-              {loading ? (
-                <CircularProgress
-                  size={24}
-                  color="inherit"
-                  sx={{
-                    opacity: 0.5,
-                    animationDuration: ".5s",
-                  }}
-                  disableShrink
-                />
-              ) : (
-                <span className="material-symbols-rounded">check</span>
-              )}
-            </IconButton>
-          </Box>
           <DialogContent
             sx={{
-              height: { xs: "100vh", sm: "auto" },
-              pb: { xs: 20, sm: 0 },
+              height: "auto",
+              pb: { xs: 10, sm: 0 },
+              pt: { sm: 0 },
               px: 2.5,
             }}
           >
             <TextField
               autoFocus
               margin="dense"
-              label="Item name"
               required
               fullWidth
               autoComplete={"off"}
@@ -306,9 +223,52 @@ export function CreateItemModal({
               disabled={loading}
               name="title"
               id="nameInput"
-              variant="filled"
+              placeholder="Item name"
+              variant="standard"
               InputProps={{
+                disableUnderline: true,
                 autoComplete: "off",
+                sx: {
+                  background: `${
+                    global.user.darkMode
+                      ? "hsl(240, 11%, 24%)"
+                      : colors[themeColor][50]
+                  }!important`,
+                  fontWeight: "600",
+                  fontSize: "30px",
+                  textDecoration: "underline",
+                  textAlign: "right!important",
+                  borderRadius: "15px",
+                  display: "block",
+                },
+              }}
+            />
+            <TextField
+              margin="dense"
+              placeholder="Add a quantity"
+              autoComplete={"off"}
+              fullWidth
+              onChange={formik.handleChange}
+              value={formik.values.quantity}
+              disabled={loading}
+              name="Quantity"
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                autoComplete: "off",
+                sx: {
+                  background: `${
+                    global.user.darkMode
+                      ? "hsl(240, 11%, 24%)"
+                      : colors[themeColor][50]
+                  }!important`,
+                  fontWeight: "600",
+                  fontSize: "15px",
+                  textDecoration: "underline",
+                  textAlign: "right!important",
+                  borderRadius: "15px",
+                  display: "block",
+                },
               }}
             />
             <Box
@@ -391,7 +351,7 @@ export function CreateItemModal({
                 ))}
               </div>
             </Box>
-            <Autocomplete
+            {/* <Autocomplete
               id="categories"
               multiple
               freeSolo
@@ -404,24 +364,13 @@ export function CreateItemModal({
               renderInput={(params) => (
                 <TextField
                   margin="dense"
-                  label="Tags"
                   name="categories"
-                  variant="filled"
+                  variant="standard"
                   {...params}
                 />
               )}
-            />
-            <TextField
-              margin="dense"
-              label="Quantity"
-              autoComplete={"off"}
-              fullWidth
-              onChange={formik.handleChange}
-              value={formik.values.quantity}
-              disabled={loading}
-              name="quantity"
-              variant="filled"
-            />
+            /> */}
+
             <DialogActions
               sx={{
                 position: { xs: "fixed", sm: "unset" },
@@ -431,10 +380,6 @@ export function CreateItemModal({
                 width: "100%",
                 background: colors[themeColor][50],
                 zIndex: 99,
-                display: {
-                  xs: "none",
-                  sm: "unset",
-                },
               }}
             >
               <LoadingButton
