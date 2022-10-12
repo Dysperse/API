@@ -641,10 +641,10 @@ function House({
  */
 export function InviteButton() {
   const [open, setOpen] = React.useState(false);
-  const trigger1 = useMediaQuery("(max-width:600px)");
-  if (trigger1) {
-    useStatusBar(open);
-  }
+  // const trigger1 = useMediaQuery("(max-width:600px)");
+  // if (trigger1) {
+  useStatusBar(open);
+  // }
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
