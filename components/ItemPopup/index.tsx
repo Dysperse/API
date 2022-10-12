@@ -10,28 +10,27 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import useEmblaCarousel from "embla-carousel-react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import type { Item as ItemType } from "@prisma/client";
 import BoringAvatar from "boring-avatars";
 import dayjs from "dayjs";
+import useEmblaCarousel from "embla-carousel-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../history-control";
 import { Puller } from "../Puller";
 import { AddToListModal } from "./AddToList";
 import { DeleteButton } from "./DeleteButton";
-import { EditButton } from "./EditButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
 
 /**
  * Category modal
@@ -199,7 +198,6 @@ export default function Item({
   const id = data.id;
   const [drawerState, setDrawerState] = useState(false);
   const [item, setItemData] = useState(data);
-  const [switchingToIndex, setSwitchingToIndex] = useState<number>(1);
   const [index, setIndex] = useState<number>(1);
   const [deleted, setDeleted] = useState<boolean>(false);
   useEffect(() => {
@@ -207,6 +205,7 @@ export default function Item({
   });
 
   useStatusBar(drawerState);
+
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;
@@ -300,6 +299,8 @@ export default function Item({
               lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             });
             setDeleted(false);
+            // Set embla slide to 1
+            emblaApi?.scrollTo(1);
           }}
         >
           Undo
