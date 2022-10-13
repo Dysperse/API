@@ -2,6 +2,5 @@
   "parser": "@typescript-eslint/parser",
   "rules": {
     "max-depth": "off"
-  },
-  "extends": ["eslint:recommended", "next"]
+  }
 }
