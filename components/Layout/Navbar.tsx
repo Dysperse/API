@@ -24,20 +24,6 @@ export function Navbar(): JSX.Element {
       position="fixed"
       sx={{
         transition: "background .1s",
-        "& .MuiBadge-badge": {
-          transition: "border .1s",
-          transform: "none",
-          border:
-            router.asPath !== "/tidy"
-              ? "2px solid #fff"
-              : {
-                  xs: `2px solid ${colors[themeColor][800]}`,
-                  sm: `2px solid #fff`,
-                },
-          width: 12,
-          height: 12,
-          borderRadius: "50%",
-        },
         color: {
           xs: global.user.darkMode
             ? "white"
@@ -51,14 +37,13 @@ export function Navbar(): JSX.Element {
           sm: 1,
           xs: 0.9,
         },
-        // transition: "all .2s",
         background: {
           xs: global.user.darkMode
             ? "rgba(0,0,0,0)"
             : router.asPath === "/tidy"
             ? colors[themeColor][800]
             : "rgba(255,255,255,.8)",
-          sm: global.user.darkMode ? "rgba(0,0,0,0)" : "#fff",
+          sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.8)",
         },
         backdropFilter: "blur(10px)",
       }}
