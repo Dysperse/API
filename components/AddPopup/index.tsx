@@ -132,6 +132,8 @@ function MoreRooms(): JSX.Element {
    */
   const handleClickOpen = () => setOpen(true);
 
+  useStatusBar(open, 2);
+
   return (
     <>
       <SwipeableDrawer
@@ -417,10 +419,10 @@ export default function AddPopup({
             background: colors[themeColor][50],
             width: {
               xs: "100vw",
-              sm: "50vw",
+              sm: "100%",
             },
             maxHeight: "80vh",
-            maxWidth: "700px",
+            maxWidth: "600px",
             "& *:not(.MuiTouchRipple-child, .puller)": {
               background: "transparent!important",
             },
@@ -445,17 +447,12 @@ export default function AddPopup({
             overflowY: "auto",
           }}
         >
-          <DialogTitle
-            sx={{
-              display: "flex",
-              textAlign: "center",
-              alignItems: "center",
-            }}
+          <Typography
+            variant="h6"
+            sx={{ mx: "auto", textAlign: "center", fontWeight: "600" }}
           >
-            <Typography variant="h6" sx={{ mx: "auto", fontWeight: "600" }}>
-              Create item
-            </Typography>
-          </DialogTitle>
+            Create item
+          </Typography>
 
           <Content />
         </Box>
