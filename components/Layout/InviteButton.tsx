@@ -312,7 +312,7 @@ function House({
           ? editMode
             ? colors[color][100]
             : colors[color][800]
-          : colors[themeColor][50]
+          : colors[themeColor][100]
       );
   }, [open]);
 
