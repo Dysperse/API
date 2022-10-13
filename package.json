@@ -54,6 +54,7 @@
   ],
   "description": "Next-gen home inventory",
   "devDependencies": {
-    "prisma": "^4.4.0"
+    "prisma": "^4.4.0",
+    "typescript": "4.8.4"
   }
 }
