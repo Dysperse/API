@@ -1,10 +1,9 @@
 import Box from "@mui/material/Box";
 import { ErrorHandler } from "../components/ErrorHandler";
 import { Header } from "../components/Tidy/Header";
+import { Reminder } from "../components/Tidy/Reminder";
 import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
-import { Button } from "@mui/material";
-import { Reminder } from "../components/Tidy/Reminder";
 
 /**
  * Top-level component for the maintenance page
