@@ -25,39 +25,11 @@ function Products() {
       description: "Next-gen personal home inventory",
     },
     {
-      key: 3,
+      key: 2,
       label: "Availability",
       href: "//availability.smartlist.tech",
-      description: "Find the best time for a group to get together",
-    },
-    {
-      key: 4,
-      label: "Dressing",
-      href: "//dressing.smartlist.tech",
-
-      description: "Match dress sizes which fit you in multiple stores",
-    },
-    {
-      key: 5,
-      bg: green[global.user.darkMode ? 900 : 200],
-      href: "https://feedback.smartlist.tech/",
-      target: "_blank",
-      label: (
-        <>
-          <span
-            className="material-symbols-outlined"
-            style={{ marginRight: "10px" }}
-          >
-            lightbulb
-          </span>
-          Suggest an app
-        </>
-      ),
-      description: (
-        <div style={{ color: green[global.user.darkMode ? 300 : 700] }}>
-          Have any ideas for apps? Let us know!
-        </div>
-      ),
+      description:
+        "Find the best time for a group to get together (Coming soon!)",
     },
   ];
 
@@ -91,11 +63,11 @@ function Products() {
             cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background:
-                category.bg ??
-                (global.user.darkMode
-                  ? "hsl(240, 11%, 40%)"
-                  : colors[global.themeColor][200]),
+              background: colors[global.themeColor][200],
+              // category.bg ??
+              // (global.user.darkMode
+              //   ? "hsl(240, 11%, 40%)"
+              //   : colors[global.themeColor][200]),
             },
             transition: "all .2s",
             "&:before": {
@@ -121,6 +93,7 @@ function Products() {
             aria-controls="panel1d-content"
             id="panel1d-header"
             sx={{
+              fontWeight: "500",
               minHeight: "35px!important",
               maxHeight: "35px!important",
               color: global.user.darkMode
@@ -140,6 +113,133 @@ function Products() {
               }}
             >
               {category.description}
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+    </div>
+  );
+}
+
+function Apps() {
+  const apps = [
+    {
+      key: 1,
+      label: "Windows",
+    },
+    {
+      key: 2,
+      label: "Android",
+    },
+    {
+      key: 3,
+      label: "iOS",
+    },
+    // {
+    //   key: 5,
+    //   bg: green[global.user.darkMode ? 900 : 200],
+    //   href: "https://feedback.smartlist.tech/",
+    //   target: "_blank",
+    //   label: (
+    //     <>
+    //       <span
+    //         className="material-symbols-outlined"
+    //         style={{ marginRight: "10px" }}
+    //       >
+    //         lightbulb
+    //       </span>
+    //       Suggest an app
+    //     </>
+    //   ),
+    //   description: (
+    //     <div style={{ color: green[global.user.darkMode ? 300 : 700] }}>
+    //       Have any ideas for apps? Let us know!
+    //     </div>
+    //   ),
+    // },
+  ];
+
+  const [expanded, setExpanded] = React.useState(0);
+
+  /**
+   * @param {any} panel
+   * @returns {any}
+   */
+  const handleChange = (panel: number) => {
+    setExpanded(panel);
+  };
+
+  return (
+    <div
+      onMouseLeave={() => {
+        handleChange(0);
+      }}
+      onBlur={() => {
+        handleChange(0);
+      }}
+    >
+      {apps.map((category) => (
+        <Accordion
+          key={category.label.toString()}
+          square
+          sx={{
+            boxShadow: "none!important",
+            margin: "0!important",
+            borderRadius: "9px",
+            cursor: "pointer",
+            background: "transparent",
+            "&:hover, &.Mui-expanded": {
+              background: colors[global.themeColor][200],
+              // category.bg ??
+              // (global.user.darkMode
+              //   ? "hsl(240, 11%, 40%)"
+              //   : colors[global.themeColor][200]),
+            },
+            transition: "all .2s",
+            "&:before": {
+              display: "none",
+            },
+            "& .MuiAccordionDetails-root": {
+              opacity: 0,
+              transform: "scale(.95)",
+              transition: "all .3s",
+            },
+            "&:hover .MuiAccordionDetails-root, &.Mui-expanded .MuiAccordionDetails-root":
+              {
+                opacity: 1,
+                transform: "scale(1)",
+              },
+          }}
+          expanded={expanded === category.key}
+          onMouseOver={() => handleChange(category.key)}
+          onFocus={() => handleChange(category.key)}
+        >
+          <AccordionSummary
+            aria-controls="panel1d-content"
+            id="panel1d-header"
+            sx={{
+              fontWeight: "500",
+              minHeight: "35px!important",
+              maxHeight: "35px!important",
+              color: global.user.darkMode
+                ? "hsl(240, 11%, 90%)"
+                : colors[global.themeColor][900],
+            }}
+          >
+            {category.label}
+          </AccordionSummary>
+          <AccordionDetails sx={{ pb: 1, pt: 0 }}>
+            <Typography
+              variant="body2"
+              sx={{
+                maxWidth: "200px",
+                color: global.user.darkMode
+                  ? "hsl(240, 11%, 80%)"
+                  : colors[global.themeColor][700],
+              }}
+            >
+              Download Carbon for {category.label} for extra features such as
+              push notifications, assistant, and more!
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -226,9 +326,13 @@ export function AppsMenu() {
       >
         <Box sx={{ px: 2, py: 1 }}>
           <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
-            Apps
+            Workspace
           </Typography>
           <Products />
+          <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
+            Download the apps!
+          </Typography>
+          <Apps />
         </Box>
       </Menu>
     </div>

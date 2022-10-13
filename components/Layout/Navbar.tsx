@@ -10,6 +10,7 @@ import Settings from "../Settings/index";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
+import { Offline, Online } from "react-detect-offline";
 
 /**
  * Navbar component for layout
@@ -76,6 +77,43 @@ export function Navbar(): JSX.Element {
           }}
         >
           <SearchPopup />
+        </Box>
+        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
+          <Offline>
+            <Tooltip title="You're offline">
+              <IconButton
+                color="inherit"
+                disableRipple
+                sx={{
+                  p: 0,
+                  mr: 0.6,
+                  color: global.user.darkMode
+                    ? "hsl(240, 11%, 90%)"
+                    : "#606060",
+                  "&:hover": {
+                    background: "rgba(200,200,200,.3)",
+                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                  "&:focus-within": {
+                    background: `${
+                      global.user.darkMode
+                        ? colors[themeColor]["900"]
+                        : colors[themeColor]["50"]
+                    }!important`,
+                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                  transition: "all .2s",
+                  "&:active": {
+                    opacity: 0.5,
+                    transform: "scale(0.95)",
+                    transition: "none",
+                  },
+                }}
+              >
+                <span className="material-symbols-outlined">offline_bolt</span>
+              </IconButton>
+            </Tooltip>
+          </Offline>
         </Box>
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
           <AppsMenu />
