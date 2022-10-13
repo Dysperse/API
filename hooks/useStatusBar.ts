@@ -13,6 +13,12 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
     "meta[name=theme-color]"
   ) as HTMLMetaElement;
   useEffect(() => {
+    if (router.asPath === "/tidy") {
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute("content", colors[themeColor][800]);
+      return;
+    }
     if (open) {
       tag.setAttribute(
         "content",

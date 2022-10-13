@@ -40,6 +40,10 @@ function CategoryModal({ category }: { category: string }) {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
+  document
+    .querySelector(`meta[name="theme-color"]`)
+    ?.setAttribute("content", colors[themeColor][800]);
+
   return (
     <>
       <SwipeableDrawer

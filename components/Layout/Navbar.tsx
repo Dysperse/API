@@ -10,7 +10,8 @@ import Settings from "../Settings/index";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
-import { Offline, Online } from "react-detect-offline";
+import { Offline } from "react-detect-offline";
+import { useEffect } from "react";
 
 /**
  * Navbar component for layout
@@ -18,6 +19,7 @@ import { Offline, Online } from "react-detect-offline";
  */
 export function Navbar(): JSX.Element {
   const router = useRouter();
+
   return (
     <AppBar
       elevation={0}
