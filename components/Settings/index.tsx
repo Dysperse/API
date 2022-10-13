@@ -19,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { colors } from "../../lib/colors";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
 import AccountSettings from "./AccountSettings";
 import AppearanceSettings from "./AppearanceSettings";

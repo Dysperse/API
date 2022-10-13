@@ -1,28 +1,23 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useFormik } from "formik";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { AutocompleteData } from "../AutocompleteData";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
+import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { CircularProgress } from "@mui/material";
-import { useStatusBar } from "../../hooks/useStatusBar";
 /**
  * Shuffles array in place. ES6 version
  * @param array Array to be shuffled
@@ -351,26 +346,6 @@ export function CreateItemModal({
                 ))}
               </div>
             </Box>
-            {/* <Autocomplete
-              id="categories"
-              multiple
-              freeSolo
-              disabled={loading}
-              options={AutocompleteData}
-              onChange={(e, newValue) =>
-                formik.setFieldValue("categories", newValue)
-              }
-              value={formik.values.categories}
-              renderInput={(params) => (
-                <TextField
-                  margin="dense"
-                  name="categories"
-                  variant="standard"
-                  {...params}
-                />
-              )}
-            /> */}
-
             <DialogActions
               sx={{
                 position: { xs: "fixed", sm: "unset" },

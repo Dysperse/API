@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { CreateItemModal } from "../AddPopup/CreateItemModal";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import type { Item } from "@prisma/client";
 import CardActionArea from "@mui/material/CardActionArea";
 

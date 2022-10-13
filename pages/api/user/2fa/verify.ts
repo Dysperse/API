@@ -1,5 +1,5 @@
 // Update user settings
-import { prisma } from "../../../../lib/client";
+import { prisma } from "../../../../lib/prismaClient";
 import * as twofactor from "node-2fa";
 
 /**

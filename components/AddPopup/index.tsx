@@ -17,7 +17,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
 import { CreateItemModal } from "./CreateItemModal";
 

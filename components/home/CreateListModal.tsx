@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
 
 /**

@@ -11,14 +11,12 @@ import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import React from "react";
-import type { MaintenanceReminder as Reminder } from "@prisma/client";
 
 /**
  * Bottom navigation bar
- * @param {any} {maintenance}
  * @returns {any}
  */
-export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
+export function BottomNav() {
   const trigger = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,
@@ -99,7 +97,7 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
     const url = router.asPath;
 
     switch (url) {
-      case "/dashboard":
+      case "/home":
         setValue(0);
         break;
       case "/trash":
@@ -181,12 +179,11 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
           }}
         >
           <BottomNavigationAction
-            
             sx={{
               ...styles,
             }}
             label="Home"
-            onClick={() => onLink("/dashboard")}
+            onClick={() => onLink("/home")}
             icon={
               <Icon
                 baseClassName={`material-symbols-${
@@ -198,7 +195,6 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
             }
           />
           <BottomNavigationAction
-            
             sx={{
               ...styles,
             }}
@@ -215,7 +211,6 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
             }
           />
           <BottomNavigationAction
-            
             sx={{
               ...styles,
             }}
@@ -233,7 +228,6 @@ export function BottomNav({ maintenance }: { maintenance: Reminder[] }) {
           />
 
           <BottomNavigationAction
-            
             sx={{
               ...styles,
             }}

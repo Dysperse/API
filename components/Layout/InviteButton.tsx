@@ -24,7 +24,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import type { House } from "../../types/houseProfile";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { UpgradeBanner } from "../HouseProfile/ItemBanner";
 import { MemberList } from "../HouseProfile/MemberList";
 import { RoomList } from "../HouseProfile/RoomList";
@@ -750,7 +750,11 @@ export function InviteButton() {
           color: "inherit",
           borderRadius: 2,
           "&:hover": {
+            color: colors[themeColor][900],
             background: { sm: "rgba(200,200,200,.3)!important" },
+            "& div": {
+              textDecoration: { sm: "underline" },
+            },
           },
         }}
       >
@@ -763,9 +767,6 @@ export function InviteButton() {
             textOverflow: "ellipsis",
             overflow: "hidden",
             whiteSpace: "nowrap",
-            "&:hover": {
-              textDecoration: { sm: "underline" },
-            },
           }}
           noWrap
         >

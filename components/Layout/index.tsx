@@ -19,7 +19,7 @@ import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import type { CustomRoom as Room } from "@prisma/client";
 import { ErrorHandler } from "../ErrorHandler";
-import { BottomNav } from "./BottomNav";
+import { BottomNav } from "./BottomNavigation";
 import { DrawerListItems } from "./Links";
 import { Navbar } from "./Navbar";
 
@@ -252,16 +252,11 @@ function ResponsiveDrawer({
     <Box
       sx={{
         display: "flex",
-        "& *::selection": {
-          color: "#fff",
-          background: colors[themeColor]["A700"],
-        },
       }}
     >
       <CssBaseline />
       <Navbar />
       <Box
-        component="nav"
         sx={{
           width: { md: collapsed ? 100 : drawerWidth },
           flexShrink: { md: 0 },
@@ -321,7 +316,7 @@ function ResponsiveDrawer({
             <Toolbar />
           </Box>
         </Box>
-        <BottomNav maintenance={data} />
+        <BottomNav />
       </Box>
     </Box>
   );

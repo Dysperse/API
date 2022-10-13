@@ -24,7 +24,7 @@ import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
 import { AddToListModal } from "./AddToList";
 import { DeleteButton } from "./DeleteButton";

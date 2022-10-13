@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import AuthCode from "react-auth-code-input";
 import { useSWRConfig } from "swr";
 import { colors } from "../../lib/colors";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
 import { Layout } from "./Layout";
 

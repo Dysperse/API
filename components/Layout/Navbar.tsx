@@ -1,35 +1,15 @@
 import AppBar from "@mui/material/AppBar";
-import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 import BoringAvatar from "boring-avatars";
-import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
 import { colors } from "../../lib/colors";
-import { ProfileMenu } from "../Layout/Profile";
+import Settings from "../Settings/index";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
-
-/**
- * Returns the initials of a name
- * @param {any} fullName
- * @returns {any}
- */
-export const getInitials = (fullName) => {
-  const allNames = fullName.trim().split(" ");
-  const initials = allNames.reduce((acc, curr, index) => {
-    if (index === 0 || index === allNames.length - 1) {
-      acc = `${acc}${curr.charAt(0).toUpperCase()}`;
-    }
-    return acc;
-  }, "");
-  return initials;
-};
 
 /**
  * Navbar component for layout
@@ -100,9 +80,9 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
           <AppsMenu />
         </Box>
-        <ProfileMenu>
+        <Settings>
           <Tooltip
-            title="My account"
+            title={global.user.email}
             placement="bottom-start"
             PopperProps={{
               sx: { pointerEvents: "none" },
@@ -143,7 +123,7 @@ export function Navbar(): JSX.Element {
               />
             </IconButton>
           </Tooltip>
-        </ProfileMenu>
+        </Settings>
       </Toolbar>
     </AppBar>
   );

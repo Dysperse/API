@@ -14,7 +14,7 @@ import { colors } from "../../../lib/colors";
 import type { ApiResponse } from "../../../types/client";
 import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
-import { neutralizeBack, revivalBack } from "../../history-control";
+import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 
 /**
@@ -146,7 +146,7 @@ function Home({
         Dark mode
         <Icon icon="dark_mode" />
       </Item>
-      <Item onSelect={() => onLink("/dashboard")}>
+      <Item onSelect={() => onLink("/home")}>
         Dashboard
         <Icon icon="layers" />
       </Item>

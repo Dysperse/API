@@ -16,7 +16,7 @@ import Typography from "@mui/material/Typography";
 import React, { createRef, useState } from "react";
 // import { useScreenshot } from "use-react-screenshot";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { CreateListModal } from "./CreateListModal";
 import { GenerateListItem } from "./GenerateListItem";
 import type { List } from "@prisma/client";

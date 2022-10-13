@@ -10,7 +10,7 @@ import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 
 /**
  * Description

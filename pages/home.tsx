@@ -4,10 +4,10 @@ import { colors } from "../lib/colors";
 import Container from "@mui/material/Container";
 import Head from "next/head";
 import { useState } from "react";
-import { Lists } from "../components/dashboard/Lists";
-import { RecentItems } from "../components/dashboard/RecentItems";
-import { Recipes } from "../components/dashboard/Recipes";
-import { Tips } from "../components/dashboard/Tips";
+import { Lists } from "../components/home/Lists";
+import { RecentItems } from "../components/home/RecentItems";
+import { Recipes } from "../components/home/Recipes";
+import { Tips } from "../components/home/Tips";
 
 /**
  * Top-level component for the dashboard page.

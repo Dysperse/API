@@ -1,6 +1,6 @@
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
-import { prisma } from "../../lib/client";
+import { prisma } from "../../lib/prismaClient";
 import argon2 from "argon2";
 import * as twofactor from "node-2fa";
 

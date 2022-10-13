@@ -1,5 +1,5 @@
 // Update user settings
-import { prisma } from "../../../lib/client";
+import { prisma } from "../../../lib/prismaClient";
 
 /**
  * API handler for the /api/user/update endpoint

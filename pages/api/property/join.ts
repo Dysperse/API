@@ -1,4 +1,4 @@
-import { prisma } from "../../../lib/client";
+import { prisma } from "../../../lib/prismaClient";
 
 /**
  * API handler for the /api/property/updateInfo endpoint

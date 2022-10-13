@@ -15,7 +15,7 @@ import { colors } from "../../lib/colors";
 import { Prompt } from "../Auth/twoFactorPrompt";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 
 function LinkToken({ color }) {
   const [open, setOpen] = React.useState(false);

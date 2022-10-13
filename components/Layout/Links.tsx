@@ -27,7 +27,7 @@ import React from "react";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import AddPopup from "../AddPopup";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
 
 /**
@@ -189,8 +189,8 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
  * @param collapsed
  */
 const ListItem = React.memo(function ListItem({
-  href = "/dashboard",
-  asHref = "/dashboard",
+  href = "/home",
+  asHref = "/home",
   text,
   icon,
   collapsed,
@@ -202,7 +202,7 @@ const ListItem = React.memo(function ListItem({
   collapsed: boolean;
 }) {
   const router = useRouter();
-  if (!router.asPath) router.asPath = "/dashboard";
+  if (!router.asPath) router.asPath = "/home";
   const template = (
     <ListItemButton
       disableRipple={collapsed}

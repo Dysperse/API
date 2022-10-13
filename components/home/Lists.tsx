@@ -20,7 +20,7 @@ import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import type { List } from "@prisma/client";
 import { ErrorHandler } from "../ErrorHandler";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
 import { ListItems } from "./ListItems";
 /**

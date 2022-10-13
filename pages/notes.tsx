@@ -23,7 +23,7 @@ import { ErrorHandler } from "../components/ErrorHandler";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
-import { neutralizeBack, revivalBack } from "../components/history-control";
+import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 
 /**
  * Color picker for note modal

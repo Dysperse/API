@@ -13,7 +13,12 @@ module.exports = withPWA({
     return [
       {
         source: "/",
-        destination: "/dashboard",
+        destination: "/home",
+        permanent: true,
+      },
+      {
+        source: "/dashboard",
+        destination: "/home",
         permanent: true,
       },
     ];

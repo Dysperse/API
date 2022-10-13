@@ -10,7 +10,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { neutralizeBack, revivalBack } from "../history-control";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 
 /**
  * Product list
@@ -185,7 +185,9 @@ export function AppsMenu() {
             sx={{
               borderRadius: 94,
               mr: 1,
-              color: global.user.darkMode ? "hsl(240, 11%, 90%)" : "#606060",
+              color: global.user.darkMode
+                ? "hsl(240, 11%, 90%)"
+                : colors[themeColor][900],
               transition: "all .2s",
               "&:active": {
                 opacity: 0.5,

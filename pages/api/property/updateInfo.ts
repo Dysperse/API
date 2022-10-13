@@ -1,4 +1,4 @@
-import { prisma } from "../../../lib/client";
+import { prisma } from "../../../lib/prismaClient";
 import { validatePermissions } from "../../../lib/validatePermissions";
 
 /**
