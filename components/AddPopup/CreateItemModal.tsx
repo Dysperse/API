@@ -243,7 +243,9 @@ export function CreateItemModal({
               placeholder="Add a quantity"
               autoComplete={"off"}
               fullWidth
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.setFieldValue("quantity", e.target.value);
+              }}
               value={formik.values.quantity}
               disabled={loading}
               name="Quantity"
