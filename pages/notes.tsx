@@ -206,6 +206,7 @@ function NoteModal({
 
   return (
     <SwipeableDrawer
+      disableSwipeToOpen
       anchor="bottom"
       open={open}
       onClose={() => {

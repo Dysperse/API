@@ -160,6 +160,7 @@ function CreateModal() {
       <SwipeableDrawer
         anchor="bottom"
         open={open}
+        disableSwipeToOpen
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{
