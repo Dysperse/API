@@ -7,7 +7,7 @@
   "repository": "https://github.com/Smartlist-App/Smartlist",
   "scripts": {
     "dev": "next dev",
-    "build": "depcheck && prisma generate && next build",
+    "build": "prisma generate && next build && npx depcheck",
     "start": "next start",
     "lint": "next lint"
   },
@@ -15,10 +15,10 @@
     "@emailjs/browser": "^3.7.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
-    "@material-symbols/svg-400": "^0.2.13",
     "@mui/lab": "^5.0.0-alpha.101",
     "@mui/material": "^5.10.7",
     "@prisma/client": "^4.4.0",
+    "@typescript-eslint/parser": "^5.40.0",
     "argon2": "^0.29.1",
     "boring-avatars": "^1.7.0",
     "cmdk": "^0.1.20",
@@ -55,7 +55,6 @@
   ],
   "description": "Next-gen home inventory",
   "devDependencies": {
-    "@svgr/webpack": "^6.4.0",
     "prisma": "^4.4.0",
     "typescript": "4.8.4"
   }
