@@ -10,7 +10,6 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
  * @returns {any}
  */
 export function CustomRooms({ houseType }: { houseType: string }) {
-  //  eslint-disable-next-line react-hooks/exhaustive-deps
   const fixedOptions = [
     ...(houseType === "dorm" ? [] : ["Kitchen"]),
     "Bedroom",
