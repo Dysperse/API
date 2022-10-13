@@ -452,7 +452,7 @@ function House({
         anchor="bottom"
         swipeAreaWidth={0}
         ModalProps={{
-          keepMounted: true,
+          keepMounted: data.accessToken === global.property.accessToken,
         }}
         disableSwipeToOpen
         PaperProps={{

@@ -10,6 +10,7 @@ import type { ApiResponse } from "../../types/client";
  */
 export function UpgradeBanner({ color }: { color: string }) {
   const { data }: ApiResponse = useApi("property/inventory/count");
+
   return !data ? null : (
     <Box>
       <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
