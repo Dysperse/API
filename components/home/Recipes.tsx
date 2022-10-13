@@ -31,7 +31,6 @@ export function Recipes(): JSX.Element {
   // call `handleClick` on render
   useEffect(() => {
     handleClick();
-    //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
