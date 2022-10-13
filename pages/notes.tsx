@@ -196,9 +196,8 @@ function NoteModal({
   useEffect(() => {
     formik.setFieldValue("title", title);
     formik.setFieldValue("content", content);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, content]);
+
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
