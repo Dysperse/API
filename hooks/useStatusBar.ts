@@ -27,7 +27,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
           : colors[themeColor][nestedModals * 100]
       );
     } else {
-      if (nestedModals > 1) {
+      if (open && nestedModals > 1) {
         tag.setAttribute(
           "content",
           router.asPath === "/tidy"

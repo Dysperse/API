@@ -303,18 +303,6 @@ function House({
   );
 
   const { mutate } = useSWRConfig();
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        open
-          ? editMode
-            ? colors[color][100]
-            : colors[color][800]
-          : colors[themeColor][50]
-      );
-  }, [open]);
 
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
