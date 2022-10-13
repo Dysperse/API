@@ -12,17 +12,17 @@ img {
 }
 ::-webkit-scrollbar {
   display: none;
-  -webkit-appearance: none;
   width: 0px;
   background: transparent; 
 }
 
 .MuiTouchRipple-rippleVisible {
   animation-duration: 0.25s !important;
+  animation-timing-function: cubic-bezier(.4,0,.2,1) !important;
 }
 .MuiTouchRipple-child {
-  filter: opacity(0.4) !important;
-  background: radial-gradient(#000,  #fff);
+  filter: opacity(0.3) !important;
+  background: radial-gradient(#000,  #000);
 }
 .rippleDark .MuiTouchRipple-child {
   background: radial-gradient(#fff,  #000) !important;
@@ -37,79 +37,16 @@ img {
     background-color: var(--bgtheme) !important;
   }
 }
-
-.atom-overlay {
-  z-index: 9999999999 !important;
-  background-color: rgba(0, 0, 0, 0.25) !important;
-  backdrop-filter: blur(10px);
-}
-.atom-suggestion {
-  border: 0 !important;
-  background: #c4b5b5 !important;
-  color: #232323 !important;
-  border-radius: 15px;
-}
-.atom-suggestionHighlighted {
-  background: #c0adad !important;
-}
-.atom-suggestionsContainerOpen {
-  border: 0 !important;
-}
-.atom-input {
-  border-radius: 15px !important;
-  border: 0 !important;
-  width: 100% !important;
-  background: #b39e9e !important;
-  color: #232323 !important;
-  padding: 13px 15px !important;
-}
-.atom-content {
-  box-shadow: 0 !important;
-}
-.atom-modal {
-  border-radius: 28px !important;
-  background: #c4b5b5 !important;
-  box-shadow: 0 !important;
-  padding: 15px !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
-  max-width: 100vw !important;
-  animation: atom-modal 0.4s forwards !important;
-}
-
-@keyframes atom-modal {
-  0% {
-    margin-bottom: -500px;
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  .atom-modal {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-    position: fixed !important;
-    top: auto !important;
-    max-height: 80vh !important;
-    bottom: 0 !important;
-  }
-}
-
-@media only screen and (min-width: 900px) {
-  .atom-modal {
-    position: fixed !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-  }
-}
 .MuiIconButton-root:active .material-symbols-rounded {
   transform: scale(0.9);
+  opacity: .6
 }
 .MuiIconButton-root:not(:active) .material-symbols-rounded {
-  transition: transform 0.2s;
+  transition: transform 0.2s, opacity .2s;
 }
 
 .MuiIconButton-root .MuiTouchRipple-rippleVisible {
-  animation-duration: 0.3s !important;
+  animation-duration: 0.5s !important;
 }
 
 * {
@@ -121,36 +58,10 @@ img {
   position: unset !important;
 }
 
-.puller-side {
-  height: 60px;
-  width: 7px;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  margin-left: -18px;
-  border-radius: 10px;
-  transform: translateY(-50%);
-}
 .MuiDialogActions-spacing {
   background-color: transparent !important;
 }
-.animateIcon {
-  animation: starScale 0.5s forwards;
-  transform: scale(0);
-  animation-delay: 0.1s;
-}
 
-@keyframes starScale {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.3);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 ::selection {
   color: #fff;
   background: var(--bg);
