@@ -13,19 +13,18 @@ img {
 ::-webkit-scrollbar {
   display: none;
   width: 0px;
-  background: transparent; 
+  background: transparent;
 }
 .MuiTouchRipple-rippleVisible {
   animation-duration: 0.25s !important;
-  animation-timing-function: cubic-bezier(.4,0,.2,1) !important;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 .MuiTouchRipple-child {
   filter: opacity(0.3) !important;
-  background: radial-gradient(#000,  #000);
+  background: radial-gradient(#000, #000);
 }
 .rippleDark .MuiTouchRipple-child {
-  background: radial-gradient(#fff,  #000) !important;
-
+  background: radial-gradient(#fff, #000) !important;
 }
 .MuiBackdrop-root {
   background-color: rgba(0, 0, 0, 0.25) !important;
@@ -38,10 +37,10 @@ img {
 }
 .MuiIconButton-root:active .material-symbols-rounded {
   transform: scale(0.9);
-  opacity: .6
+  opacity: 0.6;
 }
 .MuiIconButton-root:not(:active) .material-symbols-rounded {
-  transition: transform 0.2s, opacity .2s;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
 .MuiIconButton-root .MuiTouchRipple-rippleVisible {
@@ -103,5 +102,5 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px
+  gap: 5px;
 }
