@@ -81,6 +81,14 @@ function EditProperty({
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
+  useEffect(() => {
+    if (open) {
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute("content", colors[color][900]);
+    }
+  }, [open]);
+
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -104,7 +112,7 @@ function EditProperty({
     >
       <Box
         sx={{
-          height: "100vh",
+          height: { xs: "100vh", sm: "auto" },
           px: 2,
           borderRadius: "20px 20px 0 0",
 
