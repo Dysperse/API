@@ -14,7 +14,7 @@ import { Offline } from "react-detect-offline";
 import { useState, useEffect } from "react";
 
 function UpdateButton() {
-  const [button, setButton] = useState(null);
+  const [button, setButton] = useState(false);
   // This hook only run once in browser after the component is rendered for the first time.
   // It has same effect as the old componentDidMount lifecycle callback.
   useEffect(() => {
