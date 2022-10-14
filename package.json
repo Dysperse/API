@@ -8,9 +8,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "nextron-build": "nextron build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vapid": "web-push generate-vapid-keys"
   },
   "dependencies": {
     "@emailjs/browser": "^3.7.0",
