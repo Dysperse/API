@@ -1,12 +1,16 @@
 self.addEventListener("push", (event) => {
    console.log("--------- push event received ----------");
 
-   let title = (event.data && JSON.parse(event.data.text()).title) || "You have a new notification • Carbon";
-   let body = (event.data && JSON.parse(event.data.text()).body) || "Click to open";
-   let tag = "carbon-notification";
+   const title = (event.data && JSON.parse(event.data.text()).title) || "You have a new notification • Carbon";
+   const body = (event.data && JSON.parse(event.data.text()).body) || "Click to open";
+   const tag = "carbon-notification";
 
    event.waitUntil(
-      self.registration.showNotification(title, { body, tag })
+      self.registration.showNotification(title, {
+         body,
+         tag,
+         icon: "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v3/android/android-launchericon-192-192.png"
+      })
    )
 });
 
