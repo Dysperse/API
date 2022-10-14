@@ -65,15 +65,16 @@ export default function Onboarding() {
         <Box
           sx={{
             position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            top: { sm: "50%" },
+            bottom: { xs: 0, sm: "unset" },
+            left: { sm: "50%" },
+            transform: { sm: "translate(-50%, -50%)" },
             zIndex: 2,
             maxHeight: "80vh",
             overflowY: "auto",
-            maxWidth: "calc(100vw - 40px)",
-            width: "500px",
-            borderRadius: "10px",
+            maxWidth: "calc(100vw - 60px)",
+            width: "100vw",
+            borderRadius: { xs: "20px 20px 0 0", sm: "10px" },
             background: "#fff",
             padding: 4,
           }}

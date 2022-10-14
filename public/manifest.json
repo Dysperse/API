@@ -17,6 +17,71 @@
   ],
   "short_name": "Carbon",
   "theme_color": "#5D4444",
+  "screenshots": [
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/1.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Create tasks, recipes, and wishlists"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/2.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Clean your home"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/3.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Track your inventory"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/4.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Maximize your productivity with quick actions"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/5.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Maximize your productivity with quick search"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/6.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Seeking some inspiration?"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/7.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "View your items"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/8.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Sync your home"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/9.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Why choose Carbon?"
+    }
+  ],
   "icons": [
     {
       "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v3/windows11/SmallTile.scale-100.png",
