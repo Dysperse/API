@@ -1,14 +1,26 @@
-'use strict'
+self.addEventListener("push", (event) => {
+   console.log("--------- push event received ----------");
+   let title = (event.data && event.data.text()) || "a default message if nothing was passed to us";
+   let body = "We have received a push message";
+   let tag = "push-simple-demo-notification-tag";
+   // let icon = '/icon.png';
 
-self.addEventListener('push', function (event) {
-   const data = JSON.parse(event.data.text())
    event.waitUntil(
-      registration.showNotification(data.title, {
-         body: data.message,
-         icon: '/icons/android-chrome-192x192.png'
-      })
+      self.registration.showNotification(title, { body, tag })
    )
-})
+});
+
+
+
+// self.addEventListener('push', function (event) {
+//    console.log("NOTIFICATION RECEIVED")
+//    const data = JSON.parse(event.data.text())
+//    event.waitUntil(
+//       registration.showNotification("Hi there!", {
+//          body: data,
+//       })
+//    )
+// })
 
 self.addEventListener('notificationclick', function (event) {
    event.notification.close()
@@ -28,12 +40,12 @@ self.addEventListener('notificationclick', function (event) {
    )
 })
 
-// self.addEventListener('pushsubscriptionchange', function(event) {
-//   event.waitUntil(
-//       Promise.all([
-//           Promise.resolve(event.oldSubscription ? deleteSubscription(event.oldSubscription) : true),
-//           Promise.resolve(event.newSubscription ? event.newSubscription : subscribePush(registration))
-//               .then(function(sub) { return saveSubscription(sub) })
-//       ])
-//   )
-// })
+self.addEventListener('pushsubscriptionchange', function (event) {
+   event.waitUntil(
+      Promise.all([
+         Promise.resolve(event.oldSubscription ? deleteSubscription(event.oldSubscription) : true),
+         Promise.resolve(event.newSubscription ? event.newSubscription : subscribePush(registration))
+            .then(function (sub) { return saveSubscription(sub) })
+      ])
+   )
+})

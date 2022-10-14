@@ -26,8 +26,8 @@ const Index = () => {
       window.workbox !== undefined
     ) {
       // run only in browser
-      navigator.serviceWorker.ready.then((reg: any) => {
-        reg.pushManager.getSubscription().then((sub: any) => {
+      navigator.serviceWorker.ready.then((reg) => {
+        reg.pushManager.getSubscription().then((sub) => {
           if (
             sub &&
             !(
@@ -75,7 +75,7 @@ const Index = () => {
       return;
     }
 
-    await fetch("/api/notification", {
+    fetch("/api/notification", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

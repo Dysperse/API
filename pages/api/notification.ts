@@ -1,37 +1,28 @@
 const webPush = require("web-push");
 
-webPush.setVapidDetails(
-  `mailto:${process.env.WEB_PUSH_EMAIL}`,
-  process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
-  process.env.WEB_PUSH_PRIVATE_KEY
-);
-
 const Notification = (req, res) => {
   if (req.method == "POST") {
+    webPush.setVapidDetails(
+      `mailto:${process.env.WEB_PUSH_EMAIL}`,
+      process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
+      process.env.WEB_PUSH_PRIVATE_KEY
+    );
+
     const { subscription } = req.body;
     webPush
       .sendNotification(
         subscription,
         JSON.stringify({
-          title: "Hello Web Push",
-          message: "Your web push notification is here!",
+          title: "You have an upcoming maintenance task",
+          body: "Replace the AC filter",
         })
       )
-      .then((response) => {
-        res.writeHead(response.statusCode, response.headers).end(response.body);
-      })
+      .then((res) => console.log("Sent"))
       .catch((err) => {
-        if ("statusCode" in err) {
-          res.writeHead(err.statusCode, err.headers).end(err.body);
-        } else {
-          console.error(err);
-          res.statusCode = 500;
-          res.end();
-        }
+        console.log("Error");
       });
-  } else {
-    res.statusCode = 405;
-    res.end();
+
+    res.status(200).json({ message: "Notification sent" });
   }
 };
 
