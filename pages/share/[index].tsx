@@ -16,8 +16,8 @@ const base64ToUint8Array = (base64) => {
 
 const Index = () => {
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [subscription, setSubscription] = useState(null);
-  const [registration, setRegistration] = useState(null);
+  const [subscription, setSubscription] = useState<any>(null);
+  const [registration, setRegistration] = useState<any>(null);
 
   useEffect(() => {
     if (
@@ -26,8 +26,8 @@ const Index = () => {
       window.workbox !== undefined
     ) {
       // run only in browser
-      navigator.serviceWorker.ready.then((reg) => {
-        reg.pushManager.getSubscription().then((sub) => {
+      navigator.serviceWorker.ready.then((reg: any) => {
+        reg.pushManager.getSubscription().then((sub: any) => {
           if (
             sub &&
             !(
