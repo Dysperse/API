@@ -1,9 +1,9 @@
 self.addEventListener("push", (event) => {
    console.log("--------- push event received ----------");
-   let title = (event.data && event.data.text()) || "a default message if nothing was passed to us";
-   let body = "We have received a push message";
-   let tag = "push-simple-demo-notification-tag";
-   // let icon = '/icon.png';
+
+   let title = (event.data && JSON.parse(event.data.text()).title) || "You have a new notification • Carbon";
+   let body = (event.data && JSON.parse(event.data.text()).body) || "Click to open";
+   let tag = "carbon-notification";
 
    event.waitUntil(
       self.registration.showNotification(title, { body, tag })
