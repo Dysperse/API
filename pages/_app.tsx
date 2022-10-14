@@ -337,6 +337,11 @@ function Render({
   return (
     <>
       <Head>
+        {/* Prevent page zoom*/}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no"
+        />
         <title>Carbon: Next-gen personal home inventory</title>
       </Head>
       <ThemeProvider theme={userTheme}>

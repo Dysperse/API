@@ -63,6 +63,7 @@ export default function Document() {
           rel="apple-touch-icon"
           href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/apple-touch-icon/apple-touch-icon.png"
         />
+        <meta name="mobile-web-app-capable" content="yes" />
         <link
           rel="apple-touch-icon"
           sizes="57x57"
