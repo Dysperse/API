@@ -7,7 +7,6 @@ declare global {
   var setTheme: (e) => any;
   var themeColor: Color;
   var setThemeColor: (e) => any;
-  var OneSignal: unknown;
   var workbox: any;
 
   var user: User;
