@@ -81,7 +81,8 @@ export function CreateListModal({
             },
             maxWidth: "600px",
             maxHeight: "80vh",
-            borderRadius: "20px 20px 0 0",
+            borderRadius: { xs: "20px 20px 0 0", sm: "20px" },
+            mb: { sm: 3 },
             mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
@@ -94,9 +95,15 @@ export function CreateListModal({
         }}
         onOpen={() => setOpen(true)}
       >
-        <Puller />
+        <Box
+          sx={{
+            display: { sm: "none" },
+          }}
+        >
+          <Puller />
+        </Box>
         <form onSubmit={formik.handleSubmit}>
-          <DialogContent sx={{ pt: 0, mt: -1 }}>
+          <DialogContent sx={{ pt: 0, mt: { xs: -2, sm: 2 } }}>
             <TextField
               margin="dense"
               required
