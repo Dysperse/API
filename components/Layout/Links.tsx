@@ -326,12 +326,10 @@ export function DrawerListItems({
   collapsed,
   setCollapsed,
   customRooms,
-  maintenance,
 }: {
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
   customRooms: JSX.Element;
-  maintenance: Array<MaintenanceReminder>;
 }) {
   return (
     <List

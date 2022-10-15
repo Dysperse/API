@@ -245,7 +245,6 @@ function ResponsiveDrawer({
   const [collapsed, setCollapsed] = React.useState(
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
   );
-  const { data }: ApiResponse = useApi("property/maintenance/reminders");
 
   return (
     <Box
@@ -286,7 +285,6 @@ function ResponsiveDrawer({
         >
           <DrawerListItems
             collapsed={collapsed}
-            maintenance={data}
             setCollapsed={setCollapsed}
             customRooms={<CustomRooms collapsed={collapsed} />}
           />
