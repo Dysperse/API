@@ -93,6 +93,12 @@ export default function Notifications() {
     });
   };
 
+  const [periodicSyncSupported, setPeriodicSyncSupported] = useState(false);
+  useEffect(() => {
+    navigator.serviceWorker.ready.then((registration: any) => {
+      setPeriodicSyncSupported(registration.periodicSync);
+    });
+  }, []);
   return (
     <Box sx={{ mb: 2 }}>
       <ListItem>
@@ -125,6 +131,30 @@ export default function Notifications() {
         }}
       >
         Send test notification
+      </Button>
+      <Button
+        onClick={async () => {
+          const status = ((await navigator.permissions) as any).query({
+            name: "periodic-background-sync",
+          });
+          if (status.state === "granted") {
+            alert(1);
+          } else {
+            alert(2);
+          }
+        }}
+        disabled={!isSubscribed}
+        variant="contained"
+        fullWidth
+        size="large"
+        sx={{
+          boxShadow: 0,
+          mt: 2,
+          mb: 1,
+          borderRadius: 5,
+        }}
+      >
+        Send if periodic sync is supported
       </Button>
     </Box>
   );
