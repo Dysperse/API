@@ -70,7 +70,7 @@ const Index = () => {
 
   const sendNotificationButtonOnClick = async (event) => {
     event.preventDefault();
-    if (subscription == null) {
+    if (subscription === null) {
       console.error("web push not subscribed");
       return;
     }
