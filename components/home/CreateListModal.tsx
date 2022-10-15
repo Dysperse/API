@@ -44,7 +44,7 @@ export function CreateListModal({
       details: "",
     },
     onSubmit: (values: { name: string; details: string }) => {
-      setLoading(true);
+      setOpen(false);
       fetchApiWithoutHook("property/lists/createItem", {
         list: parent,
         name: values.name,
@@ -53,13 +53,11 @@ export function CreateListModal({
       })
         .then((res) => {
           setItems([...items, res]);
-          formik.resetForm();
-          setLoading(false);
-          setOpen(false);
-          toast("Created item!");
           setShowDetails(false);
         })
         .catch(() => setLoading(false));
+
+      formik.resetForm();
     },
   });
 

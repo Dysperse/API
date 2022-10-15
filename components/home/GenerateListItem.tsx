@@ -56,30 +56,11 @@ export function GenerateListItem({
         }}
         dense
       >
-        <ListItemIcon sx={{ ml: -1 }}>
+        <ListItemIcon sx={{ ml: -1.3 }}>
           <IconButton
-            disableRipple
             disabled={global.property.role === "read-only"}
             sx={{
-              borderRadius: 3,
               transition: "transform .2s",
-              "&:hover": {
-                background: global.user.darkMode
-                  ? "hsl(240, 11%, 20%)"
-                  : "rgba(200,200,200,.3)",
-              },
-              "&:active": {
-                transition: "none",
-                transform: "scale(.97)",
-                background: global.user.darkMode
-                  ? "hsl(240, 11%, 20%)"
-                  : "rgba(200,200,200,.3)",
-                ...(global.property.role !== "read-only" && {
-                  transition: "none",
-                  transform: "scale(.97)",
-                  background: "rgba(200,200,200,.3)",
-                }),
-              },
             }}
             onClick={() => {
               if (global.property.role !== "read-only") {
@@ -98,10 +79,7 @@ export function GenerateListItem({
               }
             }}
           >
-            <span
-              style={{ marginLeft: "-2px" }}
-              className="material-symbols-outlined"
-            >
+            <span className="material-symbols-outlined">
               {itemData.completed ? "task_alt" : "radio_button_unchecked"}
             </span>
           </IconButton>
@@ -113,6 +91,7 @@ export function GenerateListItem({
               sx={{
                 borderRadius: 3,
                 p: 1,
+                py: 0.5,
                 ml: -1,
                 transition: "none!important",
                 "& *:not(.MuiTouchRipple-child)": {
@@ -130,8 +109,8 @@ export function GenerateListItem({
                 sx={{
                   borderRadius: 3,
                   p: 1,
+                  py: 0.5,
                   ml: -1,
-                  mt: -1,
                   transition: "none!important",
                   "& *:not(.MuiTouchRipple-child)": {
                     background: "transparent!important",

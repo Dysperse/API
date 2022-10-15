@@ -111,7 +111,7 @@ function GenerateData({
         })
         .map((item: Item) => (
           <GenerateListItem
-            key={item.id.toString()}
+            key={item.id ? item.id.toString() : "false"}
             items={items}
             setItems={setItems}
             itemData={item}
