@@ -1,14 +1,14 @@
 /**
  * @type {import('next').NextConfig}
  */
-const withPlugins = require('next-compose-plugins');
+const withPlugins = require("next-compose-plugins");
 
-const withPWA = require('next-pwa')({
+const withPWA = require("next-pwa")({
   // disable: process.env.NODE_ENV == "development",
   dest: "public",
-  reloadOnOnline: false
-})
-const { withSentryConfig } = require('@sentry/nextjs');
+  reloadOnOnline: false,
+});
+const { withSentryConfig } = require("@sentry/nextjs");
 
 const moduleExports = {
   // Your existing module.exports
@@ -39,23 +39,23 @@ const sentryWebpackPluginOptions = {
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
 
-module.exports = withPlugins([
-  [withPWA()],
-  [withSentryConfig(moduleExports, sentryWebpackPluginOptions)]
-], {
-  reactStrictMode: true,
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/home",
-        permanent: true,
-      },
-      {
-        source: "/dashboard",
-        destination: "/home",
-        permanent: true,
-      },
-    ];
-  },
-})
+module.exports = withPlugins(
+  [[withPWA()], [withSentryConfig(moduleExports, sentryWebpackPluginOptions)]],
+  {
+    reactStrictMode: true,
+    async redirects() {
+      return [
+        {
+          source: "/",
+          destination: "/home",
+          permanent: true,
+        },
+        {
+          source: "/dashboard",
+          destination: "/home",
+          permanent: true,
+        },
+      ];
+    },
+  }
+);
