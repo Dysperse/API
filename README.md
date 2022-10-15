@@ -39,8 +39,6 @@ Hey! I'm Manu. I started Smartlist as a middle school project. I often found my 
 
 [![Vercel](https://user-images.githubusercontent.com/77016441/183126898-2412e41b-40fe-4981-bf9f-5e8349f77d4e.png)](https://vercel.com/?utm_source=smartlist&utm_campaign=oss)
 
-https://infinitzhost.com/?smartlist
-
 ## Features
 
 - Home inventory
