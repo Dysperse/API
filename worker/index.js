@@ -9,7 +9,8 @@ self.addEventListener("push", (event) => {
       self.registration.showNotification(title, {
          body,
          tag,
-         icon: "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v3/android/android-launchericon-192-192.png"
+         icon: "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v3/android/android-launchericon-192-192.png",
+         actions: (event.data && JSON.parse(event.data.text()).actions) || []
       })
    )
 });
