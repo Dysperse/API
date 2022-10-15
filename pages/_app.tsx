@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import MuiLink from "@mui/material/Link";
 import NoSsr from "@mui/material/NoSsr";
+import Masonry from "@mui/lab/Masonry";
 import Skeleton from "@mui/material/Skeleton";
 import {
   createTheme,
@@ -118,9 +119,9 @@ export function Loading(): JSX.Element {
         </Grid>
         <Grid item xs={12} sm={10}>
           <Container sx={{ mt: { xs: 5, sm: 15 } }}>
-            <Grid container spacing={1}>
+            <Masonry spacing={{ xs: 0, sm: 1 }} columns={{ xs: 1, sm: 2 }}>
               {[...new Array(10)].map(() => (
-                <Grid item key={Math.random().toString()} xs={12} sm={6}>
+                <Box key={Math.random().toString()}>
                   <Skeleton
                     variant="rectangular"
                     animation={false}
@@ -129,9 +130,9 @@ export function Loading(): JSX.Element {
                       height: Math.random() * 200 + 200,
                     }}
                   />
-                </Grid>
+                </Box>
               ))}
-            </Grid>
+            </Masonry>
           </Container>
         </Grid>
       </Grid>
