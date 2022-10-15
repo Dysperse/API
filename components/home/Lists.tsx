@@ -320,19 +320,24 @@ export function Lists(): JSX.Element {
         <ErrorHandler error="An error occured while trying to fetch your lists" />
       )}
       {loading ? (
-        [...new Array(10)].map(() => (
-          <Paper key={Math.random().toString()}>
-            <Skeleton
-              animation="wave"
-              variant="rectangular"
-              sx={{
-                mb: 2,
-                borderRadius: 5,
-                height: Math.random() * 200 + 200,
-              }}
-            />
-          </Paper>
-        ))
+        <Masonry
+          sx={{ mt: 2 }}
+          columns={{ xs: 1, sm: 2 }}
+          spacing={{ xs: 0, sm: 1 }}
+        >
+          {[...new Array(10)].map(() => (
+            <Paper key={Math.random().toString()}>
+              <Skeleton
+                animation="wave"
+                variant="rectangular"
+                sx={{
+                  borderRadius: 5,
+                  height: Math.random() * 200 + 200,
+                }}
+              />
+            </Paper>
+          ))}
+        </Masonry>
       ) : (
         <Render data={data} />
       )}

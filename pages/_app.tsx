@@ -96,7 +96,7 @@ export function Loading(): JSX.Element {
 
       <Grid
         container
-        spacing={{ xs: 0, sm: 2 }}
+        spacing={{ xs: 0, sm: 1 }}
         sx={{ mt: 10, width: "100%", mx: "auto" }}
       >
         <Grid item xs={0} sm={2} sx={{ display: { xs: "none", sm: "block" } }}>
@@ -118,13 +118,16 @@ export function Loading(): JSX.Element {
         </Grid>
         <Grid item xs={12} sm={10}>
           <Container sx={{ mt: { xs: 5, sm: 15 } }}>
-            <Grid container spacing={2.2}>
+            <Grid container spacing={1}>
               {[...new Array(10)].map(() => (
                 <Grid item key={Math.random().toString()} xs={12} sm={6}>
                   <Skeleton
                     variant="rectangular"
                     animation={false}
-                    sx={{ height: 200, borderRadius: 5 }}
+                    sx={{
+                      borderRadius: 5,
+                      height: Math.random() * 200 + 200,
+                    }}
                   />
                 </Grid>
               ))}
