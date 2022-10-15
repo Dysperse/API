@@ -99,6 +99,13 @@ export default function Notifications() {
       setPeriodicSyncSupported(registration.periodicSync);
     });
   }, []);
+
+  async function registerPeriodicSync() {
+    await registration.periodicSync.register("get-lists", {
+      minInterval: 24 * 60 * 60 * 1000,
+    });
+  }
+
   return (
     <Box sx={{ mb: 2 }}>
       <ListItem>
@@ -134,13 +141,15 @@ export default function Notifications() {
       </Button>
       <Button
         onClick={async () => {
-          const status = ((await navigator.permissions) as any).query({
+          const status = await (navigator.permissions as any).query({
             name: "periodic-background-sync",
           });
           if (status.state === "granted") {
             alert(1);
           } else {
-            alert(2);
+            alert(
+              "Permission denied. Please enable it in your browser settings."
+            );
           }
         }}
         disabled={!isSubscribed}

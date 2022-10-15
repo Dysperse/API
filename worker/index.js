@@ -45,3 +45,15 @@ self.addEventListener('pushsubscriptionchange', function (event) {
       ])
    )
 })
+
+const getLists = () => {
+   return new Promise((resolve, reject) => {
+      // Get cookie called token
+   })
+}
+
+self.addEventListener('periodicsync', event => {
+   if (event.tag === 'get-lists') {
+      event.waitUntil(getLists());
+   }
+});
