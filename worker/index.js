@@ -14,18 +14,6 @@ self.addEventListener("push", (event) => {
    )
 });
 
-
-
-// self.addEventListener('push', function (event) {
-//    console.log("NOTIFICATION RECEIVED")
-//    const data = JSON.parse(event.data.text())
-//    event.waitUntil(
-//       registration.showNotification("Hi there!", {
-//          body: data,
-//       })
-//    )
-// })
-
 self.addEventListener('notificationclick', function (event) {
    event.notification.close()
    event.waitUntil(
