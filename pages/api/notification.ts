@@ -13,9 +13,9 @@ const Notification = (req, res) => {
       .sendNotification(
         subscription,
         JSON.stringify({
-          title: "You have an upcoming maintenance task",
-          body: "Replace the AC filter",
-          actions: [
+          title: req.body.title ?? "You have an upcoming maintenance task",
+          body: req.body.body ?? "Replace the AC filter",
+          actions: req.body.actions ?? [
             { title: "⚡ View", action: "view" },
             { title: "⏰ Remind me later", action: "remindMeLater" },
           ],

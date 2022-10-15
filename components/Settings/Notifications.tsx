@@ -155,16 +155,11 @@ export default function Notifications() {
       </Button>
       <Button
         onClick={async () => {
-          const status = await (navigator.permissions as any).query({
-            name: "periodic-background-sync",
-          });
-          if (status.state === "granted") {
-            alert(1);
-          } else {
-            alert(
-              "Permission denied. Please enable it in your browser settings."
-            );
-          }
+          alert(
+            JSON.stringify({
+              subscription,
+            })
+          );
         }}
         disabled={!isSubscribed}
         variant="contained"

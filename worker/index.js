@@ -49,17 +49,35 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 const getLists = () => {
    return new Promise((resolve, reject) => {
       fetch("/api/user").then(res => res.json())
-         .then(res => {
-            const selectedProperty = res.properties.find(property => property.selected) || res.properties[0]
+         .then(({ user }) => {
+            const selectedProperty = user.properties.find(property => property.selected) || res.properties[0]
             const propertyId = selectedProperty.propertyId;
             const accessToken = selectedProperty.accessToken;
 
             fetch("/api/property/lists?" + new URLSearchParams({
-               propertyId,
+               property: propertyId,
                accessToken
             }))
-               .then(result => result.json()).then(result => {
+               .then(result => result.json()).then(async (result) => {
                   console.log(result)
+                  resolve(result)
+
+                  const subscription = await registration.pushManager.getSubscription();
+
+                  fetch("/api/notification", {
+                     method: "POST",
+                     headers: {
+                        "Content-type": "application/json",
+                     },
+                     body: JSON.stringify({
+                        subscription: subscription,
+                        title: "To-do list updated",
+                        body: result,
+                     })
+                  });
+                  // Get notification subscription
+
+
                })
          })
    })
