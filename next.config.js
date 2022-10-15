@@ -2,11 +2,11 @@
  * @type {import('next').NextConfig}
  */
 
-const withPWA = require('next-pwa')({
+const withPWA = require("next-pwa")({
   dest: "public",
-  reloadOnOnline: false
-})
-const { withSentryConfig } = require('@sentry/nextjs');
+  reloadOnOnline: false,
+});
+const { withSentryConfig } = require("@sentry/nextjs");
 
 const moduleExports = {
   // Your existing module.exports
