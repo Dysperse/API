@@ -71,9 +71,6 @@ export function CreateListModal({
         anchor="bottom"
         swipeAreaWidth={0}
         id="create-list-modal"
-        ModalProps={{
-          keepMounted: true,
-        }}
         disableSwipeToOpen
         PaperProps={{
           elevation: 0,
@@ -220,6 +217,7 @@ export function CreateListModal({
         onClick={() => {
           setOpen(true);
           setCustomParent(parent);
+          setTimeout(() => document.getElementById("title")?.focus(), 0);
         }}
       >
         {children}
