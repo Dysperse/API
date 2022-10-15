@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 
 const base64ToUint8Array = (base64) => {
-    const padding = "=".repeat((4 - (base64.length % 4)) % 4);
+  const padding = "=".repeat((4 - (base64.length % 4)) % 4);
   const b64 = (base64 + padding).replace(/-/g, "+").replace(/_/g, "/");
 
   const rawData = window.atob(b64);
@@ -56,7 +56,8 @@ const Index = () => {
     setSubscription(sub);
     setIsSubscribed(true);
     console.log("web push subscribed!");
-    console.log(sub);
+
+    // return sub
   };
 
   const unsubscribeButtonOnClick = async (event) => {
@@ -88,10 +89,6 @@ const Index = () => {
 
   return (
     <>
-      <Head>
-        <title>next-pwa example</title>
-      </Head>
-      <h1>Next.js + PWA = AWESOME!</h1>
       <button onClick={subscribeButtonOnClick} disabled={isSubscribed}>
         Subscribe
       </button>
