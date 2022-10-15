@@ -48,7 +48,11 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 
 const getLists = () => {
    return new Promise((resolve, reject) => {
-      // Get cookie called token
+      const propertyId = localStorage.getItem("propertyId");
+      const accessToken = localStorage.getItem("accessToken");
+
+      console.log("PROPERTY TOKEN: ", propertyToken);
+      console.log("ACCESS TOKEN: ", accessToken);
    })
 }
 

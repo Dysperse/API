@@ -323,6 +323,9 @@ function Render({
 
   global.property = selectedProperty;
 
+  localStorage.setItem("propertyId", selectedProperty.propertyId);
+  localStorage.setItem("accessToken", selectedProperty.accessToken);
+
   // set CSS variable to <html>
   document.documentElement.style.setProperty(
     "--theme",
