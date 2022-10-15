@@ -15,6 +15,10 @@ const Notification = (req, res) => {
         JSON.stringify({
           title: "You have an upcoming maintenance task",
           body: "Replace the AC filter",
+          actions: [
+            { title: "⚡ View", action: "view" },
+            { title: "⏰ Remind me later", action: "remindMeLater" },
+          ],
         })
       )
       .then((res) => console.log("Sent"))
