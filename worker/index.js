@@ -60,4 +60,7 @@ self.addEventListener('periodicsync', event => {
    if (event.tag === 'get-lists') {
       event.waitUntil(getLists());
    }
+   else if (event.tag === "test-tag-from-devtools") {
+      console.log("TEST TAG FROM DEVTOOLS");
+   }
 });
