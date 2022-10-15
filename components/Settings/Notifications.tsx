@@ -116,6 +116,7 @@ export default function Notifications() {
           secondary="Receive push notifications to your device (BETA)"
         />
         <Switch
+          disabled={!periodicSyncSupported}
           checked={isSubscribed}
           onClick={(event) => {
             if (isSubscribed) {
@@ -152,27 +153,6 @@ export default function Notifications() {
         }}
       >
         Send test notification
-      </Button>
-      <Button
-        onClick={async () => {
-          alert(
-            JSON.stringify({
-              subscription,
-            })
-          );
-        }}
-        disabled={!isSubscribed}
-        variant="contained"
-        fullWidth
-        size="large"
-        sx={{
-          boxShadow: 0,
-          mt: 2,
-          mb: 1,
-          borderRadius: 5,
-        }}
-      >
-        Send if periodic sync is supported
       </Button>
     </Box>
   );
