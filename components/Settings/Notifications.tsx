@@ -1,6 +1,9 @@
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
+import Switch from "@mui/material/Switch";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 
 const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
@@ -92,14 +95,36 @@ export default function Notifications() {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <Button onClick={subscribeButtonOnClick} disabled={isSubscribed}>
-        Subscribe
-      </Button>
-      <Button onClick={unsubscribeButtonOnClick} disabled={!isSubscribed}>
-        Unsubscribe
-      </Button>
-      <Button onClick={sendNotificationButtonOnClick} disabled={!isSubscribed}>
-        Send Notification
+      <ListItem>
+        <ListItemText
+          primary="Enable notifications"
+          secondary="Receive push notifications to your device (BETA)"
+        />
+        <Switch
+          checked={isSubscribed}
+          onClick={(event) => {
+            if (isSubscribed) {
+              unsubscribeButtonOnClick(event);
+            } else {
+              subscribeButtonOnClick(event);
+            }
+          }}
+        />
+      </ListItem>
+      <Button
+        onClick={sendNotificationButtonOnClick}
+        disabled={!isSubscribed}
+        variant="contained"
+        fullWidth
+        size="large"
+        sx={{
+          boxShadow: 0,
+          mt: 2,
+          mb: 1,
+          borderRadius: 5,
+        }}
+      >
+        Send test notification
       </Button>
     </Box>
   );
