@@ -127,6 +127,7 @@ export function Loading(): JSX.Element {
                     animation={false}
                     sx={{
                       borderRadius: 5,
+                      mb: { xs: 1, sm: 0 },
                       height: Math.random() * 200 + 200,
                     }}
                   />

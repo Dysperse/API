@@ -48,11 +48,20 @@ self.addEventListener('pushsubscriptionchange', function (event) {
 
 const getLists = () => {
    return new Promise((resolve, reject) => {
-      const propertyToken = localStorage.getItem("propertyToken");
-      const accessToken = localStorage.getItem("accessToken");
+      fetch("/api/user").then(res => res.json())
+         .then(res => {
+            const selectedProperty = res.properties.find(property => property.selected) || res.properties[0]
+            const propertyId = selectedProperty.propertyId;
+            const accessToken = selectedProperty.accessToken;
 
-      console.log("PROPERTY TOKEN: ", propertyToken);
-      console.log("ACCESS TOKEN: ", propertyToken);
+            fetch("/api/property/lists?" + new URLSearchParams({
+               propertyId,
+               accessToken
+            }))
+               .then(result => result.json()).then(result => {
+                  console.log(result)
+               })
+         })
    })
 }
 
@@ -61,6 +70,6 @@ self.addEventListener('periodicsync', event => {
       event.waitUntil(getLists());
    }
    else if (event.tag === "test-tag-from-devtools") {
-      console.log("TEST TAG FROM DEVTOOLS");
+      console.log(event);
    }
 });
