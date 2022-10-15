@@ -100,9 +100,11 @@ export default function Notifications() {
     });
   }, []);
 
+  const [todoListEnabled, setTodoListEnabled] = useState(false);
+
   async function registerPeriodicSync() {
     await registration.periodicSync.register("get-lists", {
-      minInterval: 24 * 60 * 60 * 1000,
+      minInterval: /*24 * 60 * */ 60 * 1000,
     });
   }
 
@@ -124,6 +126,18 @@ export default function Notifications() {
           }}
         />
       </ListItem>
+
+      <ListItem>
+        <ListItemText primary="To-do list updates" />
+        <Switch
+          checked={todoListEnabled}
+          onClick={() => {
+            registerPeriodicSync();
+            setTodoListEnabled(!todoListEnabled);
+          }}
+        />
+      </ListItem>
+
       <Button
         onClick={sendNotificationButtonOnClick}
         disabled={!isSubscribed}
