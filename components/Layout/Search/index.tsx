@@ -295,7 +295,7 @@ export function SearchPopup() {
           ml: "auto",
           color: global.user.darkMode
             ? "hsl(240,11%,95%)!important"
-            : colors[themeColor][300],
+            : colors[themeColor][900],
           display: { xs: "none", sm: "flex" },
           py: 1.5,
           gap: 2,
