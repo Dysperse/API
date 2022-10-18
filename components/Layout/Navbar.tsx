@@ -1,6 +1,7 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import BoringAvatar from "boring-avatars";
@@ -196,53 +197,63 @@ export function Navbar(): JSX.Element {
             </Tooltip>
           </Offline>
         </Box>
-        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
+        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
           <AppsMenu />
         </Box>
-        <Settings>
-          <Tooltip
-            title={global.user.email}
-            placement="bottom-start"
-            PopperProps={{
-              sx: { pointerEvents: "none" },
-            }}
-          >
-            <IconButton
-              color="inherit"
-              disableRipple
-              sx={{
-                p: 0,
-                ml: 0.6,
-                color: global.user.darkMode ? "hsl(240, 11%, 90%)" : "#606060",
-                "&:hover": {
-                  background: "rgba(200,200,200,.3)",
-                  color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-                },
-                "&:focus-within": {
-                  background: `${
-                    global.user.darkMode
-                      ? colors[themeColor]["900"]
-                      : colors[themeColor]["50"]
-                  }!important`,
-                  color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-                },
-                transition: "all .2s",
-                "&:active": {
-                  opacity: 0.5,
-                  transform: "scale(0.95)",
-                  transition: "none",
-                },
+        <Box sx={{ display: { sm: "none" } }}>
+          <Settings>
+            <Tooltip
+              title={global.user.email}
+              placement="bottom-start"
+              PopperProps={{
+                sx: { pointerEvents: "none" },
               }}
             >
-              <BoringAvatar
-                size={35}
-                name={global.user.name}
-                variant="beam"
-                colors={["#801245", "#F4F4DD", "#DCDBAF", "#5D5C49", "#3D3D34"]}
-              />
-            </IconButton>
-          </Tooltip>
-        </Settings>
+              <IconButton
+                color="inherit"
+                disableRipple
+                sx={{
+                  p: 0,
+                  ml: 0.6,
+                  color: global.user.darkMode
+                    ? "hsl(240, 11%, 90%)"
+                    : "#606060",
+                  "&:hover": {
+                    background: "rgba(200,200,200,.3)",
+                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                  "&:focus-within": {
+                    background: `${
+                      global.user.darkMode
+                        ? colors[themeColor]["900"]
+                        : colors[themeColor]["50"]
+                    }!important`,
+                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
+                  },
+                  transition: "all .2s",
+                  "&:active": {
+                    opacity: 0.5,
+                    transform: "scale(0.95)",
+                    transition: "none",
+                  },
+                }}
+              >
+                <BoringAvatar
+                  size={35}
+                  name={global.user.name}
+                  variant="beam"
+                  colors={[
+                    "#801245",
+                    "#F4F4DD",
+                    "#DCDBAF",
+                    "#5D5C49",
+                    "#3D3D34",
+                  ]}
+                />
+              </IconButton>
+            </Tooltip>
+          </Settings>
+        </Box>
       </Toolbar>
     </AppBar>
   );

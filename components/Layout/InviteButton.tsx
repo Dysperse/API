@@ -741,29 +741,20 @@ export function InviteButton() {
         ))}
       </SwipeableDrawer>
       <Box id="new_trigger" onClick={handleClick} />
-
       <Button
         disableFocusRipple
         id="houseProfileTrigger"
         onClick={() => setOpen(true)}
         sx={{
-          display: "flex",
           userSelect: "none",
           cursor: "pointer",
           transition: "none",
           background: "transparent!important",
           p: 1,
-          gap: 1,
           py: 0,
+          gap: 1,
           color: "inherit",
           borderRadius: 2,
-          "&:hover": {
-            color: colors[themeColor][900],
-            background: { sm: "rgba(200,200,200,.3)!important" },
-            "& div": {
-              textDecoration: { sm: "underline" },
-            },
-          },
         }}
       >
         <Typography
@@ -781,7 +772,7 @@ export function InviteButton() {
           {global.property.profile.name || "My property"}
         </Typography>
         <span className="material-symbols-outlined">expand_more</span>
-      </Button>
+      </Button>{" "}
     </>
   );
 }

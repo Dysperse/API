@@ -1,23 +1,17 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import { grey } from "@mui/material/colors";
-import DialogTitle from "@mui/material/DialogTitle";
 import Divider from "@mui/material/Divider";
-import Fab from "@mui/material/Fab";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
-import { MaintenanceReminder } from "@prisma/client";
-import dayjs from "dayjs";
+import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { encode } from "js-base64";
 import Cookies from "js-cookie";
@@ -25,9 +19,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { colors } from "../../lib/colors";
-import AddPopup from "../AddPopup";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 
 /**
@@ -339,245 +332,7 @@ export function DrawerListItems({
     >
       <Toolbar sx={{ mt: 2 }} />
       <div style={{ padding: "0 10px" }}>
-        <AddPopup>
-          <div>
-            <Fab
-              disabled={
-                global.property.role === "read-only" || global.itemLimitReached
-              }
-              variant={collapsed ? "circular" : "extended"}
-              disableRipple
-              color="primary"
-              aria-label="add"
-              sx={{
-                borderRadius: collapsed ? "100%" : "20px",
-                fontSize: "15px",
-                boxShadow: "none!important",
-                transition:
-                  "minWidth .2s, border-radius .2s ease-in-out, margin .2s,transform .2s !important",
-                ...(collapsed && {
-                  mt: 2.2,
-                  mb: 3,
-                }),
-                "&:hover": {
-                  ...(collapsed && {
-                    borderRadius: 5,
-                  }),
-                },
-                ...(!global.itemLimitReached && {
-                  background: `linear-gradient(45deg, ${
-                    global.user.darkMode
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][100]
-                  }  0%, ${
-                    global.user.darkMode
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][300]
-                  } 100%)`,
-                }),
-                color: global.user.darkMode
-                  ? "hsl(240, 11%, 95%)"
-                  : colors[themeColor]["900"],
-                "&:active": {
-                  background: `${"linear-gradient(90deg, "}${
-                    global.user.darkMode
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][200]
-                  }  0%, ${
-                    global.user.darkMode
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[themeColor][500]
-                  } 100%)`,
-                  boxShadow:
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  transform: "scale(.96)",
-                },
-                textTransform: "none",
-              }}
-            >
-              <span
-                style={{ marginRight: collapsed ? "0" : "10px" }}
-                className="material-symbols-rounded"
-              >
-                add
-              </span>
-              <Collapse
-                in={!collapsed}
-                orientation="horizontal"
-                sx={{
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  my: collapsed ? 2 : 0,
-                }}
-              >
-                New item
-              </Collapse>
-            </Fab>
-          </div>
-        </AddPopup>
       </div>
-      <div>
-        <Collapse in={!collapsed}>
-          <ListSubheader
-            sx={{
-              pl: 2,
-              mt: 2,
-              position: {
-                md: "unset",
-              },
-              fontSize: "15px",
-              ...(global.user.darkMode && {
-                background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
-              }),
-            }}
-          >
-            Home
-          </ListSubheader>
-        </Collapse>
-        <ListItem collapsed={collapsed} text="Home" icon="view_timeline" />
-        <ListItem
-          collapsed={collapsed}
-          href="/notes"
-          asHref="/notes"
-          text="Notes"
-          icon="sticky_note_2"
-        />
-        <ListItem
-          collapsed={collapsed}
-          href="/tidy"
-          asHref="/tidy"
-          text="Tidy"
-          icon="auto_awesome"
-        />
-      </div>
-      <div>
-        <Collapse in={!collapsed}>
-          <ListSubheader
-            sx={{
-              pl: 2,
-              fontSize: "15px",
-              position: {
-                md: "unset",
-              },
-              ...(global.user.darkMode && {
-                background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
-              }),
-            }}
-          >
-            {global.property.profile.type === "dorm" ? "Dorm" : "Rooms"}
-          </ListSubheader>
-        </Collapse>
-
-        <Collapse in={collapsed}>
-          <Divider sx={{ my: 1 }} />
-        </Collapse>
-        {global.property.profile.type !== "dorm" && (
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/kitchen"
-            text="Kitchen"
-            icon="kitchen"
-          />
-        )}
-        <ListItem
-          collapsed={collapsed}
-          href="/rooms/[index]"
-          asHref="/rooms/bedroom"
-          text="Bedroom"
-          icon="bedroom_child"
-        />
-        <ListItem
-          collapsed={collapsed}
-          href="/rooms/[index]"
-          asHref="/rooms/bathroom"
-          text="Bathroom"
-          icon="bathroom"
-        />
-        {global.property.profile.type !== "dorm" && (
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/garage"
-            text="Garage"
-            icon="garage"
-          />
-        )}
-        {global.property.profile.type !== "dorm" && (
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/dining"
-            text="Dining room"
-            icon="dining"
-          />
-        )}
-        {global.property.profile.type !== "dorm" && (
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/living-room"
-            text={<>Living room</>}
-            icon="living"
-          />
-        )}
-        {global.property.profile.type !== "dorm" && (
-          <ListItem
-            collapsed={collapsed}
-            href="/rooms/[index]"
-            asHref="/rooms/laundry-room"
-            text="Laundry room"
-            icon="local_laundry_service"
-          />
-        )}
-        <ListItem
-          collapsed={collapsed}
-          href="/rooms/[index]"
-          asHref="/rooms/storage-room"
-          text={
-            <>Storage {global.property.profile.type !== "dorm" && "room"}</>
-          }
-          icon="inventory_2"
-        />
-      </div>
-      <Divider sx={{ my: 1 }} />
-      {customRooms}
-      {global.property.profile.type !== "dorm" && (
-        <ListItem
-          collapsed={collapsed}
-          href="/rooms/[index]"
-          asHref="/rooms/camping"
-          text="Camping"
-          icon="camping"
-        />
-      )}
-      {global.property.profile.type !== "dorm" && (
-        <ListItem
-          collapsed={collapsed}
-          href="/rooms/[index]"
-          asHref="/rooms/garden"
-          text="Garden"
-          icon="yard"
-        />
-      )}
-      <CreateRoom collapsed={collapsed} />
-      <Collapse in={!collapsed}>
-        <ListSubheader
-          sx={{
-            pl: 2,
-            fontSize: "15px",
-            position: {
-              md: "unset",
-            },
-            ...(global.user.darkMode && {
-              background: { xs: "hsl(240, 11%, 15%)", md: "transparent" },
-            }),
-          }}
-        >
-          More
-        </ListSubheader>
-      </Collapse>
 
       <Collapse in={collapsed}>
         <Divider sx={{ my: 1 }} />
@@ -588,28 +343,6 @@ export function DrawerListItems({
         asHref="/starred"
         text="Starred"
         icon="grade"
-      />
-      <ListItem
-        collapsed={collapsed}
-        href="/trash"
-        asHref="/trash"
-        text="Trash"
-        icon="delete"
-      />
-      <Divider sx={{ my: 1 }} />
-      <ListItem
-        collapsed={collapsed}
-        href="https://smartlist.canny.io/general-feedback"
-        asHref="https://smartlist.canny.io/general-feedback"
-        text="Submit feedback"
-        icon="chat"
-      />
-      <ListItem
-        collapsed={collapsed}
-        href="https://smartlist.canny.io/feature-requests"
-        asHref="https://smartlist.canny.io/feature-requests"
-        text="Suggest a feature"
-        icon="reviews"
       />
       <Collapse in={collapsed}>
         <Divider sx={{ my: 1 }} />

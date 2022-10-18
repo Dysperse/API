@@ -1,16 +1,15 @@
+import { SwipeableDrawer } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
-import { green } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
 import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { colors } from "../../lib/colors";
 
 /**
  * Product list
@@ -63,7 +62,7 @@ function Products() {
             cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background: colors[global.themeColor][200],
+              background: colors[global.themeColor][100],
               // category.bg ??
               // (global.user.darkMode
               //   ? "hsl(240, 11%, 40%)"
@@ -135,6 +134,10 @@ function Apps() {
       key: 3,
       label: "iOS",
     },
+    {
+      key: 4,
+      label: "Web",
+    },
     // {
     //   key: 5,
     //   bg: green[global.user.darkMode ? 900 : 200],
@@ -172,10 +175,10 @@ function Apps() {
   return (
     <div
       onMouseLeave={() => {
-        handleChange(0);
+        handleChange(4);
       }}
       onBlur={() => {
-        handleChange(0);
+        handleChange(4);
       }}
     >
       {apps.map((category) => (
@@ -189,7 +192,7 @@ function Apps() {
             cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background: colors[global.themeColor][200],
+              background: colors[global.themeColor][100],
               // category.bg ??
               // (global.user.darkMode
               //   ? "hsl(240, 11%, 40%)"
@@ -238,8 +241,14 @@ function Apps() {
                   : colors[global.themeColor][700],
               }}
             >
-              Download Carbon for {category.label} for extra features such as
-              push notifications, assistant, and more!
+              {category.label === "Web" ? (
+                <>You&apos;re using Carbon for Web</>
+              ) : (
+                <>
+                  Download Carbon for {category.label} for extra features such
+                  as push notifications, assistant, and more!
+                </>
+              )}
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -253,24 +262,20 @@ function Apps() {
  * @returns {any}
  */
 export function AppsMenu() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   /**
    * Handles app menu trigger
    * @param {React.MouseEvent<HTMLElement>} event
    * @returns {any}
    */
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = () => setOpen(true);
   /**
    * Closes the popup
    * @returns void
    */
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setOpen(false);
+
   React.useEffect(() => {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
@@ -309,20 +314,27 @@ export function AppsMenu() {
           />
         )}
       </Tooltip>
-      <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
+      <SwipeableDrawer
+        disableSwipeToOpen
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        anchor="right"
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            width: "300px",
+            m: 2,
+            borderRadius: 5,
+            height: "auto",
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 20%)"
+              : colors[global.themeColor][50],
+            color: global.user.darkMode
+              ? "hsl(240, 11%, 90%)"
+              : colors[global.themeColor][900],
+          },
+        }}
         open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
       >
         <Box sx={{ px: 2, py: 1 }}>
           <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
@@ -334,7 +346,7 @@ export function AppsMenu() {
           </Typography>
           <Apps />
         </Box>
-      </Menu>
+      </SwipeableDrawer>
     </div>
   );
 }

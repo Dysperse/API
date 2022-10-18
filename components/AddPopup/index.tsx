@@ -396,16 +396,8 @@ export default function AddPopup({
   };
 
   return (
-    <Root>
+    <>
       <CssBaseline />
-      <Global
-        styles={{
-          ".MuiDrawer-root > .MuiPaper-root": {
-            height: "auto",
-            overflow: "visible",
-          },
-        }}
-      />
       <div aria-hidden id="add_trigger" onClick={handleAddItemDrawerOpen}>
         {children}
       </div>
@@ -457,6 +449,6 @@ export default function AddPopup({
           <Content />
         </Box>
       </SwipeableDrawer>
-    </Root>
+    </>
   );
 }
