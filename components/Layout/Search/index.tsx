@@ -300,11 +300,19 @@ export function SearchPopup() {
           py: 1.5,
           gap: 2,
           borderRadius: 5,
+          "& .hover": {
+            opacity: 0,
+          },
+          "&:hover .hover": {
+            opacity: 1,
+          },
         }}
         className={global.user.darkMode ? "rippleDark" : ""}
       >
-        <span className="material-symbols-rounded">bolt</span>
-        Jump to (CTRL + K)
+        <span className="material-symbols-rounded">search</span>
+        <span>
+          Swift search <span className="hover">(CTRL + K)</span>
+        </span>
       </Button>
       <Tooltip title="Jump to">
         <IconButton
