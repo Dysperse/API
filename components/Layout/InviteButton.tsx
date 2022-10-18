@@ -715,6 +715,7 @@ export function InviteButton() {
             width: {
               sm: "50vw",
             },
+            height: "auto",
             maxWidth: { sm: "350px" },
             overflow: "hidden!important",
             borderRadius: {
