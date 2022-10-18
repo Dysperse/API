@@ -226,7 +226,7 @@ export function CreateListModal({
           setCustomParent(parent);
           setTimeout(() => document.getElementById("title")?.focus(), 0);
         }}
-        onKeyDown={(e) => {
+        onKeyDown={(e: any) => {
           if (e.key === "Enter") {
             e.target.click();
           }
