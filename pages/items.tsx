@@ -321,7 +321,12 @@ export default function Categories() {
   const { data } = useApi("property/inventory/count");
 
   return (
-    <>
+    <Box
+      sx={{
+        maxWidth: { sm: "500px" },
+        mx: "auto",
+      }}
+    >
       <FloatingActionButton />
       <Menu
         id="basic-menu"
@@ -532,6 +537,6 @@ export default function Categories() {
           <CategoryList />
         )}
       </Container>
-    </>
+    </Box>
   );
 }
