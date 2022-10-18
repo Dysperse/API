@@ -226,6 +226,11 @@ export function CreateListModal({
           setCustomParent(parent);
           setTimeout(() => document.getElementById("title")?.focus(), 0);
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.target.click();
+          }
+        }}
       >
         {children}
       </Box>
