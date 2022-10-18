@@ -231,7 +231,7 @@ function Render({
               minWidth: 180,
               background: global.user.darkMode
                 ? colors[global.themeColor][900]
-                : colors[global.themeColor][100],
+                : colors[global.themeColor][50],
 
               color: global.user.darkMode
                 ? colors[global.themeColor][200]
@@ -243,7 +243,7 @@ function Render({
                 "&:hover": {
                   background: global.user.darkMode
                     ? colors[global.themeColor][800]
-                    : colors[global.themeColor][200],
+                    : colors[global.themeColor][100],
                   color: global.user.darkMode
                     ? colors[global.themeColor][100]
                     : colors[global.themeColor][900],
@@ -265,7 +265,7 @@ function Render({
                 "&:active": {
                   background: global.user.darkMode
                     ? colors[global.themeColor][700]
-                    : colors[global.themeColor][300],
+                    : colors[global.themeColor][200],
                 },
               },
             },
