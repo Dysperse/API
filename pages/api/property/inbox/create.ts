@@ -8,23 +8,26 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
  * @param {any} res
  * @returns {any}
  */
-const handler = async (req, res) => {
-  const permissions = await validatePermissions(
-    req.query.property,
-    req.query.accessToken
-  );
+export const createInboxNotification = async (
+  who: string,
+  what: string,
+  when: Date,
+  propertyId: string,
+  accessToken: string
+) => {
+  const permissions = await validatePermissions(propertyId, accessToken);
   if (!permissions || permissions === "read-only") {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
+    return false;
   }
+
   const data = await prisma.inboxItem.create({
     data: {
-      who: req.query.who,
-      what: req.query.what,
-      when: req.query.when,
+      who: who,
+      what: what,
+      when: when,
 
       property: {
-        connect: { id: req.query.property },
+        connect: { id: propertyId },
       },
     },
     include: {
@@ -32,6 +35,11 @@ const handler = async (req, res) => {
     },
   });
 
-  res.json(data);
+  return data;
 };
-export default handler;
+
+export default function (req, res) {
+  res.status(403).json({
+    message: "Forbidden",
+  });
+}

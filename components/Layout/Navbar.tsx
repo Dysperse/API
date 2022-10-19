@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import { useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../ErrorHandler";
+import hexToRgba from "hex-to-rgba";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
@@ -35,12 +36,24 @@ function Changelog({ styles }: { styles: any }) {
           sx: {
             width: "100vw",
             maxWidth: "500px",
-            p: 4,
             background: colors[themeColor]["50"],
           },
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            position: "sticky",
+            top: 0,
+            left: 0,
+            p: 4,
+            pb: 2,
+            zIndex: 9,
+            width: "100%",
+            background: hexToRgba(colors[themeColor]["50"], 0.9),
+          }}
+        >
           <Typography
             variant="h5"
             className="font-secondary"
@@ -49,38 +62,51 @@ function Changelog({ styles }: { styles: any }) {
           >
             Recent
           </Typography>
-          <IconButton size="large" onClick={() => setOpen(false)}>
+          <IconButton
+            size="large"
+            onClick={() => setOpen(false)}
+            sx={{
+              color: colors[themeColor]["900"],
+            }}
+          >
             <span className="material-symbols-rounded">close</span>
           </IconButton>
         </Box>
-        {error && (
-          <ErrorHandler error="An error occurred while trying to fetch your inbox" />
-        )}
-        {!data && (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        )}
-        {data && data.length === 0 && (
-          <Typography
-            variant="body1"
-            sx={{
-              mt: 2,
-              background: colors[themeColor][100],
-              p: 3,
-              borderRadius: 5,
-            }}
-          >
-            No recent activity
-          </Typography>
-        )}
+        <Box
+          sx={{
+            p: 4,
+            pt: 0,
+          }}
+        >
+          {error && (
+            <ErrorHandler error="An error occurred while trying to fetch your inbox" />
+          )}
+          {!data && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          {data && data.length === 0 && (
+            <Typography
+              variant="body1"
+              sx={{
+                mt: 2,
+                background: colors[themeColor][100],
+                p: 3,
+                borderRadius: 5,
+              }}
+            >
+              No recent activity
+            </Typography>
+          )}
+        </Box>
       </SwipeableDrawer>
       <Box sx={{ display: { xs: "none", sm: "unset" } }}>
         <Tooltip title="Changelog">
