@@ -38,7 +38,7 @@ model Property {
   maintenanceReminders MaintenanceReminder[]
   members              PropertyInvite[]
   PropertyLinkInvites  PropertyLinkInvite[]
-  Notification         Notification[]
+  inbox                InboxItem[]
 }
 
 model PropertyInvite {
@@ -114,11 +114,12 @@ model PropertyLinkInvite {
   accepted   Boolean  @default(false)
 }
 
-model Notification {
-  id         Int      @id @default(autoincrement())
-  message    String
-  in         String
-  read       Boolean  @default(false)
+model InboxItem {
+  id   Int      @id @default(autoincrement())
+  who  String
+  what String
+  when DateTime
+
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
 }

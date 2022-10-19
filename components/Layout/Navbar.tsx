@@ -14,9 +14,13 @@ import { SearchPopup } from "./Search";
 import { Offline } from "react-detect-offline";
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
+import { useApi } from "../../hooks/useApi";
+import { ErrorHandler } from "../ErrorHandler";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
+
+  const { error, data } = useApi("property/inbox");
 
   return (
     <>
@@ -35,9 +39,35 @@ function Changelog({ styles }: { styles: any }) {
           },
         }}
       >
-        <Typography variant="h5" className="font-secondary">
-          Recent
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography
+            variant="h5"
+            className="font-secondary"
+            gutterBottom
+            sx={{ flexGrow: 1 }}
+          >
+            Recent
+          </Typography>
+          <IconButton size="large" onClick={() => setOpen(false)}>
+            <span className="material-symbols-rounded">close</span>
+          </IconButton>
+        </Box>
+        {error && (
+          <ErrorHandler error="An error occurred while trying to fetch your inbox" />
+        )}
+        {data.length === 0 && (
+          <Typography
+            variant="body1"
+            sx={{
+              mt: 2,
+              background: colors[themeColor][100],
+              p: 3,
+              borderRadius: 5,
+            }}
+          >
+            No recent activity
+          </Typography>
+        )}
       </SwipeableDrawer>
       <Box sx={{ display: { xs: "none", sm: "unset" } }}>
         <Tooltip title="Changelog">
