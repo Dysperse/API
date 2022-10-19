@@ -219,26 +219,9 @@ export function Navbar(): JSX.Element {
             sx={{ ...styles, mr: 0 }}
             color="inherit"
             disableRipple
-            onClick={async () => {
-              let deferredPrompt;
-              window.addEventListener("beforeinstallprompt", async (e) => {
-                // Prevents the default mini-infobar or install dialog from appearing on mobile
-                e.preventDefault();
-                // Save the event because you’ll need to trigger it later.
-                deferredPrompt = e;
-                // Show your customized install prompt for your PWA
-
-                if (deferredPrompt) {
-                  deferredPrompt.prompt();
-                  // Find out whether the user confirmed the installation or not
-                  const { outcome } = await deferredPrompt.userChoice;
-                  // The deferredPrompt can only be used once.
-                  deferredPrompt = null;
-                }
-              });
-            }}
+            onClick={() => window.open("https://smartlist.tech/support")}
           >
-            <span className="material-symbols-rounded">install_desktop</span>
+            <span className="material-symbols-outlined">help</span>
           </IconButton>
         </Box>
         <Box sx={{ display: { sm: "none" } }}>
