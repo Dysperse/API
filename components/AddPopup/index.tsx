@@ -441,7 +441,8 @@ export default function AddPopup({
         >
           <Typography
             variant="h6"
-            sx={{ mx: "auto", textAlign: "center", fontWeight: "600" }}
+            className="font-secondary"
+            sx={{ mx: "auto", textAlign: "center" }}
           >
             Create item
           </Typography>

@@ -120,22 +120,22 @@ export function Sidebar() {
               </span>
             </IconButton>
           </Tooltip>
-          <Tooltip title="Tips" placement="right">
+          <Tooltip title="Explore" placement="right">
             <IconButton
               disableRipple
               size="large"
               sx={styles}
-              className={router.asPath === "/tips" ? "active" : ""}
-              onClick={() => router.push("/tips")}
+              className={router.asPath === "/explore" ? "active" : ""}
+              onClick={() => router.push("//explore")}
             >
               <span
                 className={
-                  router.pathname === "/tips"
+                  router.pathname === "/explore"
                     ? "material-symbols-rounded"
                     : "material-symbols-outlined"
                 }
               >
-                lightbulb
+                explore
               </span>
             </IconButton>
           </Tooltip>

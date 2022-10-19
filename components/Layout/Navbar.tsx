@@ -1,7 +1,7 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import BoringAvatar from "boring-avatars";
@@ -13,6 +13,47 @@ import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
 import { Offline } from "react-detect-offline";
 import { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
+
+function Changelog({ styles }: { styles: any }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        anchor="right"
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            width: "100vw",
+            maxWidth: "500px",
+            p: 4,
+            background: colors[themeColor]["50"],
+          },
+        }}
+      >
+        <Typography variant="h5" className="font-secondary">
+          Recent
+        </Typography>
+      </SwipeableDrawer>
+      <Box sx={{ display: { xs: "none", sm: "unset" } }}>
+        <Tooltip title="Changelog">
+          <IconButton
+            sx={{ ...styles }}
+            color="inherit"
+            disableRipple
+            onClick={() => setOpen(true)}
+          >
+            <span className="material-symbols-rounded">inbox</span>
+          </IconButton>
+        </Tooltip>
+      </Box>
+    </>
+  );
+}
 
 function UpdateButton() {
   const [button, setButton] = useState(false);
@@ -211,6 +252,7 @@ export function Navbar(): JSX.Element {
             </Tooltip>
           </Offline>
         </Box>
+        <Changelog styles={styles} />
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
           <AppsMenu />
         </Box>
