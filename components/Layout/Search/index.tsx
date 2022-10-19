@@ -310,8 +310,26 @@ export function SearchPopup() {
         className={global.user.darkMode ? "rippleDark" : ""}
       >
         <span className="material-symbols-rounded">search</span>
-        <span>
-          Swift search <span className="hover">(CTRL + K)</span>
+        Jump to{" "}
+        <span className="hover" style={{ marginLeft: "auto" }}>
+          <span
+            style={{
+              padding: "2px 5px",
+              borderRadius: "5px",
+              background: colors[themeColor][200],
+            }}
+          >
+            ctrl
+          </span>{" "}
+          <span
+            style={{
+              padding: "2px 5px",
+              borderRadius: "5px",
+              background: colors[themeColor][200],
+            }}
+          >
+            k
+          </span>
         </span>
       </Button>
       <Tooltip title="Jump to">
