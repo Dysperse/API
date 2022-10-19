@@ -23,6 +23,9 @@ const handler = async (req, res) => {
         id: req.query.property,
       },
     },
+    orderBy: {
+      id: "desc",
+    },
   });
 
   res.json(data);
