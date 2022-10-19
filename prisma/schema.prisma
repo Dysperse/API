@@ -38,6 +38,7 @@ model Property {
   maintenanceReminders MaintenanceReminder[]
   members              PropertyInvite[]
   PropertyLinkInvites  PropertyLinkInvite[]
+  Notification         Notification[]
 }
 
 model PropertyInvite {
@@ -111,4 +112,13 @@ model PropertyLinkInvite {
   property   Property @relation(fields: [propertyId], references: [id])
   token      String   @unique @default(uuid())
   accepted   Boolean  @default(false)
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  message    String
+  in         String
+  read       Boolean  @default(false)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
 }
