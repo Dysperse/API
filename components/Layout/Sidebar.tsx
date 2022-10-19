@@ -62,92 +62,102 @@ export function Sidebar() {
         >
           <Box sx={{ mt: "auto" }}></Box>
           <AddPopup>
+            <Tooltip title="Create an item" placement="right">
+              <IconButton
+                disableRipple
+                size="large"
+                sx={{
+                  ...styles,
+                  background: `linear-gradient(15deg, ${colors[themeColor][200]}, ${colors[themeColor][700]}) !important`,
+                  "&:hover, &:active": {
+                    background: `linear-gradient(-15deg, ${colors[themeColor][200]}, ${colors[themeColor][700]}) !important`,
+                  },
+                  "& span": {
+                    color: colors[themeColor][50],
+                  },
+                  mb: 2,
+                }}
+              >
+                <span className="material-symbols-outlined">add</span>
+              </IconButton>
+            </Tooltip>
+          </AddPopup>
+          <Tooltip title="Home" placement="right">
             <IconButton
               disableRipple
               size="large"
-              sx={{
-                ...styles,
-                background: `linear-gradient(15deg, ${colors[themeColor][200]}, ${colors[themeColor][700]}) !important`,
-                "&:hover, &:active": {
-                  background: `linear-gradient(-15deg, ${colors[themeColor][200]}, ${colors[themeColor][700]}) !important`,
-                },
-                "& span": {
-                  color: colors[themeColor][50],
-                },
-                mb: 2,
-              }}
+              sx={styles}
+              className={router.asPath === "/home" ? "active" : ""}
+              onClick={() => router.push("/home")}
             >
-              <span className="material-symbols-outlined">add</span>
+              <span
+                className={
+                  router.pathname === "/home"
+                    ? "material-symbols-rounded"
+                    : "material-symbols-outlined"
+                }
+              >
+                home
+              </span>
             </IconButton>
-          </AddPopup>
-          <IconButton
-            disableRipple
-            size="large"
-            sx={styles}
-            className={router.asPath === "/home" ? "active" : ""}
-            onClick={() => router.push("/home")}
-          >
-            <span
-              className={
-                router.pathname === "/home"
-                  ? "material-symbols-rounded"
-                  : "material-symbols-outlined"
-              }
+          </Tooltip>
+          <Tooltip title="Items" placement="right">
+            <IconButton
+              disableRipple
+              size="large"
+              sx={styles}
+              className={router.asPath === "/items" ? "active" : ""}
+              onClick={() => router.push("/items")}
             >
-              home
-            </span>
-          </IconButton>
-          <IconButton
-            disableRipple
-            size="large"
-            sx={styles}
-            className={router.asPath === "/items" ? "active" : ""}
-            onClick={() => router.push("/items")}
-          >
-            <span
-              className={
-                router.pathname === "/items"
-                  ? "material-symbols-rounded"
-                  : "material-symbols-outlined"
-              }
+              <span
+                className={
+                  router.pathname === "/items"
+                    ? "material-symbols-rounded"
+                    : "material-symbols-outlined"
+                }
+              >
+                category
+              </span>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Tips" placement="right">
+            <IconButton
+              disableRipple
+              size="large"
+              sx={styles}
+              className={router.asPath === "/tips" ? "active" : ""}
+              onClick={() => router.push("/tips")}
             >
-              category
-            </span>
-          </IconButton>
-          <IconButton
-            disableRipple
-            size="large"
-            sx={styles}
-            className={router.asPath === "/tips" ? "active" : ""}
-            onClick={() => router.push("/tips")}
-          >
-            <span
-              className={
-                router.pathname === "/tips"
-                  ? "material-symbols-rounded"
-                  : "material-symbols-outlined"
-              }
+              <span
+                className={
+                  router.pathname === "/tips"
+                    ? "material-symbols-rounded"
+                    : "material-symbols-outlined"
+                }
+              >
+                lightbulb
+              </span>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Tidy" placement="right">
+            <IconButton
+              disableRipple
+              size="large"
+              sx={styles}
+              className={router.asPath === "/tidy" ? "active" : ""}
+              onClick={() => router.push("/tidy")}
             >
-              lightbulb
-            </span>
-          </IconButton>
-          <IconButton
-            disableRipple
-            size="large"
-            sx={styles}
-            className={router.asPath === "/tidy" ? "active" : ""}
-            onClick={() => router.push("/tidy")}
-          >
-            <span
-              className={
-                router.pathname === "/tidy"
-                  ? "material-symbols-rounded"
-                  : "material-symbols-outlined"
-              }
-            >
-              auto_awesome
-            </span>
-          </IconButton>
+              <span
+                className={
+                  router.pathname === "/tidy"
+                    ? "material-symbols-rounded"
+                    : "material-symbols-outlined"
+                }
+              >
+                auto_awesome
+              </span>
+            </IconButton>
+          </Tooltip>
           <Box
             sx={{
               mt: "auto",

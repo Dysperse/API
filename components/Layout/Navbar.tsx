@@ -215,14 +215,16 @@ export function Navbar(): JSX.Element {
           <AppsMenu />
         </Box>
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
-          <IconButton
-            sx={{ ...styles, mr: 0 }}
-            color="inherit"
-            disableRipple
-            onClick={() => window.open("https://smartlist.tech/support")}
-          >
-            <span className="material-symbols-outlined">help</span>
-          </IconButton>
+          <Tooltip title="Support">
+            <IconButton
+              sx={{ ...styles, mr: 0 }}
+              color="inherit"
+              disableRipple
+              onClick={() => window.open("https://smartlist.tech/support")}
+            >
+              <span className="material-symbols-outlined">help</span>
+            </IconButton>
+          </Tooltip>
         </Box>
         <Box sx={{ display: { sm: "none" } }}>
           <Settings>
