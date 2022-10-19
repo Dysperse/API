@@ -6,6 +6,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import Chip from "@mui/material/Chip";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
+import Drawer from "@mui/material/Drawer";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -456,13 +457,11 @@ function House({
           </ListItemIcon>
         </ListItem>
       </ListItem>
-      <SwipeableDrawer
+      <Drawer
         anchor="bottom"
-        swipeAreaWidth={0}
         ModalProps={{
           keepMounted: data.accessToken === global.property.accessToken,
         }}
-        disableSwipeToOpen
         PaperProps={{
           elevation: 0,
           sx: {
@@ -637,7 +636,7 @@ function House({
             <RoomList color={color} />
           </Box>
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
     </>
   );
 }

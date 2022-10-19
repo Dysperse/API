@@ -36,7 +36,6 @@ model Property {
   inventory            Item[]
   lists                List[]
   maintenanceReminders MaintenanceReminder[]
-  notes                Note[]
   members              PropertyInvite[]
   PropertyLinkInvites  PropertyLinkInvite[]
 }
@@ -59,17 +58,6 @@ model CustomRoom {
   pinned     Boolean  @default(false)
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
-}
-
-model Note {
-  id          String   @id @default(uuid())
-  name        String
-  pinned      Boolean  @default(false)
-  propertyId  String
-  content     String
-  lastUpdated DateTime @default(now())
-  color       String   @default("orange")
-  property    Property @relation(fields: [propertyId], references: [id])
 }
 
 model Item {

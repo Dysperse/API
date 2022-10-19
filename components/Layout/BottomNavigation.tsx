@@ -104,7 +104,7 @@ export function BottomNav() {
       case "/items":
         setValue(1);
         break;
-      case "/notes":
+      case "/tips":
         setValue(2);
         break;
       case "/tidy":
@@ -214,15 +214,15 @@ export function BottomNav() {
             sx={{
               ...styles,
             }}
-            label="Notes"
-            onClick={() => onLink("/notes")}
+            label="Tips"
+            onClick={() => onLink("/tips")}
             icon={
               <Icon
                 baseClassName={`material-symbols-${
                   value == 2 ? "rounded" : "outlined"
                 }`}
               >
-                sticky_note_2
+                lightbulb
               </Icon>
             }
           />

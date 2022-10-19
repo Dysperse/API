@@ -117,17 +117,17 @@ export function Sidebar() {
             disableRipple
             size="large"
             sx={styles}
-            className={router.asPath === "/notes" ? "active" : ""}
-            onClick={() => router.push("/notes")}
+            className={router.asPath === "/tips" ? "active" : ""}
+            onClick={() => router.push("/tips")}
           >
             <span
               className={
-                router.pathname === "/notes"
+                router.pathname === "/tips"
                   ? "material-symbols-rounded"
                   : "material-symbols-outlined"
               }
             >
-              sticky_note_2
+              lightbulb
             </span>
           </IconButton>
           <IconButton
