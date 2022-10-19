@@ -111,6 +111,20 @@ function UpdateButton() {
  */
 export function Navbar(): JSX.Element {
   const router = useRouter();
+  const styles = {
+    borderRadius: 94,
+    mr: 1,
+    ml: 0.6,
+    color: global.user.darkMode
+      ? "hsl(240, 11%, 90%)"
+      : colors[themeColor][900],
+    transition: "all .2s",
+    "&:active": {
+      opacity: 0.5,
+      transform: "scale(0.95)",
+      transition: "none",
+    },
+  };
 
   return (
     <AppBar
@@ -200,6 +214,33 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
           <AppsMenu />
         </Box>
+        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
+          <IconButton
+            sx={{ ...styles, mr: 0 }}
+            color="inherit"
+            disableRipple
+            onClick={async () => {
+              let deferredPrompt;
+              window.addEventListener("beforeinstallprompt", async (e) => {
+                // Prevents the default mini-infobar or install dialog from appearing on mobile
+                e.preventDefault();
+                // Save the event because you’ll need to trigger it later.
+                deferredPrompt = e;
+                // Show your customized install prompt for your PWA
+
+                if (deferredPrompt) {
+                  deferredPrompt.prompt();
+                  // Find out whether the user confirmed the installation or not
+                  const { outcome } = await deferredPrompt.userChoice;
+                  // The deferredPrompt can only be used once.
+                  deferredPrompt = null;
+                }
+              });
+            }}
+          >
+            <span className="material-symbols-rounded">install_desktop</span>
+          </IconButton>
+        </Box>
         <Box sx={{ display: { sm: "none" } }}>
           <Settings>
             <Tooltip
@@ -213,29 +254,8 @@ export function Navbar(): JSX.Element {
                 color="inherit"
                 disableRipple
                 sx={{
+                  ...styles,
                   p: 0,
-                  ml: 0.6,
-                  color: global.user.darkMode
-                    ? "hsl(240, 11%, 90%)"
-                    : "#606060",
-                  "&:hover": {
-                    background: "rgba(200,200,200,.3)",
-                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-                  },
-                  "&:focus-within": {
-                    background: `${
-                      global.user.darkMode
-                        ? colors[themeColor]["900"]
-                        : colors[themeColor]["50"]
-                    }!important`,
-                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-                  },
-                  transition: "all .2s",
-                  "&:active": {
-                    opacity: 0.5,
-                    transform: "scale(0.95)",
-                    transition: "none",
-                  },
                 }}
               >
                 <BoringAvatar

@@ -23,6 +23,7 @@ export function Sidebar() {
       color: colors[themeColor]["A700"],
     },
     "&:active": {
+      background: colors[themeColor]["100"] + "!important",
       transition: "none",
     },
   };
@@ -67,7 +68,7 @@ export function Sidebar() {
               sx={{
                 ...styles,
                 background: `linear-gradient(15deg, ${colors[themeColor][200]}, ${colors[themeColor][700]}) !important`,
-                "&:hover": {
+                "&:hover, &:active": {
                   background: `linear-gradient(-15deg, ${colors[themeColor][200]}, ${colors[themeColor][700]}) !important`,
                 },
                 "& span": {

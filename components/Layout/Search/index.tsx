@@ -293,6 +293,7 @@ export function SearchPopup() {
           },
           px: 3,
           ml: "auto",
+          cursor: "text",
           color: global.user.darkMode
             ? "hsl(240,11%,95%)!important"
             : colors[themeColor][900],
