@@ -32,7 +32,7 @@ const handler = async (req, res) => {
   const userId = user.id;
 
   await createInboxNotification(
-    req.query.name,
+    req.query.inviterName,
     `invited ${user.name} with the permissions: ${req.query.permission}`,
     new Date(req.query.timestamp),
     req.query.property,

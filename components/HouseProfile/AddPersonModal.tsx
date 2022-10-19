@@ -279,6 +279,7 @@ export function AddPersonModal({
               }
               if (isEmail(value)) {
                 fetchApiWithoutHook("property/members/add", {
+                  inviterName: global.user.name,
                   name: global.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,

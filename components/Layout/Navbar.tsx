@@ -18,6 +18,7 @@ import { Typography } from "@mui/material";
 import { useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../ErrorHandler";
 import hexToRgba from "hex-to-rgba";
+import dayjs from "dayjs";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
@@ -93,6 +94,25 @@ function Changelog({ styles }: { styles: any }) {
               <CircularProgress />
             </Box>
           )}
+          {data &&
+            data.map((item) => (
+              <Box
+                sx={{
+                  p: 3,
+                  mb: 2,
+                  background: colors[themeColor][100],
+                  borderRadius: 5,
+                }}
+              >
+                <Typography gutterBottom>
+                  <b>{item.who === global.user.name ? "You" : item.who}</b>{" "}
+                  {item.what}
+                </Typography>
+                <Typography variant="body2">
+                  {dayjs(item.when).fromNow()}
+                </Typography>
+              </Box>
+            ))}
           {data && data.length === 0 && (
             <Typography
               variant="body1"

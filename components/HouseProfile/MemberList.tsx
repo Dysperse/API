@@ -134,6 +134,9 @@ function Member({
               setLoading(true);
               fetchApiWithoutHook("property/members/remove", {
                 id: member.id,
+                removerName: global.user.name,
+                removeeName: member.user.name,
+                timestamp: new Date().toISOString(),
               }).then(() => {
                 toast.success("Removed person from your home");
                 setLoading(false);
