@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
+import CircularProgress from "@mui/material/CircularProgress";
 import BoringAvatar from "boring-avatars";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
@@ -55,7 +56,19 @@ function Changelog({ styles }: { styles: any }) {
         {error && (
           <ErrorHandler error="An error occurred while trying to fetch your inbox" />
         )}
-        {data.length === 0 && (
+        {!data && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+        {data && data.length === 0 && (
           <Typography
             variant="body1"
             sx={{
