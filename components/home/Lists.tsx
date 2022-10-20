@@ -99,6 +99,7 @@ const ListItem = ({ parent, data }) => {
   return (
     <Card
       sx={{
+        maxWidth: "calc(100vw - 32.5px)",
         mb: 2,
         border: "2px solid #eee",
         boxShadow: "3px 5px #eee",
@@ -116,14 +117,38 @@ const ListItem = ({ parent, data }) => {
           display: "flex",
           alignItems: "center",
           gap: 2,
-          px: 3,
+          px: 2,
           py: 1,
+          with: "300px",
         }}
       >
         <span className="material-symbols-outlined">circle</span>
-        <Box sx={{ flexGrow: 1 }}>
-          <Typography>{data.name}</Typography>
-          <Typography variant="body2">{data.details}</Typography>
+        <Box
+          sx={{
+            flexGrow: 1,
+            flex: "1 1 0",
+            minWidth: 0,
+          }}
+        >
+          <Typography
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {data.name}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {data.details}
+          </Typography>
         </Box>
         <Box sx={{ ml: "auto" }}>
           <IconButton>
