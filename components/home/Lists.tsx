@@ -1,22 +1,22 @@
+import LoadingButton from "@mui/lab/LoadingButton";
+import { SwipeableDrawer, TextField } from "@mui/material";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
-import { ErrorHandler } from "../ErrorHandler";
-import { Button, SwipeableDrawer, TextField } from "@mui/material";
 import { colors } from "../../lib/colors";
+import { ErrorHandler } from "../ErrorHandler";
 import { Puller } from "../Puller";
-import { useFormik } from "formik";
 
-const CreateListModal = ({ open, setOpen }) => {
+const CreateListModal = ({ mutationUrl, open, setOpen }) => {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
 
@@ -26,6 +26,7 @@ const CreateListModal = ({ open, setOpen }) => {
       name,
       description,
     });
+    mutate(mutationUrl);
     setOpen(false);
   };
 
@@ -72,7 +73,7 @@ const CreateListModal = ({ open, setOpen }) => {
             fullWidth
             id="description"
             name="description"
-            value={name}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
             sx={{
               mt: 2,
@@ -80,7 +81,7 @@ const CreateListModal = ({ open, setOpen }) => {
             label="Add a description..."
             placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           />
-          <Button
+          <LoadingButton
             type="submit"
             variant="contained"
             fullWidth
@@ -89,7 +90,7 @@ const CreateListModal = ({ open, setOpen }) => {
             disableElevation
           >
             Create
-          </Button>
+          </LoadingButton>
         </form>
       </Box>
     </SwipeableDrawer>
@@ -122,7 +123,15 @@ const ListItem = ({ parent, data }) => {
           with: "300px",
         }}
       >
-        <span className="material-symbols-outlined">circle</span>
+        <span
+          className="material-symbols-outlined"
+          style={{
+            userSelect: "none",
+            cursor: "pointer",
+          }}
+        >
+          circle
+        </span>
         <Box
           sx={{
             flexGrow: 1,
@@ -160,7 +169,7 @@ const ListItem = ({ parent, data }) => {
   );
 };
 
-const RenderLists = ({ data, error }) => {
+const RenderLists = ({ url, data, error }) => {
   const [value, setValue] = React.useState(data[0].id);
   const [open, setOpen] = React.useState(false);
 
@@ -187,8 +196,8 @@ const RenderLists = ({ data, error }) => {
                 maxWidth: "calc(100vw - 32.5px)",
                 "& .MuiTabs-indicator": {
                   borderRadius: 5,
-                  height: "100%",
-                  opacity: 0.2,
+                  height: "5px",
+                  opacity: 0.8,
                   zIndex: -1,
                 },
               }}
@@ -225,7 +234,7 @@ const RenderLists = ({ data, error }) => {
             </Tabs>
           )}
 
-          <CreateListModal open={open} setOpen={setOpen} />
+          <CreateListModal mutationUrl={url} open={open} setOpen={setOpen} />
           <Card
             sx={{
               mb: 2,
@@ -285,14 +294,20 @@ const RenderLists = ({ data, error }) => {
                   textAlign: "center",
                 }}
               >
-                <Box sx={{ position: "relative", display: "inline-flex" }}>
+                <Box
+                  sx={{
+                    zIndex: 0,
+                    position: "relative",
+                    display: "inline-flex",
+                  }}
+                >
                   <CircularProgress
                     variant="determinate"
                     value={69}
                     size={100}
                     thickness={4}
                     sx={{
-                      zIndex: 9999,
+                      zIndex: 1,
                       [`& .MuiCircularProgress-circle`]: {
                         strokeLinecap: "round",
                       },
@@ -338,12 +353,12 @@ const RenderLists = ({ data, error }) => {
 };
 
 export function Lists() {
-  const { data, error } = useApi("property/lists");
+  const { url, data, error } = useApi("property/lists");
   return !data ? (
     <>
       <CircularProgress />
     </>
   ) : (
-    <RenderLists data={data} error={error} />
+    <RenderLists url={url} data={data} error={error} />
   );
 }
