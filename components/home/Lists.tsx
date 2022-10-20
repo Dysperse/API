@@ -9,9 +9,92 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../ErrorHandler";
+import { Button, SwipeableDrawer, TextField } from "@mui/material";
+import { colors } from "../../lib/colors";
+import { Puller } from "../Puller";
+import { useFormik } from "formik";
 
+const CreateListModal = ({ open, setOpen }) => {
+  const [name, setName] = React.useState("");
+  const [description, setDescription] = React.useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchApiWithoutHook("property/lists/createList", {
+      name,
+      description,
+    });
+    setOpen(false);
+  };
+
+  return (
+    <SwipeableDrawer
+      anchor="bottom"
+      open={open}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      disableSwipeToOpen
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          background: colors[themeColor][50],
+          borderRadius: "20px 20px 0 0",
+        },
+      }}
+    >
+      <Puller />
+      <Box
+        sx={{
+          p: 3,
+          pt: 0,
+        }}
+      >
+        <form onSubmit={handleSubmit}>
+          <TextField
+            variant="filled"
+            autoComplete="off"
+            fullWidth
+            id="name"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            sx={{
+              mt: 2,
+            }}
+            label="List name..."
+            placeholder="My wishlist"
+          />
+          <TextField
+            variant="filled"
+            autoComplete="off"
+            fullWidth
+            id="description"
+            name="description"
+            value={name}
+            onChange={(e) => setDescription(e.target.value)}
+            sx={{
+              mt: 2,
+            }}
+            label="Add a description..."
+            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2, borderRadius: 999 }}
+            size="large"
+            disableElevation
+          >
+            Create
+          </Button>
+        </form>
+      </Box>
+    </SwipeableDrawer>
+  );
+};
 const ListItem = ({ parent, data }) => {
   return (
     <Card
@@ -28,12 +111,13 @@ const ListItem = ({ parent, data }) => {
         },
       }}
     >
-      <CardContent
+      <Box
         sx={{
           display: "flex",
           alignItems: "center",
           gap: 2,
-          pt: 3,
+          px: 3,
+          py: 1,
         }}
       >
         <span className="material-symbols-outlined">circle</span>
@@ -46,13 +130,14 @@ const ListItem = ({ parent, data }) => {
             <span className="material-symbols-outlined">more_vert</span>
           </IconButton>
         </Box>
-      </CardContent>
+      </Box>
     </Card>
   );
 };
 
 const RenderLists = ({ data, error }) => {
   const [value, setValue] = React.useState(data[0].id);
+  const [open, setOpen] = React.useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     if (newValue !== "CREATE_LIST") setValue(newValue);
@@ -100,10 +185,13 @@ const RenderLists = ({ data, error }) => {
               ))}
               <Tab
                 value={"CREATE_LIST"}
-                label="+ &nbsp; Create new list"
-                onClick={(e) => {
-                  alert("Coming soon!");
-                }}
+                label={
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <span className="material-symbols-rounded">add</span>
+                    Create
+                  </Box>
+                }
+                onClick={(e) => setOpen(true)}
                 sx={{
                   textTransform: "none",
                   borderRadius: 5,
@@ -111,6 +199,40 @@ const RenderLists = ({ data, error }) => {
               />
             </Tabs>
           )}
+
+          <CreateListModal open={open} setOpen={setOpen} />
+          <Card
+            sx={{
+              mb: 2,
+              background: "#eee",
+              border: "2px solid #ddd",
+              boxShadow: "3px 5px #ddd",
+              borderRadius: 5,
+              transition: "none",
+              cursor: "pointer",
+              "&:hover": {
+                boxShadow: "3px 5px #ccc",
+                borderColor: "#ccc",
+                background: "#ddd",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                px: 3,
+                py: 2,
+              }}
+            >
+              <span className="material-symbols-outlined">add_circle</span>
+              <Box sx={{ flexGrow: 1 }}>
+                <Typography>Create task...</Typography>
+              </Box>
+            </Box>
+          </Card>
+
           {data
             .filter((list) => list.id === value)[0]
             .items.map((item) => (
