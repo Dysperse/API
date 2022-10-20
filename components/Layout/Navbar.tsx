@@ -61,9 +61,10 @@ function Changelog({ styles }: { styles: any }) {
             gutterBottom
             sx={{ flexGrow: 1 }}
           >
-            Recent
+            Changelog
           </Typography>
           <IconButton
+            color="inherit"
             size="large"
             onClick={() => setOpen(false)}
             sx={{

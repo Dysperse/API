@@ -20,7 +20,7 @@ const handler = async (req, res) => {
 
   await createInboxNotification(
     req.query.removerName,
-    `removed ${req.query.removeeName} from this property`,
+    `removed ${req.query.removeeName}`,
     new Date(req.query.timestamp),
     req.query.property,
     req.query.accessToken
