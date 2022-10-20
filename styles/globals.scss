@@ -42,11 +42,13 @@ img {
     background-color: var(--bgtheme) !important;
   }
 }
-.MuiIconButton-root:active .material-symbols-rounded {
+.MuiIconButton-root:active .material-symbols-rounded, .MuiIconButton-root:active .material-symbols-outlined {
   transform: scale(0.9);
   opacity: .6
 }
-.MuiIconButton-root:not(:active) .material-symbols-rounded {
+.MuiIconButton-root:not(:active) .material-symbols-rounded,
+.MuiIconButton-root:not(:active) .material-symbols-outlined
+ {
   transition: transform 0.2s, opacity .2s;
 }
 

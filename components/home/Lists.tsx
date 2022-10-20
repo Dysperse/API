@@ -1,4 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import Button from "@mui/material/Button";
 import { SwipeableDrawer, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -12,9 +13,135 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../ErrorHandler";
 import { Puller } from "../Puller";
+import Collapse from "@mui/material/Collapse";
+
+const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
+  const [open, setOpen] = React.useState(false);
+  const [showDescription, setShowDescription] = React.useState(false);
+  useStatusBar(open);
+  const styles = {
+    color: colors[themeColor][800],
+    mr: 1,
+    borderRadius: 3,
+    transition: "none",
+  };
+
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            maxWidth: "600px",
+            mb: { sm: 5 },
+            mx: "auto",
+            background: colors[themeColor][50],
+            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
+          },
+        }}
+      >
+        <Box sx={{ display: { sm: "none" } }}>
+          <Puller />
+        </Box>
+        <Box sx={{ p: { xs: 3, sm: 3 }, pt: { xs: 0, sm: 3 } }}>
+          <TextField
+            autoFocus
+            fullWidth
+            variant="standard"
+            placeholder="Clean the gutters"
+            InputProps={{
+              disableUnderline: true,
+              sx: { fontSize: 19 },
+            }}
+          />
+          <Collapse in={showDescription}>
+            <TextField
+              fullWidth
+              variant="standard"
+              placeholder="Add a description"
+              InputProps={{
+                disableUnderline: true,
+                sx: { fontSize: 15, mt: 0.5, mb: 1 },
+              }}
+            />
+          </Collapse>
+          <Box sx={{ display: "flex", mt: 1 }}>
+            <IconButton disableRipple sx={styles}>
+              <span
+                style={{ transform: "rotate(-45deg)" }}
+                className="material-symbols-rounded"
+              >
+                push_pin
+              </span>
+            </IconButton>
+            <IconButton disableRipple sx={styles}>
+              <span className="material-symbols-rounded">today</span>
+            </IconButton>
+            <IconButton
+              disableRipple
+              onClick={() => setShowDescription(!showDescription)}
+              sx={{
+                ...styles,
+                background: showDescription && colors[themeColor][100],
+              }}
+            >
+              <span className="material-symbols-rounded">notes</span>
+            </IconButton>
+            <Button
+              sx={{ ml: "auto", borderRadius: 999 }}
+              variant="contained"
+              disableElevation
+            >
+              Create
+            </Button>
+          </Box>
+        </Box>
+      </SwipeableDrawer>
+      <Card
+        onClick={() => setOpen(true)}
+        sx={{
+          mb: 2,
+          background: "#eee",
+          border: "2px solid #ddd",
+          boxShadow: "3px 5px #ddd",
+          borderRadius: 5,
+          transition: "none",
+          cursor: "pointer",
+          "&:hover": {
+            boxShadow: "3px 5px #ccc",
+            borderColor: "#ccc",
+            background: "#ddd",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            px: 3,
+            userSelect: "none",
+            py: 2,
+          }}
+        >
+          <span className="material-symbols-outlined">add_circle</span>
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography>Create task...</Typography>
+          </Box>
+        </Box>
+      </Card>
+    </>
+  );
+};
 
 const CreateListModal = ({ mutationUrl, open, setOpen }) => {
   const [name, setName] = React.useState("");
@@ -102,6 +229,7 @@ const ListItem = ({ parent, data }) => {
       sx={{
         maxWidth: "calc(100vw - 32.5px)",
         mb: 2,
+        opacity: data.temporary ? 0.5 : 1,
         border: "2px solid #eee",
         boxShadow: "3px 5px #eee",
         borderRadius: 5,
@@ -144,20 +272,25 @@ const ListItem = ({ parent, data }) => {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
+              mt: data.details ? 1 : 0,
             }}
           >
             {data.name}
           </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {data.details}
-          </Typography>
+          {data.details && (
+            <Typography
+              variant="body2"
+              sx={{
+                my: 1,
+                mt: 0.5,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {data.details}
+            </Typography>
+          )}
         </Box>
         <Box sx={{ ml: "auto" }}>
           <IconButton>
@@ -172,6 +305,9 @@ const ListItem = ({ parent, data }) => {
 const RenderLists = ({ url, data, error }) => {
   const [value, setValue] = React.useState(data[0].id);
   const [open, setOpen] = React.useState(false);
+  const [listData, setListData] = React.useState(data);
+
+  useStatusBar(open);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     if (newValue !== "CREATE_LIST") setValue(newValue);
@@ -196,7 +332,7 @@ const RenderLists = ({ url, data, error }) => {
                 maxWidth: "calc(100vw - 32.5px)",
                 "& .MuiTabs-indicator": {
                   borderRadius: 5,
-                  height: "5px",
+                  height: "4px",
                   opacity: 0.8,
                   zIndex: -1,
                 },
@@ -208,6 +344,8 @@ const RenderLists = ({ url, data, error }) => {
                   value={list.id}
                   label={list.name}
                   sx={{
+                    minWidth: "auto",
+                    px: 3,
                     transition: "all .2s!important",
                     "& *": {
                       transition: "all .2s!important",
@@ -218,15 +356,24 @@ const RenderLists = ({ url, data, error }) => {
                 />
               ))}
               <Tab
+                disableRipple
                 value={"CREATE_LIST"}
                 label={
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <span className="material-symbols-rounded">add</span>
+                    <span className="material-symbols-outlined">
+                      add_circle
+                    </span>
                     Create
                   </Box>
                 }
                 onClick={(e) => setOpen(true)}
                 sx={{
+                  minWidth: "auto",
+                  px: 3,
+                  transition: "all .2s!important",
+                  "& *": {
+                    transition: "all .2s!important",
+                  },
                   textTransform: "none",
                   borderRadius: 5,
                 }}
@@ -235,39 +382,12 @@ const RenderLists = ({ url, data, error }) => {
           )}
 
           <CreateListModal mutationUrl={url} open={open} setOpen={setOpen} />
-          <Card
-            sx={{
-              mb: 2,
-              background: "#eee",
-              border: "2px solid #ddd",
-              boxShadow: "3px 5px #ddd",
-              borderRadius: 5,
-              transition: "none",
-              cursor: "pointer",
-              "&:hover": {
-                boxShadow: "3px 5px #ccc",
-                borderColor: "#ccc",
-                background: "#ddd",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                px: 3,
-                py: 2,
-              }}
-            >
-              <span className="material-symbols-outlined">add_circle</span>
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography>Create task...</Typography>
-              </Box>
-            </Box>
-          </Card>
-
-          {data
+          <CreateListItemModal
+            mutationUrl={url}
+            listData={listData}
+            setListData={setListData}
+          />
+          {listData
             .filter((list) => list.id === value)[0]
             .items.map((item) => (
               <ListItem
