@@ -23,7 +23,7 @@ import { styled } from "@mui/material/styles";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import AutoHeight from "embla-carousel-auto-height";
-import { Select } from "@mui/material";
+import Select from "@mui/material/Select";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({

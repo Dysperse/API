@@ -14,7 +14,7 @@ import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
 import { Offline } from "react-detect-offline";
 import { useState, useEffect } from "react";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../ErrorHandler";
 import hexToRgba from "hex-to-rgba";
@@ -131,7 +131,7 @@ function Changelog({ styles }: { styles: any }) {
       </SwipeableDrawer>
       <Tooltip title="Changelog">
         <IconButton
-          sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: 1 }}
+          sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 1 } }}
           color="inherit"
           disableRipple
           onClick={() => setOpen(true)}

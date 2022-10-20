@@ -3,7 +3,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { MaintenanceReminder } from "@prisma/client";
-import { LinearProgress } from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
 import dayjs from "dayjs";
 
 /**

@@ -10,7 +10,8 @@ import StepConnector, {
 import { StepIconProps } from "@mui/material/StepIcon";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import { TextField, Typography } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { colors } from "../lib/colors";
 import { Color } from "../components/onboarding/Color";
 import FormControl from "@mui/material/FormControl";

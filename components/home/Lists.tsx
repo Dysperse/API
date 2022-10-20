@@ -1,10 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CircularProgress,
-  Grid,
-  IconButton,
-} from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CircularProgress from "@mui/material/CircularProgress";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Tab from "@mui/material/Tab";
@@ -194,5 +192,11 @@ const RenderLists = ({ data, error }) => {
 
 export function Lists() {
   const { data, error } = useApi("property/lists");
-  return !data ? <></> : <RenderLists data={data} error={error} />;
+  return !data ? (
+    <>
+      <CircularProgress />
+    </>
+  ) : (
+    <RenderLists data={data} error={error} />
+  );
 }
