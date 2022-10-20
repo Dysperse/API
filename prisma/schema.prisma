@@ -85,13 +85,14 @@ model List {
 }
 
 model ListItem {
-  id        Int     @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
   details   String
-  pinned    Boolean @default(false)
-  completed Boolean @default(false)
+  pinned    Boolean   @default(false)
+  completed Boolean   @default(false)
+  due       DateTime?
   listId    Int
-  list      List    @relation(fields: [listId], references: [id])
+  list      List      @relation(fields: [listId], references: [id])
 }
 
 model MaintenanceReminder {

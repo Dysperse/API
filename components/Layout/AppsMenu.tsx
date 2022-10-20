@@ -290,9 +290,7 @@ export function AppsMenu() {
             sx={{
               borderRadius: 94,
               mr: 1,
-              color: global.user.darkMode
-                ? "hsl(240, 11%, 90%)"
-                : colors[themeColor][900],
+              color: "#606060",
               transition: "all .2s",
               "&:active": {
                 opacity: 0.5,

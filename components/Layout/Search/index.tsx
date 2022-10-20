@@ -281,10 +281,7 @@ export function SearchPopup() {
             : `${colors[themeColor][50]}!important`,
           transition: "none !important",
           "&:hover, &:active": {
-            background: global.user.darkMode
-              ? "hsl(240,11%,20%)!important"
-              : `${colors[themeColor][100]}!important`,
-            filter: "brightness(100%)",
+            cursor: "pointer",
           },
           width: "40vw",
           justifyContent: "start",
@@ -301,9 +298,6 @@ export function SearchPopup() {
           py: 1.5,
           gap: 2,
           borderRadius: 5,
-          "& .hover": {
-            opacity: 0,
-          },
           "&:hover .hover": {
             opacity: 1,
           },
@@ -317,7 +311,7 @@ export function SearchPopup() {
             style={{
               padding: "2px 5px",
               borderRadius: "5px",
-              background: colors[themeColor][200],
+              background: colors[themeColor][100],
             }}
           >
             ctrl
@@ -326,7 +320,7 @@ export function SearchPopup() {
             style={{
               padding: "2px 5px",
               borderRadius: "5px",
-              background: colors[themeColor][200],
+              background: colors[themeColor][100],
             }}
           >
             k
@@ -342,13 +336,12 @@ export function SearchPopup() {
           color="inherit"
           sx={{
             borderRadius: 94,
-            mr: 1.5,
-            display: { xs: "flex", sm: "none" },
-            color: global.user.darkMode
-              ? "hsl(240, 11%, 90%)"
-              : router.asPath === "/tidy"
-              ? "inherit"
-              : "#606060",
+            mr: 1,
+            ml: 0.6,
+            display: { sm: "none" },
+            color: {
+              xs: "#606060",
+            },
             transition: "all .2s",
             "&:active": {
               opacity: 0.5,

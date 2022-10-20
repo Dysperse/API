@@ -129,18 +129,16 @@ function Changelog({ styles }: { styles: any }) {
           )}
         </Box>
       </SwipeableDrawer>
-      <Box sx={{ display: { xs: "none", sm: "unset" } }}>
-        <Tooltip title="Changelog">
-          <IconButton
-            sx={{ ...styles }}
-            color="inherit"
-            disableRipple
-            onClick={() => setOpen(true)}
-          >
-            <span className="material-symbols-rounded">inbox</span>
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <Tooltip title="Changelog">
+        <IconButton
+          sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: 1 }}
+          color="inherit"
+          disableRipple
+          onClick={() => setOpen(true)}
+        >
+          <span className="material-symbols-rounded">inbox</span>
+        </IconButton>
+      </Tooltip>
     </>
   );
 }
@@ -246,9 +244,9 @@ export function Navbar(): JSX.Element {
     borderRadius: 94,
     mr: 1,
     ml: 0.6,
-    color: global.user.darkMode
-      ? "hsl(240, 11%, 90%)"
-      : colors[themeColor][900],
+    color: {
+      xs: "#606060",
+    },
     transition: "all .2s",
     "&:active": {
       opacity: 0.5,
