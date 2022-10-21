@@ -197,7 +197,14 @@ const CreateListItemModal = ({
   );
 };
 
-const CreateListModal = ({ mutationUrl, open, setOpen }) => {
+const CreateListModal = ({
+  mutateUrl,
+  setValue,
+  open,
+  setOpen,
+  listData,
+  setListData,
+}) => {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
 
@@ -206,8 +213,16 @@ const CreateListModal = ({ mutationUrl, open, setOpen }) => {
     fetchApiWithoutHook("property/lists/createList", {
       name,
       description,
+    }).then((res) => {
+      setListData([
+        ...listData,
+        {
+          ...res,
+          items: [],
+        },
+      ]);
+      setValue(res.id);
     });
-    mutate(mutationUrl);
     setOpen(false);
   };
 
@@ -394,7 +409,7 @@ const ListItem = ({ listData, setListData, parent, data }) => {
 };
 
 const RenderLists = ({ url, data, error }) => {
-  const [value, setValue] = React.useState(data[0].id);
+  const [value, setValue] = React.useState(data[0] ? data[0].id : -1);
   const [open, setOpen] = React.useState(false);
   const [listData, setListData] = React.useState(data);
 
@@ -405,11 +420,13 @@ const RenderLists = ({ url, data, error }) => {
   };
 
   const percent =
-    (listData
-      .filter((list) => list.id === value)[0]
-      .items.filter((item) => item.completed).length /
-      listData.filter((list) => list.id === value)[0].items.length) *
-      100 || 0;
+    value === -1
+      ? 0
+      : (listData
+          .filter((list) => list.id === value)[0]
+          .items.filter((item) => item.completed).length /
+          listData.filter((list) => list.id === value)[0].items.length) *
+          100 || 0;
 
   const config = {
     angle: 90,
@@ -430,229 +447,237 @@ const RenderLists = ({ url, data, error }) => {
       {error && (
         <ErrorHandler error="An error occurred while trying to fetch your lists" />
       )}
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={8}>
-          {data && (
-            <Tabs
-              variant="scrollable"
-              scrollButtons="auto"
-              value={value}
-              onChange={handleChange}
-              aria-label="secondary tabs example"
+      {listData && (
+        <Tabs
+          variant="scrollable"
+          scrollButtons="auto"
+          value={value}
+          onChange={handleChange}
+          aria-label="secondary tabs example"
+          sx={{
+            mb: 4,
+            maxWidth: "calc(100vw - 32.5px)",
+            "& .MuiTabs-indicator": {
+              borderRadius: 5,
+              height: "4px",
+              opacity: 0.8,
+              zIndex: -1,
+            },
+          }}
+        >
+          {listData.map((list) => (
+            <Tab
+              disableRipple
+              value={list.id}
+              label={list.name}
               sx={{
-                mb: 4,
-                maxWidth: "calc(100vw - 32.5px)",
-                "& .MuiTabs-indicator": {
-                  borderRadius: 5,
-                  height: "4px",
-                  opacity: 0.8,
-                  zIndex: -1,
+                minWidth: "auto",
+                px: 3,
+                transition: "all .2s!important",
+                "& *": {
+                  transition: "all .2s!important",
                 },
+                textTransform: "none",
+                borderRadius: 5,
               }}
-            >
-              {data.map((list) => (
-                <Tab
-                  disableRipple
-                  value={list.id}
-                  label={list.name}
-                  sx={{
-                    minWidth: "auto",
-                    px: 3,
-                    transition: "all .2s!important",
-                    "& *": {
-                      transition: "all .2s!important",
-                    },
-                    textTransform: "none",
-                    borderRadius: 5,
-                  }}
+            />
+          ))}
+          <Tab
+            disableRipple
+            value={"CREATE_LIST"}
+            label={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                <span className="material-symbols-outlined">add_circle</span>
+                Create
+              </Box>
+            }
+            onClick={(e) => setOpen(true)}
+            sx={{
+              minWidth: "auto",
+              px: 3,
+              transition: "all .2s!important",
+              "& *": {
+                transition: "all .2s!important",
+              },
+              textTransform: "none",
+              borderRadius: 5,
+            }}
+          />
+        </Tabs>
+      )}
+      <CreateListModal
+        mutateUrl={url}
+        open={open}
+        setValue={setValue}
+        setOpen={setOpen}
+        setListData={setListData}
+        listData={listData}
+      />
+      {value !== -1 && (
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={8}>
+            <CreateListItemModal
+              mutationUrl={url}
+              listData={listData}
+              setListData={setListData}
+              parent={data.filter((list) => list.id === value)[0]}
+            />
+            {listData
+              .filter((list) => list.id === value)[0]
+              .items.sort(function (x, y) {
+                return x.completed === y.completed ? 0 : x.completed ? 1 : -1;
+              })
+              .map((item) => (
+                <ListItem
+                  listData={listData}
+                  setListData={setListData}
+                  data={item}
+                  parent={data.filter((list) => list.id === value)[0]}
                 />
               ))}
-              <Tab
-                disableRipple
-                value={"CREATE_LIST"}
-                label={
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <span className="material-symbols-outlined">
-                      add_circle
-                    </span>
-                    Create
-                  </Box>
-                }
-                onClick={(e) => setOpen(true)}
-                sx={{
-                  minWidth: "auto",
-                  px: 3,
-                  transition: "all .2s!important",
-                  "& *": {
-                    transition: "all .2s!important",
-                  },
-                  textTransform: "none",
-                  borderRadius: 5,
-                }}
-              />
-            </Tabs>
-          )}
-
-          <CreateListModal mutationUrl={url} open={open} setOpen={setOpen} />
-          <CreateListItemModal
-            mutationUrl={url}
-            listData={listData}
-            setListData={setListData}
-            parent={data.filter((list) => list.id === value)[0]}
-          />
-          {listData
-            .filter((list) => list.id === value)[0]
-            .items.sort(function (x, y) {
-              return x.completed === y.completed ? 0 : x.completed ? 1 : -1;
-            })
-            .map((item) => (
-              <ListItem
-                listData={listData}
-                setListData={setListData}
-                data={item}
-                parent={data.filter((list) => list.id === value)[0]}
-              />
-            ))}
-        </Grid>
-        <Grid item xs={12} sm={4} sx={{ position: "relative" }}>
-          <Box
-            sx={{
-              position: "absolute",
-              left: "50%",
-              top: "200px",
-              transform: "translateX(-50%)",
-            }}
-          >
-            <Confetti active={percent === 100} config={config} />
-          </Box>
-          <Card
-            sx={{
-              mt: { sm: 10 },
-              mb: 3,
-              py: 2,
-              border: "2px solid #eee",
-              boxShadow: "3px 5px #eee",
-              borderRadius: 5,
-              transition: "none",
-            }}
-          >
-            <CardContent>
-              <Box
-                sx={{
-                  textAlign: "center",
-                }}
-              >
+          </Grid>
+          <Grid item xs={12} sm={4} sx={{ position: "relative" }}>
+            <Box
+              sx={{
+                position: "absolute",
+                left: "50%",
+                top: "200px",
+                transform: "translateX(-50%)",
+              }}
+            >
+              <Confetti active={percent === 100} config={config} />
+            </Box>
+            <Card
+              sx={{
+                mt: { sm: 10 },
+                mb: 3,
+                py: 2,
+                border: "2px solid #eee",
+                boxShadow: "3px 5px #eee",
+                borderRadius: 5,
+                transition: "none",
+              }}
+            >
+              <CardContent>
                 <Box
                   sx={{
-                    zIndex: 0,
-                    position: "relative",
-                    display: "inline-flex",
+                    textAlign: "center",
                   }}
                 >
-                  <CircularProgress
-                    variant="determinate"
-                    value={percent}
-                    size={100}
-                    thickness={4}
-                    sx={{
-                      zIndex: 1,
-                      [`& .MuiCircularProgress-circle`]: {
-                        strokeLinecap: "round",
-                        ...(percent === 100 && { stroke: "#00e676" }),
-                      },
-                      [`& .MuiCircularProgress-svg`]: {
-                        borderRadius: 999,
-                      },
-                    }}
-                  />
                   <Box
                     sx={{
-                      top: 0,
-                      left: 0,
-                      bottom: 0,
-                      right: 0,
-                      position: "absolute",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      border: "9px solid #eee",
-                      borderRadius: 999,
                       zIndex: 0,
+                      position: "relative",
+                      display: "inline-flex",
                     }}
                   >
-                    <Typography
-                      component="div"
-                      color="primary"
+                    <CircularProgress
+                      variant="determinate"
+                      value={percent}
+                      size={100}
+                      thickness={4}
                       sx={{
-                        ...(percent == 0 && {
-                          color: "#606060",
-                        }),
-                        ...(percent == 100 && {
-                          color: "#00e676",
-                        }),
+                        zIndex: 1,
+                        [`& .MuiCircularProgress-circle`]: {
+                          strokeLinecap: "round",
+                          ...(percent === 100 && { stroke: "#00e676" }),
+                        },
+                        [`& .MuiCircularProgress-svg`]: {
+                          borderRadius: 999,
+                        },
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        position: "absolute",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "9px solid #eee",
+                        borderRadius: 999,
+                        zIndex: 0,
                       }}
                     >
-                      {Math.round(percent)}%
-                    </Typography>
+                      <Typography
+                        component="div"
+                        color="primary"
+                        sx={{
+                          ...(percent == 0 && {
+                            color: "#606060",
+                          }),
+                          ...(percent == 100 && {
+                            color: "#00e676",
+                          }),
+                        }}
+                      >
+                        {Math.round(percent)}%
+                      </Typography>
+                    </Box>
                   </Box>
+                  <Typography variant="h6" sx={{ mt: 1 }}>
+                    Progress
+                  </Typography>
+                  <Typography variant="body2" sx={{ mt: 1 }}>
+                    {
+                      listData
+                        .filter((list) => list.id === value)[0]
+                        .items.filter((item) => !item.completed).length
+                    }{" "}
+                    tasks remaining
+                  </Typography>
                 </Box>
-                <Typography variant="h6" sx={{ mt: 1 }}>
-                  Progress
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  {
-                    listData
-                      .filter((list) => list.id === value)[0]
-                      .items.filter((item) => !item.completed).length
-                  }{" "}
-                  tasks remaining
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-          <Box
-            sx={{
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            <Button
-              fullWidth
-              disableElevation
-              variant="outlined"
-              size="large"
+              </CardContent>
+            </Card>
+            <Box
               sx={{
-                borderWidth: "2px!important",
-                borderRadius: 99,
-                transition: "none",
+                display: "flex",
+                gap: 1,
+                alignItems: "center",
               }}
             >
-              Share
-            </Button>
-            <Button
-              fullWidth
-              disableElevation
-              variant="outlined"
-              size="large"
-              sx={{
-                borderWidth: "2px!important",
-                borderRadius: 99,
-                transition: "none",
-              }}
-              onClick={() => {
-                fetchApiWithoutHook("property/lists/delete-list", {
-                  parent: value,
-                });
-                setValue(data[0].id);
-                setListData(listData.filter((list) => list.id !== value));
-              }}
-            >
-              Delete list
-            </Button>
-          </Box>
+              <Button
+                fullWidth
+                disableElevation
+                variant="outlined"
+                size="large"
+                sx={{
+                  borderWidth: "2px!important",
+                  borderRadius: 99,
+                  transition: "none",
+                }}
+              >
+                Share
+              </Button>
+              <Button
+                fullWidth
+                disableElevation
+                variant="outlined"
+                size="large"
+                sx={{
+                  borderWidth: "2px!important",
+                  borderRadius: 99,
+                  transition: "none",
+                }}
+                onClick={() => {
+                  fetchApiWithoutHook("property/lists/delete-list", {
+                    parent: value,
+                  }).then(() => {
+                    setListData(listData.filter((list) => list.id !== value));
+                    setValue(-1);
+                    alert(value);
+                  });
+                }}
+              >
+                Delete list
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Box>
   );
 };
