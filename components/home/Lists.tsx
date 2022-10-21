@@ -20,7 +20,12 @@ import { Puller } from "../Puller";
 import Collapse from "@mui/material/Collapse";
 import Confetti from "react-dom-confetti";
 
-const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
+const CreateListItemModal = ({
+  parent,
+  listData,
+  setListData,
+  mutationUrl,
+}) => {
   const [open, setOpen] = React.useState(false);
   const [showDescription, setShowDescription] = React.useState(false);
   useStatusBar(open);
@@ -32,12 +37,35 @@ const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
 
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [date, setDate] = React.useState("");
+  const [date, setDate] = React.useState(new Date());
   const [pinned, setPinned] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
-  const handleSubmit = () => {
-    fetchApiWithoutHook("property/lists/createItem", {});
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchApiWithoutHook("property/lists/createItem", {
+      name: title,
+      details: description,
+      pinned: pinned ? "true" : "false",
+      list: parent.id,
+    }).then((res) => {
+      setListData(
+        listData.map((list) => {
+          if (list.id === parent.id) {
+            return {
+              ...list,
+              items: [...list.items, res],
+            };
+          }
+          return list;
+        })
+      );
+      setTitle("");
+      setDescription("");
+      setDate(new Date());
+      setPinned(false);
+      setOpen(false);
+    });
   };
 
   return (
@@ -63,65 +91,72 @@ const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
           <Puller />
         </Box>
         <Box sx={{ p: { xs: 3, sm: 3 }, pt: { xs: 0, sm: 3 } }}>
-          <TextField
-            autoFocus
-            fullWidth
-            variant="standard"
-            placeholder="Clean the gutters"
-            InputProps={{
-              className: "font-secondary",
-              disableUnderline: true,
-              sx: { fontSize: 19 },
-            }}
-          />
-          <Collapse in={showDescription}>
+          <form onSubmit={handleSubmit}>
             <TextField
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              autoFocus
               fullWidth
               variant="standard"
-              placeholder="Add a description"
+              placeholder="Clean the gutters"
               InputProps={{
+                className: "font-secondary",
                 disableUnderline: true,
-                sx: { fontSize: 15, mt: 0.5, mb: 1 },
+                sx: { fontSize: 19 },
               }}
             />
-          </Collapse>
-          <Box sx={{ display: "flex", mt: 1 }}>
-            <IconButton
-              disableRipple
-              onClick={() => setPinned(!pinned)}
-              sx={{
-                ...styles,
-                background: pinned && colors[themeColor][100],
-              }}
-            >
-              <span
-                style={{ transform: "rotate(-45deg)" }}
-                className="material-symbols-rounded"
+            <Collapse in={showDescription}>
+              <TextField
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                fullWidth
+                variant="standard"
+                placeholder="Add a description"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: { fontSize: 15, mt: 0.5, mb: 1 },
+                }}
+              />
+            </Collapse>
+            <Box sx={{ display: "flex", mt: 1 }}>
+              <IconButton
+                disableRipple
+                onClick={() => setPinned(!pinned)}
+                sx={{
+                  ...styles,
+                  background: pinned && colors[themeColor][100],
+                }}
               >
-                push_pin
-              </span>
-            </IconButton>
-            <IconButton disableRipple sx={{ ...styles, mx: 1 }}>
-              <span className="material-symbols-rounded">today</span>
-            </IconButton>
-            <IconButton
-              disableRipple
-              onClick={() => setShowDescription(!showDescription)}
-              sx={{
-                ...styles,
-                background: showDescription && colors[themeColor][100],
-              }}
-            >
-              <span className="material-symbols-rounded">notes</span>
-            </IconButton>
-            <Button
-              sx={{ ml: "auto", borderRadius: 5, px: 3 }}
-              variant="contained"
-              disableElevation
-            >
-              Create
-            </Button>
-          </Box>
+                <span
+                  style={{ transform: "rotate(-45deg)" }}
+                  className="material-symbols-rounded"
+                >
+                  push_pin
+                </span>
+              </IconButton>
+              <IconButton disableRipple sx={{ ...styles, mx: 1 }}>
+                <span className="material-symbols-rounded">today</span>
+              </IconButton>
+              <IconButton
+                disableRipple
+                onClick={() => setShowDescription(!showDescription)}
+                sx={{
+                  ...styles,
+                  background: showDescription && colors[themeColor][100],
+                }}
+              >
+                <span className="material-symbols-rounded">notes</span>
+              </IconButton>
+              <Button
+                type="submit"
+                sx={{ ml: "auto", borderRadius: 5, px: 3 }}
+                variant="contained"
+                disableElevation
+              >
+                Create
+              </Button>
+            </Box>
+          </form>
         </Box>
       </SwipeableDrawer>
       <Card
@@ -185,6 +220,8 @@ const CreateListModal = ({ mutationUrl, open, setOpen }) => {
       PaperProps={{
         elevation: 0,
         sx: {
+          mx: "auto",
+          maxWidth: "500px",
           background: colors[themeColor][50],
           borderRadius: "20px 20px 0 0",
         },
@@ -460,6 +497,7 @@ const RenderLists = ({ url, data, error }) => {
             mutationUrl={url}
             listData={listData}
             setListData={setListData}
+            parent={data.filter((list) => list.id === value)[0]}
           />
           {listData
             .filter((list) => list.id === value)[0]
