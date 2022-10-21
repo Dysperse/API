@@ -18,6 +18,7 @@ import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../ErrorHandler";
 import { Puller } from "../Puller";
 import Collapse from "@mui/material/Collapse";
+import Confetti from "react-dom-confetti";
 
 const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
   const [open, setOpen] = React.useState(false);
@@ -240,82 +241,117 @@ const CreateListModal = ({ mutationUrl, open, setOpen }) => {
     </SwipeableDrawer>
   );
 };
-const ListItem = ({ parent, data }) => {
+const ListItem = ({ listData, setListData, parent, data }) => {
   return (
-    <Card
-      sx={{
-        maxWidth: "calc(100vw - 32.5px)",
-        mb: 2,
-        opacity: data.temporary ? 0.5 : 1,
-        border: "2px solid #eee",
-        boxShadow: "3px 5px #eee",
-        borderRadius: 5,
-        transition: "none",
-        "&:hover": {
-          boxShadow: "3px 5px #ddd",
-          borderColor: "#ddd",
-          background: "#eee",
-        },
-      }}
-    >
-      <Box
+    <Box sx={{ position: "relative" }}>
+      <Card
         sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-          px: 2,
-          py: 1.5,
-          with: "300px",
+          maxWidth: "calc(100vw - 32.5px)",
+          mb: 2,
+          opacity: data.completed ? 0.5 : 1,
+          border: "2px solid #eee",
+          boxShadow: "3px 5px #eee",
+          borderRadius: 5,
+          transition: "none",
+          "&:hover": {
+            boxShadow: "3px 5px #ddd",
+            borderColor: "#ddd",
+            background: "#eee",
+          },
         }}
       >
-        <span
-          className="material-symbols-outlined"
-          style={{
-            userSelect: "none",
-            cursor: "pointer",
-          }}
-        >
-          circle
-        </span>
         <Box
           sx={{
-            flexGrow: 1,
-            flex: "1 1 0",
-            minWidth: 0,
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            px: 2,
+            py: 1.5,
+            with: "300px",
           }}
         >
-          <Typography
+          <Box
+            onClick={() => {
+              fetchApiWithoutHook("property/lists/toggleCompleted", {
+                id: data.id,
+                completed: data.completed ? "true" : "false",
+              });
+
+              // alert(id);
+              setListData(
+                listData.map((list) => {
+                  if (list.id === parent.id) {
+                    return {
+                      ...list,
+                      items: list.items.map((item) => {
+                        if (item.id === data.id) {
+                          return {
+                            ...item,
+                            completed: !item.completed,
+                          };
+                        }
+                        return item;
+                      }),
+                    };
+                  }
+                  return list;
+                })
+              );
+            }}
             sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              mt: data.details ? 1 : 0,
+              pt: 1,
             }}
           >
-            {data.name}
-          </Typography>
-          {data.details && (
+            <span
+              className="material-symbols-outlined"
+              style={{
+                userSelect: "none",
+                cursor: "pointer",
+              }}
+            >
+              {data.completed ? "task_alt" : "circle"}
+            </span>
+          </Box>
+          <Box
+            sx={{
+              flexGrow: 1,
+              flex: "1 1 0",
+              minWidth: 0,
+            }}
+          >
             <Typography
-              variant="body2"
               sx={{
-                my: 1,
-                mt: 0.5,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
+                mt: data.details ? 1 : 0,
               }}
             >
-              {data.details}
+              {data.name}
             </Typography>
-          )}
+            {data.details && (
+              <Typography
+                variant="body2"
+                sx={{
+                  my: 1,
+                  mt: 0.5,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {data.details}
+              </Typography>
+            )}
+          </Box>
+          <Box sx={{ ml: "auto" }}>
+            <IconButton>
+              <span className="material-symbols-outlined">more_vert</span>
+            </IconButton>
+          </Box>
         </Box>
-        <Box sx={{ ml: "auto" }}>
-          <IconButton>
-            <span className="material-symbols-outlined">more_vert</span>
-          </IconButton>
-        </Box>
-      </Box>
-    </Card>
+      </Card>
+    </Box>
   );
 };
 
@@ -328,6 +364,27 @@ const RenderLists = ({ url, data, error }) => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     if (newValue !== "CREATE_LIST") setValue(newValue);
+  };
+
+  const percent =
+    (listData
+      .filter((list) => list.id === value)[0]
+      .items.filter((item) => item.completed).length /
+      listData.filter((list) => list.id === value)[0].items.length) *
+    100;
+
+  const config = {
+    angle: 90,
+    spread: 90,
+    startVelocity: 40,
+    elementCount: 40,
+    dragFriction: 0.13,
+    duration: 3000,
+    stagger: 6,
+    width: "10px",
+    height: "10px",
+    perspective: "860px",
+    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
   };
 
   return (
@@ -406,18 +463,33 @@ const RenderLists = ({ url, data, error }) => {
           />
           {listData
             .filter((list) => list.id === value)[0]
-            .items.map((item) => (
+            .items.sort(function (x, y) {
+              return x.completed === y.completed ? 0 : x.completed ? 1 : -1;
+            })
+            .map((item) => (
               <ListItem
+                listData={listData}
+                setListData={setListData}
                 data={item}
                 parent={data.filter((list) => list.id === value)[0]}
               />
             ))}
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} sx={{ position: "relative" }}>
+          <Box
+            sx={{
+              position: "absolute",
+              left: "50%",
+              top: "200px",
+              transform: "translateX(-50%)",
+            }}
+          >
+            <Confetti active={percent === 100} config={config} />
+          </Box>
           <Card
             sx={{
               mt: { sm: 10 },
-              mb: 4,
+              mb: 3,
               py: 2,
               border: "2px solid #eee",
               boxShadow: "3px 5px #eee",
@@ -440,13 +512,14 @@ const RenderLists = ({ url, data, error }) => {
                 >
                   <CircularProgress
                     variant="determinate"
-                    value={69}
+                    value={percent}
                     size={100}
                     thickness={4}
                     sx={{
                       zIndex: 1,
                       [`& .MuiCircularProgress-circle`]: {
                         strokeLinecap: "round",
+                        ...(percent === 100 && { stroke: "#00e676" }),
                       },
                       [`& .MuiCircularProgress-svg`]: {
                         borderRadius: 999,
@@ -471,18 +544,67 @@ const RenderLists = ({ url, data, error }) => {
                     <Typography
                       component="div"
                       color="primary"
-                    >{`69%`}</Typography>
+                      sx={{
+                        ...(percent == 0 && {
+                          color: "#606060",
+                        }),
+                        ...(percent == 100 && {
+                          color: "#00e676",
+                        }),
+                      }}
+                    >
+                      {Math.round(percent)}%
+                    </Typography>
                   </Box>
                 </Box>
                 <Typography variant="h6" sx={{ mt: 1 }}>
-                  Today&apos;s tasks
+                  Progress
                 </Typography>
                 <Typography variant="body2" sx={{ mt: 1 }}>
-                  5 tasks remaining
+                  {
+                    listData
+                      .filter((list) => list.id === value)[0]
+                      .items.filter((item) => !item.completed).length
+                  }{" "}
+                  tasks remaining
                 </Typography>
               </Box>
             </CardContent>
           </Card>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
+            <Button
+              fullWidth
+              disableElevation
+              variant="outlined"
+              size="large"
+              sx={{
+                borderWidth: "2px!important",
+                borderRadius: 99,
+                transition: "none",
+              }}
+            >
+              Share
+            </Button>
+            <Button
+              fullWidth
+              disableElevation
+              variant="outlined"
+              size="large"
+              sx={{
+                borderWidth: "2px!important",
+                borderRadius: 99,
+                transition: "none",
+              }}
+            >
+              Delete list
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </Box>
