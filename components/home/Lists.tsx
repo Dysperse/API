@@ -476,9 +476,23 @@ const RenderLists = ({ url, data, error }) => {
 export function Lists() {
   const { url, data, error } = useApi("property/lists");
   return !data ? (
-    <>
-      <CircularProgress />
-    </>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "calc(100vh - 200px)",
+      }}
+    >
+      <CircularProgress
+        sx={{
+          [`& .MuiCircularProgress-circle`]: {
+            strokeLinecap: "round",
+          },
+        }}
+      />
+    </Box>
   ) : (
     <RenderLists url={url} data={data} error={error} />
   );
