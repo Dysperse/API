@@ -93,6 +93,7 @@ const CreateListItemModal = ({
         <Box sx={{ p: { xs: 3, sm: 3 }, pt: { xs: 0, sm: 3 } }}>
           <form onSubmit={handleSubmit}>
             <TextField
+              autoComplete="off"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               autoFocus
@@ -408,7 +409,7 @@ const RenderLists = ({ url, data, error }) => {
       .filter((list) => list.id === value)[0]
       .items.filter((item) => item.completed).length /
       listData.filter((list) => list.id === value)[0].items.length) *
-    100;
+      100 || 0;
 
   const config = {
     angle: 90,
@@ -638,6 +639,13 @@ const RenderLists = ({ url, data, error }) => {
                 borderWidth: "2px!important",
                 borderRadius: 99,
                 transition: "none",
+              }}
+              onClick={() => {
+                fetchApiWithoutHook("property/lists/delete-list", {
+                  parent: value,
+                });
+                setValue(data[0].id);
+                setListData(listData.filter((list) => list.id !== value));
               }}
             >
               Delete list

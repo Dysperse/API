@@ -19,10 +19,11 @@ import { useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../ErrorHandler";
 import hexToRgba from "hex-to-rgba";
 import dayjs from "dayjs";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
-
+  useStatusBar(open);
   const { error, data } = useApi("property/inbox");
 
   return (
@@ -31,11 +32,12 @@ function Changelog({ styles }: { styles: any }) {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        anchor="right"
+        anchor="bottom"
         PaperProps={{
           elevation: 0,
           sx: {
-            width: "100vw",
+            mx: "auto",
+            borderRadius: "20px 20px 0px 0px",
             maxWidth: "500px",
             background: colors[themeColor]["50"],
           },
@@ -78,6 +80,8 @@ function Changelog({ styles }: { styles: any }) {
           sx={{
             p: 4,
             pt: 0,
+            maxHeight: "50vh",
+            overflowY: "scroll",
           }}
         >
           {error && (
