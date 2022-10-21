@@ -20,6 +20,11 @@ const moduleExports = {
           permanent: true,
         },
         {
+          source: "/home",
+          destination: "/tasks",
+          permanent: false,
+        },
+        {
           source: "/dashboard",
           destination: "/home",
           permanent: true,
