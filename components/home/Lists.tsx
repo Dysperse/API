@@ -59,6 +59,7 @@ const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
             variant="standard"
             placeholder="Clean the gutters"
             InputProps={{
+              className: "font-secondary",
               disableUnderline: true,
               sx: { fontSize: 19 },
             }}
@@ -97,7 +98,7 @@ const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
               <span className="material-symbols-rounded">notes</span>
             </IconButton>
             <Button
-              sx={{ ml: "auto", borderRadius: 999 }}
+              sx={{ ml: "auto", borderRadius: 5, px: 3 }}
               variant="contained"
               disableElevation
             >
@@ -247,7 +248,7 @@ const ListItem = ({ parent, data }) => {
           alignItems: "center",
           gap: 2,
           px: 2,
-          py: 1,
+          py: 1.5,
           with: "300px",
         }}
       >

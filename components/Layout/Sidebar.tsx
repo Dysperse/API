@@ -82,22 +82,22 @@ export function Sidebar() {
               </IconButton>
             </Tooltip>
           </AddPopup>
-          <Tooltip title="Home" placement="right">
+          <Tooltip title="Tasks" placement="right">
             <IconButton
               disableRipple
               size="large"
               sx={styles}
-              className={router.asPath === "/home" ? "active" : ""}
-              onClick={() => router.push("/home")}
+              className={router.asPath === "/tasks" ? "active" : ""}
+              onClick={() => router.push("/tasks")}
             >
               <span
                 className={
-                  router.pathname === "/home"
+                  router.pathname === "/tasks"
                     ? "material-symbols-rounded"
                     : "material-symbols-outlined"
                 }
               >
-                home
+                list_alt
               </span>
             </IconButton>
           </Tooltip>
