@@ -97,7 +97,7 @@ export function BottomNav() {
     const url = router.asPath;
 
     switch (url) {
-      case "/home":
+      case "/tasks":
         setValue(0);
         break;
       case "/trash":
@@ -182,8 +182,8 @@ export function BottomNav() {
             sx={{
               ...styles,
             }}
-            label="Home"
-            onClick={() => onLink("/home")}
+            label="Tasks"
+            onClick={() => onLink("/tasks")}
             icon={
               <Icon
                 baseClassName={`material-symbols-${

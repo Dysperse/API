@@ -25,9 +25,18 @@ const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
   useStatusBar(open);
   const styles = {
     color: colors[themeColor][800],
-    mr: 1,
     borderRadius: 3,
     transition: "none",
+  };
+
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [date, setDate] = React.useState("");
+  const [pinned, setPinned] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
+  const handleSubmit = () => {
+    fetchApiWithoutHook("property/lists/createItem", {});
   };
 
   return (
@@ -76,7 +85,14 @@ const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
             />
           </Collapse>
           <Box sx={{ display: "flex", mt: 1 }}>
-            <IconButton disableRipple sx={styles}>
+            <IconButton
+              disableRipple
+              onClick={() => setPinned(!pinned)}
+              sx={{
+                ...styles,
+                background: pinned && colors[themeColor][100],
+              }}
+            >
               <span
                 style={{ transform: "rotate(-45deg)" }}
                 className="material-symbols-rounded"
@@ -84,7 +100,7 @@ const CreateListItemModal = ({ listData, setListData, mutationUrl }) => {
                 push_pin
               </span>
             </IconButton>
-            <IconButton disableRipple sx={styles}>
+            <IconButton disableRipple sx={{ ...styles, mx: 1 }}>
               <span className="material-symbols-rounded">today</span>
             </IconButton>
             <IconButton
