@@ -73,7 +73,7 @@ function Changelog({ styles }: { styles: any }) {
               color: colors[themeColor]["900"],
             }}
           >
-            <span className="material-symbols-rounded">close</span>
+            <span className="material-symbols-rounded">expand_more</span>
           </IconButton>
         </Box>
         <Box
