@@ -99,7 +99,7 @@ const CreateListItemModal = ({
               autoFocus
               fullWidth
               variant="standard"
-              placeholder="Clean the gutters"
+              placeholder="Add an item"
               InputProps={{
                 className: "font-secondary",
                 disableUnderline: true,
