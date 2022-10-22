@@ -432,7 +432,7 @@ const RenderLists = ({ url, data, error }) => {
     angle: 90,
     spread: 90,
     startVelocity: 40,
-    elementCount: 40,
+    elementCount: 80,
     dragFriction: 0.13,
     duration: 3000,
     stagger: 6,
@@ -568,13 +568,17 @@ const RenderLists = ({ url, data, error }) => {
                     transition: "none",
                   }}
                   onClick={() => {
-                    fetchApiWithoutHook("property/lists/delete-list", {
-                      parent: value,
-                    }).then(() => {
-                      setListData(listData.filter((list) => list.id !== value));
-                      setValue(-1);
-                      alert(value);
-                    });
+                    if (confirm("Delete list?")) {
+                      fetchApiWithoutHook("property/lists/delete-list", {
+                        parent: value,
+                      }).then(() => {
+                        setListData(
+                          listData.filter((list) => list.id !== value)
+                        );
+                        setValue(-1);
+                        alert(value);
+                      });
+                    }
                   }}
                 >
                   Delete list
@@ -588,7 +592,7 @@ const RenderLists = ({ url, data, error }) => {
             sm={4}
             sx={{
               position: { xs: "sticky", sm: "unset" },
-              zIndex: 19999,
+              zIndex: 99,
               top: "65px",
               py: 1,
               mb: 2,
@@ -601,7 +605,7 @@ const RenderLists = ({ url, data, error }) => {
               sx={{
                 position: "absolute",
                 left: "50%",
-                top: "200px",
+                top: { xs: "100px", sm: "200px" },
                 transform: "translateX(-50%)",
               }}
             >
