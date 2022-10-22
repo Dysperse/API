@@ -98,7 +98,7 @@ export default async function handler(req, res) {
     service_id: "service_bhq01y6",
     template_id: "template_evbixeg",
     user_id: "6Q4BZ_DN9bCSJFZYM",
-    accessToken: "RfkemBAYkaU8cLCCFPmqJ",
+    accessToken: process.env.EMAILJS_ACCESS_TOKEN,
     template_params: {
       to: email,
       link: url,
