@@ -470,7 +470,7 @@ function RenderApp({
     <RenderComponent Component={Component} data={data} pageProps={pageProps} />
   ) : (
     <>
-      {!isLoading && <Loading />}
+      {isLoading && <Loading />}
       {isError && (
         <Box
           sx={{
@@ -524,7 +524,7 @@ function RenderApp({
           </Box>
         </Box>
       )}
-      {false && !isLoading && !isError && !data.error && (
+      {!isLoading && !isError && !data.error && (
         <Render
           router={router}
           Component={Component}
