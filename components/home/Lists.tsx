@@ -488,7 +488,7 @@ const RenderLists = ({ url, data, error }) => {
             label={
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <span className="material-symbols-outlined">add_circle</span>
-                Create
+                Create new list
               </Box>
             }
             onClick={(e) => setOpen(true)}
