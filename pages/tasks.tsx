@@ -1,6 +1,6 @@
 import Container from "@mui/material/Container";
 import Head from "next/head";
-import { Lists } from "../components/home/Lists";
+import { Lists } from "../components/tasks/Lists";
 
 /**
  * Top-level component for the dashboard page.
