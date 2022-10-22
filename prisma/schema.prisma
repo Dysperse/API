@@ -8,17 +8,18 @@ datasource db {
 }
 
 model User {
-  id                 Int              @id @unique @default(autoincrement())
+  id                 Int                  @id @unique @default(autoincrement())
   name               String
-  email              String           @unique
+  email              String               @unique
   password           String
-  darkMode           Boolean          @default(false)
-  color              String           @default("cyan")
-  onboardingComplete Boolean          @default(false)
-  verifiedEmail      Boolean          @default(false)
-  twoFactorSecret    String           @default("")
+  darkMode           Boolean              @default(false)
+  color              String               @default("cyan")
+  onboardingComplete Boolean              @default(false)
+  verifiedEmail      Boolean              @default(false)
+  twoFactorSecret    String               @default("")
   properties         PropertyInvite[]
   sessions           Session[]
+  PasswordResetToken PasswordResetToken[]
 }
 
 model Session {
@@ -123,4 +124,12 @@ model InboxItem {
 
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model PasswordResetToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  token     String   @unique @default(uuid())
+  createdAt DateTime @default(now())
 }

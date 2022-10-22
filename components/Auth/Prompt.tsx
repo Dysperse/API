@@ -215,10 +215,10 @@ export default function Prompt() {
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
                 <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
-                  Welcome to Carbon.
+                  Welcome back!
                 </Typography>
-                <Typography sx={{ mb: 2 }}>
-                  We&apos;re so excited to have you back
+                <Typography sx={{ mb: 2 }} className="font-secondary">
+                  Sign in with your Carbon ID
                 </Typography>
               </Box>
               <TextField
@@ -305,6 +305,28 @@ export default function Prompt() {
               }}
             >
               Create an account
+            </Button>
+          </Link>
+          <Link
+            href={
+              window.location.href.includes("?close=true")
+                ? "/reset-id?close=true"
+                : "/reset-id"
+            }
+          >
+            <Button
+              sx={{
+                textTransform: "none",
+                mt: 1,
+                py: 0,
+                float: "right",
+                textAlign: "center",
+                mx: "auto",
+                transition: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              I forgot my ID
             </Button>
           </Link>
         </Paper>

@@ -1,22 +1,16 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import { colors } from "../lib/colors";
-import Paper from "@mui/material/Paper";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Link from "next/link";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import AuthCode from "react-auth-code-input";
 
-import { useSWRConfig } from "swr";
 import { Layout } from "../components/Auth/Layout";
-import { Puller } from "../components/Puller";
-import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 
 /**
  * Top-level component for the signup page.
@@ -24,49 +18,35 @@ import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 export default function Prompt() {
   const router = useRouter();
   global.themeColor = "brown";
-  const { mutate } = useSWRConfig();
+
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
-  const [otpCode, setOtpCode] = useState<any>("");
-  useEffect(() => {
-    twoFactorModalOpen
-      ? neutralizeBack(() => setTwoFactorModalOpen(false))
-      : revivalBack();
-  });
+
   const formik = useFormik({
     initialValues: {
-      name: "",
       email: "",
-      password: "",
-      confirmPassword: "",
     },
     onSubmit: (values) => {
       setButtonLoading(true);
-      fetch("/api/signup", {
+      fetch("/api/reset-id", {
         method: "POST",
         body: JSON.stringify({
-          name: values.name,
           email: values.email,
-          password: values.password,
-          confirmPassword: values.confirmPassword,
         }),
       })
-        .then((res) => res.json())
-        .then(() => {
-          if (window.location.href.includes("?close=true")) {
-            mutate("/api/user").then(() => {
-              window.close();
-            });
-            return;
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success("Check your email for further instructions.");
+            // router.push("/login");
+            setButtonLoading(false);
+          } else {
+            toast.error("An error occurred.");
+            setButtonLoading(false);
           }
-          mutate("/api/user");
-          router.push("/");
-          toast.success("Welcome to Carbon!");
         })
-        .catch(() => {
+        .catch((err) => {
+          toast.error("An error occurred.");
           setButtonLoading(false);
-          toast.error("An error occurred");
         });
     },
   });
@@ -84,81 +64,6 @@ export default function Prompt() {
           },
         }}
       >
-        <SwipeableDrawer
-          anchor="bottom"
-          open={twoFactorModalOpen}
-          onClose={() => setTwoFactorModalOpen(false)}
-          onOpen={() => setTwoFactorModalOpen(true)}
-          disableSwipeToOpen
-          PaperProps={{
-            sx: {
-              background: colors.brown[50],
-              borderRadius: "20px 20px 0 0",
-              mx: "auto",
-              maxWidth: "500px",
-            },
-          }}
-        >
-          <Puller />
-          <Box
-            sx={{
-              p: 3,
-              mt: 3,
-            }}
-          >
-            <Typography
-              variant="h5"
-              sx={{
-                marginBottom: "20px",
-                fontWeight: 600,
-                textAlign: "center",
-              }}
-            >
-              Help us protect your account
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                marginBottom: "20px",
-                textAlign: "center",
-              }}
-            >
-              Enter the 6-digit code from your authenticator app
-            </Typography>
-
-            {/* Six digit authenticator code input */}
-            <Box
-              sx={{
-                textAlign: "center",
-              }}
-            >
-              <AuthCode
-                allowedCharacters="numeric"
-                onChange={(value) => setOtpCode(value)}
-              />
-            </Box>
-            <LoadingButton
-              variant="contained"
-              loading={buttonLoading}
-              onClick={() => {
-                formik.handleSubmit();
-              }}
-              size="large"
-              sx={{
-                width: "100%",
-                mb: 1.4,
-                mt: 3,
-                boxShadow: 0,
-                borderRadius: 99,
-                textTransform: "none",
-                border: "2px solid transparent !important",
-              }}
-            >
-              Continue
-            </LoadingButton>
-          </Box>
-        </SwipeableDrawer>
-
         <Paper
           sx={{
             background: "#c4b5b5",
@@ -204,25 +109,13 @@ export default function Prompt() {
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
                 <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
-                  Welcome to Carbon!
+                  Forgot your ID?
                 </Typography>
                 <Typography sx={{ mb: 2 }}>
-                  Create an account to track your home inventory, lists, notes,
-                  and more!
+                  Enter your email address and we'll send you a link to reset
+                  your ID.
                 </Typography>
               </Box>
-              <TextField
-                required
-                disabled={buttonLoading}
-                autoComplete={"off"}
-                label="Your name"
-                value={formik.values.name}
-                name="name"
-                onChange={formik.handleChange}
-                sx={{ mb: 1.5 }}
-                fullWidth
-                variant="filled"
-              />
               <TextField
                 required
                 disabled={buttonLoading}
@@ -235,30 +128,7 @@ export default function Prompt() {
                 fullWidth
                 variant="filled"
               />
-              <TextField
-                required
-                autoComplete={"off"}
-                disabled={buttonLoading}
-                label="Password"
-                value={formik.values.password}
-                sx={{ mb: 1.5 }}
-                name="password"
-                onChange={formik.handleChange}
-                fullWidth
-                variant="filled"
-              />
-              <TextField
-                required
-                autoComplete={"off"}
-                disabled={buttonLoading}
-                label="Password"
-                value={formik.values.confirmPassword}
-                sx={{ mb: 1.5 }}
-                name="confirmPassword"
-                onChange={formik.handleChange}
-                fullWidth
-                variant="filled"
-              />
+
               <Link
                 href={
                   window.location.href.includes("?close=true")
@@ -279,7 +149,7 @@ export default function Prompt() {
                     "&:hover": { textDecoration: "underline" },
                   }}
                 >
-                  I already have an account
+                  Back to login
                 </Button>
               </Link>
               <Box sx={{ pb: { xs: 15, sm: 0 } }} />
@@ -296,6 +166,7 @@ export default function Prompt() {
                   width: { xs: "100vw", sm: "100%" },
                 }}
               >
+                <div />
                 <LoadingButton
                   loading={buttonLoading}
                   type="submit"

@@ -52,12 +52,18 @@ export function Layout({ children }): JSX.Element {
             <picture>
               <img
                 src="https://i.ibb.co/F7vSQPP/Carbon-Home-inventory-and-finance-tracking-2.png"
-                width="100"
-                height="100"
+                width="80"
+                height="80"
                 alt="logo"
               />
             </picture>
-            <Typography variant="h5">Carbon</Typography>
+            <Typography
+              variant="h6"
+              className="font-secondary"
+              sx={{ mt: -0.5 }}
+            >
+              Carbon
+            </Typography>
           </Box>
           {children}
         </Box>
