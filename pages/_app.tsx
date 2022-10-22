@@ -95,29 +95,39 @@ export function Loading(): JSX.Element {
         </Toolbar>
       </AppBar>
 
-      <Grid
-        container
-        spacing={{ xs: 0, sm: 1 }}
-        sx={{ mt: 10, width: "100%", mx: "auto" }}
+      <Box
+        sx={{
+          display: "flex",
+        }}
       >
-        <Grid item xs={0} sm={2} sx={{ display: { xs: "none", sm: "block" } }}>
-          <Box sx={{ pt: { sm: 15 }, pl: { sm: 2 } }}>
+        <Box
+          sx={{
+            display: { xs: "none", sm: "flex" },
+            flexDirection: "column",
+            alignItems: "center",
+            height: "100vh",
+            gap: 2,
+            justifyContent: "center",
+            width: "65px",
+            // background: "red",
+            pt: 5,
+          }}
+        >
+          {[...new Array(5)].map(() => (
             <Skeleton
               variant="rectangular"
               animation={false}
-              sx={{ mb: 3, borderRadius: 5, height: 50, width: "60%" }}
+              key={Math.random().toString()}
+              sx={{ borderRadius: 2, height: 50, width: 50 }}
             />
-            {[...new Array(15)].map(() => (
-              <Skeleton
-                variant="rectangular"
-                animation={false}
-                key={Math.random().toString()}
-                sx={{ mb: 3, borderRadius: 2, height: 25 }}
-              />
-            ))}
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={10}>
+          ))}
+        </Box>
+        <Box
+          sx={{
+            flexGrow: 1,
+            width: "100%",
+          }}
+        >
           <Container sx={{ mt: { xs: 5, sm: 15 } }}>
             <Masonry spacing={{ xs: 0, sm: 1 }} columns={{ xs: 1, sm: 2 }}>
               {[...new Array(10)].map(() => (
@@ -135,8 +145,8 @@ export function Loading(): JSX.Element {
               ))}
             </Masonry>
           </Container>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 }
@@ -460,7 +470,7 @@ function RenderApp({
     <RenderComponent Component={Component} data={data} pageProps={pageProps} />
   ) : (
     <>
-      {isLoading && <Loading />}
+      {!isLoading && <Loading />}
       {isError && (
         <Box
           sx={{
@@ -514,7 +524,7 @@ function RenderApp({
           </Box>
         </Box>
       )}
-      {!isLoading && !isError && !data.error && (
+      {false && !isLoading && !isError && !data.error && (
         <Render
           router={router}
           Component={Component}
