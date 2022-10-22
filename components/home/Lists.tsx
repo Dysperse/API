@@ -514,7 +514,7 @@ const RenderLists = ({ url, data, error }) => {
         listData={listData}
       />
       {value !== -1 && (
-        <Grid container spacing={2}>
+        <Grid container spacing={0}>
           <Grid item xs={12} sm={8}>
             <CreateListItemModal
               mutationUrl={url}
@@ -586,7 +586,16 @@ const RenderLists = ({ url, data, error }) => {
             item
             xs={12}
             sm={4}
-            sx={{ position: "relative", order: { xs: -1, sm: 1 } }}
+            sx={{
+              position: { xs: "sticky", sm: "unset" },
+              zIndex: 19999,
+              top: "65px",
+              py: 1,
+              mb: 2,
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)",
+              order: { xs: -1, sm: 1 },
+            }}
           >
             <Box
               sx={{
@@ -611,6 +620,7 @@ const RenderLists = ({ url, data, error }) => {
               <Box
                 sx={{
                   p: 2,
+                  py: 1,
                 }}
               >
                 <Box
@@ -623,6 +633,8 @@ const RenderLists = ({ url, data, error }) => {
                 >
                   <Box
                     sx={{
+                      order: 2,
+                      ml: "auto",
                       zIndex: 0,
                       position: "relative",
                       display: "inline-flex",
@@ -665,6 +677,7 @@ const RenderLists = ({ url, data, error }) => {
                         sx={{
                           fontSize: { xs: "11px", sm: "15px" },
                           mt: "1px",
+                          fontWeight: "900",
                           ...(percent == 0 && {
                             color: "#606060",
                           }),
@@ -694,9 +707,9 @@ const RenderLists = ({ url, data, error }) => {
                     </Typography>
                     <Typography
                       variant="body2"
+                      className="font-secondary"
                       sx={{
-                        fontSize: { xs: "17px", sm: "15px" },
-                        fontWeight: "500",
+                        fontSize: { xs: "16px", sm: "15px" },
                         mt: { sm: 1 },
                       }}
                     >
