@@ -108,9 +108,9 @@ export function Loading(): JSX.Element {
             height: "100vh",
             gap: 2,
             justifyContent: "center",
-            width: "65px",
-            // background: "red",
+            width: "95px",
             pt: 5,
+            px: 1,
           }}
         >
           {[...new Array(5)].map(() => (
@@ -118,7 +118,7 @@ export function Loading(): JSX.Element {
               variant="rectangular"
               animation={false}
               key={Math.random().toString()}
-              sx={{ borderRadius: 2, height: 50, width: 50 }}
+              sx={{ borderRadius: 5, height: 50, width: 50 }}
             />
           ))}
         </Box>
