@@ -1,6 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
-import { SwipeableDrawer, TextField } from "@mui/material";
+import { SwipeableDrawer, TextField, useMediaQuery } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -441,7 +441,7 @@ const RenderLists = ({ url, data, error }) => {
     perspective: "860px",
     colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
   };
-
+  const trigger = useMediaQuery("(max-width: 600px)");
   return (
     <Box sx={{ width: "100%" }}>
       {error && (
@@ -535,8 +535,59 @@ const RenderLists = ({ url, data, error }) => {
                   parent={data.filter((list) => list.id === value)[0]}
                 />
               ))}
+
+            <Box sx={{ maxWidth: "300px", mx: "auto" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  fullWidth
+                  disableElevation
+                  variant="outlined"
+                  size="large"
+                  sx={{
+                    borderWidth: "2px!important",
+                    borderRadius: 99,
+                    transition: "none",
+                  }}
+                >
+                  Share
+                </Button>
+                <Button
+                  fullWidth
+                  disableElevation
+                  variant="outlined"
+                  size="large"
+                  sx={{
+                    borderWidth: "2px!important",
+                    borderRadius: 99,
+                    transition: "none",
+                  }}
+                  onClick={() => {
+                    fetchApiWithoutHook("property/lists/delete-list", {
+                      parent: value,
+                    }).then(() => {
+                      setListData(listData.filter((list) => list.id !== value));
+                      setValue(-1);
+                      alert(value);
+                    });
+                  }}
+                >
+                  Delete list
+                </Button>
+              </Box>
+            </Box>
           </Grid>
-          <Grid item xs={12} sm={4} sx={{ position: "relative" }}>
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            sx={{ position: "relative", order: { xs: -1, sm: 1 } }}
+          >
             <Box
               sx={{
                 position: "absolute",
@@ -549,18 +600,25 @@ const RenderLists = ({ url, data, error }) => {
             </Box>
             <Card
               sx={{
-                mb: 3,
-                py: 2,
+                mb: { xs: 1, sm: 3 },
+                py: { sm: 2 },
                 border: "2px solid #eee",
                 boxShadow: "3px 5px #eee",
                 borderRadius: 5,
                 transition: "none",
               }}
             >
-              <CardContent>
+              <Box
+                sx={{
+                  p: 2,
+                }}
+              >
                 <Box
                   sx={{
                     textAlign: "center",
+                    display: { xs: "flex", sm: "block" },
+                    gap: 2,
+                    alignItems: "center",
                   }}
                 >
                   <Box
@@ -573,7 +631,7 @@ const RenderLists = ({ url, data, error }) => {
                     <CircularProgress
                       variant="determinate"
                       value={percent}
-                      size={100}
+                      size={trigger ? 50 : 100}
                       thickness={4}
                       sx={{
                         zIndex: 1,
@@ -596,7 +654,7 @@ const RenderLists = ({ url, data, error }) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        border: "9px solid #eee",
+                        border: { xs: "5px solid #eee", sm: "9px solid #eee" },
                         borderRadius: 999,
                         zIndex: 0,
                       }}
@@ -605,6 +663,8 @@ const RenderLists = ({ url, data, error }) => {
                         component="div"
                         color="primary"
                         sx={{
+                          fontSize: { xs: "11px", sm: "15px" },
+                          mt: "1px",
                           ...(percent == 0 && {
                             color: "#606060",
                           }),
@@ -617,63 +677,40 @@ const RenderLists = ({ url, data, error }) => {
                       </Typography>
                     </Box>
                   </Box>
-                  <Typography variant="h6" sx={{ mt: 1 }}>
-                    Progress
-                  </Typography>
-                  <Typography variant="body2" sx={{ mt: 1 }}>
-                    {
-                      listData
-                        .filter((list) => list.id === value)[0]
-                        .items.filter((item) => !item.completed).length
-                    }{" "}
-                    tasks remaining{percent === 100 && "!"}
-                  </Typography>
+                  <Box
+                    sx={{
+                      textAlign: { xs: "left", sm: "center" },
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        display: { xs: "none", sm: "block" },
+                        fontSize: { xs: "15px", sm: "17px" },
+                        mt: { sm: 1 },
+                      }}
+                    >
+                      Progress
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontSize: { xs: "17px", sm: "15px" },
+                        fontWeight: "500",
+                        mt: { sm: 1 },
+                      }}
+                    >
+                      {
+                        listData
+                          .filter((list) => list.id === value)[0]
+                          .items.filter((item) => !item.completed).length
+                      }{" "}
+                      tasks remaining{percent === 100 && "!"}
+                    </Typography>
+                  </Box>
                 </Box>
-              </CardContent>
+              </Box>
             </Card>
-            <Box
-              sx={{
-                display: "flex",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              <Button
-                fullWidth
-                disableElevation
-                variant="outlined"
-                size="large"
-                sx={{
-                  borderWidth: "2px!important",
-                  borderRadius: 99,
-                  transition: "none",
-                }}
-              >
-                Share
-              </Button>
-              <Button
-                fullWidth
-                disableElevation
-                variant="outlined"
-                size="large"
-                sx={{
-                  borderWidth: "2px!important",
-                  borderRadius: 99,
-                  transition: "none",
-                }}
-                onClick={() => {
-                  fetchApiWithoutHook("property/lists/delete-list", {
-                    parent: value,
-                  }).then(() => {
-                    setListData(listData.filter((list) => list.id !== value));
-                    setValue(-1);
-                    alert(value);
-                  });
-                }}
-              >
-                Delete list
-              </Button>
-            </Box>
           </Grid>
         </Grid>
       )}
