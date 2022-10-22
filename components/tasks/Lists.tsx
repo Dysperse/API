@@ -189,7 +189,7 @@ const CreateListItemModal = ({
         >
           <span className="material-symbols-outlined">add_circle</span>
           <Box sx={{ flexGrow: 1 }}>
-            <Typography>Create task...</Typography>
+            <Typography>New list item</Typography>
           </Box>
         </Box>
       </Card>
