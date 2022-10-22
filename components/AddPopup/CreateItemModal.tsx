@@ -219,6 +219,7 @@ export function CreateItemModal({
               name="title"
               id="nameInput"
               placeholder="Item name"
+              className="font-secondary"
               variant="standard"
               InputProps={{
                 disableUnderline: true,
