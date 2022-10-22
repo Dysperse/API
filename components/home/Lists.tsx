@@ -626,7 +626,7 @@ const RenderLists = ({ url, data, error }) => {
                         .filter((list) => list.id === value)[0]
                         .items.filter((item) => !item.completed).length
                     }{" "}
-                    tasks remaining{percent === 100 && "!P"}
+                    tasks remaining{percent === 100 && "!"}
                   </Typography>
                 </Box>
               </CardContent>
