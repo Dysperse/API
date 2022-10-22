@@ -190,7 +190,7 @@ export function BottomNav() {
                   value == 0 ? "rounded" : "outlined"
                 }`}
               >
-                sticky_note_alt
+                sticky_note_2
               </Icon>
             }
           />

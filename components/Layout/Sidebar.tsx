@@ -97,7 +97,7 @@ export function Sidebar() {
                     : "material-symbols-outlined"
                 }
               >
-                sticky_note_alt
+                sticky_note_2
               </span>
             </IconButton>
           </Tooltip>
