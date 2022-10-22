@@ -106,12 +106,17 @@ export function Sidebar() {
               disableRipple
               size="large"
               sx={styles}
-              className={router.asPath === "/items" ? "active" : ""}
+              className={
+                router.asPath === "/items" || router.asPath.includes("/rooms/")
+                  ? "active"
+                  : ""
+              }
               onClick={() => router.push("/items")}
             >
               <span
                 className={
-                  router.pathname === "/items"
+                  router.asPath === "/items" ||
+                  router.asPath.includes("/rooms/")
                     ? "material-symbols-rounded"
                     : "material-symbols-outlined"
                 }
