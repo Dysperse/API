@@ -37,7 +37,7 @@ export default function Prompt() {
         .then((res) => {
           if (res.status === 200) {
             toast.success("Check your email for further instructions.");
-            // router.push("/login");
+            router.push("/login");
             setButtonLoading(false);
           } else {
             toast.error("An error occurred.");
