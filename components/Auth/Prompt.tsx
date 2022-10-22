@@ -14,6 +14,7 @@ import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
 import { Layout } from "./Layout";
+import { useRouter } from "next/router";
 
 /**
  * Login prompt
@@ -21,6 +22,7 @@ import { Layout } from "./Layout";
 export default function Prompt() {
   global.themeColor = "brown";
   const { mutate } = useSWRConfig();
+  const router = useRouter();
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
   const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
@@ -64,6 +66,7 @@ export default function Prompt() {
             return;
           }
           mutate("/api/user");
+          router.push("/tasks");
         })
         .catch(() => setButtonLoading(false));
     },

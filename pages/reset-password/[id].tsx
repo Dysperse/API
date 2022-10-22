@@ -44,7 +44,7 @@ export default function Prompt() {
         .then((res) => {
           if (res.status === 200) {
             toast.success("Successfully changed your password!");
-            router.push("/login");
+            router.push("/tasks");
             // setButtonLoading(false);
           } else {
             toast.error(
