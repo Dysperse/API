@@ -549,7 +549,6 @@ const RenderLists = ({ url, data, error }) => {
             </Box>
             <Card
               sx={{
-                mt: { sm: 10 },
                 mb: 3,
                 py: 2,
                 border: "2px solid #eee",
@@ -627,7 +626,7 @@ const RenderLists = ({ url, data, error }) => {
                         .filter((list) => list.id === value)[0]
                         .items.filter((item) => !item.completed).length
                     }{" "}
-                    tasks remaining{percent === 100 && "!"}
+                    tasks remaining{percent === 100 && "!P"}
                   </Typography>
                 </Box>
               </CardContent>
