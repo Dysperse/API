@@ -190,7 +190,7 @@ export function BottomNav() {
                   value == 0 ? "rounded" : "outlined"
                 }`}
               >
-                view_timeline
+                sticky_note_alt
               </Icon>
             }
           />
