@@ -5,7 +5,11 @@ import React from "react";
 import { BottomNav } from "./BottomNavigation";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
-
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
+  ssr: false,
+});
 /**
  * Drawer component
  * @param {any} {children} Children
@@ -19,6 +23,7 @@ function ResponsiveDrawer({
   const [collapsed, setCollapsed] = React.useState(
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
   );
+  const router = useRouter();
 
   return (
     <Box
@@ -26,6 +31,7 @@ function ResponsiveDrawer({
         display: "flex",
       }}
     >
+      {router && <PWAPrompt copyTitle="Add Carbon to your home screen!" />}
       <Navbar />
       <Box
         sx={{
