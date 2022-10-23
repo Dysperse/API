@@ -6,6 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { updateSettings } from "./updateSettings";
 import { ErrorHandler } from "../ErrorHandler";
+import { useMediaQuery } from "@mui/material";
 
 const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
@@ -108,7 +109,9 @@ export default function Notifications() {
     });
   }
 
-  return (
+  const isInPwa = useMediaQuery("(display-mode: standalone)");
+
+  return isInPwa ? (
     <Box sx={{ mb: 2 }}>
       {!periodicSyncSupported && (
         <ErrorHandler error="Push notifications are not supported. Please use a supported browser, or the Carbon app" />
@@ -156,6 +159,38 @@ export default function Notifications() {
         }}
       >
         Send test notification
+      </Button>
+    </Box>
+  ) : (
+    <Box
+      sx={{ p: 3, borderRadius: 5, background: "rgba(200,200,200,.3)", mb: 5 }}
+    >
+      Use the Carbon PWA to enable notifications for Android
+      <Button
+        fullWidth
+        variant="contained"
+        href="//my.smartlist.tech"
+        target="_blank"
+        disableElevation
+        sx={{
+          mt: 2,
+          borderRadius: 9999,
+        }}
+      >
+        Open
+      </Button>
+      <Button
+        fullWidth
+        href="//my.smartlist.tech"
+        target="_blank"
+        size="small"
+        disableElevation
+        sx={{
+          mt: 1,
+          borderRadius: 9999,
+        }}
+      >
+        Don&apos;t have the app? Install now
       </Button>
     </Box>
   );
