@@ -1,11 +1,9 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
 import MuiLink from "@mui/material/Link";
 import NoSsr from "@mui/material/NoSsr";
-import Masonry from "@mui/lab/Masonry";
 import Skeleton from "@mui/material/Skeleton";
 import {
   createTheme,
@@ -128,23 +126,26 @@ export function Loading(): JSX.Element {
             width: "100%",
           }}
         >
-          <Container sx={{ mt: { xs: 10, sm: 15 } }}>
-            <Masonry spacing={{ xs: 0, sm: 1 }} columns={{ xs: 1, sm: 2 }}>
-              {[...new Array(10)].map(() => (
-                <Box key={Math.random().toString()}>
-                  <Skeleton
-                    variant="rectangular"
-                    animation={false}
-                    sx={{
-                      borderRadius: 5,
-                      mb: { xs: 1, sm: 0 },
-                      height: Math.random() * 200 + 200,
-                    }}
-                  />
-                </Box>
-              ))}
-            </Masonry>
-          </Container>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100vh",
+            }}
+          >
+            <CircularProgress
+              disableShrink
+              sx={{
+                animationDuration: "550ms",
+                [`& .MuiCircularProgress-circle`]: {
+                  strokeLinecap: "round",
+                  stroke: colors.brown[900],
+                },
+              }}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
