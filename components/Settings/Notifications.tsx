@@ -59,7 +59,6 @@ export default function Notifications() {
         process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY
       ),
     });
-    // TODO: you should call your API to save subscription data on server in order to send web push notification from server
     setSubscription(sub);
     setIsSubscribed(true);
     updateSettings("notificationSubscription", JSON.stringify(sub));
@@ -69,7 +68,7 @@ export default function Notifications() {
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();
     await subscription.unsubscribe();
-    // TODO: you should call your API to delete or invalidate subscription data on server
+    updateSettings("notificationSubscription", "");
     setSubscription(null);
     setIsSubscribed(false);
     console.log("web push unsubscribed!");
@@ -110,7 +109,6 @@ export default function Notifications() {
 
   return (
     <Box sx={{ mb: 2 }}>
-      {JSON.stringify(subscription)}
       <ListItem>
         <ListItemText
           primary="Enable notifications"
