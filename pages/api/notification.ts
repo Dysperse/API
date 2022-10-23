@@ -23,6 +23,7 @@ const Notification = (req, res) => {
       )
       .then((res) => console.log("Sent"))
       .catch((err) => {
+        console.log(err);
         console.log("Error");
       });
 
