@@ -734,7 +734,7 @@ const RenderLists = ({ url, data, error }) => {
               zIndex: 99,
               top: "65px",
               py: { xs: 1, sm: 0 },
-              pl: { xs: 2 },
+              pl: { sm: 2 },
               mb: 2,
               background:
                 "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)",
