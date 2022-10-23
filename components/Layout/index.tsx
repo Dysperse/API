@@ -31,7 +31,12 @@ function ResponsiveDrawer({
         display: "flex",
       }}
     >
-      {router && <PWAPrompt copyTitle="Add Carbon to your home screen!" />}
+      {router && (
+        <PWAPrompt
+          copyBody="Add Carbon to your home screen to have easy access, recieve push notifications, and more!"
+          copyTitle="Add Carbon to your home screen!"
+        />
+      )}
       <Navbar />
       <Box
         sx={{
