@@ -22,6 +22,7 @@ export const getUserData = async (token: string) => {
           password: false,
           onboardingComplete: true,
           verifiedEmail: true,
+          notificationSubscription: true,
           properties: {
             select: {
               propertyId: true,

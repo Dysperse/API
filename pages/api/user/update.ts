@@ -34,6 +34,7 @@ const handler = async (req, res) => {
       name: req.query.name || undefined,
       email: req.query.email || undefined,
       twoFactorSecret: req.query.twoFactorSecret == "" ? "" : undefined,
+      notificationSubscription: req.query.notificationSubscription || undefined,
       darkMode: req.query.darkMode === "true" ?? undefined,
       color: req.query.color || undefined,
       onboardingComplete:

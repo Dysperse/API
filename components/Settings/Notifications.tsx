@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Switch from "@mui/material/Switch";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import { updateSettings } from "./updateSettings";
 
 const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
@@ -61,9 +62,8 @@ export default function Notifications() {
     // TODO: you should call your API to save subscription data on server in order to send web push notification from server
     setSubscription(sub);
     setIsSubscribed(true);
+    updateSettings("notificationSubscription", JSON.stringify(sub));
     console.log("web push subscribed!");
-
-    // return sub
   };
 
   const unsubscribeButtonOnClick = async (event) => {
@@ -110,6 +110,7 @@ export default function Notifications() {
 
   return (
     <Box sx={{ mb: 2 }}>
+      {JSON.stringify(subscription)}
       <ListItem>
         <ListItemText
           primary="Enable notifications"

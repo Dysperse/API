@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id                 Int                  @id @unique @default(autoincrement())
-  name               String
-  email              String               @unique
-  password           String
-  darkMode           Boolean              @default(false)
-  color              String               @default("cyan")
-  onboardingComplete Boolean              @default(false)
-  verifiedEmail      Boolean              @default(false)
-  twoFactorSecret    String               @default("")
-  properties         PropertyInvite[]
-  sessions           Session[]
-  PasswordResetToken PasswordResetToken[]
+  id                       Int                  @id @unique @default(autoincrement())
+  name                     String
+  email                    String               @unique
+  password                 String
+  darkMode                 Boolean              @default(false)
+  color                    String               @default("cyan")
+  onboardingComplete       Boolean              @default(false)
+  verifiedEmail            Boolean              @default(false)
+  twoFactorSecret          String               @default("")
+  notificationSubscription String?              @db.VarChar(500)
+  properties               PropertyInvite[]
+  sessions                 Session[]
+  PasswordResetToken       PasswordResetToken[]
 }
 
 model Session {
