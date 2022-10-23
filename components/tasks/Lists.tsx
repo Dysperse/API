@@ -1,30 +1,40 @@
+import { Calendar } from "@mantine/dates";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Button from "@mui/material/Button";
 import { SwipeableDrawer, TextField, useMediaQuery } from "@mui/material";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
+import Collapse from "@mui/material/Collapse";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { mutate } from "swr";
+import Confetti from "react-dom-confetti";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../ErrorHandler";
 import { Puller } from "../Puller";
-import Collapse from "@mui/material/Collapse";
-import Confetti from "react-dom-confetti";
-import { TimeInput } from "@mantine/dates";
-import { Calendar } from "@mantine/dates";
+import dayjs from "dayjs";
+
+function formatDate(date) {
+  var d = new Date(date),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
+}
 
 const SelectDateModal = ({ styles, date, setDate }) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(null);
+  const today = formatDate(new Date());
 
   return (
     <>
@@ -53,9 +63,9 @@ const SelectDateModal = ({ styles, date, setDate }) => {
         </Box>
         <Box sx={{ p: 3, textAlign: "center" }}>
           <Calendar
-            value={value}
+            value={date}
             firstDayOfWeek="sunday"
-            onChange={setValue as any}
+            onChange={setDate as any}
             fullWidth
             styles={(theme) => ({
               // Weekend color
@@ -85,8 +95,6 @@ const SelectDateModal = ({ styles, date, setDate }) => {
               },
             })}
           />
-          <Box sx={{ mt: 2 }} />
-          <TimeInput format="12" radius="md" size="lg" variant="filled" />
         </Box>
       </SwipeableDrawer>
       <Button
@@ -96,7 +104,10 @@ const SelectDateModal = ({ styles, date, setDate }) => {
         }}
       >
         <span className="material-symbols-rounded">today</span>
-        <span style={{ fontSize: "15px" }}>Today</span>
+        <span style={{ fontSize: "15px" }}>
+          {today === formatDate(date) && "Today"}
+          {today !== formatDate(date) && dayjs(date).format("MMM D")}
+        </span>
       </Button>
     </>
   );
