@@ -62,7 +62,9 @@ const handler = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.send(err);
+    res.send({
+      error: "An unexpected error occurred",
+    });
   }
 };
 export default handler;
