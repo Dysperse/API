@@ -1,6 +1,8 @@
 import { Calendar } from "@mantine/dates";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { SwipeableDrawer, TextField, useMediaQuery } from "@mui/material";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import TextField from "@mui/material/TextField";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -141,6 +143,7 @@ const CreateListItemModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     fetchApiWithoutHook("property/lists/createItem", {
       name: title,
       details: description,
@@ -148,6 +151,7 @@ const CreateListItemModal = ({
       due: date,
       list: parent.id,
     }).then((res) => {
+      setLoading(false);
       setListData(
         listData.map((list) => {
           if (list.id === parent.id) {
@@ -260,14 +264,15 @@ const CreateListItemModal = ({
                   setDate={setDate}
                 />
                 <div>
-                  <Button
+                  <LoadingButton
+                    loading={loading}
                     type="submit"
                     sx={{ borderRadius: 5, px: 3 }}
                     variant="contained"
                     disableElevation
                   >
                     Create
-                  </Button>
+                  </LoadingButton>
                 </div>
               </Box>
             </Box>
