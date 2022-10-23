@@ -7,6 +7,7 @@ import MuiLink from "@mui/material/Link";
 import NoSsr from "@mui/material/NoSsr";
 import Masonry from "@mui/lab/Masonry";
 import Skeleton from "@mui/material/Skeleton";
+import PWAPrompt from "react-ios-pwa-prompt";
 import {
   createTheme,
   experimental_sx as sx,
@@ -372,6 +373,7 @@ function Render({
           }}
         >
           <Toaster />
+          <PWAPrompt />
           {window.location.pathname == "/onboarding" ? (
             <Component {...pageProps} />
           ) : data.user.onboardingComplete ? (
@@ -441,6 +443,7 @@ function RenderComponent({
     <NoSsr>
       <Component {...pageProps} />
       <Toaster />
+      <PWAPrompt />
     </NoSsr>
   );
 }

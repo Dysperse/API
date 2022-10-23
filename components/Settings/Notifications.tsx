@@ -5,6 +5,7 @@ import Switch from "@mui/material/Switch";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { updateSettings } from "./updateSettings";
+import { ErrorHandler } from "../ErrorHandler";
 
 const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
@@ -103,12 +104,15 @@ export default function Notifications() {
 
   async function registerPeriodicSync() {
     await registration.periodicSync.register("get-lists", {
-      minInterval: /*24 * 60 * */ 60 * 1000,
+      minInterval: 1000 * 60 * 60 * 24,
     });
   }
 
   return (
     <Box sx={{ mb: 2 }}>
+      {!periodicSyncSupported && (
+        <ErrorHandler error="Push notifications are not supported. Please use a supported browser, or the Carbon app" />
+      )}
       <ListItem>
         <ListItemText
           primary="Enable notifications"

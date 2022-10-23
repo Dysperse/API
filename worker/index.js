@@ -12,7 +12,6 @@ self.addEventListener("push", (event) => {
          icon: "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v3/android/android-launchericon-192-192.png",
          vibrate: [200, 100, 200],
          badge: "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/notification_updated.png",
-         // requireInteraction: true,
          actions: (event.data && JSON.parse(event.data.text()).actions) || []
       })
    )
