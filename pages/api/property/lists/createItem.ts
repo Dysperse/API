@@ -31,6 +31,7 @@ const handler = async (req, res) => {
           process.env.LIST_ENCRYPTION_KEY
         ).toString() ?? "",
       pinned: req.query.pinned == "true" ? true : false,
+      due: req.query.due ? new Date(req.query.due) : undefined,
       list: {
         connect: { id: parseInt(req.query.list) },
       },

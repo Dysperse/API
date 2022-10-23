@@ -29,7 +29,7 @@ function formatDate(date) {
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
 
-  return [year, month, day].join("-");
+  return [month, day, year].join("-");
 }
 
 const SelectDateModal = ({ styles, date, setDate }) => {
@@ -109,7 +109,9 @@ const SelectDateModal = ({ styles, date, setDate }) => {
         <span className="material-symbols-rounded">today</span>
         <span style={{ fontSize: "15px" }}>
           {today === formatDate(date) && "Today"}
-          {today !== formatDate(date) && dayjs(date).format("MMM D")}
+          {dayjs(date).format("MMM D") === "Invalid Date"
+            ? ""
+            : today !== formatDate(date) && dayjs(date).format("MMM D")}
         </span>
       </Button>
     </>
@@ -133,7 +135,7 @@ const CreateListItemModal = ({
 
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = React.useState<any>(null);
   const [pinned, setPinned] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -143,6 +145,7 @@ const CreateListItemModal = ({
       name: title,
       details: description,
       pinned: pinned ? "true" : "false",
+      due: date,
       list: parent.id,
     }).then((res) => {
       setListData(
@@ -158,7 +161,7 @@ const CreateListItemModal = ({
       );
       setTitle("");
       setDescription("");
-      setDate(new Date());
+      setDate(null);
       setPinned(false);
       setOpen(false);
     });
@@ -505,6 +508,26 @@ const ListItem = ({ listData, setListData, parent, data }) => {
                 }}
               >
                 {data.details}
+              </Typography>
+            )}
+            {data.due && (
+              <Typography
+                variant="body2"
+                sx={{
+                  my: 1,
+                  mt: 0.5,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <span className="material-symbols-rounded">today</span>
+                {formatDate(data.due) === formatDate(new Date())
+                  ? "Today"
+                  : formatDate(data.due).replaceAll("-", "/")}
               </Typography>
             )}
           </Box>
