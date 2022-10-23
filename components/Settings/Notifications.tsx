@@ -111,7 +111,7 @@ export default function Notifications() {
 
   const isInPwa = useMediaQuery("(display-mode: standalone)");
 
-  return isInPwa ? (
+  return isInPwa || process.env.NODE_ENV !== "production" ? (
     <Box sx={{ mb: 2 }}>
       {!periodicSyncSupported && (
         <ErrorHandler error="Push notifications are not supported. Please use a supported browser, or the Carbon app" />
