@@ -128,8 +128,8 @@ export function Loading(): JSX.Element {
             width: "100%",
           }}
         >
-          <Container sx={{ mt: { xs: 5, sm: 15 } }}>
-            <Masonry spacing={{ xs: 0, sm: 1 }} columns={{ xs: 1, sm: 2 }}>
+          <Container sx={{ mt: { xs: 10, sm: 15 } }}>
+            <Masonry spacing={{ xs: 2, sm: 1 }} columns={2} sx={{ ml: 0 }}>
               {[...new Array(10)].map(() => (
                 <Box key={Math.random().toString()}>
                   <Skeleton
@@ -137,8 +137,7 @@ export function Loading(): JSX.Element {
                     animation={false}
                     sx={{
                       borderRadius: 5,
-                      mb: { xs: 1, sm: 0 },
-                      height: Math.random() * 200 + 200,
+                      height: Math.random() * 200 + 100,
                     }}
                   />
                 </Box>
