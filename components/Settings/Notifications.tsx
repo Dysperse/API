@@ -165,7 +165,8 @@ export default function Notifications() {
     <Box
       sx={{ p: 3, borderRadius: 5, background: "rgba(200,200,200,.3)", mb: 5 }}
     >
-      Use the Carbon PWA to enable notifications for Android
+      Use the Carbon PWA to enable notifications for Android, Desktop, and
+      Chrome OS
       <Button
         fullWidth
         variant="contained"
