@@ -65,7 +65,10 @@ const SelectDateModal = ({ styles, date, setDate }) => {
           <Calendar
             value={date}
             firstDayOfWeek="sunday"
-            onChange={setDate as any}
+            onChange={(e) => {
+              setDate(e);
+              setOpen(false);
+            }}
             fullWidth
             styles={(theme) => ({
               // Weekend color
