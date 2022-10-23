@@ -3,7 +3,7 @@ self.addEventListener("push", (event) => {
 
    const title = (event.data && JSON.parse(event.data.text()).title) || "You have a new notification • Carbon";
    const body = (event.data && JSON.parse(event.data.text()).body) || "Click to open";
-   const tag = "carbon-notification";
+   const tag = "carbon-notification-" + new Date().getTime();
 
    event.waitUntil(
       self.registration.showNotification(title, {
