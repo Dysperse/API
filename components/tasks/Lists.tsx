@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import Confetti from "react-dom-confetti";
@@ -877,23 +878,51 @@ const RenderLists = ({ url, data, error }) => {
 
 export function Lists() {
   const { url, data, error } = useApi("property/lists");
-  return !data ? (
+  return data ? (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "calc(100vh - 200px)",
+        overflow: "hidden",
+        maxHeight: "calc(100vh - 169px)",
+        pt: 1,
       }}
     >
-      <CircularProgress
+      <Box
         sx={{
-          [`& .MuiCircularProgress-circle`]: {
-            strokeLinecap: "round",
-          },
+          display: "flex",
+          alignItems: "center",
+          mb: 3,
+          gap: 2,
+          maxWidth: "calc(100vw - 64px)",
         }}
-      />
+      >
+        {[...new Array(5)].map((_, i) => (
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            sx={{
+              borderRadius: 5,
+              width: Math.random() * 100 + 50,
+            }}
+            key={Math.random().toString()}
+            height={30}
+          />
+        ))}
+      </Box>
+      <Box>
+        {[...new Array(15)].map((_, i) => (
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            sx={{
+              mb: i == 0 ? 4 : 2,
+              borderRadius: 5,
+              width: "100%",
+            }}
+            key={Math.random().toString()}
+            height={80}
+          />
+        ))}
+      </Box>
     </Box>
   ) : (
     <RenderLists url={url} data={data} error={error} />
