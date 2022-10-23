@@ -152,8 +152,8 @@ const CreateListItemModal = ({
         listData.map((list) => {
           if (list.id === parent.id) {
             return {
-              items: [...list.items, res],
               ...list,
+              items: [res, ...list.items],
             };
           }
           return list;
