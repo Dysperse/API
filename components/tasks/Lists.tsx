@@ -901,6 +901,7 @@ export function Lists() {
             animation="wave"
             sx={{
               borderRadius: 5,
+              transition: "all .2s!important",
               width: Math.random() * 100 + 50,
             }}
             key={Math.random().toString()}

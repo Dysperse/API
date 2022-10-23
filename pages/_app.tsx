@@ -77,7 +77,7 @@ export function Loading(): JSX.Element {
             }}
           />
           <Box sx={{ ml: "auto", display: "flex", gap: 1.5 }}>
-            {[...new Array(2)].map((id) => (
+            {[...new Array(3)].map((id) => (
               <Skeleton
                 variant="circular"
                 animation={false}
@@ -92,7 +92,16 @@ export function Loading(): JSX.Element {
           </Box>
         </Toolbar>
       </AppBar>
-
+      <Skeleton
+        variant="rectangular"
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          width: "100vw",
+          left: 0,
+          height: "75px",
+        }}
+      />
       <Box
         sx={{
           display: "flex",
