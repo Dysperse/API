@@ -118,7 +118,7 @@ function Home({
         }}
       />{" "}
       <Item
-        shortcut="CTRL ,"
+        shortcut="ctrl ,"
         onSelect={() => {
           searchSettings();
         }}
@@ -127,7 +127,7 @@ function Home({
         <SettingsIcon />
       </Item>
       <Item
-        shortcut="CTRL ,"
+        shortcut="ctrl ,"
         onSelect={() => {
           global.setTheme("light");
           updateSettings("darkMode", "false");
@@ -137,7 +137,7 @@ function Home({
         <Icon icon="light_mode" />
       </Item>
       <Item
-        shortcut="CTRL ,"
+        shortcut="ctrl ,"
         onSelect={() => {
           global.setTheme("dark");
           updateSettings("darkMode", "true");
