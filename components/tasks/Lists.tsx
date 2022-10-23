@@ -19,6 +19,88 @@ import { ErrorHandler } from "../ErrorHandler";
 import { Puller } from "../Puller";
 import Collapse from "@mui/material/Collapse";
 import Confetti from "react-dom-confetti";
+import { TimeInput } from "@mantine/dates";
+import { Calendar } from "@mantine/dates";
+
+const SelectDateModal = ({ styles, date, setDate }) => {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(null);
+
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            maxWidth: { sm: "350px" },
+            mb: { sm: 10 },
+            mx: "auto",
+            background: colors[themeColor][50],
+            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: { sm: "none" },
+          }}
+        >
+          <Puller />
+        </Box>
+        <Box sx={{ p: 3, textAlign: "center" }}>
+          <Calendar
+            value={value}
+            firstDayOfWeek="sunday"
+            onChange={setValue as any}
+            fullWidth
+            styles={(theme) => ({
+              // Weekend color
+              day: {
+                borderRadius: 19,
+                transition: "border-radius .2s",
+                "&:hover": {
+                  background: colors[themeColor][100],
+                },
+                color: colors[themeColor][500],
+                "&[data-outside]": {
+                  color:
+                    (theme.colorScheme === "dark"
+                      ? theme.colors.dark[3]
+                      : theme.colors.gray[5]) + "!important",
+                },
+                "&[data-selected]": {
+                  backgroundColor: colors[themeColor][900],
+                  color: "#fff!important",
+                  borderRadius: 9,
+                  position: "relative",
+                },
+
+                "&[data-weekend]": {
+                  color: colors[themeColor][500],
+                },
+              },
+            })}
+          />
+          <Box sx={{ mt: 2 }} />
+          <TimeInput format="12" radius="md" size="lg" variant="filled" />
+        </Box>
+      </SwipeableDrawer>
+      <Button
+        sx={{ ...styles, gap: 1, borderRadius: 9999 }}
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        <span className="material-symbols-rounded">today</span>
+        <span style={{ fontSize: "15px" }}>Today</span>
+      </Button>
+    </>
+  );
+};
 
 const CreateListItemModal = ({
   parent,
@@ -119,7 +201,7 @@ const CreateListItemModal = ({
                 }}
               />
             </Collapse>
-            <Box sx={{ display: "flex", mt: 1 }}>
+            <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <IconButton
                 disableRipple
                 onClick={() => setPinned(!pinned)}
@@ -135,27 +217,42 @@ const CreateListItemModal = ({
                   push_pin
                 </span>
               </IconButton>
-              <IconButton disableRipple sx={{ ...styles, mx: 1 }}>
-                <span className="material-symbols-rounded">today</span>
-              </IconButton>
               <IconButton
                 disableRipple
                 onClick={() => setShowDescription(!showDescription)}
                 sx={{
                   ...styles,
+                  mx: 1,
                   background: showDescription && colors[themeColor][100],
                 }}
               >
                 <span className="material-symbols-rounded">notes</span>
               </IconButton>
-              <Button
-                type="submit"
-                sx={{ ml: "auto", borderRadius: 5, px: 3 }}
-                variant="contained"
-                disableElevation
+              <Box
+                sx={{
+                  ml: "auto",
+                  display: "flex",
+                  gap: 2,
+                  mt: 0,
+                  alignItems: "center",
+                }}
               >
-                Create
-              </Button>
+                <SelectDateModal
+                  styles={styles}
+                  date={date}
+                  setDate={setDate}
+                />
+                <div>
+                  <Button
+                    type="submit"
+                    sx={{ borderRadius: 5, px: 3 }}
+                    variant="contained"
+                    disableElevation
+                  >
+                    Create
+                  </Button>
+                </div>
+              </Box>
             </Box>
           </form>
         </Box>
@@ -594,7 +691,8 @@ const RenderLists = ({ url, data, error }) => {
               position: { xs: "sticky", sm: "unset" },
               zIndex: 99,
               top: "65px",
-              py: 1,
+              py: { xs: 1, sm: 0 },
+              pl: { xs: 2 },
               mb: 2,
               background:
                 "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)",
