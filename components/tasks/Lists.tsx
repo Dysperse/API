@@ -878,7 +878,7 @@ const RenderLists = ({ url, data, error }) => {
 
 export function Lists() {
   const { url, data, error } = useApi("property/lists");
-  return data ? (
+  return !data ? (
     <Box
       sx={{
         overflow: "hidden",
