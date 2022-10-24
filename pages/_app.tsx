@@ -35,6 +35,17 @@ dayjs.extend(relativeTime);
  * @returns JSX.Element
  */
 export function Loading(): JSX.Element {
+  const proTips = [
+    "You can use the dropdown menu in the top right corner to switch properties",
+    "Hit ctrl + k to find anything in your home",
+    "You can set due dates to reminders by clicking on the calendar icon",
+    "Setup 2FA to protect your account by going to your account settings",
+    "View edits to your home by clicking on the inbox icon",
+    "Install the PWA to receive push notifications",
+  ];
+  const [tip, setTip] = useState(
+    proTips[Math.floor(Math.random() * proTips.length)]
+  );
   return (
     <Box
       sx={{
@@ -146,6 +157,34 @@ export function Loading(): JSX.Element {
               }}
             />
           </Box>
+          <NoSsr>
+            <Box
+              sx={{
+                position: "fixed",
+                bottom: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                left: "50%",
+                transform: "translateX(-50%)",
+                textAlign: "center",
+                color: colors.orange[900],
+                background: hex2rgba(colors.orange[900], 0.1),
+                borderRadius: 5,
+                px: 2,
+                py: 1,
+              }}
+            >
+              <span
+                className="material-symbols-rounded"
+                style={{ fontSize: 18 }}
+              >
+                lightbulb
+              </span>
+              {tip}
+            </Box>
+          </NoSsr>
         </Box>
       </Box>
     </Box>
