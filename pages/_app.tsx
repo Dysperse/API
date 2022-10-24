@@ -39,9 +39,17 @@ export function Loading(): JSX.Element {
     "You can use the dropdown menu in the top right corner to switch properties",
     "Hit ctrl + k to find anything in your home",
     "You can set due dates to reminders by clicking on the calendar icon",
-    "Setup 2FA to protect your account by going to your account settings",
+    "Setup 2FA to protect your account by visiting your settings",
     "View edits to your home by clicking on the inbox icon",
     "Install the PWA to receive push notifications",
+    "Carbon started in 2020, and has been growing ever since",
+    "Carbon is open source, and you can contribute to it on GitHub",
+    "Carbon stores your inventory with zero-access encryption",
+    "Carbon is sponsored by the amazing people at Vercel",
+    "Join the official community on Discord at www.smartlist.tech/discord",
+    "You can change your theme color in your settings",
+    "You can enable dark mode in your settings",
+    "You can invite people to your home by clicking on the drop down icon",
   ];
   const [tip, setTip] = useState(
     proTips[Math.floor(Math.random() * proTips.length)]
