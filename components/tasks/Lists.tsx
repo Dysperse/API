@@ -902,7 +902,7 @@ export function Lists() {
             sx={{
               borderRadius: 5,
               transition: "all .2s!important",
-              width: Math.random() * 100 + 50,
+              width: 100,
             }}
             key={Math.random().toString()}
             height={30}

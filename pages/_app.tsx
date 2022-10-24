@@ -92,16 +92,6 @@ export function Loading(): JSX.Element {
           </Box>
         </Toolbar>
       </AppBar>
-      <Skeleton
-        variant="rectangular"
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          width: "100vw",
-          left: 0,
-          height: "75px",
-        }}
-      />
       <Box
         sx={{
           display: "flex",
@@ -146,6 +136,7 @@ export function Loading(): JSX.Element {
           >
             <CircularProgress
               disableShrink
+              size={20}
               sx={{
                 animationDuration: "550ms",
                 [`& .MuiCircularProgress-circle`]: {
