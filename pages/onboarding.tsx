@@ -406,7 +406,7 @@ export default function Onboarding() {
           overflowY: "auto",
           maxWidth: "calc(100vw - 40px)",
           width: "500px",
-          backgroundColor: global.user.darkMode ? "hsl(240,11%,10%)" : "white",
+          backgroundColor: global.user.darkMode ? "hsl(240,11%,10%)" : "#eee",
           color: global.user.darkMode ? "white" : "hsl(240,11%,10%)",
           borderRadius: "10px",
           padding: "20px",
