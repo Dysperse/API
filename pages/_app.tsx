@@ -182,8 +182,7 @@ export function Loading(): JSX.Element {
                 borderRadius: 5,
                 px: 2,
                 py: 1,
-width: "100vw",
-maxWidth: "(100vw - 20px)"
+                maxWidth: "300px",
               }}
             >
               <span
