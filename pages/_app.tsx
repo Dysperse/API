@@ -182,6 +182,7 @@ export function Loading(): JSX.Element {
                 borderRadius: 5,
                 px: 2,
                 py: 1,
+                fontWeight: "400",
                 maxWidth: "300px",
               }}
             >
