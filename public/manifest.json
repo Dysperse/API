@@ -11,6 +11,7 @@
   "short_name": "Carbon",
   "theme_color": "#5D4444",
   "prefer_related_applications": true,
+  "capture_links": "new-client",
   "display_override": [
     "standalone"
   ],
