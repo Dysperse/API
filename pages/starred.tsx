@@ -3,10 +3,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
+import type { Item } from "@prisma/client";
 import { ItemCard } from "../components/Rooms/ItemCard";
 import { useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
-import type { Item } from "@prisma/client";
 
 /**
  * Items component to load inventory
