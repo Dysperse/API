@@ -55,6 +55,10 @@ export function Layout({ children }): JSX.Element {
                 width="80"
                 height="80"
                 alt="logo"
+                style={{
+                  borderRadius: "28px",
+                }}
+                draggable={false}
               />
             </picture>
             <Typography variant="h6" sx={{ mt: -0.5 }}>
