@@ -343,7 +343,7 @@ function RenderApp({
     <>
       {isLoading && <Loading />}
       {isError && <Error />}
-      {!isLoading && !isError && (
+      {!isLoading && !isError && !data.error && (
         <Render
           router={router}
           Component={Component}
