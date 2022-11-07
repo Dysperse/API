@@ -676,7 +676,7 @@ const RenderLists = ({ url, data, error }) => {
                 />
               ))}
 
-            <Box sx={{ maxWidth: "300px", mx: "auto" }}>
+            <Box sx={{ maxWidth: "400px", mx: "auto" }}>
               <Box
                 sx={{
                   display: "flex",
@@ -695,8 +695,10 @@ const RenderLists = ({ url, data, error }) => {
                     "&:hover": { color: colors[themeColor][50] },
                     borderRadius: 99,
                     transition: "none",
+                    gap: 1,
                   }}
                 >
+                  <span className="material-symbols-rounded">share</span>
                   Share
                 </Button>
                 <Button
@@ -710,6 +712,7 @@ const RenderLists = ({ url, data, error }) => {
                     "&:hover": { color: colors[themeColor][50] },
                     borderRadius: 99,
                     transition: "none",
+                    gap: 1,
                   }}
                   onClick={() => {
                     if (confirm("Delete list?")) {
@@ -725,7 +728,8 @@ const RenderLists = ({ url, data, error }) => {
                     }
                   }}
                 >
-                  Delete list
+                  <span className="material-symbols-rounded">delete</span>
+                  Delete
                 </Button>
               </Box>
             </Box>
