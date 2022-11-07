@@ -57,11 +57,7 @@ export function Layout({ children }): JSX.Element {
                 alt="logo"
               />
             </picture>
-            <Typography
-              variant="h6"
-              className="font-secondary"
-              sx={{ mt: -0.5 }}
-            >
+            <Typography variant="h6" sx={{ mt: -0.5 }}>
               Carbon
             </Typography>
           </Box>
