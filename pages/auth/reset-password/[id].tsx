@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-import { Layout } from "../../components/Auth/Layout";
+import { Layout } from "../../../components/Auth/Layout";
 
 /**
  * Top-level component for the signup page.
