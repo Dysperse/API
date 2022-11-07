@@ -695,7 +695,7 @@ const RenderLists = ({ url, data, error }) => {
                     "&:hover": { color: colors[themeColor][50] },
                     borderRadius: 99,
                     transition: "none",
-                    gap: 1,
+                    gap: 2,
                   }}
                 >
                   <span className="material-symbols-rounded">share</span>
@@ -712,7 +712,7 @@ const RenderLists = ({ url, data, error }) => {
                     "&:hover": { color: colors[themeColor][50] },
                     borderRadius: 99,
                     transition: "none",
-                    gap: 1,
+                    gap: 2,
                   }}
                   onClick={() => {
                     if (confirm("Delete list?")) {
