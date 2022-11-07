@@ -281,32 +281,6 @@ function useUser(): {
 }
 
 /**
- * Function to just render a component, instead of adding a layout for the whole page
- * @param data data
- * @param Component Top-level page component
- * @param pageProps Page props
- * @returns JSX.Element
- */
-function RenderComponent({
-  Component,
-  pageProps,
-  data,
-}: {
-  data: Session;
-  Component: typeof React.Component;
-  pageProps: JSX.Element;
-}) {
-  global.user = data;
-
-  return (
-    <NoSsr>
-      <Component {...pageProps} />
-      <Toaster />
-    </NoSsr>
-  );
-}
-
-/**
  * Function to check whether to add a layout or not
  * @param router Next.JS router
  * @param Component Top-level page component
@@ -337,8 +311,13 @@ function RenderApp({
 
   const { data, isLoading, isError } = useUser();
 
+  global.user = data;
+
   return disableLayout ? (
-    <RenderComponent Component={Component} data={data} pageProps={pageProps} />
+    <NoSsr>
+      <Component {...pageProps} />
+      <Toaster />
+    </NoSsr>
   ) : (
     <>
       {isLoading && <Loading />}
