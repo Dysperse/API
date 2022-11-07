@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { ItemCard } from "../components/rooms/ItemCard";
+import { ItemCard } from "../components/Rooms/ItemCard";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import type { ApiResponse } from "../types/client";
 import type { Item } from "@prisma/client";

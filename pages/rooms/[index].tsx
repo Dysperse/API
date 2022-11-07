@@ -1,7 +1,7 @@
 import { decode } from "js-base64";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { RoomComponent } from "../../components/rooms/RoomComponent";
+import { RoomComponent } from "../../components/Rooms/RoomComponent";
 
 /**
  * Top-level component for the room page
