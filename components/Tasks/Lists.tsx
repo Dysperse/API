@@ -687,10 +687,12 @@ const RenderLists = ({ url, data, error }) => {
                 <Button
                   fullWidth
                   disableElevation
-                  variant="outlined"
+                  variant="contained"
                   size="large"
                   sx={{
-                    borderWidth: "2px!important",
+                    background: colors[themeColor][100],
+                    color: "#000",
+                    "&:hover": { color: colors[themeColor][50] },
                     borderRadius: 99,
                     transition: "none",
                   }}
@@ -700,10 +702,12 @@ const RenderLists = ({ url, data, error }) => {
                 <Button
                   fullWidth
                   disableElevation
-                  variant="outlined"
+                  variant="contained"
                   size="large"
                   sx={{
-                    borderWidth: "2px!important",
+                    background: colors[themeColor][100],
+                    color: "#000",
+                    "&:hover": { color: colors[themeColor][50] },
                     borderRadius: 99,
                     transition: "none",
                   }}
