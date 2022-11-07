@@ -287,14 +287,14 @@ function useUser(): {
  * @param pageProps Page props
  * @returns JSX.Element
  */
-function RenderApp({
+function RenderRoot({
   router,
   Component,
   pageProps,
 }: {
+  router: NextRouter;
   Component: typeof React.Component;
   pageProps: JSX.Element;
-  router: NextRouter;
 }) {
   const urlsToDisplayWithoutLayout = [
     "/share/[index]",
@@ -349,25 +349,6 @@ function RenderApp({
         </Box>
       )}
     </>
-  );
-}
-
-/**
- * NoSsr wrapper to prevent server-side rendering
- * @param router Next.JS router
- * @returns JSX.Element
- */
-function RenderRoot({
-  router,
-  Component,
-  pageProps,
-}: {
-  router: NextRouter;
-  Component: typeof React.Component;
-  pageProps: JSX.Element;
-}): JSX.Element {
-  return (
-    <RenderApp router={router} Component={Component} pageProps={pageProps} />
   );
 }
 
