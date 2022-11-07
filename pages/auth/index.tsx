@@ -66,7 +66,7 @@ export default function Prompt() {
             return;
           }
           mutate("/api/user");
-          router.push("/tasks");
+          window.location.href = "/";
         })
         .catch(() => setButtonLoading(false));
     },
