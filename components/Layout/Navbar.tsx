@@ -377,18 +377,7 @@ export function Navbar(): JSX.Element {
                   p: 0,
                 }}
               >
-                <BoringAvatar
-                  size={35}
-                  name={global.user.name}
-                  variant="beam"
-                  colors={[
-                    "#801245",
-                    "#F4F4DD",
-                    "#DCDBAF",
-                    "#5D5C49",
-                    "#3D3D34",
-                  ]}
-                />
+                <span className="material-symbols-outlined">settings</span>
               </IconButton>
             </Tooltip>
           </Settings>
