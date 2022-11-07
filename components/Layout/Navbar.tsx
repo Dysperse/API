@@ -363,7 +363,7 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { sm: "none" } }}>
           <Settings>
             <Tooltip
-              title={global.user.email}
+              title="Settings"
               placement="bottom-start"
               PopperProps={{
                 sx: { pointerEvents: "none" },
