@@ -13,15 +13,15 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { colors } from "../lib/colors";
-import { Color } from "../components/onboarding/Color";
+import { Color } from "../components/Onboarding/Color";
 import FormControl from "@mui/material/FormControl";
 import { useRouter } from "next/router";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { updateSettings } from "../components/Settings/updateSettings";
-import { cards } from "../components/AddPopup/cards";
-import { InventoryList } from "../components/onboarding/InventoryList";
+import { cards } from "../components/CreateItem/cards";
+import { InventoryList } from "../components/Onboarding/InventoryList";
 
 function StepContent({ forStep, currentStep, setCurrentStep, content }) {
   return forStep === currentStep ? (

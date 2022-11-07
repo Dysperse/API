@@ -6,7 +6,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import { decode } from "js-base64";
-import { CreateItemModal } from "../AddPopup/CreateItemModal";
+import { CreateItemModal } from "../CreateItem/modal";
 /**
  * Header component for the room
  * @param useAlias

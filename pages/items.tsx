@@ -17,7 +17,7 @@ import Typography from "@mui/material/Typography";
 import { encode } from "js-base64";
 import { useRouter } from "next/router";
 import React from "react";
-import { ErrorHandler } from "../components/ErrorHandler";
+import { ErrorHandler } from "../components/error";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { FloatingActionButton } from "../components/rooms/FloatingActionButton";
 import { Puller } from "../components/Puller";

@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
-import { ErrorHandler } from "../ErrorHandler";
+import { ErrorHandler } from "../error";
 import { AddPersonModal } from "./AddPersonModal";
 import type { Member as MemberType } from "../../types/houseProfile";
 

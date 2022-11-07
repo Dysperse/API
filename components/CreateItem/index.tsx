@@ -19,7 +19,7 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Puller } from "../Puller";
-import { CreateItemModal } from "./CreateItemModal";
+import { CreateItemModal } from "./modal";
 
 const Root = styled("div")(() => ({
   height: "100%",

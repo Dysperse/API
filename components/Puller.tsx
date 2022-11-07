@@ -1,6 +1,6 @@
-import { colors } from "../lib/colors";
 import Box from "@mui/material/Box";
-import hexToRgba from "hex-to-rgba";
+import { colors } from "../lib/colors";
+
 /**
  * @name Puller
  * @description A puller is a component that pulls in swipeable drawers from bottom of the screen.

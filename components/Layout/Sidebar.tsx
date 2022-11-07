@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
-import AddPopup from "../AddPopup";
+import AddPopup from "../CreateItem";
 import Settings from "../Settings/index";
 
 export function Sidebar() {

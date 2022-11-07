@@ -16,7 +16,7 @@ import { Offline } from "react-detect-offline";
 import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { useApi } from "../../hooks/useApi";
-import { ErrorHandler } from "../ErrorHandler";
+import { ErrorHandler } from "../error";
 import hexToRgba from "hex-to-rgba";
 import dayjs from "dayjs";
 import { useStatusBar } from "../../hooks/useStatusBar";

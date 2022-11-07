@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { ErrorHandler } from "../components/ErrorHandler";
+import { ErrorHandler } from "../components/error";
 import { Header } from "../components/Tidy/Header";
 import { Reminder } from "../components/Tidy/Reminder";
 import { useApi } from "../hooks/useApi";

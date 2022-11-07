@@ -19,7 +19,7 @@ import Confetti from "react-dom-confetti";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
-import { ErrorHandler } from "../ErrorHandler";
+import { ErrorHandler } from "../error";
 import { Puller } from "../Puller";
 import dayjs from "dayjs";
 

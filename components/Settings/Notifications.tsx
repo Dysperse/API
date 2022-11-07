@@ -5,7 +5,7 @@ import Switch from "@mui/material/Switch";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { updateSettings } from "./updateSettings";
-import { ErrorHandler } from "../ErrorHandler";
+import { ErrorHandler } from "../error";
 import { useMediaQuery } from "@mui/material";
 
 const base64ToUint8Array = (base64) => {

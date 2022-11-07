@@ -3,7 +3,7 @@ import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import { useApi } from "../../hooks/useApi";
 import type { ApiResponse } from "../../types/client";
-import { ErrorHandler } from "../ErrorHandler";
+import { ErrorHandler } from "../error";
 import { LoadingScreen } from "./LoadingScreen";
 import { RenderRoom } from "./RenderRoom";
 
