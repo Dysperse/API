@@ -24,6 +24,10 @@ export default function Document() {
         <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no"
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -103,6 +107,7 @@ export default function Document() {
             __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPH4TH4" height="0" width="0" style="display: none; visibility: hidden;" />`,
           }}
         />
+        <Script src="/prevent-navigate-history.js" />
       </body>
     </Html>
   );

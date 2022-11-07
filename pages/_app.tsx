@@ -2,7 +2,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import MuiLink from "@mui/material/Link";
 import NoSsr from "@mui/material/NoSsr";
 import Skeleton from "@mui/material/Skeleton";
 import {
@@ -11,15 +10,12 @@ import {
   ThemeProvider,
 } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
-import Link from "next/link";
 import { NextRouter } from "next/router";
 import Script from "next/script";
-import Button from "@mui/material/Button";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
@@ -28,6 +24,7 @@ import { colors } from "../lib/colors";
 import "../styles/globals.scss";
 import "../styles/search.scss";
 import { Property, Session } from "../types/session";
+import { Error } from "../components/Layout/Error";
 dayjs.extend(relativeTime);
 
 /**
@@ -378,7 +375,12 @@ function Render({
   });
 
   if (data.user.properties.length === 0) {
-    return <Box>0 properties!</Box>;
+    return (
+      <Box>
+        You do not have any properties. You shouldn&apos;t be seeing this error.
+        Please contact support.
+      </Box>
+    );
   }
 
   // find active property in the array of properties
@@ -405,22 +407,10 @@ function Render({
   return (
     <>
       <Head>
-        {/* Prevent page zoom*/}
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no"
-        />
         <title>Carbon: Next-gen personal home inventory</title>
       </Head>
       <ThemeProvider theme={userTheme}>
-        <Box
-          sx={{
-            "& *::selection": {
-              color: "#fff!important",
-              background: `${colors[themeColor]["A700"]}!important`,
-            },
-          }}
-        >
+        <Box>
           <Toaster />
           {window.location.pathname == "/onboarding" ? (
             <Component {...pageProps} />
@@ -456,7 +446,11 @@ function Render({
  * Fetches user session data
  * @returns {any}
  */
-function useUser() {
+function useUser(): {
+  data: Session;
+  isLoading: boolean;
+  isError: boolean;
+} {
   const url = "/api/user";
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
@@ -511,72 +505,28 @@ function RenderApp({
   pageProps: JSX.Element;
   router: NextRouter;
 }) {
+  const urlsToDisplayWithoutLayout = [
+    "/share/[index]",
+    "/invite/[id]",
+    "/auth/reset-password/[id]",
+    "/scan",
+    "/signup",
+    "/auth",
+    "/canny-auth",
+  ];
+  const disableLayout =
+    urlsToDisplayWithoutLayout.includes(router.pathname) ||
+    router.pathname === "/canny-auth";
+
   const { data, isLoading, isError } = useUser();
-  return router.pathname === "/share/[index]" ||
-    router.pathname === "/invite/[id]" ||
-    router.pathname === "/auth/reset-password/[id]" ||
-    router.pathname === "/scan" ||
-    router.pathname === "/signup" ||
-    router.pathname.includes("/auth") ||
-    router.pathname === "/canny-auth" ? (
+
+  return disableLayout ? (
     <RenderComponent Component={Component} data={data} pageProps={pageProps} />
   ) : (
     <>
       {isLoading && <Loading />}
-      {isError && (
-        <Box
-          sx={{
-            position: "fixed",
-            top: 0,
-            textAlign: "center",
-            background: "hsl(240, 11%, 10%)",
-            height: "100%",
-            width: "100%",
-            color: "#fff",
-            left: 0,
-          }}
-        >
-          <Box
-            ref={() =>
-              document
-                .querySelector(`meta[name="theme-color"]`)
-                ?.setAttribute("content", "hsl(240, 11%, 10%)")
-            }
-            sx={{
-              position: "fixed",
-              p: 5,
-              borderRadius: 5,
-              top: "50%",
-              textAlign: "center",
-              background: "hsl(240, 11%, 13%)",
-              left: "50%",
-              maxWidth: "calc(100vw - 20px)",
-              width: "350px",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <picture>
-              <img
-                src="https://i.ibb.co/1GnBXX4/image.png"
-                alt="An error occured"
-              />
-              <Typography variant="h5" sx={{ textAlign: "center" }}>
-                An error occured
-              </Typography>
-              <Typography variant="body1" sx={{ textAlign: "center" }}>
-                Please try again later. If the problem persists, please contact
-                us at{" "}
-                <Link href="mailto:hello@smartlist.tech" target="_blank">
-                  <MuiLink href="mailto:hello@smartlist.tech" target="_blank">
-                    hello@smartlist.tech
-                  </MuiLink>
-                </Link>
-              </Typography>
-            </picture>
-          </Box>
-        </Box>
-      )}
-      {!isLoading && !isError && !data.error && (
+      {isError && <Error />}
+      {!isLoading && !isError && (
         <Render
           router={router}
           Component={Component}
@@ -584,7 +534,7 @@ function RenderApp({
           data={data}
         />
       )}
-      {!isLoading && !isError && data.error && (
+      {!isLoading && !isError && (
         <Box
           sx={{
             position: "absolute",
@@ -611,23 +561,18 @@ function RenderApp({
  * @param router Next.JS router
  * @returns JSX.Element
  */
-function SmartlistApp({
+function RenderRoot({
   router,
   Component,
   pageProps,
 }: {
+  router: NextRouter;
   Component: typeof React.Component;
   pageProps: JSX.Element;
-  router: NextRouter;
 }): JSX.Element {
   return (
-    <>
-      {/* <NoSsr> */}
-      <RenderApp router={router} Component={Component} pageProps={pageProps} />
-      {/* </NoSsr> */}
-      <Script src="/prevent-navigate-history.js" />
-    </>
+    <RenderApp router={router} Component={Component} pageProps={pageProps} />
   );
 }
 
-export default SmartlistApp;
+export default RenderRoot;
