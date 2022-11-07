@@ -61,7 +61,7 @@ function Item({
     >
       {children}
       {shortcut && (
-        <div className="cmdk-vercel-shortcuts">
+        <div className="cmdk-carbon-shortcuts">
           {shortcut.split(" ").map((key) => {
             return <kbd key={key}>{key}</kbd>;
           })}
@@ -380,7 +380,7 @@ export function SearchPopup() {
         }}
       >
         <Puller />
-        <div className="vercel">
+        <div className="carbon">
           <Command
             ref={ref}
             onKeyDown={(e: React.KeyboardEvent) => {
@@ -398,7 +398,7 @@ export function SearchPopup() {
               {pages
                 .filter((p) => p.toLowerCase() !== "home")
                 .map((p) => (
-                  <div className="cmdk-vercel-badge" key={p}>
+                  <div className="cmdk-carbon-badge" key={p}>
                     {p}
                   </div>
                 ))}

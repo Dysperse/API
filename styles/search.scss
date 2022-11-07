@@ -32,19 +32,6 @@
   --grayA10: hsla(0, 0%, 0%, 0.478);
   --grayA11: hsla(0, 0%, 0%, 0.565);
   --grayA12: hsla(0, 0%, 0%, 0.91);
-
-  --blue1: hsl(206, 100%, 99.2%);
-  --blue2: hsl(210, 100%, 98%);
-  --blue3: hsl(209, 100%, 96.5%);
-  --blue4: hsl(210, 98.8%, 94%);
-  --blue5: hsl(209, 95%, 90.1%);
-  --blue6: hsl(209, 81.2%, 84.5%);
-  --blue7: hsl(208, 77.5%, 76.9%);
-  --blue8: hsl(206, 81.9%, 65.3%);
-  --blue9: hsl(206, 100%, 50%);
-  --blue10: hsl(208, 100%, 47.3%);
-  --blue11: hsl(211, 100%, 43.2%);
-  --blue12: hsl(211, 100%, 15%);
 }
 
 .dark {
@@ -78,22 +65,9 @@
   --grayA10: hsla(0, 0%, 100%, 0.446);
   --grayA11: hsla(0, 0%, 100%, 0.592);
   --grayA12: hsla(0, 0%, 100%, 0.923);
-
-  --blue1: hsl(212, 35%, 9.2%);
-  --blue2: hsl(216, 50%, 11.8%);
-  --blue3: hsl(214, 59.4%, 15.3%);
-  --blue4: hsl(214, 65.8%, 17.9%);
-  --blue5: hsl(213, 71.2%, 20.2%);
-  --blue6: hsl(212, 77.4%, 23.1%);
-  --blue7: hsl(211, 85.1%, 27.4%);
-  --blue8: hsl(211, 89.7%, 34.1%);
-  --blue9: hsl(206, 100%, 50%);
-  --blue10: hsl(209, 100%, 60.6%);
-  --blue11: hsl(210, 100%, 66.1%);
-  --blue12: hsl(206, 98%, 95.8%);
 }
 
-.vercel {
+.carbon {
   [cmdk-root] {
     width: 100%;
     padding: 18px;
@@ -128,7 +102,7 @@
     }
   }
 
-  .cmdk-vercel-badge {
+  .cmdk-carbon-badge {
     height: 20px;
     background: var(--grayA3);
     display: inline-flex;
@@ -159,7 +133,7 @@
     transition: all 150ms ease;
     transition-property: none;
 
-    & .cmdk-vercel-shortcuts {
+    & .cmdk-carbon-shortcuts {
       display: flex;
       margin-left: auto;
       gap: 8px;
