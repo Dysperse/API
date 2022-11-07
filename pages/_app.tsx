@@ -264,7 +264,7 @@ function Render({
  * @returns {any}
  */
 function useUser(): {
-  data: Session;
+  data: any;
   isLoading: boolean;
   isError: boolean;
 } {
