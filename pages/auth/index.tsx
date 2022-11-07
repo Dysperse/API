@@ -12,8 +12,8 @@ import AuthCode from "react-auth-code-input";
 import { useSWRConfig } from "swr";
 import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { Puller } from "../Puller";
-import { Layout } from "./Layout";
+import { Puller } from "../../components/Puller";
+import { Layout } from "../../components/Auth/Layout";
 import { useRouter } from "next/router";
 
 /**
@@ -313,8 +313,8 @@ export default function Prompt() {
           <Link
             href={
               window.location.href.includes("?close=true")
-                ? "/reset-id?close=true"
-                : "/reset-id"
+                ? "/auth/reset-id?close=true"
+                : "/auth/reset-id"
             }
           >
             <Button

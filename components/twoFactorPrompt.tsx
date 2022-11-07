@@ -6,9 +6,9 @@ import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
-import { colors } from "../../lib/colors";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { Puller } from "../Puller";
+import { colors } from "../lib/colors";
+import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
+import { Puller } from "./Puller";
 
 /**
  * Verify if 2fa code is correct

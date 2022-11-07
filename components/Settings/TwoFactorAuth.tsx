@@ -8,7 +8,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
-import { Prompt } from "../Auth/twoFactorPrompt";
+import { Prompt } from "../twoFactorPrompt";
 
 /**
  * Top-level component for the two-factor authentication settings page.

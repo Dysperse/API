@@ -12,7 +12,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
-import { Prompt } from "../Auth/twoFactorPrompt";
+import { Prompt } from "../twoFactorPrompt";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";

@@ -19,10 +19,10 @@ import Head from "next/head";
 import Link from "next/link";
 import { NextRouter } from "next/router";
 import Script from "next/script";
+import Button from "@mui/material/Button";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
-import LoginPrompt from "../components/Auth/Prompt";
 import Layout from "../components/Layout";
 import { colors } from "../lib/colors";
 import "../styles/globals.scss";
@@ -517,7 +517,7 @@ function RenderApp({
     router.pathname === "/reset-password/[id]" ||
     router.pathname === "/scan" ||
     router.pathname === "/signup" ||
-    router.pathname === "/reset-id" ||
+    router.pathname.includes("/auth") ||
     router.pathname === "/canny-auth" ? (
     <RenderComponent Component={Component} data={data} pageProps={pageProps} />
   ) : (
@@ -584,7 +584,25 @@ function RenderApp({
           data={data}
         />
       )}
-      {!isLoading && !isError && data.error && <LoginPrompt />}
+      {!isLoading && !isError && data.error && (
+        <>
+          <Button
+            ref={(i) => i && i.click()}
+            onClick={() => {
+              router.push("/auth");
+            }}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              textTransform: "none",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            Click here if you&apos;re not being redirected
+          </Button>
+        </>
+      )}
     </>
   );
 }
