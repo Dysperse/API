@@ -15,7 +15,7 @@ import { Layout } from "../../components/Auth/Layout";
 import { Puller } from "../../components/Puller";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
-
+import toast from "react-hot-toast";
 /**
  * Login prompt
  */
@@ -40,6 +40,15 @@ export default function Prompt() {
       twoFactorCode: "",
     },
     onSubmit: (values) => {
+      const toastStyles = {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+          padding: "10px",
+          paddingLeft: "20px",
+        },
+      };
       setButtonLoading(true);
       fetch("/api/login", {
         method: "POST",
@@ -65,22 +74,18 @@ export default function Prompt() {
             });
             return;
           }
+          if (res.message) {
+            toast.error(res.message, toastStyles);
+            setButtonLoading(false);
+            return;
+          }
           mutate("/api/user");
+          router.push("/");
           window.location.href = "/";
         })
         .catch(() => setButtonLoading(false));
     },
   });
-
-  // const toastStyles = {
-  //   style: {
-  //     borderRadius: "10px",
-  //     background: "#333",
-  //     color: "#fff",
-  //     padding: "10px",
-  //     paddingLeft: "20px",
-  //   },
-  // };
 
   document
     .querySelector(`meta[name="theme-color"]`)
