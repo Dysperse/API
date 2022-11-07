@@ -29,6 +29,11 @@ const moduleExports = {
           destination: "/home",
           permanent: true,
         },
+        {
+          source: "/signup",
+          destination: "/auth/signup",
+          permanent: true,
+        },
       ];
     },
   }),

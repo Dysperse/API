@@ -1,6 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import { colors } from "../lib/colors";
+import { colors } from "../../lib/colors";
 import Paper from "@mui/material/Paper";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -14,9 +14,9 @@ import toast from "react-hot-toast";
 import AuthCode from "react-auth-code-input";
 
 import { useSWRConfig } from "swr";
-import { Layout } from "../components/Auth/Layout";
-import { Puller } from "../components/Puller";
-import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
+import { Layout } from "../../components/Auth/Layout";
+import { Puller } from "../../components/Puller";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 
 /**
  * Top-level component for the signup page.
