@@ -24,7 +24,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
         "content",
         router.asPath === "/tidy"
           ? colors[themeColor][700]
-          : colors[themeColor][nestedModals * 100]
+          : colors[themeColor][nestedModals * 50]
       );
     } else {
       if (open && nestedModals > 1) {
@@ -32,7 +32,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
           "content",
           router.asPath === "/tidy"
             ? colors[themeColor][800]
-            : colors[themeColor][nestedModals * 100]
+            : colors[themeColor][nestedModals * 50]
         );
       } else {
         tag.setAttribute("content", "#fff");

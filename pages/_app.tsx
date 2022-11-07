@@ -398,7 +398,7 @@ function Render({
   );
   document.documentElement.style.setProperty(
     "--bgtheme",
-    hex2rgba(colors[themeColor ?? "brown"]["50"], 0.6)
+    hex2rgba(colors[themeColor ?? "brown"]["50"], 0.8)
   );
   document.documentElement.style.setProperty("--bg", colors[themeColor][900]);
 
