@@ -585,23 +585,22 @@ function RenderApp({
         />
       )}
       {!isLoading && !isError && data.error && (
-        <>
-          <Button
-            ref={(i) => i && i.click()}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CircularProgress
+            disableShrink
+            ref={(i: any) => i && i.click()}
             onClick={() => {
               router.push("/auth");
             }}
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              textTransform: "none",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            Click here if you&apos;re not being redirected
-          </Button>
-        </>
+          />
+        </Box>
       )}
     </>
   );
