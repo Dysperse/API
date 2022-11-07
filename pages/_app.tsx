@@ -310,7 +310,6 @@ function RenderRoot({
     router.pathname === "/canny-auth";
 
   const { data, isLoading, isError } = useUser();
-
   global.user = data;
 
   return disableLayout ? (
@@ -330,7 +329,7 @@ function RenderRoot({
           data={data}
         />
       )}
-      {!isLoading && !isError && !data.user && (
+      {!isLoading && !isError && data.error && (
         <Box
           sx={{
             position: "absolute",
