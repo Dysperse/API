@@ -7,14 +7,14 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AuthCode from "react-auth-code-input";
 import { useSWRConfig } from "swr";
-import { colors } from "../../lib/colors";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { Puller } from "../../components/Puller";
 import { Layout } from "../../components/Auth/Layout";
-import { useRouter } from "next/router";
+import { Puller } from "../../components/Puller";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { colors } from "../../lib/colors";
 
 /**
  * Login prompt

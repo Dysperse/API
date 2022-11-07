@@ -1,17 +1,17 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
+import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Link from "next/link";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 import AuthCode from "react-auth-code-input";
+import toast from "react-hot-toast";
+import { colors } from "../../lib/colors";
 
 import { useSWRConfig } from "swr";
 import { Layout } from "../../components/Auth/Layout";
