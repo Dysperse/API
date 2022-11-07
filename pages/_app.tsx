@@ -351,7 +351,7 @@ function RenderApp({
           data={data}
         />
       )}
-      {!isLoading && !isError && (
+      {!isLoading && !isError && !data.user && (
         <Box
           sx={{
             position: "absolute",
