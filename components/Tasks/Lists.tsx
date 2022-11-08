@@ -533,11 +533,11 @@ const ListItem = ({ listData, setListData, parent, data }) => {
               </Typography>
             )}
           </Box>
-          <Box sx={{ ml: "auto" }}>
+          {/* <Box sx={{ ml: "auto" }}>
             <IconButton>
-              <span className="material-symbols-outlined">more_vert</span>
+              <span className="material-symbols-outlined">delete</span>
             </IconButton>
-          </Box>
+          </Box> */}
         </Box>
       </Card>
     </Box>
