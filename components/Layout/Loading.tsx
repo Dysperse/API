@@ -14,25 +14,6 @@ import { colors } from "../../lib/colors";
  */
 
 export function Loading(): JSX.Element {
-  const proTips = [
-    "You can use the dropdown menu in the top right corner to switch properties",
-    "Hit ctrl + k to find anything in your home",
-    "You can set due dates to reminders by clicking on the calendar icon",
-    "Setup 2FA to protect your account by visiting your settings",
-    "View edits to your home by clicking on the inbox icon",
-    "Install the PWA to receive push notifications",
-    "Carbon started in 2020, and has been growing ever since",
-    "Carbon is open source, and you can contribute to it on GitHub",
-    "Carbon stores your inventory with zero-access encryption",
-    "Carbon is sponsored by the amazing people at Vercel",
-    "Join the official community on Discord at www.smartlist.tech/discord",
-    "You can change your theme color in your settings",
-    "You can enable dark mode in your settings",
-    "You can invite people to your home by clicking on the drop down icon",
-  ];
-  const [tip, setTip] = useState(
-    proTips[Math.floor(Math.random() * proTips.length)]
-  );
   return (
     <Box
       sx={{
@@ -144,36 +125,6 @@ export function Loading(): JSX.Element {
               }}
             />
           </Box>
-          <NoSsr>
-            <Box
-              sx={{
-                position: "fixed",
-                bottom: "10px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 2,
-                left: "50%",
-                transform: "translateX(-50%)",
-                textAlign: "center",
-                color: colors.orange[900],
-                background: hex2rgba(colors.orange[900], 0.1),
-                borderRadius: 5,
-                px: 2,
-                py: 1,
-                fontWeight: "400",
-                maxWidth: "300px",
-              }}
-            >
-              <span
-                className="material-symbols-rounded"
-                style={{ fontSize: 18 }}
-              >
-                lightbulb
-              </span>
-              {tip}
-            </Box>
-          </NoSsr>
         </Box>
       </Box>
     </Box>
