@@ -286,12 +286,10 @@ const CreateListItemModal = ({
           mb: 2,
           background: "#eee",
           border: "2px solid #ddd",
-          boxShadow: "3px 5px #ddd",
           borderRadius: 5,
           transition: "none",
           cursor: "pointer",
           "&:hover": {
-            boxShadow: "3px 5px #ccc",
             borderColor: "#ccc",
             background: "#ddd",
           },
@@ -420,14 +418,12 @@ const ListItem = ({ listData, setListData, parent, data }) => {
       <Card
         sx={{
           maxWidth: "calc(100vw - 32.5px)",
-          mb: 2,
+          mb: 1,
           opacity: data.completed ? 0.5 : 1,
           border: "2px solid #eee",
-          boxShadow: "3px 5px #eee",
           borderRadius: 5,
           transition: "none",
           "&:hover": {
-            boxShadow: "3px 5px #ddd",
             borderColor: "#ddd",
             background: "#eee",
           },
@@ -765,7 +761,6 @@ const RenderLists = ({ url, data, error }) => {
                 mb: { xs: 1, sm: 3 },
                 py: { sm: 2 },
                 border: "2px solid #eee",
-                boxShadow: "3px 5px #eee",
                 borderRadius: 5,
                 transition: "none",
               }}
