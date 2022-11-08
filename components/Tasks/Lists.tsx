@@ -851,7 +851,7 @@ const RenderLists = ({ url, data, error }) => {
                         mt: { sm: 1 },
                       }}
                     >
-                      Progress
+                      Productivity
                     </Typography>
                     <Typography
                       variant="body2"
