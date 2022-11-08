@@ -304,7 +304,7 @@ export function SearchPopup() {
         }}
         className={global.user.darkMode ? "rippleDark" : ""}
       >
-        <span className="material-symbols-rounded">search</span>
+        <span className="material-symbols-rounded">bolt</span>
         Jump to{" "}
         <span className="hover" style={{ marginLeft: "auto" }}>
           <span
