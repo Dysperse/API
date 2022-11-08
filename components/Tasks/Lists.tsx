@@ -595,15 +595,14 @@ const RenderLists = ({ url, data, error }) => {
             maxWidth: "calc(100vw - 32.5px)",
             "& .MuiTabs-indicator": {
               borderRadius: 5,
-              height: "4px",
-              opacity: 0.8,
+              height: "100%",
+              opacity: 0.3,
               zIndex: -1,
             },
           }}
         >
           {listData.map((list) => (
             <Tab
-              disableRipple
               value={list.id}
               label={list.name}
               sx={{
