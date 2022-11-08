@@ -825,9 +825,9 @@ const RenderLists = ({ url, data, error }) => {
                         sx={{
                           fontSize: { xs: "11px", sm: "15px" },
                           mt: "1px",
-                          fontWeight: "900",
+                          fontWeight: percent === 0 ? "200" : "900",
                           ...(percent == 0 && {
-                            color: "#606060",
+                            color: "#aaa",
                           }),
                           ...(percent == 100 && {
                             color: "#00e676",
