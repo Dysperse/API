@@ -418,7 +418,7 @@ const ListItem = ({ listData, setListData, parent, data }) => {
       <Card
         sx={{
           maxWidth: "calc(100vw - 32.5px)",
-          mb: 1,
+          mb: 1.5,
           opacity: data.completed ? 0.5 : 1,
           border: "2px solid #eee",
           borderRadius: 5,
