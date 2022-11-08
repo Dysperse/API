@@ -608,6 +608,7 @@ const RenderLists = ({ url, data, error }) => {
               sx={{
                 minWidth: "auto",
                 px: 3,
+                mr: 0.5,
                 transition: "all .2s!important",
                 "& *": {
                   transition: "all .2s!important",
