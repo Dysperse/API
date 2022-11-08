@@ -596,7 +596,7 @@ const RenderLists = ({ url, data, error }) => {
             "& .MuiTabs-indicator": {
               borderRadius: 5,
               height: "100%",
-              opacity: 0.3,
+              opacity: 0.1,
               zIndex: -1,
             },
           }}
