@@ -217,7 +217,7 @@ function Render({
   );
   document.documentElement.style.setProperty(
     "--bgtheme",
-    hex2rgba(colors[themeColor ?? "brown"]["50"], 0.8)
+    hex2rgba(colors[themeColor ?? "brown"]["600"], 0.3)
   );
   document.documentElement.style.setProperty("--bg", colors[themeColor][900]);
 
@@ -300,6 +300,7 @@ function RenderRoot({
     "/share/[index]",
     "/invite/[id]",
     "/auth/reset-password/[id]",
+    "/auth/reset-id",
     "/scan",
     "/signup",
     "/auth",

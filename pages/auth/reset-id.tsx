@@ -132,8 +132,8 @@ export default function Prompt() {
               <Link
                 href={
                   window.location.href.includes("?close=true")
-                    ? "/?close=true"
-                    : "/"
+                    ? "/auth?close=true"
+                    : "/auth"
                 }
               >
                 <Button
