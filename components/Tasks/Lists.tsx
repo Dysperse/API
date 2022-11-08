@@ -672,12 +672,13 @@ const RenderLists = ({ url, data, error }) => {
                 />
               ))}
 
-            <Box sx={{ maxWidth: "400px", mx: "auto" }}>
+            <Box sx={{ mx: "auto" }}>
               <Box
                 sx={{
                   display: "flex",
                   gap: 1,
                   alignItems: "center",
+                  // flexDirection: "column",
                 }}
               >
                 <Button
@@ -686,9 +687,9 @@ const RenderLists = ({ url, data, error }) => {
                   variant="contained"
                   size="large"
                   sx={{
-                    background: colors[themeColor][100],
+                    background: colors[themeColor][50] + "!important",
                     color: "#000",
-                    "&:hover": { color: colors[themeColor][50] },
+                    "&:hover": { color: colors[themeColor][900] },
                     borderRadius: 99,
                     transition: "none",
                     gap: 2,
@@ -703,9 +704,9 @@ const RenderLists = ({ url, data, error }) => {
                   variant="contained"
                   size="large"
                   sx={{
-                    background: colors[themeColor][100],
+                    background: colors[themeColor][50] + "!important",
                     color: "#000",
-                    "&:hover": { color: colors[themeColor][50] },
+                    "&:hover": { color: colors[themeColor][900] },
                     borderRadius: 99,
                     transition: "none",
                     gap: 2,
