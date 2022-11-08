@@ -65,7 +65,7 @@ function CategoryList() {
             data.categories.map((category) => (
               <Chip
                 onClick={() => {
-                  alert(category.idCategory);
+                  // alert(category.idCategory);
                 }}
                 key={category.idCategory}
                 label={category.strCategory}
@@ -101,7 +101,7 @@ function AreaList() {
             data.meals.map((category) => (
               <Chip
                 onClick={() => {
-                  alert(category.strArea);
+                  // alert(category.strArea);
                 }}
                 key={category.strArea}
                 label={category.strArea}
@@ -137,7 +137,7 @@ function IngredientList() {
             data.meals.map((category) => (
               <Chip
                 onClick={() => {
-                  alert(category.idIngredient);
+                  // alert(category.idIngredient);
                 }}
                 key={category.idIngredient}
                 label={category.strIngredient}
@@ -167,7 +167,7 @@ function AzList() {
           {alphabet.map((letter) => (
             <Chip
               onClick={() => {
-                alert(letter);
+                // alert(letter);
               }}
               key={letter}
               label={letter}

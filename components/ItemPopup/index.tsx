@@ -483,9 +483,6 @@ export default function Item({
                   <TextField
                     defaultValue={item.name || "(no title)"}
                     variant="standard"
-                    onChange={(e) => {
-                      // alert(e.target.value);
-                    }}
                     multiline
                     fullWidth
                     InputProps={{

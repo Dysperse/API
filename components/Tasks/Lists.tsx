@@ -723,7 +723,7 @@ const RenderLists = ({ url, data, error }) => {
                           listData.filter((list) => list.id !== value)
                         );
                         setValue(-1);
-                        alert(value);
+                        // alert(value);
                       });
                     }
                   }}
