@@ -20,6 +20,7 @@ import { ErrorHandler } from "../error";
 import hexToRgba from "hex-to-rgba";
 import dayjs from "dayjs";
 import { useStatusBar } from "../../hooks/useStatusBar";
+import { useScrollTrigger } from "@mui/material";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
@@ -259,11 +260,19 @@ export function Navbar(): JSX.Element {
     },
   };
 
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+  });
+
   return (
     <AppBar
       elevation={0}
       position="fixed"
       sx={{
+        boxShadow: trigger
+          ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+          : "none",
         transition: "background .1s",
         color: {
           xs: global.user.darkMode
@@ -284,7 +293,11 @@ export function Navbar(): JSX.Element {
             : router.asPath === "/tidy"
             ? colors[themeColor][800]
             : "rgba(255,255,255,.8)",
-          sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.8)",
+          sm: global.user.darkMode
+            ? "rgba(0,0,0,0)"
+            : trigger
+            ? "rgba(245,245,245,.8)"
+            : "rgba(255,255,255,.8)",
         },
         backdropFilter: "blur(10px)",
       }}

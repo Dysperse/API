@@ -172,6 +172,20 @@ const CreateListItemModal = ({
     });
   };
 
+  // useeffect hook when / pressed open modal
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "/") {
+        e.preventDefault();
+        setOpen(true);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <>
       <SwipeableDrawer
@@ -307,7 +321,29 @@ const CreateListItemModal = ({
         >
           <span className="material-symbols-outlined">add_circle</span>
           <Box sx={{ flexGrow: 1 }}>
-            <Typography>New list item</Typography>
+            <Box sx={{ display: "flex" }}>
+              <Typography>New list item</Typography>
+
+              <Box
+                sx={{
+                  ml: "auto",
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: "text.secondary",
+                    background: colors[themeColor][100],
+                    p: 0.6,
+                    px: 1,
+                    borderRadius: 1,
+                    fontWeight: "900",
+                  }}
+                >
+                  /
+                </Typography>
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Card>
