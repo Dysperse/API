@@ -499,7 +499,7 @@ const RenderLists = ({ url, data, error }) => {
                       fontWeight: "900",
                       order: 1,
                       ml: "auto",
-                      display: "flex",
+                      display: { xs: "flex", sm: "none" },
                       alignItems: "center",
                       gap: 1,
                     }}
