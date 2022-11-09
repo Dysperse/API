@@ -287,6 +287,9 @@ const RenderLists = ({ url, data, error }) => {
   const trigger = useMediaQuery("(max-width: 600px)");
   return (
     <Box sx={{ width: "100%" }}>
+      <Typography sx={{ my: 5, mb: 3, px: 1, fontWeight: "600" }} variant="h5">
+        Tasks
+      </Typography>
       {error && (
         <ErrorHandler error="An error occurred while trying to fetch your lists" />
       )}
@@ -298,7 +301,6 @@ const RenderLists = ({ url, data, error }) => {
           onChange={handleChange}
           aria-label="secondary tabs example"
           sx={{
-            mb: 4,
             maxWidth: "calc(100vw - 32.5px)",
             "& .MuiTabs-indicator": {
               borderRadius: 5,
@@ -451,7 +453,7 @@ const RenderLists = ({ url, data, error }) => {
               pl: { sm: 2 },
               mb: 2,
               background:
-                "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)",
+                "linear-gradient(-180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)",
               order: { xs: -1, sm: 1 },
             }}
           >
