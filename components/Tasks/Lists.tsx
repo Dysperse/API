@@ -301,6 +301,7 @@ const RenderLists = ({ url, data, error }) => {
           onChange={handleChange}
           aria-label="secondary tabs example"
           sx={{
+            mb: { sm: 4 },
             maxWidth: "calc(100vw - 32.5px)",
             "& .MuiTabs-indicator": {
               borderRadius: 5,
