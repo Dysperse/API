@@ -42,6 +42,14 @@ export function CreateListItemModal({
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       setDate(tomorrow);
+    } else if (title.toLowerCase().includes("next week")) {
+      const nextWeek = new Date();
+      nextWeek.setDate(nextWeek.getDate() + 7);
+      setDate(nextWeek);
+    } else if (title.toLowerCase().includes("next month")) {
+      const nextMonth = new Date();
+      nextMonth.setDate(nextMonth.getDate() + 30);
+      setDate(nextMonth);
     }
   }, [title]);
 
