@@ -286,7 +286,7 @@ export function Navbar(): JSX.Element {
           sm: 1,
           xs: 0.9,
         },
-        transition: "none",
+        transition: "box-shadow .2s",
         background: {
           xs: global.user.darkMode
             ? "rgba(0,0,0,0)"
