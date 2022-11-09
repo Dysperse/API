@@ -469,9 +469,15 @@ const RenderLists = ({ url, data, error }) => {
             </Box>
             <Card
               sx={{
-                mb: { xs: 1, sm: 3 },
+                mb: { xs: 0, sm: 3 },
                 py: { sm: 2 },
-                border: "2px solid #eee",
+                boxShadow: "0 10px 20px rgba(255,255,255,1)",
+                background: "#eee",
+                "&:hover": {
+                  borderColor: "#ccc",
+                  background: "#ddd",
+                },
+                border: "2px solid #ddd",
                 borderRadius: 5,
                 transition: "none",
               }}
