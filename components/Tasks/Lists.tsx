@@ -447,6 +447,7 @@ const RenderLists = ({ url, data, error }) => {
               zIndex: 99,
               top: "65px",
               py: { xs: 1, sm: 0 },
+              pt: { xs: 3, sm: 0 },
               pl: { sm: 2 },
               mb: 2,
               background:
