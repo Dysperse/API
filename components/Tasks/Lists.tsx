@@ -493,10 +493,26 @@ const RenderLists = ({ url, data, error }) => {
                     alignItems: "center",
                   }}
                 >
+                  <Typography
+                    sx={{
+                      color: colors.orange[900],
+                      fontWeight: "900",
+                      order: 1,
+                      ml: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                    }}
+                  >
+                    <span className="material-symbols-rounded">
+                      local_fire_department
+                    </span>
+                    7
+                  </Typography>
                   <Box
                     sx={{
+                      ml: 1,
                       order: 2,
-                      ml: "auto",
                       zIndex: 0,
                       position: "relative",
                       display: "inline-flex",
