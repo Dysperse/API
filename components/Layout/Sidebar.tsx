@@ -40,7 +40,7 @@ export function Sidebar() {
           "& .MuiDrawer-paper": {
             maxWidth: "90px",
             width: "90px",
-            zIndex: 1000,
+            zIndex: 99,
             border: 0,
             height: "100vh",
             alignItems: "center",
