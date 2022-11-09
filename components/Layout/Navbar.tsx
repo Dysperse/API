@@ -273,7 +273,6 @@ export function Navbar(): JSX.Element {
         boxShadow: trigger
           ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
           : "none",
-        transition: "background .1s",
         color: {
           xs: global.user.darkMode
             ? "white"
@@ -287,6 +286,7 @@ export function Navbar(): JSX.Element {
           sm: 1,
           xs: 0.9,
         },
+        transition: "none",
         background: {
           xs: global.user.darkMode
             ? "rgba(0,0,0,0)"
