@@ -473,10 +473,6 @@ const RenderLists = ({ url, data, error }) => {
                 py: { sm: 2 },
                 boxShadow: "0 10px 20px rgba(255,255,255,1)",
                 background: "#eee",
-                "&:hover": {
-                  borderColor: "#ccc",
-                  background: "#ddd",
-                },
                 border: "2px solid #ddd",
                 borderRadius: 5,
                 transition: "none",
@@ -531,7 +527,7 @@ const RenderLists = ({ url, data, error }) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        border: { xs: "5px solid #eee", sm: "9px solid #eee" },
+                        border: { xs: "5px solid #ddd", sm: "9px solid #ddd" },
                         borderRadius: 999,
                         zIndex: 0,
                       }}
@@ -563,8 +559,8 @@ const RenderLists = ({ url, data, error }) => {
                     <Typography
                       variant="h6"
                       sx={{
-                        display: { xs: "none", sm: "block" },
-                        fontSize: { xs: "15px", sm: "17px" },
+                        fontSize: { xs: "12.5px", sm: "17px" },
+                        textTransform: { xs: "uppercase", sm: "none" },
                         mt: { sm: 1 },
                       }}
                     >
