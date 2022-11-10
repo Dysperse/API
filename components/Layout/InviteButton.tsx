@@ -678,6 +678,11 @@ export function InviteButton() {
   };
   const trigger = useMediaQuery("(min-width: 600px)");
 
+  let properties = global.user.properties;
+  properties = properties.filter(
+    (v, i, a) => a.findIndex((t) => t.propertyId === v.propertyId) === i
+  );
+
   return (
     <>
       <SwipeableDrawer
@@ -731,7 +736,7 @@ export function InviteButton() {
           <Puller />
         </Box>
         <Box sx={{ px: 2, textAlign: "center" }} />
-        {global.user.properties.map((house: House) => (
+        {properties.map((house: House) => (
           <House
             handleClose={() => setOpen(false)}
             key={house.accessToken.toString()}
