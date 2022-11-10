@@ -31,6 +31,7 @@ export default function AppearanceSettings() {
               InputProps={{
                 readOnly: true,
               }}
+              sx={{ mb: 5 }}
               variant="filled"
               defaultValue={global.user && global.user.email}
               label="Email"
