@@ -171,7 +171,7 @@ export function MemberList({
     ? [
         ...[
           ...new Map(data.map((item) => [item.user.email, item])).values(),
-        ].map((member) => {
+        ].map((member: any) => {
           return {
             content: <Member color={color} setOpen={setOpen} member={member} />,
           };
