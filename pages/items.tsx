@@ -157,6 +157,19 @@ function CategoryList() {
           {[...new Set(data)].map((category: any) => (
             <CategoryModal category={category} key={category.toString()} />
           ))}
+          {[...new Set(data)].length === 0 && (
+            <Box
+              sx={{
+                p: 2,
+                my: 1,
+                background: "rgba(200,200,200,.3)",
+                borderRadius: 5,
+                fontWeight: "500",
+              }}
+            >
+              You haven&apos;t added any categories to items yet
+            </Box>
+          )}
         </>
       ) : (
         !error && (
