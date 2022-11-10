@@ -169,7 +169,9 @@ export function MemberList({
   const trigger = useMediaQuery("(max-width: 600px)");
   const images = data
     ? [
-        ...data.map((member) => {
+        ...[
+          ...new Map(data.map((item) => [item.user.email, item])).values(),
+        ].map((member) => {
           return {
             content: <Member color={color} setOpen={setOpen} member={member} />,
           };
