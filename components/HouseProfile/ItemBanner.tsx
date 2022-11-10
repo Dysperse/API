@@ -4,12 +4,22 @@ import Typography from "@mui/material/Typography";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
+import React from "react";
 
 /**
  * Item limit
  */
 export function UpgradeBanner({ color }: { color: string }) {
   const { data }: ApiResponse = useApi("property/inventory/count");
+  const [value, setValue] = React.useState(0);
+
+  React.useEffect(() => {
+    if (data) {
+      setTimeout(() => {
+        setValue((data.count / 250) * 100);
+      }, 500);
+    }
+  }, [data]);
 
   return !data ? null : (
     <Box>
@@ -42,7 +52,7 @@ export function UpgradeBanner({ color }: { color: string }) {
             backgroundColor: colors[color]["100"].toString(),
           }}
           variant="determinate"
-          value={(data.count / 250) * 100}
+          value={value}
         />
         <Typography>{data.count} out of 250 items. </Typography>
       </Box>
