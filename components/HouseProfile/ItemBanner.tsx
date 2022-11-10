@@ -36,6 +36,9 @@ export function UpgradeBanner({ color }: { color: string }) {
             height: 8,
             borderRadius: 5,
             mb: 1,
+            "& *": {
+              borderRadius: 5,
+            },
             backgroundColor: colors[color]["100"].toString(),
           }}
           variant="determinate"
