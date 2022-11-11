@@ -16,7 +16,6 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
@@ -268,11 +267,6 @@ export default function FullScreenDialog({
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
   useStatusBar(open);
-
-  useHotkeys("ctrl+,", (e) => {
-    e.preventDefault();
-    document.getElementById("settingsTrigger")?.click();
-  });
 
   return (
     <div>

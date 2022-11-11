@@ -36,9 +36,9 @@ export function UpgradeBanner({ color }: { color: string }) {
           py: 2,
           mb: 5,
         }}
-        ref={() => {
-          global.setItemLimitReached(data >= 250);
-        }}
+        // ref={() => {
+        // global.setItemLimitReached(data >= 250);
+        // }}
       >
         <LinearProgress
           color="inherit"

@@ -1,145 +1,24 @@
-import Avatar from "@mui/material/Avatar";
+"use client";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Skeleton from "@mui/material/Skeleton";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
-import type { CustomRoom, Item } from "@prisma/client";
-import BoringAvatar from "boring-avatars";
+import type { CustomRoom } from "@prisma/client";
 import { encode } from "js-base64";
-import { useRouter } from "next/router";
 import React from "react";
-import { ErrorHandler } from "../components/error";
-import { Puller } from "../components/Puller";
-import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
-import { ItemCard } from "../components/Rooms/ItemCard";
-import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
-import { colors } from "../lib/colors";
-import type { ApiResponse } from "../types/client";
-
-/**
- * Category modal
- * @param {string} category - The category name
- */
-function CategoryModal({ category }: { category: string }) {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [data, setData] = React.useState([]);
-
-  React.useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
-
-  return (
-    <>
-      <SwipeableDrawer
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        disableSwipeToOpen
-        open={open}
-        anchor="bottom"
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            background: colors[themeColor][50],
-            width: {
-              sm: "50vw",
-            },
-            maxWidth: "600px",
-            maxHeight: "95vh",
-            borderRadius: "20px 20px 0 0",
-            mx: "auto",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 25%)",
-            }),
-          },
-        }}
-      >
-        <Puller />
-        <Box sx={{ p: 3, pt: 0, overflow: "scroll" }}>
-          <Typography
-            sx={{
-              textAlign: "center",
-              my: 4,
-              textTransform: "capitalize",
-              fontWeight: "600",
-            }}
-            variant="h5"
-          >
-            {category}
-          </Typography>
-          {data
-            .filter((item) => item)
-            .map((item: Item) => (
-              <Box sx={{ mb: 1 }} key={item.id.toString()}>
-                <ItemCard item={item} displayRoom={false} />
-              </Box>
-            ))}
-          {data.length === 0 && <>No items</>}
-        </Box>
-      </SwipeableDrawer>
-      <ListItem
-        button
-        onClick={() => {
-          setLoading(true);
-          fetchApiWithoutHook("property/inventory/categoryList", {
-            category: category,
-          })
-            .then((res) => {
-              setData(res);
-              setOpen(true);
-              setLoading(false);
-            })
-            .catch(() => {
-              setLoading(false);
-            });
-        }}
-        sx={{
-          mb: 1,
-          transition: "transform .2s !important",
-          gap: 2,
-          borderRadius: 4,
-          "&:active": {
-            transition: "none!important",
-            transform: "scale(.97)",
-            background: global.user.darkMode
-              ? "hsl(240, 11%, 20%)"
-              : "rgba(200,200,200,.4)",
-          },
-          ...(theme === "dark" && {
-            "&:hover .MuiAvatar-root": {
-              background: "hsl(240,11%,27%)",
-            },
-          }),
-        }}
-      >
-        <BoringAvatar
-          name={category}
-          size={30}
-          colors={["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"]}
-        />
-        <ListItemText
-          primary={
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              {category}{" "}
-              {loading && <CircularProgress size={20} sx={{ ml: "auto" }} />}
-            </Box>
-          }
-        />
-      </ListItem>
-    </>
-  );
-}
+import { ErrorHandler } from "../../components/error";
+import { FloatingActionButton } from "../../components/Rooms/FloatingActionButton";
+import { useApi } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
+import type { ApiResponse } from "../../types/client";
+import { Action } from "./Action";
+import { CategoryModal } from "./CategoryModal";
 
 /**
  * Component to dispay items by category
@@ -187,107 +66,6 @@ function CategoryList() {
         )
       )}
     </>
-  );
-}
-
-/**
- * Room button
- * @param {string | JSX.Element} icon - The room's icon
- * @param {string | JSX.Element} primary - The room's name
- * @param {string} href - The room's link
- * @param {Function} onClick - Callback function for the room's click event
- */
-function Action({
-  count,
-  icon,
-  disableLoading = false,
-  primary,
-  href,
-  onClick,
-}: {
-  disableLoading?: boolean;
-  count?: {
-    byRoom: {
-      [key: string]: string | number | boolean;
-    };
-  };
-  icon: string | JSX.Element;
-  primary: string;
-  href?: string;
-  onClick?;
-}) {
-  const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
-  const itemCount =
-    count && count.byRoom[primary.toLowerCase()]
-      ? count.byRoom[primary.toLowerCase()]
-      : 0;
-  return (
-    <ListItem
-      button
-      onClick={() => {
-        if (href) router.push(href);
-        else {
-          onClick && onClick();
-        }
-        setLoading(true);
-      }}
-      secondaryAction={
-        !disableLoading && loading ? (
-          <CircularProgress size={18} sx={{ ml: "auto", mt: "8px" }} />
-        ) : (
-          <span
-            className="material-symbols-rounded"
-            style={{ marginTop: "10px" }}
-          >
-            chevron_right
-          </span>
-        )
-      }
-      sx={{
-        mb: 1,
-        transition: "transform .1s !important",
-        background: "transparent!important",
-
-        borderRadius: 4,
-        "&:active": {
-          transform: "scale(.99)",
-          background: "transparent!important",
-        },
-        ...(theme === "dark" && {
-          "&:hover .MuiAvatar-root": {
-            background: "hsl(240,11%,27%)",
-          },
-        }),
-      }}
-    >
-      <ListItemAvatar>
-        <Avatar
-          sx={{
-            color: global.user.darkMode ? "#fff" : colors[themeColor][900],
-            borderRadius: 4,
-            background: global.user.darkMode
-              ? "hsl(240,11%,17%)"
-              : colors[themeColor][100],
-          }}
-        >
-          <span
-            style={{ fontSize: "20px" }}
-            className="material-symbols-rounded"
-          >
-            {icon}
-          </span>
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
-        secondary={
-          <Typography sx={{ fontWeight: "400", fontSize: "15px" }}>
-            {itemCount} item{itemCount !== 1 && "s"}
-          </Typography>
-        }
-      />
-    </ListItem>
   );
 }
 

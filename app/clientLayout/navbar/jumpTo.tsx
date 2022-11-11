@@ -9,11 +9,12 @@ import { Command } from "cmdk";
 import { useRouter } from "next/router";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
+
 import { useApi } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
 import type { ApiResponse } from "../../../types/client";
-import { Puller } from "../../Puller";
-import { updateSettings } from "../../Settings/updateSettings";
+import { Puller } from "../../../components/Puller";
+import { updateSettings } from "../../../components/Settings/updateSettings";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 
@@ -214,7 +215,7 @@ function Home({
 /**
  * Top-level page component
  */
-export function SearchPopup() {
+export function JumpTo() {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const [inputValue, setInputValue] = React.useState("");
   const [open, setOpen] = React.useState(false);

@@ -9,6 +9,9 @@ const withPWA = require('next-pwa')({
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const moduleExports = {
+  experimental: {
+    appDir: true
+  },
   // Your existing module.exports
   ...withPWA({
     reactStrictMode: true,

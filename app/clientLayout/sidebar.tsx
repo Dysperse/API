@@ -2,13 +2,16 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { colors } from "../../lib/colors";
-import AddPopup from "../CreateItem";
-import Settings from "../Settings/index";
+import AddPopup from "../../components/CreateItem";
+import Settings from "../../components/Settings";
+import { usePathname } from "next/navigation";
 
 export function Sidebar() {
   const router = useRouter();
+  const pathname: any = usePathname();
+
   const styles = {
     borderRadius: 5,
     mb: 1,
@@ -87,12 +90,12 @@ export function Sidebar() {
               disableRipple
               size="large"
               sx={styles}
-              className={router.asPath === "/tasks" ? "active" : ""}
+              className={pathname === "/tasks" ? "active" : ""}
               onClick={() => router.push("/tasks")}
             >
               <span
                 className={
-                  router.pathname === "/tasks"
+                  pathname === "/tasks"
                     ? "material-symbols-rounded"
                     : "material-symbols-outlined"
                 }
@@ -107,7 +110,7 @@ export function Sidebar() {
               size="large"
               sx={styles}
               className={
-                router.asPath === "/items" || router.asPath.includes("/rooms/")
+                pathname === "/items" || pathname.includes("/rooms/")
                   ? "active"
                   : ""
               }
@@ -115,8 +118,7 @@ export function Sidebar() {
             >
               <span
                 className={
-                  router.asPath === "/items" ||
-                  router.asPath.includes("/rooms/")
+                  pathname === "/items" || pathname.includes("/rooms/")
                     ? "material-symbols-rounded"
                     : "material-symbols-outlined"
                 }
@@ -130,12 +132,12 @@ export function Sidebar() {
               disableRipple
               size="large"
               sx={styles}
-              className={router.asPath === "/explore" ? "active" : ""}
+              className={pathname === "/explore" ? "active" : ""}
               onClick={() => router.push("//explore")}
             >
               <span
                 className={
-                  router.pathname === "/explore"
+                  pathname === "/explore"
                     ? "material-symbols-rounded"
                     : "material-symbols-outlined"
                 }
@@ -149,12 +151,12 @@ export function Sidebar() {
               disableRipple
               size="large"
               sx={styles}
-              className={router.asPath === "/tidy" ? "active" : ""}
+              className={pathname === "/tidy" ? "active" : ""}
               onClick={() => router.push("/tidy")}
             >
               <span
                 className={
-                  router.pathname === "/tidy"
+                  pathname === "/tidy"
                     ? "material-symbols-rounded"
                     : "material-symbols-outlined"
                 }

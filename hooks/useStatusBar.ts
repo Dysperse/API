@@ -1,6 +1,6 @@
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { colors } from "../lib/colors";
-import { useRouter } from "next/router";
 
 /**
  * Changes the top app bar color
@@ -8,12 +8,19 @@ import { useRouter } from "next/router";
  * @param nestedModals How many nested modals are open?
  */
 export function useStatusBar(open: boolean, nestedModals = 1) {
-  const router = useRouter();
+  const pathname = usePathname();
+  if (
+    typeof document === "undefined" ||
+    typeof window === "undefined" ||
+    typeof window.matchMedia === "undefined"
+  )
+    return;
   const tag: HTMLMetaElement = document.querySelector(
     "meta[name=theme-color]"
   ) as HTMLMetaElement;
   useEffect(() => {
-    if (router.asPath === "/tidy") {
+    if (!tag) return;
+    if (pathname === "/tidy") {
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", colors[themeColor][800]);
@@ -22,7 +29,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
     if (open) {
       tag.setAttribute(
         "content",
-        router.asPath === "/tidy"
+        pathname === "/tidy"
           ? colors[themeColor][700]
           : colors[themeColor][nestedModals * 100]
       );
@@ -30,7 +37,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
       if (open && nestedModals > 1) {
         tag.setAttribute(
           "content",
-          router.asPath === "/tidy"
+          pathname === "/tidy"
             ? colors[themeColor][800]
             : colors[themeColor][nestedModals * 100]
         );

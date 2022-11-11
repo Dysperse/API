@@ -13,7 +13,6 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import type { CustomRoom as Room } from "@prisma/client";
 import React, { useEffect } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
@@ -365,11 +364,6 @@ export default function AddPopup({
   children: JSX.Element;
 }): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
-
-  useHotkeys("ctrl+s", (e) => {
-    e.preventDefault();
-    document.getElementById("add_trigger")?.click();
-  });
 
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();

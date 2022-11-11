@@ -21,16 +21,16 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSWRConfig } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
-import type { House } from "../../types/houseProfile";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { UpgradeBanner } from "../HouseProfile/ItemBanner";
-import { MemberList } from "../HouseProfile/MemberList";
-import { RoomList } from "../HouseProfile/RoomList";
-import { Puller } from "../Puller";
-import { updateSettings } from "../Settings/updateSettings";
+import { fetchApiWithoutHook } from "../../../../hooks/useApi";
+import { useStatusBar } from "../../../../hooks/useStatusBar";
+import { colors } from "../../../../lib/colors";
+import type { House } from "../../../../types/houseProfile";
+import { neutralizeBack, revivalBack } from "../../../../hooks/useBackButton";
+import { UpgradeBanner } from "../../../../components/HouseProfile/ItemBanner";
+import { MemberList } from "../../../../components/HouseProfile/MemberList";
+import { RoomList } from "../../../../components/HouseProfile/RoomList";
+import { Puller } from "../../../../components/Puller";
+import { updateSettings } from "../../../../components/Settings/updateSettings";
 
 /**
  * Edit property

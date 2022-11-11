@@ -1,16 +1,15 @@
-import Badge from "@mui/material/Badge";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
 import Icon from "@mui/material/Icon";
 import Snackbar from "@mui/material/Snackbar";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
-import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import React from "react";
+import { colors } from "../../lib/colors";
+import { usePathname } from "next/navigation";
 
 /**
  * Bottom navigation bar
@@ -91,12 +90,11 @@ export function BottomNav() {
   };
 
   const router = useRouter();
+  const pathname: any = usePathname();
   const [value, setValue] = React.useState<number>(0);
 
   React.useEffect(() => {
-    const url = router.asPath;
-
-    switch (url) {
+    switch (pathname) {
       case "/tasks":
         setValue(0);
         break;
@@ -111,13 +109,13 @@ export function BottomNav() {
         setValue(3);
         break;
       default:
-        if (router.asPath.includes("/rooms")) {
+        if (pathname.includes("/rooms")) {
           setValue(1);
         } else {
           setValue(0);
         }
     }
-  }, [router.asPath]);
+  }, [pathname]);
   /**
    * Handles button click
    * @param {any} href
@@ -170,12 +168,12 @@ export function BottomNav() {
           }}
           // showLabels
           onChange={(event, newValue) => {
-            router.events.on("routeChangeComplete", () => {
-              setValue(newValue);
-            });
-            router.events.off("routeChangeComplete", () => {
-              setValue(newValue);
-            });
+            // router.events.on("routeChangeComplete", () => {
+            //   setValue(newValue);
+            // });
+            // router.events.off("routeChangeComplete", () => {
+            //   setValue(newValue);
+            // });
           }}
         >
           <BottomNavigationAction

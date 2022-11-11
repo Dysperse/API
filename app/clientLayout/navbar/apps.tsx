@@ -8,8 +8,8 @@ import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { colors } from "../../lib/colors";
+import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
+import { colors } from "../../../lib/colors";
 
 /**
  * Product list

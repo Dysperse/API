@@ -1,13 +1,44 @@
-import { Head, Html, Main, NextScript } from "next/document";
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 import Script from "next/script";
+import { getUserData } from "../pages/api/user/info";
+import { Property } from "../types/session";
+import { ClientLayout } from "./clientLayout";
 
-/**
- * Top-level component for the document.
- */
-export default function Document() {
+// Import CSS files
+import "./globals.scss";
+import "./search.scss";
+
+async function getSessionData() {
+  const cookie = cookies();
+  const token: any = cookie.get("token");
+  const { accessToken } = jwt.verify(
+    token.value,
+    process.env.SECRET_COOKIE_PASSWORD
+  );
+  const { user }: any = await getUserData(accessToken);
+
+  // Current selected property
+  const property =
+    user.properties.find((property: Property) => property.selected) ||
+    user.properties[0];
+
+  return {
+    user: user,
+    property: property,
+  };
+}
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { user, property } = await getSessionData();
+
   return (
-    <Html>
-      <Head>
+    <html>
+      <head>
         <Script id="google-analytics" strategy="afterInteractive">
           {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -98,10 +129,12 @@ export default function Document() {
           rel="shortcut icon"
         />
         <link href="/manifest.json" rel="manifest" />
-      </Head>
+      </head>
       <body>
-        <Main />
-        <NextScript />
+        <ClientLayout user={user} property={property}>
+          {children}
+        </ClientLayout>
+
         <noscript
           dangerouslySetInnerHTML={{
             __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPH4TH4" height="0" width="0" style="display: none; visibility: hidden;" />`,
@@ -109,6 +142,6 @@ export default function Document() {
         />
         <Script src="/prevent-navigate-history.js" />
       </body>
-    </Html>
+    </html>
   );
 }

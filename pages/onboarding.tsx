@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
-import { Loading } from "../components/Layout/Loading";
+import { Loading } from "../app/Layout/Loading";
 import { useState } from "react";
 import StepConnector, {
   stepConnectorClasses,
