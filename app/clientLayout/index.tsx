@@ -11,9 +11,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import dynamic from "next/dynamic";
 
-const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
-  ssr: false,
-});
+// const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
+//   ssr: false,
+// });
 
 import {
   createTheme,
@@ -171,10 +171,10 @@ export function ClientLayout({ user, property, children }) {
           display: "flex",
         }}
       >
-        <PWAPrompt
+        {/* <PWAPrompt
           copyBody="Add Carbon to your home screen to have easy access, recieve push notifications, and more!"
           copyTitle="Add Carbon to your home screen!"
-        />
+        /> */}
         <Navbar />
         <Box
           sx={{

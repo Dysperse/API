@@ -2,11 +2,10 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useRouter } from "next/navigation";
-import { colors } from "../../lib/colors";
+import { usePathname, useRouter } from "next/navigation";
 import AddPopup from "../../components/CreateItem";
 import Settings from "../../components/Settings";
-import { usePathname } from "next/navigation";
+import { colors } from "../../lib/colors";
 
 export function Sidebar() {
   const router = useRouter();
