@@ -18,7 +18,6 @@ import { usePathname } from "next/navigation";
 export function BottomNav() {
   const trigger = useScrollTrigger({
     threshold: 0,
-    target: window ? window : undefined,
   });
 
   const styles = {
