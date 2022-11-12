@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useRouter } from "next/router";
-import { Loading } from "../../app/Layout/Loading";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import Head from "next/head";
@@ -36,7 +35,7 @@ export default function Onboarding() {
           left: 0,
         }}
       >
-        <Loading />
+        {/* <Loading /> */}
       </Box>
       <Box
         sx={{
