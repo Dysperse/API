@@ -128,17 +128,15 @@ export function BottomNav() {
 
   return (
     <>
-      <Snackbar
+      {/* <Snackbar
         open={
-          typeof window !== "undefined" &&
-          window &&
-          window.navigator.onLine === false
+          window && window.navigator.onLine === false
         }
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: trigger ? 6.5 : 9, transition: "all .3s" }}
         message="You're offline. Please check your network connection."
-      />
+      /> */}
       <Box
         sx={{
           width: "100%",

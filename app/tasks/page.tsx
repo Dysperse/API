@@ -10,6 +10,9 @@ import { Lists } from "../../components/Tasks/Lists";
 export default function Dashboard() {
   return (
     <>
+      <Head>
+        <title>Tasks</title>
+      </Head>
       <Container sx={{ mt: 4 }}>
         <Lists />
       </Container>

@@ -615,7 +615,7 @@ export function Lists() {
     <Box
       sx={{
         overflow: "hidden",
-        maxHeight: "calc(100vh - 169px)",
+        maxHeight: "100vh",
         pt: 1,
       }}
     >
