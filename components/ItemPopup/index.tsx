@@ -18,7 +18,7 @@ import BoringAvatar from "boring-avatars";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";

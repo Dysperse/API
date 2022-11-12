@@ -1,6 +1,6 @@
 import Container from "@mui/material/Container";
 import { decode } from "js-base64";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useApi } from "../../hooks/useApi";
 import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../error";

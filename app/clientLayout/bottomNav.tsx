@@ -6,7 +6,7 @@ import Snackbar from "@mui/material/Snackbar";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import hexToRgba from "hex-to-rgba";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { colors } from "../../lib/colors";
 import { usePathname } from "next/navigation";

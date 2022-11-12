@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { decode } from "js-base64";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { Item } from "@prisma/client";
 import { Header } from "./Header";

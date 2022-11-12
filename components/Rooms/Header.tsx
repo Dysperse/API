@@ -4,7 +4,7 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { decode } from "js-base64";
 import { CreateItemModal } from "../CreateItem/modal";
 /**

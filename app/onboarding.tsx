@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import { colors } from "../lib/colors";
 import { Color } from "../components/Onboarding/Color";
 import FormControl from "@mui/material/FormControl";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";

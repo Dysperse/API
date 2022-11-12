@@ -6,7 +6,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { Command } from "cmdk";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 

@@ -1,6 +1,6 @@
 import { decode } from "js-base64";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { RoomComponent } from "../../components/Rooms/RoomComponent";
 
 /**
