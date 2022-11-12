@@ -46,7 +46,10 @@ export default async function RootLayout({
   const { user, property } = await getSessionData();
 
   const headersInstance = headers();
-  if (!user && !headersInstance.get("referer")?.includes("/auth")) {
+  if (
+    !user
+    //  && !headersInstance.get("referer")?.includes("/auth")
+  ) {
     redirect("/auth");
   }
 
