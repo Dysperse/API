@@ -12,6 +12,9 @@ import "./search.scss";
 async function getSessionData() {
   const cookie = cookies();
   const token: any = cookie.get("token");
+
+  console.log(token);
+
   const { accessToken } = jwt.verify(
     token.value,
     process.env.SECRET_COOKIE_PASSWORD
