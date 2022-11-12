@@ -19,7 +19,15 @@ import { Toolbar } from "./Toolbar";
  * @param {any} {index}
  * @returns {any}
  */
-export function RenderRoom({ data, index }: { data: Item[]; index: string }) {
+export function RenderRoom({
+  params,
+  data,
+  index,
+}: {
+  params: any;
+  data: Item[];
+  index: string;
+}) {
   const router = useRouter();
   const [items, setItems] = useState(data);
 
@@ -32,12 +40,12 @@ export function RenderRoom({ data, index }: { data: Item[]; index: string }) {
       <Header
         room={index}
         itemCount={data.length}
-        alias={router.query.custom ? decode(index).split(",")[1] : index}
-        useAlias={router?.query?.custom?.toString()}
+        alias={params.custom ? decode(index).split(",")[1] : index}
+        useAlias={params?.custom?.toString()}
       />
       <Toolbar
-        room={router.query.custom ? decode(index).split(",")[0] : index}
-        alias={router.query.custom ? decode(index).split(",")[1] : index}
+        room={params.custom ? decode(index).split(",")[0] : index}
+        alias={params.custom ? decode(index).split(",")[1] : index}
         items={items}
         setItems={setItems}
         data={data}

@@ -1,21 +1,19 @@
 import { decode } from "js-base64";
 import Head from "next/head";
-import { useRouter } from "next/navigation";
 import { RoomComponent } from "../../components/Rooms/RoomComponent";
 
 /**
  * Top-level component for the room page
  * @returns {any}
  */
-export default function Room() {
+export default function Room({ params }) {
   const index = window.location.pathname.split("/rooms/")[1];
-  const router = useRouter();
 
   return (
     <>
       <Head>
         <title>
-          {(router.query.custom ? decode(index).split(",")[1] : index).replace(
+          {(params.custom ? decode(index).split(",")[1] : index).replace(
             /./,
             (c) => c.toUpperCase()
           )}{" "}
@@ -24,7 +22,7 @@ export default function Room() {
           &bull; Carbon
         </title>
       </Head>
-      <RoomComponent index={index} key={index} />
+      <RoomComponent index={index} key={index} params={params} />
     </>
   );
 }

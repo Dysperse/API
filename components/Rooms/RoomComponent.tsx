@@ -13,12 +13,18 @@ import { RenderRoom } from "./RenderRoom";
  * @returns {JSX.Element}
  */
 
-export function RoomComponent({ index }: { index: string }): JSX.Element {
+export function RoomComponent({
+  params,
+  index,
+}: {
+  params: any;
+  index: string;
+}): JSX.Element {
   const router = useRouter();
   const { error, loading, data }: ApiResponse = useApi(
     "property/inventory/list",
     {
-      room: router.query.custom
+      room: params.custom
         ? decode(index).split(",")[0]
         : index.toLowerCase().replaceAll("-", ""),
     }
