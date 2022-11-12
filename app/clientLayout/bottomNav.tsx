@@ -1,3 +1,4 @@
+"use client";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Box from "@mui/material/Box";
@@ -128,7 +129,11 @@ export function BottomNav() {
   return (
     <>
       <Snackbar
-        open={window && window.navigator.onLine === false}
+        open={
+          typeof window !== "undefined" &&
+          window &&
+          window.navigator.onLine === false
+        }
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: trigger ? 6.5 : 9, transition: "all .3s" }}
