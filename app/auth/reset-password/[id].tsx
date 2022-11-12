@@ -13,7 +13,7 @@ import { Layout } from "../../../components/Auth/Layout";
 /**
  * Top-level component for the signup page.
  */
-export default function Prompt() {
+export default function Prompt({ params }) {
   const router = useRouter();
   global.themeColor = "brown";
 
@@ -35,7 +35,7 @@ export default function Prompt() {
       fetch("/api/change-password", {
         method: "POST",
         body: JSON.stringify({
-          token: router.query.id,
+          token: params.id,
           password: values.password,
         }),
       })
