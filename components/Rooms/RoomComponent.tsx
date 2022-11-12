@@ -37,6 +37,6 @@ export function RoomComponent({
   ) : loading ? (
     <LoadingScreen />
   ) : (
-    <RenderRoom data={data} index={index} />
+    <RenderRoom data={data} params={params} index={index} />
   );
 }
