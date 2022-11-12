@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
 import Script from "next/script";
 import { getUserData } from "../pages/api/user/info";
 import { Property } from "../types/session";
@@ -13,7 +14,12 @@ async function getSessionData() {
   const cookie = cookies();
   const token: any = cookie.get("token");
 
-  console.log(token);
+  if (!token) {
+    return {
+      user: null,
+      properties: null,
+    };
+  }
 
   const { accessToken } = jwt.verify(
     token.value,
@@ -39,7 +45,14 @@ export default async function RootLayout({
 }) {
   const { user, property } = await getSessionData();
 
-  return (
+  const headersInstance = headers();
+  if (!user && !headersInstance.get("referer")?.includes("/auth")) {
+    redirect("/auth");
+  }
+
+  return !user ? (
+    <>Please login</>
+  ) : (
     <html>
       <head>
         <Script id="google-analytics" strategy="afterInteractive">

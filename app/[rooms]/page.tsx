@@ -1,3 +1,4 @@
+"use client";
 import Head from "next/head";
 import { RoomComponent } from "../../components/Rooms/RoomComponent";
 
