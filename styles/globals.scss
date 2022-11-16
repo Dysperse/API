@@ -40,7 +40,7 @@ img {
 @supports (backdrop-filter: blur(2px)) {
   .MuiBackdrop-root:not(.override-bg) {
     backdrop-filter: blur(2px);
-    background-color: var(--bgtheme) !important;
+    background-color: var(--backdropTheme) !important;
   }
 }
 .MuiIconButton-root:active .material-symbols-rounded,
@@ -72,7 +72,8 @@ img {
 
 ::selection {
   color: #fff;
-  background: var(--bg);
+  background-color: #000;
+  background: var(--themeDark);
 }
 
 .embla {
@@ -92,7 +93,7 @@ img {
   outline: none;
   border-radius: 10px;
   border: 0;
-  background: var(--theme);
+  background: rgba(200, 200, 200, 0.3);
   color: #000;
   font-family: "Kantumruy Pro", sans-serif;
   font-weight: 900;

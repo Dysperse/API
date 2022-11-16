@@ -7,8 +7,6 @@ import {
   experimental_sx as sx,
   ThemeProvider,
 } from "@mui/material/styles";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
 import { NextRouter } from "next/router";
@@ -19,9 +17,17 @@ import Layout from "../components/Layout";
 import { Error } from "../components/Layout/Error";
 import { Loading } from "../components/Layout/Loading";
 import { colors } from "../lib/colors";
+
+// CSS files
 import "../styles/globals.scss";
 import "../styles/search.scss";
+
+// Types
 import { Property, Session } from "../types/session";
+
+// Day.JS
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 /**
@@ -46,7 +52,9 @@ function Render({
   const [theme, setTheme] = useState<"dark" | "light">(
     data.user.darkMode ? "dark" : "light"
   );
+
   const [themeColor, setThemeColor] = useState(data.user.color);
+
   const [loadingButton, setLoadingButton] = useState(false);
 
   const [itemLimitReached, setItemLimitReached] = useState(true);
@@ -191,11 +199,13 @@ function Render({
     },
   });
 
+  // Return an error if user doesn't have any properties attached to their account
   if (data.user.properties.length === 0) {
     return (
       <Box>
-        You do not have any properties. You shouldn&apos;t be seeing this error.
-        Please contact support.
+        No properties. You find yourself in a strange place. You don&apos;t have
+        access to any properties, or there are none in your account. Please
+        contact support if this problem persists.
       </Box>
     );
   }
@@ -207,19 +217,17 @@ function Render({
 
   global.property = selectedProperty;
 
-  localStorage.setItem("propertyId", selectedProperty.propertyId);
-  localStorage.setItem("accessToken", selectedProperty.accessToken);
-
-  // set CSS variable to <html>
+  // Used in `globals.scss`
   document.documentElement.style.setProperty(
-    "--theme",
-    hex2rgba(colors[themeColor ?? "brown"]["100"], 0.5)
-  );
-  document.documentElement.style.setProperty(
-    "--bgtheme",
+    "--backdropTheme",
     hex2rgba(colors[themeColor ?? "brown"]["600"], 0.3)
   );
-  document.documentElement.style.setProperty("--bg", colors[themeColor][900]);
+  document.documentElement.style.setProperty(
+    "--themeDark",
+    colors[themeColor][900]
+  );
+
+  const children = <Component {...pageProps} />;
 
   return (
     <>
@@ -229,30 +237,33 @@ function Render({
       <ThemeProvider theme={userTheme}>
         <Box>
           <Toaster />
-          {window.location.pathname == "/onboarding" ? (
-            <Component {...pageProps} />
-          ) : data.user.onboardingComplete ? (
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          ) : (
-            <LoadingButton
-              ref={(i) => i && i.click()}
-              loading={loadingButton}
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-              }}
-              onClick={() => {
-                setLoadingButton(true);
-                router.push("/onboarding");
-              }}
-            >
-              Click here if you&apos;re not being redirected
-            </LoadingButton>
-          )}
+          {
+            // If the path is onboarding, show the onboarding page.
+            window.location.pathname == "/onboarding" ? (
+              children
+            ) : data.user.onboardingComplete ? (
+              // If the onboarding process is complete, show the app.
+              <Layout>{children}</Layout>
+            ) : (
+              // If the onboarding process is not complete, redirect to the onboarding page.
+              <LoadingButton
+                ref={(i) => i && i.click()}
+                loading={loadingButton}
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+                onClick={() => {
+                  setLoadingButton(true);
+                  router.push("/onboarding");
+                }}
+              >
+                Click here if you&apos;re not being redirected
+              </LoadingButton>
+            )
+          }
         </Box>
       </ThemeProvider>
     </>
