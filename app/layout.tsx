@@ -50,7 +50,7 @@ export default async function RootLayout({
     !user
     //  && !headersInstance.get("referer")?.includes("/auth")
   ) {
-    redirect("/auth");
+    // redirect("/auth");
   }
 
   return !user ? (
