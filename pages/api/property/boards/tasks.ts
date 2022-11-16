@@ -1,6 +1,7 @@
 import { prisma } from "../../../../lib/prismaClient";
+import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-
+import type { Item } from "@prisma/client";
 /**
  * API handler
  * @param {any} req
@@ -12,25 +13,24 @@ const handler = async (req, res) => {
     req.query.property,
     req.query.accessToken
   );
-
-  if (!permissions || permissions === "read-only") {
+  if (!permissions) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
 
-  // Delete from listitems where listId = req.query.listId
-  await prisma.listItem.deleteMany({
+  //  List all tasks for a board from the column
+  const data = await prisma.column.findMany({
     where: {
-      listId: parseInt(req.query.parent),
+      board: {
+        id: req.query.id,
+      },
+    },
+    include: {
+      tasks: true,
     },
   });
 
-  // Delete list where id = req.query.listId
-  const data2 = await prisma.list.delete({
-    where: {
-      id: parseInt(req.query.parent),
-    },
-  });
-  res.json(data2);
+  res.json(data);
 };
+
 export default handler;

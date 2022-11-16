@@ -36,11 +36,11 @@ model Property {
   color                String                @default("cyan")
   customRooms          CustomRoom[]
   inventory            Item[]
-  lists                List[]
   maintenanceReminders MaintenanceReminder[]
   members              PropertyInvite[]
   PropertyLinkInvites  PropertyLinkInvite[]
   inbox                InboxItem[]
+  Board                Board[]
 }
 
 model PropertyInvite {
@@ -75,26 +75,6 @@ model Item {
   propertyId   String
   trash        Boolean  @default(false)
   property     Property @relation(fields: [propertyId], references: [id])
-}
-
-model List {
-  id          Int        @id @default(autoincrement())
-  name        String
-  description String
-  propertyId  String
-  property    Property   @relation(fields: [propertyId], references: [id])
-  items       ListItem[]
-}
-
-model ListItem {
-  id        Int       @id @default(autoincrement())
-  name      String
-  details   String
-  pinned    Boolean   @default(false)
-  completed Boolean   @default(false)
-  due       DateTime?
-  listId    Int
-  list      List      @relation(fields: [listId], references: [id])
 }
 
 model MaintenanceReminder {
@@ -133,4 +113,44 @@ model PasswordResetToken {
   user      User     @relation(fields: [userId], references: [id])
   token     String   @unique @default(uuid())
   createdAt DateTime @default(now())
+}
+
+// Kanban boards
+
+model Board {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  public      Boolean  @default(false)
+  columns     Column[]
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model Column {
+  id      Int    @id @default(autoincrement())
+  name    String
+  emoji   String
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id])
+  tasks   Task[]
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+
+  name        String
+  description String?
+  due         DateTime?
+
+  color     String  @default("blue")
+  pinned    Boolean @default(false)
+  completed Boolean @default(false)
+
+  parentTasks Task[] @relation("subtasks")
+  subTasks    Task[] @relation("subtasks")
+
+  columnId Int
+  column   Column @relation(fields: [columnId], references: [id])
 }

@@ -1,6 +1,7 @@
 import { prisma } from "../../../../lib/prismaClient";
+import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-
+import type { Item } from "@prisma/client";
 /**
  * API handler
  * @param {any} req
@@ -12,17 +13,20 @@ const handler = async (req, res) => {
     req.query.property,
     req.query.accessToken
   );
-  if (!permissions || permissions === "read-only") {
+  if (!permissions) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
 
-  const data = await prisma.listItem.update({
+  //  List all boards with columns, but not items
+  const data = await prisma.board.findMany({
     where: {
-      id: parseInt(req.query.id),
+      property: {
+        id: req.query.property,
+      },
     },
-    data: {
-      completed: req.query.completed === "true" ? false : true,
+    include: {
+      columns: true,
     },
   });
   res.json(data);
