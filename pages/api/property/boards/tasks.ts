@@ -26,7 +26,12 @@ const handler = async (req, res) => {
       },
     },
     include: {
-      tasks: true,
+      tasks: {
+        include: {
+          subTasks: true,
+          parentTasks: true,
+        },
+      },
     },
   });
 

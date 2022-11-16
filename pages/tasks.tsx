@@ -10,7 +10,33 @@ import { colors } from "../lib/colors";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Masonry from "@mui/lab/Masonry";
-import { Card, CardActionArea } from "@mui/material";
+import { ListItem, ListItemText, Card, CardActionArea } from "@mui/material";
+
+function Task({ task }) {
+  return (
+    <>
+      {task.subTasks.length >= 0 && (
+        <ListItem
+          sx={{
+            backgroundColor: "red",
+          }}
+        >
+          <ListItemText primary={task.name} />
+        </ListItem>
+      )}
+      {task.subTasks.map((subtask) => (
+        <ListItem
+          key={subtask.id}
+          sx={{
+            background: "green",
+          }}
+        >
+          <ListItemText primary={subtask.name} />
+        </ListItem>
+      ))}
+    </>
+  );
+}
 
 function Column({ column }) {
   return (
@@ -25,11 +51,11 @@ function Column({ column }) {
       <Typography variant="h5" sx={{ fontWeight: "600" }}>
         {column.name}
       </Typography>
-      {column.tasks.map((task) => (
-        <Typography variant="body1" sx={{ fontWeight: "400" }}>
-          {task.name}
-        </Typography>
-      ))}
+      {column.tasks
+        .filter((task) => task.parentTasks.length === 0)
+        .map((task) => (
+          <Task task={task} />
+        ))}
     </Box>
   );
 }
