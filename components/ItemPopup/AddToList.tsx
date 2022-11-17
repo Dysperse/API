@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import type { ApiResponse } from "../../types/client";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import type { List as ListType } from "@prisma/client";
 import type { Item as ItemType } from "@prisma/client";
 
 /**
@@ -50,7 +49,7 @@ function RoomList({
     );
   return (
     <List sx={{ mt: -1 }}>
-      {data.map((list: ListType) => (
+      {data.map((list: any) => (
         <ListItem disablePadding key={list.id.toString()}>
           <ListItemButton
             sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}

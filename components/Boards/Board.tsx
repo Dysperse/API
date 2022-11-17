@@ -1,11 +1,10 @@
 import { Button, IconButton, SwipeableDrawer, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Column } from "./Column";
-import { ErrorHandler } from "../error";
-import { useApi } from "../../hooks/useApi";
-import { useState } from "react";
 import dynamic from "next/dynamic";
-import { colors } from "../../lib/colors";
+import { useState } from "react";
+import { useApi, fetchApiWithoutHook } from "../../hooks/useApi";
+import { ErrorHandler } from "../error";
+import { Column } from "./Column";
 
 const EmojiPicker = dynamic(
   () => {
@@ -14,12 +13,14 @@ const EmojiPicker = dynamic(
   { ssr: false }
 );
 
-function CreateColumn() {
+function CreateColumn({ id }: any) {
   const [open, setOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [title, setTitle] = useState("");
   const [emoji, setEmoji] = useState(
     "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
   );
+
   return (
     <>
       <SwipeableDrawer
@@ -76,6 +77,8 @@ function CreateColumn() {
           </Button>
           <TextField
             fullWidth
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             variant="standard"
             placeholder="Column name"
             autoComplete="off"
@@ -119,6 +122,13 @@ function CreateColumn() {
               sx={{
                 border: "1px solid transparent !important",
               }}
+              onClick={() => {
+                fetchApiWithoutHook("property/boards/createColumn", {
+                  title,
+                  emoji,
+                  boardId: id,
+                });
+              }}
             >
               Create
             </Button>
@@ -149,6 +159,7 @@ export function Board({ board }: any) {
   const { data, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
+
   return (
     <Box sx={{ mt: 4 }}>
       {error && (
