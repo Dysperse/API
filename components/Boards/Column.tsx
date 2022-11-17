@@ -9,6 +9,7 @@ export function Column({ column }): JSX.Element {
       sx={{
         backgroundColor: "rgba(200, 200, 200, 0.2)",
         width: "400px",
+        flex:"0 0 auto",
         border: "1px solid rgba(200, 200, 200, 0.4)",
         p: 3,
         px: 4,

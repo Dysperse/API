@@ -35,6 +35,19 @@ export function CreateTask() {
     transition: "none",
   };
 
+  const toastStyles = {
+    style: {
+      borderRadius: 99999,
+      paddingLeft: "15px",
+      background: colors[themeColor][700],
+      color: colors[themeColor][50],
+    },
+    // iconTheme: {
+    // primary: colors[themeColor][50],
+    // secondary: colors[themeColor][900],
+    // },
+  };
+
   useEffect(() => {
     // If the title contains "today", set the date to today
     if (title.toLowerCase().includes("today")) {
@@ -61,13 +74,18 @@ export function CreateTask() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    toast.success("Created task!");
+    if (title === "") {
+      toast.error("Please enter a title", toastStyles);
+      return;
+    }
+
+    toast.success("Created task!", toastStyles);
 
     setTitle("");
     setDescription("");
     setDate(null);
     setPinned(false);
-    setOpen(false);
+    // setOpen(false);
   };
 
   return (
