@@ -39,7 +39,12 @@ export function CreateTask() {
     // If the title contains "today", set the date to today
     if (title.toLowerCase().includes("today")) {
       setDate(new Date());
-    } else if (title.toLowerCase().includes("tomorrow")) {
+    } else if (
+      title.toLowerCase().includes("tomorrow") ||
+      title.toLowerCase().includes("tmrw") ||
+      title.toLowerCase().includes("tmr") ||
+      title.toLowerCase().includes("tmw")
+    ) {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       setDate(tomorrow);
