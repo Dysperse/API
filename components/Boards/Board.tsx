@@ -5,6 +5,9 @@ import { useState } from "react";
 import { useApi, fetchApiWithoutHook } from "../../hooks/useApi";
 import { ErrorHandler } from "../error";
 import { Column } from "./Column";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { mutate } from "swr";
+import toast from "react-hot-toast";
 
 const EmojiPicker = dynamic(
   () => {
@@ -13,10 +16,11 @@ const EmojiPicker = dynamic(
   { ssr: false }
 );
 
-function CreateColumn({ id }: any) {
+function CreateColumn({ mutationUrl, id }: any) {
   const [open, setOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false);
   const [emoji, setEmoji] = useState(
     "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
   );
@@ -115,7 +119,8 @@ function CreateColumn({ id }: any) {
             >
               Cancel
             </Button>
-            <Button
+            <LoadingButton
+              loading={loading}
               variant="contained"
               disableElevation
               fullWidth
@@ -123,15 +128,39 @@ function CreateColumn({ id }: any) {
                 border: "1px solid transparent !important",
               }}
               onClick={() => {
+                setLoading(true);
                 fetchApiWithoutHook("property/boards/createColumn", {
                   title,
                   emoji,
-                  boardId: id,
-                });
+                  id: id,
+                })
+                  .then((res) => {
+                    mutate(mutationUrl)
+                      .then(() => {
+                        setLoading(false);
+                        setTitle("");
+                        setEmoji(
+                          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
+                        );
+                        setOpen(false);
+                      })
+                      .catch((err) => {
+                        setLoading(false);
+                        toast.error(
+                          "Something went wrong while updating the board. Try reloading the page."
+                        );
+                      });
+                  })
+                  .catch((err) => {
+                    setLoading(false);
+                    toast.error(
+                      "An error occurred while creating the column. Try again later."
+                    );
+                  });
               }}
             >
               Create
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       )}
@@ -156,7 +185,7 @@ function CreateColumn({ id }: any) {
 }
 
 export function Board({ board }: any) {
-  const { data, error } = useApi("property/boards/tasks", {
+  const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
 
@@ -182,7 +211,7 @@ export function Board({ board }: any) {
               justifyContent: "center",
             }}
           >
-            <CreateColumn />
+            <CreateColumn id={board.id} mutationUrl={url} />
           </Box>
         )}
       </Box>
