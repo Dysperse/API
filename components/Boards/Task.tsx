@@ -56,6 +56,36 @@ export const BpCheckedIcon = styled(BpIcon)({
   },
 });
 
+function SubTask({ subtask }) {
+  const [checked, setChecked] = useState(false);
+  return (
+    <ListItem
+      key={subtask.id}
+      sx={{
+        ml: "30px",
+        maxWidth: "calc(100% - 30px)",
+        pl: 0,
+        gap: 0.5,
+        py: 0,
+        borderRadius: 4,
+      }}
+    >
+      <Checkbox
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+        sx={{
+          "&:hover": { bgcolor: "transparent" },
+        }}
+        color="default"
+        checkedIcon={<BpCheckedIcon />}
+        icon={<BpIcon />}
+        inputProps={{ "aria-label": "Checkbox demo" }}
+      />
+      <ListItemText primary={subtask.name} />
+    </ListItem>
+  );
+}
+
 export function Task({ task }): JSX.Element {
   const [checked, setChecked] = useState(task.completed);
   return (
@@ -82,7 +112,6 @@ export function Task({ task }): JSX.Element {
             icon={<BpIcon />}
             inputProps={{ "aria-label": "Checkbox demo" }}
           />
-
           <ListItemText
             primary={
               <span
@@ -95,6 +124,18 @@ export function Task({ task }): JSX.Element {
                 }}
               >
                 {task.name}
+              </span>
+            }
+            secondary={
+              <span
+                style={{
+                  ...(checked && {
+                    textDecoration: "line-through",
+                    opacity: 0.5,
+                  }),
+                }}
+              >
+                {task.description}
               </span>
             }
           />
@@ -118,28 +159,7 @@ export function Task({ task }): JSX.Element {
         </ListItem>
       )}
       {task.subTasks.map((subtask) => (
-        <ListItem
-          key={subtask.id}
-          sx={{
-            ml: "30px",
-            maxWidth: "calc(100% - 30px)",
-            pl: 0,
-            gap: 0.5,
-            py: 0,
-            borderRadius: 4,
-          }}
-        >
-          <Checkbox
-            sx={{
-              "&:hover": { bgcolor: "transparent" },
-            }}
-            color="default"
-            checkedIcon={<BpCheckedIcon />}
-            icon={<BpIcon />}
-            inputProps={{ "aria-label": "Checkbox demo" }}
-          />
-          <ListItemText primary={subtask.name} />
-        </ListItem>
+        <SubTask subtask={subtask} />
       ))}
     </Box>
   );

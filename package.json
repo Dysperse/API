@@ -48,6 +48,7 @@
     "node-2fa": "^2.0.3",
     "react": "^18.2.0",
     "react-auth-code-input": "^3.2.1",
+    "react-beautiful-dnd": "^13.1.1",
     "react-detect-offline": "^2.4.5",
     "react-dom": "^18.2.0",
     "react-dom-confetti": "^0.2.0",

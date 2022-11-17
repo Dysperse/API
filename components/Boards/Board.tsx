@@ -184,6 +184,17 @@ function CreateColumn({ mutationUrl, id }: any) {
   );
 }
 
+function Renderer({ data, url, board }) {
+  return (
+    <>
+      {data &&
+        data.map((column) => (
+          <Column mutationUrl={url} boardId={board.id} column={column} />
+        ))}
+    </>
+  );
+}
+
 export function Board({ board }: any) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
@@ -202,10 +213,7 @@ export function Board({ board }: any) {
           width: "100%",
         }}
       >
-        {data &&
-          data.map((column) => (
-            <Column mutationUrl={url} boardId={board.id} column={column} />
-          ))}
+        <Renderer data={data} url={url} board={board} />
         {data && data.length < 5 && (
           <Box
             sx={{
