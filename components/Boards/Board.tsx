@@ -7,6 +7,8 @@ import { ErrorHandler } from "../error";
 import { Column } from "./Column";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { mutate } from "swr";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import toast from "react-hot-toast";
 
 const EmojiPicker = dynamic(
@@ -198,33 +200,36 @@ function Renderer({ data, url, board }) {
 export function Board({ board }: any) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
+    align: "start",
   });
 
+  const [emblaRef] = useEmblaCarousel(
+    {
+      dragFree: true,
+      align: "start",
+    },
+    [WheelGesturesPlugin()]
+  );
   return (
     <Box sx={{ mt: 4 }}>
       {error && (
         <ErrorHandler error="An error occured while trying to fetch your tasks" />
       )}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          overflowX: "auto",
-          width: "100%",
-        }}
-      >
-        <Renderer data={data} url={url} board={board} />
-        {data && data.length < 5 && (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <CreateColumn id={board.id} mutationUrl={url} />
-          </Box>
-        )}
+      <Box ref={emblaRef}>
+        <div className="embla__container" style={{ gap: "10px" }}>
+          <Renderer data={data} url={url} board={board} />
+          {data && data.length < 5 && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CreateColumn id={board.id} mutationUrl={url} />
+            </Box>
+          )}
+        </div>
       </Box>
     </Box>
   );
