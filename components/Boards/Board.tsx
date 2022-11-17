@@ -1,7 +1,7 @@
 import { Button, IconButton, SwipeableDrawer, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApi, fetchApiWithoutHook } from "../../hooks/useApi";
 import { ErrorHandler } from "../error";
 import { Column } from "./Column";
@@ -18,7 +18,7 @@ const EmojiPicker = dynamic(
   { ssr: false }
 );
 
-function CreateColumn({ mutationUrl, id }: any) {
+function CreateColumn({ emblaApi, mutationUrl, id }: any) {
   const [open, setOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [title, setTitle] = useState("");
@@ -26,6 +26,24 @@ function CreateColumn({ mutationUrl, id }: any) {
   const [emoji, setEmoji] = useState(
     "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
   );
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.reInit({
+      dragFree: true,
+      align: "start",
+      containScroll: "trimSnaps",
+    });
+    if (open) {
+      emblaApi.scrollTo(emblaApi.scrollSnapList().length - 1);
+      setTimeout(() => {
+        const el = document.getElementById("create-column-title");
+        if (el) el.focus();
+      });
+    } else {
+      emblaApi.scrollTo(0);
+    }
+  }, [open]);
 
   return (
     <>
@@ -83,6 +101,7 @@ function CreateColumn({ mutationUrl, id }: any) {
           </Button>
           <TextField
             fullWidth
+            id="create-column-title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             variant="standard"
@@ -145,6 +164,17 @@ function CreateColumn({ mutationUrl, id }: any) {
                           "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
                         );
                         setOpen(false);
+
+                        setTimeout(() => {
+                          emblaApi.reInit({
+                            dragFree: true,
+                            align: "start",
+                            containScroll: "trimSnaps",
+                          });
+                          emblaApi.scrollTo(
+                            emblaApi.scrollSnapList().length - 1
+                          );
+                        }, 100);
                       })
                       .catch((err) => {
                         setLoading(false);
@@ -203,7 +233,7 @@ export function Board({ board }: any) {
     align: "start",
   });
 
-  const [emblaRef] = useEmblaCarousel(
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       dragFree: true,
       align: "start",
@@ -219,16 +249,24 @@ export function Board({ board }: any) {
       <Box ref={emblaRef}>
         <div className="embla__container" style={{ gap: "10px" }}>
           <Renderer data={data} url={url} board={board} />
-          {data && data.length < 5 && (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <CreateColumn id={board.id} mutationUrl={url} />
-            </Box>
+          {data ? (
+            data.length < 5 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <CreateColumn
+                  id={board.id}
+                  mutationUrl={url}
+                  emblaApi={emblaApi}
+                />
+              </Box>
+            )
+          ) : (
+            <Box>Loading...</Box>
           )}
         </div>
       </Box>
