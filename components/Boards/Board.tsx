@@ -207,6 +207,7 @@ export function Board({ board }: any) {
     {
       dragFree: true,
       align: "start",
+      containScroll: "trimSnaps",
     },
     [WheelGesturesPlugin()]
   );
