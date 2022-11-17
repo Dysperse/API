@@ -104,6 +104,7 @@ function CreateColumn() {
             }}
           >
             <Button
+              onClick={() => setOpen(false)}
               variant="outlined"
               disableElevation
               fullWidth
