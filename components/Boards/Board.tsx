@@ -246,7 +246,12 @@ export function Board({ board }: any) {
       {error && (
         <ErrorHandler error="An error occured while trying to fetch your tasks" />
       )}
-      <Box ref={emblaRef}>
+      <Box
+        ref={emblaRef}
+        sx={{
+          maxWidth: "100vw",
+        }}
+      >
         <div className="embla__container" style={{ gap: "10px" }}>
           <Renderer data={data} url={url} board={board} />
           {data ? (
