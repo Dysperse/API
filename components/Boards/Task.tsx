@@ -9,6 +9,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { colors } from "../../lib/colors";
+import React from "react";
 
 export const BpIcon = styled("span")(({ theme }) => ({
   borderRadius: 5,
@@ -86,7 +87,7 @@ function SubTask({ subtask }) {
   );
 }
 
-export function Task({ task }): JSX.Element {
+export const Task = React.memo(function ({ task }: any): JSX.Element {
   const [checked, setChecked] = useState(task.completed);
   return (
     <Box>
@@ -163,4 +164,4 @@ export function Task({ task }): JSX.Element {
       ))}
     </Box>
   );
-}
+});

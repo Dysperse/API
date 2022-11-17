@@ -2,8 +2,13 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { CreateTask } from "./CreateTask";
 import { Task } from "./Task";
+import React from "react";
 
-export function Column({ mutationUrl, boardId, column }): JSX.Element {
+export const Column = React.memo(function ({
+  mutationUrl,
+  boardId,
+  column,
+}: any) {
   return (
     <Box
       sx={{
@@ -41,4 +46,4 @@ export function Column({ mutationUrl, boardId, column }): JSX.Element {
       />
     </Box>
   );
-}
+});
