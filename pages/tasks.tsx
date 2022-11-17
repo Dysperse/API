@@ -1,40 +1,140 @@
+import Masonry from "@mui/lab/Masonry";
+import {
+  Card,
+  CardActionArea,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { ErrorHandler } from "../components/error";
 import { useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import Masonry from "@mui/lab/Masonry";
-import { ListItem, ListItemText, Card, CardActionArea } from "@mui/material";
+
+import { styled } from "@mui/material/styles";
+import Checkbox, { CheckboxProps } from "@mui/material/Checkbox";
+
+const BpIcon = styled("span")(({ theme }) => ({
+  borderRadius: 3,
+  width: 20,
+  height: 20,
+  boxShadow:
+    "inset 0 0 0 1px rgba(16,22,26,.2), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+  backgroundColor: theme.palette.mode === "dark" ? "#394b59" : "#f5f8fa",
+  backgroundImage:
+    theme.palette.mode === "dark"
+      ? "linear-gradient(180deg,hsla(0,0%,100%,.05),hsla(0,0%,100%,0))"
+      : "linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))",
+  ".Mui-focusVisible &": {
+    outline: "2px auto rgba(19,124,189,.6)",
+    outlineOffset: 2,
+  },
+  "input:hover ~ &": {
+    backgroundColor: theme.palette.mode === "dark" ? "#30404d" : "#ebf1f5",
+  },
+  "input:disabled ~ &": {
+    boxShadow: "none",
+    background:
+      theme.palette.mode === "dark"
+        ? "rgba(57,75,89,.5)"
+        : "rgba(206,217,224,.5)",
+  },
+}));
+
+const BpCheckedIcon = styled(BpIcon)({
+  backgroundColor: colors[global.themeColor ?? "brown"][700],
+  backgroundImage:
+    "linear-gradient(180deg," +
+    colors[global.themeColor ?? "brown"][700] +
+    " ,hsla(0,0%,100%,0))",
+  "&:before": {
+    display: "block",
+    width: 20,
+    height: 20,
+    backgroundImage:
+      "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath" +
+      " fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 " +
+      "1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\")",
+    content: '""',
+  },
+  "input:hover ~ &": {
+    backgroundColor: colors[global.themeColor ?? "brown"][900],
+  },
+});
 
 function Task({ task }) {
+  const [checked, setChecked] = useState(task.completed);
   return (
-    <>
+    <Box>
       {task.subTasks.length >= 0 && (
         <ListItem
           sx={{
-            backgroundColor: "red",
+            borderRadius: 4,
+            gap: 0.5,
+            py: 0,
+            px: 0,
           }}
         >
-          <ListItemText primary={task.name} />
+          <Checkbox
+            checked={checked}
+            onChange={(e) => {
+              setChecked(e.target.checked);
+            }}
+            sx={{
+              "&:hover": { bgcolor: "transparent" },
+            }}
+            disableRipple
+            color="default"
+            checkedIcon={<BpCheckedIcon />}
+            icon={<BpIcon />}
+            inputProps={{ "aria-label": "Checkbox demo" }}
+          />
+
+          <ListItemText
+            primary={<span style={{ fontWeight: "600" }}>{task.name}</span>}
+          />
+
+          <ListItemIcon>
+            <IconButton sx={{ ml: "auto", transition: "none!important" }}>
+              <span className="material-symbols-outlined">more_horiz</span>
+            </IconButton>
+          </ListItemIcon>
         </ListItem>
       )}
       {task.subTasks.map((subtask) => (
         <ListItem
           key={subtask.id}
           sx={{
-            background: "green",
+            ml: "30px",
+            maxWidth: "calc(100% - 30px)",
+            pl: 0,
+            gap: 0.5,
+            py: 0,
+            borderRadius: 4,
           }}
         >
+          <Checkbox
+            sx={{
+              "&:hover": { bgcolor: "transparent" },
+            }}
+            disableRipple
+            color="default"
+            checkedIcon={<BpCheckedIcon />}
+            icon={<BpIcon />}
+            inputProps={{ "aria-label": "Checkbox demo" }}
+          />
           <ListItemText primary={subtask.name} />
         </ListItem>
       ))}
-    </>
+    </Box>
   );
 }
 
@@ -42,13 +142,24 @@ function Column({ column }) {
   return (
     <Box
       sx={{
-        backgroundColor: "rgba(200, 200, 200, 0.5)",
+        backgroundColor: "rgba(200, 200, 200, 0.2)",
+        width: "400px",
+        border: "1px solid rgba(200, 200, 200, 0.4)",
         p: 3,
+        px: 4,
         borderRadius: 5,
       }}
     >
       <img src={column.emoji} />
-      <Typography variant="h5" sx={{ fontWeight: "600" }}>
+      <Typography
+        variant="h5"
+        sx={{
+          fontWeight: "600",
+          mb: 2,
+          mt: 1,
+          textDecoration: "underline",
+        }}
+      >
         {column.name}
       </Typography>
       {column.tasks
@@ -69,7 +180,37 @@ function Board({ board }: any) {
       {error && (
         <ErrorHandler error="An error occured while trying to fetch your tasks" />
       )}
-      {data && data.map((column) => <Column column={column} />)}
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+        }}
+      >
+        {data && data.map((column) => <Column column={column} />)}
+        {data && data.length < 5 && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconButton
+              size="large"
+              sx={{
+                transition: "none!important",
+                backgroundColor: "rgba(200, 200, 200, 0.3)!important",
+                "&:hover": {
+                  color: "#000",
+                  backgroundColor: "rgba(200, 200, 200, 0.5)!important",
+                },
+              }}
+            >
+              <span className="material-symbols-outlined">add</span>
+            </IconButton>
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 }
