@@ -11,12 +11,14 @@ import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { SelectDateModal } from "./SelectDateModal";
 import { BpCheckedIcon, BpIcon } from "./Task";
 
-export function CreateTask() {
+export function CreateTask({ mutationUrl, boardId, columnId }) {
   const [value, setValue] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -72,15 +74,27 @@ export function CreateTask() {
     }
   }, [title]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (title === "") {
       toast.error("Please enter a title", toastStyles);
       return;
     }
 
+    setLoading(true);
+    await fetchApiWithoutHook("property/boards/createTask", {
+      title,
+      description,
+      date,
+      pinned: pinned ? "true" : "false",
+      due: date ? date.toISOString() : "false",
+
+      boardId,
+      columnId,
+    });
     toast.success("Created task!", toastStyles);
 
+    setLoading(false);
     setTitle("");
     setDescription("");
     setDate(null);
@@ -93,7 +107,10 @@ export function CreateTask() {
       <SwipeableDrawer
         anchor="bottom"
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          mutate(mutationUrl);
+        }}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{

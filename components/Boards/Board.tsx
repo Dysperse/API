@@ -202,7 +202,10 @@ export function Board({ board }: any) {
           width: "100%",
         }}
       >
-        {data && data.map((column) => <Column column={column} />)}
+        {data &&
+          data.map((column) => (
+            <Column mutationUrl={url} boardId={board.id} column={column} />
+          ))}
         {data && data.length < 5 && (
           <Box
             sx={{

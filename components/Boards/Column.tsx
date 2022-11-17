@@ -3,13 +3,13 @@ import Typography from "@mui/material/Typography";
 import { CreateTask } from "./CreateTask";
 import { Task } from "./Task";
 
-export function Column({ column }): JSX.Element {
+export function Column({ mutationUrl, boardId, column }): JSX.Element {
   return (
     <Box
       sx={{
         backgroundColor: "rgba(200, 200, 200, 0.2)",
         width: "400px",
-        flex:"0 0 auto",
+        flex: "0 0 auto",
         border: "1px solid rgba(200, 200, 200, 0.4)",
         p: 3,
         px: 4,
@@ -34,7 +34,11 @@ export function Column({ column }): JSX.Element {
           <Task task={task} />
         ))}
 
-      <CreateTask />
+      <CreateTask
+        mutationUrl={mutationUrl}
+        boardId={boardId}
+        columnId={column.id}
+      />
     </Box>
   );
 }
