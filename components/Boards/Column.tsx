@@ -8,8 +8,9 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
 import { colors } from "../../lib/colors";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { mutate } from "swr";
 
-function OptionsMenu({ boardId, column }) {
+function OptionsMenu({ mutationUrl, boardId, column }) {
   const [open, setOpen] = React.useState(false);
   const styles = {
     width: "100%",
@@ -77,6 +78,7 @@ function OptionsMenu({ boardId, column }) {
             fetchApiWithoutHook("property/boards/deleteColumn", {
               id: column.id,
             });
+            mutate(mutationUrl);
             setOpen(false);
           }}
         >
@@ -141,7 +143,11 @@ export const Column = React.memo(function ({
         >
           {column.name}
         </Typography>
-        <OptionsMenu boardId={boardId} column={column} />
+        <OptionsMenu
+          boardId={boardId}
+          column={column}
+          mutationUrl={mutationUrl}
+        />
       </Box>
       {column.tasks
         .filter((task) => task.parentTasks.length === 0)
