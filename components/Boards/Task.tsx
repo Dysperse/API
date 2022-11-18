@@ -11,6 +11,8 @@ import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { colors } from "../../lib/colors";
 import React from "react";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
+import toast from "react-hot-toast";
 
 export const BpIcon = styled("span")(({ theme }) => ({
   borderRadius: 99,
@@ -52,7 +54,7 @@ export const BpCheckedIcon = styled(BpIcon)({
 });
 
 function SubTask({ subtask }) {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(subtask.completed);
   return (
     <ListItem
       key={subtask.id}
@@ -69,7 +71,15 @@ function SubTask({ subtask }) {
       <Checkbox
         disableRipple
         checked={checked}
-        onChange={(e) => setChecked(e.target.checked)}
+        onChange={(e) => {
+          setChecked(e.target.checked);
+          fetchApiWithoutHook("property/boards/markTask", {
+            completed: e.target.checked ? "true" : "false",
+            id: subtask.id,
+          }).catch((err) =>
+            toast.error("An error occured while updating the task")
+          );
+        }}
         sx={{
           p: 0,
           "&:hover": { bgcolor: "transparent" },
@@ -79,13 +89,25 @@ function SubTask({ subtask }) {
         icon={<BpIcon />}
         inputProps={{ "aria-label": "Checkbox demo" }}
       />
-      <ListItemText primary={subtask.name} />
+      <ListItemText
+        primary={
+          <span
+            style={{
+              opacity: checked ? 0.5 : 1,
+              textDecoration: checked ? "line-through" : "none",
+            }}
+          >
+            {subtask.name}
+          </span>
+        }
+      />
     </ListItem>
   );
 }
 
 export const Task = React.memo(function ({ task }: any): JSX.Element {
   const [checked, setChecked] = useState(task.completed);
+
   return (
     <Box>
       {task.subTasks.length >= 0 && (
@@ -103,6 +125,12 @@ export const Task = React.memo(function ({ task }: any): JSX.Element {
             checked={checked}
             onChange={(e) => {
               setChecked(e.target.checked);
+              fetchApiWithoutHook("property/boards/markTask", {
+                completed: e.target.checked ? "true" : "false",
+                id: task.id,
+              }).catch((err) =>
+                toast.error("An error occured while updating the task")
+              );
             }}
             sx={{
               "&:hover": { bgcolor: "transparent" },
