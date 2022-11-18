@@ -12,7 +12,7 @@ import { colors } from "../../lib/colors";
 import React from "react";
 
 export const BpIcon = styled("span")(({ theme }) => ({
-  borderRadius: 5,
+  borderRadius: 99,
   width: 21,
   height: 21,
   boxShadow:
