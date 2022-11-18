@@ -214,7 +214,7 @@ export function CreateBoard() {
     },
   ];
   return (
-    <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
+    <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2,ml:4 }}>
       {templates.map((template) => (
         <Box
           onClick={() => {
