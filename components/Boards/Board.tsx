@@ -1,24 +1,16 @@
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, IconButton, SwipeableDrawer, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-import { useApi, fetchApiWithoutHook } from "../../hooks/useApi";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../error";
 import { Column } from "./Column";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { mutate } from "swr";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import toast from "react-hot-toast";
+import EmojiPicker from "emoji-picker-react";
 
-const EmojiPicker = dynamic(
-  () => {
-    return import("emoji-picker-react");
-  },
-  { ssr: false }
-);
-
-function CreateColumn({ emblaApi, mutationUrl, id }: any) {
+function CreateColumn({ mutationUrl, id }: any) {
   const [open, setOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [title, setTitle] = useState("");
@@ -28,20 +20,11 @@ function CreateColumn({ emblaApi, mutationUrl, id }: any) {
   );
 
   useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.reInit({
-      dragFree: true,
-      align: "start",
-      containScroll: "trimSnaps",
-    });
     if (open) {
-      emblaApi.scrollTo(emblaApi.scrollSnapList().length - 1);
       setTimeout(() => {
         const el = document.getElementById("create-column-title");
         if (el) el.focus();
       });
-    } else {
-      emblaApi.scrollTo(0);
     }
   }, [open]);
 
@@ -61,7 +44,7 @@ function CreateColumn({ emblaApi, mutationUrl, id }: any) {
             width: "auto",
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
             mx: "auto",
-            mb: { xs: 5 },
+            mb: { sm: 5 },
           },
         }}
       >
@@ -164,17 +147,6 @@ function CreateColumn({ emblaApi, mutationUrl, id }: any) {
                           "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
                         );
                         setOpen(false);
-
-                        setTimeout(() => {
-                          emblaApi.reInit({
-                            dragFree: true,
-                            align: "start",
-                            containScroll: "trimSnaps",
-                          });
-                          emblaApi.scrollTo(
-                            emblaApi.scrollSnapList().length - 1
-                          );
-                        }, 100);
                       })
                       .catch((err) => {
                         setLoading(false);
@@ -227,35 +199,26 @@ function Renderer({ data, url, board }) {
   );
 }
 
-export function Board({ board }: any) {
+export const Board = React.memo(function ({ board }: any) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
     align: "start",
   });
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      dragFree: true,
-      align: "start",
-      containScroll: "trimSnaps",
-    },
-    [WheelGesturesPlugin()]
-  );
   return (
     <Box sx={{ mt: 4 }}>
       {error && (
         <ErrorHandler error="An error occured while trying to fetch your tasks" />
       )}
       <Box
-        ref={emblaRef}
         sx={{
           maxWidth: "100vw",
         }}
       >
-        <div className="embla__container" style={{ gap: "10px" }}>
+        <Box sx={{ gap: "10px" }}>
           <Renderer data={data} url={url} board={board} />
           {data ? (
-            data.length < 5 && (
+            data.length < 10 && (
               <Box
                 sx={{
                   display: "flex",
@@ -263,18 +226,14 @@ export function Board({ board }: any) {
                   justifyContent: "center",
                 }}
               >
-                <CreateColumn
-                  id={board.id}
-                  mutationUrl={url}
-                  emblaApi={emblaApi}
-                />
+                <CreateColumn id={board.id} mutationUrl={url} />
               </Box>
             )
           ) : (
             <Box>Loading...</Box>
           )}
-        </div>
+        </Box>
       </Box>
     </Box>
   );
-}
+});
