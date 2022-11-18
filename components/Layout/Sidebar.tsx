@@ -48,6 +48,8 @@ export function Sidebar() {
             height: "100vh",
             alignItems: "center",
             justifyContent: "center",
+            background: "rgba(255, 255, 255, 0.9)",
+            backdropFilter: "blur(10px)",
           },
         }}
         open

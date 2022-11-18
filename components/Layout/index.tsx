@@ -51,6 +51,8 @@ function ResponsiveDrawer({
         sx={{
           flexGrow: 90,
           p: 0,
+          ml: { md: "-85px" },
+          // background: "red",
           width: {
             sm: `calc(100% - 65px)`,
             md: `calc(100% - 85px)`,
@@ -61,6 +63,7 @@ function ResponsiveDrawer({
         <Box
           sx={{
             pt: { xs: 1.8, sm: 2 },
+            pl: { md: "85px" },
           }}
         >
           {children}
