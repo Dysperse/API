@@ -13,8 +13,8 @@ import React from "react";
 
 export const BpIcon = styled("span")(({ theme }) => ({
   borderRadius: 99,
-  width: 21,
-  height: 21,
+  width: 25,
+  height: 25,
   boxShadow:
     "inset 0 0 0 2px rgba(16,22,26,.3), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
   backgroundColor: theme.palette.mode === "dark" ? "#394b59" : "#f5f8fa",
@@ -46,8 +46,8 @@ export const BpCheckedIcon = styled(BpIcon)({
     " ,hsla(0,0%,100%,0))",
   "&:before": {
     display: "block",
-    width: 21,
-    height: 21,
+    width: 25,
+    height: 25,
     backgroundImage:
       "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\")",
     content: '""',
