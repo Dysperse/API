@@ -17,6 +17,7 @@ import Layout from "../components/Layout";
 import { Error } from "../components/Layout/Error";
 import { Loading } from "../components/Layout/Loading";
 import { colors } from "../lib/colors";
+import Grow from "@mui/material/Grow";
 
 // CSS files
 import "../styles/globals.scss";
@@ -164,9 +165,21 @@ function Render({
         },
       },
       MuiTooltip: {
+        defaultProps: {
+          TransitionComponent: Grow,
+          TransitionProps: {
+            style: {},
+          },
+        },
         styleOverrides: {
           tooltip: {
-            borderRadius: "20px",
+            // // Style arrow
+            // "& .MuiTooltip-arrow": {
+            //   color: global.user.darkMode
+            //     ? "hsl(240, 11%, 90%)"
+            //     : colors[themeColor]["900"],
+            // },
+            borderRadius: "4px",
             fontSize: "14px",
             color: global.user.darkMode
               ? "hsl(240, 11%, 30%)"
@@ -178,6 +191,8 @@ function Render({
             paddingRight: "13px",
             paddingTop: "5px",
             paddingBottom: "5px",
+            boxShadow:
+              "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
           },
         },
       },

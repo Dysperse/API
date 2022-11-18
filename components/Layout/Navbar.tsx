@@ -253,6 +253,9 @@ export function Navbar(): JSX.Element {
       xs: "#606060",
     },
     transition: "all .2s",
+    "&:hover": {
+      color: "#000",
+    },
     "&:active": {
       opacity: 0.5,
       transform: "scale(0.95)",

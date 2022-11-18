@@ -44,6 +44,7 @@ export const Column = React.memo(function ({
         </Typography>
         <IconButton
           size="small"
+          disableRipple
           sx={{
             ml: "auto",
             transition: "none!important",
