@@ -53,7 +53,7 @@ export function TasksLayout() {
       {error && (
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
-      <Box ref={emblaRef}>
+      <Box ref={emblaRef} sx={{ pl: 4 }}>
         <div className="embla__container">
           {data &&
             data.map((board) => (
