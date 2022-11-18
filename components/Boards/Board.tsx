@@ -220,6 +220,7 @@ export const Board = React.memo(function ({ board }: any) {
             display: "flex",
             gap: "10px",
             overflowX: "scroll",
+            pl: 4
           }}
         >
           <Renderer data={data} url={url} board={board} />
