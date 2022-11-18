@@ -15,7 +15,7 @@ export function Sidebar() {
     p: 2,
     transition: "none",
     "&:hover, &.active": {
-      background: colors[themeColor]["50"] + "!important",
+      background: colors[themeColor]["100"] + "!important",
     },
     "& span": {
       display: "block",
@@ -23,7 +23,7 @@ export function Sidebar() {
       color: colors[themeColor]["A700"],
     },
     "&:active": {
-      background: colors[themeColor]["100"] + "!important",
+      background: colors[themeColor]["200"] + "!important",
       transition: "none",
     },
   };
@@ -57,31 +57,10 @@ export function Sidebar() {
             alignItems: "center",
             flexDirection: "column",
             justifyContent: "center",
-            pt: 10,
+            pt: "70px",
           }}
         >
           <Box sx={{ mt: "auto" }}></Box>
-          <AddPopup>
-            <Tooltip title="Create an item" placement="right">
-              <IconButton
-                disableRipple
-                size="large"
-                sx={{
-                  ...styles,
-                  background: `linear-gradient(15deg, ${colors[themeColor][200]}, ${colors[themeColor][700]}) !important`,
-                  "&:hover, &:active": {
-                    background: `linear-gradient(-15deg, ${colors[themeColor][200]}, ${colors[themeColor][700]}) !important`,
-                  },
-                  "& span": {
-                    color: colors[themeColor][50],
-                  },
-                  mb: 2,
-                }}
-              >
-                <span className="material-symbols-outlined">add</span>
-              </IconButton>
-            </Tooltip>
-          </AddPopup>
           <Tooltip title="Tasks" placement="right">
             <IconButton
               disableRipple
@@ -97,7 +76,7 @@ export function Sidebar() {
                     : "material-symbols-outlined"
                 }
               >
-                sticky_note_2
+                view_kanban
               </span>
             </IconButton>
           </Tooltip>
@@ -131,7 +110,7 @@ export function Sidebar() {
               size="large"
               sx={styles}
               className={router.asPath === "/explore" ? "active" : ""}
-              onClick={() => router.push("//explore")}
+              onClick={() => router.push("/explore")}
             >
               <span
                 className={
@@ -140,7 +119,7 @@ export function Sidebar() {
                     : "material-symbols-outlined"
                 }
               >
-                explore
+                flag
               </span>
             </IconButton>
           </Tooltip>

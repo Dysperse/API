@@ -215,20 +215,42 @@ export const Board = React.memo(function ({ board }: any) {
           maxWidth: "100vw",
         }}
       >
-        <Box sx={{ display: "flex", gap: "10px", overflowX: "scroll" }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: "10px",
+            overflowX: "scroll",
+          }}
+        >
           <Renderer data={data} url={url} board={board} />
           {data ? (
-            data.length < 5 && (
-              <Box
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+                flexDirection: "column",
+              }}
+            >
+              {data.length < 5 && (
+                <CreateColumn id={board.id} mutationUrl={url} />
+              )}
+              <IconButton
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  transition: "none!important",
+                  backgroundColor: "rgba(200, 200, 200, 0.3)!important",
+                  border: "1px solid rgba(200, 200, 200, 0.5)!important",
+                  "&:hover,&:active": {
+                    color: "#000",
+                    border: "1px solid rgba(200, 200, 200, 0.9)!important",
+                    backgroundColor: "rgba(200, 200, 200, 0.5)!important",
+                  },
                 }}
               >
-                <CreateColumn id={board.id} mutationUrl={url} />
-              </Box>
-            )
+                <span className="material-symbols-outlined">more_vert</span>
+              </IconButton>
+            </Box>
           ) : (
             <Box>Loading...</Box>
           )}

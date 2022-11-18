@@ -20,7 +20,7 @@ import { ErrorHandler } from "../error";
 import hexToRgba from "hex-to-rgba";
 import dayjs from "dayjs";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import { useScrollTrigger } from "@mui/material";
+import { CssBaseline, useScrollTrigger } from "@mui/material";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
@@ -275,7 +275,7 @@ export function Navbar(): JSX.Element {
           sm: global.user.darkMode ? "white" : "black",
         },
         pr: 0.4,
-        py: 0.9,
+        height: "70px",
         transition: "box-shadow .2s",
         background: {
           xs: global.user.darkMode
@@ -285,11 +285,12 @@ export function Navbar(): JSX.Element {
             : "rgba(255,255,255,.8)",
           sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.8)",
         },
-        borderBottom: "1px solid rgba(200,200,200,.3)",
+        borderBottom: "1px solid rgba(200,200,200,.5)",
         backdropFilter: "blur(10px)",
       }}
     >
-      <Toolbar>
+      <CssBaseline />
+      <Toolbar sx={{ height: "100%" }}>
         <Box
           sx={{
             flexGrow: { xs: 1, sm: "unset" },

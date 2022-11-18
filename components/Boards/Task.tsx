@@ -98,6 +98,7 @@ export const Task = React.memo(function ({ task }: any): JSX.Element {
             gap: 0.5,
             py: 0,
             px: 0,
+            ml:-1,
           }}
         >
           <Checkbox
@@ -140,23 +141,6 @@ export const Task = React.memo(function ({ task }: any): JSX.Element {
               </span>
             }
           />
-
-          <ListItemIcon>
-            <IconButton
-              size="small"
-              sx={{
-                ml: "auto",
-                transition: "none!important",
-                border: "1px solid rgba(200, 200, 200, 0)!important",
-                "&:hover,&:active": {
-                  color: "#000",
-                  border: "1px solid rgba(200, 200, 200, 0.5)!important",
-                },
-              }}
-            >
-              <span className="material-symbols-outlined">more_horiz</span>
-            </IconButton>
-          </ListItemIcon>
         </ListItem>
       )}
       {task.subTasks.map((subtask) => (

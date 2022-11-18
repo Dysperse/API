@@ -16,7 +16,7 @@ import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
 import { useStatusBar } from "../../../hooks/useStatusBar";
-
+import hexToRgba from "hex-to-rgba";
 /**
  * Icon function
  * @param {any} {icon}:{icon:string}
@@ -279,6 +279,11 @@ export function SearchPopup() {
           background: global.user.darkMode
             ? "hsl(240,11%,15%)!important"
             : `${colors[themeColor][50]}!important`,
+          "&:hover": {
+            background: global.user.darkMode
+              ? "hsl(240,11%,15%)!important"
+              : `${hexToRgba(colors[themeColor][100], 0.5)}!important`,
+          },
           transition: "none !important",
           "&:hover, &:active": {
             cursor: "pointer",
@@ -288,16 +293,16 @@ export function SearchPopup() {
           "& .MuiTouchRipple-rippleVisible": {
             transitionDuration: ".2s!important",
           },
-          px: 3,
+          px: 2,
           ml: "auto",
           cursor: "text",
           color: global.user.darkMode
             ? "hsl(240,11%,95%)!important"
             : colors[themeColor][900],
           display: { xs: "none", sm: "flex" },
-          py: 1.5,
+          height: "45px",
           gap: 2,
-          borderRadius: 5,
+          borderRadius: 3,
           "&:hover .hover": {
             opacity: 1,
           },
@@ -305,7 +310,7 @@ export function SearchPopup() {
         className={global.user.darkMode ? "rippleDark" : ""}
       >
         <span className="material-symbols-rounded">bolt</span>
-        Jump to{" "}
+        Jump to
         <span className="hover" style={{ marginLeft: "auto" }}>
           <span
             style={{
