@@ -217,6 +217,9 @@ export function CreateBoard() {
     <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
       {templates.map((template) => (
         <Box
+          onClick={() => {
+            alert(JSON.stringify(template));
+          }}
           sx={{
             maxWidth: "calc(100vw - 52.5px)",
           }}
