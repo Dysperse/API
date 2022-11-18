@@ -283,7 +283,7 @@ export function SearchPopup() {
           "&:hover, &:active": {
             cursor: "pointer",
           },
-          width: "40vw",
+          width: "30vw",
           justifyContent: "start",
           "& .MuiTouchRipple-rippleVisible": {
             transitionDuration: ".2s!important",

@@ -260,20 +260,12 @@ export function Navbar(): JSX.Element {
     },
   };
 
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-  });
-
   return (
     <AppBar
       elevation={0}
       position="fixed"
       sx={{
         zIndex: 999,
-        boxShadow: trigger
-          ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
-          : "none",
         color: {
           xs: global.user.darkMode
             ? "white"
@@ -283,10 +275,7 @@ export function Navbar(): JSX.Element {
           sm: global.user.darkMode ? "white" : "black",
         },
         pr: 0.4,
-        py: {
-          sm: 1,
-          xs: 0.9,
-        },
+        py: 0.9,
         transition: "box-shadow .2s",
         background: {
           xs: global.user.darkMode
@@ -294,12 +283,9 @@ export function Navbar(): JSX.Element {
             : router.asPath === "/tidy"
             ? colors[themeColor][800]
             : "rgba(255,255,255,.8)",
-          sm: global.user.darkMode
-            ? "rgba(0,0,0,0)"
-            : trigger
-            ? "rgba(245,245,245,.8)"
-            : "rgba(255,255,255,.8)",
+          sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.8)",
         },
+        borderBottom: "1px solid rgba(200,200,200,.3)",
         backdropFilter: "blur(10px)",
       }}
     >

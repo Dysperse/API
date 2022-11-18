@@ -215,10 +215,10 @@ export const Board = React.memo(function ({ board }: any) {
           maxWidth: "100vw",
         }}
       >
-        <Box sx={{ gap: "10px" }}>
+        <Box sx={{ display: "flex", gap: "10px", overflowX: "scroll" }}>
           <Renderer data={data} url={url} board={board} />
           {data ? (
-            data.length < 10 && (
+            data.length < 5 && (
               <Box
                 sx={{
                   display: "flex",
