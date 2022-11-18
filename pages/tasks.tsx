@@ -19,7 +19,7 @@ export default function Dashboard() {
         sx={{
           pt: 4,
           pl: 4,
-          pr: { xs: 4, sm: 0 },
+          pr: { xs: 0, sm: 0 },
         }}
       >
         <TasksLayout />
