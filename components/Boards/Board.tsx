@@ -230,6 +230,7 @@ export const Board = React.memo(function ({ board }: any) {
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 1,
+                mx: 2,
                 flexDirection: "column",
               }}
             >
