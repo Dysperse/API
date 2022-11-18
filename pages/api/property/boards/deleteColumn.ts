@@ -22,7 +22,7 @@ const handler = async (req, res) => {
   await prisma.task.deleteMany({
     where: {
       column: {
-        id: req.query.id,
+        id: parseInt(req.query.id),
       },
     },
   });
@@ -30,7 +30,7 @@ const handler = async (req, res) => {
   // Delete column, and all tasks in it
   const data = await prisma.column.delete({
     where: {
-      id: req.query.id,
+      id: parseInt(req.query.id),
     },
   });
 

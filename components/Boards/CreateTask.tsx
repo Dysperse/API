@@ -124,7 +124,7 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
           },
         }}
       >
-        <Box sx={{ p: { xs: 3, sm: 3 }, pt: { xs: 0, sm: 3 } }}>
+        <Box sx={{ p: 3 }}>
           <form onSubmit={handleSubmit}>
             <TextField
               autoComplete="off"
@@ -216,7 +216,7 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
           gap: 0.5,
           py: 0,
           px: 0,
-          ml: -1,
+          ml: -2,
           "&:hover": {
             backgroundColor: "rgba(200,200,200,0.3)",
             cursor: "pointer",

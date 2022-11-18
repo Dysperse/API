@@ -7,6 +7,7 @@ import React from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
 import { colors } from "../../lib/colors";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 function OptionsMenu({ boardId, column }) {
   const [open, setOpen] = React.useState(false);
@@ -69,7 +70,16 @@ function OptionsMenu({ boardId, column }) {
           </span>
           Edit emoji
         </Button>
-        <Button sx={styles} size="large">
+        <Button
+          sx={styles}
+          size="large"
+          onClick={() => {
+            fetchApiWithoutHook("property/boards/deleteColumn", {
+              id: column.id,
+            });
+            setOpen(false);
+          }}
+        >
           <span className="material-symbols-outlined">delete</span>
           Delete column
         </Button>
