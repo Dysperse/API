@@ -1,5 +1,5 @@
 import Masonry from "@mui/lab/Masonry";
-import { Card, CardActionArea } from "@mui/material";
+import { Card, CardActionArea, Skeleton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { colors } from "../../lib/colors";
@@ -214,54 +214,77 @@ export function CreateBoard() {
     },
   ];
   return (
-    <Masonry columns={{ xs: 1, sm: 4 }} spacing={2} sx={{ mt: 2 }}>
+    <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
       {templates.map((template) => (
-        <Box>
+        <Box
+          sx={{
+            maxWidth: "calc(100vw - 52.5px)",
+          }}
+        >
           <Card
             sx={{
               width: "100%!important",
-              background: "#eee",
+              background: "rgba(200,200,200,.3)",
               borderRadius: 5,
             }}
           >
-            <CardActionArea
-              sx={{
-                p: 2,
-              }}
-            >
+            <CardActionArea>
               <Box>
                 <Box
                   sx={{
-                    background: colors[template.color]["A400"],
-                    color: template.color === "lime" ? "#000" : "#fff",
+                    background: "rgba(200,200,200,.3)",
+                    color: "#000",
                     borderRadius: 5,
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 0,
                     display: "flex",
-                    flexDirection: "column",
+                    p: { xs: 1, sm: 2 },
+                    gap: 1,
                   }}
                 >
                   {template.columns.map((column, index) => (
                     <Box
                       sx={{
                         width: "100%",
-                        alignItems: "center",
                         display: "flex",
-                        p: 2,
+                        overflowX: "auto",
+                        p: { xs: 1.5, sm: 2 },
+                        borderRadius: 5,
                         gap: 2,
-                        ...(index !== template.columns.length - 1 && {
-                          borderBottom:
-                            "2px solid " + colors[template.color]["50"],
-                        }),
+                        background: "rgba(200,200,200,.3)",
+                        border: "1px solid #ccc",
+                        flexDirection: "column",
                       }}
                     >
                       <img src={column.emoji} width="30px" height="30px" />
-                      <Box sx={{ fontSize: 18 }}>{column.name}</Box>
+                      <Box
+                        sx={{
+                          fontSize: 18,
+                          maxWidth: "100%",
+                          textOverflow: "ellipsis",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {column.name}
+                      </Box>
+                      <Box>
+                        <Skeleton animation={false} width={100} />
+                        <Skeleton animation={false} width={90} />
+                        <Skeleton animation={false} width={50} />
+                        <Skeleton animation={false} width={70} />
+                      </Box>
                     </Box>
                   ))}
                 </Box>
-                <Typography variant="h6" sx={{ mt: 2 }}>
-                  {template.name}
-                </Typography>
-                <Typography variant="body2">{template.description}</Typography>
+                <Box sx={{ p: 3, pt: 0 }}>
+                  <Typography variant="h6" sx={{ mt: 2 }}>
+                    {template.name}
+                  </Typography>
+                  <Typography variant="body2">
+                    {template.description}
+                  </Typography>
+                </Box>
               </Box>
             </CardActionArea>
           </Card>
