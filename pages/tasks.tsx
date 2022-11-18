@@ -1,4 +1,4 @@
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import Head from "next/head";
 import { TasksLayout } from "../components/Boards/TasksLayout";
 
@@ -15,9 +15,15 @@ export default function Dashboard() {
           &bull; Carbon
         </title>
       </Head>
-      <Container sx={{ mt: 4 }}>
+      <Box
+        sx={{
+          pt: 4,
+          pl: 4,
+          pr: { xs: 4, sm: 0 },
+        }}
+      >
         <TasksLayout />
-      </Container>
+      </Box>
     </>
   );
 }

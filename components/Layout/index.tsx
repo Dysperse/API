@@ -40,7 +40,7 @@ function ResponsiveDrawer({
       <Navbar />
       <Box
         sx={{
-          width: { md: "90px" },
+          width: { md: "85px" },
           flexShrink: { md: 0 },
         }}
       >
@@ -53,7 +53,7 @@ function ResponsiveDrawer({
           p: 0,
           width: {
             sm: `calc(100% - 65px)`,
-            md: `calc(100% - 90px)`,
+            md: `calc(100% - 85px)`,
           },
         }}
       >

@@ -224,7 +224,7 @@ function UpdateButton() {
         disableRipple
         onClick={() => window.location.reload()}
         sx={{
-          mr: -0.5,
+          mr: -1,
           color: global.user.darkMode
             ? "hsl(240, 11%, 90%)"
             : colors.green[700],

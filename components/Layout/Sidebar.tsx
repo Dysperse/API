@@ -11,6 +11,10 @@ export function Sidebar() {
   const router = useRouter();
   const styles = {
     borderRadius: 5,
+    maxWidth: "52.5px",
+    maxHeight: "52.5px",
+    width: "52.5px",
+    height: "52.5px",
     mb: 1,
     p: 2,
     transition: "none",
@@ -38,8 +42,8 @@ export function Sidebar() {
         sx={{
           display: { xs: "none", md: "flex!important" },
           "& .MuiDrawer-paper": {
-            maxWidth: "90px",
-            width: "90px",
+            maxWidth: "85px",
+            width: "80px",
             zIndex: 99,
             border: 0,
             height: "100vh",
