@@ -18,7 +18,7 @@ export default function Dashboard() {
       <Box
         sx={{
           pt: 4,
-          pl: 4,
+          pl: 0,
           pr: { xs: 0, sm: 0 },
         }}
       >
