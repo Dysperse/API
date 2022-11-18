@@ -1,4 +1,5 @@
 import {
+  CardActionArea,
   IconButton,
   ListItem,
   ListItemIcon,
@@ -15,19 +16,16 @@ export const BpIcon = styled("span")(({ theme }) => ({
   borderRadius: 99,
   width: 25,
   height: 25,
-  boxShadow:
-    "inset 0 0 0 2px rgba(16,22,26,.3), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-  backgroundColor: theme.palette.mode === "dark" ? "#394b59" : "#f5f8fa",
-  backgroundImage:
-    theme.palette.mode === "dark"
-      ? "linear-gradient(180deg,hsla(0,0%,100%,.05),hsla(0,0%,100%,0))"
-      : "linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))",
+  boxShadow: "inset 0 0 0 2px rgba(16,22,26,.3)",
+  backgroundColor: theme.palette.mode === "dark" ? "#394b59" : "transparent",
   ".Mui-focusVisible &": {
     outline: "2px auto rgba(19,124,189,.6)",
     outlineOffset: 2,
   },
-  "input:hover ~ &": {
-    backgroundColor: theme.palette.mode === "dark" ? "#30404d" : "#ebf1f5",
+  "input:not(:checked):hover ~ &": {
+    boxShadow: "inset 0 0 0 2px rgba(16,22,26,.5)",
+    backgroundColor:
+      theme.palette.mode === "dark" ? "#394b59" : "#ccc!important",
   },
   "input:disabled ~ &": {
     // boxShadow: "none",
@@ -39,11 +37,7 @@ export const BpIcon = styled("span")(({ theme }) => ({
 }));
 
 export const BpCheckedIcon = styled(BpIcon)({
-  backgroundColor: colors[global.themeColor ?? "brown"][700],
-  backgroundImage:
-    "linear-gradient(180deg," +
-    colors[global.themeColor ?? "brown"][700] +
-    " ,hsla(0,0%,100%,0))",
+  backgroundColor: colors[global.themeColor ?? "brown"][700] + "!important",
   "&:before": {
     display: "block",
     width: 25,
@@ -66,15 +60,18 @@ function SubTask({ subtask }) {
         ml: "30px",
         maxWidth: "calc(100% - 30px)",
         pl: 0,
-        gap: 0.5,
+        gap: 1.5,
+        mb: 0.5,
         py: 0,
         borderRadius: 4,
       }}
     >
       <Checkbox
+        disableRipple
         checked={checked}
         onChange={(e) => setChecked(e.target.checked)}
         sx={{
+          p: 0,
           "&:hover": { bgcolor: "transparent" },
         }}
         color="default"
@@ -95,19 +92,21 @@ export const Task = React.memo(function ({ task }: any): JSX.Element {
         <ListItem
           sx={{
             borderRadius: 4,
-            gap: 0.5,
+            gap: 1.5,
             py: 0,
             px: 0,
-            ml:-1,
+            ml: -1,
           }}
         >
           <Checkbox
+            disableRipple
             checked={checked}
             onChange={(e) => {
               setChecked(e.target.checked);
             }}
             sx={{
               "&:hover": { bgcolor: "transparent" },
+              p: 0,
             }}
             color="default"
             checkedIcon={<BpCheckedIcon />}
