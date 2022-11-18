@@ -53,7 +53,7 @@ export function TasksLayout() {
       {error && (
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
-      <Box ref={emblaRef} sx={{ pl: 4 }}>
+      <Box ref={emblaRef}>
         <div className="embla__container">
           {data &&
             data.map((board) => (
@@ -62,7 +62,7 @@ export function TasksLayout() {
                   size="large"
                   disableElevation
                   onClick={() => setActiveTab(board.id)}
-                  sx={styles(activeTab === board.id)}
+                  sx={{ ...styles(activeTab === board.id), ml: 4}}
                 >
                   {board.name}
                 </Button>
