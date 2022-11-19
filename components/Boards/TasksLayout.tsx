@@ -4,29 +4,37 @@ import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import React, { useEffect, useState } from "react";
 import { ErrorHandler } from "../error";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Board } from "./Board";
 import { CreateBoard } from "./CreateBoard";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { mutate } from "swr";
+import CircularProgress from "@mui/material/CircularProgress";
+import toast from "react-hot-toast";
 
 const Tab = React.memo(function ({
+  mutationUrl,
   styles,
   activeTab,
   setActiveTab,
   emblaApi,
   board,
 }: any) {
+  const [loading, setLoading] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [title, setTitle] = useState(board.name);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!editMode) event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   return (
     <div>
       <Menu
@@ -38,12 +46,50 @@ const Tab = React.memo(function ({
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Rename</MenuItem>
-        <MenuItem onClick={handleClose}>Delete board</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            setEditMode(true);
+            setTimeout(() => {
+              document.getElementById("renameInput" + board.id)?.focus();
+            }, 100);
+          }}
+        >
+          Rename
+        </MenuItem>
+        <MenuItem
+          onClick={async () => {
+            try {
+              setLoading(true);
+              await fetchApiWithoutHook("property/boards/deleteBoard", {
+                id: board.id,
+              });
+              await mutate(mutationUrl);
+              setLoading(false);
+              handleClose();
+            } catch (e) {
+              toast.error("An error occurred while deleting the board");
+            }
+          }}
+          sx={{
+            display: "flex",
+            minWidth: "100px",
+          }}
+        >
+          Delete board
+          <CircularProgress
+            size={15}
+            sx={{
+              ml: "auto",
+              opacity: loading ? 1 : 0,
+            }}
+          />
+        </MenuItem>
       </Menu>
       <Button
         size="large"
         disableElevation
+        onContextMenu={handleClick}
         onClick={(e) => {
           if (emblaApi) {
             emblaApi.reInit({
@@ -51,7 +97,7 @@ const Tab = React.memo(function ({
               dragFree: true,
             });
           }
-          if (activeTab === board.id) {
+          if (activeTab === board.id && !editMode) {
             handleClick(e);
           } else {
             setActiveTab(board.id);
@@ -59,7 +105,48 @@ const Tab = React.memo(function ({
         }}
         sx={styles(activeTab === board.id)}
       >
-        {board.name}
+        {!editMode ? (
+          board.name
+        ) : (
+          <input
+            id={"renameInput" + board.id}
+            onBlur={async () => {
+              setEditMode(false);
+              if (title !== board.name && title.trim() !== "") {
+                toast.promise(
+                  fetchApiWithoutHook("property/boards/renameBoard", {
+                    id: board.id,
+                    name: title,
+                  }).then(() => mutate(mutationUrl)),
+                  {
+                    loading: "Renaming...",
+                    success: "Renamed board",
+                    error: "An error occurred while renaming the board",
+                  }
+                );
+              }
+            }}
+            style={{
+              outline: 0,
+              border: 0,
+              background: colors[themeColor][600],
+              boxShadow: "0px 0px 0px 5px " + colors[themeColor][600],
+              borderRadius: 9,
+              color: "#fff",
+              width: title.length + "ch",
+              minWidth: "100px",
+            }}
+            placeholder="Board title"
+            value={title}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              if (e.key === "Enter") {
+                e.currentTarget.blur();
+              }
+            }}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        )}
         {activeTab === board.id && (
           <span className="material-symbols-outlined">expand_circle_down</span>
         )}
@@ -131,6 +218,7 @@ export function TasksLayout() {
                 board={board}
                 emblaApi={emblaApi}
                 setActiveTab={setActiveTab}
+                mutationUrl={url}
               />
             ))}
           <Box>

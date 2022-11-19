@@ -18,7 +18,14 @@ const handler = async (req, res) => {
     return;
   }
 
-  
+  const data = await prisma.board.update({
+    where: {
+      id: req.query.id,
+    },
+    data: {
+      name: req.query.name,
+    },
+  });
 
   res.json(data);
 };

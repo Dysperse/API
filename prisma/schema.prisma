@@ -132,7 +132,7 @@ model Column {
   name    String
   emoji   String
   boardId String
-  board   Board  @relation(fields: [boardId], references: [id])
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
   tasks   Task[]
 }
 
@@ -151,5 +151,5 @@ model Task {
   subTasks    Task[] @relation("subtasks")
 
   columnId Int
-  column   Column @relation(fields: [columnId], references: [id])
+  column   Column @relation(fields: [columnId], references: [id], onDelete: Cascade)
 }

@@ -18,7 +18,11 @@ const handler = async (req, res) => {
     return;
   }
 
-  
+  const data = await prisma.board.delete({
+    where: {
+      id: req.query.id,
+    },
+  });
 
   res.json(data);
 };

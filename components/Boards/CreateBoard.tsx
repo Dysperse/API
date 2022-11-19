@@ -297,7 +297,7 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                         sx={{
                           fontSize: 18,
                           fontWeight: 600,
-                          mt: -0.5,
+                          mt: -0.7,
                           maxWidth: "100%",
                           textOverflow: "ellipsis",
                           overflow: "hidden",
@@ -306,10 +306,10 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                       >
                         {column.name}
                       </Box>
-                      <Box>
-                        <Skeleton animation={false} width={100} />
-                        <Skeleton animation={false} width={90} />
-                        <Skeleton animation={false} width={50} />
+                      <Box sx={{ mt: -1 }}>
+                        <Skeleton animation={false} height={15} width={100} />
+                        <Skeleton animation={false} height={15} width={90} />
+                        <Skeleton animation={false} height={15} width={50} />
                       </Box>
                     </Box>
                   ))}
