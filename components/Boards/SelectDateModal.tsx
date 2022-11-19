@@ -77,7 +77,21 @@ export function SelectDateModal({ styles, date, setDate }) {
         </Box>
       </SwipeableDrawer>
       <Button
-        sx={{ ...styles, gap: 1, borderRadius: 9999 }}
+        sx={{
+          ...styles,
+          gap: 1,
+          borderRadius: 9999,
+          transition: "all .2s",
+          ...(!date && {
+            background: colors[themeColor][100] + "!important",
+            gap: 0,
+          }),
+          ...(date && {
+            "&:hover": {
+              background: colors[themeColor][100] + "!important",
+            },
+          }),
+        }}
         onClick={() => {
           setOpen(true);
         }}
