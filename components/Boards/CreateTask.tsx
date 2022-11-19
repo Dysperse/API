@@ -142,6 +142,7 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
             />
             <Collapse in={showDescription}>
               <TextField
+                id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 fullWidth
@@ -171,7 +172,13 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
               </IconButton>
               <IconButton
                 disableRipple
-                onClick={() => setShowDescription(!showDescription)}
+                onClick={() => {
+                  setShowDescription(!showDescription);
+                  if (showDescription)
+                    setTimeout(() => {
+                      document.getElementById("description")?.focus();
+                    }, 100);
+                }}
                 sx={{
                   ...styles,
                   mx: 1,

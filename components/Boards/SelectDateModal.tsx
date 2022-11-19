@@ -75,18 +75,52 @@ export function SelectDateModal({ styles, date, setDate }) {
               },
             })}
           />
-          <Button onClick={() => setDate(today)}>Today</Button>
-          <Button onClick={() => setDate(null)}>Clear date</Button>
+          <Box
+            sx={{
+              mt: 1,
+              gap: 1,
+              display: "flex",
+              width: "100%",
+            }}
+          >
+            <Button
+              fullWidth
+              disableElevation
+              sx={{ borderRadius: 9 }}
+              variant="outlined"
+              onClick={() => {
+                setDate(null);
+                setOpen(false);
+              }}
+            >
+              Clear date
+            </Button>
+            <Button
+              fullWidth
+              disableElevation
+              sx={{ borderRadius: 9 }}
+              variant="contained"
+              onClick={() => {
+                setDate(today);
+                setOpen(false);
+              }}
+            >
+              Today
+            </Button>
+          </Box>
         </Box>
       </SwipeableDrawer>
       <Button
+        disableRipple
         sx={{
           ...styles,
           gap: 1,
+          background: "transparent!important",
           borderRadius: 9999,
           transition: "all .2s",
           ...(!date && {
             gap: 0,
+            // minWidth: "auto",
           }),
           ...(date && {
             animation: "dateIntro .2s forwards",
@@ -100,9 +134,15 @@ export function SelectDateModal({ styles, date, setDate }) {
         <span className="material-symbols-rounded">today</span>
         <span style={{ fontSize: "15px" }}>
           {today === formatDate(date) && "Today"}
+          {dayjs(today).add(1, "day").format("MM-DD-YYYY") ===
+            formatDate(date) && "Tomorrow"}
+
           {dayjs(date).format("MMM D") === "Invalid Date"
             ? ""
-            : today !== formatDate(date) && dayjs(date).format("MMM D")}
+            : today !== formatDate(date) &&
+              dayjs(today).add(1, "day").format("MM-DD-YYYY") !==
+                formatDate(date) &&
+              dayjs(date).format("MMM D")}
         </span>
       </Button>
     </>
