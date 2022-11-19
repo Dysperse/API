@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ErrorHandler } from "../error";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
@@ -11,7 +11,13 @@ import { CreateBoard } from "./CreateBoard";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-function Tab({ styles, activeTab, setActiveTab, emblaApi, board }) {
+const Tab = React.memo(function ({
+  styles,
+  activeTab,
+  setActiveTab,
+  emblaApi,
+  board,
+}: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -60,7 +66,7 @@ function Tab({ styles, activeTab, setActiveTab, emblaApi, board }) {
       </Button>
     </div>
   );
-}
+});
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
