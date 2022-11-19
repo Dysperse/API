@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { IconButton, Skeleton } from "@mui/material";
 import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
 import React from "react";
@@ -57,7 +57,44 @@ export const Board = React.memo(function ({ board }: any) {
               )}
             </Box>
           ) : (
-            <Box>Loading...</Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+                overflow: "hidden",
+              }}
+            >
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+            </Box>
           )}
         </Box>
       </Box>

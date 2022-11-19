@@ -115,7 +115,14 @@ export function TasksLayout() {
             <Button
               size="large"
               disableElevation
-              onClick={() => setActiveTab("new")}
+              onClick={() => {
+                setActiveTab("new");
+                emblaApi?.reInit({
+                  loop: false,
+                  containScroll: "keepSnaps",
+                  dragFree: true,
+                });
+              }}
               sx={{
                 ...styles(activeTab === "new"),
                 px: 2,
