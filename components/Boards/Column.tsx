@@ -6,11 +6,13 @@ import { Task } from "./Task";
 import React from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { colors } from "../../lib/colors";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { mutate } from "swr";
 
 function OptionsMenu({ mutationUrl, boardId, column }) {
+  const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const styles = {
     width: "100%",
@@ -71,20 +73,23 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
           </span>
           Edit emoji
         </Button>
-        <Button
+        <LoadingButton
+          loading={loading}
           sx={styles}
           size="large"
-          onClick={() => {
-            fetchApiWithoutHook("property/boards/deleteColumn", {
+          onClick={async () => {
+            setLoading(true);
+            await fetchApiWithoutHook("property/boards/deleteColumn", {
               id: column.id,
             });
-            mutate(mutationUrl);
+            await mutate(mutationUrl);
+            setLoading(false);
             setOpen(false);
           }}
         >
           <span className="material-symbols-outlined">delete</span>
           Delete column
-        </Button>
+        </LoadingButton>
       </SwipeableDrawer>
       <IconButton
         size="small"
