@@ -17,9 +17,12 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-
-  
-
+  // Delete column, and all tasks in it
+  const data = await prisma.column.delete({
+    where: {
+      id: parseInt(req.query.id),
+    },
+  });
   res.json(data);
 };
 
