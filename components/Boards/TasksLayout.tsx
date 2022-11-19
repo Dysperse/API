@@ -15,7 +15,7 @@ export function TasksLayout() {
   const [activeTab, setActiveTab] = useState(data ? data[0].id : "new");
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
-      loop: true,
+      loop: false,
       containScroll: "keepSnaps",
       dragFree: true,
     },
@@ -25,11 +25,17 @@ export function TasksLayout() {
   const router = useRouter();
 
   useEffect(() => {
+    if (emblaApi) {
+      emblaApi.reInit({
+        loop: false,
+        containScroll: "keepSnaps",
+        dragFree: true,
+      });
+    }
     const boardId = router.query.boardId;
 
     if (data && boardId) {
       const board = data.find((board) => (board.id === boardId ? boardId : ""));
-      // alert(boardId ? boardId : "");
       if (board) {
         alert(1);
         setActiveTab(board.id);
@@ -67,7 +73,12 @@ export function TasksLayout() {
       {error && (
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
-      <Box ref={emblaRef}>
+      <Box
+        ref={emblaRef}
+        sx={{
+          maxWidth: { sm: "calc(100vw - 85px)" },
+        }}
+      >
         <Box className="embla__container" sx={{ pl: 4 }}>
           {data &&
             data.map((board) => (
@@ -77,6 +88,13 @@ export function TasksLayout() {
                   disableElevation
                   onClick={() => {
                     router.push(`/tasks/${board.id}`);
+                    if (emblaApi) {
+                      emblaApi.reInit({
+                        loop: false,
+                        containScroll: "keepSnaps",
+                        dragFree: true,
+                      });
+                    }
                     if (activeTab === board.id) {
                     } else {
                       setActiveTab(board.id);
