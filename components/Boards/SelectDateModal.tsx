@@ -1,6 +1,7 @@
 import { Calendar } from "@mantine/dates";
 import { SwipeableDrawer } from "@mui/material";
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -74,6 +75,8 @@ export function SelectDateModal({ styles, date, setDate }) {
               },
             })}
           />
+          <Button onClick={() => setDate(today)}>Today</Button>
+          <Button onClick={() => setDate(null)}>Clear date</Button>
         </Box>
       </SwipeableDrawer>
       <Button
@@ -83,13 +86,11 @@ export function SelectDateModal({ styles, date, setDate }) {
           borderRadius: 9999,
           transition: "all .2s",
           ...(!date && {
-            background: colors[themeColor][100] + "!important",
             gap: 0,
           }),
           ...(date && {
-            "&:hover": {
-              background: colors[themeColor][100] + "!important",
-            },
+            animation: "dateIntro .2s forwards",
+            background: colors[themeColor][100] + "!important",
           }),
         }}
         onClick={() => {
