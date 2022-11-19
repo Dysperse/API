@@ -127,6 +127,7 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
         <Box sx={{ p: 3 }}>
           <form onSubmit={handleSubmit}>
             <TextField
+              id="title"
               autoComplete="off"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -174,10 +175,13 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
                 disableRipple
                 onClick={() => {
                   setShowDescription(!showDescription);
-                  if (showDescription)
-                    setTimeout(() => {
-                      document.getElementById("description")?.focus();
-                    }, 100);
+                  setTimeout(() => {
+                    {
+                      if (!showDescription)
+                        document.getElementById("description")?.focus();
+                      else document.getElementById("title")?.focus();
+                    }
+                  }, 100);
                 }}
                 sx={{
                   ...styles,
