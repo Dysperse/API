@@ -8,6 +8,59 @@ import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Board } from "./Board";
 import { CreateBoard } from "./CreateBoard";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+
+function Tab({ styles, activeTab, setActiveTab, emblaApi, board }) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>Rename</MenuItem>
+        <MenuItem onClick={handleClose}>Delete board</MenuItem>
+      </Menu>
+      <Button
+        size="large"
+        disableElevation
+        onClick={(e) => {
+          if (emblaApi) {
+            emblaApi.reInit({
+              containScroll: "keepSnaps",
+              dragFree: true,
+            });
+          }
+          if (activeTab === board.id) {
+            handleClick(e);
+          } else {
+            setActiveTab(board.id);
+          }
+        }}
+        sx={styles(activeTab === board.id)}
+      >
+        {board.name}
+        {activeTab === board.id && (
+          <span className="material-symbols-outlined">expand_circle_down</span>
+        )}
+      </Button>
+    </div>
+  );
+}
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
@@ -66,32 +119,13 @@ export function TasksLayout() {
         <Box className="embla__container" sx={{ pl: 4 }}>
           {data &&
             data.map((board) => (
-              <div>
-                <Button
-                  size="large"
-                  disableElevation
-                  onClick={() => {
-                    if (emblaApi) {
-                      emblaApi.reInit({
-                        containScroll: "keepSnaps",
-                        dragFree: true,
-                      });
-                    }
-                    if (activeTab === board.id) {
-                    } else {
-                      setActiveTab(board.id);
-                    }
-                  }}
-                  sx={styles(activeTab === board.id)}
-                >
-                  {board.name}
-                  {activeTab === board.id && (
-                    <span className="material-symbols-outlined">
-                      expand_circle_down
-                    </span>
-                  )}
-                </Button>
-              </div>
+              <Tab
+                styles={styles}
+                activeTab={activeTab}
+                board={board}
+                emblaApi={emblaApi}
+                setActiveTab={setActiveTab}
+              />
             ))}
           <Box>
             <Button
