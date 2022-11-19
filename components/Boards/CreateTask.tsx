@@ -216,7 +216,6 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
           gap: 0.5,
           py: 0,
           px: 0,
-          ml: -2,
           "&:hover": {
             backgroundColor: "rgba(200,200,200,0.3)",
             cursor: "pointer",

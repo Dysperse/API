@@ -231,11 +231,13 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
               }).then(async () => {
                 await mutate(mutationUrl);
                 setLoading(false);
-                emblaApi.reInit({
-                  loop: true,
-                  containScroll: "keepSnaps",
-                  dragFree: true,
-                });
+                if (emblaApi) {
+                  emblaApi.reInit({
+                    loop: true,
+                    containScroll: "keepSnaps",
+                    dragFree: true,
+                  });
+                }
               });
             }}
             sx={{

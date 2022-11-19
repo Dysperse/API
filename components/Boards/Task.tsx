@@ -117,7 +117,6 @@ export const Task = React.memo(function ({ task }: any): JSX.Element {
             gap: 1.5,
             py: 0,
             px: 0,
-            ml: -1,
           }}
         >
           <Checkbox
