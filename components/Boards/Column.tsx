@@ -124,17 +124,21 @@ export const Column = React.memo(function ({
         flex: "0 0 350px",
         border: "0px solid rgba(200, 200, 200, 0.4)",
         p: 3,
-        px: 4,
+        pt: 4,
+        px: 2,
         borderRadius: 5,
       }}
     >
-      <img src={column.emoji} />
+      <Box sx={{ px: 1 }}>
+        <img src={column.emoji} />
+      </Box>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           mb: 2,
+          px: 1,
         }}
       >
         <Typography

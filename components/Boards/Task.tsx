@@ -114,9 +114,19 @@ export const Task = React.memo(function ({ task }: any): JSX.Element {
         <ListItem
           sx={{
             borderRadius: 4,
-            gap: 1.5,
+            gap: 0.5,
             py: 0,
             px: 0,
+            userSelect: "none",
+            "&:hover": {
+              backgroundColor: "rgba(200,200,200,0.3)",
+              cursor: "pointer",
+            },
+            transition: "transform 0.2s ease-in-out",
+            "&:active": {
+              transform: "scale(.98)",
+              transition: "none",
+            },
           }}
         >
           <Checkbox
@@ -133,7 +143,6 @@ export const Task = React.memo(function ({ task }: any): JSX.Element {
             }}
             sx={{
               "&:hover": { bgcolor: "transparent" },
-              p: 0,
             }}
             color="default"
             checkedIcon={<BpCheckedIcon />}

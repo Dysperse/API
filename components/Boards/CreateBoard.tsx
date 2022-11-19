@@ -22,12 +22,12 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
         {
           name: "In progress",
           emoji:
-            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c3.png",
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ab.png",
         },
         {
           name: "Done",
           emoji:
-            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c1.png",
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/270c-fe0f.png",
         },
       ],
     },

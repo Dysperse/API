@@ -216,10 +216,14 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
           gap: 0.5,
           py: 0,
           px: 0,
-          ml: -1,
           "&:hover": {
             backgroundColor: "rgba(200,200,200,0.3)",
             cursor: "pointer",
+          },
+          transition: "transform 0.2s ease-in-out",
+          "&:active": {
+            transform: "scale(.98)",
+            transition: "none",
           },
         }}
         onClick={() => setOpen(true)}
