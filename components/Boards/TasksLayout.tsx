@@ -14,7 +14,6 @@ export function TasksLayout() {
   const [activeTab, setActiveTab] = useState(data ? data[0].id : "new");
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
-      loop: false,
       containScroll: "keepSnaps",
       dragFree: true,
     },
@@ -24,7 +23,6 @@ export function TasksLayout() {
   useEffect(() => {
     if (emblaApi) {
       emblaApi.reInit({
-        loop: false,
         containScroll: "keepSnaps",
         dragFree: true,
       });
@@ -62,7 +60,7 @@ export function TasksLayout() {
       <Box
         ref={emblaRef}
         sx={{
-          maxWidth: { sm: "calc(100vw - 85px)" },
+          maxWidth: { xs: "100vw", sm: "calc(100vw - 85px)" },
         }}
       >
         <Box className="embla__container" sx={{ pl: 4 }}>
@@ -75,7 +73,6 @@ export function TasksLayout() {
                   onClick={() => {
                     if (emblaApi) {
                       emblaApi.reInit({
-                        loop: false,
                         containScroll: "keepSnaps",
                         dragFree: true,
                       });
@@ -103,7 +100,6 @@ export function TasksLayout() {
               onClick={() => {
                 setActiveTab("new");
                 emblaApi?.reInit({
-                  loop: false,
                   containScroll: "keepSnaps",
                   dragFree: true,
                 });
