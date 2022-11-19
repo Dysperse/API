@@ -131,6 +131,8 @@ const Tab = React.memo(function ({
               border: 0,
               background: colors[themeColor][600],
               boxShadow: "0px 0px 0px 5px " + colors[themeColor][600],
+              fontWeight: "500",
+              fontSize: "15px",
               borderRadius: 9,
               color: "#fff",
               width: title.length + "ch",
@@ -142,6 +144,10 @@ const Tab = React.memo(function ({
               e.stopPropagation();
               if (e.key === "Enter") {
                 e.currentTarget.blur();
+              }
+              if (e.key === "Escape" && title !== board.name) {
+                setEditMode(false);
+                setTitle(board.name);
               }
             }}
             onChange={(e) => setTitle(e.target.value)}
