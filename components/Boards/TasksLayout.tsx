@@ -8,11 +8,12 @@ import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Board } from "./Board";
 import { CreateBoard } from "./CreateBoard";
+import { useRouter } from "next/router";
 
 export function TasksLayout() {
-  const { data, error } = useApi("property/boards");
+  const { data, url, error } = useApi("property/boards");
   const [activeTab, setActiveTab] = useState(data ? data[0].id : "new");
-  const [emblaRef] = useEmblaCarousel(
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
       containScroll: "keepSnaps",
@@ -21,9 +22,21 @@ export function TasksLayout() {
     [WheelGesturesPlugin()]
   );
 
+  const router = useRouter();
+
   useEffect(() => {
-    if (data && !error && data[0]) {
+    const boardId = router.query.boardId;
+
+    if (data && boardId) {
+      const board = data.find((board) => (board.id === boardId ? boardId : ""));
+      // alert(boardId ? boardId : "");
+      if (board) {
+        alert(1);
+        setActiveTab(board.id);
+      }
+    } else if (data) {
       setActiveTab(data[0].id);
+      router.push(`/tasks/${data[0].id}`);
     } else if ((data && !data[0]) || error) {
       setActiveTab("new");
     }
@@ -36,6 +49,7 @@ export function TasksLayout() {
     borderRadius: 4,
     mr: 1,
     fontSize: "15px",
+    whiteSpace: "nowrap",
     "&:hover, &:focus": {
       background: "#eee!important",
     },
@@ -54,21 +68,32 @@ export function TasksLayout() {
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
       <Box ref={emblaRef}>
-        <div className="embla__container">
+        <Box className="embla__container" sx={{ pl: 4 }}>
           {data &&
             data.map((board) => (
               <div>
                 <Button
                   size="large"
                   disableElevation
-                  onClick={() => setActiveTab(board.id)}
-                  sx={{ ...styles(activeTab === board.id), ml: 4}}
+                  onClick={() => {
+                    router.push(`/tasks/${board.id}`);
+                    if (activeTab === board.id) {
+                    } else {
+                      setActiveTab(board.id);
+                    }
+                  }}
+                  sx={styles(activeTab === board.id)}
                 >
                   {board.name}
+                  {activeTab === board.id && (
+                    <span className="material-symbols-outlined">
+                      expand_circle_down
+                    </span>
+                  )}
                 </Button>
               </div>
             ))}
-          <div>
+          <Box>
             <Button
               size="large"
               disableElevation
@@ -81,11 +106,15 @@ export function TasksLayout() {
             >
               <span className="material-symbols-rounded">add_circle</span>Create
             </Button>
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Box>
 
-      <Box>{activeTab === "new" && <CreateBoard />}</Box>
+      <Box>
+        {activeTab === "new" && (
+          <CreateBoard emblaApi={emblaApi} mutationUrl={url} />
+        )}
+      </Box>
       {data &&
         data.map((board) => activeTab === board.id && <Board board={board} />)}
     </Box>

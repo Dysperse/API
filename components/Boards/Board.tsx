@@ -21,9 +21,7 @@ function Renderer({ data, url, board }) {
 export const Board = React.memo(function ({ board }: any) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
-    align: "start",
   });
-
   return (
     <Box sx={{ mt: 4 }}>
       {error && (
@@ -57,20 +55,6 @@ export const Board = React.memo(function ({ board }: any) {
               {data.length < 5 && (
                 <CreateColumn id={board.id} mutationUrl={url} />
               )}
-              <IconButton
-                sx={{
-                  transition: "none!important",
-                  backgroundColor: "rgba(200, 200, 200, 0.3)!important",
-                  border: "1px solid rgba(200, 200, 200, 0.5)!important",
-                  "&:hover,&:active": {
-                    color: "#000",
-                    border: "1px solid rgba(200, 200, 200, 0.9)!important",
-                    backgroundColor: "rgba(200, 200, 200, 0.5)!important",
-                  },
-                }}
-              >
-                <span className="material-symbols-outlined">more_vert</span>
-              </IconButton>
             </Box>
           ) : (
             <Box>Loading...</Box>

@@ -63,6 +63,7 @@ export function CreateColumn({ mutationUrl, id }: any) {
             width: "400px",
             flex: "0 0 auto",
             mr: 2,
+            height: "100%",
             border: "1px solid rgba(200, 200, 200, 0.9)",
             p: 3,
             px: 4,
@@ -164,22 +165,24 @@ export function CreateColumn({ mutationUrl, id }: any) {
           </Box>
         </Box>
       )}
-      <IconButton
-        disabled={open}
-        onClick={() => setOpen(true)}
-        sx={{
-          transition: "none!important",
-          backgroundColor: "rgba(200, 200, 200, 0.3)!important",
-          border: "1px solid rgba(200, 200, 200, 0.5)!important",
-          "&:hover,&:active": {
-            color: "#000",
-            border: "1px solid rgba(200, 200, 200, 0.9)!important",
-            backgroundColor: "rgba(200, 200, 200, 0.5)!important",
-          },
-        }}
-      >
-        <span className="material-symbols-outlined">add</span>
-      </IconButton>
+      {!open && (
+        <IconButton
+          disabled={open}
+          onClick={() => setOpen(true)}
+          sx={{
+            transition: "none!important",
+            backgroundColor: "rgba(200, 200, 200, 0.3)!important",
+            border: "1px solid rgba(200, 200, 200, 0.5)!important",
+            "&:hover,&:active": {
+              color: "#000",
+              border: "1px solid rgba(200, 200, 200, 0.9)!important",
+              backgroundColor: "rgba(200, 200, 200, 0.5)!important",
+            },
+          }}
+        >
+          <span className="material-symbols-outlined">add</span>
+        </IconButton>
+      )}
     </>
   );
 }

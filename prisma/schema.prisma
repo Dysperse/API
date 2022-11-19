@@ -118,11 +118,10 @@ model PasswordResetToken {
 // Kanban boards
 
 model Board {
-  id          String   @id @default(uuid())
-  name        String
-  description String
-  public      Boolean  @default(false)
-  columns     Column[]
+  id      String   @id @default(uuid())
+  name    String
+  public  Boolean  @default(false)
+  columns Column[]
 
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])

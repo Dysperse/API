@@ -2,9 +2,12 @@ import Masonry from "@mui/lab/Masonry";
 import { Card, CardActionArea, Skeleton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import { useState } from "react";
 
-export function CreateBoard() {
+export function CreateBoard({ emblaApi, mutationUrl }: any) {
   const templates = [
     {
       name: "To-do",
@@ -213,36 +216,63 @@ export function CreateBoard() {
       ],
     },
   ];
+
+  const [loading, setLoading] = useState(false);
+
   return (
-    <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2,ml:4 }}>
-      {templates.map((template) => (
-        <Box
-          onClick={() => {
-            alert(JSON.stringify(template));
-          }}
-          sx={{
-            maxWidth: "calc(100vw - 52.5px)",
-          }}
-        >
-          <Card
+    <Box sx={{ px: 4 }}>
+      <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
+        {templates.map((template) => (
+          <Box
+            onClick={() => {
+              setLoading(true);
+              fetchApiWithoutHook("property/boards/createBoard", {
+                board: JSON.stringify(template),
+              }).then(async () => {
+                await mutate(mutationUrl);
+                setLoading(false);
+                emblaApi.reInit({
+                  loop: true,
+                  containScroll: "keepSnaps",
+                  dragFree: true,
+                });
+              });
+            }}
             sx={{
-              width: "100%!important",
-              background: "rgba(200,200,200,.3)",
-              borderRadius: 5,
+              maxWidth: "calc(100vw - 52.5px)",
             }}
           >
-            <CardActionArea>
+            <Card
+              sx={{
+                ...(loading && {
+                  opacity: 0.5,
+                  pointerEvents: "none",
+                }),
+                width: "100%!important",
+                background: "rgba(200,200,200,.3)",
+                borderRadius: 5,
+                transition: "transform 0.2s",
+                cursor: "pointer",
+                userSelect: "none",
+                "&:hover": {
+                  background: "rgba(200,200,200,.4)",
+                },
+                "&:active": {
+                  background: "rgba(200,200,200,.5)",
+                  transform: "scale(.98)",
+                  transition: "none",
+                },
+              }}
+            >
               <Box>
                 <Box
                   sx={{
-                    background: "rgba(200,200,200,.3)",
+                    background: "rgba(200,200,200,.2)",
                     color: "#000",
                     borderRadius: 5,
                     borderBottomLeftRadius: 0,
                     borderBottomRightRadius: 0,
                     display: "flex",
-                    p: { xs: 1, sm: 2 },
-                    gap: 1,
                   }}
                 >
                   {template.columns.map((column, index) => (
@@ -251,11 +281,12 @@ export function CreateBoard() {
                         width: "100%",
                         display: "flex",
                         overflowX: "auto",
-                        p: { xs: 1.5, sm: 2 },
-                        borderRadius: 5,
+                        p: { xs: 1.5, sm: 2.5 },
                         gap: 2,
-                        background: "rgba(200,200,200,.3)",
-                        border: "1px solid #ccc",
+                        borderRight:
+                          index !== template.columns.length - 1
+                            ? "1px solid rgba(0,0,0,.1)"
+                            : "none",
                         flexDirection: "column",
                       }}
                     >
@@ -263,6 +294,8 @@ export function CreateBoard() {
                       <Box
                         sx={{
                           fontSize: 18,
+                          fontWeight: 600,
+                          mt: -0.5,
                           maxWidth: "100%",
                           textOverflow: "ellipsis",
                           overflow: "hidden",
@@ -275,7 +308,6 @@ export function CreateBoard() {
                         <Skeleton animation={false} width={100} />
                         <Skeleton animation={false} width={90} />
                         <Skeleton animation={false} width={50} />
-                        <Skeleton animation={false} width={70} />
                       </Box>
                     </Box>
                   ))}
@@ -289,10 +321,10 @@ export function CreateBoard() {
                   </Typography>
                 </Box>
               </Box>
-            </CardActionArea>
-          </Card>
-        </Box>
-      ))}
-    </Masonry>
+            </Card>
+          </Box>
+        ))}
+      </Masonry>
+    </Box>
   );
 }

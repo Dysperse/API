@@ -286,7 +286,7 @@ export function Navbar(): JSX.Element {
             : router.asPath === "/tidy"
             ? colors[themeColor][800]
             : "rgba(255,255,255,.8)",
-          sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.8)",
+          sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.9)",
         },
         borderBottom: "1px solid rgba(200,200,200,.5)",
         backdropFilter: "blur(10px)",
