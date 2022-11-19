@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Head from "next/head";
-import { TasksLayout } from "../../components/Boards/TasksLayout";
+import { TasksLayout } from "../components/Boards/TasksLayout";
 
 /**
  * Top-level component for the dashboard page.

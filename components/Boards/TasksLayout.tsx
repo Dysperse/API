@@ -8,7 +8,6 @@ import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Board } from "./Board";
 import { CreateBoard } from "./CreateBoard";
-import { useRouter } from "next/router";
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
@@ -22,8 +21,6 @@ export function TasksLayout() {
     [WheelGesturesPlugin()]
   );
 
-  const router = useRouter();
-
   useEffect(() => {
     if (emblaApi) {
       emblaApi.reInit({
@@ -32,19 +29,8 @@ export function TasksLayout() {
         dragFree: true,
       });
     }
-    const boardId = router.query.boardId;
-
-    if (data && boardId) {
-      const board = data.find((board) => (board.id === boardId ? boardId : ""));
-      if (board) {
-        alert(1);
-        setActiveTab(board.id);
-      }
-    } else if (data) {
+    if (data) {
       setActiveTab(data[0].id);
-      router.push(`/tasks/${data[0].id}`);
-    } else if ((data && !data[0]) || error) {
-      setActiveTab("new");
     }
   }, [data]);
 
@@ -87,7 +73,6 @@ export function TasksLayout() {
                   size="large"
                   disableElevation
                   onClick={() => {
-                    router.push(`/tasks/${board.id}`);
                     if (emblaApi) {
                       emblaApi.reInit({
                         loop: false,

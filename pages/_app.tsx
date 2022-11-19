@@ -248,6 +248,10 @@ function Render({
     <>
       <Head>
         <title>Carbon: Next-gen personal home inventory</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no"
+        />
       </Head>
       <ThemeProvider theme={userTheme}>
         <Box>

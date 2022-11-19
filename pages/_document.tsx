@@ -24,10 +24,6 @@ export default function Document() {
         <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no"
-        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
