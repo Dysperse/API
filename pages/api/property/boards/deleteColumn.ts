@@ -1,7 +1,5 @@
 import { prisma } from "../../../../lib/prismaClient";
-import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-import type { Item } from "@prisma/client";
 /**
  * API handler
  * @param {any} req
@@ -23,6 +21,7 @@ const handler = async (req, res) => {
       id: parseInt(req.query.id),
     },
   });
+
   res.json(data);
 };
 
