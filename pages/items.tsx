@@ -226,7 +226,7 @@ function Action({
     <ListItem
       button
       onClick={() => {
-        if (href) router.push(href);
+        if (href) router.push(href).then(() => setLoading(false));
         else {
           onClick && onClick();
         }
@@ -234,26 +234,40 @@ function Action({
       }}
       secondaryAction={
         !disableLoading && loading ? (
-          <CircularProgress size={18} sx={{ ml: "auto", mt: "8px" }} />
+          <CircularProgress size={15} sx={{ ml: "auto", mt: "8px" }} />
         ) : (
-          <span
-            className="material-symbols-rounded"
-            style={{ marginTop: "10px" }}
+          <Box
+            sx={{
+              display: { sm: "none" },
+            }}
           >
-            chevron_right
-          </span>
+            <span
+              className="material-symbols-rounded"
+              style={{ marginTop: "10px" }}
+            >
+              chevron_right
+            </span>
+          </Box>
         )
       }
       sx={{
         mb: 1,
         transition: "transform .1s !important",
-        background: "transparent!important",
-
         borderRadius: 4,
         "&:active": {
           transform: "scale(.99)",
           background: "transparent!important",
         },
+        "&:hover": {
+          background: { sm: colors[themeColor][50] + "!important" },
+        },
+        ...(router.asPath.toLowerCase().includes(primary.toLowerCase())
+          ? {
+              background: colors[themeColor][50] + "!important",
+            }
+          : {
+              background: "transparent!important",
+            }),
         ...(theme === "dark" && {
           "&:hover .MuiAvatar-root": {
             background: "hsl(240,11%,27%)",
@@ -282,7 +296,13 @@ function Action({
       <ListItemText
         primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
         secondary={
-          <Typography sx={{ fontWeight: "400", fontSize: "15px" }}>
+          <Typography
+            sx={{
+              fontWeight: "400",
+              fontSize: "15px",
+              display: { sm: "none" },
+            }}
+          >
             {itemCount} item{itemCount !== 1 && "s"}
           </Typography>
         }
@@ -320,7 +340,7 @@ function Rooms() {
 /**
  * Top-level component for the items page
  */
-export default function Categories() {
+export default function Categories({ children = <></> }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   /**
@@ -336,58 +356,69 @@ export default function Categories() {
   return (
     <Box
       sx={{
-        maxWidth: { sm: "500px" },
-        mx: "auto",
+        display: "flex",
       }}
     >
-      <FloatingActionButton />
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
+      <Box
+        sx={{
+          width: { sm: 300 },
+          mt: { sm: -6 },
+          pt: { sm: 4 },
+          px: 1,
+          postition: "sticky",
+          height: "100vh",
+          overflowY: "scroll",
+          borderRight: { sm: "1px solid rgba(0,0,0,.1)" },
+          borderLeft: { sm: "1px solid rgba(0,0,0,.1)" },
         }}
       >
-        <MenuItem
-          onClick={() => {
-            setViewBy("room");
-            handleClose();
+        <FloatingActionButton />
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
           }}
-          sx={{
-            ...(viewBy === "room" && {
-              background:
-                colors[global.themeColor][global.user.darkMode ? 700 : 300],
-            }),
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
           }}
-        >
-          Room
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setViewBy("category");
-            handleClose();
-          }}
-          sx={{
-            ...(viewBy === "category" && {
-              background:
-                colors[global.themeColor][global.user.darkMode ? 700 : 300],
-            }),
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
           }}
         >
-          Category
-        </MenuItem>
-      </Menu>
-      <Container sx={{ mb: 3 }}>
+          <MenuItem
+            onClick={() => {
+              setViewBy("room");
+              handleClose();
+            }}
+            sx={{
+              ...(viewBy === "room" && {
+                background:
+                  colors[global.themeColor][global.user.darkMode ? 700 : 300],
+              }),
+            }}
+          >
+            Room
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setViewBy("category");
+              handleClose();
+            }}
+            sx={{
+              ...(viewBy === "category" && {
+                background:
+                  colors[global.themeColor][global.user.darkMode ? 700 : 300],
+              }),
+            }}
+          >
+            Category
+          </MenuItem>
+        </Menu>
         <Box
           sx={{
             my: 4,
@@ -395,7 +426,10 @@ export default function Categories() {
             borderRadius: "15px!important",
           }}
         >
-          <Typography sx={{ my: 5, fontWeight: "600" }} variant="h5">
+          <Typography
+            sx={{ my: 5, fontWeight: "600", display: { sm: "none" } }}
+            variant="h5"
+          >
             Inventory
           </Typography>
           <ButtonGroup
@@ -549,7 +583,8 @@ export default function Categories() {
         ) : (
           <CategoryList />
         )}
-      </Container>
+      </Box>
+      {children}
     </Box>
   );
 }

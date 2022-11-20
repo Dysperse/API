@@ -2,7 +2,7 @@ import { decode } from "js-base64";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { RoomComponent } from "../../components/Rooms/RoomComponent";
-
+import Categories from "../items";
 /**
  * Top-level component for the room page
  * @returns {any}
@@ -24,7 +24,9 @@ export default function Room() {
           &bull; Carbon
         </title>
       </Head>
-      <RoomComponent index={index} key={index} />
+      <Categories>
+        <RoomComponent index={index} key={index} />
+      </Categories>
     </>
   );
 }

@@ -17,6 +17,8 @@ import React from "react";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import toast from "react-hot-toast";
 import hexToRgba from "hex-to-rgba";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { CreateTask } from "./CreateTask";
 
 const Color = ({ color }: { color: string }) => {
@@ -24,6 +26,7 @@ const Color = ({ color }: { color: string }) => {
     <CardActionArea
       sx={{
         width: "50px",
+        flex: "0 0 50px",
         borderRadius: 9,
         height: "50px",
         background: colors[color]["A700"],
@@ -134,13 +137,21 @@ export const Task = React.memo(function ({
   mutationUrl,
   task,
 }: any): JSX.Element {
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: false,
+      containScroll: "keepSnaps",
+      dragFree: true,
+    },
+    [WheelGesturesPlugin()]
+  );
   const [checked, setChecked] = useState(task.completed);
   const [open, setOpen] = useState(false);
 
   return (
     <Box>
       <SwipeableDrawer
-        anchor="right"
+        anchor="bottom"
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
@@ -148,11 +159,12 @@ export const Task = React.memo(function ({
         PaperProps={{
           elevation: 0,
           sx: {
+            mb: { sm: 2 },
             width: "100%",
-            m: { sm: "20px" },
-            height: { sm: "calc(100% - 40px)" },
+            mx: "auto",
+            height: "90vh",
+            maxWidth: "500px",
             borderRadius: 5,
-            maxWidth: 500,
             background: colors[global.themeColor ?? "brown"][900],
             color: colors[global.themeColor ?? "brown"][50],
           },
@@ -220,19 +232,25 @@ export const Task = React.memo(function ({
           </Box>
 
           <Box
+            ref={emblaRef}
             sx={{
               mt: 2,
-              display: "block",
+              gap: 2,
+              overflowX: "auto",
+              ml: 7,
+              borderRadius: 5,
             }}
           >
-            <Color color="red" />
-            <Color color="orange" />
-            <Color color="lightBlue" />
-            <Color color="blue" />
-            <Color color="purple" />
-            <Color color="pink" />
-            <Color color="green" />
-            <Color color="deepOrange" />
+            <Box className="embla__container" sx={{ gap: 2 }}>
+              <Color color="red" />
+              <Color color="orange" />
+              <Color color="lightBlue" />
+              <Color color="blue" />
+              <Color color="purple" />
+              <Color color="pink" />
+              <Color color="green" />
+              <Color color="deepOrange" />
+            </Box>
           </Box>
 
           <Box

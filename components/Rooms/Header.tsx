@@ -38,6 +38,7 @@ export function Header({
             : "rgba(200,200,200,.3)!important",
         mb: 2,
         py: 3,
+        zIndex: 0,
         "&:focus": {
           background:
             theme === "dark" ? "hsl(240,11%,27%)" : "rgba(200,200,200,.3)",
@@ -52,7 +53,7 @@ export function Header({
     >
       <Box
         sx={{
-          zIndex: 999,
+          zIndex: 9,
           display: "flex",
           alignItems: "center",
           width: "100%",
