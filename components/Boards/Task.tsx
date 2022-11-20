@@ -136,10 +136,10 @@ export const Task = React.memo(function ({
           elevation: 0,
           sx: {
             width: "100%",
-            m: "10px",
-            height: "calc(100% - 20px)",
+            m: { sm: "20px" },
+            height: { sm: "calc(100% - 40px)" },
             borderRadius: 5,
-            maxWidth: 400,
+            maxWidth: 500,
             background: colors[global.themeColor ?? "brown"][900],
             color: colors[global.themeColor ?? "brown"][50],
           },
@@ -175,7 +175,7 @@ export const Task = React.memo(function ({
                 inputProps={{ "aria-label": "Checkbox demo" }}
               />
             </Box>
-            <Box>
+            <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h4" sx={{ mb: 1, fontWeight: "900" }}>
                 {task.name}
               </Typography>
@@ -193,7 +193,9 @@ export const Task = React.memo(function ({
                     mt: 2,
                     "&:focus-within": {
                       background: colors[global.themeColor ?? "brown"][700],
-                      boxShadow: "0px 0px 0px 2px rgba(255,255,255,0.5)",
+                      boxShadow:
+                        "0px 0px 0px 2px " +
+                        colors[global.themeColor ?? "brown"][300],
                     },
                   },
                 }}
@@ -225,7 +227,7 @@ export const Task = React.memo(function ({
               <SubTask subtask={subtask} />
             ))}
             <CreateTask
-              // parent={task.id}
+              parent={task.id}
               boardId={boardId}
               columnId={columnId}
               mutationUrl={mutationUrl}
@@ -264,6 +266,9 @@ export const Task = React.memo(function ({
               }).catch((err) =>
                 toast.error("An error occured while updating the task")
               );
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
             }}
             sx={{
               "&:hover": { bgcolor: "transparent" },

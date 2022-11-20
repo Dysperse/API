@@ -18,7 +18,12 @@ import { colors } from "../../lib/colors";
 import { SelectDateModal } from "./SelectDateModal";
 import { BpCheckedIcon, BpIcon } from "./Task";
 
-export function CreateTask({ mutationUrl, boardId, columnId }) {
+export function CreateTask({
+  parent = false,
+  mutationUrl,
+  boardId,
+  columnId,
+}: any) {
   const [value, setValue] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -226,7 +231,7 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
         sx={{
           borderRadius: 4,
           gap: 0.5,
-          py: 0,
+          py: 0.5,
           px: 0,
           "&:hover": {
             backgroundColor: "rgba(200,200,200,0.3)",
@@ -234,22 +239,23 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
           },
           transition: "transform 0.2s ease-in-out",
           "&:active": {
-            transform: "scale(.98)",
+            transform: "scale(.96)",
             transition: "none",
           },
         }}
         onClick={() => setOpen(true)}
       >
-        <Checkbox
-          disabled
-          sx={{
-            "&:hover": { bgcolor: "transparent" },
+        <span
+          className="material-symbols-outlined"
+          style={{
+            color: "#aaa",
+            marginLeft: "7px",
+            marginRight: "5px",
+            fontSize: "30px",
           }}
-          color="default"
-          checkedIcon={<BpCheckedIcon />}
-          icon={<BpIcon />}
-          inputProps={{ "aria-label": "Checkbox demo" }}
-        />
+        >
+          add_circle_outline
+        </span>
 
         <ListItemText
           className="textbox"
@@ -259,7 +265,7 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
                 fontWeight: "500",
               }}
             >
-              New list item
+              {parent ? "New subtask" : "New list item"}
             </span>
           }
         />
