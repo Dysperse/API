@@ -340,7 +340,7 @@ function Rooms() {
 /**
  * Top-level component for the items page
  */
-export default function Categories({ children = <></> }) {
+export default function Categories({ children = null }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   /**
@@ -585,7 +585,21 @@ export default function Categories({ children = <></> }) {
           <CategoryList />
         )}
       </Box>
-      {children}
+      {children ?? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "calc(100vh - 65px)",
+            width: "100%",
+            fontWeight: "500",
+            color: colors[themeColor][global.user.darkMode ? 50 : 500],
+          }}
+        >
+          No room selected
+        </Box>
+      )}
     </Box>
   );
 }
