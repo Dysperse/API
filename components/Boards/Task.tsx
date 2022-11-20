@@ -19,6 +19,19 @@ import toast from "react-hot-toast";
 import hexToRgba from "hex-to-rgba";
 import { CreateTask } from "./CreateTask";
 
+const Color = ({ color }: { color: string }) => {
+  return (
+    <CardActionArea
+      sx={{
+        width: "50px",
+        borderRadius: 9,
+        height: "50px",
+        background: colors[color]["A700"],
+      }}
+    />
+  );
+};
+
 export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   borderRadius: 99,
   width: 25,
@@ -204,6 +217,22 @@ export const Task = React.memo(function ({
                 value={task.description}
               />
             </Box>
+          </Box>
+
+          <Box
+            sx={{
+              mt: 2,
+              display: "block",
+            }}
+          >
+            <Color color="red" />
+            <Color color="orange" />
+            <Color color="lightBlue" />
+            <Color color="blue" />
+            <Color color="purple" />
+            <Color color="pink" />
+            <Color color="green" />
+            <Color color="deepOrange" />
           </Box>
 
           <Box
