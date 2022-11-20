@@ -257,7 +257,12 @@ export const Column = React.memo(function ({
       {column.tasks
         .filter((task) => task.parentTasks.length === 0)
         .map((task) => (
-          <Task task={task} />
+          <Task
+            task={task}
+            mutationUrl={mutationUrl}
+            boardId={boardId}
+            columnId={column.id}
+          />
         ))}
 
       <CreateTask

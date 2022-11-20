@@ -222,6 +222,7 @@ export function CreateTask({ mutationUrl, boardId, columnId }) {
         </Box>
       </SwipeableDrawer>
       <ListItem
+        button
         sx={{
           borderRadius: 4,
           gap: 0.5,
