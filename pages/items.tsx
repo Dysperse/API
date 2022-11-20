@@ -362,6 +362,7 @@ export default function Categories({ children = <></> }) {
       <Box
         sx={{
           width: { sm: 300 },
+          flex: { sm: "0 0 300px" },
           mt: { sm: -6 },
           pt: { sm: 4 },
           px: 1,
