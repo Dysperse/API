@@ -59,13 +59,14 @@ export function Header({
           width: "100%",
         }}
       >
-        <ListItemAvatar sx={{ mr: 2 }}>
+        <ListItemAvatar sx={{ mr: { xs: 2, sm: -3 } }}>
           <IconButton
             onClick={() => {
               router.push("/items");
             }}
             size="large"
             sx={{
+              display: { sm: "none" },
               background: "transparent",
               transition: "background .2s",
             }}
@@ -76,7 +77,7 @@ export function Header({
         </ListItemAvatar>
 
         <ListItemText
-          sx={{ my: 1.4, textAlign: "center" }}
+          sx={{ my: 1.4, textAlign: { xs: "center", sm: "left" } }}
           primary={
             <Typography
               sx={{
