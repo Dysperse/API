@@ -103,7 +103,10 @@ const Tab = React.memo(function ({
             setActiveTab(board.id);
           }
         }}
-        sx={styles(activeTab === board.id)}
+        sx={{
+          ...styles(activeTab === board.id),
+          gap: 2,
+        }}
       >
         {!editMode ? (
           board.name
@@ -145,7 +148,7 @@ const Tab = React.memo(function ({
               if (e.key === "Enter") {
                 e.currentTarget.blur();
               }
-              if (e.key === "Escape" && title !== board.name) {
+              if (e.key === "Escape") {
                 setEditMode(false);
                 setTitle(board.name);
               }
@@ -154,7 +157,7 @@ const Tab = React.memo(function ({
           />
         )}
         {activeTab === board.id && (
-          <span className="material-symbols-outlined">expand_circle_down</span>
+          <span className="material-symbols-outlined">more_horiz</span>
         )}
       </Button>
     </div>

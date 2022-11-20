@@ -10,6 +10,55 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { colors } from "../../lib/colors";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { mutate } from "swr";
+import { TextField } from "@mui/material";
+import EmojiPicker from "emoji-picker-react";
+
+function EmojiPickerModal({ emoji, setEmoji }: any) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            width: "100%",
+            maxWidth: "50vw",
+            borderRadius: "20px 20px 0 0",
+            mx: "auto",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            p: 1,
+          }}
+        >
+          <EmojiPicker
+            width="100%"
+            onEmojiClick={(event, emojiObject) => {
+              const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
+              setEmoji(url);
+              setOpen(false);
+            }}
+          />
+        </Box>
+      </SwipeableDrawer>
+      <Button
+        onClick={() => setOpen(true)}
+        sx={{
+          backgroundColor: "#ccc !important",
+        }}
+      >
+        <img src={emoji} alt="emoji" width="30" height="30" />
+      </Button>
+    </>
+  );
+}
 
 function OptionsMenu({ mutationUrl, boardId, column }) {
   const [loading, setLoading] = React.useState(false);
@@ -24,6 +73,10 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
       backgroundColor: colors[themeColor]["100"] + "!important",
     },
   };
+  const [editMode, setEditMode] = React.useState(false);
+  const [title, setTitle] = React.useState(column.name);
+  const [emoji, setEmoji] = React.useState(column.emoji);
+
   return (
     <>
       <SwipeableDrawer
@@ -56,40 +109,83 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
             borderBottom: "1px solid #e0e0e0",
           }}
         >
-          <img src={column.emoji} alt="emoji" width="30" height="30" />
-          <Typography variant="h6" sx={{ fontWeight: "700" }}>
-            {column.name}
-          </Typography>
+          {!editMode ? (
+            <img src={column.emoji} alt="emoji" width="30" height="30" />
+          ) : (
+            <EmojiPickerModal emoji={emoji} setEmoji={setEmoji} />
+          )}
+          {editMode ? (
+            <TextField
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              id={"renameInput"}
+              size="small"
+              InputProps={{
+                sx: {
+                  fontWeight: "700",
+                },
+              }}
+            />
+          ) : (
+            <Typography variant="h6" sx={{ fontWeight: "700" }}>
+              {column.name}
+            </Typography>
+          )}
         </Box>
-        <Button sx={styles} size="large">
-          <span className="material-symbols-outlined">
-            drive_file_rename_outline
-          </span>
-          Rename
-        </Button>
-        <Button sx={styles} size="large">
-          <span className="material-symbols-outlined">
-            sentiment_very_satisfied
-          </span>
-          Edit emoji
-        </Button>
-        <LoadingButton
-          loading={loading}
-          sx={styles}
-          size="large"
-          onClick={async () => {
-            setLoading(true);
-            await fetchApiWithoutHook("property/boards/deleteColumn", {
-              id: column.id,
-            });
-            await mutate(mutationUrl);
-            setLoading(false);
-            setOpen(false);
-          }}
-        >
-          <span className="material-symbols-outlined">delete</span>
-          Delete column
-        </LoadingButton>
+        {!editMode ? (
+          <Box>
+            <Button sx={styles} size="large" onClick={() => setEditMode(true)}>
+              <span className="material-symbols-outlined">edit</span>
+              Edit
+            </Button>
+            <LoadingButton
+              loading={loading}
+              sx={styles}
+              size="large"
+              onClick={async () => {
+                setLoading(true);
+                await fetchApiWithoutHook("property/boards/deleteColumn", {
+                  id: column.id,
+                });
+                await mutate(mutationUrl);
+                setLoading(false);
+                setOpen(false);
+              }}
+            >
+              <span className="material-symbols-outlined">delete</span>
+              Delete column
+            </LoadingButton>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+            }}
+          >
+            <Button sx={styles} size="large" onClick={() => setEditMode(false)}>
+              <span className="material-symbols-outlined">cancel</span>
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                ...styles,
+                background: colors[themeColor]["800"] + "!important",
+                color: colors[themeColor]["50"] + "!important",
+                "&:hover": {
+                  background: colors[themeColor]["900"] + "!important",
+                },
+              }}
+              size="large"
+              disableElevation
+              variant="contained"
+              onClick={() => setEditMode(true)}
+            >
+              <span className="material-symbols-outlined">check</span>
+              Save
+            </Button>
+          </Box>
+        )}
       </SwipeableDrawer>
       <IconButton
         size="small"
