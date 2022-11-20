@@ -361,12 +361,12 @@ export default function Categories({ children = null }: any) {
     >
       <Box
         sx={{
-          width: { sm: 300 },
-          flex: { sm: "0 0 300px" },
+          width: { xs: "100%", sm: 300 },
+          flex: { xs: "100%", sm: "0 0 300px" },
           mt: { sm: -6 },
           pt: { sm: 4 },
           px: 1,
-          display: { xs: "none", sm: "block" },
+          display: { xs: children ? "none" : "block", sm: "block" },
           minHeight: "100vh",
           height: "100%",
           overflowY: "scroll",
@@ -589,7 +589,7 @@ export default function Categories({ children = null }: any) {
       {children ?? (
         <Box
           sx={{
-            display: "flex",
+            display: { xs: "none", sm: "flex" },
             justifyContent: "center",
             alignItems: "center",
             height: "calc(100vh - 65px)",
