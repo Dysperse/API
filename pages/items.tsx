@@ -366,6 +366,7 @@ export default function Categories({ children = null }: any) {
           mt: { sm: -6 },
           pt: { sm: 4 },
           px: 1,
+          display: { xs: "none", sm: "block" },
           minHeight: "100vh",
           height: "100%",
           overflowY: "scroll",
