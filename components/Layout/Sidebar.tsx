@@ -65,7 +65,7 @@ export function Sidebar() {
             pt: "70px",
           }}
         >
-          <Box sx={{ mt: "auto" }}></Box>
+          <Box sx={{ mt: "auto" }} />
           <Tooltip title="Tasks" placement="right">
             <IconButton
               disableRipple

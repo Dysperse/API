@@ -428,7 +428,7 @@ export default function Onboarding() {
         >
           {steps.map((label) => (
             <Step key={label}>
-              <StepLabel StepIconComponent={QontoStepIcon}></StepLabel>
+              <StepLabel StepIconComponent={QontoStepIcon} />
             </Step>
           ))}
         </Stepper>
