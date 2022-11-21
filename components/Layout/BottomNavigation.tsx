@@ -164,7 +164,7 @@ export function BottomNav() {
               ? "rgba(33,33,38,.7)"
               : hexToRgba(colors[themeColor][50], 0.9),
 
-            ["@supports not (backdrop-filter: blur(15px))"]: {
+            "@supports not (backdrop-filter: blur(15px))": {
               background: colors[themeColor][100],
             },
           }}
