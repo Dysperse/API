@@ -334,6 +334,7 @@ function RenderRoot({
     "/scan",
     "/signup",
     "/auth",
+    "/auth/signup",
     "/canny-auth",
   ];
   const disableLayout =
