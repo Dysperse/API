@@ -109,17 +109,17 @@ export function Sidebar() {
               </span>
             </IconButton>
           </Tooltip>
-          <Tooltip title="Coach" placement="right">
+          <Tooltip title="Explore" placement="right">
             <IconButton
               disableRipple
               size="large"
               sx={styles}
-              className={router.asPath === "/coach" ? "active" : ""}
-              onClick={() => router.push("/coach")}
+              className={router.asPath === "/explore" ? "active" : ""}
+              onClick={() => router.push("/explore")}
             >
               <span
                 className={
-                  router.pathname === "/coach"
+                  router.pathname === "/explore"
                     ? "material-symbols-rounded"
                     : "material-symbols-outlined"
                 }

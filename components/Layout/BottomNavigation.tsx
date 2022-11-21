@@ -104,7 +104,7 @@ export function BottomNav() {
       case "/items":
         setValue(1);
         break;
-      case "/coach":
+      case "/explore":
         setValue(2);
         break;
       case "/tidy":
@@ -179,7 +179,9 @@ export function BottomNav() {
           }}
         >
           <BottomNavigationAction
-            sx={styles}
+            sx={{
+              ...styles,
+            }}
             label="Tasks"
             onClick={() => onLink("/tasks")}
             icon={
@@ -193,7 +195,9 @@ export function BottomNav() {
             }
           />
           <BottomNavigationAction
-            sx={styles}
+            sx={{
+              ...styles,
+            }}
             label="Items"
             onClick={() => onLink("/items")}
             icon={
@@ -207,22 +211,26 @@ export function BottomNav() {
             }
           />
           <BottomNavigationAction
-            sx={styles}
-            label="Coach"
-            onClick={() => onLink("/coach")}
+            sx={{
+              ...styles,
+            }}
+            label="Explore"
+            onClick={() => onLink("/explore")}
             icon={
               <Icon
                 baseClassName={`material-symbols-${
                   value == 2 ? "rounded" : "outlined"
                 }`}
               >
-                flag
+                explore
               </Icon>
             }
           />
 
           <BottomNavigationAction
-            sx={styles}
+            sx={{
+              ...styles,
+            }}
             label={
               <span
                 style={{
