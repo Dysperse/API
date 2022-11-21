@@ -331,8 +331,7 @@ export function DrawerListItems({
       aria-labelledby="nested-list-subheader"
     >
       <Toolbar sx={{ mt: 2 }} />
-      <div style={{ padding: "0 10px" }}>
-      </div>
+      <div style={{ padding: "0 10px" }} />
 
       <Collapse in={collapsed}>
         <Divider sx={{ my: 1 }} />
