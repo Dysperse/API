@@ -282,7 +282,7 @@ export const Task = React.memo(function ({
           </Box>
         </Box>
       </SwipeableDrawer>
-      {task.subTasks.length >= 0 && (
+      {task.subTasks.length > 0 && (
         <ListItem
           onClick={() => setOpen(true)}
           sx={{
