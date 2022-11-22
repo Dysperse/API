@@ -162,7 +162,7 @@ export function BottomNav() {
               </span>
             }
             label="Items"
-            onClick={() => router.push("/items").then(() => setValue(0))}
+            onClick={() => router.push("/items").then(() => setValue(1))}
           />
           <Tab
             sx={styles(router.asPath == "/coach")}
@@ -176,7 +176,7 @@ export function BottomNav() {
               </span>
             }
             label="Coach"
-            onClick={() => router.push("/coach").then(() => setValue(0))}
+            onClick={() => router.push("/coach").then(() => setValue(2))}
           />
           <Tab
             sx={styles(router.asPath == "/tidy")}
@@ -190,7 +190,7 @@ export function BottomNav() {
               </span>
             }
             label="Tidy"
-            onClick={() => router.push("/tidy").then(() => setValue(0))}
+            onClick={() => router.push("/tidy").then(() => setValue(3))}
           />
         </Tabs>
       </Box>
