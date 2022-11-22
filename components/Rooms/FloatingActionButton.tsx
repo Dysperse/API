@@ -9,7 +9,10 @@ import AddPopup from "../CreateItem";
  * @returns {any}
  */
 export function FloatingActionButton() {
-  const trigger = useScrollTrigger();
+  const trigger = useScrollTrigger({
+    threshold: 0,
+    target: window ? window : undefined,
+  });
 
   return global.property.role === "read-only" ? null : (
     <Box
@@ -21,9 +24,9 @@ export function FloatingActionButton() {
           lg: "15px",
           sm: "15px",
           md: "15px",
-          xs: trigger ? "15px" : "75px",
+          xs: trigger ? "15px" : "85px",
         },
-        right: "12px",
+        right: "15px",
         display: {
           sm: "none",
         },

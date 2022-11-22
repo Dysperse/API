@@ -367,8 +367,8 @@ export default function Categories({ children = null }: any) {
           display: { xs: children ? "none" : "block", sm: "block" },
           minHeight: "calc(100vh - 70px)",
           pt: { sm: 0.5 },
-          height: "calc(100vh - 64px)",
-          overflowY: "scroll",
+          height: { sm: "calc(100vh - 64px)" },
+          overflowY: { sm: "scroll" },
           borderRight: { sm: "1px solid rgba(0,0,0,.1)" },
           borderLeft: { sm: "1px solid rgba(0,0,0,.1)" },
         }}
@@ -423,6 +423,7 @@ export default function Categories({ children = null }: any) {
         <Box
           sx={{
             my: 4,
+            px: { xs: 1.5, sm: 0 },
             borderRadius: "15px!important",
           }}
         >
