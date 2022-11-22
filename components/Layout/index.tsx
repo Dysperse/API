@@ -62,12 +62,18 @@ function ResponsiveDrawer({
         <Toolbar />
         <Box
           sx={{
-            pt: { xs: 1.8, sm: 2 },
+            height: "70px",
+            pt: { xs: 1.8, sm: 0 },
             pl: { md: "85px" },
           }}
         >
           {children}
-          <Toolbar />
+          {
+            !(
+              window.location.href.includes("/items") ||
+              (window.location.href.includes("/rooms") && <Toolbar />)
+            )
+          }
         </Box>
         <BottomNav />
       </Box>

@@ -1,16 +1,13 @@
-import Badge from "@mui/material/Badge";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Box from "@mui/material/Box";
-import { colors } from "../../lib/colors";
-import Icon from "@mui/material/Icon";
 import Snackbar from "@mui/material/Snackbar";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
-import dayjs from "dayjs";
-import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import React from "react";
+import { colors } from "../../lib/colors";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import hexToRgba from "hex-to-rgba";
 
 /**
  * Bottom navigation bar
@@ -22,72 +19,18 @@ export function BottomNav() {
     target: window ? window : undefined,
   });
 
-  const styles = {
-    "&:not(.Mui-selected)": {
-      color: `${
-        global.user.darkMode ? "#ccc" : colors[themeColor]["800"]
-      }!important`,
-    },
-    "&.Mui-selected": {
-      color: global.user.darkMode ? "#ccc" : colors[themeColor]["900"],
-      fontWeight: "700",
-      background: "transparent !important",
-    },
-    "&.Mui-selected .MuiIcon-root": {
-      background: global.user.darkMode
-        ? "hsl(240, 11%, 30%)"
-        : colors[themeColor][100],
-    },
-    "&.Mui-selected .MuiIcon-root::before": {
-      background: global.user.darkMode
-        ? "rgba(150, 150, 150, .2)"
-        : colors[themeColor][100],
-      transform: "translateX(-50%)",
-    },
-    borderRadius: "15px",
-    px: "0!important",
-
-    maxHeight: { sm: "70px" },
-    maxWidth: { xs: "25vw!important" },
-    minWidth: { xs: "25vw!important" },
-    width: { xs: "20vw!important" },
-    mr: "-1px",
-    "& span:not(.MuiIcon-root, .MuiTouchRipple-root, .MuiTouchRipple-root *)": {
-      fontSize: "13px!important",
-      maxWidth: "70px",
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-    },
-    "& .MuiIcon-root": {
-      fontSize: "23px",
-      height: "33px",
-      transition: "margin .3s!important",
-      mb: trigger ? 0.6 : 0.3,
-      mt: 0.1,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "transparent!important",
-      textAlign: "center",
-      position: "relative",
-      width: "80%",
-      maxWidth: "90px",
-    },
-    "& .MuiIcon-root::before": {
-      content: '""',
-      display: "block",
-      borderRadius: "9999px",
-      width: "80%",
-      height: "100%",
-      left: "50%",
-      background: "transparent",
-      transition: "transform .2s",
-      transform: "translate(-50%) scaleX(.8)",
-      position: "absolute",
-      zIndex: "-1",
-    },
-    py: 0.5,
+  const styles = (active) => {
+    return {
+      textTransform: "none",
+      height: "70px",
+      // icon
+      "& .material-symbols-rounded, & .material-symbols-outlined": {
+        height: "24px",
+      },
+      ...(active && {
+        fontWeight: "700",
+      }),
+    };
   };
 
   const router = useRouter();
@@ -104,7 +47,7 @@ export function BottomNav() {
       case "/items":
         setValue(1);
         break;
-      case "/explore":
+      case "/coach":
         setValue(2);
         break;
       case "/tidy":
@@ -148,115 +91,107 @@ export function BottomNav() {
             xs: "block",
             md: "none",
           },
+          zIndex: 9999,
+          height: "70px",
+          background: hexToRgba(colors[themeColor][50], 0.9),
+          backdropFilter: "blur(10px)",
         }}
       >
-        <BottomNavigation
-          showLabels
+        <Tabs
+          TabIndicatorProps={{
+            children: <span className="MuiTabs-indicatorSpan" />,
+          }}
+          variant="fullWidth"
           value={value}
+          onChange={(event, newValue) => {
+            // alert(newValue);
+          }}
+          aria-label="basic tabs example"
           sx={{
-            py: 0.5,
-            px: "3px",
-            height: "auto",
-            alignItems: "center",
-            backdropFilter: "blur(15px)",
-
-            background: global.user.darkMode
-              ? "rgba(33,33,38,.7)"
-              : hexToRgba(colors[themeColor][50], 0.9),
-
-            "@supports not (backdrop-filter: blur(15px))": {
-              background: colors[themeColor][100],
+            height: "100%",
+            "& .MuiTabs-indicator": {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
+              height: "100%",
+            },
+            "& .MuiTabs-indicatorSpan": {
+              minWidth: "65px",
+              width: "50%",
+              height: 34,
+              mt: -2.855,
+              backgroundColor: hexToRgba(colors[themeColor][500], 0.1),
+              borderRadius: 99,
             },
           }}
-          // showLabels
-          onChange={(event, newValue) => {
-            router.events.on("routeChangeComplete", () => {
-              setValue(newValue);
-            });
-            router.events.off("routeChangeComplete", () => {
-              setValue(newValue);
-            });
-          }}
         >
-          <BottomNavigationAction
-            sx={{
-              ...styles,
-            }}
-            label="Tasks"
-            onClick={() => onLink("/tasks")}
+          <Tab
+            sx={styles(router.asPath == "/tasks")}
             icon={
-              <Icon
-                baseClassName={`material-symbols-${
-                  value == 0 ? "rounded" : "outlined"
-                }`}
-              >
-                sticky_note_2
-              </Icon>
-            }
-          />
-          <BottomNavigationAction
-            sx={{
-              ...styles,
-            }}
-            label="Items"
-            onClick={() => onLink("/items")}
-            icon={
-              <Icon
-                baseClassName={`material-symbols-${
-                  value == 1 ? "rounded" : "outlined"
-                }`}
-              >
-                category
-              </Icon>
-            }
-          />
-          <BottomNavigationAction
-            sx={{
-              ...styles,
-            }}
-            label="Explore"
-            onClick={() => onLink("/explore")}
-            icon={
-              <Icon
-                baseClassName={`material-symbols-${
-                  value == 2 ? "rounded" : "outlined"
-                }`}
-              >
-                explore
-              </Icon>
-            }
-          />
-
-          <BottomNavigationAction
-            sx={{
-              ...styles,
-            }}
-            label={
               <span
-                style={{
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                }}
+                className={`material-symbols-${
+                  router.asPath == "/tasks" ? "rounded" : "outlined"
+                }`}
               >
-                Tidy
+                view_kanban
               </span>
             }
-            onClick={() => onLink("/tidy")}
+            label="Boards"
+            onClick={() => router.push("/tasks").then(() => setValue(0))}
+          />
+          <Tab
+            sx={styles(
+              router.asPath == "/items" || router.asPath.includes("rooms")
+            )}
             icon={
-              <Icon
-                baseClassName={`material-symbols-${
-                  value == 3 ? "rounded" : "outlined"
+              <span
+                className={`material-symbols-${
+                  router.asPath == "/items" || router.asPath.includes("rooms")
+                    ? "rounded"
+                    : "outlined"
                 }`}
-                sx={{
-                  overflow: "visible",
-                }}
+                style={
+                  {
+                    // marginTop: "-3px",
+                  }
+                }
+              >
+                category
+              </span>
+            }
+            label="Items"
+            onClick={() => router.push("/items").then(() => setValue(0))}
+          />
+          <Tab
+            sx={styles(router.asPath == "/coach")}
+            icon={
+              <span
+                className={`material-symbols-${
+                  router.asPath == "/coach" ? "rounded" : "outlined"
+                }`}
+              >
+                blur_circular
+              </span>
+            }
+            label="Coach"
+            onClick={() => router.push("/coach").then(() => setValue(0))}
+          />
+          <Tab
+            sx={styles(router.asPath == "/tidy")}
+            icon={
+              <span
+                className={`material-symbols-${
+                  router.asPath == "/tidy" ? "rounded" : "outlined"
+                }`}
               >
                 auto_awesome
-              </Icon>
+              </span>
             }
+            label="Tidy"
+            onClick={() => router.push("/tidy").then(() => setValue(0))}
           />
-        </BottomNavigation>
+        </Tabs>
       </Box>
     </>
   );

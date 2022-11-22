@@ -363,12 +363,11 @@ export default function Categories({ children = null }: any) {
         sx={{
           width: { xs: "100%", sm: 300 },
           flex: { xs: "100%", sm: "0 0 300px" },
-          mt: { sm: -6 },
-          pt: { sm: 4 },
-          px: 1,
+          px: 1.5,
           display: { xs: children ? "none" : "block", sm: "block" },
-          minHeight: "100vh",
-          height: "100%",
+          minHeight: "calc(100vh - 70px)",
+          pt: { sm: 0.5 },
+          height: "calc(100vh - 64px)",
           overflowY: "scroll",
           borderRight: { sm: "1px solid rgba(0,0,0,.1)" },
           borderLeft: { sm: "1px solid rgba(0,0,0,.1)" },
@@ -424,7 +423,6 @@ export default function Categories({ children = null }: any) {
         <Box
           sx={{
             my: 4,
-            px: 1,
             borderRadius: "15px!important",
           }}
         >
@@ -438,6 +436,7 @@ export default function Categories({ children = null }: any) {
             variant="outlined"
             sx={{
               p: 0.2,
+              mb: -1,
               borderRadius: "15px!important",
               width: "100%",
               background: `${
@@ -586,13 +585,25 @@ export default function Categories({ children = null }: any) {
           <CategoryList />
         )}
       </Box>
-      {children ?? (
+      {children ? (
+        <Box
+          sx={{
+            maxHeight: { sm: "calc(100vh - 70px)" },
+            minHeight: { sm: "calc(100vh - 64px)" },
+            height: { sm: "calc(100vh - 64px)" },
+            overflowY: { sm: "auto" },
+            flexGrow: 1,
+          }}
+        >
+          {children}
+        </Box>
+      ) : (
         <Box
           sx={{
             display: { xs: "none", sm: "flex" },
             justifyContent: "center",
             alignItems: "center",
-            height: "calc(100vh - 65px)",
+            height: "calc(100vh - 70px)",
             width: "100%",
             fontWeight: "500",
             color: colors[themeColor][global.user.darkMode ? 50 : 500],
