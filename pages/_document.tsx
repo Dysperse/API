@@ -32,14 +32,10 @@ export default function Document() {
         />
         <link
           rel="stylesheet"
-          href='https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,200&display=optional'
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
         <link
-          rel="stylesheet"
-          href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,200&display=optional'
-        />
-        <link
-          href='https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=optional'
+          href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=optional"
           rel="stylesheet"
         />
         <meta name="description" content="Carbon user dashboard" />
