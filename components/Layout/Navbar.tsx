@@ -288,7 +288,10 @@ export function Navbar(): JSX.Element {
             : "rgba(255,255,255,.8)",
           sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.9)",
         },
-        borderBottom: "1px solid rgba(200,200,200,.5)",
+        borderBottom:
+          router.asPath === "/tidy"
+          ? "1px solid rgba(200,200,200,.1)"
+            : "1px solid rgba(200,200,200,.5)",
         backdropFilter: "blur(10px)",
       }}
     >

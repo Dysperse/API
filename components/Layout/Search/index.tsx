@@ -345,7 +345,7 @@ export function SearchPopup() {
             ml: 0.6,
             display: { sm: "none" },
             color: {
-              xs: "#606060",
+              xs: router.asPath === "/tidy" ? "#fff" : "#606060",
             },
             transition: "all .2s",
             "&:active": {
