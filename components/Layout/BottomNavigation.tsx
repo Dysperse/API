@@ -28,6 +28,7 @@ export function BottomNav() {
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         height: "24px",
       },
+      fontWeight: "200",
       ...(active && {
         fontWeight: "700",
       }),
