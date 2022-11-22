@@ -21,6 +21,7 @@ export function BottomNav() {
 
   const styles = (active) => {
     return {
+      borderRadius: 3,
       textTransform: "none",
       height: "70px",
       // icon
