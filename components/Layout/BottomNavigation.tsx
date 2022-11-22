@@ -128,7 +128,7 @@ export function BottomNav() {
             },
           }}
         >
-          <Tab
+          <Tab disableRipple
             sx={styles(router.asPath == "/tasks")}
             icon={
               <span
@@ -142,7 +142,7 @@ export function BottomNav() {
             label="Boards"
             onClick={() => router.push("/tasks").then(() => setValue(0))}
           />
-          <Tab
+          <Tab disableRipple
             sx={styles(
               router.asPath == "/items" || router.asPath.includes("rooms")
             )}
@@ -165,7 +165,7 @@ export function BottomNav() {
             label="Items"
             onClick={() => router.push("/items").then(() => setValue(1))}
           />
-          <Tab
+          <Tab disableRipple
             sx={styles(router.asPath == "/coach")}
             icon={
               <span
@@ -179,7 +179,7 @@ export function BottomNav() {
             label="Coach"
             onClick={() => router.push("/coach").then(() => setValue(2))}
           />
-          <Tab
+          <Tab disableRipple
             sx={styles(router.asPath == "/tidy")}
             icon={
               <span
