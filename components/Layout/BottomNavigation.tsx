@@ -93,7 +93,7 @@ export function BottomNav() {
             xs: "block",
             md: "none",
           },
-          zIndex: 9999,
+          zIndex: 999,
           height: "70px",
           background: hexToRgba(colors[themeColor][50], 0.9),
           backdropFilter: "blur(10px)",
