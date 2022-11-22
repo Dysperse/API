@@ -1,3 +1,4 @@
+import { Tab, Tabs } from "@mui/material";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -5,32 +6,34 @@ import Tooltip from "@mui/material/Tooltip";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
+import { useState } from "react";
+import hexToRgba from "hex-to-rgba";
 
 export function Sidebar() {
+  const [value, setValue] = useState<number>(0);
   const router = useRouter();
-  const styles = {
-    borderRadius: 5,
-    maxWidth: "52.5px",
-    maxHeight: "52.5px",
-    width: "52.5px",
-    height: "52.5px",
-    mb: 1,
-    p: 2,
-    transition: "none",
-    "&:hover, &.active": {
-      background: colors[themeColor]["100"] + "!important",
-    },
-    "& span": {
-      display: "block",
-      transition: "none",
-      color: colors[themeColor]["A700"],
-    },
-    "&:active": {
-      background: colors[themeColor]["200"] + "!important",
-      transition: "none",
-    },
-  };
 
+  const styles = (active) => {
+    return {
+      borderRadius: 3,
+      textTransform: "none",
+      width: 55,
+      maxWidth: 55,
+      minHeight: 55,
+      height: 55,
+
+      // icon
+      "& .material-symbols-rounded, & .material-symbols-outlined": {
+        transition: "all 0.2s ease-in-out",
+      },
+      "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
+        {
+          transform: "scale(0.9)",
+          opacity: 0.8,
+          transition: "none",
+        },
+    };
+  };
   return (
     <>
       <Drawer
@@ -66,87 +69,98 @@ export function Sidebar() {
           }}
         >
           <Box sx={{ mt: "auto" }} />
-          <Tooltip title="Tasks" placement="right">
-            <IconButton
+          <Tabs
+            orientation="vertical"
+            TabIndicatorProps={{
+              children: <span className="MuiTabs-indicatorSpan" />,
+            }}
+            variant="fullWidth"
+            value={value}
+            onChange={(event, newValue) => {
+              // alert(newValue);
+            }}
+            aria-label="basic tabs example"
+            sx={{
+              "& .MuiTabs-indicator": {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "transparent",
+                height: "100%",
+                width: "100%",
+              },
+              "& .MuiTabs-indicatorSpan": {
+                minWidth: 55,
+                height: 55,
+                width: 55,
+                backgroundColor: hexToRgba(colors[themeColor][500], 0.1),
+                borderRadius: 5,
+              },
+              // Tab styles
+              "& .MuiTab-root": {
+                width: 55,
+              },
+            }}
+          >
+            <Tab
               disableRipple
-              size="large"
               sx={styles}
-              className={router.asPath === "/tasks" ? "active" : ""}
-              onClick={() => router.push("/tasks")}
-            >
-              <span
-                className={
-                  router.pathname === "/tasks"
-                    ? "material-symbols-rounded"
-                    : "material-symbols-outlined"
-                }
-              >
-                view_kanban
-              </span>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Items" placement="right">
-            <IconButton
-              disableRipple
-              size="large"
-              sx={styles}
-              className={
-                router.asPath === "/items" || router.asPath.includes("/rooms/")
-                  ? "active"
-                  : ""
+              onClick={() => router.push("/tasks").then(() => setValue(0))}
+              icon={
+                <span
+                  className={`material-symbols-${
+                    router.asPath === "/tasks" ? "rounded" : "outlined"
+                  }`}
+                >
+                  view_kanban
+                </span>
               }
-              onClick={() => router.push("/items")}
-            >
-              <span
-                className={
-                  router.asPath === "/items" ||
-                  router.asPath.includes("/rooms/")
-                    ? "material-symbols-rounded"
-                    : "material-symbols-outlined"
-                }
-              >
-                category
-              </span>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Explore" placement="right">
-            <IconButton
+            />
+            <Tab
               disableRipple
-              size="large"
               sx={styles}
-              className={router.asPath === "/explore" ? "active" : ""}
-              onClick={() => router.push("/explore")}
-            >
-              <span
-                className={
-                  router.pathname === "/explore"
-                    ? "material-symbols-rounded"
-                    : "material-symbols-outlined"
-                }
-              >
-                flag
-              </span>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Tidy" placement="right">
-            <IconButton
+              onClick={() => router.push("/items").then(() => setValue(1))}
+              icon={
+                <span
+                  className={`material-symbols-${
+                    router.asPath == "/items" || router.asPath.includes("rooms")
+                      ? "rounded"
+                      : "outlined"
+                  }`}
+                >
+                  category
+                </span>
+              }
+            />
+            <Tab
               disableRipple
-              size="large"
               sx={styles}
-              className={router.asPath === "/tidy" ? "active" : ""}
-              onClick={() => router.push("/tidy")}
-            >
-              <span
-                className={
-                  router.pathname === "/tidy"
-                    ? "material-symbols-rounded"
-                    : "material-symbols-outlined"
-                }
-              >
-                auto_awesome
-              </span>
-            </IconButton>
-          </Tooltip>
+              onClick={() => router.push("/coach").then(() => setValue(2))}
+              icon={
+                <span
+                  className={`material-symbols-${
+                    router.asPath === "/coach" ? "rounded" : "outlined"
+                  }`}
+                >
+                  blur_circular
+                </span>
+              }
+            />
+            <Tab
+              disableRipple
+              sx={styles}
+              onClick={() => router.push("/tidy").then(() => setValue(3))}
+              icon={
+                <span
+                  className={`material-symbols-${
+                    router.asPath === "/tidy" ? "rounded" : "outlined"
+                  }`}
+                >
+                  auto_awesome
+                </span>
+              }
+            />
+          </Tabs>
           <Box
             sx={{
               mt: "auto",
