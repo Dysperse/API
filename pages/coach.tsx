@@ -128,10 +128,6 @@ function MyGoals() {
         </span>
       </CardActionArea>
 
-      <Typography variant="h6" className="font-secondary">
-        Explore
-      </Typography>
-
       <ExploreGoals />
     </Box>
   );

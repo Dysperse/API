@@ -166,7 +166,9 @@ const Tab = React.memo(function ({
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
-  const [activeTab, setActiveTab] = useState(data ? data[0].id : "new");
+  const [activeTab, setActiveTab] = useState(
+    data && data[0] ? data[0].id : "new"
+  );
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       containScroll: "keepSnaps",
@@ -182,7 +184,7 @@ export function TasksLayout() {
         dragFree: true,
       });
     }
-    if (data) {
+    if (data && data[0]) {
       setActiveTab(data[0].id);
     }
   }, [data]);
