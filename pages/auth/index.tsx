@@ -211,12 +211,12 @@ export default function Prompt() {
             <picture>
               <img
                 src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v2/rounded.png"
-                width="80"
-                height="80"
+                width="70"
+                height="70"
                 alt="logo"
               />
             </picture>
-            <Typography variant="h5" sx={{ mt: -1 }}>
+            <Typography variant="h6" sx={{ mt: -1 }}>
               Carbon
             </Typography>
           </Box>
