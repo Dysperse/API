@@ -5,7 +5,8 @@
 const withPWA = require('next-pwa')({
   dest: "public",
   reloadOnOnline: false,
-  dynamicStartUrl: false
+  dynamicStartUrl: false,
+  cacheOnFrontEndNav: true
 })
 const { withSentryConfig } = require('@sentry/nextjs');
 
