@@ -288,7 +288,7 @@ export default function Prompt() {
                     style={{ marginLeft: "10px" }}
                     className="material-symbols-rounded"
                   >
-                    chevron_right
+                    arrow_forward
                   </span>
                 </LoadingButton>
               </Box>
