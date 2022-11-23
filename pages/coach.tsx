@@ -6,7 +6,7 @@ import { MyGoals } from "../components/Coach/MyGoals";
 export default function Render() {
   return (
     <Box sx={{ position: "relative" }}>
-      {global.user.email == "manusvathgurudath@gmail.com" && (
+      {global.user.email !== "manusvathgurudath@gmail.com" && (
         <Box
           sx={{
             position: "absolute",
@@ -36,7 +36,7 @@ export default function Render() {
         sx={{
           zIndex: 0,
           pb: 3,
-          ...(global.user.email == "manusvathgurudath@gmail.com" && {
+          ...(global.user.email !== "manusvathgurudath@gmail.com" && {
             filter: "blur(10px)",
             opacity: 1.5,
             pointerEvents: "none",
