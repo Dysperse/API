@@ -1,27 +1,25 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
-import CircularProgress from "@mui/material/CircularProgress";
-import BoringAvatar from "boring-avatars";
+import Typography from "@mui/material/Typography";
+import dayjs from "dayjs";
+import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Offline } from "react-detect-offline";
+import { useApi } from "../../hooks/useApi";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
+import { ErrorHandler } from "../error";
 import Settings from "../Settings/index";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
-import { Offline } from "react-detect-offline";
-import { useState, useEffect } from "react";
-import Typography from "@mui/material/Typography";
-import { useApi } from "../../hooks/useApi";
-import { ErrorHandler } from "../error";
-import hexToRgba from "hex-to-rgba";
-import dayjs from "dayjs";
-import { useStatusBar } from "../../hooks/useStatusBar";
-import CssBaseline from "@mui/material/CssBaseline";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
