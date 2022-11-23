@@ -134,13 +134,15 @@ export function Sidebar() {
               sx={styles}
               onClick={() => router.push("/tasks").then(() => setValue(0))}
               icon={
-                <span
-                  className={`material-symbols-${
-                    router.asPath === "/tasks" ? "rounded" : "outlined"
-                  }`}
-                >
-                  view_kanban
-                </span>
+                <Tooltip title="Tasks" placement="right">
+                  <span
+                    className={`material-symbols-${
+                      router.asPath === "/tasks" ? "rounded" : "outlined"
+                    }`}
+                  >
+                    view_kanban
+                  </span>
+                </Tooltip>
               }
             />
             <Tab
@@ -148,15 +150,18 @@ export function Sidebar() {
               sx={styles}
               onClick={() => router.push("/items").then(() => setValue(1))}
               icon={
-                <span
-                  className={`material-symbols-${
-                    router.asPath == "/items" || router.asPath.includes("rooms")
-                      ? "rounded"
-                      : "outlined"
-                  }`}
-                >
-                  category
-                </span>
+                <Tooltip title="Inventory" placement="right">
+                  <span
+                    className={`material-symbols-${
+                      router.asPath == "/items" ||
+                      router.asPath.includes("rooms")
+                        ? "rounded"
+                        : "outlined"
+                    }`}
+                  >
+                    category
+                  </span>
+                </Tooltip>
               }
             />
             <Tab
@@ -164,13 +169,15 @@ export function Sidebar() {
               sx={styles}
               onClick={() => router.push("/coach").then(() => setValue(2))}
               icon={
-                <span
-                  className={`material-symbols-${
-                    router.asPath === "/coach" ? "rounded" : "outlined"
-                  }`}
-                >
-                  blur_circular
-                </span>
+                <Tooltip title="Coach" placement="right">
+                  <span
+                    className={`material-symbols-${
+                      router.asPath === "/coach" ? "rounded" : "outlined"
+                    }`}
+                  >
+                    blur_circular
+                  </span>
+                </Tooltip>
               }
             />
             <Tab
@@ -178,13 +185,15 @@ export function Sidebar() {
               sx={styles}
               onClick={() => router.push("/tidy").then(() => setValue(3))}
               icon={
-                <span
-                  className={`material-symbols-${
-                    router.asPath === "/tidy" ? "rounded" : "outlined"
-                  }`}
-                >
-                  auto_awesome
-                </span>
+                <Tooltip title="Tidy" placement="right">
+                  <span
+                    className={`material-symbols-${
+                      router.asPath === "/tidy" ? "rounded" : "outlined"
+                    }`}
+                  >
+                    auto_awesome
+                  </span>
+                </Tooltip>
               }
             />
           </Tabs>

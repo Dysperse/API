@@ -4,6 +4,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
@@ -123,6 +124,10 @@ function Products() {
 function Apps() {
   const apps = [
     {
+      key: 4,
+      label: "Web",
+    },
+    {
       key: 1,
       label: "Windows",
     },
@@ -134,32 +139,6 @@ function Apps() {
       key: 3,
       label: "iOS",
     },
-    {
-      key: 4,
-      label: "Web",
-    },
-    // {
-    //   key: 5,
-    //   bg: green[global.user.darkMode ? 900 : 200],
-    //   href: "https://feedback.smartlist.tech/",
-    //   target: "_blank",
-    //   label: (
-    //     <>
-    //       <span
-    //         className="material-symbols-outlined"
-    //         style={{ marginRight: "10px" }}
-    //       >
-    //         lightbulb
-    //       </span>
-    //       Suggest an app
-    //     </>
-    //   ),
-    //   description: (
-    //     <div style={{ color: green[global.user.darkMode ? 300 : 700] }}>
-    //       Have any ideas for apps? Let us know!
-    //     </div>
-    //   ),
-    // },
   ];
 
   const [expanded, setExpanded] = React.useState(0);
@@ -175,10 +154,10 @@ function Apps() {
   return (
     <div
       onMouseLeave={() => {
-        handleChange(4);
+        handleChange(0);
       }}
       onBlur={() => {
-        handleChange(4);
+        handleChange(0);
       }}
     >
       {apps.map((category) => (
@@ -245,8 +224,8 @@ function Apps() {
                 <>You&apos;re using Carbon for Web</>
               ) : (
                 <>
-                  Download Carbon for {category.label} for extra features such
-                  as push notifications, assistant, and more!
+                  (Coming soon) Download Carbon for {category.label} for extra
+                  features such as push notifications, assistant, and more!
                 </>
               )}
             </Typography>
@@ -340,9 +319,38 @@ export function AppsMenu() {
           </Typography>
           <Products />
           <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
-            Download the apps!
+            Platforms
           </Typography>
           <Apps />
+
+          <Box
+            sx={{
+              borderTop: "1px solid " + colors[themeColor][100],
+              mt: 3,
+              pt: 2,
+            }}
+          />
+
+          <Button
+            disableRipple
+            target="_blank"
+            sx={{ transition: "none", gap: 1 }}
+            href="https://my.smartlist.tech/canny-auth?companyID=6306f3586e9c6244c28c1d1e&redirect=https%3A%2F%2Ffeedback.smartlist.tech%2F"
+            size="small"
+          >
+            Have feedback? Let us know!
+            <span className="material-symbols-rounded">arrow_forward</span>
+          </Button>
+          <Button
+            disableRipple
+            target="_blank"
+            sx={{ transition: "none", gap: 1 }}
+            href="https://discord.gg/fvngmDzh77"
+            size="small"
+          >
+            Community Discord
+            <span className="material-symbols-rounded">arrow_forward</span>
+          </Button>
         </Box>
       </SwipeableDrawer>
     </div>

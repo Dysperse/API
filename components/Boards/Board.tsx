@@ -22,6 +22,7 @@ export const Board = React.memo(function ({ board }: any) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
+
   return (
     <Box sx={{ mt: 4 }}>
       {error && (
