@@ -290,7 +290,7 @@ export function Navbar(): JSX.Element {
         },
         borderBottom:
           router.asPath === "/tidy"
-          ? "1px solid rgba(200,200,200,.1)"
+            ? "1px solid rgba(200,200,200,.1)"
             : "1px solid rgba(200,200,200,.5)",
         backdropFilter: "blur(10px)",
       }}
@@ -355,7 +355,7 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
           <AppsMenu />
         </Box>
-        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
+        {/* <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
           <Tooltip title="Support">
             <IconButton
               sx={{ ...styles, mr: 0 }}
@@ -366,7 +366,7 @@ export function Navbar(): JSX.Element {
               <span className="material-symbols-outlined">help</span>
             </IconButton>
           </Tooltip>
-        </Box>
+        </Box> */}
         <Box sx={{ display: { sm: "none" } }}>
           <Settings>
             <Tooltip

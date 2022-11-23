@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 /**
  * Product list
@@ -242,6 +243,7 @@ function Apps() {
  */
 export function AppsMenu() {
   const [open, setOpen] = React.useState<boolean>(false);
+  useStatusBar(open);
 
   /**
    * Handles app menu trigger
@@ -309,6 +311,8 @@ export function AppsMenu() {
             color: global.user.darkMode
               ? "hsl(240, 11%, 90%)"
               : colors[global.themeColor][900],
+            maxHeight: "calc(100vh - 40px)",
+            overflowY: "auto",
           },
         }}
         open={open}
@@ -330,15 +334,14 @@ export function AppsMenu() {
               pt: 2,
             }}
           />
-
           <Button
             disableRipple
             target="_blank"
             sx={{ transition: "none", gap: 1 }}
-            href="https://my.smartlist.tech/canny-auth?companyID=6306f3586e9c6244c28c1d1e&redirect=https%3A%2F%2Ffeedback.smartlist.tech%2F"
+            href="https://smartlist.tech/support"
             size="small"
           >
-            Have feedback? Let us know!
+            Knowledge base
             <span className="material-symbols-rounded">arrow_forward</span>
           </Button>
           <Button
@@ -349,6 +352,16 @@ export function AppsMenu() {
             size="small"
           >
             Community Discord
+            <span className="material-symbols-rounded">arrow_forward</span>
+          </Button>
+          <Button
+            disableRipple
+            target="_blank"
+            sx={{ transition: "none", gap: 1 }}
+            href="https://my.smartlist.tech/canny-auth?companyID=6306f3586e9c6244c28c1d1e&redirect=https%3A%2F%2Ffeedback.smartlist.tech%2F"
+            size="small"
+          >
+            Have feedback? Let us know!
             <span className="material-symbols-rounded">arrow_forward</span>
           </Button>
         </Box>
