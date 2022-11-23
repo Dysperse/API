@@ -251,7 +251,7 @@ function Action({
         )
       }
       sx={{
-        mb: 1,
+        mb: { xs: 1, sm: 0.5 },
         transition: "transform .1s !important",
         borderRadius: 4,
         "&:active": {
@@ -373,7 +373,13 @@ export default function Categories({ children = null }: any) {
           borderLeft: { sm: "1px solid rgba(0,0,0,.1)" },
         }}
       >
-        <FloatingActionButton />
+        <Box
+          sx={{
+            display: { sm: "none" },
+          }}
+        >
+          <FloatingActionButton />
+        </Box>
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
@@ -603,6 +609,8 @@ export default function Categories({ children = null }: any) {
           sx={{
             display: { xs: "none", sm: "flex" },
             justifyContent: "center",
+            flexDirection: "column",
+            gap: 2,
             alignItems: "center",
             height: "calc(100vh - 70px)",
             width: "100%",
@@ -611,6 +619,7 @@ export default function Categories({ children = null }: any) {
           }}
         >
           No room selected
+          <FloatingActionButton sm />
         </Box>
       )}
     </Box>

@@ -8,7 +8,7 @@ import AddPopup from "../CreateItem";
  * Floating action button
  * @returns {any}
  */
-export function FloatingActionButton() {
+export function FloatingActionButton({ sm = false }) {
   const trigger = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,
@@ -17,7 +17,7 @@ export function FloatingActionButton() {
   return global.property.role === "read-only" ? null : (
     <Box
       sx={{
-        position: "fixed",
+        position: { xs: "fixed", sm: "unset" },
         zIndex: 1,
         transition: "bottom .3s",
         bottom: {
@@ -27,9 +27,6 @@ export function FloatingActionButton() {
           xs: trigger ? "15px" : "85px",
         },
         right: "15px",
-        display: {
-          sm: "none",
-        },
       }}
     >
       <AddPopup>
@@ -44,7 +41,7 @@ export function FloatingActionButton() {
           }
           sx={{
             borderRadius: "20px",
-            px: 3,
+            px: sm ? 2 : 3,
             fontSize: "15px",
             boxShadow: "none",
             "&:focus-within": {
@@ -53,7 +50,7 @@ export function FloatingActionButton() {
             backdropFilter: "blur(15px)",
             background: global.user.darkMode
               ? "rgba(57, 57, 71, .7)"
-              : colors[themeColor][100],
+              : colors[themeColor][sm ? 50 : 100],
             color: global.user.darkMode
               ? "hsl(240, 11%, 95%)"
               : colors[themeColor]["900"],
@@ -62,7 +59,7 @@ export function FloatingActionButton() {
                 ? "hsl(240, 11%, 50%)"
                 : colors[themeColor]["100"],
             },
-            "&:focus,&:active": {
+            "&:active": {
               boxShadow: "none",
               transform: "scale(.96)",
               transition: "none",
@@ -72,7 +69,7 @@ export function FloatingActionButton() {
             },
             transition: "transform .2s",
 
-            py: 2,
+            py: sm ? 1 : 2,
             textTransform: "none",
             height: "auto",
             maxHeight: "auto",
@@ -87,7 +84,7 @@ export function FloatingActionButton() {
           >
             edit
           </span>
-          Create
+          Create{sm && " an item"}
         </Fab>
       </AddPopup>
     </Box>
