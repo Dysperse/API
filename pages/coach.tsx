@@ -3,17 +3,26 @@ import Typography from "@mui/material/Typography";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 
-const Circle = () => (
-  <Box
-    sx={{
-      width: "7px",
-      height: "7px",
-      flex: "0 0 auto",
-      borderRadius: "50%",
-      backgroundColor: "#aaa",
-    }}
-  />
-);
+const Circle = ({ number, year }) => {
+  const currentMonth = new Date().getMonth();
+  return (
+    <Box
+      sx={{
+        width: "7px",
+        height: "7px",
+        flex: "0 0 auto",
+        borderRadius: "50%",
+        backgroundColor:
+          year === new Date().getFullYear() && currentMonth >= number
+            ? number <= currentMonth
+              ? "#000"
+              : "#aaa"
+            : "#aaa",
+      }}
+    />
+  );
+};
+
 const Year = ({ year }) => (
   <Box
     sx={{
@@ -73,7 +82,7 @@ const Year = ({ year }) => (
       }}
     >
       {Array.from({ length: 12 }).map((_, i) => (
-        <Circle key={i} />
+        <Circle key={i} year={year} number={i} />
       ))}
     </Box>
   </Box>
