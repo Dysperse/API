@@ -37,13 +37,10 @@ export const getUserData = async (token: string) => {
       },
     },
   });
-  return {
-    ...session,
-    user: {
-      ...session?.user,
-      token: token,
-    },
-  };
+
+  let _session: any = session;
+  _session.user.token = token;
+  return session;
 };
 
 /**

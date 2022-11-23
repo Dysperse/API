@@ -1,13 +1,14 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
+import Grow from "@mui/material/Grow";
 import NoSsr from "@mui/material/NoSsr";
 import {
   createTheme,
   experimental_sx as sx,
-  ThemeProvider,
+  ThemeProvider
 } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
 import { NextRouter } from "next/router";
@@ -18,7 +19,6 @@ import Layout from "../components/Layout";
 import { Error } from "../components/Layout/Error";
 import { Loading } from "../components/Layout/Loading";
 import { colors } from "../lib/colors";
-import Grow from "@mui/material/Grow";
 
 // CSS files
 import "../styles/globals.scss";
