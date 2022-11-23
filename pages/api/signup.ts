@@ -45,7 +45,7 @@ export default async function handler(req, res) {
   //   Create a property
   const property = await prisma.property.create({
     data: {
-      name: "My Property",
+      name: "My home",
       color: "cyan",
     },
   });

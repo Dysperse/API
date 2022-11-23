@@ -53,7 +53,10 @@ export default function Prompt() {
         }),
       })
         .then((res) => res.json())
-        .then(() => {
+        .then((res) => {
+          if (res.message == "Email already in use") {
+            throw new Error("Email already in use");
+          }
           if (window.location.href.includes("?close=true")) {
             mutate("/api/user").then(() => {
               window.close();
@@ -64,9 +67,9 @@ export default function Prompt() {
           router.push("/");
           toast.success("Welcome to Carbon!");
         })
-        .catch(() => {
+        .catch((err) => {
           setButtonLoading(false);
-          toast.error("An error occurred");
+          toast.error(err);
         });
     },
   });
@@ -251,7 +254,7 @@ export default function Prompt() {
                 required
                 autoComplete={"off"}
                 disabled={buttonLoading}
-                label="Password"
+                label="Repeat password"
                 value={formik.values.confirmPassword}
                 sx={{ mb: 1.5 }}
                 name="confirmPassword"
