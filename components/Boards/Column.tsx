@@ -10,7 +10,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { colors } from "../../lib/colors";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { mutate } from "swr";
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import EmojiPicker from "emoji-picker-react";
 
 function EmojiPickerModal({ emoji, setEmoji }: any) {

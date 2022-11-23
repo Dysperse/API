@@ -1,5 +1,7 @@
 import Masonry from "@mui/lab/Masonry";
-import { Card, CardActionArea, Skeleton } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { mutate } from "swr";

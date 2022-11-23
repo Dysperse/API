@@ -1,6 +1,5 @@
-import { IconButton, Skeleton } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
-import dynamic from "next/dynamic";
 import React from "react";
 import { useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../error";

@@ -20,7 +20,8 @@ import { ErrorHandler } from "../error";
 import hexToRgba from "hex-to-rgba";
 import dayjs from "dayjs";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import { CssBaseline, useScrollTrigger } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
