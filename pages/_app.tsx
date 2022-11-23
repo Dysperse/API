@@ -6,7 +6,7 @@ import NoSsr from "@mui/material/NoSsr";
 import {
   createTheme,
   experimental_sx as sx,
-  ThemeProvider
+  ThemeProvider,
 } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import hex2rgba from "hex-to-rgba";
