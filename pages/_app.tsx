@@ -1,6 +1,7 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 import NoSsr from "@mui/material/NoSsr";
 import {
   createTheme,
@@ -239,7 +240,7 @@ function Render({
   );
   document.documentElement.style.setProperty(
     "--themeDark",
-    colors[themeColor][900]
+    colors[themeColor ?? "brown"][900]
   );
 
   const children = <Component {...pageProps} />;
@@ -364,19 +365,61 @@ function RenderRoot({
       {!isLoading && !isError && data.error && (
         <Box
           sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            background: "#6b4b4b",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
           }}
         >
-          <CircularProgress
-            disableShrink
-            ref={(i: any) => i && i.click()}
-            onClick={() => {
-              router.push("/auth");
+          <Box
+            sx={{
+              display: "flex",
+              color: "#c4b5b5",
+              alignItems: "center",
+              gap: "10px",
+              userSelect: "none",
+              px: 2,
+              pt: 2,
             }}
-          />
+          >
+            <picture>
+              <img
+                src="https://i.ibb.co/F7vSQPP/Carbon-Home-inventory-and-finance-tracking-2.png"
+                width="80"
+                height="80"
+                alt="logo"
+                style={{
+                  borderRadius: "28px",
+                }}
+                draggable={false}
+              />
+            </picture>
+            <Typography variant="h6" sx={{ mt: -0.5 }}>
+              Carbon
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <CircularProgress
+              disableShrink
+              ref={(i: any) => i && i.click()}
+              size={20}
+              sx={{
+                color: "#c4b5b5",
+              }}
+              onClick={() => {
+                router.push("/auth");
+              }}
+            />
+          </Box>
         </Box>
       )}
     </>
