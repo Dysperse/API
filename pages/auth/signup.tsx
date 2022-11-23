@@ -210,8 +210,8 @@ export default function Prompt() {
                   Welcome to Carbon!
                 </Typography>
                 <Typography sx={{ mb: 2 }}>
-                  Create an account to track your home inventory, lists, notes,
-                  and more!
+                  Create a Carbon ID to keep track of your lists, home
+                  inventory, and start working towards your goals!
                 </Typography>
               </Box>
               <TextField
