@@ -7,7 +7,7 @@ import { colors } from "../../lib/colors";
 
 export function MyGoals(): JSX.Element {
   return (
-    <Box>
+    <div>
       <CardActionArea
         className="p-4 rounded-2xl flex items-center max-w-xl"
         sx={{
@@ -15,16 +15,16 @@ export function MyGoals(): JSX.Element {
           color: colors[themeColor][50],
         }}
       >
-        <Box>
+        <div>
           <Typography className="font-secondary font-bold">
             Finish today&apos;s goals
           </Typography>
           <Typography variant="body2">7 tasks remaining</Typography>
-        </Box>
+        </div>
         <span className="material-symbols-rounded ml-auto">arrow_forward</span>
       </CardActionArea>
 
       <ExploreGoals />
-    </Box>
+    </div>
   );
 }
