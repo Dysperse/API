@@ -30,17 +30,16 @@ model Session {
 }
 
 model Property {
-  id                   String                @id @default(uuid())
-  name                 String                @default("My property")
-  type                 String                @default("apartment")
-  color                String                @default("cyan")
-  customRooms          CustomRoom[]
-  inventory            Item[]
-  maintenanceReminders MaintenanceReminder[]
-  members              PropertyInvite[]
-  PropertyLinkInvites  PropertyLinkInvite[]
-  inbox                InboxItem[]
-  Board                Board[]
+  id                  String               @id @default(uuid())
+  name                String               @default("My property")
+  type                String               @default("apartment")
+  color               String               @default("cyan")
+  customRooms         CustomRoom[]
+  inventory           Item[]
+  members             PropertyInvite[]
+  PropertyLinkInvites PropertyLinkInvite[]
+  inbox               InboxItem[]
+  Board               Board[]
 }
 
 model PropertyInvite {
@@ -75,18 +74,6 @@ model Item {
   propertyId   String
   trash        Boolean  @default(false)
   property     Property @relation(fields: [propertyId], references: [id])
-}
-
-model MaintenanceReminder {
-  id        Int      @id @default(autoincrement())
-  name      String
-  note      String?
-  frequency String
-  on        String
-  lastDone  DateTime
-
-  property   Property? @relation(fields: [propertyId], references: [id])
-  propertyId String?
 }
 
 model PropertyLinkInvite {

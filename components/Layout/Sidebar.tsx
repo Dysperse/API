@@ -184,15 +184,15 @@ export function Sidebar() {
             <Tab
               disableRipple
               sx={styles}
-              onClick={() => router.push("/tidy").then(() => setValue(3))}
+              onClick={() => router.push("/insights").then(() => setValue(3))}
               icon={
-                <Tooltip title="Tidy" placement="right">
+                <Tooltip title="Insights" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath === "/tidy" ? "rounded" : "outlined"
+                      router.asPath === "/insights" ? "rounded" : "outlined"
                     }`}
                   >
-                    auto_awesome
+                    leaderboard
                   </span>
                 </Tooltip>
               }
