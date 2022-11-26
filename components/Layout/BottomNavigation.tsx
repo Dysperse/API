@@ -52,7 +52,7 @@ export function BottomNav() {
       case "/coach":
         setValue(2);
         break;
-      case "/tidy":
+      case "/insights":
         setValue(3);
         break;
       default:
@@ -128,7 +128,8 @@ export function BottomNav() {
             },
           }}
         >
-          <Tab disableRipple
+          <Tab
+            disableRipple
             sx={styles(router.asPath == "/tasks")}
             icon={
               <span
@@ -142,7 +143,8 @@ export function BottomNav() {
             label="Boards"
             onClick={() => router.push("/tasks").then(() => setValue(0))}
           />
-          <Tab disableRipple
+          <Tab
+            disableRipple
             sx={styles(
               router.asPath == "/items" || router.asPath.includes("rooms")
             )}
@@ -165,7 +167,8 @@ export function BottomNav() {
             label="Items"
             onClick={() => router.push("/items").then(() => setValue(1))}
           />
-          <Tab disableRipple
+          <Tab
+            disableRipple
             sx={styles(router.asPath == "/coach")}
             icon={
               <span
@@ -179,19 +182,20 @@ export function BottomNav() {
             label="Coach"
             onClick={() => router.push("/coach").then(() => setValue(2))}
           />
-          <Tab disableRipple
-            sx={styles(router.asPath == "/tidy")}
+          <Tab
+            disableRipple
+            sx={styles(router.asPath == "/insights")}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/tidy" ? "rounded" : "outlined"
+                  router.asPath == "/insights" ? "rounded" : "outlined"
                 }`}
               >
-                auto_awesome
+                leaderboard
               </span>
             }
-            label="Tidy"
-            onClick={() => router.push("/tidy").then(() => setValue(3))}
+            label="insights"
+            onClick={() => router.push("/insights").then(() => setValue(3))}
           />
         </Tabs>
       </Box>

@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import CircularProgress from "@mui/material/CircularProgress";
-import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -250,14 +249,8 @@ function Action({
           </Box>
         )
       }
+      className="mb-1 sm:mb-0.5 transition-transform active:scale-[.98] duration-75 rounded-2xl"
       sx={{
-        mb: { xs: 1, sm: 0.5 },
-        transition: "transform .1s !important",
-        borderRadius: 4,
-        "&:active": {
-          transform: "scale(.99)",
-          background: "transparent!important",
-        },
         "&:hover": {
           background: { sm: colors[themeColor][50] + "!important" },
         },
@@ -277,9 +270,9 @@ function Action({
     >
       <ListItemAvatar>
         <Avatar
+          className="rounded-2xl"
           sx={{
             color: global.user.darkMode ? "#fff" : colors[themeColor][900],
-            borderRadius: 4,
             background: global.user.darkMode
               ? "hsl(240,11%,17%)"
               : colors[themeColor][100],
@@ -294,15 +287,9 @@ function Action({
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
+        primary={<Typography className="font-medium">{primary}</Typography>}
         secondary={
-          <Typography
-            sx={{
-              fontWeight: "400",
-              fontSize: "15px",
-              display: { sm: "none" },
-            }}
-          >
+          <Typography className="text-sm sm:hidden font-normal">
             {itemCount} item{itemCount !== 1 && "s"}
           </Typography>
         }
@@ -441,10 +428,8 @@ export default function Categories({ children = null }: any) {
           </Typography>
           <ButtonGroup
             variant="outlined"
+            className="rounded-[0.75rem!important] p-0.5 -mb-5"
             sx={{
-              p: 0.2,
-              mb: -1,
-              borderRadius: "15px!important",
               width: "100%",
               background: `${
                 colors[themeColor][global.theme !== "dark" ? 100 : 900]
@@ -456,15 +441,9 @@ export default function Categories({ children = null }: any) {
               variant="contained"
               disableElevation
               onClick={() => setViewBy("room")}
+              className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5 mr-0.5"
               sx={{
-                px: 5,
-                mr: 0.1,
-                borderRadius: "15px!important",
-                transition: "none!important",
-                width: "50%",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                background: `${colors[themeColor][900]}!important`,
                 ...(viewBy !== "room" && {
                   background: `${
                     colors[themeColor][global.theme !== "dark" ? 100 : 900]
@@ -480,16 +459,10 @@ export default function Categories({ children = null }: any) {
             <Button
               variant="contained"
               disableElevation
+              className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5"
               onClick={() => setViewBy("category")}
               sx={{
-                px: 5,
-                borderRadius: "15px!important",
-                borderWidth: "2px!important",
-                transition: "none!important",
-                width: "50%",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                background: `${colors[themeColor][900]}!important`,
                 ...(viewBy !== "category" && {
                   background: `${
                     colors[themeColor][global.theme !== "dark" ? 100 : 900]

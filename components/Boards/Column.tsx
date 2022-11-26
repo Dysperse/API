@@ -205,11 +205,10 @@ export const Column = React.memo(function ({
 }: any) {
   return (
     <Box
+      className="w-[350px] bg-gray-100 shadow-md mb-10"
       sx={{
-        backgroundColor: "rgba(200, 200, 200, 0.2)",
         width: "350px",
         flex: "0 0 350px",
-        border: "0px solid rgba(200, 200, 200, 0.4)",
         p: 3,
         pt: 4,
         px: 2,

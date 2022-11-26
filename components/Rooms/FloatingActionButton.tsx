@@ -48,9 +48,10 @@ export function FloatingActionButton({ sm = false }) {
               boxShadow: "none",
             },
             backdropFilter: "blur(15px)",
-            background: global.user.darkMode
-              ? "rgba(57, 57, 71, .7)"
-              : colors[themeColor][sm ? 50 : 100],
+            background:
+              (global.user.darkMode
+                ? "rgba(57, 57, 71, .7)"
+                : colors[themeColor][sm ? 50 : 100]) + "!important",
             color: global.user.darkMode
               ? "hsl(240, 11%, 95%)"
               : colors[themeColor]["900"],

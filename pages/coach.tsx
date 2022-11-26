@@ -43,7 +43,7 @@ export default function Render() {
           }),
         }}
       >
-        <Box sx={{ p: 3 }}>
+        <Box className="p-3 max-w-[100vw]">
           <Box
             sx={{
               background: "linear-gradient(-45deg, #715DF2 0%, #001122 50%)",
@@ -69,7 +69,7 @@ export default function Render() {
           </Box>
         </Box>
         <Calendar />
-        <Box sx={{ px: 3 }}>
+        <Box className="p-3 max-w-[100vw]">
           <MyGoals />
         </Box>
       </Box>
