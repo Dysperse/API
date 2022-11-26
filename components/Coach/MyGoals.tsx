@@ -1,17 +1,14 @@
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
-import React from "react";
-import { ExploreGoals } from "./ExploreGoals";
 import { colors } from "../../lib/colors";
+import { ExploreGoals } from "./ExploreGoals";
 
 export function MyGoals(): JSX.Element {
   return (
     <div>
-      <CardActionArea
-        className="p-4 rounded-2xl flex items-center max-w-xl"
-        sx={{
-          background: colors[themeColor][900] + "!important",
+      <div
+        className="p-4 rounded-2xl flex items-center max-w-xl select-none cursor-pointer"
+        style={{
+          background: colors[themeColor][900],
           color: colors[themeColor][50],
         }}
       >
@@ -22,7 +19,7 @@ export function MyGoals(): JSX.Element {
           <Typography variant="body2">7 tasks remaining</Typography>
         </div>
         <span className="material-symbols-rounded ml-auto">arrow_forward</span>
-      </CardActionArea>
+      </div>
 
       <ExploreGoals />
     </div>
