@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 import { Calendar } from "../components/Coach/Calendar";
 import { MyGoals } from "../components/Coach/MyGoals";
 
@@ -35,6 +36,28 @@ export default function Render() {
           }),
         }}
       >
+        <Box className="p-3 max-w-[100vw]">
+          <Typography
+            sx={{ fontWeight: "600", display: { sm: "none" } }}
+            variant="h5"
+          >
+            Coach
+          </Typography>
+          <TextField
+            sx={{ mt: 2 }}
+            placeholder="My goal is..."
+            variant="standard"
+            rows={3}
+            multiline
+            fullWidth
+            InputProps={{
+              disableUnderline: true,
+              className:
+                "rounded-2xl p-3 linear bg-gradient-to-r from-gray-50 to-gray-100 text-black",
+            }}
+          />
+        </Box>
+
         <Calendar />
         <Box className="p-3 max-w-[100vw]">
           <MyGoals />
