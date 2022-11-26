@@ -1,4 +1,3 @@
-import Typography from "@mui/material/Typography";
 import { colors } from "../../lib/colors";
 import { ExploreGoals } from "./ExploreGoals";
 
