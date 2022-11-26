@@ -21,6 +21,7 @@ model User {
   properties               PropertyInvite[]
   sessions                 Session[]
   PasswordResetToken       PasswordResetToken[]
+  RoutineItem              RoutineItem[]
 }
 
 model Session {
@@ -139,4 +140,20 @@ model Task {
 
   columnId Int
   column   Column @relation(fields: [columnId], references: [id], onDelete: Cascade)
+}
+
+model RoutineItem {
+  id           Int    @id @default(autoincrement())
+  name         String
+  stepName     String
+  category     String
+  durationDays Int
+  progress     Int    @default(0)
+  time         String
+  emoji        String
+
+  completed Boolean @default(false)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }
