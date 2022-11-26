@@ -18,7 +18,7 @@ export function Calendar() {
   // List 1 day previous and 10 day after relative to today
   const days = Array.from({ length: 100 }).map((_, i) => {
     const date = new Date();
-    date.setDate(date.getDate() + i - 2);
+    date.setDate(date.getDate() + i);
     return date;
   });
 
