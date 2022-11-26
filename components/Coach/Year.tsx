@@ -5,13 +5,15 @@ import { Circle } from "./Circle";
 export function Year({ year }) {
   return (
     <Box
+      className={
+        "bg-gray-100 border-1 " +
+        (year === new Date().getFullYear()
+          ? "border-gray-900"
+          : "border-gray-100")
+      }
       sx={{
         position: "relative",
-        backgroundColor: "#eee",
         border: "1px solid #eee",
-        ...(year === new Date().getFullYear() && {
-          borderColor: "#606060",
-        }),
         p: 2,
         borderRadius: 5,
       }}
@@ -35,15 +37,7 @@ export function Year({ year }) {
         }}
       />
       <Box sx={{ display: "flex" }}>
-        <Typography
-          variant="body2"
-          sx={{
-            textTransform: "uppercase",
-            mb: 1,
-          }}
-        >
-          {year}
-        </Typography>
+        <h5 className="text-uppercase text-sm font-medium">{year}</h5>
         <Typography
           variant="body2"
           sx={{
