@@ -8,24 +8,15 @@ export default function Render() {
     <Box sx={{ position: "relative" }}>
       {global.user.email !== "manusvathgurudath@gmail.com" && (
         <Box
+          className="absolute top-[200px] left-1/2 transform -translate-x-1/2 w-md max-w-lg shadow-xl z-10 bg-white rounded-2xl p-7"
           sx={{
-            position: "absolute",
-            top: "200px",
-            left: "50%",
-            width: "500px",
             maxWidth: "calc(100vw - 20px)",
-            boxShadow: 3,
             transform: "translateX(-50%)",
-            zIndex: 1,
-            background: "#fff",
-            backdropFilter: "blur(10px)",
-            borderRadius: 5,
-            p: 4,
           }}
         >
-          <Typography variant="h5" sx={{ fontWeight: "600" }}>
+          <h1 className="text-gray-900 text-lg text-bold">
             Coach is an upcoming feature
-          </Typography>
+          </h1>
           <Typography variant="body2" sx={{ mt: 1 }}>
             We&apos;re working on it! In the meantime, you can use the tasks
             feature to track your goals.
@@ -33,6 +24,7 @@ export default function Render() {
         </Box>
       )}
       <Box
+        className="mt-5"
         sx={{
           zIndex: 0,
           pb: 3,
@@ -43,31 +35,6 @@ export default function Render() {
           }),
         }}
       >
-        <Box className="p-3 max-w-[100vw]">
-          <Box
-            sx={{
-              background: "linear-gradient(-45deg, #715DF2 0%, #001122 50%)",
-              p: 3,
-              mt: 3,
-              borderRadius: 5,
-              color: "#fff",
-            }}
-          >
-            <Typography variant="h6">
-              Reach big goals with small steps.
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                maxWidth: 500,
-              }}
-            >
-              Carbon coach helps you to reach your goals by breaking them down
-              into small steps. Enrich your daily routine with new knowledge and
-              skills to accelerate your growth.
-            </Typography>
-          </Box>
-        </Box>
         <Calendar />
         <Box className="p-3 max-w-[100vw]">
           <MyGoals />

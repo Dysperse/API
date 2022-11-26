@@ -6,7 +6,7 @@ export function Year({ year }) {
   return (
     <div
       className={
-        "relative p-4 rounded-xl " +
+        "select-none relative p-4 rounded-xl " +
         (year === new Date().getFullYear() ? "bg-gray-200" : "bg-gray-100")
       }
     >
