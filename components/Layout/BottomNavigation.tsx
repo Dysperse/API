@@ -173,7 +173,7 @@ export function BottomNav() {
                   router.asPath == "/coach" ? "rounded" : "outlined"
                 }`}
               >
-                blur_circular
+                routine
               </span>
             }
             label="Coach"

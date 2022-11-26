@@ -176,7 +176,7 @@ export function Sidebar() {
                       router.asPath === "/coach" ? "rounded" : "outlined"
                     }`}
                   >
-                    blur_circular
+                    routine
                   </span>
                 </Tooltip>
               }
