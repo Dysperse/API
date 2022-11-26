@@ -43,15 +43,7 @@ export function ExploreGoals() {
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        background: "rgba(200,200,200,.3)",
-        borderRadius: 5,
-        p: 4,
-        my: 3,
-      }}
-    >
+    <div>
       <Typography variant="h6" sx={{ mb: 2, fontWeight: "900" }}>
         Explore Goals
       </Typography>
@@ -136,6 +128,6 @@ export function ExploreGoals() {
         Have a goal in mind? Suggest it!
         <span className="material-symbols-rounded">arrow_forward</span>
       </Button>
-    </Box>
+    </div>
   );
 }
