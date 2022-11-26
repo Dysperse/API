@@ -9,31 +9,19 @@ export function MyGoals(): JSX.Element {
   return (
     <Box>
       <CardActionArea
+        className="p-4 rounded-2xl flex items-center max-w-xl"
         sx={{
-          background: colors[themeColor][50],
-          color: colors[themeColor][900],
-          p: 2,
-          my: 4,
-          borderRadius: 5,
-          display: "flex",
-          alignItems: "center",
-          maxWidth: "500px",
+          background: colors[themeColor][900] + "!important",
+          color: colors[themeColor][50],
         }}
       >
         <Box>
-          <Typography sx={{ fontWeight: "600" }} className="font-secondary">
+          <Typography className="font-secondary font-bold">
             Finish today&apos;s goals
           </Typography>
           <Typography variant="body2">7 tasks remaining</Typography>
         </Box>
-        <span
-          className="material-symbols-rounded"
-          style={{
-            marginLeft: "auto",
-          }}
-        >
-          arrow_forward
-        </span>
+        <span className="material-symbols-rounded ml-auto">arrow_forward</span>
       </CardActionArea>
 
       <ExploreGoals />

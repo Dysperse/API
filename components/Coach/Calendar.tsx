@@ -14,11 +14,11 @@ export function Calendar() {
     [WheelGesturesPlugin()]
   );
   return (
-    <Box>
+    <Box className="max-w-[100vw]">
       <Box ref={emblaRef}>
         <div
           className="embla__container"
-          style={{ gap: "10px", paddingLeft: "25px" }}
+          style={{ gap: "10px", paddingLeft: "15px" }}
         >
           <Year year={new Date().getFullYear()} />
           {Array.from({ length: 75 }).map((_, index) => (
