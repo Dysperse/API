@@ -4,19 +4,11 @@ import { Circle } from "./Circle";
 
 export function Year({ year }) {
   return (
-    <Box
+    <div
       className={
-        "bg-gray-100 border-1 " +
-        (year === new Date().getFullYear()
-          ? "border-gray-900"
-          : "border-gray-100")
+        "relative p-4 rounded-xl " +
+        (year === new Date().getFullYear() ? "bg-gray-200" : "bg-gray-100")
       }
-      sx={{
-        position: "relative",
-        border: "1px solid #eee",
-        p: 2,
-        borderRadius: 5,
-      }}
     >
       <Box
         sx={{
@@ -59,6 +51,6 @@ export function Year({ year }) {
           <Circle key={i} year={year} number={i} />
         ))}
       </Box>
-    </Box>
+    </div>
   );
 }
