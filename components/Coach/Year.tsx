@@ -6,26 +6,19 @@ export function Year({ year }) {
   return (
     <div
       className={
-        "select-none relative p-4 rounded-xl " +
+        "select-none relative p-4 rounded-2xl " +
         (year === new Date().getFullYear() ? "bg-gray-200" : "bg-gray-100")
       }
     >
-      <Box
-        sx={{
+      <div
+        className="rounded-2xl bg-gray-400 pointer-events-none top-0 left-0 opacity-20 h-full absolute"
+        style={{
           // width: progress in a year
           ...(year === new Date().getFullYear() && {
             width: `${
               ((new Date().getTime() % 31556952000) / 31556952000) * 100
             }%`,
           }),
-          backgroundColor: "#aaa",
-          position: "absolute",
-          height: "100%",
-          top: 0,
-          left: 0,
-          opacity: 0.2,
-          pointerEvents: "none",
-          borderRadius: 5,
         }}
       />
       <Box sx={{ display: "flex" }}>

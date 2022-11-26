@@ -24,7 +24,7 @@ export default function Render() {
         </Box>
       )}
       <Box
-        className="mt-5"
+        className="mt-5 sm:mt-10"
         sx={{
           zIndex: 0,
           pb: 3,
