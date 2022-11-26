@@ -24,9 +24,9 @@ export function MyGoals(): JSX.Element {
 
   return (
     <>
-      <div className="flex w-full gap-2 border-b pb-10">
+      <div className="sm:flex w-full gap-2 border-b pb-10">
         <div
-          className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s]"
+          className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s] mb-3"
           style={{
             background: colors[themeColor][50],
             color: colors[themeColor][900],
@@ -43,7 +43,7 @@ export function MyGoals(): JSX.Element {
 
         <div
           onClick={() => setOpen(true)}
-          className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s]"
+          className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s] mb-3"
           style={{
             background: colors[themeColor][50],
             color: colors[themeColor][900],
@@ -89,9 +89,17 @@ export function MyGoals(): JSX.Element {
                 <h3 className="font-thin mt-1">
                   {goal.description ?? "No description"}
                 </h3>
-                <div className="flex items-center mt-2 gap-2">
-                  <span className="material-symbols-rounded">check_circle</span>
-                  5/10
+                <div className="flex items-center mt-2 gap-5">
+                  <div className="flex items-center mt-2 gap-2">
+                    <span className="material-symbols-outlined">
+                      check_circle
+                    </span>
+                    5/10
+                  </div>
+                  <div className="flex items-center mt-2 gap-2">
+                    <span className="material-symbols-outlined">sunny</span>
+                    Every morning
+                  </div>
                 </div>
               </div>
             </div>
