@@ -28,8 +28,8 @@ export function MyGoals(): JSX.Element {
         <div
           className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s] mb-3"
           style={{
-            background: colors[themeColor][50],
-            color: colors[themeColor][900],
+            background: colors[themeColor][900],
+            color: colors[themeColor][50],
           }}
         >
           <div>
