@@ -5,6 +5,18 @@ import { Calendar } from "../components/Coach/Calendar";
 import { MyGoals } from "../components/Coach/MyGoals";
 
 export default function Render() {
+  const time = new Date().getHours();
+  let greeting;
+  if (time < 10) {
+    greeting = "Morning, ";
+  } else if (time < 14) {
+    greeting = "Good afternoon, ";
+  } else if (time < 18) {
+    greeting = "Good evening, ";
+  } else {
+    greeting = "Good night, ";
+  }
+
   return (
     <Box sx={{ position: "relative" }}>
       {global.user.email !== "manusvathgurudath@gmail.com" && (
@@ -41,21 +53,9 @@ export default function Render() {
             sx={{ fontWeight: "600", display: { sm: "none" } }}
             variant="h5"
           >
-            Coach
+            {greeting}
+            {global.user.name}!
           </Typography>
-          <TextField
-            sx={{ mt: 2 }}
-            placeholder="My goal is..."
-            variant="standard"
-            rows={3}
-            multiline
-            fullWidth
-            InputProps={{
-              disableUnderline: true,
-              className:
-                "rounded-2xl p-3 linear bg-gradient-to-r from-gray-50 to-gray-100 text-black",
-            }}
-          />
         </Box>
 
         <Calendar />
