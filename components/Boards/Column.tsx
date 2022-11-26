@@ -33,11 +33,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
           },
         }}
       >
-        <Box
-          sx={{
-            p: 1,
-          }}
-        >
+        <div className="p-2">
           <EmojiPicker
             width="100%"
             onEmojiClick={(event, emojiObject) => {
@@ -46,14 +42,9 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
               setOpen(false);
             }}
           />
-        </Box>
+        </div>
       </SwipeableDrawer>
-      <Button
-        onClick={() => setOpen(true)}
-        sx={{
-          backgroundColor: "#ccc !important",
-        }}
-      >
+      <Button onClick={() => setOpen(true)} className="bg-gray-50">
         <img src={emoji} alt="emoji" width="30" height="30" />
       </Button>
     </>
