@@ -53,6 +53,7 @@ export default function Redeem() {
                   } else {
                     reject("Invalid Code!");
                   }
+                  setCode("");
                 }, 2000);
               }),
               {
