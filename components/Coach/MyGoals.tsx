@@ -24,6 +24,9 @@ export function MyGoals(): JSX.Element {
         PaperProps={{
           className:
             "w-full h-[80vh] rounded-t-2xl p-10 px-5 overflow-y-auto sm:rounded-2xl sm:max-w-[90vw] sm:mx-auto shadow-none sm:mb-10",
+          sx: {
+            height: "90vh",
+          },
         }}
       >
         <ExploreGoals />
