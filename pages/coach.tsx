@@ -49,10 +49,7 @@ export default function Render() {
         }}
       >
         <Box className="p-3 max-w-[100vw]">
-          <Typography
-            sx={{ fontWeight: "600", display: { sm: "none" } }}
-            variant="h5"
-          >
+          <Typography sx={{ fontWeight: "600" }} variant="h5">
             {greeting}
             {global.user.name}!
           </Typography>
