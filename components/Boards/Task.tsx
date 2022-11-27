@@ -284,7 +284,8 @@ export const Task = React.memo(function ({
       {task.subTasks.length >= 0 && (
         <ListItem
           onClick={() => setOpen(true)}
-          className="rounded-xl gap-0.5 px-0 py-0 select-none hover:cursor-pointer transition-transform active:scale-[.98] hover:bg-gray-200 duration-100 active:duration-[0s]"
+          className="rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.98] hover:bg-gray-200 duration-100 active:duration-[0s]"
+          sx={{ p: 0 }}
         >
           <Checkbox
             disableRipple
