@@ -100,7 +100,13 @@ export function MyGoals(): JSX.Element {
       ) : error ? (
         <ErrorHandler error="An error occured while trying to fetch your routines" />
       ) : (
-        <Skeleton variant="rectangular" width="100%" height="100%" />
+        <Skeleton
+          variant="rectangular"
+          width="100%"
+          height={50}
+          animation="wave"
+          sx={{ borderRadius: 5 }}
+        />
       )}
       {}
       <div
