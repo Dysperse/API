@@ -49,7 +49,7 @@ export function MyGoals(): JSX.Element {
             </div>
           )}
           {data.length == 0 ? (
-            <div className="text-gray-50 w-full bg-gray-900 rounded-xl p-3 px-5 mb-4">
+            <div className="text-gray-900 w-full bg-gray-200 rounded-xl p-3 px-5 mb-4">
               You haven&apos;t created any goals yet.
             </div>
           ) : (
