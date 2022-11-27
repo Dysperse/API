@@ -9,6 +9,7 @@ const getInfo = (
   path,
   initialParams,
   property,
+  user,
   removeDefaultParams = false
 ) => {
   const params = removeDefaultParams
@@ -19,6 +20,7 @@ const getInfo = (
         ...initialParams,
         property: property.propertyId,
         accessToken: property.accessToken,
+        userIdentifier: user.identifier,
       };
 
   return {
@@ -43,6 +45,7 @@ export function useApi(
     path,
     initialParams,
     global.property,
+    global.user,
     removeDefaultParams
   );
 
@@ -82,6 +85,7 @@ export async function fetchApiWithoutHook(
     path,
     initialParams,
     global.property,
+    global.user,
     removeDefaultParams
   );
 

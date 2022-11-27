@@ -14,6 +14,7 @@ export const getUserData = async (token: string) => {
       user: {
         select: {
           id: false,
+          identifier: true,
           name: true,
           email: true,
           twoFactorSecret: true,
