@@ -23,17 +23,17 @@ function Goal({ goal }: any) {
   });
   return (
     <>
-      <CardActionArea
-        className="w-full transition-transform active:scale-[.98] mb-2"
+      <Box
+        className="w-full transition-transform active:scale-[.98]"
         onClick={() => setOpen(true)}
         sx={{
           borderRadius: 5,
+          mb: 1,
           background: `${colors[themeColor][50]}!important`,
           px: 2,
+          cursor: "pointer",
+          userSelect: "none",
           py: 1,
-          "& *": {
-            transition: "none!important",
-          },
         }}
       >
         <Typography className="font-semibold" variant="h6">
@@ -92,7 +92,7 @@ function Goal({ goal }: any) {
             </svg>
           </span>
         </div>
-      </CardActionArea>
+      </Box>
 
       <SwipeableDrawer
         anchor="right"
@@ -101,6 +101,7 @@ function Goal({ goal }: any) {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
+          elevation: 0,
           sx: {
             width: "100vw",
           },
