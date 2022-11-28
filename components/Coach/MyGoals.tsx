@@ -1,14 +1,91 @@
 import Masonry from "@mui/lab/Masonry";
-import { Skeleton } from "@mui/material";
+import { Divider, Skeleton } from "@mui/material";
+import Box from "@mui/material/Box";
+import CardActionArea from "@mui/material/CardActionArea";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Typography from "@mui/material/Typography";
+import Slider from "@mui/material/Slider";
 import React from "react";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
 import { ExploreGoals } from "./ExploreGoals";
-import { goals } from "./goalTemplates";
 
+function Goal({ goal }: any) {
+  return (
+    <CardActionArea
+      className="w-full rounded-xl px-3 py-2 transition-transform active:scale-[.98] mb-2"
+      sx={{
+        "& *": {
+          transition: "none!important",
+        },
+      }}
+    >
+      <Typography className="font-extrabold" variant="h6">
+        {goal.name}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: colors[themeColor][500],
+        }}
+      >
+        {goal.time == "any"
+          ? "Daily"
+          : goal.time == "morning"
+          ? "Every morning"
+          : goal.time == "afternoon"
+          ? "Every afternoon"
+          : "Nightly"}{" "}
+        &bull; {goal.durationDays - goal.progress} days left
+      </Typography>
+      <div className="flex gap-3 items-center">
+        <Slider
+          value={goal.progress}
+          max={goal.durationDays}
+          step={1}
+          marks
+          sx={{
+            pointerEvents: "none",
+            "& .MuiSlider-thumb": {
+              height: 0,
+              width: 7,
+            },
+            "& .MuiSlider-track": {
+              height: 12,
+              overflow: "hidden",
+            },
+            "& .MuiSlider-rail": {
+              height: 12,
+              overflow: "hidden",
+            },
+            "& .MuiSlider-mark": {
+              width: { xs: 0, sm: 2 },
+              height: 6,
+              borderRadius: 5,
+            },
+          }}
+          // valueLabelDisplay="on"
+        />
+        <span className="material-symbols-rounded">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.166 2.621v.858c-1.035.148-2.059.33-3.071.543a.75.75 0 00-.584.859 6.753 6.753 0 006.138 5.6 6.73 6.73 0 002.743 1.346A6.707 6.707 0 019.279 15H8.54c-1.036 0-1.875.84-1.875 1.875V19.5h-.75a2.25 2.25 0 00-2.25 2.25c0 .414.336.75.75.75h15a.75.75 0 00.75-.75 2.25 2.25 0 00-2.25-2.25h-.75v-2.625c0-1.036-.84-1.875-1.875-1.875h-.739a6.706 6.706 0 01-1.112-3.173 6.73 6.73 0 002.743-1.347 6.753 6.753 0 006.139-5.6.75.75 0 00-.585-.858 47.077 47.077 0 00-3.07-.543V2.62a.75.75 0 00-.658-.744 49.22 49.22 0 00-6.093-.377c-2.063 0-4.096.128-6.093.377a.75.75 0 00-.657.744zm0 2.629c0 1.196.312 2.32.857 3.294A5.266 5.266 0 013.16 5.337a45.6 45.6 0 012.006-.343v.256zm13.5 0v-.256c.674.1 1.343.214 2.006.343a5.265 5.265 0 01-2.863 3.207 6.72 6.72 0 00.857-3.294z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </span>
+      </div>
+    </CardActionArea>
+  );
+}
 export function MyGoals(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
@@ -34,20 +111,9 @@ export function MyGoals(): JSX.Element {
 
       {data ? (
         <>
-          {data.length > 0 && (
-            <div
-              className="flex flex-col justify-center w-full h-full rounded-xl p-3 px-5 mb-4 sticky top-[75px] z-10"
-              style={{
-                background: `linear-gradient(145deg, ${colors[themeColor][900]} 0%, ${colors[themeColor][500]} 100%)`,
-                color: colors[themeColor][50],
-              }}
-            >
-              <h2 className="text-sm font-light">Today&apos;s routine</h2>
-              <h3 className="text-lg">
-                5 out of {data.length} tasks completed
-              </h3>
-            </div>
-          )}
+          <Typography className="font-semibold my-3" variant="h5">
+            My goals
+          </Typography>
           {data.length == 0 ? (
             <div className="text-gray-900 w-full bg-gray-200 rounded-xl p-3 px-5 mb-4">
               You haven&apos;t created any goals yet.
@@ -58,41 +124,7 @@ export function MyGoals(): JSX.Element {
                 ...data.filter((item) => item.tasks === item.completed),
                 ...data.filter((item) => item.tasks !== item.completed),
               ].map((goal) => (
-                <div className="bg-gray-100 rounded-3xl mb-3 sm:border-8 border-white overflow-hidden">
-                  <div className="relative">
-                    <div
-                      className="bg-gray-400 absolute h-full top-0 left-0 pointer-events-none opacity-20"
-                      style={{
-                        width: (goal.completed / goal.tasks) * 100 + "%",
-                        ...(goal.completed === goal.tasks && {
-                          background: colors.green[500],
-                        }),
-                      }}
-                    />
-                    <div className="p-2 px-3">
-                      <h3 className="font-secondary font-bold mt-2">
-                        {goal.name}
-                      </h3>
-                      <h3 className="font-thin mt-1">
-                        {goal.description ?? "No description"}
-                      </h3>
-                      <div className="flex items-center mt-2 gap-5">
-                        <div className="flex items-center mt-2 gap-2">
-                          <span className="material-symbols-outlined">
-                            check_circle
-                          </span>
-                          5/10
-                        </div>
-                        <div className="flex items-center mt-2 gap-2">
-                          <span className="material-symbols-outlined">
-                            sunny
-                          </span>
-                          Every morning
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Goal goal={goal} />
               ))}
             </Masonry>
           )}
@@ -108,12 +140,11 @@ export function MyGoals(): JSX.Element {
           sx={{ borderRadius: 5 }}
         />
       )}
-      {}
+      <Divider sx={{ mt: 3 }} />
       <div
         onClick={() => setOpen(true)}
-        className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s] mb-3"
+        className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s] my-3"
         style={{
-          background: colors[themeColor][50],
           color: colors[themeColor][900],
         }}
       >

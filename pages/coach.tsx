@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { Calendar } from "../components/Coach/Calendar";
 import { MyGoals } from "../components/Coach/MyGoals";
+import { colors } from "../lib/colors";
 
 export default function Render() {
   const time = new Date().getHours();
@@ -54,9 +55,31 @@ export default function Render() {
             {global.user.name}!
           </Typography>
         </Box>
-
-        <Calendar />
-        <Box className="p-3 max-w-[100vw]">
+        <Box className="p-3 pt-0 max-w-[100vw]">
+          <Box
+            sx={{
+              p: 2,
+              mb: 4,
+              px: 3,
+              cursor: "pointer",
+              transition: "transform 0.2s",
+              "&:active": {
+                transform: "scale(0.98)",
+                transitionDuration: "0s",
+              },
+              userSelect: "none",
+              borderRadius: 5,
+              display: "flex",
+              alignItems: "center",
+              background: colors[themeColor][100],
+            }}
+          >
+            <Box>
+              <Typography sx={{ fontWeight: "900" }}>Daily routine</Typography>
+              <Typography>5 tasks remaining &bull; Click to resume</Typography>
+            </Box>
+            <span className="material-symbols-rounded ml-auto">play_arrow</span>
+          </Box>
           <MyGoals />
         </Box>
       </Box>
