@@ -22,15 +22,10 @@ function Goal({ goal }: any) {
         },
       }}
     >
-      <Typography className="font-extrabold" variant="h6">
+      <Typography className="font-semibold" variant="h6">
         {goal.name}
       </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          color: colors[themeColor][500],
-        }}
-      >
+      <Typography variant="body2" className="text-gray-500">
         {goal.time == "any"
           ? "Daily"
           : goal.time == "morning"
