@@ -8,7 +8,7 @@ const withPWA = require('next-pwa')({
   dynamicStartUrl: false,
   cacheOnFrontEndNav: true
 })
-const { withSentryConfig } = require('@sentry/nextjs');
+// const { withSentryConfig } = require('@sentry/nextjs');
 
 const moduleExports = {
   // Your existing module.exports
@@ -39,13 +39,14 @@ const moduleExports = {
       ];
     },
   }),
-  sentry: {
-    hideSourceMaps: true,
-  },
+  // sentry: {
+  //   hideSourceMaps: true,
+  // },
 };
 
-const sentryWebpackPluginOptions = {
-  silent: true, // Suppresses all logs
-};
+// const sentryWebpackPluginOptions = {
+//   silent: true, // Suppresses all logs
+// };
 
-module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
+module.exports = moduleExports
+// module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
