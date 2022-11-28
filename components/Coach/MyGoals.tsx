@@ -218,7 +218,7 @@ export function MyGoals(): JSX.Element {
       )}
       <div
         onClick={() => setOpen(true)}
-        className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s] my-3"
+        className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform my-3"
         style={{
           color: colors[themeColor][900],
         }}
