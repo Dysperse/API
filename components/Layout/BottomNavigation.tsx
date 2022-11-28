@@ -195,7 +195,7 @@ export function BottomNav() {
                 leaderboard
               </span>
             }
-            label="insights"
+            label="Insights"
             onClick={() => router.push("/insights").then(() => setValue(3))}
           />
         </Tabs>

@@ -30,7 +30,7 @@ function Goal({ goal }: any) {
           borderRadius: 5,
           py: 1,
           px: 2,
-          mb: 1.5,
+          mb: 1,
           cursor: "pointer",
           userSelect: "none",
         }}
@@ -92,7 +92,7 @@ function Goal({ goal }: any) {
           </span>
         </div>
       </Box>
-      <Divider />
+      <Divider sx={{ mb: 1 }} />
       <SwipeableDrawer
         anchor="right"
         open={open}
