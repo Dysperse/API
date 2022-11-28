@@ -28,12 +28,12 @@ function Goal({ goal }: any) {
         onClick={() => setOpen(true)}
         sx={{
           borderRadius: 5,
-          mb: 1,
-          background: `${colors[themeColor][50]}!important`,
+          py: 1,
           px: 2,
+          mb: 1.5,
+          background: `${colors[themeColor][50]}!important`,
           cursor: "pointer",
           userSelect: "none",
-          py: 1,
         }}
       >
         <Typography className="font-semibold" variant="h6">
@@ -196,14 +196,14 @@ export function MyGoals(): JSX.Element {
               You haven&apos;t created any goals yet.
             </div>
           ) : (
-            <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={0}>
+            <>
               {[
                 ...data.filter((item) => item.tasks === item.completed),
                 ...data.filter((item) => item.tasks !== item.completed),
               ].map((goal) => (
                 <Goal goal={goal} />
               ))}
-            </Masonry>
+            </>
           )}
         </>
       ) : error ? (
