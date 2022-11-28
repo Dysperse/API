@@ -182,8 +182,7 @@ export function MyGoals(): JSX.Element {
           <Typography
             variant="h5"
             sx={{
-              mb: 2,
-              // textAlign: "center",
+              mb: 1.5,
               ml: 1.5,
               fontWeight: "900",
               mt: 7,
