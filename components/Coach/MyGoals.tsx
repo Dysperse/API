@@ -145,7 +145,10 @@ function Goal({ goal }: any) {
                 background: "rgba(255,255,255,.1)",
               }}
             />
-            <Typography variant="h4" sx={{ fontWeight: "900" }}>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "900", textDecoration: "underline" }}
+            >
               {goal.name}
             </Typography>
           </Box>
