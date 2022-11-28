@@ -106,7 +106,10 @@ export function MyGoals(): JSX.Element {
 
       {data ? (
         <>
-          <Typography className="font-semibold my-3" variant="h5">
+          <Typography
+            className="text-center sm:text-left font-semibold my-5 mt-14"
+            variant="h5"
+          >
             My goals
           </Typography>
           {data.length == 0 ? (
