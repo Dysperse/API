@@ -15,8 +15,11 @@ import { ExploreGoals } from "./ExploreGoals";
 function Goal({ goal }: any) {
   return (
     <CardActionArea
-      className="w-full rounded-xl px-3 py-2 transition-transform active:scale-[.98] mb-2"
+      className="w-full transition-transform active:scale-[.98] mb-2"
       sx={{
+        borderRadius: 5,
+        px: 2,
+        py: 1,
         "& *": {
           transition: "none!important",
         },
@@ -107,7 +110,7 @@ export function MyGoals(): JSX.Element {
       {data ? (
         <>
           <Typography
-            className="text-center sm:text-left font-semibold my-5 mt-14"
+            className="text-center sm:text-left font-semibold my-6 mt-14"
             variant="h5"
           >
             My goals
