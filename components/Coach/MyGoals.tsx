@@ -3,6 +3,7 @@ import { AppBar, Divider, IconButton, Skeleton } from "@mui/material";
 import Box from "@mui/material/Box";
 import CardActionArea from "@mui/material/CardActionArea";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import React, { useEffect } from "react";
@@ -134,9 +135,19 @@ function Goal({ goal }: any) {
           }}
           className="flex"
         >
-          <Typography sx={{ mt: "auto" }} variant="h4">
-            {goal.name}
-          </Typography>
+          <Box sx={{ mt: "auto" }}>
+            <Chip
+              label={goal.category}
+              sx={{
+                mb: 1,
+                color: "#fff",
+                background: "rgba(255,255,255,.1)",
+              }}
+            />
+            <Typography variant="h4" sx={{ fontWeight: "900" }}>
+              {goal.name}
+            </Typography>
+          </Box>
         </Box>
       </SwipeableDrawer>
     </>
