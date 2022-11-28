@@ -28,6 +28,7 @@ function Goal({ goal }: any) {
         onClick={() => setOpen(true)}
         sx={{
           borderRadius: 5,
+          background: `${colors[themeColor][50]}!important`,
           px: 2,
           py: 1,
           "& *": {
@@ -179,8 +180,13 @@ export function MyGoals(): JSX.Element {
       {data ? (
         <>
           <Typography
-            className="text-center sm:text-left font-semibold my-6 mt-14"
             variant="h5"
+            sx={{
+              mb: 4,
+              textAlign: "center",
+              fontWeight: "900",
+              mt: 5,
+            }}
           >
             My goals
           </Typography>
