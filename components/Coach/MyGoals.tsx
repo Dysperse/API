@@ -31,7 +31,6 @@ function Goal({ goal }: any) {
           py: 1,
           px: 2,
           mb: 1.5,
-          background: `${colors[themeColor][50]}!important`,
           cursor: "pointer",
           userSelect: "none",
         }}
@@ -93,7 +92,7 @@ function Goal({ goal }: any) {
           </span>
         </div>
       </Box>
-
+      <Divider />
       <SwipeableDrawer
         anchor="right"
         open={open}
@@ -217,7 +216,6 @@ export function MyGoals(): JSX.Element {
           sx={{ borderRadius: 5 }}
         />
       )}
-      <Divider sx={{ mt: 3 }} />
       <div
         onClick={() => setOpen(true)}
         className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform active:transition-[0s] my-3"
