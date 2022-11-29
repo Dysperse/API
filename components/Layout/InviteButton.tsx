@@ -11,6 +11,7 @@ import { colors } from "../../lib/colors";
 import { House } from "../HouseProfile/House";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
+import { useHotkeys } from "react-hotkeys-hook";
 
 /**
  * Color component for house profile
@@ -72,6 +73,14 @@ export function InviteButton() {
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
+  );
+  useHotkeys(
+    "ctrl+g",
+    (e) => {
+      e.preventDefault();
+      setOpen(!open);
+    },
+    [open]
   );
 
   /**

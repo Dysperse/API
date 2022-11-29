@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .kbd {
+    @apply bg-gray-300 px-2 font-semibold py-1 text-sm mr-1.5 rounded-xl select-none;
+  }
+}
+
 body {
   overflow-x: hidden;
   font-weight: 600;

@@ -20,11 +20,20 @@ import Settings from "../Settings/index";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
+import { useHotkeys } from "react-hotkeys-hook";
 
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
   useStatusBar(open);
   const { error, data } = useApi("property/inbox");
+  useHotkeys(
+    "ctrl+i",
+    (e) => {
+      e.preventDefault();
+      setOpen(!open);
+    },
+    [open]
+  );
 
   return (
     <>

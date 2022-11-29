@@ -238,14 +238,7 @@ export function SearchPopup() {
      * @returns void
      */
     const down = (e) => {
-      if (
-        (e.key === "k" && e.ctrlKey) ||
-        (e.key === "k" && e.metaKey) ||
-        (e.key === "f" && e.ctrlKey) ||
-        (e.key === "f" && e.metaKey) ||
-        (e.key === "/" && e.metaKey) ||
-        (e.key === "/" && e.ctrlKey)
-      ) {
+      if ((e.key === "k" && e.ctrlKey) || (e.key === "k" && e.metaKey)) {
         e.preventDefault();
         setOpen((open) => !open);
       }
