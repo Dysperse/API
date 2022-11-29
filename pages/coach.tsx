@@ -53,6 +53,86 @@ function CircularProgressWithLabel(
   );
 }
 
+const Task = ({ task }) => {
+  const [checked, setChecked] = React.useState(
+    task.lastDone == dayjs().format("YYYY-MM-DD")
+  );
+  const [loading, setLoading] = React.useState(false);
+
+  return (
+    <Box className="flex items-center" sx={{ mb: 2, gap: 1 }}>
+      <Box
+        sx={{
+          alignSelf: "flex-start",
+        }}
+      >
+        <Box className="relative">
+          <Box
+            sx={{
+              opacity: loading ? 1 : 0,
+              visibility: loading ? "visible" : "hidden",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            }}
+          >
+            <CircularProgress
+              disableShrink
+              sx={{
+                "& .MuiCircularProgress-circle": {
+                  strokeLinecap: "round",
+                  strokeWidth: 1,
+                  // Gradient
+                },
+                animationDuration: "550ms",
+              }}
+            />
+          </Box>
+          <Checkbox
+            disabled={checked}
+            onClick={() => {
+              setLoading(true);
+              setTimeout(() => {
+                setLoading(false);
+                setChecked(!checked);
+              }, 1000);
+            }}
+            checked={checked}
+            sx={{
+              ...(loading && { opacity: 0.2, filter: "blur(1px)" }),
+            }}
+          />
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          mt: 0.3,
+          textDecoration: checked ? "line-through" : "none",
+          opacity: checked ? 0.5 : 1,
+        }}
+      >
+        <Typography variant="h6">{task.stepName}</Typography>
+        <Typography variant="body2">
+          {task.name} &bull;{" "}
+          {Math.round((task.progress / task.durationDays) * 100) || 0}% complete
+          &bull;{" "}
+          {task.time === "any"
+            ? "Daily"
+            : task.time === "morning"
+            ? "Every morning"
+            : task.time === "afternoon"
+            ? "Every afternoon"
+            : task.time === "evening"
+            ? "Every evening"
+            : "Nighly"}
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+
 function DailyRoutine() {
   const { data, error } = useApi("user/routines");
   const [open, setOpen] = React.useState(false);
@@ -158,32 +238,7 @@ function DailyRoutine() {
         </Box>
         <Box sx={{ p: 4 }}>
           {sortedTasks.map((task) => (
-            <Box className="flex items-center" sx={{ mb: 2, gap: 1 }}>
-              <Box
-                sx={{
-                  alignSelf: "flex-start",
-                }}
-              >
-                <Checkbox checked={doneTasks.includes(task)} />
-              </Box>
-              <Box sx={{ mt: 0.3 }}>
-                <Typography variant="h6">{task.stepName}</Typography>
-                <Typography variant="body2">
-                  {task.name} &bull;{" "}
-                  {Math.round((task.progress / task.durationDays) * 100) || 0}%
-                  complete &bull;{" "}
-                  {task.time === "any"
-                    ? "Daily"
-                    : task.time === "morning"
-                    ? "Every morning"
-                    : task.time === "afternoon"
-                    ? "Every afternoon"
-                    : task.time === "evening"
-                    ? "Every evening"
-                    : "Nighly"}
-                </Typography>
-              </Box>
-            </Box>
+            <Task task={task} key={task.id} />
           ))}
         </Box>
       </Drawer>
