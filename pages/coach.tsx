@@ -6,9 +6,10 @@ import CircularProgress, {
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { MyGoals } from "../components/Coach/MyGoals";
-import { useApi } from "../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
@@ -55,7 +56,7 @@ function CircularProgressWithLabel(
 
 const Task = ({ task }) => {
   const [checked, setChecked] = React.useState(
-    task.lastDone == dayjs().format("YYYY-MM-DD")
+    task.lastCompleted == dayjs().format("YYYY-MM-DD")
   );
   const [loading, setLoading] = React.useState(false);
 
@@ -94,10 +95,26 @@ const Task = ({ task }) => {
             disabled={checked}
             onClick={() => {
               setLoading(true);
-              setTimeout(() => {
-                setLoading(false);
-                setChecked(!checked);
-              }, 1000);
+              fetchApiWithoutHook("user/routines/markAsDone", {
+                date: dayjs().format("YYYY-MM-DD"),
+                progress:
+                  task.progress && parseInt(task.progress)
+                    ? task.progress + 1 > task.durationDays
+                      ? task.durationDays
+                      : task.progress + 1
+                    : 1,
+                id: task.id,
+              })
+                .then(() => {
+                  setChecked(true);
+                  setLoading(false);
+                })
+                .catch(() => {
+                  setLoading(false);
+                  toast.error(
+                    "Something went wrong while trying to mark your routine as done."
+                  );
+                });
             }}
             checked={checked}
             sx={{
@@ -158,11 +175,13 @@ function DailyRoutine() {
 
   const doneTasks = !data
     ? []
-    : data.filter((task) => task.lastDone == dayjs().format("YYYY-MM-DD"));
+    : data.filter((task) => task.lastCompleted == dayjs().format("YYYY-MM-DD"));
 
   const tasksRemaining = !data
     ? []
-    : data.filter((task) => task.lastDone !== dayjs().format("YYYY-MM-DD"));
+    : data.filter(
+        (task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD")
+      );
 
   // If the data is available, the data returns an array of objects. Sort the array of objects by the `time` key, which can be a string containing the values: "morning", "afternoon", "evening", "night", "any". Sort them in the order: morning, any, afternoon, evening, night. This will ensure that the tasks are displayed in the correct order.
 
