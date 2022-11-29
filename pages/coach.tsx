@@ -4,6 +4,43 @@ import TextField from "@mui/material/TextField";
 import { Calendar } from "../components/Coach/Calendar";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { colors } from "../lib/colors";
+import CircularProgress, {
+  CircularProgressProps,
+} from "@mui/material/CircularProgress";
+
+function CircularProgressWithLabel(
+  props: CircularProgressProps & { value: number }
+) {
+  return (
+    <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <CircularProgress
+        variant="determinate"
+        {...props}
+        sx={{
+          "& .MuiCircularProgress-circle": {
+            strokeLinecap: "round",
+            color: "#000",
+            strokeWidth: 2,
+          },
+        }}
+      />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <span className="material-symbols-rounded">play_arrow</span>
+      </Box>
+    </Box>
+  );
+}
 
 export default function Render() {
   const time = new Date().getHours();
@@ -74,11 +111,11 @@ export default function Render() {
               background: colors[themeColor][100],
             }}
           >
-            <Box>
+            <Box sx={{ mr: "auto" }}>
               <Typography sx={{ fontWeight: "900" }}>Daily routine</Typography>
               <Typography>5 tasks remaining &bull; Click to resume</Typography>
             </Box>
-            <span className="material-symbols-rounded ml-auto">play_arrow</span>
+            <CircularProgressWithLabel value={75} />
           </Box>
           <MyGoals />
         </Box>
