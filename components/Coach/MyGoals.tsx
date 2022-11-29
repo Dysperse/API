@@ -62,7 +62,9 @@ function Goal({ goal }: any) {
           <Slider
             value={goal.progress}
             max={goal.durationDays}
-            step={1}
+            step={
+              goal.durationDays > 50 ? Math.round(goal.durationDays / 50) : 1
+            }
             marks
             sx={{
               pointerEvents: "none",
