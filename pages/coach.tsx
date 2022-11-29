@@ -1,15 +1,14 @@
+import { AppBar, Checkbox, Drawer, IconButton, Toolbar } from "@mui/material";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { Calendar } from "../components/Coach/Calendar";
-import { MyGoals } from "../components/Coach/MyGoals";
-import { colors } from "../lib/colors";
 import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
-import { useApi } from "../hooks/useApi";
+import Typography from "@mui/material/Typography";
 import React from "react";
-import { Drawer, AppBar, Toolbar, IconButton } from "@mui/material";
+import { MyGoals } from "../components/Coach/MyGoals";
+import { useApi } from "../hooks/useApi";
+import { colors } from "../lib/colors";
+import dayjs from "dayjs";
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
@@ -77,7 +76,25 @@ function DailyRoutine() {
     bannerColors = timeColors.night;
   }
 
-  bannerColors = timeColors.evening;
+  const doneTasks = !data
+    ? []
+    : data.filter((task) => task.lastDone == dayjs().format("YYYY-MM-DD"));
+
+  const tasksRemaining = !data
+    ? []
+    : data.filter((task) => task.lastDone !== dayjs().format("YYYY-MM-DD"));
+
+  // If the data is available, the data returns an array of objects. Sort the array of objects by the `time` key, which can be a string containing the values: "morning", "afternoon", "evening", "night", "any". Sort them in the order: morning, any, afternoon, evening, night. This will ensure that the tasks are displayed in the correct order.
+
+  const sortedTasks = !data
+    ? []
+    : data.sort((a, b) => {
+        return (
+          ["morning", "any", "afternoon", "evening", "night"].indexOf(a.time) -
+          ["morning", "any", "afternoon", "evening", "night"].indexOf(b.time)
+        );
+      });
+
   return (
     <>
       <Drawer
@@ -119,9 +136,56 @@ function DailyRoutine() {
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             width: "100%",
-            minHeight: "400px",
+            display: "flex",
+            p: 3,
+            color: "#fff",
+            minHeight: "300px",
           }}
-        ></Box>
+        >
+          <Box sx={{ mt: "auto" }}>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "600" }}
+              gutterBottom
+              className="underline"
+            >
+              Today&apos;s routine
+            </Typography>
+            <Typography variant="body2">
+              You have {tasksRemaining.length} tasks remaining today
+            </Typography>
+          </Box>
+        </Box>
+        <Box sx={{ p: 4 }}>
+          {sortedTasks.map((task) => (
+            <Box className="flex items-center" sx={{ mb: 2, gap: 1 }}>
+              <Box
+                sx={{
+                  alignSelf: "flex-start",
+                }}
+              >
+                <Checkbox checked={doneTasks.includes(task)} />
+              </Box>
+              <Box sx={{ mt: 0.3 }}>
+                <Typography variant="h6">{task.stepName}</Typography>
+                <Typography variant="body2">
+                  {task.name} &bull;{" "}
+                  {Math.round((task.progress / task.durationDays) * 100) || 0}%
+                  complete &bull;{" "}
+                  {task.time === "any"
+                    ? "Daily"
+                    : task.time === "morning"
+                    ? "Every morning"
+                    : task.time === "afternoon"
+                    ? "Every afternoon"
+                    : task.time === "evening"
+                    ? "Every evening"
+                    : "Nighly"}
+                </Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
       </Drawer>
       <Box
         onClick={() => setOpen(true)}
@@ -150,13 +214,18 @@ function DailyRoutine() {
           <Typography sx={{ fontWeight: "900" }}>Daily routine</Typography>
           <Typography>
             {data ? (
-              <>5 tasks remaining &bull; Click to resume</>
+              <>
+                {tasksRemaining.length} tasks remaining &bull; Click to{" "}
+                {doneTasks == 0 ? "start" : "resume"}
+              </>
             ) : (
               "Loading..."
             )}
           </Typography>
         </Box>
-        <CircularProgressWithLabel value={100} />
+        <CircularProgressWithLabel
+          value={data ? (doneTasks.length / data.length) * 100 : 0}
+        />
       </Box>
     </>
   );

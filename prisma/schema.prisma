@@ -144,14 +144,15 @@ model Task {
 }
 
 model RoutineItem {
-  id           Int    @id @default(autoincrement())
-  name         String
-  stepName     String
-  category     String
-  durationDays Int
-  progress     Int    @default(0)
-  time         String
-  emoji        String
+  id            Int     @id @default(autoincrement())
+  name          String
+  stepName      String
+  category      String
+  durationDays  Int
+  progress      Int     @default(0)
+  time          String
+  emoji         String
+  lastCompleted String?
 
   completed Boolean @default(false)
 
