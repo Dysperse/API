@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { goals, categories } from "./goalTemplates";
+import { colors } from "../../lib/colors";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -23,7 +24,7 @@ export function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ px: 1, py: 1 }}>{children}</Box>}
+      {value === index && <Box sx={{ py: 1 }}>{children}</Box>}
     </div>
   );
 }
@@ -44,9 +45,34 @@ export function ExploreGoals() {
 
   return (
     <div>
-      <Typography variant="h6" sx={{ mb: 2, fontWeight: "900" }}>
-        Explore Goals
-      </Typography>
+      <Box
+        sx={{
+          background: `linear-gradient(45deg, ${colors.pink["A700"]} 0%, ${colors.deepOrange["A700"]} 100%)`,
+          color: "#fff",
+          p: 4,
+          minHeight: "300px",
+          display: "flex",
+        }}
+      >
+        <Box
+          sx={{
+            mt: "auto",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{ mb: 2, fontWeight: "900" }}
+            className="underline"
+          >
+            Set a new goal
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            With Carbon Coach, anything is possible. Set a goal and we&apos;ll
+            help you achieve it by adding small steps to enrich your daily
+            routine.
+          </Typography>
+        </Box>
+      </Box>
       <Box>
         <Tabs
           value={value}

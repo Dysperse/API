@@ -235,24 +235,48 @@ function Goal({ goal }: any) {
 }
 export function MyGoals(): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  useStatusBar(open);
+  // useStatusBar(open);
   const { data, error } = useApi("user/routines");
 
   return (
     <>
       <SwipeableDrawer
-        anchor="bottom"
+        anchor="right"
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{
-          className:
-            "w-full h-[80vh] rounded-t-2xl p-10 px-5 overflow-y-auto sm:rounded-2xl sm:max-w-[90vw] sm:mx-auto shadow-none sm:mb-10",
           sx: {
-            height: "90vh",
+            width: "100vw",
           },
         }}
       >
+        <AppBar
+          elevation={0}
+          sx={{
+            background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              disableRipple
+              onClick={() => setOpen(false)}
+            >
+              <span className="material-symbols-rounded">chevron_left</span>
+            </IconButton>
+            <Typography sx={{ mx: "auto", fontWeight: "600" }}>
+              Explore
+            </Typography>
+            <IconButton
+              color="inherit"
+              disableRipple
+              onClick={() => setOpen(false)}
+            >
+              <span className="material-symbols-rounded">more_horiz</span>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
         <ExploreGoals />
       </SwipeableDrawer>
 
