@@ -186,7 +186,7 @@ function ResponsiveDrawer({
                 {group.name}
               </Typography>
               {group.shortcuts.map((shortcut) => (
-                <Typography className="mt-2 flex">
+                <Typography className="flex" sx={{ mt: 1 }}>
                   <Box>{shortcut.name}</Box>{" "}
                   <Box className="ml-auto">
                     {shortcut.keys.map((key) => (
