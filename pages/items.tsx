@@ -287,7 +287,7 @@ function Action({
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={<Typography className="font-medium">{primary}</Typography>}
+        primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
         secondary={
           <Typography className="text-sm sm:hidden font-normal">
             {itemCount} item{itemCount !== 1 && "s"}
