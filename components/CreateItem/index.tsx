@@ -88,12 +88,8 @@ function AddItemOption({
           >
             <CardContent
               sx={{
-                p: 1,
-                display: {
-                  xs: "flex",
-                  sm: "unset",
-                },
-                gap: 3,
+                display: "flex",
+                gap: 2,
                 alignItems: "center",
               }}
             >
@@ -102,7 +98,6 @@ function AddItemOption({
                 sx={{
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
-                  width: "100%",
                   fontWeight: "600",
                   overflow: "hidden",
                 }}
@@ -261,12 +256,8 @@ function MoreRooms(): JSX.Element {
           >
             <CardContent
               sx={{
-                p: 1,
-                display: {
-                  xs: "flex",
-                  sm: "unset",
-                },
-                gap: 3,
+                display: "flex",
+                gap: 2,
                 alignItems: "center",
               }}
             >
@@ -279,7 +270,6 @@ function MoreRooms(): JSX.Element {
                 sx={{
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
-                  width: "100%",
                   overflow: "hidden",
                   fontWeight: "700",
                 }}

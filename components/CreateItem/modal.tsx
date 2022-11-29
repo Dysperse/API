@@ -363,6 +363,7 @@ export function CreateItemModal({
               <LoadingButton
                 disableElevation
                 sx={{
+                  background: colors[themeColor][900] + "!important",
                   float: "right",
                   borderRadius: 100,
                   m: 1,
