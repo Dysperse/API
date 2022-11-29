@@ -110,6 +110,7 @@ export function Sidebar() {
             aria-label="basic tabs example"
             sx={{
               "& .MuiTabs-indicator": {
+                pointerEvents: "none",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -119,6 +120,7 @@ export function Sidebar() {
               },
               "& .MuiTabs-indicatorSpan": {
                 minWidth: 55,
+                pointerEvents: "none",
                 height: 55,
                 width: 55,
                 backgroundColor: hexToRgba(colors[themeColor][500], 0.1),
