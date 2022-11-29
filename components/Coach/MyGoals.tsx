@@ -237,7 +237,11 @@ export function MyGoals(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   // useStatusBar(open);
   const { data, error } = useApi("user/routines");
-
+  useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)!
+      .setAttribute("content", open ? colors.pink["900"] : "#fff");
+  });
   return (
     <>
       <SwipeableDrawer

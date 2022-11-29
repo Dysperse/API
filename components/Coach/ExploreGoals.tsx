@@ -3,7 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Button from "@mui/material/Button";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useEffect } from "react";
 import { goals, categories } from "./goalTemplates";
 import { colors } from "../../lib/colors";
 
