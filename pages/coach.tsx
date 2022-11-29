@@ -4,7 +4,7 @@ import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useEffect } from "react";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
@@ -172,6 +172,12 @@ function DailyRoutine() {
   } else {
     bannerColors = timeColors.night;
   }
+
+  useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute("content", open ? `#${bannerColors[5]}` : "#fff");
+  });
 
   const doneTasks = !data
     ? []
