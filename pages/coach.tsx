@@ -290,7 +290,11 @@ function DailyRoutine() {
             {data ? (
               <>
                 {tasksRemaining.length} tasks remaining &bull; Click to{" "}
-                {doneTasks == 0 ? "start" : "resume"}
+                {doneTasks == 0
+                  ? "start"
+                  : tasksRemaining == 0
+                  ? "view"
+                  : "resume"}
               </>
             ) : (
               "Loading..."
