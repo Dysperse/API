@@ -229,7 +229,11 @@ function DailyRoutine() {
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>
               Today&apos;s routine
             </Typography>
-            <IconButton color="inherit" disableRipple>
+            <IconButton
+              color="inherit"
+              disableRipple
+              sx={{ opacity: 0, pointerEvents: "none" }}
+            >
               <span className="material-symbols-rounded">more_horiz</span>
             </IconButton>
           </Toolbar>
