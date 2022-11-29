@@ -60,9 +60,8 @@ function DailyRoutine() {
 
   const timeColors = {
     afternoon: ["6198ff", "4385ff", "2071ff", "0061f1", "0056d6", "004cbb"],
-    evening: ["ff6f61", "ff5a4d", "ff4539", "ff2f25", "e61f1f", "cc0f0f"],
-    morning: ["61ff7b", "4dff68", "39ff54", "25ff40", "1fe63c", "0fcc38"],
-    // night: ["283e52", "1e303f", "15222e", "0f1a23", "0e1820", "080f14"],
+    morning: ["7dc4a4", "6cab8e", "5d947b", "578a73", "477862", "3b6351"],
+    evening: ["ff007b", "db0d71", "bd045e", "a60855", "94044a", "7a053e"],
     night: ["080f14", "0e1820", "141f29", "15222e", "1e303f", "283e52"],
   };
 
@@ -78,6 +77,7 @@ function DailyRoutine() {
     bannerColors = timeColors.night;
   }
 
+  bannerColors = timeColors.evening;
   return (
     <>
       <Drawer
