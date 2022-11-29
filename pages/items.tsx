@@ -249,7 +249,7 @@ function Action({
           </Box>
         )
       }
-      className="mb-1 sm:mb-0.5 transition-transform active:scale-[.98] duration-75 rounded-2xl"
+      className="room-button"
       sx={{
         "&:hover": {
           background: { sm: colors[themeColor][50] + "!important" },
@@ -270,8 +270,8 @@ function Action({
     >
       <ListItemAvatar>
         <Avatar
-          className="rounded-2xl"
           sx={{
+            borderRadius: 4,
             color: global.user.darkMode ? "#fff" : colors[themeColor][900],
             background: global.user.darkMode
               ? "hsl(240,11%,17%)"
