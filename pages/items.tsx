@@ -443,6 +443,7 @@ export default function Categories({ children = null }: any) {
               onClick={() => setViewBy("room")}
               className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5 mr-0.5"
               sx={{
+                transition: "none!important",
                 background: `${colors[themeColor][900]}!important`,
                 ...(viewBy !== "room" && {
                   background: `${
@@ -462,6 +463,7 @@ export default function Categories({ children = null }: any) {
               className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5"
               onClick={() => setViewBy("category")}
               sx={{
+                transition: "none!important",
                 background: `${colors[themeColor][900]}!important`,
                 ...(viewBy !== "category" && {
                   background: `${

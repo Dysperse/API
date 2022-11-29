@@ -190,7 +190,7 @@ export function House({
         </ListItem>
       </ListItem>
       <Drawer
-        anchor="bottom"
+        anchor="right"
         ModalProps={{
           keepMounted: data.accessToken === global.property.accessToken,
         }}
@@ -205,9 +205,7 @@ export function House({
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
-            borderRadius: { sm: "20px 20px 0 0" },
             overflow: "scroll",
-            maxHeight: { sm: "90vh" },
           },
         }}
         sx={{
@@ -223,7 +221,6 @@ export function House({
         <Box
           sx={{
             overflow: "scroll",
-            borderRadius: { sm: "20px 20px 0 0" },
           }}
         >
           <Box
@@ -232,16 +229,19 @@ export function House({
               px: 3,
               height: "300px",
               position: "relative",
-              borderRadius: { sm: "20px 20px 0 0" },
               color: "white",
             }}
           >
             <Box
               sx={{
+                background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0))`,
                 position: "absolute",
                 top: 0,
                 left: 0,
-                m: 2,
+                p: 2,
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
               }}
             >
               <IconButton
@@ -254,17 +254,11 @@ export function House({
                   mr: 0.2,
                 }}
               >
-                <span className="material-symbols-rounded">expand_more</span>
+                <span className="material-symbols-rounded">chevron_left</span>
               </IconButton>
-            </Box>
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                m: 2,
-              }}
-            >
+              <Typography sx={{ mx: "auto", fontWeight: "600" }}>
+                Group
+              </Typography>
               {global.property.permission !== "read-only" && (
                 <IconButton
                   disableRipple
@@ -277,18 +271,19 @@ export function House({
                     setEditMode(!editMode);
                   }}
                 >
-                  <span className="material-symbols-rounded">edit</span>
+                  <span className="material-symbols-outlined">edit</span>
                 </IconButton>
               )}
+              <EditProperty
+                color={color}
+                setOpen={setEditMode}
+                propertyType={propertyType}
+                setPropertyType={setPropertyType}
+                setColor={setColor}
+                open={editMode}
+              />
             </Box>
-            <EditProperty
-              color={color}
-              setOpen={setEditMode}
-              propertyType={propertyType}
-              setPropertyType={setPropertyType}
-              setColor={setColor}
-              open={editMode}
-            />
+
             <Box
               sx={{
                 position: "absolute",
@@ -301,10 +296,17 @@ export function House({
               <Typography
                 sx={{
                   textTransform: "capitalize",
-                  display: "flex",
+                  display: "inline-flex",
                   alignItems: "center",
-                  gap: "10px",
+                  gap: 1,
                   mb: 2,
+                  background: "rgba(255,255,255,0.2)",
+                  px: 1.5,
+                  pr: 2,
+                  py: 0.5,
+                  fontWeight: "900",
+                  borderRadius: 5,
+                  fontSize: "14px",
                 }}
               >
                 <span className="material-symbols-rounded">
@@ -316,7 +318,7 @@ export function House({
                 </span>
                 {propertyType}
               </Typography>
-              <Typography variant="h3">
+              <Typography variant="h4" className="font-secondary underline">
                 {global.property.profile.name || "Untitled property"}
               </Typography>
             </Box>

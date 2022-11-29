@@ -8,9 +8,9 @@ import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
+import { House } from "../HouseProfile/House";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
-import { House } from "../HouseProfile/House";
 
 /**
  * Color component for house profile
