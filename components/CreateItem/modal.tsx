@@ -91,6 +91,8 @@ export function CreateItemModal({
     {
       dragFree: true,
       align: "start",
+      containScroll: "trimSnaps",
+      loop: false,
     },
     [WheelGesturesPlugin()]
   );
