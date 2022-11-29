@@ -61,6 +61,7 @@ export function Header({
       >
         <ListItemAvatar sx={{ mr: { xs: 2, sm: -3 } }}>
           <IconButton
+            disableRipple
             onClick={() => {
               router.push("/items");
             }}
