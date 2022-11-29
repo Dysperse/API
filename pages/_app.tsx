@@ -124,6 +124,7 @@ function Render({
                 padding: "4px",
               },
               "& .MuiMenuItem-root": {
+                gap: 2,
                 "&:hover": {
                   background: global.user.darkMode
                     ? colors[global.themeColor][800]
@@ -138,6 +139,7 @@ function Render({
                   },
                 },
                 padding: "10px 15px",
+                minHeight: 0,
                 borderRadius: "15px",
                 marginBottom: "1px",
 

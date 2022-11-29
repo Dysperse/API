@@ -10,6 +10,7 @@ import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
+import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
@@ -153,6 +154,10 @@ const Task = ({ task }) => {
 function DailyRoutine() {
   const { data, error } = useApi("user/routines");
   const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   const timeColors = {
     afternoon: ["6198ff", "4385ff", "2071ff", "0061f1", "0056d6", "004cbb"],

@@ -13,7 +13,9 @@ import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
 import { ExploreGoals } from "./ExploreGoals";
 import Toolbar from "@mui/material/Toolbar";
-
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -24,12 +26,54 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from "@mui/lab/TimelineOppositeContent";
 
+function MoreOptions({ goal }) {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+          <span className="material-symbols-rounded">share</span> Share
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <span className="material-symbols-rounded">edit</span> Edit
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <span className="material-symbols-rounded">delete</span> Delete
+        </MenuItem>
+      </Menu>
+      <IconButton color="inherit" disableRipple onClick={handleClick}>
+        <span className="material-symbols-rounded">more_horiz</span>
+      </IconButton>
+    </>
+  );
+}
+
 function Goal({ goal }: any) {
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute("content", open ? colors[themeColor][900] : "#fff");
+  });
+
+  React.useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
   return (
     <>
@@ -133,9 +177,7 @@ function Goal({ goal }: any) {
               <span className="material-symbols-rounded">chevron_left</span>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>Goal</Typography>
-            <IconButton color="inherit" disableRipple>
-              <span className="material-symbols-rounded">more_horiz</span>
-            </IconButton>
+            <MoreOptions goal={goal} />
           </Toolbar>
         </AppBar>
         <Box
