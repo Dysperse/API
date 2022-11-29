@@ -75,7 +75,7 @@ export function InviteButton() {
     null
   );
   useHotkeys(
-    "ctrl+g",
+    "ctrl+p",
     (e) => {
       e.preventDefault();
       setOpen(!open);

@@ -17,9 +17,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import Grow from "@mui/material/Grow";
 
 const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
+  props: any,
   ref: React.Ref<unknown>
 ) {
   return <Grow in={props.open} ref={ref} {...props} />;
@@ -62,6 +60,7 @@ function ResponsiveDrawer({
       )}
       <Navbar />
       <Dialog
+        scroll="body"
         open={open}
         TransitionComponent={Transition}
         onClose={() => setOpen(false)}
@@ -80,42 +79,123 @@ function ResponsiveDrawer({
             Keyboard shortcuts
           </Typography>
           <IconButton
-            sx={{ ml: "auto" }}
+            sx={{ ml: "auto", color: "#000" }}
             disableRipple
-            onClick={() => setOpen(true)}
+            onClick={() => setOpen(false)}
           >
             <span className="material-symbols-outlined">close</span>
           </IconButton>
         </Box>
         <Box sx={{ mt: 2 }}>
-          <Typography sx={{ fontWeight: "700" }}>General</Typography>
-
           {[
             {
-              name: "Show this dialog",
-              keys: ["ctrl", "/"],
+              name: "General",
+              shortcuts: [
+                {
+                  name: "Show this dialog",
+                  keys: ["ctrl", "/"],
+                },
+                {
+                  name: "Open search",
+                  keys: ["ctrl", "k"],
+                },
+                {
+                  name: "Toggle inbox",
+                  keys: ["ctrl", "i"],
+                },
+                {
+                  name: "Toggle group list",
+                  keys: ["ctrl", "p"],
+                },
+                {
+                  name: "Toggle app drawer",
+                  keys: ["ctrl", "q"],
+                },
+              ],
             },
             {
-              name: "Open search",
-              keys: ["ctrl", "k"],
+              name: "Navigation",
+              shortcuts: [
+                {
+                  name: "Dashboard",
+                  keys: ["ctrl", "d"],
+                },
+                {
+                  name: "Inventory",
+                  keys: ["ctrl", "e"],
+                },
+                {
+                  name: "Goals",
+                  keys: ["ctrl", "g"],
+                },
+                {
+                  name: "Insights",
+                  keys: ["ctrl", "l"],
+                },
+                {
+                  name: "Settings",
+                  keys: ["ctrl", ","],
+                },
+              ],
+            },
+            // Up arrow unicode
+            // &#8593;
+            // Down arrow unicode
+            // &#8595;
+            {
+              name: "Inventory",
+              shortcuts: [
+                {
+                  name: "Move a room upwards",
+                  keys: ["ctrl", <>&#8593;</>],
+                },
+                {
+                  name: "Move a room downwards",
+                  keys: ["ctrl", <>&#8595;</>],
+                },
+              ],
             },
             {
-              name: "Toggle inbox",
-              keys: ["ctrl", "i"],
+              name: "Item management",
+              shortcuts: [
+                {
+                  name: "Delete an item",
+                  keys: ["ctrl", "shift", "d"],
+                },
+                {
+                  name: "Edit an item",
+                  keys: ["ctrl", "shift", "e"],
+                },
+                {
+                  name: "Star an item",
+                  keys: ["ctrl", "shift", "s"],
+                },
+                {
+                  name: "Move to another room",
+                  keys: ["ctrl", "shift", "m"],
+                },
+                {
+                  name: "Focus on note input",
+                  keys: ["alt", "n"],
+                },
+              ],
             },
-            {
-              name: "Toggle app drawer",
-              keys: ["ctrl", "q"],
-            },
-          ].map((shortcut) => (
-            <Typography className="mt-2 flex">
-              <Box>{shortcut.name}</Box>{" "}
-              <Box className="ml-auto">
-                {shortcut.keys.map((key) => (
-                  <span className="kbd">{key}</span>
-                ))}
-              </Box>
-            </Typography>
+          ].map((group, index) => (
+            <>
+              <Typography sx={{ mt: index == 0 ? 0 : 2, fontWeight: "700" }}>
+                {group.name}
+              </Typography>
+              {group.shortcuts.map((shortcut) => (
+                <Typography className="mt-2 flex">
+                  <Box>{shortcut.name}</Box>{" "}
+                  <Box className="ml-auto">
+                    {shortcut.keys.map((key) => (
+                      <span className="kbd">{key}</span>
+                    ))}
+                  </Box>
+                </Typography>
+              ))}
+            </>
           ))}
         </Box>
       </Dialog>
