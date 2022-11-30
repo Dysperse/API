@@ -19,6 +19,7 @@ import hexToRgba from "hex-to-rgba";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { CreateTask } from "./CreateTask";
+import dayjs from "dayjs";
 
 const Color = ({ color }: { color: string }) => {
   return (
@@ -346,6 +347,21 @@ export const Task = React.memo(function ({
                 }}
               >
                 {task.description}
+                {task.due && (
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      marginTop: "3px",
+                    }}
+                  >
+                    <span className="material-symbols-rounded mx-1">
+                      schedule
+                    </span>
+                    {dayjs(task.due).format("MMMM D, YYYY")}
+                  </span>
+                )}
               </span>
             }
           />

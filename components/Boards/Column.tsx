@@ -217,7 +217,6 @@ export const Column = React.memo(function ({
         ...(checkList && {
           flex: "0 0 100%!important",
           maxWidth: "800px",
-          ml: 4,
           width: "100%!important",
           background: "transparent!important",
         }),

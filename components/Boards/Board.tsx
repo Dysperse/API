@@ -39,12 +39,16 @@ export const Board = React.memo(function ({ board }: any) {
       >
         <Box
           sx={{
-            ...(board.columns.length !== 1 && {
-              display: "flex",
-              gap: "10px",
-              overflowX: "scroll",
-              pl: 4,
-            }),
+            ...(board.columns.length !== 1
+              ? {
+                  display: "flex",
+                  gap: "10px",
+                  overflowX: "scroll",
+                }
+              : {
+                  mt: -3,
+                }),
+            pl: 4,
           }}
         >
           <Renderer data={data} url={url} board={board} />
