@@ -12,6 +12,7 @@ import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { useStatusBar } from "../../hooks/useStatusBar";
+import { useHotkeys } from "react-hotkeys-hook";
 
 /**
  * Product list
@@ -244,6 +245,14 @@ function Apps() {
 export function AppsMenu() {
   const [open, setOpen] = React.useState<boolean>(false);
   useStatusBar(open);
+  useHotkeys(
+    "ctrl+q",
+    (e) => {
+      e.preventDefault();
+      setOpen(!open);
+    },
+    [open]
+  );
 
   /**
    * Handles app menu trigger
