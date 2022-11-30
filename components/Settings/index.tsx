@@ -6,20 +6,18 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
-import { colors } from "../../lib/colors";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
+import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import AccountSettings from "./AccountSettings";
 import AppearanceSettings from "./AppearanceSettings";
@@ -314,7 +312,7 @@ export default function FullScreenDialog({
                 flex: 1,
                 fontWeight: "900",
                 mb: 1,
-                mt: 5,
+                mt: 3,
               }}
               variant="h5"
               component="div"
@@ -322,7 +320,7 @@ export default function FullScreenDialog({
               Account
             </Typography>
             <Typography
-              sx={{ flex: 1, fontWeight: "400", mb: 3 }}
+              sx={{ flex: 1, fontWeight: "400", mb: 1 }}
               component="div"
             >
               {global.user.name}
