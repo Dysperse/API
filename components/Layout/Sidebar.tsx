@@ -65,9 +65,7 @@ export function Sidebar() {
       },
       "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
         {
-          transform: "scale(0.9)",
-          opacity: 0.8,
-          transition: "none",
+          opacity: 0.5,
         },
     };
   };
