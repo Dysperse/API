@@ -17,8 +17,9 @@ function OptionsGroup({ currentOption, setOption, options }) {
       className="rounded-[0.75rem!important] p-0.5 -mb-5"
       sx={{
         width: "100%",
+        gap: 0.1,
         background: `${
-          colors[themeColor][global.theme == "dark" ? 100 : 100]
+          colors[themeColor][global.theme == "dark" ? 900 : 100]
         }!important`,
       }}
       aria-label="outlined primary button group"
@@ -28,13 +29,20 @@ function OptionsGroup({ currentOption, setOption, options }) {
           variant="contained"
           disableElevation
           onClick={() => setOption(option)}
-          className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5 mr-0.5"
+          className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5"
           sx={{
             transition: "none!important",
-            background: `${colors[themeColor][900]}!important`,
+            background: `${
+              colors[themeColor][global.theme == "dark" ? 50 : 900]
+            }!important`,
+            color: colors[themeColor][global.theme == "dark" ? 900 : 50],
             ...(currentOption !== option && {
-              background: `${colors[themeColor][100]}!important`,
-              color: `${colors[themeColor][900]}!important`,
+              background: `${
+                colors[themeColor][global.theme == "dark" ? 900 : 100]
+              }!important`,
+              color: `${
+                colors[themeColor][global.theme == "dark" ? 50 : 900]
+              }!important`,
             }),
           }}
         >
@@ -299,7 +307,7 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
       </Box>
       {currentOption === "Checklist" ? (
         <>
-          <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
+          <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
             {checklists.map((template) => (
               <Box
                 onClick={() => {
@@ -319,6 +327,8 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                   });
                 }}
                 sx={{
+                  py: 1,
+                  px: { sm: 1 },
                   maxWidth: "calc(100vw - 52.5px)",
                 }}
               >
@@ -356,7 +366,7 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
           </Masonry>
         </>
       ) : (
-        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
           {templates.map((template) => (
             <Box
               onClick={() => {
@@ -376,6 +386,8 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                 });
               }}
               sx={{
+                py: 1,
+                px: { sm: 1 },
                 maxWidth: "calc(100vw - 52.5px)",
               }}
             >

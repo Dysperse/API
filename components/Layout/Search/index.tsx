@@ -344,12 +344,11 @@ export function SearchPopup() {
             ml: 0.6,
             display: { sm: "none" },
             color: {
-              xs: router.asPath === "/tidy" ? "#fff" : "#606060",
+              xs: global.theme == "dark" ? "hsl(240,11%,95%)" : "#606060",
             },
             transition: "all .2s",
             "&:active": {
               opacity: 0.5,
-              transform: "scale(0.95)",
               transition: "none",
             },
           }}
