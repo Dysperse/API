@@ -13,27 +13,19 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
     "meta[name=theme-color]"
   ) as HTMLMetaElement;
   useEffect(() => {
-    if (router.asPath === "/tidy") {
-      document
-        .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute("content", colors[themeColor][800]);
-      return;
-    }
     if (open) {
-      tag.setAttribute(
-        "content",
-        router.asPath === "/tidy"
-          ? colors[themeColor][700]
-          : colors[themeColor][nestedModals * 100]
-      );
+      if (global.theme !== "dark") {
+        tag.setAttribute("content", colors[themeColor][nestedModals * 100]);
+      } else {
+        tag.setAttribute("content", `hsl(240, 11%, ${nestedModals * 10}%)`);
+      }
     } else {
       if (open && nestedModals > 1) {
-        tag.setAttribute(
-          "content",
-          router.asPath === "/tidy"
-            ? colors[themeColor][800]
-            : colors[themeColor][nestedModals * 100]
-        );
+        if (global.theme === "dark") {
+          tag.setAttribute("content", `hsl(240, 11%, ${nestedModals * 10}%)`);
+        } else {
+          tag.setAttribute("content", colors[themeColor][nestedModals * 100]);
+        }
       } else {
         tag.setAttribute(
           "content",
