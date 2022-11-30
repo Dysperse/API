@@ -9,10 +9,45 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export function Sidebar() {
   const [value, setValue] = useState<number>(0);
   const router = useRouter();
+
+  useHotkeys(
+    "ctrl+d",
+    (e) => {
+      e.preventDefault();
+      router.push("/tasks");
+    },
+    [open]
+  );
+
+  useHotkeys(
+    "ctrl+e",
+    (e) => {
+      e.preventDefault();
+      router.push("/items");
+    },
+    [open]
+  );
+  useHotkeys(
+    "ctrl+g",
+    (e) => {
+      e.preventDefault();
+      router.push("/coach");
+    },
+    [open]
+  );
+  useHotkeys(
+    "ctrl+l",
+    (e) => {
+      e.preventDefault();
+      router.push("/insights");
+    },
+    [open]
+  );
 
   const styles = (active) => {
     return {
@@ -50,7 +85,7 @@ export function Sidebar() {
       case "/coach":
         setValue(2);
         break;
-      case "/tidy":
+      case "/insights":
         setValue(3);
         break;
       default:
