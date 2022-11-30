@@ -60,6 +60,7 @@ function Changelog({ styles }: { styles: any }) {
             top: 0,
             left: 0,
             p: 3,
+            px: 4,
             pb: 1,
             zIndex: 9,
             width: "100%",
