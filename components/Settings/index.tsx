@@ -189,7 +189,7 @@ function SettingsMenu({
           >
             <span
               style={{ fontSize: "20px" }}
-              className="material-symbols-rounded"
+              className="material-symbols-outlined"
             >
               {icon}
             </span>
