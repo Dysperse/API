@@ -292,11 +292,13 @@ export function Navbar(): JSX.Element {
         transition: "box-shadow .2s",
         background: {
           xs: global.user.darkMode
-            ? "rgba(0,0,0,0)"
+            ? "rgba(23, 23, 28, .8)"
             : router.asPath === "/tidy"
             ? colors[themeColor][800]
             : "rgba(255,255,255,.8)",
-          sm: global.user.darkMode ? "rgba(0,0,0,0)" : "rgba(255,255,255,.9)",
+          sm: global.user.darkMode
+            ? "rgba(23, 23, 28, .8)"
+            : "rgba(255,255,255,.9)",
         },
         borderBottom:
           global.theme === "dark"
