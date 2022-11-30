@@ -64,25 +64,21 @@ function AddItemOption({
           <CardActionArea
             disableRipple
             sx={{
-              px: {
-                xs: 3,
-                sm: 0,
-              },
               "&:hover": {
-                background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
-                }!important`,
+                background: global.user.darkMode
+                  ? "hsl(240,11%,15%)!important"
+                  : `${colors[themeColor][100]}!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
-                }!important`,
+                background: global.user.darkMode
+                  ? "hsl(240,11%,18%)!important"
+                  : `${colors[themeColor][100]}!important`,
               },
               "&:active": {
-                background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
-                }!important`,
+                background: global.user.darkMode
+                  ? "hsl(240,11%,25%)!important"
+                  : `${colors[themeColor][100]}!important`,
               },
             }}
           >
@@ -90,6 +86,7 @@ function AddItemOption({
               sx={{
                 display: "flex",
                 gap: 2,
+                py: { xs: 1, sm: 2 },
                 alignItems: "center",
               }}
             >
