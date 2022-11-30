@@ -146,11 +146,11 @@ function ResponsiveDrawer({
               name: "Inventory",
               shortcuts: [
                 {
-                  name: "Move a room upwards",
+                  name: "Navigate 1 room upwards",
                   keys: ["ctrl", <>&#8593;</>],
                 },
                 {
-                  name: "Move a room downwards",
+                  name: "Navigate 1 room downwards",
                   keys: ["ctrl", <>&#8595;</>],
                 },
               ],
