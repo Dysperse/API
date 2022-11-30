@@ -76,7 +76,6 @@ function Changelog({ styles }: { styles: any }) {
           </Typography>
           <IconButton
             color="inherit"
-            size="large"
             onClick={() => setOpen(false)}
             sx={{
               color: colors[themeColor]["900"],
@@ -255,8 +254,8 @@ export function Navbar(): JSX.Element {
   const router = useRouter();
   const styles = {
     borderRadius: 94,
-    mr: 1,
-    ml: 0.6,
+    p: 0.5,
+    m: 0,
     color: {
       xs: "#606060",
     },
@@ -330,7 +329,7 @@ export function Navbar(): JSX.Element {
                 disableRipple
                 sx={{
                   p: 0,
-                  mr: 0.6,
+                  mr: { xs: 0.2, sm: 0.6 },
                   color: global.user.darkMode
                     ? "hsl(240, 11%, 90%)"
                     : "#606060",
@@ -360,7 +359,7 @@ export function Navbar(): JSX.Element {
           </Offline>
         </Box>
         <Changelog styles={styles} />
-        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
+        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -2 } }}>
           <AppsMenu />
         </Box>
         {/* <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
@@ -389,7 +388,6 @@ export function Navbar(): JSX.Element {
                 disableRipple
                 sx={{
                   ...styles,
-                  p: 0,
                 }}
               >
                 <span className="material-symbols-outlined">settings</span>

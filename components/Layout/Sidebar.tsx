@@ -137,13 +137,13 @@ export function Sidebar() {
               sx={styles}
               onClick={() => router.push("/tasks").then(() => setValue(0))}
               icon={
-                <Tooltip title="Tasks" placement="right">
+                <Tooltip title="Lists" placement="right">
                   <span
                     className={`material-symbols-${
                       router.asPath === "/tasks" ? "rounded" : "outlined"
                     }`}
                   >
-                    view_kanban
+                    verified
                   </span>
                 </Tooltip>
               }

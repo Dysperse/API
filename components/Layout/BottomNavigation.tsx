@@ -138,10 +138,10 @@ export function BottomNav() {
                   router.asPath == "/tasks" ? "rounded" : "outlined"
                 }`}
               >
-                view_kanban
+                verified
               </span>
             }
-            label="Boards"
+            label="Lists"
             onClick={() => router.push("/tasks").then(() => setValue(0))}
           />
           <Tab
