@@ -40,7 +40,7 @@ export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   width: 25,
   height: 25,
   boxShadow: dark
-    ? "inset 0 0 0 2px rgba(16,22,26,.3)"
+    ? "inset 0 0 0 2px rgba(255,255,255,.6)"
     : "inset 0 0 0 2px rgba(255,255,255,.6)",
   backgroundColor: "transparent",
   ".Mui-focusVisible &": {
@@ -52,8 +52,10 @@ export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   },
   "input:not(:checked):hover ~ &": {
     boxShadow:
-      "inset 0 0 0 2px rgba(" + !dark ? "255,255,255" : "16,22,26" + ",.5)",
-    backgroundColor: !dark ? colors[themeColor][700] : "#ccc!important",
+      "inset 0 0 0 2px rgba(" + !dark ? "255,255,255" : "0,0,0" + ",.5)",
+    backgroundColor: !dark
+      ? colors[themeColor][700]
+      : "hsl(240,11%,30%)!important",
   },
   "input:disabled ~ &": {
     background: "transparent",
