@@ -133,7 +133,7 @@ export function CreateColumn({ mutationUrl, id }: any) {
               disableElevation
               fullWidth
               sx={{
-                background: colors[themeColor][900],
+                background: colors[themeColor][900] + "!important",
                 color: "white",
                 border: "1px solid transparent !important",
               }}
