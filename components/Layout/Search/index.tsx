@@ -375,7 +375,7 @@ export function SearchPopup() {
             borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 25%)",
+              background: "hsl(240, 11%, 20%)",
             }),
             "& input": {
               background: "transparent!important",

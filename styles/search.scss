@@ -81,7 +81,7 @@
     transition: transform 100ms ease;
 
     .dark & {
-      background: rgba(22, 22, 22, 0.7);
+      background: hsl(240, 11%, 20%);
     }
   }
 

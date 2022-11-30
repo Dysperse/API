@@ -8,7 +8,7 @@ import { colors } from "../lib/colors";
 export function Puller({ variant }: { variant?: "side" }) {
   const color = global.user
     ? global.user.darkMode
-      ? "hsl(240, 11%, 35%)"
+      ? "hsl(240, 11%, 20%)"
       : colors[themeColor][50]
     : colors["brown"][50];
 
