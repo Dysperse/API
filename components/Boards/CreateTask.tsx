@@ -21,6 +21,7 @@ export function CreateTask({
   mutationUrl,
   boardId,
   columnId,
+  checkList = false,
 }: any) {
   const [value, setValue] = useState("");
   const [open, setOpen] = useState(false);
@@ -212,7 +213,11 @@ export function CreateTask({
                   <LoadingButton
                     loading={loading}
                     type="submit"
-                    sx={{ borderRadius: 5, px: 3 }}
+                    sx={{
+                      borderRadius: 5,
+                      px: 3,
+                      background: colors[themeColor][900] + "!important",
+                    }}
                     variant="contained"
                     disableElevation
                   >
@@ -226,6 +231,7 @@ export function CreateTask({
       </SwipeableDrawer>
       <ListItem
         button
+        disableRipple
         sx={{
           borderRadius: 4,
           gap: 0.5,
@@ -237,9 +243,18 @@ export function CreateTask({
           },
           transition: "transform 0.2s ease-in-out",
           "&:active": {
-            transform: "scale(.96)",
+            transform: "scale(.99)",
             transition: "none",
           },
+          ...(checkList && {
+            background: "#f3f4f6!important",
+            boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+            px: 1,
+            py: 1.5,
+            gap: "10px!important",
+            borderRadius: "15px!important",
+            mb: 1.5,
+          }),
         }}
         onClick={() => setOpen(true)}
       >

@@ -11,7 +11,12 @@ function Renderer({ data, url, board }) {
     <>
       {data &&
         data.map((column) => (
-          <Column mutationUrl={url} boardId={board.id} column={column} />
+          <Column
+            checkList={board.columns.length == 1}
+            mutationUrl={url}
+            boardId={board.id}
+            column={column}
+          />
         ))}
     </>
   );
@@ -34,10 +39,12 @@ export const Board = React.memo(function ({ board }: any) {
       >
         <Box
           sx={{
-            display: "flex",
-            gap: "10px",
-            overflowX: "scroll",
-            pl: 4,
+            ...(board.columns.length !== 1 && {
+              display: "flex",
+              gap: "10px",
+              overflowX: "scroll",
+              pl: 4,
+            }),
           }}
         >
           <Renderer data={data} url={url} board={board} />
@@ -52,7 +59,7 @@ export const Board = React.memo(function ({ board }: any) {
                 flexDirection: "column",
               }}
             >
-              {data.length < 5 && (
+              {board.columns.length !== 1 && data.length < 5 && (
                 <CreateColumn id={board.id} mutationUrl={url} />
               )}
             </Box>

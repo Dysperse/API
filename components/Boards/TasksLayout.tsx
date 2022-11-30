@@ -9,6 +9,7 @@ import { colors } from "../../lib/colors";
 import { Board } from "./Board";
 import { CreateBoard } from "./CreateBoard";
 import Menu from "@mui/material/Menu";
+import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import { mutate } from "swr";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -109,7 +110,25 @@ const Tab = React.memo(function ({
         }}
       >
         {!editMode ? (
-          board.name
+          <Box
+            sx={{
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <span
+              className={
+                activeTab === board.id
+                  ? "material-symbols-rounded"
+                  : "material-symbols-outlined"
+              }
+            >
+              {board.columns.length == 1 ? "task_alt" : "view_kanban"}
+            </span>
+            {board.name}
+          </Box>
         ) : (
           <input
             id={"renameInput" + board.id}
@@ -157,7 +176,7 @@ const Tab = React.memo(function ({
           />
         )}
         {activeTab === board.id && (
-          <span className="material-symbols-outlined">more_horiz</span>
+          <span className="material-symbols-outlined">more_vert</span>
         )}
       </Button>
     </div>

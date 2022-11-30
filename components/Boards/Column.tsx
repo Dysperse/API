@@ -199,13 +199,14 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
 }
 
 export const Column = React.memo(function ({
+  checkList,
   mutationUrl,
   boardId,
   column,
 }: any) {
   return (
     <Box
-      className="w-[350px] bg-gray-100 shadow-md mb-10"
+      className="w-[350px] bg-gray-100 mb-10"
       sx={{
         width: "350px",
         flex: "0 0 350px",
@@ -213,41 +214,53 @@ export const Column = React.memo(function ({
         pt: 4,
         px: 2,
         borderRadius: 5,
+        ...(checkList && {
+          flex: "0 0 100%!important",
+          maxWidth: "800px",
+          ml: 4,
+          width: "100%!important",
+          background: "transparent!important",
+        }),
       }}
     >
-      <Box sx={{ px: 1 }}>
-        <img src={column.emoji} />
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: 2,
-          px: 1,
-        }}
-      >
-        <Typography
-          variant="h5"
+      {!checkList && (
+        <Box sx={{ px: 1 }}>
+          <img src={column.emoji} />
+        </Box>
+      )}
+      {!checkList && (
+        <Box
           sx={{
-            fontWeight: "600",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
             mb: 2,
-            mt: 1,
-            textDecoration: "underline",
+            px: 1,
           }}
         >
-          {column.name}
-        </Typography>
-        <OptionsMenu
-          boardId={boardId}
-          column={column}
-          mutationUrl={mutationUrl}
-        />
-      </Box>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "600",
+              mb: 2,
+              mt: 1,
+              textDecoration: "underline",
+            }}
+          >
+            {column.name}
+          </Typography>
+          <OptionsMenu
+            boardId={boardId}
+            column={column}
+            mutationUrl={mutationUrl}
+          />
+        </Box>
+      )}
       {column.tasks
         .filter((task) => task.parentTasks.length === 0)
         .map((task) => (
           <Task
+            checkList={checkList}
             task={task}
             mutationUrl={mutationUrl}
             boardId={boardId}
@@ -256,6 +269,7 @@ export const Column = React.memo(function ({
         ))}
 
       <CreateTask
+        checkList={checkList}
         mutationUrl={mutationUrl}
         boardId={boardId}
         columnId={column.id}

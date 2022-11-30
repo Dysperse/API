@@ -1,6 +1,7 @@
 import Masonry from "@mui/lab/Masonry";
 import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -9,7 +10,47 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { useState } from "react";
 
+function OptionsGroup({ currentOption, setOption, options }) {
+  return (
+    <ButtonGroup
+      variant="outlined"
+      className="rounded-[0.75rem!important] p-0.5 -mb-5"
+      sx={{
+        width: "100%",
+        background: `${
+          colors[themeColor][global.theme !== "dark" ? 100 : 900]
+        }!important`,
+      }}
+      aria-label="outlined primary button group"
+    >
+      {options.map((option) => (
+        <Button
+          variant="contained"
+          disableElevation
+          onClick={() => setOption(option)}
+          className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5 mr-0.5"
+          sx={{
+            transition: "none!important",
+            background: `${colors[themeColor][900]}!important`,
+            ...(currentOption !== option && {
+              background: `${
+                colors[themeColor][global.theme !== "dark" ? 100 : 900]
+              }!important`,
+              color: `${
+                colors[themeColor][global.user.darkMode ? 50 : 900]
+              }!important`,
+            }),
+          }}
+        >
+          {option}
+        </Button>
+      ))}
+    </ButtonGroup>
+  );
+}
+
 export function CreateBoard({ emblaApi, mutationUrl }: any) {
+  const [currentOption, setOption] = useState("Board");
   const templates = [
     {
       name: "To-do",
@@ -218,117 +259,214 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
       ],
     },
   ];
+  const checklists = [
+    "Shopping list",
+    "Simple checklist",
+    "To-do list",
+    "Wishlist",
+    "Bucket list",
+    "Life goals",
+    "Party supplies",
+    "Ideas",
+  ].map((item) => {
+    return {
+      name: item,
+      description: "",
+      color: "lime",
+      columns: [
+        {
+          name: "",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4dd.png",
+        },
+      ],
+    };
+  });
 
   const [loading, setLoading] = useState(false);
 
   return (
     <Box sx={{ px: 4 }}>
-      <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
-        {templates.map((template) => (
-          <Box
-            onClick={() => {
-              setLoading(true);
-              fetchApiWithoutHook("property/boards/createBoard", {
-                board: JSON.stringify(template),
-              }).then(async () => {
-                await mutate(mutationUrl);
-                setLoading(false);
-                if (emblaApi) {
-                  emblaApi.reInit({
-                    loop: true,
-                    containScroll: "keepSnaps",
-                    dragFree: true,
+      <Box
+        sx={{
+          maxWidth: "500px",
+          mx: "auto",
+          mt: 5,
+          mb: 7,
+        }}
+      >
+        <OptionsGroup
+          options={["Board", "Checklist"]}
+          currentOption={currentOption}
+          setOption={setOption}
+        />
+      </Box>
+      {currentOption === "Checklist" ? (
+        <>
+          <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
+            {checklists.map((template) => (
+              <Box
+                onClick={() => {
+                  setLoading(true);
+                  fetchApiWithoutHook("property/boards/createBoard", {
+                    board: JSON.stringify(template),
+                  }).then(async () => {
+                    await mutate(mutationUrl);
+                    setLoading(false);
+                    if (emblaApi) {
+                      emblaApi.reInit({
+                        loop: true,
+                        containScroll: "keepSnaps",
+                        dragFree: true,
+                      });
+                    }
                   });
-                }
-              });
-            }}
-            sx={{
-              maxWidth: "calc(100vw - 52.5px)",
-            }}
-          >
-            <Card
-              sx={{
-                ...(loading && {
-                  opacity: 0.5,
-                  pointerEvents: "none",
-                }),
-                width: "100%!important",
-                background: "rgba(200,200,200,.3)",
-                borderRadius: 5,
-                transition: "transform 0.2s",
-                cursor: "pointer",
-                userSelect: "none",
-                "&:hover": {
-                  background: "rgba(200,200,200,.4)",
-                },
-                "&:active": {
-                  background: "rgba(200,200,200,.5)",
-                  transform: "scale(.98)",
-                  transition: "none",
-                },
-              }}
-            >
-              <Box>
-                <Box
+                }}
+                sx={{
+                  maxWidth: "calc(100vw - 52.5px)",
+                }}
+              >
+                <Card
                   sx={{
-                    background: "rgba(200,200,200,.2)",
-                    color: "#000",
+                    ...(loading && {
+                      opacity: 0.5,
+                      pointerEvents: "none",
+                    }),
+                    width: "100%!important",
+                    background: "rgba(200,200,200,.3)",
                     borderRadius: 5,
-                    borderBottomLeftRadius: 0,
-                    borderBottomRightRadius: 0,
+                    p: 3,
+                    transition: "transform 0.2s",
+                    cursor: "pointer",
+                    userSelect: "none",
+                    "&:hover": {
+                      background: "rgba(200,200,200,.4)",
+                    },
+                    "&:active": {
+                      background: "rgba(200,200,200,.5)",
+                      transform: "scale(.98)",
+                      transition: "none",
+                    },
                     display: "flex",
+                    alignItems: "center",
+                    gap: 2,
                   }}
                 >
-                  {template.columns.map((column, index) => (
-                    <Box
-                      sx={{
-                        width: "100%",
-                        display: "flex",
-                        overflowX: "auto",
-                        p: { xs: 1.5, sm: 2.5 },
-                        gap: 2,
-                        borderRight:
-                          index !== template.columns.length - 1
-                            ? "1px solid rgba(0,0,0,.1)"
-                            : "none",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <img src={column.emoji} width="30px" height="30px" />
+                  <span className="material-symbols-rounded">task_alt</span>
+                  {template.name}
+                </Card>
+              </Box>
+            ))}
+          </Masonry>
+        </>
+      ) : (
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2} sx={{ mt: 2 }}>
+          {templates.map((template) => (
+            <Box
+              onClick={() => {
+                setLoading(true);
+                fetchApiWithoutHook("property/boards/createBoard", {
+                  board: JSON.stringify(template),
+                }).then(async () => {
+                  await mutate(mutationUrl);
+                  setLoading(false);
+                  if (emblaApi) {
+                    emblaApi.reInit({
+                      loop: true,
+                      containScroll: "keepSnaps",
+                      dragFree: true,
+                    });
+                  }
+                });
+              }}
+              sx={{
+                maxWidth: "calc(100vw - 52.5px)",
+              }}
+            >
+              <Card
+                sx={{
+                  ...(loading && {
+                    opacity: 0.5,
+                    pointerEvents: "none",
+                  }),
+                  width: "100%!important",
+                  background: "rgba(200,200,200,.3)",
+                  borderRadius: 5,
+                  transition: "transform 0.2s",
+                  cursor: "pointer",
+                  userSelect: "none",
+                  "&:hover": {
+                    background: "rgba(200,200,200,.4)",
+                  },
+                  "&:active": {
+                    background: "rgba(200,200,200,.5)",
+                    transform: "scale(.98)",
+                    transition: "none",
+                  },
+                }}
+              >
+                <Box>
+                  <Box
+                    sx={{
+                      background: "rgba(200,200,200,.2)",
+                      color: "#000",
+                      borderRadius: 5,
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 0,
+                      display: "flex",
+                    }}
+                  >
+                    {template.columns.map((column, index) => (
                       <Box
                         sx={{
-                          fontSize: 18,
-                          fontWeight: 600,
-                          mt: -0.7,
-                          maxWidth: "100%",
-                          textOverflow: "ellipsis",
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
+                          width: "100%",
+                          display: "flex",
+                          overflowX: "auto",
+                          p: { xs: 1.5, sm: 2.5 },
+                          gap: 2,
+                          borderRight:
+                            index !== template.columns.length - 1
+                              ? "1px solid rgba(0,0,0,.1)"
+                              : "none",
+                          flexDirection: "column",
                         }}
                       >
-                        {column.name}
+                        <img src={column.emoji} width="30px" height="30px" />
+                        <Box
+                          sx={{
+                            fontSize: 18,
+                            fontWeight: 600,
+                            mt: -0.7,
+                            maxWidth: "100%",
+                            textOverflow: "ellipsis",
+                            overflow: "hidden",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {column.name}
+                        </Box>
+                        <Box sx={{ mt: -1 }}>
+                          <Skeleton animation={false} height={15} width={100} />
+                          <Skeleton animation={false} height={15} width={90} />
+                          <Skeleton animation={false} height={15} width={50} />
+                        </Box>
                       </Box>
-                      <Box sx={{ mt: -1 }}>
-                        <Skeleton animation={false} height={15} width={100} />
-                        <Skeleton animation={false} height={15} width={90} />
-                        <Skeleton animation={false} height={15} width={50} />
-                      </Box>
-                    </Box>
-                  ))}
+                    ))}
+                  </Box>
+                  <Box sx={{ p: 3, pt: 0 }}>
+                    <Typography variant="h6" sx={{ mt: 2 }}>
+                      {template.name}
+                    </Typography>
+                    <Typography variant="body2">
+                      {template.description}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Box sx={{ p: 3, pt: 0 }}>
-                  <Typography variant="h6" sx={{ mt: 2 }}>
-                    {template.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    {template.description}
-                  </Typography>
-                </Box>
-              </Box>
-            </Card>
-          </Box>
-        ))}
-      </Masonry>
+              </Card>
+            </Box>
+          ))}
+        </Masonry>
+      )}
     </Box>
   );
 }

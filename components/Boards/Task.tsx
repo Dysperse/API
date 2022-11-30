@@ -135,6 +135,7 @@ export const Task = React.memo(function ({
   columnId,
   mutationUrl,
   task,
+  checkList,
 }: any): JSX.Element {
   const [emblaRef] = useEmblaCarousel(
     {
@@ -284,8 +285,19 @@ export const Task = React.memo(function ({
       {task.subTasks.length >= 0 && (
         <ListItem
           onClick={() => setOpen(true)}
-          className="rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.98] hover:bg-gray-200 duration-100 active:duration-[0s]"
-          sx={{ p: 0 }}
+          className="rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.99] hover:bg-gray-200 duration-100 active:duration-[0s]"
+          sx={{
+            p: 0,
+            ...(checkList && {
+              background: "#f3f4f6!important",
+              boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+              px: 1,
+              py: 1,
+              gap: "10px!important",
+              borderRadius: "15px!important",
+              mb: 1,
+            }),
+          }}
         >
           <Checkbox
             disableRipple
