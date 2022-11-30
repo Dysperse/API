@@ -331,7 +331,12 @@ export function SearchPopup() {
           </span>
         </span>
       </Button>
-      <Tooltip title="Jump to">
+      <Tooltip
+        title="Jump to"
+        PopperProps={{
+          sx: { mt: "-5px!important" },
+        }}
+      >
         <IconButton
           disableRipple
           onClick={() => {
