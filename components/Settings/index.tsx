@@ -95,7 +95,18 @@ function Logout() {
           transiton: "none!important",
           "& *": { transiton: "none!important" },
           borderRadius: 4,
-          mb: 1,
+          "&:hover": {
+            background:
+              global.theme === "dark"
+                ? "hsl(240,11%,25%)"
+                : colors[themeColor][200],
+          },
+          "& .MuiAvatar-root": {
+            background:
+              global.theme === "dark"
+                ? "hsl(240,11%,35%)"
+                : colors[themeColor][200],
+          },
         }}
       >
         <ListItemAvatar>
@@ -150,11 +161,17 @@ function SettingsMenu({
           transiton: { sm: "none!important" },
           "& *": { transiton: { sm: "none!important" } },
           borderRadius: 4,
-          mb: 1,
+          mb: 0.5,
           "&:hover": {
-            background: colors[themeColor][global.user.darkMode ? 800 : 100],
+            background:
+              global.theme === "dark"
+                ? "hsl(240,11%,25%)"
+                : colors[themeColor][100],
             "& .MuiAvatar-root": {
-              background: colors[themeColor][global.user.darkMode ? 900 : 200],
+              background:
+                global.theme === "dark"
+                  ? "hsl(240,11%,35%)"
+                  : colors[themeColor][200],
             },
           },
         }}
@@ -164,9 +181,10 @@ function SettingsMenu({
             sx={{
               color: global.user.darkMode ? "#fff" : "#000",
               borderRadius: 4,
-              background: global.user.darkMode
-                ? colors[themeColor][900]
-                : colors[themeColor][100],
+              background:
+                global.theme === "dark"
+                  ? "hsl(240,11%,30%)"
+                  : colors[themeColor][100],
             }}
           >
             <span
@@ -294,7 +312,7 @@ export default function FullScreenDialog({
             borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 25%)",
+              background: "hsl(240, 11%, 20%)",
             }),
           },
         }}
