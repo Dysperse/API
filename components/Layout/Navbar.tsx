@@ -79,6 +79,7 @@ function Changelog({ styles }: { styles: any }) {
             Changelog
           </Typography>
           <IconButton
+            disableRipple
             color="inherit"
             onClick={() => setOpen(false)}
             sx={{
