@@ -48,7 +48,7 @@ function Changelog({ styles }: { styles: any }) {
             mx: "auto",
             borderRadius: "20px 20px 0px 0px",
             maxWidth: "500px",
-            background: colors[themeColor]["50"],
+            background: colors[themeColor][global.theme == "dark" ? 900 : 50],
           },
         }}
       >
@@ -59,11 +59,14 @@ function Changelog({ styles }: { styles: any }) {
             position: "sticky",
             top: 0,
             left: 0,
-            p: 4,
-            pb: 2,
+            p: 3,
+            pb: 1,
             zIndex: 9,
             width: "100%",
-            background: hexToRgba(colors[themeColor]["50"], 0.9),
+            background: hexToRgba(
+              colors[themeColor][global.theme == "dark" ? 900 : 50],
+              0.9
+            ),
           }}
         >
           <Typography
@@ -78,7 +81,7 @@ function Changelog({ styles }: { styles: any }) {
             color="inherit"
             onClick={() => setOpen(false)}
             sx={{
-              color: colors[themeColor]["900"],
+              color: colors[themeColor][global.theme == "dark" ? 50 : 900],
             }}
           >
             <span className="material-symbols-rounded">expand_more</span>
@@ -87,7 +90,7 @@ function Changelog({ styles }: { styles: any }) {
         <Box
           sx={{
             p: 4,
-            pt: 0,
+            pt: 2,
             maxHeight: "70vh",
             overflowY: "scroll",
           }}
@@ -113,7 +116,8 @@ function Changelog({ styles }: { styles: any }) {
                 sx={{
                   p: 3,
                   mb: 2,
-                  background: colors[themeColor][100],
+                  background:
+                    colors[themeColor][global.theme == "dark" ? 800 : 100],
                   borderRadius: 5,
                 }}
               >
