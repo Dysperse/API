@@ -296,7 +296,7 @@ function DailyRoutine() {
           borderRadius: 5,
           display: "flex",
           alignItems: "center",
-          background: colors[themeColor][100],
+          background: colors[themeColor][global.theme == "dark" ? 900 : 100],
         }}
       >
         <Box sx={{ mr: "auto" }}>

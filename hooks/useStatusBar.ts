@@ -35,7 +35,10 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
             : colors[themeColor][nestedModals * 100]
         );
       } else {
-        tag.setAttribute("content", "#fff");
+        tag.setAttribute(
+          "content",
+          global.theme === "dark" ? "hsl(240,11%,10%)" : "#fff"
+        );
       }
     }
   }, [open, nestedModals, tag]);
