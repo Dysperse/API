@@ -85,7 +85,7 @@ function Changelog({ styles }: { styles: any }) {
               color: colors[themeColor][global.theme == "dark" ? 50 : 900],
             }}
           >
-            <span className="material-symbols-rounded">expand_more</span>
+            <span className="material-symbols-rounded">close</span>
           </IconButton>
         </Box>
         <Box
