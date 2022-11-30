@@ -306,7 +306,10 @@ export function CreateItemModal({
                       "&:active": {
                         transform: "scale(.95)",
                         transition: "none",
-                        background: colors[themeColor][100],
+                        background:
+                          global.theme === "dark"
+                            ? "hsl(240,11%,25%)"
+                            : colors[themeColor][100],
                       },
                       cursor: "pointer",
                       mr: 2,
@@ -365,7 +368,9 @@ export function CreateItemModal({
               <LoadingButton
                 disableElevation
                 sx={{
-                  background: colors[themeColor][900] + "!important",
+                  background:
+                    colors[themeColor][global.theme == "dark" ? 50 : 900] +
+                    "!important",
                   float: "right",
                   borderRadius: 100,
                   m: 1,
