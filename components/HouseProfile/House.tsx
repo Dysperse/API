@@ -94,10 +94,9 @@ export function House({
         }}
         sx={{
           transition: "none",
-          "& .MuiListItem-root": { transition: "all .2s" },
+          "& .MuiListItem-root": { transition: "all .1s" },
           "&:active .MuiListItem-root": {
-            transform: "scale(.95)",
-            transition: "none",
+            transform: "scale(.98)",
           },
           "&:active": {
             background: `${
