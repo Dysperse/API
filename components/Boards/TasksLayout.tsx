@@ -216,16 +216,28 @@ export function TasksLayout() {
     mr: 1,
     fontSize: "15px",
     whiteSpace: "nowrap",
+    ...(global.theme === "dark" && {
+      color: "hsl(240,11%, 80%)",
+    }),
     "&:hover, &:focus": {
       background:
-        global.theme === "dark" ? "hsl(240,11%,90%)" : "#eee!important",
+        global.theme === "dark" ? "hsl(240,11%,15%)" : "#eee!important",
     },
     ...(condition && {
-      background: colors[themeColor][700] + "!important",
+      background:
+        global.theme === "dark"
+          ? "hsl(240,11%,20%)!important"
+          : colors[themeColor][700] + "!important",
       "&:hover, &:focus": {
-        background: colors[themeColor][900] + "!important",
+        background:
+          global.theme === "dark"
+            ? "hsl(240,11%,25%)!important"
+            : colors[themeColor][900] + "!important",
       },
-      color: colors[themeColor][50] + "!important",
+      color:
+        global.theme === "dark"
+          ? "hsl(240,11%,95%)!important"
+          : colors[themeColor][50] + "!important",
     }),
   });
 

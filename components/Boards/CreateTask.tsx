@@ -247,7 +247,10 @@ export function CreateTask({
             transition: "none",
           },
           ...(checkList && {
-            background: "#f3f4f6!important",
+            background:
+              global.theme === "dark"
+                ? "hsl(240,11%,13%)"
+                : "#f3f4f6!important",
             boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
             px: 1,
             py: 1.5,
