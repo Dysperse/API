@@ -248,7 +248,7 @@ function Render({
   document.documentElement.style.setProperty(
     "--backdropTheme",
     theme === "dark"
-      ? "hsl(23, 23, 28, .9)"
+      ? "rgba(23, 23, 28, .4)"
       : hex2rgba(colors[themeColor ?? "brown"]["600"], 0.3)
   );
   document.documentElement.style.setProperty(

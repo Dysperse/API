@@ -182,7 +182,7 @@ export function CreateItemModal({
             borderRadius: "20px 20px 0 0",
             mx: "auto",
             ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 25%)",
+              background: "hsl(240, 11%, 20%)",
             }),
           },
         }}
@@ -229,12 +229,12 @@ export function CreateItemModal({
                 sx: {
                   background: `${
                     global.user.darkMode
-                      ? "hsl(240, 11%, 24%)"
+                      ? "hsl(240, 11%, 20%)"
                       : colors[themeColor][50]
                   }!important`,
                   fontWeight: "600",
                   fontSize: "30px",
-                  // textDecoration: "underline",
+                  textDecoration: "underline",
                   textAlign: "right!important",
                   borderRadius: "15px",
                   display: "block",
@@ -259,7 +259,7 @@ export function CreateItemModal({
                 sx: {
                   background: `${
                     global.user.darkMode
-                      ? "hsl(240, 11%, 24%)"
+                      ? "hsl(240, 11%, 20%)"
                       : colors[themeColor][50]
                   }!important`,
                   fontWeight: "600",
