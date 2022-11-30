@@ -18,7 +18,7 @@ function OptionsGroup({ currentOption, setOption, options }) {
       sx={{
         width: "100%",
         background: `${
-          colors[themeColor][global.theme !== "dark" ? 100 : 900]
+          colors[themeColor][global.theme == "dark" ? 100 : 100]
         }!important`,
       }}
       aria-label="outlined primary button group"
@@ -33,12 +33,8 @@ function OptionsGroup({ currentOption, setOption, options }) {
             transition: "none!important",
             background: `${colors[themeColor][900]}!important`,
             ...(currentOption !== option && {
-              background: `${
-                colors[themeColor][global.theme !== "dark" ? 100 : 900]
-              }!important`,
-              color: `${
-                colors[themeColor][global.user.darkMode ? 50 : 900]
-              }!important`,
+              background: `${colors[themeColor][100]}!important`,
+              color: `${colors[themeColor][900]}!important`,
             }),
           }}
         >
