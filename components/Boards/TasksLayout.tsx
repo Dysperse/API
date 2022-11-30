@@ -217,7 +217,8 @@ export function TasksLayout() {
     fontSize: "15px",
     whiteSpace: "nowrap",
     "&:hover, &:focus": {
-      background: "#eee!important",
+      background:
+        global.theme === "dark" ? "hsl(240,11%,90%)" : "#eee!important",
     },
     ...(condition && {
       background: colors[themeColor][700] + "!important",

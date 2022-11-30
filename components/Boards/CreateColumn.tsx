@@ -174,12 +174,25 @@ export function CreateColumn({ mutationUrl, id }: any) {
           onClick={() => setOpen(true)}
           sx={{
             transition: "none!important",
-            backgroundColor: "rgba(200, 200, 200, 0.3)!important",
-            border: "1px solid rgba(200, 200, 200, 0.5)!important",
+            backgroundColor:
+              global.theme === "dark"
+                ? "hsl(240,11%,15%)"
+                : "rgba(200, 200, 200, 0.3)!important",
+            border:
+              global.theme === "dark"
+                ? "1px solid hsl(240,11%,25%)"
+                : "1px solid rgba(200, 200, 200, 0.5)!important",
             "&:hover,&:active": {
-              color: "#000",
+              color: global.theme === "dark" ? "hsl(240,11%,90%)" : "#000",
               border: "1px solid rgba(200, 200, 200, 0.9)!important",
-              backgroundColor: "rgba(200, 200, 200, 0.5)!important",
+              backgroundColor:
+                global.theme === "dark"
+                  ? "hsl(240,11%,15%)"
+                  : "rgba(200, 200, 200, 0.5)!important",
+              boxShadow:
+                global.theme === "dark"
+                  ? "0 0 0 1px hsl(240,11%,90%) inset"
+                  : "0 0 0 1px rgba(200, 200, 200, 0.9) inset",
             },
           }}
         >
