@@ -51,6 +51,7 @@ export function Sidebar() {
 
   const styles = (active) => {
     return {
+      color: colors[themeColor][500],
       borderRadius: 3,
       textTransform: "none",
       width: 55,
@@ -158,7 +159,8 @@ export function Sidebar() {
                 pointerEvents: "none",
                 height: 55,
                 width: 55,
-                backgroundColor: hexToRgba(colors[themeColor][500], 0.1),
+                background: `linear-gradient(45deg, ${colors[themeColor][200]} 0%, ${colors[themeColor][100]} 100%)`,
+                zIndex: -1,
                 borderRadius: 5,
               },
               // Tab styles
