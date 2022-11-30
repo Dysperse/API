@@ -88,7 +88,7 @@ function Changelog({ styles }: { styles: any }) {
           sx={{
             p: 4,
             pt: 0,
-            maxHeight: "50vh",
+            maxHeight: "70vh",
             overflowY: "scroll",
           }}
         >
@@ -148,7 +148,7 @@ function Changelog({ styles }: { styles: any }) {
           disableRipple
           onClick={() => setOpen(true)}
         >
-          <span className="material-symbols-rounded">inbox</span>
+          <span className="material-symbols-rounded">track_changes</span>
         </IconButton>
       </Tooltip>
     </>
@@ -390,7 +390,9 @@ export function Navbar(): JSX.Element {
                   ...styles,
                 }}
               >
-                <span className="material-symbols-outlined">settings</span>
+                <span className="material-symbols-outlined">
+                  account_circle
+                </span>
               </IconButton>
             </Tooltip>
           </Settings>
