@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
 
 export function CreateColumn({ mutationUrl, id }: any) {
   const [open, setOpen] = useState(false);
@@ -62,7 +63,10 @@ export function CreateColumn({ mutationUrl, id }: any) {
       {open && (
         <Box
           sx={{
-            backgroundColor: "rgba(200, 200, 200, 0.3)",
+            backgroundColor:
+              global.theme === "dark"
+                ? "hsl(240,11%,13%)"
+                : "rgba(200, 200, 200, 0.3)",
             width: "400px",
             flex: "0 0 auto",
             mr: 2,
@@ -129,6 +133,8 @@ export function CreateColumn({ mutationUrl, id }: any) {
               disableElevation
               fullWidth
               sx={{
+                background: colors[themeColor][900],
+                color: "white",
                 border: "1px solid transparent !important",
               }}
               onClick={() => {
