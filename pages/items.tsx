@@ -25,6 +25,7 @@ import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
+import { OptionsGroup } from "../components/Boards/OptionsGroup";
 
 /**
  * Category modal
@@ -337,7 +338,7 @@ export default function Categories({ children = null }: any) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [viewBy, setViewBy] = React.useState("room");
+  const [viewBy, setViewBy] = React.useState("Room");
   const { data } = useApi("property/inventory/count");
 
   return (
@@ -400,11 +401,11 @@ export default function Categories({ children = null }: any) {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              setViewBy("category");
+              setViewBy("Category");
               handleClose();
             }}
             sx={{
-              ...(viewBy === "category" && {
+              ...(viewBy === "Category" && {
                 background:
                   colors[global.themeColor][global.user.darkMode ? 700 : 300],
               }),
@@ -426,61 +427,13 @@ export default function Categories({ children = null }: any) {
           >
             Inventory
           </Typography>
-          <ButtonGroup
-            variant="outlined"
-            className="rounded-[0.75rem!important] p-0.5 -mb-5"
-            sx={{
-              width: "100%",
-              background: `${
-                colors[themeColor][global.theme !== "dark" ? 100 : 900]
-              }!important`,
-            }}
-            aria-label="outlined primary button group"
-          >
-            <Button
-              variant="contained"
-              disableElevation
-              onClick={() => setViewBy("room")}
-              className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5 mr-0.5"
-              sx={{
-                transition: "none!important",
-                background: `${colors[themeColor][900]}!important`,
-                ...(viewBy !== "room" && {
-                  background: `${
-                    colors[themeColor][global.theme !== "dark" ? 100 : 900]
-                  }!important`,
-                  color: `${
-                    colors[themeColor][global.user.darkMode ? 50 : 900]
-                  }!important`,
-                }),
-              }}
-            >
-              Room
-            </Button>
-            <Button
-              variant="contained"
-              disableElevation
-              className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5"
-              onClick={() => setViewBy("category")}
-              sx={{
-                transition: "none!important",
-                background: `${colors[themeColor][900]}!important`,
-                ...(viewBy !== "category" && {
-                  background: `${
-                    colors[themeColor][global.theme !== "dark" ? 100 : 900]
-                  }!important`,
-
-                  color: `${
-                    colors[themeColor][global.user.darkMode ? 50 : 900]
-                  }!important`,
-                }),
-              }}
-            >
-              Category
-            </Button>
-          </ButtonGroup>
+          <OptionsGroup
+            currentOption={viewBy}
+            setOption={setViewBy}
+            options={["Room", "Category"]}
+          />
         </Box>
-        {viewBy === "room" ? (
+        {viewBy === "Room" ? (
           <>
             <Action
               href="/rooms/kitchen"
