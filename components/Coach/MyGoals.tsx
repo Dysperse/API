@@ -25,6 +25,7 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from "@mui/lab/TimelineOppositeContent";
+import dayjs from "dayjs";
 
 function MoreOptions({ goal }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -75,14 +76,16 @@ function Goal({ goal }: any) {
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+
   return (
     <>
       <Box
-        className="w-full transition-transform active:scale-[.98]"
+        className="w-full active:scale-[.98]"
         onClick={() => setOpen(true)}
         sx={{
           borderRadius: 5,
           py: 1,
+          transition: "all .2s!important",
           px: 2,
           mb: 1,
           cursor: "pointer",
@@ -159,12 +162,15 @@ function Goal({ goal }: any) {
           elevation: 0,
           sx: {
             width: "100vw",
+            maxWidth: "500px",
           },
         }}
       >
         <AppBar
           elevation={0}
+          position="static"
           sx={{
+            zIndex: 999,
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
           }}
         >
@@ -209,26 +215,30 @@ function Goal({ goal }: any) {
             </Typography>
           </Box>
         </Box>
-        <Timeline
-          sx={{
-            [`& .${timelineOppositeContentClasses.root}`]: {
-              flex: 0.2,
-            },
-          }}
-        >
-          {[...Array(goal.durationDays)].map((_, i) => (
-            <TimelineItem>
-              <TimelineOppositeContent color="text.secondary">
-                09:30 am
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineDot />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>{goal.stepName}</TimelineContent>
-            </TimelineItem>
-          ))}
-        </Timeline>
+        <Box sx={{ px: 5 }}>
+          <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
+            <span className="material-symbols-rounded">access_time</span>{" "}
+            {goal.time == "any"
+              ? "Daily"
+              : goal.time == "morning"
+              ? "Every morning"
+              : goal.time == "afternoon"
+              ? "Every afternoon"
+              : "Nightly"}
+          </Typography>
+          <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
+            <span className="material-symbols-rounded">date_range</span>{" "}
+            {goal.durationDays} days
+          </Typography>
+          <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
+            <span className="material-symbols-rounded">check_circle</span>{" "}
+            {goal.progress} days completed
+          </Typography>
+          <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
+            <span className="material-symbols-rounded">notifications</span>{" "}
+            {goal.reminder ? "Reminders on" : "Reminders off"}
+          </Typography>
+        </Box>
       </SwipeableDrawer>
     </>
   );
