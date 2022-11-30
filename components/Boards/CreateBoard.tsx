@@ -319,7 +319,6 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                     setLoading(false);
                     if (emblaApi) {
                       emblaApi.reInit({
-                        loop: true,
                         containScroll: "keepSnaps",
                         dragFree: true,
                       });
@@ -339,17 +338,26 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                       pointerEvents: "none",
                     }),
                     width: "100%!important",
-                    background: "rgba(200,200,200,.3)",
+                    background:
+                      global.theme === "dark"
+                        ? "hsl(240, 11%, 13%)"
+                        : "rgba(200,200,200,.3)",
                     borderRadius: 5,
                     p: 3,
                     transition: "transform 0.2s",
                     cursor: "pointer",
                     userSelect: "none",
                     "&:hover": {
-                      background: "rgba(200,200,200,.4)",
+                      background:
+                        global.theme === "dark"
+                          ? "hsl(240, 11%, 16%)"
+                          : "rgba(200,200,200,.4)",
                     },
                     "&:active": {
-                      background: "rgba(200,200,200,.5)",
+                      background:
+                        global.theme === "dark"
+                          ? "hsl(240, 11%, 18%)"
+                          : "rgba(200,200,200,.5)",
                       transform: "scale(.98)",
                       transition: "none",
                     },
@@ -378,7 +386,6 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                   setLoading(false);
                   if (emblaApi) {
                     emblaApi.reInit({
-                      loop: true,
                       containScroll: "keepSnaps",
                       dragFree: true,
                     });
@@ -398,16 +405,25 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                     pointerEvents: "none",
                   }),
                   width: "100%!important",
-                  background: "rgba(200,200,200,.3)",
+                  background:
+                    global.theme === "dark"
+                      ? "hsl(240, 11%, 13%)"
+                      : "rgba(200,200,200,.3)",
                   borderRadius: 5,
                   transition: "transform 0.2s",
                   cursor: "pointer",
                   userSelect: "none",
                   "&:hover": {
-                    background: "rgba(200,200,200,.4)",
+                    background:
+                      global.theme === "dark"
+                        ? "hsl(240, 11%, 16%)"
+                        : "rgba(200,200,200,.4)",
                   },
                   "&:active": {
-                    background: "rgba(200,200,200,.5)",
+                    background:
+                      global.theme === "dark"
+                        ? "hsl(240, 11%, 17%)"
+                        : "rgba(200,200,200,.5)",
                     transform: "scale(.98)",
                     transition: "none",
                   },
@@ -416,8 +432,11 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                 <Box>
                   <Box
                     sx={{
-                      background: "rgba(200,200,200,.2)",
-                      color: "#000",
+                      background:
+                        global.theme === "dark"
+                          ? "hsl(240, 11%, 17%)"
+                          : "rgba(200,200,200,.2)",
+                      color: global.theme === "dark" ? "#fff" : "#000",
                       borderRadius: 5,
                       borderBottomLeftRadius: 0,
                       borderBottomRightRadius: 0,

@@ -149,7 +149,6 @@ export function InviteButton() {
               xs: "20px 20px 0 0",
               sm: 5,
             },
-            p: 1,
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 20%)",
             }),
