@@ -217,6 +217,15 @@ function Render({
     },
   });
 
+  // If theme is dark, add `.dark` class to body
+  useEffect(() => {
+    if (theme === "dark") {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [theme]);
+
   // Return an error if user doesn't have any properties attached to their account
   if (data.user.properties.length === 0) {
     return (

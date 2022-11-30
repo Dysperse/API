@@ -309,7 +309,10 @@ export function SearchPopup() {
             style={{
               padding: "2px 5px",
               borderRadius: "5px",
-              background: colors[themeColor][100],
+              background:
+                global.theme === "dark"
+                  ? "hsl(240,11%,20%)"
+                  : colors[themeColor][100],
             }}
           >
             ctrl
@@ -318,7 +321,10 @@ export function SearchPopup() {
             style={{
               padding: "2px 5px",
               borderRadius: "5px",
-              background: colors[themeColor][100],
+              background:
+                global.theme === "dark"
+                  ? "hsl(240,11%,20%)"
+                  : colors[themeColor][100],
             }}
           >
             k

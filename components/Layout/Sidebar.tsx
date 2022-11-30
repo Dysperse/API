@@ -51,7 +51,7 @@ export function Sidebar() {
 
   const styles = (active) => {
     return {
-      color: colors[themeColor][500],
+      color: colors[themeColor][global.theme === "dark" ? 50 : 500],
       borderRadius: 3,
       textTransform: "none",
       width: 55,
@@ -115,6 +115,9 @@ export function Sidebar() {
             justifyContent: "center",
             background: "rgba(255, 255, 255, 0.9)",
             backdropFilter: "blur(10px)",
+            ...(global.theme === "dark" && {
+              background: "hsl(240, 11%, 10%)",
+            }),
           },
         }}
         open
@@ -157,7 +160,11 @@ export function Sidebar() {
                 pointerEvents: "none",
                 height: 55,
                 width: 55,
-                background: `linear-gradient(45deg, ${colors[themeColor][200]} 0%, ${colors[themeColor][100]} 100%)`,
+                background: `linear-gradient(45deg, ${
+                  colors[themeColor][global.theme === "dark" ? 800 : 200]
+                } 0%, ${
+                  colors[themeColor][global.theme === "dark" ? 900 : 100]
+                } 100%)`,
                 zIndex: -1,
                 borderRadius: 5,
               },
