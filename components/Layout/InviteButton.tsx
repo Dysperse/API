@@ -184,11 +184,12 @@ export function InviteButton() {
           userSelect: "none",
           cursor: "pointer",
           transition: "transform .2s",
-          p: 1,
-          py: 0,
+          p: 2,
+          ml: -1,
+          py: 0.8,
           gap: 1,
           color: "inherit",
-          borderRadius: 2,
+          borderRadius: 4,
         }}
       >
         <Typography
@@ -201,9 +202,10 @@ export function InviteButton() {
             overflow: "hidden",
             whiteSpace: "nowrap",
           }}
+          // className="font-secondary"
           noWrap
         >
-          {global.property.profile.name || "My property"}
+          {global.property.profile.name || "My group"}
         </Typography>
         <span className="material-symbols-outlined">expand_more</span>
       </Button>{" "}
