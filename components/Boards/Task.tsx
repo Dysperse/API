@@ -39,9 +39,10 @@ export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   borderRadius: 99,
   width: 25,
   height: 25,
-  boxShadow: dark
-    ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-    : "inset 0 0 0 2px rgba(0,0,0,.6)",
+  boxShadow:
+    global.theme === "dark"
+      ? "inset 0 0 0 2px rgba(255,255,255,.6)"
+      : "inset 0 0 0 2px rgba(0,0,0,.6)",
   backgroundColor: "transparent",
   ".Mui-focusVisible &": {
     boxShadow:
@@ -52,10 +53,13 @@ export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   },
   "input:not(:checked):hover ~ &": {
     boxShadow:
-      "inset 0 0 0 2px rgba(" + !dark ? "255,255,255" : "0,0,0" + ",.5)",
-    backgroundColor: !dark
-      ? colors[themeColor][700]
-      : "hsl(240,11%,30%)!important",
+      "inset 0 0 0 2px rgba(" + global.theme === "dark"
+        ? "255,255,255"
+        : "0,0,0" + ",.5)",
+    backgroundColor:
+      global.theme !== "dark"
+        ? colors[themeColor][700]
+        : "hsl(240,11%,30%)!important",
   },
   "input:disabled ~ &": {
     background: "transparent",
