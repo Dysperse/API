@@ -354,7 +354,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")
         }
         style={{
-          color: colors[themeColor][global.theme === "dark" ? 50 : 900],
+          color: global.theme === "dark" ? "#fff" : "#000",
         }}
       >
         <div>
