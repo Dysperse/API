@@ -146,6 +146,9 @@ export function BottomNav() {
                 className={`material-symbols-${
                   router.asPath == "/tasks" ? "rounded" : "outlined"
                 }`}
+                style={{
+                  transition: "all .2s!important",
+                }}
               >
                 verified
               </span>
@@ -165,11 +168,9 @@ export function BottomNav() {
                     ? "rounded"
                     : "outlined"
                 }`}
-                style={
-                  {
-                    // marginTop: "-3px",
-                  }
-                }
+                style={{
+                  transition: "all .2s!important",
+                }}
               >
                 category
               </span>
@@ -185,6 +186,9 @@ export function BottomNav() {
                 className={`material-symbols-${
                   router.asPath == "/coach" ? "rounded" : "outlined"
                 }`}
+                style={{
+                  transition: "all .2s!important",
+                }}
               >
                 routine
               </span>
@@ -200,6 +204,9 @@ export function BottomNav() {
                 className={`material-symbols-${
                   router.asPath == "/insights" ? "rounded" : "outlined"
                 }`}
+                style={{
+                  transition: "all .2s!important",
+                }}
               >
                 leaderboard
               </span>
