@@ -17,13 +17,13 @@ export default async function (req, res) {
       name: req.query.name,
       stepName: req.query.stepName,
       category: req.query.category,
-      durationDays: req.query.durationDays,
+      durationDays: parseInt(req.query.durationDays),
       time: req.query.time,
       emoji: "",
 
       user: {
         connect: {
-          id: req.query.userIdentifier,
+          identifier: req.query.userIdentifier,
         },
       },
     },

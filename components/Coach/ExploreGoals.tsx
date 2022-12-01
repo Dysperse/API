@@ -12,12 +12,13 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import { TextField } from "@mui/material";
-
+import { mutate } from "swr";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import toast from "react-hot-toast";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -192,12 +193,14 @@ export function a11yProps(index: number) {
   };
 }
 
-export function ExploreGoals() {
+export function ExploreGoals({setOpen, mutationUrl}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const [loading, setLoading] = React.useState(false);
 
   return (
     <div
@@ -281,16 +284,31 @@ export function ExploreGoals() {
                 .map((goal) => (
                   <Box sx={{ p: 1 }}>
                     <Box
-                      onClick={() => {
-                        fetchApiWithoutHook("user/routines/create", {
-                          name: goal.name,
-                          stepName: goal.stepName,
-                          category: goal.category,
-                          durationDays: goal.durationDays,
-                          time: goal.time,
-                        });
+                      onClick={async () => {
+                        setLoading(true);
+                        try {
+                          await fetchApiWithoutHook("user/routines/create", {
+                            name: goal.name,
+                            stepName: goal.stepName,
+                            category: goal.category,
+                            durationDays: goal.durationDays,
+                            time: goal.time,
+                          });
+                          setLoading(false);
+                          await mutate(mutationUrl);
+                          setOpen(false);
+                        } catch (e) {
+                          setLoading(false);
+                          toast.error(
+                            "An error occurred while trying to set your goal. Please try again."
+                          );
+                        }
                       }}
                       sx={{
+                        ...(loading && {
+                          pointerEvents: "none",
+                          opacity: 0.5,
+                        }),
                         background:
                           global.theme === "dark"
                             ? "hsl(240,11%,20%)"

@@ -236,7 +236,7 @@ function Goal({ goal }: any) {
 export function MyGoals(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   // useStatusBar(open);
-  const { data, error } = useApi("user/routines");
+  const { data, error, url } = useApi("user/routines");
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)!
@@ -287,7 +287,7 @@ export function MyGoals(): JSX.Element {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <ExploreGoals />
+        <ExploreGoals setOpen={setOpen} mutationUrl={url} />
       </SwipeableDrawer>
 
       {data ? (
