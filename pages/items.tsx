@@ -164,6 +164,7 @@ function CategoryList() {
                 my: 1,
                 background: "rgba(200,200,200,.3)",
                 borderRadius: 5,
+                textAlign: "center",
                 fontWeight: "500",
               }}
             >
