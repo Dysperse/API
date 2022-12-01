@@ -4,12 +4,10 @@ import { grey } from "@mui/material/colors";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import React from "react";
-import { CreateItemModal } from "../CreateItem/modal";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import type { Item } from "@prisma/client";
-import CardActionArea from "@mui/material/CardActionArea";
+import React from "react";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { colors } from "../../lib/colors";
 
 /**
  * Search bar
@@ -38,7 +36,10 @@ function SearchBar({
       disableFocusRipple
       disableElevation
       sx={{
-        backgroundColor: `${grey[200]}!important`,
+        backgroundColor:
+          global.theme == "dark"
+            ? "hsl(240,11%,15%)!important"
+            : `${grey[200]}!important`,
         borderRadius: 10,
         mt: { xs: 1, sm: 0 },
         width: "100%",
@@ -97,7 +98,7 @@ function SearchBar({
             mr: 0.5,
             px: 2,
             width: "100%",
-            background: global.user.darkMode ? "hsl(240, 11%, 25%)" : grey[200],
+            background: global.user.darkMode ? "hsl(240, 11%, 15%)" : grey[200],
           },
         }}
       />
@@ -170,6 +171,13 @@ export function Toolbar({
           py: 1,
           px: 1,
           verticalAlign: "middle",
+          background:
+            colors[themeColor][global.theme == "dark" ? 900 : 50] +
+            "!important",
+
+          color:
+            colors[themeColor][global.theme == "dark" ? 50 : 900] +
+            "!important",
         }}
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"

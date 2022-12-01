@@ -253,18 +253,26 @@ function Action({
       className="room-button"
       sx={{
         "&:hover": {
-          background: { sm: colors[themeColor][50] + "!important" },
+          background: {
+            sm:
+              global.theme == "dark"
+                ? "hsl(240,11%,13%)!important"
+                : colors[themeColor][50] + "!important",
+          },
         },
         ...(router.asPath.toLowerCase().includes(primary.toLowerCase())
           ? {
-              background: colors[themeColor][50] + "!important",
+              background:
+                global.theme == "dark"
+                  ? "hsl(240,11%,13%)!important"
+                  : colors[themeColor][50] + "!important",
             }
           : {
               background: "transparent!important",
             }),
         ...(theme === "dark" && {
           "&:hover .MuiAvatar-root": {
-            background: "hsl(240,11%,27%)",
+            background: "hsl(240,11%,17%)",
           },
         }),
       }}
