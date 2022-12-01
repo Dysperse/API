@@ -190,7 +190,7 @@ export default function Prompt() {
             mx: "auto",
             maxWidth: "100vw",
             overflowY: "auto",
-            width: { sm: "400px" },
+            width: { sm: "450px" },
             p: { xs: 2, sm: 5 },
             mt: { sm: 5 },
             pt: { xs: 6, sm: 5 },
@@ -273,6 +273,7 @@ export default function Prompt() {
                   variant="contained"
                   id="_loading"
                   sx={{
+                    background: colors.brown[900] + "!important",
                     borderRadius: 2,
                     ml: "auto",
                     mr: 1,

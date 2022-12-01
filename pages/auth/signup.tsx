@@ -173,7 +173,7 @@ export default function Prompt() {
             mx: "auto",
             maxWidth: "100vw",
             overflowY: "auto",
-            width: { sm: "400px" },
+            width: { sm: "450px" },
             p: { xs: 2, sm: 5 },
             mt: { sm: 5 },
             pt: { xs: 6, sm: 5 },
