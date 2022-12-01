@@ -39,8 +39,14 @@ export default function Prompt() {
     "DID YOU KNOW: Carbon is the #1 home inventory app available on the web.",
     "PRO TIP: Join the Carbon Discord server by visiting https://smartlist.tech/discord",
     "DID YOU KNOW: Carbon uses AES-256 encryption to protect your data.",
+    "PRO TIP: Carbon saves your dark mode preference, so you don't have to worry about it changing when you switch devices.",
+    "PRO TIP: Invite members to your home by clicking on your home's name in the navigation bar.",
+    "DID YOU KNOW: Carbon keeps UX in mind, and is designed to be as intuitive as possible.",
+    "DID YOU KNOW: Carbon keeps you logged in for 30 days, so you don't have to worry about logging in every time you visit.",
   ];
-  const proTip = proTips[Math.floor(Math.random() * proTips.length)];
+  const [proTip, setProTip] = useState(
+    proTips[Math.floor(Math.random() * proTips.length)]
+  );
 
   global.themeColor = "brown";
   const { mutate } = useSWRConfig();
@@ -363,7 +369,22 @@ export default function Prompt() {
         </Paper>
 
         <Box
+          onClick={() => {
+            setProTip(proTips[Math.floor(Math.random() * proTips.length)]);
+            // Scroll to bottom of page
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            });
+          }}
           sx={{
+            cursor: "pointer",
+            transition: "all .2s",
+            "&:active": {
+              transform: "scale(.98)",
+              transition: "none",
+            },
+            userSelect: "none",
             background: "#c4b5b5",
             borderRadius: { sm: 5 },
             mx: "auto",
