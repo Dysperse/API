@@ -216,7 +216,7 @@ function DailyRoutine() {
             maxWidth: "600px",
             width: "100vw",
             ...(global.theme === "dark" && {
-              backgroundColor: "hsl(240,11%,10%)",
+              backgroundColor: "hsl(240, 11%, 5%)",
             }),
           },
         }}

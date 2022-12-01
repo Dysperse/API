@@ -19,7 +19,7 @@ export default async function (req, res) {
       category: req.query.category,
       durationDays: req.query.durationDays,
       time: req.query.time,
-      emoji: req.query.emoji,
+      emoji: "",
 
       user: {
         connect: {

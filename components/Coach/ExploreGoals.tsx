@@ -17,6 +17,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -199,7 +200,11 @@ export function ExploreGoals() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        background: global.theme === "dark" ? "hsl(240,11%,15%)" : "white",
+      }}
+    >
       <Box
         sx={{
           background: `linear-gradient(45deg, ${colors.pink["A700"]} 0%, ${colors.deepOrange["A700"]} 100%)`,
@@ -276,10 +281,28 @@ export function ExploreGoals() {
                 .map((goal) => (
                   <Box sx={{ p: 1 }}>
                     <Box
+                      onClick={() => {
+                        fetchApiWithoutHook("user/routines/create", {
+                          name: goal.name,
+                          stepName: goal.stepName,
+                          category: goal.category,
+                          durationDays: goal.durationDays,
+                          time: goal.time,
+                        });
+                      }}
                       sx={{
-                        background: "rgba(200,200,200,.3)",
+                        background:
+                          global.theme === "dark"
+                            ? "hsl(240,11%,20%)"
+                            : "rgba(200,200,200,.3)",
                         borderRadius: 5,
                         p: 2,
+                        cursor: "pointer",
+                        transition: "all .1s ease-in-out",
+                        "&:active": {
+                          transform: "scale(.98)",
+                        },
+                        userSelect: "none",
                         display: "flex",
                         alignItems: "center",
                       }}

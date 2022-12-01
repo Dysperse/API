@@ -333,7 +333,7 @@ export function MyGoals(): JSX.Element {
         onClick={() => setOpen(true)}
         className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform my-3"
         style={{
-          color: colors[themeColor][900],
+          color: colors[themeColor][global.theme === "dark" ? 50 : 900],
         }}
       >
         <div>
