@@ -74,6 +74,7 @@ function Logout() {
             disableElevation
             size="large"
             sx={{
+              background: colors[themeColor][900] + "!important",
               borderRadius: 99,
               px: 3,
               py: 1,

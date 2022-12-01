@@ -233,7 +233,7 @@ function Goal({ goal }: any) {
     </>
   );
 }
-export function MyGoals(): JSX.Element {
+export function MyGoals({ setHideRoutine }): JSX.Element {
   const [open, setOpen] = React.useState(false);
   // useStatusBar(open);
   const { data, error, url } = useApi("user/routines");
@@ -242,6 +242,14 @@ export function MyGoals(): JSX.Element {
       .querySelector(`meta[name="theme-color"]`)!
       .setAttribute("content", open ? colors.pink["900"] : "#fff");
   });
+
+  useEffect(() => {
+    if (data && data.length === 0) {
+      setHideRoutine(true);
+    } else {
+      setHideRoutine(false);
+    }
+  }, [data]);
   return (
     <>
       <SwipeableDrawer
@@ -292,19 +300,29 @@ export function MyGoals(): JSX.Element {
 
       {data ? (
         <>
-          <Typography
-            variant="h5"
-            sx={{
-              mb: 1.5,
-              ml: 1.5,
-              fontWeight: "900",
-              mt: 7,
-            }}
-          >
-            My goals
-          </Typography>
+          {data.length !== 0 && (
+            <Typography
+              variant="h5"
+              sx={{
+                mb: 1.5,
+                ml: 1.5,
+                fontWeight: "900",
+                mt: 7,
+              }}
+            >
+              My goals
+            </Typography>
+          )}
           {data.length == 0 ? (
-            <div className="text-gray-900 w-full bg-gray-200 rounded-xl p-3 px-5 mb-4">
+            <div
+              className="flex items-center text-gray-900 w-full bg-gray-200 rounded-xl p-8 px-5 mb-4 flex-col sm:flex-row"
+              style={{ gap: "30px" }}
+            >
+              <img
+                src="https://i.ibb.co/ZS3YD9C/casual-life-3d-target-and-dart.png"
+                alt="casual-life-3d-target-and-dart"
+                width="100px"
+              />
               You haven&apos;t created any goals yet.
             </div>
           ) : (
@@ -331,7 +349,10 @@ export function MyGoals(): JSX.Element {
       )}
       <div
         onClick={() => setOpen(true)}
-        className="w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform my-3"
+        className={
+          "w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform my-3 " +
+          (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")
+        }
         style={{
           color: colors[themeColor][global.theme === "dark" ? 50 : 900],
         }}

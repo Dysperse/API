@@ -4,7 +4,7 @@ import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
@@ -344,6 +344,7 @@ export default function Render() {
     greeting = "Good night, ";
   }
 
+  const [hideRoutine, setHideRoutine] = useState(false);
   return (
     <Box sx={{ position: "relative" }}>
       <Box
@@ -359,8 +360,8 @@ export default function Render() {
           </Typography>
         </Box>
         <Box className="p-3 pt-0 max-w-[100vw]">
-          <DailyRoutine />
-          <MyGoals />
+          {!hideRoutine && <DailyRoutine />}
+          <MyGoals setHideRoutine={setHideRoutine} />
         </Box>
       </Box>
     </Box>
