@@ -75,13 +75,18 @@ export function RenderRoom({ data, index }: { data: Item[]; index: string }) {
                     <img
                       alt="No items found"
                       src="https://i.ibb.co/kh7zpKS/tokyo-designing-a-web-page-using-various-design-shapes.png"
-                      style={{ width: "200px", maxWidth: "100%" }}
+                      style={{
+                        width: "200px",
+                        maxWidth: "100%",
+                        margin: "auto",
+                      }}
                     />
                   </picture>
                   <Typography
                     variant="h5"
                     sx={{
                       mt: 1,
+                      fontWeight: "700",
                     }}
                   >
                     No items found
