@@ -22,6 +22,7 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
         display: "flex",
         color: red["900"],
         background: red["50"],
+        border: "1px solid" + red["100"],
         gap: 2,
         alignItems: "center",
       }}
