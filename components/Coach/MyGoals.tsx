@@ -1,31 +1,18 @@
-import Masonry from "@mui/lab/Masonry";
 import { AppBar, Divider, IconButton, Skeleton } from "@mui/material";
 import Box from "@mui/material/Box";
-import CardActionArea from "@mui/material/CardActionArea";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Chip from "@mui/material/Chip";
-import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Slider from "@mui/material/Slider";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import { useApi } from "../../hooks/useApi";
-import { useStatusBar } from "../../hooks/useStatusBar";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
 import { ExploreGoals } from "./ExploreGoals";
-import Toolbar from "@mui/material/Toolbar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineDot from "@mui/lab/TimelineDot";
-import TimelineOppositeContent, {
-  timelineOppositeContentClasses,
-} from "@mui/lab/TimelineOppositeContent";
-import dayjs from "dayjs";
 
 function MoreOptions({ goal }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -162,6 +149,9 @@ function Goal({ goal }: any) {
           elevation: 0,
           sx: {
             width: "100vw",
+            ...(global.theme === "dark" && {
+              backgroundColor: "hsl(240,11%,15%)",
+            }),
             maxWidth: "500px",
           },
         }}
@@ -262,6 +252,10 @@ export function MyGoals(): JSX.Element {
         PaperProps={{
           sx: {
             width: "100vw",
+            maxWidth: "900px",
+            ...(global.theme === "dark" && {
+              backgroundColor: "hsl(240,11%,15%)",
+            }),
           },
         }}
       >
@@ -269,9 +263,11 @@ export function MyGoals(): JSX.Element {
           elevation={0}
           sx={{
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
+            zIndex: 1,
           }}
+          position="sticky"
         >
-          <Toolbar>
+          <Toolbar sx={{ height: "64px" }}>
             <IconButton
               color="inherit"
               disableRipple
