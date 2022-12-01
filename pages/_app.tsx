@@ -67,6 +67,9 @@ function Render({
     document
       .querySelector(`meta[name="theme-color"]`)
       ?.setAttribute("content", "hsl(240, 11%, 10%)");
+    document
+      .querySelector(`link[rel="shortcut icon"]`)
+      ?.setAttribute("href", "https://i.ibb.co/gtLtGLR/image-1.png");
   }
 
   global.user = data.user;
@@ -261,7 +264,7 @@ function Render({
   return (
     <>
       <Head>
-        <title>Carbon: Next-gen personal home inventory</title>
+        <title>Carbon</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
