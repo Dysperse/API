@@ -65,7 +65,8 @@ function Products() {
             cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background: colors[global.themeColor][100],
+              background:
+                colors[global.themeColor][global.theme === "dark" ? 900 : 100],
               // category.bg ??
               // (global.user.darkMode
               //   ? "hsl(240, 11%, 40%)"
@@ -173,7 +174,8 @@ function Apps() {
             cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background: colors[global.themeColor][100],
+              background:
+                colors[global.themeColor][global.theme === "dark" ? 900 : 100],
               // category.bg ??
               // (global.user.darkMode
               //   ? "hsl(240, 11%, 40%)"
