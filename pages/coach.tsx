@@ -354,10 +354,12 @@ export default function Render() {
         }}
       >
         <Box className="p-3 max-w-[100vw] hidden sm:block">
-          <Typography sx={{ fontWeight: "600" }} variant="h5">
-            {greeting}
-            {global.user.name}!
-          </Typography>
+          {!hideRoutine && (
+            <Typography sx={{ fontWeight: "600" }} variant="h5">
+              {greeting}
+              {global.user.name}!
+            </Typography>
+          )}
         </Box>
         <Box className="p-3 pt-0 max-w-[100vw]">
           {!hideRoutine && <DailyRoutine />}

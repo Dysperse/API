@@ -8,13 +8,14 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
-import { useApi } from "../../hooks/useApi";
+import { mutate } from "swr";
+import { useApi, fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
 import { ExploreGoals } from "./ExploreGoals";
 
-function MoreOptions({ goal }) {
+function MoreOptions({ goal, mutationUrl, setOpen }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,7 +42,17 @@ function MoreOptions({ goal }) {
         <MenuItem onClick={handleClose}>
           <span className="material-symbols-rounded">edit</span> Edit
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            fetchApiWithoutHook("user/routines/delete", {
+              id: goal.id,
+            }).then(async () => {
+              await mutate(mutationUrl);
+              setOpen(false);
+            });
+          }}
+        >
           <span className="material-symbols-rounded">delete</span> Delete
         </MenuItem>
       </Menu>
@@ -52,7 +63,7 @@ function MoreOptions({ goal }) {
   );
 }
 
-function Goal({ goal }: any) {
+function Goal({ goal, mutationUrl }: any) {
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     document
@@ -173,7 +184,11 @@ function Goal({ goal }: any) {
               <span className="material-symbols-rounded">chevron_left</span>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>Goal</Typography>
-            <MoreOptions goal={goal} />
+            <MoreOptions
+              goal={goal}
+              mutationUrl={mutationUrl}
+              setOpen={setOpen}
+            />
           </Toolbar>
         </AppBar>
         <Box
@@ -323,7 +338,19 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 alt="casual-life-3d-target-and-dart"
                 width="100px"
               />
-              You haven&apos;t created any goals yet.
+              <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
+                <Typography
+                  variant="h5"
+                  gutterBottom
+                  sx={{ fontWeight: "900" }}
+                >
+                  You haven&apos;t created any goals yet.
+                </Typography>
+                <Typography variant="body1">
+                  Carbon Coach helps you achieve your goals by adding small
+                  tasks to enrich your daily routine.
+                </Typography>
+              </Box>
             </div>
           ) : (
             <>
@@ -331,7 +358,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 ...data.filter((item) => item.tasks === item.completed),
                 ...data.filter((item) => item.tasks !== item.completed),
               ].map((goal) => (
-                <Goal goal={goal} />
+                <Goal goal={goal} mutationUrl={url} />
               ))}
             </>
           )}
