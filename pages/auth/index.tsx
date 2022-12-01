@@ -21,6 +21,27 @@ import toast from "react-hot-toast";
  * Login prompt
  */
 export default function Prompt() {
+  const proTips = [
+    "PRO TIP: You can customize your theme color by visiting your appearance settings.",
+    "DID YOU KNOW: Carbon started in 2020, and has been growing ever since.",
+    "PRO TIP: Hit CTRL / to view a list of all the keyboard shortcuts.",
+    "PRO TIP: Hit CTRL + K to quickly jump between pages, rooms, tasks, and more.",
+    "DID YOU KNOW: Carbon is open source! You can contribute to the project on GitHub.",
+    "PRO TIP: Carbon Coach is here to help you with goals, big and small. Set a goal by navigating to the Coach tab in the sidebar.",
+    "PRO TIP: Accidentally placed an item in the wrong room? You can move an item by selecting the desired room.",
+    "PRO TIP: You can view your home's audit log by clicking on the changelog icon in the navigation bar.",
+    "PRO TIP: You can switch between light and dark mode by visiting your appearance settings.",
+    "DID YOU KNOW: Carbon is built using ReactJS",
+    "DID YOU KNOW: Carbon is sponsored by the amazing people @ Vercel.",
+    "DID YOU KNOW: Carbon was built with the intention of being a free, open-source alternative to other task management apps, which would be all-in-one.",
+    "DID YOU KNOW: You can sign up to be a volunteer by visiting https://smartlist.tech/join",
+    "DID YOU KNOW: Carbon was built with the intention of becoming a home inventory app, but has since evolved into much more!",
+    "DID YOU KNOW: Carbon is the #1 home inventory app available on the web.",
+    "PRO TIP: Join the Carbon Discord server by visiting https://smartlist.tech/discord",
+    "DID YOU KNOW: Carbon uses AES-256 encryption to protect your data.",
+  ];
+  const proTip = proTips[Math.floor(Math.random() * proTips.length)];
+
   global.themeColor = "brown";
   const { mutate } = useSWRConfig();
   const router = useRouter();
@@ -340,6 +361,39 @@ export default function Prompt() {
             </Button>
           </Link>
         </Paper>
+
+        <Box
+          sx={{
+            background: "#c4b5b5",
+            borderRadius: { sm: 5 },
+            mx: "auto",
+            maxWidth: "100vw",
+            overflowY: "auto",
+            width: { sm: "450px" },
+            p: { xs: 2 },
+            mt: { sm: 2 },
+            mb: 2,
+            height: { xs: "100vh", sm: "auto" },
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
+            <span className="material-symbols-rounded">lightbulb</span>
+            <span>
+              <i>
+                <b>{proTip.split(":")[0]}</b>
+              </i>
+              <br />
+              {proTip.split(":")[1]}
+            </span>
+          </Typography>
+        </Box>
       </Box>
     </Layout>
   );
