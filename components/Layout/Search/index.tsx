@@ -462,16 +462,13 @@ export function SearchPopup() {
                 />
               )}
               {activePage === "Settings" && <Settings />}
-              <div
-                style={{
-                  height: "10px!important",
-                  maxHeight: "10px!important",
-                  minHeight: "10px!important",
-                  display: "block!important",
-                  // background: "red",
-                  width: "100%!important",
-                }}
-              />
+              <Box>
+                <Box
+                  style={{
+                    padding: "10px",
+                  }}
+                ></Box>
+              </Box>
             </Command.List>
           </Command>
         </Box>
