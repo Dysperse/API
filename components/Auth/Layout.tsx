@@ -28,7 +28,7 @@ export function Layout({ children }): JSX.Element {
       <ThemeProvider theme={darkTheme}>
         <Box
           sx={{
-            background: "linear-gradient(45deg, #6b4b4b 30%, #8f6b6b 90%)",
+            backgroundColor: "#6b4b4b",
             position: "fixed",
             top: 0,
             left: 0,
@@ -40,14 +40,23 @@ export function Layout({ children }): JSX.Element {
           <Toaster />
           <Box
             sx={{
-              display: "flex",
+              display: "inline-flex",
               color: "#c4b5b5",
               alignItems: "center",
               gap: "10px",
               userSelect: "none",
-              px: 2,
-              pt: 2,
+              mx: 2,
+              pr: 2,
+              borderRadius: 4,
+              mt: 2,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              "&:active": {
+                transform: "scale(0.95)",
+                transitionDuration: "0s",
+              },
             }}
+            onClick={() => window.open("//smartlist.tech")}
           >
             <picture>
               <img

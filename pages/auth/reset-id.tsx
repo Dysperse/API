@@ -89,9 +89,11 @@ export default function Prompt() {
               alignItems: "center",
               gap: "10px",
               userSelect: "none",
+              cursor: "pointer",
               display: { xs: "flex", sm: "none" },
               mt: -3,
             }}
+            onClick={() => window.open("//smartlist.tech")}
           >
             <picture>
               <img
