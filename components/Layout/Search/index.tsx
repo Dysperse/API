@@ -367,16 +367,24 @@ export function SearchPopup() {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         anchor="bottom"
+        sx={{
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
         PaperProps={{
           elevation: 0,
           sx: {
+            pt: { sm: 3 },
             background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },
+            bottom: "unset!important",
             maxWidth: "650px",
             maxHeight: "95vh",
-            borderRadius: "20px 20px 0 0",
+            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
             mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 20%)",
@@ -387,8 +395,10 @@ export function SearchPopup() {
           },
         }}
       >
-        <Puller />
-        <div className="carbon">
+        <Box sx={{ display: { sm: "none" } }}>
+          <Puller />
+        </Box>
+        <Box className="carbon">
           <Command
             ref={ref}
             onKeyDown={(e: React.KeyboardEvent) => {
@@ -452,9 +462,19 @@ export function SearchPopup() {
                 />
               )}
               {activePage === "Settings" && <Settings />}
+              <div
+                style={{
+                  height: "10px!important",
+                  maxHeight: "10px!important",
+                  minHeight: "10px!important",
+                  display: "block!important",
+                  // background: "red",
+                  width: "100%!important",
+                }}
+              />
             </Command.List>
           </Command>
-        </div>
+        </Box>
       </SwipeableDrawer>
     </>
   );

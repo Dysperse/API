@@ -342,7 +342,9 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 <Typography
                   variant="h5"
                   gutterBottom
-                  sx={{ fontWeight: "900" }}
+                  sx={{
+                    fontWeight: "900",
+                  }}
                 >
                   You haven&apos;t created any goals yet.
                 </Typography>

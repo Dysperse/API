@@ -159,8 +159,8 @@
     }
 
     &[aria-selected="true"] {
-      background: var(--grayA3);
-      color: var(--gray12);
+      background: var(--backdropTheme);
+      color: var(--themeDark);
     }
 
     &[aria-disabled="true"] {
