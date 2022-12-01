@@ -31,7 +31,7 @@ export default function Redeem() {
           Redeem
         </Typography>
         <Typography variant="body1" sx={{ mb: 2 }}>
-          Enter your code below to redeem your code!
+          Enter a code below to redeem
         </Typography>
         <TextField
           value={code}
