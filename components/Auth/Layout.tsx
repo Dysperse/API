@@ -28,7 +28,7 @@ export function Layout({ children }): JSX.Element {
       <ThemeProvider theme={darkTheme}>
         <Box
           sx={{
-            backgroundColor: "#6b4b4b",
+            background: "linear-gradient(45deg, #6b4b4b 30%, #8f6b6b 90%)",
             position: "fixed",
             top: 0,
             left: 0,
