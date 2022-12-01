@@ -41,7 +41,7 @@ export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   height: 25,
   boxShadow: dark
     ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-    : "inset 0 0 0 2px rgba(255,255,255,.6)",
+    : "inset 0 0 0 2px rgba(0,0,0,.6)",
   backgroundColor: "transparent",
   ".Mui-focusVisible &": {
     boxShadow:
