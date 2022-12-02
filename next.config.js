@@ -8,45 +8,37 @@ const withPWA = require('next-pwa')({
   dynamicStartUrl: false,
   cacheOnFrontEndNav: true
 })
-// const { withSentryConfig } = require('@sentry/nextjs');
 
-const moduleExports = {
-  // Your existing module.exports
-  ...withPWA({
-    reactStrictMode: true,
-    async redirects() {
-      return [
-        {
-          source: "/",
-          destination: "/home",
-          permanent: true,
-        },
-        {
-          source: "/home",
-          destination: "/tasks",
-          permanent: false,
-        },
-        {
-          source: "/dashboard",
-          destination: "/home",
-          permanent: true,
-        },
-        {
-          source: "/signup",
-          destination: "/auth/signup",
-          permanent: true,
-        },
-      ];
-    },
-  }),
-  // sentry: {
-  //   hideSourceMaps: true,
-  // },
-};
+module.exports = withPWA({
+  reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/tasks",
+        permanent: true,
+      },
+      {
+        source: "/home",
+        destination: "/tasks",
+        permanent: false,
+      },
+      {
+        source: "/signup",
+        destination: "/auth/signup",
+        permanent: true,
+      },
 
-// const sentryWebpackPluginOptions = {
-//   silent: true, // Suppresses all logs
-// };
-
-module.exports = moduleExports
-// module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
+      {
+        source: "/discord",
+        destination: "https://discord.gg/fvngmDzh77",
+        permanent: true,
+      },
+      {
+        source: "/feedback",
+        destination: "https://my.smartlist.tech/canny-auth?companyID=6306f3586e9c6244c28c1d1e&redirect=https%3A%2F%2Ffeedback.smartlist.tech%2F",
+        permanent: true,
+      },
+    ];
+  },
+})
