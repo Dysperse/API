@@ -111,7 +111,10 @@ export function Sidebar() {
             maxWidth: "85px",
             width: "80px",
             zIndex: 99,
-            border: 0,
+            borderRight:
+              global.theme === "dark"
+                ? "1px solid rgba(255,255,255,0.1)"
+                : "1px solid rgba(200,200,200,.5)",
             height: "100vh",
             alignItems: "center",
             justifyContent: "center",
