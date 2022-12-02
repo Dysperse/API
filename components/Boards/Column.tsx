@@ -242,7 +242,7 @@ export const Column = React.memo(function ({
             sx={{
               fontWeight: "600",
               mb: 2,
-              mt: 1,
+              mt: 2,
               textDecoration: "underline",
             }}
           >

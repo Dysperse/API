@@ -278,7 +278,7 @@ export function CreateTask({
           primary={
             <span
               style={{
-                fontWeight: "500",
+                fontWeight: "300",
               }}
             >
               {parent ? "New subtask" : "New list item"}

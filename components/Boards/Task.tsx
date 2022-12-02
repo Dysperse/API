@@ -39,10 +39,7 @@ export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   borderRadius: 99,
   width: 25,
   height: 25,
-  boxShadow:
-    global.theme === "dark"
-      ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-      : "inset 0 0 0 2px rgba(0,0,0,.6)",
+  boxShadow: "inset 0 0 0 2px rgba(0,0,0,.6)",
   backgroundColor: "transparent",
   ".Mui-focusVisible &": {
     boxShadow:
@@ -52,13 +49,10 @@ export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
       hexToRgba(colors[themeColor][900], 0.1),
   },
   "input:not(:checked):hover ~ &": {
-    boxShadow:
-      "inset 0 0 0 2px rgba(" + global.theme === "dark"
-        ? "255,255,255"
-        : "0,0,0" + ",.5)",
+    boxShadow: "inset 0 0 0 2px rgba(0,0,0,0.5)",
     backgroundColor:
       global.theme !== "dark"
-        ? colors[themeColor][700]
+        ? colors[themeColor][100]
         : "hsl(240,11%,30%)!important",
   },
   "input:disabled ~ &": {
@@ -336,7 +330,7 @@ export const Task = React.memo(function ({
             primary={
               <span
                 style={{
-                  fontWeight: "500",
+                  fontWeight: "300",
                   ...(checked && {
                     textDecoration: "line-through",
                     opacity: 0.5,
