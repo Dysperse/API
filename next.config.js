@@ -2,12 +2,12 @@
  * @type {import('next').NextConfig}
  */
 
-const withPWA = require('next-pwa')({
+const withPWA = require("next-pwa")({
   dest: "public",
   reloadOnOnline: false,
   dynamicStartUrl: false,
-  cacheOnFrontEndNav: true
-})
+  cacheOnFrontEndNav: true,
+});
 
 module.exports = withPWA({
   reactStrictMode: true,
@@ -36,9 +36,10 @@ module.exports = withPWA({
       },
       {
         source: "/feedback",
-        destination: "https://my.smartlist.tech/canny-auth?companyID=6306f3586e9c6244c28c1d1e&redirect=https%3A%2F%2Ffeedback.smartlist.tech%2F",
+        destination:
+          "https://my.smartlist.tech/canny-auth?companyID=6306f3586e9c6244c28c1d1e&redirect=https%3A%2F%2Ffeedback.smartlist.tech%2F",
         permanent: true,
       },
     ];
   },
-})
+});
