@@ -142,7 +142,11 @@ export function BottomNav() {
         >
           <Tab
             disableRipple
-            sx={styles(router.asPath == "/tasks")}
+            sx={styles(
+              router.asPath == "/tasks" ||
+                router.asPath == "/" ||
+                router.asPath == ""
+            )}
             icon={
               <span
                 className={`material-symbols-${

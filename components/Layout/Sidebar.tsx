@@ -184,7 +184,11 @@ export function Sidebar() {
                 <Tooltip title="Lists" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath === "/tasks" ? "rounded" : "outlined"
+                      router.asPath == "/tasks" ||
+                      router.asPath == "/" ||
+                      router.asPath == ""
+                        ? "rounded"
+                        : "outlined"
                     }`}
                   >
                     verified
