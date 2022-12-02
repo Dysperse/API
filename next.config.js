@@ -21,7 +21,7 @@ module.exports = withPWA({
       {
         source: "/home",
         destination: "/tasks",
-        permanent: false,
+        permanent: true,
       },
       {
         source: "/signup",
