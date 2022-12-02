@@ -104,7 +104,8 @@ export function BottomNav() {
           background:
             global.theme === "dark"
               ? "rgba(43, 43, 48, .9)"
-              : hexToRgba(colors[themeColor][50], 0.9),
+              : hexToRgba(colors["grey"][200], 0.9),
+          borderTop: "1px solid rgba(0, 0, 0, 0.12)",
           backdropFilter: "blur(10px)",
         }}
       >
