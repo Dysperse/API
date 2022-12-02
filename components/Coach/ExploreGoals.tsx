@@ -353,7 +353,7 @@ export function ExploreGoals({setOpen, mutationUrl}) {
       </Box>
       <CreateGoal />
       <Button
-        href="https://my.smartlist.tech/canny-auth?companyID=6306f3586e9c6244c28c1d1e&redirect=https%3A%2F%2Ffeedback.smartlist.tech%2F"
+        href="/feedback"
         target="_blank"
         sx={{ gap: 2, transition: "none", mb: 2, ml: 5 }}
         size="small"
