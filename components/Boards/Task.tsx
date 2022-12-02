@@ -296,7 +296,7 @@ export const Task = React.memo(function ({
               py: 1,
               gap: "10px!important",
               borderRadius: "15px!important",
-              mb: 1,
+              mb: 1.5,
             }),
           }}
         >
