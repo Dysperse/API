@@ -74,6 +74,8 @@ export function Sidebar() {
     const url = router.asPath;
 
     switch (url) {
+      case "":
+      case "/":
       case "/tasks":
         setValue(0);
         break;
