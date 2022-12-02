@@ -48,10 +48,10 @@ export function Loading(): JSX.Element {
             animation={false}
             variant="rectangular"
             sx={{
-              height: 40,
+              height: 50,
               borderRadius: 5,
               mx: "auto",
-              width: { xs: 0, sm: "500px" },
+              width: { xs: 0, sm: "450px" },
               maxWidth: "100%",
             }}
           />
@@ -115,7 +115,7 @@ export function Loading(): JSX.Element {
           >
             <CircularProgress
               disableShrink
-              size={20}
+              size={40}
               sx={{
                 animationDuration: "550ms",
                 [`& .MuiCircularProgress-circle`]: {

@@ -1,7 +1,5 @@
 import CardActionArea from "@mui/material/CardActionArea";
-import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
@@ -9,17 +7,16 @@ import Typography from "@mui/material/Typography";
 
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
-import { useState } from "react";
 import { styled } from "@mui/material/styles";
-import { colors } from "../../lib/colors";
-import React from "react";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import toast from "react-hot-toast";
-import hexToRgba from "hex-to-rgba";
+import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import hexToRgba from "hex-to-rgba";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
 import { CreateTask } from "./CreateTask";
-import dayjs from "dayjs";
 
 const Color = ({ color }: { color: string }) => {
   return (
@@ -330,7 +327,7 @@ export const Task = React.memo(function ({
             primary={
               <span
                 style={{
-                  fontWeight: "300",
+                  fontWeight: "400",
                   ...(checked && {
                     textDecoration: "line-through",
                     opacity: 0.5,
