@@ -268,7 +268,7 @@ export function CreateTask({
         <span
           className="material-symbols-outlined"
           style={{
-            color: checkList ? "#505050" : "#aaa",
+            color: "#505050",
             marginLeft: "7px",
             marginRight: "5px",
             fontSize: "30px",
