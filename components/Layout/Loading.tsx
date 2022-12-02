@@ -115,7 +115,7 @@ export function Loading(): JSX.Element {
           >
             <CircularProgress
               disableShrink
-              size={40}
+              size={20}
               sx={{
                 animationDuration: "550ms",
                 [`& .MuiCircularProgress-circle`]: {
