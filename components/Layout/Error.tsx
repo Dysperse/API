@@ -40,10 +40,10 @@ export function Error() {
         <picture>
           <img
             src="https://i.ibb.co/1GnBXX4/image.png"
-            alt="An error occured"
+            alt="An error occurred"
           />
           <Typography variant="h5" sx={{ textAlign: "center" }}>
-            An error occured
+            An error occurred
           </Typography>
           <Typography variant="body1" sx={{ textAlign: "center" }}>
             Please try again later. If the problem persists, please contact us

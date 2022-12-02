@@ -35,11 +35,11 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=block"
+          href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=block"
           rel="stylesheet"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
         <meta name="description" content="Carbon user dashboard" />
