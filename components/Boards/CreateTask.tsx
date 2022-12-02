@@ -233,6 +233,9 @@ export function CreateTask({
         button
         disableRipple
         sx={{
+          ...(!checkList && {
+            border: "0!important",
+          }),
           borderRadius: 4,
           gap: 0.5,
           py: 0.5,
@@ -259,18 +262,19 @@ export function CreateTask({
             mb: 1.5,
           }),
         }}
+        className="border border-gray-200"
         onClick={() => setOpen(true)}
       >
         <span
           className="material-symbols-outlined"
           style={{
-            color: "#aaa",
+            color: checkList ? "#505050" : "#aaa",
             marginLeft: "7px",
             marginRight: "5px",
             fontSize: "30px",
           }}
         >
-          add_circle_outline
+          add_task
         </span>
 
         <ListItemText
