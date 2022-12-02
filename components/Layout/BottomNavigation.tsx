@@ -24,7 +24,7 @@ export function BottomNav() {
       borderRadius: 3,
       textTransform: "none",
       height: "70px",
-      color: colors[themeColor][global.theme === "dark" ? 200 : 500],
+      // color: colors[themeColor][global.theme === "dark" ? 200 : 500],
       // icon
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         height: "24px",
