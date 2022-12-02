@@ -206,17 +206,18 @@ export const Column = React.memo(function ({
 }: any) {
   return (
     <Box
-      className="w-[350px] bg-gray-100 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] border border-gray-200 bg-gray-50 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         width: "350px",
         flex: "0 0 350px",
         p: 3,
         pt: 4,
-        px: 2,
+        px: checkList ? 4 : 2,
         borderRadius: 5,
         ...(checkList && {
           flex: "0 0 100%!important",
-          maxWidth: "800px",
+          border: "0!important",
+          maxWidth: { xs: "100%", sm: "800px" },
           width: "100%!important",
           background: "transparent!important",
         }),

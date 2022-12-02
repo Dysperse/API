@@ -283,7 +283,7 @@ export const Task = React.memo(function ({
       {task.subTasks.length >= 0 && (
         <ListItem
           onClick={() => setOpen(true)}
-          className="rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.99] hover:bg-gray-200 dark:hover:bg-[hsl(240,11%,16%)] duration-100 active:duration-[0s]"
+          className="rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.99] hover:bg-gray-200 dark:hover:bg-[hsl(240,11%,16%)] duration-100 active:duration-[0s] border border-gray-200"
           sx={{
             p: 0,
             ...(checkList && {

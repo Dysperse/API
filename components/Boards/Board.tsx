@@ -48,7 +48,7 @@ export const Board = React.memo(function ({ board }: any) {
               : {
                   mt: -3,
                 }),
-            pl: 4,
+            pl: board.columns.length === 1 ? 0 : 4,
           }}
         >
           <Renderer data={data} url={url} board={board} />
