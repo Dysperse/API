@@ -1,5 +1,12 @@
 import { Masonry } from "@mui/lab";
-import { AppBar, Divider, IconButton, Skeleton } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Dialog,
+  Divider,
+  IconButton,
+  Skeleton,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Menu from "@mui/material/Menu";
@@ -21,6 +28,8 @@ import Confetti from "react-confetti";
 
 function TrophyModal({ goal }) {
   const [open, setOpen] = React.useState(false);
+  const [stepTwoOpen, setStepTwoOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const { width, height } = useWindowSize();
 
   useEffect(() => {
@@ -43,9 +52,48 @@ function TrophyModal({ goal }) {
 
   return (
     <>
+      <Dialog open={stepTwoOpen} onClose={() => setStepTwoOpen(false)}>
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h6" gutterBottom>
+            Are you satisfied with how Carbon Coach helped you achieve this
+            goal?
+          </Typography>
+          <Typography>
+            To claim your trophy, rate your experience below!
+          </Typography>
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {[
+              "sentiment_very_satisfied",
+              "sentiment_satisfied",
+              "sentiment_dissatisfied",
+            ].map((icon) => (
+              <IconButton onClick={() => setStepTwoOpen(false)} disableRipple>
+                <span
+                  className="material-symbols-outlined"
+                  style={{
+                    fontSize: "50px",
+                  }}
+                >
+                  {icon}
+                </span>
+              </IconButton>
+            ))}
+          </Box>
+        </Box>
+      </Dialog>
       <Backdrop
         open={open}
-        onClick={() => setOpen(false)}
+        onClick={() => {
+          setOpen(false);
+          setStepTwoOpen(true);
+        }}
         sx={{
           zIndex: 999999,
           cursor: "pointer",
@@ -81,12 +129,25 @@ function TrophyModal({ goal }) {
             variant="h5"
             sx={{ fontWeight: "900", textDecoration: "underline" }}
           >
-            Congratulations
+            Congratulations!
           </Typography>
           <Typography variant="body1">
             After spending {goal.durationDays} days working hard towards this
             goal, you have finally achieved it! Pat yourself on the back!
           </Typography>
+          <Button
+            sx={{
+              boxShadow: 0,
+              background: "#fff!important",
+              color: "#000",
+              mt: 2,
+              width: "100%",
+            }}
+            variant="contained"
+            onClick={() => setOpen(false)}
+          >
+            Next
+          </Button>
         </Box>
       </Backdrop>
       <Box
@@ -112,7 +173,7 @@ function TrophyModal({ goal }) {
       >
         <Box>
           <Typography variant="h6" sx={{ fontWeight: "600" }}>
-            You&pos;ve completed this goal!
+            You&apos;ve completed this goal!
           </Typography>
           <Typography variant="body1">
             All that hard work paid off! Tap to claim your trophy!

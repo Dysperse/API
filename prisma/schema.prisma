@@ -155,6 +155,7 @@ model RoutineItem {
   lastCompleted String?
 
   completed Boolean @default(false)
+  feedback  String? @default("")
 
   userId String
   user   User   @relation(fields: [userId], references: [identifier])
