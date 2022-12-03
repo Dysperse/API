@@ -15,6 +15,117 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
 import { ExploreGoals } from "./ExploreGoals";
+import Backdrop from "@mui/material/Backdrop";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
+
+function TrophyModal({ goal }) {
+  const [open, setOpen] = React.useState(false);
+  const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (open) {
+      const trophy: any = document.getElementById("trophy");
+      const slideIn: any = document.getElementById("slide-in-bottom");
+      trophy.style.display = "none";
+      slideIn.style.display = "none";
+      setTimeout(() => {
+        trophy.style.display = "";
+        slideIn.style.display = "";
+      }, 500);
+    } else {
+      const trophy: any = document.getElementById("trophy");
+      const slideIn: any = document.getElementById("slide-in-bottom");
+      trophy.style.display = "none";
+      slideIn.style.display = "none";
+    }
+  }, [open]);
+
+  return (
+    <>
+      <Backdrop
+        open={open}
+        onClick={() => setOpen(false)}
+        sx={{
+          zIndex: 999999,
+          cursor: "pointer",
+        }}
+      >
+        <Confetti width={width} height={height} />
+        <picture>
+          <img
+            src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
+            className="animate-trophy"
+            id="trophy"
+            style={{
+              zIndex: 999999,
+            }}
+          />
+        </picture>
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            background: "rgba(0,0,0,0.5)",
+            p: 4,
+            color: "#fff",
+          }}
+          className="slide-in-bottom"
+          id="slide-in-bottom"
+        >
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "900", textDecoration: "underline" }}
+          >
+            Congratulations
+          </Typography>
+          <Typography variant="body1">
+            You spent {goal.durationDays} days working hard to complete this!
+            Pat yourself on the back!
+          </Typography>
+        </Box>
+      </Backdrop>
+      <Box
+        onClick={() => setOpen(true)}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          p: 2,
+          background: colors.deepOrange["100"],
+          borderRadius: 5,
+          mb: 5,
+          cursor: "pointer",
+          transition: "all .1s",
+          userSelect: "none",
+          "&:active": {
+            transform: "scale(0.98)",
+            transition: "none",
+          },
+          gap: 3,
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+        }}
+      >
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: "600" }}>
+            You've completed this goal!
+          </Typography>
+          <Typography variant="body1">
+            All that hard work paid off! Tap to claim your trophy!
+          </Typography>
+        </Box>
+        <picture>
+          <img
+            src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
+            alt="trophy"
+            width={"100px"}
+          />
+        </picture>
+      </Box>
+    </>
+  );
+}
 
 function MoreOptions({ goal, mutationUrl, setOpen }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -96,17 +207,39 @@ function Goal({ goal, mutationUrl }: any) {
         <Typography className="font-semibold" variant="h6">
           {goal.name}
         </Typography>
-        <Typography variant="body2" className="text-gray-500">
-          {goal.time == "any"
-            ? "Daily"
-            : goal.time == "morning"
-            ? "Every morning"
-            : goal.time == "afternoon"
-            ? "Every afternoon"
-            : "Nightly"}{" "}
-          &bull; {goal.durationDays - goal.progress} days left
+        <Typography
+          variant="body2"
+          className="text-gray-500"
+          style={{
+            ...(goal.progress === goal.durationDays && {
+              color: colors["deepOrange"][500],
+              fontWeight: 600,
+            }),
+          }}
+        >
+          {goal.progress !== goal.durationDays ? (
+            <>
+              {goal.time == "any"
+                ? "Daily"
+                : goal.time == "morning"
+                ? "Every morning"
+                : goal.time == "afternoon"
+                ? "Every afternoon"
+                : "Nightly"}{" "}
+              &bull; {goal.durationDays - goal.progress} days left
+            </>
+          ) : (
+            <>Goal complete! Tap to claim your reward!</>
+          )}
         </Typography>
-        <div className="flex gap-3 items-center">
+        <div
+          className="flex gap-3 items-center"
+          style={{
+            ...(goal.progress == goal.durationDays && {
+              color: colors.deepOrange["600"],
+            }),
+          }}
+        >
           <Slider
             value={goal.progress}
             max={goal.durationDays}
@@ -123,6 +256,11 @@ function Goal({ goal, mutationUrl }: any) {
               "& .MuiSlider-track": {
                 height: 12,
                 overflow: "hidden",
+                border: 0,
+
+                ...(goal.progress == goal.durationDays && {
+                  background: colors.deepOrange["600"],
+                }),
               },
               "& .MuiSlider-rail": {
                 height: 12,
@@ -130,6 +268,7 @@ function Goal({ goal, mutationUrl }: any) {
               },
               "& .MuiSlider-mark": {
                 width: { xs: 0, sm: 2 },
+                display: goal.progress == goal.durationDays ? "none" : "block",
                 height: 6,
                 borderRadius: 5,
               },
@@ -223,6 +362,7 @@ function Goal({ goal, mutationUrl }: any) {
           </Box>
         </Box>
         <Box sx={{ px: 5 }}>
+          {goal.progress == goal.durationDays && <TrophyModal goal={goal} />}
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
             <span className="material-symbols-rounded">access_time</span>{" "}
             {goal.time == "any"

@@ -18,6 +18,7 @@ import { colors } from "../lib/colors";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
+import { mutate } from "swr";
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
@@ -159,7 +160,7 @@ const Task = ({ task }) => {
 };
 
 function DailyRoutine() {
-  const { data, error } = useApi("user/routines");
+  const { data, url, error } = useApi("user/routines");
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -217,7 +218,10 @@ function DailyRoutine() {
       <SwipeableDrawer
         anchor="right"
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          mutate(url);
+          setOpen(false);
+        }}
         onOpen={() => setOpen(false)}
         PaperProps={{
           elevation: 0,
@@ -341,7 +345,7 @@ function DailyRoutine() {
   );
 }
 
-export default function Render() {
+export default function Render({ mutationUrl }) {
   const time = new Date().getHours();
   let greeting;
   if (time < 10) {
