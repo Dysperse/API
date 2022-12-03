@@ -25,6 +25,7 @@ import { ExploreGoals } from "./ExploreGoals";
 import Backdrop from "@mui/material/Backdrop";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import toast from "react-hot-toast";
 
 function TrophyModal({ goal }) {
   const [open, setOpen] = React.useState(false);
@@ -52,7 +53,16 @@ function TrophyModal({ goal }) {
 
   return (
     <>
-      <Dialog open={stepTwoOpen} onClose={() => setStepTwoOpen(false)}>
+      <Dialog
+        open={stepTwoOpen}
+        onClose={() => setStepTwoOpen(false)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            borderRadius: 999,
+          },
+        }}
+      >
         <Box sx={{ p: 3 }}>
           <Typography variant="h6" gutterBottom>
             Are you satisfied with how Carbon Coach helped you achieve this
@@ -70,11 +80,30 @@ function TrophyModal({ goal }) {
             }}
           >
             {[
-              "sentiment_very_satisfied",
-              "sentiment_satisfied",
               "sentiment_dissatisfied",
+              "sentiment_neutral",
+              "sentiment_satisfied",
             ].map((icon) => (
-              <IconButton onClick={() => setStepTwoOpen(false)} disableRipple>
+              <IconButton
+                onClick={() => {
+                  setLoading(true);
+                  fetchApiWithoutHook("user/goals/complete", {
+                    feedback: icon,
+                  })
+                    .then(() => {
+                      setStepTwoOpen(false);
+                      toast.success(
+                        "A trophy has been added to your account! Thanks for your feedback! 🎉"
+                      );
+                    })
+                    .catch(() => {
+                      setLoading(false);
+                      toast.error("An error occurred. Please try again later.");
+                    });
+                }}
+                disableRipple
+                disabled={loading}
+              >
                 <span
                   className="material-symbols-outlined"
                   style={{
@@ -133,7 +162,7 @@ function TrophyModal({ goal }) {
           </Typography>
           <Typography variant="body1">
             After spending {goal.durationDays} days working hard towards this
-            goal, you have finally achieved it! Pat yourself on the back!
+            goal, you finally achieved it! Pat yourself on the back!
           </Typography>
           <Button
             sx={{
