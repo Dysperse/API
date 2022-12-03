@@ -1,3 +1,4 @@
+import { Masonry } from "@mui/lab";
 import { AppBar, Divider, IconButton, Skeleton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
@@ -78,15 +79,17 @@ function Goal({ goal, mutationUrl }: any) {
   return (
     <>
       <Box
-        className="w-full active:scale-[.98]"
+        className="active:scale-[.98]"
         onClick={() => setOpen(true)}
         sx={{
-          borderRadius: 5,
-          py: 1,
+          borderRadius: { xs: 0, sm: 5 },
+          py: 2,
           transition: "all .2s!important",
-          px: 2,
+          px: 3,
           mb: 1,
           cursor: "pointer",
+          background: { sm: "#eee" },
+          borderBottom: { xs: "1px solid #ccc", sm: "none" },
           userSelect: "none",
         }}
       >
@@ -149,7 +152,6 @@ function Goal({ goal, mutationUrl }: any) {
           </span>
         </div>
       </Box>
-      <Divider sx={{ mb: 1 }} />
       <SwipeableDrawer
         anchor="right"
         open={open}
@@ -355,14 +357,18 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               </Box>
             </div>
           ) : (
-            <>
+            <Masonry
+              columns={{ xs: 1, sm: 2 }}
+              spacing={{ xs: 0, sm: 2 }}
+              sx={{}}
+            >
               {[
                 ...data.filter((item) => item.tasks === item.completed),
                 ...data.filter((item) => item.tasks !== item.completed),
               ].map((goal) => (
                 <Goal goal={goal} mutationUrl={url} />
               ))}
-            </>
+            </Masonry>
           )}
         </>
       ) : error ? (

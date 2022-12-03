@@ -212,6 +212,7 @@ function DailyRoutine() {
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
+          elevation: 0,
           sx: {
             maxWidth: "600px",
             width: "100vw",
