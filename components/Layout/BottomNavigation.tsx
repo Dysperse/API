@@ -187,6 +187,13 @@ export function BottomNav() {
           />
           <Tab
             disableRipple
+            onDoubleClick={() => {
+              router.push("/coach").then(() => {
+                setTimeout(() => {
+                  document.getElementById("routineTrigger")?.click();
+                }, 500);
+              });
+            }}
             sx={styles(router.asPath == "/coach")}
             icon={
               <span
