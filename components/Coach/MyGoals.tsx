@@ -51,7 +51,7 @@ function TrophyModal({ goal }) {
           cursor: "pointer",
         }}
       >
-        <Confetti width={width} height={height} />
+        <Confetti width={width} height={height} style={{ zIndex: 1 }} />
         <picture>
           <img
             src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
@@ -67,10 +67,12 @@ function TrophyModal({ goal }) {
             position: "absolute",
             bottom: 0,
             left: 0,
-            background: "rgba(0,0,0,0.5)",
+            background: "rgba(0,0,0,0.7)",
             p: 4,
             width: "100%",
             color: "#fff",
+            zIndex: 999999999,
+            backdropFilter: "blur(20px)",
           }}
           className="slide-in-bottom"
           id="slide-in-bottom"
