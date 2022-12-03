@@ -59,7 +59,7 @@ function TrophyModal({ goal }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            borderRadius: 999,
+            borderRadius: 5,
           },
         }}
       >
@@ -87,8 +87,10 @@ function TrophyModal({ goal }) {
               <IconButton
                 onClick={() => {
                   setLoading(true);
-                  fetchApiWithoutHook("user/goals/complete", {
+                  fetchApiWithoutHook("user/routines/complete", {
+                    daysLeft: goal.durationDays - goal.progress,
                     feedback: icon,
+                    id: goal.id,
                   })
                     .then(() => {
                       setStepTwoOpen(false);

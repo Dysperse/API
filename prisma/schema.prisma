@@ -17,6 +17,7 @@ model User {
   color                    String               @default("cyan")
   onboardingComplete       Boolean              @default(false)
   verifiedEmail            Boolean              @default(false)
+  trophies                 Int                  @default(0)
   twoFactorSecret          String               @default("")
   notificationSubscription String?              @db.VarChar(500)
   properties               PropertyInvite[]
