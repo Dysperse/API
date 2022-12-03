@@ -112,7 +112,7 @@ function TrophyModal({ goal }) {
       >
         <Box>
           <Typography variant="h6" sx={{ fontWeight: "600" }}>
-            You've completed this goal!
+            You&pos;ve completed this goal!
           </Typography>
           <Typography variant="body1">
             All that hard work paid off! Tap to claim your trophy!
