@@ -69,6 +69,7 @@ function TrophyModal({ goal }) {
             left: 0,
             background: "rgba(0,0,0,0.5)",
             p: 4,
+            width: "100%",
             color: "#fff",
           }}
           className="slide-in-bottom"
