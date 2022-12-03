@@ -367,7 +367,7 @@ export default function Categories({ children = null }: any) {
           height: { sm: "calc(100vh - 64px)" },
           overflowY: { sm: "scroll" },
           borderRight: { sm: "1px solid rgba(0,0,0,.1)" },
-          borderLeft: { sm: "1px solid rgba(0,0,0,.1)" },
+          ml: -1,
         }}
       >
         <Box
