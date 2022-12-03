@@ -12,12 +12,13 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
 
 //   completed Boolean @default(false)
 export default async function (req: any, res: any) {
-  if (req.daysLeft !== 0) {
+  if (req.query.daysLeft !== "0") {
     res
       .status(400)
       .json({ error: "You can't complete a routine that isn't finished yet!" });
     return;
   }
+  console.log(req.query);
   const data = await prisma.routineItem.update({
     data: {
       completed: true,

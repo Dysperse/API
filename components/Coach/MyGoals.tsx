@@ -18,6 +18,7 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import { mutate } from "swr";
 import { useApi, fetchApiWithoutHook } from "../../hooks/useApi";
+import dayjs from "dayjs";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
@@ -97,6 +98,7 @@ function TrophyModal({ goal }) {
                       toast.success(
                         "A trophy has been added to your account! Thanks for your feedback! 🎉"
                       );
+                      setLoading(false);
                     })
                     .catch(() => {
                       setLoading(false);
@@ -457,7 +459,27 @@ function Goal({ goal, mutationUrl }: any) {
           </Box>
         </Box>
         <Box sx={{ px: 5 }}>
-          {goal.progress == goal.durationDays && <TrophyModal goal={goal} />}
+          {!goal.completed && goal.progress == goal.durationDays && (
+            <TrophyModal goal={goal} />
+          )}
+          {goal.completed && (
+            <Box
+              sx={{
+                p: 3,
+                background: "rgba(0,0,0,.1)",
+                borderRadius: 5,
+                mb: 3,
+              }}
+            >
+              <Typography variant="h5" sx={{ fontWeight: "600" }}>
+                Completed
+              </Typography>
+              <Typography variant="body2">
+                You completed this goal on{" "}
+                {dayjs(goal.lastDone).format("MMM DD, YYYY")}.
+              </Typography>
+            </Box>
+          )}
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
             <span className="material-symbols-rounded">access_time</span>{" "}
             {goal.time == "any"
