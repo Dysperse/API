@@ -32,7 +32,7 @@ function ResponsiveDrawer({
 }: {
   children: JSX.Element;
 }): JSX.Element {
-  const [collapsed, setCollapsed] = React.useState(
+  const [collapsed, setCollapsed] = React.useState<any>(
     Cookies.get("collapsed") ? JSON.parse(Cookies.get("collapsed")) : false
   );
   const [open, setOpen] = React.useState(false);
