@@ -84,8 +84,8 @@ function TrophyModal({ goal }) {
             Congratulations
           </Typography>
           <Typography variant="body1">
-            You spent {goal.durationDays} days working hard to complete this!
-            Pat yourself on the back!
+            After spending {goal.durationDays} days working hard towards this
+            goal, you have finally achieved it! Pat yourself on the back!
           </Typography>
         </Box>
       </Backdrop>
