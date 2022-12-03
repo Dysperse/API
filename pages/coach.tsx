@@ -1,4 +1,11 @@
-import { AppBar, Checkbox, Drawer, IconButton, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Checkbox,
+  Drawer,
+  SwipeableDrawer,
+  IconButton,
+  Toolbar,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import CircularProgress, {
   CircularProgressProps,
@@ -207,10 +214,11 @@ function DailyRoutine() {
 
   return (
     <>
-      <Drawer
+      <SwipeableDrawer
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
+        onOpen={() => setOpen(false)}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -283,7 +291,7 @@ function DailyRoutine() {
             <Task task={task} key={task.id} />
           ))}
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
       <Box
         onClick={() => setOpen(true)}
         sx={{
