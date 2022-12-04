@@ -43,9 +43,13 @@ function CreateGoal() {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
+          elevation: 0,
           sx: {
+            backgroundColor: "hsl(240,11%,70%)",
+            color: "hsl(240,11%,10%)",
             ...(global.theme === "dark" && {
               backgroundColor: "hsl(240,11%,10%)",
+              color: "hsl(240,11%,70%)",
             }),
           },
         }}
@@ -56,6 +60,7 @@ function CreateGoal() {
             sx={{
               background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
               zIndex: 1,
+              color: "hsl(240,11%,5%)",
             }}
             position="sticky"
           >

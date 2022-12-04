@@ -21,7 +21,7 @@ import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
 import { ExploreGoals } from "./ExploreGoals";
 
-function TrophyModal({ goal }) {
+function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState(false);
   const [stepTwoOpen, setStepTwoOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -86,11 +86,18 @@ function TrophyModal({ goal }) {
                     feedback: icon,
                     id: goal.id,
                   })
-                    .then(() => {
-                      setStepTwoOpen(false);
-                      toast.success(
-                        "A trophy has been added to your account! Thanks for your feedback! 🎉"
-                      );
+                    .then(async () => {
+                      try {
+                        await mutate(mutationUrl);
+                        setStepTwoOpen(false);
+                        toast.success(
+                          "A trophy has been added to your account! Thanks for your feedback! 🎉"
+                        );
+                      } catch (e) {
+                        toast.error(
+                          "An error occurred. Please try again later."
+                        );
+                      }
                       setLoading(false);
                     })
                     .catch(() => {
@@ -471,7 +478,7 @@ function Goal({ goal, mutationUrl }: any) {
         </Box>
         <Box sx={{ px: 5 }}>
           {!goal.completed && goal.progress == goal.durationDays && (
-            <TrophyModal goal={goal} />
+            <TrophyModal goal={goal} mutationUrl={mutationUrl} />
           )}
           {goal.completed && (
             <Box
