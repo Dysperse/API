@@ -295,13 +295,24 @@ function Goal({ goal, mutationUrl }: any) {
           userSelect: "none",
         }}
       >
-        <Typography className="font-semibold" variant="h6">
+        <Typography
+          className="font-semibold"
+          variant="h6"
+          sx={{
+            ...(goal.completed && {
+              opacity: 0.6,
+            }),
+          }}
+        >
           {goal.name}
         </Typography>
         <Typography
           variant="body2"
           className="text-gray-500"
           style={{
+            ...(goal.completed && {
+              opacity: 0.6,
+            }),
             ...(goal.progress === goal.durationDays && {
               color: colors[goal.completed ? "green" : "deepOrange"][500],
               fontWeight: 600,
@@ -330,6 +341,9 @@ function Goal({ goal, mutationUrl }: any) {
           style={{
             ...(goal.progress == goal.durationDays && {
               color: colors[goal.completed ? "green" : "deepOrange"]["800"],
+            }),
+            ...(goal.completed && {
+              opacity: 0.6,
             }),
           }}
         >
