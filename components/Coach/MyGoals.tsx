@@ -1,10 +1,5 @@
 import { Masonry } from "@mui/lab";
-import {
-  AppBar,
-  Button,
-  Dialog, IconButton,
-  Skeleton
-} from "@mui/material";
+import { AppBar, Button, Dialog, IconButton, Skeleton } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
@@ -307,7 +302,7 @@ function Goal({ goal, mutationUrl }: any) {
           className="text-gray-500"
           style={{
             ...(goal.progress === goal.durationDays && {
-              color: colors["deepOrange"][500],
+              color: colors[goal.complete ? "green" : "deepOrange"][500],
               fontWeight: 600,
             }),
           }}
@@ -323,6 +318,8 @@ function Goal({ goal, mutationUrl }: any) {
                 : "Nightly"}{" "}
               &bull; {goal.durationDays - goal.progress} days left
             </>
+          ) : goal.complete ? (
+            "Goal complete!"
           ) : (
             <>Goal complete! Tap to claim your reward!</>
           )}
