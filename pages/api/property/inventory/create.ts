@@ -17,7 +17,6 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-
   const data = await prisma.item.create({
     data: {
       name:
@@ -52,7 +51,7 @@ const handler = async (req, res) => {
       property: true,
     },
   });
-
+  console.log(data);
   res.json(data);
 };
 export default handler;

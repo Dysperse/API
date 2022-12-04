@@ -271,89 +271,91 @@ export function CreateItemModal({
                 },
               }}
             />
-            <Box
-              className="embla"
-              ref={emblaRef}
-              sx={{
-                width: "100%",
-                whiteSpace: "nowrap",
-                "& *": {
+            {filteredCards.length > 0 && (
+              <Box
+                className="embla"
+                ref={emblaRef}
+                sx={{
+                  width: "100%",
+                  whiteSpace: "nowrap",
+                  "& *": {
+                    overscrollBehavior: "auto!important",
+                  },
                   overscrollBehavior: "auto!important",
-                },
-                overscrollBehavior: "auto!important",
-                overflowX: "scroll",
-                overflowY: "visible",
-                my: 2,
-              }}
-            >
-              <div className="embla__container">
-                {filteredCards.map((item) => (
-                  <Box
-                    key={item.name.toString()}
-                    onClick={() => setFieldValues(item)}
-                    component="div"
-                    sx={{
-                      userSelect: "none",
-                      display: "inline-block",
-                      width: "175px",
-                      flex: "0 0 175px",
-                      overflow: "hidden",
-                      height: "150px",
-                      background: global.user.darkMode
-                        ? "hsl(240, 11%, 30%)"
-                        : colors[themeColor][100],
-                      transition: "transform .2s",
-                      "&:active": {
-                        transform: "scale(.95)",
-                        transition: "none",
-                        background:
-                          global.theme === "dark"
-                            ? "hsl(240,11%,25%)"
-                            : colors[themeColor][100],
-                      },
-                      cursor: "pointer",
-                      mr: 2,
-                      borderRadius: 6,
-                    }}
-                  >
+                  overflowX: "scroll",
+                  overflowY: "visible",
+                  my: 2,
+                }}
+              >
+                <div className="embla__container">
+                  {filteredCards.map((item) => (
                     <Box
+                      key={item.name.toString()}
+                      onClick={() => setFieldValues(item)}
+                      component="div"
                       sx={{
-                        height: "80px",
+                        userSelect: "none",
+                        display: "inline-block",
+                        width: "175px",
+                        flex: "0 0 175px",
+                        overflow: "hidden",
+                        height: "150px",
                         background: global.user.darkMode
-                          ? "hsl(240, 11%, 35%)"
-                          : colors[themeColor][200],
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "100%",
+                          ? "hsl(240, 11%, 30%)"
+                          : colors[themeColor][100],
+                        transition: "transform .2s",
+                        "&:active": {
+                          transform: "scale(.95)",
+                          transition: "none",
+                          background:
+                            global.theme === "dark"
+                              ? "hsl(240,11%,25%)"
+                              : colors[themeColor][100],
+                        },
+                        cursor: "pointer",
+                        mr: 2,
+                        borderRadius: 6,
                       }}
                     >
-                      <span
-                        style={{ fontSize: "30px" }}
-                        className="material-symbols-rounded"
+                      <Box
+                        sx={{
+                          height: "80px",
+                          background: global.user.darkMode
+                            ? "hsl(240, 11%, 35%)"
+                            : colors[themeColor][200],
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "100%",
+                        }}
                       >
-                        {item.icon}
-                      </span>
-                    </Box>
-                    <Box
-                      sx={{
-                        height: "70px",
-                        display: "flex",
-                        alignItems: "center",
-                        px: 2,
-                      }}
-                    >
-                      <Box>
-                        <Typography variant="body2">Add</Typography>
-                        <Typography sx={{ fontWeight: "700" }}>
-                          {item.name}
-                        </Typography>
+                        <span
+                          style={{ fontSize: "30px" }}
+                          className="material-symbols-rounded"
+                        >
+                          {item.icon}
+                        </span>
+                      </Box>
+                      <Box
+                        sx={{
+                          height: "70px",
+                          display: "flex",
+                          alignItems: "center",
+                          px: 2,
+                        }}
+                      >
+                        <Box>
+                          <Typography variant="body2">Add</Typography>
+                          <Typography sx={{ fontWeight: "700" }}>
+                            {item.name}
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                ))}
-              </div>
-            </Box>
+                  ))}
+                </div>
+              </Box>
+            )}
             <DialogActions
               sx={{
                 position: { xs: "fixed", sm: "unset" },

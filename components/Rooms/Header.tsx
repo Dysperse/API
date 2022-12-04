@@ -112,14 +112,17 @@ export function Header({
         />
       </Box>
       <ListItemAvatar sx={{ ml: 2 }}>
-        <CreateItemModal room={room} alias={alias}>
+        <CreateItemModal
+          room={useAlias ? decode(room).split(",")[0] : room}
+          alias={alias}
+        >
           <IconButton
             size="large"
             sx={{
               background: "transparent",
               transition: "background .2s",
             }}
-            className="avatar"
+            disableRipple
           >
             <span className="material-symbols-rounded">add</span>
           </IconButton>

@@ -153,7 +153,7 @@ export function Toolbar({
     <Box
       sx={{
         textAlign: "right",
-        my: { xs: 2, sm: 5 },
+        my: { xs: 2, sm: 3 },
         display: "flex",
         alignItems: "center",
         justifyContent: "end",
