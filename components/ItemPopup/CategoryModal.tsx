@@ -128,7 +128,7 @@ export function CategoryModal({
             size="large"
             variant="contained"
             sx={{
-              background: colors[themeColor][900] + "!important",
+              background: colors[themeColor][600] + "!important",
               mt: 2,
               width: "100%",
               borderRadius: 999,
@@ -153,7 +153,6 @@ export function CategoryModal({
             background: `${colors[themeColor][300]}!important`,
           },
           transition: "none",
-          textTransform: "capitalize",
         }}
       />
     </>
