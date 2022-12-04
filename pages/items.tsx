@@ -1,7 +1,6 @@
+import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
@@ -17,6 +16,7 @@ import BoringAvatar from "boring-avatars";
 import { encode } from "js-base64";
 import { useRouter } from "next/router";
 import React from "react";
+import { OptionsGroup } from "../components/Boards/OptionsGroup";
 import { ErrorHandler } from "../components/error";
 import { Puller } from "../components/Puller";
 import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
@@ -25,7 +25,9 @@ import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
-import { OptionsGroup } from "../components/Boards/OptionsGroup";
+import { LoadingButton } from "@mui/lab";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 
 /**
  * Category modal
@@ -261,6 +263,7 @@ function Action({
                 : colors[themeColor][50] + "!important",
           },
         },
+        borderRadius: 5,
         ...(router.asPath.toLowerCase().includes(primary.toLowerCase())
           ? {
               background:
@@ -308,12 +311,100 @@ function Action({
   );
 }
 
+function CreateRoom({ mutationUrl }) {
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [name, setName] = React.useState("");
+
+  const handleSubmit = () => {
+    setLoading(true);
+    fetchApiWithoutHook("property/rooms/create", {
+      name: name,
+    })
+      .then(() => {
+        setOpen(false);
+        setLoading(false);
+        setName("");
+        toast.success("Room created");
+        mutate(mutationUrl);
+      })
+      .catch(() => {
+        toast.error(
+          "An error occurred while trying to create your room. Please try again later."
+        );
+        setLoading(false);
+      });
+  };
+
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            background: colors[themeColor][50],
+            maxWidth: "500px",
+            mx: "auto",
+            borderRadius: "20px 20px 0 0",
+          },
+        }}
+      >
+        <Puller />
+        <Box
+          sx={{
+            px: 3,
+            pb: 3,
+          }}
+        >
+          <Typography variant="h6" className="font-bold">
+            Create room
+          </Typography>
+          <TextField
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            label="Room name"
+            fullWidth
+            variant="filled"
+            margin="dense"
+            autoFocus
+            sx={{ mt: 2 }}
+          />
+          <LoadingButton
+            variant="contained"
+            fullWidth
+            loading={loading}
+            sx={{
+              background: colors[themeColor][900] + "!important",
+              mt: 2,
+              borderRadius: 999,
+            }}
+            disableElevation
+            size="large"
+            onClick={handleSubmit}
+          >
+            Create
+          </LoadingButton>
+        </Box>
+      </SwipeableDrawer>
+      <Action
+        disableLoading
+        icon="add_circle"
+        primary="Create room"
+        onClick={() => setOpen(true)}
+      />
+    </>
+  );
+}
+
 /**
  * Rooms popup
  */
-function Rooms() {
-  const { data, error } = useApi("property/rooms");
-
+function Rooms({ data, error }) {
   return (
     <>
       {data &&
@@ -349,6 +440,8 @@ export default function Categories({ children = null }: any) {
   };
   const [viewBy, setViewBy] = React.useState("Room");
   const { data } = useApi("property/inventory/count");
+
+  const { data: dataRooms, url, error } = useApi("property/rooms");
 
   return (
     <Box
@@ -505,22 +598,8 @@ export default function Categories({ children = null }: any) {
               primary="Camping"
             />
             <Divider sx={{ my: 1 }} />
-            <Rooms />
-            <Action
-              onClick={() =>
-                document.getElementById("setCreateRoomModalOpen")?.click()
-              }
-              disableLoading
-              icon="add_circle"
-              primary="Create room"
-            />
-            <Action
-              onClick={() =>
-                document.getElementById("houseProfileTrigger")?.click()
-              }
-              icon="edit"
-              primary="Manage rooms"
-            />
+            <Rooms data={dataRooms} error={error} />
+            <CreateRoom mutationUrl={url} />
             <Divider sx={{ my: 1 }} />
             <Action href="/starred" icon="star" primary="Starred" />
             <Action href="/trash" icon="delete" primary="Trash" />
