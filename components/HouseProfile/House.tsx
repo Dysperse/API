@@ -1,13 +1,17 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
+import CircularProgress from "@mui/material/CircularProgress";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Typography from "@mui/material/Typography";
+import dayjs from "dayjs";
+import hexToRgba from "hex-to-rgba";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -17,16 +21,12 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { House } from "../../types/houseProfile";
+import { ErrorHandler } from "../error";
 import { EditProperty } from "../HouseProfile/EditProperty";
 import { UpgradeBanner } from "../HouseProfile/ItemBanner";
 import { MemberList } from "../HouseProfile/MemberList";
-import hexToRgba from "hex-to-rgba";
-import CircularProgress from "@mui/material/CircularProgress";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { ErrorHandler } from "../error";
-import dayjs from "dayjs";
 
-function Changelog() {
+function Changelog({ house }) {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
   const { error, data } = useApi("property/inbox");
@@ -34,6 +34,7 @@ function Changelog() {
     "ctrl+i",
     (e) => {
       e.preventDefault();
+      setOpen(false);
       setOpen(!open);
     },
     [open]
@@ -404,7 +405,7 @@ export function House({
               <Typography sx={{ mx: "auto", fontWeight: "600" }}>
                 Group
               </Typography>
-              <Changelog />
+              <Changelog house={data.profile.id} />
               {global.property.permission !== "read-only" && (
                 <IconButton
                   disableRipple
