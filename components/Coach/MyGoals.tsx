@@ -349,7 +349,6 @@ function Goal({ goal, mutationUrl }: any) {
                 height: 12,
                 overflow: "hidden",
                 border: 0,
-
                 ...(goal.progress == goal.durationDays && {
                   background:
                     colors[goal.completed ? "green" : "deepOrange"]["800"],
@@ -357,12 +356,13 @@ function Goal({ goal, mutationUrl }: any) {
               },
               "& .MuiSlider-rail": {
                 height: 12,
-                overflow: "hidden",
+                overflow: "hidden!important",
               },
               "& .MuiSlider-mark": {
                 width: { xs: 0, sm: 2 },
                 display: goal.progress == goal.durationDays ? "none" : "block",
                 height: 6,
+                ml: -1,
                 borderRadius: 5,
               },
             }}
