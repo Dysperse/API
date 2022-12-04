@@ -302,7 +302,7 @@ function Goal({ goal, mutationUrl }: any) {
           className="text-gray-500"
           style={{
             ...(goal.progress === goal.durationDays && {
-              color: colors[goal.complete ? "green" : "deepOrange"][500],
+              color: colors[goal.completed ? "green" : "deepOrange"][500],
               fontWeight: 600,
             }),
           }}
@@ -318,7 +318,7 @@ function Goal({ goal, mutationUrl }: any) {
                 : "Nightly"}{" "}
               &bull; {goal.durationDays - goal.progress} days left
             </>
-          ) : goal.complete ? (
+          ) : goal.completed ? (
             "Goal complete!"
           ) : (
             <>Goal complete! Tap to claim your reward!</>
@@ -328,7 +328,7 @@ function Goal({ goal, mutationUrl }: any) {
           className="flex gap-3 items-center"
           style={{
             ...(goal.progress == goal.durationDays && {
-              color: colors.deepOrange["600"],
+              color: colors[goal.completed ? "green" : "deepOrange"]["800"],
             }),
           }}
         >
@@ -351,7 +351,8 @@ function Goal({ goal, mutationUrl }: any) {
                 border: 0,
 
                 ...(goal.progress == goal.durationDays && {
-                  background: colors.deepOrange["600"],
+                  background:
+                    colors[goal.completed ? "green" : "deepOrange"]["800"],
                 }),
               },
               "& .MuiSlider-rail": {
