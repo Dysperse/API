@@ -17,13 +17,16 @@ function ThemeColorSettings() {
       {[
         "Brown",
         "Red",
+        "Lime",
         "Green",
         "Blue",
         "Pink",
         "Purple",
+        "Indigo",
         "Orange",
         "Teal",
         "Cyan",
+        "Grey"
       ].map((color) => (
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
