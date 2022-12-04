@@ -206,7 +206,7 @@ export const Column = React.memo(function ({
 }: any) {
   return (
     <Box
-      className="w-[350px] border border-gray-200 bg-gray-50 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] bg-neutral-100 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         width: "350px",
         flex: "0 0 350px",
