@@ -23,6 +23,8 @@ function ThemeColorSettings() {
         "Pink",
         "Purple",
         "Indigo",
+        "Yellow",
+        "Amber",
         "Orange",
         "Teal",
         "Cyan",
