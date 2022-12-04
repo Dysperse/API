@@ -21,6 +21,7 @@ import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
 import { useHotkeys } from "react-hotkeys-hook";
+import toast from "react-hot-toast";
 
 function Achievements({ styles }) {
   return (
@@ -28,6 +29,9 @@ function Achievements({ styles }) {
       <IconButton
         color="inherit"
         disableRipple
+        onClick={() => {
+          toast("Coming soon!");
+        }}
         sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
       >
         <span className="material-symbols-outlined">workspace_premium</span>
