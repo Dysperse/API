@@ -187,12 +187,11 @@ export function InviteButton() {
           userSelect: "none",
           cursor: "pointer",
           transition: "transform .2s",
-          p: 2,
-          ml: -1,
-          py: 0.8,
+          p: 1,
+          py: 0,
           gap: 1,
           color: "inherit",
-          borderRadius: 4,
+          borderRadius: 2,
         }}
       >
         <Typography

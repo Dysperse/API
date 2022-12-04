@@ -1,6 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -11,16 +10,163 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useSWRConfig } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { House } from "../../types/houseProfile";
+import { EditProperty } from "../HouseProfile/EditProperty";
 import { UpgradeBanner } from "../HouseProfile/ItemBanner";
 import { MemberList } from "../HouseProfile/MemberList";
-import { RoomList } from "../HouseProfile/RoomList";
-import { EditProperty } from "../HouseProfile/EditProperty";
+import hexToRgba from "hex-to-rgba";
+import CircularProgress from "@mui/material/CircularProgress";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { ErrorHandler } from "../error";
+import dayjs from "dayjs";
+
+function Changelog() {
+  const [open, setOpen] = React.useState(false);
+  useStatusBar(open);
+  const { error, data } = useApi("property/inbox");
+  useHotkeys(
+    "ctrl+i",
+    (e) => {
+      e.preventDefault();
+      setOpen(!open);
+    },
+    [open]
+  );
+  return (
+    <>
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        anchor="bottom"
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            mx: "auto",
+            borderRadius: "20px 20px 0px 0px",
+            maxWidth: "500px",
+            background: colors[themeColor][global.theme == "dark" ? 900 : 50],
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            position: "sticky",
+            top: 0,
+            left: 0,
+            p: 3,
+            px: 4,
+            pb: 1,
+            zIndex: 9,
+            width: "100%",
+            background: hexToRgba(
+              colors[themeColor][global.theme == "dark" ? 900 : 50],
+              0.9
+            ),
+          }}
+        >
+          <Typography
+            variant="h5"
+            className="font-secondary"
+            gutterBottom
+            sx={{ flexGrow: 1 }}
+          >
+            Changelog
+          </Typography>
+          <IconButton
+            disableRipple
+            color="inherit"
+            onClick={() => setOpen(false)}
+            sx={{
+              color: colors[themeColor][global.theme == "dark" ? 50 : 900],
+            }}
+          >
+            <span className="material-symbols-rounded">close</span>
+          </IconButton>
+        </Box>
+        <Box
+          sx={{
+            p: 4,
+            pt: 2,
+            maxHeight: "70vh",
+            overflowY: "scroll",
+          }}
+        >
+          {error && (
+            <ErrorHandler error="An error occurred while trying to fetch your inbox" />
+          )}
+          {!data && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          {data &&
+            data.map((item) => (
+              <Box
+                sx={{
+                  p: 3,
+                  mb: 2,
+                  background:
+                    colors[themeColor][global.theme == "dark" ? 800 : 100],
+                  borderRadius: 5,
+                }}
+              >
+                <Typography gutterBottom>
+                  <b>{item.who === global.user.name ? "You" : item.who}</b>{" "}
+                  {item.what}
+                </Typography>
+                <Typography variant="body2">
+                  {dayjs(item.when).fromNow()}
+                </Typography>
+              </Box>
+            ))}
+          {data && data.length === 0 && (
+            <Typography
+              variant="body1"
+              sx={{
+                mt: 2,
+                background: colors[themeColor][100],
+                p: 3,
+                borderRadius: 5,
+              }}
+            >
+              No recent activity
+            </Typography>
+          )}
+        </Box>
+      </SwipeableDrawer>
+      <IconButton
+        disableRipple
+        sx={{
+          color: "white",
+          zIndex: 1,
+          mr: 1,
+          position: "absolute",
+          right: "62px",
+          mt: 0.2,
+        }}
+        onClick={() => setOpen(true)}
+      >
+        <span className="material-symbols-outlined">history</span>
+      </IconButton>
+    </>
+  );
+}
 
 /**
  * House popup
@@ -258,6 +404,7 @@ export function House({
               <Typography sx={{ mx: "auto", fontWeight: "600" }}>
                 Group
               </Typography>
+              <Changelog />
               {global.property.permission !== "read-only" && (
                 <IconButton
                   disableRipple
@@ -270,7 +417,7 @@ export function House({
                     setEditMode(!editMode);
                   }}
                 >
-                  <span className="material-symbols-outlined">edit</span>
+                  <span className="material-symbols-outlined">more_vert</span>
                 </IconButton>
               )}
               <EditProperty
@@ -334,38 +481,6 @@ export function House({
               Members
             </Typography>
             <MemberList color={color} setOpen={setOpen} />
-            <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
-              <Typography variant="h5" sx={{ fontWeight: "700", my: 2 }}>
-                Rooms
-              </Typography>
-              <Box
-                sx={{
-                  ml: "auto",
-                }}
-              >
-                <Button
-                  disabled={global.property.permission === "read-only"}
-                  onClick={() => {
-                    document.getElementById("setCreateRoomModalOpen")?.click();
-                  }}
-                  variant="contained"
-                  sx={{
-                    borderRadius: 4,
-                    boxShadow: 0,
-                    background: `${colors[color][900]}!important`,
-                  }}
-                >
-                  <span
-                    className="material-symbols-rounded"
-                    style={{ marginRight: "10px" }}
-                  >
-                    add
-                  </span>
-                  Create room
-                </Button>
-              </Box>
-            </Box>
-            <RoomList color={color} />
           </Box>
         </Box>
       </Drawer>
