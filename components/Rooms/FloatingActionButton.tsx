@@ -47,11 +47,13 @@ export function FloatingActionButton({ sm = false }) {
             "&:focus-within": {
               boxShadow: "none",
             },
+            width: sm ? "100%" : "auto",
+            justifyContent: sm ? "start" : "center",
             backdropFilter: "blur(15px)",
             background:
               (global.user.darkMode
                 ? "rgba(57, 57, 71, .7)"
-                : colors[themeColor][sm ? 50 : 100]) + "!important",
+                : colors[themeColor][100]) + "!important",
             color: global.user.darkMode
               ? "hsl(240, 11%, 95%)"
               : colors[themeColor]["900"],

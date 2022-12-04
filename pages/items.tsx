@@ -28,6 +28,47 @@ import type { ApiResponse } from "../types/client";
 import { LoadingButton } from "@mui/lab";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { Chip } from "@mui/material";
+
+function Tidy() {
+  return (
+    <>
+      <Box
+        sx={{
+          gap: 2,
+          borderRadius: 5,
+          color: "white",
+          p: 3,
+          cursor: "pointer",
+          userSelect: "none",
+          transition: "all .3s",
+          "&:active": {
+            transform: "scale(.98)",
+            transition: "none",
+          },
+          py: 2,
+          width: "400px",
+          backgroundImage: `url("data:image/svg+xml,%0A%3Csvg id='visual' viewBox='0 0 900 600' width='900' height='600' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1'%3E%3Cpath d='M0 139L30 148C60 157 120 175 180 191C240 207 300 221 360 211C420 201 480 167 540 166C600 165 660 197 720 203C780 209 840 189 870 179L900 169L900 0L870 0C840 0 780 0 720 0C660 0 600 0 540 0C480 0 420 0 360 0C300 0 240 0 180 0C120 0 60 0 30 0L0 0Z' fill='%236198ff'%3E%3C/path%3E%3Cpath d='M0 241L30 248C60 255 120 269 180 286C240 303 300 323 360 313C420 303 480 263 540 262C600 261 660 299 720 307C780 315 840 293 870 282L900 271L900 167L870 177C840 187 780 207 720 201C660 195 600 163 540 164C480 165 420 199 360 209C300 219 240 205 180 189C120 173 60 155 30 146L0 137Z' fill='%233c80ff'%3E%3C/path%3E%3Cpath d='M0 373L30 381C60 389 120 405 180 412C240 419 300 417 360 398C420 379 480 343 540 343C600 343 660 379 720 387C780 395 840 375 870 365L900 355L900 269L870 280C840 291 780 313 720 305C660 297 600 259 540 260C480 261 420 301 360 311C300 321 240 301 180 284C120 267 60 253 30 246L0 239Z' fill='%230066ff'%3E%3C/path%3E%3Cpath d='M0 427L30 435C60 443 120 459 180 466C240 473 300 471 360 457C420 443 480 417 540 416C600 415 660 439 720 445C780 451 840 439 870 433L900 427L900 353L870 363C840 373 780 393 720 385C660 377 600 341 540 341C480 341 420 377 360 396C300 415 240 417 180 410C120 403 60 387 30 379L0 371Z' fill='%230059dd'%3E%3C/path%3E%3Cpath d='M0 601L30 601C60 601 120 601 180 601C240 601 300 601 360 601C420 601 480 601 540 601C600 601 660 601 720 601C780 601 840 601 870 601L900 601L900 425L870 431C840 437 780 449 720 443C660 437 600 413 540 414C480 415 420 441 360 455C300 469 240 471 180 464C120 457 60 441 30 433L0 425Z' fill='%23004cbb'%3E%3C/path%3E%3C/svg%3E")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: "600",
+            mb: 1,
+          }}
+          variant="h6"
+        >
+          Tidy
+          <Chip label="Coming soon" color="error" size="small" sx={{ ml: 1 }} />
+        </Typography>
+        <Typography>Organize your items and declutter your home.</Typography>
+      </Box>
+    </>
+  );
+}
 
 /**
  * Category modal
@@ -631,11 +672,25 @@ export default function Categories({ children = null }: any) {
             height: "calc(100vh - 70px)",
             width: "100%",
             fontWeight: "500",
-            color: colors[themeColor][global.user.darkMode ? 50 : 500],
+            color: colors[themeColor][global.user.darkMode ? 50 : 800],
           }}
         >
-          No room selected
-          <FloatingActionButton sm />
+          <Box
+            sx={{
+              gap: 2,
+              borderRadius: 5,
+              p: 3,
+              py: 2,
+              width: "400px",
+              background: colors[themeColor][global.user.darkMode ? 900 : 50],
+            }}
+          >
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              No room selected
+            </Typography>
+            <FloatingActionButton sm />
+          </Box>
+          <Tidy />
         </Box>
       )}
     </Box>
