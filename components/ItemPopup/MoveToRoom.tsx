@@ -126,7 +126,7 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
         <Puller />
         <DialogTitle
           id="alert-dialog-title"
-          sx={{ fontWeight: "800", p: 4, pb: 2 }}
+          sx={{ fontWeight: "800", p: 4, pt: 0, pb: 2 }}
         >
           Select a room
         </DialogTitle>
