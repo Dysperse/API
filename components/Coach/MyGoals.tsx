@@ -241,10 +241,11 @@ function MoreOptions({ goal, mutationUrl, setOpen }) {
         <MenuItem onClick={handleClose}>
           <span className="material-symbols-rounded">share</span> Share
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose} disabled={goal.completed}>
           <span className="material-symbols-rounded">edit</span> Edit
         </MenuItem>
         <MenuItem
+          disabled={goal.completed}
           onClick={() => {
             handleClose();
             fetchApiWithoutHook("user/routines/delete", {
@@ -464,7 +465,7 @@ function Goal({ goal, mutationUrl }: any) {
                 p: 3,
                 background: "rgba(0,0,0,.1)",
                 borderRadius: 5,
-                mb: 3,
+                mb: 4,
               }}
             >
               <Typography variant="h5" sx={{ fontWeight: "600" }}>
@@ -491,12 +492,12 @@ function Goal({ goal, mutationUrl }: any) {
             {goal.durationDays} days
           </Typography>
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
+            <span className="material-symbols-rounded">today</span>{" "}
+            {goal.durationDays - goal.progress} days left
+          </Typography>
+          <Typography className="flex items-center" sx={{ gap: 2, mb: 5 }}>
             <span className="material-symbols-rounded">check_circle</span>{" "}
             {goal.progress} days completed
-          </Typography>
-          <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
-            <span className="material-symbols-rounded">notifications</span>{" "}
-            {goal.reminder ? "Reminders on" : "Reminders off"}
           </Typography>
         </Box>
       </SwipeableDrawer>
