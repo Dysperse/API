@@ -2,11 +2,10 @@ import { Masonry } from "@mui/lab";
 import {
   AppBar,
   Button,
-  Dialog,
-  Divider,
-  IconButton,
-  Skeleton,
+  Dialog, IconButton,
+  Skeleton
 } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Menu from "@mui/material/Menu";
@@ -15,18 +14,17 @@ import Slider from "@mui/material/Slider";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React, { useEffect } from "react";
-import { mutate } from "swr";
-import { useApi, fetchApiWithoutHook } from "../../hooks/useApi";
 import dayjs from "dayjs";
+import React, { useEffect } from "react";
+import Confetti from "react-confetti";
+import toast from "react-hot-toast";
+import useWindowSize from "react-use/lib/useWindowSize";
+import { mutate } from "swr";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
 import { ExploreGoals } from "./ExploreGoals";
-import Backdrop from "@mui/material/Backdrop";
-import useWindowSize from "react-use/lib/useWindowSize";
-import Confetti from "react-confetti";
-import toast from "react-hot-toast";
 
 function TrophyModal({ goal }) {
   const [open, setOpen] = React.useState(false);

@@ -147,11 +147,10 @@ function CreateGoal() {
               <span
                 className="material-symbols-rounded"
                 style={{
-                  transform: "rotate(45deg)",
                   marginLeft: "auto",
                 }}
               >
-                rocket
+                rocket_launch
               </span>
             </Button>
           </Box>
@@ -193,7 +192,7 @@ export function a11yProps(index: number) {
   };
 }
 
-export function ExploreGoals({setOpen, mutationUrl}) {
+export function ExploreGoals({ setOpen, mutationUrl }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

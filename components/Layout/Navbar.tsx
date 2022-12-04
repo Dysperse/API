@@ -22,6 +22,20 @@ import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
 import { useHotkeys } from "react-hotkeys-hook";
 
+function GroupChat({ styles }) {
+  return (
+    <Tooltip title="Personal space">
+      <IconButton
+        color="inherit"
+        disableRipple
+        sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
+      >
+        <span className="material-symbols-outlined">chat_bubble</span>
+      </IconButton>
+    </Tooltip>
+  );
+}
+
 function Changelog({ styles }: { styles: any }) {
   const [open, setOpen] = useState(false);
   useStatusBar(open);
@@ -149,7 +163,7 @@ function Changelog({ styles }: { styles: any }) {
       </SwipeableDrawer>
       <Tooltip title="Changelog">
         <IconButton
-          sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 1 } }}
+          sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
           color="inherit"
           disableRipple
           onClick={() => setOpen(true)}
@@ -364,6 +378,7 @@ export function Navbar(): JSX.Element {
             </Tooltip>
           </Offline>
         </Box>
+        <GroupChat styles={styles} />
         <Changelog styles={styles} />
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -2 } }}>
           <AppsMenu />
