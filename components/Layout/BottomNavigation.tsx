@@ -58,7 +58,7 @@ export function BottomNav() {
       case "/coach":
         setValue(2);
         break;
-      case "/insights":
+      case "/spaces":
         setValue(3);
         break;
       default:
@@ -212,21 +212,21 @@ export function BottomNav() {
           />
           <Tab
             disableRipple
-            sx={styles(router.asPath == "/insights")}
+            sx={styles(router.asPath == "/spaces")}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/insights" ? "rounded" : "outlined"
+                  router.asPath == "/spaces" ? "rounded" : "outlined"
                 }`}
                 style={{
                   transition: "all .2s!important",
                 }}
               >
-                leaderboard
+                view_agenda
               </span>
             }
-            label="Insights"
-            onClick={() => router.push("/insights").then(() => setValue(3))}
+            label="Spaces"
+            onClick={() => router.push("/spaces").then(() => setValue(3))}
           />
         </Tabs>
       </Box>

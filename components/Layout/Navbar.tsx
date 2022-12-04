@@ -22,15 +22,15 @@ import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
 import { useHotkeys } from "react-hotkeys-hook";
 
-function GroupChat({ styles }) {
+function Achievements({ styles }) {
   return (
-    <Tooltip title="Personal space">
+    <Tooltip title="Achievements">
       <IconButton
         color="inherit"
         disableRipple
         sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
       >
-        <span className="material-symbols-outlined">chat_bubble</span>
+        <span className="material-symbols-outlined">workspace_premium</span>
       </IconButton>
     </Tooltip>
   );
@@ -378,7 +378,7 @@ export function Navbar(): JSX.Element {
             </Tooltip>
           </Offline>
         </Box>
-        <GroupChat styles={styles} />
+        <Achievements styles={styles} />
         <Changelog styles={styles} />
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -2 } }}>
           <AppsMenu />

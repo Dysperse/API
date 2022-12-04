@@ -44,7 +44,7 @@ export function Sidebar() {
     "ctrl+l",
     (e) => {
       e.preventDefault();
-      router.push("/insights");
+      router.push("/spaces");
     },
     [open]
   );
@@ -86,7 +86,7 @@ export function Sidebar() {
       case "/coach":
         setValue(2);
         break;
-      case "/insights":
+      case "/spaces":
         setValue(3);
         break;
       default:
@@ -110,6 +110,7 @@ export function Sidebar() {
           "& .MuiDrawer-paper": {
             maxWidth: "85px",
             width: "80px",
+            overflowX: "hidden",
             zIndex: 99,
             borderRight:
               global.theme === "dark"
@@ -237,15 +238,15 @@ export function Sidebar() {
             <Tab
               disableRipple
               sx={styles}
-              onClick={() => router.push("/insights").then(() => setValue(3))}
+              onClick={() => router.push("/spaces").then(() => setValue(3))}
               icon={
-                <Tooltip title="Insights" placement="right">
+                <Tooltip title="Spaces" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath === "/insights" ? "rounded" : "outlined"
+                      router.asPath === "/spaces" ? "rounded" : "outlined"
                     }`}
                   >
-                    leaderboard
+                    view_agenda
                   </span>
                 </Tooltip>
               }

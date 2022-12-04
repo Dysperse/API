@@ -126,7 +126,7 @@ function ResponsiveDrawer({
                   keys: ["ctrl", "g"],
                 },
                 {
-                  name: "Insights",
+                  name: "Spaces",
                   keys: ["ctrl", "l"],
                 },
                 {
