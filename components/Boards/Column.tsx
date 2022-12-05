@@ -203,6 +203,7 @@ export const Column = React.memo(function ({
   mutationUrl,
   boardId,
   column,
+  tasks,
 }: any) {
   return (
     <Box
@@ -269,6 +270,7 @@ export const Column = React.memo(function ({
         ))}
 
       <CreateTask
+        tasks={tasks}
         checkList={checkList}
         mutationUrl={mutationUrl}
         boardId={boardId}

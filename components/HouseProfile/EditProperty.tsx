@@ -116,6 +116,7 @@ export function EditProperty({
         >
           <Toolbar>
             <IconButton
+              disableRipple
               edge="start"
               color="inherit"
               sx={{ mr: 2 }}

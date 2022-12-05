@@ -15,8 +15,10 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { SelectDateModal } from "./SelectDateModal";
 import { BpCheckedIcon, BpIcon } from "./Task";
+import { Alert } from "@mui/material";
 
 export function CreateTask({
+  tasks,
   parent = false,
   mutationUrl,
   boardId,
@@ -159,6 +161,34 @@ export function CreateTask({
                 }}
               />
             </Collapse>
+            {title !== "" &&
+              tasks.filter((task) =>
+                new RegExp("\\b" + task.name.toLowerCase() + "\\b").test(
+                  title.toLowerCase()
+                )
+              ).length !== 0 && (
+                <Alert
+                  severity="info"
+                  sx={{
+                    mt: 1,
+                    mb: 2,
+                    borderRadius: 5,
+                    background: colors[themeColor][100],
+                  }}
+                  icon={
+                    <span
+                      className="material-symbols-rounded"
+                      style={{
+                        color: colors[themeColor][800],
+                      }}
+                    >
+                      info
+                    </span>
+                  }
+                >
+                  This item is already added in your list
+                </Alert>
+              )}
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <IconButton
                 disableRipple

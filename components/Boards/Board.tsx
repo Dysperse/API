@@ -12,6 +12,12 @@ function Renderer({ data, url, board }) {
       {data &&
         data.map((column) => (
           <Column
+            tasks={
+              /**
+               * Return all tasks in boards, which contain columns containing tasks
+               */
+              data.map((column) => column.tasks).flat()
+            }
             checkList={board.columns.length == 1}
             mutationUrl={url}
             boardId={board.id}
