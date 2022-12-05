@@ -93,12 +93,11 @@ function Achievements({ styles }) {
               fontWeight: "600",
             }}
           >
-            Achievements
+            Achievements coming soon!
           </Typography>
           <Typography variant="h6">
             Earn badges by being productive &amp; brag about it to your friends!
           </Typography>
-          <Typography>Coming soon. Stay tuned for more updates!</Typography>
         </Box>
       </SwipeableDrawer>
       <Tooltip title="Achievements">
