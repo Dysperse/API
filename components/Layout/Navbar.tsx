@@ -24,19 +24,96 @@ import { useHotkeys } from "react-hotkeys-hook";
 import toast from "react-hot-toast";
 
 function Achievements({ styles }) {
+  const [open, setOpen] = useState(false);
   return (
-    <Tooltip title="Achievements">
-      <IconButton
-        color="inherit"
-        disableRipple
-        onClick={() => {
-          toast("Coming soon!");
+    <>
+      <SwipeableDrawer
+        anchor="right"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+        BackdropProps={{
+          sx: {
+            backdropFilter: "grayscale(100%) blur(2px) !important",
+          },
         }}
-        sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
+        PaperProps={{
+          sx: {
+            maxWidth: "700px",
+            width: "100%",
+            background: "hsl(240,11%,5%)",
+            border: "3px solid " + colors.cyan["A100"],
+            boxShadow: "0 0 20px 0 " + colors.cyan["A100"],
+            m: "20px",
+            maxHeight: "calc(100vh - 40px)",
+            borderRadius: 5,
+          },
+        }}
       >
-        <span className="material-symbols-outlined">workspace_premium</span>
-      </IconButton>
-    </Tooltip>
+        <AppBar
+          elevation={0}
+          position="static"
+          sx={{
+            zIndex: 1,
+            background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
+          }}
+        >
+          <Toolbar className="flex" sx={{ height: "70px" }}>
+            <IconButton
+              color="inherit"
+              disableRipple
+              onClick={() => setOpen(false)}
+            >
+              <span className="material-symbols-rounded">close</span>
+            </IconButton>
+            <Typography sx={{ mx: "auto", fontWeight: "600" }}>
+              Achievements
+            </Typography>
+            <IconButton
+              color="inherit"
+              disableRipple
+              sx={{ opacity: 0, pointerEvents: "none" }}
+            >
+              <span className="material-symbols-rounded">more_horiz</span>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Box
+          sx={{
+            color: "white",
+            p: 5,
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{
+              mb: 1,
+              textDecoration: "underline",
+              fontWeight: "600",
+            }}
+          >
+            Achievements
+          </Typography>
+          <Typography variant="h6">
+            Earn badges by being productive &amp; brag about it to your friends!
+          </Typography>
+          <Typography>Coming soon. Stay tuned for more updates!</Typography>
+        </Box>
+      </SwipeableDrawer>
+      <Tooltip title="Achievements">
+        <IconButton
+          color="inherit"
+          disableRipple
+          onClick={() => {
+            setOpen(true);
+          }}
+          sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
+        >
+          <span className="material-symbols-outlined">workspace_premium</span>
+        </IconButton>
+      </Tooltip>
+    </>
   );
 }
 
