@@ -186,7 +186,7 @@ export function CreateTask({
                     </span>
                   }
                 >
-                  This item is already added in your list
+                  This item is already added in your list.
                 </Alert>
               )}
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
