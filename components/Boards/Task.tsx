@@ -357,6 +357,7 @@ export const Task = React.memo(function ({
                       alignItems: "center",
                       gap: "5px",
                       marginTop: "3px",
+                      marginLeft: "-6px",
                     }}
                   >
                     <span className="material-symbols-rounded mx-1">
