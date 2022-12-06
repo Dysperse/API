@@ -26,6 +26,7 @@ function CreatePostMenu() {
 
   const [visibilityModalOpen, setVisibilityModalOpen] = React.useState(false);
   const [contentVisibility, setContentVisibility] = React.useState("Only me");
+  const [image, setImage] = React.useState<any>(null);
 
   return (
     <>
@@ -126,6 +127,55 @@ function CreatePostMenu() {
           if (ref.current) ref.current.focus();
         }}
       >
+        {image && (
+          <Box
+            sx={{
+              width: 300,
+              position: "relative",
+              borderRadius: 5,
+              overflow: "hidden",
+              boxShadow:
+                "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+              mb: 2,
+              height: 200,
+            }}
+          >
+            <picture>
+              <img
+                src={image}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            </picture>
+            <Button
+              sx={{
+                position: "absolute",
+                top: 0,
+                m: 1,
+                right: 0,
+                background: "rgba(0,0,0,0.7)!important",
+                color: "#fff!important",
+                minWidth: "unset",
+                width: 25,
+                height: 25,
+                borderRadius: 999,
+                zIndex: 999,
+              }}
+            >
+              <span
+                className="material-symbols-outlined"
+                style={{
+                  fontSize: "20px",
+                }}
+              >
+                close
+              </span>
+            </Button>
+          </Box>
+        )}
         <TextField
           fullWidth
           placeholder="What's on your mind? Press Ctrl+V to paste from clipboard."
@@ -139,9 +189,52 @@ function CreatePostMenu() {
           onChange={(e) => setValue(e.target.value)}
           inputRef={ref}
         />
+        <input
+          type="file"
+          id="imageAttachment"
+          name="imageAttachment"
+          style={{
+            display: "none",
+          }}
+          onChange={async (e) => {
+            const key = "da1f275ffca5b40715ac3a44aa77cf42";
+            const asBase64 = (file: File) =>
+              new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = (error) => reject(error);
+              });
+
+            const convertImageToImgbb = async (file: File) => {
+              const str = await asBase64(file);
+              return str;
+            };
+
+            const str = await convertImageToImgbb(e.target.files![0]);
+            const form = new FormData();
+            form.append("image", e.target.files![0]);
+
+            fetch("https://api.imgbb.com/1/upload?key=" + key, {
+              method: "POST",
+              body: form,
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                setImage(res.data.url);
+              })
+              .catch((err) => {});
+          }}
+          accept="image/png, image/jpeg"
+        />
         <Box sx={{ display: "flex", mt: 1, alignItems: "center", gap: 0.5 }}>
-          <IconButton disableRipple>
-            <span className="material-symbols-outlined">check_circle</span>
+          <IconButton
+            disableRipple
+            onClick={() => {
+              document.getElementById("imageAttachment")?.click();
+            }}
+          >
+            <span className="material-symbols-outlined">image</span>
           </IconButton>
           <IconButton disableRipple>
             <span className="material-symbols-outlined">palette</span>
