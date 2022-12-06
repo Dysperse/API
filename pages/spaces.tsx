@@ -17,8 +17,9 @@ function CreatePostMenu() {
 
   useHotkeys("ctrl+v", (e) => {
     e.preventDefault();
-    navigator.clipboard.readText().then((text) => {
-      setValue(text.trim());
+
+    navigator.clipboard.readText().then((content) => {
+      setValue(content.trim());
       if (ref.current) ref.current.focus();
     });
   });
@@ -140,7 +141,7 @@ function CreatePostMenu() {
         />
         <Box sx={{ display: "flex", mt: 1, alignItems: "center", gap: 0.5 }}>
           <IconButton disableRipple>
-            <span className="material-symbols-outlined">image</span>
+            <span className="material-symbols-outlined">check_circle</span>
           </IconButton>
           <IconButton disableRipple>
             <span className="material-symbols-outlined">palette</span>
