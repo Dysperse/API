@@ -28,6 +28,7 @@
     "argon2": "^0.29.1",
     "boring-avatars": "^1.7.0",
     "cmdk": "^0.1.20",
+    "cookie": "^0.5.0",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.6",
     "embla-carousel-auto-height": "^7.0.3",
