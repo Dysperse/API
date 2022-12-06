@@ -77,7 +77,7 @@ function Achievements({ styles }) {
         >
           <picture>
             <img
-              src="https://i.ibb.co/XtqjrvZ/nature-gradients-illustration-tubikarts-4x.webp"
+              src="https://cdn.dribbble.com/users/1731254/screenshots/11649852/nature_gradients_illustration_tubikarts_4x.png?resize=1400x500&compress=1"
               width="100%"
             />
           </picture>
