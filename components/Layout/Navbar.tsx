@@ -98,7 +98,7 @@ function Achievements({ styles }) {
             Achievements coming soon!
           </Typography>
           <Typography variant="h6">
-            Earn badges by being productive &amp; brag about it to your friends!
+            Earn mystery badges by completing tasks, achieving goals, and more! Brag about this with your friends &amp; family!
           </Typography>
         </Box>
       </SwipeableDrawer>
