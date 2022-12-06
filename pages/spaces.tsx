@@ -1,14 +1,17 @@
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import toast from "react-hot-toast";
-import useSWR from "swr";
-import React from "react";
-import { useApi } from "../hooks/useApi";
-import TextField from "@mui/material/TextField";
-import { useHotkeys } from "react-hotkeys-hook";
 
-function Posts({ data }) {
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import React from "react";
+import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useApi } from "../hooks/useApi";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { Puller } from "../components/Puller";
+
+function CreatePostMenu() {
   const [value, setValue] = React.useState("");
   const ref: any = React.useRef();
 
@@ -19,39 +22,162 @@ function Posts({ data }) {
       if (ref.current) ref.current.focus();
     });
   });
+
+  const [visibilityModalOpen, setVisibilityModalOpen] = React.useState(false);
+
   return (
     <>
-      <TextField
-        fullWidth
-        placeholder="What's on your mind? Press Ctrl+V to paste from clipboard."
-        autoComplete="off"
-        multiline
-        InputProps={{
-          disableUnderline: true,
+      <SwipeableDrawer
+        anchor="bottom"
+        open={visibilityModalOpen}
+        onClose={() => setVisibilityModalOpen(false)}
+        onOpen={() => setVisibilityModalOpen(true)}
+        disableSwipeToOpen
+        PaperProps={{
+          elevation: 0,
           sx: {
-            background: "rgba(200,200,200,0.3)",
-            mb: 2,
-            borderRadius: 4,
-            p: 2,
-            border: "1px solid rgba(0,0,0,0)",
-            "&:focus-within": {
-              background: "#fff",
-              border: "1px solid rgba(0,0,0,.5)",
-              boxShadow: "3px 3px 5px rgba(0,0,0,.2)",
-            },
+            borderRadius: "20px 20px 0 0",
+            maxWidth: "500px",
+            mx: "auto",
           },
         }}
-        variant="standard"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        inputRef={ref}
-      />
+      >
+        <Puller />
+        <Box sx={{ p: 3, pt: 0 }}>
+          <Typography variant="h6" gutterBottom>
+            Visibility
+          </Typography>
+          {[
+            {
+              name: "Only me",
+              icon: "visibility",
+              description: "Only you can see this note",
+            },
+            {
+              name: "My group",
+              icon: "group",
+              description: "Members in your group can view and edit this note",
+            },
+          ].map((item) => (
+            <Button
+              sx={{
+                justifyContent: "flex-start",
+                borderRadius: 3,
+                gap: 2,
+                my: 0.5,
+              }}
+              fullWidth
+              size="large"
+            >
+              <span className="material-symbols-outlined">{item.icon}</span>
+              <Box
+                sx={{
+                  textAlign: "left",
+                }}
+              >
+                <Typography variant="body1">{item.name}</Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    opacity: 0.5,
+                  }}
+                >
+                  {item.description}
+                </Typography>
+              </Box>
+            </Button>
+          ))}
+        </Box>
+      </SwipeableDrawer>
+      <Box
+        sx={{
+          background: "rgba(200,200,200,0.3)",
+          borderRadius: 4,
+          p: 2,
+          border: "1px solid rgba(0,0,0,0)",
+          "&, & *": {
+            cursor: "pointer",
+          },
+          "&:focus-within": {
+            background: "#fff",
+            "&, & .MuiInput-root *": {
+              cursor: "text",
+            },
+            border: "1px solid rgba(0,0,0,.5)",
+            boxShadow:
+              "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+          },
+        }}
+        onClick={() => {
+          if (ref.current) ref.current.focus();
+        }}
+      >
+        <TextField
+          fullWidth
+          placeholder="What's on your mind? Press Ctrl+V to paste from clipboard."
+          autoComplete="off"
+          multiline
+          InputProps={{
+            disableUnderline: true,
+          }}
+          variant="standard"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          inputRef={ref}
+        />
+        <Box sx={{ display: "flex", mt: 1, alignItems: "center", gap: 0.5 }}>
+          <IconButton disableRipple>
+            <span className="material-symbols-outlined">image</span>
+          </IconButton>
+          <IconButton disableRipple>
+            <span className="material-symbols-outlined">palette</span>
+          </IconButton>
+          <Button
+            disableRipple
+            sx={{
+              transition: "all 0.2s ease",
+              "&:active": {
+                transition: "none",
+                opacity: 0.6,
+              },
+              mt: "-1px",
+              minWidth: "auto",
+              gap: 2,
+              ml: "auto",
+              borderRadius: 999,
+              color: "#666",
+            }}
+            onClick={() => setVisibilityModalOpen(true)}
+          >
+            <span className="material-symbols-outlined">visibility</span> Only
+            me
+          </Button>
+          <Box
+            sx={{
+              height: "30px",
+              borderLeft: "1px solid rgba(0,0,0,.1)",
+            }}
+          />
+          <IconButton disableRipple>
+            <span className="material-symbols-rounded">add_circle</span>
+          </IconButton>
+        </Box>
+      </Box>
+    </>
+  );
+}
+
+function Posts({ data }) {
+  return (
+    <>
+      <CreatePostMenu />
       {data.length > 0 ? (
         JSON.stringify(data)
       ) : (
         <Box
           sx={{
             p: 2,
+            mt: 3,
             background: "rgba(200,200,200,0.3)",
             borderRadius: "9px",
           }}
@@ -71,9 +197,9 @@ export default function Insights() {
       sx={{
         p: 2,
       }}
-      className="mt-5 sm:mt-10"
+      className="mt-5 sm:mt-10 max-w-xl mx-auto"
     >
-      <Typography sx={{ fontWeight: "600" }} variant="h5" gutterBottom>
+      <Typography sx={{ fontWeight: "600", mb: 2 }} variant="h5" gutterBottom>
         Spaces
       </Typography>
       {data ? <Posts data={data} /> : <Box>Loading...</Box>}
