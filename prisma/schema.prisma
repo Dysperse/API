@@ -24,6 +24,7 @@ model User {
   sessions                 Session[]
   PasswordResetToken       PasswordResetToken[]
   RoutineItem              RoutineItem[]
+  SpaceItem                SpaceItem[]
 }
 
 model Session {
@@ -43,6 +44,7 @@ model Property {
   PropertyLinkInvites PropertyLinkInvite[]
   inbox               InboxItem[]
   Board               Board[]
+  SpaceItem           SpaceItem[]
 }
 
 model PropertyInvite {
@@ -160,4 +162,17 @@ model RoutineItem {
 
   userId String
   user   User   @relation(fields: [userId], references: [identifier])
+}
+
+model SpaceItem {
+  id      String  @id @unique @default(cuid())
+  content String
+  color   String  @default("blue")
+  pinned  Boolean @default(false)
+  userId  String
+  public  Boolean @default(false)
+  user    User    @relation(fields: [userId], references: [identifier])
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
 }

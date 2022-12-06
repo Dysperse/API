@@ -170,6 +170,15 @@ function Render({
           },
         },
       },
+      MuiDrawer: {
+        styleOverrides: {
+          paper: {
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 10%)"
+              : colors[global.themeColor][50],
+          },
+        },
+      },
       MuiTooltip: {
         defaultProps: {
           TransitionComponent: Grow,
@@ -179,12 +188,6 @@ function Render({
         },
         styleOverrides: {
           tooltip: {
-            // // Style arrow
-            // "& .MuiTooltip-arrow": {
-            //   color: global.user.darkMode
-            //     ? "hsl(240, 11%, 90%)"
-            //     : colors[themeColor]["900"],
-            // },
             borderRadius: "4px",
             fontSize: "14px",
             color: global.user.darkMode
