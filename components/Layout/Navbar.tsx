@@ -32,6 +32,7 @@ function Achievements({ styles }) {
           },
         }}
         PaperProps={{
+          elevation: 0,
           sx: {
             maxWidth: "700px",
             width: "100%",
