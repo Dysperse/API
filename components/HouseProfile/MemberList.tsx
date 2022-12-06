@@ -223,17 +223,6 @@ export function MemberList({
           alignItems: "center",
         }}
       >
-        {!trigger && (
-          <IconButton
-            onClick={scrollPrev}
-            sx={{
-              background: `${colors[color][100]}!important`,
-              color: `${colors[color][900]}!important`,
-            }}
-          >
-            <span className="material-symbols-rounded">chevron_left</span>
-          </IconButton>
-        )}
         <div className="embla" ref={emblaRef} style={{ width: "100%" }}>
           <div className="embla__container" style={{ width: "100%" }}>
             {images.map((step, index) => (

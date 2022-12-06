@@ -26,11 +26,6 @@ function Achievements({ styles }) {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
-        BackdropProps={{
-          sx: {
-            backdropFilter: "grayscale(100%) blur(2px) !important",
-          },
-        }}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -98,7 +93,8 @@ function Achievements({ styles }) {
             Achievements coming soon!
           </Typography>
           <Typography variant="h6">
-            Earn mystery badges by completing tasks, achieving goals, and more! Brag about this with your friends &amp; family!
+            Earn mystery badges by completing tasks, achieving goals, and more!
+            Brag about this with your friends &amp; family!
           </Typography>
         </Box>
       </SwipeableDrawer>
