@@ -188,12 +188,7 @@ function SettingsMenu({
                   : colors[themeColor][100],
             }}
           >
-            <span
-              style={{ fontSize: "20px" }}
-              className="material-symbols-outlined"
-            >
-              {icon}
-            </span>
+            <span className="material-symbols-outlined">{icon}</span>
           </Avatar>
         </ListItemAvatar>
         <ListItemText
@@ -355,7 +350,7 @@ export default function FullScreenDialog({
             />
             <SettingsMenu
               content={<TwoFactorAuth />}
-              icon="security"
+              icon="verified_user"
               primary={
                 <span id="twoFactorAuthSettings">
                   Two factor authentication
@@ -397,7 +392,7 @@ export default function FullScreenDialog({
             />
             <SettingsMenu
               content={<AccountSettings />}
-              icon="account_circle"
+              icon="person"
               primary={<span id="accountSettings">Account</span>}
               secondary={
                 <>

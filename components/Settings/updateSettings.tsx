@@ -25,7 +25,12 @@ export function updateSettings(
     url = `/api/property/updateInfo?${new URLSearchParams({
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
+      userName: global.user.name,
+      timestamp: new Date().toISOString(),
       [key]: value,
+
+      changedKey: key,
+      changedValue: value,
     }).toString()}`;
   }
   const fetcher = fetch(url, {

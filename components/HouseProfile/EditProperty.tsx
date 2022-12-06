@@ -57,7 +57,9 @@ export function EditProperty({
    */
   const handleUpdateName = (event: React.FocusEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
-    updateSettings("name", target.value, false, null, true);
+    if (target.value !== global.property.profile.name) {
+      updateSettings("name", target.value, false, null, true);
+    }
   };
 
   useEffect(() => {

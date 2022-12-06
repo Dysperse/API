@@ -1,5 +1,6 @@
 import { prisma } from "../../../lib/prismaClient";
 import { validatePermissions } from "../../../lib/validatePermissions";
+import { createInboxNotification } from "./inbox/create";
 
 /**
  * API handler for the /api/property/updateInfo endpoint
@@ -16,6 +17,14 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
+  await createInboxNotification(
+    req.query.userName,
+    `changed the ${req.query.changedKey} of the property to "${req.query.changedValue}"`,
+    new Date(req.query.timestamp),
+    req.query.property,
+    req.query.accessToken
+  );
+
   //   Update name, type, and bannerColor
   const data = await prisma.property.update({
     where: {
