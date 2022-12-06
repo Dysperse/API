@@ -1,30 +1,23 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import dayjs from "dayjs";
-import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Offline } from "react-detect-offline";
-import { useApi } from "../../hooks/useApi";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
-import { ErrorHandler } from "../error";
 import Settings from "../Settings/index";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
-import { useHotkeys } from "react-hotkeys-hook";
-import toast from "react-hot-toast";
 
 function Achievements({ styles }) {
   const [open, setOpen] = useState(false);
+
   return (
     <>
       <SwipeableDrawer
@@ -42,9 +35,6 @@ function Achievements({ styles }) {
           sx: {
             maxWidth: "700px",
             width: "100%",
-            background: "hsl(240,11%,5%)",
-            border: "3px solid " + colors.cyan["A100"],
-            boxShadow: "0 0 20px 0 " + colors.cyan["A100"],
             m: "20px",
             maxHeight: "calc(100vh - 40px)",
             borderRadius: 5,
@@ -81,7 +71,18 @@ function Achievements({ styles }) {
         </AppBar>
         <Box
           sx={{
-            color: "white",
+            mt: "-70px",
+          }}
+        >
+          <picture>
+            <img
+              src="https://i.ibb.co/XtqjrvZ/nature-gradients-illustration-tubikarts-4x.webp"
+              width="100%"
+            />
+          </picture>
+        </Box>
+        <Box
+          sx={{
             p: 5,
           }}
         >
