@@ -34,7 +34,7 @@ function LinkToken({ color }) {
           setLoading(true);
           fetchApiWithoutHook("property/members/createLink", {
             inviterName: global.user.name,
-            timeStamp: new Date().getTime(),
+            timestamp: new Date().toISOString(),
           }).then((res) => {
             setLoading(false);
             setToken(res.token);
@@ -108,7 +108,11 @@ function LinkToken({ color }) {
             disableElevation
             variant="contained"
             size="large"
-            sx={{ mt: 1, borderRadius: 999 }}
+            sx={{
+              mt: 1,
+              borderRadius: 999,
+              background: colors[themeColor][900] + "!important",
+            }}
             onClick={() => {
               window.open(url, "_blank");
             }}

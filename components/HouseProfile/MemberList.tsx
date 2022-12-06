@@ -91,7 +91,7 @@ function Member({
               {member.permission === "member"
                 ? "group"
                 : member.permission == "owner"
-                ? "productivity"
+                ? "verified"
                 : "visibility"}
             </span>
             <span
@@ -101,7 +101,7 @@ function Member({
                 ? "Member"
                 : member.permission == "owner"
                 ? "Owner"
-                : "Read-only access"}
+                : "View-only"}
             </span>
           </Typography>
         </Box>
@@ -177,11 +177,17 @@ export function MemberList({
           };
         }),
       ]
-    : [];
+    : [
+        {
+          content: <Box>Loading...</Box>,
+        },
+      ];
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       dragFree: true,
+      align: "start",
+      containScroll: "trimSnaps",
     },
     [WheelGesturesPlugin()]
   );
@@ -229,8 +235,12 @@ export function MemberList({
               <Box
                 key={Math.random().toString()}
                 sx={{
-                  pl: index == 0 ? 0 : 2,
-                  flex: "0 0 100%",
+                  pr: 2,
+                  flex: "0 0 auto",
+                  maxWidth: "350px",
+                  minWidth: "350px",
+                  width: "350px",
+                  overflow: "hidden",
                 }}
               >
                 <Box
