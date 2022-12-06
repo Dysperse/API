@@ -25,7 +25,6 @@ const handler = async (req, res) => {
     req.query.accessToken
   );
 
-
   // Get user id
   const data = await prisma.propertyLinkInvite.create({
     data: {
