@@ -24,6 +24,7 @@ function CreatePostMenu() {
   });
 
   const [visibilityModalOpen, setVisibilityModalOpen] = React.useState(false);
+  const [contentVisibility, setContentVisibility] = React.useState("Only me");
 
   return (
     <>
@@ -60,6 +61,10 @@ function CreatePostMenu() {
             },
           ].map((item) => (
             <Button
+              onClick={() => {
+                setContentVisibility(item.name);
+                setVisibilityModalOpen(false);
+              }}
               sx={{
                 justifyContent: "flex-start",
                 borderRadius: 3,
@@ -85,6 +90,14 @@ function CreatePostMenu() {
                   {item.description}
                 </Typography>
               </Box>
+              {contentVisibility == item.name && (
+                <span
+                  className="material-symbols-outlined"
+                  style={{ marginLeft: "auto" }}
+                >
+                  check
+                </span>
+              )}
             </Button>
           ))}
         </Box>
