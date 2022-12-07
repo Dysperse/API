@@ -10,7 +10,13 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../components/Puller";
-import { CircularProgress, Dialog, Grow, useMediaQuery } from "@mui/material";
+import {
+  CircularProgress,
+  Dialog,
+  Grow,
+  Skeleton,
+  useMediaQuery,
+} from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { colors } from "../lib/colors";
 import { mutate } from "swr";
@@ -664,10 +670,61 @@ export default function Spaces() {
       }}
       className="mt-5 sm:mt-10 max-w-4xl mx-auto"
     >
-      <Typography sx={{ fontWeight: "600", mb: 2 }} variant="h5" gutterBottom>
-        Spaces
-      </Typography>
-      {data ? <Posts url={url} data={data} /> : <Box>Loading...</Box>}
+      {!data ? (
+        <>
+          <Typography
+            sx={{ fontWeight: "600", mb: 2 }}
+            variant="h5"
+            gutterBottom
+          >
+            Spaces
+          </Typography>
+          <Posts url={url} data={data} />
+        </>
+      ) : (
+        <Box>
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            height={40}
+            width={100}
+            sx={{ borderRadius: 5, mb: 2 }}
+          />
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            height={120}
+            sx={{ borderRadius: 5, mb: 2 }}
+          />
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            height={60}
+            sx={{ borderRadius: 5, mb: 2 }}
+          />
+          <Box
+            sx={{
+              mr: -2,
+              mt: 2,
+            }}
+          >
+            <Masonry columns={2} spacing={2}>
+              {[...Array(10)].map((_, i) => (
+                <Skeleton
+                  key={i}
+                  variant="rectangular"
+                  animation="wave"
+                  height={200}
+                  sx={{
+                    borderRadius: 5,
+                    mb: 2,
+                  }}
+                />
+              ))}
+            </Masonry>
+          </Box>
+        </Box>
+      )}
     </Box>
   ) : (
     <div className="bg-gray-900 px-7 py-5 rounded-xl shadow-xl mt-10 max-w-lg mx-auto text-gray-50">
