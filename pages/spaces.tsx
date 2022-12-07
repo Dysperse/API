@@ -303,7 +303,7 @@ function CreatePostMenu({ url }) {
               };
               setLoading(true);
               fetchApiWithoutHook("property/spaces/createItem", data)
-                .then((res) => {
+                .then(() => {
                   setValue("");
                   setImage(null);
                   setContentVisibility("Only me");
