@@ -349,6 +349,7 @@ function SearchPosts({ data, setData, originalData }) {
         onChange={handleChange}
         fullWidth
         placeholder="Search posts"
+        autoComplete="off"
         sx={{
           mt: 2,
         }}
@@ -436,35 +437,62 @@ function ImageBox({ image }) {
         position: "relative",
       }}
     >
-      <IconButton
+      <Button
+        variant="contained"
+        disableElevation
         sx={{
           position: "absolute",
           top: 5,
           right: 5,
           zIndex: 999,
           color: "#fff",
-          background: "rgba(0,0,0,.5)",
+          background: "rgba(0,0,0,.5)!important",
+          minWidth: "auto",
+          p: 1,
+          borderRadius: 999,
         }}
         onClick={async () => {
-          // Copy image to clipboard
-          try {
-            const response = await fetch(image);
-            const blob = await response.blob();
-            await navigator.clipboard.write([
-              new ClipboardItem({
-                [blob.type]: blob,
-              }),
-            ]);
-            toast.success("Image copied.");
-          } catch (err: any) {
-            toast.error(
-              "Something went wrong. Please try again later or contact support."
-            );
-          }
+          toast.promise(
+            new Promise((resolve, reject) => {
+              const img: any = new Image();
+              img.crossOrigin = "anonymous";
+              const c: any = document.createElement("canvas");
+              const ctx: any = c.getContext("2d");
+
+              function setCanvasImage(path, func): any {
+                img.onload = function () {
+                  const e: any = this;
+                  c.width = e.naturalWidth;
+                  c.height = e.naturalHeight;
+                  ctx.drawImage(this, 0, 0);
+                  c.toBlob((blob) => {
+                    func(blob);
+                  }, "image/png");
+                };
+                img.src = path;
+              }
+
+              setCanvasImage(image, (imgBlob) => {
+                navigator.clipboard
+                  .write([new ClipboardItem({ "image/png": imgBlob })])
+                  .then((e) => {
+                    resolve("Image copied to clipboard");
+                  })
+                  .catch((e) => {
+                    reject(e);
+                  });
+              });
+            }),
+            {
+              loading: "Copying image...",
+              success: "Image copied to clipboard",
+              error: "Something went wrong",
+            }
+          );
         }}
       >
         <span className="material-symbols-outlined">content_copy</span>
-      </IconButton>
+      </Button>
       <img
         draggable={false}
         src={image}
