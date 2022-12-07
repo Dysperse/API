@@ -342,6 +342,7 @@ function SearchPosts({ data, setData, originalData }) {
   return (
     <>
       <TextField
+        autoFocus
         onChange={handleChange}
         fullWidth
         placeholder="Search posts"
@@ -400,7 +401,9 @@ function Posts({ url, data: originalData }) {
             borderRadius: 5,
           }}
         >
-          No posts yet
+          {originalData.length == 0
+            ? "No posts yet"
+            : "No posts match your search criteria"}
         </Box>
       )}
     </>
@@ -468,7 +471,21 @@ function Post({ data, url }) {
               borderBottom: "1px solid rgba(0,0,0,.1)",
             }}
           >
-            <Avatar name={data.user.name} variant="beam" size={30} />
+            <Box
+              sx={{
+                width: "32px",
+                height: "32px",
+                border: "1px solid rgba(0,0,0,.4)",
+                borderRadius: 999,
+              }}
+            >
+              <Avatar
+                name={data.user.name}
+                variant="beam"
+                size={30}
+                colors={["#801245", "#F4F4DD", "#DCDBAF", "#5D5C49", "#3D3D34"]}
+              />
+            </Box>
             <Typography variant="body1">
               {data.user.name == global.user.name ? "You" : data.user.name}
             </Typography>
