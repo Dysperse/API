@@ -1,16 +1,18 @@
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import React from "react";
+import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../components/Puller";
 import { CircularProgress } from "@mui/material";
+import useEmblaCarousel from "embla-carousel-react";
+import { colors } from "../lib/colors";
+import { mutate } from "swr";
 
 function CreatePostMenu() {
   const [value, setValue] = React.useState("");
@@ -192,6 +194,11 @@ function CreatePostMenu() {
           InputProps={{
             disableUnderline: true,
           }}
+          onKeyDown={(e) => {
+            if (e.ctrlKey && e.key === "Enter" && value.trim() !== "") {
+              document.getElementById("submit")?.click();
+            }
+          }}
           variant="standard"
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -284,28 +291,34 @@ function CreatePostMenu() {
           />
           <IconButton
             disableRipple
-            disabled={value.length === 0}
+            disabled={value.trim().length === 0}
             onClick={() => {
               const data = {
                 content: value,
                 ...(image !== null && { image: image.url }),
                 public: contentVisibility === "My group",
               };
+              setLoading(true);
               fetchApiWithoutHook("property/spaces/createItem", data)
                 .then((res) => {
-                  alert(JSON.stringify(res));
                   setValue("");
                   setImage(null);
                   setContentVisibility("Only me");
                   ref.current?.focus();
+                  setLoading(false);
                   toast.success("Post created");
                 })
                 .catch((err) => {
                   toast.error("Something went wrong");
+                  setLoading(false);
                 });
             }}
+            id="submit"
           >
-            <span className="material-symbols-rounded">add_circle</span>
+            {!loading && (
+              <span className="material-symbols-rounded">add_circle</span>
+            )}
+            {loading && <CircularProgress size={20} />}
           </IconButton>
         </Box>
       </Box>
@@ -313,12 +326,12 @@ function CreatePostMenu() {
   );
 }
 
-function Posts({ data }) {
+function Posts({ url, data }) {
   return (
     <>
       <CreatePostMenu />
       {data.length > 0 ? (
-        JSON.stringify(data)
+        data.map((item) => <Post url={url} key={item.id} data={item} />)
       ) : (
         <Box
           sx={{
@@ -335,8 +348,101 @@ function Posts({ data }) {
   );
 }
 
-export default function Insights() {
-  const { data, error } = useApi("property/spaces");
+function Post({ data, url }) {
+  const [emblaRef, emblaApi] = useEmblaCarousel();
+  // When the embla carousel is scrolled to the second page, alert some text
+  //  Current slide index
+  const [deleteSlide, setDeleteSlide] = React.useState(false);
+
+  const [deleted, setDeleted] = React.useState(false);
+  React.useEffect(() => {
+    if (emblaApi) {
+      // Embla API is ready
+      emblaApi.on("scroll", () => {
+        setDeleteSlide(emblaApi.scrollProgress() >= 1 ? true : false);
+      });
+    }
+  }, [emblaApi]);
+
+  React.useEffect(() => {
+    if (deleteSlide) {
+      setLoading(true);
+      fetchApiWithoutHook("property/spaces/deleteItem", {
+        id: data.id,
+      })
+        .then(() => {
+          mutate(url);
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+          setLoading(false);
+        });
+    }
+  }, [deleteSlide]);
+
+  return (
+    <Box
+      sx={{
+        mt: 2,
+        background: "rgba(200,200,200,0.3)",
+        borderRadius: 5,
+        overflow: "hidden",
+        ...(loading && {
+          opacity: 0.5,
+        }),
+      }}
+      ref={emblaRef}
+    >
+      <div className="embla__container">
+        <Box
+          sx={{
+            flex: "0 0 100%",
+            width: "100%",
+          }}
+        >
+          {data.image && (
+            <Box>
+              <img
+                draggable={false}
+                src={data.image}
+                alt="Post image"
+                style={{
+                  width: "100%",
+                }}
+              />
+            </Box>
+          )}
+          <Typography variant="h6" sx={{ p: 2 }}>
+            {data.content}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            width: "100%",
+            flex: "0 0 100%",
+            px: 2,
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            background: colors.red[900],
+          }}
+        >
+          <span
+            className="material-symbols-outlined"
+            style={{
+              fontSize: "30px",
+            }}
+          >
+            delete
+          </span>
+        </Box>
+      </div>
+    </Box>
+  );
+}
+
+export default function Spaces() {
+  const { data, url, error } = useApi("property/spaces");
 
   return global.user.email === "manusvathgurudath@gmail.com" ? (
     <Box
@@ -348,7 +454,7 @@ export default function Insights() {
       <Typography sx={{ fontWeight: "600", mb: 2 }} variant="h5" gutterBottom>
         Spaces
       </Typography>
-      {data ? <Posts data={data} /> : <Box>Loading...</Box>}
+      {data ? <Posts url={url} data={data} /> : <Box>Loading...</Box>}
     </Box>
   ) : (
     <div className="bg-gray-900 px-7 py-5 rounded-xl shadow-xl mt-10 max-w-lg mx-auto text-gray-50">

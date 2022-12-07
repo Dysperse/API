@@ -16,10 +16,20 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const data = await prisma.spaceItem.findMany({
-    where: {
+  const data = await prisma.spaceItem.create({
+    data: {
+      content: req.query.content,
+      user: {
+        connect: {
+          identifier: req.query.userIdentifier,
+        },
+      },
+      public: req.query.public === "true",
+      ...(req.query.image && { image: req.query.image }),
       property: {
-        id: req.query.property,
+        connect: {
+          id: req.query.property,
+        },
       },
     },
   });

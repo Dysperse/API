@@ -171,6 +171,7 @@ model SpaceItem {
   pinned  Boolean @default(false)
   userId  String
   public  Boolean @default(false)
+  image   String?
   user    User    @relation(fields: [userId], references: [identifier])
 
   propertyId String
