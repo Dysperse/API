@@ -540,6 +540,7 @@ function Post({ data, url }) {
       sx={{
         mt: 2,
         border: { sm: "5px solid #fff" },
+        mb: { xs: 2, sm: 0 },
         background: "rgba(200,200,200,0.3)",
         borderRadius: 5,
         overflow: "hidden",
