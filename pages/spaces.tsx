@@ -235,7 +235,7 @@ function CreatePostMenu({ url }) {
             form.append("image", e.target.files![0]);
 
             setImageUploading(true);
-            fetch("https://api.imgbb.com/1/upload?key=" + key, {
+            fetch("https://api.imgbb.com/1/upload?name=image&key=" + key, {
               method: "POST",
               body: form,
             })
@@ -429,7 +429,40 @@ function Posts({ url, data: originalData }) {
 function ImageBox({ image }) {
   const [open, setOpen] = React.useState(false);
   return (
-    <Box>
+    <Box
+      sx={{
+        position: "relative",
+      }}
+    >
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: 5,
+          right: 5,
+          zIndex: 999,
+          color: "#fff",
+          background: "rgba(0,0,0,.5)",
+        }}
+        onClick={async () => {
+          // Copy image to clipboard
+          try {
+            const response = await fetch(image);
+            const blob = await response.blob();
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                [blob.type]: blob,
+              }),
+            ]);
+            toast.success("Image copied.");
+          } catch (err: any) {
+            toast.error(
+              "Something went wrong. Please try again later or contact support."
+            );
+          }
+        }}
+      >
+        <span className="material-symbols-outlined">content_copy</span>
+      </IconButton>
       <img
         draggable={false}
         src={image}
@@ -448,7 +481,8 @@ function ImageBox({ image }) {
           sx: {
             maxHeight: "100vh",
             width: "auto",
-            background: "red",
+            background: "black",
+            transform: "scale(.9)",
             maxWidth: "100vw",
           },
         }}
