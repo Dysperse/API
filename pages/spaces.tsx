@@ -3,6 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -16,7 +17,7 @@ import { mutate } from "swr";
 import Avatar from "boring-avatars";
 import dayjs from "dayjs";
 
-function CreatePostMenu() {
+function CreatePostMenu({ url }) {
   const [value, setValue] = React.useState("");
   const ref: any = React.useRef();
 
@@ -309,6 +310,7 @@ function CreatePostMenu() {
                   ref.current?.focus();
                   setLoading(false);
                   toast.success("Post created");
+                  mutate(url);
                 })
                 .catch((err) => {
                   toast.error("Something went wrong");
@@ -328,10 +330,65 @@ function CreatePostMenu() {
   );
 }
 
-function Posts({ url, data }) {
+function SearchPosts({ data, setData, originalData }) {
+  const handleChange = (e) => {
+    const query = e.target.value;
+    setData(
+      originalData.filter((item) => {
+        return item.content.toLowerCase().includes(query.toLowerCase());
+      })
+    );
+  };
   return (
     <>
-      <CreatePostMenu />
+      <TextField
+        onChange={handleChange}
+        fullWidth
+        placeholder="Search posts"
+        sx={{
+          mt: 2,
+        }}
+        InputProps={{
+          disableUnderline: true,
+          startAdornment: (
+            <InputAdornment position="start">
+              <span className="material-symbols-outlined">search</span>
+            </InputAdornment>
+          ),
+          sx: {
+            background: "rgba(200,200,200,0.3)",
+            borderRadius: 5,
+            p: 2,
+            py: 1,
+            border: "1px solid rgba(0,0,0,0)",
+            "&:focus-within": {
+              background: "#fff",
+              "&, & .MuiInput-root *": {
+                cursor: "text",
+              },
+              border: "1px solid rgba(0,0,0,.5)",
+              boxShadow:
+                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            },
+          },
+        }}
+        variant="standard"
+      />
+    </>
+  );
+}
+
+function Posts({ url, data: originalData }) {
+  const [data, setData] = React.useState(originalData);
+
+  React.useEffect(() => {
+    setData(originalData);
+  }, [originalData]);
+
+  return (
+    <>
+      <CreatePostMenu url={url} />
+      <SearchPosts data={data} setData={setData} originalData={originalData} />
       {data.length > 0 ? (
         data.map((item) => <Post url={url} key={item.id} data={item} />)
       ) : (
@@ -340,7 +397,7 @@ function Posts({ url, data }) {
             p: 2,
             mt: 3,
             background: "rgba(200,200,200,0.3)",
-            borderRadius: "9px",
+            borderRadius: 5,
           }}
         >
           No posts yet
