@@ -354,7 +354,7 @@ function Post({ data, url }) {
   //  Current slide index
   const [deleteSlide, setDeleteSlide] = React.useState(false);
 
-  const [deleted, setDeleted] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
     if (emblaApi) {
       // Embla API is ready
