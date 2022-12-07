@@ -310,7 +310,7 @@ function CreatePostMenu({ url }) {
                   ref.current?.focus();
                   setLoading(false);
                   toast.success("Post created");
-                  document.getElementById("imageAttachment")?.value = "";
+                  document?.getElementById("imageAttachment")?.value = "";
                   mutate(url);
                 })
                 .catch((err) => {
