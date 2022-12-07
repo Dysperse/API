@@ -165,14 +165,15 @@ model RoutineItem {
 }
 
 model SpaceItem {
-  id      String  @id @unique @default(cuid())
-  content String
-  color   String  @default("blue")
-  pinned  Boolean @default(false)
-  userId  String
-  public  Boolean @default(false)
-  image   String?
-  user    User    @relation(fields: [userId], references: [identifier])
+  id        String   @id @unique @default(cuid())
+  content   String
+  color     String   @default("blue")
+  pinned    Boolean  @default(false)
+  userId    String
+  public    Boolean  @default(false)
+  image     String?
+  timestamp DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [identifier])
 
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])

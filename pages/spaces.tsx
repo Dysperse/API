@@ -13,6 +13,8 @@ import { CircularProgress } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { colors } from "../lib/colors";
 import { mutate } from "swr";
+import Avatar from "boring-avatars";
+import dayjs from "dayjs";
 
 function CreatePostMenu() {
   const [value, setValue] = React.useState("");
@@ -400,6 +402,30 @@ function Post({ data, url }) {
             width: "100%",
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              p: 2,
+              borderBottom: "1px solid rgba(0,0,0,.1)",
+            }}
+          >
+            <Avatar name={data.user.name} variant="beam" size={30} />
+            <Typography variant="body1">
+              {data.user.name == global.user.name ? "You" : data.user.name}
+            </Typography>
+
+            <Typography
+              variant="body1"
+              sx={{
+                ml: "auto",
+                color: "#666",
+              }}
+            >
+              {dayjs(data.timestamp).fromNow()}
+            </Typography>
+          </Box>
           {data.image && (
             <Box>
               <img
