@@ -10,7 +10,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../components/Puller";
-import { CircularProgress, Dialog, Grow } from "@mui/material";
+import { CircularProgress, Dialog, Grow, useMediaQuery } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { colors } from "../lib/colors";
 import { mutate } from "swr";
@@ -427,6 +427,8 @@ function Posts({ url, data: originalData }) {
 }
 
 function ImageBox({ image }) {
+  const trigger = useMediaQuery("(max-width: 600px)");
+
   const [open, setOpen] = React.useState(false);
   return (
     <Box
@@ -480,7 +482,7 @@ function ImageBox({ image }) {
         PaperProps={{
           sx: {
             maxHeight: "100vh",
-            width: "auto",
+            width: trigger ? "100vw" : "auto",
             background: "black",
             transform: "scale(.9)",
             maxWidth: "100vw",
@@ -492,8 +494,8 @@ function ImageBox({ image }) {
           src={image}
           alt="Post image"
           style={{
-            height: "100vh",
-            width: "auto",
+            height: trigger ? "auto" : "100vh",
+            width: trigger ? "100vw" : "auto",
           }}
         />
       </Dialog>
