@@ -670,7 +670,7 @@ export default function Spaces() {
       }}
       className="mt-5 sm:mt-10 max-w-4xl mx-auto"
     >
-      {!data ? (
+      {data ? (
         <>
           <Typography
             sx={{ fontWeight: "600", mb: 2 }}
