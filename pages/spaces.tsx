@@ -444,6 +444,7 @@ function ImageBox({ image }) {
           position: "absolute",
           top: 5,
           right: 5,
+          backdropFilter: "blur(10px)",
           zIndex: 999,
           color: "#fff",
           background: "rgba(0,0,0,.5)!important",
