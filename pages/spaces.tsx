@@ -10,12 +10,13 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../components/Puller";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Dialog, Grow } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { colors } from "../lib/colors";
 import { mutate } from "swr";
 import Avatar from "boring-avatars";
 import dayjs from "dayjs";
+import { Masonry } from "@mui/lab";
 
 function CreatePostMenu({ url }) {
   const [value, setValue] = React.useState("");
@@ -393,7 +394,20 @@ function Posts({ url, data: originalData }) {
       <CreatePostMenu url={url} />
       <SearchPosts data={data} setData={setData} originalData={originalData} />
       {data.length > 0 ? (
-        data.map((item) => <Post url={url} key={item.id} data={item} />)
+        <>
+          <Masonry
+            columns={{
+              xs: 1,
+              sm: 2,
+            }}
+            sx={{ mt: 2 }}
+            spacing={0}
+          >
+            {data.map((item) => (
+              <Post url={url} key={item.id} data={item} />
+            ))}
+          </Masonry>
+        </>
       ) : (
         <Box
           sx={{
@@ -409,6 +423,47 @@ function Posts({ url, data: originalData }) {
         </Box>
       )}
     </>
+  );
+}
+
+function ImageBox({ image }) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <Box>
+      <img
+        draggable={false}
+        src={image}
+        alt="Post image"
+        style={{
+          width: "100%",
+          cursor: "pointer",
+        }}
+        onClick={() => setOpen(true)}
+      />
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        TransitionComponent={Grow}
+        PaperProps={{
+          sx: {
+            maxHeight: "100vh",
+            width: "auto",
+            background: "red",
+            maxWidth: "100vw",
+          },
+        }}
+      >
+        <img
+          draggable={false}
+          src={image}
+          alt="Post image"
+          style={{
+            height: "100vh",
+            width: "auto",
+          }}
+        />
+      </Dialog>
+    </Box>
   );
 }
 
@@ -448,6 +503,7 @@ function Post({ data, url }) {
     <Box
       sx={{
         mt: 2,
+        border: { sm: "5px solid #fff" },
         background: "rgba(200,200,200,0.3)",
         borderRadius: 5,
         overflow: "hidden",
@@ -502,18 +558,7 @@ function Post({ data, url }) {
               {dayjs(data.timestamp).fromNow()}
             </Typography>
           </Box>
-          {data.image && (
-            <Box>
-              <img
-                draggable={false}
-                src={data.image}
-                alt="Post image"
-                style={{
-                  width: "100%",
-                }}
-              />
-            </Box>
-          )}
+          {data.image && <ImageBox image={data.image} />}
           <Typography variant="h6" sx={{ p: 2 }}>
             {data.content}
           </Typography>
@@ -551,7 +596,7 @@ export default function Spaces() {
       sx={{
         p: 2,
       }}
-      className="mt-5 sm:mt-10 max-w-xl mx-auto"
+      className="mt-5 sm:mt-10 max-w-4xl mx-auto"
     >
       <Typography sx={{ fontWeight: "600", mb: 2 }} variant="h5" gutterBottom>
         Spaces
