@@ -7,9 +7,10 @@ import TextField from "@mui/material/TextField";
 import React from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Puller } from "../components/Puller";
+import { CircularProgress } from "@mui/material";
 
 function CreatePostMenu() {
   const [value, setValue] = React.useState("");
@@ -27,6 +28,9 @@ function CreatePostMenu() {
   const [visibilityModalOpen, setVisibilityModalOpen] = React.useState(false);
   const [contentVisibility, setContentVisibility] = React.useState("Only me");
   const [image, setImage] = React.useState<any>(null);
+  const [imageUploading, setImageUploading] = React.useState(false);
+
+  const [loading, setLoading] = React.useState(false);
 
   return (
     <>
@@ -142,7 +146,8 @@ function CreatePostMenu() {
           >
             <picture>
               <img
-                src={image}
+                draggable={false}
+                src={image.url}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -163,6 +168,9 @@ function CreatePostMenu() {
                 height: 25,
                 borderRadius: 999,
                 zIndex: 999,
+              }}
+              onClick={() => {
+                setImage(null);
               }}
             >
               <span
@@ -215,15 +223,20 @@ function CreatePostMenu() {
             const form = new FormData();
             form.append("image", e.target.files![0]);
 
+            setImageUploading(true);
             fetch("https://api.imgbb.com/1/upload?key=" + key, {
               method: "POST",
               body: form,
             })
               .then((res) => res.json())
               .then((res) => {
-                setImage(res.data.url);
+                setImage(res.data);
+                setImageUploading(false);
               })
-              .catch((err) => {});
+              .catch((err) => {
+                console.log(err);
+                setImageUploading(false);
+              });
           }}
           accept="image/png, image/jpeg"
         />
@@ -233,8 +246,12 @@ function CreatePostMenu() {
             onClick={() => {
               document.getElementById("imageAttachment")?.click();
             }}
+            disabled={image !== null}
           >
-            <span className="material-symbols-outlined">image</span>
+            {!imageUploading && (
+              <span className="material-symbols-outlined">image</span>
+            )}
+            {imageUploading && <CircularProgress size={20} />}
           </IconButton>
           <IconButton disableRipple>
             <span className="material-symbols-outlined">palette</span>
@@ -265,7 +282,29 @@ function CreatePostMenu() {
               borderLeft: "1px solid rgba(0,0,0,.1)",
             }}
           />
-          <IconButton disableRipple>
+          <IconButton
+            disableRipple
+            disabled={value.length === 0}
+            onClick={() => {
+              const data = {
+                content: value,
+                ...(image !== null && { image: image.url }),
+                public: contentVisibility === "My group",
+              };
+              fetchApiWithoutHook("property/spaces/createItem", data)
+                .then((res) => {
+                  alert(JSON.stringify(res));
+                  setValue("");
+                  setImage(null);
+                  setContentVisibility("Only me");
+                  ref.current?.focus();
+                  toast.success("Post created");
+                })
+                .catch((err) => {
+                  toast.error("Something went wrong");
+                });
+            }}
+          >
             <span className="material-symbols-rounded">add_circle</span>
           </IconButton>
         </Box>
