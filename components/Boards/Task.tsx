@@ -253,7 +253,7 @@ export const Task = React.memo(function ({
               <Color color="green" />
               <Color color="lime" />
               <Color color="brown" />
-              <Color color="blueGray" />
+              <Color color="blueGrey" />
             </Box>
           </Box>
 
