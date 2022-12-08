@@ -163,8 +163,8 @@ export const Task = React.memo(function ({
             height: "90vh",
             maxWidth: "500px",
             borderRadius: 5,
-            background: colors[global.themeColor ?? "brown"][900],
-            color: colors[global.themeColor ?? "brown"][50],
+            background: colors[global.themeColor ?? "brown"][50],
+            color: colors[global.themeColor ?? "brown"][900],
           },
         }}
       >
@@ -209,16 +209,16 @@ export const Task = React.memo(function ({
                 InputProps={{
                   disableUnderline: true,
                   sx: {
-                    color: colors[global.themeColor ?? "brown"][50],
-                    background: colors[global.themeColor ?? "brown"][800],
+                    color: colors[global.themeColor ?? "brown"][900],
+                    background: colors[global.themeColor ?? "brown"][100],
                     borderRadius: 5,
                     p: 2,
                     mt: 2,
                     "&:focus-within": {
-                      background: colors[global.themeColor ?? "brown"][700],
+                      background: colors[global.themeColor ?? "brown"][200],
                       boxShadow:
                         "0px 0px 0px 2px " +
-                        colors[global.themeColor ?? "brown"][300],
+                        colors[global.themeColor ?? "brown"][900],
                     },
                   },
                 }}
@@ -264,7 +264,7 @@ export const Task = React.memo(function ({
               justifyContent: "space-between",
               alignItems: "center",
               p: 3,
-              background: colors[global.themeColor ?? "brown"][50],
+              background: colors[global.themeColor ?? "brown"][100],
               color: "#000",
             }}
           >
