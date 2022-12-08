@@ -21,7 +21,7 @@ body {
   font-family: "Material Symbols Rounded";
   font-weight: normal;
   font-style: normal;
-  font-display: block!important;
+  font-display: block !important;
   font-size: 24px;
   line-height: 1;
   letter-spacing: normal;
@@ -36,33 +36,22 @@ body {
   font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 40;
 }
 .material-symbols-rounded {
-  font-display: block!important;
+  font-display: block !important;
   font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 40;
 }
 
 img {
   user-select: none;
 }
-*:not(
-    .MuiIcon-root,
-    .MuiIcon-root *,
-    .material-symbols-outlined,
-    .material-symbols-rounded,
-    .material-symbols-outlined,
-    .font-secondary
-  ) {
+*:not(.MuiIcon-root, .MuiIcon-root
+    *, .material-symbols-outlined, .material-symbols-rounded, .material-symbols-outlined, .font-secondary) {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "DM Sans", sans-serif !important;
 }
 .font-secondary,
 .font-secondary
-  *:not(
-    .MuiIcon-root,
-    .MuiIcon-root *,
-    .material-symbols-outlined,
-    .material-symbols-rounded,
-    .material-symbols-outlined
-  ) {
+  *:not(.MuiIcon-root, .MuiIcon-root
+    *, .material-symbols-outlined, .material-symbols-rounded, .material-symbols-outlined) {
   font-family: "Space Grotesk", sans-serif !important;
 }
 
