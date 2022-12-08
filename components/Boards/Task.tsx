@@ -20,15 +20,15 @@ import { CreateTask } from "./CreateTask";
 
 const Color = ({ color }: { color: string }) => {
   return (
-    <CardActionArea
+    <Box
       sx={{
-        width: "50px",
-        flex: "0 0 50px",
+        width: "30px",
+        flex: "0 0 30px",
         borderRadius: 9,
-        height: "50px",
-        background: colors[color]["A700"],
+        height: "30px",
+        background: colors[color]["900"] + "!important",
       }}
-    />
+    ></Box>
   );
 };
 
@@ -190,6 +190,7 @@ export const Task = React.memo(function ({
                   );
                 }}
                 sx={{
+                  transform: "scale(1.3)",
                   "&:hover": { bgcolor: "transparent" },
                 }}
                 color="default"
@@ -242,12 +243,17 @@ export const Task = React.memo(function ({
             <Box className="embla__container" sx={{ gap: 2 }}>
               <Color color="red" />
               <Color color="orange" />
+              <Color color="deepOrange" />
               <Color color="lightBlue" />
               <Color color="blue" />
+              <Color color="lightBlue" />
+              <Color color="indigo" />
               <Color color="purple" />
               <Color color="pink" />
               <Color color="green" />
-              <Color color="deepOrange" />
+              <Color color="lime" />
+              <Color color="brown" />
+              <Color color="blueGray" />
             </Box>
           </Box>
 
