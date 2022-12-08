@@ -242,7 +242,7 @@ export function TasksLayout() {
   });
 
   return (
-    <Box>
+    <Box sx={{ mb: 5 }}>
       {error && (
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
