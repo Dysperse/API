@@ -263,6 +263,9 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
                 maxHeight: 20,
                 height: 20,
                 py: 2,
+                "&.Mui-selected *": {
+                  fontWeight:"600!important",
+                }
               },
               "& .MuiTabs-indicator": {
                 height: "100%",
