@@ -564,6 +564,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           sx={{
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
             zIndex: 1,
+            color: "#000"
           }}
           position="sticky"
         >
@@ -573,9 +574,9 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">chevron_left</span>
+              <span className="material-symbols-rounded" style={{ color: "#000" }}>chevron_left</span>
             </IconButton>
-            <Typography sx={{ mx: "auto", fontWeight: "600" }}>
+            <Typography sx={{ mx: "auto", fontWeight: "600", color: "#000" }}>
               Explore
             </Typography>
             <IconButton
@@ -583,7 +584,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">more_horiz</span>
+              <span className="material-symbols-rounded" style={{ color: "#000" }}>add_circle</span>
             </IconButton>
           </Toolbar>
         </AppBar>
