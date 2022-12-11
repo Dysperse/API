@@ -584,7 +584,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded" style={{ color: "#000" }}>add_circle</span>
+              <span className="material-symbols-outlined" style={{ color: "#000" }}>add_circle</span>
             </IconButton>
           </Toolbar>
         </AppBar>
