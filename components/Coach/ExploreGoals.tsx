@@ -228,7 +228,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
           }}
         >
           <Typography
-            variant="h5"
+            variant="h4"
             sx={{ mb: 2, fontWeight: "900" }}
             className="underline"
           >
