@@ -218,7 +218,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
           color: "#000",
           p: 4,
           mt: "-64px",
-          minHeight: "300px",
+          minHeight: "350px",
           display: "flex",
         }}
       >
