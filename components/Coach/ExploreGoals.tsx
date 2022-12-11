@@ -215,7 +215,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
       <Box
         sx={{
           background: `linear-gradient(45deg, #E177D5 0%, #FFA655 100%)`,
-          color: "#fff",
+          color: "#000",
           p: 4,
           mt: "-64px",
           minHeight: "300px",
