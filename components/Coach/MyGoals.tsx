@@ -566,7 +566,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             zIndex: 1,
             color: "#000"
           }}
-          position="sticky"
+          position="static"
         >
           <Toolbar sx={{ height: "64px" }}>
             <IconButton
