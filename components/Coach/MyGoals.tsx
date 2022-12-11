@@ -532,7 +532,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute("content", open ? "#E177D5" : "#fff");
+      .setAttribute("content", open ? "#855245" : "#fff");
   });
 
   useEffect(() => {
