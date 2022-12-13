@@ -24,6 +24,7 @@
     "@prisma/client": "^4.5.0",
     "@sentry/nextjs": "^7.26.0",
     "@sentry/node": "^7.19.0",
+    "@sentry/replay": "^7.26.0",
     "@typescript-eslint/parser": "^5.40.0",
     "argon2": "^0.29.1",
     "boring-avatars": "^1.7.0",
