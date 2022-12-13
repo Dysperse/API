@@ -11,7 +11,5 @@ Sentry.init({
   // sessions when an error occurs.
   replaysOnErrorSampleRate: 1.0,
 
-  integrations: [
-    new Replay()
-  ],
+  integrations: [new Replay()],
 });
