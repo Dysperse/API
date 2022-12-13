@@ -22,7 +22,7 @@
     "@mui/lab": "^5.0.0-alpha.101",
     "@mui/material": "^5.10.7",
     "@prisma/client": "^4.5.0",
-    "@sentry/nextjs": "^7.19.0",
+    "@sentry/nextjs": "^7.26.0",
     "@sentry/node": "^7.19.0",
     "@typescript-eslint/parser": "^5.40.0",
     "argon2": "^0.29.1",

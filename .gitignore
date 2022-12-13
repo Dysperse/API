@@ -140,3 +140,5 @@ dist
 **/public/workbox-*.js
 **/public/sw.js
 **/public/worker-*.js
+# Sentry
+.sentryclirc
