@@ -11,6 +11,38 @@ import { OptionsGroup } from "./OptionsGroup";
 export function CreateBoard({ emblaApi, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const templates = [
+        {
+      name: "School planner (NEW!)",
+      description: "School planner to help organize your assignments",
+      color: "blue",
+      columns: [
+        {
+          name: "Math",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4d0.png",
+        },
+        {
+          name: "English",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4d5.png",
+        },
+        {
+          name: "Science",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f9ea.png",
+        },
+        {
+          name: "History",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f30d.png",
+        },
+        {
+          name: "World languages",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ac.png",
+        },
+      ],
+    },
     {
       name: "To-do",
       description: "A simple to-do list",
