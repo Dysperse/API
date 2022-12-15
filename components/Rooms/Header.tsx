@@ -73,7 +73,7 @@ export function Header({
             }}
             className="avatar"
           >
-            <span className="material-symbols-rounded">chevron_left</span>
+            <span className="material-symbols-rounded">arrow_back_ios_new</span>
           </IconButton>
         </ListItemAvatar>
 
@@ -124,7 +124,7 @@ export function Header({
             }}
             disableRipple
           >
-            <span className="material-symbols-rounded">add</span>
+            <span className="material-symbols-outlined">add_circle</span>
           </IconButton>
         </CreateItemModal>
       </ListItemAvatar>

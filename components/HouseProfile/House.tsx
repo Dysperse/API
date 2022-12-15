@@ -251,29 +251,26 @@ export function House({
             }!important`,
           },
           ...(data.propertyId === global.property.propertyId && {
-            background: `${
-              colors[themeColor][global.user.darkMode ? 800 : 100]
-            }!important`,
+            background: global.user.darkMode
+              ? "hsl(240,11%,25%)"
+              : `${colors[themeColor][100]}!important`,
             "&:active": {
-              background: `${
-                colors[themeColor][global.user.darkMode ? 700 : 200]
-              }!important`,
+              background: global.user.darkMode
+                ? "hsl(240,11%,25%)"
+                : `${colors[themeColor][200]}!important`,
             },
           }),
         }}
       >
-        <ListItem
-          // className="content"
-          sx={{ gap: 1.5, px: 0, py: 0 }}
-        >
+        <ListItem sx={{ gap: 1.5, px: 0, py: 0 }}>
           <ListItemAvatar sx={{ width: "auto", minWidth: "auto" }}>
             <Box
               sx={{
                 width: 20,
                 height: 20,
                 mt: -2.5,
-                borderRadius: "50%",
-                backgroundColor: colors[data.profile.color]["A700"],
+                borderRadius: "30%",
+                backgroundColor: colors[data.profile.color]["A400"],
                 marginRight: 1,
               }}
             />
@@ -324,7 +321,13 @@ export function House({
           <ListItemIcon>
             <LoadingButton
               loading={loading}
-              sx={{ px: 0, minWidth: "auto", borderRadius: 9, ml: "auto" }}
+              sx={{
+                px: 0,
+                minWidth: "auto",
+                borderRadius: 9,
+                ml: "auto",
+                color: "inherit",
+              }}
             >
               <span className="material-symbols-rounded">
                 {data.propertyId === global.property.propertyId
@@ -371,7 +374,7 @@ export function House({
         >
           <Box
             sx={{
-              background: `linear-gradient(45deg, ${colors[color]["900"]},  ${colors[color]["800"]})`,
+              background: `linear-gradient(45deg, ${colors[color]["A700"]},  ${colors[color]["A400"]})`,
               px: 3,
               height: "300px",
               position: "relative",

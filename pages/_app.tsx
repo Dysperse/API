@@ -208,7 +208,7 @@ function Render({
     },
     palette: {
       primary: {
-        main: colors[themeColor][global.user.darkMode ? "A200" : "800"],
+        main: colors[themeColor][global.user.darkMode ? "A200" : "A400"],
       },
       mode: theme,
       ...(theme === "dark" && {
