@@ -115,7 +115,6 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             width: {
               xs: "100vw",
               sm: "50vw",

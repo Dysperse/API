@@ -109,7 +109,6 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },

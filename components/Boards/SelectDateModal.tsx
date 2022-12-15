@@ -25,7 +25,6 @@ export function SelectDateModal({ styles, date, setDate }) {
             maxWidth: { sm: "350px" },
             mb: { sm: 10 },
             mx: "auto",
-            background: colors[themeColor][50],
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
           },
         }}
@@ -117,6 +116,7 @@ export function SelectDateModal({ styles, date, setDate }) {
           background: "transparent!important",
           borderRadius: 9999,
           transition: "all .2s",
+          color: colors[themeColor][global.theme === "dark" ? 900 : 50],
           ...(!date && {
             gap: 0,
             minWidth: "auto",

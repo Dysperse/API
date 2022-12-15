@@ -174,7 +174,7 @@ function Render({
         styleOverrides: {
           paper: {
             background: global.user.darkMode
-              ? "hsl(240, 11%, 10%)"
+              ? "hsl(240, 11%, 15%)"
               : colors[global.themeColor][50],
           },
         },

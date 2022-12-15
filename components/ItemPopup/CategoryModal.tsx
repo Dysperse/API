@@ -35,7 +35,6 @@ export function CategoryModal({
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             borderRadius: "20px 20px 0 0",
             mx: "auto",
             maxWidth: "500px",

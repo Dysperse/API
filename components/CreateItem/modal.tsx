@@ -172,7 +172,6 @@ export function CreateItemModal({
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             width: {
               sm: "90vw",
               md: "50vw",
@@ -363,7 +362,6 @@ export function CreateItemModal({
                 left: 0,
                 p: 1,
                 width: "100%",
-                background: colors[themeColor][50],
                 zIndex: 99,
               }}
             >

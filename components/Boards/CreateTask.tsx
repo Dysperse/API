@@ -56,7 +56,7 @@ export function CreateTask({
   useStatusBar(open);
 
   const styles = {
-    color: colors[themeColor][800],
+    color: colors[themeColor][global.theme == "dark" ? 50 : 800],
     borderRadius: 3,
     transition: "none",
   };
@@ -143,7 +143,6 @@ export function CreateTask({
             maxWidth: "600px",
             mb: { sm: 5 },
             mx: "auto",
-            background: colors[themeColor][50],
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
           },
         }}
@@ -160,7 +159,7 @@ export function CreateTask({
               variant="standard"
               placeholder="Add an item..."
               InputProps={{
-                className: "font-secondary",
+                // className: "font-secondary",
                 disableUnderline: true,
                 sx: { fontSize: 19 },
               }}
@@ -284,7 +283,12 @@ export function CreateTask({
                       borderRadius: 5,
                       px: 2,
                       minWidth: "auto",
-                      background: colors[themeColor][900] + "!important",
+                      background:
+                        colors[themeColor][global.theme === "dark" ? 50 : 900] +
+                        "!important",
+                      color:
+                        colors[themeColor][global.theme !== "dark" ? 50 : 900] +
+                        "!important",
                     }}
                     variant="contained"
                     disableElevation

@@ -377,7 +377,6 @@ export function SearchPopup() {
           elevation: 0,
           sx: {
             pt: { sm: 3 },
-            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },

@@ -94,7 +94,6 @@ function CategoryModal({ category }: { category: string }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },
@@ -388,7 +387,6 @@ function CreateRoom({ mutationUrl }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             maxWidth: "500px",
             mx: "auto",
             borderRadius: "20px 20px 0 0",

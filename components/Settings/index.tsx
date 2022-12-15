@@ -210,7 +210,6 @@ function SettingsMenu({
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },
@@ -299,7 +298,6 @@ export default function FullScreenDialog({
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },

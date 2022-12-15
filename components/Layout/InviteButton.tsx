@@ -138,7 +138,6 @@ export function InviteButton() {
           sx: {
             boxShadow: "none!important",
             position: { sm: "static!important" },
-            background: colors[themeColor][50],
             width: {
               sm: "50vw",
             },

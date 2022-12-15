@@ -134,7 +134,6 @@ function MoreRooms(): JSX.Element {
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             width: {
               xs: "100vw",
               sm: "50vw",
@@ -395,7 +394,6 @@ export default function AddPopup({
         PaperProps={{
           elevation: 0,
           sx: {
-            background: colors[themeColor][50],
             width: {
               xs: "100vw",
               sm: "100%",
