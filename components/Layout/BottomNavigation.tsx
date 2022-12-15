@@ -44,7 +44,6 @@ export function BottomNav() {
 
   React.useEffect(() => {
     const url = router.asPath;
-
     switch (url) {
       case "":
       case "/":
@@ -103,9 +102,12 @@ export function BottomNav() {
           height: "70px",
           background:
             global.theme === "dark"
-              ? "rgba(43, 43, 48, .9)"
+              ? "hsla(240, 11%, 10%, .9)"
               : hexToRgba(colors["grey"][200], 0.9),
-          borderTop: "1px solid rgba(200,200,200,.2)",
+          borderTop:
+            global.theme === "dark"
+              ? "1px solid hsla(240, 11%, 20%, .8)"
+              : "1px solid rgba(200,200,200,.2)",
           backdropFilter: "blur(10px)",
         }}
       >
