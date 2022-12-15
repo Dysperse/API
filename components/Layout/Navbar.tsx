@@ -31,9 +31,10 @@ function Achievements({ styles }) {
           sx: {
             maxWidth: "700px",
             width: "100%",
-            m: "20px",
-            maxHeight: "calc(100vh - 40px)",
-            borderRadius: 5,
+            m: { sm: "20px" },
+            maxHeight: { sm: "calc(100vh - 40px)" },
+            height: "100%",
+            borderRadius: { sm: 5 },
           },
         }}
       >
@@ -72,7 +73,7 @@ function Achievements({ styles }) {
         >
           <picture>
             <img
-              src="https://cdn.dribbble.com/users/1731254/screenshots/11649852/nature_gradients_illustration_tubikarts_4x.png?resize=1400x500&compress=1"
+              src="https://cdn.dribbble.com/users/1731254/screenshots/11649852/nature_gradients_illustration_tubikarts_4x.png?resize=1400x700&compress=1"
               width="100%"
             />
           </picture>
@@ -85,16 +86,16 @@ function Achievements({ styles }) {
           <Typography
             variant="h4"
             sx={{
-              mb: 1,
+              mb: 2,
               textDecoration: "underline",
               fontWeight: "600",
             }}
           >
             Achievements coming soon!
           </Typography>
-          <Typography variant="h6">
-            Earn mystery badges by completing tasks, achieving goals, and more!
-            Brag about this with your friends &amp; family!
+          <Typography variant="body1">
+            Earn badges by completing tasks, achieving goals, and more! Brag
+            about this with your friends &amp; family!
           </Typography>
         </Box>
       </SwipeableDrawer>

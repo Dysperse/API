@@ -1,12 +1,12 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Alert } from "@mui/material";
+import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
-import ListItemText from "@mui/material/ListItemText";
-import Box from "@mui/material/Box";
-import Checkbox from "@mui/material/Checkbox";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -14,8 +14,25 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { SelectDateModal } from "./SelectDateModal";
-import { BpCheckedIcon, BpIcon } from "./Task";
-import { Alert } from "@mui/material";
+
+function ImageModal({ image, setImage, styles }) {
+  return (
+    <IconButton
+      disableRipple
+      onClick={() => {
+        toast("Coming soon!");
+      }}
+      sx={{
+        ...styles,
+        mx: 0.5,
+        background: image ? colors[themeColor][100] + "!important" : "",
+      }}
+      size="small"
+    >
+      <span className="material-symbols-outlined">image</span>
+    </IconButton>
+  );
+}
 
 export function CreateTask({
   tasks,
@@ -33,6 +50,7 @@ export function CreateTask({
   const [description, setDescription] = useState("");
   const [date, setDate] = useState<any>(null);
   const [pinned, setPinned] = useState(false);
+  const [image, setImage] = useState<null | string>(null);
 
   const [showDescription, setShowDescription] = useState(false);
   useStatusBar(open);
@@ -195,8 +213,11 @@ export function CreateTask({
                 onClick={() => setPinned(!pinned)}
                 sx={{
                   ...styles,
-                  background: pinned && colors[themeColor][100],
+                  background: pinned
+                    ? colors[themeColor][100] + "!important"
+                    : "",
                 }}
+                size="small"
               >
                 <span
                   style={{ transform: "rotate(-45deg)" }}
@@ -205,6 +226,7 @@ export function CreateTask({
                   push_pin
                 </span>
               </IconButton>
+              <ImageModal styles={styles} image={image} setImage={setImage} />
               <IconButton
                 disableRipple
                 onClick={() => {
@@ -219,12 +241,16 @@ export function CreateTask({
                 }}
                 sx={{
                   ...styles,
-                  mx: 1,
-                  background: showDescription && colors[themeColor][100],
+                  mx: 0.5,
+                  background: showDescription
+                    ? colors[themeColor][100] + "!important"
+                    : "",
                 }}
+                size="small"
               >
                 <span className="material-symbols-rounded">notes</span>
               </IconButton>
+
               <Box
                 sx={{
                   ml: "auto",
