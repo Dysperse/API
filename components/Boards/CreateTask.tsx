@@ -348,7 +348,7 @@ export function CreateTask({
         <span
           className="material-symbols-outlined"
           style={{
-            color: "#505050",
+            color: global.user.darkMode ? "rgba(255,255,255,.6)" : "#505050",
             marginLeft: "7px",
             marginRight: "5px",
             fontSize: "30px",

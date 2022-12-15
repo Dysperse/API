@@ -32,7 +32,7 @@ const Color = ({ color }: { color: string }) => {
   );
 };
 
-export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
+export let BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   borderRadius: 99,
   width: 25,
   height: 25,
@@ -60,7 +60,7 @@ export const BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   },
 }));
 
-export const BpCheckedIcon: any = styled(BpIcon)({
+export let BpCheckedIcon: any = styled(BpIcon)({
   backgroundColor: colors[global.themeColor ?? "brown"][900] + "!important",
   "&:before": {
     display: "block",
@@ -135,6 +135,57 @@ export const Task = React.memo(function ({
   task,
   checkList,
 }: any): JSX.Element {
+  let BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
+    borderRadius: 99,
+    width: 25,
+    height: 25,
+    boxShadow: global.user.darkMode
+      ? "inset 0 0 0 2px rgba(255,255,255,.6)"
+      : "inset 0 0 0 2px rgba(0,0,0,.6)",
+    backgroundColor: "transparent",
+    ".Mui-focusVisible &": {
+      boxShadow:
+        "0px 0px 0px 2px inset " +
+        colors[themeColor][700] +
+        ", 0px 0px 0px 15px inset " +
+        hexToRgba(colors[themeColor][900], 0.1),
+    },
+    "input:not(:checked):hover ~ &": {
+      boxShadow: "inset 0 0 0 2px rgba(255,255,255,0.5)",
+      backgroundColor:
+        global.theme !== "dark"
+          ? colors[themeColor][100]
+          : "hsl(240,11%,20%)!important",
+    },
+    "input:disabled ~ &": {
+      background: "transparent",
+      backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-plus'%3E%3Cline x1='12' y1='5' x2='12' y2='19'%3E%3C/line%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3C/svg%3E");`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    },
+  }));
+
+  let BpCheckedIcon: any = styled(BpIcon)({
+    backgroundColor:
+      colors[global.themeColor ?? "brown"][global.user.darkMode ? 50 : 900] +
+      "!important",
+    "&:before": {
+      display: "block",
+      width: 26,
+      height: 26,
+      backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23${
+        global.user.darkMode ? "000" : "fff"
+      }' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")`,
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      content: '""',
+    },
+    "input:hover ~ &": {
+      backgroundColor:
+        colors[global.themeColor ?? "brown"][global.user.darkMode ? 50 : 900],
+    },
+  });
+
   const [emblaRef] = useEmblaCarousel(
     {
       loop: false,
