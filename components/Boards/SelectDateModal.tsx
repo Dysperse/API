@@ -119,8 +119,12 @@ export function SelectDateModal({ styles, date, setDate }) {
           transition: "all .2s",
           ...(!date && {
             gap: 0,
-            // minWidth: "auto",
+            minWidth: "auto",
           }),
+          "&:active": {
+            transition: "none",
+            opacity: ".6!important",
+          },
           ...(date && {
             animation: "dateIntro .2s forwards",
             background: colors[themeColor][100] + "!important",

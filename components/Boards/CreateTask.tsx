@@ -158,7 +158,7 @@ export function CreateTask({
               autoFocus
               fullWidth
               variant="standard"
-              placeholder="Add an item"
+              placeholder="Add an item..."
               InputProps={{
                 className: "font-secondary",
                 disableUnderline: true,
@@ -221,7 +221,11 @@ export function CreateTask({
               >
                 <span
                   style={{ transform: "rotate(-45deg)" }}
-                  className="material-symbols-rounded"
+                  className={
+                    pinned
+                      ? "material-symbols-rounded"
+                      : "material-symbols-outlined"
+                  }
                 >
                   push_pin
                 </span>
@@ -269,15 +273,23 @@ export function CreateTask({
                   <LoadingButton
                     loading={loading}
                     type="submit"
+                    disableRipple
                     sx={{
+                      "&:active": {
+                        transform: "scale(.95)",
+                        transition: "none",
+                        opacity: ".6",
+                      },
+                      transition: "all .2s",
                       borderRadius: 5,
-                      px: 3,
+                      px: 2,
+                      minWidth: "auto",
                       background: colors[themeColor][900] + "!important",
                     }}
                     variant="contained"
                     disableElevation
                   >
-                    Create
+                    <span className="material-symbols-rounded">add</span>
                   </LoadingButton>
                 </div>
               </Box>
