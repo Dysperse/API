@@ -34,7 +34,7 @@ export const Board = React.memo(function ({ board }: any) {
   });
 
   return (
-    <Box sx={{ mt: 4 }}>
+    <Box sx={{ my: 4 }}>
       {error && (
         <ErrorHandler error="An error occured while trying to fetch your tasks" />
       )}
@@ -55,6 +55,7 @@ export const Board = React.memo(function ({ board }: any) {
                   mt: -3,
                 }),
             pl: board.columns.length === 1 ? 0 : 4,
+            pb: 5,
           }}
         >
           <Renderer data={data} url={url} board={board} />
