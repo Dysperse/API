@@ -368,10 +368,10 @@ export function SearchPopup() {
         disableSwipeToOpen
         anchor="bottom"
         sx={{
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          height: { sm: "100vh" },
+          display: { sm: "flex" },
+          alignItems: { sm: "center" },
+          justifyContent: { sm: "center" },
         }}
         PaperProps={{
           elevation: 0,
@@ -380,7 +380,7 @@ export function SearchPopup() {
             width: {
               sm: "50vw",
             },
-            bottom: "unset!important",
+            bottom: { sm: "unset!important" },
             maxWidth: "650px",
             maxHeight: "95vh",
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
