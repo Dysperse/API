@@ -66,7 +66,8 @@ export function BottomNav() {
           setValue(0);
         }
     }
-  }, [router.asPath]);
+  }, [router, router.asPath]);
+
   /**
    * Handles button click
    * @param {any} href
