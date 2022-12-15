@@ -228,7 +228,7 @@ function DailyRoutine() {
           sx: {
             maxWidth: "600px",
             width: "100vw",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               backgroundColor: "hsl(240, 11%, 5%)",
             }),
           },

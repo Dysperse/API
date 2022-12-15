@@ -193,7 +193,7 @@ export function CreateTask({
                     mb: 2,
                     borderRadius: 5,
                     background:
-                      colors[themeColor][global.theme === "dark" ? 900 : 100],
+                      colors[themeColor][global.user.darkMode ? 900 : 100],
                   }}
                   icon={
                     <span
@@ -201,7 +201,7 @@ export function CreateTask({
                       style={{
                         color:
                           colors[themeColor][
-                            global.theme === "dark" ? 100 : 800
+                            global.user.darkMode ? 100 : 800
                           ],
                       }}
                     >
@@ -292,7 +292,7 @@ export function CreateTask({
                       px: 2,
                       minWidth: "auto",
                       background:
-                        colors[themeColor][global.theme === "dark" ? 50 : 900] +
+                        colors[themeColor][global.user.darkMode ? 50 : 900] +
                         "!important",
                       color:
                         colors[themeColor][global.theme !== "dark" ? 50 : 900] +
@@ -321,7 +321,9 @@ export function CreateTask({
           py: 0.5,
           px: 0,
           "&:hover": {
-            backgroundColor: "rgba(200,200,200,0.3)",
+            backgroundColor: global.user.darkMode
+              ? "hsl(240,11%,16%)"
+              : "rgba(200,200,200,0.3)",
             cursor: "pointer",
           },
           transition: "transform 0.2s ease-in-out",
@@ -331,7 +333,7 @@ export function CreateTask({
           },
           ...(checkList && {
             background:
-              global.theme === "dark"
+              global.user.darkMode
                 ? "hsl(240,11%,13%)"
                 : "#f3f4f6!important",
             boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",

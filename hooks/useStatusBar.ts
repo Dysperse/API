@@ -21,7 +21,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
       }
     } else {
       if (open && nestedModals > 1) {
-        if (global.theme === "dark") {
+        if (global.user.darkMode) {
           tag.setAttribute("content", `hsl(240, 11%, ${nestedModals * 10}%)`);
         } else {
           tag.setAttribute("content", colors[themeColor][nestedModals * 100]);
@@ -29,7 +29,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
       } else {
         tag.setAttribute(
           "content",
-          global.theme === "dark" ? "hsl(240,11%,10%)" : "#fff"
+          global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
         );
       }
     }

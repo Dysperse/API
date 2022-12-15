@@ -97,16 +97,14 @@ function Logout() {
           "& *": { transiton: "none!important" },
           borderRadius: 4,
           "&:hover": {
-            background:
-              global.theme === "dark"
-                ? "hsl(240,11%,25%)"
-                : colors[themeColor][200],
+            background: global.user.darkMode
+              ? "hsl(240,11%,25%)"
+              : colors[themeColor][200],
           },
           "& .MuiAvatar-root": {
-            background:
-              global.theme === "dark"
-                ? "hsl(240,11%,35%)"
-                : colors[themeColor][200],
+            background: global.user.darkMode
+              ? "hsl(240,11%,35%)"
+              : colors[themeColor][200],
           },
         }}
       >
@@ -164,15 +162,13 @@ function SettingsMenu({
           borderRadius: 4,
           mb: 0.5,
           "&:hover": {
-            background:
-              global.theme === "dark"
-                ? "hsl(240,11%,25%)"
-                : colors[themeColor][100],
+            background: global.user.darkMode
+              ? "hsl(240,11%,25%)"
+              : colors[themeColor][100],
             "& .MuiAvatar-root": {
-              background:
-                global.theme === "dark"
-                  ? "hsl(240,11%,35%)"
-                  : colors[themeColor][200],
+              background: global.user.darkMode
+                ? "hsl(240,11%,35%)"
+                : colors[themeColor][200],
             },
           },
         }}
@@ -182,10 +178,9 @@ function SettingsMenu({
             sx={{
               color: global.user.darkMode ? "#fff" : "#000",
               borderRadius: 4,
-              background:
-                global.theme === "dark"
-                  ? "hsl(240,11%,30%)"
-                  : colors[themeColor][100],
+              background: global.user.darkMode
+                ? "hsl(240,11%,30%)"
+                : colors[themeColor][100],
             }}
           >
             <span className="material-symbols-outlined">{icon}</span>

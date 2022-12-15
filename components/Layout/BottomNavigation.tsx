@@ -24,7 +24,7 @@ export function BottomNav() {
       borderRadius: 3,
       textTransform: "none",
       height: "70px",
-      // color: colors[themeColor][global.theme === "dark" ? 200 : 500],
+      // color: colors[themeColor][global.user.darkMode ? 200 : 500],
       // icon
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         height: "24px",
@@ -33,8 +33,7 @@ export function BottomNav() {
       ...(active && {
         fontWeight: "700",
         color:
-          colors[themeColor][global.theme === "dark" ? 100 : 800] +
-          "!important",
+          colors[themeColor][global.user.darkMode ? 100 : 800] + "!important",
       }),
     };
   };
@@ -100,14 +99,12 @@ export function BottomNav() {
           },
           zIndex: 999,
           height: "70px",
-          background:
-            global.theme === "dark"
-              ? "hsla(240, 11%, 10%, .9)"
-              : hexToRgba(colors["grey"][200], 0.9),
-          borderTop:
-            global.theme === "dark"
-              ? "1px solid hsla(240, 11%, 20%, .8)"
-              : "1px solid rgba(200,200,200,.2)",
+          background: global.user.darkMode
+            ? "hsla(240, 11%, 10%, .9)"
+            : hexToRgba(colors["grey"][200], 0.9),
+          borderTop: global.user.darkMode
+            ? "1px solid hsla(240, 11%, 20%, .8)"
+            : "1px solid rgba(200,200,200,.2)",
           backdropFilter: "blur(10px)",
         }}
       >
@@ -135,10 +132,9 @@ export function BottomNav() {
               width: "50%",
               height: 34,
               mt: -2.855,
-              backgroundColor:
-                global.theme === "dark"
-                  ? "rgba(153, 153, 158, .1)"
-                  : hexToRgba(colors[themeColor][500], 0.1),
+              backgroundColor: global.user.darkMode
+                ? "rgba(153, 153, 158, .1)"
+                : hexToRgba(colors[themeColor][500], 0.1),
               borderRadius: 99,
             },
           }}

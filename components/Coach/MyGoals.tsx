@@ -416,7 +416,7 @@ function Goal({ goal, mutationUrl }: any) {
           elevation: 0,
           sx: {
             width: "100vw",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
             maxWidth: "500px",
@@ -553,7 +553,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           sx: {
             width: "100vw",
             maxWidth: "900px",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
           },
@@ -564,7 +564,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           sx={{
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
             zIndex: 1,
-            color: "#000"
+            color: "#000",
           }}
           position="static"
         >
@@ -574,7 +574,12 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded" style={{ color: "#000" }}>chevron_left</span>
+              <span
+                className="material-symbols-rounded"
+                style={{ color: "#000" }}
+              >
+                chevron_left
+              </span>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600", color: "#000" }}>
               Explore
@@ -584,7 +589,12 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-outlined" style={{ color: "#000" }}>add_circle</span>
+              <span
+                className="material-symbols-outlined"
+                style={{ color: "#000" }}
+              >
+                add_circle
+              </span>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -665,7 +675,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")
         }
         style={{
-          color: global.theme === "dark" ? "#fff" : "#000",
+          color: global.user.darkMode ? "#fff" : "#000",
         }}
       >
         <div>

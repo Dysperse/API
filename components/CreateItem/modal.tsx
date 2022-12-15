@@ -306,10 +306,9 @@ export function CreateItemModal({
                         "&:active": {
                           transform: "scale(.95)",
                           transition: "none",
-                          background:
-                            global.theme === "dark"
-                              ? "hsl(240,11%,25%)"
-                              : colors[themeColor][100],
+                          background: global.user.darkMode
+                            ? "hsl(240,11%,25%)"
+                            : colors[themeColor][100],
                         },
                         cursor: "pointer",
                         mr: 2,

@@ -51,7 +51,7 @@ export function Sidebar() {
 
   const styles = (active) => {
     return {
-      color: colors[themeColor][global.theme === "dark" ? 50 : 500],
+      color: colors[themeColor][global.user.darkMode ? 50 : 500],
       borderRadius: 3,
       textTransform: "none",
       width: 55,
@@ -112,16 +112,15 @@ export function Sidebar() {
             width: "80px",
             overflowX: "hidden",
             zIndex: 99,
-            borderRight:
-              global.theme === "dark"
-                ? "1px solid rgba(255,255,255,0.1)"
-                : "1px solid rgba(200,200,200,.5)",
+            borderRight: global.user.darkMode
+              ? "1px solid rgba(255,255,255,0.1)"
+              : "1px solid rgba(200,200,200,.5)",
             height: "100vh",
             alignItems: "center",
             justifyContent: "center",
             background: "rgba(255, 255, 255, 0.9)",
             backdropFilter: "blur(10px)",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               background: "hsl(240, 11%, 10%)",
             }),
           },
@@ -167,9 +166,9 @@ export function Sidebar() {
                 height: 55,
                 width: 55,
                 background: `linear-gradient(45deg, ${
-                  colors[themeColor][global.theme === "dark" ? 800 : 200]
+                  colors[themeColor][global.user.darkMode ? 800 : 200]
                 } 0%, ${
-                  colors[themeColor][global.theme === "dark" ? 900 : 100]
+                  colors[themeColor][global.user.darkMode ? 900 : 100]
                 } 100%)`,
                 zIndex: -1,
                 borderRadius: 5,

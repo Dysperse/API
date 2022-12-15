@@ -47,7 +47,7 @@ function CreateGoal() {
           sx: {
             backgroundColor: "hsl(240,11%,70%)",
             color: "hsl(240,11%,10%)",
-            ...(global.theme === "dark" && {
+            ...(global.user.darkMode && {
               backgroundColor: "hsl(240,11%,10%)",
               color: "hsl(240,11%,70%)",
             }),
@@ -209,7 +209,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
   return (
     <div
       style={{
-        background: global.theme === "dark" ? "hsl(240,11%,15%)" : "white",
+        background: global.user.darkMode ? "hsl(240,11%,15%)" : "white",
       }}
     >
       <Box
@@ -264,8 +264,8 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
                 height: 20,
                 py: 2,
                 "&.Mui-selected *": {
-                  fontWeight:"600!important",
-                }
+                  fontWeight: "600!important",
+                },
               },
               "& .MuiTabs-indicator": {
                 height: "100%",
@@ -316,10 +316,9 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
                           pointerEvents: "none",
                           opacity: 0.5,
                         }),
-                        background:
-                          global.theme === "dark"
-                            ? "hsl(240,11%,20%)"
-                            : "rgba(200,200,200,.3)",
+                        background: global.user.darkMode
+                          ? "hsl(240,11%,20%)"
+                          : "rgba(200,200,200,.3)",
                         borderRadius: 5,
                         p: 2,
                         cursor: "pointer",

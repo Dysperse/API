@@ -178,10 +178,9 @@ export function InviteButton() {
             transform: "scale(0.95)",
           },
           "&:hover": {
-            backgroundColor:
-              global.theme === "dark"
-                ? "hsl(240,11%,15%)!important"
-                : "#eee!important",
+            backgroundColor: global.user.darkMode
+              ? "hsl(240,11%,15%)!important"
+              : "#eee!important",
           },
           userSelect: "none",
           cursor: "pointer",

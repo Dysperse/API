@@ -216,10 +216,10 @@ export function Navbar(): JSX.Element {
     borderRadius: 94,
     p: 0.5,
     m: 0,
-    color: global.theme === "dark" ? "hsl(240,11%,90%)" : "#606060",
+    color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
     transition: "all .2s",
     "&:hover": {
-      color: global.theme === "dark" ? "hsl(240,11%,100%)" : "#000",
+      color: global.user.darkMode ? "hsl(240,11%,100%)" : "#000",
     },
     "&:active": {
       opacity: 0.5,
@@ -255,10 +255,9 @@ export function Navbar(): JSX.Element {
             ? "rgba(23, 23, 28, .8)"
             : "rgba(255,255,255,.9)",
         },
-        borderBottom:
-          global.theme === "dark"
-            ? "1px solid rgba(255,255,255,0.1)"
-            : "1px solid rgba(200,200,200,.5)",
+        borderBottom: global.user.darkMode
+          ? "1px solid rgba(255,255,255,0.1)"
+          : "1px solid rgba(200,200,200,.5)",
         backdropFilter: "blur(10px)",
       }}
     >

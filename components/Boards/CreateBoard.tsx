@@ -11,7 +11,7 @@ import { OptionsGroup } from "./OptionsGroup";
 export function CreateBoard({ emblaApi, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const templates = [
-        {
+    {
       name: "School planner (NEW!)",
       description: "School planner to help organize your assignments",
       color: "blue",
@@ -325,26 +325,23 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                       pointerEvents: "none",
                     }),
                     width: "100%!important",
-                    background:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 13%)"
-                        : "rgba(200,200,200,.3)",
+                    background: global.user.darkMode
+                      ? "hsl(240, 11%, 13%)"
+                      : "rgba(200,200,200,.3)",
                     borderRadius: 5,
                     p: 3,
                     transition: "transform 0.2s",
                     cursor: "pointer",
                     userSelect: "none",
                     "&:hover": {
-                      background:
-                        global.theme === "dark"
-                          ? "hsl(240, 11%, 16%)"
-                          : "rgba(200,200,200,.4)",
+                      background: global.user.darkMode
+                        ? "hsl(240, 11%, 16%)"
+                        : "rgba(200,200,200,.4)",
                     },
                     "&:active": {
-                      background:
-                        global.theme === "dark"
-                          ? "hsl(240, 11%, 18%)"
-                          : "rgba(200,200,200,.5)",
+                      background: global.user.darkMode
+                        ? "hsl(240, 11%, 18%)"
+                        : "rgba(200,200,200,.5)",
                       transform: "scale(.98)",
                       transition: "none",
                     },
@@ -392,25 +389,22 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                     pointerEvents: "none",
                   }),
                   width: "100%!important",
-                  background:
-                    global.theme === "dark"
-                      ? "hsl(240, 11%, 13%)"
-                      : "rgba(200,200,200,.3)",
+                  background: global.user.darkMode
+                    ? "hsl(240, 11%, 13%)"
+                    : "rgba(200,200,200,.3)",
                   borderRadius: 5,
                   transition: "transform 0.2s",
                   cursor: "pointer",
                   userSelect: "none",
                   "&:hover": {
-                    background:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 16%)"
-                        : "rgba(200,200,200,.4)",
+                    background: global.user.darkMode
+                      ? "hsl(240, 11%, 16%)"
+                      : "rgba(200,200,200,.4)",
                   },
                   "&:active": {
-                    background:
-                      global.theme === "dark"
-                        ? "hsl(240, 11%, 17%)"
-                        : "rgba(200,200,200,.5)",
+                    background: global.user.darkMode
+                      ? "hsl(240, 11%, 17%)"
+                      : "rgba(200,200,200,.5)",
                     transform: "scale(.98)",
                     transition: "none",
                   },
@@ -419,11 +413,10 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                 <Box>
                   <Box
                     sx={{
-                      background:
-                        global.theme === "dark"
-                          ? "hsl(240, 11%, 17%)"
-                          : "rgba(200,200,200,.2)",
-                      color: global.theme === "dark" ? "#fff" : "#000",
+                      background: global.user.darkMode
+                        ? "hsl(240, 11%, 17%)"
+                        : "rgba(200,200,200,.2)",
+                      color: global.user.darkMode ? "#fff" : "#000",
                       borderRadius: 5,
                       borderBottomLeftRadius: 0,
                       borderBottomRightRadius: 0,

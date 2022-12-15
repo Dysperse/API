@@ -66,7 +66,7 @@ function Products() {
             background: "transparent",
             "&:hover, &.Mui-expanded": {
               background:
-                colors[global.themeColor][global.theme === "dark" ? 900 : 100],
+                colors[global.themeColor][global.user.darkMode ? 900 : 100],
               // category.bg ??
               // (global.user.darkMode
               //   ? "hsl(240, 11%, 40%)"
@@ -175,7 +175,7 @@ function Apps() {
             background: "transparent",
             "&:hover, &.Mui-expanded": {
               background:
-                colors[global.themeColor][global.theme === "dark" ? 900 : 100],
+                colors[global.themeColor][global.user.darkMode ? 900 : 100],
               // category.bg ??
               // (global.user.darkMode
               //   ? "hsl(240, 11%, 40%)"
@@ -282,7 +282,7 @@ export function AppsMenu() {
             sx={{
               borderRadius: 94,
               mr: 1,
-              color: global.theme === "dark" ? "hsl(240,11%,90%)" : "#606060",
+              color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
               transition: "all .2s",
               "&:active": {
                 opacity: 0.5,
