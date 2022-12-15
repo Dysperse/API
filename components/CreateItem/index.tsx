@@ -291,7 +291,7 @@ function Content(): JSX.Element {
         {global.property.profile.type !== "dorm" && (
           <AddItemOption
             title="Kitchen"
-            icon={<span className="material-symbols-rounded">oven_gen</span>}
+            icon={<span className="material-symbols-rounded">blender</span>}
           />
         )}
         <AddItemOption

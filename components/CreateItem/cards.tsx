@@ -10,7 +10,7 @@ export const cards = [
     name: "Oven",
     room: "kitchen",
     tags: ["Appliances"],
-    icon: "oven_gen",
+    icon: "blender",
   },
   {
     name: "Dishwasher",

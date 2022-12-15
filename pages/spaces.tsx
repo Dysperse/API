@@ -401,20 +401,24 @@ function Posts({ url, data: originalData }) {
       <CreatePostMenu url={url} />
       <SearchPosts data={data} setData={setData} originalData={originalData} />
       {data.length > 0 ? (
-        <>
+        <Box
+          sx={{
+            mr: -2,
+          }}
+        >
           <Masonry
             columns={{
               xs: 1,
               sm: 2,
             }}
             sx={{ mt: 2 }}
-            spacing={0}
+            spacing={2}
           >
             {data.map((item) => (
               <Post url={url} key={item.id} data={item} />
             ))}
           </Masonry>
-        </>
+        </Box>
       ) : (
         <Box
           sx={{
@@ -594,7 +598,7 @@ function Post({ data, url }) {
         >
           <Box
             sx={{
-              display: "flex",
+              display: data.user.name == global.user.name ? "none" : "flex",
               alignItems: "center",
               gap: 2,
               p: 2,

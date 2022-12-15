@@ -108,7 +108,7 @@ function Achievements({ styles }) {
           }}
           sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
         >
-          <span className="material-symbols-outlined">workspace_premium</span>
+          <span className="material-symbols-outlined">insights</span>
         </IconButton>
       </Tooltip>
     </>
@@ -321,10 +321,10 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -2 } }}>
           <AppsMenu />
         </Box>
-        {/* <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -0.8 } }}>
+        <Box sx={{ display: { xs: "none", sm: "unset" } }}>
           <Tooltip title="Support">
             <IconButton
-              sx={{ ...styles, mr: 0 }}
+              sx={{ ...styles, ml: 1 }}
               color="inherit"
               disableRipple
               onClick={() => window.open("https://smartlist.tech/support")}
@@ -332,7 +332,7 @@ export function Navbar(): JSX.Element {
               <span className="material-symbols-outlined">help</span>
             </IconButton>
           </Tooltip>
-        </Box> */}
+        </Box>
         <Box sx={{ display: { sm: "none" } }}>
           <Settings>
             <Tooltip

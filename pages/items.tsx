@@ -578,7 +578,7 @@ export default function Categories({ children = null }: any) {
           <>
             <Action
               href="/rooms/kitchen"
-              icon="oven_gen"
+              icon="blender"
               primary="Kitchen"
               count={data}
             />

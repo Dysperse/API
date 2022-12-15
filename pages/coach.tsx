@@ -248,7 +248,7 @@ function DailyRoutine() {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">chevron_left</span>
+              <span className="material-symbols-rounded">west</span>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>
               Today&apos;s routine

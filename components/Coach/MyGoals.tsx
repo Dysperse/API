@@ -437,7 +437,7 @@ function Goal({ goal, mutationUrl }: any) {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">chevron_left</span>
+              <span className="material-symbols-rounded">west</span>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>Goal</Typography>
             <MoreOptions
@@ -578,7 +578,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 className="material-symbols-rounded"
                 style={{ color: "#000" }}
               >
-                chevron_left
+                west
               </span>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600", color: "#000" }}>

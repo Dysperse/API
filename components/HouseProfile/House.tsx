@@ -403,7 +403,7 @@ export function House({
                   mr: 0.2,
                 }}
               >
-                <span className="material-symbols-rounded">chevron_left</span>
+                <span className="material-symbols-rounded">west</span>
               </IconButton>
               <Typography sx={{ mx: "auto", fontWeight: "600" }}>
                 Group

@@ -130,7 +130,7 @@ export function RoomList({ color }: { color: string }) {
             color: `${colors[color][900]}!important`,
           }}
         >
-          <span className="material-symbols-rounded">chevron_left</span>
+          <span className="material-symbols-rounded">west</span>
         </IconButton>
       )}
       <div

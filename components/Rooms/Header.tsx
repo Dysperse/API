@@ -73,7 +73,7 @@ export function Header({
             }}
             className="avatar"
           >
-            <span className="material-symbols-rounded">arrow_back_ios_new</span>
+            <span className="material-symbols-rounded">west</span>
           </IconButton>
         </ListItemAvatar>
 

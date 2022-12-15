@@ -156,7 +156,7 @@ function Home({
       </Item>
       <Command.Group heading="Rooms">
         {[
-          { name: "Kitchen", icon: "oven_gen" },
+          { name: "Kitchen", icon: "blender" },
           { name: "Bedroom", icon: "bedroom_parent" },
           { name: "Bathroom", icon: "bathroom" },
           { name: "Garage", icon: "garage" },
