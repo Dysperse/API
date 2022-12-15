@@ -25,7 +25,9 @@ function ImageModal({ image, setImage, styles }) {
       sx={{
         ...styles,
         mx: 0.5,
-        background: image ? colors[themeColor][100] + "!important" : "",
+        background: image
+          ? colors[themeColor][global.user.darkMode ? 900 : 100] + "!important"
+          : "",
       }}
       size="small"
     >
@@ -190,13 +192,17 @@ export function CreateTask({
                     mt: 1,
                     mb: 2,
                     borderRadius: 5,
-                    background: colors[themeColor][100],
+                    background:
+                      colors[themeColor][global.theme === "dark" ? 900 : 100],
                   }}
                   icon={
                     <span
                       className="material-symbols-rounded"
                       style={{
-                        color: colors[themeColor][800],
+                        color:
+                          colors[themeColor][
+                            global.theme === "dark" ? 100 : 800
+                          ],
                       }}
                     >
                       info
@@ -213,7 +219,8 @@ export function CreateTask({
                 sx={{
                   ...styles,
                   background: pinned
-                    ? colors[themeColor][100] + "!important"
+                    ? colors[themeColor][global.user.darkMode ? 900 : 100] +
+                      "!important"
                     : "",
                 }}
                 size="small"
@@ -246,7 +253,8 @@ export function CreateTask({
                   ...styles,
                   mx: 0.5,
                   background: showDescription
-                    ? colors[themeColor][100] + "!important"
+                    ? colors[themeColor][global.user.darkMode ? 900 : 100] +
+                      "!important"
                     : "",
                 }}
                 size="small"
