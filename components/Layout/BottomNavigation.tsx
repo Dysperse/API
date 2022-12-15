@@ -105,7 +105,7 @@ export function BottomNav() {
             global.theme === "dark"
               ? "rgba(43, 43, 48, .9)"
               : hexToRgba(colors["grey"][200], 0.9),
-          borderTop: "1px solid rgba(200,200,200,.3)",
+          borderTop: "1px solid rgba(200,200,200,.2)",
           backdropFilter: "blur(10px)",
         }}
       >
