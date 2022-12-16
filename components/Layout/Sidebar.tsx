@@ -1,15 +1,14 @@
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 import Tooltip from "@mui/material/Tooltip";
-import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
-import { useHotkeys } from "react-hotkeys-hook";
 
 export function Sidebar() {
   const [value, setValue] = useState<number>(0);
@@ -166,9 +165,13 @@ export function Sidebar() {
                 height: 55,
                 width: 55,
                 background: `linear-gradient(45deg, ${
-                  colors[themeColor][global.user.darkMode ? 800 : 200]
+                  global.user.darkMode
+                    ? "hsl(240,11%,14%)"
+                    : colors[themeColor][200]
                 } 0%, ${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                  global.user.darkMode
+                    ? "hsl(240,11%,13%)"
+                    : colors[themeColor][100]
                 } 100%)`,
                 zIndex: -1,
                 borderRadius: 5,
