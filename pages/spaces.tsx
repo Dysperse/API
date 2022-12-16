@@ -575,7 +575,7 @@ function Post({ data, url }) {
         .then(() => {
           mutate(url);
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Something went wrong");
           setLoading(false);
         });
