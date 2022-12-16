@@ -13,7 +13,8 @@
   "prefer_related_applications": true,
   "capture_links": "new-client",
   "display_override": [
-    "standalone"
+    "standalone", 
+    "window-controls-overlay"
   ],
   "screenshots": [
     {
