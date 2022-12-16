@@ -25,6 +25,94 @@ import Avatar from "boring-avatars";
 import dayjs from "dayjs";
 import { Masonry } from "@mui/lab";
 
+const isValidUrl = (urlString) => {
+  var urlPattern = new RegExp(
+    "^(https?:\\/\\/)?" + // validate protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); // validate fragment locator
+  return !!urlPattern.test(urlString);
+};
+
+function LinkModal({ value, setValue }) {
+  const [link, setLink] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Box
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+    >
+      <IconButton disableRipple onClick={() => setOpen(true)}>
+        <span className="material-symbols-outlined">link</span>
+      </IconButton>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            p: 3,
+            borderRadius: 5,
+            width: "100%",
+            background: global.theme === "dark" ? "hsl(240,11%,18%)" : "#fff",
+          },
+        }}
+      >
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{
+            fontWeight: "900",
+          }}
+        >
+          Insert link
+        </Typography>
+        <TextField
+          fullWidth
+          variant="filled"
+          label="URL"
+          autoComplete="off"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+        />
+        <Button
+          disableElevation
+          fullWidth
+          variant="contained"
+          size="large"
+          sx={{
+            borderRadius: 999,
+            mt: 2,
+            background:
+              (global.theme === "dark"
+                ? "hsl(240,11%,30%)"
+                : colors[themeColor][900]) + "!important",
+          }}
+          onClick={(e) => {
+            // Check if `link` is a valid URL using regex
+            if (isValidUrl(link)) {
+              setValue(value + link);
+              setLink("");
+              setOpen(false);
+            } else {
+              toast.error("Please enter a valid URL");
+            }
+          }}
+        >
+          Insert
+        </Button>
+      </Dialog>
+    </Box>
+  );
+}
+
 function CreatePostMenu({ url }) {
   const [value, setValue] = React.useState("");
   const ref: any = React.useRef();
@@ -203,7 +291,7 @@ function CreatePostMenu({ url }) {
         )}
         <TextField
           fullWidth
-          placeholder="What's on your mind? Press Ctrl+V to paste from clipboard."
+          placeholder="What's on your mind? (PRO TIP: You can paste images and links here and share it with your group!)"
           autoComplete="off"
           multiline
           InputProps={{
@@ -263,6 +351,7 @@ function CreatePostMenu({ url }) {
           accept="image/png, image/jpeg"
         />
         <Box sx={{ display: "flex", mt: 1, alignItems: "center", gap: 0.5 }}>
+          <LinkModal setValue={setValue} value={value} />
           <IconButton
             disableRipple
             onClick={() => {
@@ -356,7 +445,6 @@ function SearchPosts({ data, setData, originalData }) {
   return (
     <>
       <TextField
-        autoFocus
         onChange={handleChange}
         fullWidth
         placeholder="Search posts"
