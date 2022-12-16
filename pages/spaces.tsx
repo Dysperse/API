@@ -14,6 +14,7 @@ import {
   CircularProgress,
   Dialog,
   Grow,
+  Link,
   Skeleton,
   useMediaQuery,
 } from "@mui/material";
@@ -123,7 +124,7 @@ function CreatePostMenu({ url }) {
       <Box
         sx={{
           background: global.user.darkMode
-            ? "hsl(240,11%,13%)"
+            ? "hsl(240,11%,17%)"
             : "rgba(200,200,200,0.3)",
           borderRadius: 4,
           p: 2,
@@ -132,11 +133,13 @@ function CreatePostMenu({ url }) {
             cursor: "pointer",
           },
           "&:focus-within": {
-            background: "#fff",
+            background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
             "&, & .MuiInput-root *": {
               cursor: "text",
             },
-            border: "1px solid rgba(0,0,0,.5)",
+            border: global.user.darkMode
+              ? "1px solid hsl(240,11%,60%)"
+              : "1px solid rgba(0,0,0,.5)",
             boxShadow:
               "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
           },
@@ -370,7 +373,7 @@ function SearchPosts({ data, setData, originalData }) {
           ),
           sx: {
             background: global.user.darkMode
-              ? "hsl(240,11%,13%)"
+              ? "hsl(240,11%,17%)"
               : "rgba(200,200,200,0.3)",
             borderRadius: 5,
             p: 2,
@@ -431,7 +434,7 @@ function Posts({ url, data: originalData }) {
             p: 2,
             mt: 3,
             background: global.user.darkMode
-              ? "hsl(240,11%,13%)"
+              ? "hsl(240,11%,17%)"
               : "rgba(200,200,200,0.3)",
             borderRadius: 5,
           }}
@@ -550,6 +553,20 @@ function ImageBox({ image }) {
   );
 }
 
+const URL_REGEX =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
+const renderText = (txt) =>
+  txt.split(" ").map((part) =>
+    URL_REGEX.test(part) ? (
+      <Link href={part} target="_blank">
+        {part.replace("http://").replace("https://", "").replace(/\/$/, "")}{" "}
+      </Link>
+    ) : (
+      part + " "
+    )
+  );
+
 function Post({ data, url }) {
   const [emblaRef, emblaApi] = useEmblaCarousel();
   // When the embla carousel is scrolled to the second page, alert some text
@@ -586,14 +603,15 @@ function Post({ data, url }) {
     <Box
       sx={{
         mt: 2,
+        maxWidth: "calc(100vw - 32.5px)",
         border: {
           sm: global.user.darkMode
-            ? "5px solid hsl(240,11%,13%)"
+            ? "5px solid hsl(240,11%,17%)"
             : "5px solid #fff",
         },
         mb: { xs: 2, sm: 0 },
         background: global.user.darkMode
-          ? "hsl(240,11%,13%)"
+          ? "hsl(240,11%,17%)"
           : "rgba(200,200,200,0.3)",
         borderRadius: 5,
         overflow: "hidden",
@@ -649,8 +667,17 @@ function Post({ data, url }) {
             </Typography>
           </Box>
           {data.image && <ImageBox image={data.image} />}
-          <Typography variant="h6" sx={{ p: 2 }}>
-            {data.content}
+          <Typography
+            variant="h6"
+            sx={{
+              p: 2,
+              maxWidth: "100%",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+            }}
+          >
+            {renderText(data.content)}
           </Typography>
         </Box>
         <Box
