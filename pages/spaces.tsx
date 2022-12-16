@@ -163,7 +163,7 @@ function CreatePostMenu({ url }) {
             {
               name: "My group",
               icon: "group",
-              description: "Members in your group can view and edit this note",
+              description: "People in your group can view and edit this note",
             },
           ].map((item) => (
             <Button
