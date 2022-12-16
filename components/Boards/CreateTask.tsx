@@ -1,10 +1,11 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Alert } from "@mui/material";
+import { Alert, CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
@@ -16,23 +17,80 @@ import { colors } from "../../lib/colors";
 import { SelectDateModal } from "./SelectDateModal";
 
 function ImageModal({ image, setImage, styles }) {
+  const [imageUploading, setImageUploading] = useState(false);
   return (
-    <IconButton
-      disableRipple
-      onClick={() => {
-        toast("Coming soon!");
-      }}
-      sx={{
-        ...styles,
-        mx: 0.5,
-        background: image
-          ? colors[themeColor][global.user.darkMode ? 900 : 100] + "!important"
-          : "",
-      }}
-      size="small"
-    >
-      <span className="material-symbols-outlined">image</span>
-    </IconButton>
+    <>
+      <IconButton
+        disableRipple
+        onClick={() => {
+          document.getElementById("imageAttachment")?.click();
+        }}
+        sx={{
+          ...styles,
+          mx: 0.5,
+          background: image
+            ? colors[themeColor][global.user.darkMode ? 900 : 100] +
+              "!important"
+            : "",
+        }}
+        size="small"
+      >
+        {imageUploading ? (
+          <CircularProgress size={20} sx={{ mx: 0.5 }} />
+        ) : (
+          <span
+            className={
+              image ? "material-symbols-rounded" : "material-symbols-outlined"
+            }
+          >
+            image
+          </span>
+        )}
+      </IconButton>
+      <input
+        type="file"
+        id="imageAttachment"
+        name="imageAttachment"
+        style={{
+          display: "none",
+        }}
+        onChange={async (e) => {
+          const key = "da1f275ffca5b40715ac3a44aa77cf42";
+          const asBase64 = (file: File) =>
+            new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = (error) => reject(error);
+            });
+
+          const convertImageToImgbb = async (file: File) => {
+            const str = await asBase64(file);
+            return str;
+          };
+
+          const str = await convertImageToImgbb(e.target.files![0]);
+          const form = new FormData();
+          form.append("image", e.target.files![0]);
+
+          setImageUploading(true);
+          fetch("https://api.imgbb.com/1/upload?name=image&key=" + key, {
+            method: "POST",
+            body: form,
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              setImage(res.data);
+              setImageUploading(false);
+            })
+            .catch((err) => {
+              console.log(err);
+              setImageUploading(false);
+            });
+        }}
+        accept="image/png, image/jpeg"
+      />
+    </>
   );
 }
 
@@ -52,7 +110,7 @@ export function CreateTask({
   const [description, setDescription] = useState("");
   const [date, setDate] = useState<any>(null);
   const [pinned, setPinned] = useState(false);
-  const [image, setImage] = useState<null | string>(null);
+  const [image, setImage] = useState<any>(null);
 
   const [showDescription, setShowDescription] = useState(false);
   useStatusBar(open);
@@ -111,6 +169,7 @@ export function CreateTask({
     await fetchApiWithoutHook("property/boards/createTask", {
       title,
       description,
+      ...(image && { image: image.url }),
       date,
       pinned: pinned ? "true" : "false",
       due: date ? date.toISOString() : "false",
@@ -124,6 +183,7 @@ export function CreateTask({
     setTitle("");
     setDescription("");
     setDate(null);
+    setImage(null);
     setPinned(false);
     // setOpen(false);
   };
@@ -151,6 +211,59 @@ export function CreateTask({
       >
         <Box sx={{ p: 3 }}>
           <form onSubmit={handleSubmit}>
+            {image && (
+              <Box
+                sx={{
+                  width: 300,
+                  position: "relative",
+                  borderRadius: 5,
+                  overflow: "hidden",
+                  boxShadow:
+                    "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                  mb: 2,
+                  height: 200,
+                }}
+              >
+                <picture>
+                  <img
+                    draggable={false}
+                    src={image.url}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </picture>
+                <Button
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    m: 1,
+                    right: 0,
+                    background: "rgba(0,0,0,0.7)!important",
+                    color: "#fff!important",
+                    minWidth: "unset",
+                    width: 25,
+                    height: 25,
+                    borderRadius: 999,
+                    zIndex: 999,
+                  }}
+                  onClick={() => {
+                    setImage(null);
+                  }}
+                >
+                  <span
+                    className="material-symbols-outlined"
+                    style={{
+                      fontSize: "20px",
+                    }}
+                  >
+                    close
+                  </span>
+                </Button>
+              </Box>
+            )}
             <TextField
               id="title"
               autoComplete="off"
@@ -200,9 +313,7 @@ export function CreateTask({
                       className="material-symbols-rounded"
                       style={{
                         color:
-                          colors[themeColor][
-                            global.user.darkMode ? 100 : 800
-                          ],
+                          colors[themeColor][global.user.darkMode ? 100 : 800],
                       }}
                     >
                       info
@@ -332,10 +443,9 @@ export function CreateTask({
             transition: "none",
           },
           ...(checkList && {
-            background:
-              global.user.darkMode
-                ? "hsl(240,11%,13%)"
-                : "#f3f4f6!important",
+            background: global.user.darkMode
+              ? "hsl(240,11%,13%)"
+              : "#f3f4f6!important",
             boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
             px: 1,
             py: 1.5,

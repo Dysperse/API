@@ -138,6 +138,7 @@ model Task {
   color     String  @default("blue")
   pinned    Boolean @default(false)
   completed Boolean @default(false)
+  image     String?
 
   parentTasks Task[] @relation("subtasks")
   subTasks    Task[] @relation("subtasks")

@@ -17,6 +17,60 @@ import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./CreateTask";
+import { Dialog } from "@mui/material";
+
+function ImageViewer({ url, trimHeight = false }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            borderRadius: 5,
+            width: "100%",
+            height: "auto",
+            maxWidth: "100vw",
+          },
+        }}
+      >
+        <img src={url} />
+      </Dialog>
+      <Box
+        sx={{
+          "&:hover": {
+            filter: "brightness(90%)",
+            cursor: "pointer",
+          },
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          setOpen(true);
+        }}
+      >
+        <picture>
+          <img
+            draggable={false}
+            src={url}
+            style={{
+              width: "100%",
+              borderRadius: "20px",
+              height: "100%",
+              ...(trimHeight && {
+                maxHeight: "100px",
+              }),
+              objectFit: "cover",
+            }}
+          />
+        </picture>
+      </Box>
+    </>
+  );
+}
 
 const Color = ({ color }: { color: string }) => {
   return (
@@ -200,7 +254,7 @@ export const Task = React.memo(function ({
   return (
     <Box>
       <SwipeableDrawer
-        anchor="bottom"
+        anchor="right"
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
@@ -211,15 +265,14 @@ export const Task = React.memo(function ({
             mb: { sm: 2 },
             width: "100%",
             mx: "auto",
-            height: "90vh",
+            height: "100vh",
             maxWidth: "500px",
-            borderRadius: 5,
+            borderRadius: { sm: "20px 0 0 20px" },
             background: colors[global.themeColor ?? "brown"][50],
-            color: colors[global.themeColor ?? "brown"][900],
           },
         }}
       >
-        <Box sx={{ p: 5, px: 3 }}>
+        <Box sx={{ p: 5, px: 3, overflowY: "auto", mb: 10 }}>
           <Box
             sx={{
               display: "flex",
@@ -280,7 +333,14 @@ export const Task = React.memo(function ({
               />
             </Box>
           </Box>
-
+          <Box
+            sx={{
+              ml: 7,
+              mt: 2,
+            }}
+          >
+            <ImageViewer url={task.image} />
+          </Box>
           <Box
             ref={emblaRef}
             sx={{
@@ -291,7 +351,7 @@ export const Task = React.memo(function ({
               borderRadius: 5,
             }}
           >
-            <Box className="embla__container" sx={{ gap: 2 }}>
+            <Box className="embla__container" sx={{ gap: 1 }}>
               <Color color="red" />
               <Color color="orange" />
               <Color color="deepOrange" />
@@ -340,7 +400,7 @@ export const Task = React.memo(function ({
       {task.subTasks.length >= 0 && (
         <ListItem
           onClick={() => setOpen(true)}
-          className="rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.99] hover:bg-neutral-200 dark:hover:bg-[hsl(240,11%,16%)] duration-100 active:duration-[0s] border border-gray-200"
+          className="p-0 rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.99] duration-100 active:duration-[0s] border border-gray-200"
           sx={{
             p: 0,
             ...(!checkList && {
@@ -351,50 +411,60 @@ export const Task = React.memo(function ({
                 ? "hsl(240,11%,13%)"
                 : "#f3f4f6!important",
               boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-              px: 1,
-              py: 1,
               gap: "10px!important",
               borderRadius: "15px!important",
               mb: 1.5,
             }),
           }}
         >
-          <Checkbox
-            disableRipple
-            checked={checked}
-            onChange={(e) => {
-              setChecked(e.target.checked);
-              fetchApiWithoutHook("property/boards/markTask", {
-                completed: e.target.checked ? "true" : "false",
-                id: task.id,
-              }).catch((err) =>
-                toast.error("An error occured while updating the task")
-              );
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            sx={{
-              "&:hover": { bgcolor: "transparent" },
-            }}
-            color="default"
-            checkedIcon={<BpCheckedIcon dark />}
-            icon={<BpIcon dark />}
-            inputProps={{ "aria-label": "Checkbox demo" }}
-          />
           <ListItemText
+            sx={{
+              my: 0,
+            }}
             primary={
-              <span
-                style={{
-                  fontWeight: "400",
-                  ...(checked && {
-                    textDecoration: "line-through",
-                    opacity: 0.5,
-                  }),
-                }}
-              >
-                {task.name}
-              </span>
+              <Box>
+                <span
+                  style={{
+                    fontWeight: "400",
+                    ...(checked && {
+                      textDecoration: "line-through",
+                      opacity: 0.5,
+                    }),
+                  }}
+                >
+                  <Checkbox
+                    disableRipple
+                    checked={checked}
+                    onChange={(e) => {
+                      setChecked(e.target.checked);
+                      fetchApiWithoutHook("property/boards/markTask", {
+                        completed: e.target.checked ? "true" : "false",
+                        id: task.id,
+                      }).catch((err) =>
+                        toast.error("An error occured while updating the task")
+                      );
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    sx={{
+                      "&:hover": { bgcolor: "transparent" },
+                    }}
+                    color="default"
+                    checkedIcon={<BpCheckedIcon dark />}
+                    icon={<BpIcon dark />}
+                    inputProps={{ "aria-label": "Checkbox demo" }}
+                  />
+                  {task.name}
+                  <Box
+                    sx={{
+                      ml: 5,
+                    }}
+                  >
+                    {task.image && <ImageViewer trimHeight url={task.image} />}
+                  </Box>
+                </span>
+              </Box>
             }
             secondary={
               <span

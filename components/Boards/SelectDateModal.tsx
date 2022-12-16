@@ -116,7 +116,7 @@ export function SelectDateModal({ styles, date, setDate }) {
           background: "transparent!important",
           borderRadius: 9999,
           transition: "all .2s",
-          color: colors[themeColor][global.user.darkMode ? 900 : 50],
+          color: colors[themeColor][900],
           ...(!date && {
             gap: 0,
             minWidth: "auto",
