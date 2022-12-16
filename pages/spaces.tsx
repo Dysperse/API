@@ -96,7 +96,6 @@ function LinkModal({ value, setValue }) {
                 : colors[themeColor][900]) + "!important",
           }}
           onClick={(e) => {
-            // Check if `link` is a valid URL using regex!
             if (isValidUrl(link)) {
               setValue(value + link);
               setLink("");
