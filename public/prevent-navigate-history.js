@@ -7,6 +7,6 @@ window.addEventListener("load", () => {
   }, 2000);
 });
 
-document.addEventListener('focus', function(e) {
+document.addEventListener("focus", function (e) {
   e.preventDefault();
 });
