@@ -122,7 +122,9 @@ function CreatePostMenu({ url }) {
       </SwipeableDrawer>
       <Box
         sx={{
-          background: "rgba(200,200,200,0.3)",
+          background: global.user.darkMode
+            ? "hsl(240,11%,13%)"
+            : "rgba(200,200,200,0.3)",
           borderRadius: 4,
           p: 2,
           border: "1px solid rgba(0,0,0,0)",
@@ -367,17 +369,21 @@ function SearchPosts({ data, setData, originalData }) {
             </InputAdornment>
           ),
           sx: {
-            background: "rgba(200,200,200,0.3)",
+            background: global.user.darkMode
+              ? "hsl(240,11%,13%)"
+              : "rgba(200,200,200,0.3)",
             borderRadius: 5,
             p: 2,
             py: 1,
             border: "1px solid rgba(0,0,0,0)",
             "&:focus-within": {
-              background: "#fff",
+              background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
               "&, & .MuiInput-root *": {
                 cursor: "text",
               },
-              border: "1px solid rgba(0,0,0,.5)",
+              border: global.user.darkMode
+                ? "1px solid hsl(240,11%,50%)"
+                : "1px solid rgba(0,0,0,.5)",
               boxShadow:
                 "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
             },
@@ -424,7 +430,9 @@ function Posts({ url, data: originalData }) {
           sx={{
             p: 2,
             mt: 3,
-            background: "rgba(200,200,200,0.3)",
+            background: global.user.darkMode
+              ? "hsl(240,11%,13%)"
+              : "rgba(200,200,200,0.3)",
             borderRadius: 5,
           }}
         >
@@ -578,9 +586,15 @@ function Post({ data, url }) {
     <Box
       sx={{
         mt: 2,
-        border: { sm: "5px solid #fff" },
+        border: {
+          sm: global.user.darkMode
+            ? "5px solid hsl(240,11%,13%)"
+            : "5px solid #fff",
+        },
         mb: { xs: 2, sm: 0 },
-        background: "rgba(200,200,200,0.3)",
+        background: global.user.darkMode
+          ? "hsl(240,11%,13%)"
+          : "rgba(200,200,200,0.3)",
         borderRadius: 5,
         overflow: "hidden",
         ...(loading && {
