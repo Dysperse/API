@@ -103,7 +103,7 @@ export function BottomNav() {
             : hexToRgba(colors["grey"][200], 0.9),
           borderTop: global.user.darkMode
             ? "1px solid hsla(240, 11%, 20%, .8)"
-            : "1px solid rgba(200,200,200,.2)",
+            : "1px solid rgba(200,200,200,.0)",
           backdropFilter: "blur(10px)",
         }}
       >
