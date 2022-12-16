@@ -3,6 +3,7 @@ import { brown } from "@mui/material/colors";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Head from "next/head";
+import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
 const darkTheme = createTheme({
