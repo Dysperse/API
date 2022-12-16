@@ -27,7 +27,7 @@ const handler = async (req, res) => {
         },
       },
       completed: false,
-      ...req.query.image && { image: req.query.image },
+      ...(req.query.image && { image: req.query.image }),
       pinned: req.query.pinned === "true",
       due: req.query.due !== "false" ? new Date(req.query.due) : null,
       description: req.query.description,
