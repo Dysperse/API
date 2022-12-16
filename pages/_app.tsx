@@ -172,6 +172,13 @@ function Render({
       },
       MuiDrawer: {
         styleOverrides: {
+          paperAnchorBottom: {
+            bottom: "0vh!important",
+          },
+          root: {
+            height: "100vh!important",
+            overflow: "hidden!important",
+          },
           paper: {
             background: global.user.darkMode
               ? "hsl(240, 11%, 15%)"
