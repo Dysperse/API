@@ -57,7 +57,6 @@ export function Sidebar() {
       maxWidth: 55,
       minHeight: 55,
       height: 55,
-
       // icon
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         transition: "all 0.2s ease-in-out",
@@ -65,6 +64,7 @@ export function Sidebar() {
       "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
         {
           opacity: 0.5,
+          transition: "none!important",
         },
     };
   };
@@ -167,11 +167,11 @@ export function Sidebar() {
                 background: `linear-gradient(45deg, ${
                   global.user.darkMode
                     ? "hsl(240,11%,14%)"
-                    : colors[themeColor][200]
+                    : colors[themeColor][100]
                 } 0%, ${
                   global.user.darkMode
                     ? "hsl(240,11%,13%)"
-                    : colors[themeColor][100]
+                    : colors[themeColor][50]
                 } 100%)`,
                 zIndex: -1,
                 borderRadius: 5,
@@ -179,6 +179,11 @@ export function Sidebar() {
               // Tab styles
               "& .MuiTab-root": {
                 width: 55,
+                "&.Mui-selected *": {
+                  color:
+                    colors[themeColor][global.user.darkMode ? 50 : 700] +
+                    "!important",
+                },
               },
             }}
           >
