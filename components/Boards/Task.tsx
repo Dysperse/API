@@ -476,6 +476,7 @@ export const Task = React.memo(function ({
           onClick={() => setOpen(true)}
           className="p-0 rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.98] duration-100 active:duration-[0s] border border-gray-200"
           sx={{
+            color: task.color !== "blue" ? colors[task.color][900] : "",
             p: 0,
             "&:hover": {
               backgroundColor: global.user.darkMode
