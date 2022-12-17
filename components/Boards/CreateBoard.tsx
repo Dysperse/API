@@ -2,11 +2,236 @@ import Masonry from "@mui/lab/Masonry";
 import Card from "@mui/material/Card";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
 import Typography from "@mui/material/Typography";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useState } from "react";
 import { OptionsGroup } from "./OptionsGroup";
+
+function Template({
+  template,
+  mutationUrl,
+  loading,
+  setLoading,
+  emblaApi,
+}: any) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            maxWidth: "100vw",
+            width: "100%",
+          },
+        }}
+      >
+        <Card
+          sx={{
+            ...(loading && {
+              opacity: 0.5,
+              pointerEvents: "none",
+            }),
+            width: "100%!important",
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 13%)"
+              : "rgba(200,200,200,.3)",
+            transition: "transform 0.2s",
+            userSelect: "none",
+          }}
+        >
+          <Box>
+            <Box
+              sx={{
+                background: global.user.darkMode
+                  ? "hsl(240, 11%, 17%)"
+                  : "rgba(200,200,200,.2)",
+                color: global.user.darkMode ? "#fff" : "#000",
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+                overflowX: "auto",
+                display: "flex",
+              }}
+            >
+              {template.columns.map((column, index) => (
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "inline-flex",
+                    minWidth: "200px",
+                    overflowX: "auto",
+                    p: { xs: 1.5, sm: 2.5 },
+                    gap: 2,
+                    borderRight:
+                      index !== template.columns.length - 1
+                        ? "1px solid rgba(0,0,0,.1)"
+                        : "none",
+                    flexDirection: "column",
+                  }}
+                >
+                  <img src={column.emoji} width="30px" height="30px" />
+                  <Box
+                    sx={{
+                      fontSize: 18,
+                      fontWeight: 600,
+                      mt: -0.7,
+                      maxWidth: "100%",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {column.name}
+                  </Box>
+                  <Box sx={{ mt: -1 }}>
+                    <Skeleton animation={false} height={15} width={100} />
+                    <Skeleton animation={false} height={15} width={90} />
+                    <Skeleton animation={false} height={15} width={50} />
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+            <Box sx={{ p: 3, pt: 0 }}>
+              <Typography variant="h6" sx={{ mt: 2 }}>
+                {template.name}
+              </Typography>
+              <Typography variant="body2">{template.description}</Typography>
+            </Box>
+          </Box>
+        </Card>
+        <Box sx={{ p: 2 }}>
+          <Button
+            disabled={loading}
+            variant="contained"
+            fullWidth
+            size="large"
+            sx={{ borderRadius: 99 }}
+            onClick={() => {
+              setLoading(true);
+              fetchApiWithoutHook("property/boards/createBoard", {
+                board: JSON.stringify(template),
+              }).then(async () => {
+                setOpen(false);
+                await mutate(mutationUrl);
+                setLoading(false);
+                if (emblaApi) {
+                  emblaApi.reInit({
+                    containScroll: "keepSnaps",
+                    dragFree: true,
+                  });
+                }
+              });
+            }}
+          >
+            Create new board
+          </Button>
+        </Box>
+      </Dialog>
+      <Box
+        onClick={() => {
+          setOpen(true);
+        }}
+        sx={{
+          py: 1,
+          px: { sm: 1 },
+          maxWidth: "calc(100vw - 52.5px)",
+        }}
+      >
+        <Card
+          sx={{
+            ...(loading && {
+              opacity: 0.5,
+              pointerEvents: "none",
+            }),
+            width: "100%!important",
+            background: global.user.darkMode
+              ? "hsl(240, 11%, 13%)"
+              : "rgba(200,200,200,.3)",
+            borderRadius: 5,
+            transition: "transform 0.2s",
+            cursor: "pointer",
+            userSelect: "none",
+            "&:hover": {
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 16%)"
+                : "rgba(200,200,200,.4)",
+            },
+            "&:active": {
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 17%)"
+                : "rgba(200,200,200,.5)",
+              transform: "scale(.98)",
+              transition: "none",
+            },
+          }}
+        >
+          <Box>
+            <Box
+              sx={{
+                background: global.user.darkMode
+                  ? "hsl(240, 11%, 17%)"
+                  : "rgba(200,200,200,.2)",
+                color: global.user.darkMode ? "#fff" : "#000",
+                borderRadius: 5,
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+                display: "flex",
+              }}
+            >
+              {template.columns.map((column, index) => (
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    overflowX: "auto",
+                    p: { xs: 1.5, sm: 2.5 },
+                    gap: 2,
+                    borderRight:
+                      index !== template.columns.length - 1
+                        ? "1px solid rgba(0,0,0,.1)"
+                        : "none",
+                    flexDirection: "column",
+                  }}
+                >
+                  <img src={column.emoji} width="30px" height="30px" />
+                  <Box
+                    sx={{
+                      fontSize: 18,
+                      fontWeight: 600,
+                      mt: -0.7,
+                      maxWidth: "100%",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {column.name}
+                  </Box>
+                  <Box sx={{ mt: -1 }}>
+                    <Skeleton animation={false} height={15} width={100} />
+                    <Skeleton animation={false} height={15} width={90} />
+                    <Skeleton animation={false} height={15} width={50} />
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+            <Box sx={{ p: 3, pt: 0 }}>
+              <Typography variant="h6" sx={{ mt: 2 }}>
+                {template.name}
+              </Typography>
+              <Typography variant="body2">{template.description}</Typography>
+            </Box>
+          </Box>
+        </Card>
+      </Box>
+    </>
+  );
+}
 
 export function CreateBoard({ emblaApi, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
@@ -360,117 +585,13 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
       ) : (
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
           {templates.map((template) => (
-            <Box
-              onClick={() => {
-                setLoading(true);
-                fetchApiWithoutHook("property/boards/createBoard", {
-                  board: JSON.stringify(template),
-                }).then(async () => {
-                  await mutate(mutationUrl);
-                  setLoading(false);
-                  if (emblaApi) {
-                    emblaApi.reInit({
-                      containScroll: "keepSnaps",
-                      dragFree: true,
-                    });
-                  }
-                });
-              }}
-              sx={{
-                py: 1,
-                px: { sm: 1 },
-                maxWidth: "calc(100vw - 52.5px)",
-              }}
-            >
-              <Card
-                sx={{
-                  ...(loading && {
-                    opacity: 0.5,
-                    pointerEvents: "none",
-                  }),
-                  width: "100%!important",
-                  background: global.user.darkMode
-                    ? "hsl(240, 11%, 13%)"
-                    : "rgba(200,200,200,.3)",
-                  borderRadius: 5,
-                  transition: "transform 0.2s",
-                  cursor: "pointer",
-                  userSelect: "none",
-                  "&:hover": {
-                    background: global.user.darkMode
-                      ? "hsl(240, 11%, 16%)"
-                      : "rgba(200,200,200,.4)",
-                  },
-                  "&:active": {
-                    background: global.user.darkMode
-                      ? "hsl(240, 11%, 17%)"
-                      : "rgba(200,200,200,.5)",
-                    transform: "scale(.98)",
-                    transition: "none",
-                  },
-                }}
-              >
-                <Box>
-                  <Box
-                    sx={{
-                      background: global.user.darkMode
-                        ? "hsl(240, 11%, 17%)"
-                        : "rgba(200,200,200,.2)",
-                      color: global.user.darkMode ? "#fff" : "#000",
-                      borderRadius: 5,
-                      borderBottomLeftRadius: 0,
-                      borderBottomRightRadius: 0,
-                      display: "flex",
-                    }}
-                  >
-                    {template.columns.map((column, index) => (
-                      <Box
-                        sx={{
-                          width: "100%",
-                          display: "flex",
-                          overflowX: "auto",
-                          p: { xs: 1.5, sm: 2.5 },
-                          gap: 2,
-                          borderRight:
-                            index !== template.columns.length - 1
-                              ? "1px solid rgba(0,0,0,.1)"
-                              : "none",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <img src={column.emoji} width="30px" height="30px" />
-                        <Box
-                          sx={{
-                            fontSize: 18,
-                            fontWeight: 600,
-                            mt: -0.7,
-                            maxWidth: "100%",
-                            textOverflow: "ellipsis",
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {column.name}
-                        </Box>
-                        <Box sx={{ mt: -1 }}>
-                          <Skeleton animation={false} height={15} width={100} />
-                          <Skeleton animation={false} height={15} width={90} />
-                          <Skeleton animation={false} height={15} width={50} />
-                        </Box>
-                      </Box>
-                    ))}
-                  </Box>
-                  <Box sx={{ p: 3, pt: 0 }}>
-                    <Typography variant="h6" sx={{ mt: 2 }}>
-                      {template.name}
-                    </Typography>
-                    <Typography variant="body2">
-                      {template.description}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Card>
-            </Box>
+            <Template
+              template={template}
+              mutationUrl={mutationUrl}
+              loading={loading}
+              setLoading={setLoading}
+              emblaApi={emblaApi}
+            />
           ))}
         </Masonry>
       )}
