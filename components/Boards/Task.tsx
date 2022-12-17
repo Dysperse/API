@@ -59,7 +59,7 @@ function ImageViewer({ url, trimHeight = false }) {
             src={url}
             style={{
               width: "100%",
-              borderRadius: "20px",
+              borderRadius: "15px",
               height: "100%",
               ...(trimHeight && {
                 maxHeight: "100px",
@@ -347,9 +347,17 @@ export const Task = React.memo(function ({
                     },
                   },
                 }}
+                onBlur={(e) => {
+                  fetchApiWithoutHook("property/boards/editTask", {
+                    description: e.target.value,
+                    id: task.id,
+                  }).then(() => {
+                    mutate(mutationUrl);
+                  });
+                }}
                 placeholder="Add a description"
                 minRows={4}
-                value={task.description}
+                defaultValue={task.description}
               />
             </Box>
           </Box>
@@ -498,6 +506,13 @@ export const Task = React.memo(function ({
                   ...(checked && {
                     textDecoration: "line-through",
                     opacity: 0.5,
+                  }),
+                  marginLeft: "45px",
+                  display: "block",
+                  position: "relative",
+                  top: task.image ? "3px" : "-7px",
+                  ...(task.image && {
+                    marginBottom: "7px",
                   }),
                 }}
               >

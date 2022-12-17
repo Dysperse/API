@@ -22,7 +22,8 @@ const handler = async (req, res) => {
       id: parseInt(req.query.id),
     },
     data: {
-      name: req.query.name,
+      ...(req.query.name && { name: req.query.name }),
+      ...(req.query.description && { description: req.query.description }),
     },
   });
 
