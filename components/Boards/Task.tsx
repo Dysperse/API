@@ -90,6 +90,10 @@ const Color = ({
         borderRadius: 9,
         cursor: "pointer",
         height: "30px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#000",
         background: colors[color]["A400"] + "!important",
         "&:hover": {
           background: colors[color]["A700"] + "!important",
@@ -103,7 +107,16 @@ const Color = ({
           mutate(mutationUrl);
         });
       }}
-    />
+    >
+      <span
+        className="material-symbols-rounded"
+        style={{
+          opacity: task.color == color ? 1 : 0,
+        }}
+      >
+        check
+      </span>
+    </Box>
   );
 };
 
