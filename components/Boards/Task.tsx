@@ -205,7 +205,9 @@ export const Task = React.memo(function ({
         hexToRgba(colors[themeColor][900], 0.1),
     },
     "input:not(:checked):hover ~ &": {
-      boxShadow: "inset 0 0 0 2px rgba(255,255,255,0.5)",
+      boxShadow: global.user.darkMode
+        ? "inset 0 0 0 2px rgba(255,255,255,0.5)"
+        : "inset 0 0 0 2px rgba(0,0,0,.5)",
       backgroundColor:
         global.theme !== "dark"
           ? colors[themeColor][100]
@@ -400,9 +402,15 @@ export const Task = React.memo(function ({
       {task.subTasks.length >= 0 && (
         <ListItem
           onClick={() => setOpen(true)}
-          className="p-0 rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.99] duration-100 active:duration-[0s] border border-gray-200"
+          className="p-0 rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.98] duration-100 active:duration-[0s] border border-gray-200"
           sx={{
             p: 0,
+            "&:hover": {
+              backgroundColor: global.user.darkMode
+                ? "hsl(240,11%,16%)"
+                : "rgba(200,200,200,0.3)",
+              cursor: "pointer",
+            },
             ...(!checkList && {
               border: "0!important",
             }),
