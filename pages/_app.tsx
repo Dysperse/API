@@ -97,8 +97,16 @@ function Render({
         },
         styleOverrides: {
           contained: {
-            background: colors[themeColor]["800"] + "!important",
+            background:
+              colors[themeColor][global.theme !== "dark" ? "800" : "50"] +
+              "!important",
+            color: colors[themeColor][global.theme !== "dark" ? "50" : "800"],
           },
+          ...(global.theme !== "dark" && {
+            disabled: {
+              background: colors["grey"]["100"] + "!important",
+            },
+          }),
           root: {
             transition: "none",
             textTransform: "none",

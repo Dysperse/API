@@ -295,7 +295,11 @@ export const Task = React.memo(function ({
       .querySelector(`meta[name="theme-color"]`)
       ?.setAttribute(
         "content",
-        open ? colors[task.color ?? global.themeColor ?? "brown"][50] : "#fff"
+        open
+          ? colors[task.color ?? global.themeColor ?? "brown"][
+              global.theme === "dark" ? 900 : 50
+            ]
+          : "#fff"
       );
   });
   const [view, setView] = useState<"Details" | "Subtasks">("Details");
@@ -318,9 +322,9 @@ export const Task = React.memo(function ({
             maxWidth: "500px",
             // borderRadius: { sm: "20px 0 0 20px" },
             background:
-              colors[
-                task.color ?? task.color ?? global.themeColor ?? "brown"
-              ][50],
+              colors[task.color ?? task.color ?? global.themeColor ?? "brown"][
+                global.theme === "dark" ? 900 : 50
+              ],
           },
         }}
       >
@@ -402,12 +406,15 @@ export const Task = React.memo(function ({
                   mr: 1,
                   background:
                     view == "Details"
-                      ? colors[task.color]["900"] + "!important"
+                      ? colors[task.color][global.theme === "dark" ? 50 : 900] +
+                        "!important"
                       : "transparent!important",
                   color:
                     view == "Details"
-                      ? ""
-                      : colors[task.color][900] + "!important",
+                      ? colors[task.color][global.theme === "dark" ? 900 : 50] +
+                        "!important"
+                      : colors[task.color][global.theme === "dark" ? 50 : 900] +
+                        "!important",
                 }}
               >
                 Details
@@ -419,13 +426,17 @@ export const Task = React.memo(function ({
                   gap: 1.5,
                   background:
                     view == "Subtasks"
-                      ? colors[task.color]["900"] + "!important"
+                      ? colors[task.color][
+                          global.theme === "dark" ? 50 : "900"
+                        ] + "!important"
                       : "transparent!important",
                   borderRadius: 4,
                   color:
                     view == "Subtasks"
-                      ? ""
-                      : colors[task.color][900] + "!important",
+                      ? colors[task.color][global.theme === "dark" ? 900 : 50] +
+                        "!important"
+                      : colors[task.color][global.theme === "dark" ? 50 : 900] +
+                        "!important",
                 }}
               >
                 Subtasks
@@ -450,22 +461,26 @@ export const Task = React.memo(function ({
                     disableUnderline: true,
                     sx: {
                       color:
-                        colors[task.color ?? global.themeColor ?? "brown"][900],
+                        colors[task.color ?? global.themeColor ?? "brown"][
+                          global.theme === "dark" ? 50 : 900
+                        ],
                       background:
-                        colors[task.color ?? global.themeColor ?? "brown"][100],
+                        colors[task.color ?? global.themeColor ?? "brown"][
+                          global.theme === "dark" ? 800 : 100
+                        ],
                       borderRadius: 5,
                       p: 2,
                       mt: 2,
                       "&:focus-within": {
                         background:
-                          colors[
-                            task.color ?? global.themeColor ?? "brown"
-                          ][100],
+                          colors[task.color ?? global.themeColor ?? "brown"][
+                            global.theme === "dark" ? 800 : 100
+                          ],
                         boxShadow:
                           "0px 0px 0px 2px " +
-                          colors[
-                            task.color ?? global.themeColor ?? "brown"
-                          ][900],
+                          colors[task.color ?? global.themeColor ?? "brown"][
+                            global.theme === "dark" ? 700 : 900
+                          ],
                       },
                     },
                   }}

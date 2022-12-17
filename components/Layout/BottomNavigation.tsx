@@ -23,7 +23,7 @@ export function BottomNav() {
     return {
       borderRadius: 3,
       textTransform: "none",
-      color: "#303030",
+      color: global.theme === "dark" ? "hsl(240,11%,90%)" : "#303030",
       height: "70px",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         height: "24px",
