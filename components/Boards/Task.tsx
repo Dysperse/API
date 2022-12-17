@@ -544,7 +544,10 @@ export const Task = React.memo(function ({
           {view == "Subtasks" && (
             <Box sx={{ ml: 6, mt: 2 }}>
               {task.subTasks.map((subtask) => (
-                <SubTask noMargin subtask={subtask} />
+                <SubTask noMargin 
+                  BpIcon={BpIcon}
+          BpCheckedIcon={BpCheckedIcon}
+                  subtask={subtask} />
               ))}
               <CreateTask
                 parent={task.id}
