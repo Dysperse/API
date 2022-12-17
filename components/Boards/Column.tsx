@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import { CreateTask } from "./CreateTask";
 import { Task } from "./Task";
 import React from "react";
+import Divider from "@mui/material/Divider";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -12,7 +13,93 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { mutate } from "swr";
 import TextField from "@mui/material/TextField";
 import EmojiPicker from "emoji-picker-react";
+import { CardActionArea } from "@mui/material";
 
+function CompletedTasks({
+  checkList,
+  mutationUrl,
+  boardId,
+  columnId,
+  columnTasks,
+  column,
+}) {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
+  return (
+    <>
+      {columnTasks.filter((task) => task.completed).length !== 0 && (
+        <Box>
+          <Divider sx={{ my: 1.5 }} />
+          <CardActionArea
+            sx={{
+              px: 1,
+              mb: 1,
+              py: 0.5,
+              borderRadius: 4,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+            onClick={() => {
+              setOpen(!open);
+              // Scroll to bottom of body
+              // window.scrollTo(0, document.body.scrollHeight);
+            }}
+          >
+            <Typography sx={{ fontWeight: "700" }}>
+              Completed ({columnTasks.filter((task) => task.completed).length})
+            </Typography>
+            <span className="material-symbols-rounded">
+              {!open ? "expand_more" : "expand_less"}
+            </span>
+          </CardActionArea>
+          <Box
+            sx={{
+              display: open ? "box" : "none",
+              animation: "completedTasks .2s forwards",
+            }}
+          >
+            <Box sx={{ px: 1 }}>
+              <TextField
+                variant="standard"
+                size="small"
+                placeholder="Filter..."
+                fullWidth
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                autoComplete="off"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    px: 1,
+                    mb: 1,
+                    py: 0.5,
+                    borderRadius: 2,
+                    background: "rgba(200,200,200,.3)",
+                  },
+                }}
+              />
+            </Box>
+            {columnTasks
+              .filter((task) => task.completed)
+              .filter((task) =>
+                task.name.toLowerCase().includes(value.toLowerCase())
+              )
+              .map((task) => (
+                <Task
+                  checkList={checkList}
+                  task={task}
+                  mutationUrl={mutationUrl}
+                  boardId={boardId}
+                  columnId={column.id}
+                />
+              ))}
+          </Box>
+        </Box>
+      )}
+    </>
+  );
+}
 function EmojiPickerModal({ emoji, setEmoji }: any) {
   const [open, setOpen] = React.useState(false);
   return (
@@ -205,6 +292,10 @@ export const Column = React.memo(function ({
   column,
   tasks,
 }: any) {
+  const columnTasks = column.tasks.filter(
+    (task) => task.parentTasks.length === 0
+  );
+
   return (
     <Box
       className="w-[350px] bg-neutral-100 mb-10 dark:bg-[hsl(240,11%,13%)]"
@@ -257,8 +348,8 @@ export const Column = React.memo(function ({
           />
         </Box>
       )}
-      {column.tasks
-        .filter((task) => task.parentTasks.length === 0)
+      {columnTasks
+        .filter((task) => !task.completed)
         .map((task) => (
           <Task
             checkList={checkList}
@@ -268,13 +359,21 @@ export const Column = React.memo(function ({
             columnId={column.id}
           />
         ))}
-
       <CreateTask
         tasks={tasks}
         checkList={checkList}
         mutationUrl={mutationUrl}
         boardId={boardId}
         columnId={column.id}
+      />
+
+      <CompletedTasks
+        checkList={checkList}
+        mutationUrl={mutationUrl}
+        boardId={boardId}
+        columnId={column.id}
+        columnTasks={columnTasks}
+        column={column}
       />
     </Box>
   );
