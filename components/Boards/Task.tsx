@@ -80,10 +80,14 @@ const Color = ({ color }: { color: string }) => {
         width: "30px",
         flex: "0 0 30px",
         borderRadius: 9,
+        cursor: "pointer",
         height: "30px",
-        background: colors[color]["900"] + "!important",
+        background: colors[color]["800"] + "!important",
+        "&:hover": {
+          background: colors[color]["900"] + "!important",
+        },
       }}
-    ></Box>
+    />
   );
 };
 
