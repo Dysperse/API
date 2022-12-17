@@ -460,7 +460,7 @@ export const Task = React.memo(function ({
                         background:
                           colors[
                             task.color ?? global.themeColor ?? "brown"
-                          ][200],
+                          ][100],
                         boxShadow:
                           "0px 0px 0px 2px " +
                           colors[
