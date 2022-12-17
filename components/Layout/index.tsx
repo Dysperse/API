@@ -49,6 +49,13 @@ function ResponsiveDrawer({
         display: "flex",
       }}
     >
+      <div className="search">
+        <img src="logo.svg" alt="Wikimedia logo." width="32" height="32" />
+        <label>
+          <input type="search" />
+          Search for words in articles
+        </label>
+      </div>
       {router && (
         <PWAPrompt
           copyBody="Add Carbon to your home screen to have easy access, recieve push notifications, and more!"

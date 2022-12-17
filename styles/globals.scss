@@ -228,3 +228,34 @@ input:-webkit-autofill {
     margin-top: 0;
   }
 }
+
+.search {
+  /* Make sure the `div` stays there, even when scrolling. */
+  position: fixed;
+  z-index: 99999;
+  /**
+   * Gradient, because why not. Endless opportunities.
+   * The gradient ends in `#36c`, which happens to be the app's
+   * `<meta name="theme-color" content="#36c">`.
+   */
+  background-image: linear-gradient(90deg, #36c, #131313, 33%, #36c);
+  /* Use the environment variable for the left anchoring with a fallback. */
+  left: env(titlebar-area-x, 0);
+  /* Use the environment variable for the top anchoring with a fallback. */
+  top: env(titlebar-area-y, 0);
+  /* Use the environment variable for setting the width with a fallback. */
+  width: env(titlebar-area-width, 100%);
+  /* Use the environment variable for setting the height with a fallback. */
+  height: env(titlebar-area-height, 33px);
+}
+/* The entire search `div` is draggable… */
+.search {
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+/* …except for the `input`. */
+input {
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}

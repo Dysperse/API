@@ -23,6 +23,7 @@ export function BottomNav() {
     return {
       borderRadius: 3,
       textTransform: "none",
+      color: "#303030",
       height: "70px",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         height: "24px",
@@ -49,17 +50,17 @@ export function BottomNav() {
         break;
       case "/trash":
       case "/items":
-        setValue(1);
+        setValue(2);
         break;
       case "/coach":
-        setValue(2);
+        setValue(1);
         break;
       case "/spaces":
         setValue(3);
         break;
       default:
         if (router.asPath.includes("/rooms")) {
-          setValue(1);
+          setValue(2);
         } else {
           setValue(0);
         }
@@ -100,10 +101,10 @@ export function BottomNav() {
           height: "70px",
           background: global.user.darkMode
             ? "hsla(240, 11%, 10%, .9)"
-            : hexToRgba(colors["grey"][200], 0.9),
+            : hexToRgba("#eee", 0.7),
           borderTop: global.user.darkMode
             ? "1px solid hsla(240, 11%, 20%, .8)"
-            : "1px solid rgba(200,200,200,.0)",
+            : "1px solid rgba(200,200,200,.4)",
           backdropFilter: "blur(10px)",
         }}
       >
@@ -133,8 +134,8 @@ export function BottomNav() {
               mt: -2.855,
               backgroundColor: global.user.darkMode
                 ? "rgba(153, 153, 158, .1)"
-                : hexToRgba(colors[themeColor][500], 0.1),
-              borderRadius: 99,
+                : hexToRgba(colors[themeColor][500], 0.2),
+              borderRadius: 3,
             },
           }}
         >
@@ -160,28 +161,7 @@ export function BottomNav() {
             label="Lists"
             onClick={() => router.push("/tasks").then(() => setValue(0))}
           />
-          <Tab
-            disableRipple
-            sx={styles(
-              router.asPath == "/items" || router.asPath.includes("rooms")
-            )}
-            icon={
-              <span
-                className={`material-symbols-${
-                  router.asPath == "/items" || router.asPath.includes("rooms")
-                    ? "rounded"
-                    : "outlined"
-                }`}
-                style={{
-                  transition: "all .2s!important",
-                }}
-              >
-                category
-              </span>
-            }
-            label="Items"
-            onClick={() => router.push("/items").then(() => setValue(1))}
-          />
+
           <Tab
             disableRipple
             onDoubleClick={() => {
@@ -205,7 +185,29 @@ export function BottomNav() {
               </span>
             }
             label="Coach"
-            onClick={() => router.push("/coach").then(() => setValue(2))}
+            onClick={() => router.push("/coach").then(() => setValue(1))}
+          />
+          <Tab
+            disableRipple
+            sx={styles(
+              router.asPath == "/items" || router.asPath.includes("rooms")
+            )}
+            icon={
+              <span
+                className={`material-symbols-${
+                  router.asPath == "/items" || router.asPath.includes("rooms")
+                    ? "rounded"
+                    : "outlined"
+                }`}
+                style={{
+                  transition: "all .2s!important",
+                }}
+              >
+                category
+              </span>
+            }
+            label="Items"
+            onClick={() => router.push("/items").then(() => setValue(2))}
           />
           <Tab
             disableRipple
