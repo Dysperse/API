@@ -169,6 +169,7 @@ export function InviteButton() {
       </SwipeableDrawer>
       <Box id="new_trigger" onClick={handleClick} />
       <Button
+        disabled={!window.navigator.onLine}
         disableFocusRipple
         id="houseProfileTrigger"
         onClick={() => setOpen(true)}

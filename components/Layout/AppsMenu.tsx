@@ -277,6 +277,7 @@ export function AppsMenu() {
       <Tooltip title="Apps">
         {global.user ? (
           <IconButton
+            disabled={!window.navigator.onLine}
             color="inherit"
             disableRipple
             sx={{

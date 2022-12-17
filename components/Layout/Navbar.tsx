@@ -328,6 +328,7 @@ export function Navbar(): JSX.Element {
             <IconButton
               sx={{ ...styles, ml: 1.5 }}
               color="inherit"
+              disabled={!window.navigator.onLine}
               disableRipple
               onClick={() => window.open("https://smartlist.tech/support")}
             >
@@ -347,6 +348,7 @@ export function Navbar(): JSX.Element {
               <IconButton
                 color="inherit"
                 disableRipple
+                disabled={!window.navigator.onLine}
                 sx={{
                   ...styles,
                 }}

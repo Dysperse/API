@@ -266,6 +266,7 @@ export function SearchPopup() {
   return (
     <>
       <Button
+        disabled={!window.navigator.onLine}
         onClick={() => setOpen(true)}
         disableFocusRipple
         sx={{
@@ -336,6 +337,7 @@ export function SearchPopup() {
         }}
       >
         <IconButton
+          disabled={!window.navigator.onLine}
           disableRipple
           onClick={() => {
             setOpen(true);
