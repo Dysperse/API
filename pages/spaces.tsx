@@ -16,6 +16,7 @@ import {
   Grow,
   Link,
   Skeleton,
+  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
@@ -446,7 +447,7 @@ function SearchPosts({ data, setData, originalData }) {
       <TextField
         onChange={handleChange}
         fullWidth
-        placeholder="Search posts"
+        placeholder="Search memos..."
         autoComplete="off"
         sx={{
           mt: 2,
@@ -527,8 +528,8 @@ function Posts({ url, data: originalData }) {
           }}
         >
           {originalData.length == 0
-            ? "No posts yet"
-            : "No posts match your search criteria"}
+            ? "You haven't created any memos yet."
+            : "No memos match your search criteria"}
         </Box>
       )}
     </>
@@ -816,11 +817,24 @@ export default function Spaces() {
       {data ? (
         <>
           <Typography
-            sx={{ fontWeight: "600", mb: 2 }}
+            sx={{
+              fontWeight: "600",
+              mb: 2,
+              display: "flex",
+              alignItems: "center",
+            }}
             variant="h5"
             gutterBottom
           >
             Spaces
+            <Tooltip
+              title="Spaces is a places where you can store memos to yourself, or share it with members in your group. Maximize your productivity by keeping links, images, and text, and files at hand!"
+              sx={{ ml: "auto" }}
+            >
+              <IconButton disableRipple>
+                <span className="material-symbols-outlined">help</span>
+              </IconButton>
+            </Tooltip>
           </Typography>
           <Posts url={url} data={data} />
         </>
