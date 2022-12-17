@@ -165,7 +165,7 @@ export let BpCheckedIcon: any = styled(BpIcon)({
   },
 });
 
-function SubTask({ noMargin = false, subtask }) {
+function SubTask({ noMargin = false, subtask, BpCheckedIcon, BpIcon }) {
   const [checked, setChecked] = useState(subtask.completed);
   return (
     <ListItem
@@ -674,7 +674,11 @@ export const Task = React.memo(function ({
         </ListItem>
       )}
       {task.subTasks.map((subtask) => (
-        <SubTask subtask={subtask} />
+        <SubTask
+          BpIcon={BpIcon}
+          BpCheckedIcon={BpCheckedIcon}
+          subtask={subtask}
+        />
       ))}
     </Box>
   );
