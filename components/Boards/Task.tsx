@@ -82,9 +82,9 @@ const Color = ({ color }: { color: string }) => {
         borderRadius: 9,
         cursor: "pointer",
         height: "30px",
-        background: colors[color]["800"] + "!important",
+        background: colors[color]["A400"] + "!important",
         "&:hover": {
-          background: colors[color]["900"] + "!important",
+          background: colors[color]["A700"] + "!important",
         },
       }}
     />
