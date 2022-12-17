@@ -15,6 +15,7 @@ const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
 });
 import { TransitionProps } from "@mui/material/transitions";
 import Grow from "@mui/material/Grow";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 const Transition = React.forwardRef(function Transition(
   props: any,
@@ -34,6 +35,7 @@ function ResponsiveDrawer({
 }): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
+  useStatusBar(open);
   useHotkeys(
     "ctrl+/",
     (e) => {
