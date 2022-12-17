@@ -318,13 +318,15 @@ export function Navbar(): JSX.Element {
           </Offline>
         </Box>
         <Achievements styles={styles} />
-        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -2 } }}>
+        <Box
+          sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -2 }, ml: 0.5 }}
+        >
           <AppsMenu />
         </Box>
         <Box sx={{ display: { xs: "none", sm: "unset" } }}>
           <Tooltip title="Support">
             <IconButton
-              sx={{ ...styles, ml: 1 }}
+              sx={{ ...styles, ml: 1.5 }}
               color="inherit"
               disableRipple
               onClick={() => window.open("https://smartlist.tech/support")}
