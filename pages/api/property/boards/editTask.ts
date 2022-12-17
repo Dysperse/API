@@ -1,7 +1,5 @@
 import { prisma } from "../../../../lib/prismaClient";
-import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-import type { Item } from "@prisma/client";
 /**
  * API handler
  * @param {any} req
@@ -18,12 +16,13 @@ const handler = async (req, res) => {
     return;
   }
 
+  console.log(req.query.completed);
   const data = await prisma.task.update({
     where: {
       id: parseInt(req.query.id),
     },
     data: {
-      completed: req.query.completed === "true",
+      name: req.query.name,
     },
   });
 

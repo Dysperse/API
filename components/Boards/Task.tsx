@@ -18,6 +18,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./CreateTask";
 import { Dialog } from "@mui/material";
+import { mutate } from "swr";
 
 function ImageViewer({ url, trimHeight = false }) {
   const [open, setOpen] = useState(false);
@@ -282,7 +283,7 @@ export const Task = React.memo(function ({
               gap: 1,
             }}
           >
-            <Box sx={{ height: "100%", alignSelf: "flex-start", pt: 0 }}>
+            <Box sx={{ height: "100%", alignSelf: "flex-start", pt: 1.5 }}>
               <Checkbox
                 disableRipple
                 checked={checked}
@@ -306,9 +307,26 @@ export const Task = React.memo(function ({
               />
             </Box>
             <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h4" sx={{ mb: 1, fontWeight: "900" }}>
-                {task.name}
-              </Typography>
+              <TextField
+                defaultValue={task.name}
+                onBlur={(e: any) => {
+                  fetchApiWithoutHook("property/boards/editTask", {
+                    name: e.target.value,
+                    id: task.id,
+                  }).then(() => {
+                    mutate(mutationUrl);
+                  });
+                }}
+                placeholder="Item name"
+                variant="standard"
+                InputProps={{
+                  sx: {
+                    fontSize: "40px",
+                    height: "70px",
+                    borderRadius: 4,
+                  },
+                }}
+              />
               <TextField
                 multiline
                 fullWidth
