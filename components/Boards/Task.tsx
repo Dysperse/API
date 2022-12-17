@@ -12,12 +12,12 @@ import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import hexToRgba from "hex-to-rgba";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./CreateTask";
-import { Dialog } from "@mui/material";
+import { Dialog, IconButton } from "@mui/material";
 import { mutate } from "swr";
 
 function ImageViewer({ url, trimHeight = false }) {
@@ -289,7 +289,14 @@ export const Task = React.memo(function ({
   );
   const [checked, setChecked] = useState(task.completed);
   const [open, setOpen] = useState(false);
-
+  useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute(
+        "content",
+        open ? colors[task.color ?? global.themeColor ?? "brown"][50] : "#fff"
+      );
+  });
   return (
     <Box>
       <SwipeableDrawer
@@ -314,7 +321,23 @@ export const Task = React.memo(function ({
           },
         }}
       >
-        <Box sx={{ p: 5, px: 3, overflowY: "auto", mb: 10 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            p: 2,
+          }}
+        >
+          <IconButton disableRipple onClick={() => setOpen(false)}>
+            <span className="material-symbols-rounded">west</span>
+          </IconButton>
+          <Typography sx={{ mx: "auto" }}>Details</Typography>
+          <IconButton disableRipple>
+            <span className="material-symbols-rounded">delete</span>
+          </IconButton>
+        </Box>
+        <Box sx={{ p: 5, px: 3, pt: 2, overflowY: "auto", mb: 10 }}>
           <Box
             sx={{
               display: "flex",
@@ -359,6 +382,7 @@ export const Task = React.memo(function ({
                 placeholder="Item name"
                 variant="standard"
                 InputProps={{
+                  className: "font-secondary",
                   sx: {
                     fontSize: "40px",
                     height: "70px",
@@ -447,7 +471,6 @@ export const Task = React.memo(function ({
               bottom: 0,
               left: 0,
               width: "100%",
-              borderRadius: "20px 20px 0 0",
               maxHeight: "50vh",
               overflowY: "auto",
               display: "flex",
