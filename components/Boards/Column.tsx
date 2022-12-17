@@ -29,21 +29,25 @@ function CompletedTasks({
     <>
       {columnTasks.filter((task) => task.completed).length !== 0 && (
         <Box>
-          <Divider sx={{ my: 1.5 }} />
+          <Divider
+            sx={{
+              my: open ? 1.5 : 0.5,
+              opacity: open ? 1 : 0,
+              transition: "all .2s",
+            }}
+          />
           <CardActionArea
             sx={{
-              px: 1,
+              px: 1.5,
               mb: 1,
               py: 0.5,
-              borderRadius: 4,
+              borderRadius: 2,
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
             onClick={() => {
               setOpen(!open);
-              // Scroll to bottom of body
-              // window.scrollTo(0, document.body.scrollHeight);
             }}
           >
             <Typography sx={{ fontWeight: "700" }}>
