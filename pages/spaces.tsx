@@ -384,8 +384,8 @@ function CreatePostMenu({ url }) {
             }}
             onClick={() => setVisibilityModalOpen(true)}
           >
-            <span className="material-symbols-outlined">visibility</span> Only
-            me
+            <span className="material-symbols-outlined">visibility</span>
+            {contentVisibility}
           </Button>
           <Box
             sx={{
