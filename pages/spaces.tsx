@@ -691,11 +691,6 @@ function Post({ data, url }) {
       sx={{
         mt: 2,
         maxWidth: "calc(100vw - 32.5px)",
-        border: {
-          sm: global.user.darkMode
-            ? "5px solid hsl(240,11%,17%)"
-            : "5px solid #fff",
-        },
         mb: { xs: 2, sm: 0 },
         background: global.user.darkMode
           ? "hsl(240,11%,17%)"
@@ -705,6 +700,8 @@ function Post({ data, url }) {
         ...(loading && {
           opacity: 0.5,
         }),
+        boxShadow:
+          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       }}
       ref={emblaRef}
     >
@@ -754,18 +751,32 @@ function Post({ data, url }) {
             </Typography>
           </Box>
           {data.image && <ImageBox image={data.image} />}
-          <Typography
-            variant="h6"
-            sx={{
-              p: 2,
-              maxWidth: "100%",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-            }}
-          >
-            {renderText(data.content)}
-          </Typography>
+
+          <Box sx={{ p: 2 }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                maxWidth: "100%",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
+              {renderText(data.content)}
+            </Typography>
+            {data.user.name === global.user.name && (
+              <Typography
+                variant="body1"
+                sx={{
+                  ml: "auto",
+                  color: "#666",
+                }}
+              >
+                {dayjs(data.timestamp).fromNow()}
+              </Typography>
+            )}
+          </Box>
         </Box>
         <Box
           sx={{
