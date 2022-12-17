@@ -173,6 +173,7 @@ export function CreateTask({
       date,
       pinned: pinned ? "true" : "false",
       due: date ? date.toISOString() : "false",
+      ...(parent && { parent }),
 
       boardId,
       columnId,
@@ -293,7 +294,8 @@ export function CreateTask({
                 }}
               />
             </Collapse>
-            {title !== "" &&
+            {!parent &&
+              title !== "" &&
               tasks.filter((task) =>
                 new RegExp("\\b" + task.name.toLowerCase() + "\\b").test(
                   title.toLowerCase()

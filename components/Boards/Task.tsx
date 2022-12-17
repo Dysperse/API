@@ -1,11 +1,12 @@
-import CardActionArea from "@mui/material/CardActionArea";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
+import { Chip, Dialog, IconButton } from "@mui/material";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import { styled } from "@mui/material/styles";
 import dayjs from "dayjs";
@@ -14,11 +15,11 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import hexToRgba from "hex-to-rgba";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./CreateTask";
-import { Dialog, IconButton } from "@mui/material";
-import { mutate } from "swr";
+import { OptionsGroup } from "./OptionsGroup";
 
 function ImageViewer({ url, trimHeight = false }) {
   const [open, setOpen] = useState(false);
@@ -164,13 +165,13 @@ export let BpCheckedIcon: any = styled(BpIcon)({
   },
 });
 
-function SubTask({ subtask }) {
+function SubTask({ noMargin = false, subtask }) {
   const [checked, setChecked] = useState(subtask.completed);
   return (
     <ListItem
       key={subtask.id}
       sx={{
-        ml: "30px",
+        ml: noMargin ? "10px" : "30px",
         maxWidth: "calc(100% - 30px)",
         pl: 0,
         gap: 1.5,
@@ -297,6 +298,8 @@ export const Task = React.memo(function ({
         open ? colors[task.color ?? global.themeColor ?? "brown"][50] : "#fff"
       );
   });
+  const [view, setView] = useState<"Details" | "Subtasks">("Details");
+
   return (
     <Box>
       <SwipeableDrawer
@@ -313,7 +316,7 @@ export const Task = React.memo(function ({
             mx: "auto",
             height: "100vh",
             maxWidth: "500px",
-            borderRadius: { sm: "20px 0 0 20px" },
+            // borderRadius: { sm: "20px 0 0 20px" },
             background:
               colors[
                 task.color ?? task.color ?? global.themeColor ?? "brown"
@@ -386,112 +389,156 @@ export const Task = React.memo(function ({
                   sx: {
                     fontSize: "40px",
                     height: "70px",
+                    mb: 3,
                     borderRadius: 4,
                   },
                 }}
               />
-              <TextField
-                multiline
-                fullWidth
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  sx: {
-                    color:
-                      colors[task.color ?? global.themeColor ?? "brown"][900],
-                    background:
-                      colors[task.color ?? global.themeColor ?? "brown"][100],
-                    borderRadius: 5,
-                    p: 2,
-                    mt: 2,
-                    "&:focus-within": {
-                      background:
-                        colors[task.color ?? global.themeColor ?? "brown"][200],
-                      boxShadow:
-                        "0px 0px 0px 2px " +
+              <Button
+                variant={"contained"}
+                onClick={() => setView("Details")}
+                sx={{
+                  borderRadius: 4,
+                  mr: 1,
+                  background:
+                    view == "Details"
+                      ? colors[task.color]["900"] + "!important"
+                      : "transparent!important",
+                  color:
+                    view == "Details"
+                      ? ""
+                      : colors[task.color][900] + "!important",
+                }}
+              >
+                Details
+              </Button>
+              <Button
+                variant={"contained"}
+                onClick={() => setView("Subtasks")}
+                sx={{
+                  gap: 1.5,
+                  background:
+                    view == "Subtasks"
+                      ? colors[task.color]["900"] + "!important"
+                      : "transparent!important",
+                  borderRadius: 4,
+                  color:
+                    view == "Subtasks"
+                      ? ""
+                      : colors[task.color][900] + "!important",
+                }}
+              >
+                Subtasks
+                <Chip
+                  label={task.subTasks.length}
+                  size="small"
+                  sx={{
+                    transition: "none",
+                    pointerEvents: "none",
+                    backgroundColor:
+                      colors[task.color][view === "Subtasks" ? 700 : 100],
+                    color: colors[task.color][view === "Subtasks" ? 50 : 900],
+                  }}
+                />
+              </Button>
+              {view == "Details" && (
+                <TextField
+                  multiline
+                  fullWidth
+                  variant="standard"
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                      color:
                         colors[task.color ?? global.themeColor ?? "brown"][900],
+                      background:
+                        colors[task.color ?? global.themeColor ?? "brown"][100],
+                      borderRadius: 5,
+                      p: 2,
+                      mt: 2,
+                      "&:focus-within": {
+                        background:
+                          colors[
+                            task.color ?? global.themeColor ?? "brown"
+                          ][200],
+                        boxShadow:
+                          "0px 0px 0px 2px " +
+                          colors[
+                            task.color ?? global.themeColor ?? "brown"
+                          ][900],
+                      },
                     },
-                  },
-                }}
-                onBlur={(e) => {
-                  fetchApiWithoutHook("property/boards/editTask", {
-                    description: e.target.value,
-                    id: task.id,
-                  }).then(() => {
-                    mutate(mutationUrl);
-                  });
-                }}
-                placeholder="Add a description"
-                minRows={4}
-                defaultValue={task.description}
+                  }}
+                  onBlur={(e) => {
+                    fetchApiWithoutHook("property/boards/editTask", {
+                      description: e.target.value,
+                      id: task.id,
+                    }).then(() => {
+                      mutate(mutationUrl);
+                    });
+                  }}
+                  placeholder="Add a description"
+                  minRows={4}
+                  defaultValue={task.description}
+                />
+              )}
+            </Box>
+          </Box>
+          {view == "Details" && (
+            <Box
+              sx={{
+                ml: 7,
+                mt: task.image ? 2 : 0,
+              }}
+            >
+              <ImageViewer url={task.image} />
+            </Box>
+          )}
+          {view == "Details" && (
+            <Box
+              ref={emblaRef}
+              sx={{
+                mt: 2,
+                gap: 2,
+                overflowX: "auto",
+                ml: 7,
+                borderRadius: 5,
+              }}
+            >
+              <Box className="embla__container" sx={{ gap: 1 }}>
+                {[
+                  "red",
+                  "orange",
+                  "deepOrange",
+                  "lightBlue",
+                  "blue",
+                  "indigo",
+                  "purple",
+                  "pink",
+                  "green",
+                  "lime",
+                  "brown",
+                  "blueGrey",
+                ].map((color) => (
+                  <Color task={task} mutationUrl={mutationUrl} color={color} />
+                ))}
+              </Box>
+            </Box>
+          )}
+
+          {view == "Subtasks" && (
+            <Box sx={{ ml: 6, mt: 2 }}>
+              {task.subTasks.map((subtask) => (
+                <SubTask noMargin subtask={subtask} />
+              ))}
+              <CreateTask
+                parent={task.id}
+                boardId={boardId}
+                columnId={columnId}
+                mutationUrl={mutationUrl}
               />
             </Box>
-          </Box>
-          <Box
-            sx={{
-              ml: 7,
-              mt: 2,
-            }}
-          >
-            <ImageViewer url={task.image} />
-          </Box>
-          <Box
-            ref={emblaRef}
-            sx={{
-              mt: 2,
-              gap: 2,
-              overflowX: "auto",
-              ml: 7,
-              borderRadius: 5,
-            }}
-          >
-            <Box className="embla__container" sx={{ gap: 1 }}>
-              {[
-                "red",
-                "orange",
-                "deepOrange",
-                "lightBlue",
-                "blue",
-                "indigo",
-                "purple",
-                "pink",
-                "green",
-                "lime",
-                "brown",
-                "blueGrey",
-              ].map((color) => (
-                <Color task={task} mutationUrl={mutationUrl} color={color} />
-              ))}
-            </Box>
-          </Box>
-
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              maxHeight: "50vh",
-              overflowY: "auto",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              p: 3,
-              background:
-                colors[task.color ?? global.themeColor ?? "brown"][100],
-              color: "#000",
-            }}
-          >
-            {task.subTasks.map((subtask) => (
-              <SubTask subtask={subtask} />
-            ))}
-            <CreateTask
-              parent={task.id}
-              boardId={boardId}
-              columnId={columnId}
-              mutationUrl={mutationUrl}
-            />
-          </Box>
+          )}
         </Box>
       </SwipeableDrawer>
       {task.subTasks.length >= 0 && (

@@ -92,8 +92,15 @@ function Render({
         defaultProps: { elevation: 0 },
       },
       MuiButton: {
+        defaultProps: {
+          disableElevation: true,
+        },
         styleOverrides: {
+          contained: {
+            background: colors[themeColor]["800"] + "!important",
+          },
           root: {
+            transition: "none",
             textTransform: "none",
           },
         },
