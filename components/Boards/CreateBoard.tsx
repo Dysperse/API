@@ -26,6 +26,7 @@ function Template({
         PaperProps={{
           elevation: 0,
           sx: {
+            borderRadius: 5,
             maxWidth: "100vw",
             width: "100%",
           },
