@@ -60,6 +60,7 @@ const Tab = React.memo(function ({
         </MenuItem>
         <MenuItem
           onClick={async () => {
+            if (!confirm("Delete board?")) return;
             try {
               setLoading(true);
               await fetchApiWithoutHook("property/boards/deleteBoard", {
