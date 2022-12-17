@@ -11,7 +11,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
   // we can move only if we are not in a browser's tab
   let isBrowser = matchMedia("(display-mode: browser)").matches;
   if (!isBrowser) {
-    window.moveTo(16, 16);
-    window.resizeTo(800, 600);
+    window.resizeTo(1000, 800);
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
+    window.moveTo(
+      (screen.availWidth - width) / 2,
+      (screen.availHeight - height) / 2
+    );
   }
 });
