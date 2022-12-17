@@ -87,6 +87,14 @@ const Color = ({ color }: { color: string }) => {
           background: colors[color]["A700"] + "!important",
         },
       }}
+      onClick={(e) => {
+        fetchApiWithoutHook("property/boards/editTask", {
+          color: color,
+          id: task.id,
+        }).then(() => {
+          mutate(mutationUrl);
+        });
+      }}
     />
   );
 };

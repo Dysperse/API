@@ -24,6 +24,7 @@ const handler = async (req, res) => {
     data: {
       ...(req.query.name && { name: req.query.name }),
       ...(req.query.description && { description: req.query.description }),
+      ...(req.query.color && { color: req.query.color }),
     },
   });
 
