@@ -73,7 +73,15 @@ function ImageViewer({ url, trimHeight = false }) {
   );
 }
 
-const Color = ({ color }: { color: string }) => {
+const Color = ({
+  task,
+  mutationUrl,
+  color,
+}: {
+  task;
+  mutationUrl;
+  color: string;
+}) => {
   return (
     <Box
       sx={{
@@ -236,8 +244,9 @@ export const Task = React.memo(function ({
 
   let BpCheckedIcon: any = styled(BpIcon)({
     backgroundColor:
-      colors[global.themeColor ?? "brown"][global.user.darkMode ? 50 : 900] +
-      "!important",
+      colors[task.color ?? global.themeColor ?? "brown"][
+        global.user.darkMode ? 50 : 900
+      ] + "!important",
     "&:before": {
       display: "block",
       width: 26,
@@ -251,7 +260,9 @@ export const Task = React.memo(function ({
     },
     "input:hover ~ &": {
       backgroundColor:
-        colors[global.themeColor ?? "brown"][global.user.darkMode ? 50 : 900],
+        colors[task.color ?? global.themeColor ?? "brown"][
+          global.user.darkMode ? 50 : 900
+        ],
     },
   });
 
@@ -283,7 +294,10 @@ export const Task = React.memo(function ({
             height: "100vh",
             maxWidth: "500px",
             borderRadius: { sm: "20px 0 0 20px" },
-            background: colors[global.themeColor ?? "brown"][50],
+            background:
+              colors[
+                task.color ?? task.color ?? global.themeColor ?? "brown"
+              ][50],
           },
         }}
       >
@@ -346,16 +360,19 @@ export const Task = React.memo(function ({
                 InputProps={{
                   disableUnderline: true,
                   sx: {
-                    color: colors[global.themeColor ?? "brown"][900],
-                    background: colors[global.themeColor ?? "brown"][100],
+                    color:
+                      colors[task.color ?? global.themeColor ?? "brown"][900],
+                    background:
+                      colors[task.color ?? global.themeColor ?? "brown"][100],
                     borderRadius: 5,
                     p: 2,
                     mt: 2,
                     "&:focus-within": {
-                      background: colors[global.themeColor ?? "brown"][200],
+                      background:
+                        colors[task.color ?? global.themeColor ?? "brown"][200],
                       boxShadow:
                         "0px 0px 0px 2px " +
-                        colors[global.themeColor ?? "brown"][900],
+                        colors[task.color ?? global.themeColor ?? "brown"][900],
                     },
                   },
                 }}
@@ -392,19 +409,22 @@ export const Task = React.memo(function ({
             }}
           >
             <Box className="embla__container" sx={{ gap: 1 }}>
-              <Color color="red" />
-              <Color color="orange" />
-              <Color color="deepOrange" />
-              <Color color="lightBlue" />
-              <Color color="blue" />
-              <Color color="lightBlue" />
-              <Color color="indigo" />
-              <Color color="purple" />
-              <Color color="pink" />
-              <Color color="green" />
-              <Color color="lime" />
-              <Color color="brown" />
-              <Color color="blueGrey" />
+              {[
+                "red",
+                "orange",
+                "deepOrange",
+                "lightBlue",
+                "blue",
+                "indigo",
+                "purple",
+                "pink",
+                "green",
+                "lime",
+                "brown",
+                "blueGrey",
+              ].map((color) => (
+                <Color task={task} mutationUrl={mutationUrl} color={color} />
+              ))}
             </Box>
           </Box>
 
@@ -421,7 +441,8 @@ export const Task = React.memo(function ({
               justifyContent: "space-between",
               alignItems: "center",
               p: 3,
-              background: colors[global.themeColor ?? "brown"][100],
+              background:
+                colors[task.color ?? global.themeColor ?? "brown"][100],
               color: "#000",
             }}
           >
