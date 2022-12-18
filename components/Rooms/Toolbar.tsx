@@ -3,7 +3,8 @@ import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 
-import { Box, Button, grey, Menu, MenuItem, TextField } from '@mui/material';
+import { Box, Button, Menu, MenuItem, TextField } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
 /**
  * Search bar

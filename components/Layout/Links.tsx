@@ -13,7 +13,6 @@ import { Puller } from "../Puller";
 import {
   Box,
   Collapse,
-  grey,
   Divider,
   List,
   ListItemButton,
@@ -24,7 +23,8 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
+import { grey } from "@mui/material/colors";
 
 /**
  * Create room popup
