@@ -118,9 +118,6 @@ export function BottomNav() {
           }}
           variant="fullWidth"
           value={value}
-          onChange={(event, newValue) => {
-            // alert(newValue);
-          }}
           aria-label="basic tabs example"
           sx={{
             overflowX: "hidden",
