@@ -2,8 +2,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-
-import { Box, brown, createTheme, Typography } from '@mui/material';
+import { Box, createTheme, Typography } from "@mui/material";
+import { brown } from "@mui/material/colors";
 
 const darkTheme = createTheme({
   palette: {
