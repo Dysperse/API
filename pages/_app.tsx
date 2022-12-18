@@ -25,7 +25,7 @@ import {
   createTheme,
   NoSsr,
   ThemeProvider,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -39,7 +39,7 @@ dayjs.extend(relativeTime);
  * @param router Next.JS router
  * @returns JSX.Element
  */
-function Render({
+function RenderWithLayout({
   data,
   Component,
   pageProps,
@@ -96,7 +96,7 @@ function Render({
         },
         styleOverrides: {
           contained: {
-            boxShadow:"none!important",
+            boxShadow: "none!important",
             background:
               colors[themeColor][global.theme !== "dark" ? "800" : "50"] +
               "!important",
@@ -256,9 +256,9 @@ function Render({
   if (data.user.properties.length === 0) {
     return (
       <Box>
-        No properties. You find yourself in a strange place. You don&apos;t have
-        access to any properties, or there are none in your account. Please
-        contact support if this problem persists.
+        Hmmm.... You find yourself in a strange place. You don&apos;t have
+        access to any groups, or there are none in your account. Please contact
+        support if this problem persists.
       </Box>
     );
   }
@@ -371,6 +371,8 @@ function RenderRoot({
     "/invite/[id]",
     "/auth/reset-password/[id]",
     "/auth/reset-id",
+    "/_offline",
+    "/404",
     "/scan",
     "/signup",
     "/auth",
@@ -394,7 +396,7 @@ function RenderRoot({
       {isLoading && <Loading />}
       {isError && <Error />}
       {!isLoading && !isError && !data.error && (
-        <Render
+        <RenderWithLayout
           router={router}
           Component={Component}
           pageProps={pageProps}
