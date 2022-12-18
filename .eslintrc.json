@@ -3,5 +3,5 @@
   "rules": {
     "@next/next/google-font-display": "off"
   },
-  "extends": "next"
+  "extends": "next/core-web-vitals"
 }
