@@ -96,6 +96,7 @@ function Render({
         },
         styleOverrides: {
           contained: {
+            boxShadow:"none!important",
             background:
               colors[themeColor][global.theme !== "dark" ? "800" : "50"] +
               "!important",
