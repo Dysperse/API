@@ -23,7 +23,6 @@ import {
   Box,
   CircularProgress,
   createTheme,
-  Grow,
   NoSsr,
   ThemeProvider,
   Typography,
@@ -206,15 +205,9 @@ function Render({
         },
       },
       MuiTooltip: {
-        defaultProps: {
-          TransitionComponent: Grow,
-          TransitionProps: {
-            style: {},
-          },
-        },
         styleOverrides: {
           tooltip: {
-            borderRadius: "4px",
+            borderRadius: "5px",
             fontSize: "14px",
             color: global.user.darkMode
               ? "hsl(240, 11%, 30%)"
@@ -234,7 +227,7 @@ function Render({
     },
     palette: {
       primary: {
-        main: colors[themeColor][global.user.darkMode ? "A200" : "A400"],
+        main: colors[themeColor][global.user.darkMode ? "A200" : "A700"],
       },
       mode: theme,
       ...(theme === "dark" && {

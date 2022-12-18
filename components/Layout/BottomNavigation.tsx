@@ -1,15 +1,15 @@
+import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import React from "react";
 import { colors } from "../../lib/colors";
-import hexToRgba from "hex-to-rgba";
 
 import {
   Box,
   Snackbar,
+  Tab,
+  Tabs,
   useMediaQuery,
   useScrollTrigger,
-  Tabs,
-  Tab,
 } from "@mui/material";
 
 /**
@@ -96,6 +96,7 @@ export function BottomNav() {
           bottom: matches ? -100.1 : trigger ? -71 : 0,
           left: 0,
           transition: "bottom .3s",
+          overflowX: "hidden",
           display: {
             xs: "block",
             md: "none",
@@ -122,6 +123,7 @@ export function BottomNav() {
           }}
           aria-label="basic tabs example"
           sx={{
+            overflowX: "hidden",
             height: "100%",
             "& .MuiTabs-indicator": {
               display: "flex",
