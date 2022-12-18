@@ -2,6 +2,7 @@ import { LoadingButton } from "@mui/lab";
 import type { CustomRoom, Item } from "@prisma/client";
 import BoringAvatar from "boring-avatars";
 import { encode } from "js-base64";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
@@ -494,6 +495,9 @@ export default function Categories({ children = null }: any) {
         display: "flex",
       }}
     >
+      <Head>
+        <title>Items &bull; Carbon</title>
+      </Head>
       <Box
         sx={{
           width: { xs: "100%", sm: 300 },

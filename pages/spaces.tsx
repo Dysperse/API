@@ -2,6 +2,7 @@ import { Masonry } from "@mui/lab";
 import Avatar from "boring-avatars";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
+import Head from "next/head";
 import React from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -816,6 +817,9 @@ export default function Spaces() {
       }}
       className="mt-5 sm:mt-10 max-w-4xl mx-auto"
     >
+      <Head>
+        <title>Spaces &bull; Carbon</title>
+      </Head>
       {data ? (
         <>
           <Typography

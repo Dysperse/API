@@ -1,5 +1,6 @@
 import { CircularProgressProps } from "@mui/material/CircularProgress";
 import dayjs from "dayjs";
+import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -359,6 +360,9 @@ export default function Render({ mutationUrl }) {
   const [hideRoutine, setHideRoutine] = useState(false);
   return (
     <Box sx={{ position: "relative" }}>
+      <Head>
+        <title>Coach &bull; Carbon</title>
+      </Head>
       <Box
         className="mt-5 sm:mt-10"
         sx={{
