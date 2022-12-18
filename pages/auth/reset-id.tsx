@@ -134,7 +134,7 @@ export default function Prompt() {
                     ? "/auth?close=true"
                     : "/auth"
                 }
-              >
+                legacyBehavior>
                 <Button
                   sx={{
                     textTransform: "none",

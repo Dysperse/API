@@ -392,7 +392,7 @@ export default function Prompt() {
                     ? "/signup?close=true"
                     : "/signup"
                 }
-              >
+                legacyBehavior>
                 <Button
                   sx={{
                     textTransform: "none",
@@ -414,7 +414,7 @@ export default function Prompt() {
                     ? "/auth/reset-id?close=true"
                     : "/auth/reset-id"
                 }
-              >
+                legacyBehavior>
                 <Button
                   sx={{
                     textTransform: "none",

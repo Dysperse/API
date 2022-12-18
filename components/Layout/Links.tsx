@@ -298,7 +298,7 @@ const ListItem = React.memo(function ListItem({
     </ListItemButton>
   );
   return (
-    <Link href={href} as={asHref} replace>
+    <Link href={href} as={asHref} replace legacyBehavior>
       {collapsed ? (
         <Tooltip title={text} placement="right">
           {template}

@@ -271,7 +271,7 @@ export default function Prompt() {
                     ? "/?close=true"
                     : "/"
                 }
-              >
+                legacyBehavior>
                 <Button
                   sx={{
                     textTransform: "none",

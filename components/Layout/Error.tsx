@@ -47,7 +47,7 @@ export function Error() {
           <Typography variant="body1" sx={{ textAlign: "center" }}>
             Please try again later. If the problem persists, please contact us
             at{" "}
-            <Link href="mailto:hello@smartlist.tech" target="_blank">
+            <Link href="mailto:hello@smartlist.tech" target="_blank" legacyBehavior>
               <MuiLink href="mailto:hello@smartlist.tech" target="_blank">
                 hello@smartlist.tech
               </MuiLink>
