@@ -9,7 +9,14 @@ import { CreateBoard } from "./CreateBoard";
 import { mutate } from "swr";
 import toast from "react-hot-toast";
 
-import { Box, Button, Menu, Typography, MenuItem, CircularProgress } from '@mui/material';
+import {
+  Box,
+  Button,
+  Menu,
+  Typography,
+  MenuItem,
+  CircularProgress,
+} from "@mui/material";
 
 const Tab = React.memo(function ({
   mutationUrl,

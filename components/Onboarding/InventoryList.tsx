@@ -3,7 +3,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 
-import { Box, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
 /**
  * Inventory list

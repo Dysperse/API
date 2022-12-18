@@ -5,7 +5,7 @@ import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { formatDate } from "./formatDate";
 
-import { Box, Button, SwipeableDrawer } from '@mui/material';
+import { Box, Button, SwipeableDrawer } from "@mui/material";
 
 export function SelectDateModal({ styles, date, setDate }) {
   const [open, setOpen] = useState(false);

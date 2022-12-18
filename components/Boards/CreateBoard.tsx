@@ -4,7 +4,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useState } from "react";
 import { OptionsGroup } from "./OptionsGroup";
 
-import { Card, Skeleton, Box, Button, Dialog, Typography } from '@mui/material';
+import { Card, Skeleton, Box, Button, Dialog, Typography } from "@mui/material";
 
 function Template({
   template,

@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { updateSettings } from "./updateSettings";
 import { ErrorHandler } from "../error";
-import { Button, Box, Switch, ListItem, ListItemText, useMediaQuery } from '@mui/material';
+import {
+  Button,
+  Box,
+  Switch,
+  ListItem,
+  ListItemText,
+  useMediaQuery,
+} from "@mui/material";
 
 const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);

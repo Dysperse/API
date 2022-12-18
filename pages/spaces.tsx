@@ -25,7 +25,7 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-} from '@mui/material';
+} from "@mui/material";
 
 const isValidUrl = (urlString) => {
   var urlPattern = new RegExp(

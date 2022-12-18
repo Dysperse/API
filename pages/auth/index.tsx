@@ -12,7 +12,14 @@ import { colors } from "../../lib/colors";
 import toast from "react-hot-toast";
 import { Turnstile } from "@marsidev/react-turnstile";
 
-import { Box, Button, Paper, SwipeableDrawer, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Paper,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 /**
  * Login prompt

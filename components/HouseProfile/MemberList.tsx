@@ -11,7 +11,7 @@ import { ErrorHandler } from "../error";
 import { AddPersonModal } from "./AddPersonModal";
 import type { Member as MemberType } from "../../types/houseProfile";
 
-import { Box, Typography, IconButton, useMediaQuery } from '@mui/material';
+import { Box, Typography, IconButton, useMediaQuery } from "@mui/material";
 
 /**
  * Check if a string is a valid email address

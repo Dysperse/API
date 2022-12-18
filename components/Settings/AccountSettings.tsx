@@ -1,6 +1,6 @@
 import { updateSettings } from "./updateSettings";
 
-import { Box, ListItem, ListItemText, TextField } from '@mui/material';
+import { Box, ListItem, ListItemText, TextField } from "@mui/material";
 
 /**
  * Top-level component for the account settings page.

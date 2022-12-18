@@ -16,7 +16,7 @@ import {
   TextField,
   Toolbar,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 /**
  * Edit property

@@ -1,6 +1,6 @@
 import { colors } from "../../lib/colors";
 
-import { ButtonGroup, Button } from '@mui/material';
+import { ButtonGroup, Button } from "@mui/material";
 
 export function OptionsGroup({ currentOption, setOption, options }) {
   return (

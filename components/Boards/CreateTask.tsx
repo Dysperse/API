@@ -18,7 +18,7 @@ import {
   Button,
   SwipeableDrawer,
   TextField,
-} from '@mui/material';
+} from "@mui/material";
 
 function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState(false);

@@ -7,7 +7,14 @@ import { BottomNav } from "./BottomNavigation";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
 
-import { Box, Dialog, Grow, IconButton, Toolbar, Typography } from '@mui/material';
+import {
+  Box,
+  Dialog,
+  Grow,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 
 const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
   ssr: false,

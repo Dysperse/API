@@ -8,7 +8,7 @@ import {
   ListSubheader,
   Radio,
   RadioGroup,
-} from '@mui/material';
+} from "@mui/material";
 
 /**
  * Function to change theme color (Not dark mode!)
@@ -31,7 +31,7 @@ function ThemeColorSettings() {
         "Orange",
         "Teal",
         "Cyan",
-        "Grey"
+        "Grey",
       ].map((color) => (
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"

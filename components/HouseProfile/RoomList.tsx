@@ -7,7 +7,13 @@ import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import type { CustomRoom as RoomType } from "@prisma/client";
-import { Box, Button, Typography, useMediaQuery, IconButton } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  IconButton,
+} from "@mui/material";
 
 /**
  * Room card

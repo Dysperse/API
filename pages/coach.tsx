@@ -17,7 +17,7 @@ import {
   SwipeableDrawer,
   Toolbar,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }

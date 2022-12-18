@@ -25,7 +25,7 @@ import {
   ListItemText,
   SwipeableDrawer,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 /**
  * Logout modal

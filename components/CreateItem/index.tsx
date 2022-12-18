@@ -22,7 +22,7 @@ import {
   styled,
   SwipeableDrawer,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 const Root = styled("div")(() => ({
   height: "100%",

@@ -5,7 +5,14 @@ import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 
-import { Box, Button, Chip, ListItem, ListItemText, SwipeableDrawer } from '@mui/material';
+import {
+  Box,
+  Button,
+  Chip,
+  ListItem,
+  ListItemText,
+  SwipeableDrawer,
+} from "@mui/material";
 
 /**
  * Category modal

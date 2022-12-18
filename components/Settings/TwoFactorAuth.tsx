@@ -6,7 +6,7 @@ import { mutate } from "swr";
 import { updateSettings } from "./updateSettings";
 import { Prompt } from "../twoFactorPrompt";
 
-import { Box, Link, TextField, Typography } from '@mui/material';
+import { Box, Link, TextField, Typography } from "@mui/material";
 
 /**
  * Top-level component for the two-factor authentication settings page.

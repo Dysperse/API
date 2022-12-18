@@ -16,7 +16,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 function Achievements({ styles }) {
   const [open, setOpen] = useState(false);

@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import Head from "next/head";
 
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 /**
  * Gets query parameter by name

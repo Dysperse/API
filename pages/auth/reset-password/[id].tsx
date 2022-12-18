@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { colors } from "../../../lib/colors";
 import { Layout } from "../../../components/Auth/Layout";
 
-import { Box, Paper, TextField, Typography } from '@mui/material';
+import { Box, Paper, TextField, Typography } from "@mui/material";
 
 /**
  * Top-level component for the signup page.

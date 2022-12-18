@@ -1,6 +1,6 @@
 import { Circle } from "./Circle";
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from "@mui/material";
 
 export function Year({ year }) {
   return (

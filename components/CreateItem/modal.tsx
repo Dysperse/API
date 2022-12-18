@@ -12,7 +12,14 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
-import { Box, DialogActions, DialogContent, SwipeableDrawer, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  DialogActions,
+  DialogContent,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from "@mui/material";
 /**
  * Shuffles array in place. ES6 version
  * @param array Array to be shuffled

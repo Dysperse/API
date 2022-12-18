@@ -7,7 +7,14 @@ import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
 import { Toolbar } from "./Toolbar";
 
-import { Box, Card, CardContent, Container, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Paper,
+  Typography,
+} from "@mui/material";
 
 /**
  * Renders a room based on the inventory data passed in the data object

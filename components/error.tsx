@@ -2,7 +2,8 @@
  * @param {string} error Error text
  * @returns {JSX.Element} JSX element
  */
-import { Box, red, IconButton } from '@mui/material';
+import { Box, IconButton } from "@mui/material";
+import { red } from "@mui/material/colors";
 
 export function ErrorHandler({ error }: { error: string }): JSX.Element {
   /**

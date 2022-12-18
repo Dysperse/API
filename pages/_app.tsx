@@ -21,7 +21,15 @@ import { Property, Session } from "../types/session";
 // Day.JS
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Box, CircularProgress, Grow, NoSsr, createTheme, ThemeProvider, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Grow,
+  NoSsr,
+  createTheme,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 dayjs.extend(relativeTime);
 
 /**

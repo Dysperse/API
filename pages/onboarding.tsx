@@ -24,7 +24,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material';
+} from "@mui/material";
 
 function StepContent({ forStep, currentStep, setCurrentStep, content }) {
   return forStep === currentStep ? (

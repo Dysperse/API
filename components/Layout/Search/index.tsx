@@ -19,7 +19,7 @@ import {
   SwipeableDrawer,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 /**
  * Icon function

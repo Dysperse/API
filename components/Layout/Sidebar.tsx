@@ -4,7 +4,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
 
-import { Box, Drawer, IconButton, Tab, Tabs, Tooltip } from '@mui/material';
+import { Box, Drawer, IconButton, Tab, Tabs, Tooltip } from "@mui/material";
 
 export function Sidebar() {
   const [value, setValue] = useState<number>(0);

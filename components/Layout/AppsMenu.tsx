@@ -15,7 +15,7 @@ import {
   Skeleton,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 /**
  * Product list

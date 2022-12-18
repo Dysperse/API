@@ -26,7 +26,7 @@ import {
   SwipeableDrawer,
   Toolbar,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState(false);

@@ -2,7 +2,14 @@ import hex2rgba from "hex-to-rgba";
 import React, { useState } from "react";
 import { colors } from "../../lib/colors";
 
-import { AppBar, Box, CircularProgress, NoSsr, Skeleton, Toolbar } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  CircularProgress,
+  NoSsr,
+  Skeleton,
+  Toolbar,
+} from "@mui/material";
 
 /**
  * Loading screen

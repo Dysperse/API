@@ -5,7 +5,7 @@ import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../error";
 import { LoadingScreen } from "./LoadingScreen";
 import { RenderRoom } from "./RenderRoom";
-import { Container } from '@mui/material';
+import { Container } from "@mui/material";
 
 /**
  * Room component to load inventory

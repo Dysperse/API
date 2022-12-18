@@ -3,7 +3,7 @@ import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import React from "react";
 
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { Box, LinearProgress, Typography } from "@mui/material";
 
 /**
  * Item limit

@@ -23,7 +23,7 @@ import {
   Button,
   Checkbox,
   styled,
-} from '@mui/material';
+} from "@mui/material";
 
 function ImageViewer({ url, trimHeight = false }) {
   const [open, setOpen] = useState(false);

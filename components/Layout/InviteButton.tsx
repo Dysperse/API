@@ -7,7 +7,14 @@ import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { Box, Button, CardActionArea, SwipeableDrawer, Typography, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  Button,
+  CardActionArea,
+  SwipeableDrawer,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 
 /**
  * Color component for house profile

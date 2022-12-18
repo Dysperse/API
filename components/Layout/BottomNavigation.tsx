@@ -3,7 +3,14 @@ import React from "react";
 import { colors } from "../../lib/colors";
 import hexToRgba from "hex-to-rgba";
 
-import { Box, Snackbar, useMediaQuery, useScrollTrigger, Tabs, Tab } from '@mui/material';
+import {
+  Box,
+  Snackbar,
+  useMediaQuery,
+  useScrollTrigger,
+  Tabs,
+  Tab,
+} from "@mui/material";
 
 /**
  * Bottom navigation bar

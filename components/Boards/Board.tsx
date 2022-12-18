@@ -4,7 +4,7 @@ import { ErrorHandler } from "../error";
 import { Column } from "./Column";
 import { CreateColumn } from "./CreateColumn";
 
-import { Skeleton, Box } from '@mui/material';
+import { Skeleton, Box } from "@mui/material";
 
 function Renderer({ data, url, board }) {
   return (

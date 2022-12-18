@@ -12,7 +12,14 @@ import { Layout } from "../../components/Auth/Layout";
 import { Puller } from "../../components/Puller";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 
-import { Box, Button, Paper, SwipeableDrawer, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Paper,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 /**
  * Top-level component for the signup page.

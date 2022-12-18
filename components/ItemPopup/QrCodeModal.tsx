@@ -2,7 +2,14 @@ import { Item } from "@prisma/client";
 import { useState } from "react";
 import QRCode from "react-qr-code";
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+} from "@mui/material";
 
 /**
  * Description

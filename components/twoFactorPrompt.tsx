@@ -6,7 +6,7 @@ import { colors } from "../lib/colors";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { Puller } from "./Puller";
 
-import { Box, Button, SwipeableDrawer, Typography } from '@mui/material';
+import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 
 /**
  * Verify if 2fa code is correct
