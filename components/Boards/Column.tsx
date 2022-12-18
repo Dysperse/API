@@ -140,7 +140,9 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
         </div>
       </SwipeableDrawer>
       <Button onClick={() => setOpen(true)} className="bg-gray-50">
-        <img src={emoji} alt="emoji" width="30" height="30" />
+        <picture>
+          <img src={emoji} alt="emoji" width="30" height="30" />
+        </picture>
       </Button>
     </>
   );
@@ -196,7 +198,9 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
           }}
         >
           {!editMode ? (
-            <img src={column.emoji} alt="emoji" width="30" height="30" />
+            <picture>
+              <img src={column.emoji} alt="emoji" width="30" height="30" />
+            </picture>
           ) : (
             <EmojiPickerModal emoji={emoji} setEmoji={setEmoji} />
           )}
@@ -325,7 +329,9 @@ export const Column = React.memo(function Column({
     >
       {!checkList && (
         <Box sx={{ px: 1 }}>
-          <img src={column.emoji} />
+          <picture>
+            <img src={column.emoji} alt="emoji" />
+          </picture>
         </Box>
       )}
       {!checkList && (

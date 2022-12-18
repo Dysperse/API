@@ -72,7 +72,14 @@ function Template({
                     flexDirection: "column",
                   }}
                 >
-                  <img src={column.emoji} width="30px" height="30px" />
+                  <picture>
+                    <img
+                      src={column.emoji}
+                      width="30px"
+                      height="30px"
+                      alt="emoji"
+                    />
+                  </picture>
                   <Box
                     sx={{
                       fontSize: 18,

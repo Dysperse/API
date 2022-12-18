@@ -253,6 +253,7 @@ function CreatePostMenu({ url }) {
           >
             <picture>
               <img
+                alt="Post image viewer"
                 draggable={false}
                 src={image.url}
                 style={{
@@ -605,16 +606,18 @@ function ImageBox({ image }) {
       >
         <span className="material-symbols-outlined">content_copy</span>
       </Button>
-      <img
-        draggable={false}
-        src={image}
-        alt="Post image"
-        style={{
-          width: "100%",
-          cursor: "pointer",
-        }}
-        onClick={() => setOpen(true)}
-      />
+      <picture>
+        <img
+          draggable={false}
+          src={image}
+          alt="Post image viewer"
+          style={{
+            width: "100%",
+            cursor: "pointer",
+          }}
+          onClick={() => setOpen(true)}
+        />
+      </picture>
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
@@ -629,15 +632,17 @@ function ImageBox({ image }) {
           },
         }}
       >
-        <img
-          draggable={false}
-          src={image}
-          alt="Post image"
-          style={{
-            height: trigger ? "auto" : "100vh",
-            width: trigger ? "100vw" : "auto",
-          }}
-        />
+        <picture>
+          <img
+            draggable={false}
+            src={image}
+            alt="Post image viewer"
+            style={{
+              height: trigger ? "auto" : "100vh",
+              width: trigger ? "100vw" : "auto",
+            }}
+          />
+        </picture>
       </Dialog>
     </Box>
   );
@@ -687,7 +692,7 @@ function Post({ data, url }) {
           setLoading(false);
         });
     }
-  }, [deleteSlide]);
+  }, [deleteSlide, data.id, url]);
 
   return (
     <Box

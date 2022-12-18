@@ -86,7 +86,9 @@ export function CreateColumn({ mutationUrl, id }: any) {
               borderRadius: 5,
             }}
           >
-            <img src={emoji} alt="emoji" />
+            <picture>
+              <img src={emoji} alt="emoji" />
+            </picture>
           </Button>
           <TextField
             fullWidth
