@@ -306,7 +306,7 @@ function Goal({ goal, mutationUrl }: any) {
           mb: 1,
           cursor: "pointer",
           background: { sm: "#eee" },
-          borderBottom: { xs: "1px solid #ccc", sm: "none" },
+          borderBottom: { xs: "1px solid #ddd", sm: "none" },
           userSelect: "none",
         }}
       >
@@ -620,7 +620,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 mt: 7,
               }}
             >
-              My goals
+              Personal goals
             </Typography>
           )}
           {data.length == 0 ? (
