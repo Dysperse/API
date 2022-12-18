@@ -77,6 +77,7 @@ function Achievements({ styles }) {
           <picture>
             <img
               src="https://cdn.dribbble.com/users/1731254/screenshots/11649852/nature_gradients_illustration_tubikarts_4x.png?resize=1400x700&compress=1"
+              alt="Acheivement banner"
               width="100%"
             />
           </picture>
