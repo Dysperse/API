@@ -1,5 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Alert, CircularProgress } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";

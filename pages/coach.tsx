@@ -1,24 +1,21 @@
-import {
-  AppBar,
-  Checkbox,
-  Drawer,
-  SwipeableDrawer,
-  IconButton,
-  Toolbar,
-} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
 import CircularProgress, {
-  CircularProgressProps,
+  CircularProgressProps
 } from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React, { useState, useEffect } from "react";
+import dayjs from "dayjs";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
-import { colors } from "../lib/colors";
-import dayjs from "dayjs";
-import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
-import { mutate } from "swr";
+import { colors } from "../lib/colors";
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }

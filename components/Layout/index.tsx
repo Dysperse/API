@@ -1,21 +1,21 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import Dialog from "@mui/material/Dialog";
+import Grow from "@mui/material/Grow";
+import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
-import Cookies from "js-cookie";
+import Typography from "@mui/material/Typography";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { BottomNav } from "./BottomNavigation";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
-import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
-import { useHotkeys } from "react-hotkeys-hook";
-import { Dialog, IconButton } from "@mui/material";
+
 const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
   ssr: false,
 });
-import { TransitionProps } from "@mui/material/transitions";
-import Grow from "@mui/material/Grow";
-import { useStatusBar } from "../../hooks/useStatusBar";
 
 const Transition = React.forwardRef(function Transition(
   props: any,

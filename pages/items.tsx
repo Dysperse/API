@@ -28,7 +28,7 @@ import type { ApiResponse } from "../types/client";
 import { LoadingButton } from "@mui/lab";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { Chip } from "@mui/material";
+import Chip from "@mui/material/Chip";
 
 function Tidy() {
   return (

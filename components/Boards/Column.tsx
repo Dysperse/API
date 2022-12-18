@@ -13,7 +13,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { mutate } from "swr";
 import TextField from "@mui/material/TextField";
 import EmojiPicker from "emoji-picker-react";
-import { CardActionArea } from "@mui/material";
+import CardActionArea from "@mui/material/CardActionArea";
 
 function CompletedTasks({
   checkList,

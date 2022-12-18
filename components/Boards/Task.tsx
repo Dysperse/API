@@ -3,8 +3,9 @@ import ListItemText from "@mui/material/ListItemText";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
-import { Chip, Dialog, IconButton } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import Dialog from "@mui/material/Dialog";
+import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -544,10 +545,12 @@ export const Task = React.memo(function ({
           {view == "Subtasks" && (
             <Box sx={{ ml: 6, mt: 2 }}>
               {task.subTasks.map((subtask) => (
-                <SubTask noMargin 
+                <SubTask
+                  noMargin
                   BpIcon={BpIcon}
-          BpCheckedIcon={BpCheckedIcon}
-                  subtask={subtask} />
+                  BpCheckedIcon={BpCheckedIcon}
+                  subtask={subtask}
+                />
               ))}
               <CreateTask
                 parent={task.id}
