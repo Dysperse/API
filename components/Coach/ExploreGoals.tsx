@@ -279,12 +279,17 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
             }}
           >
             {categories.map((tab, index) => (
-              <Tab disableRipple label={tab} {...a11yProps(index)} />
+              <Tab
+                disableRipple
+                label={tab}
+                {...a11yProps(index)}
+                key={index.toString()}
+              />
             ))}
           </Tabs>
         </Box>
         {categories.map((tab, index) => (
-          <TabPanel value={value} index={index}>
+          <TabPanel value={value} index={index} key={index.toString()}>
             <Masonry
               spacing={0}
               columns={{ xs: 1, sm: 2, md: 3 }}

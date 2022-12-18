@@ -143,6 +143,7 @@ function TrophyModal({ goal, mutationUrl }) {
         <Confetti width={width} height={height} style={{ zIndex: 1 }} />
         <picture>
           <img
+            alt="trophy"
             src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
             className="animate-trophy"
             id="trophy"
@@ -549,7 +550,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
     } else {
       setHideRoutine(false);
     }
-  }, [data]);
+  }, [data, setHideRoutine]);
   return (
     <>
       <SwipeableDrawer
