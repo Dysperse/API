@@ -9,7 +9,7 @@ import { mutate } from "swr";
 const popup = require("window-popup").windowPopup;
 import toast from "react-hot-toast";
 
-import { Typography, Box, CircularProgress } from '@mui/material';
+import { Typography, Box, CircularProgress } from "@mui/material";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -80,7 +80,7 @@ export default function Onboarding() {
         >
           <Head>
             <title>
-              Join "{data.property.name}" to track your home's inventory,
+              Join "{data.property.name}" to track your home&apos;s inventory,
               finances, and more &bull; Carbon
             </title>
           </Head>

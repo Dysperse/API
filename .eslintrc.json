@@ -3,4 +3,5 @@
   "rules": {
     "max-depth": "off"
   }
+  // "extends": "next"
 }

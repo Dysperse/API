@@ -75,6 +75,7 @@
   ],
   "description": "Next-gen home inventory",
   "devDependencies": {
+    "@next/eslint-plugin-next": "^13.0.7",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.25.0",
     "postcss": "^8.4.19",
