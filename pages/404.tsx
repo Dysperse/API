@@ -33,13 +33,24 @@ export default function Custom404() {
         variant="h5"
         component="h5"
         sx={{
-          fontSize: "1.5rem",
-          fontWeight: "500",
+          fontSize: "2rem",
+          fontWeight: "900",
           mt: 2,
           color: colors[themeColor]["900"],
         }}
       >
-        This page does not exist
+        404
+      </Typography>
+      <Typography
+        variant="h6"
+        component="h6"
+        sx={{
+          fontWeight: "500",
+          mt: 1,
+          color: colors[themeColor]["900"],
+        }}
+      >
+        This page does not exist.
       </Typography>
     </Box>
   );

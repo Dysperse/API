@@ -11,9 +11,9 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { House } from "../../types/houseProfile";
 import { ErrorHandler } from "../error";
-import { EditProperty } from "../HouseProfile/EditProperty";
-import { UpgradeBanner } from "../HouseProfile/ItemBanner";
-import { MemberList } from "../HouseProfile/MemberList";
+import { EditProperty } from "./EditProperty";
+import { UpgradeBanner } from "./ItemBanner";
+import { MemberList } from "./MemberList";
 
 import {
   Box,
@@ -26,7 +26,7 @@ import {
   ListItemIcon,
   ListItemText,
   SwipeableDrawer,
-  Typography
+  Typography,
 } from "@mui/material";
 
 function Changelog({ house }) {
@@ -176,7 +176,7 @@ function Changelog({ house }) {
  * @param {any} {data}
  * @returns {any}
  */
-export function House({
+export function Group({
   handleClose,
   data,
 }: {

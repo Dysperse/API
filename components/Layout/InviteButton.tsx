@@ -3,7 +3,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
-import { House } from "../HouseProfile/House";
+import { Group } from "../GroupProfile/Group";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
 
@@ -162,7 +162,7 @@ export function InviteButton() {
         </Box>
         <Box sx={{ px: 2, textAlign: "center" }} />
         {properties.map((house: any) => (
-          <House
+          <Group
             handleClose={() => setOpen(false)}
             key={house.accessToken.toString()}
             data={house}

@@ -8,11 +8,7 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>
-          Tasks &bull;{" "}
-          {global.property.profile.name.replace(/./, (c) => c.toUpperCase())}{" "}
-          &bull; Carbon
-        </title>
+        <title>Tasks &bull; Carbon</title>
       </Head>
       <div className="pt-10 px-0">
         <TasksLayout />
