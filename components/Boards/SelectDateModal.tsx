@@ -22,7 +22,6 @@ export function SelectDateModal({ styles, date, setDate }) {
           sx: {
             maxWidth: { sm: "350px" },
             mb: { sm: 10 },
-            mx: "auto",
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
           },
         }}
@@ -81,7 +80,6 @@ export function SelectDateModal({ styles, date, setDate }) {
           >
             <Button
               fullWidth
-              disableElevation
               sx={{ borderRadius: 9 }}
               variant="outlined"
               onClick={() => {
@@ -93,7 +91,6 @@ export function SelectDateModal({ styles, date, setDate }) {
             </Button>
             <Button
               fullWidth
-              disableElevation
               sx={{ borderRadius: 9 }}
               variant="contained"
               onClick={() => {

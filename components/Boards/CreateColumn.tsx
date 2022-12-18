@@ -46,7 +46,6 @@ export function CreateColumn({ mutationUrl, id }: any) {
             maxHeight: "600px",
             width: "auto",
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            mx: "auto",
             mb: { sm: 5 },
           },
         }}
@@ -124,7 +123,6 @@ export function CreateColumn({ mutationUrl, id }: any) {
             <Button
               onClick={() => setOpen(false)}
               variant="outlined"
-              disableElevation
               fullWidth
               sx={{ borderWidth: "2px!important" }}
             >
@@ -133,7 +131,6 @@ export function CreateColumn({ mutationUrl, id }: any) {
             <LoadingButton
               loading={loading}
               variant="contained"
-              disableElevation
               fullWidth
               sx={{
                 background: colors[themeColor][900] + "!important",

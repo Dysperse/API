@@ -85,7 +85,6 @@ export function ShareModal({
           />
           <Button
             variant="outlined"
-            disableElevation
             size="large"
             sx={{
               borderRadius: 99,
@@ -107,7 +106,6 @@ export function ShareModal({
           </Button>
           <Button
             variant="outlined"
-            disableElevation
             size="large"
             sx={{
               borderRadius: 99,
@@ -129,7 +127,6 @@ export function ShareModal({
 
           <Button
             variant="contained"
-            disableElevation
             size="large"
             sx={{
               borderRadius: 99,

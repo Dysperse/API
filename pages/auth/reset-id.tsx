@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { colors } from "../../lib/colors";
 import { Layout } from "../../components/Auth/Layout";
+import { colors } from "../../lib/colors";
 
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 
@@ -111,8 +111,8 @@ export default function Prompt() {
                   Forgot your ID?
                 </Typography>
                 <Typography sx={{ mb: 2 }}>
-                  Enter your email address and we&apos;ll send you a link to reset
-                  your ID.
+                  Enter your email address and we&apos;ll send you a link to
+                  reset your ID.
                 </Typography>
               </Box>
               <TextField
@@ -134,7 +134,8 @@ export default function Prompt() {
                     ? "/auth?close=true"
                     : "/auth"
                 }
-                legacyBehavior>
+                legacyBehavior
+              >
                 <Button
                   sx={{
                     textTransform: "none",
@@ -180,7 +181,6 @@ export default function Prompt() {
                     textTransform: "none",
                     transition: "none",
                   }}
-                  disableElevation
                   size="large"
                 >
                   Continue

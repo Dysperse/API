@@ -1,22 +1,15 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import React, { useEffect, useState } from "react";
-import { ErrorHandler } from "../error";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import { ErrorHandler } from "../error";
 import { Board } from "./Board";
 import { CreateBoard } from "./CreateBoard";
-import { mutate } from "swr";
-import toast from "react-hot-toast";
 
-import {
-  Box,
-  Button,
-  Menu,
-  Typography,
-  MenuItem,
-  CircularProgress,
-} from "@mui/material";
+import { Box, Button, CircularProgress, Menu, MenuItem } from "@mui/material";
 
 const Tab = React.memo(function Tab({
   mutationUrl,
@@ -93,7 +86,6 @@ const Tab = React.memo(function Tab({
       </Menu>
       <Button
         size="large"
-        disableElevation
         onContextMenu={handleClick}
         onClick={(e) => {
           if (emblaApi) {
@@ -268,7 +260,6 @@ export function TasksLayout() {
           <Box>
             <Button
               size="large"
-              disableElevation
               onClick={() => {
                 setActiveTab("new");
                 emblaApi?.reInit({

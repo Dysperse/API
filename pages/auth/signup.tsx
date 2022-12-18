@@ -100,7 +100,6 @@ export default function Prompt() {
             sx: {
               background: colors.brown[50],
               borderRadius: "20px 20px 0 0",
-              mx: "auto",
               maxWidth: "500px",
             },
           }}
@@ -271,7 +270,8 @@ export default function Prompt() {
                     ? "/?close=true"
                     : "/"
                 }
-                legacyBehavior>
+                legacyBehavior
+              >
                 <Button
                   sx={{
                     textTransform: "none",
@@ -280,7 +280,6 @@ export default function Prompt() {
                     mb: { xs: 10, sm: 0 },
                     float: "right",
                     textAlign: "center",
-                    mx: "auto",
                     transition: "none",
                     "&:hover": { textDecoration: "underline" },
                   }}
@@ -315,7 +314,6 @@ export default function Prompt() {
                     textTransform: "none",
                     transition: "none",
                   }}
-                  disableElevation
                   size="large"
                 >
                   Continue

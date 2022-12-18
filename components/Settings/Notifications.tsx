@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { updateSettings } from "./updateSettings";
-import { ErrorHandler } from "../error";
 import {
-  Button,
   Box,
-  Switch,
+  Button,
   ListItem,
   ListItemText,
+  Switch,
   useMediaQuery,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { ErrorHandler } from "../error";
+import { updateSettings } from "./updateSettings";
 
 const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
@@ -174,7 +174,6 @@ export default function Notifications() {
         variant="contained"
         href="//my.smartlist.tech"
         target="_blank"
-        disableElevation
         sx={{
           mt: 2,
           borderRadius: 9999,
@@ -187,7 +186,6 @@ export default function Notifications() {
         href="//my.smartlist.tech"
         target="_blank"
         size="small"
-        disableElevation
         sx={{
           mt: 1,
           borderRadius: 9999,

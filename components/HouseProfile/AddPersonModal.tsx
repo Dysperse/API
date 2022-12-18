@@ -65,7 +65,6 @@ function LinkToken({ color }) {
         PaperProps={{
           sx: {
             maxWidth: "400px",
-            mx: "auto",
             borderRadius: "20px 20px 0 0",
             background: colors[color][100],
           },
@@ -95,7 +94,6 @@ function LinkToken({ color }) {
           />
           <Button
             fullWidth
-            disableElevation
             variant="outlined"
             size="large"
             sx={{ mt: 2, borderRadius: 999, borderWidth: "2px!important" }}
@@ -108,7 +106,6 @@ function LinkToken({ color }) {
           </Button>
           <Button
             fullWidth
-            disableElevation
             variant="contained"
             size="large"
             sx={{
@@ -204,10 +201,6 @@ export function AddPersonModal({
             overflow: "scroll",
             maxHeight: "95vh",
             borderRadius: "20px 20px 0 0",
-            mx: "auto",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 25%)",
-            }),
           },
         }}
         onClose={() => setOpen(false)}

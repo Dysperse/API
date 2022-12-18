@@ -18,7 +18,7 @@ import {
   LinearProgress,
   SwipeableDrawer,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 
 /**
@@ -387,10 +387,6 @@ export function SearchPopup() {
             maxWidth: "650px",
             maxHeight: "95vh",
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            mx: "auto",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 20%)",
-            }),
             "& input": {
               background: "transparent!important",
             },

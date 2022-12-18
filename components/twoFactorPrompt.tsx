@@ -77,7 +77,6 @@ export function Prompt({
       PaperProps={{
         sx: {
           borderRadius: "20px 20px 0 0",
-          mx: "auto",
           maxWidth: "500px",
         },
       }}
@@ -172,7 +171,6 @@ export function Prompt({
             </Typography>
             <Button
               variant="contained"
-              disableElevation
               onClick={() => {
                 setOpen(false);
                 callback();

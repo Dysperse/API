@@ -180,10 +180,6 @@ export function CreateItemModal({
             maxWidth: "600px",
             maxHeight: "100vh",
             borderRadius: "20px 20px 0 0",
-            mx: "auto",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 20%)",
-            }),
           },
         }}
         open={open}
@@ -366,7 +362,6 @@ export function CreateItemModal({
               }}
             >
               <LoadingButton
-                disableElevation
                 sx={{
                   background:
                     colors[themeColor][global.theme == "dark" ? 50 : 900] +

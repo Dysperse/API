@@ -40,7 +40,6 @@ function StepContent({ forStep, currentStep, setCurrentStep, content }) {
         <Button
           onClick={() => setCurrentStep(currentStep + 1)}
           variant="contained"
-          disableElevation
           size="large"
           className="rippleDark"
           sx={{
@@ -365,7 +364,6 @@ export default function Onboarding() {
             false
           );
         }}
-        disableElevation
       >
         Go to my dashboard
       </Button>

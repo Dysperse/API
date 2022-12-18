@@ -31,7 +31,6 @@ function SearchBar({
       id="basic-button"
       variant="text"
       disableFocusRipple
-      disableElevation
       sx={{
         backgroundColor:
           global.theme == "dark"
@@ -160,7 +159,6 @@ export function Toolbar({
       <Button
         id="basic-button"
         variant="contained"
-        disableElevation
         sx={{
           borderRadius: 10,
           ml: 1,

@@ -38,7 +38,6 @@ export function CategoryModal({
         PaperProps={{
           sx: {
             borderRadius: "20px 20px 0 0",
-            mx: "auto",
             maxWidth: "500px",
           },
         }}
@@ -125,7 +124,6 @@ export function CategoryModal({
               </ListItem>
             ))}
           <Button
-            disableElevation
             size="large"
             variant="contained"
             sx={{

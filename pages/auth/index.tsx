@@ -1,16 +1,16 @@
+import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AuthCode from "react-auth-code-input";
+import toast from "react-hot-toast";
 import { useSWRConfig } from "swr";
 import { Layout } from "../../components/Auth/Layout";
 import { Puller } from "../../components/Puller";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
-import toast from "react-hot-toast";
-import { Turnstile } from "@marsidev/react-turnstile";
 
 import {
   Box,
@@ -341,7 +341,6 @@ export default function Prompt() {
                       textTransform: "none",
                       transition: "none",
                     }}
-                    disableElevation
                     size="large"
                     onClick={() => {
                       setStep(2);
@@ -392,7 +391,8 @@ export default function Prompt() {
                     ? "/signup?close=true"
                     : "/signup"
                 }
-                legacyBehavior>
+                legacyBehavior
+              >
                 <Button
                   sx={{
                     textTransform: "none",
@@ -414,7 +414,8 @@ export default function Prompt() {
                     ? "/auth/reset-id?close=true"
                     : "/auth/reset-id"
                 }
-                legacyBehavior>
+                legacyBehavior
+              >
                 <Button
                   sx={{
                     textTransform: "none",

@@ -26,7 +26,7 @@ import {
   ListItemIcon,
   ListItemText,
   SwipeableDrawer,
-  Typography,
+  Typography
 } from "@mui/material";
 
 function Changelog({ house }) {
@@ -51,10 +51,8 @@ function Changelog({ house }) {
         anchor="bottom"
         PaperProps={{
           sx: {
-            mx: "auto",
             borderRadius: "20px 20px 0px 0px",
             maxWidth: "500px",
-            background: colors[themeColor][global.theme == "dark" ? 900 : 50],
           },
         }}
       >
@@ -348,14 +346,9 @@ export function House({
         }}
         PaperProps={{
           sx: {
-            background: colors[color][global.user.darkMode ? 900 : 50],
             height: "100vh",
-            mx: "auto",
             width: { xs: "100vw", md: "80vw", sm: "50vw" },
             maxWidth: "600px",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 25%)",
-            }),
             overflow: "scroll",
           },
         }}

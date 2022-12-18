@@ -84,7 +84,6 @@ function LinkModal({ value, setValue }) {
           onChange={(e) => setLink(e.target.value)}
         />
         <Button
-          disableElevation
           fullWidth
           variant="contained"
           size="large"
@@ -145,7 +144,6 @@ function CreatePostMenu({ url }) {
           sx: {
             borderRadius: "20px 20px 0 0",
             maxWidth: "500px",
-            mx: "auto",
           },
         }}
       >
@@ -549,7 +547,6 @@ function ImageBox({ image }) {
     >
       <Button
         variant="contained"
-        disableElevation
         sx={{
           position: "absolute",
           top: 5,

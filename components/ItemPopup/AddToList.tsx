@@ -127,7 +127,6 @@ export function AddToListModal({
         <DialogActions>
           <Button
             variant="outlined"
-            disableElevation
             size="large"
             sx={{ borderWidth: "2px!important", borderRadius: 9 }}
             onClick={() => setOpen(false)}

@@ -160,7 +160,6 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
         <DialogActions sx={{ p: 2 }}>
           <Button
             variant="outlined"
-            disableElevation
             size="large"
             sx={{ borderRadius: 99, borderWidth: "2px!important" }}
             onClick={() => setOpen(false)}

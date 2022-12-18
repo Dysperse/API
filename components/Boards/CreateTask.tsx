@@ -416,7 +416,6 @@ export function CreateTask({
                         "!important",
                     }}
                     variant="contained"
-                    disableElevation
                   >
                     <span className="material-symbols-rounded">add</span>
                   </LoadingButton>

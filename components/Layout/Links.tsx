@@ -123,10 +123,6 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
             },
             maxWidth: "500px",
             borderRadius: "20px 20px 0 0",
-            mx: "auto",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 20%)",
-            }),
           },
         }}
         open={open}
@@ -151,7 +147,6 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
             />
 
             <LoadingButton
-              disableElevation
               variant="contained"
               sx={{
                 mt: 1,

@@ -123,7 +123,6 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
             width: "100%",
             maxWidth: "50vw",
             borderRadius: "20px 20px 0 0",
-            mx: "auto",
           },
         }}
       >
@@ -179,7 +178,6 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
             width: "auto",
             p: 1,
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            mx: "auto",
             mb: { sm: 5 },
           },
         }}
@@ -265,7 +263,6 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
                 },
               }}
               size="large"
-              disableElevation
               variant="contained"
               onClick={() => setEditMode(true)}
             >

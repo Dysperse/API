@@ -284,7 +284,6 @@ export default function Item({
               lg: "70vw",
               xl: "60vw",
             },
-            mx: "auto",
             background: "transparent",
           },
         }}

@@ -102,10 +102,6 @@ function CategoryModal({ category }: { category: string }) {
             maxWidth: "600px",
             maxHeight: "95vh",
             borderRadius: "20px 20px 0 0",
-            mx: "auto",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 25%)",
-            }),
           },
         }}
       >
@@ -389,7 +385,6 @@ function CreateRoom({ mutationUrl }) {
         PaperProps={{
           sx: {
             maxWidth: "500px",
-            mx: "auto",
             borderRadius: "20px 20px 0 0",
           },
         }}
@@ -423,7 +418,6 @@ function CreateRoom({ mutationUrl }) {
               mt: 2,
               borderRadius: 999,
             }}
-            disableElevation
             size="large"
             onClick={handleSubmit}
           >

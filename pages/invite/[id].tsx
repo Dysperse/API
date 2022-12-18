@@ -1,15 +1,15 @@
-import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Head from "next/head";
 import { useRouter } from "next/router";
+import React from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { Loading } from "../../components/Layout/Loading";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
-import Head from "next/head";
-import { mutate } from "swr";
 const popup = require("window-popup").windowPopup;
-import toast from "react-hot-toast";
 
-import { Typography, Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -133,7 +133,6 @@ export default function Onboarding() {
             }
             variant="contained"
             size="large"
-            disableElevation
             sx={{
               mt: 2,
               borderRadius: 999,

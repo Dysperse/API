@@ -191,7 +191,6 @@ export function EditButton({
             >
               <Button
                 variant="contained"
-                disableElevation
                 size="large"
                 type="submit"
                 sx={{

@@ -26,7 +26,7 @@ import {
   Grow,
   NoSsr,
   ThemeProvider,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -192,6 +192,7 @@ function Render({
         styleOverrides: {
           paperAnchorBottom: {
             bottom: "0vh!important",
+            margin: "auto",
           },
           root: {
             height: "100vh!important",

@@ -3,8 +3,8 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { colors } from "../../../lib/colors";
 import { Layout } from "../../../components/Auth/Layout";
+import { colors } from "../../../lib/colors";
 
 import { Box, Paper, TextField, Typography } from "@mui/material";
 
@@ -175,7 +175,6 @@ export default function Prompt() {
                     textTransform: "none",
                     transition: "none",
                   }}
-                  disableElevation
                   size="large"
                 >
                   Continue

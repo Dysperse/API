@@ -88,7 +88,6 @@ export function QrCodeModal({ item }: { item: Item }): JSX.Element {
         <DialogActions>
           <Button
             variant="contained"
-            disableElevation
             size="large"
             sx={{ borderRadius: 99, px: 3, py: 1 }}
             onClick={handleClose}
