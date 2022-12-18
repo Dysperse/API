@@ -75,7 +75,7 @@ export function EditProperty({
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", colors[color][900]);
     }
-  }, [open]);
+  }, [open, color]);
 
   return (
     <SwipeableDrawer

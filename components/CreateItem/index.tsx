@@ -118,6 +118,7 @@ function AddItemOption({
 function MoreRooms(): JSX.Element {
   const { error, data } = useApi("property/rooms");
   const [open, setOpen] = React.useState<boolean>(false);
+  useStatusBar(open, 2);
 
   if (error) {
     return <>An error occured while trying to fetch your rooms. </>;
@@ -126,8 +127,6 @@ function MoreRooms(): JSX.Element {
    * Handle drawer toggle
    */
   const handleClickOpen = () => setOpen(true);
-
-  useStatusBar(open, 2);
 
   return (
     <>

@@ -122,6 +122,7 @@ function Changelog({ house }) {
           {data &&
             data.map((item) => (
               <Box
+                key={item.when.toString()}
                 sx={{
                   p: 3,
                   mb: 2,
@@ -206,7 +207,7 @@ export function House({
             : colors[color][800]
           : colors[themeColor][100]
       );
-  }, [open]);
+  }, [color, editMode, open]);
 
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();

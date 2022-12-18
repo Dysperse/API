@@ -86,6 +86,7 @@ function TrophyModal({ goal, mutationUrl }) {
               "sentiment_satisfied",
             ].map((icon) => (
               <IconButton
+                key={icon}
                 onClick={() => {
                   setLoading(true);
                   fetchApiWithoutHook("user/routines/complete", {
@@ -628,11 +629,13 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               className="flex items-center text-gray-900 w-full bg-gray-200 rounded-xl p-8 px-5 mb-4 flex-col sm:flex-row"
               style={{ gap: "30px" }}
             >
-              <img
-                src="https://i.ibb.co/ZS3YD9C/casual-life-3d-target-and-dart.png"
-                alt="casual-life-3d-target-and-dart"
-                width="100px"
-              />
+              <picture>
+                <img
+                  src="https://i.ibb.co/ZS3YD9C/casual-life-3d-target-and-dart.png"
+                  alt="casual-life-3d-target-and-dart"
+                  width="100px"
+                />
+              </picture>
               <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
                 <Typography
                   variant="h5"
@@ -659,7 +662,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 ...data.filter((item) => item.tasks === item.completed),
                 ...data.filter((item) => item.tasks !== item.completed),
               ].map((goal) => (
-                <Goal goal={goal} mutationUrl={url} />
+                <Goal key={goal.id} goal={goal} mutationUrl={url} />
               ))}
             </Masonry>
           )}
