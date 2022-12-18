@@ -4,4 +4,4 @@
 
 tasks:
   - init: npm install && npm run dev
-    command: npm run start
+    command: npm run dev
