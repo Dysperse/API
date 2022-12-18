@@ -65,7 +65,6 @@ export function ShareModal({
           transition: "all .2s",
         }}
         PaperProps={{
-          elevation: 0,
           sx: {
             p: 2,
             width: "500px",

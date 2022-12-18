@@ -1,10 +1,10 @@
 import Masonry from "@mui/lab/Masonry";
+import { useState } from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { useState } from "react";
 import { OptionsGroup } from "./OptionsGroup";
 
-import { Card, Skeleton, Box, Button, Dialog, Typography } from "@mui/material";
+import { Box, Button, Card, Dialog, Skeleton, Typography } from "@mui/material";
 
 function Template({
   template,
@@ -20,7 +20,6 @@ function Template({
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
-          elevation: 0,
           sx: {
             borderRadius: 5,
             maxWidth: "100vw",

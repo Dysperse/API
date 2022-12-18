@@ -1,18 +1,18 @@
 import React from "react";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { colors } from "../../lib/colors";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { useHotkeys } from "react-hotkeys-hook";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
+import { colors } from "../../lib/colors";
 
 import {
-  SwipeableDrawer,
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
-  IconButton,
   Button,
+  IconButton,
   Skeleton,
+  SwipeableDrawer,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -314,7 +314,6 @@ export function AppsMenu() {
         onClose={() => setOpen(false)}
         anchor="right"
         PaperProps={{
-          elevation: 0,
           sx: {
             width: "300px",
             m: 2,

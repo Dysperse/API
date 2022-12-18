@@ -1,6 +1,6 @@
 import { Item as ItemType } from "@prisma/client";
 import BoringAvatar from "boring-avatars";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
@@ -36,7 +36,6 @@ export function CategoryModal({
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             borderRadius: "20px 20px 0 0",
             mx: "auto",

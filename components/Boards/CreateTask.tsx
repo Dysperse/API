@@ -8,14 +8,14 @@ import { colors } from "../../lib/colors";
 import { SelectDateModal } from "./SelectDateModal";
 
 import {
-  CircularProgress,
   Alert,
   Box,
+  Button,
+  CircularProgress,
   Collapse,
   IconButton,
   ListItem,
   ListItemText,
-  Button,
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
@@ -205,7 +205,6 @@ export function CreateTask({
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             maxWidth: "600px",
             mb: { sm: 5 },

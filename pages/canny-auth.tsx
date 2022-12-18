@@ -1,5 +1,5 @@
-import useSWR from "swr";
 import Head from "next/head";
+import useSWR from "swr";
 
 import { Box, CircularProgress, Typography } from "@mui/material";
 

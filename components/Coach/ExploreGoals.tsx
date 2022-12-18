@@ -1,27 +1,26 @@
-import React, { useEffect } from "react";
-import { goals, categories } from "./goalTemplates";
-import { colors } from "../../lib/colors";
 import Masonry from "@mui/lab/Masonry";
-import { mutate } from "swr";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import React from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { categories, goals } from "./goalTemplates";
 
 import {
-  Box,
-  Tabs,
-  Button,
-  Tab,
-  Typography,
-  SwipeableDrawer,
   AppBar,
-  Toolbar,
+  Box,
+  Button,
+  FormControl,
   IconButton,
-  TextField,
   InputLabel,
   MenuItem,
-  FormControl,
   Select,
+  SwipeableDrawer,
+  Tab,
+  Tabs,
+  TextField,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 
 interface TabPanelProps {
@@ -47,7 +46,6 @@ function CreateGoal() {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             backgroundColor: "hsl(240,11%,70%)",
             color: "hsl(240,11%,10%)",

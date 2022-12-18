@@ -7,11 +7,11 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 
 import {
+  Box,
   Button,
   IconButton,
   SwipeableDrawer,
   TextField,
-  Box,
 } from "@mui/material";
 
 export function CreateColumn({ mutationUrl, id }: any) {
@@ -41,7 +41,6 @@ export function CreateColumn({ mutationUrl, id }: any) {
         onOpen={() => setShowEmojiPicker(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             maxWidth: "600px",
             maxHeight: "600px",

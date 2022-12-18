@@ -2,8 +2,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import React, { useState } from "react";
 import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
-import { colors } from "../lib/colors";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
+import { colors } from "../lib/colors";
 import { Puller } from "./Puller";
 
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
@@ -75,7 +75,6 @@ export function Prompt({
       onOpen={() => setOpen(true)}
       disableSwipeToOpen
       PaperProps={{
-        elevation: 0,
         sx: {
           borderRadius: "20px 20px 0 0",
           mx: "auto",

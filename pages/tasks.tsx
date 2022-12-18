@@ -5,16 +5,18 @@ import { TasksLayout } from "../components/Boards/TasksLayout";
  * Top-level component for the dashboard page.
  */
 export default function Dashboard() {
-  return <>
-    <Head>
-      <title>
-        Tasks &bull;{" "}
-        {global.property.profile.name.replace(/./, (c) => c.toUpperCase())}{" "}
-        &bull; Carbon
-      </title>
-    </Head>
-    <div className="pt-10 px-0">
-      <TasksLayout />
-    </div>
-  </>;
+  return (
+    <>
+      <Head>
+        <title>
+          Tasks &bull;{" "}
+          {global.property.profile.name.replace(/./, (c) => c.toUpperCase())}{" "}
+          &bull; Carbon
+        </title>
+      </Head>
+      <div className="pt-10 px-0">
+        <TasksLayout />
+      </div>
+    </>
+  );
 }

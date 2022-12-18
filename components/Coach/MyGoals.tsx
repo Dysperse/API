@@ -58,7 +58,6 @@ function TrophyModal({ goal, mutationUrl }) {
         open={stepTwoOpen}
         onClose={() => setStepTwoOpen(false)}
         PaperProps={{
-          elevation: 0,
           sx: {
             borderRadius: 5,
           },
@@ -422,7 +421,6 @@ function Goal({ goal, mutationUrl }: any) {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             width: "100vw",
             ...(global.user.darkMode && {

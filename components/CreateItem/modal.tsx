@@ -1,4 +1,12 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import {
+  Box,
+  DialogActions,
+  DialogContent,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -12,14 +20,6 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
-import {
-  Box,
-  DialogActions,
-  DialogContent,
-  SwipeableDrawer,
-  TextField,
-  Typography,
-} from "@mui/material";
 /**
  * Shuffles array in place. ES6 version
  * @param array Array to be shuffled
@@ -172,7 +172,6 @@ export function CreateItemModal({
         swipeAreaWidth={0}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             width: {
               sm: "90vw",

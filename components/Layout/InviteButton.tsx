@@ -1,11 +1,11 @@
 import React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { House } from "../HouseProfile/House";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
-import { useHotkeys } from "react-hotkeys-hook";
 
 import {
   Box,
@@ -137,7 +137,6 @@ export function InviteButton() {
           justifyContent: { sm: "start" },
         }}
         PaperProps={{
-          elevation: 0,
           sx: {
             boxShadow: "none!important",
             position: { sm: "static!important" },

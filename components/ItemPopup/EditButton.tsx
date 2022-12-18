@@ -1,11 +1,11 @@
+import type { Item } from "@prisma/client";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import React from "react";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
-import type { Item } from "@prisma/client";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 
 import {
   Autocomplete,
@@ -110,7 +110,6 @@ export function EditButton({
           transition: "all .2s",
         }}
         PaperProps={{
-          elevation: 0,
           sx: {
             width: {
               sm: "50vw",

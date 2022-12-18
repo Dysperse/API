@@ -67,7 +67,6 @@ function ResponsiveDrawer({
         TransitionComponent={Transition}
         onClose={() => setOpen(false)}
         PaperProps={{
-          elevation: 0,
           sx: {
             borderRadius: 5,
             minWidth: "500px",

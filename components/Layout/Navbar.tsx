@@ -30,7 +30,6 @@ function Achievements({ styles }) {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             maxWidth: "700px",
             width: "100%",

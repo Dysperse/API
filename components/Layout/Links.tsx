@@ -116,7 +116,6 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
       <SwipeableDrawer
         anchor="bottom"
         PaperProps={{
-          elevation: 0,
           sx: {
             width: {
               xs: "100vw",

@@ -19,17 +19,17 @@ import "../styles/search.scss";
 import { Property, Session } from "../types/session";
 
 // Day.JS
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import {
   Box,
   CircularProgress,
+  createTheme,
   Grow,
   NoSsr,
-  createTheme,
   ThemeProvider,
-  Typography,
+  Typography
 } from "@mui/material";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 /**
@@ -186,6 +186,9 @@ function Render({
         },
       },
       MuiDrawer: {
+        defaultProps: {
+          elevation: 0,
+        },
         styleOverrides: {
           paperAnchorBottom: {
             bottom: "0vh!important",

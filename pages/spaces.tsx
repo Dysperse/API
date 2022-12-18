@@ -58,7 +58,6 @@ function LinkModal({ value, setValue }) {
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
-          elevation: 0,
           sx: {
             p: 3,
             borderRadius: 5,
@@ -143,7 +142,6 @@ function CreatePostMenu({ url }) {
         onOpen={() => setVisibilityModalOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             borderRadius: "20px 20px 0 0",
             maxWidth: "500px",

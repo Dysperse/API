@@ -19,7 +19,6 @@ export function SelectDateModal({ styles, date, setDate }) {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{
-          elevation: 0,
           sx: {
             maxWidth: { sm: "350px" },
             mb: { sm: 10 },

@@ -50,7 +50,6 @@ function Changelog({ house }) {
         onOpen={() => setOpen(true)}
         anchor="bottom"
         PaperProps={{
-          elevation: 0,
           sx: {
             mx: "auto",
             borderRadius: "20px 20px 0px 0px",
@@ -348,7 +347,6 @@ export function House({
           keepMounted: data.accessToken === global.property.accessToken,
         }}
         PaperProps={{
-          elevation: 0,
           sx: {
             background: colors[color][global.user.darkMode ? 900 : 50],
             height: "100vh",

@@ -1,9 +1,9 @@
+import type { Item as ItemType } from "@prisma/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
-import type { ApiResponse } from "../../types/client";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import type { Item as ItemType } from "@prisma/client";
+import type { ApiResponse } from "../../types/client";
 
 import {
   Button,
@@ -107,7 +107,6 @@ export function AddToListModal({
           setOpen(false);
         }}
         PaperProps={{
-          elevation: 0,
           sx: {
             width: "450px",
             maxWidth: "calc(100vw - 20px)",

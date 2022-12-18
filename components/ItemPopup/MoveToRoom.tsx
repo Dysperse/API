@@ -1,11 +1,10 @@
-import { colors } from "../../lib/colors";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
+import { Puller } from "../Puller";
 
 import {
   Button,
@@ -110,7 +109,6 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         PaperProps={{
-          elevation: 0,
           sx: {
             width: {
               sm: "50vw",

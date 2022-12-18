@@ -1,21 +1,21 @@
+import LoadingButton from "@mui/lab/LoadingButton";
+import EmojiPicker from "emoji-picker-react";
+import React from "react";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
 import { CreateTask } from "./CreateTask";
 import { Task } from "./Task";
-import React from "react";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { colors } from "../../lib/colors";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { mutate } from "swr";
-import EmojiPicker from "emoji-picker-react";
 
 import {
   Box,
-  IconButton,
-  Typography,
-  Divider,
-  SwipeableDrawer,
   Button,
-  TextField,
   CardActionArea,
+  Divider,
+  IconButton,
+  SwipeableDrawer,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 function CompletedTasks({
@@ -119,7 +119,6 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             width: "100%",
             maxWidth: "50vw",
@@ -174,7 +173,6 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             maxWidth: "400px",
             maxHeight: "400px",

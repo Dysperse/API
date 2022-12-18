@@ -1,29 +1,29 @@
-import { Loading } from "../components/Layout/Loading";
-import { useState } from "react";
-import { stepConnectorClasses } from "@mui/material/StepConnector";
-import { colors } from "../lib/colors";
-import { Color } from "../components/Onboarding/Color";
-import { useRouter } from "next/router";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { updateSettings } from "../components/Settings/updateSettings";
+import { stepConnectorClasses } from "@mui/material/StepConnector";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { cards } from "../components/CreateItem/cards";
+import { Loading } from "../components/Layout/Loading";
+import { Color } from "../components/Onboarding/Color";
 import { InventoryList } from "../components/Onboarding/InventoryList";
+import { updateSettings } from "../components/Settings/updateSettings";
+import { colors } from "../lib/colors";
 
 import {
   Box,
-  Step,
-  StepLabel,
-  Stepper,
-  StepConnector,
-  StepIconProps,
-  styled,
   Button,
-  TextField,
-  Typography,
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
+  Step,
+  StepConnector,
+  StepIconProps,
+  StepLabel,
+  Stepper,
+  styled,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 function StepContent({ forStep, currentStep, setCurrentStep, content }) {

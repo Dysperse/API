@@ -1,8 +1,11 @@
+import { LoadingButton } from "@mui/lab";
 import type { CustomRoom, Item } from "@prisma/client";
 import BoringAvatar from "boring-avatars";
 import { encode } from "js-base64";
 import { useRouter } from "next/router";
 import React from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { OptionsGroup } from "../components/Boards/OptionsGroup";
 import { ErrorHandler } from "../components/error";
 import { Puller } from "../components/Puller";
@@ -12,14 +15,11 @@ import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
-import { LoadingButton } from "@mui/lab";
-import toast from "react-hot-toast";
-import { mutate } from "swr";
 
 import {
-  TextField,
   Avatar,
   Box,
+  Chip,
   CircularProgress,
   Divider,
   ListItem,
@@ -29,8 +29,8 @@ import {
   MenuItem,
   Skeleton,
   SwipeableDrawer,
+  TextField,
   Typography,
-  Chip,
 } from "@mui/material";
 
 function Tidy() {
@@ -95,7 +95,6 @@ function CategoryModal({ category }: { category: string }) {
         open={open}
         anchor="bottom"
         PaperProps={{
-          elevation: 0,
           sx: {
             width: {
               sm: "50vw",
@@ -388,7 +387,6 @@ function CreateRoom({ mutationUrl }) {
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             maxWidth: "500px",
             mx: "auto",

@@ -40,7 +40,6 @@ function Logout() {
           setOpen(false);
         }}
         PaperProps={{
-          elevation: 0,
           sx: {
             width: "450px",
             maxWidth: "calc(100vw - 20px)",
@@ -206,7 +205,6 @@ function SettingsMenu({
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         PaperProps={{
-          elevation: 0,
           sx: {
             width: {
               sm: "50vw",
@@ -294,7 +292,6 @@ export default function FullScreenDialog({
         swipeAreaWidth={0}
         onOpen={handleClickOpen}
         PaperProps={{
-          elevation: 0,
           sx: {
             width: {
               sm: "50vw",

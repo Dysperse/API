@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
-import { updateSettings } from "../Settings/updateSettings";
 import { Color } from "../Layout/InviteButton";
+import { updateSettings } from "../Settings/updateSettings";
 
 import {
   AppBar,
@@ -85,7 +85,6 @@ export function EditProperty({
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       PaperProps={{
-        elevation: 0,
         sx: {
           background: colors[color]["50"].toString(),
           color: colors[color]["900"].toString(),

@@ -4,11 +4,11 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { colors } from "../../lib/colors";
-import { Prompt } from "../twoFactorPrompt";
-import { Puller } from "../Puller";
-import { isEmail } from "./MemberList";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { colors } from "../../lib/colors";
+import { Puller } from "../Puller";
+import { Prompt } from "../twoFactorPrompt";
+import { isEmail } from "./MemberList";
 
 import {
   Box,
@@ -63,7 +63,6 @@ function LinkToken({ color }) {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{
-          elevation: 0,
           sx: {
             maxWidth: "400px",
             mx: "auto",
@@ -196,7 +195,6 @@ export function AddPersonModal({
         open={open}
         onOpen={() => setOpen(true)}
         PaperProps={{
-          elevation: 0,
           sx: {
             background: colors[color][50],
             width: {

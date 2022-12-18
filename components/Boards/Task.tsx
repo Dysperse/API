@@ -33,7 +33,6 @@ function ImageViewer({ url, trimHeight = false }) {
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
-          elevation: 0,
           sx: {
             borderRadius: 5,
             width: "100%",
@@ -319,7 +318,6 @@ export const Task = React.memo(function Task({
         open={open}
         disableSwipeToOpen
         PaperProps={{
-          elevation: 0,
           sx: {
             mb: { sm: 2 },
             width: "100%",

@@ -1,21 +1,21 @@
 import { Command } from "cmdk";
+import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { useApi } from "../../../hooks/useApi";
+import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
+import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import type { ApiResponse } from "../../../types/client";
 import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
-import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
-import { useStatusBar } from "../../../hooks/useStatusBar";
-import hexToRgba from "hex-to-rgba";
 
 import {
   Box,
+  Button,
   IconButton,
   LinearProgress,
-  Button,
   SwipeableDrawer,
   Tooltip,
   Typography,
@@ -378,7 +378,6 @@ export function SearchPopup() {
           justifyContent: { sm: "center" },
         }}
         PaperProps={{
-          elevation: 0,
           sx: {
             pt: { sm: 3 },
             width: {
