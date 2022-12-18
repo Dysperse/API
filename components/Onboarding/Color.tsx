@@ -1,6 +1,6 @@
-import CardActionArea from "@mui/material/CardActionArea";
 import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
+import { CardActionArea } from '@mui/material';
 
 /**
  * Color component

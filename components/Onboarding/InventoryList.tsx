@@ -1,11 +1,9 @@
-import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+
+import { Box, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
 /**
  * Inventory list

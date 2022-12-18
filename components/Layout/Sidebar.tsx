@@ -1,14 +1,10 @@
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
-import Tooltip from "@mui/material/Tooltip";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
+
+import { Box, Drawer, IconButton, Tab, Tabs, Tooltip } from '@mui/material';
 
 export function Sidebar() {
   const [value, setValue] = useState<number>(0);

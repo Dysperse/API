@@ -1,14 +1,12 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
 import { colors } from "../lib/colors";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { Puller } from "./Puller";
+
+import { Box, Button, SwipeableDrawer, Typography } from '@mui/material';
 
 /**
  * Verify if 2fa code is correct

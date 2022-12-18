@@ -1,15 +1,11 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Item as ItemType } from "@prisma/client";
 import BoringAvatar from "boring-avatars";
 import React, { useState } from "react";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
+
+import { Box, Button, Chip, ListItem, ListItemText, SwipeableDrawer } from '@mui/material';
 
 /**
  * Category modal

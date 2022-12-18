@@ -1,10 +1,4 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -17,6 +11,8 @@ import { useSWRConfig } from "swr";
 import { Layout } from "../../components/Auth/Layout";
 import { Puller } from "../../components/Puller";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+
+import { Box, Button, Paper, SwipeableDrawer, TextField, Typography } from '@mui/material';
 
 /**
  * Top-level component for the signup page.

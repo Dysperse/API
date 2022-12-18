@@ -1,10 +1,8 @@
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import toast from "react-hot-toast";
 import { colors } from "../lib/colors";
 import React from "react";
+
+import { Typography, TextField, Box, Button } from '@mui/material';
 
 export default function Redeem() {
   const [code, setCode] = React.useState("");

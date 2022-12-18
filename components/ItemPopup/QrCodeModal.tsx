@@ -1,12 +1,8 @@
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import MenuItem from "@mui/material/MenuItem";
 import { Item } from "@prisma/client";
 import { useState } from "react";
 import QRCode from "react-qr-code";
+
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem } from '@mui/material';
 
 /**
  * Description

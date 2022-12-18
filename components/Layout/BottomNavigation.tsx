@@ -1,13 +1,9 @@
-import Box from "@mui/material/Box";
-import Snackbar from "@mui/material/Snackbar";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { useRouter } from "next/router";
 import React from "react";
 import { colors } from "../../lib/colors";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import hexToRgba from "hex-to-rgba";
+
+import { Box, Snackbar, useMediaQuery, useScrollTrigger, Tabs, Tab } from '@mui/material';
 
 /**
  * Bottom navigation bar

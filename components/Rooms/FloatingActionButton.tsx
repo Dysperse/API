@@ -1,8 +1,7 @@
-import Box from "@mui/material/Box";
 import { colors } from "../../lib/colors";
-import Fab from "@mui/material/Fab";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 import AddPopup from "../CreateItem";
+
+import { Box, Fab, useScrollTrigger } from '@mui/material';
 
 /**
  * Floating action button

@@ -1,10 +1,10 @@
-import Skeleton from "@mui/material/Skeleton";
-import Box from "@mui/material/Box";
 import React from "react";
 import { useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../error";
 import { Column } from "./Column";
 import { CreateColumn } from "./CreateColumn";
+
+import { Skeleton, Box } from '@mui/material';
 
 function Renderer({ data, url, board }) {
   return (

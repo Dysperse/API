@@ -1,24 +1,28 @@
-import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
-import Button from "@mui/material/Button";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import { goals, categories } from "./goalTemplates";
 import { colors } from "../../lib/colors";
 import Masonry from "@mui/lab/Masonry";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
 import { mutate } from "swr";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { SelectChangeEvent } from "@mui/material/Select";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import toast from "react-hot-toast";
+
+import {
+  Box,
+  Tabs,
+  Button,
+  Tab,
+  Typography,
+  SwipeableDrawer,
+  AppBar,
+  Toolbar,
+  IconButton,
+  TextField,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from '@mui/material';
 
 interface TabPanelProps {
   children?: React.ReactNode;

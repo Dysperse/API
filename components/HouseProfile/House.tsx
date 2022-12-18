@@ -1,15 +1,4 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
-import CircularProgress from "@mui/material/CircularProgress";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import React, { useEffect } from "react";
@@ -25,6 +14,20 @@ import { ErrorHandler } from "../error";
 import { EditProperty } from "../HouseProfile/EditProperty";
 import { UpgradeBanner } from "../HouseProfile/ItemBanner";
 import { MemberList } from "../HouseProfile/MemberList";
+
+import {
+  Box,
+  Chip,
+  CircularProgress,
+  Drawer,
+  IconButton,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  ListItemText,
+  SwipeableDrawer,
+  Typography,
+} from '@mui/material';
 
 function Changelog({ house }) {
   const [open, setOpen] = React.useState(false);

@@ -1,9 +1,4 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -11,6 +6,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { colors } from "../../lib/colors";
 import { Layout } from "../../components/Auth/Layout";
+
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 
 /**
  * Top-level component for the signup page.

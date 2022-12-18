@@ -1,8 +1,5 @@
 import Masonry from "@mui/lab/Masonry";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import Skeleton from "@mui/material/Skeleton";
+import { Box, Container, Paper, Skeleton } from '@mui/material';
 
 /**
  * Loading screen

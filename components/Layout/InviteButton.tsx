@@ -1,9 +1,3 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import CardActionArea from "@mui/material/CardActionArea";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Typography from "@mui/material/Typography";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
@@ -12,6 +6,8 @@ import { House } from "../HouseProfile/House";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
 import { useHotkeys } from "react-hotkeys-hook";
+
+import { Box, Button, CardActionArea, SwipeableDrawer, Typography, useMediaQuery } from '@mui/material';
 
 /**
  * Color component for house profile

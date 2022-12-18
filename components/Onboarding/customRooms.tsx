@@ -1,8 +1,7 @@
-import Autocomplete from "@mui/material/Autocomplete";
-import Chip from "@mui/material/Chip";
-import TextField from "@mui/material/TextField";
 import React from "react";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+
+import { Autocomplete, Chip, TextField } from '@mui/material';
 
 /**
  * Custom rooms add component

@@ -1,4 +1,4 @@
-import Box from "@mui/material/Box";
+import { Box } from '@mui/material';
 
 export function Circle({ number, year }) {
   const currentMonth = new Date().getMonth();

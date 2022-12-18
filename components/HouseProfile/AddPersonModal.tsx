@@ -1,13 +1,6 @@
 import emailjs from "@emailjs/browser";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
@@ -16,6 +9,17 @@ import { Prompt } from "../twoFactorPrompt";
 import { Puller } from "../Puller";
 import { isEmail } from "./MemberList";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+
+import {
+  Box,
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 function LinkToken({ color }) {
   const [open, setOpen] = React.useState(false);

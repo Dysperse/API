@@ -1,5 +1,5 @@
-import ListItem from "@mui/material/ListItem";
 import type { Item } from "@prisma/client";
+import { ListItem } from '@mui/material';
 
 /**
  * Description

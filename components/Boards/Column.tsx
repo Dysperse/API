@@ -1,19 +1,22 @@
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import { CreateTask } from "./CreateTask";
 import { Task } from "./Task";
 import React from "react";
-import Divider from "@mui/material/Divider";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { colors } from "../../lib/colors";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { mutate } from "swr";
-import TextField from "@mui/material/TextField";
 import EmojiPicker from "emoji-picker-react";
-import CardActionArea from "@mui/material/CardActionArea";
+
+import {
+  Box,
+  IconButton,
+  Typography,
+  Divider,
+  SwipeableDrawer,
+  Button,
+  TextField,
+  CardActionArea,
+} from '@mui/material';
 
 function CompletedTasks({
   checkList,

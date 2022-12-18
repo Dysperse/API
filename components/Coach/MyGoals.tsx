@@ -1,18 +1,4 @@
 import { Masonry } from "@mui/lab";
-import AppBar from "@mui/material/AppBar";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
-import Dialog from "@mui/material/Dialog";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Skeleton from "@mui/material/Skeleton";
-import Slider from "@mui/material/Slider";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import Confetti from "react-confetti";
@@ -24,6 +10,23 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
 import { ExploreGoals } from "./ExploreGoals";
+
+import {
+  AppBar,
+  Backdrop,
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  IconButton,
+  Menu,
+  MenuItem,
+  Skeleton,
+  Slider,
+  SwipeableDrawer,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 
 function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState(false);

@@ -1,13 +1,4 @@
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import { colors } from "../../lib/colors";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -15,6 +6,18 @@ import { Puller } from "../Puller";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+
+import {
+  Button,
+  CircularProgress,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  ListItem,
+  ListItemText,
+  SwipeableDrawer,
+} from '@mui/material';
 
 /**
  * @description A room

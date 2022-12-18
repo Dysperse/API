@@ -1,6 +1,5 @@
-import Typography from "@mui/material/Typography";
 import { colors } from "../lib/colors";
-import Box from "@mui/material/Box";
+import { Typography, Box } from '@mui/material';
 
 /**
  * Top-level component for the 404 page.

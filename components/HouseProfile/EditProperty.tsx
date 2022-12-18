@@ -1,19 +1,22 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import TextField from "@mui/material/TextField";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import React, { useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 import { Color } from "../Layout/InviteButton";
+
+import {
+  AppBar,
+  Box,
+  Button,
+  FormControl,
+  IconButton,
+  Menu,
+  MenuItem,
+  SwipeableDrawer,
+  TextField,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 
 /**
  * Edit property

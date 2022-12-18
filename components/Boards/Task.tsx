@@ -1,15 +1,3 @@
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
-import Dialog from "@mui/material/Dialog";
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import { styled } from "@mui/material/styles";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -21,6 +9,21 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./CreateTask";
 import { OptionsGroup } from "./OptionsGroup";
+
+import {
+  ListItem,
+  ListItemText,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+  Chip,
+  Dialog,
+  IconButton,
+  Box,
+  Button,
+  Checkbox,
+  styled,
+} from '@mui/material';
 
 function ImageViewer({ url, trimHeight = false }) {
   const [open, setOpen] = useState(false);

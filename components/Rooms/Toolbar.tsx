@@ -1,13 +1,9 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { grey } from "@mui/material/colors";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
 import type { Item } from "@prisma/client";
 import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
+
+import { Box, Button, grey, Menu, MenuItem, TextField } from '@mui/material';
 
 /**
  * Search bar

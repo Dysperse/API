@@ -1,5 +1,3 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import React, { useEffect, useState } from "react";
@@ -8,12 +6,10 @@ import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Board } from "./Board";
 import { CreateBoard } from "./CreateBoard";
-import Menu from "@mui/material/Menu";
-import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
 import { mutate } from "swr";
-import CircularProgress from "@mui/material/CircularProgress";
 import toast from "react-hot-toast";
+
+import { Box, Button, Menu, Typography, MenuItem, CircularProgress } from '@mui/material';
 
 const Tab = React.memo(function ({
   mutationUrl,

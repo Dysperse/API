@@ -1,27 +1,30 @@
-import Box from "@mui/material/Box";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Stepper from "@mui/material/Stepper";
 import { Loading } from "../components/Layout/Loading";
 import { useState } from "react";
-import StepConnector, {
-  stepConnectorClasses,
-} from "@mui/material/StepConnector";
-import { StepIconProps } from "@mui/material/StepIcon";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import { stepConnectorClasses } from "@mui/material/StepConnector";
 import { colors } from "../lib/colors";
 import { Color } from "../components/Onboarding/Color";
-import FormControl from "@mui/material/FormControl";
 import { useRouter } from "next/router";
-import InputLabel from "@mui/material/InputLabel";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import { SelectChangeEvent } from "@mui/material/Select";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { cards } from "../components/CreateItem/cards";
 import { InventoryList } from "../components/Onboarding/InventoryList";
+
+import {
+  Box,
+  Step,
+  StepLabel,
+  Stepper,
+  StepConnector,
+  StepIconProps,
+  styled,
+  Button,
+  TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 
 function StepContent({ forStep, currentStep, setCurrentStep, content }) {
   return forStep === currentStep ? (

@@ -1,12 +1,8 @@
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import ListItem from "@mui/material/ListItem";
-import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useStatusBar } from "../../hooks/useStatusBar";
+
+import { Button, Dialog, DialogContent, DialogTitle, ListItem, TextField } from '@mui/material';
 
 /**
  * Share modal

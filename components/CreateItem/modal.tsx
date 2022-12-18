@@ -1,10 +1,4 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -18,6 +12,7 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { cards } from "./cards";
+import { Box, DialogActions, DialogContent, SwipeableDrawer, TextField, Typography } from '@mui/material';
 /**
  * Shuffles array in place. ES6 version
  * @param array Array to be shuffled

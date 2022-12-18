@@ -1,17 +1,3 @@
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
@@ -23,6 +9,23 @@ import AccountSettings from "./AccountSettings";
 import AppearanceSettings from "./AppearanceSettings";
 import Notifications from "./Notifications";
 import TwoFactorAuth from "./TwoFactorAuth";
+
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContentText,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  SwipeableDrawer,
+  Typography,
+} from '@mui/material';
 
 /**
  * Logout modal

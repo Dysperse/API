@@ -1,11 +1,3 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import IconButton from "@mui/material/IconButton";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Offline } from "react-detect-offline";
@@ -14,6 +6,17 @@ import Settings from "../Settings/index";
 import { AppsMenu } from "./AppsMenu";
 import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
+
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  IconButton,
+  SwipeableDrawer,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
 function Achievements({ styles }) {
   const [open, setOpen] = useState(false);

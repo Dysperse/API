@@ -1,16 +1,15 @@
 import React from "react";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useRouter } from "next/router";
 import { Loading } from "../../components/Layout/Loading";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import Head from "next/head";
-import CircularProgress from "@mui/material/CircularProgress";
 import { mutate } from "swr";
 const popup = require("window-popup").windowPopup;
 import toast from "react-hot-toast";
+
+import { Typography, Box, CircularProgress } from '@mui/material';
 
 export default function Onboarding() {
   const router = useRouter();

@@ -1,11 +1,9 @@
-import Box from "@mui/material/Box";
-import { red } from "@mui/material/colors";
-import IconButton from "@mui/material/IconButton";
-
 /**
  * @param {string} error Error text
  * @returns {JSX.Element} JSX element
  */
+import { Box, red, IconButton } from '@mui/material';
+
 export function ErrorHandler({ error }: { error: string }): JSX.Element {
   /**
    * Reload the page

@@ -1,10 +1,3 @@
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import LinearProgress from "@mui/material/LinearProgress";
-import Button from "@mui/material/Button";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
 import { Command } from "cmdk";
 import { useRouter } from "next/router";
 import React from "react";
@@ -17,6 +10,17 @@ import { updateSettings } from "../../Settings/updateSettings";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 import hexToRgba from "hex-to-rgba";
+
+import {
+  Box,
+  IconButton,
+  LinearProgress,
+  Button,
+  SwipeableDrawer,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+
 /**
  * Icon function
  * @param {any} {icon}:{icon:string}

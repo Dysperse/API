@@ -1,8 +1,4 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import BoringAvatar from "boring-avatars";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -14,6 +10,8 @@ import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../error";
 import { AddPersonModal } from "./AddPersonModal";
 import type { Member as MemberType } from "../../types/houseProfile";
+
+import { Box, Typography, IconButton, useMediaQuery } from '@mui/material';
 
 /**
  * Check if a string is a valid email address

@@ -1,6 +1,3 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useCallback } from "react";
@@ -8,10 +5,9 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import type { ApiResponse } from "../../types/client";
 import type { CustomRoom as RoomType } from "@prisma/client";
-import IconButton from "@mui/material/IconButton";
+import { Box, Button, Typography, useMediaQuery, IconButton } from '@mui/material';
 
 /**
  * Room card

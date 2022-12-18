@@ -1,5 +1,5 @@
-import Box from "@mui/material/Box";
 import { colors } from "../lib/colors";
+import { Box } from '@mui/material';
 
 /**
  * @name Puller

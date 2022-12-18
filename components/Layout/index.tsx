@@ -1,9 +1,3 @@
-import Box from "@mui/material/Box";
-import Dialog from "@mui/material/Dialog";
-import Grow from "@mui/material/Grow";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
@@ -12,6 +6,8 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { BottomNav } from "./BottomNavigation";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
+
+import { Box, Dialog, Grow, IconButton, Toolbar, Typography } from '@mui/material';
 
 const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
   ssr: false,

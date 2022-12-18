@@ -1,14 +1,10 @@
 import Masonry from "@mui/lab/Masonry";
-import Card from "@mui/material/Card";
-import Skeleton from "@mui/material/Skeleton";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import Typography from "@mui/material/Typography";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { useState } from "react";
 import { OptionsGroup } from "./OptionsGroup";
+
+import { Card, Skeleton, Box, Button, Dialog, Typography } from '@mui/material';
 
 function Template({
   template,

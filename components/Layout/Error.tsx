@@ -1,8 +1,7 @@
-import Box from "@mui/material/Box";
-import MuiLink from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import React from "react";
+
+import { Box, Link as MuiLink, Typography } from '@mui/material';
 
 export function Error() {
   return (

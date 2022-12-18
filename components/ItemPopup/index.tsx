@@ -1,16 +1,3 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
-import Chip from "@mui/material/Chip";
-import Collapse from "@mui/material/Collapse";
-import Grid from "@mui/material/Grid";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import type { Item as ItemType } from "@prisma/client";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
@@ -29,6 +16,22 @@ import { MoveToRoom } from "./MoveToRoom";
 import { ShareModal } from "./ShareModal";
 import { StarButton } from "./StarButton";
 import { CategoryModal } from "./CategoryModal";
+
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  Chip,
+  Collapse,
+  Grid,
+  Menu,
+  MenuItem,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 /**
  * Item popup
@@ -193,473 +196,471 @@ export default function Item({
       target.blur();
     }
   };
-  return (
-    <>
-      <Menu
-        open={contextMenu !== null}
-        onClose={handleClose}
-        anchorReference="anchorPosition"
-        anchorPosition={
-          contextMenu !== null
-            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
-            : undefined
-        }
+  return <>
+    <Menu
+      open={contextMenu !== null}
+      onClose={handleClose}
+      anchorReference="anchorPosition"
+      anchorPosition={
+        contextMenu !== null
+          ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+          : undefined
+      }
+    >
+      <MenuItem
+        onClick={() => {
+          setDrawerState(true);
+          handleClose();
+        }}
       >
-        <MenuItem
-          onClick={() => {
-            setDrawerState(true);
-            handleClose();
-          }}
+        <span
+          className="material-symbols-rounded"
+          style={{ marginRight: "20px" }}
         >
-          <span
-            className="material-symbols-rounded"
-            style={{ marginRight: "20px" }}
-          >
-            open_in_new
-          </span>
-          View
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            const href = `https://${
-              window.location.hostname
-            }/share/${encodeURIComponent(
-              JSON.stringify({
-                name: global.user.name,
-                title: item.name,
-                quantity: item.quantity,
-                room: data.room,
-              })
-            )}`;
+          open_in_new
+        </span>
+        View
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          const href = `https://${
+            window.location.hostname
+          }/share/${encodeURIComponent(
+            JSON.stringify({
+              name: global.user.name,
+              title: item.name,
+              quantity: item.quantity,
+              room: data.room,
+            })
+          )}`;
 
-            navigator.share({ url: href }).then(handleClose);
-          }}
+          navigator.share({ url: href }).then(handleClose);
+        }}
+      >
+        <span
+          className="material-symbols-rounded"
+          style={{ marginRight: "20px" }}
         >
-          <span
-            className="material-symbols-rounded"
-            style={{ marginRight: "20px" }}
-          >
-            share
-          </span>
-          Share
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleItemStar();
-            handleClose();
-          }}
+          share
+        </span>
+        Share
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleItemStar();
+          handleClose();
+        }}
+      >
+        <span
+          className={`material-symbols-${
+            item.starred ? "rounded" : "outlined"
+          }`}
+          style={{ marginRight: "20px" }}
         >
-          <span
-            className={`material-symbols-${
-              item.starred ? "rounded" : "outlined"
-            }`}
-            style={{ marginRight: "20px" }}
-          >
-            grade
-          </span>
-          {item.starred ? "Unstar" : "Star"}
-        </MenuItem>
-        <MenuItem onClick={handleItemDelete}>
-          <span
-            className="material-symbols-rounded"
-            style={{ marginRight: "20px" }}
-          >
-            delete
-          </span>
-          Delete
-        </MenuItem>
-      </Menu>
+          grade
+        </span>
+        {item.starred ? "Unstar" : "Star"}
+      </MenuItem>
+      <MenuItem onClick={handleItemDelete}>
+        <span
+          className="material-symbols-rounded"
+          style={{ marginRight: "20px" }}
+        >
+          delete
+        </span>
+        Delete
+      </MenuItem>
+    </Menu>
 
-      <SwipeableDrawer
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            maxHeight: "90vh",
-            width: {
-              xs: "100vw",
-              sm: "95vw",
-              md: "80vw",
-              lg: "70vw",
-              xl: "60vw",
-            },
-            mx: "auto",
+    <SwipeableDrawer
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          maxHeight: "90vh",
+          width: {
+            xs: "100vw",
+            sm: "95vw",
+            md: "80vw",
+            lg: "70vw",
+            xl: "60vw",
+          },
+          mx: "auto",
+          background: "transparent",
+        },
+      }}
+      swipeAreaWidth={0}
+      anchor="bottom"
+      open={drawerState}
+      onClose={() => setDrawerState(false)}
+      onOpen={() => setDrawerState(true)}
+    >
+      {drawerState && (
+        <Head>
+          <title>
+            {item.name} &bull; {data.room} &bull;{" "}
+            {global.property.profile.name.replace(/./, (c) =>
+              c.toUpperCase()
+            )}{" "}
+            &bull; Carbon
+          </title>
+        </Head>
+      )}
+
+      <Box
+        sx={{
+          flexGrow: 1,
+          height: "100%",
+          position: "relative",
+          borderRadius: "20px 20px 0 0",
+          overflowY: "scroll!important",
+          background: `${colors[themeColor][50]}!important`,
+          ...(global.user.darkMode && {
+            background: "hsl(240, 11%, 20%)",
+          }),
+          maxWidth: "100vw",
+        }}
+      >
+        <Puller />
+        <Box sx={{ p: 5 }}>
+          <Grid container spacing={5}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              xl={7}
+              sx={{
+                width: "100%",
+              }}
+            >
+              <Box sx={{ width: "100%" }}>
+                <TextField
+                  defaultValue={item.name || "(no title)"}
+                  variant="standard"
+                  multiline
+                  fullWidth
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                      background: `${
+                        global.user.darkMode
+                          ? "hsl(240, 11%, 24%)"
+                          : colors[themeColor][50]
+                      }!important`,
+                      fontWeight: "600",
+                      fontSize: "30px",
+                      textDecoration: "underline",
+                      textAlign: "right!important",
+                      borderRadius: "15px",
+                      display: "block",
+                    },
+                  }}
+                />
+                <TextField
+                  autoComplete="off"
+                  defaultValue={item.quantity}
+                  variant="standard"
+                  id="quantity"
+                  onChange={(e) => {
+                    setItemData({
+                      ...item,
+                      quantity: e.target.value,
+                    });
+                  }}
+                  placeholder="Click to add quantity"
+                  fullWidth
+                  sx={{
+                    mb: 2,
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                      borderRadius: "15px",
+                      py: 0,
+                      "& *::placeholder": {
+                        color: global.user.darkMode
+                          ? "hsl(240, 11%, 24%)"
+                          : colors[themeColor][500],
+                      },
+                      color: global.user.darkMode
+                        ? "hsl(240, 11%, 24%)"
+                        : colors[themeColor][900],
+                      ...(item.quantity !== "" && {
+                        textDecoration: "underline",
+                      }),
+                      fontWeight: "500",
+                      maxWidth: "250px",
+                      display: "block",
+                    },
+                  }}
+                />
+                <div
+                  style={{
+                    maxWidth: "100%",
+                    overflowX: "auto",
+                    overflowY: "visible",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {[
+                    displayRoom ? item.room : undefined,
+                    ...JSON.parse(item.category),
+                  ]
+                    .filter((category) => category)
+                    .map((category: string) => {
+                      return (
+                        <Chip
+                          key={Math.random().toString()}
+                          label={category}
+                          onClick={() => {
+                            router.push("/items");
+                            setDrawerState(false);
+                          }}
+                          sx={{
+                            background: `${colors[themeColor][100]}!important`,
+                            "&:hover": {
+                              background: `${colors[themeColor][200]}!important`,
+                            },
+                            transition: "none",
+                            px: 1.5,
+                            mr: 1,
+                            mb: 2.5,
+                            textTransform: "capitalize",
+                          }}
+                        />
+                      );
+                    })}
+
+                  <CategoryModal setItemData={setItemData} item={item} />
+                </div>
+                <TextField
+                  multiline
+                  fullWidth
+                  onBlur={(e) => {
+                    e.target.placeholder = "Click to add note";
+                    e.target.spellcheck = false;
+                    setItemData({
+                      ...item,
+                      lastModified: new Date(
+                        dayjs().format("YYYY-MM-DD HH:mm:ss")
+                      ),
+                    });
+                    // Update item note
+                    setItemData({
+                      ...item,
+                      note: e.target.value,
+                    });
+                    fetchApiWithoutHook("property/inventory/updateNote", {
+                      id: id.toString(),
+                      lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+                      note: e.target.value,
+                    });
+                  }}
+                  onKeyUp={handleUpdateNote}
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                      "& *::placeholder": {
+                        color: global.user.darkMode
+                          ? "hsl(240, 11%, 24%)"
+                          : colors[themeColor][700],
+                      },
+                      background: `${
+                        global.user.darkMode
+                          ? "hsl(240, 11%, 24%)"
+                          : colors[themeColor][100]
+                      }!important`,
+                      cursor: "pointer",
+                      p: 2.5,
+                      borderRadius: "15px",
+                      display: "block",
+                    },
+                  }}
+                  minRows={3}
+                  spellCheck={false}
+                  variant="filled"
+                  defaultValue={item.note}
+                  maxRows={4}
+                  onFocus={(e) => {
+                    e.target.placeholder = "SHIFT+ENTER for new lines";
+                    e.target.spellcheck = true;
+                  }}
+                  disabled={global.property.role === "read-only"}
+                  placeholder={
+                    global.property.role !== "read-only"
+                      ? "Click to add note"
+                      : "You do not have permission to edit this item"
+                  }
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6} xl={5}>
+              <Box
+                sx={{
+                  background: global.user.darkMode
+                    ? "hsl(240, 11%, 25%)"
+                    : colors[themeColor][100],
+                  borderRadius: 5,
+                  mt: { xs: -2.5, sm: 0 },
+                  overflow: "hidden",
+                }}
+              >
+                <>
+                  {global.property.role !== "read-only" && (
+                    <StarButton
+                      styles={styles}
+                      item={item}
+                      handleItemStar={handleItemStar}
+                    />
+                  )}
+
+                  {global.property.role !== "read-only" && (
+                    <MoveToRoom
+                      room={data.room}
+                      styles={styles}
+                      setDrawerState={setDrawerState}
+                      item={item}
+                      setDeleted={setDeleted}
+                    />
+                  )}
+                  <ShareModal
+                    styles={styles}
+                    title={item.name}
+                    quantity={item.quantity}
+                    room={item.room}
+                  />
+
+                  {global.property.role !== "read-only" && (
+                    <AddToListModal item={item} styles={styles} />
+                  )}
+
+                  {global.property.role !== "read-only" && (
+                    <DeleteButton
+                      styles={styles}
+                      handleItemDelete={handleItemDelete}
+                    />
+                  )}
+                </>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+    </SwipeableDrawer>
+    <Collapse in={!deleted} sx={{ borderRadius: 5 }}>
+      <Card
+        sx={{
+          boxShadow: "0",
+          display: "block",
+          my: { sm: 1 },
+          width: "100%",
+          maxWidth: "calc(100vw - 32.5px)",
+          userSelect: "none",
+          borderRadius: 5,
+          background: `${
+            global.user.darkMode
+              ? "hsl(240, 11%, 17%)"
+              : "rgba(200,200,200,.2)"
+          }!important`,
+
+          transition: "transform .2s",
+          mb: { xs: 2, sm: 0 },
+          ...(item.starred && {
+            background: colors.orange[50],
+          }),
+          "& *:not(.MuiTouchRipple-root *, .override *)": {
             background: "transparent",
           },
         }}
-        swipeAreaWidth={0}
-        anchor="bottom"
-        open={drawerState}
-        onClose={() => setDrawerState(false)}
-        onOpen={() => setDrawerState(true)}
       >
-        {drawerState && (
-          <Head>
-            <title>
-              {item.name} &bull; {data.room} &bull;{" "}
-              {global.property.profile.name.replace(/./, (c) =>
-                c.toUpperCase()
-              )}{" "}
-              &bull; Carbon
-            </title>
-          </Head>
-        )}
-
-        <Box
-          sx={{
-            flexGrow: 1,
-            height: "100%",
-            position: "relative",
-            borderRadius: "20px 20px 0 0",
-            overflowY: "scroll!important",
-            background: `${colors[themeColor][50]}!important`,
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 20%)",
-            }),
-            maxWidth: "100vw",
-          }}
-        >
-          <Puller />
-          <Box sx={{ p: 5 }}>
-            <Grid container spacing={5}>
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                xl={7}
-                sx={{
-                  width: "100%",
-                }}
-              >
-                <Box sx={{ width: "100%" }}>
-                  <TextField
-                    defaultValue={item.name || "(no title)"}
-                    variant="standard"
-                    multiline
-                    fullWidth
-                    InputProps={{
-                      disableUnderline: true,
-                      sx: {
-                        background: `${
-                          global.user.darkMode
-                            ? "hsl(240, 11%, 24%)"
-                            : colors[themeColor][50]
-                        }!important`,
-                        fontWeight: "600",
-                        fontSize: "30px",
-                        textDecoration: "underline",
-                        textAlign: "right!important",
-                        borderRadius: "15px",
-                        display: "block",
-                      },
-                    }}
-                  />
-                  <TextField
-                    autoComplete="off"
-                    defaultValue={item.quantity}
-                    variant="standard"
-                    id="quantity"
-                    onChange={(e) => {
-                      setItemData({
-                        ...item,
-                        quantity: e.target.value,
-                      });
-                    }}
-                    placeholder="Click to add quantity"
-                    fullWidth
-                    sx={{
-                      mb: 2,
-                    }}
-                    InputProps={{
-                      disableUnderline: true,
-                      sx: {
-                        borderRadius: "15px",
-                        py: 0,
-                        "& *::placeholder": {
-                          color: global.user.darkMode
-                            ? "hsl(240, 11%, 24%)"
-                            : colors[themeColor][500],
-                        },
-                        color: global.user.darkMode
-                          ? "hsl(240, 11%, 24%)"
-                          : colors[themeColor][900],
-                        ...(item.quantity !== "" && {
-                          textDecoration: "underline",
-                        }),
-                        fontWeight: "500",
-                        maxWidth: "250px",
-                        display: "block",
-                      },
-                    }}
-                  />
-                  <div
-                    style={{
-                      maxWidth: "100%",
-                      overflowX: "auto",
-                      overflowY: "visible",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {[
-                      displayRoom ? item.room : undefined,
-                      ...JSON.parse(item.category),
-                    ]
-                      .filter((category) => category)
-                      .map((category: string) => {
-                        return (
-                          <Chip
-                            key={Math.random().toString()}
-                            label={category}
-                            onClick={() => {
-                              router.push("/items");
-                              setDrawerState(false);
-                            }}
-                            sx={{
-                              background: `${colors[themeColor][100]}!important`,
-                              "&:hover": {
-                                background: `${colors[themeColor][200]}!important`,
-                              },
-                              transition: "none",
-                              px: 1.5,
-                              mr: 1,
-                              mb: 2.5,
-                              textTransform: "capitalize",
-                            }}
-                          />
-                        );
-                      })}
-
-                    <CategoryModal setItemData={setItemData} item={item} />
-                  </div>
-                  <TextField
-                    multiline
-                    fullWidth
-                    onBlur={(e) => {
-                      e.target.placeholder = "Click to add note";
-                      e.target.spellcheck = false;
-                      setItemData({
-                        ...item,
-                        lastModified: new Date(
-                          dayjs().format("YYYY-MM-DD HH:mm:ss")
-                        ),
-                      });
-                      // Update item note
-                      setItemData({
-                        ...item,
-                        note: e.target.value,
-                      });
-                      fetchApiWithoutHook("property/inventory/updateNote", {
-                        id: id.toString(),
-                        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-                        note: e.target.value,
-                      });
-                    }}
-                    onKeyUp={handleUpdateNote}
-                    InputProps={{
-                      disableUnderline: true,
-                      sx: {
-                        "& *::placeholder": {
-                          color: global.user.darkMode
-                            ? "hsl(240, 11%, 24%)"
-                            : colors[themeColor][700],
-                        },
-                        background: `${
-                          global.user.darkMode
-                            ? "hsl(240, 11%, 24%)"
-                            : colors[themeColor][100]
-                        }!important`,
-                        cursor: "pointer",
-                        p: 2.5,
-                        borderRadius: "15px",
-                        display: "block",
-                      },
-                    }}
-                    minRows={3}
-                    spellCheck={false}
-                    variant="filled"
-                    defaultValue={item.note}
-                    maxRows={4}
-                    onFocus={(e) => {
-                      e.target.placeholder = "SHIFT+ENTER for new lines";
-                      e.target.spellcheck = true;
-                    }}
-                    disabled={global.property.role === "read-only"}
-                    placeholder={
-                      global.property.role !== "read-only"
-                        ? "Click to add note"
-                        : "You do not have permission to edit this item"
-                    }
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6} xl={5}>
+        <div className="embla" ref={emblaRef}>
+          <div className="embla__container">
+            <Box
+              sx={{
+                display: "flex",
+                flex: "0 0 100%",
+                flexGrow: 1,
+                alignItems: "center",
+                borderRadius: 5,
+                mr: 0.5,
+                justifyContent: "end",
+                px: 2,
+                color: "#fff",
+                background: colors.red[900] + "!important",
+              }}
+            >
+              <span className="material-symbols-rounded">delete</span>
+            </Box>
+            <CardActionArea
+              onContextMenu={handleContextMenu}
+              onClick={() => setDrawerState(true)}
+              sx={{
+                flex: "0 0 100%",
+                transition: "none!important",
+                "&:focus-within": {
+                  background: "transparent!important",
+                },
+                background: "transparent!important",
+                borderRadius: 5,
+                "&:active": {
+                  transition: "none",
+                  boxShadow: "none!important",
+                },
+              }}
+            >
+              <CardContent sx={{ px: 3, py: 2 }}>
                 <Box
                   sx={{
-                    background: global.user.darkMode
-                      ? "hsl(240, 11%, 25%)"
-                      : colors[themeColor][100],
-                    borderRadius: 5,
-                    mt: { xs: -2.5, sm: 0 },
-                    overflow: "hidden",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  <>
-                    {global.property.role !== "read-only" && (
-                      <StarButton
-                        styles={styles}
-                        item={item}
-                        handleItemStar={handleItemStar}
-                      />
-                    )}
-
-                    {global.property.role !== "read-only" && (
-                      <MoveToRoom
-                        room={data.room}
-                        styles={styles}
-                        setDrawerState={setDrawerState}
-                        item={item}
-                        setDeleted={setDeleted}
-                      />
-                    )}
-                    <ShareModal
-                      styles={styles}
-                      title={item.name}
-                      quantity={item.quantity}
-                      room={item.room}
-                    />
-
-                    {global.property.role !== "read-only" && (
-                      <AddToListModal item={item} styles={styles} />
-                    )}
-
-                    {global.property.role !== "read-only" && (
-                      <DeleteButton
-                        styles={styles}
-                        handleItemDelete={handleItemDelete}
-                      />
-                    )}
-                  </>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </SwipeableDrawer>
-      <Collapse in={!deleted} sx={{ borderRadius: 5 }}>
-        <Card
-          sx={{
-            boxShadow: "0",
-            display: "block",
-            my: { sm: 1 },
-            width: "100%",
-            maxWidth: "calc(100vw - 32.5px)",
-            userSelect: "none",
-            borderRadius: 5,
-            background: `${
-              global.user.darkMode
-                ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.2)"
-            }!important`,
-
-            transition: "transform .2s",
-            mb: { xs: 2, sm: 0 },
-            ...(item.starred && {
-              background: colors.orange[50],
-            }),
-            "& *:not(.MuiTouchRipple-root *, .override *)": {
-              background: "transparent",
-            },
-          }}
-        >
-          <div className="embla" ref={emblaRef}>
-            <div className="embla__container">
-              <Box
-                sx={{
-                  display: "flex",
-                  flex: "0 0 100%",
-                  flexGrow: 1,
-                  alignItems: "center",
-                  borderRadius: 5,
-                  mr: 0.5,
-                  justifyContent: "end",
-                  px: 2,
-                  color: "#fff",
-                  background: colors.red[900] + "!important",
-                }}
-              >
-                <span className="material-symbols-rounded">delete</span>
-              </Box>
-              <CardActionArea
-                onContextMenu={handleContextMenu}
-                onClick={() => setDrawerState(true)}
-                sx={{
-                  flex: "0 0 100%",
-                  transition: "none!important",
-                  "&:focus-within": {
-                    background: "transparent!important",
-                  },
-                  background: "transparent!important",
-                  borderRadius: 5,
-                  "&:active": {
-                    transition: "none",
-                    boxShadow: "none!important",
-                  },
-                }}
-              >
-                <CardContent sx={{ px: 3, py: 2 }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box>
-                      <Typography
-                        variant="h6"
-                        gutterBottom
-                        sx={{
-                          display: "block",
-                        }}
-                      >
-                        {item.name.substring(0, 18) || "(no title)"}
-                        {item.name.length > 18 && "..."}
-                      </Typography>
-                      <div className="override">
-                        {[item.room, ...JSON.parse(item.category)].map(
-                          (category: string) => {
-                            return (
-                              <Chip
-                                size="small"
-                                key={Math.random().toString()}
-                                label={category}
-                                sx={{
-                                  pointerEvents: "none",
-                                  px: 1.5,
-                                  mr: 1,
-                                  mb: 1,
-                                  textTransform: "capitalize",
-                                }}
-                              />
-                            );
-                          }
-                        )}
-                      </div>
-                    </Box>
-                    <Typography variant="body1" sx={{ ml: "auto" }}>
-                      {displayRoom
-                        ? data.room
-                        : item.quantity.substring(0, 18) || ""}
-                      {!displayRoom && item.quantity.length > 18 && "..."}
-                      {!item.quantity ||
-                        (!item.quantity.includes(" ") && " pcs.")}
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        display: "block",
+                      }}
+                    >
+                      {item.name.substring(0, 18) || "(no title)"}
+                      {item.name.length > 18 && "..."}
                     </Typography>
+                    <div className="override">
+                      {[item.room, ...JSON.parse(item.category)].map(
+                        (category: string) => {
+                          return (
+                            <Chip
+                              size="small"
+                              key={Math.random().toString()}
+                              label={category}
+                              sx={{
+                                pointerEvents: "none",
+                                px: 1.5,
+                                mr: 1,
+                                mb: 1,
+                                textTransform: "capitalize",
+                              }}
+                            />
+                          );
+                        }
+                      )}
+                    </div>
                   </Box>
-                </CardContent>
-              </CardActionArea>
-            </div>
+                  <Typography variant="body1" sx={{ ml: "auto" }}>
+                    {displayRoom
+                      ? data.room
+                      : item.quantity.substring(0, 18) || ""}
+                    {!displayRoom && item.quantity.length > 18 && "..."}
+                    {!item.quantity ||
+                      (!item.quantity.includes(" ") && " pcs.")}
+                  </Typography>
+                </Box>
+              </CardContent>
+            </CardActionArea>
           </div>
-        </Card>
-      </Collapse>
-    </>
-  );
+        </div>
+      </Card>
+    </Collapse>
+  </>;
 }

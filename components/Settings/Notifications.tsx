@@ -1,12 +1,7 @@
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
-import Switch from "@mui/material/Switch";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import { updateSettings } from "./updateSettings";
 import { ErrorHandler } from "../error";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { Button, Box, Switch, ListItem, ListItemText, useMediaQuery } from '@mui/material';
 
 const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);

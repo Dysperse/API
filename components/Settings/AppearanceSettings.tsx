@@ -1,11 +1,14 @@
-import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import { updateSettings } from "./updateSettings";
+
+import {
+  Box,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  ListSubheader,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 
 /**
  * Function to change theme color (Not dark mode!)

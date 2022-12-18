@@ -1,12 +1,8 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
-import NoSsr from "@mui/material/NoSsr";
-import Skeleton from "@mui/material/Skeleton";
-import Toolbar from "@mui/material/Toolbar";
 import hex2rgba from "hex-to-rgba";
 import React, { useState } from "react";
 import { colors } from "../../lib/colors";
+
+import { AppBar, Box, CircularProgress, NoSsr, Skeleton, Toolbar } from '@mui/material';
 
 /**
  * Loading screen
