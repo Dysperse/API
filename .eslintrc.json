@@ -1,7 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "max-depth": "off",
     "@next/next/google-font-display": "off"
   },
   "extends": "next"
