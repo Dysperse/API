@@ -18,6 +18,7 @@ export function OptionsGroup({ currentOption, setOption, options }) {
     >
       {options.map((option) => (
         <Button
+          key={option}
           variant="contained"
           disableElevation
           onClick={() => setOption(option)}

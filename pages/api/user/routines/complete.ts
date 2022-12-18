@@ -11,7 +11,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
 //   emoji        String
 
 //   completed Boolean @default(false)
-export default async function (req: any, res: any) {
+export default async function handler(req: any, res: any) {
   if (req.query.daysLeft !== "0") {
     res
       .status(400)

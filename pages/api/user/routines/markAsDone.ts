@@ -1,6 +1,6 @@
 import { prisma } from "../../../../lib/prismaClient";
 
-export default async function (req: any, res: any) {
+export default async function handler(req: any, res: any) {
   const data = await prisma.routineItem.update({
     data: {
       progress: parseInt(req.query.progress),

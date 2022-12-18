@@ -11,7 +11,7 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
 //   emoji        String
 
 //   completed Boolean @default(false)
-export default async function (req, res) {
+export default async function handler(req, res) {
   const data = await prisma.routineItem.delete({
     where: {
       id: parseInt(req.query.id),

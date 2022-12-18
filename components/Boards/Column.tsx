@@ -94,6 +94,7 @@ function CompletedTasks({
               )
               .map((task) => (
                 <Task
+                  key={task.id}
                   checkList={checkList}
                   task={task}
                   mutationUrl={mutationUrl}
@@ -292,7 +293,7 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
   );
 }
 
-export const Column = React.memo(function ({
+export const Column = React.memo(function Column({
   checkList,
   mutationUrl,
   boardId,
@@ -359,6 +360,7 @@ export const Column = React.memo(function ({
         .filter((task) => !task.completed)
         .map((task) => (
           <Task
+            key={task.id}
             checkList={checkList}
             task={task}
             mutationUrl={mutationUrl}

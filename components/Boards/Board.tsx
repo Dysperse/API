@@ -12,6 +12,7 @@ function Renderer({ data, url, board }) {
       {data &&
         data.map((column) => (
           <Column
+            key={column.id}
             tasks={
               /**
                * Return all tasks in boards, which contain columns containing tasks
@@ -28,7 +29,7 @@ function Renderer({ data, url, board }) {
   );
 }
 
-export const Board = React.memo(function ({ board }: any) {
+export const Board = React.memo(function Board({ board }: any) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });

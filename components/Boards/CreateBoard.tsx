@@ -57,6 +57,7 @@ function Template({
             >
               {template.columns.map((column, index) => (
                 <Box
+                  key={index.toString()}
                   sx={{
                     width: "100%",
                     display: "inline-flex",
@@ -182,6 +183,7 @@ function Template({
             >
               {template.columns.map((column, index) => (
                 <Box
+                  key={index.toString()}
                   sx={{
                     width: "100%",
                     display: "flex",
@@ -195,7 +197,14 @@ function Template({
                     flexDirection: "column",
                   }}
                 >
-                  <img src={column.emoji} width="30px" height="30px" />
+                  <picture>
+                    <img
+                      src={column.emoji}
+                      width="30px"
+                      height="30px"
+                      alt="emoji"
+                    />
+                  </picture>
                   <Box
                     sx={{
                       fontSize: 18,
@@ -519,6 +528,7 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
             {checklists.map((template) => (
               <Box
+                key={template.name}
                 onClick={() => {
                   setLoading(true);
                   fetchApiWithoutHook("property/boards/createBoard", {
@@ -583,6 +593,7 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
           {templates.map((template) => (
             <Template
+              key={template.name}
               template={template}
               mutationUrl={mutationUrl}
               loading={loading}

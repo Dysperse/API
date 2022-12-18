@@ -8,21 +8,20 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./CreateTask";
-import { OptionsGroup } from "./OptionsGroup";
 
 import {
-  ListItem,
-  ListItemText,
-  SwipeableDrawer,
-  TextField,
-  Typography,
-  Chip,
-  Dialog,
-  IconButton,
   Box,
   Button,
   Checkbox,
+  Chip,
+  Dialog,
+  IconButton,
+  ListItem,
+  ListItemText,
   styled,
+  SwipeableDrawer,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 function ImageViewer({ url, trimHeight = false }) {
@@ -43,7 +42,9 @@ function ImageViewer({ url, trimHeight = false }) {
           },
         }}
       >
-        <img src={url} />
+        <picture>
+          <img src={url} alt="somethingasdfsadfasdf" />
+        </picture>
       </Dialog>
       <Box
         sx={{
@@ -60,6 +61,7 @@ function ImageViewer({ url, trimHeight = false }) {
       >
         <picture>
           <img
+            alt="asdf"
             draggable={false}
             src={url}
             style={{
@@ -221,7 +223,7 @@ function SubTask({ noMargin = false, subtask, BpCheckedIcon, BpIcon }) {
   );
 }
 
-export const Task = React.memo(function ({
+export const Task = React.memo(function Task({
   boardId,
   columnId,
   mutationUrl,
@@ -539,7 +541,12 @@ export const Task = React.memo(function ({
                   "brown",
                   "blueGrey",
                 ].map((color) => (
-                  <Color task={task} mutationUrl={mutationUrl} color={color} />
+                  <Color
+                    task={task}
+                    mutationUrl={mutationUrl}
+                    color={color}
+                    key={color}
+                  />
                 ))}
               </Box>
             </Box>
@@ -549,6 +556,7 @@ export const Task = React.memo(function ({
             <Box sx={{ ml: 6, mt: 2 }}>
               {task.subTasks.map((subtask) => (
                 <SubTask
+                  key={subtask.id}
                   noMargin
                   BpIcon={BpIcon}
                   BpCheckedIcon={BpCheckedIcon}
@@ -684,6 +692,7 @@ export const Task = React.memo(function ({
       )}
       {task.subTasks.map((subtask) => (
         <SubTask
+          key={task.id}
           BpIcon={BpIcon}
           BpCheckedIcon={BpCheckedIcon}
           subtask={subtask}

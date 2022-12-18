@@ -231,6 +231,7 @@ export function CreateTask({
               >
                 <picture>
                   <img
+                    alt="Uploaded image"
                     draggable={false}
                     src={image.url}
                     style={{

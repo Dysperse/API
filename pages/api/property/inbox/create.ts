@@ -1,5 +1,4 @@
 import { prisma } from "../../../../lib/prismaClient";
-import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
 /**
@@ -38,7 +37,7 @@ export const createInboxNotification = async (
   return data;
 };
 
-export default function (req, res) {
+export default function handler(req, res) {
   res.status(403).json({
     message: "Forbidden",
   });

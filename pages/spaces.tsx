@@ -169,6 +169,7 @@ function CreatePostMenu({ url }) {
             },
           ].map((item) => (
             <Button
+              key={item.name}
               onClick={() => {
                 setContentVisibility(item.name);
                 setVisibilityModalOpen(false);

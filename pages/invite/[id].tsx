@@ -72,7 +72,7 @@ export default function Onboarding() {
             maxHeight: "80vh",
             overflowY: "auto",
             maxWidth: "calc(100vw - 60px)",
-            width: "100vw",
+            width: "500px",
             borderRadius: { xs: "20px 20px 0 0", sm: "10px" },
             background: "#fff",
             padding: 4,
@@ -80,8 +80,8 @@ export default function Onboarding() {
         >
           <Head>
             <title>
-              Join "{data.property.name}" to track your home&apos;s inventory,
-              finances, and more &bull; Carbon
+              Join &quot;{data.property.name}&quot; to track your home&apos;s
+              inventory, finances, and more &bull; Carbon
             </title>
           </Head>
           <Typography

@@ -1,6 +1,6 @@
 import { prisma } from "../../../../lib/prismaClient";
 
-export default async function (req, res) {
+export default async function handler(req, res) {
   const data = await prisma.routineItem.create({
     data: {
       name: req.query.name,
