@@ -16,6 +16,7 @@ import { Puller } from "../../components/Puller";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import toast from "react-hot-toast";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 /**
  * Login prompt
@@ -54,7 +55,15 @@ export default function Prompt() {
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
   const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
-
+  const toastStyles = {
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+      padding: "10px",
+      paddingLeft: "20px",
+    },
+  };
   useEffect(() => {
     twoFactorModalOpen
       ? neutralizeBack(() => setTwoFactorModalOpen(false))
@@ -63,20 +72,12 @@ export default function Prompt() {
 
   const formik = useFormik({
     initialValues: {
+      token: "",
       email: "",
       password: "",
       twoFactorCode: "",
     },
     onSubmit: (values) => {
-      const toastStyles = {
-        style: {
-          borderRadius: "10px",
-          background: "#333",
-          color: "#fff",
-          padding: "10px",
-          paddingLeft: "20px",
-        },
-      };
       setButtonLoading(true);
       fetch("/api/login", {
         method: "POST",
@@ -85,6 +86,7 @@ export default function Prompt() {
           email: values.email,
           password: values.password,
           twoFactorCode: values.twoFactorCode,
+          token: values.token,
         }),
       })
         .then((res) => res.json())
@@ -94,30 +96,57 @@ export default function Prompt() {
             setButtonLoading(false);
             return;
           } else if (res.error) {
+            setStep(1);
             throw new Error(res.error);
           }
+          if (res.message) {
+            setStep(1);
+            toast.error(res.message, toastStyles);
+            setButtonLoading(false);
+            return;
+          }
           if (window.location.href.includes("?close=true")) {
+            // Success
+            toast.promise(
+              new Promise(() => {}),
+              {
+                loading: "Logging you in...",
+                success: "Success!",
+                error: "An error occured. Please try again later",
+              },
+              toastStyles
+            );
             mutate("/api/user").then(() => {
               window.close();
             });
             return;
           }
-          if (res.message) {
-            toast.error(res.message, toastStyles);
-            setButtonLoading(false);
-            return;
-          }
+          // Success
+          toast.promise(
+            new Promise(() => {}),
+            {
+              loading: "Logging you in...",
+              success: "Success!",
+              error: "An error occured. Please try again later",
+            },
+            toastStyles
+          );
           mutate("/api/user");
           router.push("/");
           window.location.href = "/";
         })
-        .catch(() => setButtonLoading(false));
+        .catch(() => {
+          setStep(1);
+          setButtonLoading(false);
+        });
     },
   });
 
   document
     .querySelector(`meta[name="theme-color"]`)
     ?.setAttribute("content", window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b");
+
+  const [step, setStep] = useState(1);
 
   return (
     <Layout>
@@ -248,124 +277,158 @@ export default function Prompt() {
             </Typography>
           </Box>
           <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ pt: 3 }}>
-              <Box sx={{ px: 1 }}>
+            {step == 1 ? (
+              <Box sx={{ pt: 3 }}>
+                <Box sx={{ px: 1 }}>
+                  <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
+                    Welcome back!
+                  </Typography>
+                  <Typography sx={{ mb: 2 }} className="font-secondary">
+                    Sign in with your Carbon ID
+                  </Typography>
+                </Box>
+                <TextField
+                  disabled={buttonLoading}
+                  autoComplete={"off"}
+                  label="Your email address"
+                  value={formik.values.email}
+                  name="email"
+                  onChange={formik.handleChange}
+                  sx={{ mb: 1.5 }}
+                  fullWidth
+                  variant="filled"
+                />
+                <TextField
+                  autoComplete={"off"}
+                  disabled={buttonLoading}
+                  label="Password"
+                  value={formik.values.password}
+                  sx={{ mb: 1.5 }}
+                  name="password"
+                  onChange={formik.handleChange}
+                  fullWidth
+                  type="password"
+                  variant="filled"
+                />
+                <Box sx={{ pb: { xs: 15, sm: 0 } }} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    mt: { sm: 2 },
+                    position: { xs: "fixed", sm: "unset" },
+                    bottom: 0,
+                    left: 0,
+                    py: 1,
+                    background: "#c4b5b5",
+                    width: { xs: "100vw", sm: "auto" },
+                  }}
+                >
+                  <div />
+                  <LoadingButton
+                    loading={buttonLoading}
+                    type="submit"
+                    variant="contained"
+                    id="_loading"
+                    sx={{
+                      background: colors.brown[900] + "!important",
+                      borderRadius: 2,
+                      ml: "auto",
+                      mr: 1,
+                      mt: { sm: 2 },
+                      textTransform: "none",
+                      transition: "none",
+                    }}
+                    disableElevation
+                    size="large"
+                    onClick={() => {
+                      setStep(2);
+                    }}
+                  >
+                    Continue
+                    <span
+                      style={{ marginLeft: "10px" }}
+                      className="material-symbols-rounded"
+                    >
+                      arrow_forward
+                    </span>
+                  </LoadingButton>
+                </Box>
+              </Box>
+            ) : (
+              <Box>
                 <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
-                  Welcome back!
+                  Verifying...
                 </Typography>
                 <Typography sx={{ mb: 2 }} className="font-secondary">
-                  Sign in with your Carbon ID
+                  Hang on while we verify that you&apos;re a human.
                 </Typography>
-              </Box>
-              <TextField
-                disabled={buttonLoading}
-                autoComplete={"off"}
-                label="Your email address"
-                value={formik.values.email}
-                name="email"
-                onChange={formik.handleChange}
-                sx={{ mb: 1.5 }}
-                fullWidth
-                variant="filled"
-              />
-              <TextField
-                autoComplete={"off"}
-                disabled={buttonLoading}
-                label="Password"
-                value={formik.values.password}
-                sx={{ mb: 1.5 }}
-                name="password"
-                onChange={formik.handleChange}
-                fullWidth
-                type="password"
-                variant="filled"
-              />
-              <Box sx={{ pb: { xs: 15, sm: 0 } }} />
-              <Box
-                sx={{
-                  display: "flex",
-                  mt: { sm: 2 },
-                  position: { xs: "fixed", sm: "unset" },
-                  bottom: 0,
-                  left: 0,
-                  py: 1,
-                  background: "#c4b5b5",
-                  width: { xs: "100vw", sm: "auto" },
-                }}
-              >
-                <div />
-                <LoadingButton
-                  loading={buttonLoading}
-                  type="submit"
-                  variant="contained"
-                  id="_loading"
-                  sx={{
-                    background: colors.brown[900] + "!important",
-                    borderRadius: 2,
-                    ml: "auto",
-                    mr: 1,
-                    mt: { sm: 2 },
-                    textTransform: "none",
-                    transition: "none",
+                <Turnstile
+                  siteKey="0x4AAAAAAABo1BKboDBdlv8r"
+                  onError={() => {
+                    toast.error(
+                      "An error occured. Please try again later",
+                      toastStyles
+                    );
                   }}
-                  disableElevation
-                  size="large"
-                >
-                  Continue
-                  <span
-                    style={{ marginLeft: "10px" }}
-                    className="material-symbols-rounded"
-                  >
-                    arrow_forward
-                  </span>
-                </LoadingButton>
+                  onExpire={() =>
+                    toast.error("Expired. Please try again", toastStyles)
+                  }
+                  onSuccess={(token) => {
+                    formik.setFieldValue("token", token);
+                    formik.handleSubmit();
+                  }}
+                />
               </Box>
-            </Box>
+            )}
           </form>
-          <Link
-            href={
-              window.location.href.includes("?close=true")
-                ? "/signup?close=true"
-                : "/signup"
-            }
-          >
-            <Button
-              sx={{
-                textTransform: "none",
-                mt: 1,
-                py: 0,
-                float: "right",
-                textAlign: "center",
-                mx: "auto",
-                transition: "none",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              Create an account
-            </Button>
-          </Link>
-          <Link
-            href={
-              window.location.href.includes("?close=true")
-                ? "/auth/reset-id?close=true"
-                : "/auth/reset-id"
-            }
-          >
-            <Button
-              sx={{
-                textTransform: "none",
-                mt: 1,
-                py: 0,
-                float: "right",
-                textAlign: "center",
-                mx: "auto",
-                transition: "none",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              I forgot my ID
-            </Button>
-          </Link>
+          {step === 1 && (
+            <Box>
+              <Link
+                href={
+                  window.location.href.includes("?close=true")
+                    ? "/signup?close=true"
+                    : "/signup"
+                }
+              >
+                <Button
+                  sx={{
+                    textTransform: "none",
+                    mt: 1,
+                    py: 0,
+                    float: "right",
+                    textAlign: "center",
+                    mx: "auto",
+                    transition: "none",
+                    "&:hover": { textDecoration: "underline" },
+                  }}
+                >
+                  Create an account
+                </Button>
+              </Link>
+              <Link
+                href={
+                  window.location.href.includes("?close=true")
+                    ? "/auth/reset-id?close=true"
+                    : "/auth/reset-id"
+                }
+              >
+                <Button
+                  sx={{
+                    textTransform: "none",
+                    mt: 1,
+                    py: 0,
+                    float: "right",
+                    textAlign: "center",
+                    mx: "auto",
+                    transition: "none",
+                    "&:hover": { textDecoration: "underline" },
+                  }}
+                >
+                  I forgot my ID
+                </Button>
+              </Link>
+            </Box>
+          )}
         </Paper>
 
         <Box
