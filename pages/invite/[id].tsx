@@ -69,6 +69,9 @@ export default function Onboarding() {
             left: { sm: "50%" },
             transform: { sm: "translate(-50%, -50%)" },
             zIndex: 2,
+            boxShadow:
+              "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            border: "1px solid #ddd",
             maxHeight: "80vh",
             overflowY: "auto",
             maxWidth: "calc(100vw - 60px)",
@@ -118,8 +121,8 @@ export default function Onboarding() {
           </Typography>
 
           <Typography variant="body2">
-            Join &ldquo;{data.property.name}&rdquo;&nbsp;to start tracking your
-            inventory, lists, tasks, and more with your housemates.
+            Join &ldquo;{data.property.name}&rdquo;&nbsp;to start collaborate on
+            tasks, goals, documents, inventory, and more.
           </Typography>
 
           <LoadingButton
