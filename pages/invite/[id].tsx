@@ -83,8 +83,8 @@ export default function Onboarding() {
         >
           <Head>
             <title>
-              Join &quot;{data.property.name}&quot; to track your home&apos;s
-              inventory, finances, and more &bull; Carbon
+              Join &ldquo;{data.property.name}&rdquo;&nbsp;to start collaborate
+              on tasks, goals, documents, inventory, and more.
             </title>
           </Head>
           <Typography
