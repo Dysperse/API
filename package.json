@@ -28,6 +28,7 @@
     "@sentry/replay": "^7.26.0",
     "@typescript-eslint/parser": "^5.40.0",
     "argon2": "^0.29.1",
+    "babel-plugin-import": "^1.13.5",
     "boring-avatars": "^1.7.0",
     "cmdk": "^0.1.20",
     "cookie": "^0.5.0",
