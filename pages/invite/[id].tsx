@@ -185,7 +185,7 @@ export default function Onboarding() {
             global.user.user.properties.find(
               (p) => p.propertyId == data.property.id
             )
-              ? "You're already in this home"
+              ? "You're already in this group"
               : "Join"}
           </LoadingButton>
         </Box>
