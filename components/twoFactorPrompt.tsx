@@ -170,6 +170,24 @@ export function Prompt({
               can enable it in your settings.
             </Typography>
             <Button
+              variant="outlined"
+              onClick={() => {
+                document.getElementById("twoFactorAuthSettings")?.click();
+                setOpen(false);
+              }}
+              size="large"
+              sx={{
+                width: "100%",
+                my: 0.5,
+                boxShadow: 0,
+                borderRadius: 99,
+                textTransform: "none",
+                borderWidth: "2px!important",
+              }}
+            >
+              Continue
+            </Button>
+            <Button
               variant="contained"
               onClick={() => {
                 setOpen(false);
@@ -186,22 +204,7 @@ export function Prompt({
                 border: "2px solid transparent !important",
               }}
             >
-              Continue
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleOpen}
-              size="large"
-              sx={{
-                width: "100%",
-                my: 0.5,
-                boxShadow: 0,
-                borderRadius: 99,
-                textTransform: "none",
-                borderWidth: "2px!important",
-              }}
-            >
-              Open settings
+              Maybe later
             </Button>
           </>
         )}

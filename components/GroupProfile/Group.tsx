@@ -225,7 +225,7 @@ export function Group({
               .then((res) => {
                 toast(
                   <>
-                    Currently viewing&nbsp;<b>{res.profile.name}</b>{" "}
+                    Currently viewing&nbsp;&nbsp;&nbsp;<u>{res.profile.name}</u>
                   </>
                 );
                 mutate("/api/user");
@@ -347,6 +347,7 @@ export function Group({
         PaperProps={{
           sx: {
             height: "100vh",
+            background: colors[data.profile.color][50] + "!important",
             width: { xs: "100vw", md: "80vw", sm: "50vw" },
             maxWidth: "600px",
             overflow: "scroll",
@@ -459,6 +460,8 @@ export function Group({
                     ? "cottage"
                     : propertyType === "apartment"
                     ? "location_city"
+                    : propertyType === "study group"
+                    ? "school"
                     : "home"}
                 </span>
                 {propertyType}

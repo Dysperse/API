@@ -179,7 +179,7 @@ export function AddPersonModal({
         >
           add
         </span>
-        Add person
+        Invite
       </Button>
       <Prompt
         open={twoFactorPrompt}

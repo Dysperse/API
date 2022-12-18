@@ -3,8 +3,8 @@ import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { updateSettings } from "./updateSettings";
 import { Prompt } from "../twoFactorPrompt";
+import { updateSettings } from "./updateSettings";
 
 import { Box, Link, TextField, Typography } from "@mui/material";
 
@@ -59,7 +59,7 @@ export default function App() {
             of security to your Carbon account.
           </Typography>
 
-          <Typography variant="h6" sx={{ mt: 4, fontWeight: "700" }}>
+          <Typography sx={{ mt: 4, fontWeight: "700" }}>
             Step 1: Download the Google Authenticator from the{" "}
             <Link
               target="_blank"
@@ -76,7 +76,7 @@ export default function App() {
             </Link>
           </Typography>
 
-          <Typography variant="h6" sx={{ mt: 4, fontWeight: "700" }}>
+          <Typography sx={{ mt: 4, fontWeight: "700" }}>
             Step 2: Click the &ldquo;+&rdquo; button in the bottom right corner
             of your screen, and scan the QR code below:
           </Typography>
@@ -101,7 +101,7 @@ export default function App() {
             </picture>
           </div>
 
-          <Typography variant="h6" sx={{ mt: 4, fontWeight: "700" }}>
+          <Typography sx={{ mt: 4, fontWeight: "700" }}>
             Step 3: Enter the code you see in the Google Authenticator app
             below:
           </Typography>
@@ -127,7 +127,8 @@ export default function App() {
           <LoadingButton
             loading={loading}
             variant="contained"
-            sx={{ mt: 1, boxShadow: 0, borderRadius: 5 }}
+            sx={{ mt: 2, boxShadow: 0, borderRadius: 5, mb: 4 }}
+            fullWidth
             size="large"
             onClick={() => {
               setLoading(true);

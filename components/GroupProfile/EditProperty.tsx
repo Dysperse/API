@@ -8,6 +8,7 @@ import {
   AppBar,
   Box,
   Button,
+  Chip,
   FormControl,
   IconButton,
   Menu,
@@ -182,12 +183,26 @@ export function EditProperty({
                 ? "cottage"
                 : propertyType === "apartment"
                 ? "location_city"
+                : propertyType === "study group"
+                ? "school"
                 : "home"}
             </span>
             {propertyType}
           </Typography>
         </Button>
-        <FormControl fullWidth sx={{ mb: 4 }}>
+        <FormControl fullWidth sx={{ my: 4 }}>
+          <Typography
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              color: "error",
+            }}
+          >
+            <span className="material-symbols-rounded">warning</span>
+            Heads up! Changing your property type may cause data loss. Change
+            this setting with caution.
+          </Typography>
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
@@ -207,6 +222,18 @@ export function EditProperty({
             </MenuItem>
             <MenuItem onClick={() => handleCloseMenu("dorm")} value="house">
               Dorm
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleCloseMenu("study group")}
+              value="house"
+            >
+              Study group{" "}
+              <Chip
+                color="error"
+                size="small"
+                label="NEW"
+                sx={{ pointerEvents: "none" }}
+              />
             </MenuItem>
           </Menu>
         </FormControl>

@@ -397,12 +397,19 @@ function CreateRoom({ mutationUrl }) {
           }}
         >
           <Typography variant="h6" className="font-bold">
-            Create room
+            Create{" "}
+            {global.property.profile.type === "study group"
+              ? "container"
+              : "room"}
           </Typography>
           <TextField
             value={name}
             onChange={(e) => setName(e.target.value)}
-            label="Room name"
+            label={
+              global.property.profile.type === "study group"
+                ? "Container name (Example: backpack, drawer, etc.)"
+                : "Room name"
+            }
             fullWidth
             variant="filled"
             margin="dense"
@@ -428,7 +435,11 @@ function CreateRoom({ mutationUrl }) {
       <Action
         disableLoading
         icon="add_circle"
-        primary="Create room"
+        primary={
+          global.property.profile.type === "study group"
+            ? "New container"
+            : "New room"
+        }
         onClick={() => setOpen(true)}
       />
     </>
@@ -561,7 +572,9 @@ export default function Categories({ children = null }: any) {
             sx={{ my: 5, fontWeight: "600", display: { sm: "none" } }}
             variant="h5"
           >
-            Inventory
+            {global.property.profile.type === "study group"
+              ? "Belongings"
+              : "Inventory"}
           </Typography>
           <OptionsGroup
             currentOption={viewBy}
@@ -571,66 +584,79 @@ export default function Categories({ children = null }: any) {
         </Box>
         {viewBy === "Room" ? (
           <>
-            <Action
-              href="/rooms/kitchen"
-              icon="blender"
-              primary="Kitchen"
-              count={data}
-            />
-            <Action
-              href="/rooms/bedroom"
-              icon="bedroom_parent"
-              primary="Bedroom"
-              count={data}
-            />
-            <Action
-              count={data}
-              href="/rooms/bathroom"
-              icon="bathroom"
-              primary="Bathroom"
-            />
-            <Action
-              count={data}
-              href="/rooms/garage"
-              icon="garage"
-              primary="Garage"
-            />
-            <Action
-              count={data}
-              href="/rooms/dining"
-              icon="dining"
-              primary="Dining room"
-            />
-            <Action
-              count={data}
-              href="/rooms/living"
-              icon="living"
-              primary="Living room"
-            />
-            <Action
-              href="/rooms/laundry"
-              count={data}
-              icon="local_laundry_service"
-              primary="Laundry room"
-            />
-            <Action
-              href="/rooms/storage"
-              count={data}
-              icon="inventory_2"
-              primary="Storage room"
-            />
-            <Action
-              href="/rooms/garden"
-              count={data}
-              icon="yard"
-              primary="Garden"
-            />
-            <Action
-              href="/rooms/camping"
-              count={data}
-              icon="camping"
-              primary="Camping"
-            />
+            {global.property.profile.type === "study group" ? (
+              <>
+                <Action
+                  href="/rooms/backpack"
+                  icon="backpack"
+                  primary="Backpack"
+                  count={data}
+                />
+              </>
+            ) : (
+              <>
+                <Action
+                  href="/rooms/kitchen"
+                  icon="blender"
+                  primary="Kitchen"
+                  count={data}
+                />
+                <Action
+                  href="/rooms/bedroom"
+                  icon="bedroom_parent"
+                  primary="Bedroom"
+                  count={data}
+                />
+                <Action
+                  count={data}
+                  href="/rooms/bathroom"
+                  icon="bathroom"
+                  primary="Bathroom"
+                />
+                <Action
+                  count={data}
+                  href="/rooms/garage"
+                  icon="garage"
+                  primary="Garage"
+                />
+                <Action
+                  count={data}
+                  href="/rooms/dining"
+                  icon="dining"
+                  primary="Dining room"
+                />
+                <Action
+                  count={data}
+                  href="/rooms/living"
+                  icon="living"
+                  primary="Living room"
+                />
+                <Action
+                  href="/rooms/laundry"
+                  count={data}
+                  icon="local_laundry_service"
+                  primary="Laundry room"
+                />
+                <Action
+                  href="/rooms/storage"
+                  count={data}
+                  icon="inventory_2"
+                  primary="Storage room"
+                />
+                <Action
+                  href="/rooms/garden"
+                  count={data}
+                  icon="yard"
+                  primary="Garden"
+                />
+                <Action
+                  href="/rooms/camping"
+                  count={data}
+                  icon="camping"
+                  primary="Camping"
+                />
+              </>
+            )}
             <Divider sx={{ my: 1 }} />
             <Rooms data={dataRooms} error={error} />
             <CreateRoom mutationUrl={url} />
