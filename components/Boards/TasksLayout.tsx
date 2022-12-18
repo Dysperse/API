@@ -18,7 +18,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-const Tab = React.memo(function ({
+const Tab = React.memo(function Tab({
   mutationUrl,
   styles,
   activeTab,
@@ -210,7 +210,7 @@ export function TasksLayout() {
     if (data && data[0]) {
       setActiveTab(data[0].id);
     }
-  }, [data]);
+  }, [data, emblaApi]);
 
   const styles = (condition) => ({
     transition: "none!important",
@@ -256,6 +256,7 @@ export function TasksLayout() {
           {data &&
             data.map((board) => (
               <Tab
+                key={board.id}
                 styles={styles}
                 activeTab={activeTab}
                 board={board}

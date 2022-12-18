@@ -111,7 +111,7 @@ export default function Prompt() {
                   Forgot your ID?
                 </Typography>
                 <Typography sx={{ mb: 2 }}>
-                  Enter your email address and we'll send you a link to reset
+                  Enter your email address and we&apos;ll send you a link to reset
                   your ID.
                 </Typography>
               </Box>

@@ -298,7 +298,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
               {goals
                 .filter((goal) => goal.category === tab)
                 .map((goal) => (
-                  <Box sx={{ p: 1 }}>
+                  <Box sx={{ p: 1 }} key={goal.name}>
                     <Box
                       onClick={async () => {
                         setLoading(true);
