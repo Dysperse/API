@@ -51,6 +51,26 @@ export async function createSession(id: number, res) {
  * @returns {any}
  */
 export default async function handler(req, res) {
+  // FIRST, Validate the captcha
+  const endpoint = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+  const secret: any = process.env.CAPTCHA_KEY;
+  const body = `secret=${encodeURIComponent(
+    secret
+  )}&response=${encodeURIComponent(req.body.token)}`;
+
+  const captchaRequest = await fetch(endpoint, {
+    method: "POST",
+    body,
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+    },
+  });
+
+  const data = await captchaRequest.json();
+  if (!data.success) {
+    return res.status(401).json({ message: "Invalid Captcha" });
+  }
+
   // Get the user's email and password from the request body
   const { email } = req.body;
 
