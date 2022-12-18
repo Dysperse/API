@@ -76,7 +76,7 @@ export default function Onboarding() {
             overflowY: "auto",
             maxWidth: "calc(100vw - 60px)",
             width: "500px",
-            borderRadius: { xs: "20px 20px 0 0", sm: "10px" },
+            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
             background: "#fff",
             padding: 4,
           }}
