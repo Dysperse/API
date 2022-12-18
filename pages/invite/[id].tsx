@@ -45,7 +45,7 @@ export default function Onboarding() {
           width: "100%",
           height: "100%",
           zIndex: 1,
-          backdropFilter: "blur(20px)",
+          backdropFilter: "blur(10px)",
         }}
       />
       {data && data.error ? (
