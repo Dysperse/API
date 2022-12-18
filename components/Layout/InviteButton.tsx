@@ -141,10 +141,10 @@ export function InviteButton() {
             boxShadow: "none!important",
             position: { sm: "static!important" },
             width: {
-              sm: "50vw",
+              sm: "500px",
             },
             height: "auto",
-            maxWidth: { sm: "350px" },
+            maxWidth: { sm: "400px" },
             overflow: "hidden!important",
             borderRadius: {
               xs: "20px 20px 0 0",

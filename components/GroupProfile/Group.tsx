@@ -288,39 +288,70 @@ export function Group({
               </>
             }
             secondary={
-              <Box
-                sx={{
-                  color: global.user.darkMode ? "#eee" : "#000",
-                  maxWidth: "100%",
-                  mt: 0.5,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <span className="material-symbols-rounded">
-                  {data.permission === "member"
-                    ? "group"
-                    : data.permission == "owner"
-                    ? "productivity"
-                    : "visibility"}
-                </span>
-                <span
-                  style={{
-                    marginTop: data.permission === "owner" ? "-2.5px" : "",
+              <>
+                <Box
+                  sx={{
+                    color: global.user.darkMode ? "#eee" : "#000",
+                    maxWidth: "100%",
+                    mt: 0.5,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
                   }}
                 >
-                  {data.permission == "member"
-                    ? "Member"
-                    : data.permission == "owner"
-                    ? "Owner"
-                    : "Read-only access"}
-                </span>
-              </Box>
+                  <span className="material-symbols-outlined">
+                    {data.permission === "member"
+                      ? "group"
+                      : data.permission == "owner"
+                      ? "productivity"
+                      : "visibility"}
+                  </span>
+                  <span
+                    style={{
+                      marginTop: data.permission === "owner" ? "-2.5px" : "",
+                    }}
+                  >
+                    {data.permission == "member"
+                      ? "Member"
+                      : data.permission == "owner"
+                      ? "Owner"
+                      : "Read-only access"}
+                  </span>
+                </Box>
+                <Box
+                  sx={{
+                    color: global.user.darkMode ? "#eee" : "#000",
+                    maxWidth: "100%",
+                    mt: 0.5,
+                    ml: "-2px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <span className="material-symbols-outlined">
+                    {data.profile.type === "dorm"
+                      ? "cottage"
+                      : data.profile.type === "apartment"
+                      ? "location_city"
+                      : data.profile.type === "study group"
+                      ? "school"
+                      : "home"}
+                  </span>
+                  <span
+                    style={{
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {data.profile.type}
+                  </span>
+                </Box>
+              </>
             }
           />
           <ListItemIcon>
             <LoadingButton
+              disableRipple
               loading={loading}
               sx={{
                 px: 0,
@@ -330,11 +361,7 @@ export function Group({
                 color: "inherit",
               }}
             >
-              <span className="material-symbols-rounded">
-                {data.propertyId === global.property.propertyId
-                  ? "settings"
-                  : "chevron_right"}
-              </span>
+              <span className="material-symbols-outlined">east</span>
             </LoadingButton>
           </ListItemIcon>
         </ListItem>
