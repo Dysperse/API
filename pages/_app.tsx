@@ -199,6 +199,7 @@ function RenderWithLayout({
             overflow: "hidden!important",
           },
           paper: {
+            boxShadow: "none !important",
             background: global.user.darkMode
               ? "hsl(240, 11%, 15%)"
               : colors[global.themeColor][50],
