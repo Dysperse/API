@@ -31,7 +31,7 @@ function ImageViewer({ url, trimHeight = false }) {
     <>
       <Dialog
         open={open}
-        onClose={(e) => {
+        onClose={(e:any) => {
 e.preventDefault();
 e.stopPropagation()
 setOpen(false)
@@ -51,6 +51,7 @@ setOpen(false)
       </Dialog>
       <Box
         sx={{
+          ...(!url && {display:"none"}),
           "&:hover": {
             filter: "brightness(90%)",
             cursor: "pointer",
