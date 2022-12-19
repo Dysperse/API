@@ -507,7 +507,7 @@ export const Task = React.memo(function Task({
               )}
             </Box>
           </Box>
-          {view == "Details" && (
+          {view == "Details" && task.image && (
             <Box
               sx={{
                 ml: 7,
