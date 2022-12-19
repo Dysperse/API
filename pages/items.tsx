@@ -24,6 +24,7 @@ import {
   CircularProgress,
   Divider,
   FormLabel,
+  IconButton,
   ListItem,
   ListItemAvatar,
   ListItemText,
@@ -234,6 +235,78 @@ function CategoryList() {
   );
 }
 
+function RoomActionMenu({ isPrivate, isCustom }) {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <IconButton
+      disabled={global.permission == "read-only"}
+      size="small"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleClick(e);
+      }}
+      onMouseDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      disableRipple
+      sx={{
+        transition: "none",
+        "&:hover": {
+          background: "rgba(200,200,200,.3)",
+        },
+        ...(global.permission == "read-only" && {
+          display: { sm: "none" },
+          opacity: "1!important",
+        }),
+      }}
+    >
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleClose();
+        }}
+      >
+        <MenuItem onClick={handleClose} disabled>
+          Rename
+        </MenuItem>
+        <MenuItem onClick={handleClose} disabled>
+          Make {isPrivate ? "private" : "public"}
+        </MenuItem>
+        <MenuItem onClick={handleClose}>Delete</MenuItem>
+      </Menu>
+      <span className="material-symbols-outlined">
+        {global.permission == "read-only" ? (
+          "chevron_right"
+        ) : isPrivate ? (
+          "lock"
+        ) : isCustom ? (
+          "more_horiz"
+        ) : (
+          <Box sx={{ display: { sm: "none" } }}>east</Box>
+        )}
+      </span>
+    </IconButton>
+  );
+}
+
 /**
  * Room button
  * @param {string | JSX.Element} icon - The room's icon
@@ -249,6 +322,7 @@ function Action({
   href,
   onClick,
   isPrivate = false,
+  isCustom = false,
 }: {
   disableLoading?: boolean;
   count?: {
@@ -261,6 +335,7 @@ function Action({
   href?: string;
   isPrivate?: boolean;
   onClick?;
+  isCustom?: boolean;
 }) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -282,18 +357,7 @@ function Action({
         !disableLoading && loading ? (
           <CircularProgress size={15} sx={{ ml: "auto", mt: "8px" }} />
         ) : (
-          <Box
-            sx={{
-              ...(!isPrivate && { display: { sm: "none" } }),
-            }}
-          >
-            <span
-              className="material-symbols-outlined"
-              style={{ marginTop: "10px" }}
-            >
-              {isPrivate ? "lock" : "chevron_right"}
-            </span>
-          </Box>
+          <RoomActionMenu isCustom={isCustom} isPrivate={isPrivate} />
         )
       }
       className="room-button"
@@ -488,6 +552,7 @@ function Rooms({ data, error }) {
             isPrivate={room.private}
             primary={room.name}
             key={room.id.toString()}
+            isCustom={true}
           />
         ))}
       {error && (
@@ -734,12 +799,15 @@ export default function Categories({ children = null }: any) {
               background: colors[themeColor][global.user.darkMode ? 900 : 50],
             }}
           >
-            <Typography variant="h6" sx={{ mb: 1 }}>
+            <Typography
+              variant="h6"
+              sx={{ ...(global.permission !== "read-only" && { mb: 1 }) }}
+            >
               No room selected
             </Typography>
-            <FloatingActionButton sm />
+            {global.permission !== "read-only" && <FloatingActionButton sm />}
           </Box>
-          <Tidy />
+          {global.permission !== "read-only" && <Tidy />}
         </Box>
       )}
     </Box>

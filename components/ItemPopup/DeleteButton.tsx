@@ -22,7 +22,12 @@ export function DeleteButton({
   };
 }): JSX.Element {
   return (
-    <ListItem button sx={styles} onClick={handleItemDelete}>
+    <ListItem
+      button
+      sx={styles}
+      onClick={handleItemDelete}
+      disabled={global.permission == "read-only"}
+    >
       <span className="material-symbols-rounded">delete</span>
       Delete
     </ListItem>

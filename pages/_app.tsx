@@ -25,7 +25,7 @@ import {
   createTheme,
   NoSsr,
   ThemeProvider,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -166,6 +166,12 @@ function RenderWithLayout({
                   color: colors[global.themeColor][700],
                   marginRight: 1.9,
                 },
+                "&:focus": {
+                  background:
+                    (global.user.darkMode
+                      ? colors[global.themeColor][900]
+                      : colors[global.themeColor][100]) + "!important",
+                },
                 "&:active": {
                   background: global.user.darkMode
                     ? colors[global.themeColor][700]
@@ -174,6 +180,13 @@ function RenderWithLayout({
               },
             },
           }),
+        },
+      },
+      MuiDialog: {
+        styleOverrides: {
+          paper: {
+            boxShadow: "none!important",
+          },
         },
       },
       MuiChip: {
@@ -270,6 +283,7 @@ function RenderWithLayout({
     data.user.properties[0];
 
   global.property = selectedProperty;
+  global.permission = selectedProperty.permission;
 
   // Used in `globals.scss`
   document.documentElement.style.setProperty(

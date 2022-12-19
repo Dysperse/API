@@ -53,7 +53,11 @@ function RoomList({
   return (
     <List sx={{ mt: -1 }}>
       {data.map((list: any) => (
-        <ListItem disablePadding key={list.id.toString()}>
+        <ListItem
+          disablePadding
+          key={list.id.toString()}
+          disabled={global.permission == "read-only"}
+        >
           <ListItemButton
             sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
             onClick={() => {
@@ -135,7 +139,12 @@ export function AddToListModal({
           </Button>
         </DialogActions>
       </Dialog>
-      <ListItem sx={styles} button onClick={() => setOpen(true)}>
+      <ListItem
+        sx={styles}
+        button
+        onClick={() => setOpen(true)}
+        disabled={global.permission == "read-only"}
+      >
         <span className="material-symbols-rounded">receipt_long</span> Add to
         list
       </ListItem>

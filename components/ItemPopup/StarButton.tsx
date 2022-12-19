@@ -1,5 +1,5 @@
-import type { Item } from "@prisma/client";
 import { ListItem } from "@mui/material";
+import type { Item } from "@prisma/client";
 
 /**
  * Description
@@ -26,7 +26,12 @@ export function StarButton({
   handleItemStar: () => void;
 }): JSX.Element {
   return (
-    <ListItem button sx={styles} onClick={handleItemStar}>
+    <ListItem
+      button
+      sx={styles}
+      onClick={handleItemStar}
+      disabled={global.permission == "read-only"}
+    >
       {item.starred ? (
         <span className="material-symbols-rounded">grade</span>
       ) : (

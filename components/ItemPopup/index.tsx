@@ -483,9 +483,9 @@ export default function Item({
                       e.target.placeholder = "SHIFT+ENTER for new lines";
                       e.target.spellcheck = true;
                     }}
-                    disabled={global.property.role === "read-only"}
+                    disabled={global.permission == "read-only"}
                     placeholder={
-                      global.property.role !== "read-only"
+                      global.permission !== "read-only"
                         ? "Click to add note"
                         : "You do not have permission to edit this item"
                     }
@@ -630,6 +630,7 @@ export default function Item({
                           (category: string) => {
                             return (
                               <Chip
+                                disabled={global.permission == "read-only"}
                                 size="small"
                                 key={Math.random().toString()}
                                 label={category}

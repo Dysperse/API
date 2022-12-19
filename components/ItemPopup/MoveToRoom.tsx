@@ -15,7 +15,7 @@ import {
   DialogTitle,
   ListItem,
   ListItemText,
-  SwipeableDrawer,
+  SwipeableDrawer
 } from "@mui/material";
 
 /**
@@ -169,7 +169,12 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
         </DialogActions>
       </SwipeableDrawer>
 
-      <ListItem button sx={styles} onClick={() => setOpen(true)}>
+      <ListItem
+        button
+        sx={styles}
+        onClick={() => setOpen(true)}
+        disabled={global.permission == "read-only"}
+      >
         <span className="material-symbols-rounded">place_item</span>
         Move
       </ListItem>
