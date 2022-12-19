@@ -39,10 +39,12 @@ function Member({
   color,
   setOpen,
   member,
+  mutationUrl,
 }: {
   color: string;
   setOpen: (open: boolean) => void;
   member: MemberType;
+  mutationUrl: any;
 }): JSX.Element {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -107,6 +109,9 @@ function Member({
                   changerName: global.user.name,
                   affectedName: member.user.name,
                   timestamp: new Date().toISOString(),
+                }).then(() => {
+                  mutate(mutationUrl);
+                  toast.success("Updated permissions!");
                 });
               }}
             >
@@ -120,6 +125,9 @@ function Member({
                   changerName: global.user.name,
                   affectedName: member.user.name,
                   timestamp: new Date().toISOString(),
+                }).then(() => {
+                  mutate(mutationUrl);
+                  toast.success("Updated permissions!");
                 });
               }}
             >
@@ -235,7 +243,7 @@ export function MemberList({
   color: string;
   setOpen: (open: boolean) => void;
 }): JSX.Element {
-  const { error, loading, data }: ApiResponse = useApi("property/members");
+  const { error, loading, data, url }: ApiResponse = useApi("property/members");
   const trigger = useMediaQuery("(max-width: 600px)");
   const images = data
     ? [
@@ -243,7 +251,14 @@ export function MemberList({
           ...new Map(data.map((item) => [item.user.email, item])).values(),
         ].map((member: any) => {
           return {
-            content: <Member color={color} setOpen={setOpen} member={member} />,
+            content: (
+              <Member
+                color={color}
+                setOpen={setOpen}
+                member={member}
+                mutationUrl={url}
+              />
+            ),
           };
         }),
       ]
