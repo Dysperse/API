@@ -352,6 +352,7 @@ function useUser(): {
   data: any;
   isLoading: boolean;
   isError: boolean;
+  error: any;
 } {
   const url = "/api/user";
   const { data, error } = useSWR(url, () =>
