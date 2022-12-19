@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
-import { ErrorHandler } from "../error";
+import { ErrorHandler } from "../Error";
 import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
 

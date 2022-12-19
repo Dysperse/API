@@ -8,7 +8,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
-import { ErrorHandler } from "../error";
+import { ErrorHandler } from "../Error";
 import { ExploreGoals } from "./ExploreGoals";
 
 import {

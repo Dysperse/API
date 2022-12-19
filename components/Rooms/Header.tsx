@@ -1,14 +1,14 @@
-import { useRouter } from "next/router";
-import { decode } from "js-base64";
-import { CreateItemModal } from "../CreateItem/modal";
 import {
   Box,
-  ListItem,
-  ListItemText,
   IconButton,
+  ListItem,
   ListItemAvatar,
+  ListItemText,
   Typography,
 } from "@mui/material";
+import { decode } from "js-base64";
+import { useRouter } from "next/router";
+import { CreateItemModal } from "./CreateItem/modal";
 /**
  * Header component for the room
  * @param useAlias

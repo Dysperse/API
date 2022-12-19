@@ -8,7 +8,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { OptionsGroup } from "../components/Boards/Board/OptionsGroup";
-import { ErrorHandler } from "../components/error";
+import { ErrorHandler } from "../components/Error";
 import { Puller } from "../components/Puller";
 import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
 import { ItemCard } from "../components/Rooms/ItemCard";

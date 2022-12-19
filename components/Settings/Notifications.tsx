@@ -7,7 +7,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ErrorHandler } from "../error";
+import { ErrorHandler } from "../Error";
 import { updateSettings } from "./updateSettings";
 
 const base64ToUint8Array = (base64) => {

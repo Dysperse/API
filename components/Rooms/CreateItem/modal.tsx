@@ -14,11 +14,11 @@ import { useFormik } from "formik";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
-import { Puller } from "../Puller";
+import { fetchApiWithoutHook } from "../../../hooks/useApi";
+import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
+import { useStatusBar } from "../../../hooks/useStatusBar";
+import { colors } from "../../../lib/colors";
+import { Puller } from "../../Puller";
 import { cards } from "./cards";
 /**
  * Shuffles array in place. ES6 version

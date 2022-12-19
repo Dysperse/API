@@ -1,11 +1,11 @@
 import type { CustomRoom as Room } from "@prisma/client";
 import React, { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
-import { Puller } from "../Puller";
+import { useApi } from "../../../hooks/useApi";
+import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
+import { useStatusBar } from "../../../hooks/useStatusBar";
+import { colors } from "../../../lib/colors";
+import { Puller } from "../../Puller";
 import { CreateItemModal } from "./modal";
 
 import {

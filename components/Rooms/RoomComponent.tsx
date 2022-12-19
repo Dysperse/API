@@ -1,11 +1,11 @@
+import { Container } from "@mui/material";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import { useApi } from "../../hooks/useApi";
 import type { ApiResponse } from "../../types/client";
-import { ErrorHandler } from "../error";
+import { ErrorHandler } from "../Error";
 import { LoadingScreen } from "./LoadingScreen";
 import { RenderRoom } from "./RenderRoom";
-import { Container } from "@mui/material";
 
 /**
  * Room component to load inventory

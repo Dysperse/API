@@ -7,7 +7,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
-import { Prompt } from "../twoFactorPrompt";
+import { Prompt } from "../TwoStepVerificationPrompt";
 import { isEmail } from "./MemberList";
 
 import {

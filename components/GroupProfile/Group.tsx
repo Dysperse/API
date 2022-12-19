@@ -10,7 +10,7 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { House } from "../../types/houseProfile";
-import { ErrorHandler } from "../error";
+import { ErrorHandler } from "../Error";
 import { EditProperty } from "./EditProperty";
 import { UpgradeBanner } from "./ItemBanner";
 import { MemberList } from "./MemberList";

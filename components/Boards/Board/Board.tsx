@@ -1,6 +1,6 @@
 import React from "react";
 import { useApi } from "../../../hooks/useApi";
-import { ErrorHandler } from "../../error";
+import { ErrorHandler } from "../../Error";
 import { Column } from "./Column";
 import { CreateColumn } from "./Column/Create";
 

@@ -2,10 +2,10 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { cards } from "../components/CreateItem/cards";
 import { Loading } from "../components/Layout/Loading";
 import { Color } from "../components/Onboarding/Color";
 import { InventoryList } from "../components/Onboarding/InventoryList";
+import { cards } from "../components/Rooms/CreateItem/cards";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { colors } from "../lib/colors";
 
