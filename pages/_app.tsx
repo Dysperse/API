@@ -353,7 +353,7 @@ function useUser(): {
   isLoading: boolean;
   isError: boolean;
 } {
-  const url = "/api/user";
+  const url = "/api/use1r";
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );
@@ -362,6 +362,7 @@ function useUser(): {
     data: data,
     isLoading: !error && !data,
     isError: error,
+    error: error,
   };
 }
 
@@ -398,7 +399,7 @@ function RenderRoot({
     urlsToDisplayWithoutLayout.includes(router.pathname) ||
     router.pathname === "/canny-auth";
 
-  const { data, isLoading, isError } = useUser();
+  const { data, isLoading, error, isError } = useUser();
   global.user = data;
 
   return disableLayout ? (
@@ -409,7 +410,7 @@ function RenderRoot({
   ) : (
     <>
       {isLoading && <Loading />}
-      {isError && <Error />}
+      {isError && <Error message={error} />}
       {!isLoading && !isError && !data.error && (
         <RenderWithLayout
           router={router}
