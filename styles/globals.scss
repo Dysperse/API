@@ -227,3 +227,7 @@ input:-webkit-autofill {
     margin-top: 0;
   }
 }
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
