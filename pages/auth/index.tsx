@@ -377,7 +377,9 @@ export default function Prompt() {
                   }
                   onSuccess={(token) => {
                     formik.setFieldValue("token", token);
-                    formik.handleSubmit();
+                    setTimeout(() => {
+                      formik.handleSubmit();
+                    }, 500);
                   }}
                 />
               </Box>

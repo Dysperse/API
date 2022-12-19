@@ -121,7 +121,7 @@ function Logout() {
         </ListItemAvatar>
         <ListItemText
           primary={<Typography sx={{ fontWeight: "600" }}>Sign out</Typography>}
-          secondary="Sign out of Smartlist and its related apps"
+          secondary="Sign out of Carbon and its related apps"
         />
       </ListItem>
     </>

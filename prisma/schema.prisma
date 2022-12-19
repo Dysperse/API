@@ -25,6 +25,7 @@ model User {
   PasswordResetToken       PasswordResetToken[]
   RoutineItem              RoutineItem[]
   SpaceItem                SpaceItem[]
+  CustomRoom               CustomRoom[]
 }
 
 model Session {
@@ -65,6 +66,9 @@ model CustomRoom {
   private    Boolean  @default(false)
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
+
+  userIdentifier String
+  user           User   @relation(fields: [userIdentifier], references: [identifier])
 }
 
 model Item {

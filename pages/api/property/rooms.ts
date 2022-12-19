@@ -18,11 +18,18 @@ const handler = async (req, res) => {
   }
   const data = await prisma.customRoom.findMany({
     where: {
+      private: false,
       property: {
         id: req.query.property,
       },
     },
   });
-  res.json(data);
+  const data1 = await prisma.customRoom.findMany({
+    where: {
+      private: true,
+      userIdentifier: req.query.userIdentifier,
+    },
+  });
+  res.json([...data, ...data1]);
 };
 export default handler;

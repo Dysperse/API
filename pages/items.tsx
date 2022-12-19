@@ -248,6 +248,7 @@ function Action({
   primary,
   href,
   onClick,
+  isPrivate = false,
 }: {
   disableLoading?: boolean;
   count?: {
@@ -258,6 +259,7 @@ function Action({
   icon: string | JSX.Element;
   primary: string;
   href?: string;
+  isPrivate?: boolean;
   onClick?;
 }) {
   const router = useRouter();
@@ -282,14 +284,14 @@ function Action({
         ) : (
           <Box
             sx={{
-              display: { sm: "none" },
+              ...(!isPrivate && { display: { sm: "none" } }),
             }}
           >
             <span
-              className="material-symbols-rounded"
+              className="material-symbols-outlined"
               style={{ marginTop: "10px" }}
             >
-              chevron_right
+              {isPrivate ? "lock" : "chevron_right"}
             </span>
           </Box>
         )
@@ -362,6 +364,7 @@ function CreateRoom({ mutationUrl }) {
     setLoading(true);
     fetchApiWithoutHook("property/rooms/create", {
       name: name,
+      private: isPrivate ? "true" : "false",
     })
       .then(() => {
         setOpen(false);
@@ -482,6 +485,7 @@ function Rooms({ data, error }) {
               `${room.id},${room.name}`
             ).toString()}?custom=true`}
             icon="label"
+            isPrivate={room.private}
             primary={room.name}
             key={room.id.toString()}
           />

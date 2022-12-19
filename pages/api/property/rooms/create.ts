@@ -19,8 +19,14 @@ const handler = async (req, res) => {
   const data = await prisma.customRoom.create({
     data: {
       name: req.query.name,
+      private: req.query.private === "true",
       property: {
         connect: { id: req.query.property },
+      },
+      user: {
+        connect: {
+          identifier: req.query.userIdentifier,
+        },
       },
     },
     include: {
