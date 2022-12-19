@@ -110,7 +110,7 @@ function Member({
                 });
               }}
             >
-              Member
+              View only
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -123,12 +123,21 @@ function Member({
                 });
               }}
             >
-              Read-only
+              Member
             </MenuItem>
           </Menu>
           <CardActionArea
             onClick={handleClick}
+            disabled={
+              global.permission !== "owner" ||
+              member.user.email === global.user.email
+            }
             sx={{
+              ...((global.permission !== "owner" ||
+                member.user.email === global.user.email) && {
+                opacity: 0.5,
+                pointerEvents: "none",
+              }),
               maxWidth: "100%",
               overflow: "hidden",
               fontWeight: "400",
