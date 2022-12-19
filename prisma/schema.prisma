@@ -62,7 +62,7 @@ model PropertyInvite {
 model CustomRoom {
   id         String   @id @default(uuid())
   name       String
-  pinned     Boolean  @default(false)
+  private    Boolean  @default(false)
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
 }

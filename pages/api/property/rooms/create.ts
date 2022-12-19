@@ -19,7 +19,6 @@ const handler = async (req, res) => {
   const data = await prisma.customRoom.create({
     data: {
       name: req.query.name,
-      pinned: false,
       property: {
         connect: { id: req.query.property },
       },

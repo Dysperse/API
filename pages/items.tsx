@@ -23,6 +23,7 @@ import {
   Chip,
   CircularProgress,
   Divider,
+  FormLabel,
   ListItem,
   ListItemAvatar,
   ListItemText,
@@ -30,6 +31,7 @@ import {
   MenuItem,
   Skeleton,
   SwipeableDrawer,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -354,6 +356,7 @@ function CreateRoom({ mutationUrl }) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [name, setName] = React.useState("");
+  const [isPrivate, setIsPrivate] = React.useState(false);
 
   const handleSubmit = () => {
     setLoading(true);
@@ -417,6 +420,25 @@ function CreateRoom({ mutationUrl }) {
             autoFocus
             sx={{ mt: 2 }}
           />
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 2 }}>
+            <Switch
+              checked={isPrivate}
+              onChange={(e) => setIsPrivate(e.target.checked)}
+            />
+            <FormLabel>
+              <b>Private</b>
+              <br />
+              {isPrivate
+                ? "Only you can see this " +
+                  (global.property.profile.type === "study group"
+                    ? "container"
+                    : "room") +
+                  " and its contents"
+                : (global.property.profile.type === "study group"
+                    ? "Container"
+                    : "Room") + " will be visible to other group members"}
+            </FormLabel>
+          </Box>
           <LoadingButton
             variant="contained"
             fullWidth
