@@ -11,7 +11,15 @@ import type { Member as MemberType } from "../../types/houseProfile";
 import { ErrorHandler } from "../Error";
 import { AddPersonModal } from "./AddPersonModal";
 
-import { Box, IconButton, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  CardActionArea,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 
 /**
  * Check if a string is a valid email address
@@ -38,6 +46,16 @@ function Member({
 }): JSX.Element {
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
@@ -72,11 +90,49 @@ function Member({
           >
             {member.user.email}
           </Typography>
-          <Typography
-            variant="body2"
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                fetchApiWithoutHook("property/members/modifyPermissions", {
+                  id: member.id,
+                  permission: "read-only",
+                  changerName: global.user.name,
+                  affectedName: member.user.name,
+                  timestamp: new Date().toISOString(),
+                });
+              }}
+            >
+              Member
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                fetchApiWithoutHook("property/members/modifyPermissions", {
+                  id: member.id,
+                  permission: "member",
+                  changerName: global.user.name,
+                  affectedName: member.user.name,
+                  timestamp: new Date().toISOString(),
+                });
+              }}
+            >
+              Read-only
+            </MenuItem>
+          </Menu>
+          <CardActionArea
+            onClick={handleClick}
             sx={{
               maxWidth: "100%",
               overflow: "hidden",
+              fontWeight: "400",
+              borderRadius: 9,
               mx: "auto",
               textOverflow: "ellipsis",
               display: "flex",
@@ -101,7 +157,14 @@ function Member({
                 ? "Owner"
                 : "View-only"}
             </span>
-          </Typography>
+
+            <span
+              className="material-symbols-rounded"
+              style={{ marginLeft: "auto" }}
+            >
+              expand_more
+            </span>
+          </CardActionArea>
         </Box>
       </Box>
       {global.property.permission !== "owner" ? null : (
