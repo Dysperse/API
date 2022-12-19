@@ -300,7 +300,7 @@ function RoomActionMenu({ isPrivate, isCustom }) {
         ) : isCustom ? (
           "more_horiz"
         ) : (
-          <Box sx={{ display: { sm: "none" } }}>east</Box>
+          <Box sx={{ display: { sm: "none" } }} className="material-symbols-rounded">east</Box>
         )}
       </span>
     </IconButton>
