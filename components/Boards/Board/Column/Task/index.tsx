@@ -186,9 +186,8 @@ export let BpIcon: any = styled("span")(({ theme, dark = false }: any) => ({
   },
   "input:disabled ~ &": {
     background: "transparent",
-    backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-plus'%3E%3Cline x1='12' y1='5' x2='12' y2='19'%3E%3C/line%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3C/svg%3E");`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
+    cursor: "not-allowed",
+    opacity: 0.5,
   },
 }));
 
@@ -292,10 +291,8 @@ export const Task = React.memo(function Task({
           : "hsl(240,11%,20%)!important",
     },
     "input:disabled ~ &": {
-      background: "transparent",
-      backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-plus'%3E%3Cline x1='12' y1='5' x2='12' y2='19'%3E%3C/line%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3C/svg%3E");`,
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
+      cursor: "not-allowed",
+      opacity: 0.5,
     },
   }));
 
@@ -396,6 +393,7 @@ export const Task = React.memo(function Task({
           >
             <Box sx={{ height: "100%", alignSelf: "flex-start", pt: 1.5 }}>
               <Checkbox
+                disabled={global.permission == "read-only"}
                 disableRipple
                 checked={checked}
                 onChange={(e) => {
@@ -419,6 +417,7 @@ export const Task = React.memo(function Task({
             </Box>
             <Box sx={{ flexGrow: 1 }}>
               <TextField
+                disabled={global.permission == "read-only"}
                 defaultValue={task.name}
                 onBlur={(e: any) => {
                   fetchApiWithoutHook("property/boards/editTask", {
@@ -660,6 +659,7 @@ export const Task = React.memo(function Task({
                   }}
                 >
                   <Checkbox
+                    disabled={global.permission == "read-only"}
                     disableRipple
                     checked={checked}
                     onChange={(e) => {
