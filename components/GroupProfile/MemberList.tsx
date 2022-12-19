@@ -1,16 +1,4 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import BoringAvatar from "boring-avatars";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import React, { useCallback } from "react";
-import toast from "react-hot-toast";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
-import { colors } from "../../lib/colors";
-import type { ApiResponse } from "../../types/client";
-import type { Member as MemberType } from "../../types/houseProfile";
-import { ErrorHandler } from "../Error";
-import { AddPersonModal } from "./AddPersonModal";
-
 import {
   Box,
   CardActionArea,
@@ -20,6 +8,18 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import BoringAvatar from "boring-avatars";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import React, { useCallback } from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
+import type { ApiResponse } from "../../types/client";
+import type { Member as MemberType } from "../../types/houseProfile";
+import { ErrorHandler } from "../Error";
+import { AddPersonModal } from "./AddPersonModal";
 
 /**
  * Check if a string is a valid email address
@@ -102,6 +102,7 @@ function Member({
             }}
           >
             <MenuItem
+              disabled={member.permission == "read-only"}
               onClick={() => {
                 fetchApiWithoutHook("property/members/modifyPermissions", {
                   id: member.id,
@@ -111,6 +112,7 @@ function Member({
                   timestamp: new Date().toISOString(),
                 }).then(() => {
                   mutate(mutationUrl);
+                  handleClose();
                   toast.success("Updated permissions!");
                 });
               }}
@@ -118,6 +120,7 @@ function Member({
               View only
             </MenuItem>
             <MenuItem
+              disabled={member.permission == "member"}
               onClick={() => {
                 fetchApiWithoutHook("property/members/modifyPermissions", {
                   id: member.id,
@@ -127,6 +130,7 @@ function Member({
                   timestamp: new Date().toISOString(),
                 }).then(() => {
                   mutate(mutationUrl);
+                  handleClose();
                   toast.success("Updated permissions!");
                 });
               }}
