@@ -29,6 +29,9 @@ const handler = async (req, res) => {
       private: true,
       userIdentifier: req.query.userIdentifier,
     },
+    include: {
+      user: true,
+    },
   });
   res.json([...data, ...data1]);
 };
