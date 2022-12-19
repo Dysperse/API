@@ -31,7 +31,11 @@ function ImageViewer({ url, trimHeight = false }) {
     <>
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={(e) => {
+e.preventDefault();
+e.stopPropagation()
+setOpen(false)
+}}
         PaperProps={{
           sx: {
             borderRadius: 5,
