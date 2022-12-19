@@ -353,7 +353,7 @@ function useUser(): {
   isLoading: boolean;
   isError: boolean;
 } {
-  const url = "/api/use1r";
+  const url = "/api/user";
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );
