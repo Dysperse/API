@@ -23,9 +23,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import {
+  neutralizeBack,
+  revivalBack,
+} from "../../../../../hooks/useBackButton";
 
 function ImageViewer({ url, trimHeight = false }) {
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   return (
     <>
@@ -36,17 +43,43 @@ function ImageViewer({ url, trimHeight = false }) {
           e.stopPropagation();
           setOpen(false);
         }}
+        onClick={(e: any) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setOpen(false);
+        }}
         PaperProps={{
           sx: {
             borderRadius: 5,
-            width: "100%",
+            width: { xs: "100%", sm: "auto" },
             height: "auto",
             maxWidth: "100vw",
+            maxHeight: "calc(100vh - 20px)",
+            "& img": {
+              width: { xs: "100%", sm: "auto" },
+              height: { xs: "auto", sm: "100%" },
+              maxHeight: "calc(100vh - 20px)",
+              maxWidth: "100vw",
+            },
           },
         }}
       >
         <picture>
-          <img src={url} alt="somethingasdfsadfasdf" />
+          <img src={url} alt="Modal" />
+          <IconButton
+            sx={{
+              background: "black!important",
+              color: "#fff",
+              border: "none",
+              boxShadow: "none",
+              position: "absolute",
+              top: 5,
+              right: 5,
+            }}
+            onClick={() => setOpen(false)}
+          >
+            <span className="material-symbols-rounded">close</span>
+          </IconButton>
         </picture>
       </Dialog>
       <Box
@@ -353,7 +386,7 @@ export const Task = React.memo(function Task({
             <span className="material-symbols-rounded">delete</span>
           </IconButton>
         </Box>
-        <Box sx={{ p: 5, px: 3, pt: 2, overflowY: "auto", mb: 10 }}>
+        <Box sx={{ p: 5, px: 3, pt: 2, overflowY: "auto" }}>
           <Box
             sx={{
               display: "flex",
