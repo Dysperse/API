@@ -5,9 +5,9 @@ import hexToRgba from "hex-to-rgba";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { colors } from "../../lib/colors";
-import { CreateTask } from "./CreateTask";
+import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { colors } from "../../../../../lib/colors";
+import { CreateTask } from "./Create";
 
 import {
   Box,
@@ -31,11 +31,11 @@ function ImageViewer({ url, trimHeight = false }) {
     <>
       <Dialog
         open={open}
-        onClose={(e:any) => {
-e.preventDefault();
-e.stopPropagation()
-setOpen(false)
-}}
+        onClose={(e: any) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setOpen(false);
+        }}
         PaperProps={{
           sx: {
             borderRadius: 5,
@@ -51,7 +51,7 @@ setOpen(false)
       </Dialog>
       <Box
         sx={{
-          ...(!url && {display:"none"}),
+          ...(!url && { display: "none" }),
           "&:hover": {
             filter: "brightness(90%)",
             cursor: "pointer",

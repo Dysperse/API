@@ -2,9 +2,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import EmojiPicker from "emoji-picker-react";
 import React from "react";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { colors } from "../../lib/colors";
-import { CreateTask } from "./CreateTask";
+import { fetchApiWithoutHook } from "../../../../hooks/useApi";
+import { colors } from "../../../../lib/colors";
+import { CreateTask } from "./Task/Create";
 import { Task } from "./Task";
 
 import {

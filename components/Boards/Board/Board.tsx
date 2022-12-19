@@ -1,10 +1,10 @@
 import React from "react";
-import { useApi } from "../../hooks/useApi";
-import { ErrorHandler } from "../error";
+import { useApi } from "../../../hooks/useApi";
+import { ErrorHandler } from "../../error";
 import { Column } from "./Column";
-import { CreateColumn } from "./CreateColumn";
+import { CreateColumn } from "./Column/Create";
 
-import { Skeleton, Box } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 
 function Renderer({ data, url, board }) {
   return (

@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { OptionsGroup } from "../components/Boards/OptionsGroup";
+import { OptionsGroup } from "../components/Boards/Board/OptionsGroup";
 import { ErrorHandler } from "../components/error";
 import { Puller } from "../components/Puller";
 import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";

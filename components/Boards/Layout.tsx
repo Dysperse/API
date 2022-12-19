@@ -6,8 +6,8 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../error";
-import { Board } from "./Board";
-import { CreateBoard } from "./CreateBoard";
+import { Board } from "./Board/Board";
+import { CreateBoard } from "./Board/Create";
 
 import { Box, Button, CircularProgress, Menu, MenuItem } from "@mui/material";
 

@@ -3,8 +3,8 @@ import EmojiPicker from "emoji-picker-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { colors } from "../../lib/colors";
+import { fetchApiWithoutHook } from "../../../../hooks/useApi";
+import { colors } from "../../../../lib/colors";
 
 import {
   Box,

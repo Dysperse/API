@@ -1,4 +1,4 @@
-import { colors } from "../../lib/colors";
+import { colors } from "../../../lib/colors";
 
 import { Button, ButtonGroup } from "@mui/material";
 
