@@ -426,6 +426,7 @@ export function CreateTask({
         </Box>
       </SwipeableDrawer>
       <ListItem
+        disabled={global.permission == "read-only"}
         button
         disableRipple
         sx={{

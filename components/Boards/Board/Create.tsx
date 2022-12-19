@@ -110,9 +110,9 @@ function Template({
         </Card>
         <Box sx={{ p: 2 }}>
           <Button
-            disabled={loading}
             variant="contained"
             fullWidth
+            disabled={loading || global.permission == "read-only"}
             size="large"
             sx={{ borderRadius: 99 }}
             onClick={() => {
@@ -132,7 +132,9 @@ function Template({
               });
             }}
           >
-            Create new board
+            {global.permission == "read-only"
+              ? "You do not have permission to create a board"
+              : "Create new board"}
           </Button>
         </Box>
       </Dialog>
@@ -558,6 +560,10 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
               >
                 <Card
                   sx={{
+                    ...(global.permission == "read-only" && {
+                      pointerEvents: "none",
+                      opacity: 0.5,
+                    }),
                     ...(loading && {
                       opacity: 0.5,
                       pointerEvents: "none",

@@ -101,12 +101,13 @@ function RenderWithLayout({
               colors[themeColor][global.theme !== "dark" ? "800" : "50"] +
               "!important",
             color: colors[themeColor][global.theme !== "dark" ? "50" : "800"],
-          },
-          ...(global.theme !== "dark" && {
-            disabled: {
-              background: colors["grey"]["100"] + "!important",
+            ":disabled": {
+              background: colors["grey"]["200"] + "!important",
             },
-          }),
+          },
+          disabled: {
+            background: colors["grey"]["200"] + "!important",
+          },
           root: {
             transition: "none",
             textTransform: "none",

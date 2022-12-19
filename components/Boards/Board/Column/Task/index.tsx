@@ -382,7 +382,7 @@ export const Task = React.memo(function Task({
             <span className="material-symbols-rounded">west</span>
           </IconButton>
           <Typography sx={{ mx: "auto" }}>Details</Typography>
-          <IconButton disableRipple>
+          <IconButton disableRipple disabled={global.permission == "read-only"}>
             <span className="material-symbols-rounded">delete</span>
           </IconButton>
         </Box>
@@ -534,7 +534,12 @@ export const Task = React.memo(function Task({
                       mutate(mutationUrl);
                     });
                   }}
-                  placeholder="Add a description"
+                  disabled={global.permission == "read-only"}
+                  placeholder={
+                    global.permission == "read-only"
+                      ? "Add a description. Wait you can't because you have no permission 😂"
+                      : "Add a description"
+                  }
                   minRows={4}
                   defaultValue={task.description}
                 />
