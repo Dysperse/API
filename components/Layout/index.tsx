@@ -139,10 +139,6 @@ function ResponsiveDrawer({
                 },
               ],
             },
-            // Up arrow unicode
-            // &#8593;
-            // Down arrow unicode
-            // &#8595;
             {
               name: "Inventory",
               shortcuts: [
