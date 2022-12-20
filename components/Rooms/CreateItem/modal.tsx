@@ -240,7 +240,7 @@ export function CreateItemModal({
                   },
                 }}
               />
-              <ImageRecognition />
+              <ImageRecognition formik={formik} />
             </Box>
             <TextField
               margin="dense"

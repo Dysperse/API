@@ -12,11 +12,10 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Webcam from "react-webcam";
 import { colors } from "../../../lib/colors";
 
-const WebcamComponent = ({ facingMode, setFacingMode }) => {
+const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
   const webcamRef: any = React.useRef(null);
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    alert(imageSrc);
     toast.promise(
       fetch("/api/property/inventory/image-recognition", {
         method: "POST",
@@ -32,8 +31,9 @@ const WebcamComponent = ({ facingMode, setFacingMode }) => {
       {
         loading: "Fetching image recognition...",
         success: (response) => {
-          alert(JSON.stringify(response));
-          return "Image recognition updated!";
+          formik.setFieldValue("title", response);
+          setOpen(false);
+          return "Image recognition updated: " + response;
         },
         error: (e) => "Image recognition failed: " + e.message,
       }
@@ -95,7 +95,7 @@ const WebcamComponent = ({ facingMode, setFacingMode }) => {
   );
 };
 
-export function ImageRecognition() {
+export function ImageRecognition({ formik }) {
   const [open, setOpen] = React.useState(false);
   const [facingMode, setFacingMode] = React.useState("user");
 
@@ -157,6 +157,8 @@ export function ImageRecognition() {
           </Toolbar>
         </AppBar>
         <WebcamComponent
+          formik={formik}
+          setOpen={setOpen}
           facingMode={facingMode}
           setFacingMode={setFacingMode}
         />
