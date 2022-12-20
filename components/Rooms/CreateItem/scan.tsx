@@ -4,6 +4,7 @@ import {
   Chip,
   Drawer,
   IconButton,
+  Popover,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -105,11 +106,78 @@ export function ImageRecognition({ formik }) {
     tag.content = open ? "#000000" : colors[themeColor]["200"];
   }, [open]);
 
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const popoverOpen = Boolean(anchorEl);
+  const id = popoverOpen ? "simple-popover" : undefined;
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      const btn: any = document.getElementById("scanTrigger");
+      setAnchorEl(btn);
+    }, 1000);
+  }, []);
+
   return (
     <>
       <Box sx={{ pt: 2 }}>
+        <Popover
+          id={id}
+          open={popoverOpen}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              ml: 1,
+              background: "#000",
+              color: "#fff",
+              maxWidth: "250px",
+              borderRadius: 5,
+            },
+          }}
+          BackdropProps={{
+            sx: {
+              opacity: "0!important",
+            },
+          }}
+        >
+          <Box sx={{ p: 2 }}>
+            <Typography
+              sx={{ mx: "auto", fontWeight: "600", display: "flex", gap: 2 }}
+            >
+              Scan
+              <Chip
+                size="small"
+                label="BETA"
+                sx={{
+                  background: "linear-gradient(45deg, #fc00ff, #00dbde)",
+                }}
+              />
+            </Typography>
+            <Typography sx={{ mt: 1 }}>
+              Quickly scan items and build up your inventory. Now in public
+              beta.
+            </Typography>
+          </Box>
+        </Popover>
         <IconButton
           disableRipple
+          id="scanTrigger"
           size="large"
           onClick={() => setOpen(true)}
           sx={{
