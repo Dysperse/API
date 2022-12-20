@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Chip,
   Drawer,
   IconButton,
   Toolbar,
@@ -106,7 +107,11 @@ export function ImageRecognition({ formik }) {
 
   return (
     <>
-      <IconButton disableRipple onClick={() => setOpen(true)}>
+      <IconButton
+        disableRipple
+        onClick={() => setOpen(true)}
+        sx={{ color: "#000" }}
+      >
         <span className="material-symbols-rounded">view_in_ar</span>
       </IconButton>
       <Drawer
@@ -136,7 +141,18 @@ export function ImageRecognition({ formik }) {
             >
               <span className="material-symbols-rounded">west</span>
             </IconButton>
-            <Typography sx={{ mx: "auto", fontWeight: "600" }}>Scan</Typography>
+            <Typography
+              sx={{ mx: "auto", fontWeight: "600", display: "flex", gap: 2 }}
+            >
+              Scan
+              <Chip
+                size="small"
+                label="BETA"
+                sx={{
+                  background: "linear-gradient(45deg, #fc00ff, #00dbde)",
+                }}
+              />
+            </Typography>
             <IconButton
               color="inherit"
               disableRipple
