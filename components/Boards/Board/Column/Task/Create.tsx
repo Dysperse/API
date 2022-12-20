@@ -11,6 +11,7 @@ import {
   Alert,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Collapse,
   IconButton,
@@ -193,6 +194,17 @@ export function CreateTask({
     // setOpen(false);
   };
 
+  const chipStyles = {
+    background: colors[themeColor]["50"] + "!important",
+    transition: "all .2s",
+    "&:active": {
+      transition: "none",
+      transform: "scale(.95)",
+    },
+    boxShadow: "none!important",
+    px: 1,
+    mr: 1,
+  };
   return (
     <>
       <SwipeableDrawer
@@ -208,12 +220,71 @@ export function CreateTask({
           sx: {
             maxWidth: "600px",
             mb: { sm: 5 },
+            background: "transparent!important",
             mx: "auto",
-            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
           },
         }}
       >
-        <Box sx={{ p: 3 }}>
+        <Box
+          sx={{
+            mb: 2,
+            overflowX: "scroll",
+            whiteSpace: "nowrap",
+            borderRadius: 9,
+          }}
+        >
+          <Chip
+            label="Important"
+            sx={chipStyles}
+            icon={<span className="material-symbols-rounded">priority</span>}
+            onClick={() => {
+              setTitle((t) => t + " (important)");
+            }}
+          />
+          <Chip
+            label="Today"
+            sx={chipStyles}
+            icon={<span className="material-symbols-rounded">today</span>}
+            onClick={() => setDate(new Date())}
+          />
+          <Chip
+            label="Tomorrow"
+            sx={chipStyles}
+            icon={<span className="material-symbols-rounded">today</span>}
+            onClick={() => {
+              const tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              setDate(tomorrow);
+            }}
+          />
+          <Chip
+            label="In one month"
+            sx={chipStyles}
+            icon={<span className="material-symbols-rounded">today</span>}
+            onClick={() => {
+              const tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 30);
+              setDate(tomorrow);
+            }}
+          />
+          <Chip
+            label="In one year"
+            sx={chipStyles}
+            icon={<span className="material-symbols-rounded">today</span>}
+            onClick={() => {
+              const tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 365);
+              setDate(tomorrow);
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            p: 3,
+            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
+            background: colors[themeColor]["50"],
+          }}
+        >
           <form onSubmit={handleSubmit}>
             {image && (
               <Box
