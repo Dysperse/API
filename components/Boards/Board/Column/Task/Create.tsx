@@ -230,7 +230,6 @@ export function CreateTask({
             mb: 2,
             overflowX: "scroll",
             whiteSpace: "nowrap",
-            borderRadius: 9,
           }}
         >
           <Chip
