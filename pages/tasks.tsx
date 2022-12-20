@@ -47,12 +47,17 @@ export default function Dashboard() {
               href="//survey.smartlist.tech"
               target="_blank"
               sx={{
+                "&:focus": {
+                  outline: "none",
+                  boxShadow: "0 0 0 2px #000",
+                },
                 color: "#000",
                 textDecorationColor: "#000",
               }}
             >
               survey.smartlist.tech
             </Link>
+            &nbsp;
           </Typography>
         </Alert>
       )}
