@@ -107,13 +107,19 @@ export function ImageRecognition({ formik }) {
 
   return (
     <>
-      <IconButton
-        disableRipple
-        onClick={() => setOpen(true)}
-        sx={{ color: "#000" }}
-      >
-        <span className="material-symbols-rounded">view_in_ar</span>
-      </IconButton>
+      <Box sx={{ pt: 2 }}>
+        <IconButton
+          disableRipple
+          size="large"
+          onClick={() => setOpen(true)}
+          sx={{
+            color: "#000",
+            background: "linear-gradient(45deg, #fc00ff, #00dbde)!important",
+          }}
+        >
+          <span className="material-symbols-rounded">view_in_ar</span>
+        </IconButton>
+      </Box>
       <Drawer
         anchor="right"
         open={open}
