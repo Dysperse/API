@@ -20,6 +20,8 @@ import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
 import { cards } from "./cards";
+import { ImageRecognition } from "./scan";
+
 /**
  * Shuffles array in place. ES6 version
  * @param array Array to be shuffled
@@ -196,47 +198,50 @@ export function CreateItemModal({
               px: 2.5,
             }}
           >
-            <TextField
-              autoFocus
-              margin="dense"
-              required
-              fullWidth
-              autoComplete={"off"}
-              onChange={(e) => {
-                formik.setFieldValue("title", e.target.value);
-                setFilteredCards(
-                  originalCards.filter((card) =>
-                    card.name
-                      .toLowerCase()
-                      .includes(e.target.value.toLowerCase())
-                  )
-                );
-              }}
-              value={formik.values.title}
-              disabled={loading}
-              name="title"
-              id="nameInput"
-              placeholder="Item name"
-              className="font-secondary"
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-                autoComplete: "off",
-                sx: {
-                  background: `${
-                    global.user.darkMode
-                      ? "hsl(240, 11%, 20%)"
-                      : colors[themeColor][50]
-                  }!important`,
-                  fontWeight: "600",
-                  fontSize: "30px",
-                  textDecoration: "underline",
-                  textAlign: "right!important",
-                  borderRadius: "15px",
-                  display: "block",
-                },
-              }}
-            />
+            <Box sx={{ display: "flex" }}>
+              <TextField
+                autoFocus
+                margin="dense"
+                required
+                fullWidth
+                autoComplete={"off"}
+                onChange={(e) => {
+                  formik.setFieldValue("title", e.target.value);
+                  setFilteredCards(
+                    originalCards.filter((card) =>
+                      card.name
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase())
+                    )
+                  );
+                }}
+                value={formik.values.title}
+                disabled={loading}
+                name="title"
+                id="nameInput"
+                placeholder="Item name"
+                className="font-secondary"
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  autoComplete: "off",
+                  sx: {
+                    background: `${
+                      global.user.darkMode
+                        ? "hsl(240, 11%, 20%)"
+                        : colors[themeColor][50]
+                    }!important`,
+                    fontWeight: "600",
+                    fontSize: "30px",
+                    textDecoration: "underline",
+                    textAlign: "right!important",
+                    borderRadius: "15px",
+                    display: "block",
+                  },
+                }}
+              />
+              <ImageRecognition />
+            </Box>
             <TextField
               margin="dense"
               placeholder="Add a quantity"
