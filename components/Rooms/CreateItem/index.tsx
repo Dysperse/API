@@ -284,51 +284,65 @@ function Content(): JSX.Element {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        {global.property.profile.type !== "dorm" && (
-          <AddItemOption
-            title="Kitchen"
-            icon={<span className="material-symbols-rounded">blender</span>}
-          />
-        )}
-        <AddItemOption
-          title="Bedroom"
-          icon={
-            <span className="material-symbols-rounded">bedroom_parent</span>
-          }
-        />
-        <AddItemOption
-          title="Bathroom"
-          icon={<span className="material-symbols-rounded">bathroom</span>}
-        />
-
-        <AddItemOption
-          title="Storage"
-          icon={<span className="material-symbols-rounded">inventory_2</span>}
-        />
-        {global.property.profile.type !== "dorm" && (
+        {global.property.profile.type !== "study group" &&
+          global.property.profile.type !== "dorm" && (
+            <AddItemOption
+              title="Kitchen"
+              icon={<span className="material-symbols-rounded">blender</span>}
+            />
+          )}
+        {global.property.profile.type !== "study group" && (
           <>
             <AddItemOption
-              title="Garage"
-              icon={<span className="material-symbols-rounded">garage</span>}
-            />
-            <AddItemOption
-              title={<>Living&nbsp;room</>}
-              icon={<span className="material-symbols-rounded">living</span>}
-            />
-            <AddItemOption
-              title={<>Dining</>}
-              icon={<span className="material-symbols-rounded">dining</span>}
-            />
-            <AddItemOption
-              title={<>Laundry&nbsp;room</>}
+              title="Bedroom"
               icon={
-                <span className="material-symbols-rounded">
-                  local_laundry_service
-                </span>
+                <span className="material-symbols-rounded">bedroom_parent</span>
               }
             />
-            <MoreRooms />
+            <AddItemOption
+              title="Bathroom"
+              icon={<span className="material-symbols-rounded">bathroom</span>}
+            />
+
+            <AddItemOption
+              title="Storage"
+              icon={
+                <span className="material-symbols-rounded">inventory_2</span>
+              }
+            />
           </>
+        )}
+        {global.property.profile.type !== "study group" &&
+          global.property.profile.type !== "dorm" && (
+            <>
+              <AddItemOption
+                title="Garage"
+                icon={<span className="material-symbols-rounded">garage</span>}
+              />
+              <AddItemOption
+                title={<>Living&nbsp;room</>}
+                icon={<span className="material-symbols-rounded">living</span>}
+              />
+              <AddItemOption
+                title={<>Dining</>}
+                icon={<span className="material-symbols-rounded">dining</span>}
+              />
+              <AddItemOption
+                title={<>Laundry&nbsp;room</>}
+                icon={
+                  <span className="material-symbols-rounded">
+                    local_laundry_service
+                  </span>
+                }
+              />
+              <MoreRooms />
+            </>
+          )}
+        {global.property.profile.type == "study group" && (
+          <AddItemOption
+            title="Backpack"
+            icon={<span className="material-symbols-rounded">backpack</span>}
+          />
         )}
       </Grid>
     </List>
