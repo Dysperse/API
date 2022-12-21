@@ -171,7 +171,7 @@ model RoutineItem {
 
 model SpaceItem {
   id        String   @id @unique @default(cuid())
-  content   String
+  content   String   @db.VarChar(1000)
   color     String   @default("blue")
   pinned    Boolean  @default(false)
   userId    String

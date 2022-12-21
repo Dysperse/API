@@ -9,5 +9,5 @@ module.exports = {
     extend: {},
   },
   darkMode: "class",
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

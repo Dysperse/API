@@ -6,6 +6,8 @@ import Head from "next/head";
 import React from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { mutate } from "swr";
 import { Puller } from "../components/Puller";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
@@ -14,6 +16,7 @@ import { colors } from "../lib/colors";
 import {
   Box,
   Button,
+  Checkbox,
   CircularProgress,
   Dialog,
   Grow,
@@ -150,7 +153,7 @@ function CreatePostMenu({ url }) {
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom sx={{ m: "5px!important" }}>
             Visibility
           </Typography>
           {[
@@ -644,20 +647,6 @@ function ImageBox({ image }) {
   );
 }
 
-const URL_REGEX =
-  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-
-const renderText = (txt) =>
-  txt.split(" ").map((part) =>
-    URL_REGEX.test(part) ? (
-      <Link href={part} target="_blank">
-        {part.replace("http://").replace("https://", "").replace(/\/$/, "")}{" "}
-      </Link>
-    ) : (
-      part + " "
-    )
-  );
-
 function Post({ data, url }) {
   const [emblaRef, emblaApi] = useEmblaCarousel();
   // When the embla carousel is scrolled to the second page, alert some text
@@ -756,19 +745,120 @@ function Post({ data, url }) {
           </Box>
           {data.image && <ImageBox image={data.image} />}
 
-          <Box sx={{ p: 2 }}>
-            <Typography
-              variant="h6"
-              gutterBottom
-              sx={{
-                maxWidth: "100%",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-              }}
-            >
-              {renderText(data.content)}
-            </Typography>
+          <Box
+            sx={{
+              p: 2,
+              "& .contains-task-list li": {
+                height: "40px",
+                display: "flex",
+                alignItems: "center",
+              },
+            }}
+          >
+            <div className="prose">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                children={data.content}
+                linkTarget="_blank"
+                skipHtml={true}
+                disallowedElements={[
+                  "h4",
+                  "h5",
+                  "h6",
+                  "table",
+                  "thead",
+                  "tbody",
+                  "tfoot",
+                  "tr",
+                ]}
+                components={{
+                  h1: ({ children }) => (
+                    <Typography
+                      variant="h3"
+                      gutterBottom
+                      sx={{
+                        mb: "5px!important",
+                        fontSize: "35px!important",
+                        fontWeight: "500!important",
+                      }}
+                    >
+                      {children}
+                    </Typography>
+                  ),
+                  h2: ({ children }) => (
+                    <Typography
+                      variant="h4"
+                      gutterBottom
+                      sx={{
+                        mb: "5px!important",
+                        fontSize: "30px!important",
+                        fontWeight: "300!important",
+                      }}
+                    >
+                      {children}
+                    </Typography>
+                  ),
+                  h3: ({ children }) => (
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ mb: "10px!important", fontSize: "25px!important" }}
+                    >
+                      {children}
+                    </Typography>
+                  ),
+                  p: ({ children }) => (
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      {children}
+                    </Typography>
+                  ),
+                  li: ({ children }) => (
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        m: "0!important",
+                        mb: "7px!important",
+                        fontWeight: "300!important",
+                      }}
+                      component="li"
+                    >
+                      {children}
+                    </Typography>
+                  ),
+                  img: ({ src }) => <ImageBox image={src} />,
+                  input: ({ checked }) => (
+                    <Checkbox
+                      checked={checked}
+                      disableRipple
+                      disabled
+                      sx={{
+                        ml: -5,
+                        zIndex: 1,
+                        backdropFilter: "blur(999px)",
+                      }}
+                    />
+                  ),
+                  a: ({ href, children }) => (
+                    <Link
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        color: colors.blue["600"] + "!important",
+                      }}
+                    >
+                      {children}
+                    </Link>
+                  ),
+                }}
+              />
+            </div>
             {data.user.name === global.user.name && (
               <Typography
                 variant="body1"
