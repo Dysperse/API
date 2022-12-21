@@ -9,7 +9,14 @@ import { ErrorHandler } from "../Error";
 import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
 
-import { Box, Button, CircularProgress, Menu, MenuItem } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Icon,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 
 const Tab = React.memo(function Tab({
   mutationUrl,
