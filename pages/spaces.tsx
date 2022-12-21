@@ -1,7 +1,6 @@
 import { Masonry } from "@mui/lab";
 import Avatar from "boring-avatars";
 import dayjs from "dayjs";
-import useEmblaCarousel from "embla-carousel-react";
 import Head from "next/head";
 import React from "react";
 import toast from "react-hot-toast";
@@ -20,6 +19,7 @@ import {
   CircularProgress,
   Dialog,
   Grow,
+  Icon,
   IconButton,
   InputAdornment,
   Link,
@@ -648,252 +648,250 @@ function ImageBox({ image }) {
 }
 
 function Post({ data, url }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel();
-  // When the embla carousel is scrolled to the second page, alert some text
-  //  Current slide index
-  const [deleteSlide, setDeleteSlide] = React.useState(false);
-
+  const [expanded, setExpanded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  React.useEffect(() => {
-    if (emblaApi) {
-      // Embla API is ready
-      emblaApi.on("scroll", () => {
-        setDeleteSlide(emblaApi.scrollProgress() >= 1 ? true : false);
-      });
-    }
-  }, [emblaApi]);
 
-  React.useEffect(() => {
-    if (deleteSlide) {
-      setLoading(true);
-      fetchApiWithoutHook("property/spaces/deleteItem", {
-        id: data.id,
-      })
-        .then(() => {
-          mutate(url);
-        })
-        .catch(() => {
-          toast.error("Something went wrong");
-          setLoading(false);
-        });
-    }
-  }, [deleteSlide, data.id, url]);
-
-  return (
+  const PostCard = ({ trigger = false }: { trigger?: boolean }) => (
     <Box
+      onClick={() => {
+        trigger && setExpanded(!expanded);
+      }}
       sx={{
-        mt: 2,
+        mt: trigger ? 2 : 0,
         maxWidth: "calc(100vw - 32.5px)",
         mb: { xs: 2, sm: 0 },
-        background: global.user.darkMode
+        background: !trigger
+          ? "transparent"
+          : global.user.darkMode
           ? "hsl(240,11%,17%)"
           : "rgba(200,200,200,0.3)",
         borderRadius: 5,
         overflow: "hidden",
-        ...(loading && {
-          opacity: 0.5,
-        }),
         boxShadow:
           "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        ...(trigger && {
+          cursor: "pointer",
+          "&:active": {
+            opacity: 0.8,
+          },
+        }),
       }}
-      ref={emblaRef}
     >
-      <div className="embla__container">
+      <Box
+        sx={{
+          display: data.user.name == global.user.name ? "none" : "flex",
+          alignItems: "center",
+          gap: 2,
+          p: 2,
+          borderBottom: "1px solid rgba(0,0,0,.1)",
+        }}
+      >
         <Box
           sx={{
-            flex: "0 0 100%",
-            width: "100%",
+            width: "32px",
+            height: "32px",
+            border: "1px solid rgba(0,0,0,.4)",
+            borderRadius: 999,
           }}
         >
-          <Box
-            sx={{
-              display: data.user.name == global.user.name ? "none" : "flex",
-              alignItems: "center",
-              gap: 2,
-              p: 2,
-              borderBottom: "1px solid rgba(0,0,0,.1)",
-            }}
-          >
-            <Box
-              sx={{
-                width: "32px",
-                height: "32px",
-                border: "1px solid rgba(0,0,0,.4)",
-                borderRadius: 999,
-              }}
-            >
-              <Avatar
-                name={data.user.name}
-                variant="beam"
-                size={30}
-                colors={["#801245", "#F4F4DD", "#DCDBAF", "#5D5C49", "#3D3D34"]}
-              />
-            </Box>
-            <Typography variant="body1">
-              {data.user.name == global.user.name ? "You" : data.user.name}
-            </Typography>
-
-            <Typography
-              variant="body1"
-              sx={{
-                ml: "auto",
-                color: "#666",
-              }}
-            >
-              {dayjs(data.timestamp).fromNow()}
-            </Typography>
-          </Box>
-          {data.image && <ImageBox image={data.image} />}
-
-          <Box
-            sx={{
-              p: 2,
-              "& .contains-task-list li": {
-                height: "40px",
-                display: "flex",
-                alignItems: "center",
-              },
-            }}
-          >
-            <div className="prose">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                children={data.content}
-                linkTarget="_blank"
-                skipHtml={true}
-                disallowedElements={[
-                  "h4",
-                  "h5",
-                  "h6",
-                  "table",
-                  "thead",
-                  "tbody",
-                  "tfoot",
-                  "tr",
-                ]}
-                components={{
-                  h1: ({ children }) => (
-                    <Typography
-                      variant="h3"
-                      gutterBottom
-                      sx={{
-                        mb: "5px!important",
-                        fontSize: "35px!important",
-                        fontWeight: "500!important",
-                      }}
-                    >
-                      {children}
-                    </Typography>
-                  ),
-                  h2: ({ children }) => (
-                    <Typography
-                      variant="h4"
-                      gutterBottom
-                      sx={{
-                        mb: "5px!important",
-                        fontSize: "30px!important",
-                        fontWeight: "300!important",
-                      }}
-                    >
-                      {children}
-                    </Typography>
-                  ),
-                  h3: ({ children }) => (
-                    <Typography
-                      variant="h5"
-                      gutterBottom
-                      sx={{ mb: "10px!important", fontSize: "25px!important" }}
-                    >
-                      {children}
-                    </Typography>
-                  ),
-                  p: ({ children }) => (
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{
-                        fontWeight: "600",
-                      }}
-                    >
-                      {children}
-                    </Typography>
-                  ),
-                  li: ({ children }) => (
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        m: "0!important",
-                        mb: "7px!important",
-                        fontWeight: "300!important",
-                      }}
-                      component="li"
-                    >
-                      {children}
-                    </Typography>
-                  ),
-                  img: ({ src }) => <ImageBox image={src} />,
-                  input: ({ checked }) => (
-                    <Checkbox
-                      checked={checked}
-                      disableRipple
-                      disabled
-                      sx={{
-                        ml: -5,
-                        zIndex: 1,
-                        backdropFilter: "blur(999px)",
-                      }}
-                    />
-                  ),
-                  a: ({ href, children }) => (
-                    <Link
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{
-                        color: colors.blue["600"] + "!important",
-                      }}
-                    >
-                      {children}
-                    </Link>
-                  ),
-                }}
-              />
-            </div>
-            {data.user.name === global.user.name && (
-              <Typography
-                variant="body1"
-                sx={{
-                  ml: "auto",
-                  color: "#666",
-                }}
-              >
-                {dayjs(data.timestamp).fromNow()}
-              </Typography>
-            )}
-          </Box>
+          <Avatar
+            name={data.user.name}
+            variant="beam"
+            size={30}
+            colors={["#801245", "#F4F4DD", "#DCDBAF", "#5D5C49", "#3D3D34"]}
+          />
         </Box>
-        <Box
+        <Typography variant="body1">
+          {data.user.name == global.user.name ? "You" : data.user.name}
+        </Typography>
+
+        <Typography
+          variant="body1"
           sx={{
-            width: "100%",
-            flex: "0 0 100%",
-            px: 2,
-            color: "#fff",
+            ml: "auto",
+            color: "#666",
+          }}
+        >
+          {dayjs(data.timestamp).fromNow()}
+        </Typography>
+      </Box>
+      {data.image && <ImageBox image={data.image} />}
+
+      <Box
+        sx={{
+          p: 2,
+          "& .contains-task-list li": {
+            height: "40px",
             display: "flex",
             alignItems: "center",
-            background: colors.red[900],
-          }}
-        >
-          <span
-            className="material-symbols-outlined"
-            style={{
-              fontSize: "30px",
+          },
+        }}
+      >
+        <div className="prose">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            children={data.content}
+            linkTarget="_blank"
+            skipHtml={true}
+            disallowedElements={[
+              "h4",
+              "h5",
+              "h6",
+              "table",
+              "thead",
+              "tbody",
+              "tfoot",
+              "tr",
+            ]}
+            components={{
+              h1: ({ children }) => (
+                <Typography
+                  variant="h3"
+                  gutterBottom
+                  sx={{
+                    mb: "5px!important",
+                    fontSize: "35px!important",
+                    fontWeight: "500!important",
+                  }}
+                >
+                  {children}
+                </Typography>
+              ),
+              h2: ({ children }) => (
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  sx={{
+                    mb: "5px!important",
+                    fontSize: "30px!important",
+                    fontWeight: "300!important",
+                  }}
+                >
+                  {children}
+                </Typography>
+              ),
+              h3: ({ children }) => (
+                <Typography
+                  variant="h5"
+                  gutterBottom
+                  sx={{ mb: "10px!important", fontSize: "25px!important" }}
+                >
+                  {children}
+                </Typography>
+              ),
+              p: ({ children }) => (
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{
+                    fontWeight: "600",
+                  }}
+                >
+                  {children}
+                </Typography>
+              ),
+              li: ({ children }) => (
+                <Typography
+                  variant="h6"
+                  sx={{
+                    m: "0!important",
+                    mb: "7px!important",
+                    fontWeight: "300!important",
+                  }}
+                  component="li"
+                >
+                  {children}
+                </Typography>
+              ),
+              img: ({ src }) => <ImageBox image={src} />,
+              input: ({ checked }) => (
+                <Checkbox
+                  checked={checked}
+                  disableRipple
+                  disabled
+                  sx={{
+                    ml: -5,
+                    zIndex: 1,
+                    backdropFilter: "blur(999px)",
+                  }}
+                />
+              ),
+              a: ({ href, children }) => (
+                <Link
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: colors.blue["600"] + "!important",
+                  }}
+                >
+                  {children}
+                </Link>
+              ),
+            }}
+          />
+        </div>
+        {data.user.name === global.user.name && (
+          <Typography
+            variant="body1"
+            sx={{
+              ml: "auto",
+              color: "#666",
             }}
           >
-            delete
-          </span>
-        </Box>
-      </div>
+            {dayjs(data.timestamp).fromNow()}
+          </Typography>
+        )}
+      </Box>
     </Box>
+  );
+  return (
+    <>
+      <Dialog
+        open={expanded}
+        onClose={() => setExpanded(false)}
+        PaperProps={{
+          sx: {
+            borderRadius: 5,
+            width: "100%",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            borderBottom: "1px solid #eee",
+            p: 1,
+            px: 2,
+            width: "100%",
+            background: "#eee",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          Post
+          <IconButton
+            sx={{ ml: "auto" }}
+            disableRipple
+            onClick={() => {
+              fetchApiWithoutHook("property/spaces/deleteItem", {
+                id: data.id,
+              })
+                .then(() => {
+                  mutate(url);
+                })
+                .catch(() => {
+                  toast.error("Something went wrong");
+                  setLoading(false);
+                });
+            }}
+          >
+            <Icon>delete</Icon>
+          </IconButton>
+        </Box>
+        <PostCard />
+      </Dialog>
+      <PostCard trigger />
+    </>
   );
 }
 
