@@ -40,7 +40,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
         error: (e) => "Image recognition failed: " + e.message,
       }
     );
-  }, [webcamRef]);
+  }, [webcamRef, formik, setOpen]);
 
   const { width, height } = useWindowSize();
 
