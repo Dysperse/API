@@ -45,8 +45,8 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
   const { width, height } = useWindowSize();
 
   const videoConstraints = {
-    width: width,
-    height: height,
+    //width: width,
+    //height: height,
     facingMode:
       facingMode == "user"
         ? "user"
@@ -60,10 +60,8 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
       <Webcam
         screenshotQuality={0.3}
         audio={false}
-        height={height}
         ref={webcamRef}
         screenshotFormat="image/png"
-        width={width}
         videoConstraints={videoConstraints}
         style={{
           position: "fixed",
