@@ -10,6 +10,7 @@ import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
 
 import { Box, Button, CircularProgress, Menu, MenuItem } from "@mui/material";
+import { Icon } from "../Icon";
 
 const Tab = React.memo(function Tab({
   mutationUrl,
@@ -52,6 +53,7 @@ const Tab = React.memo(function Tab({
             }, 100);
           }}
         >
+          <Icon>edit</Icon>
           Rename
         </MenuItem>
         <MenuItem
@@ -74,6 +76,7 @@ const Tab = React.memo(function Tab({
             minWidth: "100px",
           }}
         >
+          <Icon>delete</Icon>
           Delete board
           <CircularProgress
             size={15}
@@ -114,15 +117,9 @@ const Tab = React.memo(function Tab({
               gap: 1,
             }}
           >
-            <span
-              className={
-                activeTab === board.id
-                  ? "material-symbols-rounded"
-                  : "material-symbols-outlined"
-              }
-            >
+            <Icon variant={activeTab === board.id ? "rounded" : "outlined"}>
               {board.columns.length == 1 ? "task_alt" : "view_kanban"}
-            </span>
+            </Icon>
             {board.name}
           </Box>
         ) : (
@@ -171,9 +168,7 @@ const Tab = React.memo(function Tab({
             onChange={(e) => setTitle(e.target.value)}
           />
         )}
-        {activeTab === board.id && (
-          <span className="material-symbols-outlined">more_vert</span>
-        )}
+        {/* {activeTab === board.id && <Icon>more_vert</Icon>} */}
       </Button>
     </div>
   );
@@ -273,7 +268,7 @@ export function TasksLayout() {
                 gap: 2,
               }}
             >
-              <span className="material-symbols-rounded">add_circle</span>Create
+              <Icon>add_circle</Icon>Create
             </Button>
           </Box>
         </Box>
