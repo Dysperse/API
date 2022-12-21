@@ -850,6 +850,7 @@ function Post({ data, url }) {
   return (
     <Box>
       <Dialog
+        TransitionComponent={Grow}
         open={expanded}
         onClose={() => setExpanded(false)}
         PaperProps={{
