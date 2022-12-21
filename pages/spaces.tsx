@@ -732,7 +732,6 @@ function Post({ data, url }) {
         <div className="prose">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
-            children={data.content}
             linkTarget="_blank"
             skipHtml={true}
             disallowedElements={[
@@ -831,7 +830,9 @@ function Post({ data, url }) {
                 </Link>
               ),
             }}
-          />
+          >
+            {data.content}
+          </ReactMarkdown>
         </div>
         {data.user.name === global.user.name && (
           <Typography
