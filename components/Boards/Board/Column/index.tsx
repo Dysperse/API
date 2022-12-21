@@ -4,14 +4,15 @@ import React from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
-import { CreateTask } from "./Task/Create";
 import { Task } from "./Task";
+import { CreateTask } from "./Task/Create";
 
 import {
   Box,
   Button,
   CardActionArea,
   Divider,
+  Icon,
   IconButton,
   SwipeableDrawer,
   TextField,
@@ -56,9 +57,7 @@ function CompletedTasks({
             <Typography sx={{ fontWeight: "700" }}>
               Completed ({columnTasks.filter((task) => task.completed).length})
             </Typography>
-            <span className="material-symbols-rounded">
-              {!open ? "expand_more" : "expand_less"}
-            </span>
+            <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
           </CardActionArea>
           <Box
             sx={{
@@ -221,7 +220,7 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
         {!editMode ? (
           <Box>
             <Button sx={styles} size="large" onClick={() => setEditMode(true)}>
-              <span className="material-symbols-outlined">edit</span>
+              <Icon className="outlined">edit</Icon>
               Edit
             </Button>
             <LoadingButton
@@ -238,8 +237,7 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
                 setOpen(false);
               }}
             >
-              <span className="material-symbols-outlined">delete</span>
-              Delete column
+              <Icon className="outlined">delete</Icon> Delete column
             </LoadingButton>
           </Box>
         ) : (
@@ -250,7 +248,7 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
             }}
           >
             <Button sx={styles} size="large" onClick={() => setEditMode(false)}>
-              <span className="material-symbols-outlined">cancel</span>
+              <Icon className="outlined">cancel</Icon>
               Cancel
             </Button>
             <Button
@@ -266,7 +264,7 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
               variant="contained"
               onClick={() => setEditMode(true)}
             >
-              <span className="material-symbols-outlined">check</span>
+              <Icon className="outlined">check</Icon>
               Save
             </Button>
           </Box>
@@ -286,7 +284,7 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
           },
         }}
       >
-        <span className="material-symbols-outlined">more_horiz</span>
+        <Icon className="outlined">more_horiz</Icon>
       </IconButton>
     </>
   );

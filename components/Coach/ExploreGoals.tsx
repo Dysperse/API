@@ -1,4 +1,5 @@
 import Masonry from "@mui/lab/Masonry";
+import { Icon } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import toast from "react-hot-toast";
@@ -72,7 +73,7 @@ function CreateGoal() {
                 disableRipple
                 onClick={() => setOpen(false)}
               >
-                <span className="material-symbols-rounded">west</span>
+                <Icon>west</Icon>
               </IconButton>
               <Typography sx={{ mx: "auto", fontWeight: "600" }}>
                 Create goal
@@ -85,7 +86,7 @@ function CreateGoal() {
                 }}
                 onClick={() => setOpen(false)}
               >
-                <span className="material-symbols-rounded">more_horiz</span>
+                <Icon>more_horiz</Icon>
               </IconButton>
             </Toolbar>
           </AppBar>
@@ -151,14 +152,13 @@ function CreateGoal() {
               }}
             >
               Set goal
-              <span
-                className="material-symbols-rounded"
-                style={{
+              <Icon
+                sx={{
                   marginLeft: "auto",
                 }}
               >
                 rocket_launch
-              </span>
+              </Icon>
             </Button>
           </Box>
         </Box>
@@ -170,7 +170,7 @@ function CreateGoal() {
         disableRipple
       >
         Create blank goal
-        <span className="material-symbols-rounded">arrow_forward</span>
+        <Icon className="outlined">add_circle</Icon>
       </Button>
     </>
   );

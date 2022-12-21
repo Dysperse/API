@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
+import { Icon } from "../../../../Icon";
 import { CreateTask } from "./Create";
 
 import {
@@ -78,7 +79,7 @@ function ImageViewer({ url, trimHeight = false }) {
             }}
             onClick={() => setOpen(false)}
           >
-            <span className="material-symbols-rounded">close</span>
+            <Icon>close</Icon>
           </IconButton>
         </picture>
       </Dialog>
@@ -376,11 +377,11 @@ export const Task = React.memo(function Task({
           }}
         >
           <IconButton disableRipple onClick={() => setOpen(false)}>
-            <span className="material-symbols-rounded">west</span>
+            <Icon>west</Icon>
           </IconButton>
           <Typography sx={{ mx: "auto" }}>Details</Typography>
           <IconButton disableRipple disabled={global.permission == "read-only"}>
-            <span className="material-symbols-rounded">delete</span>
+            <Icon>delete</Icon>
           </IconButton>
         </Box>
         <Box sx={{ p: 5, px: 3, pt: 2, overflowY: "auto" }}>
@@ -720,9 +721,7 @@ export const Task = React.memo(function Task({
                       marginLeft: "-6px",
                     }}
                   >
-                    <span className="material-symbols-rounded mx-1">
-                      schedule
-                    </span>
+                    <Icon sx={{ mx: 1 }}>schedule</Icon>
                     {dayjs(task.due).format("MMMM D, YYYY")}
                   </span>
                 )}

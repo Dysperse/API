@@ -4,6 +4,7 @@
  */
 import { Box, IconButton } from "@mui/material";
 import { red } from "@mui/material/colors";
+import { Icon } from "@mui/material";
 
 export function ErrorHandler({ error }: { error: string }): JSX.Element {
   /**
@@ -26,7 +27,7 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
         alignItems: "center",
       }}
     >
-      <span className="material-symbols-rounded">error</span>
+      <Icon className="outlined">error</Icon>
       {error}
       <IconButton
         color="inherit"
@@ -48,7 +49,7 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
           },
         }}
       >
-        <span className="material-symbols-outlined">refresh</span>
+        <Icon>refresh</Icon>
       </IconButton>
     </Box>
   );

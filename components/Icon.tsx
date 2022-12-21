@@ -1,22 +1,25 @@
+import { styled } from "@mui/system";
+
 export function Icon({
   variant = "rounded",
-  style = {},
+  sx = {},
   children,
 }: {
   variant?: "rounded" | "outlined";
-  style?: React.CSSProperties;
+  sx?: any;
   children: React.ReactNode | String;
 }) {
+  const IconComponent = styled("span")(sx);
+
   return (
-    <span
+    <IconComponent
       className={
         variant == "outlined"
           ? "material-symbols-outlined"
           : "material-symbols-rounded"
       }
-      style={style}
     >
       {children}
-    </span>
+    </IconComponent>
   );
 }

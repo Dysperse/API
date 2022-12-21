@@ -90,6 +90,23 @@ function RenderWithLayout({
       MuiPaper: {
         defaultProps: { elevation: 0 },
       },
+      MuiIcon: {
+        defaultProps: {
+          // Replace the `material-icons` default value.
+          baseClassName: "material-symbols-rounded",
+        },
+        variants: [
+          {
+            props: {
+              className: "outlined",
+            },
+            style: {
+              fontVariationSettings:
+                '"FILL" 0, "wght" 300, "GRAD" 0, "opsz" 40!important',
+            },
+          },
+        ],
+      },
       MuiButton: {
         defaultProps: {
           disableElevation: true,

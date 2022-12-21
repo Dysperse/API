@@ -1,11 +1,11 @@
 import { Calendar } from "@mantine/dates";
+import { Box, Button, SwipeableDrawer } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { colors } from "../../../../../lib/colors";
+import { Icon } from "../../../../Icon";
 import { Puller } from "../../../../Puller";
 import { formatDate } from "./formatDate";
-
-import { Box, Button, SwipeableDrawer } from "@mui/material";
 
 export function SelectDateModal({ styles, date, setDate }) {
   const [open, setOpen] = useState(false);
@@ -129,7 +129,7 @@ export function SelectDateModal({ styles, date, setDate }) {
           setOpen(true);
         }}
       >
-        <span className="material-symbols-rounded">today</span>
+        <Icon>today</Icon>
         <span style={{ fontSize: "15px" }}>
           {today === formatDate(date) && "Today"}
           {dayjs(today).add(1, "day").format("MM-DD-YYYY") ===

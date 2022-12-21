@@ -20,6 +20,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import { Icon } from "../../../../Icon";
 
 function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState(false);
@@ -235,7 +236,7 @@ export function CreateTask({
           <Chip
             label="Important"
             sx={chipStyles}
-            icon={<span className="material-symbols-rounded">priority</span>}
+            icon={<Icon>priority</Icon>}
             onClick={() => {
               setTitle((t) => t + " (important)");
             }}
@@ -243,13 +244,13 @@ export function CreateTask({
           <Chip
             label="Today"
             sx={chipStyles}
-            icon={<span className="material-symbols-rounded">today</span>}
+            icon={<Icon>today</Icon>}
             onClick={() => setDate(new Date())}
           />
           <Chip
             label="Tomorrow"
             sx={chipStyles}
-            icon={<span className="material-symbols-rounded">today</span>}
+            icon={<Icon>today</Icon>}
             onClick={() => {
               const tomorrow = new Date();
               tomorrow.setDate(tomorrow.getDate() + 1);
@@ -259,7 +260,7 @@ export function CreateTask({
           <Chip
             label="In one month"
             sx={chipStyles}
-            icon={<span className="material-symbols-rounded">today</span>}
+            icon={<Icon>today</Icon>}
             onClick={() => {
               const tomorrow = new Date();
               tomorrow.setDate(tomorrow.getDate() + 30);
@@ -269,7 +270,7 @@ export function CreateTask({
           <Chip
             label="In one year"
             sx={chipStyles}
-            icon={<span className="material-symbols-rounded">today</span>}
+            icon={<Icon>today</Icon>}
             onClick={() => {
               const tomorrow = new Date();
               tomorrow.setDate(tomorrow.getDate() + 365);
@@ -446,7 +447,7 @@ export function CreateTask({
                 }}
                 size="small"
               >
-                <span className="material-symbols-rounded">notes</span>
+                <Icon>notes</Icon>
               </IconButton>
 
               <Box
@@ -487,7 +488,7 @@ export function CreateTask({
                     }}
                     variant="contained"
                   >
-                    <span className="material-symbols-rounded">add</span>
+                    <Icon>add</Icon>
                   </LoadingButton>
                 </div>
               </Box>

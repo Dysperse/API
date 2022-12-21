@@ -13,6 +13,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import { Icon } from "../../../Icon";
 
 export function CreateColumn({ mutationUrl, id }: any) {
   const [open, setOpen] = useState(false);
@@ -198,7 +199,7 @@ export function CreateColumn({ mutationUrl, id }: any) {
             },
           }}
         >
-          <span className="material-symbols-outlined">add</span>
+          <Icon>add</Icon>
         </IconButton>
       )}
     </>
