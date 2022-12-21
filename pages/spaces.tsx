@@ -875,15 +875,19 @@ function Post({ data, url }) {
           <IconButton
             sx={{ ml: "auto" }}
             disableRipple
+            disabled={loading}
             onClick={() => {
+              setLoading(true);
               fetchApiWithoutHook("property/spaces/deleteItem", {
                 id: data.id,
               })
                 .then(() => {
+                  setExpanded(false);
                   mutate(url);
                 })
                 .catch(() => {
                   toast.error("Something went wrong");
+                  setExpanded(false);
                   setLoading(false);
                 });
             }}
