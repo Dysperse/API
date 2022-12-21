@@ -1,9 +1,8 @@
 import { Calendar } from "@mantine/dates";
-import { Box, Button, SwipeableDrawer } from "@mui/material";
+import { Box, Button, Icon, SwipeableDrawer } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { colors } from "../../../../../lib/colors";
-import { Icon } from "../../../../Icon";
 import { Puller } from "../../../../Puller";
 import { formatDate } from "./formatDate";
 

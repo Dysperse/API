@@ -9,11 +9,11 @@ import { colors } from "../../../../lib/colors";
 import {
   Box,
   Button,
+  Icon,
   IconButton,
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
-import { Icon } from "../../../Icon";
 
 export function CreateColumn({ mutationUrl, id }: any) {
   const [open, setOpen] = useState(false);

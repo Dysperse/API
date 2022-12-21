@@ -4,8 +4,15 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { OptionsGroup } from "./OptionsGroup";
 
-import { Box, Button, Card, Dialog, Skeleton, Typography } from "@mui/material";
-import { Icon } from "../../Icon";
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  Icon,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 
 function Template({
   template,

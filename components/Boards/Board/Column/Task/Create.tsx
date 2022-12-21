@@ -14,13 +14,13 @@ import {
   Chip,
   CircularProgress,
   Collapse,
+  Icon,
   IconButton,
   ListItem,
   ListItemText,
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
-import { Icon } from "../../../../Icon";
 
 function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState(false);

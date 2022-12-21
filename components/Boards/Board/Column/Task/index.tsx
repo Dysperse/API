@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
-import { Icon } from "../../../../Icon";
 import { CreateTask } from "./Create";
 
 import {
@@ -19,6 +18,7 @@ import {
   IconButton,
   ListItem,
   ListItemText,
+  Icon,
   styled,
   SwipeableDrawer,
   TextField,
