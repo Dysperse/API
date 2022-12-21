@@ -275,7 +275,7 @@ function CreatePostMenu({ url }) {
                 width: 25,
                 height: 25,
                 borderRadius: 999,
-                zIndex: 999,
+                zIndex: 99,
               }}
               onClick={() => {
                 setImage(null);
@@ -556,7 +556,7 @@ function ImageBox({ image }) {
           top: 5,
           right: 5,
           backdropFilter: "blur(10px)",
-          zIndex: 999,
+          zIndex: 99,
           color: "#fff",
           background: "rgba(0,0,0,.5)!important",
           minWidth: "auto",
@@ -715,7 +715,9 @@ function Post({ data, url }) {
           {dayjs(data.timestamp).fromNow()}
         </Typography>
       </Box>
-      {data.image && <ImageBox image={data.image} />}
+      <div style={{ pointerEvents: "none" }}>
+        {data.image && <ImageBox image={data.image} />}
+      </div>
 
       <Box
         sx={{
