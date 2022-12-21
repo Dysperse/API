@@ -10,7 +10,6 @@ import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
 
 import { Box, Button, CircularProgress, Menu, MenuItem } from "@mui/material";
-import { Icon } from "../Icon";
 
 const Tab = React.memo(function Tab({
   mutationUrl,
