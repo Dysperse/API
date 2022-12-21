@@ -123,7 +123,7 @@ const Tab = React.memo(function Tab({
               gap: 1,
             }}
           >
-            <Icon variant={activeTab === board.id ? "rounded" : "outlined"}>
+            <Icon className={activeTab === board.id ? "rounded" : "outlined"}>
               {board.columns.length == 1 ? "task_alt" : "view_kanban"}
             </Icon>
             {board.name}
