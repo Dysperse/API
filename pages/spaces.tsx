@@ -715,7 +715,7 @@ function Post({ data, url }) {
           {dayjs(data.timestamp).fromNow()}
         </Typography>
       </Box>
-      <div style={{ pointerEvents: "none" }}>
+      <div style={{ ...(trigger && { pointerEvents: "none" }) }}>
         {data.image && <ImageBox image={data.image} />}
       </div>
 
@@ -848,7 +848,7 @@ function Post({ data, url }) {
     </Box>
   );
   return (
-    <>
+    <Box>
       <Dialog
         open={expanded}
         onClose={() => setExpanded(false)}
@@ -893,7 +893,7 @@ function Post({ data, url }) {
         <PostCard />
       </Dialog>
       <PostCard trigger />
-    </>
+    </Box>
   );
 }
 
