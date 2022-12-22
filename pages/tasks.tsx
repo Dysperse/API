@@ -8,6 +8,7 @@ import { TasksLayout } from "../components/Boards/Layout";
  */
 export default function Dashboard() {
   const [open, setOpen] = useState(true);
+
   return (
     <>
       <Head>

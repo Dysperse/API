@@ -1,5 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
@@ -207,6 +207,14 @@ export function CreateTask({
     px: 1,
     mr: 1,
   };
+  const titleRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      titleRef.current?.focus();
+    }, 100);
+  }, [open, titleRef]);
+
   return (
     <>
       <SwipeableDrawer
@@ -344,6 +352,7 @@ export function CreateTask({
               </Box>
             )}
             <TextField
+              inputRef={titleRef}
               id="title"
               autoComplete="off"
               value={title}

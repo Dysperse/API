@@ -1,6 +1,6 @@
+import { CardActionArea } from "@mui/material";
 import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
-import { CardActionArea } from "@mui/material";
 
 /**
  * Color component
@@ -34,10 +34,10 @@ export function Color({ color, setThemeColor, handleNext }) {
         justifyContent: "center",
         background:
           color === "grey"
-            ? "hsl(240,11%,5%)"
+            ? "hsl(240,11%,5%)!important"
             : color === "white"
-            ? "#eee"
-            : colors[color]["700"],
+            ? "#ddd !important"
+            : colors[color]["A700"] + "!important",
       }}
     >
       {color === global.themeColor && (

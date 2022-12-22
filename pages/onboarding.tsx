@@ -12,6 +12,7 @@ import { colors } from "../lib/colors";
 import {
   Box,
   Button,
+  Chip,
   FormControl,
   InputLabel,
   MenuItem,
@@ -186,51 +187,25 @@ export default function Onboarding() {
         What&apos;s your favorite color? We&apos;ll use this to customize your
         dashboard.
       </Typography>
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="red"
-      />
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="green"
-      />
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="blue"
-      />
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="pink"
-      />
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="purple"
-      />
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="orange"
-      />
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="teal"
-      />
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="cyan"
-      />
-      <Color
-        handleNext={() => null}
-        setThemeColor={setThemeColor}
-        color="brown"
-      />
+      {[
+        "red",
+        "orange",
+        "deepOrange",
+        "lightBlue",
+        "blue",
+        "indigo",
+        "purple",
+        "pink",
+        "green",
+        "brown",
+      ].map((color) => (
+        <Color
+          handleNext={() => null}
+          setThemeColor={setThemeColor}
+          color={color}
+          key={color}
+        />
+      ))}
 
       <Typography variant="h6" sx={{ mt: 4 }}>
         Select a theme
@@ -296,6 +271,10 @@ export default function Onboarding() {
           label="Age"
           onChange={handleChange}
         >
+          <MenuItem value="study group">
+            Study group
+            <Chip label="NEW" color="error" size="small" sx={{ ml: 1 }} />
+          </MenuItem>
           <MenuItem value="dorm">Dorm</MenuItem>
           <MenuItem value="apartment">Apartment</MenuItem>
           <MenuItem value="home">Home</MenuItem>
@@ -319,7 +298,8 @@ export default function Onboarding() {
           mb: 1.5,
         }}
       >
-        Let&apos;s build up your inventory.
+        Let&apos;s build up your inventory. Scroll down and click
+        &quot;Next&quot; when you&apos;re done!
       </Typography>
 
       <InventoryList data={[...cards]} />
