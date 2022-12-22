@@ -85,51 +85,6 @@ function Settings() {
           <Item key={setting.toString()}>{setting}</Item>
         )
       )}
-    </>
-  );
-}
-
-/**
- * @param onLink Click handler for links
- * @param searchSettings Search settings
- * @returns JSX.Element
- */
-function Home({
-  onLink,
-  searchSettings,
-}: {
-  onLink: (href: string) => any;
-  searchSettings: () => void;
-}) {
-  const { data }: ApiResponse = useApi("property/rooms");
-
-  return (
-    <>
-      <LinearProgress
-        variant={data ? "determinate" : "indeterminate"}
-        sx={{
-          mb: 2,
-          mt: 0,
-          height: 2,
-          position: "sticky",
-          top: 0,
-          zIndex: 9999,
-          borderRadius: 5,
-          ...(data && {
-            opacity: 0.3,
-            backdropFilter: "blur(10px)",
-          }),
-        }}
-      />{" "}
-      <Item
-        shortcut="ctrl ,"
-        onSelect={() => {
-          searchSettings();
-        }}
-      >
-        Search Settings...
-        <SettingsIcon />
-      </Item>
       <Item
         shortcut="ctrl ,"
         onSelect={() => {
@@ -150,14 +105,87 @@ function Home({
         Dark mode
         <Icon icon="dark_mode" />
       </Item>
-      <Item onSelect={() => onLink("/home")}>
-        Dashboard
-        <Icon icon="layers" />
+    </>
+  );
+}
+
+/**
+ * @param onLink Click handler for links
+ * @param searchSettings Search settings
+ * @returns JSX.Element
+ */
+function Home({
+  onLink,
+  setOpen,
+  searchSettings,
+}: {
+  onLink: (href: string) => any;
+  setOpen: any;
+  searchSettings: () => void;
+}) {
+  const { data }: ApiResponse = useApi("property/rooms");
+  const { data: boardData }: ApiResponse = useApi("property/boards");
+
+  const router = useRouter();
+
+  return (
+    <>
+      <LinearProgress
+        variant={boardData && data ? "determinate" : "indeterminate"}
+        sx={{
+          mb: 2,
+          mt: 0,
+          height: 2,
+          position: "sticky",
+          top: 0,
+          zIndex: 9999,
+          borderRadius: 5,
+          transition: "all .2s",
+          ...(data &&
+            boardData && {
+              opacity: 0.3,
+              height: 1.5,
+              backdropFilter: "blur(10px)",
+            }),
+        }}
+      />{" "}
+      <Item onSelect={() => onLink("/tasks")}>
+        Boards
+        <Icon icon="verified" />
+      </Item>
+      <Item onSelect={() => onLink("/items")}>
+        Items
+        <Icon icon="category" />
+      </Item>
+      <Item onSelect={() => onLink("/coach")}>
+        Coach
+        <Icon icon="routine" />
       </Item>
       <Item onSelect={() => onLink("/spaces")}>
         Spaces
         <Icon icon="view_agenda" />
       </Item>
+      <Item
+        shortcut="ctrl ,"
+        onSelect={() => {
+          searchSettings();
+        }}
+      >
+        Search Settings...
+        <SettingsIcon />
+      </Item>
+      <Command.Group heading="Boards & Checklists">
+        {boardData && (
+          <Box>
+            {boardData.map((board: any) => (
+              <Item key={board.name.toLowerCase()} onSelect={() => {}}>
+                {board.name}
+                <Icon icon="view_kanban" />
+              </Item>
+            ))}
+          </Box>
+        )}
+      </Command.Group>
       <Command.Group heading="Rooms">
         {(global.property.profile.type === "study group"
           ? [{ name: "Backpack", icon: "backpack" }]
@@ -228,7 +256,9 @@ export function SearchPopup() {
    */
   const onLink = (href: string): void => {
     setOpen(false);
-    router.push(href);
+    setTimeout(() => {
+      router.push(href);
+    }, 100);
   };
 
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -453,6 +483,7 @@ export function SearchPopup() {
               </Command.Empty>
               {activePage === "home" && (
                 <Home
+                  setOpen={setOpen}
                   onLink={onLink}
                   searchSettings={() => {
                     setPages([...pages, "Settings"]);
