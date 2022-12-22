@@ -1,15 +1,4 @@
-import hex2rgba from "hex-to-rgba";
-import React, { useState } from "react";
-import { colors } from "../../lib/colors";
-
-import {
-  AppBar,
-  Box,
-  CircularProgress,
-  NoSsr,
-  Skeleton,
-  Toolbar,
-} from "@mui/material";
+import { AppBar, Box, Skeleton, Toolbar } from "@mui/material";
 
 /**
  * Loading screen
@@ -44,14 +33,20 @@ export function Loading(): JSX.Element {
       >
         <Toolbar>
           <Skeleton
-            animation={false}
-            sx={{ width: { xs: 130, sm: 200 }, maxWidth: "100%" }}
-          />
-          <Skeleton
-            animation={false}
+            animation="wave"
+            height={30}
             variant="rectangular"
             sx={{
-              height: 50,
+              width: { xs: 100, sm: 200 },
+              borderRadius: 3,
+              maxWidth: "100%",
+            }}
+          />
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            sx={{
+              height: 45,
               borderRadius: 5,
               mx: "auto",
               width: { xs: 0, sm: "450px" },
@@ -62,7 +57,7 @@ export function Loading(): JSX.Element {
             {[...new Array(3)].map((id) => (
               <Skeleton
                 variant="circular"
-                animation={false}
+                animation="wave"
                 width={35}
                 key={Math.random().toString()}
                 height={35}
@@ -88,16 +83,25 @@ export function Loading(): JSX.Element {
             gap: 2,
             justifyContent: "center",
             width: "95px",
-            pt: 5,
-            px: 1,
+            pt: "75px",
+            px: 2.5,
           }}
         >
-          {[...new Array(5)].map(() => (
+          <Box sx={{ mt: "auto" }} />
+          {[...new Array(5)].map((_, i) => (
             <Skeleton
               variant="rectangular"
-              animation={false}
+              animation="wave"
               key={Math.random().toString()}
-              sx={{ borderRadius: 5, height: 50, width: 50 }}
+              sx={{
+                borderRadius: 5,
+                height: 50,
+                width: 50,
+                ...(i == 4 && {
+                  mt: "auto",
+                  mb: 2,
+                }),
+              }}
             />
           ))}
         </Box>
@@ -107,26 +111,71 @@ export function Loading(): JSX.Element {
             width: "100%",
           }}
         >
+          {/* Main content */}
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              height: "100vh",
+              mt: "140px",
+              pl: 2,
             }}
           >
-            <CircularProgress
-              disableShrink
-              size={20}
+            <Box
               sx={{
-                animationDuration: "550ms",
-                [`& .MuiCircularProgress-circle`]: {
-                  strokeLinecap: "round",
-                  stroke: colors.brown[900],
-                },
+                display: "flex",
+                gap: 1,
+                overflow: "hidden",
+                width: "100%",
+                mb: 2,
               }}
-            />
+            >
+              {[...new Array(20)].map((_, i) => (
+                <Skeleton
+                  key={Math.random().toString()}
+                  variant="rectangular"
+                  animation="wave"
+                  height={50}
+                  sx={{ width: "150px", flex: "0 0 150px", borderRadius: 5 }}
+                />
+              ))}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                overflow: "hidden",
+                width: "100%",
+              }}
+            >
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+            </Box>
           </Box>
         </Box>
       </Box>
