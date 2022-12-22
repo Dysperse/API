@@ -247,14 +247,14 @@ function RoomActionMenu({ isPrivate, isCustom }) {
 
   return (
     <IconButton
-      disabled={global.permission == "read-only"}
+      disabled={global.permission == "read-only" || !isCustom}
       size="small"
-      onClick={(e) => {
+      onClick={(e: any) => {
         e.preventDefault();
         e.stopPropagation();
         handleClick(e);
       }}
-      onMouseDown={(e) => {
+      onMouseDown={(e: any) => {
         e.preventDefault();
         e.stopPropagation();
       }}
@@ -300,7 +300,12 @@ function RoomActionMenu({ isPrivate, isCustom }) {
         ) : isCustom ? (
           "more_horiz"
         ) : (
-          <Box sx={{ display: { sm: "none" } }} className="material-symbols-rounded">east</Box>
+          <Box
+            sx={{ display: { sm: "none!important" } }}
+            className="material-symbols-rounded"
+          >
+            east
+          </Box>
         )}
       </span>
     </IconButton>
