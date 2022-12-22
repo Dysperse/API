@@ -1,9 +1,3 @@
-import React from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
-
 import {
   Accordion,
   AccordionDetails,
@@ -15,8 +9,13 @@ import {
   Skeleton,
   SwipeableDrawer,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
+import React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
+import { colors } from "../../lib/colors";
 
 /**
  * Product list

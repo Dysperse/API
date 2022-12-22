@@ -1,8 +1,3 @@
-import hexToRgba from "hex-to-rgba";
-import { useRouter } from "next/router";
-import React from "react";
-import { colors } from "../../lib/colors";
-
 import {
   Box,
   Snackbar,
@@ -11,6 +6,10 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
+import hexToRgba from "hex-to-rgba";
+import { useRouter } from "next/router";
+import React from "react";
+import { colors } from "../../lib/colors";
 
 /**
  * Bottom navigation bar

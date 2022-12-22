@@ -1,12 +1,3 @@
-import React from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
-import { Group } from "../GroupProfile/Group";
-import { Puller } from "../Puller";
-import { updateSettings } from "../Settings/updateSettings";
-
 import {
   Box,
   Button,
@@ -16,6 +7,14 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
+import { colors } from "../../lib/colors";
+import { Group } from "../GroupProfile/Group";
+import { Puller } from "../Puller";
+import { updateSettings } from "../Settings/updateSettings";
 
 /**
  * Color component for house profile
