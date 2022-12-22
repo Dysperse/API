@@ -13,6 +13,7 @@ import {
   Typography,
   useMediaQuery,
   IconButton,
+  Icon,
 } from "@mui/material";
 
 /**
@@ -132,7 +133,7 @@ export function RoomList({ color }: { color: string }) {
             color: `${colors[color][900]}!important`,
           }}
         >
-          <span className="material-symbols-rounded">west</span>
+          <Icon>west</Icon>
         </IconButton>
       )}
       <div
@@ -193,7 +194,7 @@ export function RoomList({ color }: { color: string }) {
             color: `${colors[color][900]}!important`,
           }}
         >
-          <span className="material-symbols-rounded">chevron_right</span>
+          <Icon>chevron_right</Icon>
         </IconButton>
       )}
     </Box>

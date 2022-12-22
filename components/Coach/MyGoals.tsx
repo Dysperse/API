@@ -18,6 +18,7 @@ import {
   Button,
   Chip,
   Dialog,
+  Icon,
   IconButton,
   Menu,
   MenuItem,
@@ -254,10 +255,11 @@ function MoreOptions({ goal, mutationUrl, setOpen }) {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <span className="material-symbols-rounded">share</span> Share
+          <Icon>share</Icon>
+          Share
         </MenuItem>
         <MenuItem onClick={handleClose} disabled={goal.completed}>
-          <span className="material-symbols-rounded">edit</span> Edit
+          <Icon>edit</Icon> Edit
         </MenuItem>
         <MenuItem
           disabled={goal.completed}
@@ -271,11 +273,11 @@ function MoreOptions({ goal, mutationUrl, setOpen }) {
             });
           }}
         >
-          <span className="material-symbols-rounded">delete</span> Delete
+          <Icon>delete</Icon> Delete
         </MenuItem>
       </Menu>
       <IconButton color="inherit" disableRipple onClick={handleClick}>
-        <span className="material-symbols-rounded">more_horiz</span>
+        <Icon>more_horiz</Icon>
       </IconButton>
     </>
   );
@@ -398,7 +400,7 @@ function Goal({ goal, mutationUrl }: any) {
             }}
             // valueLabelDisplay="on"
           />
-          <span className="material-symbols-rounded">
+          <Icon>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -411,7 +413,7 @@ function Goal({ goal, mutationUrl }: any) {
                 clipRule="evenodd"
               />
             </svg>
-          </span>
+          </Icon>
         </div>
       </Box>
       <SwipeableDrawer
@@ -444,7 +446,7 @@ function Goal({ goal, mutationUrl }: any) {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">west</span>
+              <Icon>west</Icon>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>Goal</Typography>
             <MoreOptions
@@ -506,7 +508,7 @@ function Goal({ goal, mutationUrl }: any) {
             </Box>
           )}
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
-            <span className="material-symbols-rounded">access_time</span>{" "}
+            <Icon>access_time</Icon>{" "}
             {goal.time == "any"
               ? "Daily"
               : goal.time == "morning"
@@ -516,16 +518,13 @@ function Goal({ goal, mutationUrl }: any) {
               : "Nightly"}
           </Typography>
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
-            <span className="material-symbols-rounded">date_range</span>{" "}
-            {goal.durationDays} days
+            <Icon>date_range</Icon> {goal.durationDays} days
           </Typography>
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
-            <span className="material-symbols-rounded">today</span>{" "}
-            {goal.durationDays - goal.progress} days left
+            <Icon>today</Icon> {goal.durationDays - goal.progress} days left
           </Typography>
           <Typography className="flex items-center" sx={{ gap: 2, mb: 5 }}>
-            <span className="material-symbols-rounded">check_circle</span>{" "}
-            {goal.progress} days completed
+            <Icon>check_circle</Icon> {goal.progress} days completed
           </Typography>
         </Box>
       </SwipeableDrawer>
@@ -693,7 +692,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             Set a goal to get started with your routine
           </h4>
         </div>
-        <span className="material-symbols-rounded ml-auto">add</span>
+        <Icon className="ml-auto">add</Icon>
       </div>
     </>
   );

@@ -11,6 +11,7 @@ import {
   AppBar,
   Box,
   CssBaseline,
+  Icon,
   IconButton,
   SwipeableDrawer,
   Toolbar,
@@ -54,7 +55,7 @@ function Achievements({ styles }) {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">close</span>
+              <Icon>close</Icon>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>
               Achievements
@@ -64,7 +65,7 @@ function Achievements({ styles }) {
               disableRipple
               sx={{ opacity: 0, pointerEvents: "none" }}
             >
-              <span className="material-symbols-rounded">more_horiz</span>
+              <Icon>more_horiz</Icon>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -111,7 +112,7 @@ function Achievements({ styles }) {
           }}
           sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
         >
-          <span className="material-symbols-outlined">insights</span>
+          <Icon className="outlined">insights</Icon>
         </IconButton>
       </Tooltip>
     </>
@@ -201,7 +202,7 @@ function UpdateButton() {
           transition: "none !important",
         }}
       >
-        <span className="material-symbols-rounded">download</span>
+        <Icon className="rounded">download</Icon>
       </IconButton>
     </Tooltip>
   ) : (
@@ -315,7 +316,7 @@ export function Navbar(): JSX.Element {
                   },
                 }}
               >
-                <span className="material-symbols-outlined">offline_bolt</span>
+                <Icon className="outlined">offline_bolt</Icon>
               </IconButton>
             </Tooltip>
           </Offline>
@@ -335,7 +336,7 @@ export function Navbar(): JSX.Element {
               disableRipple
               onClick={() => window.open("https://smartlist.tech/support")}
             >
-              <span className="material-symbols-outlined">help</span>
+              <Icon className="outlined">help</Icon>
             </IconButton>
           </Tooltip>
         </Box>
@@ -356,9 +357,7 @@ export function Navbar(): JSX.Element {
                   ...styles,
                 }}
               >
-                <span className="material-symbols-outlined">
-                  account_circle
-                </span>
+                <Icon className="outlined">account_circle</Icon>
               </IconButton>
             </Tooltip>
           </Settings>

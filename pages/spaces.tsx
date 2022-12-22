@@ -56,7 +56,7 @@ function LinkModal({ value, setValue }) {
       }}
     >
       <IconButton disableRipple onClick={() => setOpen(true)}>
-        <span className="material-symbols-outlined">link</span>
+        <Icon className="outlined">link</Icon>
       </IconButton>
       <Dialog
         open={open}
@@ -183,7 +183,7 @@ function CreatePostMenu({ url }) {
               fullWidth
               size="large"
             >
-              <span className="material-symbols-outlined">{item.icon}</span>
+              <Icon className="outlined">{item.icon}</Icon>
               <Box
                 sx={{
                   textAlign: "left",
@@ -362,13 +362,11 @@ function CreatePostMenu({ url }) {
             }}
             disabled={image !== null}
           >
-            {!imageUploading && (
-              <span className="material-symbols-outlined">image</span>
-            )}
+            {!imageUploading && <Icon className="outlined">image</Icon>}
             {imageUploading && <CircularProgress size={20} />}
           </IconButton>
           <IconButton disableRipple>
-            <span className="material-symbols-outlined">palette</span>
+            <Icon className="outlined">palette</Icon>
           </IconButton>
           <Button
             disableRipple
@@ -387,7 +385,7 @@ function CreatePostMenu({ url }) {
             }}
             onClick={() => setVisibilityModalOpen(true)}
           >
-            <span className="material-symbols-outlined">visibility</span>
+            <Icon className="outlined">visibility</Icon>
             {contentVisibility}
           </Button>
           <Box
@@ -425,9 +423,7 @@ function CreatePostMenu({ url }) {
             }}
             id="submit"
           >
-            {!loading && (
-              <span className="material-symbols-rounded">add_circle</span>
-            )}
+            {!loading && <Icon className="outlined">add_circle</Icon>}
             {loading && <CircularProgress size={20} />}
           </IconButton>
         </Box>
@@ -459,7 +455,7 @@ function SearchPosts({ data, setData, originalData }) {
           disableUnderline: true,
           startAdornment: (
             <InputAdornment position="start">
-              <span className="material-symbols-outlined">search</span>
+              <Icon className="outlined">search</Icon>
             </InputAdornment>
           ),
           sx: {
@@ -603,7 +599,7 @@ function ImageBox({ image }) {
           );
         }}
       >
-        <span className="material-symbols-outlined">content_copy</span>
+        <Icon className="outlined">content_copy</Icon>
       </Button>
       <picture>
         <img
@@ -893,7 +889,7 @@ function Post({ data, url }) {
                 });
             }}
           >
-            <Icon>delete</Icon>
+            <Icon className="outlined">delete</Icon>
           </IconButton>
         </Box>
         <PostCard />
@@ -934,7 +930,7 @@ export default function Spaces() {
               sx={{ ml: "auto" }}
             >
               <IconButton disableRipple>
-                <span className="material-symbols-outlined">help</span>
+                <Icon className="outlined">help</Icon>
               </IconButton>
             </Tooltip>
           </Typography>

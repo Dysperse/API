@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   Chip,
+  Icon,
   ListItem,
   ListItemText,
   SwipeableDrawer,
@@ -100,7 +101,7 @@ export function CategoryModal({
                         zIndex: 9999,
                       }}
                     >
-                      <span className="material-symbols-rounded">check</span>
+                      <Icon>check</Icon>
                     </Box>
                   )}
                   <BoringAvatar

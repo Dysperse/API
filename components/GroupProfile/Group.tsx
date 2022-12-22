@@ -20,6 +20,7 @@ import {
   Chip,
   CircularProgress,
   Drawer,
+  Icon,
   IconButton,
   ListItem,
   ListItemAvatar,
@@ -90,7 +91,7 @@ function Changelog({ house }) {
               color: colors[themeColor][global.theme == "dark" ? 50 : 900],
             }}
           >
-            <span className="material-symbols-rounded">close</span>
+            <Icon>close</Icon>
           </IconButton>
         </Box>
         <Box
@@ -164,7 +165,7 @@ function Changelog({ house }) {
         }}
         onClick={() => setOpen(true)}
       >
-        <span className="material-symbols-outlined">history</span>
+        <Icon>history</Icon>
       </IconButton>
     </>
   );
@@ -299,13 +300,13 @@ export function Group({
                     gap: "10px",
                   }}
                 >
-                  <span className="material-symbols-outlined">
+                  <Icon>
                     {data.permission === "member"
                       ? "group"
                       : data.permission == "owner"
                       ? "productivity"
                       : "visibility"}
-                  </span>
+                  </Icon>
                   <span
                     style={{
                       marginTop: data.permission === "owner" ? "-2.5px" : "",
@@ -329,7 +330,7 @@ export function Group({
                     gap: "10px",
                   }}
                 >
-                  <span className="material-symbols-outlined">
+                  <Icon>
                     {data.profile.type === "dorm"
                       ? "cottage"
                       : data.profile.type === "apartment"
@@ -337,7 +338,7 @@ export function Group({
                       : data.profile.type === "study group"
                       ? "school"
                       : "home"}
-                  </span>
+                  </Icon>
                   <span
                     style={{
                       textTransform: "capitalize",
@@ -361,7 +362,7 @@ export function Group({
                 color: "inherit",
               }}
             >
-              <span className="material-symbols-outlined">east</span>
+              <Icon>east</Icon>
             </LoadingButton>
           </ListItemIcon>
         </ListItem>
@@ -426,7 +427,7 @@ export function Group({
                   mr: 0.2,
                 }}
               >
-                <span className="material-symbols-rounded">west</span>
+                <Icon>west</Icon>
               </IconButton>
               <Typography sx={{ mx: "auto", fontWeight: "600" }}>
                 Group
@@ -444,7 +445,7 @@ export function Group({
                     setEditMode(!editMode);
                   }}
                 >
-                  <span className="material-symbols-outlined">more_vert</span>
+                  <Icon>more_vert</Icon>
                 </IconButton>
               )}
               <EditProperty
@@ -482,7 +483,7 @@ export function Group({
                   fontSize: "14px",
                 }}
               >
-                <span className="material-symbols-rounded">
+                <Icon>
                   {propertyType === "dorm"
                     ? "cottage"
                     : propertyType === "apartment"
@@ -490,7 +491,7 @@ export function Group({
                     : propertyType === "study group"
                     ? "school"
                     : "home"}
-                </span>
+                </Icon>
                 {propertyType}
               </Typography>
               <Typography variant="h4" className="font-secondary underline">

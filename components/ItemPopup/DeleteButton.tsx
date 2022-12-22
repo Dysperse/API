@@ -4,7 +4,7 @@
  * @param {any} styles}
  * @returns {any}
  */
-import { ListItem } from "@mui/material";
+import { Icon, ListItem } from "@mui/material";
 
 export function DeleteButton({
   handleItemDelete,
@@ -28,7 +28,7 @@ export function DeleteButton({
       onClick={handleItemDelete}
       disabled={global.permission == "read-only"}
     >
-      <span className="material-symbols-rounded">delete</span>
+      <Icon>delete</Icon>
       Delete
     </ListItem>
   );

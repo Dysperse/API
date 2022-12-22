@@ -19,6 +19,7 @@ import {
   DialogActions,
   DialogContentText,
   DialogTitle,
+  Icon,
   List,
   ListItem,
   ListItemAvatar,
@@ -116,7 +117,7 @@ function Logout() {
               borderRadius: 4,
             }}
           >
-            <span className="material-symbols-rounded">logout</span>
+            <Icon>logout</Icon>
           </Avatar>
         </ListItemAvatar>
         <ListItemText
@@ -183,7 +184,7 @@ function SettingsMenu({
                 : colors[themeColor][100],
             }}
           >
-            <span className="material-symbols-outlined">{icon}</span>
+            <Icon className="outlined">{icon}</Icon>
           </Avatar>
         </ListItemAvatar>
         <ListItemText

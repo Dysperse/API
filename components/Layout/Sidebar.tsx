@@ -4,7 +4,15 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
 
-import { Box, Drawer, IconButton, Tab, Tabs, Tooltip } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  Icon,
+  IconButton,
+  Tab,
+  Tabs,
+  Tooltip,
+} from "@mui/material";
 
 export function Sidebar() {
   const [value, setValue] = useState<number>(0);
@@ -270,7 +278,7 @@ export function Sidebar() {
                 }}
               >
                 <IconButton color="inherit" disableRipple sx={styles}>
-                  <span className="material-symbols-outlined">settings</span>
+                  <Icon className="outlined">settings</Icon>
                 </IconButton>
               </Tooltip>
             </Settings>

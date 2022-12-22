@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Icon,
   List,
   ListItem,
   ListItemButton,
@@ -145,7 +146,7 @@ export function AddToListModal({
         onClick={() => setOpen(true)}
         disabled={global.permission == "read-only"}
       >
-        <span className="material-symbols-rounded">receipt_long</span> Add to
+        <Icon>receipt_long</Icon> Add to
         list
       </ListItem>
     </>

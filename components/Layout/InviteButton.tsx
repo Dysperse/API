@@ -11,6 +11,7 @@ import {
   Box,
   Button,
   CardActionArea,
+  Icon,
   SwipeableDrawer,
   Typography,
   useMediaQuery,
@@ -210,7 +211,7 @@ export function InviteButton() {
         >
           {global.property.profile.name || "My group"}
         </Typography>
-        <span className="material-symbols-outlined">expand_more</span>
+        <Icon>expand_more</Icon>
       </Button>{" "}
     </>
   );

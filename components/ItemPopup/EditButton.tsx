@@ -12,6 +12,7 @@ import {
   Box,
   Button,
   DialogContent,
+  Icon,
   ListItem,
   SwipeableDrawer,
   TextField,
@@ -97,7 +98,7 @@ export function EditButton({
   return (
     <div>
       <ListItem button sx={styles} onClick={handleClickOpen}>
-        <span className="material-symbols-rounded">edit</span>
+        <Icon>edit</Icon>
         Edit
       </ListItem>
       <SwipeableDrawer

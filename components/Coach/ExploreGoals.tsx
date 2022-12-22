@@ -1,5 +1,4 @@
 import Masonry from "@mui/lab/Masonry";
-import { Icon } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import toast from "react-hot-toast";
@@ -12,6 +11,7 @@ import {
   Box,
   Button,
   FormControl,
+  Icon,
   IconButton,
   InputLabel,
   MenuItem,
@@ -21,7 +21,7 @@ import {
   Tabs,
   TextField,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 
 interface TabPanelProps {
@@ -373,7 +373,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
         disableRipple
       >
         Have another goal in mind? Suggest it!
-        <span className="material-symbols-rounded">arrow_forward</span>
+        <Icon>arrow_forward</Icon>
       </Button>
     </div>
   );

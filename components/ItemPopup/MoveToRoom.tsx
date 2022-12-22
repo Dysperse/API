@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Icon,
   ListItem,
   ListItemText,
   SwipeableDrawer
@@ -175,7 +176,7 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
         onClick={() => setOpen(true)}
         disabled={global.permission == "read-only"}
       >
-        <span className="material-symbols-rounded">place_item</span>
+        <Icon>place_item</Icon>
         Move
       </ListItem>
     </>

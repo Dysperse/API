@@ -10,6 +10,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  Icon,
   IconButton,
   Skeleton,
   SwipeableDrawer,
@@ -296,7 +297,7 @@ export function AppsMenu() {
             }}
             onClick={handleClick}
           >
-            <span className="material-symbols-rounded">apps</span>
+            <Icon>apps</Icon>
           </IconButton>
         ) : (
           <Skeleton
@@ -356,7 +357,7 @@ export function AppsMenu() {
             size="small"
           >
             Knowledge base
-            <span className="material-symbols-rounded">arrow_forward</span>
+            <Icon>arrow_forward</Icon>
           </Button>
           <Button
             disableRipple
@@ -366,7 +367,7 @@ export function AppsMenu() {
             size="small"
           >
             Community Discord
-            <span className="material-symbols-rounded">arrow_forward</span>
+            <Icon>arrow_forward</Icon>
           </Button>
           <Button
             disableRipple
@@ -376,7 +377,7 @@ export function AppsMenu() {
             size="small"
           >
             Have feedback? Let us know!
-            <span className="material-symbols-rounded">arrow_forward</span>
+            <Icon>arrow_forward</Icon>
           </Button>
         </Box>
       </SwipeableDrawer>

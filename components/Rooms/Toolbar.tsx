@@ -3,7 +3,7 @@ import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 
-import { Box, Button, Menu, MenuItem, TextField } from "@mui/material";
+import { Box, Button, Icon, Menu, MenuItem, TextField } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
 /**
@@ -57,7 +57,7 @@ function SearchBar({
         document.getElementById("outlined-size-small")?.focus();
       }}
     >
-      <span className="material-symbols-rounded">search</span>
+      <Icon>search</Icon>
       <TextField
         placeholder="Search"
         id="outlined-size-small"
@@ -179,7 +179,7 @@ export function Toolbar({
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <span className="material-symbols-rounded">filter_alt</span>
+        <Icon>filter_alt</Icon>
       </Button>
       <Menu
         id="basic-menu"

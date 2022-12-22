@@ -1,4 +1,4 @@
-import { Alert, IconButton, Link, Typography } from "@mui/material";
+import { Alert, IconButton, Link, Typography ,Icon} from "@mui/material";
 import Cookies from "js-cookie";
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -48,7 +48,7 @@ export default function Dashboard() {
               size="small"
               color="inherit"
             >
-              <span className="material-symbols-rounded">close</span>
+              <Icon>close</Icon>
             </IconButton>
           }
         >

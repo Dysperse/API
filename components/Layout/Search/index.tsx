@@ -14,6 +14,7 @@ import { updateSettings } from "../../Settings/updateSettings";
 import {
   Box,
   Button,
+  Icon as MuiIcon,
   IconButton,
   LinearProgress,
   SwipeableDrawer,
@@ -28,9 +29,9 @@ import {
  */
 function Icon({ icon }: { icon: string }) {
   return (
-    <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
+    <MuiIcon className="outlined" style={{ marginRight: "5px", order: -1 }}>
       {icon}
-    </span>
+    </MuiIcon>
   );
 }
 
@@ -39,9 +40,9 @@ function Icon({ icon }: { icon: string }) {
  */
 function SettingsIcon(): JSX.Element {
   return (
-    <span className="material-symbols-outlined" style={{ marginRight: "5px" }}>
+    <MuiIcon className="outlined" style={{ marginRight: "5px", order: -1 }}>
       settings
-    </span>
+    </MuiIcon>
   );
 }
 
@@ -344,7 +345,7 @@ export function SearchPopup() {
         }}
         className={global.user.darkMode ? "rippleDark" : ""}
       >
-        <span className="material-symbols-rounded">bolt</span>
+        <MuiIcon>bolt</MuiIcon>
         Jump to
         <span className="hover" style={{ marginLeft: "auto" }}>
           <span
@@ -399,7 +400,7 @@ export function SearchPopup() {
             },
           }}
         >
-          <span className="material-symbols-outlined">search</span>
+          <MuiIcon className="outlined">search</MuiIcon>
         </IconButton>
       </Tooltip>
       <SwipeableDrawer

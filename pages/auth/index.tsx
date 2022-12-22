@@ -15,6 +15,7 @@ import { colors } from "../../lib/colors";
 import {
   Box,
   Button,
+  Icon,
   Paper,
   SwipeableDrawer,
   TextField,
@@ -474,7 +475,7 @@ export default function Prompt() {
               gap: 3,
             }}
           >
-            <span className="material-symbols-rounded">lightbulb</span>
+            <Icon>lightbulb</Icon>
             <span>
               <i>
                 <b>{proTip.split(":")[0]}</b>

@@ -26,6 +26,7 @@ import {
   Chip,
   Collapse,
   Grid,
+  Icon,
   Menu,
   MenuItem,
   SwipeableDrawer,
@@ -587,7 +588,7 @@ export default function Item({
                   background: colors.red[900] + "!important",
                 }}
               >
-                <span className="material-symbols-rounded">delete</span>
+                <Icon>delete</Icon>
               </Box>
               <CardActionArea
                 onContextMenu={handleContextMenu}

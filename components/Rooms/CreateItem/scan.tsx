@@ -3,6 +3,7 @@ import {
   Box,
   Chip,
   Drawer,
+  Icon,
   IconButton,
   Popover,
   Toolbar,
@@ -183,7 +184,7 @@ export function ImageRecognition({ formik }) {
             background: "linear-gradient(45deg, #fc00ff, #00dbde)!important",
           }}
         >
-          <span className="material-symbols-rounded">view_in_ar</span>
+          <Icon className="outlined">view_in_ar</Icon>
         </IconButton>
       </Box>
       <Drawer
@@ -211,7 +212,7 @@ export function ImageRecognition({ formik }) {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">west</span>
+              <Icon>west</Icon>
             </IconButton>
             <Typography
               sx={{ mx: "auto", fontWeight: "600", display: "flex", gap: 2 }}
@@ -232,15 +233,9 @@ export function ImageRecognition({ formik }) {
                 setFacingMode(facingMode == "user" ? "environment" : "user");
               }}
             >
-              <span
-                className={
-                  facingMode == "user"
-                    ? "material-symbols-outlined"
-                    : "material-symbols-rounded"
-                }
-              >
+              <Icon className={facingMode == "user" ? "outlined" : "rounded"}>
                 cameraswitch
-              </span>
+              </Icon>
             </IconButton>
           </Toolbar>
         </AppBar>

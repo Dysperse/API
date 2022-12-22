@@ -2,6 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
   CardActionArea,
+  Icon,
   IconButton,
   Menu,
   MenuItem,
@@ -162,13 +163,13 @@ function Member({
               gap: "10px",
             }}
           >
-            <span className="material-symbols-rounded">
+            <Icon>
               {member.permission === "member"
                 ? "group"
                 : member.permission == "owner"
                 ? "verified"
                 : "visibility"}
-            </span>
+            </Icon>
             <span
               style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
             >
@@ -357,7 +358,7 @@ export function MemberList({
               color: `${colors[color][900]}!important`,
             }}
           >
-            <span className="material-symbols-rounded">chevron_right</span>
+            <Icon>chevron_right</Icon>
           </IconButton>
         )}
       </Box>

@@ -14,6 +14,7 @@ import {
   Box,
   Checkbox,
   CircularProgress,
+  Icon,
   IconButton,
   SwipeableDrawer,
   Toolbar,
@@ -247,7 +248,7 @@ function DailyRoutine() {
               disableRipple
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">west</span>
+              <Icon>west</Icon>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>
               Today&apos;s routine
@@ -257,7 +258,7 @@ function DailyRoutine() {
               disableRipple
               sx={{ opacity: 0, pointerEvents: "none" }}
             >
-              <span className="material-symbols-rounded">more_horiz</span>
+              <Icon>more_horiz</Icon>
             </IconButton>
           </Toolbar>
         </AppBar>

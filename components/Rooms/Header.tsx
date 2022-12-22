@@ -1,5 +1,6 @@
 import {
   Box,
+  Icon,
   IconButton,
   ListItem,
   ListItemAvatar,
@@ -75,7 +76,7 @@ export function Header({
             }}
             className="avatar"
           >
-            <span className="material-symbols-rounded">west</span>
+            <Icon>west</Icon>
           </IconButton>
         </ListItemAvatar>
 
@@ -126,7 +127,7 @@ export function Header({
             }}
             disableRipple
           >
-            <span className="material-symbols-outlined">add_circle</span>
+            <Icon>add_circle</Icon>
           </IconButton>
         </CreateItemModal>
       </ListItemAvatar>

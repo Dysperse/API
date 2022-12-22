@@ -1,4 +1,4 @@
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Icon } from "@mui/material";
 import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 
@@ -41,9 +41,9 @@ export function Color({ color, setThemeColor, handleNext }) {
       }}
     >
       {color === global.themeColor && (
-        <span className="material-symbols-rounded" style={{ color: "#fff" }}>
+        <Icon style={{ color: "#fff" }}>
           check
-        </span>
+        </Icon>
       )}
     </CardActionArea>
   );

@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Icon,
   ListItem,
   TextField,
 } from "@mui/material";
@@ -144,12 +145,12 @@ export function ShareModal({
             }}
           >
             Open
-            <span className="material-symbols-rounded">open_in_new</span>
+            <Icon>open_in_new</Icon>
           </Button>
         </DialogContent>
       </Dialog>
       <ListItem button sx={styles} onClick={() => setOpen(true)}>
-        <span className="material-symbols-rounded">share</span>
+        <Icon>share</Icon>
         Share
       </ListItem>
     </>

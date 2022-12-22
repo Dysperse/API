@@ -11,6 +11,7 @@ import {
   Box,
   Dialog,
   Grow,
+  Icon,
   IconButton,
   Toolbar,
   Typography,
@@ -84,7 +85,7 @@ function ResponsiveDrawer({
             disableRipple
             onClick={() => setOpen(false)}
           >
-            <span className="material-symbols-outlined">close</span>
+            <Icon>close</Icon>
           </IconButton>
         </Box>
         <Box sx={{ mt: 2 }}>

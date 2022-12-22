@@ -32,11 +32,7 @@ export function StarButton({
       onClick={handleItemStar}
       disabled={global.permission == "read-only"}
     >
-      {item.starred ? (
-        <span className="material-symbols-rounded">grade</span>
-      ) : (
-        <span className="material-symbols-outlined">grade</span>
-      )}{" "}
+      <Icon className={item.starred ? "outlined" : ""}>grade</Icon>
       {!item.starred ? "Star" : "Unstar"}
     </ListItem>
   );

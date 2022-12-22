@@ -10,6 +10,7 @@ import {
   Button,
   Chip,
   FormControl,
+  Icon,
   IconButton,
   Menu,
   MenuItem,
@@ -128,7 +129,7 @@ export function EditProperty({
               aria-label="menu"
               onClick={() => setOpen(false)}
             >
-              <span className="material-symbols-rounded">expand_more</span>
+              <Icon>expand_more</Icon>
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Edit property
@@ -178,7 +179,7 @@ export function EditProperty({
               gap: "10px",
             }}
           >
-            <span className="material-symbols-rounded">
+            <Icon>
               {propertyType === "dorm"
                 ? "cottage"
                 : propertyType === "apartment"
@@ -186,7 +187,7 @@ export function EditProperty({
                 : propertyType === "study group"
                 ? "school"
                 : "home"}
-            </span>
+            </Icon>
             {propertyType}
           </Typography>
         </Button>
@@ -199,7 +200,7 @@ export function EditProperty({
               color: "error",
             }}
           >
-            <span className="material-symbols-rounded">warning</span>
+            <Icon>warning</Icon>
             Heads up! Changing your property type may cause data loss. Change
             this setting with caution.
           </Typography>

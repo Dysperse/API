@@ -24,6 +24,7 @@ import {
   CircularProgress,
   Divider,
   FormLabel,
+  Icon,
   IconButton,
   ListItem,
   ListItemAvatar,
@@ -293,7 +294,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
         </MenuItem>
         <MenuItem onClick={handleClose}>Delete</MenuItem>
       </Menu>
-      <span className="material-symbols-outlined">
+      <Icon className="outlined">
         {global.permission == "read-only" ? (
           "chevron_right"
         ) : isPrivate ? (
@@ -308,7 +309,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
             east
           </Box>
         )}
-      </span>
+      </Icon>
     </IconButton>
   );
 }
