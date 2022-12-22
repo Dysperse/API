@@ -1,0 +1,327 @@
+import {
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  Icon,
+  IconButton,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from "@mui/material";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { colors } from "../../../../../lib/colors";
+import { Color } from "./Color";
+import { CreateTask } from "./Create";
+import { ImageViewer } from "./ImageViewer";
+import { SubTask } from "./SubTask";
+
+export function TaskDrawer({
+  checked,
+  setChecked,
+  task,
+  boardId,
+  open,
+  setOpen,
+  BpIcon,
+  BpCheckedIcon,
+  mutationUrl,
+  columnId,
+}) {
+  useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute(
+        "content",
+        open
+          ? colors[task.color ?? global.themeColor ?? "brown"][
+              global.theme === "dark" ? 900 : 50
+            ]
+          : "#fff"
+      );
+  });
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: false,
+      containScroll: "keepSnaps",
+      dragFree: true,
+    },
+    [WheelGesturesPlugin()]
+  );
+
+  const [view, setView] = useState<"Details" | "Subtasks">("Details");
+
+  return (
+    <SwipeableDrawer
+      anchor="right"
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      disableSwipeToOpen
+      PaperProps={{
+        sx: {
+          mb: { sm: 2 },
+          width: "100%",
+          mx: "auto",
+          height: "100vh",
+          maxWidth: "500px",
+          // borderRadius: { sm: "20px 0 0 20px" },
+          background:
+            colors[task.color ?? task.color ?? global.themeColor ?? "brown"][
+              global.theme === "dark" ? 900 : 50
+            ],
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          p: 2,
+        }}
+      >
+        <IconButton disableRipple onClick={() => setOpen(false)}>
+          <Icon>west</Icon>
+        </IconButton>
+        <Typography sx={{ mx: "auto" }}>Details</Typography>
+        <IconButton disableRipple disabled={global.permission == "read-only"}>
+          <Icon>delete</Icon>
+        </IconButton>
+      </Box>
+      <Box sx={{ p: 5, px: 3, pt: 2, overflowY: "auto" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          <Box sx={{ height: "100%", alignSelf: "flex-start", pt: 1.5 }}>
+            <Checkbox
+              disabled={global.permission == "read-only"}
+              disableRipple
+              checked={checked}
+              onChange={(e) => {
+                setChecked(e.target.checked);
+                fetchApiWithoutHook("property/boards/markTask", {
+                  completed: e.target.checked ? "true" : "false",
+                  id: task.id,
+                }).catch((err) =>
+                  toast.error("An error occured while updating the task")
+                );
+              }}
+              sx={{
+                transform: "scale(1.3)",
+                "&:hover": { bgcolor: "transparent" },
+              }}
+              color="default"
+              checkedIcon={<BpCheckedIcon />}
+              icon={<BpIcon />}
+              inputProps={{ "aria-label": "Checkbox demo" }}
+            />
+          </Box>
+          <Box sx={{ flexGrow: 1 }}>
+            <TextField
+              disabled={global.permission == "read-only"}
+              defaultValue={task.name}
+              onBlur={(e: any) => {
+                fetchApiWithoutHook("property/boards/editTask", {
+                  name: e.target.value,
+                  id: task.id,
+                }).then(() => {
+                  mutate(mutationUrl);
+                });
+              }}
+              placeholder="Item name"
+              variant="standard"
+              InputProps={{
+                className: "font-secondary",
+                sx: {
+                  fontSize: "40px",
+                  height: "70px",
+                  mb: 3,
+                  borderRadius: 4,
+                },
+              }}
+            />
+            <Button
+              variant={"contained"}
+              onClick={() => setView("Details")}
+              sx={{
+                borderRadius: 4,
+                mr: 1,
+                background:
+                  view == "Details"
+                    ? colors[task.color][global.theme === "dark" ? 50 : 900] +
+                      "!important"
+                    : "transparent!important",
+                color:
+                  view == "Details"
+                    ? colors[task.color][global.theme === "dark" ? 900 : 50] +
+                      "!important"
+                    : colors[task.color][global.theme === "dark" ? 50 : 900] +
+                      "!important",
+              }}
+            >
+              Details
+            </Button>
+            <Button
+              variant={"contained"}
+              onClick={() => setView("Subtasks")}
+              sx={{
+                gap: 1.5,
+                background:
+                  view == "Subtasks"
+                    ? colors[task.color][global.theme === "dark" ? 50 : "900"] +
+                      "!important"
+                    : "transparent!important",
+                borderRadius: 4,
+                color:
+                  view == "Subtasks"
+                    ? colors[task.color][global.theme === "dark" ? 900 : 50] +
+                      "!important"
+                    : colors[task.color][global.theme === "dark" ? 50 : 900] +
+                      "!important",
+              }}
+            >
+              Subtasks
+              <Chip
+                label={task.subTasks.length}
+                size="small"
+                sx={{
+                  transition: "none",
+                  pointerEvents: "none",
+                  backgroundColor:
+                    colors[task.color][view === "Subtasks" ? 700 : 100],
+                  color: colors[task.color][view === "Subtasks" ? 50 : 900],
+                }}
+              />
+            </Button>
+            {view == "Details" && (
+              <TextField
+                multiline
+                fullWidth
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    color:
+                      colors[task.color ?? global.themeColor ?? "brown"][
+                        global.theme === "dark" ? 50 : 900
+                      ],
+                    background:
+                      colors[task.color ?? global.themeColor ?? "brown"][
+                        global.theme === "dark" ? 800 : 100
+                      ],
+                    borderRadius: 5,
+                    p: 2,
+                    mt: 2,
+                    "&:focus-within": {
+                      background:
+                        colors[task.color ?? global.themeColor ?? "brown"][
+                          global.theme === "dark" ? 800 : 100
+                        ],
+                      boxShadow:
+                        "0px 0px 0px 2px " +
+                        colors[task.color ?? global.themeColor ?? "brown"][
+                          global.theme === "dark" ? 700 : 900
+                        ],
+                    },
+                  },
+                }}
+                onBlur={(e) => {
+                  fetchApiWithoutHook("property/boards/editTask", {
+                    description: e.target.value,
+                    id: task.id,
+                  }).then(() => {
+                    mutate(mutationUrl);
+                  });
+                }}
+                disabled={global.permission == "read-only"}
+                placeholder={
+                  global.permission == "read-only"
+                    ? "Add a description. Wait you can't because you have no permission 😂"
+                    : "Add a description"
+                }
+                minRows={4}
+                defaultValue={task.description}
+              />
+            )}
+          </Box>
+        </Box>
+        {view == "Details" && task.image && (
+          <Box
+            sx={{
+              ml: 7,
+              mt: task.image ? 2 : 0,
+            }}
+          >
+            <ImageViewer url={task.image} />
+          </Box>
+        )}
+        {view == "Details" && (
+          <Box
+            ref={emblaRef}
+            sx={{
+              mt: 2,
+              gap: 2,
+              overflowX: "auto",
+              ml: 7,
+              borderRadius: 5,
+            }}
+          >
+            <Box className="embla__container" sx={{ gap: 1 }}>
+              {[
+                "red",
+                "orange",
+                "deepOrange",
+                "lightBlue",
+                "blue",
+                "indigo",
+                "purple",
+                "pink",
+                "green",
+                "lime",
+                "brown",
+                "blueGrey",
+              ].map((color) => (
+                <Color
+                  task={task}
+                  mutationUrl={mutationUrl}
+                  color={color}
+                  key={color}
+                />
+              ))}
+            </Box>
+          </Box>
+        )}
+
+        {view == "Subtasks" && (
+          <Box sx={{ ml: 6, mt: 2 }}>
+            {task.subTasks.map((subtask) => (
+              <SubTask
+                key={subtask.id}
+                noMargin
+                BpIcon={BpIcon}
+                BpCheckedIcon={BpCheckedIcon}
+                subtask={subtask}
+              />
+            ))}
+            <CreateTask
+              parent={task.id}
+              boardId={boardId}
+              columnId={columnId}
+              mutationUrl={mutationUrl}
+            />
+          </Box>
+        )}
+      </Box>
+    </SwipeableDrawer>
+  );
+}
