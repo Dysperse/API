@@ -196,7 +196,8 @@ export function CreateTask({
   };
 
   const chipStyles = {
-    background: colors[themeColor]["50"] + "!important",
+    background:
+      colors[themeColor][global.user.darkMode ? "900" : "50"] + "!important",
     transition: "all .2s",
     "&:active": {
       transition: "none",
@@ -282,7 +283,9 @@ export function CreateTask({
           sx={{
             p: 3,
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            background: colors[themeColor]["50"],
+            background: global.user.darkMode
+              ? "hsl(240,11%,15%)"
+              : colors[themeColor]["50"],
           }}
         >
           <form onSubmit={handleSubmit}>
