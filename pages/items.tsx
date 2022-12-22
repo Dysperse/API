@@ -235,7 +235,7 @@ function CategoryList() {
   );
 }
 
-function RoomActionMenu({ isPrivate, isCustom }) {
+function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -249,6 +249,7 @@ function RoomActionMenu({ isPrivate, isCustom }) {
     <IconButton
       disabled={global.permission == "read-only" || !isCustom}
       size="small"
+      ref={itemRef}
       onClick={(e: any) => {
         e.preventDefault();
         e.stopPropagation();
@@ -348,9 +349,15 @@ function Action({
     count && count.byRoom[primary.toLowerCase()]
       ? count.byRoom[primary.toLowerCase()]
       : 0;
+  const ref: any = React.useRef(null);
   return (
     <ListItem
       button
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        ref.current.click();
+      }}
       onClick={() => {
         if (href) router.push(href).then(() => setLoading(false));
         else {
@@ -362,7 +369,11 @@ function Action({
         !disableLoading && loading ? (
           <CircularProgress size={15} sx={{ ml: "auto", mt: "8px" }} />
         ) : (
-          <RoomActionMenu isCustom={isCustom} isPrivate={isPrivate} />
+          <RoomActionMenu
+            isCustom={isCustom}
+            isPrivate={isPrivate}
+            itemRef={ref}
+          />
         )
       }
       className="room-button"
