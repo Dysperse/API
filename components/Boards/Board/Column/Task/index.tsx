@@ -9,6 +9,7 @@ import { Color } from "./Color";
 import {
   Box,
   Checkbox,
+  CircularProgress,
   Divider,
   Icon,
   ListItem,
@@ -91,6 +92,7 @@ export const Task = React.memo(function Task({
       mutate(mutationUrl);
     });
   };
+  const [loading, setLoading] = React.useState(false);
 
   const [checked, setChecked] = useState(task.completed);
   const [open, setOpen] = useState(false);
@@ -197,10 +199,32 @@ export const Task = React.memo(function Task({
         </MenuItem>
         <MenuItem
           onClick={() => {
+            setLoading(true);
             handleDelete(task.id);
           }}
         >
-          <Icon className="outlined">delete</Icon>Delete
+          <Box sx={{ position: "relative", width: "100%" }}>
+            {loading && (
+              <CircularProgress
+                sx={{
+                  position: "absolute",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
+                size={20}
+              />
+            )}
+            <Box
+              sx={{
+                ...(loading && { filter: "blur(10px)" }),
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <Icon className="outlined">delete</Icon>Delete
+            </Box>
+          </Box>
         </MenuItem>
       </Menu>
       {task.subTasks.length >= 0 && (
