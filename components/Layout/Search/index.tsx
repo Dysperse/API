@@ -231,13 +231,18 @@ export function SearchPopup() {
     router.push(href);
   };
 
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
   React.useEffect(() => {
     /**
      * @param e Event passed by the browser
      * @returns void
      */
     const down = (e) => {
-      if ((e.key === "k" && e.ctrlKey) || (e.key === "k" && e.metaKey)) {
+      if (
+        (e.key === "k" && e.ctrlKey) ||
+        (e.key === "k" && e.metaKey) ||
+        (e.key === "/" && !e.ctrlKey)
+      ) {
         e.preventDefault();
         setOpen((open) => !open);
       }
@@ -246,6 +251,13 @@ export function SearchPopup() {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
+  React.useEffect(() => {
+    if (open) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  });
 
   /**
    * Function to pop a page
@@ -416,6 +428,7 @@ export function SearchPopup() {
             </div>
             <Command.Input
               autoFocus
+              ref={inputRef}
               placeholder="What do you need?"
               value={inputValue}
               onValueChange={(value) => {

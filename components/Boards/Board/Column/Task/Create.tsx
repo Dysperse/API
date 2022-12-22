@@ -555,7 +555,7 @@ export function CreateTask({
             fontSize: "30px",
           }}
         >
-          add_task
+          add_circle
         </span>
 
         <ListItemText
