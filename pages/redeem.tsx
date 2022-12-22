@@ -46,8 +46,8 @@ export default function Redeem() {
             toast.promise(
               new Promise((resolve, reject) => {
                 setTimeout(() => {
-                  if (code === "BF2022") {
-                    resolve("Success!");
+                  if (code === "CRB-G721428") {
+                    resolve("Success! Your account has been upgraded for free");
                   } else {
                     reject("Invalid Code!");
                   }
