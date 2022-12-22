@@ -191,7 +191,7 @@ export function Sidebar() {
                 <Tooltip title="Lists" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath == "/tasks" ||
+                      router.asPath.includes("/tasks") ||
                       router.asPath == "/" ||
                       router.asPath == ""
                         ? "rounded"

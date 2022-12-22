@@ -1,3 +1,11 @@
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Icon,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import React, { useEffect, useState } from "react";
@@ -8,15 +16,6 @@ import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
-
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Icon,
-  Menu,
-  MenuItem,
-} from "@mui/material";
 
 const Tab = React.memo(function Tab({
   mutationUrl,
@@ -97,12 +96,7 @@ const Tab = React.memo(function Tab({
         size="large"
         onContextMenu={handleClick}
         onClick={(e) => {
-          if (emblaApi) {
-            emblaApi.reInit({
-              containScroll: "keepSnaps",
-              dragFree: true,
-            });
-          }
+          window.location.hash = board.id;
           if (activeTab === board.id && !editMode) {
             handleClick(e);
           } else {
@@ -201,7 +195,15 @@ export function TasksLayout() {
       });
     }
     if (data && data[0]) {
-      setActiveTab(data[0].id);
+      if (
+        window.location.hash &&
+        data.filter((x) => x.id == window.location.hash.replace("#", ""))
+          .length > 0
+      ) {
+        setActiveTab(window.location.hash.replace("#", ""));
+      } else {
+        setActiveTab(data[0].id);
+      }
     }
   }, [data, emblaApi]);
 
