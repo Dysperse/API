@@ -102,7 +102,7 @@ function RenderWithLayout({
             },
             style: {
               fontVariationSettings:
-                '"FILL" 0, "wght" 300, "GRAD" 0, "opsz" 40!important',
+                '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
             },
           },
         ],

@@ -54,7 +54,7 @@ export function Sidebar() {
 
   const styles = (active) => {
     return {
-      color: colors[themeColor][global.user.darkMode ? 50 : 500],
+      color: colors[themeColor][global.user.darkMode ? 50 : 700],
       borderRadius: 3,
       textTransform: "none",
       width: 55,

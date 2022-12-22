@@ -110,7 +110,7 @@ function Achievements({ styles }) {
           onClick={() => {
             setOpen(true);
           }}
-          sx={{ ...styles, ml: { xs: 0, sm: 1 }, mr: { xs: 2, sm: 0.5 } }}
+          sx={styles}
         >
           <Icon className="outlined">insights</Icon>
         </IconButton>
@@ -218,11 +218,12 @@ export function Navbar(): JSX.Element {
   const router = useRouter();
   const styles = {
     borderRadius: 94,
-    p: 0.5,
+    p: 0.8,
     m: 0,
     color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
-    transition: "all .2s",
+    transition: "opacity .2s",
     "&:hover": {
+      background: "rgba(200,200,200,.3)",
       color: global.user.darkMode ? "hsl(240,11%,100%)" : "#000",
     },
     "&:active": {
@@ -266,7 +267,7 @@ export function Navbar(): JSX.Element {
       }}
     >
       <CssBaseline />
-      <Toolbar sx={{ height: "100%" }}>
+      <Toolbar sx={{ height: "100%", gap: 1 }}>
         <Box
           sx={{
             flexGrow: { xs: 1, sm: "unset" },
@@ -322,24 +323,18 @@ export function Navbar(): JSX.Element {
           </Offline>
         </Box>
         <Achievements styles={styles} />
-        <Box
-          sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: -2 }, ml: 0.5 }}
-        >
-          <AppsMenu />
-        </Box>
-        <Box sx={{ display: { xs: "none", sm: "unset" } }}>
-          <Tooltip title="Support">
-            <IconButton
-              sx={{ ...styles, ml: 1.5 }}
-              color="inherit"
-              disabled={!window.navigator.onLine}
-              disableRipple
-              onClick={() => window.open("https://smartlist.tech/support")}
-            >
-              <Icon className="outlined">help</Icon>
-            </IconButton>
-          </Tooltip>
-        </Box>
+        <AppsMenu styles={styles} />
+        <Tooltip title="Support">
+          <IconButton
+            sx={styles}
+            color="inherit"
+            disabled={!window.navigator.onLine}
+            disableRipple
+            onClick={() => window.open("https://smartlist.tech/support")}
+          >
+            <Icon className="outlined">help</Icon>
+          </IconButton>
+        </Tooltip>
         <Box sx={{ display: { sm: "none" } }}>
           <Settings>
             <Tooltip
@@ -353,9 +348,7 @@ export function Navbar(): JSX.Element {
                 color="inherit"
                 disableRipple
                 disabled={!window.navigator.onLine}
-                sx={{
-                  ...styles,
-                }}
+                sx={styles}
               >
                 <Icon className="outlined">account_circle</Icon>
               </IconButton>

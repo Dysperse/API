@@ -248,7 +248,7 @@ function Apps() {
  * Apps menu
  * @returns {any}
  */
-export function AppsMenu() {
+export function AppsMenu({ styles }) {
   const [open, setOpen] = React.useState<boolean>(false);
   useStatusBar(open);
   useHotkeys(
@@ -277,24 +277,14 @@ export function AppsMenu() {
   });
 
   return (
-    <div>
+    <>
       <Tooltip title="Apps">
         {global.user ? (
           <IconButton
             disabled={!window.navigator.onLine}
             color="inherit"
             disableRipple
-            sx={{
-              borderRadius: 94,
-              mr: 1,
-              color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
-              transition: "all .2s",
-              "&:active": {
-                opacity: 0.5,
-                transform: "scale(0.95)",
-                transition: "none",
-              },
-            }}
+            sx={styles}
             onClick={handleClick}
           >
             <Icon>apps</Icon>
@@ -381,6 +371,6 @@ export function AppsMenu() {
           </Button>
         </Box>
       </SwipeableDrawer>
-    </div>
+    </>
   );
 }
