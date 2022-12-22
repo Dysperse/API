@@ -18,7 +18,7 @@ import {
   LinearProgress,
   SwipeableDrawer,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 
 /**
@@ -80,9 +80,9 @@ function Item({
 function Settings() {
   return (
     <>
-      {["Appearance", "Two-factor auth", "Account", "Sign out", "Legal"].map(
-        (room: string) => (
-          <Item key={room.toString()}>{room}</Item>
+      {["Appearance", "Two-factor auth", "Account", "Sign out"].map(
+        (setting: string) => (
+          <Item key={setting.toString()}>{setting}</Item>
         )
       )}
     </>
@@ -154,22 +154,25 @@ function Home({
         Dashboard
         <Icon icon="layers" />
       </Item>
-      <Item onSelect={() => onLink("/notes")}>
-        Notes
-        <Icon icon="sticky_note_2" />
+      <Item onSelect={() => onLink("/spaces")}>
+        Spaces
+        <Icon icon="view_agenda" />
       </Item>
       <Command.Group heading="Rooms">
-        {[
-          { name: "Kitchen", icon: "blender" },
-          { name: "Bedroom", icon: "bedroom_parent" },
-          { name: "Bathroom", icon: "bathroom" },
-          { name: "Garage", icon: "garage" },
-          { name: "Dining room", icon: "local_dining" },
-          { name: "Living room", icon: "living" },
-          { name: "Laundry room", icon: "local_laundry_service" },
-          { name: "Storage room", icon: "inventory_2" },
-          { name: "Garden", icon: "yard" },
-        ].map((room: { name: string; icon: string }) => (
+        {(global.property.profile.type === "study group"
+          ? [{ name: "Backpack", icon: "backpack" }]
+          : [
+              { name: "Kitchen", icon: "blender" },
+              { name: "Bedroom", icon: "bedroom_parent" },
+              { name: "Bathroom", icon: "bathroom" },
+              { name: "Garage", icon: "garage" },
+              { name: "Dining room", icon: "local_dining" },
+              { name: "Living room", icon: "living" },
+              { name: "Laundry room", icon: "local_laundry_service" },
+              { name: "Storage room", icon: "inventory_2" },
+              { name: "Garden", icon: "yard" },
+            ]
+        ).map((room: { name: string; icon: string }) => (
           <Item
             onSelect={() => onLink(`/rooms/${room.name.toLowerCase()}`)}
             key={room.name}
@@ -195,14 +198,6 @@ function Home({
         <Item onSelect={() => onLink("/trash")}>
           Trash
           <Icon icon="delete" />
-        </Item>
-        <Item
-          onSelect={() =>
-            document.getElementById("setCreateRoomModalOpen")?.click()
-          }
-        >
-          Create room
-          <Icon icon="add" />
         </Item>
       </Command.Group>
       <Command.Group heading="Help">
@@ -432,21 +427,14 @@ export function SearchPopup() {
                 <Box
                   sx={{
                     p: 0,
-                    background: "rgba(0,0,0,0.1)",
                     width: "100%",
                     borderRadius: 4,
-                    my: 3,
                     textAlign: "center",
+                    my: 3,
                   }}
                 >
-                  <picture>
-                    <img
-                      src="https://ouch-cdn2.icons8.com/fHRe88-d9LBnpryw16-EHoo5JpQnusQ3FKQS6pZ2MXQ/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzUv/NTliOGVkOGItMjFj/YS00YmFjLWI4YjIt/MDE2YTg3NDk4ODYy/LnN2Zw.png"
-                      alt="No results found"
-                    />
-                  </picture>
-                  <Typography variant="h6" sx={{ mt: -5, mb: 4 }}>
-                    No results found.
+                  <Typography variant="h6" sx={{ mb: 4 }}>
+                    No results found
                   </Typography>
                 </Box>
               </Command.Empty>
