@@ -32,6 +32,7 @@ export function TaskDrawer({
   BpCheckedIcon,
   mutationUrl,
   columnId,
+  handleDelete,
 }) {
   useEffect(() => {
     document
@@ -63,8 +64,16 @@ export function TaskDrawer({
       onOpen={() => setOpen(true)}
       open={open}
       disableSwipeToOpen
+      BackdropProps={{
+        sx: {
+          opacity: {
+            sm: "0!important",
+          },
+        },
+      }}
       PaperProps={{
         sx: {
+          mt: { sm: "70px" },
           mb: { sm: 2 },
           width: "100%",
           mx: "auto",
@@ -87,10 +96,28 @@ export function TaskDrawer({
         }}
       >
         <IconButton disableRipple onClick={() => setOpen(false)}>
-          <Icon>west</Icon>
+          <Icon
+            sx={{
+              display: { sm: "none!important" },
+            }}
+          >
+            west
+          </Icon>
+          <Icon
+            sx={{ display: { xs: "none!important", sm: "block!important" } }}
+          >
+            close
+          </Icon>
         </IconButton>
-        <Typography sx={{ mx: "auto" }}>Details</Typography>
-        <IconButton disableRipple disabled={global.permission == "read-only"}>
+        <Typography sx={{ mx: "auto", opacity: { sm: 0 } }}>Details</Typography>
+        <IconButton
+          disableRipple
+          disabled={global.permission == "read-only"}
+          onClick={() => {
+            handleDelete(task.id);
+            setOpen(false);
+          }}
+        >
           <Icon>delete</Icon>
         </IconButton>
       </Box>

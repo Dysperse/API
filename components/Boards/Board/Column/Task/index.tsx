@@ -124,6 +124,7 @@ export const Task = React.memo(function Task({
   return (
     <>
       <TaskDrawer
+      handleDelete={handleDelete}
         checked={checked}
         setChecked={setChecked}
         task={task}
@@ -234,7 +235,7 @@ export const Task = React.memo(function Task({
           className="p-0 rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.98] duration-100 active:duration-[0s] border border-gray-200"
           sx={{
             color:
-              task.color !== "blue"
+              task.color !== "brown"
                 ? colors[task.color][global.theme === "dark" ? "A400" : 900]
                 : "",
             p: 0,

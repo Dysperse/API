@@ -185,10 +185,7 @@ function RenderWithLayout({
                   marginRight: 1.9,
                 },
                 "&:focus": {
-                  background:
-                    (global.user.darkMode
-                      ? colors[global.themeColor][900]
-                      : colors[global.themeColor][100]) + "!important",
+                  background: "transparent!important",
                 },
                 "&:active": {
                   background: global.user.darkMode

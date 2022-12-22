@@ -36,14 +36,17 @@ function CompletedTasks({
           <Divider
             sx={{
               my: open ? 1.5 : 0.5,
-              opacity: open ? 1 : 0,
               transition: "all .2s",
+              opacity: open ? 1 : 0,
             }}
           />
           <CardActionArea
             sx={{
               px: 1.5,
               mb: 1,
+              "& *": {
+                transition: "none!important",
+              },
               py: 0.5,
               borderRadius: 2,
               display: "flex",
@@ -277,10 +280,8 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
         sx={{
           ml: "auto",
           transition: "none!important",
-          border: "1px solid rgba(200, 200, 200, 0)!important",
           "&:hover,&:active": {
             color: "#000",
-            border: "1px solid rgba(200, 200, 200, 0.5)!important",
           },
         }}
       >
@@ -305,6 +306,7 @@ export const Column = React.memo(function Column({
     <Box
       className="w-[350px] bg-neutral-100 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
+        position: "relative",
         width: "350px",
         flex: "0 0 350px",
         p: 3,
