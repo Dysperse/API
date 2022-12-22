@@ -103,7 +103,7 @@ export function Achievements({ styles }) {
           }}
           sx={styles}
         >
-          <Icon className="outlined">insights</Icon>
+          <Icon className="outlined">auto_graph</Icon>
         </IconButton>
       </Tooltip>
     </>
