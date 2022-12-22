@@ -124,7 +124,7 @@ export const Task = React.memo(function Task({
   return (
     <>
       <TaskDrawer
-      handleDelete={handleDelete}
+        handleDelete={handleDelete}
         checked={checked}
         setChecked={setChecked}
         task={task}

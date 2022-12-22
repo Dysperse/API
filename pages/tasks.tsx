@@ -1,13 +1,20 @@
 import { Alert, IconButton, Link, Typography } from "@mui/material";
+import Cookies from "js-cookie";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TasksLayout } from "../components/Boards/Layout";
 
 /**
  * Top-level component for the dashboard page.
  */
 export default function Dashboard() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (Cookies.get("announcementClosed") !== "true") {
+      setOpen(true);
+    }
+  }, [open]);
 
   return (
     <>
@@ -30,7 +37,10 @@ export default function Dashboard() {
           action={
             <IconButton
               disableRipple
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                Cookies.set("announcementClosed", "true");
+              }}
               sx={{
                 float: "right",
                 ml: 2,

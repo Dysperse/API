@@ -139,7 +139,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
           />
         </div>
       </SwipeableDrawer>
-      <Button onClick={() => setOpen(true)} className="bg-gray-50">
+      <Button onClick={() => setOpen(true)}>
         <picture>
           <img src={emoji} alt="emoji" width="30" height="30" />
         </picture>
@@ -304,7 +304,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[350px] bg-neutral-100 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] bg-neutral-50 border border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         position: "relative",
         width: "350px",
@@ -339,17 +339,30 @@ export const Column = React.memo(function Column({
             px: 1,
           }}
         >
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: "600",
-              mb: 2,
-              mt: 2,
-              textDecoration: "underline",
-            }}
-          >
-            {column.name}
-          </Typography>
+          <Box>
+            <Typography
+              variant="h5"
+              className="font-secondary"
+              sx={{
+                fontWeight: "600",
+                mb: 1,
+                mt: 2,
+                textDecoration: "underline",
+              }}
+            >
+              {column.name}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: "400",
+                my: 1,
+              }}
+            >
+              {columnTasks.filter((task) => task.completed).length} out of{" "}
+              {columnTasks.length} completed
+            </Typography>
+          </Box>
           <OptionsMenu
             boardId={boardId}
             column={column}
