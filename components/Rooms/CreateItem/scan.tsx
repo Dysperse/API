@@ -37,8 +37,8 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
           let text = response.includes("sitting") ? response.split("sitting")[0] : response; 
           text = text.replace("a person holding", "")
           if(text.includes("holding a")) text = text.split("holding a")[1];
-const title = text.includes(" of ") ? text.split("of")[1];
-const qty = text.includes(" of ") ? text.split("of")[0]
+const title = text.includes(" of ") ? text.split("of")[1]: text;
+const qty = text.includes(" of ") ? text.split("of")[0]: text
           text = text.trim();
           formik.setFieldValue("title", title);
           formik.setFieldValue("quantity", qty);
