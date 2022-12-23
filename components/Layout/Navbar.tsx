@@ -134,7 +134,7 @@ export function Navbar(): JSX.Element {
         <AppsMenu styles={styles} />
         <Tooltip title="Support">
           <IconButton
-            sx={{ ...styles, display: { xs: "none", sm: "block"} }}
+            sx={{ ...styles, display: { xs: "none", sm: "inline-flex"} }}
             color="inherit"
             disabled={!window.navigator.onLine}
             disableRipple
