@@ -42,7 +42,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
         
           let title = text.includes(" of ") ? text.split(" of ")[1]: text;
           let qty = 1;
-          ["jar","container","pair","box","pack"].forEach(word => if(text.includes(word)) { qty = "1 "+word }))
+          ["jar","container","pair","box","pack"].forEach(word =>{ if(text.includes(word)) { qty = "1 "+word }})
           title = text.includes("filled with") ? text.split("filled with")[1]: text
           title = text.replace("jar of", "")
           title = title.replace(" a ", "")
