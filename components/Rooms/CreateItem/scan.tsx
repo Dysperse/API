@@ -48,7 +48,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
           title = title.replace(" a ", "")
 
           text = text.replace("in their hand", "")
-          text = text.trim();
+          title = title.trim();
           title = title.charAt(0).toUpperCase() + title.slice(1);
           formik.setFieldValue("title", title);
           formik.setFieldValue("quantity", qty);
