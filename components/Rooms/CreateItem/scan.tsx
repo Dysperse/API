@@ -42,7 +42,10 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
           let qty = text.includes(" of ") ? text.split(" of ")[0]: text
           qty = text.includes("filled with") ? text.split("filled with")[0]: text
           title = text.includes("filled with") ? text.split("filled with")[1]: text
-          
+          if(text.includes("jar of")) {
+qty = "1 jar"; text=text.replace("jar of","")
+}
+
           text = text.replace("in their hand", "")
           text = text.trim();
           formik.setFieldValue("title", title);
