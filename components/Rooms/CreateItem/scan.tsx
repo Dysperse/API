@@ -34,8 +34,10 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
       {
         loading: "Fetching image recognition...",
         success: (response) => {
-          let text = response.includes("sitting") ? (response.split("sitting")[0].split("holding a")[1].trim()) : response; 
+          let text = response.includes("sitting") ? response.split("sitting")[0] : response; 
           text = text.replace("a person holding", "")
+          if(text.includes("holding a")) text = text.split("holding a")[1];
+          text = text.trim();
           formik.setFieldValue("title", text.split("of")[1).trim());
           formik.setFieldValue("quantity", text.split("of")[0].trim());
           setOpen(false);
