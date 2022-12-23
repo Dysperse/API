@@ -1,4 +1,4 @@
-import { ListItem } from "@mui/material";
+import { ListItem, Icon } from "@mui/material";
 import type { Item } from "@prisma/client";
 
 /**
