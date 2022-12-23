@@ -76,7 +76,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
   return (
     <>
       <Webcam
-        screenshotQuality={0.3}
+        screenshotQuality={0.6}
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/png"
