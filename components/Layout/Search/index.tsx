@@ -1,509 +1,339 @@
-import { Command } from "cmdk";
 import hexToRgba from "hex-to-rgba";
-import { useRouter } from "next/router";
 import React from "react";
-import ReactDOMServer from "react-dom/server";
-import { useApi } from "../../../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
-import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
-import type { ApiResponse } from "../../../types/client";
-import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
 
+import { openSpotlight, SpotlightProvider } from "@mantine/spotlight";
+import { Button, Divider, Icon, IconButton, Tooltip } from "@mui/material";
+import { useRouter } from "next/router";
+
 import {
-  Box,
-  Button,
-  Icon as MuiIcon,
-  IconButton,
-  LinearProgress,
-  SwipeableDrawer,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+  Badge,
+  createStyles,
+  Group,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
+import { SpotlightActionProps } from "@mantine/spotlight";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 
-/**
- * Icon function
- * @param {any} {icon}:{icon:string}
- * @returns {any}
- */
-function Icon({ icon }: { icon: string }) {
-  return (
-    <MuiIcon className="outlined" style={{ marginRight: "5px", order: -1 }}>
-      {icon}
-    </MuiIcon>
-  );
-}
+function CustomAction({
+  action,
+  styles,
+  classNames,
+  hovered,
+  onTrigger,
+  ...others
+}: SpotlightActionProps) {
+  const useStyles: any = createStyles((theme: any | null) => ({
+    action: {
+      position: "relative",
+      display: "block",
+      width: "100%",
+      padding: "10px 12px",
+      borderRadius: theme.radius.sm,
+    },
 
-/**
- * Settings icon for search popup
- */
-function SettingsIcon(): JSX.Element {
-  return (
-    <MuiIcon className="outlined" style={{ marginRight: "5px", order: -1 }}>
-      settings
-    </MuiIcon>
-  );
-}
+    actionHovered: {
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[4]
+          : theme.colors.gray[1],
+    },
+  }));
 
-/**
- * @param children Children to render
- * @returns void
- */
-function Item({
-  children,
-  shortcut,
-  onSelect = () => null,
-}: {
-  children: React.ReactNode;
-  shortcut?: string;
-  onSelect?: (value: string) => void;
-}) {
+  const { classes, cx } = useStyles(null, {
+    styles,
+    classNames,
+    name: "Spotlight",
+  });
+
   return (
-    <Command.Item
-      onSelect={onSelect}
-      value={ReactDOMServer.renderToStaticMarkup(children)}
+    <UnstyledButton
+      className={cx(classes.action, { [classes.actionHovered]: hovered })}
+      tabIndex={-1}
+      onMouseDown={(event) => event.preventDefault()}
+      onClick={onTrigger}
+      {...others}
+      sx={{
+        "&:hover": {
+          background: "#eee",
+          color: "#000",
+        },
+        "&:active, &:focus": {
+          background: "#ddd",
+          color: "#000",
+        },
+        color: "#505050",
+        fontWeight: 400,
+      }}
     >
-      {children}
-      {shortcut && (
-        <div className="cmdk-carbon-shortcuts">
-          {shortcut.split(" ").map((key) => {
-            return <kbd key={key}>{key}</kbd>;
-          })}
-        </div>
+      {action.divider ? (
+        <Group noWrap>
+          <Divider sx={{ my: 2 }} />
+        </Group>
+      ) : (
+        <Group noWrap>
+          {action.icon}
+          <div style={{ flex: 1 }}>
+            <Text>{action.title}</Text>
+
+            {action.description && (
+              <Text color="dimmed" size="xs">
+                {action.description}
+              </Text>
+            )}
+          </div>
+
+          {action.badge && <Badge>{action.badge}</Badge>}
+        </Group>
       )}
-    </Command.Item>
-  );
-}
-/**
- * Settings options
- */
-function Settings() {
-  return (
-    <>
-      {["Appearance", "Two-factor auth", "Account", "Sign out"].map(
-        (setting: string) => (
-          <Item key={setting.toString()}>{setting}</Item>
-        )
-      )}
-      <Item
-        shortcut="ctrl ,"
-        onSelect={() => {
-          global.setTheme("light");
-          updateSettings("darkMode", "false");
-        }}
-      >
-        Light mode
-        <Icon icon="light_mode" />
-      </Item>
-      <Item
-        shortcut="ctrl ,"
-        onSelect={() => {
-          global.setTheme("dark");
-          updateSettings("darkMode", "true");
-        }}
-      >
-        Dark mode
-        <Icon icon="dark_mode" />
-      </Item>
-    </>
+    </UnstyledButton>
   );
 }
 
-/**
- * @param onLink Click handler for links
- * @param searchSettings Search settings
- * @returns JSX.Element
- */
-function Home({
-  onLink,
-  setOpen,
-  searchSettings,
-}: {
-  onLink: (href: string) => any;
-  setOpen: any;
-  searchSettings: () => void;
-}) {
-  const { data }: ApiResponse = useApi("property/rooms");
-  const { data: boardData }: ApiResponse = useApi("property/boards");
-
-  const router = useRouter();
-
-  return (
-    <>
-      <LinearProgress
-        variant={boardData && data ? "determinate" : "indeterminate"}
-        sx={{
-          mb: 2,
-          mt: 0,
-          height: 2,
-          position: "sticky",
-          top: 0,
-          zIndex: 9999,
-          borderRadius: 5,
-          transition: "all .2s",
-          ...(data &&
-            boardData && {
-              opacity: 0.3,
-              height: 1.5,
-              backdropFilter: "blur(10px)",
-            }),
-        }}
-      />{" "}
-      <Item onSelect={() => onLink("/tasks")}>
-        Boards
-        <Icon icon="verified" />
-      </Item>
-      <Item onSelect={() => onLink("/items")}>
-        Items
-        <Icon icon="category" />
-      </Item>
-      <Item onSelect={() => onLink("/coach")}>
-        Coach
-        <Icon icon="routine" />
-      </Item>
-      <Item onSelect={() => onLink("/spaces")}>
-        Spaces
-        <Icon icon="view_agenda" />
-      </Item>
-      <Item
-        shortcut="ctrl ,"
-        onSelect={() => {
-          searchSettings();
-        }}
-      >
-        Search Settings...
-        <SettingsIcon />
-      </Item>
-      <Command.Group heading="Boards & Checklists">
-        {boardData && (
-          <Box>
-            {boardData.map((board: any) => (
-              <Item key={board.name.toLowerCase()} onSelect={() => {}}>
-                {board.name}
-                <Icon icon="view_kanban" />
-              </Item>
-            ))}
-          </Box>
-        )}
-      </Command.Group>
-      <Command.Group heading="Rooms">
-        {(global.property.profile.type === "study group"
-          ? [{ name: "Backpack", icon: "backpack" }]
-          : [
-              { name: "Kitchen", icon: "blender" },
-              { name: "Bedroom", icon: "bedroom_parent" },
-              { name: "Bathroom", icon: "bathroom" },
-              { name: "Garage", icon: "garage" },
-              { name: "Dining room", icon: "local_dining" },
-              { name: "Living room", icon: "living" },
-              { name: "Laundry room", icon: "local_laundry_service" },
-              { name: "Storage room", icon: "inventory_2" },
-              { name: "Garden", icon: "yard" },
-            ]
-        ).map((room: { name: string; icon: string }) => (
-          <Item
-            onSelect={() => onLink(`/rooms/${room.name.toLowerCase()}`)}
-            key={room.name}
-          >
-            {room.name}
-            <Icon icon={room.icon} />
-          </Item>
-        ))}
-        {data && (
-          <Box>
-            {data.map((room: { name: string; icon: string; id: number }) => (
-              <Item key={room.name.toLowerCase()}>
-                {room.name}
-                <Icon icon="label" />
-              </Item>
-            ))}
-          </Box>
-        )}
-        <Item onSelect={() => onLink("/starred-items")}>
-          Starred items
-          <Icon icon="star" />
-        </Item>
-        <Item onSelect={() => onLink("/trash")}>
-          Trash
-          <Icon icon="delete" />
-        </Item>
-      </Command.Group>
-      <Command.Group heading="Help">
-        <Item onSelect={() => onLink("mailto:hello@smartlist.tech")}>
-          Support (email)
-          <Icon icon="help" />
-        </Item>
-      </Command.Group>
-    </>
-  );
-}
-
-/**
- * Top-level page component
- */
 export function SearchPopup() {
-  const ref = React.useRef<HTMLDivElement | null>(null);
-  const [inputValue, setInputValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [pages, setPages] = React.useState<string[]>(["home"]);
-  const activePage = pages[pages.length - 1];
-  const isHome = activePage === "home";
   const router = useRouter();
 
-  /**
-   * @param href Link
-   * @returns void
-   */
-  const onLink = (href: string): void => {
-    setOpen(false);
-    setTimeout(() => {
-      router.push(href);
-    }, 100);
-  };
+  const { data: roomData } = useApi("property/rooms");
+  const { data: boardData } = useApi("property/boards");
 
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
-  React.useEffect(() => {
-    /**
-     * @param e Event passed by the browser
-     * @returns void
-     */
-    const down = (e) => {
-      if (
-        (e.key === "k" && e.ctrlKey) ||
-        (e.key === "k" && e.metaKey) ||
-        (e.key === "/" && !e.ctrlKey)
-      ) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
+  const actions: any = [
+    {
+      title: "Boards",
+      onTrigger: () => router.push("/tasks"),
+      icon: <Icon className="outlined">verified</Icon>,
+    },
+    {
+      title: "Coach",
+      onTrigger: () => router.push("/coach"),
+      icon: <Icon className="outlined">routine</Icon>,
+    },
+    {
+      title: "Items",
+      onTrigger: () => router.push("/items"),
+      icon: <Icon className="outlined">category</Icon>,
+    },
+    {
+      title: "Spaces",
+      onTrigger: () => router.push("/spaces"),
+      icon: <Icon className="outlined">view_agenda</Icon>,
+    },
+    {
+      title: "Light theme",
+      onTrigger: () => {
+        global.setTheme("light");
+        updateSettings("darkMode", "false");
+      },
+      icon: <Icon className="outlined">light_mode</Icon>,
+    },
+    {
+      title: "Dark theme",
+      onTrigger: () => {
+        global.setTheme("dark");
+        updateSettings("darkMode", "true");
+      },
+      icon: <Icon className="outlined">dark_mode</Icon>,
+    },
+    ...(roomData
+      ? roomData.map((room: any) => {
+          return {
+            title: room.name,
+            onTrigger: () => router.push(`/rooms/${room.id}`),
+            icon: <Icon className="outlined">category</Icon>,
+            badge: "Room",
+          };
+        })
+      : []),
 
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
-  React.useEffect(() => {
-    if (open) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 100);
-    }
-  });
+    ...(boardData
+      ? boardData.map((room: any) => {
+          return {
+            title: room.name,
+            onTrigger: () => router.push(`/tasks#${room.id}`),
+            icon: (
+              <Icon className="outlined">
+                {room.type === "board" ? "view_kanban" : "task_alt"}
+              </Icon>
+            ),
+            badge: room.type === "board" ? "Board" : "Checklist",
+          };
+        })
+      : []),
 
-  /**
-   * Function to pop a page
-   */
-  const popPage = React.useCallback(() => {
-    setPages((pages) => {
-      const pgs = [...pages];
-      pgs.splice(-1, 1);
-      return pgs;
-    });
-  }, []);
-  React.useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
-  useStatusBar(open);
+    ...(global.user && global.user.properties
+      ? global.user.properties.map((property: any) => {
+          return {
+            title: property.profile.name,
+            onTrigger: () => {
+              fetchApiWithoutHook("property/join", {
+                email: global.user.email,
+                accessToken1: property.accessToken,
+              }).then((res) => {
+                toast(
+                  <>
+                    Currently viewing&nbsp;&nbsp;&nbsp;<u>{res.profile.name}</u>
+                  </>
+                );
+                mutate("/api/user");
+              });
+            },
+            icon: <Icon className="outlined">home</Icon>,
+            badge: "Group",
+          };
+        })
+      : []),
+
+    ...(global.property.profile.type !== "study group"
+      ? [
+          "Kitchen:blender",
+          "Bedroom:bedroom_parent",
+          "Bathroom:bathroom",
+          "Garage:garage",
+          "Dining room:dining",
+          "Living room:living",
+          "Laundry room:local_laundry_service",
+          "Storage room:inventory_2",
+          "Garden:yard",
+          "Camping:camping",
+        ]
+      : ["Backpack:backpack"].map((room) => {
+          const [name, icon] = room.split(":");
+          return {
+            title: name,
+            onTrigger: () =>
+              router.push(`/rooms/${name.toLowerCase().replace(" ", "-")}`),
+            icon: <Icon className="outlined">{icon}</Icon>,
+            badge: "Room",
+          };
+        })),
+
+    {
+      title: "Feedback center",
+      onTrigger: () => {
+        router.push("/feedback");
+      },
+      icon: <Icon className="outlined">chat_bubble</Icon>,
+    },
+    {
+      title: "Discord",
+      onTrigger: () => {
+        window.open("https://discord.gg/fvngmDzh77");
+      },
+      icon: <Icon className="outlined">chat_bubble</Icon>,
+    },
+  ];
 
   return (
     <>
-      <Button
-        disabled={!window.navigator.onLine}
-        onClick={() => setOpen(true)}
-        disableFocusRipple
-        sx={{
-          background: global.user.darkMode
-            ? "hsl(240,11%,15%)!important"
-            : `${colors[themeColor][50]}!important`,
-          "&:hover": {
+      <SpotlightProvider
+        limit={7}
+        // highlightQuery
+        actions={actions}
+        shortcut={["mod + P", "mod + K", "/"]}
+        searchIcon={<Icon>search</Icon>}
+        searchPlaceholder="Search..."
+        actionComponent={CustomAction}
+        nothingFoundMessage="Nothing found..."
+      >
+        <Button
+          disabled={!window.navigator.onLine}
+          onClick={() => openSpotlight()}
+          disableFocusRipple
+          sx={{
             background: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
-              : `${hexToRgba(colors[themeColor][100], 0.5)}!important`,
-          },
-          transition: "none !important",
-          "&:hover, &:active": {
-            cursor: "pointer",
-          },
-          width: "30vw",
-          justifyContent: "start",
-          "& .MuiTouchRipple-rippleVisible": {
-            transitionDuration: ".2s!important",
-          },
-          px: 2,
-          ml: "auto",
-          cursor: "text",
-          color: global.user.darkMode
-            ? "hsl(240,11%,95%)!important"
-            : colors[themeColor][900],
-          display: { xs: "none", sm: "flex" },
-          height: "45px",
-          gap: 2,
-          borderRadius: 3,
-          "&:hover .hover": {
-            opacity: 1,
-          },
-        }}
-        className={global.user.darkMode ? "rippleDark" : ""}
-      >
-        <MuiIcon>bolt</MuiIcon>
-        Jump to
-        <span className="hover" style={{ marginLeft: "auto" }}>
-          <span
-            style={{
-              padding: "2px 5px",
-              borderRadius: "5px",
+              : `${colors[themeColor][50]}!important`,
+            "&:hover": {
               background: global.user.darkMode
-                ? "hsl(240,11%,20%)"
-                : colors[themeColor][100],
-            }}
-          >
-            ctrl
-          </span>{" "}
-          <span
-            style={{
-              padding: "2px 5px",
-              borderRadius: "5px",
-              background: global.user.darkMode
-                ? "hsl(240,11%,20%)"
-                : colors[themeColor][100],
-            }}
-          >
-            k
-          </span>
-        </span>
-      </Button>
-      <Tooltip
-        title="Jump to"
-        PopperProps={{
-          sx: { mt: "-5px!important" },
-        }}
-      >
-        <IconButton
-          disabled={!window.navigator.onLine}
-          disableRipple
-          onClick={() => {
-            setOpen(true);
+                ? "hsl(240,11%,15%)!important"
+                : `${hexToRgba(colors[themeColor][100], 0.5)}!important`,
+            },
+            transition: "none !important",
+            "&:hover, &:active": {
+              cursor: "pointer",
+            },
+            width: "30vw",
+            justifyContent: "start",
+            "& .MuiTouchRipple-rippleVisible": {
+              transitionDuration: ".2s!important",
+            },
+            px: 2,
+            ml: "auto",
+            cursor: "text",
+            color: global.user.darkMode
+              ? "hsl(240,11%,95%)!important"
+              : colors[themeColor][900],
+            display: { xs: "none", sm: "flex" },
+            height: "45px",
+            gap: 2,
+            borderRadius: 3,
+            "&:hover .hover": {
+              opacity: 1,
+            },
           }}
-          color="inherit"
-          sx={{
-            borderRadius: 94,
-            mr: 1,
-            ml: 0.6,
-            display: { sm: "none" },
-            color: {
-              xs: global.theme == "dark" ? "hsl(240,11%,95%)" : "#606060",
-            },
-            transition: "all .2s",
-            "&:active": {
-              opacity: 0.5,
-              transition: "none",
-            },
+          className={global.user.darkMode ? "rippleDark" : ""}
+        >
+          <Icon>bolt</Icon>
+          Jump to
+          <span className="hover" style={{ marginLeft: "auto" }}>
+            <span
+              style={{
+                padding: "2px 5px",
+                borderRadius: "5px",
+                background: global.user.darkMode
+                  ? "hsl(240,11%,20%)"
+                  : colors[themeColor][100],
+              }}
+            >
+              ctrl
+            </span>{" "}
+            <span
+              style={{
+                padding: "2px 5px",
+                borderRadius: "5px",
+                background: global.user.darkMode
+                  ? "hsl(240,11%,20%)"
+                  : colors[themeColor][100],
+              }}
+            >
+              k
+            </span>
+          </span>
+        </Button>
+        <Tooltip
+          title="Jump to"
+          PopperProps={{
+            sx: { mt: "-5px!important" },
           }}
         >
-          <MuiIcon className="outlined">search</MuiIcon>
-        </IconButton>
-      </Tooltip>
-      <SwipeableDrawer
-        open={open}
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        disableSwipeToOpen
-        anchor="bottom"
-        sx={{
-          height: { sm: "100vh" },
-          display: { sm: "flex" },
-          alignItems: { sm: "center" },
-          justifyContent: { sm: "center" },
-        }}
-        PaperProps={{
-          sx: {
-            pt: { sm: 3 },
-            width: {
-              sm: "50vw",
-            },
-            bottom: { sm: "unset!important" },
-            maxWidth: "650px",
-            maxHeight: "95vh",
-            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            "& input": {
-              background: "transparent!important",
-            },
-          },
-        }}
-      >
-        <Box sx={{ display: { sm: "none" } }}>
-          <Puller />
-        </Box>
-        <Box className="carbon">
-          <Command
-            ref={ref}
-            onKeyDown={(e: React.KeyboardEvent) => {
-              if (isHome || inputValue.length) {
-                return;
-              }
-
-              if (e.key === "Backspace") {
-                e.preventDefault();
-                popPage();
-              }
+          <IconButton
+            disabled={!window.navigator.onLine}
+            disableRipple
+            onClick={() => openSpotlight()}
+            color="inherit"
+            sx={{
+              borderRadius: 94,
+              mr: 1,
+              ml: 0.6,
+              display: { sm: "none" },
+              color: {
+                xs: global.theme == "dark" ? "hsl(240,11%,95%)" : "#606060",
+              },
+              transition: "all .2s",
+              "&:active": {
+                opacity: 0.5,
+                transition: "none",
+              },
             }}
           >
-            <div style={{ marginBottom: "10px" }}>
-              {pages
-                .filter((p) => p.toLowerCase() !== "home")
-                .map((p) => (
-                  <div className="cmdk-carbon-badge" key={p}>
-                    {p}
-                  </div>
-                ))}
-            </div>
-            <Command.Input
-              autoFocus
-              ref={inputRef}
-              placeholder="What do you need?"
-              value={inputValue}
-              onValueChange={(value) => {
-                setInputValue(value);
-              }}
-            />
-            <Command.List>
-              <Command.Empty>
-                <Box
-                  sx={{
-                    p: 0,
-                    width: "100%",
-                    borderRadius: 4,
-                    textAlign: "center",
-                    my: 3,
-                  }}
-                >
-                  <Typography variant="h6" sx={{ mb: 4 }}>
-                    No results found
-                  </Typography>
-                </Box>
-              </Command.Empty>
-              {activePage === "home" && (
-                <Home
-                  setOpen={setOpen}
-                  onLink={onLink}
-                  searchSettings={() => {
-                    setPages([...pages, "Settings"]);
-                    setInputValue("");
-                  }}
-                />
-              )}
-              {activePage === "Settings" && <Settings />}
-              <Box>
-                <Box
-                  style={{
-                    padding: "10px",
-                  }}
-                ></Box>
-              </Box>
-            </Command.List>
-          </Command>
-        </Box>
-      </SwipeableDrawer>
+            <Icon className="outlined">search</Icon>
+          </IconButton>
+        </Tooltip>
+      </SpotlightProvider>
     </>
   );
 }

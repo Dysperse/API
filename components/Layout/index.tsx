@@ -166,11 +166,7 @@ function ResponsiveDrawer({
   const router = useRouter();
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       {router && (
         <PWAPrompt
           copyBody="Add Carbon to your home screen to have easy access, recieve push notifications, and more!"
