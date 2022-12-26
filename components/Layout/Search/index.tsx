@@ -169,6 +169,7 @@ export function SearchPopup() {
           return {
             title: property.profile.name,
             onTrigger: () => {
+              router.push("/tasks");
               fetchApiWithoutHook("property/join", {
                 email: global.user.email,
                 accessToken1: property.accessToken,

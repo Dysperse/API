@@ -215,6 +215,7 @@ export function Group({
       <ListItem
         button
         onClick={() => {
+          router.push("/tasks");
           if (data.propertyId === global.property.propertyId) {
             setOpen(true);
           } else {
