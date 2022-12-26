@@ -1,15 +1,19 @@
+import React from "react";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
-import React from "react";
 
-import { Box, LinearProgress, Typography } from "@mui/material";
+import { Progress } from "@mantine/core";
+import { Box, Typography } from "@mui/material";
 
 /**
  * Item limit
  */
 export function UpgradeBanner({ color }: { color: string }) {
   const { data }: ApiResponse = useApi("property/inventory/count");
+  const { data: boardCount }: ApiResponse = useApi("property/boards");
+  const { data: memoCount } = useApi("property/spaces");
+
   const [value, setValue] = React.useState(0);
 
   React.useEffect(() => {
@@ -20,10 +24,18 @@ export function UpgradeBanner({ color }: { color: string }) {
     }
   }, [data]);
 
+  const max = 500;
+
+  const ratio = {
+    oneItem: 0.2,
+    oneBoard: 0.5,
+    oneMemo: 0.7,
+  };
+
   return !data ? null : (
     <Box>
       <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
-        Items
+        Storage
       </Typography>
       <Box
         sx={{
@@ -39,21 +51,37 @@ export function UpgradeBanner({ color }: { color: string }) {
           global.setItemLimitReached(data >= 250);
         }}
       >
-        <LinearProgress
-          color="inherit"
+        <Progress
+          // radius="xl"
+          size={15}
           sx={{
-            height: 8,
-            borderRadius: 5,
-            mb: 1,
-            "& *": {
-              borderRadius: 5,
-            },
-            backgroundColor: colors[color]["100"].toString(),
+            marginBottom: "10px",
+            background: colors[color]["200"] + "!important",
           }}
-          variant="determinate"
-          value={value}
+          sections={[
+            {
+              value: (((data || { count: 0 }).count * 2) / max) * 100,
+              color: "pink",
+            },
+            {
+              value: (((boardCount || []).length * 10) / max) * 100,
+              color: "grape",
+            },
+            {
+              value: (((memoCount || []).length * 10) / max) * 100,
+              color: "violet",
+            },
+          ]}
         />
-        <Typography>{data.count} out of 250 items. </Typography>
+        <Typography>
+          Items: {Math.round((((data || { count: 0 }).count * 2) / max) * 100)}%
+        </Typography>
+        <Typography>
+          Boards: {Math.round((((boardCount || []).length * 10) / max) * 100)}%
+        </Typography>
+        <Typography>
+          Memos: {Math.round((((memoCount || []).length * 10) / max) * 100)}%
+        </Typography>
       </Box>
     </Box>
   );
