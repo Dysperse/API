@@ -122,6 +122,7 @@ export default function Trash() {
                   .then(() => {
                     mutate(url).then(() => {
                       setLoading(false);
+                      setOpen(false);
                     });
                   });
               }}
