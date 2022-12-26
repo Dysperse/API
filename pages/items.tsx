@@ -774,7 +774,7 @@ export default function Categories({ children = null }: any) {
             <CreateRoom mutationUrl={url} />
             <Divider sx={{ my: 1 }} />
             {/* <Action href="/starred" icon="star" primary="Starred" /> */}
-            {/* <Action href="/trash" icon="delete" primary="Trash" /> */}
+            <Action href="/trash" icon="delete" primary="Trash" />
           </>
         ) : (
           <CategoryList />

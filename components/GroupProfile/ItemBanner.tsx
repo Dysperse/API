@@ -60,7 +60,7 @@ export function UpgradeBanner({ color }: { color: string }) {
           }}
           sections={[
             {
-              value: (((data || { count: 0 }).count * 2) / max) * 100,
+              value: (((data || { count: 0 }).count * 2.5) / max) * 100,
               color: "pink",
             },
             {
@@ -68,19 +68,26 @@ export function UpgradeBanner({ color }: { color: string }) {
               color: "grape",
             },
             {
-              value: (((memoCount || []).length * 10) / max) * 100,
+              value: (((memoCount || []).length * 5) / max) * 100,
               color: "violet",
             },
           ]}
         />
-        <Typography>
-          Items: {Math.round((((data || { count: 0 }).count * 2) / max) * 100)}%
+        <Typography gutterBottom>
+          <b>Items</b>
+          <br />{" "}
+          {Math.round((((data || { count: 0 }).count * 2.5) / max) * 100)}%
+          &bull; {(data || { count: 0 }).count} items
         </Typography>
-        <Typography>
-          Boards: {Math.round((((boardCount || []).length * 10) / max) * 100)}%
+        <Typography gutterBottom>
+          <b>Boards</b>
+          <br /> {Math.round((((boardCount || []).length * 10) / max) * 100)}%
+          &bull; {(boardCount || []).length} boards
         </Typography>
-        <Typography>
-          Memos: {Math.round((((memoCount || []).length * 10) / max) * 100)}%
+        <Typography gutterBottom>
+          <b>Memos</b>
+          <br /> {Math.round((((memoCount || []).length * 5) / max) * 100)}%
+          &bull; {(memoCount || []).length} memos
         </Typography>
       </Box>
     </Box>
