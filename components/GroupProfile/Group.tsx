@@ -29,6 +29,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 function Changelog({ house }) {
   const [open, setOpen] = React.useState(false);
@@ -210,15 +211,17 @@ export function Group({
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+  const router = useRouter();
+
   return (
     <>
       <ListItem
         button
         onClick={() => {
-          router.push("/tasks");
           if (data.propertyId === global.property.propertyId) {
             setOpen(true);
           } else {
+            router.push("/tasks");
             setLoading(true);
             fetchApiWithoutHook("property/join", {
               email: global.user.email,
