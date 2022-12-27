@@ -1,5 +1,4 @@
-import { Alert, IconButton, Link, Typography ,Icon} from "@mui/material";
-import Cookies from "js-cookie";
+import { Alert, Icon, IconButton, Link, Typography } from "@mui/material";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { TasksLayout } from "../components/Boards/Layout";
@@ -11,7 +10,7 @@ export default function Dashboard() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (Cookies.get("announcementClosed") !== "true") {
+    if (localStorage.getItem("surveyAnnouncement") !== "true") {
       setOpen(true);
     }
   }, [open]);
@@ -39,7 +38,7 @@ export default function Dashboard() {
               disableRipple
               onClick={() => {
                 setOpen(false);
-                Cookies.set("announcementClosed", "true");
+                localStorage.setItem("surveyAnnouncement", "true");
               }}
               sx={{
                 float: "right",
