@@ -72,7 +72,6 @@ function AddItemOption({
                   ? "hsl(240,11%,15%)!important"
                   : `${colors[themeColor][100]}!important`,
               },
-              py: 0,
               borderRadius: 6,
               "&:focus-within": {
                 background: global.user.darkMode
@@ -90,7 +89,7 @@ function AddItemOption({
               sx={{
                 display: "flex",
                 gap: 2,
-                py: { xs: 1, sm: 2 },
+                py: { xs: 1, sm: 0 },
                 alignItems: "center",
               }}
             >
@@ -182,16 +181,22 @@ function MoreRooms(): JSX.Element {
             <Grid container sx={{ p: 2 }}>
               <AddItemOption
                 title="Storage room"
-                icon={<Icon>inventory_2</Icon>}
+                icon={<Icon className="outlined">inventory_2</Icon>}
               />
-              <AddItemOption title="Camping" icon={<Icon>camping</Icon>} />
-              <AddItemOption title="Garden" icon={<Icon>yard</Icon>} />
+              <AddItemOption
+                title="Camping"
+                icon={<Icon className="outlined">camping</Icon>}
+              />
+              <AddItemOption
+                title="Garden"
+                icon={<Icon className="outlined">yard</Icon>}
+              />
               {data.map((room: Room) => (
                 <AddItemOption
                   title={room.id.toString()}
                   key={room.id.toString()}
                   alias={room.name}
-                  icon={<Icon>label</Icon>}
+                  icon={<Icon className="outlined">label</Icon>}
                 />
               ))}
             </Grid>
@@ -248,7 +253,7 @@ function MoreRooms(): JSX.Element {
               }}
             >
               <Typography variant="h4">
-                <Icon>add_location_alt</Icon>
+                <Icon className="outlined">add_location_alt</Icon>
               </Typography>
               <Typography
                 sx={{
@@ -278,34 +283,55 @@ function Content(): JSX.Element {
       <Grid container sx={{ p: 1 }}>
         {global.property.profile.type !== "study group" &&
           global.property.profile.type !== "dorm" && (
-            <AddItemOption title="Kitchen" icon={<Icon>blender</Icon>} />
+            <AddItemOption
+              title="Kitchen"
+              icon={<Icon className="outlined">blender</Icon>}
+            />
           )}
         {global.property.profile.type !== "study group" && (
           <>
-            <AddItemOption title="Bedroom" icon={<Icon>bedroom_parent</Icon>} />
-            <AddItemOption title="Bathroom" icon={<Icon>bathroom</Icon>} />
+            <AddItemOption
+              title="Bedroom"
+              icon={<Icon className="outlined">bedroom_parent</Icon>}
+            />
+            <AddItemOption
+              title="Bathroom"
+              icon={<Icon className="outlined">bathroom</Icon>}
+            />
 
-            <AddItemOption title="Storage" icon={<Icon>inventory_2</Icon>} />
+            <AddItemOption
+              title="Storage"
+              icon={<Icon className="outlined">inventory_2</Icon>}
+            />
           </>
         )}
         {global.property.profile.type !== "study group" &&
           global.property.profile.type !== "dorm" && (
             <>
-              <AddItemOption title="Garage" icon={<Icon>garage</Icon>} />
+              <AddItemOption
+                title="Garage"
+                icon={<Icon className="outlined">garage</Icon>}
+              />
               <AddItemOption
                 title={<>Living&nbsp;room</>}
-                icon={<Icon>living</Icon>}
+                icon={<Icon className="outlined">living</Icon>}
               />
-              <AddItemOption title={<>Dining</>} icon={<Icon>dining</Icon>} />
+              <AddItemOption
+                title={<>Dining</>}
+                icon={<Icon className="outlined">dining</Icon>}
+              />
               <AddItemOption
                 title={<>Laundry&nbsp;room</>}
-                icon={<Icon>local_laundry_service</Icon>}
+                icon={<Icon className="outlined">local_laundry_service</Icon>}
               />
               <MoreRooms />
             </>
           )}
         {global.property.profile.type == "study group" && (
-          <AddItemOption title="Backpack" icon={<Icon>backpack</Icon>} />
+          <AddItemOption
+            title="Backpack"
+            icon={<Icon className="outlined">backpack</Icon>}
+          />
         )}
       </Grid>
     </List>
