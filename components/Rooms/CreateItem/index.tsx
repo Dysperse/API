@@ -46,7 +46,7 @@ function AddItemOption({
   title: JSX.Element | string;
 }): JSX.Element {
   return (
-    <Grid item xs={12} sm={4}>
+    <Grid item xs={12} sm={4} spacing={2}>
       <CreateItemModal room={title} alias={alias}>
         <Card
           sx={{
@@ -54,13 +54,12 @@ function AddItemOption({
               sm: "center",
             },
             boxShadow: 0,
-            borderRadius: { xs: 1, sm: 6 },
+            borderRadius: { xs: 1, sm: 4 },
             transition: "transform .2s, border-radius .2s",
             "&:active": {
               boxShadow: "none!important",
               transform: "scale(0.98)",
-              transition: "border-radius .2s, transform 0s!important",
-              borderRadius: { xs: 9, sm: 9 },
+              transition: "none",
             },
           }}
         >
@@ -89,7 +88,7 @@ function AddItemOption({
               sx={{
                 display: "flex",
                 gap: 2,
-                py: { xs: 1, sm: 0 },
+                py: 1,
                 alignItems: "center",
               }}
             >
@@ -250,6 +249,7 @@ function MoreRooms(): JSX.Element {
                 display: "flex",
                 gap: 2,
                 alignItems: "center",
+                py: 1,
               }}
             >
               <Typography variant="h4">
