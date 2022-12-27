@@ -16,6 +16,7 @@ import Webcam from "react-webcam";
 import { colors } from "../../../lib/colors";
 
 const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
+  const [forever, setForever] = React.useState(false);
   const webcamRef: any = React.useRef(null);
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -34,25 +35,49 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
       {
         loading: "Fetching image recognition...",
         success: (response) => {
-          let text = response.includes("sitting") ? response.split("sitting")[0] : response; 
-          text = text.replace("a person holding", "")
-          text = text.replace("in their hand", "")
-          if(text.includes("holding a")) text = text.split("holding a")[1];
-          if(text.includes("on top")) text = text.split("on top")[0];
-        
-          let title = text.includes(" of ") ? text.split(" of ")[1]: text;
-          let qty = "1";
-          ["jar","container","pair","box","pack","packet", "bag", "canister"].forEach(word =>{ if(text.includes(word)) { qty = "1 "+word }})
-          title = text.includes("filled with") ? text.split("filled with")[1]: text
-          title = text.replace("jar of", "")
-          if(title.startsWith(" a ")) title = title.replace(" a ", "")
+          let text = response.includes("sitting")
+            ? response.split("sitting")[0]
+            : response;
+          text = text.replace("a person holding", "");
+          text = text.replace("in their hand", "");
+          if (text.includes("holding a")) text = text.split("holding a")[1];
+          if (text.includes("on top")) text = text.split("on top")[0];
 
-          text = text.replace("in their hand", "")
+          let title = text.includes(" of ") ? text.split(" of ")[1] : text;
+          let qty = "1";
+          [
+            "jar",
+            "container",
+            "pair",
+            "box",
+            "pack",
+            "packet",
+            "bag",
+            "canister",
+          ].forEach((word) => {
+            if (text.includes(word)) {
+              qty = "1 " + word;
+            }
+          });
+          title = text.includes("filled with")
+            ? text.split("filled with")[1]
+            : text;
+          title = text.replace("jar of", "");
+          if (title.startsWith(" a ")) title = title.replace(" a ", "");
+
+          text = text.replace("in their hand", "");
           title = title.trim();
           title = title.charAt(0).toUpperCase() + title.slice(1);
-          formik.setFieldValue("title", title);
-          formik.setFieldValue("quantity", qty);
-          setOpen(false);
+
+          if (forever) {
+            formik.setFieldValue("title", title);
+            formik.setFieldValue("quantity", qty);
+            setOpen(false);
+          } else {
+            formik.setFieldValue("title", title);
+            formik.setFieldValue("quantity", qty);
+            setOpen(false);
+          }
           return "Image recognition updated: " + response;
         },
         error: (e) => "Image recognition failed: " + e.message,
@@ -109,6 +134,34 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
         }}
         onClick={capture}
       />
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 30,
+          right: 20,
+          backdropFilter: "blur(10px)",
+          width: 50,
+          height: 50,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          cursor: "pointer",
+          transition: "transform .2s",
+          color: "#fff",
+          "&:active": {
+            transition: "none",
+            transform: "scale(.9)",
+          },
+          borderRadius: 99,
+          ...(forever && {
+            background: "linear-gradient(-25deg, #aaa 30%, #fff 90%)",
+            color: "#000",
+          }),
+        }}
+        onClick={() => setForever(!forever)}
+      >
+        <Icon>all_inclusive</Icon>
+      </Box>
     </>
   );
 };
@@ -137,12 +190,12 @@ export function ImageRecognition({ formik }) {
   const popoverOpen = Boolean(anchorEl);
   const id = popoverOpen ? "simple-popover" : undefined;
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      const btn: any = document.getElementById("scanTrigger");
-      setAnchorEl(btn);
-    }, 1000);
-  }, []);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     const btn: any = document.getElementById("scanTrigger");
+  //     setAnchorEl(btn);
+  //   }, 1000);
+  // }, []);
 
   return (
     <>
