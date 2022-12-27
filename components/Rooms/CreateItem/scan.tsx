@@ -9,81 +9,94 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Webcam from "react-webcam";
+import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
 
-const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
+const WebcamComponent = ({
+  formik,
+  setOpen,
+  facingMode,
+  setFacingMode,
+  room,
+}) => {
   const [forever, setForever] = React.useState(false);
   const webcamRef: any = React.useRef(null);
-  const capture = React.useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    toast.promise(
-      fetch("/api/property/inventory/image-recognition", {
-        method: "POST",
-        body: JSON.stringify({
-          imageUrl: imageSrc,
-        }),
-      })
+  const capture = React.useCallback(async () => {
+    try {
+      const imageSrc = webcamRef.current.getScreenshot();
+
+      const response = await fetch(
+        "/api/property/inventory/image-recognition",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            imageUrl: imageSrc,
+          }),
+        }
+      )
         .then((res) => res.json())
-        .then((res) => res)
         .catch((err) => {
-          alert("Error: " + err.message);
-        }),
-      {
-        loading: "Fetching image recognition...",
-        success: (response) => {
-          let text = response.includes("sitting")
-            ? response.split("sitting")[0]
-            : response;
-          text = text.replace("a person holding", "");
-          text = text.replace("in their hand", "");
-          if (text.includes("holding a")) text = text.split("holding a")[1];
-          if (text.includes("on top")) text = text.split("on top")[0];
+          throw new Error(err.message);
+        });
 
-          let title = text.includes(" of ") ? text.split(" of ")[1] : text;
-          let qty = "1";
-          [
-            "jar",
-            "container",
-            "pair",
-            "box",
-            "pack",
-            "packet",
-            "bag",
-            "canister",
-          ].forEach((word) => {
-            if (text.includes(word)) {
-              qty = "1 " + word;
-            }
-          });
-          title = text.includes("filled with")
-            ? text.split("filled with")[1]
-            : text;
-          title = text.replace("jar of", "");
-          if (title.startsWith(" a ")) title = title.replace(" a ", "");
+      alert(JSON.stringify(response));
 
-          text = text.replace("in their hand", "");
-          title = title.trim();
-          title = title.charAt(0).toUpperCase() + title.slice(1);
+      let text = response.includes("sitting")
+        ? response.split("sitting")[0]
+        : response;
+      text = text.replace("a person holding", "");
+      text = text.replace("in their hand", "");
+      if (text.includes("holding a")) text = text.split("holding a")[1];
+      if (text.includes("on top")) text = text.split("on top")[0];
 
-          if (forever) {
-            formik.setFieldValue("title", title);
-            formik.setFieldValue("quantity", qty);
-            setOpen(false);
-          } else {
-            formik.setFieldValue("title", title);
-            formik.setFieldValue("quantity", qty);
-            setOpen(false);
-          }
-          return "Image recognition updated: " + response;
-        },
-        error: (e) => "Image recognition failed: " + e.message,
+      let title = text.includes(" of ") ? text.split(" of ")[1] : text;
+      let qty = "1";
+      [
+        "jar",
+        "container",
+        "pair",
+        "box",
+        "pack",
+        "packet",
+        "bag",
+        "canister",
+      ].forEach((word) => {
+        if (text.includes(word)) {
+          qty = "1 " + word;
+        }
+      });
+      title = text.includes("filled with")
+        ? text.split("filled with")[1]
+        : text;
+      title = text.replace("jar of", "");
+      if (title.startsWith(" a ")) title = title.replace(" a ", "");
+
+      text = text.replace("in their hand", "");
+      title = title.trim();
+      title = title.charAt(0).toUpperCase() + title.slice(1);
+      if (forever) {
+        await fetchApiWithoutHook("property/inventory/create", {
+          room: room.toString().toLowerCase(),
+          name: title,
+          quantity: qty,
+          lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        });
+        return "Created item: " + title + " • " + qty;
+      } else {
+        formik.setFieldValue("title", title);
+        formik.setFieldValue("quantity", qty);
+        setOpen(false);
+        return "Success";
       }
-    );
-  }, [webcamRef, formik, setOpen]);
+    } catch (err: any) {
+      toast.error("Error: " + err.message);
+    }
+  }, [forever, webcamRef, formik, setOpen, room]);
 
   const { width, height } = useWindowSize();
 
@@ -166,7 +179,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, setFacingMode }) => {
   );
 };
 
-export function ImageRecognition({ formik }) {
+export function ImageRecognition({ formik, room }) {
   const [open, setOpen] = React.useState(false);
   const [facingMode, setFacingMode] = React.useState("user");
 
@@ -310,6 +323,7 @@ export function ImageRecognition({ formik }) {
           </Toolbar>
         </AppBar>
         <WebcamComponent
+          room={room}
           formik={formik}
           setOpen={setOpen}
           facingMode={facingMode}
