@@ -26,6 +26,7 @@ const WebcamComponent = ({
 }) => {
   const [forever, setForever] = React.useState(false);
   const webcamRef: any = React.useRef(null);
+
   const capture = React.useCallback(async () => {
     try {
       const imageSrc = webcamRef.current.getScreenshot();
@@ -123,10 +124,14 @@ const WebcamComponent = ({
         ref={webcamRef}
         screenshotFormat="image/png"
         videoConstraints={videoConstraints}
+        width={"100vw"}
+        height={"100vh"}
         style={{
           position: "fixed",
           top: 0,
           left: 0,
+          right: 0,
+          bottom: 0,
           width: "100vw",
           height: "100vh",
         }}
@@ -185,7 +190,7 @@ const WebcamComponent = ({
 
 export function ImageRecognition({ formik, room }) {
   const [open, setOpen] = React.useState(false);
-  const [facingMode, setFacingMode] = React.useState("user");
+  const [facingMode, setFacingMode] = React.useState("environment");
 
   React.useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
@@ -281,7 +286,7 @@ export function ImageRecognition({ formik, room }) {
         PaperProps={{
           sx: {
             width: "100vw",
-            background: "#000",
+            background: "black",
           },
         }}
       >
