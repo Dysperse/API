@@ -72,6 +72,7 @@ function AddItemOption({
                   ? "hsl(240,11%,15%)!important"
                   : `${colors[themeColor][100]}!important`,
               },
+              py: 0,
               borderRadius: 6,
               "&:focus-within": {
                 background: global.user.darkMode
@@ -391,11 +392,7 @@ export default function AddPopup({
             overflowY: "auto",
           }}
         >
-          <Typography
-            variant="h6"
-            className="font-secondary"
-            sx={{ mx: "auto", textAlign: "center" }}
-          >
+          <Typography variant="h5" sx={{ mx: "auto", textAlign: "center" }}>
             Create item
           </Typography>
 

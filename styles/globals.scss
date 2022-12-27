@@ -87,7 +87,7 @@ img {
 }
 @supports (backdrop-filter: blur(2px)) {
   .MuiBackdrop-root:not(.override-bg) {
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
     background-color: var(--backdropTheme) !important;
   }
 }
