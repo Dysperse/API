@@ -220,12 +220,15 @@ export function ImageRecognition({ formik, room }) {
   const popoverOpen = Boolean(anchorEl);
   const id = popoverOpen ? "simple-popover" : undefined;
 
-  // React.useEffect(() => {
-  //   setTimeout(() => {
-  //     const btn: any = document.getElementById("scanTrigger");
-  //     setAnchorEl(btn);
-  //   }, 1000);
-  // }, []);
+  React.useEffect(() => {
+    const popoverClosedBefore = localStorage.getItem("popoverClosedBefore");
+    if (popoverClosedBefore) return;
+    setTimeout(() => {
+      const btn: any = document.getElementById("scanTrigger");
+      setAnchorEl(btn);
+      localStorage.setItem("popoverClosedBefore", "true");
+    }, 1000);
+  }, []);
 
   return (
     <>
