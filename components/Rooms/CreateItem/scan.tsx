@@ -31,6 +31,12 @@ const WebcamComponent = ({
     try {
       const imageSrc = webcamRef.current.getScreenshot();
 
+      const webcamContainer = document.getElementById("webcamContainer");
+      webcamContainer.style.opacity = "0";
+      setTimeout(() => {
+        webcamContainer.style.opacity = "1";
+      }, 100);
+
       const response = await fetch(
         "/api/property/inventory/image-recognition",
         {
@@ -122,6 +128,7 @@ const WebcamComponent = ({
         screenshotQuality={0.6}
         audio={false}
         ref={webcamRef}
+        id="webcamContainer"
         screenshotFormat="image/png"
         videoConstraints={videoConstraints}
         width={"100vw"}
