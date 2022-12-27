@@ -175,7 +175,7 @@ function ResponsiveDrawer({
       )}
       <Navbar />
       <KeyboardShortcutsModal />
-      <DailyTasksModal />
+      {/* <DailyTasksModal /> */}
       <Box
         sx={{
           width: { md: "85px" },
