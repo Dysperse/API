@@ -44,8 +44,6 @@ const WebcamComponent = ({
           throw new Error(err.message);
         });
 
-      alert(JSON.stringify(response));
-
       let text = response.includes("sitting")
         ? response.split("sitting")[0]
         : response;
@@ -84,9 +82,17 @@ const WebcamComponent = ({
           room: room.toString().toLowerCase(),
           name: title,
           quantity: qty,
+          category: "[]",
           lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         });
-        return "Created item: " + title + " • " + qty;
+        toast(
+          <Box>
+            <Typography variant="h6">Item added</Typography>
+            <Typography variant="body1">
+              {title} &bull; {qty}
+            </Typography>
+          </Box>
+        );
       } else {
         formik.setFieldValue("title", title);
         formik.setFieldValue("quantity", qty);
@@ -101,8 +107,6 @@ const WebcamComponent = ({
   const { width, height } = useWindowSize();
 
   const videoConstraints = {
-    //width: width,
-    //height: height,
     facingMode:
       facingMode == "user"
         ? "user"
