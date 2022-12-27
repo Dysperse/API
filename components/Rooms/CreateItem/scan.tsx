@@ -31,7 +31,7 @@ const WebcamComponent = ({
     try {
       const imageSrc = webcamRef.current.getScreenshot();
 
-      const webcamContainer = document.getElementById("webcamContainer");
+      const webcamContainer: any = document.getElementById("webcamContainer");
       webcamContainer.style.opacity = "0";
       setTimeout(() => {
         webcamContainer.style.opacity = "1";
