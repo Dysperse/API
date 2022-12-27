@@ -1,4 +1,4 @@
-import { Box, createTheme, Typography } from "@mui/material";
+import { Box, Chip, createTheme, Typography } from "@mui/material";
 import { brown } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
@@ -72,6 +72,7 @@ export function Layout({ children }): JSX.Element {
             <Typography variant="h6" sx={{ mt: -0.5 }}>
               Carbon
             </Typography>
+            <Chip label="ALPHA" color="warning" size="small" sx={{ ml: 1 }} />
           </Box>
           {children}
         </Box>
