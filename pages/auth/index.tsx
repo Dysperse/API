@@ -225,6 +225,7 @@ export default function Prompt() {
                 formik.handleSubmit();
               }}
               size="large"
+              disableElevation
               sx={{
                 width: "100%",
                 mb: 1.4,
@@ -475,7 +476,9 @@ export default function Prompt() {
               gap: 3,
             }}
           >
-            <Icon>lightbulb</Icon>
+            <Icon className="material-symbols-outlined outlined">
+              lightbulb
+            </Icon>
             <span>
               <i>
                 <b>{proTip.split(":")[0]}</b>
