@@ -190,8 +190,6 @@ export default function Onboarding() {
       {[
         "red",
         "orange",
-        "deepOrange",
-        "lightBlue",
         "blue",
         "indigo",
         "purple",

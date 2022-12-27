@@ -19,7 +19,6 @@ export function Color({ color, setThemeColor, handleNext }) {
           updateSettings("color", color.toLowerCase());
         }
 
-        // setThemeColor(color);
         handleNext();
       }}
       sx={{
