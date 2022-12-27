@@ -139,6 +139,7 @@ const WebcamComponent = ({
           left: 0,
           right: 0,
           bottom: 0,
+          transition: "opacity .1s",
           width: "100vw",
           height: "100vh",
         }}
