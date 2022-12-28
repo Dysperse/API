@@ -279,7 +279,7 @@ export function TasksLayout() {
                 gap: 2,
               }}
             >
-              <Icon>add_circle</Icon>Create
+              <Icon className={activeTab==="new"?"":"outlined"}>add_circle</Icon>Create
             </Button>
           </Box>
         </Box>
