@@ -10,7 +10,14 @@ export default async function handler(req, res) {
       accessToken: accessToken,
     },
     select: {
-      user: true,
+      user: {
+        select: {
+          email: true,
+          verifiedEmail: true,
+          name: true,
+          color: true,
+        },
+      },
     },
   });
 
