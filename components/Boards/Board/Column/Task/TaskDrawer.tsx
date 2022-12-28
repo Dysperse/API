@@ -180,6 +180,7 @@ export function TaskDrawer({
             <Button
               variant={"contained"}
               onClick={() => setView("Details")}
+              accessKey="a"
               sx={{
                 borderRadius: 4,
                 mr: 1,
@@ -201,6 +202,7 @@ export function TaskDrawer({
             <Button
               variant={"contained"}
               onClick={() => setView("Subtasks")}
+              accessKey="s"
               sx={{
                 gap: 1.5,
                 background:
