@@ -171,19 +171,26 @@ export function InviteButton() {
       </SwipeableDrawer>
       <Box id="new_trigger" onClick={handleClick} />
       <Button
+        disableRipple
         disabled={!window.navigator.onLine}
-        disableFocusRipple
         id="houseProfileTrigger"
         onClick={() => setOpen(true)}
         sx={{
           background: "transparent!important",
-          "&:active": {
-            transform: "scale(0.95)",
-          },
+          color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
           "&:hover": {
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
               : "#eee!important",
+            color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
+          },
+          "&:active": {
+            backgroundColor: global.user.darkMode
+              ? "hsl(240,11%,15%)!important"
+              : "#ddd!important",
+            color: global.user.darkMode
+              ? "hsl(240,11%,15%)!important"
+              : "#000!important",
           },
           userSelect: "none",
           cursor: "pointer",
@@ -191,7 +198,6 @@ export function InviteButton() {
           p: 1,
           py: 0,
           gap: 1,
-          color: "inherit",
           borderRadius: 2,
         }}
       >
@@ -210,7 +216,7 @@ export function InviteButton() {
         >
           {global.property.profile.name || "My group"}
         </Typography>
-        <Icon>expand_more</Icon>
+        <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
       </Button>{" "}
     </>
   );

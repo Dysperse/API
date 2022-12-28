@@ -35,8 +35,7 @@ export function Navbar(): JSX.Element {
       color: global.user.darkMode ? "hsl(240,11%,100%)" : "#000",
     },
     "&:active": {
-      opacity: 0.5,
-      transform: "scale(0.95)",
+      background: "rgba(200,200,200,.5)",
       transition: "none",
     },
   };
@@ -134,7 +133,7 @@ export function Navbar(): JSX.Element {
         <AppsMenu styles={styles} />
         <Tooltip title="Support">
           <IconButton
-            sx={{ ...styles, display: { xs: "none", sm: "inline-flex"} }}
+            sx={{ ...styles, display: { xs: "none", sm: "inline-flex" } }}
             color="inherit"
             disabled={!window.navigator.onLine}
             disableRipple

@@ -13,7 +13,6 @@ import { colors } from "../lib/colors";
 
 // CSS files
 import "../styles/globals.scss";
-import "../styles/search.scss";
 
 // Types
 import { Property, Session } from "../types/session";
@@ -241,10 +240,10 @@ function RenderWithLayout({
             fontSize: "14px",
             color: global.user.darkMode
               ? "hsl(240, 11%, 30%)"
-              : colors[themeColor]["50"],
+              : colors[themeColor]["900"],
             background: global.user.darkMode
               ? "hsl(240, 11%, 90%)"
-              : colors[themeColor]["900"],
+              : colors[themeColor]["100"],
             paddingLeft: "13px",
             paddingRight: "13px",
             paddingTop: "5px",

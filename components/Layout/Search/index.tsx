@@ -243,12 +243,14 @@ export function SearchPopup() {
         <Button
           disabled={!window.navigator.onLine}
           onClick={() => openSpotlight()}
-          disableFocusRipple
+          disableRipple
           sx={{
             background: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
               : `${colors[themeColor][50]}!important`,
+            border: "1px solid" + colors[themeColor][50],
             "&:hover": {
+              border: "1px solid" + colors[themeColor][100],
               background: global.user.darkMode
                 ? "hsl(240,11%,15%)!important"
                 : `${hexToRgba(colors[themeColor][100], 0.5)}!important`,

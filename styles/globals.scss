@@ -97,7 +97,7 @@ img {
 .MuiIconButton-root:active .material-symbols-rounded,
 .MuiIconButton-root:active .material-symbols-outlined {
   transform: scale(1);
-  opacity: 0.6;
+  opacity: 1 !important;
 }
 .MuiIconButton-root:not(:active) .material-symbols-rounded,
 .MuiIconButton-root:not(:active) .material-symbols-outlined {

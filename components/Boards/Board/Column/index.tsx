@@ -304,7 +304,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[350px] bg-neutral-50 border border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] bg-neutral-100 border border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         position: "relative",
         width: "350px",
@@ -322,54 +322,60 @@ export const Column = React.memo(function Column({
         }),
       }}
     >
-      {!checkList && (
-        <Box sx={{ px: 1 }}>
-          <picture>
-            <img src={column.emoji} alt="emoji" />
-          </picture>
-        </Box>
-      )}
-      {!checkList && (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            mb: 2,
-            px: 1,
-          }}
-        >
-          <Box>
-            <Typography
-              variant="h5"
-              className="font-secondary"
-              sx={{
-                fontWeight: "600",
-                mb: 1,
-                mt: 2,
-                textDecoration: "underline",
-              }}
-            >
-              {column.name}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: "400",
-                my: 1,
-              }}
-            >
-              {columnTasks.filter((task) => task.completed).length} out of{" "}
-              {columnTasks.length} completed
-            </Typography>
+      <Box
+        sx={{
+          mb: 2,
+        }}
+      >
+        {!checkList && (
+          <Box sx={{ px: 1 }}>
+            <picture>
+              <img src={column.emoji} alt="emoji" />
+            </picture>
           </Box>
-          <OptionsMenu
-            boardId={boardId}
-            column={column}
-            mutationUrl={mutationUrl}
-          />
-        </Box>
-      )}
+        )}
+        {!checkList && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 2,
+              px: 1,
+            }}
+          >
+            <Box>
+              <Typography
+                variant="h5"
+                className="font-secondary"
+                sx={{
+                  fontWeight: "600",
+                  mb: 1,
+                  mt: 2,
+                  textDecoration: "underline",
+                }}
+              >
+                {column.name}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: "400",
+                  mt: 1,
+                }}
+              >
+                {columnTasks.filter((task) => task.completed).length} out of{" "}
+                {columnTasks.length} completed
+              </Typography>
+            </Box>
+            <OptionsMenu
+              boardId={boardId}
+              column={column}
+              mutationUrl={mutationUrl}
+            />
+          </Box>
+        )}
+      </Box>
       {columnTasks
         .filter((task) => !task.completed)
         .map((task) => (
