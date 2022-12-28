@@ -31,10 +31,10 @@ function Products() {
     },
     {
       key: 2,
-      label: "Availability",
+      label: "Availability (NEW)",
       href: "//availability.smartlist.tech",
       description:
-        "Find the best time for a group to get together (Coming soon!)",
+        "Find the best time for a group to get together",
     },
   ];
 
