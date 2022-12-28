@@ -172,7 +172,7 @@ export function CreateTask({
     }
 
     setLoading(true);
-    await fetchApiWithoutHook("property/boards/createTask", {
+    fetchApiWithoutHook("property/boards/createTask", {
       title,
       description,
       ...(image && { image: image.url }),
@@ -212,7 +212,7 @@ export function CreateTask({
   useEffect(() => {
     setTimeout(() => {
       titleRef.current?.focus();
-    }, 100);
+    });
   }, [open, titleRef]);
 
   return (

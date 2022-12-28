@@ -347,6 +347,7 @@ export const Task = React.memo(function Task({
       )}
       {task.subTasks.map((subtask) => (
         <SubTask
+          checkList={checkList}
           key={task.id}
           BpIcon={BpIcon}
           BpCheckedIcon={BpCheckedIcon}

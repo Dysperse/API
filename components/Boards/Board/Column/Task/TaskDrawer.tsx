@@ -73,6 +73,7 @@ export function TaskDrawer({
       }}
       PaperProps={{
         sx: {
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
           mt: { sm: "70px" },
           mb: { sm: 2 },
           width: "100%",
@@ -333,6 +334,7 @@ export function TaskDrawer({
           <Box sx={{ ml: 6, mt: 2 }}>
             {task.subTasks.map((subtask) => (
               <SubTask
+                checkList={false}
                 key={subtask.id}
                 noMargin
                 BpIcon={BpIcon}

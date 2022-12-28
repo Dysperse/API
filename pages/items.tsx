@@ -824,7 +824,7 @@ export default function Categories({ children = null }: any) {
             </Typography>
             {global.permission !== "read-only" && <FloatingActionButton sm />}
           </Box>
-          {global.permission !== "read-only" && <Tidy />}
+          {/* {global.permission !== "read-only" && <Tidy />} */}
         </Box>
       )}
     </Box>

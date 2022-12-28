@@ -175,7 +175,7 @@ export function Sidebar() {
                 } 0%, ${
                   global.user.darkMode
                     ? "hsl(240,11%,13%)"
-                    : colors[themeColor][50]
+                    : colors[themeColor][100]
                 } 100%)`,
                 zIndex: -1,
                 borderRadius: 5,
@@ -185,8 +185,9 @@ export function Sidebar() {
                 width: 55,
                 "&.Mui-selected *": {
                   color:
-                    colors[themeColor][global.user.darkMode ? 50 : 700] +
+                    colors[themeColor][global.user.darkMode ? 50 : 900] +
                     "!important",
+                  fontVariationSettings: `"FILL" 1, "wght" 300, "GRAD" 1, "opsz" 40`,
                 },
               },
             }}
