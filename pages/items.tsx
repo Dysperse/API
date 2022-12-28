@@ -422,6 +422,7 @@ function Action({
         ...((!isCustom &&
           router.asPath.toLowerCase().includes(primary.toLowerCase())) ||
         (isCustom &&
+          router.asPath.split("rooms/")[1] &&
           decode(router.asPath.split("rooms/")[1]).includes(
             primary.toLowerCase()
           ))
