@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import hexToRgba from "hex-to-rgba";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -65,22 +66,20 @@ export function TaskDrawer({
       open={open}
       disableSwipeToOpen
       BackdropProps={{
+        className: "override-bg",
         sx: {
-          opacity: {
-            sm: "0!important",
-          },
+          background:
+            hexToRgba(colors[task.color ?? "brown"][200], 0.5) + "!important",
+          backdropFilter: "blur(5px)",
         },
       }}
       PaperProps={{
         sx: {
           boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-          mt: { sm: "70px" },
-          mb: { sm: 2 },
           width: "100%",
           mx: "auto",
           height: "100vh",
           maxWidth: "500px",
-          // borderRadius: { sm: "20px 0 0 20px" },
           background:
             colors[task.color ?? task.color ?? global.themeColor ?? "brown"][
               global.theme === "dark" ? 900 : 50

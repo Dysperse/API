@@ -40,7 +40,7 @@ export const Task = React.memo(function Task({
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
         : "inset 0 0 0 2px " + colors[task.color ?? "brown"][700]) +
       ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     ".Mui-focusVisible &": {
       boxShadow:
         "0px 0px 0px 2px inset " +
@@ -57,6 +57,7 @@ export const Task = React.memo(function Task({
           ? colors[task.color ?? "brown"][100]
           : "hsl(240,11%,20%)!important",
     },
+    transition: "box-shadow 150ms",
     "input:disabled ~ &": {
       cursor: "not-allowed",
       opacity: 0.5,
@@ -234,19 +235,25 @@ export const Task = React.memo(function Task({
         <ListItem
           onClick={() => setOpen(true)}
           onContextMenu={handleContextMenu}
-          className="p-0 rounded-xl gap-0.5 select-none hover:cursor-pointer transition-transform active:scale-[.98] duration-100 active:duration-[0s] border border-gray-200"
+          className="p-0 rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200"
           sx={{
             color:
               task.color !== "brown"
                 ? colors[task.color][global.theme === "dark" ? "A400" : 900]
                 : "",
             p: 0,
+            cursor: "unset!important",
             "&:hover": {
               backgroundColor: global.user.darkMode
                 ? "hsl(240,11%,16%)"
                 : "rgba(200,200,200,0.3)",
-              cursor: "pointer",
             },
+            "&:active": {
+              backgroundColor: global.user.darkMode
+                ? "hsl(240,11%,16%)"
+                : "rgba(200,200,200,0.5)",
+            },
+
             ...(!checkList && {
               border: "0!important",
             }),
