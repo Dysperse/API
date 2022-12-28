@@ -24,23 +24,40 @@ function SearchBar({
   const handleBlurEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     if (e.code === "Enter") target.blur();
+    if (e.code === "Escape") {
+      target.value = "";
+      target.blur();
+    }
   };
 
   return (
     <Button
       id="basic-button"
-      variant="text"
-      disableFocusRipple
+      disableRipple
       sx={{
         backgroundColor:
           global.theme == "dark"
             ? "hsl(240,11%,15%)!important"
             : `${grey[200]}!important`,
         borderRadius: 10,
+        border: "1px solid transparent",
         mt: { xs: 1, sm: 0 },
         width: "100%",
         textAlign: "left",
         color: `${grey[600]}!important`,
+        "&:focus-within": {
+          background: global.user.darkMode
+            ? "hsl(240,11%,10%)!important"
+            : "#fff!important",
+          "&, & .MuiInput-root *": {
+            cursor: "text",
+          },
+          border: global.user.darkMode
+            ? "1px solid hsl(240,11%,60%)"
+            : "1px solid rgba(0,0,0,.5)",
+          boxShadow:
+            "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        },
         textTransform: "none",
         justifyContent: "start",
         px: 2,
@@ -54,6 +71,9 @@ function SearchBar({
         verticalAlign: "middle",
       }}
       onClick={() => {
+        document.getElementById("outlined-size-small")?.focus();
+      }}
+      onMouseDown={() => {
         document.getElementById("outlined-size-small")?.focus();
       }}
     >
@@ -94,7 +114,7 @@ function SearchBar({
             mr: 0.5,
             px: 2,
             width: "100%",
-            background: global.user.darkMode ? "hsl(240, 11%, 15%)" : grey[200],
+            background: "transparent!important",
           },
         }}
       />
@@ -157,19 +177,25 @@ export function Toolbar({
     >
       <SearchBar items={items} setItems={setItems} data={data} />
       <Button
+        disableRipple
         id="basic-button"
         variant="contained"
         sx={{
           borderRadius: 10,
           ml: 1,
           mt: { xs: 1, sm: 0 },
-          py: 1,
-          px: 1,
+          py: 1.3,
+          gap: 1.5,
           verticalAlign: "middle",
           background:
             colors[themeColor][global.theme == "dark" ? 900 : 50] +
             "!important",
 
+          "&:hover": {
+            background:
+              colors[themeColor][global.theme == "dark" ? 900 : 100] +
+              "!important",
+          },
           color:
             colors[themeColor][global.theme == "dark" ? 50 : 900] +
             "!important",
@@ -180,6 +206,7 @@ export function Toolbar({
         onClick={handleClick}
       >
         <Icon>filter_alt</Icon>
+        Filter
       </Button>
       <Menu
         id="basic-menu"

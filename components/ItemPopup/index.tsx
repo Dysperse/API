@@ -556,11 +556,28 @@ export default function Item({
             maxWidth: "calc(100vw - 32.5px)",
             userSelect: "none",
             borderRadius: 5,
+            color: "#303030",
             background: `${
               global.user.darkMode
                 ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.2)"
+                : "rgba(200,200,200,.3)"
             }!important`,
+            "&:hover": {
+              color: "#000",
+              background: `${
+                global.user.darkMode
+                  ? "hsl(240, 11%, 17%)"
+                  : "rgba(200,200,200,.4)"
+              }!important`,
+            },
+            "&:active": {
+              color: "#000",
+              background: `${
+                global.user.darkMode
+                  ? "hsl(240, 11%, 17%)"
+                  : "rgba(200,200,200,.6)"
+              }!important`,
+            },
 
             transition: "transform .2s",
             mb: { xs: 2, sm: 0 },
@@ -591,6 +608,7 @@ export default function Item({
                 <Icon>delete</Icon>
               </Box>
               <CardActionArea
+                disableRipple
                 onContextMenu={handleContextMenu}
                 onClick={() => setDrawerState(true)}
                 sx={{
@@ -640,6 +658,8 @@ export default function Item({
                                   px: 1.5,
                                   mr: 1,
                                   mb: 1,
+                                  color: "inherit",
+                                  background: "rgba(200,200,200,.3)",
                                   textTransform: "capitalize",
                                 }}
                               />

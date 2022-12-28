@@ -1,7 +1,7 @@
 import { LoadingButton } from "@mui/lab";
 import type { CustomRoom, Item } from "@prisma/client";
 import BoringAvatar from "boring-avatars";
-import { encode } from "js-base64";
+import { decode, encode } from "js-base64";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
@@ -177,7 +177,17 @@ function CategoryModal({ category }: { category: string }) {
           primary={
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               {category}{" "}
-              {loading && <CircularProgress size={20} sx={{ ml: "auto" }} />}
+              {loading && (
+                <CircularProgress
+                  size={15}
+                  sx={{
+                    ml: "auto",
+                    animationDuration: ".4s",
+                    transitionDuration: ".4s",
+                  }}
+                  disableShrink
+                />
+              )}
             </Box>
           }
         />
@@ -354,6 +364,7 @@ function Action({
   return (
     <ListItem
       button
+      disableRipple
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -368,7 +379,16 @@ function Action({
       }}
       secondaryAction={
         !disableLoading && loading ? (
-          <CircularProgress size={15} sx={{ ml: "auto", mt: "8px" }} />
+          <CircularProgress
+            size={15}
+            sx={{
+              ml: "auto",
+              mt: "8px",
+              animationDuration: ".4s",
+              transitionDuration: ".4s",
+            }}
+            disableShrink
+          />
         ) : (
           <RoomActionMenu
             isCustom={isCustom}
@@ -387,8 +407,24 @@ function Action({
                 : colors[themeColor][50] + "!important",
           },
         },
+        border: "1px solid transparent",
+        "&:active": {
+          border: {
+            sm:
+              "1px solid " +
+              (global.theme == "dark"
+                ? "hsl(240,11%,13%)!important"
+                : colors[themeColor][100] + "!important"),
+          },
+        },
         borderRadius: 5,
-        ...(router.asPath.toLowerCase().includes(primary.toLowerCase())
+        transition: "none!important",
+        ...((!isCustom &&
+          router.asPath.toLowerCase().includes(primary.toLowerCase())) ||
+        (isCustom &&
+          decode(router.asPath.split("rooms/")[1]).includes(
+            primary.toLowerCase()
+          ))
           ? {
               background:
                 global.theme == "dark"

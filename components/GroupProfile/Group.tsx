@@ -216,6 +216,7 @@ export function Group({
   return (
     <>
       <ListItem
+        disableRipple
         button
         onClick={() => {
           if (data.propertyId === global.property.propertyId) {

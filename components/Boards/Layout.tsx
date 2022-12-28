@@ -209,8 +209,9 @@ export function TasksLayout() {
 
   const styles = (condition) => ({
     transition: "none!important",
-    px: 3,
+    px: 2,
     gap: 1.5,
+    py: 1,
     borderRadius: 4,
     mr: 1,
     fontSize: "15px",
@@ -226,15 +227,15 @@ export function TasksLayout() {
     ...(condition && {
       background: global.user.darkMode
         ? "hsl(240,11%,20%)!important"
-        : colors[themeColor][700] + "!important",
+        : colors[themeColor][100] + "!important",
       "&:hover, &:focus": {
         background: global.user.darkMode
           ? "hsl(240,11%,25%)!important"
-          : colors[themeColor][900] + "!important",
+          : colors[themeColor][200] + "!important",
       },
       color: global.user.darkMode
         ? "hsl(240,11%,95%)!important"
-        : colors[themeColor][50] + "!important",
+        : colors[themeColor][900] + "!important",
     }),
   });
 
