@@ -20,15 +20,15 @@ export default async function handler(req, res) {
       },
     },
   });
-
+  if (!user) {
+   return res.status(401).json({ message: "Invalid access token" });
+ }
   await prisma.oAuthToken.delete({
     where: {
       accessToken: accessToken,
     },
   });
 
-  if (!user) {
-    return res.status(401).json({ message: "Invalid access token" });
-  }
+
   res.json({ success: true, user: user.user });
 }
