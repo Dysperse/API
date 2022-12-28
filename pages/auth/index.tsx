@@ -141,7 +141,7 @@ export default function Prompt() {
           );
           if (window.location.href.includes("?application=")) {
             window.location.href =
-              "https://availability.smartlist.tech/oauth/redirect?token=" +
+              "https://availability.smartlist.tech/api/oauth/redirect?token=" +
               res.accessToken;
           } else {
             mutate("/api/user");
