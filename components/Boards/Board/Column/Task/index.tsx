@@ -42,9 +42,9 @@ export const Task = React.memo(function Task({
     ".Mui-focusVisible &": {
       boxShadow:
         "0px 0px 0px 2px inset " +
-        colors[themeColor][700] +
+        colors[task.color ?? "brown"][700] +
         ", 0px 0px 0px 15px inset " +
-        hexToRgba(colors[themeColor][900], 0.1),
+        hexToRgba(colors[task.color ?? "brown"][900], 0.1),
     },
     "input:not(:checked):hover ~ &": {
       boxShadow: global.user.darkMode
@@ -52,7 +52,7 @@ export const Task = React.memo(function Task({
         : "inset 0 0 0 2px rgba(0,0,0,.5)",
       backgroundColor:
         global.theme !== "dark"
-          ? colors[themeColor][100]
+          ? colors[task.color ?? "brown"][100]
           : "hsl(240,11%,20%)!important",
     },
     "input:disabled ~ &": {

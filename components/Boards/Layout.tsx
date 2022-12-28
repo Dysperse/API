@@ -219,7 +219,9 @@ export function TasksLayout() {
       color: "hsl(240,11%, 80%)",
     }),
     "&:hover, &:focus": {
-      background: global.user.darkMode ? "hsl(240,11%,15%)" : "#eee!important",
+      background: global.user.darkMode
+        ? "hsl(240,11%,15%)"
+        : colors[themeColor][50] + "!important",
     },
     ...(condition && {
       background: global.user.darkMode
