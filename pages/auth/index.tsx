@@ -91,6 +91,10 @@ export default function Prompt() {
           password: values.password,
           twoFactorCode: values.twoFactorCode,
           token: values.token,
+
+          ...(window.location.href.includes("?application=") && {
+            application: window.location.href.split("?application=")[1],
+          }),
         }),
       })
         .then((res) => res.json())
@@ -135,9 +139,15 @@ export default function Prompt() {
             },
             toastStyles
           );
-          mutate("/api/user");
-          router.push("/");
-          window.location.href = "/";
+          if (window.location.href.includes("?application=")) {
+            window.location.href =
+              "https://availability.smartlist.tech/oauth/redirect?token=" +
+              res.accessToken;
+          } else {
+            mutate("/api/user");
+            router.push("/");
+            window.location.href = "/";
+          }
         })
         .catch(() => {
           setStep(1);
@@ -286,7 +296,9 @@ export default function Prompt() {
               <Box sx={{ pt: 3 }}>
                 <Box sx={{ px: 1 }}>
                   <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
-                    Welcome back!
+                    {window.location.href.includes("?application=availability")
+                      ? "Sign into Carbon Availability"
+                      : "Welcome back!"}
                   </Typography>
                   <Typography sx={{ mb: 2 }} className="font-secondary">
                     Sign in with your Carbon ID

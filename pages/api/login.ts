@@ -1,8 +1,8 @@
+import argon2 from "argon2";
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
-import { prisma } from "../../lib/prismaClient";
-import argon2 from "argon2";
 import * as twofactor from "node-2fa";
+import { prisma } from "../../lib/prismaClient";
 
 /**
  * Creates a session and stores it in the database
@@ -116,6 +116,20 @@ export default async function handler(req, res) {
     if (!login || login.delta !== 0) {
       return res.status(401).json({ error: "Invalid code" });
     }
+  }
+
+  if (req.body.application) {
+    const token = await prisma.oAuthToken.create({
+      data: {
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+      },
+    });
+
+    return res.json({ success: true, accessToken: token.accessToken });
   }
 
   const encoded = await createSession(user.id, res);

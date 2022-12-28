@@ -26,12 +26,21 @@ model User {
   RoutineItem              RoutineItem[]
   SpaceItem                SpaceItem[]
   CustomRoom               CustomRoom[]
+  OAuthToken               OAuthToken[]
 }
 
 model Session {
   id     String @id @default(uuid())
   userId Int
   user   User   @relation(fields: [userId], references: [id])
+}
+
+model OAuthToken {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  accessToken String @unique @default(cuid())
 }
 
 model Property {
