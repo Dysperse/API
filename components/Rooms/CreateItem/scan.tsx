@@ -58,7 +58,7 @@ const WebcamComponent = ({
       text = text.replace("in their hand", "");
       if (text.includes("holding a")) text = text.split("holding a")[1];
       if (text.includes("on top")) text = text.split("on top")[0];
-
+if (text.includes("over")) text = text.split("over")[0];
       let title = text.includes(" of ") ? text.split(" of ")[1] : text;
       let qty = "1";
       [
@@ -79,8 +79,8 @@ const WebcamComponent = ({
         ? text.split("filled with")[1]
         : text;
       title = text.replace("jar of", "");
+      if (title.startsWith(" an ")) title = title.replace(" an ", "");
       if (title.startsWith(" a ")) title = title.replace(" a ", "");
-
       text = text.replace("in their hand", "");
       title = title.trim();
       title = title.charAt(0).toUpperCase() + title.slice(1);
