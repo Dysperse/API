@@ -179,8 +179,9 @@ export function CreateItemModal({
               sm: "90vw",
               md: "50vw",
             },
+            height: "100vh",
             maxWidth: "600px",
-            maxHeight: "100vh",
+            maxHeight: "90vh",
             borderRadius: "20px 20px 0 0",
           },
         }}
@@ -240,9 +241,7 @@ export function CreateItemModal({
                   },
                 }}
               />
-              <ImageRecognition formik={formik} 
-              room={room}
-              />
+              <ImageRecognition formik={formik} room={room} />
             </Box>
             <TextField
               margin="dense"
@@ -360,7 +359,7 @@ export function CreateItemModal({
             )}
             <DialogActions
               sx={{
-                position: { xs: "fixed", sm: "unset" },
+                position: { xs: "fixed", sm: "absolute" },
                 bottom: 0,
                 left: 0,
                 p: 1,

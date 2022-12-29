@@ -233,8 +233,8 @@ function CategoryList() {
             {[...new Array(5)].map(() => (
               <Skeleton
                 animation="wave"
-                height={40}
-                sx={{ width: "100%", mb: 2, borderRadius: 3 }}
+                height={50}
+                sx={{ width: "100%", mb: 1, borderRadius: 3 }}
                 variant="rectangular"
                 key={Math.random().toString()}
               />
