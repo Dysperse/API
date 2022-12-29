@@ -68,6 +68,8 @@ if (text.includes("over")) text = text.split("over")[0];
         "box",
         "pack",
         "packet",
+        "package",
+        "bottle",
         "bag",
         "canister",
       ].forEach((word) => {
