@@ -902,41 +902,7 @@ function Post({ data, url }) {
 export default function Spaces() {
   const { data, url, error } = useApi("property/spaces");
 
-  return global.user.email === "manusvathgurudath@gmail.com" ? (
-    <Box
-      sx={{
-        p: 2,
-      }}
-      className="mt-5 sm:mt-10 max-w-4xl mx-auto"
-    >
-      <Head>
-        <title>Spaces &bull; Carbon</title>
-      </Head>
-      {data ? (
-        <>
-          <Typography
-            sx={{
-              fontWeight: "600",
-              mb: 2,
-              display: "flex",
-              alignItems: "center",
-            }}
-            variant="h5"
-            gutterBottom
-          >
-            Spaces
-            <Tooltip
-              title="Spaces is a places where you can store memos to yourself, or share it with members in your group. Maximize your productivity by keeping links, images, and text, and files at hand!"
-              sx={{ ml: "auto" }}
-            >
-              <IconButton disableRipple>
-                <Icon className="outlined">help</Icon>
-              </IconButton>
-            </Tooltip>
-          </Typography>
-          <Posts url={url} data={data} />
-        </>
-      ) : (
+  return (
         <Box>
           <Skeleton
             variant="rectangular"
