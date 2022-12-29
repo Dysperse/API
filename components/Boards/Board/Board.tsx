@@ -38,8 +38,7 @@ export const Board = React.memo(function Board({ board }: any) {
     <Box
       sx={{
         pb: 2,
-        pl: board.columns.length === 1 ? 0 : 4,
-        pr: 4,
+        
       }}
     >
       <ScrollArea>
@@ -50,6 +49,8 @@ export const Board = React.memo(function Board({ board }: any) {
           sx={{
             mt: 4,
             maxWidth: "100vw",
+pl: board.columns.length === 1 ? 0 : 4,
+        pr: 4,
           }}
         >
           <Box
