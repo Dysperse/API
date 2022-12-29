@@ -178,6 +178,7 @@ export function InviteButton() {
         sx={{
           background: "transparent!important",
           color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
+          border: "1px solid transparent",
           "&:hover": {
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
@@ -188,6 +189,12 @@ export function InviteButton() {
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
               : "#ddd!important",
+            border:
+              "1px solid" +
+              (global.user.darkMode
+                ? "hsl(240,11%,20%)!important"
+                : "#ccc!important"),
+
             color: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
               : "#000!important",

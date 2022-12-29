@@ -206,7 +206,6 @@ export function Toolbar({
         onClick={handleClick}
       >
         <Icon>filter_alt</Icon>
-        Filter
       </Button>
       <Menu
         id="basic-menu"

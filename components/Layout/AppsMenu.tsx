@@ -9,7 +9,7 @@ import {
   Skeleton,
   SwipeableDrawer,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -33,8 +33,7 @@ function Products() {
       key: 2,
       label: "Availability (NEW)",
       href: "//availability.smartlist.tech",
-      description:
-        "Find the best time for a group to get together",
+      description: "Find the best time for a group to get together",
     },
   ];
 
@@ -75,7 +74,7 @@ function Products() {
               //   ? "hsl(240, 11%, 40%)"
               //   : colors[global.themeColor][200]),
             },
-            transition: "all .2s",
+            transition: "all .2s, background 0s",
             "&:before": {
               display: "none",
             },
@@ -179,12 +178,8 @@ function Apps() {
             "&:hover, &.Mui-expanded": {
               background:
                 colors[global.themeColor][global.user.darkMode ? 900 : 100],
-              // category.bg ??
-              // (global.user.darkMode
-              //   ? "hsl(240, 11%, 40%)"
-              //   : colors[global.themeColor][200]),
             },
-            transition: "all .2s",
+            transition: "all .2s, background 0s",
             "&:before": {
               display: "none",
             },

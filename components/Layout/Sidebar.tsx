@@ -56,20 +56,29 @@ export function Sidebar() {
     return {
       color: colors[themeColor][global.user.darkMode ? 50 : 700],
       borderRadius: 3,
-      textTransform: "none",
-      width: 55,
-      maxWidth: 55,
-      minHeight: 55,
-      height: 55,
-      // icon
+      my: 0.5,
+      maxHeight: "9999px",
+      overflow: "visible",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
-        transition: "all 0.2s ease-in-out",
+        transition: "none",
+        height: 50,
+        width: 50,
+        // maxWidth: 55,
+        // minHeight: 55,
+        display: "flex",
+        alignItems: "center",
+        borderRadius: 5,
+        justifyContent: "center",
+        border: "1px solid transparent",
       },
-      "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
-        {
-          opacity: 0.5,
-          transition: "none!important",
-        },
+      "&:hover .material-symbols-outlined": {
+        background: colors[themeColor][50],
+        // border: "1px solid #ccc",
+      },
+      "&:active .material-symbols-outlined": {
+        background: colors[themeColor][100],
+        border: "1px solid " + colors[themeColor][200],
+      },
     };
   };
 
@@ -164,10 +173,10 @@ export function Sidebar() {
                 width: "100%",
               },
               "& .MuiTabs-indicatorSpan": {
-                minWidth: 55,
+                minWidth: 50,
                 pointerEvents: "none",
-                height: 55,
-                width: 55,
+                height: 50,
+                width: 50,
                 background: `linear-gradient(45deg, ${
                   global.user.darkMode
                     ? "hsl(240,11%,14%)"
@@ -267,7 +276,7 @@ export function Sidebar() {
           <Box
             sx={{
               mt: "auto",
-              mb: 2,
+              mb: 1,
             }}
           >
             <Settings>
@@ -279,7 +288,14 @@ export function Sidebar() {
                 }}
               >
                 <IconButton color="inherit" disableRipple sx={styles}>
-                  <Icon className="outlined">settings</Icon>
+                  <Icon
+                    className="material-symbols-outlined"
+                    sx={{
+                      fontVariationSettings: `"FILL" 0, "wght" 300, "GRAD" 1, "opsz" 40!important`,
+                    }}
+                  >
+                    settings
+                  </Icon>
                 </IconButton>
               </Tooltip>
             </Settings>

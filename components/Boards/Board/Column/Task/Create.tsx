@@ -516,9 +516,10 @@ export function CreateTask({
           ...(!checkList && {
             border: "0!important",
           }),
+          cursor: "unset!important",
           borderRadius: 4,
           gap: 0.5,
-          py: 0.5,
+          py: 0.7,
           px: 0,
           "&:hover": {
             backgroundColor: global.user.darkMode
@@ -527,10 +528,6 @@ export function CreateTask({
             cursor: "pointer",
           },
           transition: "transform 0.2s ease-in-out",
-          "&:active": {
-            transform: "scale(.99)",
-            transition: "none",
-          },
           ...(checkList && {
             background: global.user.darkMode
               ? "hsl(240,11%,13%)"

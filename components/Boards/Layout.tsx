@@ -94,6 +94,7 @@ const Tab = React.memo(function Tab({
       </Menu>
       <Button
         size="large"
+        disableRipple
         onContextMenu={handleClick}
         onClick={(e) => {
           window.location.hash = board.id;
@@ -118,7 +119,7 @@ const Tab = React.memo(function Tab({
             }}
           >
             <Icon className={activeTab === board.id ? "rounded" : "outlined"}>
-              {board.columns.length == 1 ? "task_alt" : "view_kanban"}
+              {board.columns.length == 1 ? "check_circle" : "view_kanban"}
             </Icon>
             {board.name}
           </Box>
@@ -207,7 +208,7 @@ export function TasksLayout() {
     }
   }, [data, emblaApi]);
 
-  const styles = (condition) => ({
+  const styles = (condition: boolean) => ({
     transition: "none!important",
     px: 2,
     gap: 1.5,
@@ -224,6 +225,15 @@ export function TasksLayout() {
         ? "hsl(240,11%,15%)"
         : colors[themeColor][50] + "!important",
     },
+    border: "1px solid transparent",
+    "&:active": {
+      border:
+        "1px solid " +
+        (global.user.darkMode
+          ? "hsl(240,11%,25%)!important"
+          : colors[themeColor][200]) +
+        "!important",
+    },
     ...(condition && {
       background: global.user.darkMode
         ? "hsl(240,11%,20%)!important"
@@ -232,6 +242,12 @@ export function TasksLayout() {
         background: global.user.darkMode
           ? "hsl(240,11%,25%)!important"
           : colors[themeColor][200] + "!important",
+        border:
+          "1px solid " +
+          (global.user.darkMode
+            ? "hsl(240,11%,25%)!important"
+            : colors[themeColor][300]) +
+          "!important",
       },
       color: global.user.darkMode
         ? "hsl(240,11%,95%)!important"
@@ -279,7 +295,10 @@ export function TasksLayout() {
                 gap: 2,
               }}
             >
-              <Icon className={activeTab==="new"?"":"outlined"}>add_circle</Icon>Create
+              <Icon className={activeTab === "new" ? "" : "outlined"}>
+                add_circle
+              </Icon>
+              Create
             </Button>
           </Box>
         </Box>
