@@ -102,6 +102,9 @@ export function BottomNav() {
           },
           zIndex: 999,
           height: "70px",
+          "&, & *": {
+            overflow: "hidden!important",
+          },
           background: global.user.darkMode
             ? "hsla(240, 11%, 10%, .9)"
             : hexToRgba("#eee", 0.7),

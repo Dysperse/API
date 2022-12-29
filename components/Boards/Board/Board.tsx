@@ -41,7 +41,7 @@ export const Board = React.memo(function Board({ board }: any) {
         
       }}
     >
-      <ScrollArea>
+      <Box sx={{overflowX:"scroll"}}>
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your tasks" />
         )}
@@ -123,7 +123,7 @@ pl: board.columns.length === 1 ? 0 : 4,
             )}
           </Box>
         </Box>
-      </ScrollArea>
+      </Box>
     </Box>
   );
 });
