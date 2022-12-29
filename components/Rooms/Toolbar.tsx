@@ -205,7 +205,7 @@ export function Toolbar({
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Icon>filter_alt</Icon>
+        <Icon className="outlined">filter_alt</Icon>
       </Button>
       <Menu
         id="basic-menu"

@@ -127,7 +127,7 @@ export function Header({
             }}
             disableRipple
           >
-            <Icon>add_circle</Icon>
+            <Icon className="outlined">add_circle</Icon>
           </IconButton>
         </CreateItemModal>
       </ListItemAvatar>
