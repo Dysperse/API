@@ -94,7 +94,7 @@ function CustomAction({
   );
 }
 
-export function SearchPopup() {
+export function SearchPopup({ styles }) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
 
@@ -322,20 +322,7 @@ export function SearchPopup() {
             disableRipple
             onClick={() => openSpotlight()}
             color="inherit"
-            sx={{
-              borderRadius: 94,
-              mr: 1,
-              ml: 0.6,
-              display: { sm: "none" },
-              color: {
-                xs: global.theme == "dark" ? "hsl(240,11%,95%)" : "#606060",
-              },
-              transition: "all .2s",
-              "&:active": {
-                opacity: 0.5,
-                transition: "none",
-              },
-            }}
+            sx={{ ...styles, display: { sm: "none" } }}
           >
             <Icon className="outlined">search</Icon>
           </IconButton>

@@ -1,4 +1,3 @@
-import { ScrollArea } from "@mantine/core";
 import { Box, Skeleton } from "@mui/material";
 import React from "react";
 import { useApi } from "../../../hooks/useApi";
@@ -38,10 +37,9 @@ export const Board = React.memo(function Board({ board }: any) {
     <Box
       sx={{
         pb: 2,
-        
       }}
     >
-      <Box sx={{overflowX:"scroll"}}>
+      <Box sx={{ overflowX: "scroll" }}>
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your tasks" />
         )}
@@ -49,8 +47,8 @@ export const Board = React.memo(function Board({ board }: any) {
           sx={{
             mt: 4,
             maxWidth: "100vw",
-pl: board.columns.length === 1 ? 0 : 4,
-        pr: 4,
+            pl: board.columns.length === 1 ? 0 : 4,
+            pr: data ? 0 : 4,
           }}
         >
           <Box

@@ -278,7 +278,7 @@ export function AppsMenu({ styles }) {
             disabled={!window.navigator.onLine}
             color="inherit"
             disableRipple
-            sx={styles}
+            sx={{ ...styles, display: { xs: "none", sm: "flex" } }}
             onClick={handleClick}
           >
             <Icon>apps</Icon>

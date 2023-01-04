@@ -87,7 +87,7 @@ export function Navbar(): JSX.Element {
             mx: { sm: "auto" },
           }}
         >
-          <SearchPopup />
+          <SearchPopup styles={styles} />
         </Box>
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
           <UpdateButton />
