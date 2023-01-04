@@ -33,7 +33,11 @@ function CompletedTasks({
   return (
     <>
       {columnTasks.filter((task) => task.completed).length !== 0 && (
-        <Box>
+        <Box
+          sx={{
+            cursor: "unset!important",
+          }}
+        >
           <Divider
             sx={{
               my: open ? 1.5 : 0.5,
@@ -320,8 +324,11 @@ export const Column = React.memo(function Column({
     <Box
       className="w-[350px] bg-gray-100 border border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
+        display: "flex",
+        flexDirection: "column",
         position: "relative",
         width: "350px",
+        height: "100%",
         flex: "0 0 350px",
         p: 3,
         pt: 4,
@@ -354,7 +361,6 @@ export const Column = React.memo(function Column({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              mb: 2,
               px: 1,
             }}
           >
