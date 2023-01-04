@@ -318,7 +318,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[350px] bg-neutral-100 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] bg-gray-100 border border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         position: "relative",
         width: "350px",

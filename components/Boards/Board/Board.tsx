@@ -37,6 +37,7 @@ export const Board = React.memo(function Board({ board }: any) {
     <Box
       sx={{
         pb: 2,
+        ml: { sm: -1 },
       }}
     >
       <Box sx={{ overflowX: "scroll" }}>
