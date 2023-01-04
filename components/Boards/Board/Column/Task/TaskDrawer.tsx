@@ -16,6 +16,10 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import {
+  neutralizeBack,
+  revivalBack,
+} from "../../../../../hooks/useBackButton";
 import { colors } from "../../../../../lib/colors";
 import { Color } from "./Color";
 import { CreateTask } from "./Create";
@@ -47,6 +51,10 @@ export function TaskDrawer({
           : "#fff"
       );
   });
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
+
   const [emblaRef] = useEmblaCarousel(
     {
       loop: false,

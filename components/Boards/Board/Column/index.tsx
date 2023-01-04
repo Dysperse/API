@@ -11,6 +11,7 @@ import {
   Box,
   Button,
   CardActionArea,
+  Chip,
   Divider,
   Icon,
   IconButton,
@@ -41,6 +42,7 @@ function CompletedTasks({
             }}
           />
           <CardActionArea
+            disableRipple
             sx={{
               px: 1.5,
               mb: 1,
@@ -51,14 +53,26 @@ function CompletedTasks({
               borderRadius: 2,
               display: "flex",
               alignItems: "center",
+              "&:active": {
+                background: "rgba(200,200,200,.3)",
+              },
               justifyContent: "space-between",
             }}
             onClick={() => {
               setOpen(!open);
             }}
           >
-            <Typography sx={{ fontWeight: "700" }}>
-              Completed ({columnTasks.filter((task) => task.completed).length})
+            <Typography
+              sx={{ fontWeight: "700", display: "flex", alignItems: "center" }}
+            >
+              <span>Completed</span>
+              <Chip
+                sx={{
+                  ml: 1,
+                }}
+                label={columnTasks.filter((task) => task.completed).length}
+                size="small"
+              />
             </Typography>
             <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
           </CardActionArea>
@@ -304,7 +318,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[350px] bg-neutral-100 border border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] bg-neutral-100 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         position: "relative",
         width: "350px",
