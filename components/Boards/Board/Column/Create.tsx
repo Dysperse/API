@@ -180,6 +180,7 @@ export function CreateColumn({ mutationUrl, id }: any) {
           disabled={open}
           onClick={() => setOpen(true)}
           sx={{
+            mr: 4,
             transition: "none!important",
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,15%)"

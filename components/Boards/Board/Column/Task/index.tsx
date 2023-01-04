@@ -67,7 +67,7 @@ export const Task = React.memo(function Task({
   const BpCheckedIcon: any = styled(BpIcon)({
     backgroundColor:
       colors[task.color ?? global.themeColor ?? "brown"][
-        global.user.darkMode ? 50 : 900
+        global.user.darkMode ? 50 : 700
       ] + "!important",
     "&:before": {
       display: "block",
@@ -271,58 +271,56 @@ export const Task = React.memo(function Task({
               my: 0,
             }}
             primary={
-              <Box>
-                <span
-                  style={{
-                    fontWeight: "400",
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Checkbox
+                  disabled={global.permission == "read-only"}
+                  disableRipple
+                  checked={checked}
+                  onChange={(e) => {
+                    setChecked(e.target.checked);
+                    fetchApiWithoutHook("property/boards/markTask", {
+                      completed: e.target.checked ? "true" : "false",
+                      id: task.id,
+                    }).catch((err) =>
+                      toast.error("An error occured while updating the task")
+                    );
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  sx={{
+                    "&:hover": { bgcolor: "transparent" },
+                  }}
+                  color="default"
+                  checkedIcon={<BpCheckedIcon dark />}
+                  icon={<BpIcon dark />}
+                  inputProps={{ "aria-label": "Checkbox demo" }}
+                />
+
+                <Box
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                     ...(checked && {
                       textDecoration: "line-through",
                       opacity: 0.5,
                     }),
                   }}
                 >
-                  <Checkbox
-                    disabled={global.permission == "read-only"}
-                    disableRipple
-                    checked={checked}
-                    onChange={(e) => {
-                      setChecked(e.target.checked);
-                      fetchApiWithoutHook("property/boards/markTask", {
-                        completed: e.target.checked ? "true" : "false",
-                        id: task.id,
-                      }).catch((err) =>
-                        toast.error("An error occured while updating the task")
-                      );
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                    sx={{
-                      "&:hover": { bgcolor: "transparent" },
-                    }}
-                    color="default"
-                    checkedIcon={<BpCheckedIcon dark />}
-                    icon={<BpIcon dark />}
-                    inputProps={{ "aria-label": "Checkbox demo" }}
-                  />
                   {task.name}
-                  <Box
-                    sx={{
-                      ml: 5,
-                    }}
-                  >
-                    {task.image && <ImageViewer trimHeight url={task.image} />}
-                  </Box>
-                </span>
+                  {task.image && <ImageViewer trimHeight url={task.image} />}
+                </Box>
               </Box>
             }
             secondary={
               <span
                 style={{
-                  ...(checked && {
-                    textDecoration: "line-through",
-                    opacity: 0.5,
-                  }),
                   marginLeft: "45px",
                   display: "block",
                   position: "relative",
@@ -355,6 +353,8 @@ export const Task = React.memo(function Task({
       {task.subTasks.map((subtask) => (
         <SubTask
           checkList={checkList}
+          mutationUrl={mutationUrl}
+          setOpen={setOpen}
           key={task.id}
           BpIcon={BpIcon}
           BpCheckedIcon={BpCheckedIcon}

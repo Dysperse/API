@@ -335,6 +335,7 @@ export function TaskDrawer({
           <Box sx={{ ml: 6, mt: 2 }}>
             {task.subTasks.map((subtask) => (
               <SubTask
+                mutationUrl={mutationUrl}
                 checkList={false}
                 key={subtask.id}
                 noMargin
