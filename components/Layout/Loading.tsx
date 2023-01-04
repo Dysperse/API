@@ -148,32 +148,32 @@ export function Loading(): JSX.Element {
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                height={500}
-                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+                height={100}
+                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
               />
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                height={500}
-                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+                height={100}
+                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
               />
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                height={500}
-                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+                height={100}
+                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
               />
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                height={500}
-                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+                height={100}
+                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
               />
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                height={500}
-                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+                height={100}
+                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
               />
             </Box>
           </Box>
