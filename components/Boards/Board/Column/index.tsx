@@ -57,6 +57,7 @@ function CompletedTasks({
               borderRadius: 2,
               display: "flex",
               alignItems: "center",
+              cursor: "unset!important",
               "&:active": {
                 background: "rgba(200,200,200,.3)",
               },
