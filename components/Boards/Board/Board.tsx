@@ -45,9 +45,9 @@ export const Board = React.memo(function Board({ board }: any) {
         )}
         <Box
           sx={{
-            mt: 4,  
+            mt: 4,
             maxWidth: "100vw",
-            pl: board.columns.length === 1 ? 0 : 4,
+            pl: data && board.columns.length === 1 ? 0 : 4,
             pr: data ? 0 : 4,
           }}
         >

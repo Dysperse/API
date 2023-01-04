@@ -289,6 +289,7 @@ export function TasksLayout() {
                   dragFree: true,
                 });
               }}
+              disableRipple
               sx={{
                 ...styles(activeTab === "new"),
                 px: 2,
