@@ -244,7 +244,7 @@ export function CreateTask({
         >
           <Chip
             label="Important"
-            sx={chipStyles}
+            sx={{...chipStyles,ml:3}}
             icon={<Icon>priority</Icon>}
             onClick={() => {
               setTitle((t) => t + " (important)");
