@@ -139,6 +139,7 @@ export const Board = React.memo(function Board({ board }: any) {
             "&:hover": {
               background: colors[themeColor][100] + "!important",
             },
+            color: colors[themeColor][500],
             ml: "auto",
           }}
         >
@@ -152,6 +153,7 @@ export const Board = React.memo(function Board({ board }: any) {
             "&:hover": {
               background: colors[themeColor][100] + "!important",
             },
+            color: colors[themeColor][500],
             ml: "auto",
           }}
         >
