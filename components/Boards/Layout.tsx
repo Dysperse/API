@@ -411,17 +411,14 @@ export function TasksLayout() {
         }}
       >
         {activeTab === "new" && (
-          <CreateBoard 
-           mutationUrl={url} 
-           setDrawerOpen={setOpen}
-          
-          />
+          <CreateBoard mutationUrl={url} setDrawerOpen={setOpen} />
         )}
         {data &&
           data.map(
             (board) =>
               activeTab === board.id && (
                 <Board
+                  mutationUrl={url}
                   board={board}
                   setDrawerOpen={setOpen}
                   collapsed={collapsed}

@@ -151,12 +151,18 @@ export function BottomNav() {
             sx={styles(
               router.asPath == "/tasks" ||
                 router.asPath == "/" ||
-                router.asPath == ""
+                router.asPath == "" ||
+                router.asPath.includes("/tasks")
             )}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/tasks" ? "rounded" : "outlined"
+                  router.asPath == "/tasks" ||
+                  router.asPath == "/" ||
+                  router.asPath == "" ||
+                  router.asPath.includes("/tasks")
+                    ? "rounded"
+                    : "outlined"
                 }`}
                 style={{
                   transition: "all .2s!important",
