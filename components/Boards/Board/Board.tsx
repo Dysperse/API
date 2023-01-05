@@ -64,21 +64,45 @@ export const Board = React.memo(function Board({ board }: any) {
           gap: 1,
         }}
       >
-        <Typography
-          variant="h5"
+        <Box
           sx={{
-            fontWeight: 600,
-            lineHeight: 1.5,
             flexGrow: 1,
-            letterSpacing: 0.15,
           }}
         >
-          <span>{board.name}</span>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 600,
+              lineHeight: 1.5,
+              letterSpacing: 0.15,
+              borderRadius: 2,
+              px: 1,
+              color: "#606060",
+              cursor: "auto!important",
+              userSelect: "none",
+              "&:hover": {
+                color: "#303030",
+                background: "rgba(200,200,200,.3)",
+              },
+              "&:active": {
+                color: "#000",
+                background: "rgba(200,200,200,.4)",
+              },
+
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            {board.name}
+            <Icon>expand_more</Icon>
+          </Typography>
           <Box
             sx={{
               display: "flex",
               pt: 0.5,
               gap: 1,
+              ml: 0.5,
               alignItems: "center",
             }}
           >
@@ -105,7 +129,7 @@ export const Board = React.memo(function Board({ board }: any) {
               }
             />
           </Box>
-        </Typography>
+        </Box>
         <IconButton
           disableRipple
           sx={{
