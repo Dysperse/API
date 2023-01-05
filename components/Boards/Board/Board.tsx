@@ -112,7 +112,14 @@ export const Board = React.memo(function Board({ setDrawerOpen, board }: any) {
               size="small"
               label={
                 (data ? data.map((column) => column.tasks).flat().length : 0) +
-                " tasks"
+                " tasks   •   " +
+                (data
+                  ? data
+                      .map((column) => column.tasks)
+                      .flat()
+                      .filter((task) => task.completed).length
+                  : 0) +
+                " completed"
               }
             />
             <Chip
@@ -122,12 +129,17 @@ export const Board = React.memo(function Board({ setDrawerOpen, board }: any) {
                 background: colors.green["50"],
               }}
               label={
-                (data
-                  ? data
-                      .map((column) => column.tasks)
-                      .flat()
-                      .filter((task) => task.completed).length
-                  : 0) + " completed"
+                // Calculate percentage of completed tasks
+                data
+                  ? (
+                      (data
+                        .map((column) => column.tasks)
+                        .flat()
+                        .filter((task) => task.completed).length /
+                        data.map((column) => column.tasks).flat().length) *
+                      100
+                    ).toFixed(0) + "% complete"
+                  : "0%"
               }
             />
           </Box>

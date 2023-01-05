@@ -22,6 +22,7 @@ const Tab = React.memo(function Tab({
   mutationUrl,
   styles,
   activeTab,
+  setDrawerOpen,
   setActiveTab,
   emblaApi,
   board,
@@ -98,6 +99,7 @@ const Tab = React.memo(function Tab({
         disableRipple
         onContextMenu={handleClick}
         onClick={(e) => {
+          setDrawerOpen(false);
           window.location.hash = board.id;
           if (activeTab === board.id && !editMode) {
             handleClick(e);
@@ -240,6 +242,16 @@ export function TasksLayout() {
           : colors[themeColor][200]) +
         "!important",
     },
+    ...(!condition && {
+      "&:hover": {
+        background: global.user.darkMode
+          ? "hsl(240,11%,15%)"
+          : colors[themeColor][50] + "!important",
+        border:
+          "1px solid " +
+          (global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][100]),
+      },
+    }),
     ...(condition && {
       background: global.user.darkMode
         ? "hsl(240,11%,20%)!important"
@@ -247,12 +259,12 @@ export function TasksLayout() {
       "&:hover, &:focus": {
         background: global.user.darkMode
           ? "hsl(240,11%,25%)!important"
-          : colors[themeColor][200] + "!important",
+          : colors[themeColor][100] + "!important",
         border:
           "1px solid " +
           (global.user.darkMode
             ? "hsl(240,11%,25%)!important"
-            : colors[themeColor][300]) +
+            : colors[themeColor][100]) +
           "!important",
       },
       color: global.user.darkMode
@@ -271,6 +283,7 @@ export function TasksLayout() {
       {data &&
         data.map((board) => (
           <Tab
+            setDrawerOpen={setOpen}
             key={board.id}
             styles={styles}
             activeTab={activeTab}
@@ -290,6 +303,7 @@ export function TasksLayout() {
         <Button
           size="large"
           onClick={() => {
+            setOpen(false);
             setActiveTab("new");
             emblaApi?.reInit({
               containScroll: "keepSnaps",
@@ -356,6 +370,7 @@ export function TasksLayout() {
             maxWidth: "600px",
             width: "100%",
             p: 1,
+            pb: 2,
           },
         }}
       >
