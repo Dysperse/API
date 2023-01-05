@@ -301,7 +301,7 @@ export function TasksLayout() {
           sx={{
             display: "flex",
             mt: "auto",
-            mb: -1,
+            mb: -2,
           }}
         >
           <Button
