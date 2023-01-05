@@ -77,6 +77,7 @@ export const Board = React.memo(function Board({ board }: any) {
               letterSpacing: 0.15,
               borderRadius: 2,
               px: 1,
+              mb: 0.2,
               color: "#606060",
               cursor: "auto!important",
               userSelect: "none",
