@@ -213,10 +213,12 @@ export function TasksLayout() {
     px: 2,
     gap: 1.5,
     py: 1,
+    width: "100%",
+    justifyContent: "flex-start",
     borderRadius: 4,
     mr: 1,
+    mb: 1,
     fontSize: "15px",
-    whiteSpace: "nowrap",
     ...(global.user.darkMode && {
       color: "hsl(240,11%, 80%)",
     }),
@@ -226,6 +228,9 @@ export function TasksLayout() {
         : colors[themeColor][50] + "!important",
     },
     border: "1px solid transparent",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
     "&:active": {
       border:
         "1px solid " +
@@ -254,64 +259,113 @@ export function TasksLayout() {
         : colors[themeColor][900] + "!important",
     }),
   });
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Box sx={{ mb: 5 }}>
-      {error && (
-        <ErrorHandler error="An error occurred while loading your tasks" />
-      )}
+    <Box
+      sx={{
+        display: "flex",
+      }}
+    >
       <Box
-        ref={emblaRef}
         sx={{
-          maxWidth: { xs: "100vw", sm: "calc(100vw - 85px)" },
+          width: { xs: "100%", sm: 300 },
+          flex: { xs: "100%", sm: "0 0 250px" },
+          ml: -1,
+          p: 3,
+          display: collapsed ? "none" : { xs: "none", sm: "flex" },
+          minHeight: "calc(100vh - 70px)",
+          height: { sm: "calc(100vh - 64px)" },
+          overflowY: { sm: "scroll" },
+          flexDirection: "column",
+          borderRight: { sm: "1px solid rgba(200,200,200,.3)" },
         }}
       >
-        <Box className="embla__container" sx={{ pl: 4 }}>
-          {data &&
-            data.map((board) => (
-              <Tab
-                key={board.id}
-                styles={styles}
-                activeTab={activeTab}
-                board={board}
-                emblaApi={emblaApi}
-                setActiveTab={setActiveTab}
-                mutationUrl={url}
-              />
-            ))}
-          <Box>
-            <Button
-              size="large"
-              onClick={() => {
-                setActiveTab("new");
-                emblaApi?.reInit({
-                  containScroll: "keepSnaps",
-                  dragFree: true,
-                });
-              }}
-              disableRipple
-              sx={{
-                ...styles(activeTab === "new"),
-                px: 2,
-                gap: 2,
-              }}
-            >
-              <Icon className={activeTab === "new" ? "" : "outlined"}>
-                add_circle
-              </Icon>
-              Create
-            </Button>
-          </Box>
+        {error && (
+          <ErrorHandler error="An error occurred while loading your tasks" />
+        )}
+
+        {data &&
+          data.map((board) => (
+            <Tab
+              key={board.id}
+              styles={styles}
+              activeTab={activeTab}
+              board={board}
+              emblaApi={emblaApi}
+              setActiveTab={setActiveTab}
+              mutationUrl={url}
+            />
+          ))}
+        <Box
+          sx={{
+            display: "flex",
+            mt: "auto",
+            mb: -1,
+          }}
+        >
+          <Button
+            size="large"
+            onClick={() => {
+              setActiveTab("new");
+              emblaApi?.reInit({
+                containScroll: "keepSnaps",
+                dragFree: true,
+              });
+            }}
+            disableRipple
+            sx={{
+              ...styles(activeTab === "new"),
+              px: 2,
+              gap: 2,
+              justifyContent: "center",
+            }}
+          >
+            <Icon className={activeTab === "new" ? "" : "outlined"}>
+              add_circle
+            </Icon>
+          </Button>
+          <Button
+            size="large"
+            onClick={() => {
+              setCollapsed(!collapsed);
+              emblaApi?.reInit({
+                containScroll: "keepSnaps",
+                dragFree: true,
+              });
+            }}
+            disableRipple
+            sx={{
+              ...styles(false),
+              px: 2,
+              justifyContent: "center",
+              gap: 2,
+            }}
+          >
+            <Icon className={activeTab === "new" ? "" : "outlined"}>
+              menu_open
+            </Icon>
+          </Button>
         </Box>
       </Box>
 
-      <Box>
+      <Box
+        sx={{
+          maxHeight: { sm: "calc(100vh - 70px)" },
+          minHeight: { sm: "calc(100vh - 64px)" },
+          height: { sm: "calc(100vh - 64px)" },
+          overflowY: { sm: "auto" },
+          flexGrow: 1,
+        }}
+      >
         {activeTab === "new" && (
           <CreateBoard emblaApi={emblaApi} mutationUrl={url} />
         )}
+        {data &&
+          data.map(
+            (board) => activeTab === board.id && <Board board={board} />
+          )}
       </Box>
-      {data &&
-        data.map((board) => activeTab === board.id && <Board board={board} />)}
     </Box>
   );
 }
