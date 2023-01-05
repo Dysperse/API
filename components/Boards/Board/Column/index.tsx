@@ -368,7 +368,7 @@ export const Column = React.memo(function Column({
             <Box>
               <Typography
                 variant="h5"
-                className="font-secondary"
+                // className="font-secondary"
                 sx={{
                   fontWeight: "600",
                   mb: 1,
