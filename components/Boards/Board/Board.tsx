@@ -102,6 +102,7 @@ function BoardSettings({ mutationUrl, board }) {
       </SwipeableDrawer>
       <IconButton
         disableRipple
+        size="small"
         onClick={() => setOpen(true)}
         sx={{
           transition: "none",
@@ -260,6 +261,7 @@ export const Board = React.memo(function Board({
           </Box>
         </Box>
         <IconButton
+          size="small"
           disableRipple
           sx={{
             transition: "none",
@@ -270,10 +272,10 @@ export const Board = React.memo(function Board({
             ml: "auto",
             flex: "0 0 auto",
 
-            display: { xs: "none", sm: "inline-flex" },
+            // display: { xs: "none", sm: "inline-flex" },
           }}
         >
-          <Icon>filter_list</Icon>
+          <Icon>star</Icon>
         </IconButton>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
