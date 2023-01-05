@@ -409,7 +409,9 @@ export function TasksLayout() {
           data.map(
             (board) =>
               activeTab === board.id && (
-                <Board board={board} setDrawerOpen={setOpen} />
+                <Board board={board} setDrawerOpen={setOpen}
+                collapsed={collapsed}
+                />
               )
           )}
       </Box>

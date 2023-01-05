@@ -36,7 +36,11 @@ function Renderer({ data, url, board }) {
   );
 }
 
-export const Board = React.memo(function Board({ setDrawerOpen, board }: any) {
+export const Board = React.memo(function Board({
+  setDrawerOpen,
+  board,
+  collapsed,
+}: any) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
@@ -45,7 +49,7 @@ export const Board = React.memo(function Board({ setDrawerOpen, board }: any) {
     <Box
       sx={{
         pb: 2,
-        ml: { sm: -1 },
+        ml: { sm: collapsed ? -2 : -1 },
       }}
     >
       <Box
@@ -148,7 +152,6 @@ export const Board = React.memo(function Board({ setDrawerOpen, board }: any) {
           disableRipple
           sx={{
             transition: "none",
-            background: colors[themeColor][50] + "!important",
             "&:hover": {
               background: colors[themeColor][50] + "!important",
             },
@@ -162,7 +165,6 @@ export const Board = React.memo(function Board({ setDrawerOpen, board }: any) {
           disableRipple
           sx={{
             transition: "none",
-            background: colors[themeColor][50] + "!important",
             "&:hover": {
               background: colors[themeColor][50] + "!important",
             },
