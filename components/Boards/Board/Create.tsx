@@ -14,13 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 
-function Template({
-  template,
-  mutationUrl,
-  loading,
-  setLoading,
-  emblaApi,
-}: any) {
+function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -131,12 +125,6 @@ function Template({
                 setOpen(false);
                 await mutate(mutationUrl);
                 setLoading(false);
-                if (emblaApi) {
-                  emblaApi.reInit({
-                    containScroll: "keepSnaps",
-                    dragFree: true,
-                  });
-                }
               });
             }}
           >
@@ -255,7 +243,7 @@ function Template({
   );
 }
 
-export function CreateBoard({ emblaApi, mutationUrl }: any) {
+export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const templates = [
     {
@@ -529,10 +517,41 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
         sx={{
           maxWidth: "500px",
           mx: "auto",
-          mt: 5,
+          mt: 3,
           mb: 7,
         }}
       >
+        <Typography
+          variant="h5"
+          onClick={() => setDrawerOpen(true)}
+          sx={{
+            fontWeight: 600,
+            lineHeight: 1.5,
+            letterSpacing: 0.15,
+            borderRadius: 2,
+            overflow: "hidden",
+            maxWidth: "100%",
+            px: 1,
+            mb: 3,
+            color: "#404040",
+            cursor: "auto!important",
+            userSelect: "none",
+            "&:hover": {
+              color: "#303030",
+              background: "rgba(200,200,200,.3)",
+            },
+            "&:active": {
+              color: "#000",
+              background: "rgba(200,200,200,.4)",
+            },
+
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          Create board <Icon>expand_more</Icon>
+        </Typography>
         <OptionsGroup
           options={["Board", "Checklist"]}
           currentOption={currentOption}
@@ -552,12 +571,6 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
                   }).then(async () => {
                     await mutate(mutationUrl);
                     setLoading(false);
-                    if (emblaApi) {
-                      emblaApi.reInit({
-                        containScroll: "keepSnaps",
-                        dragFree: true,
-                      });
-                    }
                   });
                 }}
                 sx={{
@@ -618,7 +631,6 @@ export function CreateBoard({ emblaApi, mutationUrl }: any) {
               mutationUrl={mutationUrl}
               loading={loading}
               setLoading={setLoading}
-              emblaApi={emblaApi}
             />
           ))}
         </Masonry>

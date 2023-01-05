@@ -315,12 +315,19 @@ export function TasksLayout() {
             ...styles(activeTab === "new"),
             px: 2,
             gap: 2,
-            justifyContent: "center",
+            justifyContent: { xs: "start", sm: "center" },
           }}
         >
           <Icon className={activeTab === "new" ? "" : "outlined"}>
             add_circle
           </Icon>
+          <Box
+            sx={{
+              display: { xs: "block", sm: "none" },
+            }}
+          >
+            Create board
+          </Box>
         </Button>
         <Button
           size="large"
@@ -335,6 +342,7 @@ export function TasksLayout() {
           sx={{
             ...styles(false),
             px: 2,
+            display: { xs: "none", sm: "block" },
             justifyContent: "center",
             gap: 2,
           }}
@@ -403,14 +411,20 @@ export function TasksLayout() {
         }}
       >
         {activeTab === "new" && (
-          <CreateBoard emblaApi={emblaApi} mutationUrl={url} />
+          <CreateBoard 
+           mutationUrl={url} 
+           setDrawerOpen={setOpen}
+          
+          />
         )}
         {data &&
           data.map(
             (board) =>
               activeTab === board.id && (
-                <Board board={board} setDrawerOpen={setOpen}
-                collapsed={collapsed}
+                <Board
+                  board={board}
+                  setDrawerOpen={setOpen}
+                  collapsed={collapsed}
                 />
               )
           )}

@@ -60,6 +60,7 @@ export const Board = React.memo(function Board({
           background: "rgba(255,255,255,.7)",
           zIndex: 1,
           p: 2,
+          maxWidth: "100vw",
           pt: 3,
           px: 4,
           backdropFilter: "blur(10px)",
@@ -70,7 +71,7 @@ export const Board = React.memo(function Board({
       >
         <Box
           sx={{
-            flexGrow: 1,
+            maxWidth: "100%",
           }}
         >
           <Typography
@@ -81,6 +82,8 @@ export const Board = React.memo(function Board({
               lineHeight: 1.5,
               letterSpacing: 0.15,
               borderRadius: 2,
+              overflow: "hidden",
+              maxWidth: "100%",
               px: 1,
               mb: 0.2,
               color: "#404040",
@@ -157,6 +160,9 @@ export const Board = React.memo(function Board({
             },
             color: colors[themeColor][500],
             ml: "auto",
+            flex: "0 0 auto",
+
+            display: { xs: "none", sm: "inline-flex" },
           }}
         >
           <Icon>filter_list</Icon>
