@@ -36,7 +36,7 @@ function Renderer({ data, url, board }) {
   );
 }
 
-export const Board = React.memo(function Board({ board }: any) {
+export const Board = React.memo(function Board({ setDrawerOpen, board }: any) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
@@ -71,6 +71,7 @@ export const Board = React.memo(function Board({ board }: any) {
         >
           <Typography
             variant="h5"
+            onClick={() => setDrawerOpen(true)}
             sx={{
               fontWeight: 600,
               lineHeight: 1.5,
@@ -78,7 +79,7 @@ export const Board = React.memo(function Board({ board }: any) {
               borderRadius: 2,
               px: 1,
               mb: 0.2,
-              color: "#606060",
+              color: "#404040",
               cursor: "auto!important",
               userSelect: "none",
               "&:hover": {
@@ -137,7 +138,7 @@ export const Board = React.memo(function Board({ board }: any) {
             transition: "none",
             background: colors[themeColor][50] + "!important",
             "&:hover": {
-              background: colors[themeColor][100] + "!important",
+              background: colors[themeColor][50] + "!important",
             },
             color: colors[themeColor][500],
             ml: "auto",
@@ -151,13 +152,13 @@ export const Board = React.memo(function Board({ board }: any) {
             transition: "none",
             background: colors[themeColor][50] + "!important",
             "&:hover": {
-              background: colors[themeColor][100] + "!important",
+              background: colors[themeColor][50] + "!important",
             },
             color: colors[themeColor][500],
             ml: "auto",
           }}
         >
-          <Icon>more_horiz</Icon>
+          <Icon>more_vert</Icon>
         </IconButton>
       </Box>
       <Box sx={{ overflowX: "scroll", mt: 4 }}>

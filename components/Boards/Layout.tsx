@@ -5,6 +5,7 @@ import {
   Icon,
   Menu,
   MenuItem,
+  SwipeableDrawer,
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -260,6 +261,83 @@ export function TasksLayout() {
     }),
   });
   const [collapsed, setCollapsed] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const children = (
+    <>
+      {error && (
+        <ErrorHandler error="An error occurred while loading your tasks" />
+      )}
+      {data &&
+        data.map((board) => (
+          <Tab
+            key={board.id}
+            styles={styles}
+            activeTab={activeTab}
+            board={board}
+            emblaApi={emblaApi}
+            setActiveTab={setActiveTab}
+            mutationUrl={url}
+          />
+        ))}
+      <Box
+        sx={{
+          display: "flex",
+          mt: "auto",
+          mb: -2,
+        }}
+      >
+        <Button
+          size="large"
+          onClick={() => {
+            setActiveTab("new");
+            emblaApi?.reInit({
+              containScroll: "keepSnaps",
+              dragFree: true,
+            });
+          }}
+          disableRipple
+          sx={{
+            ...styles(activeTab === "new"),
+            px: 2,
+            gap: 2,
+            justifyContent: "center",
+          }}
+        >
+          <Icon className={activeTab === "new" ? "" : "outlined"}>
+            add_circle
+          </Icon>
+        </Button>
+        <Button
+          size="large"
+          onClick={() => {
+            setCollapsed(!collapsed);
+            emblaApi?.reInit({
+              containScroll: "keepSnaps",
+              dragFree: true,
+            });
+          }}
+          disableRipple
+          sx={{
+            ...styles(false),
+            px: 2,
+            justifyContent: "center",
+            gap: 2,
+          }}
+        >
+          <Icon
+            className={activeTab === "new" ? "" : "outlined"}
+            sx={{
+              transform: collapsed ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.3s",
+            }}
+          >
+            menu_open
+          </Icon>
+        </Button>
+      </Box>
+    </>
+  );
 
   return (
     <Box
@@ -267,6 +345,22 @@ export function TasksLayout() {
         display: "flex",
       }}
     >
+      <SwipeableDrawer
+        anchor="bottom"
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        open={open}
+        PaperProps={{
+          sx: {
+            borderRadius: "20px 20px 0 0",
+            maxWidth: "600px",
+            width: "100%",
+            p: 1,
+          },
+        }}
+      >
+        {children}
+      </SwipeableDrawer>
       <Box
         sx={{
           width: { xs: "100%", sm: 300 },
@@ -281,72 +375,7 @@ export function TasksLayout() {
           borderRight: { sm: "1px solid rgba(200,200,200,.3)" },
         }}
       >
-        {error && (
-          <ErrorHandler error="An error occurred while loading your tasks" />
-        )}
-
-        {data &&
-          data.map((board) => (
-            <Tab
-              key={board.id}
-              styles={styles}
-              activeTab={activeTab}
-              board={board}
-              emblaApi={emblaApi}
-              setActiveTab={setActiveTab}
-              mutationUrl={url}
-            />
-          ))}
-        <Box
-          sx={{
-            display: "flex",
-            mt: "auto",
-            mb: -2,
-          }}
-        >
-          <Button
-            size="large"
-            onClick={() => {
-              setActiveTab("new");
-              emblaApi?.reInit({
-                containScroll: "keepSnaps",
-                dragFree: true,
-              });
-            }}
-            disableRipple
-            sx={{
-              ...styles(activeTab === "new"),
-              px: 2,
-              gap: 2,
-              justifyContent: "center",
-            }}
-          >
-            <Icon className={activeTab === "new" ? "" : "outlined"}>
-              add_circle
-            </Icon>
-          </Button>
-          <Button
-            size="large"
-            onClick={() => {
-              setCollapsed(!collapsed);
-              emblaApi?.reInit({
-                containScroll: "keepSnaps",
-                dragFree: true,
-              });
-            }}
-            disableRipple
-            sx={{
-              ...styles(false),
-              px: 2,
-              justifyContent: "center",
-              gap: 2,
-            }}
-          >
-            <Icon className={activeTab === "new" ? "" : "outlined"}>
-              menu_open
-            </Icon>
-          </Button>
-        </Box>
+        {children}
       </Box>
 
       <Box
@@ -363,7 +392,10 @@ export function TasksLayout() {
         )}
         {data &&
           data.map(
-            (board) => activeTab === board.id && <Board board={board} />
+            (board) =>
+              activeTab === board.id && (
+                <Board board={board} setDrawerOpen={setOpen} />
+              )
           )}
       </Box>
     </Box>
