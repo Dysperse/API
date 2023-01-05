@@ -110,7 +110,7 @@ export function BottomNav() {
           },
           background: global.user.darkMode
             ? "hsla(240, 11%, 10%, .9)"
-            : hexToRgba("#eee", 0.7),
+            : hexToRgba("#fff", 0.4),
           borderTop: global.user.darkMode
             ? "1px solid hsla(240, 11%, 20%, .8)"
             : "1px solid rgba(200,200,200,.4)",
