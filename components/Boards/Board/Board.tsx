@@ -112,7 +112,7 @@ function BoardSettings({ mutationUrl, board }) {
           "&:active": {
             background: colors[themeColor][100] + "!important",
           },
-          ml: "auto",
+          // ml: "auto",
         }}
       >
         <Icon className="outlined">edit</Icon>
@@ -153,6 +153,7 @@ export const Board = React.memo(function Board({
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
+  const [starred, setStarred] = React.useState(board.starred || false);
 
   return (
     <Box
@@ -263,19 +264,19 @@ export const Board = React.memo(function Board({
         <IconButton
           size="small"
           disableRipple
+          onClick={() => setStarred(!starred)}
           sx={{
             transition: "none",
             "&:hover": {
               background: colors[themeColor][50] + "!important",
             },
-            color: colors[themeColor][500],
             ml: "auto",
             flex: "0 0 auto",
 
             // display: { xs: "none", sm: "inline-flex" },
           }}
         >
-          <Icon>star</Icon>
+          <Icon className={starred ? "" : "outlined"}>star</Icon>
         </IconButton>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
