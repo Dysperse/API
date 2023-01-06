@@ -100,7 +100,7 @@ export function BottomNav() {
             xs: "block",
             md: "none",
           },
-          [`@media (max-height: 400px)`]: {
+          [`@media (max-height: 500px)`]: {
             display: "none",
           },
           zIndex: 999,

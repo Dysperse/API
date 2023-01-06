@@ -291,7 +291,7 @@ export const Board = React.memo(function Board({
         </IconButton>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
-      <Box sx={{ overflowX: "scroll", mt: 4 }}>
+      <Box sx={{ overflowX: "scroll", mt: 4 }} id="taskContainer">
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your tasks" />
         )}
@@ -316,20 +316,11 @@ export const Board = React.memo(function Board({
           >
             <Renderer data={data} url={url} board={board} />
             {data ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 1,
-                  mx: 2,
-                  flexDirection: "column",
-                }}
-              >
+              <>
                 {board.columns.length !== 1 && data.length < 5 && (
                   <CreateColumn id={board.id} mutationUrl={url} />
                 )}
-              </Box>
+                </>
             ) : (
               <Box
                 sx={{

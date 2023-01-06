@@ -106,6 +106,11 @@ function RenderWithLayout({
           },
         ],
       },
+      MuiIconButton: {
+        defaultProps: {
+          disableRipple: true,
+        },
+      },
       MuiButton: {
         defaultProps: {
           disableElevation: true,

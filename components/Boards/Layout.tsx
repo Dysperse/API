@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Board } from "./Board/Board";
@@ -363,6 +364,8 @@ export function TasksLayout() {
       </Box>
     </>
   );
+
+  useStatusBar(open);
 
   return (
     <Box
