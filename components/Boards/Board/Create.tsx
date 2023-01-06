@@ -247,8 +247,8 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const templates = [
     {
-      name: "School planner (NEW!)",
-      description: "School planner to help organize your assignments",
+      name: "School planner",
+      description: "NEW: School planner to help organize your assignments",
       color: "blue",
       columns: [
         {
