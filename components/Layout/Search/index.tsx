@@ -284,7 +284,7 @@ export function SearchPopup({ styles }) {
           }}
           className={global.user.darkMode ? "rippleDark" : ""}
         >
-          <Icon>bolt</Icon>
+          <Icon>search</Icon>
           Jump to
           <span className="hover" style={{ marginLeft: "auto" }}>
             <span
@@ -296,18 +296,7 @@ export function SearchPopup({ styles }) {
                   : colors[themeColor][100],
               }}
             >
-              ctrl
-            </span>{" "}
-            <span
-              style={{
-                padding: "2px 5px",
-                borderRadius: "5px",
-                background: global.user.darkMode
-                  ? "hsl(240,11%,20%)"
-                  : colors[themeColor][100],
-              }}
-            >
-              k
+              ⌘ &nbsp;K
             </span>
           </span>
         </Button>

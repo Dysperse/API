@@ -218,6 +218,9 @@ export function Group({
       <ListItem
         disableRipple
         button
+        id={
+          data.propertyId === global.property.propertyId ? "activeProperty" : ""
+        }
         onClick={() => {
           if (data.propertyId === global.property.propertyId) {
             setOpen(true);
@@ -275,8 +278,7 @@ export function Group({
               sx={{
                 width: 20,
                 height: 20,
-                mt: -2.5,
-                borderRadius: "30%",
+                borderRadius: "100%",
                 backgroundColor: colors[data.profile.color]["A400"],
                 marginRight: 1,
               }}
@@ -288,54 +290,15 @@ export function Group({
                 <Typography variant="h6" sx={{ fontWeight: "600" }}>
                   {data.profile.name}
                 </Typography>
-                {!data.accepted && (
-                  <Chip size="small" color="error" label="Invitation pending" />
-                )}
-              </>
-            }
-            secondary={
-              <>
-                <Box
+                <Typography
                   sx={{
-                    color: global.user.darkMode ? "#eee" : "#000",
-                    maxWidth: "100%",
-                    mt: 0.5,
                     display: "flex",
                     alignItems: "center",
-                    gap: "10px",
+                    gap: 1,
+                    mt: 1,
                   }}
                 >
-                  <Icon>
-                    {data.permission === "member"
-                      ? "group"
-                      : data.permission == "owner"
-                      ? "productivity"
-                      : "visibility"}
-                  </Icon>
-                  <span
-                    style={{
-                      marginTop: data.permission === "owner" ? "-2.5px" : "",
-                    }}
-                  >
-                    {data.permission == "member"
-                      ? "Member"
-                      : data.permission == "owner"
-                      ? "Owner"
-                      : "Read-only access"}
-                  </span>
-                </Box>
-                <Box
-                  sx={{
-                    color: global.user.darkMode ? "#eee" : "#000",
-                    maxWidth: "100%",
-                    mt: 0.5,
-                    ml: "-2px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <Icon>
+                  <Icon className="outlined">
                     {data.profile.type === "dorm"
                       ? "cottage"
                       : data.profile.type === "apartment"
@@ -344,14 +307,11 @@ export function Group({
                       ? "school"
                       : "home"}
                   </Icon>
-                  <span
-                    style={{
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {data.profile.type}
-                  </span>
-                </Box>
+                  {data.profile.type}
+                </Typography>
+                {!data.accepted && (
+                  <Chip size="small" color="error" label="Invitation pending" />
+                )}
               </>
             }
           />
@@ -367,7 +327,9 @@ export function Group({
                 color: "inherit",
               }}
             >
-              <Icon>east</Icon>
+              {data.propertyId === global.property.propertyId && (
+                <Icon>east</Icon>
+              )}
             </LoadingButton>
           </ListItemIcon>
         </ListItem>

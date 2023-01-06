@@ -133,7 +133,7 @@ export function InviteButton() {
           display: { sm: "flex" },
           alignItems: { sm: "start" },
           mt: 9,
-          ml: 2,
+          pl: 2,
           justifyContent: { sm: "start" },
         }}
         PaperProps={{
@@ -141,10 +141,10 @@ export function InviteButton() {
             boxShadow: "none!important",
             position: { sm: "static!important" },
             width: {
-              sm: "500px",
+              sm: "350px",
             },
             height: "auto",
-            maxWidth: { sm: "400px" },
+            maxWidth: { sm: "350px" },
             overflow: "hidden!important",
             borderRadius: {
               xs: "20px 20px 0 0",
@@ -175,10 +175,16 @@ export function InviteButton() {
         disabled={!window.navigator.onLine}
         id="houseProfileTrigger"
         onClick={() => setOpen(true)}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setOpen(true);
+          setTimeout(() => {
+            document.getElementById("activeProperty")?.click();
+          }, 50);
+        }}
         sx={{
           background: "transparent!important",
-          color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
-          border: "1px solid transparent",
+          color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
           "&:hover": {
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
@@ -189,11 +195,6 @@ export function InviteButton() {
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
               : "#ddd!important",
-            border:
-              "1px solid" +
-              (global.user.darkMode
-                ? "hsl(240,11%,20%)!important"
-                : "#ccc!important"),
 
             color: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
@@ -223,7 +224,7 @@ export function InviteButton() {
         >
           {global.property.profile.name || "My group"}
         </Typography>
-        <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
+        <Icon>chevron_right</Icon>
       </Button>{" "}
     </>
   );
