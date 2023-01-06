@@ -510,43 +510,43 @@ export function CreateTask({
       </SwipeableDrawer>
       <ListItem
         disabled={global.permission == "read-only"}
-        button
-        disableRipple
+        className="rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
         sx={{
-          ...(!checkList && {
-            border: "0!important",
-          }),
+          px: 0.5,
+          py: 1,
           cursor: "unset!important",
-          borderRadius: 4,
-          gap: 0.5,
-          py: 0.7,
-          px: 0,
           "&:hover": {
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,16%)"
               : "rgba(200,200,200,0.3)",
-            cursor: "pointer",
           },
-          transition: "transform 0.2s ease-in-out",
+          "&:active": {
+            backgroundColor: global.user.darkMode
+              ? "hsl(240,11%,16%)"
+              : "rgba(200,200,200,0.5)",
+          },
+
+          ...(!checkList && {
+            border: "0!important",
+          }),
           ...(checkList && {
-            background: global.user.darkMode
-              ? "hsl(240,11%,13%)"
-              : "#f3f4f6!important",
+            background: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
             boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-            px: 1,
-            py: 1.5,
             gap: "10px!important",
             borderRadius: "15px!important",
             mb: 1.5,
           }),
         }}
-        className="border border-gray-200"
         onClick={() => setOpen(true)}
       >
         <span
           className="material-symbols-outlined"
           style={{
-            color: global.user.darkMode ? "rgba(255,255,255,.6)" : "#505050",
+            color: global.user.darkMode
+              ? "rgba(255,255,255,.6)"
+              : checkList
+              ? "#303030"
+              : "#505050",
             marginLeft: "7px",
             marginRight: "5px",
             fontSize: "30px",
@@ -560,7 +560,7 @@ export function CreateTask({
           primary={
             <span
               style={{
-                fontWeight: "300",
+                fontWeight: 300,
               }}
             >
               {parent ? "New subtask" : "New list item"}

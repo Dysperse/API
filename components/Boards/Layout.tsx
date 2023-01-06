@@ -350,7 +350,10 @@ export function TasksLayout() {
           <Icon
             className={activeTab === "new" ? "" : "outlined"}
             sx={{
-              transform: collapsed ? "rotate(180deg)" : "rotate(0deg)",
+              transform: collapsed
+                ? "rotate(180deg) scale(1.1)"
+                : "rotate(0deg) scale(1)",
+              mb: -1,
               transition: "transform 0.3s",
             }}
           >

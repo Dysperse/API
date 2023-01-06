@@ -12,6 +12,7 @@ import {
   CircularProgress,
   Divider,
   Icon,
+  Link,
   ListItem,
   ListItemText,
   Menu,
@@ -23,6 +24,27 @@ import { mutate } from "swr";
 import { ImageViewer } from "./ImageViewer";
 import { SubTask } from "./SubTask";
 import { TaskDrawer } from "./TaskDrawer";
+
+// use whatever you want here
+const URL_REGEX =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
+const renderText = (txt) =>
+  txt.split(" ").map((part) =>
+    URL_REGEX.test(part) ? (
+      <Link
+        target="_blank"
+        href={part}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        {part.replace(/\/$/, "").replace("https://", "").replace("http://", "")}{" "}
+      </Link>
+    ) : (
+      part + " "
+    )
+  );
 
 export const Task = React.memo(function Task({
   boardId,
@@ -156,7 +178,7 @@ export const Task = React.memo(function Task({
           }}
         >
           <Box>
-            <Typography variant="h6">{task.name}</Typography>
+            <Typography variant="h6">{renderText(task.name)}</Typography>
             <Typography variant="body2">
               {task.description.trim() !== ""
                 ? task.description
@@ -235,7 +257,7 @@ export const Task = React.memo(function Task({
         <ListItem
           onClick={() => setOpen(true)}
           onContextMenu={handleContextMenu}
-          className="p-0 rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400"
+          className="p-0 rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
           sx={{
             color:
               task.color !== "brown"
@@ -255,10 +277,11 @@ export const Task = React.memo(function Task({
             },
 
             ...(!checkList && {
+              boxShadow: "none!important",
               border: "0!important",
             }),
             ...(checkList && {
-              background: global.user.darkMode ? "hsl(240,11%,13%)" : "#f3f4f6",
+              background: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
               boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
               gap: "10px!important",
               borderRadius: "15px!important",
@@ -313,7 +336,7 @@ export const Task = React.memo(function Task({
                     }),
                   }}
                 >
-                  {task.name}
+                  {renderText(task.name)}
                   {task.image && <ImageViewer trimHeight url={task.image} />}
                 </Box>
               </Box>
