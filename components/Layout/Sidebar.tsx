@@ -126,7 +126,7 @@ export function Sidebar() {
             zIndex: 99,
             borderRight: global.user.darkMode
               ? "1px solid rgba(255,255,255,0.1)"
-              : "1px solid rgba(200,200,200,.5)",
+              : "1px solid rgba(200,200,200,.3)",
             height: "100vh",
             alignItems: "center",
             justifyContent: "center",

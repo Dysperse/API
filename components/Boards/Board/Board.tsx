@@ -235,7 +235,11 @@ export const Board = React.memo(function Board({
               size="small"
               label={
                 (data ? data.map((column) => column.tasks).flat().length : 0) +
-                " tasks   •   " +
+                " task" +
+                (data.map((column) => column.tasks).flat().length == 1
+                  ? ""
+                  : "s") +
+                "   •   " +
                 (data
                   ? data
                       .map((column) => column.tasks)
