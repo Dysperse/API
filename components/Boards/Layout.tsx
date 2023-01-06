@@ -5,7 +5,7 @@ import {
   Icon,
   Menu,
   MenuItem,
-  SwipeableDrawer,
+  SwipeableDrawer
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -109,10 +109,7 @@ const Tab = React.memo(function Tab({
             setActiveTab(board.id);
           }
         }}
-        sx={{
-          ...styles(activeTab === board.id),
-          gap: 2,
-        }}
+        sx={styles(activeTab === board.id)}
       >
         {!editMode ? (
           <Box
@@ -316,7 +313,6 @@ export function TasksLayout() {
           sx={{
             ...styles(activeTab === "new"),
             px: 2,
-            gap: 2,
             justifyContent: { xs: "start", sm: "center" },
           }}
         >
@@ -346,7 +342,6 @@ export function TasksLayout() {
             px: 2,
             display: { xs: "none", sm: "block" },
             justifyContent: "center",
-            gap: 2,
           }}
         >
           <Icon

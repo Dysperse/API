@@ -195,7 +195,6 @@ export function CreateColumn({ mutationUrl, id }: any) {
               whiteSpace: "nowrap",
               borderRadius: 5,
               justifyContent: "flex-start",
-              gap: 2,
               py: 2,
               pl: 3,
               mr: 4,

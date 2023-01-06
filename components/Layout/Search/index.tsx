@@ -276,7 +276,6 @@ export function SearchPopup({ styles }) {
               : colors[themeColor][900],
             display: { xs: "none", sm: "flex" },
             height: "45px",
-            gap: 2,
             borderRadius: 3,
             "&:hover .hover": {
               opacity: 1,

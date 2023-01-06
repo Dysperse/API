@@ -55,7 +55,7 @@ function LinkModal({ value, setValue }) {
         e.preventDefault();
       }}
     >
-      <IconButton disableRipple onClick={() => setOpen(true)}>
+      <IconButton onClick={() => setOpen(true)}>
         <Icon className="outlined">link</Icon>
       </IconButton>
       <Dialog
@@ -177,7 +177,6 @@ function CreatePostMenu({ url }) {
               sx={{
                 justifyContent: "flex-start",
                 borderRadius: 3,
-                gap: 2,
                 my: 0.5,
               }}
               fullWidth
@@ -365,7 +364,7 @@ function CreatePostMenu({ url }) {
             {!imageUploading && <Icon className="outlined">image</Icon>}
             {imageUploading && <CircularProgress size={20} />}
           </IconButton>
-          <IconButton disableRipple>
+          <IconButton>
             <Icon className="outlined">palette</Icon>
           </IconButton>
           <Button
@@ -929,7 +928,7 @@ export default function Spaces() {
               title="Spaces is a places where you can store memos to yourself, or share it with members in your group. Maximize your productivity by keeping links, images, and text, and files at hand!"
               sx={{ ml: "auto" }}
             >
-              <IconButton disableRipple>
+              <IconButton>
                 <Icon className="outlined">help</Icon>
               </IconButton>
             </Tooltip>

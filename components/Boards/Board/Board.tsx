@@ -56,7 +56,6 @@ function BoardSettings({ mutationUrl, board }) {
         />
         <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
           <Button
-            sx={{ gap: 2 }}
             variant="outlined"
             fullWidth
             onClick={async () => {
@@ -76,7 +75,6 @@ function BoardSettings({ mutationUrl, board }) {
             Delete
           </Button>
           <Button
-            sx={{ gap: 2 }}
             variant="contained"
             fullWidth
             onClick={() => {
@@ -101,7 +99,6 @@ function BoardSettings({ mutationUrl, board }) {
         </Box>
       </SwipeableDrawer>
       <IconButton
-        disableRipple
         size="small"
         onClick={() => setOpen(true)}
         sx={{

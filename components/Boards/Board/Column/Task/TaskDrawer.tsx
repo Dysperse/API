@@ -103,7 +103,7 @@ export function TaskDrawer({
           p: 2,
         }}
       >
-        <IconButton disableRipple onClick={() => setOpen(false)}>
+        <IconButton onClick={() => setOpen(false)}>
           <Icon
             sx={{
               display: { sm: "none!important" },

@@ -147,7 +147,6 @@ function CreateGoal() {
               variant="outlined"
               sx={{
                 mt: 5,
-                gap: 2,
                 borderWidth: "2px!important",
               }}
             >
@@ -165,7 +164,7 @@ function CreateGoal() {
       </SwipeableDrawer>
       <Button
         onClick={() => setOpen(true)}
-        sx={{ gap: 2, transition: "none", mb: 2, ml: 5 }}
+        sx={{ transition: "none", mb: 2, ml: 5 }}
         size="small"
         disableRipple
       >
@@ -368,7 +367,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
       <Button
         href="/feedback"
         target="_blank"
-        sx={{ gap: 2, transition: "none", mb: 2, ml: 5 }}
+        sx={{ transition: "none", mb: 2, ml: 5 }}
         size="small"
         disableRipple
       >

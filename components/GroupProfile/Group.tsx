@@ -183,7 +183,6 @@ function Changelog({ house }) {
         </Box>
       </SwipeableDrawer>
       <IconButton
-        disableRipple
         sx={{
           color: "inherit",
           zIndex: 1,
