@@ -16,6 +16,7 @@ import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
+import { Puller } from "../Puller";
 import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
 
@@ -383,12 +384,12 @@ export function TasksLayout() {
             borderRadius: "20px 20px 0 0",
             maxWidth: "600px",
             width: "100%",
-            p: 1,
             pb: 2,
           },
         }}
       >
-        {children}
+        <Puller />
+        <Box sx={{ p: 1 }}>{children}</Box>
       </SwipeableDrawer>
       <Box
         sx={{
