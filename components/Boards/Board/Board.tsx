@@ -229,7 +229,7 @@ export const Board = React.memo(function Board({
               sx={{
                 display:
                   data && data.map((column) => column.tasks).flat().length > 0
-                    ? "block"
+                    ? "flex"
                     : "none",
               }}
               size="small"
@@ -251,7 +251,7 @@ export const Board = React.memo(function Board({
               sx={{
                 display:
                   data && data.map((column) => column.tasks).flat().length > 0
-                    ? "block"
+                    ? "flex"
                     : "none",
                 color: "success.main",
                 background: colors.green["50"],

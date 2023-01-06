@@ -418,8 +418,11 @@ export default function AddPopup({
             overflowY: "auto",
           }}
         >
-          <Typography variant="h5" sx={{ mx: "auto", textAlign: "center" }}>
-            Create item
+          <Typography
+            variant="h6"
+            sx={{ mx: "auto", textAlign: "center", fontWeight: "700" }}
+          >
+            Select a room
           </Typography>
 
           <Content />

@@ -179,7 +179,7 @@ export function CreateItemModal({
               sm: "90vw",
               md: "50vw",
             },
-            height: "100vh",
+            height: "auto",
             maxWidth: "600px",
             maxHeight: "90vh",
             borderRadius: "20px 20px 0 0",
@@ -221,7 +221,6 @@ export function CreateItemModal({
                 name="title"
                 id="nameInput"
                 placeholder="Item name"
-                className="font-secondary"
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,

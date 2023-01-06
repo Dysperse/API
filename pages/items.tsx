@@ -313,10 +313,10 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
           "more_horiz"
         ) : (
           <Box
-            sx={{ display: { sm: "none!important" } }}
+            sx={{ display: { sm: "none!important" }, color: "#404040" }}
             className="material-symbols-rounded"
           >
-            east
+            chevron_right
           </Box>
         )}
       </Icon>
@@ -415,6 +415,10 @@ function Action({
               (global.theme == "dark"
                 ? "hsl(240,11%,13%)!important"
                 : colors[themeColor][100] + "!important"),
+          },
+          background: {
+            xs: colors[themeColor][50] + "!important",
+            sm: "transparent!important",
           },
         },
         borderRadius: 5,
