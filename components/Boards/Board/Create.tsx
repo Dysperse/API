@@ -13,9 +13,11 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
+import { useStatusBar } from "../../../hooks/useStatusBar";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState(false);
+  useStatusBar(open);
   return (
     <>
       <Dialog
@@ -110,13 +112,12 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             </Box>
           </Box>
         </Card>
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2, display: "flex", justifyContent: "center" }}>
           <Button
             variant="contained"
-            fullWidth
             disabled={loading || global.permission == "read-only"}
             size="large"
-            sx={{ borderRadius: 99 }}
+            sx={{ borderRadius: 99, mx: "auto" }}
             onClick={() => {
               setLoading(true);
               fetchApiWithoutHook("property/boards/createBoard", {
@@ -128,6 +129,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               });
             }}
           >
+            <Icon className="outlined">edit</Icon>
             {global.permission == "read-only"
               ? "You do not have permission to create a board"
               : "Create new board"}

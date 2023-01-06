@@ -130,6 +130,7 @@ function RenderWithLayout({
             background: colors["grey"]["200"] + "!important",
           },
           root: {
+            gap: "10px",
             transition: "none",
             textTransform: "none",
           },
