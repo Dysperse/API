@@ -512,8 +512,8 @@ export function CreateTask({
         disabled={global.permission == "read-only"}
         className="rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
         sx={{
-          px: 0.5,
-          py: 1,
+          px: !checkList ? 0 : 0.5,
+          py: !checkList ? 0.5 : 1,
           cursor: "unset!important",
           "&:hover": {
             backgroundColor: global.user.darkMode

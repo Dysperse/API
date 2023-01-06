@@ -226,6 +226,12 @@ export const Board = React.memo(function Board({
             }}
           >
             <Chip
+              sx={{
+                display:
+                  data && data.map((column) => column.tasks).flat().length > 0
+                    ? "block"
+                    : "none",
+              }}
               size="small"
               label={
                 (data ? data.map((column) => column.tasks).flat().length : 0) +
@@ -242,6 +248,10 @@ export const Board = React.memo(function Board({
             <Chip
               size="small"
               sx={{
+                display:
+                  data && data.map((column) => column.tasks).flat().length > 0
+                    ? "block"
+                    : "none",
                 color: "success.main",
                 background: colors.green["50"],
               }}
