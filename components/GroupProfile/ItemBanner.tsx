@@ -25,11 +25,10 @@ export function UpgradeBanner({ color }: { color: string }) {
   }, [data]);
 
   const max = 500;
-
-  const ratio = {
-    oneItem: 0.2,
-    oneBoard: 0.5,
-    oneMemo: 0.7,
+  const storage = {
+    items: (((data || { count: 0 }).count * 2.5) / max) * 100,
+    boards: (((boardCount || []).length * 10) / max) * 100,
+    memos: (((memoCount || []).length * 5) / max) * 100,
   };
 
   return !data ? null : (
@@ -60,34 +59,39 @@ export function UpgradeBanner({ color }: { color: string }) {
           }}
           sections={[
             {
-              value: (((data || { count: 0 }).count * 2.5) / max) * 100,
-              color: "pink",
+              value: storage.items,
+              color: colors[color]["700"],
             },
             {
-              value: (((boardCount || []).length * 10) / max) * 100,
-              color: "grape",
+              value: storage.boards,
+              color: colors[color]["800"],
             },
             {
-              value: (((memoCount || []).length * 5) / max) * 100,
-              color: "violet",
+              value: storage.memos,
+              color: colors[color]["900"],
             },
           ]}
         />
         <Typography gutterBottom>
           <b>Items</b>
-          <br />{" "}
-          {Math.round((((data || { count: 0 }).count * 2.5) / max) * 100)}%
-          &bull; {(data || { count: 0 }).count} items
+          <br /> {Math.round(storage.items)}% &bull;{" "}
+          {(data || { count: 0 }).count} items
         </Typography>
         <Typography gutterBottom>
           <b>Boards</b>
-          <br /> {Math.round((((boardCount || []).length * 10) / max) * 100)}%
-          &bull; {(boardCount || []).length} boards
+          <br /> {Math.round(storage.boards)}% &bull;{" "}
+          {(boardCount || []).length} boards
         </Typography>
         <Typography gutterBottom>
           <b>Memos</b>
-          <br /> {Math.round((((memoCount || []).length * 5) / max) * 100)}%
-          &bull; {(memoCount || []).length} memos
+          <br /> {Math.round(storage.memos)}% &bull; {(memoCount || []).length}{" "}
+          memos
+        </Typography>
+        <Typography gutterBottom sx={{ mt: 1 }}>
+          <b>
+            {Math.round(max - storage.items - storage.boards - storage.memos)}{" "}
+            out of 500 credits used
+          </b>
         </Typography>
       </Box>
     </Box>

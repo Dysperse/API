@@ -135,6 +135,49 @@ function Member({
             >
               Member
             </MenuItem>
+
+            {global.property.permission !== "owner" ||
+            member.permission === "owner" ? null : (
+              <LoadingButton
+                loading={loading}
+                variant="outlined"
+                sx={{
+                  "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
+                    borderColor: `${colors[color][900]}!important`,
+                  },
+                  borderWidth: "2px!important",
+                  width: "100%",
+                  color: colors[color][900],
+                  borderRadius: 4,
+                }}
+                onClick={() => {
+                  if (member.permission === "owner") {
+                    document.getElementById("settingsTrigger")?.click();
+                    setOpen(false);
+                    return;
+                  }
+                  if (
+                    confirm(
+                      "Remove member from your home? This person cannot join unless you invite them again."
+                    )
+                  ) {
+                    setLoading(true);
+                    fetchApiWithoutHook("property/members/remove", {
+                      id: member.id,
+                      removerName: global.user.name,
+                      removeeName: member.user.name,
+                      timestamp: new Date().toISOString(),
+                    }).then(() => {
+                      toast.success("Removed person from your home");
+                      setLoading(false);
+                      setDeleted(true);
+                    });
+                  }
+                }}
+              >
+                {"Remove"}
+              </LoadingButton>
+            )}
           </Menu>
           <CardActionArea
             onClick={handleClick}
@@ -143,7 +186,6 @@ function Member({
               member.user.email === global.user.email
             }
             sx={{
-              opacity: "1!important",
               ...((global.permission !== "owner" ||
                 member.user.email === global.user.email) && {
                 opacity: 0.5,
@@ -182,11 +224,11 @@ function Member({
               className="material-symbols-rounded"
               style={{
                 marginLeft: "auto",
-                display:
+                opacity:
                   global.permission !== "owner" ||
                   member.user.email === global.user.email
-                    ? "none"
-                    : "block",
+                    ? "0"
+                    : "1",
               }}
             >
               expand_more
@@ -194,49 +236,6 @@ function Member({
           </CardActionArea>
         </Box>
       </Box>
-      {global.property.permission !== "owner" ||
-      member.permission === "owner" ? null : (
-        <LoadingButton
-          loading={loading}
-          variant="outlined"
-          sx={{
-            "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-              borderColor: `${colors[color][900]}!important`,
-            },
-            borderWidth: "2px!important",
-            width: "100%",
-            mt: 1.5,
-            color: colors[color][900],
-            borderRadius: 4,
-          }}
-          onClick={() => {
-            if (member.permission === "owner") {
-              document.getElementById("settingsTrigger")?.click();
-              setOpen(false);
-              return;
-            }
-            if (
-              confirm(
-                "Remove member from your home? This person cannot join unless you invite them again."
-              )
-            ) {
-              setLoading(true);
-              fetchApiWithoutHook("property/members/remove", {
-                id: member.id,
-                removerName: global.user.name,
-                removeeName: member.user.name,
-                timestamp: new Date().toISOString(),
-              }).then(() => {
-                toast.success("Removed person from your home");
-                setLoading(false);
-                setDeleted(true);
-              });
-            }
-          }}
-        >
-          {"Remove"}
-        </LoadingButton>
-      )}
     </Box>
   );
 }
