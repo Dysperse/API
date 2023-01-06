@@ -189,7 +189,7 @@ function Changelog({ house }) {
           zIndex: 1,
           mr: 1,
           position: "absolute",
-          right: "62px",
+          right: "55px",
           mt: 0.2,
         }}
         onClick={() => setOpen(true)}
@@ -436,7 +436,6 @@ export function Group({
                   sx={{
                     color: "inherit",
                     zIndex: 1,
-                    mr: 1,
                   }}
                   onClick={() => {
                     setEditMode(!editMode);
