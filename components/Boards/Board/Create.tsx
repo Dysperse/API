@@ -271,11 +271,6 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
           emoji:
             "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f30d.png",
         },
-        {
-          name: "World languages",
-          emoji:
-            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ac.png",
-        },
       ],
     },
     {
@@ -297,6 +292,28 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
           name: "Done",
           emoji:
             "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/270c-fe0f.png",
+        },
+      ],
+    },
+    {
+      name: "Tests, homework, and projects",
+      description: "NEW: School planner to help organize your assignments",
+      color: "blue",
+      columns: [
+        {
+          name: "Tests",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4af.png",
+        },
+        {
+          name: "Homework",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4dd.png",
+        },
+        {
+          name: "Projects",
+          emoji:
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2728.png",
         },
       ],
     },
