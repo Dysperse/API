@@ -27,7 +27,6 @@ function ImageModal({ image, setImage, styles }) {
   return (
     <>
       <IconButton
-        disableRipple
         onClick={() => {
           document.getElementById("imageAttachment")?.click();
         }}
