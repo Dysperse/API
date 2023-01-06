@@ -527,6 +527,7 @@ export function CreateTask({
           },
 
           ...(!checkList && {
+            boxShadow: "none!important",
             border: "0!important",
           }),
           ...(checkList && {
