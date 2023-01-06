@@ -320,7 +320,7 @@ export const Board = React.memo(function Board({
                 {board.columns.length !== 1 && data.length < 5 && (
                   <CreateColumn id={board.id} mutationUrl={url} />
                 )}
-                </>
+              </>
             ) : (
               <Box
                 sx={{

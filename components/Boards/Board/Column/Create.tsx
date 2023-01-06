@@ -6,14 +6,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
 
-import {
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  SwipeableDrawer,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Icon, SwipeableDrawer, TextField } from "@mui/material";
 
 export function CreateColumn({ mutationUrl, id }: any) {
   const [open, setOpen] = useState(false);
@@ -184,18 +177,9 @@ export function CreateColumn({ mutationUrl, id }: any) {
           </Box>
         </Box>
       )}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 1,
-          mx: 2,
-          flexDirection: "column",
-        }}
-      >
+      <Box>
         {!open && (
-          <IconButton
+          <Button
             disableRipple
             disabled={open}
             onClick={() => {
@@ -205,7 +189,15 @@ export function CreateColumn({ mutationUrl, id }: any) {
                 container.scrollLeft += 20000;
               }, 10);
             }}
+            size="large"
             sx={{
+              width: "350px",
+              whiteSpace: "nowrap",
+              borderRadius: 5,
+              justifyContent: "flex-start",
+              gap: 2,
+              py: 2,
+              pl: 3,
               mr: 4,
               transition: "none!important",
               backgroundColor: global.user.darkMode
@@ -229,8 +221,8 @@ export function CreateColumn({ mutationUrl, id }: any) {
               },
             }}
           >
-            <Icon>add</Icon>
-          </IconButton>
+            <Icon className="outlined">add_circle</Icon> Create column
+          </Button>
         )}
       </Box>
     </>
