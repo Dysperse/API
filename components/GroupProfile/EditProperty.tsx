@@ -251,7 +251,6 @@ export function EditProperty({
         <Color setColor={setColor} s={color} color={"orange"} />
         <Color setColor={setColor} s={color} color={"deepOrange"} />
         <Color setColor={setColor} s={color} color={"lime"} />
-        <Color setColor={setColor} s={color} color={"indigo"} />
         <Color setColor={setColor} s={color} color={"brown"} />
       </Box>
     </SwipeableDrawer>

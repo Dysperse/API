@@ -31,6 +31,13 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 
+import Timeline from "@mui/lab/Timeline";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+
 function Changelog({ house }) {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
@@ -65,7 +72,7 @@ function Changelog({ house }) {
             position: "sticky",
             top: 0,
             left: 0,
-            p: 3,
+            p: 5,
             px: 4,
             pb: 1,
             zIndex: 9,
@@ -118,27 +125,48 @@ function Changelog({ house }) {
               <CircularProgress />
             </Box>
           )}
-          {data &&
-            data.map((item) => (
-              <Box
-                key={item.when.toString()}
-                sx={{
-                  p: 3,
-                  mb: 2,
-                  background:
-                    colors[themeColor][global.theme == "dark" ? 800 : 100],
-                  borderRadius: 5,
-                }}
-              >
-                <Typography gutterBottom>
-                  <b>{item.who === global.user.name ? "You" : item.who}</b>{" "}
-                  {item.what}
-                </Typography>
-                <Typography variant="body2">
-                  {dayjs(item.when).fromNow()}
-                </Typography>
-              </Box>
-            ))}
+          <Timeline
+            sx={{
+              [`& .${timelineItemClasses.root}:before`]: {
+                flex: 0,
+                padding: 0,
+              },
+            }}
+          >
+            {data &&
+              data.map((item) => (
+                <TimelineItem key={item.id}>
+                  <TimelineSeparator>
+                    <TimelineDot
+                      sx={{
+                        background:
+                          colors[themeColor][
+                            global.theme == "dark" ? 900 : 200
+                          ],
+                      }}
+                    />
+                    <TimelineConnector
+                      sx={{
+                        background:
+                          colors[themeColor][
+                            global.theme == "dark" ? 900 : 100
+                          ],
+                      }}
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Typography gutterBottom>
+                      <b>{item.who === global.user.name ? "You" : item.who}</b>{" "}
+                      {item.what}
+                    </Typography>
+                    <Typography variant="body2">
+                      {dayjs(item.when).fromNow()}
+                    </Typography>
+                  </TimelineContent>
+                </TimelineItem>
+              ))}
+          </Timeline>
+
           {data && data.length === 0 && (
             <Typography
               variant="body1"
@@ -157,7 +185,7 @@ function Changelog({ house }) {
       <IconButton
         disableRipple
         sx={{
-          color: "white",
+          color: "inherit",
           zIndex: 1,
           mr: 1,
           position: "absolute",
@@ -203,7 +231,7 @@ export function Group({
         open
           ? editMode
             ? colors[color][100]
-            : colors[color][800]
+            : colors[color]["A400"]
           : colors[themeColor][100]
       );
   }, [color, editMode, open]);
@@ -212,6 +240,8 @@ export function Group({
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
   const router = useRouter();
+
+  const invertColors = ["lime", "green", "teal", "blue"].includes(color);
 
   return (
     <>
@@ -365,16 +395,15 @@ export function Group({
         >
           <Box
             sx={{
-              background: `linear-gradient(45deg, ${colors[color]["A700"]},  ${colors[color]["A400"]})`,
+              background: colors[color]["A400"],
               px: 3,
               height: "300px",
               position: "relative",
-              color: "white",
+              color: invertColors ? "black" : "white",
             }}
           >
             <Box
               sx={{
-                background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0))`,
                 position: "absolute",
                 top: 0,
                 left: 0,
@@ -390,7 +419,7 @@ export function Group({
                   setOpen(false);
                 }}
                 sx={{
-                  color: "white",
+                  color: "inherit",
                   mr: 0.2,
                 }}
               >
@@ -403,8 +432,9 @@ export function Group({
               {global.property.permission !== "read-only" && (
                 <IconButton
                   disableRipple
+                  accessKey="d"
                   sx={{
-                    color: "white",
+                    color: "inherit",
                     zIndex: 1,
                     mr: 1,
                   }}
@@ -441,7 +471,9 @@ export function Group({
                   alignItems: "center",
                   gap: 1,
                   mb: 2,
-                  background: "rgba(255,255,255,0.2)",
+                  background: invertColors
+                    ? "rgba(0,0,0,0.2)"
+                    : "rgba(255,255,255,0.2)",
                   px: 1.5,
                   pr: 2,
                   py: 0.5,

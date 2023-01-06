@@ -3,16 +3,13 @@ import {
   Box,
   CardActionArea,
   Icon,
-  IconButton,
   Menu,
   MenuItem,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import BoringAvatar from "boring-avatars";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import React, { useCallback } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
@@ -146,6 +143,7 @@ function Member({
               member.user.email === global.user.email
             }
             sx={{
+              opacity: "1!important",
               ...((global.permission !== "owner" ||
                 member.user.email === global.user.email) && {
                 opacity: 0.5,
@@ -182,14 +180,22 @@ function Member({
 
             <span
               className="material-symbols-rounded"
-              style={{ marginLeft: "auto" }}
+              style={{
+                marginLeft: "auto",
+                display:
+                  global.permission !== "owner" ||
+                  member.user.email === global.user.email
+                    ? "none"
+                    : "block",
+              }}
             >
               expand_more
             </span>
           </CardActionArea>
         </Box>
       </Box>
-      {global.property.permission !== "owner" ? null : (
+      {global.property.permission !== "owner" ||
+      member.permission === "owner" ? null : (
         <LoadingButton
           loading={loading}
           variant="outlined"
@@ -228,7 +234,7 @@ function Member({
             }
           }}
         >
-          {member.permission === "owner" ? "My account" : "Remove"}
+          {"Remove"}
         </LoadingButton>
       )}
     </Box>
@@ -273,32 +279,6 @@ export function MemberList({
         },
       ];
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      dragFree: true,
-      align: "start",
-      containScroll: "trimSnaps",
-    },
-    [WheelGesturesPlugin()]
-  );
-  const scrollPrev = useCallback(
-    () => emblaApi && emblaApi.scrollPrev(),
-    [emblaApi]
-  );
-
-  const scrollNext = useCallback(
-    () => emblaApi && emblaApi.scrollNext(),
-    [emblaApi]
-  );
-
-  React.useEffect(() => {
-    if (emblaApi) {
-      setTimeout(() => {
-        emblaApi.reInit();
-      }, 1000);
-    }
-  }, [emblaApi]);
-
   return error ? (
     <ErrorHandler
       error={"An error occured while trying to fetch your members"}
@@ -311,57 +291,32 @@ export function MemberList({
           members={loading ? [] : data.map((member) => member.user.email)}
         />
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          width: "100%",
-          alignItems: "center",
-        }}
-      >
-        <div className="embla" ref={emblaRef} style={{ width: "100%" }}>
-          <div className="embla__container" style={{ width: "100%" }}>
-            {images.map((step, index) => (
-              <Box
-                key={Math.random().toString()}
-                sx={{
-                  pr: 2,
-                  flex: "0 0 auto",
-                  maxWidth: "350px",
-                  minWidth: "350px",
-                  width: "350px",
-                  overflow: "hidden",
-                }}
-              >
-                <Box
-                  sx={{
-                    p: 2,
-                    userSelect: "none",
-                    px: 2.5,
-                    borderRadius: 5,
-                    background: global.user.darkMode
-                      ? "hsl(240, 11%, 30%)"
-                      : colors[color][100],
-                  }}
-                >
-                  {step.content}
-                </Box>
-              </Box>
-            ))}
-          </div>
-        </div>
-        {!trigger && (
-          <IconButton
-            onClick={scrollNext}
+      {images.map((step, index) => (
+        <Box
+          key={Math.random().toString()}
+          sx={{
+            pr: 2,
+            flex: "0 0 auto",
+            width: "100%",
+            mb: 2,
+            overflow: "hidden",
+          }}
+        >
+          <Box
             sx={{
-              background: `${colors[color][100]}!important`,
-              color: `${colors[color][900]}!important`,
+              p: 2,
+              userSelect: "none",
+              px: 2.5,
+              borderRadius: 5,
+              background: global.user.darkMode
+                ? "hsl(240, 11%, 30%)"
+                : colors[color][100],
             }}
           >
-            <Icon>chevron_right</Icon>
-          </IconButton>
-        )}
-      </Box>
+            {step.content}
+          </Box>
+        </Box>
+      ))}
     </>
   );
 }

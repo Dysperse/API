@@ -45,7 +45,7 @@ export function Color({
         display: "inline-flex",
         mr: 1,
         mb: 1,
-        backgroundColor: colors[color]["A700"],
+        backgroundColor: colors[color]["A700"] + "!important",
       }}
     >
       <span
