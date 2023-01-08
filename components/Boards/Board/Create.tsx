@@ -245,7 +245,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
   );
 }
 
-export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
+export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const templates = [
     {
@@ -542,7 +542,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
       >
         <Typography
           variant="h5"
-          onClick={() => setDrawerOpen(true)}
+          onClick={() => length !== 0 && setDrawerOpen(true)}
           sx={{
             fontWeight: 600,
             lineHeight: 1.5,
@@ -552,6 +552,9 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
             maxWidth: "100%",
             px: 1,
             mb: 3,
+            ...(length == 0 && {
+              pointerEvents: "none",
+            }),
             color: "#404040",
             cursor: "auto!important",
             userSelect: "none",
@@ -569,7 +572,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
             gap: "10px",
           }}
         >
-          Create board <Icon>expand_more</Icon>
+          Create board {length !== 0 && <Icon>expand_more</Icon>}
         </Typography>
         <OptionsGroup
           options={["Board", "Checklist"]}

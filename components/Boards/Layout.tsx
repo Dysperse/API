@@ -382,7 +382,9 @@ export function TasksLayout() {
           flex: { xs: "100%", sm: "0 0 250px" },
           ml: -1,
           p: 3,
-          display: collapsed ? "none" : { xs: "none", sm: "flex" },
+          display: collapsed
+            ? "none"
+            : { xs: "none", sm: data && data.length == 0 ? "none" : "flex" },
           minHeight: "calc(100vh - 70px)",
           height: { sm: "calc(100vh - 64px)" },
           overflowY: { sm: "scroll" },
@@ -403,7 +405,9 @@ export function TasksLayout() {
         }}
       >
         {activeTab === "new" && (
-          <CreateBoard mutationUrl={url} setDrawerOpen={setOpen} />
+          <CreateBoard mutationUrl={url} setDrawerOpen={setOpen} 
+          length={data ? data.length:0}
+          />
         )}
         {data &&
           data.map(
