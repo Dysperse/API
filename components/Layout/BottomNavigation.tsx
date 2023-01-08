@@ -1,3 +1,4 @@
+"use client";
 import {
   Box,
   Snackbar,
@@ -7,6 +8,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import React from "react";
 import { colors } from "../../lib/colors";
@@ -20,6 +22,7 @@ export function BottomNav() {
     threshold: 0,
     target: window ? window : undefined,
   });
+  const pathname = usePathname();
 
   const styles = (active) => {
     return {
@@ -43,7 +46,7 @@ export function BottomNav() {
   const [value, setValue] = React.useState<number>(0);
 
   React.useEffect(() => {
-    const url = router.asPath;
+    const url = pathname;
     switch (url) {
       case "":
       case "/":
@@ -61,13 +64,13 @@ export function BottomNav() {
         setValue(3);
         break;
       default:
-        if (router.asPath.includes("/rooms")) {
+        if (pathname.includes("/rooms")) {
           setValue(2);
         } else {
           setValue(0);
         }
     }
-  }, [router, router.asPath]);
+  }, [router, pathname]);
 
   /**
    * Handles button click
@@ -149,18 +152,18 @@ export function BottomNav() {
           <Tab
             disableRipple
             sx={styles(
-              router.asPath == "/tasks" ||
-                router.asPath == "/" ||
-                router.asPath == "" ||
-                router.asPath.includes("/tasks")
+              pathname == "/tasks" ||
+                pathname == "/" ||
+                pathname == "" ||
+                pathname.includes("/tasks")
             )}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/tasks" ||
-                  router.asPath == "/" ||
-                  router.asPath == "" ||
-                  router.asPath.includes("/tasks")
+                  pathname == "/tasks" ||
+                  pathname == "/" ||
+                  pathname == "" ||
+                  pathname.includes("/tasks")
                     ? "rounded"
                     : "outlined"
                 }`}
@@ -184,11 +187,11 @@ export function BottomNav() {
                 }, 500);
               });
             }}
-            sx={styles(router.asPath == "/coach")}
+            sx={styles(pathname == "/coach")}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/coach" ? "rounded" : "outlined"
+                  pathname == "/coach" ? "rounded" : "outlined"
                 }`}
                 style={{
                   transition: "all .2s!important",
@@ -202,13 +205,11 @@ export function BottomNav() {
           />
           <Tab
             disableRipple
-            sx={styles(
-              router.asPath == "/items" || router.asPath.includes("rooms")
-            )}
+            sx={styles(pathname == "/items" || pathname.includes("rooms"))}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/items" || router.asPath.includes("rooms")
+                  pathname == "/items" || pathname.includes("rooms")
                     ? "rounded"
                     : "outlined"
                 }`}
@@ -224,11 +225,11 @@ export function BottomNav() {
           />
           <Tab
             disableRipple
-            sx={styles(router.asPath == "/spaces")}
+            sx={styles(pathname == "/spaces")}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/spaces" ? "rounded" : "outlined"
+                  pathname == "/spaces" ? "rounded" : "outlined"
                 }`}
                 style={{
                   transition: "all .2s!important",

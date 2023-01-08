@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { Offline } from "react-detect-offline";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
@@ -23,7 +22,6 @@ import { UpdateButton } from "./UpdateButton";
  * @returns {any}
  */
 export function Navbar(): JSX.Element {
-  const router = useRouter();
   const styles = {
     borderRadius: 94,
     p: 0.8,
@@ -47,11 +45,7 @@ export function Navbar(): JSX.Element {
       sx={{
         zIndex: 999,
         color: {
-          xs: global.user.darkMode
-            ? "white"
-            : router.asPath === "/tidy"
-            ? colors[themeColor][100]
-            : "black",
+          xs: global.user.darkMode ? "white" : "black",
           sm: global.user.darkMode ? "white" : "black",
         },
         pr: 0.4,
@@ -60,8 +54,6 @@ export function Navbar(): JSX.Element {
         background: {
           xs: global.user.darkMode
             ? "rgba(23, 23, 28, .8)"
-            : router.asPath === "/tidy"
-            ? colors[themeColor][800]
             : "rgba(255,255,255,.8)",
           sm: global.user.darkMode
             ? "rgba(23, 23, 28, .8)"
@@ -135,7 +127,7 @@ export function Navbar(): JSX.Element {
           <IconButton
             sx={{ ...styles, display: { xs: "none", sm: "inline-flex" } }}
             color="inherit"
-            disabled={!window.navigator.onLine}
+            disabled={typeof window !== "undefined" && !window.navigator.onLine}
             disableRipple
             onClick={() => window.open("https://smartlist.tech/support")}
           >
@@ -154,7 +146,9 @@ export function Navbar(): JSX.Element {
               <IconButton
                 color="inherit"
                 disableRipple
-                disabled={!window.navigator.onLine}
+                disabled={
+                  typeof window !== "undefined" && !window.navigator.onLine
+                }
                 sx={styles}
               >
                 <Icon className="outlined">account_circle</Icon>

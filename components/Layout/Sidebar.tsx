@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -81,9 +82,10 @@ export function Sidebar() {
       },
     };
   };
+  const pathname = usePathname();
 
   useEffect(() => {
-    const url = router.asPath;
+    const url = pathname;
 
     switch (url) {
       case "":
@@ -102,13 +104,13 @@ export function Sidebar() {
         setValue(3);
         break;
       default:
-        if (router.asPath.includes("/rooms")) {
+        if (pathname.includes("/rooms")) {
           setValue(1);
         } else {
           setValue(0);
         }
     }
-  }, [router.asPath]);
+  }, [pathname]);
 
   return (
     <>
@@ -210,9 +212,9 @@ export function Sidebar() {
                 <Tooltip title="Lists" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath.includes("/tasks") ||
-                      router.asPath == "/" ||
-                      router.asPath == ""
+                      pathname.includes("/tasks") ||
+                      pathname == "/" ||
+                      pathname == ""
                         ? "rounded"
                         : "outlined"
                     }`}
@@ -230,8 +232,7 @@ export function Sidebar() {
                 <Tooltip title="Inventory" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath == "/items" ||
-                      router.asPath.includes("rooms")
+                      pathname == "/items" || pathname.includes("rooms")
                         ? "rounded"
                         : "outlined"
                     }`}
@@ -249,7 +250,7 @@ export function Sidebar() {
                 <Tooltip title="Coach" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath === "/coach" ? "rounded" : "outlined"
+                      pathname === "/coach" ? "rounded" : "outlined"
                     }`}
                   >
                     routine
@@ -265,7 +266,7 @@ export function Sidebar() {
                 <Tooltip title="Spaces" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath === "/spaces" ? "rounded" : "outlined"
+                      pathname === "/spaces" ? "rounded" : "outlined"
                     }`}
                   >
                     view_agenda

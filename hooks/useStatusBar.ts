@@ -11,9 +11,9 @@ import { colors } from "../lib/colors";
  */
 export function useStatusBar(open: boolean, nestedModals = 1) {
   const router = useRouter();
-  const tag: HTMLMetaElement = document.querySelector(
-    "meta[name=theme-color]"
-  ) as HTMLMetaElement;
+  const tag: any =
+    typeof document !== "undefined" &&
+    (document.querySelector("meta[name=theme-color]") as HTMLMetaElement);
   useEffect(() => {
     if (open) {
       if (global.theme !== "dark") {

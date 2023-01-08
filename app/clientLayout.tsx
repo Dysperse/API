@@ -1,5 +1,6 @@
 "use client";
 import { experimental_sx as sx } from "@mui/material/styles";
+import Layout from "../components/Layout";
 import { colors } from "../lib/colors";
 import { Property } from "../types/session";
 
@@ -234,5 +235,9 @@ export function ClientLayout({ children, session }) {
       }),
     },
   });
-  return <ThemeProvider theme={userTheme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={userTheme}>
+      <Layout>{children}</Layout>
+    </ThemeProvider>
+  );
 }

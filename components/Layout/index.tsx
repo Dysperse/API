@@ -1,3 +1,4 @@
+"use client";
 import {
   Box,
   Button,
@@ -8,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import React from "react";
 import { colors } from "../../lib/colors";
@@ -164,6 +166,7 @@ function ResponsiveDrawer({
   children: JSX.Element;
 }): JSX.Element {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -208,8 +211,8 @@ function ResponsiveDrawer({
           {children}
           {
             !(
-              window.location.href.includes("/items") ||
-              (window.location.href.includes("/rooms") && <Toolbar />)
+              pathname.includes("/items") ||
+              (pathname.includes("/rooms") && <Toolbar />)
             )
           }
         </Box>
