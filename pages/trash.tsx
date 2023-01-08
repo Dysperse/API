@@ -1,9 +1,10 @@
-import { LoadingButton, Masonry } from "@mui/lab";
-import { Box, Button, Dialog, Typography } from "@mui/material";
+import { Masonry } from "@mui/lab";
+import { Box, Button, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { ConfirmationModal } from "../components/ConfirmationModal";
 import { ErrorHandler } from "../components/Error";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
 import Categories from "./items";
@@ -79,65 +80,39 @@ export default function Trash() {
         <Typography variant="body2" sx={{ mb: 1, fontWeight: "700" }}>
           {data ? data.length : 0} items
         </Typography>
-        <Button
-          onClick={() => setOpen(true)}
-          variant="contained"
-          disabled={!data || (data || []).length === 0}
-          sx={{
-            background: red["900"] + "!important",
-            borderRadius: 99,
-            mt: 1,
-            mb: 3,
+        <ConfirmationModal
+          title="Empty Trash?"
+          question="Are you sure you want to empty your trash? This action cannot be undone."
+          callback={async () => {
+            setLoading(true);
+            await fetchApiWithoutHook("property/inventory/clearTrash")
+              .catch(() => {
+                toast.error(
+                  "An error occured while trying to empty your trash. Please try again later"
+                );
+              })
+              .then(() => {
+                mutate(url).then(() => {
+                  setLoading(false);
+                  setOpen(false);
+                });
+              });
           }}
         >
-          Empty Trash
-        </Button>
-        <Dialog
-          open={open}
-          onClose={() => setOpen(false)}
-          PaperProps={{
-            sx: {
-              borderRadius: 5,
-            },
-          }}
-        >
-          <Box sx={{ p: 3 }}>
-            <Typography variant="h5" sx={{ fontWeight: "700" }}>
-              Empty Trash
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 2, mb: 2 }}>
-              Are you sure you want to empty your trash? This action cannot be
-              undone.
-            </Typography>
-            <LoadingButton
-              loading={loading}
-              onClick={() => {
-                setLoading(true);
-                fetchApiWithoutHook("property/inventory/clearTrash")
-                  .catch(() => {
-                    toast.error(
-                      "An error occured while trying to empty your trash. Please try again later"
-                    );
-                  })
-                  .then(() => {
-                    mutate(url).then(() => {
-                      setLoading(false);
-                      setOpen(false);
-                    });
-                  });
-              }}
-              fullWidth
-              variant="contained"
-              sx={{
-                background: red["900"] + "!important",
-                borderRadius: 99,
-                mt: 1,
-              }}
-            >
-              Empty Trash
-            </LoadingButton>
-          </Box>
-        </Dialog>
+          <Button
+            onClick={() => setOpen(true)}
+            variant="contained"
+            disabled={!data || (data || []).length === 0}
+            sx={{
+              background: red["900"] + "!important",
+              borderRadius: 99,
+              mt: 1,
+              mb: 3,
+            }}
+          >
+            Empty Trash
+          </Button>
+        </ConfirmationModal>
         {error && (
           <ErrorHandler
             error={
