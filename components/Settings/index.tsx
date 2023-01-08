@@ -296,6 +296,7 @@ export default function FullScreenDialog({
             <ConfirmationModal
               title="Sign out"
               question="Are you sure you want to sign out?"
+              buttonText="Sign out"
               callback={() =>
                 fetch("/api/logout").then(() => mutate("/api/user"))
               }

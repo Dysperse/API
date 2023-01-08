@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { Column } from "./Column";
 import { CreateColumn } from "./Column/Create";
@@ -55,25 +56,21 @@ function BoardSettings({ mutationUrl, board }) {
           }}
         />
         <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
-          <Button
-            variant="outlined"
-            fullWidth
-            onClick={async () => {
-              if (!confirm("Delete board?")) return;
-              try {
-                await fetchApiWithoutHook("property/boards/deleteBoard", {
-                  id: board.id,
-                });
-                await mutate(mutationUrl);
-                setOpen(false);
-              } catch (e) {
-                toast.error("An error occurred while deleting the board");
-              }
+          <ConfirmationModal
+            title="Delete board?"
+            question="Are you sure you want to delete this board? This action annot be undone"
+            callback={async () => {
+              await fetchApiWithoutHook("property/boards/deleteBoard", {
+                id: board.id,
+              });
+              await mutate(mutationUrl);
             }}
           >
-            <Icon className="outlined">delete</Icon>
-            Delete
-          </Button>
+            <Button variant="outlined" fullWidth>
+              <Icon className="outlined">delete</Icon>
+              Delete
+            </Button>
+          </ConfirmationModal>
           <Button
             variant="contained"
             fullWidth

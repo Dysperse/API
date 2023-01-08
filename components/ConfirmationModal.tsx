@@ -10,7 +10,13 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { colors } from "../lib/colors";
 
-export function ConfirmationModal({ title, question, children, callback }) {
+export function ConfirmationModal({
+  title,
+  question,
+  children,
+  callback,
+  buttonText = "Continue",
+}: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -78,7 +84,7 @@ export function ConfirmationModal({ title, question, children, callback }) {
               }
             }}
           >
-            Sign out
+            {buttonText}
           </LoadingButton>
         </DialogActions>
       </Dialog>

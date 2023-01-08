@@ -65,7 +65,7 @@ const Tab = React.memo(function Tab({
           Rename
         </MenuItem>
         <ConfirmationModal
-          title="Delete board"
+          title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone"
           callback={async () => {
             await fetchApiWithoutHook("property/boards/deleteBoard", {
