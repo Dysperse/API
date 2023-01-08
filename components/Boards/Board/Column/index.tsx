@@ -12,7 +12,6 @@ import {
   Button,
   CardActionArea,
   Chip,
-  Divider,
   Icon,
   IconButton,
   SwipeableDrawer,
@@ -38,13 +37,6 @@ function CompletedTasks({
             cursor: "unset!important",
           }}
         >
-          <Divider
-            sx={{
-              my: open ? 1.5 : 0.5,
-              transition: "all .2s",
-              opacity: open ? 1 : 0,
-            }}
-          />
           <CardActionArea
             disableRipple
             sx={{
@@ -57,7 +49,11 @@ function CompletedTasks({
               borderRadius: 2,
               display: "flex",
               alignItems: "center",
+              mt: 1,
               cursor: "unset!important",
+              ...(open && {
+                background: "rgba(200,200,200,.2)",
+              }),
               "&:active": {
                 background: "rgba(200,200,200,.3)",
               },
@@ -323,7 +319,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[350px] bg-gray-100 border border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] bg-gray-100 border scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
         flexDirection: "column",

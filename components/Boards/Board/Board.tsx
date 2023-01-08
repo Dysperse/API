@@ -291,78 +291,71 @@ export const Board = React.memo(function Board({
         </IconButton>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
-      <Box sx={{ overflowX: "scroll", mt: 4 }} id="taskContainer">
+      <Box
+        sx={{
+          overflowX: "scroll",
+          mt: 4,
+          display: "flex",
+          gap: "10px",
+
+          maxWidth: "100vw",
+          pl: data && board.columns.length === 1 ? 0 : 4,
+          pr: data ? 0 : 4,
+        }}
+        className="snap-x snap-mandatory sm:snap-proximity scroll-smooth"
+        id="taskContainer"
+      >
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your tasks" />
         )}
-        <Box
-          sx={{
-            maxWidth: "100vw",
-            pl: data && board.columns.length === 1 ? 0 : 4,
-            pr: data ? 0 : 4,
-          }}
-        >
+        <Renderer data={data} url={url} board={board} />
+
+        {data ? (
+          <>
+            {board.columns.length !== 1 && data.length < 5 && (
+              <CreateColumn id={board.id} mutationUrl={url} />
+            )}
+          </>
+        ) : (
           <Box
             sx={{
-              ...(board.columns.length !== 1
-                ? {
-                    display: "flex",
-                    gap: "10px",
-                  }
-                : {
-                    mt: -3,
-                  }),
+              display: "flex",
+              gap: 1,
+              overflow: "hidden",
             }}
           >
-            <Renderer data={data} url={url} board={board} />
-            {data ? (
-              <>
-                {board.columns.length !== 1 && data.length < 5 && (
-                  <CreateColumn id={board.id} mutationUrl={url} />
-                )}
-              </>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  overflow: "hidden",
-                }}
-              >
-                <Skeleton
-                  variant="rectangular"
-                  animation="wave"
-                  height={500}
-                  sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-                />
-                <Skeleton
-                  variant="rectangular"
-                  animation="wave"
-                  height={500}
-                  sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-                />
-                <Skeleton
-                  variant="rectangular"
-                  animation="wave"
-                  height={500}
-                  sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-                />
-                <Skeleton
-                  variant="rectangular"
-                  animation="wave"
-                  height={500}
-                  sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-                />
-                <Skeleton
-                  variant="rectangular"
-                  animation="wave"
-                  height={500}
-                  sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-                />
-              </Box>
-            )}
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              height={500}
+              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+            />
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              height={500}
+              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+            />
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              height={500}
+              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+            />
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              height={500}
+              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+            />
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              height={500}
+              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+            />
           </Box>
-        </Box>
+        )}
       </Box>
     </Box>
   );

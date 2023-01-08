@@ -189,6 +189,7 @@ function Changelog({ house }) {
           mr: 1,
           position: "absolute",
           right: "55px",
+          
           mt: 0.2,
         }}
         onClick={() => setOpen(true)}

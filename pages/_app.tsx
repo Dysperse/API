@@ -110,6 +110,13 @@ function RenderWithLayout({
         defaultProps: {
           disableRipple: true,
         },
+        styleOverrides: {
+          root: sx({
+            "&:focus-visible": {
+              boxShadow: "0px 0px 0px 2px var(--themeDark) !important",
+            },
+          }),
+        },
       },
       MuiButton: {
         defaultProps: {

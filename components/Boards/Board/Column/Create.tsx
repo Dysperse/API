@@ -198,6 +198,7 @@ export function CreateColumn({ mutationUrl, id }: any) {
               py: 2,
               pl: 3,
               mr: 4,
+              gap: 2,
               transition: "none!important",
               backgroundColor: global.user.darkMode
                 ? "hsl(240,11%,15%)"
