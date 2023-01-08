@@ -29,5 +29,10 @@ export default async function DashboardLayout({
   }
   const theme = session.user.darkMode ? "dark" : "light";
 
-  return <ClientLayout session={session}>{children}</ClientLayout>;
+  return (
+    <ClientLayout session={session}>
+      <p>bitch work ok?</p>
+      {/* {children} */}
+    </ClientLayout>
+  );
 }

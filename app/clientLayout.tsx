@@ -10,7 +10,7 @@ import "../styles/globals.scss";
 // Types
 
 // Day.JS
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, NoSsr, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
@@ -237,7 +237,11 @@ export function ClientLayout({ children, session }) {
   });
   return (
     <ThemeProvider theme={userTheme}>
-      <Layout>{children}</Layout>
+      <NoSsr>
+        <Layout>
+          <p>bruh wtf</p>
+        </Layout>
+      </NoSsr>
     </ThemeProvider>
   );
 }
