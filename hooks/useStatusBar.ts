@@ -1,6 +1,8 @@
+"use client";
+
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { colors } from "../lib/colors";
-import { useRouter } from "next/router";
 
 /**
  * Changes the top app bar color

@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Overrides the default browser back button
  * @param {any} callback
