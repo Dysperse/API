@@ -137,7 +137,7 @@ export function TaskDrawer({
             gap: 1,
           }}
         >
-          <Box sx={{ height: "100%", alignSelf: "flex-start", pt: 1.5 }}>
+          <Box sx={{ height: "100%", alignSelf: "flex-start", pt: 2 }}>
             <Checkbox
               disabled={global.permission == "read-only"}
               disableRipple

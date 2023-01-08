@@ -1,24 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { mutate } from "swr";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
-import { Puller } from "../Puller";
-import AccountSettings from "./AccountSettings";
-import AppearanceSettings from "./AppearanceSettings";
-import Notifications from "./Notifications";
-import TwoFactorAuth from "./TwoFactorAuth";
-
 import {
   Avatar,
   Box,
-  Button,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContentText,
-  DialogTitle,
   Icon,
   List,
   ListItem,
@@ -27,107 +10,18 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-
-/**
- * Logout modal
- */
-function Logout() {
-  const [open, setOpen] = useState<boolean>(false);
-  return (
-    <>
-      <Dialog
-        open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-        PaperProps={{
-          sx: {
-            width: "450px",
-            maxWidth: "calc(100vw - 20px)",
-            borderRadius: "28px",
-            p: 2,
-          },
-        }}
-      >
-        <DialogTitle sx={{ fontWeight: "800" }}>
-          Sign out
-          <DialogContentText id="alert-dialog-slide-description" sx={{ mt: 1 }}>
-            Are you sure you want to sign out?
-          </DialogContentText>
-        </DialogTitle>
-        <DialogActions>
-          <Button
-            variant="outlined"
-            size="large"
-            sx={{
-              borderRadius: 99,
-              px: 3,
-              py: 1,
-              borderWidth: "2px!important",
-            }}
-            onClick={() => {
-              setOpen(false);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            size="large"
-            sx={{
-              background: colors[themeColor][900] + "!important",
-              borderRadius: 99,
-              px: 3,
-              py: 1,
-              border: "2px solid transparent",
-            }}
-            onClick={() => {
-              setOpen(false);
-              fetch("/api/logout").then(() => mutate("/api/user"));
-            }}
-          >
-            Sign out
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <ListItem
-        button
-        onClick={() => setOpen(true)}
-        sx={{
-          transiton: "none!important",
-          "& *": { transiton: "none!important" },
-          borderRadius: 4,
-          "&:hover": {
-            background: global.user.darkMode
-              ? "hsl(240,11%,25%)"
-              : colors[themeColor][200],
-          },
-          "& .MuiAvatar-root": {
-            background: global.user.darkMode
-              ? "hsl(240,11%,35%)"
-              : colors[themeColor][200],
-          },
-        }}
-      >
-        <ListItemAvatar>
-          <Avatar
-            sx={{
-              color: global.user.darkMode ? "#fff" : "#000",
-              background: colors[themeColor][global.user.darkMode ? 900 : 100],
-              borderRadius: 4,
-            }}
-          >
-            <Icon>logout</Icon>
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={<Typography sx={{ fontWeight: "600" }}>Sign out</Typography>}
-          secondary="Sign out of Carbon and its related apps"
-        />
-      </ListItem>
-    </>
-  );
-}
+import React, { useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { mutate } from "swr";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
+import { colors } from "../../lib/colors";
+import { ConfirmationModal } from "../ConfirmationModal";
+import { Puller } from "../Puller";
+import AccountSettings from "./AccountSettings";
+import AppearanceSettings from "./AppearanceSettings";
+import Notifications from "./Notifications";
+import TwoFactorAuth from "./TwoFactorAuth";
 
 /**
  * Top-level component for the settings page.
@@ -399,7 +293,51 @@ export default function FullScreenDialog({
                 </>
               }
             />
-            <Logout />
+            <ConfirmationModal
+              title="Sign out"
+              question="Are you sure you want to sign out?"
+              callback={() =>
+                fetch("/api/logout").then(() => mutate("/api/user"))
+              }
+            >
+              <ListItem
+                button
+                sx={{
+                  transiton: "none!important",
+                  "& *": { transiton: "none!important" },
+                  borderRadius: 4,
+                  "&:hover": {
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,25%)"
+                      : colors[themeColor][200],
+                  },
+                  "& .MuiAvatar-root": {
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,35%)"
+                      : colors[themeColor][200],
+                  },
+                }}
+              >
+                <ListItemAvatar>
+                  <Avatar
+                    sx={{
+                      color: global.user.darkMode ? "#fff" : "#000",
+                      background:
+                        colors[themeColor][global.user.darkMode ? 900 : 100],
+                      borderRadius: 4,
+                    }}
+                  >
+                    <Icon>logout</Icon>
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Typography sx={{ fontWeight: "600" }}>Sign out</Typography>
+                  }
+                  secondary="Sign out of Carbon and its related apps"
+                />
+              </ListItem>
+            </ConfirmationModal>
           </List>
         </Box>
       </SwipeableDrawer>

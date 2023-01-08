@@ -212,7 +212,11 @@ function RenderWithLayout({
       MuiDialog: {
         styleOverrides: {
           paper: {
+            borderRadius: "28px",
+            background: colors[global.themeColor][50],
             boxShadow: "none!important",
+            filter:
+              "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
           },
         },
       },
@@ -240,6 +244,8 @@ function RenderWithLayout({
           },
           paper: {
             boxShadow: "none !important",
+            filter:
+              "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
             background: global.user.darkMode
               ? "hsl(240, 11%, 15%)"
               : colors[global.themeColor][50],

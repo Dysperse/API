@@ -122,6 +122,7 @@ export function Sidebar() {
           "& .MuiDrawer-paper": {
             maxWidth: "85px",
             width: "80px",
+            filter: "none!important",
             overflowX: "hidden",
             zIndex: 99,
             borderRight: global.user.darkMode

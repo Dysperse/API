@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CircularProgress,
   Icon,
   Menu,
   MenuItem,
@@ -15,6 +14,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
+import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 import { Board } from "./Board/Board";
@@ -29,7 +29,6 @@ const Tab = React.memo(function Tab({
   emblaApi,
   board,
 }: any) {
-  const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(board.name);
 
@@ -65,36 +64,27 @@ const Tab = React.memo(function Tab({
           <Icon>edit</Icon>
           Rename
         </MenuItem>
-        <MenuItem
-          onClick={async () => {
-            if (!confirm("Delete board?")) return;
-            try {
-              setLoading(true);
-              await fetchApiWithoutHook("property/boards/deleteBoard", {
-                id: board.id,
-              });
-              await mutate(mutationUrl);
-              setLoading(false);
-              handleClose();
-            } catch (e) {
-              toast.error("An error occurred while deleting the board");
-            }
-          }}
-          sx={{
-            display: "flex",
-            minWidth: "100px",
+        <ConfirmationModal
+          title="Delete board"
+          question="Are you sure you want to delete this board? This action annot be undone"
+          callback={async () => {
+            await fetchApiWithoutHook("property/boards/deleteBoard", {
+              id: board.id,
+            });
+            await mutate(mutationUrl);
+            handleClose();
           }}
         >
-          <Icon>delete</Icon>
-          Delete board
-          <CircularProgress
-            size={15}
+          <MenuItem
             sx={{
-              ml: "auto",
-              opacity: loading ? 1 : 0,
+              display: "flex",
+              minWidth: "100px",
             }}
-          />
-        </MenuItem>
+          >
+            <Icon>delete</Icon>
+            Delete board
+          </MenuItem>
+        </ConfirmationModal>
       </Menu>
       <Button
         size="large"
