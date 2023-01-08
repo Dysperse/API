@@ -272,7 +272,10 @@ export const Board = React.memo(function Board({
         <IconButton
           size="small"
           disableRipple
-          onClick={() => setStarred(!starred)}
+          onClick={() => {
+            setStarred(!starred);
+            toast("Coming soon!");
+          }}
           sx={{
             transition: "none",
             "&:hover": {

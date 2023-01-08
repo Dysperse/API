@@ -5,7 +5,7 @@ import {
   Icon,
   Menu,
   MenuItem,
-  SwipeableDrawer
+  SwipeableDrawer,
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
