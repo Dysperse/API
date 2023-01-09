@@ -176,7 +176,7 @@ export function TaskDrawer({
               placeholder="Item name"
               variant="standard"
               InputProps={{
-                className: "font-secondary",
+                // className: "font-secondary",
                 sx: {
                   fontSize: "40px",
                   height: "70px",

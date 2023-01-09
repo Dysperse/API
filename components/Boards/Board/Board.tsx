@@ -290,7 +290,7 @@ export const Board = React.memo(function Board({
       <Box
         sx={{
           overflowX: "scroll",
-          mt: 4,
+          mt: data && board.columns.length == 1 ? -2 : 4,
           display: "flex",
           gap: "10px",
 

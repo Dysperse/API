@@ -1,6 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import EmojiPicker from "emoji-picker-react";
-import React from "react";
+import React, { useState } from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
@@ -163,7 +163,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
   );
 }
 
-function OptionsMenu({ mutationUrl, boardId, column }) {
+function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
   const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const styles = {
@@ -294,6 +294,7 @@ function OptionsMenu({ mutationUrl, boardId, column }) {
         disableRipple
         sx={{
           ml: "auto",
+          display: collapsed ? "none" : "",
           transition: "none!important",
           "&:hover,&:active": {
             color: "#000",
@@ -316,21 +317,37 @@ export const Column = React.memo(function Column({
   const columnTasks = column.tasks.filter(
     (task) => task.parentTasks.length === 0
   );
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <Box
+      onDoubleClick={() => setCollapsed(!collapsed)}
+      onClick={() => {
+        if (collapsed) {
+          setCollapsed(false);
+        }
+      }}
       className="w-[350px] bg-gray-100 border scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
         flexDirection: "column",
         position: "relative",
-        width: "350px",
-        height: "100%",
-        flex: "0 0 350px",
-        p: 3,
+        width: collapsed ? "70px" : "350px",
+        height: collapsed ? "auto" : "100%",
+        flex: collapsed ? "0 0 70px" : "0 0 350px",
+        p: collapsed ? 1 : 3,
         pt: 4,
-        px: checkList ? 4 : 2,
+        px: collapsed ? 1 : checkList ? 4 : 2,
         borderRadius: 5,
+        transition: "flex .2s, padding .2s",
+        ...(collapsed && {
+          cursor: "pointer",
+          transition: "all .2s",
+          "&:active": {
+            transition: "none",
+            transform: "scale(.95)",
+          },
+        }),
         ...(checkList && {
           flex: "0 0 100%!important",
           border: "0!important",
@@ -348,13 +365,24 @@ export const Column = React.memo(function Column({
         {!checkList && (
           <Box sx={{ px: 1 }}>
             <picture>
-              <img src={column.emoji} alt="emoji" />
+              <img
+                src={column.emoji}
+                alt="emoji"
+                style={{
+                  transition: "all .2s",
+                  ...(collapsed && {
+                    transform: "scale(.8)",
+                    marginLeft: "3px",
+                  }),
+                }}
+              />
             </picture>
           </Box>
         )}
         {!checkList && (
           <Box
             sx={{
+              userSelect: "none",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -368,6 +396,12 @@ export const Column = React.memo(function Column({
                 sx={{
                   fontWeight: "600",
                   mb: 1,
+                  ...(collapsed && {
+                    writingMode: "vertical-rl",
+                    transform: "rotate(180deg)",
+                    textOrientation: "mixed",
+                    textTransform: "lowercase",
+                  }),
                   mt: 2,
                 }}
               >
@@ -376,6 +410,7 @@ export const Column = React.memo(function Column({
               <Typography
                 variant="body2"
                 sx={{
+                  display: collapsed ? "none" : "",
                   fontWeight: "400",
                   mt: 1,
                 }}
@@ -385,6 +420,7 @@ export const Column = React.memo(function Column({
               </Typography>
             </Box>
             <OptionsMenu
+              collapsed={collapsed}
               boardId={boardId}
               column={column}
               mutationUrl={mutationUrl}
@@ -392,34 +428,40 @@ export const Column = React.memo(function Column({
           </Box>
         )}
       </Box>
-      {columnTasks
-        .filter((task) => !task.completed)
-        .map((task) => (
-          <Task
-            key={task.id}
-            checkList={checkList}
-            task={task}
-            mutationUrl={mutationUrl}
-            boardId={boardId}
-            columnId={column.id}
-          />
-        ))}
-      <CreateTask
-        tasks={tasks}
-        checkList={checkList}
-        mutationUrl={mutationUrl}
-        boardId={boardId}
-        columnId={column.id}
-      />
+      <Box
+        sx={{
+          display: collapsed ? "none" : "",
+        }}
+      >
+        {columnTasks
+          .filter((task) => !task.completed)
+          .map((task) => (
+            <Task
+              key={task.id}
+              checkList={checkList}
+              task={task}
+              mutationUrl={mutationUrl}
+              boardId={boardId}
+              columnId={column.id}
+            />
+          ))}
+        <CreateTask
+          tasks={tasks}
+          checkList={checkList}
+          mutationUrl={mutationUrl}
+          boardId={boardId}
+          columnId={column.id}
+        />
 
-      <CompletedTasks
-        checkList={checkList}
-        mutationUrl={mutationUrl}
-        boardId={boardId}
-        columnId={column.id}
-        columnTasks={columnTasks}
-        column={column}
-      />
+        <CompletedTasks
+          checkList={checkList}
+          mutationUrl={mutationUrl}
+          boardId={boardId}
+          columnId={column.id}
+          columnTasks={columnTasks}
+          column={column}
+        />
+      </Box>
     </Box>
   );
 });

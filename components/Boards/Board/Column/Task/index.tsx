@@ -60,7 +60,7 @@ export const Task = React.memo(function Task({
     boxShadow:
       (global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : "inset 0 0 0 2px " + colors[task.color ?? "brown"][700]) +
+        : "inset 0 0 0 1.5px " + colors[task.color ?? "brown"]["A400"]) +
       ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
     backgroundColor: "transparent",
     ".Mui-focusVisible &": {
@@ -73,13 +73,13 @@ export const Task = React.memo(function Task({
     "input:not(:checked):hover ~ &": {
       boxShadow: global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,0.5)"
-        : "inset 0 0 0 2.5px " + colors[task.color ?? "brown"][700],
+        : "inset 0 0 0 2.5px " + colors[task.color ?? "brown"]["A400"],
       backgroundColor:
         global.theme !== "dark"
-          ? colors[task.color ?? "brown"][100]
+          ? colors[task.color ?? "brown"]["100"]
           : "hsl(240,11%,20%)!important",
     },
-    transition: "box-shadow 150ms",
+    transition: "all 150ms",
     "input:disabled ~ &": {
       cursor: "not-allowed",
       opacity: 0.5,
@@ -87,9 +87,14 @@ export const Task = React.memo(function Task({
   }));
 
   const BpCheckedIcon: any = styled(BpIcon)({
+    boxShadow:
+      (global.user.darkMode
+        ? "inset 0 0 0 2px rgba(255,255,255,.6)"
+        : "inset 0 0 0 1.5px " + colors[task.color ?? "brown"]["A400"]) +
+      ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
     backgroundColor:
       colors[task.color ?? global.themeColor ?? "brown"][
-        global.user.darkMode ? 50 : 700
+        global.user.darkMode ? 50 : "A400"
       ] + "!important",
     "&:before": {
       display: "block",
@@ -257,13 +262,11 @@ export const Task = React.memo(function Task({
         <ListItem
           onClick={() => setOpen(true)}
           onContextMenu={handleContextMenu}
-          className="p-0 rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
+          className="p-1 rounded-xl gap-0.5 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
           sx={{
             color:
-              task.color !== "brown"
-                ? colors[task.color][global.theme === "dark" ? "A400" : 900]
-                : "",
-            p: 0,
+              colors[task.color][global.theme === "dark" ? "A400" : "A700"],
+            p: 1,
             cursor: "unset!important",
             "&:hover": {
               backgroundColor: global.user.darkMode
@@ -277,6 +280,8 @@ export const Task = React.memo(function Task({
             },
 
             ...(!checkList && {
+              px: "0!important",
+              py: "2px!important",
               boxShadow: "none!important",
               border: "0!important",
             }),
@@ -285,7 +290,7 @@ export const Task = React.memo(function Task({
               boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
               gap: "10px!important",
               borderRadius: "15px!important",
-              mb: 1.5,
+              mb: 2,
             }),
           }}
         >
@@ -332,7 +337,7 @@ export const Task = React.memo(function Task({
                     whiteSpace: "nowrap",
                     ...(checked && {
                       textDecoration: "line-through",
-                      opacity: 0.5,
+                      opacity: 0.7,
                     }),
                   }}
                 >
@@ -359,12 +364,17 @@ export const Task = React.memo(function Task({
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: "5px",
+                      gap: "2px",
                       marginTop: "3px",
-                      marginLeft: "-6px",
+                      marginLeft: "-5px",
                     }}
                   >
-                    <Icon sx={{ mx: 1 }}>schedule</Icon>
+                    <Icon
+                      sx={{ mx: 1, transform: "scale(.9)" }}
+                      className="outlined"
+                    >
+                      schedule
+                    </Icon>
                     {dayjs(task.due).format("MMMM D, YYYY")}
                   </span>
                 )}
