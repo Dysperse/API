@@ -25,6 +25,7 @@ import { UpdateButton } from "./UpdateButton";
 export function Navbar(): JSX.Element {
   const router = useRouter();
   const styles = {
+    "-webkit-app-region": "no-drag",
     borderRadius: 94,
     p: 0.8,
     m: 0,
@@ -57,7 +58,7 @@ export function Navbar(): JSX.Element {
         },
         pr: 0.4,
         height: "calc(70px + env(titlebar-area-height, 0px))",
-        // "-webkit-app-region": "drag",
+        "-webkit-app-region": "drag",
         transition: "box-shadow .2s",
         background: {
           xs: global.user.darkMode
@@ -80,6 +81,7 @@ export function Navbar(): JSX.Element {
         <Box
           sx={{
             flexGrow: { xs: 1, sm: "unset" },
+            "-webkit-app-region": "no-drag",
           }}
         >
           <InviteButton />

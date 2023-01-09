@@ -12,7 +12,7 @@ import {
   createStyles,
   Group,
   Text,
-  UnstyledButton,
+  UnstyledButton
 } from "@mantine/core";
 import { SpotlightActionProps } from "@mantine/spotlight";
 import toast from "react-hot-toast";
@@ -244,6 +244,7 @@ export function SearchPopup({ styles }) {
           onClick={() => openSpotlight()}
           disableRipple
           sx={{
+            "-webkit-app-region": "no-drag",
             background: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
               : `${colors[themeColor][50]}!important`,

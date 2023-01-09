@@ -11,6 +11,7 @@ export function Loading(): JSX.Element {
       sx={{
         position: "fixed",
         top: 0,
+        "-webkit-app-region": "drag",
         left: 0,
         background:
           global.user && global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
@@ -37,7 +38,7 @@ export function Loading(): JSX.Element {
             height={30}
             variant="rectangular"
             sx={{
-              width: { xs: 100, sm: 200 },
+              width: { xs: 100, sm: 150, md: 200 },
               borderRadius: 3,
               maxWidth: "100%",
             }}
@@ -49,7 +50,7 @@ export function Loading(): JSX.Element {
               height: 45,
               borderRadius: 5,
               mx: "auto",
-              width: { xs: 0, sm: "450px" },
+              width: { xs: 0, md: "450px", sm: "250px" },
               maxWidth: "100%",
             }}
           />
