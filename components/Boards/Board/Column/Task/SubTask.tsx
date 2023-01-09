@@ -73,7 +73,7 @@ export function SubTask({
         onClick={() => setOpen(true)}
         onContextMenu={handleContextMenu}
         key={subtask.id}
-        className="rounded-xl select-none transition-transform dark:bg-transparent duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400"
+        className="rounded-xl select-none transition-transform dark:bg-transparent duration-100 active:duration-[0s] hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400"
         sx={{
           ml: noMargin ? "10px" : "30px",
           maxWidth: "calc(100% - 30px)",
@@ -91,6 +91,15 @@ export function SubTask({
             background: global.user.darkMode
               ? "hsl(240,11%,13%)"
               : "#f3f4f6!important",
+
+            ...(global.user.darkMode && {
+              "&:hover": {
+                background: "hsl(240,11%,17%)!important",
+              },
+              "&:active": {
+                background: "hsl(240,11%,20%)!important",
+              },
+            }),
             boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
             gap: "10px!important",
             borderRadius: "15px!important",
@@ -102,6 +111,7 @@ export function SubTask({
           disableRipple
           checked={checked}
           onChange={(e) => {
+            e.stopPropagation();
             setChecked(e.target.checked);
             fetchApiWithoutHook("property/boards/markTask", {
               completed: e.target.checked ? "true" : "false",
