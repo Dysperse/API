@@ -199,7 +199,6 @@ export default function Onboarding() {
       ].map((color) => (
         <Color
           handleNext={() => null}
-          setThemeColor={setThemeColor}
           color={color}
           key={color}
         />
@@ -210,12 +209,10 @@ export default function Onboarding() {
       </Typography>
       <Color
         handleNext={() => setStep(step + 1)}
-        setThemeColor={setThemeColor}
         color="grey"
       />
       <Color
         handleNext={() => setStep(step + 1)}
-        setThemeColor={setThemeColor}
         color="white"
       />
     </>,

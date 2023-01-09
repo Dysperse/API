@@ -1,15 +1,15 @@
 import { CardActionArea, Icon } from "@mui/material";
+import { mutate } from "swr";
 import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 
 /**
  * Color component
  * @param {any} {color
- * @param {any} setThemeColor
  * @param {any} handleNext}
  * @returns {any}
  */
-export function Color({ color, setThemeColor, handleNext }) {
+export function Color({ color, handleNext }) {
   return (
     <CardActionArea
       onClick={() => {
@@ -18,6 +18,7 @@ export function Color({ color, setThemeColor, handleNext }) {
         } else {
           updateSettings("color", color.toLowerCase());
         }
+        mutate("/api/user");
 
         handleNext();
       }}
@@ -40,9 +41,7 @@ export function Color({ color, setThemeColor, handleNext }) {
       }}
     >
       {color === global.themeColor && (
-        <Icon style={{ color: "#fff" }}>
-          check
-        </Icon>
+        <Icon style={{ color: "#fff" }}>check</Icon>
       )}
     </CardActionArea>
   );

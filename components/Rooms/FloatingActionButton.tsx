@@ -35,9 +35,6 @@ export function FloatingActionButton({ sm = false }) {
           color="primary"
           disableRipple
           aria-label="add"
-          disabled={
-            global.property.role === "read-only" || global.itemLimitReached
-          }
           sx={{
             borderRadius: "20px",
             px: sm ? 2 : 3,
