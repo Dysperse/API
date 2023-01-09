@@ -24,7 +24,7 @@ import {
   createTheme,
   NoSsr,
   ThemeProvider,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -49,17 +49,9 @@ function RenderWithLayout({
   pageProps: JSX.Element;
   router: NextRouter;
 }) {
-  const [theme, setTheme] = useState<"dark" | "light">(
-    data.user.darkMode ? "dark" : "light"
-  );
-
-  const [themeColor, setThemeColor] = useState(data.user.color);
-
+  const theme: "dark" | "light" = data.user.darkMode ? "dark" : "light";
+  const themeColor = data.user.color;
   const [loadingButton, setLoadingButton] = useState(false);
-
-  const [itemLimitReached, setItemLimitReached] = useState(true);
-  global.itemLimitReached = itemLimitReached;
-  global.setItemLimitReached = setItemLimitReached;
 
   if (data.user.darkMode) {
     document
@@ -73,8 +65,6 @@ function RenderWithLayout({
   global.user = data.user;
   global.theme = theme;
   global.themeColor = themeColor;
-  global.setTheme = setTheme;
-  global.setThemeColor = setThemeColor;
 
   useEffect(() => {
     if (data.user.darkMode) {

@@ -9,6 +9,7 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { mutate } from "swr";
 
 /**
  * Function to change theme color (Not dark mode!)
@@ -45,7 +46,6 @@ function ThemeColorSettings() {
                 checked={themeColor === color.toLowerCase()}
                 onChange={() => {
                   updateSettings("color", color.toLowerCase());
-                  setThemeColor(color.toLowerCase());
                 }}
               />
             }
@@ -55,7 +55,6 @@ function ThemeColorSettings() {
               sx={{ borderRadius: 2, transition: "none" }}
               onClick={() => {
                 updateSettings("color", color.toLowerCase());
-                setThemeColor(color.toLowerCase());
               }}
             >
               <ListItemText primary={color === "Brown" ? "Carbon" : color} />
@@ -82,14 +81,14 @@ export default function AppearanceSettings() {
         <ListItem
           key="light"
           onClick={() => {
-            global.setTheme("light");
+            mutate("/api/user");
             updateSettings("darkMode", "false");
           }}
           secondaryAction={
             <Radio
               edge="end"
               onChange={() => {
-                global.setTheme("light");
+                mutate("/api/user");
                 updateSettings("darkMode", "false");
               }}
               checked={global.theme === "light"}
@@ -104,14 +103,14 @@ export default function AppearanceSettings() {
         <ListItem
           key="dark"
           onClick={() => {
-            global.setTheme("dark");
+            mutate("/api/user");
             updateSettings("darkMode", "true");
           }}
           secondaryAction={
             <Radio
               edge="end"
               onChange={() => {
-                global.setTheme("dark");
+                mutate("/api/user");
                 updateSettings("darkMode", "true");
               }}
               checked={global.user.darkMode}

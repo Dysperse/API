@@ -125,7 +125,7 @@ export function SearchPopup({ styles }) {
     {
       title: "Light theme",
       onTrigger: () => {
-        global.setTheme("light");
+        mutate("/api/user");
         updateSettings("darkMode", "false");
       },
       icon: <Icon className="outlined">light_mode</Icon>,
@@ -133,7 +133,6 @@ export function SearchPopup({ styles }) {
     {
       title: "Dark theme",
       onTrigger: () => {
-        global.setTheme("dark");
         updateSettings("darkMode", "true");
       },
       icon: <Icon className="outlined">dark_mode</Icon>,

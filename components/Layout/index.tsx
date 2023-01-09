@@ -80,11 +80,11 @@ function DailyTasksModal() {
     <Box
       className="shadow-2xl"
       sx={{
-        display: { xs: "none", md: "block" },
-        position: "fixed",
-        bottom: 25,
+        display: { xs: "none", md: "none" },
         overflow: "hidden",
-        right: 25,
+        bottom: 0,
+        right: 0,
+        m: 3,
         zIndex: 999,
         width: "100%",
         maxWidth: "350px",
@@ -175,7 +175,7 @@ function ResponsiveDrawer({
       )}
       <Navbar />
       <KeyboardShortcutsModal />
-      {/* <DailyTasksModal /> */}
+      <DailyTasksModal />
       <Box
         sx={{
           width: { md: "85px" },
@@ -197,7 +197,11 @@ function ResponsiveDrawer({
           },
         }}
       >
-        <Toolbar />
+        <Toolbar
+          sx={{
+            height: "calc(70px + env(titlebar-area-height, 0px))",
+          }}
+        />
         <Box
           sx={{
             height: "70px",

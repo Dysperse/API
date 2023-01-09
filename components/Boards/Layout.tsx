@@ -385,8 +385,8 @@ export function TasksLayout() {
           display: collapsed
             ? "none"
             : { xs: "none", sm: data && data.length == 0 ? "none" : "flex" },
-          minHeight: "calc(100vh - 70px)",
-          height: { sm: "calc(100vh - 64px)" },
+          minHeight: "calc(100vh - var(--navbar-height))",
+          height: { sm: "calc(100vh - var(--navbar-height))" },
           overflowY: { sm: "scroll" },
           flexDirection: "column",
           borderRight: { sm: "1px solid rgba(200,200,200,.3)" },
@@ -394,19 +394,20 @@ export function TasksLayout() {
       >
         {children}
       </Box>
-
       <Box
         sx={{
-          maxHeight: { sm: "calc(100vh - 70px)" },
-          minHeight: { sm: "calc(100vh - 64px)" },
-          height: { sm: "calc(100vh - 64px)" },
+          maxHeight: { sm: "calc(100vh - var(--navbar-height))" },
+          minHeight: { sm: "calc(100vh - var(--navbar-height))" },
+          height: { sm: "calc(100vh - var(--navbar-height))" },
           overflowY: { sm: "auto" },
           flexGrow: 1,
         }}
       >
         {activeTab === "new" && (
-          <CreateBoard mutationUrl={url} setDrawerOpen={setOpen} 
-          length={data ? data.length:0}
+          <CreateBoard
+            mutationUrl={url}
+            setDrawerOpen={setOpen}
+            length={data ? data.length : 0}
           />
         )}
         {data &&
