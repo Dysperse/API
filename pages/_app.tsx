@@ -433,9 +433,9 @@ function RenderRoot({
     </NoSsr>
   ) : (
     <>
-      {!isLoading && <Loading />}
+      {isLoading && <Loading />}
       {isError && <Error message={error} />}
-      {!!isLoading && !isError && !data.error && (
+      {!isLoading && !isError && !data.error && (
         <RenderWithLayout
           router={router}
           Component={Component}
