@@ -110,8 +110,10 @@ export function SubTask({
         <Checkbox
           disableRipple
           checked={checked}
-          onChange={(e) => {
+          onClick={(e) => {
             e.stopPropagation();
+          }}
+          onChange={(e) => {
             setChecked(e.target.checked);
             fetchApiWithoutHook("property/boards/markTask", {
               completed: e.target.checked ? "true" : "false",
