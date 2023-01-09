@@ -321,9 +321,13 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      onDoubleClick={() => setCollapsed(!collapsed)}
+      onDoubleClick={() => {
+        if (!checkList) {
+          setCollapsed(!collapsed);
+        }
+      }}
       onClick={() => {
-        if (collapsed) {
+        if (!checkList && collapsed) {
           setCollapsed(false);
         }
       }}
