@@ -512,7 +512,7 @@ export function CreateTask({
       </SwipeableDrawer>
       <ListItem
         disabled={global.permission == "read-only"}
-        className="rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
+        className="rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
         sx={{
           px: !checkList ? 0 : 0.5,
           py: !checkList ? 0.5 : 1,
@@ -533,7 +533,17 @@ export function CreateTask({
             border: "0!important",
           }),
           ...(checkList && {
-            background: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
+            background: global.user.darkMode
+              ? "hsl(240,11%,15%)!important"
+              : "#fff",
+            ...(global.user.darkMode && {
+              "&:hover": {
+                background: "hsl(240,11%,17%)!important",
+              },
+              "&:active": {
+                background: "hsl(240,11%,20%)!important",
+              },
+            }),
             boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
             gap: "10px!important",
             borderRadius: "15px!important",

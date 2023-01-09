@@ -286,7 +286,9 @@ export const Task = React.memo(function Task({
               border: "0!important",
             }),
             ...(checkList && {
-              background: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
+              background: global.user.darkMode
+                ? "hsl(240,11%,15%)!important"
+                : "#fff",
               boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
               gap: "10px!important",
               borderRadius: "15px!important",
