@@ -10,6 +10,9 @@
     @apply mb-1 sm:mb-0.5 rounded-2xl;
   }
 }
+:root {
+  --navbar-height: calc(70px + env(titlebar-area-height, 0px));
+}
 
 body {
   overflow-x: hidden;
@@ -234,4 +237,12 @@ input:-webkit-autofill {
   ::-webkit-scrollbar {
     -webkit-appearance: none;
   }
+}
+
+.titleBar {
+  position: fixed;
+  left: env(titlebar-area-x, 0);
+  top: env(titlebar-area-y, 0);
+  height: env(titlebar-area-height, 50px);
+  width: env(titlebar-area-width, 100%);
 }

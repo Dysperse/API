@@ -45,6 +45,7 @@ export function Navbar(): JSX.Element {
       elevation={0}
       position="fixed"
       sx={{
+        paddingTop: "env(titlebar-area-height, 0px)",
         zIndex: 999,
         color: {
           xs: global.user.darkMode
@@ -55,7 +56,8 @@ export function Navbar(): JSX.Element {
           sm: global.user.darkMode ? "white" : "black",
         },
         pr: 0.4,
-        height: "70px",
+        height: "calc(70px + env(titlebar-area-height, 0px))",
+        // "-webkit-app-region": "drag",
         transition: "box-shadow .2s",
         background: {
           xs: global.user.darkMode
