@@ -531,13 +531,20 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
   const [loading, setLoading] = useState(false);
 
   return (
-    <Box sx={{ px: 4 }}>
+    <Box sx={{ px: 5 }}>
       <Box
         sx={{
-          maxWidth: "500px",
-          mx: "auto",
+          // maxWidth: "500px",
+          background: "url(/images/board-header.png)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderRadius: 5,
           mt: 3,
+          p: 4,
           mb: 7,
+          mx: 1,
+          py: 5,
         }}
       >
         <Typography
@@ -551,8 +558,9 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
             overflow: "hidden",
             maxWidth: "100%",
             px: 1,
-            mb: 0.2,
-            color: global.user.darkMode ? "hsl(240,11%,70%)" : "#404040",
+            mb: 2,
+            ml: -1,
+            color: global.user.darkMode ? "hsl(240,11%,90%)" : "#404040",
             cursor: "auto!important",
             userSelect: "none",
             "&:hover": {
@@ -568,12 +576,18 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                 : "rgba(200,200,200,.4)",
             },
 
-            display: "inline-flex",
+            display: { xs: "inline-flex", md: "inline-flex" },
             alignItems: "center",
             gap: "10px",
           }}
         >
-          Create board {length !== 0 && <Icon>expand_more</Icon>}
+          Create a board {length !== 0 && <Icon>expand_more</Icon>}
+        </Typography>
+        <Typography
+          sx={{ mb: 2, background: "rgba(0,0,0,0.1)", color: "#fff" }}
+        >
+          Boards are sweet places where you can keep track of almost anything,
+          from tasks, to shopping lists, to even product planning.
         </Typography>
         <OptionsGroup
           options={["Board", "Checklist"]}

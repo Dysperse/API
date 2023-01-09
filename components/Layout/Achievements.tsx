@@ -62,36 +62,62 @@ export function Achievements({ styles }) {
         </AppBar>
         <Box
           sx={{
+            position: "sticky",
             mt: "-70px",
+            height: "350px",
           }}
         >
           <picture>
             <img
-              src="https://cdn.dribbble.com/users/1731254/screenshots/11649852/nature_gradients_illustration_tubikarts_4x.png?resize=1400x700&compress=1"
-              alt="Acheivement banner"
-              width="100%"
+              src={
+                global.user.darkMode
+                  ? "/images/stats-banner.png"
+                  : "https://cdn.dribbble.com/users/1731254/screenshots/11649852/nature_gradients_illustration_tubikarts_4x.png?resize=1400x400&compress=1"
+              }
+              alt="Achievement banner"
+              style={{
+                height: "100%",
+                width: "100%",
+                position: "absolute",
+                top: 0,
+                opacity: ".5",
+                left: 0,
+                objectFit: "cover",
+                zIndex: -1,
+              }}
             />
           </picture>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              zIndex: 1,
+              p: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                mb: 2,
+                textDecoration: "underline",
+                fontWeight: "600",
+              }}
+            >
+              Achievements coming soon!
+            </Typography>
+            <Typography variant="body1">
+              Earn badges by completing tasks, achieving goals, and more! Brag
+              about this with your friends &amp; family!
+            </Typography>
+          </Box>
         </Box>
         <Box
           sx={{
             p: 5,
           }}
         >
-          <Typography
-            variant="h4"
-            sx={{
-              mb: 2,
-              textDecoration: "underline",
-              fontWeight: "600",
-            }}
-          >
-            Achievements coming soon!
-          </Typography>
-          <Typography variant="body1">
-            Earn badges by completing tasks, achieving goals, and more! Brag
-            about this with your friends &amp; family!
-          </Typography>
+          asdf
         </Box>
       </SwipeableDrawer>
       <Tooltip title="Achievements">
