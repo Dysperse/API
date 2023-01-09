@@ -113,6 +113,8 @@ export function BottomNav() {
             : "rgba(255,255,255,.4)",
           borderTop: global.user.darkMode
             ? "1px solid hsla(240, 11%, 20%, .8)"
+            : global.user.darkMode
+            ? "1px solid hsla(240,11%,15%)"
             : "1px solid rgba(200,200,200,.3)",
           backdropFilter: "blur(10px)",
         }}

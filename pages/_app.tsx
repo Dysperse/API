@@ -214,7 +214,7 @@ function RenderWithLayout({
         styleOverrides: {
           root: {
             ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 30%)",
+              background: "hsl(240, 11%, 20%)",
             }),
           },
         },

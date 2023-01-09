@@ -73,7 +73,7 @@ export function SubTask({
         onClick={() => setOpen(true)}
         onContextMenu={handleContextMenu}
         key={subtask.id}
-        className="rounded-xl select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400"
+        className="rounded-xl select-none transition-transform dark:bg-transparent duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400"
         sx={{
           ml: noMargin ? "10px" : "30px",
           maxWidth: "calc(100% - 30px)",

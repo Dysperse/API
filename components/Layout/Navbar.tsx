@@ -72,6 +72,8 @@ export function Navbar(): JSX.Element {
         },
         borderBottom: global.user.darkMode
           ? "1px solid rgba(255,255,255,0.1)"
+          : global.user.darkMode
+          ? "1px solid hsla(240,11%,15%)"
           : "1px solid rgba(200,200,200,.3)",
         backdropFilter: "blur(10px)",
       }}

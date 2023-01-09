@@ -331,7 +331,7 @@ export const Column = React.memo(function Column({
           setCollapsed(false);
         }
       }}
-      className="w-[350px] bg-gray-100 border scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] bg-gray-100 dark:border-gray-800 border scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -450,11 +450,11 @@ export const Column = React.memo(function Column({
             />
           ))}
         <CreateTask
+        column={column}
           tasks={tasks}
           checkList={checkList}
           mutationUrl={mutationUrl}
           boardId={boardId}
-          columnId={column.id}
         />
 
         <CompletedTasks

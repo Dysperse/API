@@ -110,18 +110,20 @@ export function SelectDateModal({ styles, date, setDate }) {
           background: "transparent!important",
           borderRadius: 9999,
           transition: "all .2s",
-          color: colors[themeColor][900],
+          color: colors[themeColor][global.user.darkMode ? 50 : 900],
           ...(!date && {
             gap: 0,
             minWidth: "auto",
           }),
+          px: 2,
           "&:active": {
             transition: "none",
             opacity: ".6!important",
           },
           ...(date && {
             animation: "dateIntro .2s forwards",
-            background: colors[themeColor][100] + "!important",
+            background: colors[themeColor][200] + "!important",
+            color: colors[themeColor][900] + "!important",
           }),
         }}
         onClick={() => {

@@ -104,7 +104,7 @@ export function CreateTask({
   parent = false,
   mutationUrl,
   boardId,
-  columnId,
+  column,
   checkList = false,
 }: any) {
   const [value, setValue] = useState("");
@@ -181,7 +181,7 @@ export function CreateTask({
       ...(parent && { parent }),
 
       boardId,
-      columnId,
+      columnId: column.id,
     });
     toast.success("Created task!", toastStyles);
 
@@ -195,8 +195,9 @@ export function CreateTask({
   };
 
   const chipStyles = {
-    background:
-      colors[themeColor][global.user.darkMode ? "900" : "50"] + "!important",
+    background: global.user.darkMode
+      ? "hsl(240,11%,20%)!important"
+      : colors[themeColor]["50"] + "!important",
     transition: "all .2s",
     "&:active": {
       transition: "none",
@@ -359,7 +360,7 @@ export function CreateTask({
               autoFocus
               fullWidth
               variant="standard"
-              placeholder="Add an item..."
+              placeholder={'Add an item to "' + column.name + '"'}
               InputProps={{
                 // className: "font-secondary",
                 disableUnderline: true,
@@ -395,6 +396,8 @@ export function CreateTask({
                     borderRadius: 5,
                     background:
                       colors[themeColor][global.user.darkMode ? 900 : 100],
+                    color:
+                      colors[themeColor][!global.user.darkMode ? 900 : 100],
                   }}
                   icon={
                     <span
@@ -491,7 +494,7 @@ export function CreateTask({
                       px: 2,
                       minWidth: "auto",
                       background:
-                        colors[themeColor][global.user.darkMode ? 50 : 900] +
+                        colors[themeColor][global.user.darkMode ? 100 : 900] +
                         "!important",
                       color:
                         colors[themeColor][global.theme !== "dark" ? 50 : 900] +
@@ -509,7 +512,7 @@ export function CreateTask({
       </SwipeableDrawer>
       <ListItem
         disabled={global.permission == "read-only"}
-        className="rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
+        className="rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] border border-gray-200 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
         sx={{
           px: !checkList ? 0 : 0.5,
           py: !checkList ? 0.5 : 1,

@@ -21,7 +21,7 @@ import {
   Tabs,
   TextField,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 
 interface TabPanelProps {
@@ -215,8 +215,11 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
     >
       <Box
         sx={{
-          background: `linear-gradient(45deg, #E177D5 0%, #FFA655 100%)`,
-          color: "#000",
+          background: global.user.darkMode
+            ? "url(https://i.ibb.co/L0MZ0tt/image.png)"
+            : `linear-gradient(45deg, #E177D5 0%, #FFA655 100%)`,
+          backgroundSize: "cover",
+          color: global.user.darkMode ? "#fff" : "#000",
           p: 4,
           mt: "-64px",
           minHeight: "350px",

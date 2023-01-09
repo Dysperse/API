@@ -551,20 +551,21 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
             overflow: "hidden",
             maxWidth: "100%",
             px: 1,
-            mb: 3,
-            ...(length == 0 && {
-              pointerEvents: "none",
-            }),
-            color: "#404040",
+            mb: 0.2,
+            color: global.user.darkMode ? "hsl(240,11%,70%)" : "#404040",
             cursor: "auto!important",
             userSelect: "none",
             "&:hover": {
-              color: "#303030",
-              background: "rgba(200,200,200,.3)",
+              color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
+              background: global.user.darkMode
+                ? "hsl(240,11%,13%)"
+                : "rgba(200,200,200,.3)",
             },
             "&:active": {
-              color: "#000",
-              background: "rgba(200,200,200,.4)",
+              color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
+              background: global.user.darkMode
+                ? "hsl(240,11%,16%)"
+                : "rgba(200,200,200,.4)",
             },
 
             display: "inline-flex",

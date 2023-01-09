@@ -389,7 +389,11 @@ export function TasksLayout() {
           height: { sm: "calc(100vh - var(--navbar-height))" },
           overflowY: { sm: "scroll" },
           flexDirection: "column",
-          borderRight: { sm: "1px solid rgba(200,200,200,.3)" },
+          borderRight: {
+            sm: global.user.darkMode
+              ? "1px solid hsla(240,11%,15%)"
+              : "1px solid rgba(200,200,200,.3)",
+          },
         }}
       >
         {children}

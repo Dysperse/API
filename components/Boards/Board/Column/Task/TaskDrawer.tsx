@@ -48,6 +48,8 @@ export function TaskDrawer({
           ? colors[task.color ?? global.themeColor ?? "brown"][
               global.theme === "dark" ? 900 : 50
             ]
+          : global.user.darkMode
+          ? "hsl(240,11%,10%)"
           : "#fff"
       );
   });
@@ -112,7 +114,10 @@ export function TaskDrawer({
             west
           </Icon>
           <Icon
-            sx={{ display: { xs: "none!important", sm: "block!important" } }}
+            sx={{
+              display: { xs: "none!important", sm: "block!important" },
+              "-webkit-app-region": "no-drag",
+            }}
           >
             close
           </Icon>
@@ -121,6 +126,9 @@ export function TaskDrawer({
         <IconButton
           disableRipple
           disabled={global.permission == "read-only"}
+          sx={{
+            "-webkit-app-region": "no-drag",
+          }}
           onClick={() => {
             handleDelete(task.id);
             setOpen(false);

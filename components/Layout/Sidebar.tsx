@@ -72,7 +72,9 @@ export function Sidebar() {
         border: "1px solid transparent",
       },
       "&:hover .material-symbols-outlined": {
-        background: colors[themeColor][50],
+        background: global.user.darkMode
+          ? "hsl(240,11%,14%)"
+          : colors[themeColor][50],
         // border: "1px solid #ccc",
       },
       "&:active .material-symbols-outlined": {
@@ -127,6 +129,8 @@ export function Sidebar() {
             zIndex: 99,
             borderRight: global.user.darkMode
               ? "1px solid rgba(255,255,255,0.1)"
+              : global.user.darkMode
+              ? "1px solid hsla(240,11%,15%)"
               : "1px solid rgba(200,200,200,.3)",
             height: "100vh",
             alignItems: "center",

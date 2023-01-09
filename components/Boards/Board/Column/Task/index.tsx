@@ -262,10 +262,10 @@ export const Task = React.memo(function Task({
         <ListItem
           onClick={() => setOpen(true)}
           onContextMenu={handleContextMenu}
-          className="p-1 rounded-xl gap-0.5 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
+          className="p-1 rounded-xl gap-0.5 bg-gray-100 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
           sx={{
             color:
-              colors[task.color][global.theme === "dark" ? "A400" : "A700"],
+              colors[task.color][global.theme === "dark" ? "A100" : "A700"],
             p: 1,
             cursor: "unset!important",
             "&:hover": {

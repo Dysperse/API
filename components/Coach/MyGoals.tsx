@@ -307,7 +307,9 @@ function Goal({ goal, mutationUrl }: any) {
           px: 3,
           mb: 1,
           cursor: "pointer",
-          background: { sm: "#eee" },
+          background: {
+            sm: global.user.darkMode ? "hsl(240,11%,13%)" : "#eee",
+          },
           borderBottom: { xs: "1px solid #ddd", sm: "none" },
           userSelect: "none",
         }}
@@ -558,7 +560,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         PaperProps={{
           sx: {
             width: "100vw",
-            maxWidth: "900px",
+            maxWidth: "700px",
             ...(global.user.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
@@ -570,7 +572,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           sx={{
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
             zIndex: 1,
-            color: "#000",
+            color: global.user.darkMode ? "#fff" : "#000",
           }}
           position="static"
         >
@@ -582,12 +584,18 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             >
               <span
                 className="material-symbols-rounded"
-                style={{ color: "#000" }}
+                style={{ color: global.user.darkMode ? "#fff" : "#000" }}
               >
                 west
               </span>
             </IconButton>
-            <Typography sx={{ mx: "auto", fontWeight: "600", color: "#000" }}>
+            <Typography
+              sx={{
+                mx: "auto",
+                fontWeight: "600",
+                color: global.user.darkMode ? "#fff" : "#000",
+              }}
+            >
               Explore
             </Typography>
             <IconButton
@@ -597,7 +605,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             >
               <span
                 className="material-symbols-outlined"
-                style={{ color: "#000" }}
+                style={{ color: global.user.darkMode ? "#fff" : "#000" }}
               >
                 add_circle
               </span>

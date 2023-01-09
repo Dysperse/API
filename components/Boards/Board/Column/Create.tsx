@@ -73,7 +73,9 @@ export function CreateColumn({ mutationUrl, id }: any) {
               flex: "0 0 auto",
               mr: 2,
               height: "auto",
-              border: "1px solid rgba(200, 200, 200, 0.9)",
+              border: global.user.darkMode
+                ? "1px solid hsl(240,11%,30%)!important"
+                : "1px solid rgba(200, 200, 200, 0.9)",
               p: 3,
               px: 4,
               borderRadius: 5,
@@ -211,12 +213,14 @@ export function CreateColumn({ mutationUrl, id }: any) {
               },
               "&:active": {
                 color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
-                border: "1px solid rgba(200, 200, 200, 0.9)!important",
+                border: global.user.darkMode
+                  ? "1px solid hsl(240,11%,30%)!important"
+                  : "1px solid rgba(200, 200, 200, 0.9)!important",
                 backgroundColor: global.user.darkMode
                   ? "hsl(240,11%,15%)"
                   : "rgba(200, 200, 200, 0.5)!important",
                 boxShadow: global.user.darkMode
-                  ? "0 0 0 1px hsl(240,11%,90%) inset"
+                  ? "0 0 0 1px hsl(240,11%,30%) inset"
                   : "0 0 0 1px rgba(200, 200, 200, 0.9) inset",
               },
             }}

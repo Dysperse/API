@@ -160,8 +160,12 @@ export const Board = React.memo(function Board({
         sx={{
           position: { sm: "sticky" },
           top: "0",
-          borderBottom: "1px solid rgba(200,200,200,.3)",
-          background: "rgba(255,255,255,.7)",
+          borderBottom: global.user.darkMode
+            ? "1px solid hsla(240,11%,15%)"
+            : "1px solid rgba(200,200,200,.3)",
+          background: global.user.darkMode
+            ? "hsla(240,11%,10%)"
+            : "rgba(255,255,255,.7)",
           zIndex: 1,
           p: 2,
           maxWidth: "100vw",
@@ -190,16 +194,20 @@ export const Board = React.memo(function Board({
               maxWidth: "100%",
               px: 1,
               mb: 0.2,
-              color: "#404040",
+              color: global.user.darkMode ? "hsl(240,11%,70%)" : "#404040",
               cursor: "auto!important",
               userSelect: "none",
               "&:hover": {
-                color: "#303030",
-                background: "rgba(200,200,200,.3)",
+                color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
+                background: global.user.darkMode
+                  ? "hsl(240,11%,13%)"
+                  : "rgba(200,200,200,.3)",
               },
               "&:active": {
-                color: "#000",
-                background: "rgba(200,200,200,.4)",
+                color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
+                background: global.user.darkMode
+                  ? "hsl(240,11%,16%)"
+                  : "rgba(200,200,200,.4)",
               },
 
               display: "inline-flex",
@@ -247,7 +255,7 @@ export const Board = React.memo(function Board({
                     ? "flex"
                     : "none",
                 color: "success.main",
-                background: colors.green["50"],
+                background: colors.green[global.user.darkMode ? 900 : 50],
               }}
               label={
                 // Calculate percentage of completed tasks
