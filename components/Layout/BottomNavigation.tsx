@@ -110,10 +110,10 @@ export function BottomNav() {
           },
           background: global.user.darkMode
             ? "hsla(240, 11%, 10%, .9)"
-            : hexToRgba("#fff", 0.4),
+            : "rgba(255,255,255,.4)",
           borderTop: global.user.darkMode
             ? "1px solid hsla(240, 11%, 20%, .8)"
-            : "1px solid rgba(200,200,200,.4)",
+            : "1px solid rgba(200,200,200,.3)",
           backdropFilter: "blur(10px)",
         }}
       >
@@ -136,13 +136,14 @@ export function BottomNav() {
             },
             "& .MuiTabs-indicatorSpan": {
               minWidth: "65px",
+              maxWidth: "70px",
               width: "50%",
               height: 34,
               mt: -2.855,
               backgroundColor: global.user.darkMode
                 ? "rgba(153, 153, 158, .1)"
                 : hexToRgba(colors[themeColor][500], 0.2),
-              borderRadius: 3,
+              borderRadius: 99,
             },
           }}
         >

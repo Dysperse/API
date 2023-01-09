@@ -228,16 +228,15 @@ export const Board = React.memo(function Board({
               }}
               size="small"
               label={
-                (data ? data.map((column) => column.tasks).flat().length : 0) +
-                " task" +
-                "   •   " +
                 (data
                   ? data
                       .map((column) => column.tasks)
                       .flat()
                       .filter((task) => task.completed).length
                   : 0) +
-                " completed"
+                " out of " +
+                (data ? data.map((column) => column.tasks).flat().length : 0) +
+                " tasks completed"
               }
             />
             <Chip
