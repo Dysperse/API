@@ -150,6 +150,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               opacity: 0.5,
               pointerEvents: "none",
             }),
+            mb: { xs: 2, sm: 0 },
             width: "100%!important",
             background: global.user.darkMode
               ? "hsl(240, 11%, 13%)"
@@ -529,11 +530,12 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
   const [loading, setLoading] = useState(false);
 
   return (
-    <Box sx={{ px: { xs: 2, sm: 5 } }}>
+    <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
       <Box
         sx={{
           // maxWidth: "500px",
-          background: "url(/images/board-header.png)",
+          background:
+            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/images/board-header.png)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
