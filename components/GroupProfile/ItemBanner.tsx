@@ -30,6 +30,12 @@ export function UpgradeBanner({ color }: { color: string }) {
     boards: (((boardCount || []).length * 10) / max) * 100,
     memos: (((memoCount || []).length * 5) / max) * 100,
   };
+  
+  const total = max - Math.round(
+    ((memoCount || []).length * 5) + 
+    ((boardCount || []).length * 10) + 
+    ((data || { count: 0 }).count * 2.5)
+  )
 
   return !data ? null : (
     <Box>
@@ -90,8 +96,8 @@ export function UpgradeBanner({ color }: { color: string }) {
         </Typography>
         <Typography gutterBottom sx={{ mt: 1 }}>
           <b>
-            {Math.round(max - storage.items - storage.boards - storage.memos)}{" "}
-            out of 500 credits used
+            {total}{" "}
+            out of {max} credits used
           </b>
         </Typography>
       </Box>
