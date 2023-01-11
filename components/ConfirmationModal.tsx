@@ -53,6 +53,10 @@ export function ConfirmationModal({
               borderRadius: 99,
               px: 2.5,
               py: 1,
+              ...(global.user.darkMode && {
+                borderColor: "hsl(240,11%,20%) !important",
+                color: "hsl(240,11%,95%) !important",
+              }),
               borderWidth: "2px!important",
             }}
             onClick={() => {

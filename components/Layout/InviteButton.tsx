@@ -199,7 +199,7 @@ export function InviteButton() {
               : "#ddd!important",
 
             color: global.user.darkMode
-              ? "hsl(240,11%,15%)!important"
+              ? "hsl(240,11%,95%)!important"
               : "#000!important",
           },
           userSelect: "none",

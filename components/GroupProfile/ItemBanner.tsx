@@ -38,8 +38,10 @@ export function UpgradeBanner({ color }: { color: string }) {
       </Typography>
       <Box
         sx={{
-          background: `${colors[color]["100"].toString()}`,
-          color: colors[color]["900"].toString(),
+          background: `${colors[color][
+            global.user.darkMode ? 800 : 100
+          ].toString()}`,
+          color: colors[color][global.user.darkMode ? 50 : 900].toString(),
           borderRadius: 5,
           px: 3,
           mt: 2,
@@ -52,20 +54,22 @@ export function UpgradeBanner({ color }: { color: string }) {
           size={15}
           sx={{
             marginBottom: "10px",
-            background: colors[color]["200"] + "!important",
+            background:
+              colors[color][global.user.darkMode ? "700" : "200"] +
+              "!important",
           }}
           sections={[
             {
               value: storage.items,
-              color: colors[color]["700"],
+              color: colors[color][global.user.darkMode ? "50" : "700"],
             },
             {
               value: storage.boards,
-              color: colors[color]["800"],
+              color: colors[color][global.user.darkMode ? "200" : "800"],
             },
             {
               value: storage.memos,
-              color: colors[color]["900"],
+              color: colors[color][global.user.darkMode ? "500" : "900"],
             },
           ]}
         />

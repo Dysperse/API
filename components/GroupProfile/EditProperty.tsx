@@ -88,10 +88,10 @@ export function EditProperty({
       onOpen={() => setOpen(true)}
       PaperProps={{
         sx: {
-          background: colors[color]["50"].toString(),
-          color: colors[color]["900"].toString(),
+          background: colors[color][global.user.darkMode ? 900 : 50].toString(),
+          color: colors[color][global.user.darkMode ? 50 : 900].toString(),
           px: 3,
-          width: { xs: "100%", sm: "50vw" },
+          width: { xs: "auto", sm: "50vw" },
           py: 2,
           maxHeight: "calc(100vh - 20px)",
           borderRadius: "20px 20px 0 0",
@@ -104,7 +104,6 @@ export function EditProperty({
           height: { xs: "100vh", sm: "auto" },
           px: 2,
           borderRadius: "20px 20px 0 0",
-
           pt: 10,
         }}
       >
@@ -113,10 +112,10 @@ export function EditProperty({
           sx={{
             p: 2,
             borderRadius: "20px 20px 0 0",
-
             py: 1,
-            background: colors[color]["50"].toString(),
-            color: colors[color]["900"].toString(),
+            background:
+              colors[color][global.user.darkMode ? 900 : 50].toString(),
+            color: colors[color][global.user.darkMode ? 50 : 900].toString(),
             boxShadow: "none",
           }}
         >
@@ -175,7 +174,7 @@ export function EditProperty({
               textTransform: "capitalize",
               display: "flex",
               alignItems: "center",
-              color: "black",
+              color: colors[color][global.user.darkMode ? 50 : 900].toString(),
               gap: "10px",
             }}
           >

@@ -308,7 +308,7 @@ export function MemberList({
               px: 2.5,
               borderRadius: 5,
               background: global.user.darkMode
-                ? "hsl(240, 11%, 30%)"
+                ? colors[color][800]
                 : colors[color][100],
             }}
           >

@@ -189,7 +189,7 @@ function Changelog({ house }) {
           mr: 1,
           position: "absolute",
           right: "55px",
-          
+
           mt: 0.2,
         }}
         onClick={() => setOpen(true)}
@@ -372,7 +372,9 @@ export function Group({
         PaperProps={{
           sx: {
             height: "100vh",
-            background: colors[data.profile.color][50] + "!important",
+            background:
+              colors[data.profile.color][global.user.darkMode ? 900 : 50] +
+              "!important",
             width: { xs: "100vw", md: "80vw", sm: "50vw" },
             maxWidth: "600px",
             overflow: "scroll",
@@ -397,7 +399,7 @@ export function Group({
             sx={{
               background: colors[color]["A400"],
               px: 3,
-              height: "300px",
+              height: "calc(300px + env(titlebar-area-height, 0px))",
               position: "relative",
               color: invertColors ? "black" : "white",
             }}
@@ -410,6 +412,7 @@ export function Group({
                 p: 2,
                 width: "100%",
                 display: "flex",
+                paddingTop: "env(titlebar-area-height, 0px)",
                 alignItems: "center",
               }}
             >

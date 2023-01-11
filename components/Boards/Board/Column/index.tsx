@@ -247,7 +247,7 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
               Edit
             </Button>
             <ConfirmationModal
-              title="Delete board?"
+              title="Delete column?"
               question="Are you sure you want to delete this column? This action annot be undone."
               callback={async () => {
                 setLoading(true);
@@ -259,10 +259,6 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
                 setOpen(false);
               }}
             >
-              <Button variant="outlined" fullWidth>
-                <Icon className="outlined">delete</Icon>
-                Delete
-              </Button>
               <Button sx={styles} size="large">
                 <Icon className="outlined">delete</Icon> Delete column
               </Button>

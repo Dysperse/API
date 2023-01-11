@@ -14,6 +14,7 @@ import {
   Box,
   Button,
   FormControl,
+  Icon,
   MenuItem,
   Select,
   SwipeableDrawer,
@@ -169,16 +170,14 @@ export function AddPersonModal({
           ml: "auto",
           boxShadow: 0,
           ...(global.property.permission === "owner" && {
-            backgroundColor: `${colors[color][900]}!important`,
+            backgroundColor: `${
+              colors[color][global.user.darkMode ? 800 : 900]
+            }!important`,
+            color: `${colors[color][50]}!important`,
           }),
         }}
       >
-        <span
-          className="material-symbols-rounded"
-          style={{ marginRight: "10px" }}
-        >
-          add
-        </span>
+        <Icon>add</Icon>
         Invite
       </Button>
       <Prompt
