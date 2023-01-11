@@ -1,5 +1,5 @@
-import { colors } from "../lib/colors";
 import { Box } from "@mui/material";
+import { colors } from "../lib/colors";
 
 /**
  * @name Puller
@@ -21,12 +21,12 @@ export function Puller({ variant }: { variant?: "side" }) {
         zIndex: 1,
         left: 0,
         width: "100%",
-        background:
-          "linear-gradient(180deg, " +
-          color +
-          " 0%, " +
-          "rgba(0,0,0,0)" +
-          " 100%)",
+        // background:
+        //   "linear-gradient(180deg, " +
+        //   color +
+        //   " 0%, " +
+        //   "rgba(0,0,0,0)" +
+        //   " 100%)",
         textAlign: "center",
         py: 2,
         mb: 2,

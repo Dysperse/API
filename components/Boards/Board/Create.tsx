@@ -141,9 +141,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
           setOpen(true);
         }}
         sx={{
-          py: 1,
-          px: { sm: 1 },
-          maxWidth: "calc(100vw - 52.5px)",
+          width: "100%",
         }}
       >
         <Card
@@ -531,7 +529,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
   const [loading, setLoading] = useState(false);
 
   return (
-    <Box sx={{ px: {xs:2,sm:5} }}>
+    <Box sx={{ px: { xs: 2, sm: 5 } }}>
       <Box
         sx={{
           // maxWidth: "500px",
@@ -543,7 +541,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           mt: 3,
           p: 4,
           mb: 7,
-          mx:{sm: 1},
+          mx: { sm: 1 },
           py: 5,
         }}
       >

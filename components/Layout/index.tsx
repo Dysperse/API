@@ -191,7 +191,9 @@ function ResponsiveDrawer({
           p: 0,
           ml: { md: "-85px" },
           // background: "red",
+          position: "relative",
           width: {
+            xs: "100%",
             sm: `calc(100% - 65px)`,
             md: `calc(100% - 85px)`,
           },

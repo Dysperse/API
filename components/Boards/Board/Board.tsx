@@ -242,9 +242,9 @@ export const Board = React.memo(function Board({
                       .flat()
                       .filter((task) => task.completed).length
                   : 0) +
-                " out of " +
+                "/" +
                 (data ? data.map((column) => column.tasks).flat().length : 0) +
-                " tasks completed"
+                " completed"
               }
             />
             <Chip
@@ -306,7 +306,7 @@ export const Board = React.memo(function Board({
           pl: data && board.columns.length === 1 ? 0 : 4,
           pr: data ? 0 : 4,
         }}
-        className="snap-x snap-mandatory sm:snap-proximity scroll-smooth"
+        className="snap-x snap-proximity sm:snap-proximity scroll-smooth"
         id="taskContainer"
       >
         {error && (
