@@ -232,6 +232,19 @@ export function SearchPopup({ styles }) {
       <SpotlightProvider
         limit={7}
         // highlightQuery
+        onSpotlightClose={() => {
+          document
+            .querySelector(`meta[name="theme-color"]`)
+            ?.setAttribute(
+              "content",
+              global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
+            );
+        }}
+        onSpotlightOpen={() => {
+          document
+            .querySelector(`meta[name="theme-color"]`)
+            ?.setAttribute("content", "#c0c0c0");
+        }}
         actions={actions}
         shortcut={["mod + P", "mod + K", "/"]}
         searchIcon={<Icon>search</Icon>}
