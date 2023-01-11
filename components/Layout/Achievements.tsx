@@ -107,8 +107,8 @@ export function Achievements({ styles }) {
               Achievements coming soon!
             </Typography>
             <Typography variant="body1">
-              Earn badges by completing tasks, achieving goals, and more! Brag
-              about this with your friends &amp; family!
+              Earn badges &amp; compare achievement by completing tasks,
+              achieving goals, and more!
             </Typography>
           </Box>
         </Box>
