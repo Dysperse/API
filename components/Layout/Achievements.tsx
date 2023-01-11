@@ -116,9 +116,7 @@ export function Achievements({ styles }) {
           sx={{
             p: 5,
           }}
-        >
-          asdf
-        </Box>
+        ></Box>
       </SwipeableDrawer>
       <Tooltip title="Achievements">
         <IconButton
