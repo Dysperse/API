@@ -17,6 +17,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { toast } from "react-hot-toast";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 
 function CompletedTasks({
@@ -182,13 +183,17 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
   const [editMode, setEditMode] = React.useState(false);
   const [title, setTitle] = React.useState(column.name);
   const [emoji, setEmoji] = React.useState(column.emoji);
+  const ref: any = React.useRef();
 
   return (
     <>
       <SwipeableDrawer
         anchor="bottom"
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          mutate(mutationUrl);
+          setOpen(false);
+        }}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
@@ -224,9 +229,11 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
           )}
           {editMode ? (
             <TextField
+              autoComplete="off"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               id={"renameInput"}
+              inputRef={ref}
               size="small"
               InputProps={{
                 sx: {
@@ -242,7 +249,17 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
         </Box>
         {!editMode ? (
           <Box>
-            <Button sx={styles} size="large" onClick={() => setEditMode(true)}>
+            <Button
+              sx={styles}
+              size="large"
+              onClick={() => {
+                setEditMode(true);
+                setTimeout(() => {
+                  ref.current.focus();
+                  ref.current.select();
+                });
+              }}
+            >
               <Icon className="outlined">edit</Icon>
               Edit
             </Button>
@@ -286,7 +303,20 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
               }}
               size="large"
               variant="contained"
-              onClick={() => setEditMode(true)}
+              onClick={() => {
+                toast.promise(
+                  fetchApiWithoutHook("property/boards/editColumn", {
+                    columnId: column.id,
+                    name: title,
+                    emoji: emoji,
+                  }).then(() => mutate(mutationUrl)),
+                  {
+                    loading: "Saving your changes...",
+                    success: "Your changes were saved",
+                    error: "There was a problem saving your changes.",
+                  }
+                );
+              }}
             >
               <Icon className="outlined">check</Icon>
               Save
