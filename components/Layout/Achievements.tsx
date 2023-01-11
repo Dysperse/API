@@ -4,6 +4,7 @@ import {
   Chip,
   Icon,
   IconButton,
+  LinearProgress,
   SwipeableDrawer,
   Toolbar,
   Tooltip,
@@ -138,6 +139,17 @@ export function Achievements({ styles }) {
                   mb: 2,
                 }}
               >
+                <Chip
+                  label={achievement.type.split(":")[0]}
+                  sx={{
+                    textTransform: "capitalize",
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,30%)"
+                      : "rgba(200,200,200,.3)",
+                    mb: 1,
+                  }}
+                  size="small"
+                />
                 <Typography
                   sx={{
                     fontWeight: "700",
@@ -150,22 +162,29 @@ export function Achievements({ styles }) {
                   variant="body2"
                   sx={{
                     opacity: 0.8,
+                    whiteSpace: "nowrap",
                     mb: 1,
-                    mt: 0.5,
                   }}
                 >
                   {achievement.description}
                 </Typography>
-                <Chip
-                  label={achievement.type.split(":")[0]}
-                  sx={{
-                    textTransform: "capitalize",
-                    background: global.user.darkMode
-                      ? "hsl(240,11%,30%)"
-                      : "rgba(200,200,200,.3)",
-                  }}
-                  size="small"
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <Typography
+                    color="warning.main"
+                    variant="body2"
+                    sx={{
+                      fontWeight: "600",
+                    }}
+                  >
+                    Level 1
+                  </Typography>
+                  <LinearProgress
+                    variant="determinate"
+                    color="warning"
+                    sx={{ height: 3, flexGrow: 1, borderRadius: 999 }}
+                    value={Math.random() * 100}
+                  />
+                </Box>
               </Box>
             ))}
           </Box>
