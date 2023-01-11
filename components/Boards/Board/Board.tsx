@@ -345,9 +345,11 @@ export const Board = React.memo(function Board({
 
         {data ? (
           <>
-            {board.columns.length !== 1 && data.length < 5 && (
-              <CreateColumn id={board.id} mutationUrl={url} />
-            )}
+            <CreateColumn
+              id={board.id}
+              mutationUrl={url}
+              hide={board.columns.length !== 1 && data.length <= 5}
+            />
           </>
         ) : (
           <Box

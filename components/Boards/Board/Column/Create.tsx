@@ -8,7 +8,7 @@ import { colors } from "../../../../lib/colors";
 
 import { Box, Button, Icon, SwipeableDrawer, TextField } from "@mui/material";
 
-export function CreateColumn({ mutationUrl, id }: any) {
+export function CreateColumn({ hide, mutationUrl, id }: any) {
   const [open, setOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [title, setTitle] = useState("");
@@ -183,7 +183,7 @@ export function CreateColumn({ mutationUrl, id }: any) {
         {!open && (
           <Button
             disableRipple
-            disabled={open}
+            disabled={hide || open}
             onClick={() => {
               setOpen(true);
               setTimeout(() => {
