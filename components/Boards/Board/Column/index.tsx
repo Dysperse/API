@@ -309,7 +309,10 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
                     columnId: column.id,
                     name: title,
                     emoji: emoji,
-                  }).then(() => mutate(mutationUrl)),
+                  }).then(() => {
+                    mutate(mutationUrl);
+                    setOpen(false);
+                  }),
                   {
                     loading: "Saving your changes...",
                     success: "Your changes were saved",
