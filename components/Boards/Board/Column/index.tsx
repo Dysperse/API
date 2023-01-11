@@ -184,6 +184,7 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
   const [title, setTitle] = React.useState(column.name);
   const [emoji, setEmoji] = React.useState(column.emoji);
   const ref: any = React.useRef();
+  const buttonRef: any = React.useRef();
 
   return (
     <>
@@ -234,6 +235,11 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
               onChange={(e) => setTitle(e.target.value)}
               id={"renameInput"}
               inputRef={ref}
+              onKeyDown={(e) => {
+                if (e.code == "Enter") {
+                  buttonRef.current.click();
+                }
+              }}
               size="small"
               InputProps={{
                 sx: {
@@ -303,6 +309,7 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
               }}
               size="large"
               variant="contained"
+              ref={buttonRef}
               onClick={() => {
                 toast.promise(
                   fetchApiWithoutHook("property/boards/editColumn", {
