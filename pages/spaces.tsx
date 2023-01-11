@@ -293,7 +293,7 @@ function CreatePostMenu({ url }) {
         )}
         <TextField
           fullWidth
-          placeholder="What's on your mind? (PRO TIP: Directly hit CTRL+V to paste text)"
+          placeholder="What's on your mind? (PRO TIP: Directly hit CTRL+V to paste text and share it)"
           autoComplete="off"
           multiline
           InputProps={{
