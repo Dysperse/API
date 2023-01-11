@@ -1,7 +1,5 @@
 import { prisma } from "../../../../lib/prismaClient";
-import CryptoJS from "crypto-js";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-import type { Item } from "@prisma/client";
 /**
  * API handler
  * @param {any} req
@@ -21,11 +19,13 @@ const handler = async (req, res) => {
   const data = await prisma.task.create({
     data: {
       name: req.query.title,
-      column: {
-        connect: {
-          id: parseInt(req.query.columnId),
+      ...(req.query.columnId !== "-1" && {
+        column: {
+          connect: {
+            id: parseInt(req.query.columnId),
+          },
         },
-      },
+      }),
       completed: false,
       ...(req.query.image && { image: req.query.image }),
       pinned: req.query.pinned === "true",

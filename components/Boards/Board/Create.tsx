@@ -577,9 +577,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
         >
           Create a board {length !== 0 && <Icon>expand_more</Icon>}
         </Typography>
-        <Typography
-          sx={{ mb: 2, background: "rgba(0,0,0,0.1)", color: "#fff" }}
-        >
+        <Typography sx={{ mb: 2, color: "#fff" }}>
           Boards are sweet places where you can keep track of almost anything,
           from tasks, to shopping lists, to even product planning.
         </Typography>

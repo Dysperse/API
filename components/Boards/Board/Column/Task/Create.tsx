@@ -181,7 +181,7 @@ export function CreateTask({
       ...(parent && { parent }),
 
       boardId,
-      columnId: column.id,
+      columnId: (column || { id: -1 }).id,
     });
     toast.success("Created task!", toastStyles);
 
@@ -360,7 +360,11 @@ export function CreateTask({
               autoFocus
               fullWidth
               variant="standard"
-              placeholder={'Add an item to "' + column.name + '"'}
+              placeholder={
+                'Add an item to "' +
+                (column || { name: "this task" }).name +
+                '"'
+              }
               InputProps={{
                 // className: "font-secondary",
                 disableUnderline: true,

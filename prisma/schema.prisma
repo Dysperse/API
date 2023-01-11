@@ -156,8 +156,8 @@ model Task {
   parentTasks Task[] @relation("subtasks")
   subTasks    Task[] @relation("subtasks")
 
-  columnId Int
-  column   Column @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  columnId Int?
+  column   Column? @relation(fields: [columnId], references: [id], onDelete: Cascade)
 }
 
 model RoutineItem {
