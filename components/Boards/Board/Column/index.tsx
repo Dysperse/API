@@ -1,4 +1,3 @@
-import LoadingButton from "@mui/lab/LoadingButton";
 import EmojiPicker from "emoji-picker-react";
 import React, { useState } from "react";
 import { mutate } from "swr";
@@ -18,6 +17,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { ConfirmationModal } from "../../../ConfirmationModal";
 
 function CompletedTasks({
   checkList,
@@ -173,7 +173,10 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
     justifyContent: "start",
     gap: 2,
     "&:hover": {
-      backgroundColor: colors[themeColor]["100"] + "!important",
+      backgroundColor:
+        (global.user.darkMode
+          ? "hsl(240,11%,18%)"
+          : colors[themeColor]["100"]) + "!important",
     },
   };
   const [editMode, setEditMode] = React.useState(false);
@@ -207,7 +210,9 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
             gap: 1.5,
             py: 2,
             mb: 1,
-            borderBottom: "1px solid #e0e0e0",
+            borderBottom:
+              "1px solid " +
+              (global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"),
           }}
         >
           {!editMode ? (
@@ -241,11 +246,10 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
               <Icon className="outlined">edit</Icon>
               Edit
             </Button>
-            <LoadingButton
-              loading={loading}
-              sx={styles}
-              size="large"
-              onClick={async () => {
+            <ConfirmationModal
+              title="Delete board?"
+              question="Are you sure you want to delete this column? This action annot be undone."
+              callback={async () => {
                 setLoading(true);
                 await fetchApiWithoutHook("property/boards/deleteColumn", {
                   id: column.id,
@@ -255,8 +259,14 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
                 setOpen(false);
               }}
             >
-              <Icon className="outlined">delete</Icon> Delete column
-            </LoadingButton>
+              <Button variant="outlined" fullWidth>
+                <Icon className="outlined">delete</Icon>
+                Delete
+              </Button>
+              <Button sx={styles} size="large">
+                <Icon className="outlined">delete</Icon> Delete column
+              </Button>
+            </ConfirmationModal>
           </Box>
         ) : (
           <Box
@@ -297,7 +307,7 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
           display: collapsed ? "none" : "",
           transition: "none!important",
           "&:hover,&:active": {
-            color: "#000",
+            color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
           },
         }}
       >
@@ -331,19 +341,25 @@ export const Column = React.memo(function Column({
           setCollapsed(false);
         }
       }}
-      className="w-[350px] bg-gray-100 dark:border-gray-800 border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] bg-gray-100 dark:border-[hsla(240,11%,18%)] border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
         flexDirection: "column",
         position: "relative",
-        width: collapsed ? "70px" : "350px",
-        height: collapsed ? "auto" : "100%",
-        flex: collapsed ? "0 0 70px" : "0 0 350px",
+        width: {
+          xs: collapsed ? "70px" : "calc(100vw - 50px)",
+          sm: collapsed ? "70px" : "350px",
+        },
+        height: "100%",
+        flex: {
+          xs: collapsed ? "0 0 70px" : "0 0 calc(100vw - 50px)",
+          sm: collapsed ? "0 0 70px" : "0 0 350px",
+        },
         p: collapsed ? 1 : 3,
         pt: 4,
         px: collapsed ? 1 : checkList ? 4 : 2,
         borderRadius: 5,
-        transition: "flex .2s, padding .2s",
+        transition: "flex .2s",
         ...(collapsed && {
           cursor: "pointer",
           transition: "all .2s",
@@ -373,7 +389,6 @@ export const Column = React.memo(function Column({
                 src={column.emoji}
                 alt="emoji"
                 style={{
-                  transition: "all .2s",
                   ...(collapsed && {
                     transform: "scale(.8)",
                     marginLeft: "3px",
@@ -416,6 +431,7 @@ export const Column = React.memo(function Column({
                 sx={{
                   display: collapsed ? "none" : "",
                   fontWeight: "400",
+                  whiteSpace: "nowrap",
                   mt: 1,
                 }}
               >

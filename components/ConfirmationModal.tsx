@@ -65,10 +65,16 @@ export function ConfirmationModal({
             variant="contained"
             size="large"
             sx={{
-              background: colors[themeColor][900] + "!important",
+              background:
+                (global.user.darkMode
+                  ? "hsl(240,11%,18%)"
+                  : colors[themeColor][50]) + "!important",
               borderRadius: 99,
               px: 2.5,
               py: 1,
+              color: global.user.darkMode
+                ? "hsl(240,11%,95%)"
+                : colors[themeColor][900],
               border: "2px solid transparent",
             }}
             loading={loading}

@@ -203,7 +203,9 @@ function RenderWithLayout({
         styleOverrides: {
           paper: {
             borderRadius: "28px",
-            background: colors[global.themeColor][50],
+            background: global.user.darkMode
+              ? "hsl(240,11%,12%)"
+              : colors[themeColor][50],
             boxShadow: "none!important",
             filter:
               "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",

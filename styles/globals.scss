@@ -13,7 +13,10 @@
 :root {
   --navbar-height: calc(70px + env(titlebar-area-height, 0px));
 }
-
+html,
+body {
+  overscroll-behavior-y: none;
+}
 body {
   overflow-x: hidden;
   font-weight: 600;

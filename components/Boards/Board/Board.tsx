@@ -7,6 +7,7 @@ import {
   Skeleton,
   SwipeableDrawer,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -58,7 +59,7 @@ function BoardSettings({ mutationUrl, board }) {
         <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
           <ConfirmationModal
             title="Delete board?"
-            question="Are you sure you want to delete this board? This action annot be undone"
+            question="Are you sure you want to delete this board? This action annot be undone."
             callback={async () => {
               await fetchApiWithoutHook("property/boards/deleteBoard", {
                 id: board.id,
@@ -101,10 +102,16 @@ function BoardSettings({ mutationUrl, board }) {
         sx={{
           transition: "none",
           "&:hover": {
-            background: colors[themeColor][50] + "!important",
+            background:
+              (global.user.darkMode
+                ? "hsla(240,11%,14%)"
+                : colors[themeColor][50]) + "!important",
           },
           "&:active": {
-            background: colors[themeColor][100] + "!important",
+            background:
+              (global.user.darkMode
+                ? "hsla(240,11%,17%)"
+                : colors[themeColor][100]) + "!important",
           },
           // ml: "auto",
         }}
@@ -169,8 +176,8 @@ export const Board = React.memo(function Board({
           zIndex: 1,
           p: 2,
           maxWidth: "100vw",
-          pt: 3,
-          px: 4,
+          pt: { xs: 1, sm: 3 },
+          px: { xs: 2, sm: 4 },
           backdropFilter: "blur(10px)",
           display: "flex",
           alignItems: "center",
@@ -227,35 +234,48 @@ export const Board = React.memo(function Board({
               alignItems: "center",
             }}
           >
-            <Chip
-              sx={{
-                display:
-                  data && data.map((column) => column.tasks).flat().length > 0
-                    ? "flex"
-                    : "none",
-              }}
-              size="small"
-              label={
+            <Tooltip
+              title={
                 (data
                   ? data
                       .map((column) => column.tasks)
                       .flat()
                       .filter((task) => task.completed).length
                   : 0) +
-                "/" +
+                " out of " +
                 (data ? data.map((column) => column.tasks).flat().length : 0) +
                 " completed"
               }
-            />
+            >
+              <Chip
+                sx={{
+                  display:
+                    !data ||
+                    (data &&
+                      data.map((column) => column.tasks).flat().length > 0)
+                      ? "flex"
+                      : "none",
+                }}
+                size="small"
+                label={
+                  (data
+                    ? data.map((column) => column.tasks).flat().length
+                    : 0) + " items"
+                }
+              />
+            </Tooltip>
             <Chip
               size="small"
               sx={{
                 display:
-                  data && data.map((column) => column.tasks).flat().length > 0
+                  !data ||
+                  (data && data.map((column) => column.tasks).flat().length > 0)
                     ? "flex"
                     : "none",
                 color: "success.main",
-                background: colors.green[global.user.darkMode ? 900 : 50],
+                background: global.user.darkMode
+                  ? "hsl(240,11%,20%)"
+                  : colors.green[50],
               }}
               label={
                 // Calculate percentage of completed tasks
@@ -283,7 +303,16 @@ export const Board = React.memo(function Board({
           sx={{
             transition: "none",
             "&:hover": {
-              background: colors[themeColor][50] + "!important",
+              background:
+                (global.user.darkMode
+                  ? "hsla(240,11%,14%)"
+                  : colors[themeColor][50]) + "!important",
+            },
+            "&:active": {
+              background:
+                (global.user.darkMode
+                  ? "hsla(240,11%,17%)"
+                  : colors[themeColor][100]) + "!important",
             },
             ml: "auto",
             flex: "0 0 auto",
