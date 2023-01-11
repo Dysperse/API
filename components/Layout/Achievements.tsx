@@ -127,8 +127,9 @@ export function Achievements({ styles }) {
             <Typography variant="body2" sx={{ opacity: 0.7, mb: 3 }}>
               TO BE UNLOCKED
             </Typography>
-            {availableAchievements.map((achievement: any) => (
+            {availableAchievements.map((achievement: any, index) => (
               <Box
+                key={index}
                 sx={{
                   p: 2,
                   px: 3,
