@@ -310,7 +310,12 @@ function Goal({ goal, mutationUrl }: any) {
           background: {
             sm: global.user.darkMode ? "hsl(240,11%,13%)" : "#eee",
           },
-          borderBottom: { xs: "1px solid #ddd", sm: "none" },
+          borderBottom: {
+            xs: global.user.darkMode
+              ? "1px solid hsla(240,11%,15%)"
+              : "1px solid #ddd",
+            sm: "none",
+          },
           userSelect: "none",
         }}
       >

@@ -141,7 +141,7 @@ export function CategoryModal({
       <Chip
         key={Math.random().toString()}
         disabled={global.permission == "read-only"}
-        label={item.category === "[]" ? <>+ &nbsp;&nbsp;Add category</> : "+"}
+        label={item.category === "[]" ? <>+ &nbsp;&nbsp;Add a category</> : "+"}
         onClick={() => {
           setOpen(true);
         }}
@@ -149,9 +149,13 @@ export function CategoryModal({
           px: 1.5,
           mr: 1,
           mb: 2.5,
-          background: `${colors[themeColor][200]}!important`,
+          background: global.user.darkMode
+            ? "hsl(240,11%,20%)"
+            : `${colors[themeColor][200]}!important`,
           "&:hover": {
-            background: `${colors[themeColor][300]}!important`,
+            background: global.user.darkMode
+              ? "hsl(240,11%,25%)"
+              : `${colors[themeColor][300]}!important`,
           },
           transition: "none",
         }}

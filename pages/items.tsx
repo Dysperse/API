@@ -313,7 +313,10 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
           "more_horiz"
         ) : (
           <Box
-            sx={{ display: { sm: "none!important" }, color: "#404040" }}
+            sx={{
+              display: { sm: "none!important" },
+              color: global.user.darkMode ? "#fff" : "#404040",
+            }}
             className="material-symbols-rounded"
           >
             chevron_right
@@ -417,7 +420,10 @@ function Action({
                 : colors[themeColor][100] + "!important"),
           },
           background: {
-            xs: colors[themeColor][50] + "!important",
+            xs:
+              global.theme == "dark"
+                ? "hsl(240,11%,13%)!important"
+                : colors[themeColor][50] + "!important",
             sm: "transparent!important",
           },
         },
@@ -658,7 +664,7 @@ export default function Categories({ children = null }: any) {
           height: { sm: "calc(100vh - 64px)" },
           overflowY: { sm: "scroll" },
           borderRight: { sm: "1px solid rgba(0,0,0,.1)" },
-          ml: -1,
+          ml: { sm: -1 },
         }}
       >
         <Box

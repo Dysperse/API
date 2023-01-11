@@ -293,7 +293,7 @@ function CreatePostMenu({ url }) {
         )}
         <TextField
           fullWidth
-          placeholder="What's on your mind? (PRO TIP: You can paste images and links here and share it with your group!)"
+          placeholder="What's on your mind? (PRO TIP: Directly hit CTRL+V to paste text)"
           autoComplete="off"
           multiline
           InputProps={{
@@ -380,7 +380,7 @@ function CreatePostMenu({ url }) {
               gap: 2,
               ml: "auto",
               borderRadius: 999,
-              color: "#666",
+              color: global.user.darkMode ? "hsl(240,11%,95%)" : "#666",
             }}
             onClick={() => setVisibilityModalOpen(true)}
           >
@@ -419,6 +419,14 @@ function CreatePostMenu({ url }) {
                   toast.error("Something went wrong");
                   setLoading(false);
                 });
+            }}
+            sx={{
+              color: global.user.darkMode ? "hsl(240,11%,95%)" : "#666",
+              ...(value.trim().length === 0 && {
+                color: global.user.darkMode
+                  ? "hsl(240,11%,70%)!important"
+                  : "#666!important",
+              }),
             }}
             id="submit"
           >
@@ -534,7 +542,7 @@ function Posts({ url, data: originalData }) {
   );
 }
 
-function ImageBox({ image }) {
+function ImageBox({ isTrigger, image }) {
   const trigger = useMediaQuery("(max-width: 600px)");
 
   const [open, setOpen] = React.useState(false);
@@ -548,6 +556,7 @@ function ImageBox({ image }) {
         variant="contained"
         sx={{
           position: "absolute",
+          display: isTrigger ? "none" : "flex",
           top: 5,
           right: 5,
           backdropFilter: "blur(10px)",
@@ -652,9 +661,7 @@ function Post({ data, url }) {
         trigger && setExpanded(!expanded);
       }}
       sx={{
-        mt: trigger ? 2 : 0,
         maxWidth: "calc(100vw - 32.5px)",
-        mb: { xs: 2, sm: 0 },
         background: !trigger
           ? "transparent"
           : global.user.darkMode
@@ -666,8 +673,10 @@ function Post({ data, url }) {
           "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
         ...(trigger && {
           cursor: "pointer",
+          transition: "transform .2s",
           "&:active": {
-            opacity: 0.8,
+            transform: "scale(.97)",
+            transition: "none",
           },
         }),
       }}
@@ -711,7 +720,7 @@ function Post({ data, url }) {
         </Typography>
       </Box>
       <div style={{ ...(trigger && { pointerEvents: "none" }) }}>
-        {data.image && <ImageBox image={data.image} />}
+        {data.image && <ImageBox image={data.image} isTrigger={trigger} />}
       </div>
 
       <Box
@@ -724,7 +733,7 @@ function Post({ data, url }) {
           },
         }}
       >
-        <div className="prose">
+        <div className="prose dark:prose-invert">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             linkTarget="_blank"
@@ -799,7 +808,7 @@ function Post({ data, url }) {
                   {children}
                 </Typography>
               ),
-              img: ({ src }) => <ImageBox image={src} />,
+              img: ({ src }) => <ImageBox isTrigger={false} image={src} />,
               input: ({ checked }) => (
                 <Checkbox
                   checked={checked}
@@ -858,11 +867,10 @@ function Post({ data, url }) {
       >
         <Box
           sx={{
-            borderBottom: "1px solid #eee",
             p: 1,
             px: 2,
             width: "100%",
-            background: "#eee",
+            background: global.user.darkMode ? "hsl(240,11%,16%)" : "#eee",
             display: "flex",
             alignItems: "center",
           }}

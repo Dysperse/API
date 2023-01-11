@@ -58,7 +58,7 @@ const WebcamComponent = ({
       text = text.replace("in their hand", "");
       if (text.includes("holding a")) text = text.split("holding a")[1];
       if (text.includes("on top")) text = text.split("on top")[0];
-if (text.includes("over")) text = text.split("over")[0];
+      if (text.includes("over")) text = text.split("over")[0];
       let title = text.includes(" of ") ? text.split(" of ")[1] : text;
       let qty = "1";
       [
@@ -308,10 +308,16 @@ export function ImageRecognition({ formik, room }) {
           position="static"
           sx={{
             zIndex: 999,
+            height: "var(--navbar-height)",
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
           }}
         >
-          <Toolbar className="flex" sx={{ height: "70px" }}>
+          <Toolbar
+            className="flex"
+            sx={{
+              height: "var(--navbar-height)",
+            }}
+          >
             <IconButton
               color="inherit"
               disableRipple

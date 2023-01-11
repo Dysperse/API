@@ -72,13 +72,13 @@ export function ConfirmationModal({
               background:
                 (global.user.darkMode
                   ? "hsl(240,11%,18%)"
-                  : colors[themeColor][50]) + "!important",
+                  : colors[themeColor][900]) + "!important",
               borderRadius: 99,
               px: 2.5,
               py: 1,
               color: global.user.darkMode
                 ? "hsl(240,11%,95%)"
-                : colors[themeColor][900],
+                : colors[themeColor][50],
               border: "2px solid transparent",
             }}
             loading={loading}

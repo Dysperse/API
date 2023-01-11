@@ -32,7 +32,7 @@ function CircularProgressWithLabel(
         sx={{
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
-            color: "#000",
+            color: global.user.darkMode ? "#fff" : "#000",
             transition: "all .2s",
             strokeWidth: props.value === 100 ? 1 : 2,
           },
@@ -317,7 +317,9 @@ function DailyRoutine() {
           borderRadius: 5,
           display: "flex",
           alignItems: "center",
-          background: colors[themeColor][global.theme == "dark" ? 900 : 100],
+          background: global.user.darkMode
+            ? "hsl(240,11%,16%)"
+            : colors[themeColor][100],
         }}
       >
         <Box sx={{ mr: "auto" }}>

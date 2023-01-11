@@ -285,7 +285,6 @@ export default function Item({
               lg: "70vw",
               xl: "60vw",
             },
-            background: "transparent",
           },
         }}
         swipeAreaWidth={0}
@@ -315,7 +314,7 @@ export default function Item({
             overflowY: "scroll!important",
             background: `${colors[themeColor][50]}!important`,
             ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 20%)",
+              background: "hsl(240, 11%, 15%)",
             }),
             maxWidth: "100vw",
           }}
@@ -343,7 +342,7 @@ export default function Item({
                       sx: {
                         background: `${
                           global.user.darkMode
-                            ? "hsl(240, 11%, 24%)"
+                            ? "hsl(240, 11%, 15%)"
                             : colors[themeColor][50]
                         }!important`,
                         fontWeight: "600",
@@ -382,7 +381,7 @@ export default function Item({
                             : colors[themeColor][500],
                         },
                         color: global.user.darkMode
-                          ? "hsl(240, 11%, 24%)"
+                          ? "hsl(240, 11%, 90%)"
                           : colors[themeColor][900],
                         ...(item.quantity !== "" && {
                           textDecoration: "underline",
@@ -416,9 +415,13 @@ export default function Item({
                               setDrawerState(false);
                             }}
                             sx={{
-                              background: `${colors[themeColor][100]}!important`,
+                              background: global.user.darkMode
+                                ? "hsl(240,11%,20%)"
+                                : `${colors[themeColor][100]}!important`,
                               "&:hover": {
-                                background: `${colors[themeColor][200]}!important`,
+                                background: global.user.darkMode
+                                  ? "hsl(240,11%,25%)"
+                                  : `${colors[themeColor][200]}!important`,
                               },
                               transition: "none",
                               px: 1.5,
@@ -556,14 +559,14 @@ export default function Item({
             maxWidth: "calc(100vw - 32.5px)",
             userSelect: "none",
             borderRadius: 5,
-            color: "#303030",
+            color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
             background: `${
               global.user.darkMode
                 ? "hsl(240, 11%, 17%)"
                 : "rgba(200,200,200,.3)"
             }!important`,
             "&:hover": {
-              color: "#000",
+              color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
               background: `${
                 global.user.darkMode
                   ? "hsl(240, 11%, 17%)"
@@ -571,7 +574,7 @@ export default function Item({
               }!important`,
             },
             "&:active": {
-              color: "#000",
+              color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
               background: `${
                 global.user.darkMode
                   ? "hsl(240, 11%, 17%)"

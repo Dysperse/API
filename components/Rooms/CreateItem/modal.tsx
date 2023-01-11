@@ -228,7 +228,7 @@ export function CreateItemModal({
                   sx: {
                     background: `${
                       global.user.darkMode
-                        ? "hsl(240, 11%, 20%)"
+                        ? "hsl(240, 11%, 15%)"
                         : colors[themeColor][50]
                     }!important`,
                     fontWeight: "600",
@@ -260,7 +260,7 @@ export function CreateItemModal({
                 sx: {
                   background: `${
                     global.user.darkMode
-                      ? "hsl(240, 11%, 20%)"
+                      ? "hsl(240, 11%, 15%)"
                       : colors[themeColor][50]
                   }!important`,
                   fontWeight: "600",
@@ -302,7 +302,7 @@ export function CreateItemModal({
                         overflow: "hidden",
                         height: "150px",
                         background: global.user.darkMode
-                          ? "hsl(240, 11%, 30%)"
+                          ? "hsl(240, 11%, 20%)"
                           : colors[themeColor][100],
                         transition: "transform .2s",
                         "&:active": {
@@ -321,7 +321,7 @@ export function CreateItemModal({
                         sx={{
                           height: "80px",
                           background: global.user.darkMode
-                            ? "hsl(240, 11%, 35%)"
+                            ? "hsl(240, 11%, 25%)"
                             : colors[themeColor][200],
                           display: "flex",
                           alignItems: "center",
