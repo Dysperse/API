@@ -1,6 +1,4 @@
 import { prisma } from "../../../../lib/prismaClient";
-import CryptoJS from "crypto-js";
-import { validatePermissions } from "../../../../lib/validatePermissions";
 
 // name         String
 //   stepName     String

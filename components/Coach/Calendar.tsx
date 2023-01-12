@@ -1,12 +1,10 @@
+import { Box } from "@mui/material";
+import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Year } from "./Year";
-import dayjs from "dayjs";
-
-import { Box, Typography } from "@mui/material";
 
 export function Calendar() {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
+  const [emblaRef] = useEmblaCarousel(
     {
       loop: false,
       containScroll: "keepSnaps",
