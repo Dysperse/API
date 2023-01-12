@@ -30,97 +30,95 @@ function CompletedTasks({
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
-  return (
-    columnTasks.filter((task) => task.completed).length !== 0 && (
-      <Box
+  return columnTasks.filter((task) => task.completed).length !== 0 ? (
+    <Box
+      sx={{
+        cursor: "unset!important",
+      }}
+    >
+      <CardActionArea
+        disableRipple
         sx={{
+          px: 1.5,
+          mb: 1,
+          "& *": {
+            transition: "none!important",
+          },
+          py: 0.5,
+          borderRadius: 2,
+          display: "flex",
+          alignItems: "center",
+          mt: 1,
           cursor: "unset!important",
+          ...(open && {
+            background: "rgba(200,200,200,.2)",
+          }),
+          "&:active": {
+            background: "rgba(200,200,200,.3)",
+          },
+          justifyContent: "space-between",
+        }}
+        onClick={() => {
+          setOpen(!open);
         }}
       >
-        <CardActionArea
-          disableRipple
-          sx={{
-            px: 1.5,
-            mb: 1,
-            "& *": {
-              transition: "none!important",
-            },
-            py: 0.5,
-            borderRadius: 2,
-            display: "flex",
-            alignItems: "center",
-            mt: 1,
-            cursor: "unset!important",
-            ...(open && {
-              background: "rgba(200,200,200,.2)",
-            }),
-            "&:active": {
-              background: "rgba(200,200,200,.3)",
-            },
-            justifyContent: "space-between",
-          }}
-          onClick={() => {
-            setOpen(!open);
-          }}
+        <Typography
+          sx={{ fontWeight: "700", display: "flex", alignItems: "center" }}
         >
-          <Typography
-            sx={{ fontWeight: "700", display: "flex", alignItems: "center" }}
-          >
-            <span>Completed</span>
-            <Chip
-              sx={{
-                ml: 1,
-              }}
-              label={columnTasks.filter((task) => task.completed).length}
-              size="small"
-            />
-          </Typography>
-          <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
-        </CardActionArea>
-        <Box
-          sx={{
-            display: open ? "box" : "none",
-            animation: "completedTasks .2s forwards",
-          }}
-        >
-          <Box sx={{ px: 1 }}>
-            <TextField
-              variant="standard"
-              size="small"
-              placeholder="Filter..."
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              InputProps={{
-                disableUnderline: true,
-                sx: {
-                  px: 1,
-                  mb: 1,
-                  py: 0.5,
-                  borderRadius: 2,
-                  background: "rgba(200,200,200,.3)",
-                },
-              }}
-            />
-          </Box>
-          {columnTasks
-            .filter((task) => task.completed)
-            .filter((task) =>
-              task.name.toLowerCase().includes(value.toLowerCase())
-            )
-            .map((task) => (
-              <Task
-                key={task.id}
-                checkList={checkList}
-                task={task}
-                mutationUrl={mutationUrl}
-                boardId={boardId}
-                columnId={column.id}
-              />
-            ))}
+          <span>Completed</span>
+          <Chip
+            sx={{
+              ml: 1,
+            }}
+            label={columnTasks.filter((task) => task.completed).length}
+            size="small"
+          />
+        </Typography>
+        <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
+      </CardActionArea>
+      <Box
+        sx={{
+          display: open ? "box" : "none",
+          animation: "completedTasks .2s forwards",
+        }}
+      >
+        <Box sx={{ px: 1 }}>
+          <TextField
+            variant="standard"
+            size="small"
+            placeholder="Filter..."
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                px: 1,
+                mb: 1,
+                py: 0.5,
+                borderRadius: 2,
+                background: "rgba(200,200,200,.3)",
+              },
+            }}
+          />
         </Box>
+        {columnTasks
+          .filter((task) => task.completed)
+          .filter((task) =>
+            task.name.toLowerCase().includes(value.toLowerCase())
+          )
+          .map((task) => (
+            <Task
+              key={task.id}
+              checkList={checkList}
+              task={task}
+              mutationUrl={mutationUrl}
+              boardId={boardId}
+              columnId={column.id}
+            />
+          ))}
       </Box>
-    )
-  );
+    </Box>
+  ) : null;
 }
 function EmojiPickerModal({ emoji, setEmoji }: any) {
   const [open, setOpen] = React.useState(false);
