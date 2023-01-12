@@ -11,9 +11,7 @@ import Categories from "./items";
 
 function DeleteCard({ item }) {
   const [hidden, setHidden] = React.useState(false);
-  return hidden ? (
-    <></>
-  ) : (
+  return hidden ? null : (
     <Box
       key={item.id}
       sx={{
