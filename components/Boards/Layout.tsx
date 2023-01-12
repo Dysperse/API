@@ -6,8 +6,6 @@ import {
   MenuItem,
   SwipeableDrawer,
 } from "@mui/material";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -26,7 +24,6 @@ const Tab = React.memo(function Tab({
   activeTab,
   setDrawerOpen,
   setActiveTab,
-  emblaApi,
   board,
 }: any) {
   const [editMode, setEditMode] = useState(false);
@@ -172,21 +169,7 @@ export function TasksLayout() {
   const [activeTab, setActiveTab] = useState(
     data && data[0] ? data[0].id : "new"
   );
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      containScroll: "keepSnaps",
-      dragFree: true,
-    },
-    [WheelGesturesPlugin()]
-  );
-
   useEffect(() => {
-    if (emblaApi) {
-      emblaApi.reInit({
-        containScroll: "keepSnaps",
-        dragFree: true,
-      });
-    }
     if (data && data[0]) {
       if (
         window.location.hash &&
@@ -198,7 +181,7 @@ export function TasksLayout() {
         setActiveTab(data[0].id);
       }
     }
-  }, [data, emblaApi]);
+  }, [data]);
 
   const styles = (condition: boolean) => ({
     transition: "none!important",
@@ -277,7 +260,6 @@ export function TasksLayout() {
             styles={styles}
             activeTab={activeTab}
             board={board}
-            emblaApi={emblaApi}
             setActiveTab={setActiveTab}
             mutationUrl={url}
           />
@@ -294,10 +276,6 @@ export function TasksLayout() {
           onClick={() => {
             setOpen(false);
             setActiveTab("new");
-            emblaApi?.reInit({
-              containScroll: "keepSnaps",
-              dragFree: true,
-            });
           }}
           disableRipple
           sx={{
@@ -321,10 +299,6 @@ export function TasksLayout() {
           size="large"
           onClick={() => {
             setCollapsed(!collapsed);
-            emblaApi?.reInit({
-              containScroll: "keepSnaps",
-              dragFree: true,
-            });
           }}
           disableRipple
           sx={{
