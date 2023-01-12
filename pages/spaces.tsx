@@ -312,7 +312,7 @@ function CreatePostMenu({ url }) {
           style={{
             display: "none",
           }}
-          onChange={async (e) => {
+          onChange={async (e: any) => {
             const key = "da1f275ffca5b40715ac3a44aa77cf42";
             const asBase64 = (file: File) =>
               new Promise((resolve, reject) => {
@@ -323,7 +323,7 @@ function CreatePostMenu({ url }) {
               });
 
             const form = new FormData();
-            form.append("image", e.target.files![0]);
+            form.append("image", e.target.files[0]);
 
             setImageUploading(true);
             fetch("https://api.imgbb.com/1/upload?name=image&key=" + key, {
