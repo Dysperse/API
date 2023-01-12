@@ -117,7 +117,7 @@ const WebcamComponent = ({
 
   const videoConstraints = {
     facingMode:
-      facingMode == "user"
+      facingMode === "user"
         ? "user"
         : {
             exact: "environment",
@@ -341,10 +341,10 @@ export function ImageRecognition({ formik, room }) {
               color="inherit"
               disableRipple
               onClick={() => {
-                setFacingMode(facingMode == "user" ? "environment" : "user");
+                setFacingMode(facingMode === "user" ? "environment" : "user");
               }}
             >
-              <Icon className={facingMode == "user" ? "outlined" : "rounded"}>
+              <Icon className={facingMode === "user" ? "outlined" : "rounded"}>
                 cameraswitch
               </Icon>
             </IconButton>

@@ -61,7 +61,7 @@ export function Changelog() {
             zIndex: 9,
             width: "100%",
             background: hexToRgba(
-              colors[themeColor][global.theme == "dark" ? 900 : 50],
+              colors[themeColor][global.user.darkMode ? 900 : 50],
               0.9
             ),
           }}
@@ -79,7 +79,7 @@ export function Changelog() {
             color="inherit"
             onClick={() => setOpen(false)}
             sx={{
-              color: colors[themeColor][global.theme == "dark" ? 50 : 900],
+              color: colors[themeColor][global.user.darkMode ? 50 : 900],
             }}
           >
             <Icon>close</Icon>
@@ -123,17 +123,13 @@ export function Changelog() {
                     <TimelineDot
                       sx={{
                         background:
-                          colors[themeColor][
-                            global.theme == "dark" ? 900 : 200
-                          ],
+                          colors[themeColor][global.user.darkMode ? 900 : 200],
                       }}
                     />
                     <TimelineConnector
                       sx={{
                         background:
-                          colors[themeColor][
-                            global.theme == "dark" ? 900 : 100
-                          ],
+                          colors[themeColor][global.user.darkMode ? 900 : 100],
                       }}
                     />
                   </TimelineSeparator>

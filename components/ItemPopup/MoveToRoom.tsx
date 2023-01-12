@@ -174,7 +174,7 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
         button
         sx={styles}
         onClick={() => setOpen(true)}
-        disabled={global.permission == "read-only"}
+        disabled={global.permission === "read-only"}
       >
         <Icon>place_item</Icon>
         Move

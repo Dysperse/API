@@ -57,7 +57,7 @@ function RoomList({
         <ListItem
           disablePadding
           key={list.id.toString()}
-          disabled={global.permission == "read-only"}
+          disabled={global.permission === "read-only"}
         >
           <ListItemButton
             sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
@@ -144,7 +144,7 @@ export function AddToListModal({
         sx={styles}
         button
         onClick={() => setOpen(true)}
-        disabled={global.permission == "read-only"}
+        disabled={global.permission === "read-only"}
       >
         <Icon>receipt_long</Icon> Add to list
       </ListItem>

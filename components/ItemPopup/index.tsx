@@ -476,7 +476,7 @@ export default function Item({
                       e.target.placeholder = "SHIFT+ENTER for new lines";
                       e.target.spellcheck = true;
                     }}
-                    disabled={global.permission == "read-only"}
+                    disabled={global.permission === "read-only"}
                     placeholder={
                       global.permission !== "read-only"
                         ? "Click to add note"
@@ -641,7 +641,7 @@ export default function Item({
                           (category: string) => {
                             return (
                               <Chip
-                                disabled={global.permission == "read-only"}
+                                disabled={global.permission === "read-only"}
                                 size="small"
                                 key={Math.random().toString()}
                                 label={category}

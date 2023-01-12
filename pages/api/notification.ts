@@ -1,7 +1,7 @@
 const webPush = require("web-push");
 
 const Notification = (req, res) => {
-  if (req.method == "POST") {
+  if (req.method === "POST") {
     webPush.setVapidDetails(
       `mailto:${process.env.WEB_PUSH_EMAIL}`,
       process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,

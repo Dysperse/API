@@ -34,7 +34,7 @@ function SearchBar({
       disableRipple
       sx={{
         backgroundColor:
-          global.theme == "dark"
+          global.theme === "dark"
             ? "hsl(240,11%,15%)!important"
             : `${grey[200]}!important`,
         borderRadius: 10,
@@ -180,17 +180,15 @@ export function Toolbar({
           gap: 1.5,
           verticalAlign: "middle",
           background:
-            colors[themeColor][global.theme == "dark" ? 900 : 50] +
-            "!important",
+            colors[themeColor][global.user.darkMode ? 900 : 50] + "!important",
 
           "&:hover": {
             background:
-              colors[themeColor][global.theme == "dark" ? 900 : 100] +
+              colors[themeColor][global.user.darkMode ? 900 : 100] +
               "!important",
           },
           color:
-            colors[themeColor][global.theme == "dark" ? 50 : 900] +
-            "!important",
+            colors[themeColor][global.user.darkMode ? 50 : 900] + "!important",
         }}
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"

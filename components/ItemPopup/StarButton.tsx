@@ -1,4 +1,4 @@
-import { ListItem, Icon } from "@mui/material";
+import { Icon, ListItem } from "@mui/material";
 import type { Item } from "@prisma/client";
 
 /**
@@ -30,7 +30,7 @@ export function StarButton({
       button
       sx={styles}
       onClick={handleItemStar}
-      disabled={global.permission == "read-only"}
+      disabled={global.permission === "read-only"}
     >
       <Icon className={item.starred ? "outlined" : ""}>grade</Icon>
       {!item.starred ? "Star" : "Unstar"}

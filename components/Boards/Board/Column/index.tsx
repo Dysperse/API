@@ -237,7 +237,7 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
               id={"renameInput"}
               inputRef={ref}
               onKeyDown={(e) => {
-                if (e.code == "Enter") {
+                if (e.code === "Enter") {
                   buttonRef.current.click();
                 }
               }}

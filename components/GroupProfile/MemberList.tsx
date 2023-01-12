@@ -99,7 +99,7 @@ function Member({
             }}
           >
             <MenuItem
-              disabled={member.permission == "read-only"}
+              disabled={member.permission === "read-only"}
               onClick={() => {
                 fetchApiWithoutHook("property/members/modifyPermissions", {
                   id: member.id,
@@ -117,7 +117,7 @@ function Member({
               View only
             </MenuItem>
             <MenuItem
-              disabled={member.permission == "member"}
+              disabled={member.permission === "member"}
               onClick={() => {
                 fetchApiWithoutHook("property/members/modifyPermissions", {
                   id: member.id,
@@ -205,16 +205,16 @@ function Member({
             <Icon>
               {member.permission === "member"
                 ? "group"
-                : member.permission == "owner"
+                : member.permission === "owner"
                 ? "verified"
                 : "visibility"}
             </Icon>
             <span
               style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
             >
-              {member.permission == "member"
+              {member.permission === "member"
                 ? "Member"
-                : member.permission == "owner"
+                : member.permission === "owner"
                 ? "Owner"
                 : "View-only"}
             </span>

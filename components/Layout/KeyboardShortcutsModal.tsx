@@ -135,7 +135,7 @@ export function KeyboardShortcutsModal() {
           },
         ].map((group, index) => (
           <>
-            <Typography sx={{ mt: index == 0 ? 0 : 2, fontWeight: "700" }}>
+            <Typography sx={{ mt: index === 0 ? 0 : 2, fontWeight: "700" }}>
               {group.name}
             </Typography>
             {group.shortcuts.map((shortcut) => (

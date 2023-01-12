@@ -341,7 +341,7 @@ function RenderWithLayout({
           <Toaster containerClassName="noDrag" />
           {
             // If the path is onboarding, show the onboarding page.
-            window.location.pathname == "/onboarding" ? (
+            window.location.pathname === "/onboarding" ? (
               children
             ) : data.user.onboardingComplete ? (
               // If the onboarding process is complete, show the app.

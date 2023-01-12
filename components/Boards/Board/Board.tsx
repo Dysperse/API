@@ -137,7 +137,7 @@ function Renderer({ data, url, board }) {
                */
               data.map((column) => column.tasks).flat()
             }
-            checkList={board.columns.length == 1}
+            checkList={board.columns.length === 1}
             mutationUrl={url}
             boardId={board.id}
             column={column}
@@ -330,7 +330,7 @@ export const Board = React.memo(function Board({
       <Box
         sx={{
           overflowX: "scroll",
-          mt: data && board.columns.length == 1 ? -2 : 4,
+          mt: data && board.columns.length === 1 ? -2 : 4,
           display: "flex",
           gap: "10px",
 
@@ -352,7 +352,7 @@ export const Board = React.memo(function Board({
               <CreateColumn
                 id={board.id}
                 mutationUrl={url}
-                hide={board.columns.length == 1 || data.length >= 5}
+                hide={board.columns.length === 1 || data.length >= 5}
               />
             )}
           </>

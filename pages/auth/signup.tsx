@@ -40,7 +40,7 @@ export default function Prompt() {
       })
         .then((res) => res.json())
         .then((res) => {
-          if (res.message == "Email already in use") {
+          if (res.message === "Email already in use") {
             throw new Error("Email already in use");
           }
           if (window.location.href.includes("?close=true")) {

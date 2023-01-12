@@ -258,7 +258,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
 
   return (
     <IconButton
-      disabled={global.permission == "read-only" || !isCustom}
+      disabled={global.permission === "read-only" || !isCustom}
       size="small"
       ref={itemRef}
       onClick={(e: any) => {
@@ -276,7 +276,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
         "&:hover": {
           background: "rgba(200,200,200,.3)",
         },
-        ...(global.permission == "read-only" && {
+        ...(global.permission === "read-only" && {
           display: { sm: "none" },
           opacity: "1!important",
         }),
@@ -305,7 +305,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
         <MenuItem onClick={handleClose}>Delete</MenuItem>
       </Menu>
       <Icon className="outlined">
-        {global.permission == "read-only" ? (
+        {global.permission === "read-only" ? (
           "chevron_right"
         ) : isPrivate ? (
           "lock"
@@ -405,7 +405,7 @@ function Action({
         "&:hover": {
           background: {
             sm:
-              global.theme == "dark"
+              global.theme === "dark"
                 ? "hsl(240,11%,13%)!important"
                 : colors[themeColor][50] + "!important",
           },
@@ -415,13 +415,13 @@ function Action({
           border: {
             sm:
               "1px solid " +
-              (global.theme == "dark"
+              (global.theme === "dark"
                 ? "hsl(240,11%,13%)!important"
                 : colors[themeColor][100] + "!important"),
           },
           background: {
             xs:
-              global.theme == "dark"
+              global.theme === "dark"
                 ? "hsl(240,11%,13%)!important"
                 : colors[themeColor][50] + "!important",
             sm: "transparent!important",
@@ -438,7 +438,7 @@ function Action({
           ))
           ? {
               background:
-                global.theme == "dark"
+                global.theme === "dark"
                   ? "hsl(240,11%,13%)!important"
                   : colors[themeColor][50] + "!important",
             }

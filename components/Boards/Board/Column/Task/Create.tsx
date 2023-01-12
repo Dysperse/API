@@ -119,7 +119,7 @@ export function CreateTask({
   useStatusBar(open);
 
   const styles = {
-    color: colors[themeColor][global.theme == "dark" ? 50 : 800],
+    color: colors[themeColor][global.user.darkMode ? 50 : 800],
     borderRadius: 3,
     transition: "none",
   };
@@ -510,7 +510,7 @@ export function CreateTask({
         </Box>
       </SwipeableDrawer>
       <ListItem
-        disabled={global.permission == "read-only"}
+        disabled={global.permission === "read-only"}
         className="rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
         sx={{
           px: !checkList ? 0 : 0.5,

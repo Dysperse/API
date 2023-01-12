@@ -47,7 +47,7 @@ export function TaskDrawer({
         "content",
         open
           ? colors[task.color ?? global.themeColor ?? "brown"][
-              global.theme === "dark" ? 900 : 50
+              global.user.darkMode ? 900 : 50
             ]
           : global.user.darkMode
           ? "hsl(240,11%,10%)"
@@ -102,7 +102,7 @@ export function TaskDrawer({
           maxWidth: "500px",
           background:
             colors[task.color ?? task.color ?? global.themeColor ?? "brown"][
-              global.theme === "dark" ? 900 : 50
+              global.user.darkMode ? 900 : 50
             ],
         },
       }}
@@ -135,7 +135,7 @@ export function TaskDrawer({
         <Typography sx={{ mx: "auto", opacity: { sm: 0 } }}>Details</Typography>
         <IconButton
           disableRipple
-          disabled={global.permission == "read-only"}
+          disabled={global.permission === "read-only"}
           sx={{
             "-webkit-app-region": "no-drag",
           }}
@@ -157,7 +157,7 @@ export function TaskDrawer({
         >
           <Box sx={{ height: "100%", alignSelf: "flex-start", pt: 2 }}>
             <Checkbox
-              disabled={global.permission == "read-only"}
+              disabled={global.permission === "read-only"}
               disableRipple
               checked={checked}
               onChange={(e) => {
@@ -181,7 +181,7 @@ export function TaskDrawer({
           </Box>
           <Box sx={{ flexGrow: 1 }}>
             <TextField
-              disabled={global.permission == "read-only"}
+              disabled={global.permission === "read-only"}
               defaultValue={task.name}
               onBlur={(e: any) => {
                 fetchApiWithoutHook("property/boards/editTask", {
@@ -209,15 +209,15 @@ export function TaskDrawer({
                 borderRadius: 4,
                 mr: 1,
                 background:
-                  view == "Details"
-                    ? colors[task.color][global.theme === "dark" ? 50 : 900] +
+                  view === "Details"
+                    ? colors[task.color][global.user.darkMode ? 50 : 900] +
                       "!important"
                     : "transparent!important",
                 color:
-                  view == "Details"
-                    ? colors[task.color][global.theme === "dark" ? 900 : 50] +
+                  view === "Details"
+                    ? colors[task.color][global.user.darkMode ? 900 : 50] +
                       "!important"
-                    : colors[task.color][global.theme === "dark" ? 50 : 900] +
+                    : colors[task.color][global.user.darkMode ? 50 : 900] +
                       "!important",
               }}
             >
@@ -229,16 +229,16 @@ export function TaskDrawer({
               sx={{
                 gap: 1.5,
                 background:
-                  view == "Subtasks"
-                    ? colors[task.color][global.theme === "dark" ? 50 : "900"] +
+                  view === "Subtasks"
+                    ? colors[task.color][global.user.darkMode ? 50 : "900"] +
                       "!important"
                     : "transparent!important",
                 borderRadius: 4,
                 color:
-                  view == "Subtasks"
-                    ? colors[task.color][global.theme === "dark" ? 900 : 50] +
+                  view === "Subtasks"
+                    ? colors[task.color][global.user.darkMode ? 900 : 50] +
                       "!important"
-                    : colors[task.color][global.theme === "dark" ? 50 : 900] +
+                    : colors[task.color][global.user.darkMode ? 50 : 900] +
                       "!important",
               }}
             >
@@ -255,7 +255,7 @@ export function TaskDrawer({
                 }}
               />
             </Button>
-            {view == "Details" && (
+            {view === "Details" && (
               <TextField
                 multiline
                 variant="standard"
@@ -264,11 +264,11 @@ export function TaskDrawer({
                   sx: {
                     color:
                       colors[task.color ?? global.themeColor ?? "brown"][
-                        global.theme === "dark" ? 50 : 900
+                        global.user.darkMode ? 50 : 900
                       ],
                     background:
                       colors[task.color ?? global.themeColor ?? "brown"][
-                        global.theme === "dark" ? 800 : 100
+                        global.user.darkMode ? 800 : 100
                       ],
                     borderRadius: 5,
                     p: 2,
@@ -276,12 +276,12 @@ export function TaskDrawer({
                     "&:focus-within": {
                       background:
                         colors[task.color ?? global.themeColor ?? "brown"][
-                          global.theme === "dark" ? 800 : 100
+                          global.user.darkMode ? 800 : 100
                         ],
                       boxShadow:
                         "0px 0px 0px 2px " +
                         colors[task.color ?? global.themeColor ?? "brown"][
-                          global.theme === "dark" ? 700 : 900
+                          global.user.darkMode ? 700 : 900
                         ],
                     },
                   },
@@ -294,9 +294,9 @@ export function TaskDrawer({
                     mutate(mutationUrl);
                   });
                 }}
-                disabled={global.permission == "read-only"}
+                disabled={global.permission === "read-only"}
                 placeholder={
-                  global.permission == "read-only"
+                  global.permission === "read-only"
                     ? "Add a description. Wait you can't because you have no permission 😂"
                     : "Add a description"
                 }
@@ -306,7 +306,7 @@ export function TaskDrawer({
             )}
           </Box>
         </Box>
-        {view == "Details" && task.image && (
+        {view === "Details" && task.image && (
           <Box
             sx={{
               ml: 7,
@@ -316,7 +316,7 @@ export function TaskDrawer({
             <ImageViewer url={task.image} />
           </Box>
         )}
-        {view == "Details" && (
+        {view === "Details" && (
           <Box
             ref={emblaRef}
             sx={{
@@ -352,7 +352,7 @@ export function TaskDrawer({
             </Box>
           </Box>
         )}
-        {view == "Subtasks" && (
+        {view === "Subtasks" && (
           <Box sx={{ ml: 6, mt: 2 }}>
             {task.subTasks.map((subtask) => (
               <SubTask

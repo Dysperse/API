@@ -25,7 +25,7 @@ export function BottomNav() {
     return {
       borderRadius: 3,
       textTransform: "none",
-      color: global.theme === "dark" ? "hsl(240,11%,90%)" : "#303030",
+      color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
       height: "70px",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         height: "24px",
@@ -152,17 +152,17 @@ export function BottomNav() {
           <Tab
             disableRipple
             sx={styles(
-              router.asPath == "/tasks" ||
-                router.asPath == "/" ||
-                router.asPath == "" ||
+              router.asPath === "/tasks" ||
+                router.asPath === "/" ||
+                router.asPath === "" ||
                 router.asPath.includes("/tasks")
             )}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/tasks" ||
-                  router.asPath == "/" ||
-                  router.asPath == "" ||
+                  router.asPath === "/tasks" ||
+                  router.asPath === "/" ||
+                  router.asPath === "" ||
                   router.asPath.includes("/tasks")
                     ? "rounded"
                     : "outlined"
@@ -187,11 +187,11 @@ export function BottomNav() {
                 }, 500);
               });
             }}
-            sx={styles(router.asPath == "/coach")}
+            sx={styles(router.asPath === "/coach")}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/coach" ? "rounded" : "outlined"
+                  router.asPath === "/coach" ? "rounded" : "outlined"
                 }`}
                 style={{
                   transition: "all .2s!important",
@@ -206,12 +206,12 @@ export function BottomNav() {
           <Tab
             disableRipple
             sx={styles(
-              router.asPath == "/items" || router.asPath.includes("rooms")
+              router.asPath === "/items" || router.asPath.includes("rooms")
             )}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/items" || router.asPath.includes("rooms")
+                  router.asPath === "/items" || router.asPath.includes("rooms")
                     ? "rounded"
                     : "outlined"
                 }`}
@@ -227,11 +227,11 @@ export function BottomNav() {
           />
           <Tab
             disableRipple
-            sx={styles(router.asPath == "/spaces")}
+            sx={styles(router.asPath === "/spaces")}
             icon={
               <span
                 className={`material-symbols-${
-                  router.asPath == "/spaces" ? "rounded" : "outlined"
+                  router.asPath === "/spaces" ? "rounded" : "outlined"
                 }`}
                 style={{
                   transition: "all .2s!important",

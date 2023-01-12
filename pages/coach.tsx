@@ -52,7 +52,7 @@ function CircularProgressWithLabel(
       >
         <span
           className={
-            props.value == 100
+            props.value === 100
               ? "material-symbols-rounded"
               : "material-symbols-outlined"
           }
@@ -66,7 +66,7 @@ function CircularProgressWithLabel(
 
 const Task = ({ task }) => {
   const [checked, setChecked] = React.useState(
-    task.lastCompleted == dayjs().format("YYYY-MM-DD")
+    task.lastCompleted === dayjs().format("YYYY-MM-DD")
   );
   const [loading, setLoading] = React.useState(false);
 
@@ -195,7 +195,9 @@ function DailyRoutine() {
 
   const doneTasks = !data
     ? []
-    : data.filter((task) => task.lastCompleted == dayjs().format("YYYY-MM-DD"));
+    : data.filter(
+        (task) => task.lastCompleted === dayjs().format("YYYY-MM-DD")
+      );
 
   const tasksRemaining = !data
     ? []
@@ -328,9 +330,9 @@ function DailyRoutine() {
             {data ? (
               <>
                 {tasksRemaining.length} tasks remaining &bull; Click to{" "}
-                {doneTasks == 0
+                {doneTasks === 0
                   ? "start"
-                  : tasksRemaining == 0
+                  : tasksRemaining === 0
                   ? "view"
                   : "resume"}
               </>

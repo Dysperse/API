@@ -98,7 +98,7 @@ export function Loading(): JSX.Element {
                 borderRadius: 5,
                 height: 50,
                 width: 50,
-                ...(i == 4 && {
+                ...(i === 4 && {
                   mt: "auto",
                   mb: 2,
                 }),

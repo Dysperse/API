@@ -292,7 +292,7 @@ export default function Prompt() {
             </Typography>
           </Box>
           <form onSubmit={formik.handleSubmit}>
-            {step == 1 ? (
+            {step === 1 ? (
               <Box sx={{ pt: 3 }}>
                 <Box sx={{ px: 1 }}>
                   <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>

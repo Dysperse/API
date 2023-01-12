@@ -345,11 +345,11 @@ function Goal({ goal, mutationUrl }: any) {
         >
           {goal.progress !== goal.durationDays ? (
             <>
-              {goal.time == "any"
+              {goal.time === "any"
                 ? "Daily"
-                : goal.time == "morning"
+                : goal.time === "morning"
                 ? "Every morning"
-                : goal.time == "afternoon"
+                : goal.time === "afternoon"
                 ? "Every afternoon"
                 : "Nightly"}{" "}
               &bull; {goal.durationDays - goal.progress} days left
@@ -363,7 +363,7 @@ function Goal({ goal, mutationUrl }: any) {
         <div
           className="flex gap-3 items-center"
           style={{
-            ...(goal.progress == goal.durationDays && {
+            ...(goal.progress === goal.durationDays && {
               color: colors[goal.completed ? "green" : "deepOrange"]["800"],
             }),
             ...(goal.completed && {
@@ -388,7 +388,7 @@ function Goal({ goal, mutationUrl }: any) {
                 height: 12,
                 overflow: "hidden",
                 border: 0,
-                ...(goal.progress == goal.durationDays && {
+                ...(goal.progress === goal.durationDays && {
                   background:
                     colors[goal.completed ? "green" : "deepOrange"]["800"],
                 }),
@@ -399,7 +399,7 @@ function Goal({ goal, mutationUrl }: any) {
               },
               "& .MuiSlider-mark": {
                 width: { xs: 0, sm: 2 },
-                display: goal.progress == goal.durationDays ? "none" : "block",
+                display: goal.progress === goal.durationDays ? "none" : "block",
                 height: 6,
                 ml: -1,
                 borderRadius: 5,
@@ -493,7 +493,7 @@ function Goal({ goal, mutationUrl }: any) {
           </Box>
         </Box>
         <Box sx={{ px: 5 }}>
-          {!goal.completed && goal.progress == goal.durationDays && (
+          {!goal.completed && goal.progress === goal.durationDays && (
             <TrophyModal goal={goal} mutationUrl={mutationUrl} />
           )}
           {goal.completed && (
@@ -516,11 +516,11 @@ function Goal({ goal, mutationUrl }: any) {
           )}
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
             <Icon>access_time</Icon>{" "}
-            {goal.time == "any"
+            {goal.time === "any"
               ? "Daily"
-              : goal.time == "morning"
+              : goal.time === "morning"
               ? "Every morning"
-              : goal.time == "afternoon"
+              : goal.time === "afternoon"
               ? "Every afternoon"
               : "Nightly"}
           </Typography>
@@ -636,7 +636,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               Personal goals
             </Typography>
           )}
-          {data.length == 0 ? (
+          {data.length === 0 ? (
             <div
               className="flex items-center text-gray-900 w-full bg-gray-200 rounded-xl p-8 px-5 mb-4 flex-col sm:flex-row"
               style={{ gap: "30px" }}
@@ -688,6 +688,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       )}
       <div
         onClick={() => setOpen(true)}
+        role="button"
         className={
           "w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform my-3 " +
           (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")

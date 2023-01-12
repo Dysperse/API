@@ -367,7 +367,7 @@ export function CreateItemModal({
               <LoadingButton
                 sx={{
                   background:
-                    colors[themeColor][global.theme == "dark" ? 50 : 900] +
+                    colors[themeColor][global.user.darkMode ? 50 : 900] +
                     "!important",
                   float: "right",
                   borderRadius: 100,

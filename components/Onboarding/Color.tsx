@@ -13,8 +13,8 @@ export function Color({ color, handleNext }) {
   return (
     <CardActionArea
       onClick={() => {
-        if (color == "grey" || color == "white") {
-          updateSettings("darkMode", color == "grey" ? "true" : "false");
+        if (color === "grey" || color === "white") {
+          updateSettings("darkMode", color === "grey" ? "true" : "false");
         } else {
           updateSettings("color", color.toLowerCase());
         }

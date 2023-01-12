@@ -111,7 +111,7 @@ const Tab = React.memo(function Tab({
             }}
           >
             <Icon className={activeTab === board.id ? "rounded" : "outlined"}>
-              {board.columns.length == 1 ? "check_circle" : "view_kanban"}
+              {board.columns.length === 1 ? "check_circle" : "view_kanban"}
             </Icon>
             {board.name}
           </Box>
@@ -190,7 +190,7 @@ export function TasksLayout() {
     if (data && data[0]) {
       if (
         window.location.hash &&
-        data.filter((x) => x.id == window.location.hash.replace("#", ""))
+        data.filter((x) => x.id === window.location.hash.replace("#", ""))
           .length > 0
       ) {
         setActiveTab(window.location.hash.replace("#", ""));
@@ -395,7 +395,7 @@ export function TasksLayout() {
           p: 3,
           display: collapsed
             ? "none"
-            : { xs: "none", sm: data && data.length == 0 ? "none" : "flex" },
+            : { xs: "none", sm: data && data.length === 0 ? "none" : "flex" },
           minHeight: "calc(100vh - var(--navbar-height))",
           height: { sm: "calc(100vh - var(--navbar-height))" },
           overflowY: { sm: "scroll" },

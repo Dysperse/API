@@ -26,7 +26,7 @@ export function DeleteButton({
       button
       sx={styles}
       onClick={handleItemDelete}
-      disabled={global.permission == "read-only"}
+      disabled={global.permission === "read-only"}
     >
       <Icon>delete</Icon>
       Delete

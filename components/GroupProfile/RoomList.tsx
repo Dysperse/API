@@ -163,7 +163,7 @@ export function RoomList({ color }: { color: string }) {
               <Box
                 key={Math.random().toString()}
                 sx={{
-                  pl: index == 0 ? 0 : 2,
+                  pl: index === 0 ? 0 : 2,
                   flex: "0 0 50%",
                 }}
               >

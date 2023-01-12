@@ -66,7 +66,7 @@ function LinkModal({ value, setValue }) {
             p: 3,
             borderRadius: 5,
             width: "100%",
-            background: global.theme === "dark" ? "hsl(240,11%,18%)" : "#fff",
+            background: global.user.darkMode ? "hsl(240,11%,18%)" : "#fff",
           },
         }}
       >
@@ -196,7 +196,7 @@ function CreatePostMenu({ url }) {
                   {item.description}
                 </Typography>
               </Box>
-              {contentVisibility == item.name && (
+              {contentVisibility === item.name && (
                 <span
                   className="material-symbols-outlined"
                   style={{ marginLeft: "auto" }}
@@ -521,7 +521,7 @@ function Posts({ url, data: originalData }) {
             borderRadius: 5,
           }}
         >
-          {originalData.length == 0
+          {originalData.length === 0
             ? "You haven't created any memos yet."
             : "No memos match your search criteria"}
         </Box>
@@ -669,7 +669,7 @@ function Post({ data, url }) {
     >
       <Box
         sx={{
-          display: data.user.name == global.user.name ? "none" : "flex",
+          display: data.user.name === global.user.name ? "none" : "flex",
           alignItems: "center",
           gap: 2,
           p: 2,
@@ -692,7 +692,7 @@ function Post({ data, url }) {
           />
         </Box>
         <Typography variant="body1">
-          {data.user.name == global.user.name ? "You" : data.user.name}
+          {data.user.name === global.user.name ? "You" : data.user.name}
         </Typography>
 
         <Typography

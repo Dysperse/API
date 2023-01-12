@@ -7,7 +7,7 @@ window.addEventListener("load", () => {
   }, 2000);
 });
 
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener("DOMContentLoaded", () => {
   // we can move only if we are not in a browser's tab
   let isBrowser = matchMedia("(display-mode: browser)").matches;
   if (!isBrowser) {

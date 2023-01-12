@@ -219,8 +219,8 @@ export function Sidebar() {
                   <span
                     className={`material-symbols-${
                       router.asPath.includes("/tasks") ||
-                      router.asPath == "/" ||
-                      router.asPath == ""
+                      router.asPath === "/" ||
+                      router.asPath === ""
                         ? "rounded"
                         : "outlined"
                     }`}
@@ -238,7 +238,7 @@ export function Sidebar() {
                 <Tooltip title="Inventory" placement="right">
                   <span
                     className={`material-symbols-${
-                      router.asPath == "/items" ||
+                      router.asPath === "/items" ||
                       router.asPath.includes("rooms")
                         ? "rounded"
                         : "outlined"

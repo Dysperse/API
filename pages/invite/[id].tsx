@@ -111,9 +111,9 @@ export default function Onboarding() {
               className="material-symbols-rounded"
               style={{ marginRight: "10px" }}
             >
-              {data.property.type == "house"
+              {data.property.type === "house"
                 ? "home"
-                : data.type == "apartment"
+                : data.type === "apartment"
                 ? "apartment"
                 : "cottage"}
             </span>
@@ -131,7 +131,7 @@ export default function Onboarding() {
               global.user &&
               global.user.user &&
               global.user.user.properties.find(
-                (p) => p.propertyId == data.property.id
+                (p) => p.propertyId === data.property.id
               )
             }
             variant="contained"
@@ -183,7 +183,7 @@ export default function Onboarding() {
             {global.user &&
             global.user.user &&
             global.user.user.properties.find(
-              (p) => p.propertyId == data.property.id
+              (p) => p.propertyId === data.property.id
             )
               ? "You're already in this group"
               : "Join"}

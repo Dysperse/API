@@ -327,7 +327,7 @@ function Content(): JSX.Element {
               <MoreRooms />
             </>
           )}
-        {global.property.profile.type == "study group" && (
+        {global.property.profile.type === "study group" && (
           <AddItemOption
             title="Backpack"
             icon={<Icon className="outlined">backpack</Icon>}

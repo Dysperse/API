@@ -264,8 +264,7 @@ export const Task = React.memo(function Task({
           onContextMenu={handleContextMenu}
           className="p-1 rounded-xl gap-0.5 bg-gray-100 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
           sx={{
-            color:
-              colors[task.color][global.theme === "dark" ? "A100" : "A700"],
+            color: colors[task.color][global.user.darkMode ? "A100" : "A700"],
             p: 1,
             cursor: "unset!important",
             "&:hover": {
@@ -316,7 +315,7 @@ export const Task = React.memo(function Task({
                 }}
               >
                 <Checkbox
-                  disabled={global.permission == "read-only"}
+                  disabled={global.permission === "read-only"}
                   disableRipple
                   checked={checked}
                   onChange={(e) => {

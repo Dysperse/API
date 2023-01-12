@@ -33,7 +33,7 @@ function StepContent({ forStep, currentStep, setCurrentStep, content }) {
       {content}
       <Box
         sx={{
-          display: currentStep == 1 || currentStep == 4 ? "none" : "flex",
+          display: currentStep === 1 || currentStep === 4 ? "none" : "flex",
           justifyContent: "flex-end",
           mt: 2,
         }}
@@ -197,24 +197,14 @@ export default function Onboarding() {
         "green",
         "brown",
       ].map((color) => (
-        <Color
-          handleNext={() => null}
-          color={color}
-          key={color}
-        />
+        <Color handleNext={() => null} color={color} key={color} />
       ))}
 
       <Typography variant="h6" sx={{ mt: 4 }}>
         Select a theme
       </Typography>
-      <Color
-        handleNext={() => setStep(step + 1)}
-        color="grey"
-      />
-      <Color
-        handleNext={() => setStep(step + 1)}
-        color="white"
-      />
+      <Color handleNext={() => setStep(step + 1)} color="grey" />
+      <Color handleNext={() => setStep(step + 1)} color="white" />
     </>,
     <>
       <Typography

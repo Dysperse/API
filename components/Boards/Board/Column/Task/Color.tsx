@@ -43,7 +43,7 @@ export function Color({
       <span
         className="material-symbols-rounded"
         style={{
-          opacity: task.color == color ? 1 : 0,
+          opacity: task.color === color ? 1 : 0,
           ...(small && {
             fontSize: "15px",
           }),
