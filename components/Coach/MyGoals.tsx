@@ -286,9 +286,8 @@ function MoreOptions({ goal, mutationUrl, setOpen }) {
 function Goal({ goal, mutationUrl }: any) {
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute("content", open ? colors[themeColor][900] : "#fff");
+    const tag: any = document.querySelector(`meta[name="theme-color"]`);
+    tag.setAttribute("content", open ? colors[themeColor][900] : "#fff");
   });
 
   React.useEffect(() => {
@@ -544,9 +543,8 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
   // useStatusBar(open);
   const { data, error, url } = useApi("user/routines");
   useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)!
-      .setAttribute("content", open ? "#814f41" : "#fff");
+    const tag: any = document.querySelector(`meta[name="theme-color"]`);
+    tag.setAttribute("content", open ? "#814f41" : "#fff");
   });
 
   useEffect(() => {
