@@ -49,7 +49,6 @@ function LinkToken({ color }) {
         variant="outlined"
         size="large"
         sx={{
-          borderWidth: "2px!important",
           borderRadius: 4,
           transition: "none!important",
           mt: 1,
@@ -95,7 +94,7 @@ function LinkToken({ color }) {
           <Button
             variant="outlined"
             size="large"
-            sx={{ mt: 2, borderRadius: 999, borderWidth: "2px!important" }}
+            sx={{ mt: 2, borderRadius: 999 }}
             onClick={() => {
               navigator.clipboard.writeText(url);
               toast.success("Copied to clipboard");
@@ -319,7 +318,6 @@ export function AddPersonModal({
             variant="outlined"
             size="large"
             sx={{
-              borderWidth: "2px!important",
               borderRadius: 4,
               transition: "none!important",
               mt: 1,

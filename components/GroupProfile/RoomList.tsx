@@ -1,20 +1,20 @@
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import type { CustomRoom as RoomType } from "@prisma/client";
 import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
-import type { CustomRoom as RoomType } from "@prisma/client";
-import {
-  Box,
-  Button,
-  Typography,
-  useMediaQuery,
-  IconButton,
-  Icon,
-} from "@mui/material";
 
 /**
  * Room card
@@ -41,7 +41,6 @@ function Room({ color, room }: { color: string; room: RoomType }): JSX.Element {
       <Button
         variant="outlined"
         sx={{
-          borderWidth: "2px!important",
           width: "100%",
           mt: 1.5,
           color: colors[color][900],

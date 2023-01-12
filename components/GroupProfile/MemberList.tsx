@@ -145,7 +145,7 @@ function Member({
                   "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
                     borderColor: `${colors[color][900]}!important`,
                   },
-                  borderWidth: "2px!important",
+
                   width: "100%",
                   color: colors[color][900],
                   borderRadius: 4,

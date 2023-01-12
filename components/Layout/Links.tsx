@@ -151,7 +151,7 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
                 width: "100%",
                 borderRadius: 9,
                 float: "right",
-                borderWidth: "2px!important",
+
                 boxShadow: 0,
               }}
               size="large"

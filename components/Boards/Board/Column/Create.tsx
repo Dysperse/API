@@ -133,7 +133,6 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
                 onClick={() => setOpen(false)}
                 variant="outlined"
                 fullWidth
-                sx={{ borderWidth: "2px!important" }}
               >
                 Cancel
               </Button>

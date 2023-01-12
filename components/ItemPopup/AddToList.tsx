@@ -133,7 +133,7 @@ export function AddToListModal({
           <Button
             variant="outlined"
             size="large"
-            sx={{ borderWidth: "2px!important", borderRadius: 9 }}
+            sx={{ borderRadius: 9 }}
             onClick={() => setOpen(false)}
           >
             Cancel
@@ -146,8 +146,7 @@ export function AddToListModal({
         onClick={() => setOpen(true)}
         disabled={global.permission == "read-only"}
       >
-        <Icon>receipt_long</Icon> Add to
-        list
+        <Icon>receipt_long</Icon> Add to list
       </ListItem>
     </>
   );

@@ -182,7 +182,6 @@ export function Prompt({
                 boxShadow: 0,
                 borderRadius: 99,
                 textTransform: "none",
-                borderWidth: "2px!important",
               }}
             >
               Continue

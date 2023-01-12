@@ -135,7 +135,6 @@ function CreateGoal() {
               variant="outlined"
               sx={{
                 mt: 5,
-                borderWidth: "2px!important",
               }}
             >
               Set goal

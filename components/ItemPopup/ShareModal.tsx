@@ -88,7 +88,7 @@ export function ShareModal({
             size="large"
             sx={{
               borderRadius: 99,
-              borderWidth: "2px!important",
+
               display: "inline-flex",
               mt: 2,
               mr: 1,
@@ -109,7 +109,7 @@ export function ShareModal({
             size="large"
             sx={{
               borderRadius: 99,
-              borderWidth: "2px!important",
+
               display: "inline-flex",
               mt: 2,
               mr: 1,

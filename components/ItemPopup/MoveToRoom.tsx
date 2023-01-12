@@ -16,7 +16,7 @@ import {
   Icon,
   ListItem,
   ListItemText,
-  SwipeableDrawer
+  SwipeableDrawer,
 } from "@mui/material";
 
 /**
@@ -162,7 +162,7 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
           <Button
             variant="outlined"
             size="large"
-            sx={{ borderRadius: 99, borderWidth: "2px!important" }}
+            sx={{ borderRadius: 99 }}
             onClick={() => setOpen(false)}
           >
             Cancel

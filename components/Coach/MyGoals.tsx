@@ -664,11 +664,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               </Box>
             </div>
           ) : (
-            <Masonry
-              columns={{ xs: 1, sm: 2 }}
-              spacing={{ xs: 0, sm: 2 }}
-              sx={{}}
-            >
+            <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
               {[
                 ...data.filter((item) => item.tasks === item.completed),
                 ...data.filter((item) => item.tasks !== item.completed),

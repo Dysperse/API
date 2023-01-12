@@ -57,7 +57,6 @@ export function ConfirmationModal({
                 borderColor: "hsl(240,11%,20%) !important",
                 color: "hsl(240,11%,95%) !important",
               }),
-              borderWidth: "2px!important",
             }}
             onClick={() => {
               setOpen(false);

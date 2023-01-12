@@ -123,6 +123,7 @@ function RenderWithLayout({
               background: colors["grey"]["200"] + "!important",
             },
           },
+          outlined: {},
           disabled: {
             background: colors["grey"]["200"] + "!important",
           },
