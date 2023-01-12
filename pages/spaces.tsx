@@ -587,7 +587,7 @@ function ImageBox({ isTrigger, image }) {
       >
         <Icon className="outlined">content_copy</Icon>
       </Button>
-      <picture>
+      <picture onClick={() => setOpen(true)}>
         <img
           draggable={false}
           src={image}
@@ -596,8 +596,6 @@ function ImageBox({ isTrigger, image }) {
             width: "100%",
             cursor: "pointer",
           }}
-          onClick={() => setOpen(true)}
-          role="button"
         />
       </picture>
       <Dialog
@@ -616,7 +614,6 @@ function ImageBox({ isTrigger, image }) {
       >
         <picture>
           <img
-            role="button"
             draggable={false}
             src={image}
             alt="Post viewer"
