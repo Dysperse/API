@@ -250,7 +250,7 @@ function CreatePostMenu({ url }) {
           >
             <picture>
               <img
-                alt="Post image viewer"
+                alt="Post viewer"
                 draggable={false}
                 src={image.url}
                 style={{
@@ -607,7 +607,7 @@ function ImageBox({ isTrigger, image }) {
         <img
           draggable={false}
           src={image}
-          alt="Post image viewer"
+          alt="Post viewer"
           style={{
             width: "100%",
             cursor: "pointer",
@@ -633,7 +633,7 @@ function ImageBox({ isTrigger, image }) {
           <img
             draggable={false}
             src={image}
-            alt="Post image viewer"
+            alt="Post viewer"
             style={{
               height: trigger ? "auto" : "100vh",
               width: trigger ? "100vw" : "auto",

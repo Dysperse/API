@@ -312,7 +312,7 @@ export function CreateTask({
               >
                 <picture>
                   <img
-                    alt="Uploaded image"
+                    alt="Uploaded"
                     draggable={false}
                     src={image.url}
                     style={{
