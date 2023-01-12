@@ -78,8 +78,12 @@ export function Sidebar() {
         // border: "1px solid #ccc",
       },
       "&:active .material-symbols-outlined": {
-        background: colors[themeColor][100],
-        border: "1px solid " + colors[themeColor][200],
+        background: global.user.darkMode
+          ? "hsl(240,11%,17%)"
+          : colors[themeColor][100],
+        border:
+          "1px solid " +
+          (global.user.darkMode ? "hsl(240,11%,20%)" : colors[themeColor][200]),
       },
     };
   };

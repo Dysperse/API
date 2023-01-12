@@ -663,7 +663,11 @@ export default function Categories({ children = null }: any) {
           pt: { sm: 0.5 },
           height: { sm: "calc(100vh - 64px)" },
           overflowY: { sm: "scroll" },
-          borderRight: { sm: "1px solid rgba(0,0,0,.1)" },
+          borderRight: {
+            sm: global.user.darkMode
+              ? "1px solid hsl(240,11%,15%)"
+              : "1px solid rgba(0,0,0,.1)",
+          },
           ml: { sm: -1 },
         }}
       >
@@ -860,7 +864,9 @@ export default function Categories({ children = null }: any) {
               p: 3,
               py: 2,
               width: "400px",
-              background: colors[themeColor][global.user.darkMode ? 900 : 50],
+              background: global.user.darkMode
+                ? "hsl(240,11%,20%)"
+                : colors[themeColor][50],
             }}
           >
             <Typography

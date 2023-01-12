@@ -17,6 +17,12 @@ html,
 body {
   overscroll-behavior-y: none;
 }
+.noDrag {
+  -webkit-app-region: no-drag;
+  & * {
+    -webkit-app-region: no-drag;
+  }
+}
 body {
   overflow-x: hidden;
   font-weight: 600;
@@ -60,6 +66,7 @@ img {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "DM Sans", sans-serif !important;
 }
+
 .font-secondary,
 .font-secondary
   *:not(

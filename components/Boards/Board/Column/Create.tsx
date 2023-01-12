@@ -84,7 +84,9 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
             <Button
               onClick={() => setShowEmojiPicker(true)}
               sx={{
-                background: "rgba(200, 200, 200, 0.3)!important",
+                background: global.user.darkMode
+                  ? "hsl(240,11%,17%)"
+                  : "rgba(200, 200, 200, 0.3)!important",
                 borderRadius: 5,
               }}
             >
