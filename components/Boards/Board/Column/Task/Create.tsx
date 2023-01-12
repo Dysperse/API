@@ -34,8 +34,7 @@ function ImageModal({ image, setImage, styles }) {
           ...styles,
           mx: 0.5,
           background: image
-            ? colors[themeColor][global.user.darkMode ? 900 : 100] +
-              "!important"
+            ? `${colors[themeColor][global.user.darkMode ? 900 : 100]}!important`
             : "",
         }}
         size="small"
@@ -65,7 +64,7 @@ function ImageModal({ image, setImage, styles }) {
           form.append("image", e.target.files[0]);
 
           setImageUploading(true);
-          fetch("https://api.imgbb.com/1/upload?name=image&key=" + key, {
+          fetch(`https://api.imgbb.com/1/upload?name=image&key=${key}`, {
             method: "POST",
             body: form,
           })

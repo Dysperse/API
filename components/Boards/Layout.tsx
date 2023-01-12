@@ -54,7 +54,7 @@ const Tab = React.memo(function Tab({
             handleClose();
             setEditMode(true);
             setTimeout(() => {
-              document.getElementById("renameInput" + board.id)?.focus();
+              document.getElementById(`renameInput${board.id}`)?.focus();
             }, 100);
           }}
         >
@@ -114,7 +114,7 @@ const Tab = React.memo(function Tab({
           </Box>
         ) : (
           <input
-            id={"renameInput" + board.id}
+            id={`renameInput${board.id}`}
             onBlur={async () => {
               setEditMode(false);
               if (title !== board.name && title.trim() !== "") {
@@ -135,12 +135,12 @@ const Tab = React.memo(function Tab({
               outline: 0,
               border: 0,
               background: colors[themeColor][600],
-              boxShadow: "0px 0px 0px 5px " + colors[themeColor][600],
+              boxShadow: `0px 0px 0px 5px ${colors[themeColor][600]}`,
               fontWeight: "500",
               fontSize: "15px",
               borderRadius: 9,
               color: "#fff",
-              width: title.length + "ch",
+              width: `${title.length}ch`,
               minWidth: "100px",
             }}
             placeholder="Board title"
@@ -200,48 +200,42 @@ export function TasksLayout() {
     "&:hover, &:focus": {
       background: global.user.darkMode
         ? "hsl(240,11%,15%)"
-        : colors[themeColor][50] + "!important",
+        : `${colors[themeColor][50]}!important`,
     },
     border: "1px solid transparent",
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     "&:active": {
-      border:
-        "1px solid " +
-        (global.user.darkMode
-          ? "hsl(240,11%,25%)!important"
-          : colors[themeColor][200]) +
-        "!important",
+      border: `1px solid ${
+        global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][200]
+      }!important`,
     },
     ...(!condition && {
       "&:hover": {
         background: global.user.darkMode
           ? "hsl(240,11%,15%)"
-          : colors[themeColor][50] + "!important",
-        border:
-          "1px solid " +
-          (global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][100]),
+          : `${colors[themeColor][50]}!important`,
+        border: `1px solid ${
+          global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][100]
+        }`,
       },
     }),
     ...(condition && {
       background: global.user.darkMode
         ? "hsl(240,11%,20%)!important"
-        : colors[themeColor][100] + "!important",
+        : `${colors[themeColor][100]}!important`,
       "&:hover, &:focus": {
         background: global.user.darkMode
           ? "hsl(240,11%,25%)!important"
-          : colors[themeColor][100] + "!important",
-        border:
-          "1px solid " +
-          (global.user.darkMode
-            ? "hsl(240,11%,25%)!important"
-            : colors[themeColor][100]) +
-          "!important",
+          : `${colors[themeColor][100]}!important`,
+        border: `1px solid ${
+          global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][100]
+        }!important`,
       },
       color: global.user.darkMode
         ? "hsl(240,11%,95%)!important"
-        : colors[themeColor][900] + "!important",
+        : `${colors[themeColor][900]}!important`,
     }),
   });
   const [collapsed, setCollapsed] = useState(false);

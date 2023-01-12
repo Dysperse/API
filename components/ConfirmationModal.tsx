@@ -68,10 +68,11 @@ export function ConfirmationModal({
             variant="contained"
             size="large"
             sx={{
-              background:
-                (global.user.darkMode
+              background: `${
+                global.user.darkMode
                   ? "hsl(240,11%,18%)"
-                  : colors[themeColor][900]) + "!important",
+                  : colors[themeColor][900]
+              }!important`,
               borderRadius: 99,
               px: 2.5,
               py: 1,
@@ -89,7 +90,7 @@ export function ConfirmationModal({
                 setOpen(false);
               } catch (e: any) {
                 setLoading(false);
-                toast.error("An error occured: " + e.message);
+                toast.error(`An error occured: ${e.message}`);
               }
             }}
           >

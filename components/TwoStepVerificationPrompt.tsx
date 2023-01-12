@@ -138,7 +138,7 @@ export function Prompt({
                 boxShadow: 0,
                 borderRadius: 99,
                 ...(!buttonLoading && {
-                  background: colors[themeColor][900] + "!important",
+                  background: `${colors[themeColor][900]}!important`,
                 }),
                 textTransform: "none",
                 border: "2px solid transparent !important",
@@ -197,7 +197,7 @@ export function Prompt({
                 width: "100%",
                 my: 0.5,
                 boxShadow: 0,
-                background: colors[themeColor][900] + "!important",
+                background: `${colors[themeColor][900]}!important`,
                 borderRadius: 99,
                 textTransform: "none",
                 border: "2px solid transparent !important",

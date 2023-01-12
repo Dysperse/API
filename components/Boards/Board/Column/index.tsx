@@ -170,9 +170,9 @@ function OptionsMenu({ collapsed, mutationUrl, column }) {
     gap: 2,
     "&:hover": {
       backgroundColor:
-        (global.user.darkMode
+        `${global.user.darkMode
           ? "hsl(240,11%,18%)"
-          : colors[themeColor]["100"]) + "!important",
+          : colors[themeColor]["100"]}!important`,
     },
   };
   const [editMode, setEditMode] = React.useState(false);
@@ -213,8 +213,7 @@ function OptionsMenu({ collapsed, mutationUrl, column }) {
             py: 2,
             mb: 1,
             borderBottom:
-              "1px solid " +
-              (global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"),
+              `1px solid ${global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"}`,
           }}
         >
           {!editMode ? (
@@ -294,10 +293,10 @@ function OptionsMenu({ collapsed, mutationUrl, column }) {
             <Button
               sx={{
                 ...styles,
-                background: colors[themeColor]["800"] + "!important",
-                color: colors[themeColor]["50"] + "!important",
+                background: `${colors[themeColor]["800"]}!important`,
+                color: `${colors[themeColor]["50"]}!important`,
                 "&:hover": {
-                  background: colors[themeColor]["900"] + "!important",
+                  background: `${colors[themeColor]["900"]}!important`,
                 },
               }}
               size="large"

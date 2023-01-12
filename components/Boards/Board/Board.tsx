@@ -8,7 +8,7 @@ import {
   SwipeableDrawer,
   TextField,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -105,16 +105,18 @@ function BoardSettings({ mutationUrl, board }) {
         sx={{
           transition: "none",
           "&:hover": {
-            background:
-              (global.user.darkMode
+            background: `${
+              global.user.darkMode
                 ? "hsla(240,11%,14%)"
-                : colors[themeColor][50]) + "!important",
+                : colors[themeColor][50]
+            }!important`,
           },
           "&:active": {
-            background:
-              (global.user.darkMode
+            background: `${
+              global.user.darkMode
                 ? "hsla(240,11%,17%)"
-                : colors[themeColor][100]) + "!important",
+                : colors[themeColor][100]
+            }!important`,
           },
           // ml: "auto",
         }}
@@ -239,17 +241,16 @@ export const Board = React.memo(function Board({
             }}
           >
             <Tooltip
-              title={
-                (data
+              title={`${
+                data
                   ? data
                       .map((column) => column.tasks)
                       .flat()
                       .filter((task) => task.completed).length
-                  : 0) +
-                " out of " +
-                (data ? data.map((column) => column.tasks).flat().length : 0) +
-                " completed"
-              }
+                  : 0
+              } out of ${
+                data ? data.map((column) => column.tasks).flat().length : 0
+              } completed`}
             >
               <Chip
                 sx={{
@@ -261,11 +262,9 @@ export const Board = React.memo(function Board({
                       : "none",
                 }}
                 size="small"
-                label={
-                  (data
-                    ? data.map((column) => column.tasks).flat().length
-                    : 0) + " items"
-                }
+                label={`${
+                  data ? data.map((column) => column.tasks).flat().length : 0
+                } items`}
               />
             </Tooltip>
             <Chip
@@ -308,15 +307,15 @@ export const Board = React.memo(function Board({
             transition: "none",
             "&:hover": {
               background:
-                (global.user.darkMode
+                `${global.user.darkMode
                   ? "hsla(240,11%,14%)"
-                  : colors[themeColor][50]) + "!important",
+                  : colors[themeColor][50]}!important`,
             },
             "&:active": {
               background:
-                (global.user.darkMode
+                `${global.user.darkMode
                   ? "hsla(240,11%,17%)"
-                  : colors[themeColor][100]) + "!important",
+                  : colors[themeColor][100]}!important`,
             },
             ml: "auto",
             flex: "0 0 auto",

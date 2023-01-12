@@ -2,9 +2,8 @@
  * @param {string} error Error text
  * @returns {JSX.Element} JSX element
  */
-import { Box, IconButton } from "@mui/material";
+import { Box, Icon, IconButton } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { Icon } from "@mui/material";
 
 export function ErrorHandler({ error }: { error: string }): JSX.Element {
   /**
@@ -22,7 +21,7 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
         display: "flex",
         color: red["900"],
         background: red["50"],
-        border: "1px solid" + red["100"],
+        border: `1px solid ${red["100"]}`,
         gap: 2,
         alignItems: "center",
       }}
