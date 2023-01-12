@@ -47,7 +47,7 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
         <Box sx={{ p: 3 }}>
           <EmojiPicker
             width="100%"
-            onEmojiClick={(event, emojiObject) => {
+            onEmojiClick={(event) => {
               const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
               setEmoji(url);
               setShowEmojiPicker(false);

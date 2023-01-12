@@ -97,7 +97,7 @@ function LinkModal({ value, setValue }) {
                 ? "hsl(240,11%,30%)"
                 : colors[themeColor][900]) + "!important",
           }}
-          onClick={(e) => {
+          onClick={() => {
             if (isValidUrl(link)) {
               setValue(value + link);
               setLink("");
@@ -327,7 +327,6 @@ function CreatePostMenu({ url }) {
               return str;
             };
 
-            const str = await convertImageToImgbb(e.target.files![0]);
             const form = new FormData();
             form.append("image", e.target.files![0]);
 
@@ -411,7 +410,7 @@ function CreatePostMenu({ url }) {
                   e.value = "";
                   mutate(url);
                 })
-                .catch((err) => {
+                .catch(() => {
                   toast.error("Something went wrong");
                   setLoading(false);
                 });
@@ -435,7 +434,7 @@ function CreatePostMenu({ url }) {
   );
 }
 
-function SearchPosts({ data, setData, originalData }) {
+function SearchPosts({ setData, originalData }) {
   const handleChange = (e) => {
     const query = e.target.value;
     setData(
@@ -496,7 +495,7 @@ function Posts({ url, data: originalData }) {
   return (
     <>
       <CreatePostMenu url={url} />
-      <SearchPosts data={data} setData={setData} originalData={originalData} />
+      <SearchPosts setData={setData} originalData={originalData} />
       {data.length > 0 ? (
         <Box
           sx={{

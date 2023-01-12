@@ -6,7 +6,6 @@ import {
   Menu,
   MenuItem,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import BoringAvatar from "boring-avatars";
 import React from "react";
@@ -254,7 +253,6 @@ export function MemberList({
   setOpen: (open: boolean) => void;
 }): JSX.Element {
   const { error, loading, data, url }: ApiResponse = useApi("property/members");
-  const trigger = useMediaQuery("(max-width: 600px)");
   const images = data
     ? [
         ...[
@@ -290,7 +288,7 @@ export function MemberList({
           members={loading ? [] : data.map((member) => member.user.email)}
         />
       </Box>
-      {images.map((step, index) => (
+      {images.map((step) => (
         <Box
           key={Math.random().toString()}
           sx={{
