@@ -1,4 +1,3 @@
-import React from "react";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
@@ -13,16 +12,6 @@ export function UpgradeBanner({ color }: { color: string }) {
   const { data }: ApiResponse = useApi("property/inventory/count");
   const { data: boardCount }: ApiResponse = useApi("property/boards");
   const { data: memoCount } = useApi("property/spaces");
-
-  const [value, setValue] = React.useState(0);
-
-  React.useEffect(() => {
-    if (data) {
-      setTimeout(() => {
-        setValue((data.count / 250) * 100);
-      }, 500);
-    }
-  }, [data]);
 
   const max = 500;
   const storage = {

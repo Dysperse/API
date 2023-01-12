@@ -3,6 +3,7 @@ import BoringAvatar from "boring-avatars";
 import { useState } from "react";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 
 import {
@@ -55,6 +56,9 @@ export function CategoryModal({
             >
               You don&apos;t have any categories yet.
             </Box>
+          )}
+          {error && (
+            <ErrorHandler error="An error occured while trying to fetch your categories" />
           )}
           {data &&
             [...new Set(data)].map((category: any) => (

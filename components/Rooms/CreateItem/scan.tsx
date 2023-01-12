@@ -12,7 +12,6 @@ import {
 import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
-import useWindowSize from "react-use/lib/useWindowSize";
 import Webcam from "react-webcam";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
@@ -112,8 +111,6 @@ const WebcamComponent = ({
       toast.error("Error: " + err.message);
     }
   }, [forever, webcamRef, formik, setOpen, room]);
-
-  const { width, height } = useWindowSize();
 
   const videoConstraints = {
     facingMode:
