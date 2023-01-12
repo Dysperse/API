@@ -323,7 +323,7 @@ export const Task = React.memo(function Task({
                     fetchApiWithoutHook("property/boards/markTask", {
                       completed: e.target.checked ? "true" : "false",
                       id: task.id,
-                    }).catch((err) =>
+                    }).catch(() =>
                       toast.error("An error occured while updating the task")
                     );
                   }}

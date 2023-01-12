@@ -61,19 +61,6 @@ function ImageModal({ image, setImage, styles }) {
         }}
         onChange={async (e: any) => {
           const key = "da1f275ffca5b40715ac3a44aa77cf42";
-          const asBase64 = (file: File) =>
-            new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              reader.readAsDataURL(file);
-              reader.onload = () => resolve(reader.result);
-              reader.onerror = (error) => reject(error);
-            });
-
-          const convertImageToImgbb = async (file: File) => {
-            const str = await asBase64(file);
-            return str;
-          };
-
           const form = new FormData();
           form.append("image", e.target.files[0]);
 

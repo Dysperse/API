@@ -74,9 +74,6 @@ export function BottomNav() {
    * @param {any} href
    * @returns {any}
    */
-  const onLink = (href: string) => {
-    router.push(href);
-  };
   const matches = useMediaQuery("(max-height: 400px)");
 
   return (

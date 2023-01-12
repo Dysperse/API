@@ -31,7 +31,7 @@ export function Color({
           background: colors[color]["A700"] + "!important",
         },
       }}
-      onClick={(e) => {
+      onClick={() => {
         fetchApiWithoutHook("property/boards/editTask", {
           color: color,
           id: task.id,

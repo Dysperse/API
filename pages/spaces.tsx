@@ -314,14 +314,6 @@ function CreatePostMenu({ url }) {
           }}
           onChange={async (e: any) => {
             const key = "da1f275ffca5b40715ac3a44aa77cf42";
-            const asBase64 = (file: File) =>
-              new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = (error) => reject(error);
-              });
-
             const form = new FormData();
             form.append("image", e.target.files[0]);
 
@@ -895,7 +887,7 @@ function Post({ data, url }) {
 }
 
 export default function Spaces() {
-  const { data, url, error } = useApi("property/spaces");
+  const { data, url } = useApi("property/spaces");
 
   return (
     <Box

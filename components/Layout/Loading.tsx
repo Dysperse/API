@@ -55,7 +55,7 @@ export function Loading(): JSX.Element {
             }}
           />
           <Box sx={{ ml: "auto", display: "flex", gap: 1.5 }}>
-            {[...new Array(3)].map((id) => (
+            {[...new Array(3)].map(() => (
               <Skeleton
                 variant="circular"
                 animation="wave"
@@ -89,7 +89,7 @@ export function Loading(): JSX.Element {
           }}
         >
           <Box sx={{ mt: "auto" }} />
-          {[...new Array(5)].map((_, i) => (
+          {[...new Array(5)].map(() => (
             <Skeleton
               variant="rectangular"
               animation="wave"
@@ -128,7 +128,7 @@ export function Loading(): JSX.Element {
                 mb: 2,
               }}
             >
-              {[...new Array(20)].map((_, i) => (
+              {[...new Array(20)].map(() => (
                 <Skeleton
                   key={Math.random().toString()}
                   variant="rectangular"

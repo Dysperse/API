@@ -15,7 +15,7 @@ export default function Onboarding() {
   const router = useRouter();
   const id = window.location.pathname.split("/invite/")[1];
   const [loading, setLoading] = React.useState(false);
-  const { data, error } = useApi(
+  const { data } = useApi(
     "property/members/inviteLinkInfo",
     {
       token: id as string,
