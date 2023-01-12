@@ -377,6 +377,17 @@ export function TasksLayout() {
         <Box sx={{ p: 1 }}>{children}</Box>
       </SwipeableDrawer>
       <Box
+        onDoubleClick={() => {
+          setCollapsed(true);
+          toast.success(
+            <>
+              Toggle the sidebar by clicking on the board name
+              <Button size="small" onClick={() => setCollapsed(false)}>
+                Undo
+              </Button>
+            </>
+          );
+        }}
         sx={{
           width: { xs: "100%", sm: 300 },
           flex: { xs: "100%", sm: "0 0 250px" },

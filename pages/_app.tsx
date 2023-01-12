@@ -335,7 +335,7 @@ function RenderWithLayout({
       </Head>
       <ThemeProvider theme={userTheme}>
         <Box>
-          <Toaster />
+          <Toaster containerStyle={{ "-webkit-app-region": "no-drag" }} />
           {
             // If the path is onboarding, show the onboarding page.
             window.location.pathname == "/onboarding" ? (
@@ -431,7 +431,7 @@ function RenderRoot({
   return disableLayout ? (
     <NoSsr>
       <Component {...pageProps} />
-      <Toaster />
+      <Toaster containerStyle={{ "-webkit-app-region": "no-drag" }} />
     </NoSsr>
   ) : (
     <>
