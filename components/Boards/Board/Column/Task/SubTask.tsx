@@ -17,7 +17,7 @@ export function SubTask({
 }: {
   checkList: any;
   setOpen?: any;
-  noMargin: any;
+  noMargin?: any;
   mutationUrl: any;
   subtask: any;
   BpCheckedIcon: any;
