@@ -309,6 +309,7 @@ export default function Prompt() {
                   autoComplete={"off"}
                   label="Your email address"
                   value={formik.values.email}
+                  fullWidth
                   name="email"
                   onChange={formik.handleChange}
                   sx={{ mb: 1.5 }}
@@ -319,6 +320,7 @@ export default function Prompt() {
                   disabled={buttonLoading}
                   label="Password"
                   value={formik.values.password}
+                  fullWidth
                   sx={{ mb: 1.5 }}
                   name="password"
                   onChange={formik.handleChange}

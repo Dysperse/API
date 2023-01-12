@@ -14,6 +14,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import hexToRgba from "hex-to-rgba";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import {
@@ -65,6 +66,15 @@ export function TaskDrawer({
     },
     [WheelGesturesPlugin()]
   );
+
+  useHotkeys("alt+s", (e) => {
+    e.preventDefault();
+    setView("Subtasks");
+  });
+  useHotkeys("alt+d", (e) => {
+    e.preventDefault();
+    setView("Details");
+  });
 
   const [view, setView] = useState<"Details" | "Subtasks">("Details");
 
@@ -196,7 +206,6 @@ export function TaskDrawer({
             <Button
               variant={"contained"}
               onClick={() => setView("Details")}
-              accessKey="a"
               sx={{
                 borderRadius: 4,
                 mr: 1,
@@ -218,7 +227,6 @@ export function TaskDrawer({
             <Button
               variant={"contained"}
               onClick={() => setView("Subtasks")}
-              accessKey="s"
               sx={{
                 gap: 1.5,
                 background:

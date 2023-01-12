@@ -437,14 +437,11 @@ export function Group({
               {global.property.permission !== "read-only" && (
                 <IconButton
                   disableRipple
-                  accessKey="d"
                   sx={{
                     color: "inherit",
                     zIndex: 1,
                   }}
-                  onClick={() => {
-                    setEditMode(!editMode);
-                  }}
+                  onClick={() => setEditMode(!editMode)}
                 >
                   <Icon>more_vert</Icon>
                 </IconButton>
