@@ -18,7 +18,7 @@ import {
   Menu,
   MenuItem,
   styled,
-  Typography,
+  Typography
 } from "@mui/material";
 import { mutate } from "swr";
 import { ImageViewer } from "./ImageViewer";
@@ -123,10 +123,8 @@ export const Task = React.memo(function Task({
     });
   };
   const [loading, setLoading] = React.useState(false);
-
   const [checked, setChecked] = useState(task.completed);
   const [open, setOpen] = useState(false);
-
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;
@@ -140,10 +138,7 @@ export const Task = React.memo(function Task({
             mouseX: event.clientX + 2,
             mouseY: event.clientY - 6,
           }
-        : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
-          // Other native context menus might behave different.
-          // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
-          null
+        : null
     );
   };
 
