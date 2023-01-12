@@ -18,7 +18,7 @@ import {
   Menu,
   MenuItem,
   styled,
-  Typography
+  Typography,
 } from "@mui/material";
 import { mutate } from "swr";
 import { ImageViewer } from "./ImageViewer";
@@ -42,7 +42,7 @@ const renderText = (txt) =>
         {part.replace(/\/$/, "").replace("https://", "").replace("http://", "")}{" "}
       </Link>
     ) : (
-      part + " "
+      `${part} `
     )
   );
 
@@ -60,7 +60,7 @@ export const Task = React.memo(function Task({
     boxShadow:
       (global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : "inset 0 0 0 1.5px " + colors[task.color ?? "brown"]["A400"]) +
+        : `inset 0 0 0 1.5px ${colors[task.color ?? "brown"]["A400"]}`) +
       ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
     backgroundColor: "transparent",
     ".Mui-focusVisible &": {
@@ -73,7 +73,7 @@ export const Task = React.memo(function Task({
     "input:not(:checked):hover ~ &": {
       boxShadow: global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,0.5)"
-        : "inset 0 0 0 2.5px " + colors[task.color ?? "brown"]["A400"],
+        : `inset 0 0 0 2.5px ${colors[task.color ?? "brown"]["A400"]}`,
       backgroundColor:
         global.theme !== "dark"
           ? colors[task.color ?? "brown"]["100"]
@@ -90,12 +90,13 @@ export const Task = React.memo(function Task({
     boxShadow:
       (global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : "inset 0 0 0 1.5px " + colors[task.color ?? "brown"]["A400"]) +
+        : `inset 0 0 0 1.5px ${colors[task.color ?? "brown"]["A400"]}`) +
       ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
-    backgroundColor:
+    backgroundColor: `${
       colors[task.color ?? global.themeColor ?? "brown"][
         global.user.darkMode ? 50 : "A400"
-      ] + "!important",
+      ]
+    }!important`,
     "&:before": {
       display: "block",
       width: 23,
