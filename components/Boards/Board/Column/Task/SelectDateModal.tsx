@@ -51,10 +51,11 @@ export function SelectDateModal({ styles, date, setDate }) {
                 },
                 color: colors[themeColor][500],
                 "&[data-outside]": {
-                  color:
-                    (theme.colorScheme === "dark"
+                  color: `${
+                    theme.colorScheme === "dark"
                       ? theme.colors.dark[3]
-                      : theme.colors.gray[5]) + "!important",
+                      : theme.colors.gray[5]
+                  }!important`,
                 },
                 "&[data-selected]": {
                   backgroundColor: colors[themeColor][900],
@@ -122,8 +123,8 @@ export function SelectDateModal({ styles, date, setDate }) {
           },
           ...(date && {
             animation: "dateIntro .2s forwards",
-            background: colors[themeColor][200] + "!important",
-            color: colors[themeColor][900] + "!important",
+            background: `${colors[themeColor][200]}!important`,
+            color: `${colors[themeColor][900]}!important`,
           }),
         }}
         onClick={() => {

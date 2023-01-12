@@ -318,7 +318,7 @@ function CreatePostMenu({ url }) {
             form.append("image", e.target.files[0]);
 
             setImageUploading(true);
-            fetch("https://api.imgbb.com/1/upload?name=image&key=" + key, {
+            fetch(`https://api.imgbb.com/1/upload?name=image&key=${key}`, {
               method: "POST",
               body: form,
             })
@@ -802,7 +802,7 @@ function Post({ data, url }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   sx={{
-                    color: colors.blue["600"] + "!important",
+                    color: `${colors.blue["600"]}!important`,
                   }}
                 >
                   {children}

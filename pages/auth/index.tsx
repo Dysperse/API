@@ -19,7 +19,7 @@ import {
   Paper,
   SwipeableDrawer,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 
 /**
@@ -347,7 +347,7 @@ export default function Prompt() {
                     variant="contained"
                     id="_loading"
                     sx={{
-                      background: colors.brown[900] + "!important",
+                      background: `${colors.brown[900]}!important`,
                       borderRadius: 2,
                       ml: "auto",
                       mr: 1,

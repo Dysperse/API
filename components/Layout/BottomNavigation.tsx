@@ -33,8 +33,9 @@ export function BottomNav() {
       fontWeight: "200",
       ...(active && {
         fontWeight: "700",
-        color:
-          colors[themeColor][global.user.darkMode ? 100 : 800] + "!important",
+        color: `${
+          colors[themeColor][global.user.darkMode ? 100 : 800]
+        }!important`,
       }),
     };
   };

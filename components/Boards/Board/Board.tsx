@@ -283,14 +283,14 @@ export const Board = React.memo(function Board({
               label={
                 // Calculate percentage of completed tasks
                 data
-                  ? (
-                      (data
-                        .map((column) => column.tasks)
-                        .flat()
-                        .filter((task) => task.completed).length /
-                        data.map((column) => column.tasks).flat().length) *
-                      100
-                    ).toFixed(0) + "% complete"
+                  ? `${(
+                    (data
+                      .map((column) => column.tasks)
+                      .flat()
+                      .filter((task) => task.completed).length /
+                      data.map((column) => column.tasks).flat().length) *
+                    100
+                  ).toFixed(0)}% complete`
                   : "0%"
               }
             />

@@ -90,7 +90,7 @@ export function TaskDrawer({
         className: "override-bg",
         sx: {
           background:
-            hexToRgba(colors[task.color ?? "brown"][200], 0.5) + "!important",
+            `${hexToRgba(colors[task.color ?? "brown"][200], 0.5)}!important`,
           backdropFilter: "blur(5px)",
         },
       }}

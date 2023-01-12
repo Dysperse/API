@@ -180,7 +180,7 @@ export function Toolbar({
           gap: 1.5,
           verticalAlign: "middle",
           background:
-            colors[themeColor][global.user.darkMode ? 900 : 50] + "!important",
+            `${colors[themeColor][global.user.darkMode ? 900 : 50]}!important`,
 
           "&:hover": {
             background:
@@ -188,7 +188,7 @@ export function Toolbar({
               "!important",
           },
           color:
-            colors[themeColor][global.user.darkMode ? 50 : 900] + "!important",
+            `${colors[themeColor][global.user.darkMode ? 50 : 900]}!important`,
         }}
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"

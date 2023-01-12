@@ -54,7 +54,7 @@ function DeleteCard({ item }) {
           });
         }}
         sx={{
-          background: red["900"] + "!important",
+          background: `${red["900"]}!important`,
           borderRadius: 99,
           mt: 1,
         }}
@@ -95,7 +95,7 @@ export default function Trash() {
             variant="contained"
             disabled={!data || (data || []).length === 0}
             sx={{
-              background: red["900"] + "!important",
+              background: `${red["900"]}!important`,
               borderRadius: 99,
               mt: 1,
               mb: 3,

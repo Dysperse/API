@@ -142,7 +142,7 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
                 variant="contained"
                 fullWidth
                 sx={{
-                  background: colors[themeColor][900] + "!important",
+                  background: `${colors[themeColor][900]}!important`,
                   color: "white",
                   border: "1px solid transparent !important",
                 }}
