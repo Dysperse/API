@@ -63,7 +63,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             >
               {template.columns.map((column, index) => (
                 <Box
-                  key={index.toString()}
+                  key={column.id}
                   sx={{
                     width: "100%",
                     display: "inline-flex",
@@ -192,7 +192,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             >
               {template.columns.map((column, index) => (
                 <Box
-                  key={index.toString()}
+                  key={column.id}
                   sx={{
                     width: "100%",
                     display: "flex",

@@ -292,7 +292,7 @@ export function MemberList({
       </Box>
       {images.map((step, index) => (
         <Box
-          key={Math.random().toString()}
+          key={)}
           sx={{
             pr: 2,
             flex: "0 0 auto",
