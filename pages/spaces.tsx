@@ -605,6 +605,7 @@ function ImageBox({ isTrigger, image }) {
             cursor: "pointer",
           }}
           onClick={() => setOpen(true)}
+          role="button"
         />
       </picture>
       <Dialog
