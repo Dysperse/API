@@ -14,6 +14,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
+import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
@@ -23,6 +24,8 @@ import { CreateColumn } from "./Column/Create";
 function BoardSettings({ mutationUrl, board }) {
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState(board.name);
+  useStatusBar(open);
+
   return (
     <>
       <SwipeableDrawer
@@ -345,11 +348,13 @@ export const Board = React.memo(function Board({
 
         {data ? (
           <>
-            <CreateColumn
-              id={board.id}
-              mutationUrl={url}
-              hide={board.columns.length !== 1 && data.length <= 5}
-            />
+            {board.columns.length !== 1 && (
+              <CreateColumn
+                id={board.id}
+                mutationUrl={url}
+                hide={board.columns.length == 1 || data.length >= 5}
+              />
+            )}
           </>
         ) : (
           <Box

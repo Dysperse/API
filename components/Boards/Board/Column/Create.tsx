@@ -93,6 +93,11 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
               </picture>
             </Button>
             <TextField
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  document.getElementById("createColumnButton")?.click();
+                }
+              }}
               fullWidth
               id="create-column-title"
               value={title}
@@ -134,6 +139,7 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
               </Button>
               <LoadingButton
                 loading={loading}
+                id="createColumnButton"
                 variant="contained"
                 fullWidth
                 sx={{

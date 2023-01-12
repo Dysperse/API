@@ -5,12 +5,15 @@ import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { OptionsGroup } from "./OptionsGroup";
 
 import {
+  Alert,
   Box,
   Button,
   Card,
   Dialog,
   Icon,
+  InputAdornment,
   Skeleton,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useStatusBar } from "../../../hooks/useStatusBar";
@@ -142,6 +145,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
         }}
         sx={{
           width: "100%",
+          px: { sm: 1 },
         }}
       >
         <Card
@@ -150,7 +154,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               opacity: 0.5,
               pointerEvents: "none",
             }),
-            mb: { xs: 2, sm: 0 },
+            mb: 2,
             width: "100%!important",
             background: global.user.darkMode
               ? "hsl(240, 11%, 13%)"
@@ -503,6 +507,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
       ],
     },
   ];
+  const [searchQuery, setSearchQuery] = useState("");
   const checklists = [
     "Shopping list",
     "Simple checklist",
@@ -581,7 +586,8 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
         </Typography>
         <Typography sx={{ mb: 2, color: "#fff" }}>
           Boards are sweet places where you can keep track of almost anything,
-          from tasks, to shopping lists, to even product planning.
+          from tasks, to shopping lists, to even product planning. You can
+          always edit templates after creating.
         </Typography>
         <OptionsGroup
           options={["Board", "Checklist"]}
@@ -589,81 +595,128 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           setOption={setOption}
         />
       </Box>
+      <TextField
+        fullWidth
+        size="small"
+        autoComplete="off"
+        placeholder='Try searching for "Shopping list"'
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Icon>search</Icon>
+            </InputAdornment>
+          ),
+        }}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       {currentOption === "Checklist" ? (
         <>
+          {checklists.filter((checklist) =>
+            checklist.name.toLowerCase().includes(searchQuery.toLowerCase())
+          ).length == 0 && (
+            <Alert sx={{ mt: 2 }} severity="info">
+              No checklists found 😭
+            </Alert>
+          )}
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
-            {checklists.map((template) => (
-              <Box
-                key={template.name}
-                onClick={() => {
-                  setLoading(true);
-                  fetchApiWithoutHook("property/boards/createBoard", {
-                    board: JSON.stringify(template),
-                  }).then(async () => {
-                    await mutate(mutationUrl);
-                    setLoading(false);
-                  });
-                }}
-                sx={{
-                  py: 1,
-                  px: { sm: 1 },
-                  maxWidth: "calc(100vw - 52.5px)",
-                }}
-              >
-                <Card
+            {checklists
+              .filter((checklist) =>
+                checklist.name.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((template) => (
+                <Box
+                  key={template.name}
+                  onClick={() => {
+                    setLoading(true);
+                    fetchApiWithoutHook("property/boards/createBoard", {
+                      board: JSON.stringify(template),
+                    }).then(async () => {
+                      await mutate(mutationUrl);
+                      setLoading(false);
+                    });
+                  }}
                   sx={{
-                    ...(global.permission == "read-only" && {
-                      pointerEvents: "none",
-                      opacity: 0.5,
-                    }),
-                    ...(loading && {
-                      opacity: 0.5,
-                      pointerEvents: "none",
-                    }),
-                    width: "100%!important",
-                    background: global.user.darkMode
-                      ? "hsl(240, 11%, 13%)"
-                      : "rgba(200,200,200,.3)",
-                    borderRadius: 5,
-                    p: 3,
-                    transition: "transform 0.2s",
-                    cursor: "pointer",
-                    userSelect: "none",
-                    "&:hover": {
-                      background: global.user.darkMode
-                        ? "hsl(240, 11%, 16%)"
-                        : "rgba(200,200,200,.4)",
-                    },
-                    "&:active": {
-                      background: global.user.darkMode
-                        ? "hsl(240, 11%, 18%)"
-                        : "rgba(200,200,200,.5)",
-                      transform: "scale(.98)",
-                      transition: "none",
-                    },
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
+                    py: 1,
+                    px: { sm: 1 },
+                    maxWidth: "calc(100vw - 52.5px)",
                   }}
                 >
-                  <Icon>task_alt</Icon>
-                  {template.name}
-                </Card>
-              </Box>
-            ))}
+                  <Card
+                    sx={{
+                      ...(global.permission == "read-only" && {
+                        pointerEvents: "none",
+                        opacity: 0.5,
+                      }),
+                      ...(loading && {
+                        opacity: 0.5,
+                        pointerEvents: "none",
+                      }),
+                      width: "100%!important",
+                      background: global.user.darkMode
+                        ? "hsl(240, 11%, 13%)"
+                        : "rgba(200,200,200,.3)",
+                      borderRadius: 5,
+                      p: 3,
+                      transition: "transform 0.2s",
+                      cursor: "pointer",
+                      userSelect: "none",
+                      "&:hover": {
+                        background: global.user.darkMode
+                          ? "hsl(240, 11%, 16%)"
+                          : "rgba(200,200,200,.4)",
+                      },
+                      "&:active": {
+                        background: global.user.darkMode
+                          ? "hsl(240, 11%, 18%)"
+                          : "rgba(200,200,200,.5)",
+                        transform: "scale(.98)",
+                        transition: "none",
+                      },
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+                    <Icon>task_alt</Icon>
+                    {template.name}
+                  </Card>
+                </Box>
+              ))}
           </Masonry>
         </>
       ) : (
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
-          {templates.map((template) => (
-            <Template
-              key={template.name}
-              template={template}
-              mutationUrl={mutationUrl}
-              loading={loading}
-              setLoading={setLoading}
-            />
-          ))}
+          {templates.filter(
+            (template) =>
+              template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              template.description
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())
+          ).length == 0 && (
+            <Alert sx={{ mt: 2 }} severity="info">
+              No boards found 😭
+            </Alert>
+          )}
+          {templates
+            .filter(
+              (template) =>
+                template.name
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase()) ||
+                template.description
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase())
+            )
+            .map((template) => (
+              <Template
+                key={template.name}
+                template={template}
+                mutationUrl={mutationUrl}
+                loading={loading}
+                setLoading={setLoading}
+              />
+            ))}
         </Masonry>
       )}
     </Box>

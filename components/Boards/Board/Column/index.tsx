@@ -18,6 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
+import { useStatusBar } from "../../../../hooks/useStatusBar";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 
 function CompletedTasks({
@@ -128,6 +129,8 @@ function CompletedTasks({
 }
 function EmojiPickerModal({ emoji, setEmoji }: any) {
   const [open, setOpen] = React.useState(false);
+  useStatusBar(open, 1);
+
   return (
     <>
       <SwipeableDrawer
@@ -185,6 +188,7 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
   const [emoji, setEmoji] = React.useState(column.emoji);
   const ref: any = React.useRef();
   const buttonRef: any = React.useRef();
+  useStatusBar(open);
 
   return (
     <>
