@@ -624,6 +624,7 @@ function ImageBox({ isTrigger, image }) {
       >
         <picture>
           <img
+            role="button"
             draggable={false}
             src={image}
             alt="Post viewer"
