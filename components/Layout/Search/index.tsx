@@ -1,5 +1,4 @@
 import hexToRgba from "hex-to-rgba";
-import React from "react";
 import { colors } from "../../../lib/colors";
 import { updateSettings } from "../../Settings/updateSettings";
 
@@ -95,7 +94,6 @@ function CustomAction({
 }
 
 export function SearchPopup({ styles }) {
-  const [open, setOpen] = React.useState(false);
   const router = useRouter();
 
   const { data: roomData } = useApi("property/rooms");

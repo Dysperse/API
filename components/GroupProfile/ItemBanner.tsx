@@ -1,9 +1,8 @@
+import { Progress } from "@mantine/core";
+import { Box, Typography } from "@mui/material";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
-
-import { Progress } from "@mantine/core";
-import { Box, Typography } from "@mui/material";
 
 /**
  * Item limit
