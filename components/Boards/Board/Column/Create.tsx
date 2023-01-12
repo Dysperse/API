@@ -153,7 +153,7 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
                     emoji,
                     id: id,
                   })
-                    .then((res) => {
+                    .then(() => {
                       mutate(mutationUrl)
                         .then(() => {
                           setLoading(false);
@@ -163,14 +163,14 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
                           );
                           setOpen(false);
                         })
-                        .catch((err) => {
+                        .catch(() => {
                           setLoading(false);
                           toast.error(
                             "Something went wrong while updating the board. Try reloading the page."
                           );
                         });
                     })
-                    .catch((err) => {
+                    .catch(() => {
                       setLoading(false);
                       toast.error(
                         "An error occurred while creating the column. Try again later."

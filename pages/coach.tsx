@@ -161,7 +161,7 @@ const Task = ({ task }) => {
 };
 
 function DailyRoutine() {
-  const { data, url, error } = useApi("user/routines");
+  const { data, url } = useApi("user/routines");
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -347,7 +347,7 @@ function DailyRoutine() {
   );
 }
 
-export default function Render({ mutationUrl }) {
+export default function Render() {
   const time = new Date().getHours();
   let greeting;
   if (time < 10) {

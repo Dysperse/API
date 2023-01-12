@@ -2,24 +2,13 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import AuthCode from "react-auth-code-input";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { colors } from "../../lib/colors";
 
 import { useSWRConfig } from "swr";
 import { Layout } from "../../components/Auth/Layout";
-import { Puller } from "../../components/Puller";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 
-import {
-  Box,
-  Button,
-  Paper,
-  SwipeableDrawer,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 
 /**
  * Top-level component for the signup page.
@@ -30,13 +19,7 @@ export default function Prompt() {
   const { mutate } = useSWRConfig();
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
-  const [otpCode, setOtpCode] = useState<any>("");
-  useEffect(() => {
-    twoFactorModalOpen
-      ? neutralizeBack(() => setTwoFactorModalOpen(false))
-      : revivalBack();
-  });
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -90,80 +73,6 @@ export default function Prompt() {
           },
         }}
       >
-        <SwipeableDrawer
-          anchor="bottom"
-          open={twoFactorModalOpen}
-          onClose={() => setTwoFactorModalOpen(false)}
-          onOpen={() => setTwoFactorModalOpen(true)}
-          disableSwipeToOpen
-          PaperProps={{
-            sx: {
-              background: colors.brown[50],
-              borderRadius: "20px 20px 0 0",
-              maxWidth: "500px",
-            },
-          }}
-        >
-          <Puller />
-          <Box
-            sx={{
-              p: 3,
-              mt: 3,
-            }}
-          >
-            <Typography
-              variant="h5"
-              sx={{
-                marginBottom: "20px",
-                fontWeight: 600,
-                textAlign: "center",
-              }}
-            >
-              Help us protect your account
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                marginBottom: "20px",
-                textAlign: "center",
-              }}
-            >
-              Enter the 6-digit code from your authenticator app
-            </Typography>
-
-            {/* Six digit authenticator code input */}
-            <Box
-              sx={{
-                textAlign: "center",
-              }}
-            >
-              <AuthCode
-                allowedCharacters="numeric"
-                onChange={(value) => setOtpCode(value)}
-              />
-            </Box>
-            <LoadingButton
-              variant="contained"
-              loading={buttonLoading}
-              onClick={() => {
-                formik.handleSubmit();
-              }}
-              size="large"
-              sx={{
-                width: "100%",
-                mb: 1.4,
-                mt: 3,
-                boxShadow: 0,
-                borderRadius: 99,
-                textTransform: "none",
-                border: "2px solid transparent !important",
-              }}
-            >
-              Continue
-            </LoadingButton>
-          </Box>
-        </SwipeableDrawer>
-
         <Paper
           sx={{
             background: "#c4b5b5",

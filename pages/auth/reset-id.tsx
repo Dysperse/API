@@ -41,7 +41,7 @@ export default function Prompt() {
             setButtonLoading(false);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("An error occurred.");
           setButtonLoading(false);
         });

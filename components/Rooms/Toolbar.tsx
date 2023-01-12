@@ -10,11 +10,9 @@ import { grey } from "@mui/material/colors";
  * Search bar
  */
 function SearchBar({
-  items,
   setItems,
   data,
 }: {
-  items: Item[];
   setItems: (items: Item[]) => void;
   data: Item[];
 }) {
@@ -130,14 +128,10 @@ function SearchBar({
  * @returns {any}
  */
 export function Toolbar({
-  alias,
-  room,
   items,
   setItems,
   data,
 }: {
-  alias: string;
-  room: string;
   items: Item[];
   setItems: (items: Item[]) => void;
   data: Item[];
@@ -173,7 +167,7 @@ export function Toolbar({
         justifyContent: "end",
       }}
     >
-      <SearchBar items={items} setItems={setItems} data={data} />
+      <SearchBar setItems={setItems} data={data} />
       <Button
         disableRipple
         id="basic-button"

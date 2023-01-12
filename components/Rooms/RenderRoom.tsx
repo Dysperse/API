@@ -1,8 +1,8 @@
 import Masonry from "@mui/lab/Masonry";
+import type { Item } from "@prisma/client";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import type { Item } from "@prisma/client";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
 import { Toolbar } from "./Toolbar";
@@ -38,13 +38,7 @@ export function RenderRoom({ data, index }: { data: Item[]; index: string }) {
         alias={router.query.custom ? decode(index).split(",")[1] : index}
         useAlias={router?.query?.custom?.toString()}
       />
-      <Toolbar
-        room={router.query.custom ? decode(index).split(",")[0] : index}
-        alias={router.query.custom ? decode(index).split(",")[1] : index}
-        items={items}
-        setItems={setItems}
-        data={data}
-      />
+      <Toolbar items={items} setItems={setItems} data={data} />
       <Box
         sx={{
           display: "flex",

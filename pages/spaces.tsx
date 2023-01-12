@@ -322,11 +322,6 @@ function CreatePostMenu({ url }) {
                 reader.onerror = (error) => reject(error);
               });
 
-            const convertImageToImgbb = async (file: File) => {
-              const str = await asBase64(file);
-              return str;
-            };
-
             const form = new FormData();
             form.append("image", e.target.files![0]);
 
@@ -584,9 +579,7 @@ function ImageBox({ isTrigger, image }) {
               setCanvasImage(image, (imgBlob) => {
                 navigator.clipboard
                   .write([new ClipboardItem({ "image/png": imgBlob })])
-                  .then((e) => {
-                    resolve("Image copied to clipboard");
-                  })
+                  .then(() => resolve("Image copied to clipboard"))
                   .catch((e) => {
                     reject(e);
                   });

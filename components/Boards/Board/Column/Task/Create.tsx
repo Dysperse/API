@@ -74,7 +74,6 @@ function ImageModal({ image, setImage, styles }) {
             return str;
           };
 
-          const str = await convertImageToImgbb(e.target.files![0]);
           const form = new FormData();
           form.append("image", e.target.files![0]);
 
@@ -107,7 +106,6 @@ export function CreateTask({
   column,
   checkList = false,
 }: any) {
-  const [value, setValue] = useState("");
   const [open, setOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
