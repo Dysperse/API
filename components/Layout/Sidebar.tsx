@@ -115,197 +115,195 @@ export function Sidebar() {
   }, [router.asPath]);
 
   return (
-    <>
-      <Drawer
-        variant="permanent"
-        ModalProps={{
-          keepMounted: true,
-        }}
+    <Drawer
+      variant="permanent"
+      ModalProps={{
+        keepMounted: true,
+      }}
+      sx={{
+        display: { xs: "none", md: "flex!important" },
+        "& .MuiDrawer-paper": {
+          maxWidth: "85px",
+          width: "80px",
+          filter: "none!important",
+          overflowX: "hidden",
+          zIndex: 99,
+          borderRight: global.user.darkMode
+            ? "1px solid rgba(255,255,255,0.1)"
+            : global.user.darkMode
+            ? "1px solid hsla(240,11%,15%)"
+            : "1px solid rgba(200,200,200,.3)",
+          height: "100vh",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(255, 255, 255, 0.9)",
+          backdropFilter: "blur(10px)",
+          ...(global.user.darkMode && {
+            background: "hsl(240, 11%, 10%)",
+          }),
+        },
+      }}
+      open
+    >
+      <Box
         sx={{
-          display: { xs: "none", md: "flex!important" },
-          "& .MuiDrawer-paper": {
-            maxWidth: "85px",
-            width: "80px",
-            filter: "none!important",
-            overflowX: "hidden",
-            zIndex: 99,
-            borderRight: global.user.darkMode
-              ? "1px solid rgba(255,255,255,0.1)"
-              : global.user.darkMode
-              ? "1px solid hsla(240,11%,15%)"
-              : "1px solid rgba(200,200,200,.3)",
-            height: "100vh",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "rgba(255, 255, 255, 0.9)",
-            backdropFilter: "blur(10px)",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 10%)",
-            }),
-          },
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "center",
+          pt: "70px",
         }}
-        open
       >
-        <Box
+        <Box sx={{ mt: "auto" }} />
+        <Tabs
+          orientation="vertical"
+          TabIndicatorProps={{
+            children: <span className="MuiTabs-indicatorSpan" />,
+          }}
+          variant="fullWidth"
+          value={value}
+          aria-label="basic tabs example"
           sx={{
-            width: "100%",
-            height: "100vh",
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            justifyContent: "center",
-            pt: "70px",
+            "& .MuiTabs-indicator": {
+              pointerEvents: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
+              height: "100%",
+              width: "100%",
+            },
+            "& .MuiTabs-indicatorSpan": {
+              minWidth: 50,
+              pointerEvents: "none",
+              height: 50,
+              width: 50,
+              background: `linear-gradient(45deg, ${
+                global.user.darkMode
+                  ? "hsl(240,11%,14%)"
+                  : colors[themeColor][100]
+              } 0%, ${
+                global.user.darkMode
+                  ? "hsl(240,11%,13%)"
+                  : colors[themeColor][100]
+              } 100%)`,
+              zIndex: -1,
+              borderRadius: 5,
+            },
+            // Tab styles
+            "& .MuiTab-root": {
+              width: 55,
+              "&.Mui-selected *": {
+                color:
+                  colors[themeColor][global.user.darkMode ? 50 : 900] +
+                  "!important",
+                fontVariationSettings: `"FILL" 1, "wght" 300, "GRAD" 1, "opsz" 40`,
+              },
+            },
           }}
         >
-          <Box sx={{ mt: "auto" }} />
-          <Tabs
-            orientation="vertical"
-            TabIndicatorProps={{
-              children: <span className="MuiTabs-indicatorSpan" />,
-            }}
-            variant="fullWidth"
-            value={value}
-            aria-label="basic tabs example"
-            sx={{
-              "& .MuiTabs-indicator": {
-                pointerEvents: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "transparent",
-                height: "100%",
-                width: "100%",
-              },
-              "& .MuiTabs-indicatorSpan": {
-                minWidth: 50,
-                pointerEvents: "none",
-                height: 50,
-                width: 50,
-                background: `linear-gradient(45deg, ${
-                  global.user.darkMode
-                    ? "hsl(240,11%,14%)"
-                    : colors[themeColor][100]
-                } 0%, ${
-                  global.user.darkMode
-                    ? "hsl(240,11%,13%)"
-                    : colors[themeColor][100]
-                } 100%)`,
-                zIndex: -1,
-                borderRadius: 5,
-              },
-              // Tab styles
-              "& .MuiTab-root": {
-                width: 55,
-                "&.Mui-selected *": {
-                  color:
-                    colors[themeColor][global.user.darkMode ? 50 : 900] +
-                    "!important",
-                  fontVariationSettings: `"FILL" 1, "wght" 300, "GRAD" 1, "opsz" 40`,
-                },
-              },
-            }}
-          >
-            <Tab
-              disableRipple
-              sx={styles}
-              onClick={() => router.push("/tasks").then(() => setValue(0))}
-              icon={
-                <Tooltip title="Lists" placement="right">
-                  <span
-                    className={`material-symbols-${
-                      router.asPath.includes("/tasks") ||
-                      router.asPath === "/" ||
-                      router.asPath === ""
-                        ? "rounded"
-                        : "outlined"
-                    }`}
-                  >
-                    verified
-                  </span>
-                </Tooltip>
-              }
-            />
-            <Tab
-              disableRipple
-              sx={styles}
-              onClick={() => router.push("/items").then(() => setValue(1))}
-              icon={
-                <Tooltip title="Inventory" placement="right">
-                  <span
-                    className={`material-symbols-${
-                      router.asPath === "/items" ||
-                      router.asPath.includes("rooms")
-                        ? "rounded"
-                        : "outlined"
-                    }`}
-                  >
-                    category
-                  </span>
-                </Tooltip>
-              }
-            />
-            <Tab
-              disableRipple
-              sx={styles}
-              onClick={() => router.push("/coach").then(() => setValue(2))}
-              icon={
-                <Tooltip title="Coach" placement="right">
-                  <span
-                    className={`material-symbols-${
-                      router.asPath === "/coach" ? "rounded" : "outlined"
-                    }`}
-                  >
-                    routine
-                  </span>
-                </Tooltip>
-              }
-            />
-            <Tab
-              disableRipple
-              sx={styles}
-              onClick={() => router.push("/spaces").then(() => setValue(3))}
-              icon={
-                <Tooltip title="Spaces" placement="right">
-                  <span
-                    className={`material-symbols-${
-                      router.asPath === "/spaces" ? "rounded" : "outlined"
-                    }`}
-                  >
-                    view_agenda
-                  </span>
-                </Tooltip>
-              }
-            />
-          </Tabs>
-          <Box
-            sx={{
-              mt: "auto",
-              mb: 1,
-            }}
-          >
-            <Settings>
-              <Tooltip
-                title={global.user.email}
-                placement="left"
-                PopperProps={{
-                  sx: { pointerEvents: "none" },
-                }}
-              >
-                <IconButton color="inherit" disableRipple sx={styles}>
-                  <Icon
-                    className="material-symbols-outlined"
-                    sx={{
-                      fontVariationSettings: `"FILL" 0, "wght" 300, "GRAD" 1, "opsz" 40!important`,
-                    }}
-                  >
-                    settings
-                  </Icon>
-                </IconButton>
+          <Tab
+            disableRipple
+            sx={styles}
+            onClick={() => router.push("/tasks").then(() => setValue(0))}
+            icon={
+              <Tooltip title="Lists" placement="right">
+                <span
+                  className={`material-symbols-${
+                    router.asPath.includes("/tasks") ||
+                    router.asPath === "/" ||
+                    router.asPath === ""
+                      ? "rounded"
+                      : "outlined"
+                  }`}
+                >
+                  verified
+                </span>
               </Tooltip>
-            </Settings>
-          </Box>
+            }
+          />
+          <Tab
+            disableRipple
+            sx={styles}
+            onClick={() => router.push("/items").then(() => setValue(1))}
+            icon={
+              <Tooltip title="Inventory" placement="right">
+                <span
+                  className={`material-symbols-${
+                    router.asPath === "/items" ||
+                    router.asPath.includes("rooms")
+                      ? "rounded"
+                      : "outlined"
+                  }`}
+                >
+                  category
+                </span>
+              </Tooltip>
+            }
+          />
+          <Tab
+            disableRipple
+            sx={styles}
+            onClick={() => router.push("/coach").then(() => setValue(2))}
+            icon={
+              <Tooltip title="Coach" placement="right">
+                <span
+                  className={`material-symbols-${
+                    router.asPath === "/coach" ? "rounded" : "outlined"
+                  }`}
+                >
+                  routine
+                </span>
+              </Tooltip>
+            }
+          />
+          <Tab
+            disableRipple
+            sx={styles}
+            onClick={() => router.push("/spaces").then(() => setValue(3))}
+            icon={
+              <Tooltip title="Spaces" placement="right">
+                <span
+                  className={`material-symbols-${
+                    router.asPath === "/spaces" ? "rounded" : "outlined"
+                  }`}
+                >
+                  view_agenda
+                </span>
+              </Tooltip>
+            }
+          />
+        </Tabs>
+        <Box
+          sx={{
+            mt: "auto",
+            mb: 1,
+          }}
+        >
+          <Settings>
+            <Tooltip
+              title={global.user.email}
+              placement="left"
+              PopperProps={{
+                sx: { pointerEvents: "none" },
+              }}
+            >
+              <IconButton color="inherit" disableRipple sx={styles}>
+                <Icon
+                  className="material-symbols-outlined"
+                  sx={{
+                    fontVariationSettings: `"FILL" 0, "wght" 300, "GRAD" 1, "opsz" 40!important`,
+                  }}
+                >
+                  settings
+                </Icon>
+              </IconButton>
+            </Tooltip>
+          </Settings>
         </Box>
-      </Drawer>
-    </>
+      </Box>
+    </Drawer>
   );
 }

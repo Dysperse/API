@@ -431,44 +431,42 @@ function SearchPosts({ setData, originalData }) {
     );
   };
   return (
-    <>
-      <TextField
-        onChange={handleChange}
-        placeholder="Search memos..."
-        sx={{
-          mt: 2,
-        }}
-        InputProps={{
-          disableUnderline: true,
-          startAdornment: (
-            <InputAdornment position="start">
-              <Icon className="outlined">search</Icon>
-            </InputAdornment>
-          ),
-          sx: {
-            background: global.user.darkMode
-              ? "hsl(240,11%,17%)"
-              : "rgba(200,200,200,0.3)",
-            borderRadius: 5,
-            p: 2,
-            py: 1,
-            border: "1px solid rgba(0,0,0,0)",
-            "&:focus-within": {
-              background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
-              "&, & .MuiInput-root *": {
-                cursor: "text",
-              },
-              border: global.user.darkMode
-                ? "1px solid hsl(240,11%,50%)"
-                : "1px solid rgba(0,0,0,.5)",
-              boxShadow:
-                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    <TextField
+      onChange={handleChange}
+      placeholder="Search memos..."
+      sx={{
+        mt: 2,
+      }}
+      InputProps={{
+        disableUnderline: true,
+        startAdornment: (
+          <InputAdornment position="start">
+            <Icon className="outlined">search</Icon>
+          </InputAdornment>
+        ),
+        sx: {
+          background: global.user.darkMode
+            ? "hsl(240,11%,17%)"
+            : "rgba(200,200,200,0.3)",
+          borderRadius: 5,
+          p: 2,
+          py: 1,
+          border: "1px solid rgba(0,0,0,0)",
+          "&:focus-within": {
+            background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+            "&, & .MuiInput-root *": {
+              cursor: "text",
             },
+            border: global.user.darkMode
+              ? "1px solid hsl(240,11%,50%)"
+              : "1px solid rgba(0,0,0,.5)",
+            boxShadow:
+              "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
           },
-        }}
-        variant="standard"
-      />
-    </>
+        },
+      }}
+      variant="standard"
+    />
   );
 }
 

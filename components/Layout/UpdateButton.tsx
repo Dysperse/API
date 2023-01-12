@@ -61,7 +61,5 @@ export function UpdateButton() {
         <Icon className="rounded">download</Icon>
       </IconButton>
     </Tooltip>
-  ) : (
-    <></>
-  );
+  ) : null;
 }
