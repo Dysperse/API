@@ -6,11 +6,11 @@ import { colors } from "../lib/colors";
  * @description A puller is a component that pulls in swipeable drawers from bottom of the screen.
  */
 export function Puller({ variant }: { variant?: "side" }) {
-  const color = global.user
-    ? global.user.darkMode
-      ? "hsl(240, 11%, 20%)"
-      : colors[themeColor][50]
-    : colors["brown"][50];
+  // const color = global.user
+  //   ? global.user.darkMode
+  //     ? "hsl(240, 11%, 20%)"
+  //     : colors[themeColor][50]
+  //   : colors["brown"][50];
 
   return (
     <Box

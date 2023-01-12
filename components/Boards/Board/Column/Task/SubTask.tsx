@@ -8,12 +8,20 @@ import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 
 export function SubTask({
   checkList,
-  setOpen = (e: any) => {},
+  setOpen,
   noMargin = false,
   mutationUrl = "",
   subtask,
   BpCheckedIcon,
   BpIcon,
+}: {
+  checkList: any;
+  setOpen?: any;
+  noMargin: any;
+  mutationUrl: any;
+  subtask: any;
+  BpCheckedIcon: any;
+  BpIcon: any;
 }) {
   const [checked, setChecked] = useState(subtask.completed);
 
@@ -70,7 +78,7 @@ export function SubTask({
         </MenuItem>
       </Menu>
       <ListItem
-        onClick={() => setOpen(true)}
+        onClick={() => setOpen && setOpen(true)}
         onContextMenu={handleContextMenu}
         key={subtask.id}
         className="rounded-xl select-none transition-transform dark:bg-transparent duration-100 active:duration-[0s] hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400"
@@ -118,7 +126,7 @@ export function SubTask({
             fetchApiWithoutHook("property/boards/markTask", {
               completed: e.target.checked ? "true" : "false",
               id: subtask.id,
-            }).catch((err) =>
+            }).catch(() =>
               toast.error("An error occured while updating the task")
             );
           }}
