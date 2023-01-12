@@ -241,7 +241,9 @@ export function Group({
   });
   const router = useRouter();
 
-  const invertColors = ["lime", "green", "teal", "blue"].includes(color);
+  const invertColors = ["lime", "cyan", "green", "teal", "blue"].includes(
+    color
+  );
 
   return (
     <>
