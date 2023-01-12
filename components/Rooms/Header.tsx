@@ -18,12 +18,10 @@ import { CreateItemModal } from "./CreateItem/modal";
  */
 export function Header({
   useAlias,
-  alias,
   room,
   itemCount,
 }: {
   useAlias?: string | null;
-  alias: string;
   room: string;
   itemCount: number;
 }) {
