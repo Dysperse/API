@@ -44,17 +44,14 @@ import {
 export default function Item({
   displayRoom = false,
   data,
-  variant,
 }: {
   displayRoom?: boolean;
   data: ItemType;
-  variant?: "list" | "card";
 }) {
   const router = useRouter();
   const id = data.id;
   const [drawerState, setDrawerState] = useState(false);
   const [item, setItemData] = useState(data);
-  const [index, setIndex] = useState<number>(1);
   const [deleted, setDeleted] = useState<boolean>(false);
   useEffect(() => {
     drawerState ? neutralizeBack(() => setDrawerState(false)) : revivalBack();
@@ -80,10 +77,7 @@ export default function Item({
             mouseX: event.clientX + 2,
             mouseY: event.clientY - 6,
           }
-        : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
-          // Other native context menus might behave different.
-          // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
-          null
+        : null
     );
   };
 
@@ -150,7 +144,6 @@ export default function Item({
           }}
           onClick={() => {
             toast.dismiss(t.id);
-            setIndex(1);
             fetchApiWithoutHook("property/inventory/restore", {
               id: item.id.toString(),
               lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),

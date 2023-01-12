@@ -71,6 +71,7 @@ export function TaskDrawer({
     e.preventDefault();
     setView("Subtasks");
   });
+
   useHotkeys("alt+d", (e) => {
     e.preventDefault();
     setView("Details");
@@ -95,7 +96,6 @@ export function TaskDrawer({
       }}
       PaperProps={{
         sx: {
-          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
           width: "100%",
           mx: "auto",
           height: "100vh",
@@ -165,7 +165,7 @@ export function TaskDrawer({
                 fetchApiWithoutHook("property/boards/markTask", {
                   completed: e.target.checked ? "true" : "false",
                   id: task.id,
-                }).catch((err) =>
+                }).catch(() =>
                   toast.error("An error occured while updating the task")
                 );
               }}
@@ -194,7 +194,6 @@ export function TaskDrawer({
               placeholder="Item name"
               variant="standard"
               InputProps={{
-                // className: "font-secondary",
                 sx: {
                   fontSize: "40px",
                   height: "70px",
@@ -353,7 +352,6 @@ export function TaskDrawer({
             </Box>
           </Box>
         )}
-
         {view == "Subtasks" && (
           <Box sx={{ ml: 6, mt: 2 }}>
             {task.subTasks.map((subtask) => (

@@ -538,6 +538,7 @@ function Goal({ goal, mutationUrl }: any) {
     </>
   );
 }
+
 export function MyGoals({ setHideRoutine }): JSX.Element {
   const [open, setOpen] = React.useState(false);
   // useStatusBar(open);
