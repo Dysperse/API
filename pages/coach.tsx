@@ -181,7 +181,7 @@ function DailyRoutine() {
     bannerColors = timeColors.morning;
   } else if (time < 17) {
     bannerColors = timeColors.afternoon;
-  } else if (time < 17) {
+  } else if (time < 20) {
     bannerColors = timeColors.evening;
   } else {
     bannerColors = timeColors.night;
