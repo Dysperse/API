@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { colors } from "../lib/colors";
-import { useRouter } from "next/router";
 
 /**
  * Changes the top app bar color
@@ -8,7 +7,6 @@ import { useRouter } from "next/router";
  * @param nestedModals How many nested modals are open?
  */
 export function useStatusBar(open: boolean, nestedModals = 1) {
-  const router = useRouter();
   const tag: HTMLMetaElement = document.querySelector(
     "meta[name=theme-color]"
   ) as HTMLMetaElement;

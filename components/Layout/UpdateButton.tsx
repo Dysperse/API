@@ -26,9 +26,9 @@ export function UpdateButton() {
         console.log(event);
       });
 
-      const promptNewVersionAvailable = (event) => {
+      const promptNewVersionAvailable = () => {
         setButton(true);
-        wb.addEventListener("controlling", (event) => {
+        wb.addEventListener("controlling", () => {
           window.location.reload();
         });
       };
@@ -55,6 +55,7 @@ export function UpdateButton() {
             ? "hsl(240, 11%, 90%)"
             : colors.green[700],
           transition: "none !important",
+          "-webkit-app-region": "no-drag",
         }}
       >
         <Icon className="rounded">download</Icon>

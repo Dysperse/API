@@ -115,10 +115,7 @@ export function Header({
         />
       </Box>
       <ListItemAvatar sx={{ ml: 2 }}>
-        <CreateItemModal
-          room={useAlias ? decode(room).split(",")[0] : room}
-          alias={alias}
-        >
+        <CreateItemModal room={useAlias ? decode(room).split(",")[0] : room}>
           <IconButton
             size="large"
             sx={{

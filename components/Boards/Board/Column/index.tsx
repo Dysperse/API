@@ -25,7 +25,6 @@ function CompletedTasks({
   checkList,
   mutationUrl,
   boardId,
-  columnId,
   columnTasks,
   column,
 }) {
@@ -148,7 +147,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
         <div className="p-2">
           <EmojiPicker
             width="100%"
-            onEmojiClick={(event, emojiObject) => {
+            onEmojiClick={(event) => {
               const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
               setEmoji(url);
               setOpen(false);
@@ -165,8 +164,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
   );
 }
 
-function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
-  const [loading, setLoading] = React.useState(false);
+function OptionsMenu({ collapsed, mutationUrl, column }) {
   const [open, setOpen] = React.useState(false);
   const styles = {
     width: "100%",
@@ -274,12 +272,10 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
               title="Delete column?"
               question="Are you sure you want to delete this column? This action annot be undone."
               callback={async () => {
-                setLoading(true);
                 await fetchApiWithoutHook("property/boards/deleteColumn", {
                   id: column.id,
                 });
                 await mutate(mutationUrl);
-                setLoading(false);
                 setOpen(false);
               }}
             >
@@ -478,7 +474,6 @@ export const Column = React.memo(function Column({
             </Box>
             <OptionsMenu
               collapsed={collapsed}
-              boardId={boardId}
               column={column}
               mutationUrl={mutationUrl}
             />
@@ -514,7 +509,6 @@ export const Column = React.memo(function Column({
           checkList={checkList}
           mutationUrl={mutationUrl}
           boardId={boardId}
-          columnId={column.id}
           columnTasks={columnTasks}
           column={column}
         />

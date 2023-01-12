@@ -16,7 +16,7 @@ const handler = async (req, res) => {
     return;
   }
 
-  const data1 = await prisma.task.deleteMany({
+  await prisma.task.deleteMany({
     where: {
       subTasks: {
         some: {

@@ -16,13 +16,7 @@ import Webcam from "react-webcam";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
 
-const WebcamComponent = ({
-  formik,
-  setOpen,
-  facingMode,
-  setFacingMode,
-  room,
-}) => {
+const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
   const [forever, setForever] = React.useState(false);
   const webcamRef: any = React.useRef(null);
 
@@ -208,10 +202,6 @@ export function ImageRecognition({ formik, room }) {
     null
   );
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -352,7 +342,6 @@ export function ImageRecognition({ formik, room }) {
           formik={formik}
           setOpen={setOpen}
           facingMode={facingMode}
-          setFacingMode={setFacingMode}
         />
       </Drawer>
     </>

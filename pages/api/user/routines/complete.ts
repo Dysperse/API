@@ -1,6 +1,4 @@
 import { prisma } from "../../../../lib/prismaClient";
-import CryptoJS from "crypto-js";
-import { validatePermissions } from "../../../../lib/validatePermissions";
 
 // name         String
 //   stepName     String
@@ -29,7 +27,7 @@ export default async function handler(req: any, res: any) {
     },
   });
   //   Add 1 more trophy to the users trophy count
-  const user = await prisma.user.update({
+  await prisma.user.update({
     data: {
       trophies: {
         increment: 1,

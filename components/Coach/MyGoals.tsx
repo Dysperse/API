@@ -687,7 +687,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       <div
         onClick={() => setOpen(true)}
         role="button"
-        tabIndex="0"
+        tabIndex={0}
         className={
           "w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform my-3 " +
           (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")

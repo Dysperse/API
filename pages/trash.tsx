@@ -48,7 +48,7 @@ function DeleteCard({ item }) {
           fetchApiWithoutHook("property/inventory/trash", {
             id: item.id,
             forever: true,
-          }).catch((err) => {
+          }).catch(() => {
             toast.error(
               "An error occured while trying to delete this item. Please try again later"
             );
@@ -68,8 +68,6 @@ function DeleteCard({ item }) {
 }
 export default function Trash() {
   const { data, url, error } = useApi("property/inventory/trashed-items");
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
 
   return (
     <Categories>
@@ -84,7 +82,6 @@ export default function Trash() {
           title="Empty Trash?"
           question="Are you sure you want to empty your trash? This action cannot be undone."
           callback={async () => {
-            setLoading(true);
             await fetchApiWithoutHook("property/inventory/clearTrash")
               .catch(() => {
                 toast.error(
@@ -92,15 +89,11 @@ export default function Trash() {
                 );
               })
               .then(() => {
-                mutate(url).then(() => {
-                  setLoading(false);
-                  setOpen(false);
-                });
+                mutate(url);
               });
           }}
         >
           <Button
-            onClick={() => setOpen(true)}
             variant="contained"
             disabled={!data || (data || []).length === 0}
             sx={{

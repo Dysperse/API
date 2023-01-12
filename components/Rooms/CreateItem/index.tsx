@@ -19,14 +19,9 @@ import {
   Icon,
   List,
   Skeleton,
-  styled,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-
-const Root = styled("div")(() => ({
-  height: "100%",
-}));
 
 /**
  * Item popup option
@@ -47,7 +42,7 @@ function AddItemOption({
 }): JSX.Element {
   return (
     <Grid item xs={12} sm={4} spacing={2}>
-      <CreateItemModal room={title} alias={alias}>
+      <CreateItemModal room={title}>
         <Card
           sx={{
             textAlign: {

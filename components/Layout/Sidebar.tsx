@@ -52,40 +52,38 @@ export function Sidebar() {
     [open]
   );
 
-  const styles = (active) => {
-    return {
-      color: colors[themeColor][global.user.darkMode ? 50 : 700],
-      borderRadius: 3,
-      my: 0.5,
-      maxHeight: "9999px",
-      overflow: "visible",
-      "& .material-symbols-rounded, & .material-symbols-outlined": {
-        transition: "none",
-        height: 50,
-        width: 50,
-        // maxWidth: 55,
-        // minHeight: 55,
-        display: "flex",
-        alignItems: "center",
-        borderRadius: 5,
-        justifyContent: "center",
-        border: "1px solid transparent",
-      },
-      "&:hover .material-symbols-outlined": {
-        background: global.user.darkMode
-          ? "hsl(240,11%,14%)"
-          : colors[themeColor][50],
-        // border: "1px solid #ccc",
-      },
-      "&:active .material-symbols-outlined": {
-        background: global.user.darkMode
-          ? "hsl(240,11%,17%)"
-          : colors[themeColor][100],
-        border:
-          "1px solid " +
-          (global.user.darkMode ? "hsl(240,11%,20%)" : colors[themeColor][200]),
-      },
-    };
+  const styles = {
+    color: colors[themeColor][global.user.darkMode ? 50 : 700],
+    borderRadius: 3,
+    my: 0.5,
+    maxHeight: "9999px",
+    overflow: "visible",
+    "& .material-symbols-rounded, & .material-symbols-outlined": {
+      transition: "none",
+      height: 50,
+      width: 50,
+      // maxWidth: 55,
+      // minHeight: 55,
+      display: "flex",
+      alignItems: "center",
+      borderRadius: 5,
+      justifyContent: "center",
+      border: "1px solid transparent",
+    },
+    "&:hover .material-symbols-outlined": {
+      background: global.user.darkMode
+        ? "hsl(240,11%,14%)"
+        : colors[themeColor][50],
+      // border: "1px solid #ccc",
+    },
+    "&:active .material-symbols-outlined": {
+      background: global.user.darkMode
+        ? "hsl(240,11%,17%)"
+        : colors[themeColor][100],
+      border:
+        "1px solid " +
+        (global.user.darkMode ? "hsl(240,11%,20%)" : colors[themeColor][200]),
+    },
   };
 
   useEffect(() => {
@@ -167,9 +165,6 @@ export function Sidebar() {
             }}
             variant="fullWidth"
             value={value}
-            onChange={(event, newValue) => {
-              // alert(newValue);
-            }}
             aria-label="basic tabs example"
             sx={{
               "& .MuiTabs-indicator": {

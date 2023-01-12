@@ -57,11 +57,9 @@ function shuffle(
  * @param children Children for the trigger
  */
 export function CreateItemModal({
-  alias,
   room,
   children,
 }: {
-  alias?: string;
   room: JSX.Element | string;
   children: JSX.Element;
 }) {
@@ -139,7 +137,7 @@ export function CreateItemModal({
             }).toString()}`
           );
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error("Couldn't create item. Please try again.");
           setLoading(false);
         });
@@ -150,11 +148,6 @@ export function CreateItemModal({
     cards.filter((card) => card.room === room.toString().toLowerCase())
   );
   const [filteredCards, setFilteredCards] = React.useState(originalCards);
-
-  /**
-   * Handle submit click
-   */
-  const clickSubmitItem = () => document.getElementById("submitItem")?.click();
 
   /**
    * Set field values

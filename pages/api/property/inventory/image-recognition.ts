@@ -1,11 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = string;
-interface ExtendedNextApiRequest extends NextApiRequest {
-  body: {
-    imageUrl: string;
-  };
-}
 
 export const config = {
   api: {
