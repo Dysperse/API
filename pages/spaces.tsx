@@ -80,7 +80,6 @@ function LinkModal({ value, setValue }) {
           Insert link
         </Typography>
         <TextField
-          fullWidth
           variant="filled"
           label="URL"
           value={link}
@@ -291,7 +290,6 @@ function CreatePostMenu({ url }) {
           </Box>
         )}
         <TextField
-          fullWidth
           placeholder="What's on your mind? (PRO TIP: Directly hit CTRL+V to paste text and share it)"
           multiline
           InputProps={{
@@ -450,7 +448,6 @@ function SearchPosts({ data, setData, originalData }) {
     <>
       <TextField
         onChange={handleChange}
-        fullWidth
         placeholder="Search memos..."
         sx={{
           mt: 2,

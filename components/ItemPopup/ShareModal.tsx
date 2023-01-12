@@ -78,7 +78,6 @@ export function ShareModal({
         <DialogContent>
           <TextField
             defaultValue={href}
-            fullWidth
             sx={{ mt: 1 }}
             InputProps={{
               readOnly: true,

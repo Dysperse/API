@@ -545,7 +545,6 @@ function CreateRoom({ mutationUrl }) {
                 ? "Container name (Example: backpack, drawer, etc.)"
                 : "Room name"
             }
-            fullWidth
             variant="filled"
             margin="dense"
             autoFocus

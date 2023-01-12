@@ -100,7 +100,6 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
                   document.getElementById("createColumnButton")?.click();
                 }
               }}
-              fullWidth
               id="create-column-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}

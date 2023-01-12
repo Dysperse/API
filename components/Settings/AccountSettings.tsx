@@ -19,7 +19,6 @@ export default function AppearanceSettings() {
         <ListItemText
           primary={
             <TextField
-              fullWidth
               variant="filled"
               defaultValue={global.user && global.user.name}
               label="Name"
@@ -32,7 +31,6 @@ export default function AppearanceSettings() {
         <ListItemText
           primary={
             <TextField
-              fullWidth
               InputProps={{
                 readOnly: true,
               }}

@@ -136,6 +136,7 @@ function RenderWithLayout({
       MuiTextField: {
         defaultProps: {
           autoComplete: "off",
+          fullWidth: true,
         },
       },
       MuiMenu: {

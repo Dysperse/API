@@ -357,7 +357,6 @@ export function CreateTask({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               autoFocus
-              fullWidth
               variant="standard"
               placeholder={
                 'Add an item to "' +
@@ -375,7 +374,6 @@ export function CreateTask({
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                fullWidth
                 variant="standard"
                 placeholder="Add a description"
                 InputProps={{

@@ -596,7 +596,6 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
         />
       </Box>
       <TextField
-        fullWidth
         size="small"
         placeholder='Try searching for "Shopping list"'
         InputProps={{

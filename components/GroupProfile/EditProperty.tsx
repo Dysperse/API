@@ -136,7 +136,6 @@ export function EditProperty({
           </Toolbar>
         </AppBar>
         <TextField
-          fullWidth
           variant="filled"
           sx={{ color: "white" }}
           defaultValue={global.property.profile.name || "Untitled property"}

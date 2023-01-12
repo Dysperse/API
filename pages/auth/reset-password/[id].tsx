@@ -130,7 +130,6 @@ export default function Prompt() {
                 type="password"
                 onChange={formik.handleChange}
                 sx={{ mb: 1.5 }}
-                fullWidth
                 variant="filled"
               />
               <TextField
@@ -143,7 +142,6 @@ export default function Prompt() {
                 type="password"
                 onChange={formik.handleChange}
                 sx={{ mb: 1.5 }}
-                fullWidth
                 variant="filled"
               />
               <Box sx={{ pb: { xs: 15, sm: 0 } }} />

@@ -109,7 +109,6 @@ export default function App() {
             variant="filled"
             label="6-digit code (without spaces)"
             placeholder="*******"
-            fullWidth
             disabled={loading}
             type="number"
             inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}

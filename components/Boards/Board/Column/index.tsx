@@ -90,7 +90,6 @@ function CompletedTasks({
                 variant="standard"
                 size="small"
                 placeholder="Filter..."
-                fullWidth
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 InputProps={{

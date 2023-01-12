@@ -92,32 +92,24 @@ function CreateGoal() {
           </AppBar>
 
           <Box sx={{ p: 5 }}>
-            <TextField
-              variant="filled"
-              label="Goal name"
-              fullWidth
-              margin="dense"
-            />
+            <TextField variant="filled" label="Goal name" margin="dense" />
             <TextField
               variant="filled"
               multiline
               rows={4}
               label="Add a description"
-              fullWidth
               margin="dense"
             />
             <TextField
               variant="filled"
               margin="dense"
               label="Goal duration (in days)"
-              fullWidth
             />
             <TextField
               variant="filled"
               margin="dense"
               label="Goal step name"
               helperText="e.g. Meditate Today"
-              fullWidth
             />
             <FormControl fullWidth sx={{ mt: 2 }}>
               <InputLabel id="demo-simple-select-label">Time of day</InputLabel>

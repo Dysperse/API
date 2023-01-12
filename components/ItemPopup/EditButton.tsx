@@ -136,7 +136,6 @@ export function EditButton({
               margin="dense"
               autoFocus
               label="Title"
-              fullWidth
               onChange={formik.handleChange}
               defaultValue={formik.values.name}
               name="title"
@@ -145,7 +144,6 @@ export function EditButton({
             <TextField
               margin="dense"
               label="Quantity"
-              fullWidth
               onChange={formik.handleChange}
               defaultValue={formik.values.quantity}
               name="quantity"

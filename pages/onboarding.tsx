@@ -251,7 +251,6 @@ export default function Onboarding() {
           );
         }}
         margin="dense"
-        fullWidth
       />
       <FormControl fullWidth margin="dense">
         <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>

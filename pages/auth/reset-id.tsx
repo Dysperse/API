@@ -124,7 +124,6 @@ export default function Prompt() {
                 name="email"
                 onChange={formik.handleChange}
                 sx={{ mb: 1.5 }}
-                fullWidth
                 variant="filled"
               />
 

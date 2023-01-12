@@ -204,7 +204,6 @@ export function CreateItemModal({
                 autoFocus
                 margin="dense"
                 required
-                fullWidth
                 autoComplete={"off"}
                 onChange={(e) => {
                   formik.setFieldValue("title", e.target.value);
@@ -246,7 +245,6 @@ export function CreateItemModal({
               margin="dense"
               placeholder="Add a quantity"
               autoComplete={"off"}
-              fullWidth
               onChange={(e) => {
                 formik.setFieldValue("quantity", e.target.value);
               }}

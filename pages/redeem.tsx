@@ -37,7 +37,6 @@ export default function Redeem() {
           id="outlined-basic"
           label="Code"
           variant="filled"
-          fullWidth
         />
         <Button
           size="large"

@@ -225,7 +225,6 @@ export default function Prompt() {
                 name="name"
                 onChange={formik.handleChange}
                 sx={{ mb: 1.5 }}
-                fullWidth
                 variant="filled"
               />
               <TextField
@@ -237,7 +236,6 @@ export default function Prompt() {
                 name="email"
                 onChange={formik.handleChange}
                 sx={{ mb: 1.5 }}
-                fullWidth
                 variant="filled"
               />
               <TextField
@@ -249,7 +247,6 @@ export default function Prompt() {
                 sx={{ mb: 1.5 }}
                 name="password"
                 onChange={formik.handleChange}
-                fullWidth
                 variant="filled"
               />
               <TextField
@@ -261,7 +258,6 @@ export default function Prompt() {
                 sx={{ mb: 1.5 }}
                 name="confirmPassword"
                 onChange={formik.handleChange}
-                fullWidth
                 variant="filled"
               />
               <Link

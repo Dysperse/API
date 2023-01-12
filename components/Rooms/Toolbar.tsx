@@ -105,7 +105,6 @@ function SearchBar({
         }}
         size="small"
         variant="standard"
-        fullWidth
         InputProps={{
           disableUnderline: true,
           sx: {

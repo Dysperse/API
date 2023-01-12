@@ -140,7 +140,6 @@ function CreateRoom({ collapsed }: { collapsed: boolean }): JSX.Element {
               variant="filled"
               onChange={formik.handleChange}
               value={formik.values.name}
-              fullWidth
               autoComplete={"off"}
               name="name"
             />

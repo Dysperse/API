@@ -251,7 +251,6 @@ export function TaskDrawer({
             {view == "Details" && (
               <TextField
                 multiline
-                fullWidth
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,

@@ -87,14 +87,12 @@ function LinkToken({ color }) {
           <TextField
             variant="filled"
             value={url}
-            fullWidth
             InputProps={{
               readOnly: true,
             }}
             label="Invite URL"
           />
           <Button
-            fullWidth
             variant="outlined"
             size="large"
             sx={{ mt: 2, borderRadius: 999, borderWidth: "2px!important" }}
@@ -240,7 +238,6 @@ export function AddPersonModal({
             onChange={(e) => setValue(e.target.value)}
             variant="filled"
             label="Enter an email address"
-            fullWidth
           />
           <FormControl fullWidth>
             <Select

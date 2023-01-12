@@ -336,7 +336,6 @@ export default function Item({
                     defaultValue={item.name || "(no title)"}
                     variant="standard"
                     multiline
-                    fullWidth
                     InputProps={{
                       disableUnderline: true,
                       sx: {
@@ -365,7 +364,6 @@ export default function Item({
                       });
                     }}
                     placeholder="Click to add quantity"
-                    fullWidth
                     sx={{
                       mb: 2,
                     }}
@@ -436,7 +434,6 @@ export default function Item({
                   </div>
                   <TextField
                     multiline
-                    fullWidth
                     onBlur={(e) => {
                       e.target.placeholder = "Click to add note";
                       e.target.spellcheck = false;
