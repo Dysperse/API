@@ -93,9 +93,7 @@ export const Task = React.memo(function Task({
         : `inset 0 0 0 1.5px ${colors[task.color ?? "brown"]["A400"]}`) +
       ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
     backgroundColor: `${
-      colors[task.color ?? global.themeColor ?? "brown"][
-        global.user.darkMode ? 50 : "A400"
-      ]
+      colors[task.color || "brown"][global.user.darkMode ? 50 : "A400"]
     }!important`,
     "&:before": {
       display: "block",
