@@ -74,9 +74,6 @@ export function InviteButton() {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
   useHotkeys(
     "ctrl+p",
     (e) => {
@@ -86,23 +83,6 @@ export function InviteButton() {
     [open]
   );
 
-  /**
-   * Description
-   * @param {React.MouseEvent<any>} event
-   * @returns {any}
-   */
-  const handleClick = (event) => {
-    const target = event.currentTarget as HTMLButtonElement;
-    setAnchorEl(target);
-  };
-
-  /**
-   * Closes the popup
-   * @returns void
-   */
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const trigger = useMediaQuery("(min-width: 600px)");
 
   let properties = global.user.properties;
@@ -171,7 +151,6 @@ export function InviteButton() {
           />
         ))}
       </SwipeableDrawer>
-      <Box id="new_trigger" onClick={handleClick} />
       <Button
         disableRipple
         disabled={!window.navigator.onLine}
