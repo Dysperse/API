@@ -239,7 +239,6 @@ export function AddPersonModal({
             value={value}
             onChange={(e) => setValue(e.target.value)}
             variant="filled"
-            autoComplete="off"
             label="Enter an email address"
             fullWidth
           />

@@ -93,7 +93,6 @@ function CompletedTasks({
                 fullWidth
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                autoComplete="off"
                 InputProps={{
                   disableUnderline: true,
                   sx: {
@@ -234,7 +233,6 @@ function OptionsMenu({ collapsed, mutationUrl, boardId, column }) {
           )}
           {editMode ? (
             <TextField
-              autoComplete="off"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               id={"renameInput"}

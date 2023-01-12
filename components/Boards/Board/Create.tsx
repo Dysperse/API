@@ -598,7 +598,6 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
       <TextField
         fullWidth
         size="small"
-        autoComplete="off"
         placeholder='Try searching for "Shopping list"'
         InputProps={{
           startAdornment: (

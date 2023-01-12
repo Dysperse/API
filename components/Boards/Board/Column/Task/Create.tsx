@@ -354,7 +354,6 @@ export function CreateTask({
             <TextField
               inputRef={titleRef}
               id="title"
-              autoComplete="off"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               autoFocus

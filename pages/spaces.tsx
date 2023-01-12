@@ -83,7 +83,6 @@ function LinkModal({ value, setValue }) {
           fullWidth
           variant="filled"
           label="URL"
-          autoComplete="off"
           value={link}
           onChange={(e) => setLink(e.target.value)}
         />
@@ -294,7 +293,6 @@ function CreatePostMenu({ url }) {
         <TextField
           fullWidth
           placeholder="What's on your mind? (PRO TIP: Directly hit CTRL+V to paste text and share it)"
-          autoComplete="off"
           multiline
           InputProps={{
             disableUnderline: true,
@@ -454,7 +452,6 @@ function SearchPosts({ data, setData, originalData }) {
         onChange={handleChange}
         fullWidth
         placeholder="Search memos..."
-        autoComplete="off"
         sx={{
           mt: 2,
         }}

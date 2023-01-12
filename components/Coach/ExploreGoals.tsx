@@ -94,7 +94,6 @@ function CreateGoal() {
           <Box sx={{ p: 5 }}>
             <TextField
               variant="filled"
-              autoComplete="off"
               label="Goal name"
               fullWidth
               margin="dense"
@@ -103,21 +102,18 @@ function CreateGoal() {
               variant="filled"
               multiline
               rows={4}
-              autoComplete="off"
               label="Add a description"
               fullWidth
               margin="dense"
             />
             <TextField
               variant="filled"
-              autoComplete="off"
               margin="dense"
               label="Goal duration (in days)"
               fullWidth
             />
             <TextField
               variant="filled"
-              autoComplete="off"
               margin="dense"
               label="Goal step name"
               helperText="e.g. Meditate Today"

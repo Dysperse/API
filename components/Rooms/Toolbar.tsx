@@ -106,7 +106,6 @@ function SearchBar({
         size="small"
         variant="standard"
         fullWidth
-        autoComplete="off"
         InputProps={{
           disableUnderline: true,
           sx: {

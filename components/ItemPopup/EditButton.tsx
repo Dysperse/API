@@ -141,14 +141,12 @@ export function EditButton({
               defaultValue={formik.values.name}
               name="title"
               variant="filled"
-              autoComplete="off"
             />
             <TextField
               margin="dense"
               label="Quantity"
               fullWidth
               onChange={formik.handleChange}
-              autoComplete="off"
               defaultValue={formik.values.quantity}
               name="quantity"
               variant="filled"
@@ -168,7 +166,6 @@ export function EditButton({
                   label="Categories"
                   name="categories"
                   variant="filled"
-                  autoComplete="off"
                   {...params}
                 />
               )}

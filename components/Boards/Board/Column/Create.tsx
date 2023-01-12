@@ -106,7 +106,6 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
               onChange={(e) => setTitle(e.target.value)}
               variant="standard"
               placeholder="Column name"
-              autoComplete="off"
               InputProps={{
                 disableUnderline: true,
                 sx: {

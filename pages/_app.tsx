@@ -133,6 +133,11 @@ function RenderWithLayout({
           },
         },
       },
+      MuiTextField: {
+        defaultProps: {
+          autoComplete: "off",
+        },
+      },
       MuiMenu: {
         defaultProps: {
           BackdropProps: {
