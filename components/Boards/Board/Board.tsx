@@ -154,6 +154,35 @@ export const Board = React.memo(function Board({
 
   mutationUrl,
 }: any) {
+  const boardSwitcherStyles = {
+    fontWeight: 600,
+    lineHeight: 1.5,
+    letterSpacing: 0.15,
+    borderRadius: 2,
+    overflow: "hidden",
+    maxWidth: "100%",
+    px: 1,
+    mb: 0.2,
+    color: global.user.darkMode ? "hsl(240,11%,70%)" : "#404040",
+    cursor: "auto!important",
+    userSelect: "none",
+    "&:hover": {
+      color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
+      background: global.user.darkMode
+        ? "hsl(240,11%,13%)"
+        : "rgba(200,200,200,.3)",
+    },
+    "&:active": {
+      color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
+      background: global.user.darkMode
+        ? "hsl(240,11%,16%)"
+        : "rgba(200,200,200,.4)",
+    },
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "10px",
+  };
+
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
@@ -195,35 +224,7 @@ export const Board = React.memo(function Board({
           <Typography
             variant="h5"
             onClick={() => setDrawerOpen(true)}
-            sx={{
-              fontWeight: 600,
-              lineHeight: 1.5,
-              letterSpacing: 0.15,
-              borderRadius: 2,
-              overflow: "hidden",
-              maxWidth: "100%",
-              px: 1,
-              mb: 0.2,
-              color: global.user.darkMode ? "hsl(240,11%,70%)" : "#404040",
-              cursor: "auto!important",
-              userSelect: "none",
-              "&:hover": {
-                color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
-                background: global.user.darkMode
-                  ? "hsl(240,11%,13%)"
-                  : "rgba(200,200,200,.3)",
-              },
-              "&:active": {
-                color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
-                background: global.user.darkMode
-                  ? "hsl(240,11%,16%)"
-                  : "rgba(200,200,200,.4)",
-              },
-
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
+            sx={boardSwitcherStyles}
           >
             {board.name}
             <Icon>expand_more</Icon>
@@ -364,36 +365,15 @@ export const Board = React.memo(function Board({
               overflow: "hidden",
             }}
           >
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              height={500}
-              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-            />
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              height={500}
-              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-            />
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              height={500}
-              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-            />
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              height={500}
-              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-            />
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              height={500}
-              sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-            />
+            {[...new Array(5)].map(() => (
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                key={Math.random().toString()}
+                height={500}
+                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
+              />
+            ))}
           </Box>
         )}
       </Box>

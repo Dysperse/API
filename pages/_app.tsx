@@ -53,15 +53,6 @@ function RenderWithLayout({
   const themeColor = data.user.color;
   const [loadingButton, setLoadingButton] = useState(false);
 
-  if (data.user.darkMode) {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute("content", "hsl(240, 11%, 10%)");
-    document
-      .querySelector(`link[rel="shortcut icon"]`)
-      ?.setAttribute("href", "https://i.ibb.co/gtLtGLR/image-1.png");
-  }
-
   global.user = data.user;
   global.theme = theme;
   global.themeColor = themeColor;
@@ -71,6 +62,9 @@ function RenderWithLayout({
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", "hsl(240, 11%, 10%)");
+      document
+        .querySelector(`link[rel="shortcut icon"]`)
+        ?.setAttribute("href", "https://i.ibb.co/gtLtGLR/image-1.png");
     }
   }, [data]);
 
