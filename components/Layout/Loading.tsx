@@ -89,7 +89,7 @@ export function Loading(): JSX.Element {
           }}
         >
           <Box sx={{ mt: "auto" }} />
-          {[...new Array(5)].map(() => (
+          {[...new Array(5)].map((_, i) => (
             <Skeleton
               variant="rectangular"
               animation="wave"
