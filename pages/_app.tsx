@@ -1,9 +1,8 @@
-import LoadingButton from "@mui/lab/LoadingButton";
 import { experimental_sx as sx } from "@mui/material/styles";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
 import { NextRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
 import Layout from "../components/Layout";
@@ -20,6 +19,7 @@ import { Property, Session } from "../types/session";
 // Day.JS
 import {
   Box,
+  Button,
   CircularProgress,
   createTheme,
   NoSsr,
@@ -51,7 +51,6 @@ function RenderWithLayout({
 }) {
   const theme: "dark" | "light" = data.user.darkMode ? "dark" : "light";
   const themeColor = data.user.color;
-  const [loadingButton, setLoadingButton] = useState(false);
 
   global.user = data.user;
   global.theme = theme;
@@ -342,9 +341,7 @@ function RenderWithLayout({
               <Layout>{children}</Layout>
             ) : (
               // If the onboarding process is not complete, redirect to the onboarding page.
-              <LoadingButton
-                ref={(i) => i && i.click()}
-                loading={loadingButton}
+              <Button
                 sx={{
                   position: "absolute",
                   top: "50%",
@@ -352,12 +349,11 @@ function RenderWithLayout({
                   transform: "translate(-50%, -50%)",
                 }}
                 onClick={() => {
-                  setLoadingButton(true);
                   router.push("/onboarding");
                 }}
               >
                 Click here if you&apos;re not being redirected
-              </LoadingButton>
+              </Button>
             )
           }
         </Box>
