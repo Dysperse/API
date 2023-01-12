@@ -1,5 +1,4 @@
 import { prisma } from "../../../../lib/prismaClient";
-import { validatePermissions } from "../../../../lib/validatePermissions";
 
 /**
  * API handler

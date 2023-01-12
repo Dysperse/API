@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   const hashedPassword = await argon2.hash(password);
 
   //   Update user password
-  const user = await prisma.user.update({
+  await prisma.user.update({
     where: {
       id: userId,
     },

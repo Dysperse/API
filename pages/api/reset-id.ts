@@ -1,8 +1,6 @@
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../lib/prismaClient";
-import argon2 from "argon2";
-import * as twofactor from "node-2fa";
 
 /**
  * Creates a session and stores it in the database
@@ -86,10 +84,10 @@ export default async function handler(req, res) {
 
   console.log(url);
 
-  const templateParams = {
-    to: email,
-    link: url,
-  };
+  // const templateParams = {
+  //   to: email,
+  //   link: url,
+  // };
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
