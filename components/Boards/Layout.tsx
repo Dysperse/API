@@ -331,7 +331,8 @@ export function TasksLayout() {
         anchor="bottom"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        open={open}
+        open={open} 
+        disableSwipeToOpen
         PaperProps={{
           sx: {
             borderRadius: "20px 20px 0 0",
