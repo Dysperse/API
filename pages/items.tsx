@@ -221,7 +221,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
       size="small"
       ref={itemRef}
       onClick={(e: any) => {
-        navigator.vibrate(500); 
+        navigator.vibrate(100); 
         e.preventDefault();
         e.stopPropagation();
         handleClick(e);
