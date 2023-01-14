@@ -196,7 +196,7 @@ export function Group({
       <Drawer
         anchor="right"
         ModalProps={{
-          keepMounted: data.accessToken === global.property.accessToken,
+          keepMounted: false,
         }}
         PaperProps={{
           sx: {
