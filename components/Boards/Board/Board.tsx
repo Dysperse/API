@@ -35,7 +35,10 @@ function BoardSettings({ mutationUrl, board }) {
           mutate(mutationUrl);
           setOpen(false);
         }}
-        onOpen={() => setOpen(true)}
+        onOpen={() => {
+         setOpen(true);
+         navigator.vibrate(200);
+        }}
         disableSwipeToOpen
         PaperProps={{
           sx: {
