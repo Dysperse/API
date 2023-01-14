@@ -52,6 +52,7 @@ function BoardSettings({ mutationUrl, board }) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           id={"renameInput"}
+          autoFocus
           size="small"
           InputProps={{
             sx: {
