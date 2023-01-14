@@ -94,7 +94,7 @@ export function InviteButton() {
     <>
       <SwipeableDrawer
         ModalProps={{
-          keepMounted: true,
+         // keepMounted: true,
         }}
         open={open}
         onOpen={() => setOpen(true)}
@@ -137,7 +137,7 @@ export function InviteButton() {
             }),
           },
         }}
-        swipeAreaWidth={0}
+        disableSwipeToOpen
       >
         <Box sx={{ display: { sm: "none" } }}>
           <Puller />
