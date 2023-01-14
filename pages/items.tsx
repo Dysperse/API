@@ -221,6 +221,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
       size="small"
       ref={itemRef}
       onClick={(e: any) => {
+        navigator.vibrate(500); 
         e.preventDefault();
         e.stopPropagation();
         handleClick(e);
@@ -330,7 +331,7 @@ function Action({
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        ref.current.click();
+        ref.current.click();navigator.vibrate(500); 
       }}
       onClick={() => {
         if (href) router.push(href).then(() => setLoading(false));
