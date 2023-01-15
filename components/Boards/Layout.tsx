@@ -34,6 +34,7 @@ const Tab = React.memo(function Tab({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!editMode) event.preventDefault();
     setAnchorEl(event.currentTarget);
+    navigator.vibrate(50);
   };
   const handleClose = () => {
     setAnchorEl(null);
