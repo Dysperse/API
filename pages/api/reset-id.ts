@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     },
   });
 
-  const url = `https://my.smartlist.tech/auth/reset-password/${token.token}`;
+  const url = `https://my.dysperse.com/auth/reset-password/${token.token}`;
 
   console.log(url);
 

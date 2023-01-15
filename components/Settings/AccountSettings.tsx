@@ -45,7 +45,7 @@ export default function AppearanceSettings() {
       </ListItem>
       <Typography sx={{ mb: 3, px: 2 }}>
         If you want to deactivate your account,{" "}
-        <Link href="mailto:hello@smartlist.tech">please contact us</Link>
+        <Link href="mailto:hello@dysperse.com">please contact us</Link>
       </Typography>
     </Box>
   );

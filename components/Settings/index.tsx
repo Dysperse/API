@@ -335,7 +335,7 @@ export default function FullScreenDialog({
                   primary={
                     <Typography sx={{ fontWeight: "600" }}>Sign out</Typography>
                   }
-                  secondary="Sign out of Carbon and its related apps"
+                  secondary="Sign out of Dysperse and its related apps"
                 />
               </ListItem>
             </ConfirmationModal>

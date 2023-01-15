@@ -1,5 +1,5 @@
 {
-  "name": "Carbon",
+  "name": "Dysperse",
   "start_url": "/",
   "scope": "/",
   "background_color": "#5D4444",
@@ -8,11 +8,13 @@
   "lang": "en-US",
   "display": "standalone",
   "orientation": "portrait",
-  "short_name": "Carbon",
+  "short_name": "Dysperse",
   "theme_color": "#5D4444",
   "prefer_related_applications": true,
   "capture_links": "new-client",
-  "display_override": ["window-controls-overlay"],
+  "display_override": [
+    "window-controls-overlay"
+  ],
   "screenshots": [
     {
       "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/screenshots/1.png",
@@ -75,7 +77,7 @@
       "sizes": "1080x1920",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Why choose Carbon?"
+      "label": "Why choose Dysperse?"
     }
   ],
   "icons": [

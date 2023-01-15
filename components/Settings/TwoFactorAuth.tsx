@@ -13,7 +13,7 @@ import { Box, Link, TextField, Typography } from "@mui/material";
  */
 export default function App() {
   const secret = twofactor.generateSecret({
-    name: "Carbon",
+    name: "Dysperse",
     account: global.user.email,
   });
   const [newSecret] = useState(secret);
@@ -56,7 +56,7 @@ export default function App() {
           </Typography>
           <Typography sx={{ mt: 1 }}>
             Two-Factor Authentication (2FA) works by adding an additional layer
-            of security to your Carbon account.
+            of security to your Dysperse account.
           </Typography>
 
           <Typography sx={{ mt: 4, fontWeight: "700" }}>

@@ -90,7 +90,7 @@ export default function Prompt() {
               display: { xs: "flex", sm: "none" },
               mt: -3,
             }}
-            onClick={() => window.open("//smartlist.tech")}
+            onClick={() => window.open("//dysperse.com")}
           >
             <picture>
               <img
@@ -101,7 +101,7 @@ export default function Prompt() {
               />
             </picture>
             <Typography variant="h5" sx={{ mt: -1 }}>
-              Carbon
+              Dysperse
             </Typography>
           </Box>
           <form onSubmit={formik.handleSubmit}>

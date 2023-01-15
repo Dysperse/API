@@ -169,8 +169,8 @@ function ResponsiveDrawer({
     <Box sx={{ display: "flex" }}>
       {router && (
         <PWAPrompt
-          copyBody="Add Carbon to your home screen to have easy access, recieve push notifications, and more!"
-          copyTitle="Add Carbon to your home screen!"
+          copyBody="Add Dysperse to your home screen to have easy access, recieve push notifications, and more!"
+          copyTitle="Add Dysperse to your home screen!"
         />
       )}
       <Navbar />

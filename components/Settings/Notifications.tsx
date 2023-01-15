@@ -31,23 +31,29 @@ export default function Notifications() {
   const [registration, setRegistration] = useState<any>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined" &&
-        "serviceWorker" in navigator &&
-        window.workbox !== undefined) {
-        // run only in browser
-        navigator.serviceWorker.ready.then((reg) => {
-            reg.pushManager.getSubscription().then((sub) => {
-                if (sub &&
-                    !((sub as any).expirationTime &&
-                        Date.now() > (sub as any).expirationTime - 5 * 60 * 1000)) {
-                    setSubscription(sub);
-                    setIsSubscribed(true);
-                }
-            });
-            setRegistration(reg);
+    if (
+      typeof window !== "undefined" &&
+      "serviceWorker" in navigator &&
+      window.workbox !== undefined
+    ) {
+      // run only in browser
+      navigator.serviceWorker.ready.then((reg) => {
+        reg.pushManager.getSubscription().then((sub) => {
+          if (
+            sub &&
+            !(
+              (sub as any).expirationTime &&
+              Date.now() > (sub as any).expirationTime - 5 * 60 * 1000
+            )
+          ) {
+            setSubscription(sub);
+            setIsSubscribed(true);
+          }
         });
+        setRegistration(reg);
+      });
     }
-}, []);
+  }, []);
 
   const subscribeButtonOnClick = async (event) => {
     event.preventDefault();
@@ -110,7 +116,7 @@ export default function Notifications() {
   return isInPwa || process.env.NODE_ENV !== "production" ? (
     <Box sx={{ mb: 2 }}>
       {!periodicSyncSupported && (
-        <ErrorHandler error="Push notifications are not supported. Please use a supported browser, or the Carbon app" />
+        <ErrorHandler error="Push notifications are not supported. Please use a supported browser, or the Dysperse app" />
       )}
       <ListItem>
         <ListItemText
@@ -161,12 +167,12 @@ export default function Notifications() {
     <Box
       sx={{ p: 3, borderRadius: 5, background: "rgba(200,200,200,.3)", mb: 5 }}
     >
-      Use the Carbon PWA to enable notifications for Android, Desktop, and
+      Use the Dysperse PWA to enable notifications for Android, Desktop, and
       Chrome OS
       <Button
         fullWidth
         variant="contained"
-        href="//my.smartlist.tech"
+        href="//my.dysperse.com"
         target="_blank"
         sx={{
           mt: 2,
@@ -177,7 +183,7 @@ export default function Notifications() {
       </Button>
       <Button
         fullWidth
-        href="//my.smartlist.tech"
+        href="//my.dysperse.com"
         target="_blank"
         size="small"
         sx={{

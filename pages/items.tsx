@@ -328,10 +328,11 @@ function Action({
       button
       disableRipple
       onContextMenu={(e) => {
-        e.preventDefault(); 
-        navigator.vibrate(50)
+        e.preventDefault();
+        navigator.vibrate(50);
         e.stopPropagation();
-        ref.current.click();navigator.vibrate(500); 
+        ref.current.click();
+        navigator.vibrate(500);
       }}
       onClick={() => {
         if (href) router.push(href).then(() => setLoading(false));
@@ -610,7 +611,7 @@ export default function Categories({ children = null }: any) {
       }}
     >
       <Head>
-        <title>Items &bull; Carbon</title>
+        <title>Items &bull; Dysperse</title>
       </Head>
       <Box
         sx={{

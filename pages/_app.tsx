@@ -323,7 +323,7 @@ function RenderWithLayout({
   return (
     <>
       <Head>
-        <title>Carbon</title>
+        <title>Dysperse</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content"
@@ -462,7 +462,7 @@ function RenderRoot({
           >
             <picture>
               <img
-                src="https://i.ibb.co/F7vSQPP/Carbon-Home-inventory-and-finance-tracking-2.png"
+                src="https://i.ibb.co/F7vSQPP/Dysperse-Home-inventory-and-finance-tracking-2.png"
                 width="80"
                 height="80"
                 alt="logo"
@@ -473,7 +473,7 @@ function RenderRoot({
               />
             </picture>
             <Typography variant="h6" sx={{ mt: -0.5 }}>
-              Carbon
+              Dysperse
             </Typography>
           </Box>
           <Box

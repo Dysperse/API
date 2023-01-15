@@ -226,7 +226,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
             Set a new goal
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            With Carbon Coach, anything is possible. Set a goal and we&apos;ll
+            With Dysperse Coach, anything is possible. Set a goal and we&apos;ll
             help you achieve it by adding small steps to enrich your daily
             routine.
           </Typography>

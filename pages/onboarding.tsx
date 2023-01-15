@@ -125,7 +125,7 @@ function QontoStepIcon(props: StepIconProps) {
 export default function Onboarding() {
   const router = useRouter();
   const steps = [
-    "Welcome to Carbon!",
+    "Welcome to Dysperse!",
     "Customize your theme",
     "Edit your home",
     "Add some items",
@@ -153,7 +153,7 @@ export default function Onboarding() {
           fontWeight: 600,
         }}
       >
-        Welcome to Carbon!
+        Welcome to Dysperse!
       </Typography>
       <Typography
         variant="body1"
@@ -162,7 +162,7 @@ export default function Onboarding() {
           marginTop: 2,
         }}
       >
-        Thanks for choosing Carbon! We&apos;re excited to have you here.
+        Thanks for choosing Dysperse! We&apos;re excited to have you here.
         Let&apos;s get started by personalizing your theme and entering some
         basic information about your home.
       </Typography>

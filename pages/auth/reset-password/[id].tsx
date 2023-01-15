@@ -107,7 +107,7 @@ export default function Prompt() {
               />
             </picture>
             <Typography variant="h5" sx={{ mt: -1 }}>
-              Carbon
+              Dysperse
             </Typography>
           </Box>
           <form onSubmit={formik.handleSubmit}>

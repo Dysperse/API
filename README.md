@@ -16,19 +16,19 @@
 
 ## Meet Smartlist.
 
-Carbon is a free home inventory app that lets you keep track of what you have in your home, and helps you save money.
+Dysperse is a free home inventory app that lets you keep track of what you have in your home, and helps you save money.
 
 ## Why?
 
-Tracking what you have in your home can be painful, and Carbon makes it easier. Carbon helps you control how much you spend, set financial goals, and more
+Tracking what you have in your home can be painful, and Dysperse makes it easier. Dysperse helps you control how much you spend, set financial goals, and more
 
 ### A bit about us
 
-Carbon started in 2020, around the peak COVID-19 crisis. Carbon is **non-commercial**, **open-source**, and **free, forever**!
+Dysperse started in 2020, around the peak COVID-19 crisis. Dysperse is **non-commercial**, **open-source**, and **free, forever**!
 
 ### By students, for students & families
 
-Hey! I'm Manu. I started Carbon as a middle school project. I often found my parents struggling with home inventory, shopping lists, and more. That's why I wanted to build Smartlist: Home inventory for free!
+Hey! I'm Manu. I started Dysperse as a middle school project. I often found my parents struggling with home inventory, shopping lists, and more. That's why I wanted to build Smartlist: Home inventory for free!
 
 ## Top contributors
 
@@ -57,4 +57,4 @@ Hey! I'm Manu. I started Carbon as a middle school project. I often found my par
 ## How can I contribute?
 
 Want to contribute?
-Visit: https://smartlist.tech/join
+Visit: https://dysperse.com/join

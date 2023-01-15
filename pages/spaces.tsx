@@ -892,7 +892,7 @@ export default function Spaces() {
       className="mt-5 sm:mt-10 max-w-4xl mx-auto"
     >
       <Head>
-        <title>Spaces &bull; Carbon</title>
+        <title>Spaces &bull; Dysperse</title>
       </Head>
       {data ? (
         <>

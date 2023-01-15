@@ -143,7 +143,7 @@ export function Navbar(): JSX.Element {
             color="inherit"
             disabled={!window.navigator.onLine}
             disableRipple
-            onClick={() => window.open("https://smartlist.tech/support")}
+            onClick={() => window.open("https://dysperse.com/support")}
           >
             <Icon className="outlined">help</Icon>
           </IconButton>

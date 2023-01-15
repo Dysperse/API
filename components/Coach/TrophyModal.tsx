@@ -51,7 +51,7 @@ export function TrophyModal({ goal, mutationUrl }) {
       >
         <Box sx={{ p: 3 }}>
           <Typography variant="h6" gutterBottom>
-            Are you satisfied with how Carbon Coach helped you achieve this
+            Are you satisfied with how Dysperse Coach helped you achieve this
             goal?
           </Typography>
           <Typography>

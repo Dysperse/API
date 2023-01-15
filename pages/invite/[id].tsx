@@ -95,7 +95,7 @@ export default function Onboarding() {
             }}
           >
             You&apos;ve been invited to{" "}
-            <b>&ldquo;{data.property.name}&rdquo;</b> by another Carbon user
+            <b>&ldquo;{data.property.name}&rdquo;</b> by another Dysperse user
           </Typography>
 
           <Typography
@@ -174,7 +174,7 @@ export default function Onboarding() {
                   500,
                   1000,
                   "/signup?close=true",
-                  "Please sign in to your Carbon account"
+                  "Please sign in to your Dysperse account"
                 );
                 setLoading(false);
               }

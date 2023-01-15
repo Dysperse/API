@@ -8,7 +8,7 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>Tasks &bull; Carbon</title>
+        <title>Tasks &bull; Dysperse</title>
       </Head>
       <TasksLayout />
     </>

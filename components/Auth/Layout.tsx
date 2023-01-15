@@ -22,7 +22,7 @@ export function Layout({ children }): JSX.Element {
   return (
     <>
       <Head>
-        <title>Login &bull; Carbon</title>
+        <title>Login &bull; Dysperse</title>
       </Head>
       <ThemeProvider theme={darkTheme}>
         <Box
@@ -55,11 +55,11 @@ export function Layout({ children }): JSX.Element {
                 transitionDuration: "0s",
               },
             }}
-            onClick={() => window.open("//smartlist.tech")}
+            onClick={() => window.open("//dysperse.com")}
           >
             <picture>
               <img
-                src="https://i.ibb.co/F7vSQPP/Carbon-Home-inventory-and-finance-tracking-2.png"
+                src="https://i.ibb.co/F7vSQPP/Dysperse-Home-inventory-and-finance-tracking-2.png"
                 width="80"
                 height="80"
                 alt="logo"
@@ -70,7 +70,7 @@ export function Layout({ children }): JSX.Element {
               />
             </picture>
             <Typography variant="h6" sx={{ mt: -0.5 }}>
-              Carbon
+              Dysperse
             </Typography>
             <Chip label="ALPHA" color="warning" size="small" sx={{ ml: 1 }} />
           </Box>

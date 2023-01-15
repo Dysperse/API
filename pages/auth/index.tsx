@@ -19,7 +19,7 @@ import {
   Paper,
   SwipeableDrawer,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 
 /**
@@ -28,26 +28,26 @@ import {
 export default function Prompt() {
   const proTips = [
     "PRO TIP: You can customize your theme color by visiting your appearance settings.",
-    "DID YOU KNOW: Carbon started in 2020, and has been growing ever since.",
+    "DID YOU KNOW: Dysperse started in 2020, and has been growing ever since.",
     "PRO TIP: Hit CTRL / to view a list of all the keyboard shortcuts.",
     "PRO TIP: Hit CTRL + K to quickly jump between pages, rooms, tasks, and more.",
-    "DID YOU KNOW: Carbon is open source! You can contribute to the project on GitHub.",
-    "PRO TIP: Carbon Coach is here to help you with goals, big and small. Set a goal by navigating to the Coach tab in the sidebar.",
+    "DID YOU KNOW: Dysperse is open source! You can contribute to the project on GitHub.",
+    "PRO TIP: Dysperse Coach is here to help you with goals, big and small. Set a goal by navigating to the Coach tab in the sidebar.",
     "PRO TIP: Accidentally placed an item in the wrong room? You can move an item by selecting the desired room.",
     "PRO TIP: You can view your home's audit log by clicking on the changelog icon in the navigation bar.",
     "PRO TIP: You can switch between light and dark mode by visiting your appearance settings.",
-    "DID YOU KNOW: Carbon is built using ReactJS",
-    "DID YOU KNOW: Carbon is sponsored by the amazing people @ Vercel.",
-    "DID YOU KNOW: Carbon was built with the intention of being a free, open-source alternative to other task management apps, which would be all-in-one.",
-    "DID YOU KNOW: You can sign up to be a volunteer by visiting smartlist.tech/join",
-    "DID YOU KNOW: Carbon was built with the intention of becoming a home inventory app, but has since evolved into much more!",
-    "DID YOU KNOW: Carbon is the #1 home inventory app available on the web.",
-    "PRO TIP: Join the Carbon Discord server by visiting smartlist.tech/discord",
-    "DID YOU KNOW: Carbon uses AES-256 encryption to protect your data.",
-    "PRO TIP: Carbon saves your dark mode preference, so you don't have to worry about it changing when you switch devices.",
+    "DID YOU KNOW: Dysperse is built using ReactJS",
+    "DID YOU KNOW: Dysperse is sponsored by the amazing people @ Vercel.",
+    "DID YOU KNOW: Dysperse was built with the intention of being a free, open-source alternative to other task management apps, which would be all-in-one.",
+    "DID YOU KNOW: You can sign up to be a volunteer by visiting dysperse.com/join",
+    "DID YOU KNOW: Dysperse was built with the intention of becoming a home inventory app, but has since evolved into much more!",
+    "DID YOU KNOW: Dysperse is the #1 home inventory app available on the web.",
+    "PRO TIP: Join the Dysperse Discord server by visiting dysperse.com/discord",
+    "DID YOU KNOW: Dysperse uses AES-256 encryption to protect your data.",
+    "PRO TIP: Dysperse saves your dark mode preference, so you don't have to worry about it changing when you switch devices.",
     "PRO TIP: Invite members to your home by clicking on your home's name in the navigation bar.",
-    "DID YOU KNOW: Carbon keeps UX in mind, and is designed to be as intuitive as possible.",
-    "DID YOU KNOW: Carbon keeps you logged in for 30 days, so you don't have to worry about logging in every time you visit.",
+    "DID YOU KNOW: Dysperse keeps UX in mind, and is designed to be as intuitive as possible.",
+    "DID YOU KNOW: Dysperse keeps you logged in for 30 days, so you don't have to worry about logging in every time you visit.",
   ];
   const [proTip, setProTip] = useState(
     proTips[Math.floor(Math.random() * proTips.length)]
@@ -141,7 +141,7 @@ export default function Prompt() {
           );
           if (window.location.href.includes("?application=")) {
             window.location.href =
-              "https://availability.smartlist.tech/api/oauth/redirect?token=" +
+              "https://availability.dysperse.com/api/oauth/redirect?token=" +
               res.accessToken;
           } else {
             mutate("/api/user");
@@ -288,7 +288,7 @@ export default function Prompt() {
               />
             </picture>
             <Typography variant="h6" sx={{ mt: -1 }}>
-              Carbon
+              Dysperse
             </Typography>
           </Box>
           <form onSubmit={formik.handleSubmit}>
@@ -297,11 +297,11 @@ export default function Prompt() {
                 <Box sx={{ px: 1 }}>
                   <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
                     {window.location.href.includes("?application=availability")
-                      ? "Sign into Carbon Availability"
+                      ? "Sign into Dysperse Availability"
                       : "Welcome back!"}
                   </Typography>
                   <Typography sx={{ mb: 2 }} className="font-secondary">
-                    Sign in with your Carbon ID
+                    Sign in with your Dysperse ID
                   </Typography>
                 </Box>
                 <TextField

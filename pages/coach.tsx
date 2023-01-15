@@ -366,7 +366,7 @@ export default function Render() {
   return (
     <Box sx={{ position: "relative" }}>
       <Head>
-        <title>Coach &bull; Carbon</title>
+        <title>Coach &bull; Dysperse</title>
       </Head>
       <Box
         className="mt-5 sm:mt-10"

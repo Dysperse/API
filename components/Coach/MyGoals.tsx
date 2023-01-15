@@ -135,7 +135,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                   You haven&apos;t created any goals yet.
                 </Typography>
                 <Typography variant="body1">
-                  Carbon Coach helps you achieve your goals by adding small
+                  Dysperse Coach helps you achieve your goals by adding small
                   tasks to enrich your daily routine.
                 </Typography>
               </Box>

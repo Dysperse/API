@@ -51,7 +51,7 @@ export default function Prompt() {
           }
           mutate("/api/user");
           router.push("/");
-          toast.success("Welcome to Carbon!");
+          toast.success("Welcome to Dysperse!");
         })
         .catch((err) => {
           setButtonLoading(false);
@@ -111,17 +111,17 @@ export default function Prompt() {
               />
             </picture>
             <Typography variant="h5" sx={{ mt: -1 }}>
-              Carbon
+              Dysperse
             </Typography>
           </Box>
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
                 <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
-                  Welcome to Carbon!
+                  Welcome to Dysperse!
                 </Typography>
                 <Typography sx={{ mb: 2 }}>
-                  Create a Carbon ID to keep track of your lists, home
+                  Create a Dysperse ID to keep track of your lists, home
                   inventory, and start working towards your goals!
                 </Typography>
               </Box>

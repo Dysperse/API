@@ -55,7 +55,7 @@ export function OfflineBox() {
           maxHeight: "calc(100vh - 40px)",
         }}
       >
-        Please connect to the internet to access Carbon.
+        Please connect to the internet to access Dysperse.
       </Box>
     </Box>
   );

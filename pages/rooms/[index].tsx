@@ -11,18 +11,20 @@ export default function Room() {
   const index = window.location.pathname.split("/rooms/")[1];
   const router = useRouter();
 
-  return <>
-    <Head>
-      <title>
-        {(router.query.custom ? decode(index).split(",")[1] : index).replace(
-          /./,
-          (c) => c.toUpperCase()
-        )}{" "}
-        &bull; Carbon
-      </title>
-    </Head>
-    <Categories>
-      <RoomComponent index={index} key={index} />
-    </Categories>
-  </>;
+  return (
+    <>
+      <Head>
+        <title>
+          {(router.query.custom ? decode(index).split(",")[1] : index).replace(
+            /./,
+            (c) => c.toUpperCase()
+          )}{" "}
+          &bull; Dysperse
+        </title>
+      </Head>
+      <Categories>
+        <RoomComponent index={index} key={index} />
+      </Categories>
+    </>
+  );
 }

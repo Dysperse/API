@@ -38,7 +38,7 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
-        <meta name="description" content="Carbon user dashboard" />
+        <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />
         <link
           rel="apple-touch-icon"

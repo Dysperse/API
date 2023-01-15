@@ -57,7 +57,7 @@ function ThemeColorSettings() {
                 updateSettings("color", color.toLowerCase());
               }}
             >
-              <ListItemText primary={color === "Brown" ? "Carbon" : color} />
+              <ListItemText primary={color === "Brown" ? "Dysperse" : color} />
             </ListItemButton>
           </ListItem>
         </RadioGroup>

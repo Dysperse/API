@@ -25,14 +25,14 @@ function Products() {
   const apps = [
     {
       key: 1,
-      href: "//my.smartlist.tech",
-      label: "Carbon",
+      href: "//my.dysperse.com",
+      label: "Dysperse",
       description: "Next-gen personal home inventory",
     },
     {
       key: 2,
       label: "Availability (NEW)",
-      href: "//availability.smartlist.tech",
+      href: "//availability.dysperse.com",
       description: "Find the best time for a group to get together",
     },
   ];
@@ -223,10 +223,10 @@ function Apps() {
               }}
             >
               {category.label === "Web" ? (
-                <>You&apos;re using Carbon for Web</>
+                <>You&apos;re using Dysperse for Web</>
               ) : (
                 <>
-                  (Coming soon) Download Carbon for {category.label} for extra
+                  (Coming soon) Download Dysperse for {category.label} for extra
                   features such as push notifications, assistant, and more!
                 </>
               )}
@@ -337,7 +337,7 @@ export function AppsMenu({ styles }) {
             disableRipple
             target="_blank"
             sx={{ transition: "none", gap: 1 }}
-            href="https://smartlist.tech/support"
+            href="https://dysperse.com/support"
             size="small"
           >
             Knowledge base

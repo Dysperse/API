@@ -293,7 +293,7 @@ export default function Item({
               {global.property.profile.name.replace(/./, (c) =>
                 c.toUpperCase()
               )}{" "}
-              &bull; Carbon
+              &bull; Dysperse
             </title>
           </Head>
         )}

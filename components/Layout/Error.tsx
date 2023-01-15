@@ -49,13 +49,9 @@ export function Error({ message }) {
         <Typography variant="body1">
           Something weird happened! If this problem persists, feel free to
           contact us at:{" "}
-          <Link
-            href="mailto:hello@smartlist.tech"
-            target="_blank"
-            legacyBehavior
-          >
-            <MuiLink href="mailto:hello@smartlist.tech" target="_blank">
-              hello@smartlist.tech
+          <Link href="mailto:hello@dysperse.com" target="_blank" legacyBehavior>
+            <MuiLink href="mailto:hello@dysperse.com" target="_blank">
+              hello@dysperse.com
             </MuiLink>
           </Link>
         </Typography>
