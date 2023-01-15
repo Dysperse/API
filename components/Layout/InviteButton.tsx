@@ -95,7 +95,7 @@ export function InviteButton() {
       <SwipeableDrawer
         ModalProps={{
          // keepMounted: true,
-        }}
+        }} disableBackdropTransition
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
