@@ -241,7 +241,7 @@ export function Group({
                 p: 2,
                 width: "100%",
                 display: "flex",
-                paddingTop: "env(titlebar-area-height, 0px)",
+                paddingTop: "env(titlebar-area-height, 10px)",
                 alignItems: "center",
               }}
             >
