@@ -193,7 +193,7 @@ export function Group({
           </ListItemIcon>
         </ListItem>
       </ListItem>
-      <Drawer
+      {data.propertyId === global.property.propertyId && <Drawer
         anchor="right"
         ModalProps={{
           keepMounted: false,
@@ -340,7 +340,7 @@ export function Group({
             {open && <MemberList color={color} setOpen={setOpen} />}
           </Box>
         </Box>
-      </Drawer>
+      </Drawer>}}
     </>
   );
 }
