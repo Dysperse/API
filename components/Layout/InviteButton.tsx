@@ -156,7 +156,8 @@ export function InviteButton() {
         disabled={!window.navigator.onLine}
         id="houseProfileTrigger"
         onClick={() => setOpen(true)}
-        onContextMenu={(e) => {
+        onContextMenu={(e) => { 
+         navigator.vibrate(50);
           e.preventDefault();
           setOpen(true);
           setTimeout(() => {
