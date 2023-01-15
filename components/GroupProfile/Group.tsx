@@ -334,10 +334,10 @@ export function Group({
           >
             <UpgradeBanner color={color} />
 
-            <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
+            {open && <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
               Members
-            </Typography>
-            <MemberList color={color} setOpen={setOpen} />
+            </Typography>}
+            {open && <MemberList color={color} setOpen={setOpen} />}
           </Box>
         </Box>
       </Drawer>
