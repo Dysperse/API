@@ -190,7 +190,7 @@ function Member({
                 opacity: 0.5,
                 pointerEvents: "none",
               }),
-              maxWidth: "100%",
+              width: "100%",
               overflow: "hidden",
               fontWeight: "400",
               borderRadius: 9,
