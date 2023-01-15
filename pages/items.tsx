@@ -221,7 +221,6 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
       size="small"
       ref={itemRef}
       onClick={(e: any) => {
-        navigator.vibrate(100); 
         e.preventDefault();
         e.stopPropagation();
         handleClick(e);
@@ -329,7 +328,8 @@ function Action({
       button
       disableRipple
       onContextMenu={(e) => {
-        e.preventDefault();
+        e.preventDefault(); 
+        navigator.vibrate(50)
         e.stopPropagation();
         ref.current.click();navigator.vibrate(500); 
       }}
