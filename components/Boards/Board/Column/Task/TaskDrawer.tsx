@@ -5,7 +5,8 @@ import {
   Chip,
   Icon,
   IconButton,
-  SwipeableDrawer,
+  Drawer,
+  //SwipeableDrawer,
   TextField,
   Typography,
 } from "@mui/material";
@@ -80,12 +81,12 @@ export function TaskDrawer({
   const [view, setView] = useState<"Details" | "Subtasks">("Details");
 
   return (
-    <SwipeableDrawer
+    <Drawer
       anchor="right"
       onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
+     // onOpen={() => setOpen(true)}
       open={open}
-      disableSwipeToOpen
+    //  disableSwipeToOpen
       BackdropProps={{
         className: "override-bg",
         sx: {
@@ -374,6 +375,6 @@ export function TaskDrawer({
           </Box>
         )}
       </Box>
-    </SwipeableDrawer>
+    </Drawer>
   );
 }
