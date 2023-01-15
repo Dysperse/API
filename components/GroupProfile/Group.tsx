@@ -198,7 +198,7 @@ export function Group({
         ModalProps={{
           keepMounted: false,
         }}
-        disableBackdropTransition
+      //  disableBackdropTransition
         PaperProps={{
           sx: {
             height: "100vh",
