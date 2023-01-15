@@ -341,7 +341,7 @@ export function Group({
             {open && <MemberList color={color} setOpen={setOpen} />}
           </Box>
         </Box>
-      </Drawer>}}
+      </Drawer>}
     </>
   );
 }
