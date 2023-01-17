@@ -37,6 +37,9 @@ export function Changelog() {
   return (
     <>
       <SwipeableDrawer
+        ModalProps={{
+          keepMounted: false,
+        }}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
