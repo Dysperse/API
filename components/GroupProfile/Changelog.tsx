@@ -44,6 +44,7 @@ export function Changelog() {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableBackdropTransition
+        disableSwipeToOpen
         anchor="bottom"
         PaperProps={{
           sx: {
