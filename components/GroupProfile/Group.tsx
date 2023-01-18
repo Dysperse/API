@@ -1,15 +1,14 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
-import { useSWRConfig } from "swr";
+import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { House } from "../../types/houseProfile";
 import { EditProperty } from "./EditProperty";
-import { UpgradeBanner } from "./ItemBanner";
 import { MemberList } from "./MemberList";
+import { Storage } from "./Storage";
 
 import {
   Box,
@@ -24,6 +23,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import { useStatusBar } from "../../hooks/useStatusBar";
 
 import { Changelog } from "./Changelog";
 
@@ -44,12 +44,10 @@ export function Group({
   useStatusBar(open, 1);
   const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [color, setColor] = React.useState<string>(data.profile.color ?? "red");
-  const [propertyType, setPropertyType] = React.useState(
-    global.property.profile.type
-  );
 
-  const { mutate } = useSWRConfig();
+  const color: string = data.profile.color ?? "red";
+  const propertyType = global.property.profile.type;
+
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)
@@ -75,8 +73,6 @@ export function Group({
   return (
     <>
       <ListItem
-        disableRipple
-        button
         id={
           data.propertyId === global.property.propertyId ? "activeProperty" : ""
         }
@@ -193,155 +189,159 @@ export function Group({
           </ListItemIcon>
         </ListItem>
       </ListItem>
-      {data.propertyId === global.property.propertyId && <Drawer
-        anchor="right"
-        ModalProps={{
-          keepMounted: false,
-        }}
-      //  disableBackdropTransition
-        PaperProps={{
-          sx: {
-            height: "100vh",
-            background:
-              colors[data.profile.color][global.user.darkMode ? 900 : 50] +
-              "!important",
-            width: { xs: "100vw", md: "80vw", sm: "50vw" },
-            maxWidth: "600px",
-            overflow: "scroll",
-          },
-        }}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-      >
-        <Box
+      {data.propertyId === global.property.propertyId && (
+        <Drawer
+          anchor="right"
+          ModalProps={{
+            keepMounted: false,
+          }}
+          //  disableBackdropTransition
+          PaperProps={{
+            sx: {
+              height: "100vh",
+              background:
+                colors[data.profile.color][global.user.darkMode ? 900 : 50] +
+                "!important",
+              width: { xs: "100vw", md: "80vw", sm: "50vw" },
+              maxWidth: "600px",
+              overflow: "scroll",
+            },
+          }}
           sx={{
-            overflow: "scroll",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          open={open}
+          onClose={() => {
+            setOpen(false);
           }}
         >
           <Box
             sx={{
-              background: colors[color]["A400"],
-              px: 3,
-              height: "calc(300px + env(titlebar-area-height, 0px))",
-              position: "relative",
-              color: invertColors ? "black" : "white",
+              overflow: "scroll",
             }}
           >
             <Box
               sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                p: 2,
-                width: "100%",
-                display: "flex",
-                paddingTop: "env(titlebar-area-height, 10px)",
-                alignItems: "center",
+                background: colors[color]["A400"],
+                px: 3,
+                height: "calc(300px + env(titlebar-area-height, 0px))",
+                position: "relative",
+                color: invertColors ? "black" : "white",
               }}
             >
-              <IconButton
-                disableRipple
-                onClick={() => {
-                  setOpen(false);
-                }}
+              <Box
                 sx={{
-                  color: "inherit",
-                  mr: 0.2,
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  p: 2,
+                  width: "100%",
+                  display: "flex",
+                  paddingTop: "env(titlebar-area-height, 10px)",
+                  alignItems: "center",
                 }}
               >
-                <Icon>west</Icon>
-              </IconButton>
-              <Typography sx={{ mx: "auto", fontWeight: "600" }}>
-                Group
-              </Typography>
-              <Changelog />
-              {global.property.permission !== "read-only" && (
                 <IconButton
                   disableRipple
+                  onClick={() => {
+                    setOpen(false);
+                  }}
                   sx={{
                     color: "inherit",
-                    zIndex: 1,
+                    mr: 0.2,
                   }}
-                  onClick={() => setEditMode(!editMode)}
                 >
-                  <Icon>more_vert</Icon>
+                  <Icon>west</Icon>
                 </IconButton>
-              )}
-              <EditProperty
-                color={color}
-                setOpen={setEditMode}
-                propertyType={propertyType}
-                setPropertyType={setPropertyType}
-                setColor={setColor}
-                open={editMode}
-              />
-            </Box>
+                <Typography sx={{ mx: "auto", fontWeight: "600" }}>
+                  Group
+                </Typography>
+                <Changelog />
+                {global.property.permission !== "read-only" && (
+                  <IconButton
+                    disableRipple
+                    sx={{
+                      color: "inherit",
+                      zIndex: 1,
+                    }}
+                    onClick={() => setEditMode(!editMode)}
+                  >
+                    <Icon>more_vert</Icon>
+                  </IconButton>
+                )}
+                <EditProperty
+                  color={color}
+                  setOpen={setEditMode}
+                  propertyType={propertyType}
+                  open={editMode}
+                />
+              </Box>
 
-            <Box
-              sx={{
-                position: "absolute",
-                left: 0,
-                bottom: 0,
-                p: 5,
-                py: 4,
-              }}
-            >
-              <Typography
+              <Box
                 sx={{
-                  textTransform: "capitalize",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 1,
-                  mb: 2,
-                  background: invertColors
-                    ? "rgba(0,0,0,0.2)"
-                    : "rgba(255,255,255,0.2)",
-                  px: 1.5,
-                  pr: 2,
-                  py: 0.5,
-                  fontWeight: "900",
-                  borderRadius: 5,
-                  fontSize: "14px",
+                  position: "absolute",
+                  left: 0,
+                  bottom: 0,
+                  p: 5,
+                  py: 4,
                 }}
               >
-                <Icon>
-                  {propertyType === "dorm"
-                    ? "cottage"
-                    : propertyType === "apartment"
-                    ? "location_city"
-                    : propertyType === "study group"
-                    ? "school"
-                    : "home"}
-                </Icon>
-                {propertyType}
-              </Typography>
-              <Typography variant="h4" className="font-secondary underline">
-                {global.property.profile.name || "Untitled property"}
-              </Typography>
+                <Typography
+                  sx={{
+                    textTransform: "capitalize",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 1,
+                    mb: 2,
+                    background: invertColors
+                      ? "rgba(0,0,0,0.2)"
+                      : "rgba(255,255,255,0.2)",
+                    px: 1.5,
+                    pr: 2,
+                    py: 0.5,
+                    fontWeight: "900",
+                    borderRadius: 5,
+                    fontSize: "14px",
+                  }}
+                >
+                  <Icon>
+                    {propertyType === "dorm"
+                      ? "cottage"
+                      : propertyType === "apartment"
+                      ? "location_city"
+                      : propertyType === "study group"
+                      ? "school"
+                      : "home"}
+                  </Icon>
+                  {propertyType}
+                </Typography>
+                <Typography variant="h4" className="font-secondary underline">
+                  {global.property.profile.name || "Untitled property"}
+                </Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                p: 2.5,
+                px: { sm: "30px" },
+              }}
+            >
+              <Storage color={color} />
+              {open && (
+                <Typography
+                  variant="h5"
+                  sx={{ fontWeight: "700", my: 2, mb: 1 }}
+                >
+                  Members
+                </Typography>
+              )}
+              {open && <MemberList color={color} setOpen={setOpen} />}
             </Box>
           </Box>
-          <Box
-            sx={{
-              p: 2.5,
-              px: { sm: "30px" },
-            }}
-          >
-            <UpgradeBanner color={color} />
-
-            {open && <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
-              Members
-            </Typography>}
-            {open && <MemberList color={color} setOpen={setOpen} />}
-          </Box>
-        </Box>
-      </Drawer>}
+        </Drawer>
+      )}
     </>
   );
 }

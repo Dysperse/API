@@ -7,7 +7,6 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import BoringAvatar from "boring-avatars";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -58,16 +57,8 @@ function Member({
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
-    <Box>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Box>
-          <BoringAvatar
-            size={35}
-            name={member.user.name}
-            variant="beam"
-            colors={["#801245", "#F4F4DD", "#DCDBAF", "#5D5C49", "#3D3D34"]}
-          />
-        </Box>
+    <>
+      <Box>
         <Box>
           <Typography
             sx={{
@@ -187,7 +178,6 @@ function Member({
             sx={{
               ...((global.permission !== "owner" ||
                 member.user.email === global.user.email) && {
-                opacity: 0.5,
                 pointerEvents: "none",
               }),
               width: "100%",
@@ -235,7 +225,7 @@ function Member({
           </CardActionArea>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }
 

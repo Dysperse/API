@@ -175,7 +175,6 @@ export function CreateItemModal({
             height: "auto",
             maxWidth: "600px",
             maxHeight: "90vh",
-            borderRadius: "20px 20px 0 0",
           },
         }}
         open={open}

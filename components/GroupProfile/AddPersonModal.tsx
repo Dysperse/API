@@ -65,7 +65,7 @@ function LinkToken({ color }) {
         PaperProps={{
           sx: {
             maxWidth: "400px",
-            borderRadius: "20px 20px 0 0",
+
             background: colors[color][100],
           },
         }}
@@ -196,7 +196,6 @@ export function AddPersonModal({
             maxWidth: "650px",
             overflow: "scroll",
             maxHeight: "95vh",
-            borderRadius: "20px 20px 0 0",
           },
         }}
         onClose={() => setOpen(false)}

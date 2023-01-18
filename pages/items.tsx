@@ -65,7 +65,6 @@ function CategoryModal({ category }: { category: string }) {
             },
             maxWidth: "600px",
             maxHeight: "95vh",
-            borderRadius: "20px 20px 0 0",
           },
         }}
       >
@@ -481,7 +480,6 @@ function CreateRoom({ mutationUrl }) {
         PaperProps={{
           sx: {
             maxWidth: "500px",
-            borderRadius: "20px 20px 0 0",
           },
         }}
       >

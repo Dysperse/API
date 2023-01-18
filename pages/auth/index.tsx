@@ -180,7 +180,7 @@ export default function Prompt() {
           PaperProps={{
             sx: {
               background: colors.brown[50],
-              borderRadius: "20px 20px 0 0",
+
               mx: "auto",
               maxWidth: "500px",
             },

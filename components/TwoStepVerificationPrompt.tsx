@@ -76,7 +76,6 @@ export function Prompt({
       disableSwipeToOpen
       PaperProps={{
         sx: {
-          borderRadius: "20px 20px 0 0",
           maxWidth: "500px",
         },
       }}

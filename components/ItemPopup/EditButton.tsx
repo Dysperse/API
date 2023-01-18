@@ -121,7 +121,7 @@ export function EditButton({
               xs: "95vh",
               sm: "unset",
             },
-            borderRadius: "20px 20px 0 0",
+
             mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",

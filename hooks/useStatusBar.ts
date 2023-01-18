@@ -1,16 +1,11 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { colors } from "../lib/colors";
 
-/**
- * Changes the top app bar color
- * @param open Is the modal open?
- * @param nestedModals How many nested modals are open?
- */
 export function useStatusBar(open: boolean, nestedModals = 1) {
-  const tag: HTMLMetaElement = document.querySelector(
-    "meta[name=theme-color]"
-  ) as HTMLMetaElement;
-  useEffect(() => {
+  const tagRef = useRef<HTMLMetaElement | null>(null);
+  const setThemeColor = useCallback((open, nestedModals) => {
+    const tag = tagRef.current;
+    if (!tag) return;
     if (open) {
       if (global.theme !== "dark") {
         tag.setAttribute("content", colors[themeColor][nestedModals * 100]);
@@ -31,5 +26,16 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
         );
       }
     }
-  }, [open, nestedModals, tag]);
+  }, []);
+
+  useEffect(() => {
+    tagRef.current = document.querySelector(
+      "meta[name=theme-color]"
+    ) as HTMLMetaElement;
+    setThemeColor(open, nestedModals);
+  }, [open, nestedModals, setThemeColor]);
+
+  useEffect(() => {
+    setThemeColor(open, nestedModals);
+  }, [open, nestedModals, setThemeColor]);
 }

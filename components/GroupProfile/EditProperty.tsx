@@ -27,15 +27,11 @@ export function EditProperty({
   open,
   setOpen,
   color,
-  setColor,
   propertyType,
-  setPropertyType,
 }: {
   color: string;
   setOpen: (open: boolean) => void;
   propertyType: string;
-  setColor: (color: string) => void;
-  setPropertyType: (propertyType: string) => void;
   open: boolean;
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -52,7 +48,6 @@ export function EditProperty({
    */
   const handleCloseMenu = (type) => {
     updateSettings("type", type, false, null, true);
-    setPropertyType(type);
     setAnchorEl(null);
   };
 
@@ -92,13 +87,12 @@ export function EditProperty({
       onOpen={() => setOpen(true)}
       PaperProps={{
         sx: {
-          background: colors[color][global.user.darkMode ? 900 : 50].toString(),
-          color: colors[color][global.user.darkMode ? 50 : 900].toString(),
+          background: colors[color][global.user.darkMode ? 900 : 50],
+          color: colors[color][global.user.darkMode ? 50 : 900],
           px: 3,
           width: { xs: "auto", sm: "50vw" },
           py: 2,
           maxHeight: "calc(100vh - 20px)",
-          borderRadius: "20px 20px 0 0",
           mx: "auto",
         },
       }}
@@ -107,7 +101,6 @@ export function EditProperty({
         sx={{
           height: { xs: "100vh", sm: "auto" },
           px: 2,
-          borderRadius: "20px 20px 0 0",
           pt: 10,
         }}
       >
@@ -115,11 +108,9 @@ export function EditProperty({
           position="absolute"
           sx={{
             p: 2,
-            borderRadius: "20px 20px 0 0",
             py: 1,
-            background:
-              colors[color][global.user.darkMode ? 900 : 50].toString(),
-            color: colors[color][global.user.darkMode ? 50 : 900].toString(),
+            background: colors[color][global.user.darkMode ? 900 : 50],
+            color: colors[color][global.user.darkMode ? 50 : 900],
             boxShadow: "none",
           }}
         >
@@ -135,7 +126,7 @@ export function EditProperty({
               <Icon>expand_more</Icon>
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Edit property
+              Edit group
             </Typography>
           </Toolbar>
         </AppBar>
@@ -166,6 +157,7 @@ export function EditProperty({
             justifyContent: "flex-start",
             borderRadius: 0,
             borderTopLeftRadius: 6,
+            color: colors[color][global.user.darkMode ? 50 : 900],
             borderTopRightRadius: 6,
           }}
           aria-haspopup="true"
@@ -177,11 +169,10 @@ export function EditProperty({
               textTransform: "capitalize",
               display: "flex",
               alignItems: "center",
-              color: colors[color][global.user.darkMode ? 50 : 900].toString(),
               gap: "10px",
             }}
           >
-            <Icon>
+            <Icon className="outlined">
               {propertyType === "dorm"
                 ? "cottage"
                 : propertyType === "apartment"
@@ -196,6 +187,9 @@ export function EditProperty({
         <FormControl fullWidth sx={{ my: 4 }}>
           <Typography
             sx={{
+              background: colors[color][100],
+              p: 2,
+              borderRadius: 3,
               display: "flex",
               alignItems: "center",
               gap: "10px",
@@ -203,8 +197,8 @@ export function EditProperty({
             }}
           >
             <Icon>warning</Icon>
-            Heads up! Changing your property type may cause data loss. Change
-            this setting with caution.
+            Heads up! Changing your group type may cause data loss. Change this
+            setting with caution.
           </Typography>
           <Menu
             id="basic-menu"
@@ -241,19 +235,19 @@ export function EditProperty({
           </Menu>
         </FormControl>
 
-        <Color setColor={setColor} s={color} color={"pink"} />
-        <Color setColor={setColor} s={color} color={"red"} />
-        <Color setColor={setColor} s={color} color={"green"} />
-        <Color setColor={setColor} s={color} color={"teal"} />
-        <Color setColor={setColor} s={color} color={"cyan"} />
-        <Color setColor={setColor} s={color} color={"blue"} />
-        <Color setColor={setColor} s={color} color={"indigo"} />
-        <Color setColor={setColor} s={color} color={"purple"} />
-        <Color setColor={setColor} s={color} color={"deepPurple"} />
-        <Color setColor={setColor} s={color} color={"orange"} />
-        <Color setColor={setColor} s={color} color={"deepOrange"} />
-        <Color setColor={setColor} s={color} color={"lime"} />
-        <Color setColor={setColor} s={color} color={"brown"} />
+        <Color s={color} color={"pink"} />
+        <Color s={color} color={"red"} />
+        <Color s={color} color={"green"} />
+        <Color s={color} color={"teal"} />
+        <Color s={color} color={"cyan"} />
+        <Color s={color} color={"blue"} />
+        <Color s={color} color={"indigo"} />
+        <Color s={color} color={"purple"} />
+        <Color s={color} color={"deepPurple"} />
+        <Color s={color} color={"orange"} />
+        <Color s={color} color={"deepOrange"} />
+        <Color s={color} color={"lime"} />
+        <Color s={color} color={"brown"} />
       </Box>
     </SwipeableDrawer>
   );

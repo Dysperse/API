@@ -16,24 +16,32 @@ import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { FixedSizeList as List } from "react-window";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 
+const Row = ({ index, style }) => (
+  <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
+    Row {index}
+  </div>
+);
+
 export function Changelog() {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
   const { error, data } = useApi("property/inbox");
+
   useHotkeys(
     "ctrl+i",
     (e) => {
       e.preventDefault();
-      setOpen(false);
-      setOpen(!open);
+      setOpen(true);
     },
     [open]
   );
+
   return (
     <>
       <SwipeableDrawer
@@ -92,10 +100,8 @@ export function Changelog() {
         </Box>
         <Box
           sx={{
-            p: 4,
-            pt: 2,
-            maxHeight: "70vh",
-            overflowY: "scroll",
+            maxHeight: "450px",
+            px: 4,
           }}
         >
           {error && (
@@ -121,34 +127,53 @@ export function Changelog() {
               },
             }}
           >
-            {data &&
-              data.map((item) => (
-                <TimelineItem key={item.id}>
-                  <TimelineSeparator>
-                    <TimelineDot
-                      sx={{
-                        background:
-                          colors[themeColor][global.user.darkMode ? 900 : 200],
-                      }}
-                    />
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          colors[themeColor][global.user.darkMode ? 900 : 100],
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography gutterBottom>
-                      <b>{item.who === global.user.name ? "You" : item.who}</b>{" "}
-                      {item.what}
-                    </Typography>
-                    <Typography variant="body2">
-                      {dayjs(item.when).fromNow()}
-                    </Typography>
-                  </TimelineContent>
-                </TimelineItem>
-              ))}
+            {data && (
+              <List
+                className="List"
+                height={450}
+                itemCount={data.length}
+                itemSize={100}
+                width="100%"
+              >
+                {({ index, style }) => (
+                  <>
+                    <TimelineItem key={data[index].id} sx={style}>
+                      <TimelineSeparator>
+                        <TimelineDot
+                          sx={{
+                            background:
+                              colors[themeColor][
+                                global.user.darkMode ? 900 : 200
+                              ],
+                          }}
+                        />
+                        <TimelineConnector
+                          sx={{
+                            background:
+                              colors[themeColor][
+                                global.user.darkMode ? 900 : 100
+                              ],
+                          }}
+                        />
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        <Typography gutterBottom>
+                          <b>
+                            {data[index].who === global.user.name
+                              ? "You"
+                              : data[index].who}
+                          </b>{" "}
+                          {data[index].what}
+                        </Typography>
+                        <Typography variant="body2">
+                          {dayjs(data[index].when).fromNow()}
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                  </>
+                )}
+              </List>
+            )}
           </Timeline>
 
           {data && data.length === 0 && (

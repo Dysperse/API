@@ -8,7 +8,7 @@ import {
   SwipeableDrawer,
   TextField,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -16,6 +16,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
+
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { Column } from "./Column";
@@ -36,8 +37,8 @@ function BoardSettings({ mutationUrl, board }) {
           setOpen(false);
         }}
         onOpen={() => {
-         setOpen(true);
-         navigator.vibrate(200);
+          setOpen(true);
+          navigator.vibrate(200);
         }}
         disableSwipeToOpen
         PaperProps={{
@@ -288,13 +289,13 @@ export const Board = React.memo(function Board({
                 // Calculate percentage of completed tasks
                 data
                   ? `${(
-                    (data
-                      .map((column) => column.tasks)
-                      .flat()
-                      .filter((task) => task.completed).length /
-                      data.map((column) => column.tasks).flat().length) *
-                    100
-                  ).toFixed(0)}% complete`
+                      (data
+                        .map((column) => column.tasks)
+                        .flat()
+                        .filter((task) => task.completed).length /
+                        data.map((column) => column.tasks).flat().length) *
+                      100
+                    ).toFixed(0)}% complete`
                   : "0%"
               }
             />
@@ -310,16 +311,18 @@ export const Board = React.memo(function Board({
           sx={{
             transition: "none",
             "&:hover": {
-              background:
-                `${global.user.darkMode
+              background: `${
+                global.user.darkMode
                   ? "hsla(240,11%,14%)"
-                  : colors[themeColor][50]}!important`,
+                  : colors[themeColor][50]
+              }!important`,
             },
             "&:active": {
-              background:
-                `${global.user.darkMode
+              background: `${
+                global.user.darkMode
                   ? "hsla(240,11%,17%)"
-                  : colors[themeColor][100]}!important`,
+                  : colors[themeColor][100]
+              }!important`,
             },
             ml: "auto",
             flex: "0 0 auto",
@@ -331,6 +334,18 @@ export const Board = React.memo(function Board({
         </IconButton>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
+
+      {/* <List
+        height={75}
+        itemCount={1000}
+        itemSize={100}
+        layout="horizontal"
+        width={300}
+      >
+        {({ index, style }) => (
+          <div style={style}>lasfh asdkjfhkajsd Column {index}</div>
+        )}
+      </List> */}
       <Box
         sx={{
           overflowX: "scroll",

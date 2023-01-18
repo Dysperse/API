@@ -105,7 +105,7 @@ function SettingsMenu({
             maxWidth: "650px",
             overflow: "scroll",
             maxHeight: "95vh",
-            borderRadius: "20px 20px 0 0",
+
             mx: "auto",
             ...(global.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
@@ -191,7 +191,6 @@ export default function FullScreenDialog({
             },
             maxWidth: "650px",
             maxHeight: "95vh",
-            borderRadius: "20px 20px 0 0",
           },
         }}
         ModalProps={{

@@ -136,7 +136,6 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
           sx: {
             width: "100%",
             maxWidth: "50vw",
-            borderRadius: "20px 20px 0 0",
           },
         }}
       >
@@ -169,10 +168,9 @@ function OptionsMenu({ collapsed, mutationUrl, column }) {
     justifyContent: "start",
     gap: 2,
     "&:hover": {
-      backgroundColor:
-        `${global.user.darkMode
-          ? "hsl(240,11%,18%)"
-          : colors[themeColor]["100"]}!important`,
+      backgroundColor: `${
+        global.user.darkMode ? "hsl(240,11%,18%)" : colors[themeColor]["100"]
+      }!important`,
     },
   };
   const [editMode, setEditMode] = React.useState(false);
@@ -212,8 +210,9 @@ function OptionsMenu({ collapsed, mutationUrl, column }) {
             gap: 1.5,
             py: 2,
             mb: 1,
-            borderBottom:
-              `1px solid ${global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"}`,
+            borderBottom: `1px solid ${
+              global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+            }`,
           }}
         >
           {!editMode ? (

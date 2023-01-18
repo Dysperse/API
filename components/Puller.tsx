@@ -17,7 +17,7 @@ export function Puller({ variant }: { variant?: "side" }) {
       sx={{
         position: "sticky",
         top: 0,
-        borderRadius: "20px 20px 0 0",
+
         zIndex: 1,
         left: 0,
         width: "100%",

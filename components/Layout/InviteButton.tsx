@@ -20,22 +20,12 @@ import { updateSettings } from "../Settings/updateSettings";
  * Color component for house profile
  * @param {any} {s
  * @param {any} color
- * @param {any} setColor}
  * @returns {any}
  */
-export function Color({
-  s,
-  color,
-  setColor,
-}: {
-  s: string;
-  color: string;
-  setColor: (color: string) => void;
-}) {
+export function Color({ s, color }: { s: string; color: string }) {
   return (
     <CardActionArea
       onClick={() => {
-        setColor(color);
         updateSettings("color", color, false, null, true);
       }}
       sx={{
@@ -93,9 +83,12 @@ export function InviteButton() {
   return (
     <>
       <SwipeableDrawer
-        ModalProps={{
-         // keepMounted: true,
-        }} disableBackdropTransition
+        ModalProps={
+          {
+            // keepMounted: true,
+          }
+        }
+        disableBackdropTransition
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
@@ -156,8 +149,8 @@ export function InviteButton() {
         disabled={!window.navigator.onLine}
         id="houseProfileTrigger"
         onClick={() => setOpen(true)}
-        onContextMenu={(e) => { 
-         navigator.vibrate(50);
+        onContextMenu={(e) => {
+          navigator.vibrate(50);
           e.preventDefault();
           setOpen(true);
           setTimeout(() => {

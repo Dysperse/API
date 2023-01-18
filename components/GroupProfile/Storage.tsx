@@ -7,7 +7,7 @@ import type { ApiResponse } from "../../types/client";
 /**
  * Item limit
  */
-export function UpgradeBanner({ color }: { color: string }) {
+export function Storage({ color }: { color: string }) {
   const { data }: ApiResponse = useApi("property/inventory/count");
   const { data: boardCount }: ApiResponse = useApi("property/boards");
   const { data: memoCount } = useApi("property/spaces");
@@ -46,26 +46,25 @@ export function UpgradeBanner({ color }: { color: string }) {
         }}
       >
         <Progress
-          // radius="xl"
-          size={15}
+          size={20}
           sx={{
             marginBottom: "10px",
-            background:
-              colors[color][global.user.darkMode ? "700" : "200"] +
-              "!important",
+            background: `${
+              colors[color][global.user.darkMode ? 700 : 200]
+            }!important`,
           }}
           sections={[
             {
               value: storage.items,
-              color: colors[color][global.user.darkMode ? "50" : "700"],
+              color: colors[color][global.user.darkMode ? 50 : 700],
             },
             {
               value: storage.boards,
-              color: colors[color][global.user.darkMode ? "200" : "800"],
+              color: colors[color][global.user.darkMode ? 200 : 800],
             },
             {
               value: storage.memos,
-              color: colors[color][global.user.darkMode ? "500" : "900"],
+              color: colors[color][global.user.darkMode ? 500 : 900],
             },
           ]}
         />

@@ -1,18 +1,15 @@
-/**
- * Overrides the default browser back button
- * @param {any} callback
- * @returns {void}
- */
-export const neutralizeBack = (callback: () => void): void => {
-  window.history.pushState(null, "", window.location.href);
-  window.onpopstate = () => {
-    window.history.pushState(null, "", window.location.href);
-    callback();
-  };
+let callback: (() => void) | null = null;
+
+export const neutralizeBack = (cb: () => void): void => {
+  callback = cb;
+  window.onpopstate = handlePopState;
 };
 
-/**
- * Restores the default browser back button
- * @returns {any}
- */
-export const revivalBack = () => null;
+export const revivalBack = () => {
+  window.onpopstate = null;
+  callback = null;
+};
+
+function handlePopState() {
+  callback && callback();
+}

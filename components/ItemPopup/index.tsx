@@ -303,7 +303,7 @@ export default function Item({
             flexGrow: 1,
             height: "100%",
             position: "relative",
-            borderRadius: "20px 20px 0 0",
+
             overflowY: "scroll!important",
             background: `${colors[themeColor][50]}!important`,
             ...(global.user.darkMode && {

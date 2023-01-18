@@ -24,7 +24,7 @@ import {
   createTheme,
   NoSsr,
   ThemeProvider,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -227,6 +227,7 @@ function RenderWithLayout({
         },
         styleOverrides: {
           paperAnchorBottom: {
+            borderRadius: "20px 20px 0 0",
             bottom: "0vh!important",
             margin: "auto",
           },
