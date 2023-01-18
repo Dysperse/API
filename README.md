@@ -11,8 +11,6 @@
 [![Build Status](https://img.shields.io/github/stars/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
 [![License](https://img.shields.io/github/license/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
 [![Better Uptime Badge](https://betteruptime.com/status-badges/v1/monitor/77o4.svg)](https://betteruptime.com/?utm_source=status_badge)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/Dysperse-App/Dysperse.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Dysperse-App/Dysperse/alerts/)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Dysperse-App/Dysperse.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Dysperse-App/Dysperse/context:javascript)
 
 ## Meet Dysperse.
 
