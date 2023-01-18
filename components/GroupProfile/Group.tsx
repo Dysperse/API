@@ -49,16 +49,14 @@ export function Group({
   const propertyType = global.property.profile.type;
 
   useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        open
-          ? editMode
-            ? colors[color][100]
-            : colors[color]["A400"]
-          : colors[themeColor][100]
-      );
+    if (open) {
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute(
+          "content",
+          editMode ? colors[color][100] : colors[color]["A400"]
+        );
+    }
   }, [color, editMode, open]);
 
   useEffect(() => {
