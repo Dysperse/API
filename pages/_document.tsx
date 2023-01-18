@@ -86,7 +86,7 @@ export default function Document() {
           href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/img/logo/apple-touch-icon/apple-touch-icon-180x180.png"
         />
         <link
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v4/rounded.png"
+          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v4/windows11/SmallTile.scale-100.png"
           rel="shortcut icon"
         />
         <link href="/manifest.json" rel="manifest" />
