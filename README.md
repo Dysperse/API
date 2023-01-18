@@ -1,20 +1,20 @@
 ![image](https://user-images.githubusercontent.com/77016441/183128164-b2af0830-dfaf-4c19-8cd8-f964584e41c3.png)
 
-# Smartlist
+# Dysperse
 
 ## Next-gen home inventory
 
 ![CB](https://img.shields.io/badge/Contributors-20-yellow?style=flat)
 ![Frontend](https://img.shields.io/static/v1?label=Frontend&message=HTML,%20CSS,%20JS&color=%3CCOLOR%3E&style=flat)
 ![Backend](https://img.shields.io/static/v1?label=Backend&message=PHP,%20SQL&color=red&style=flat)
-[![Build Status](https://img.shields.io/github/forks/Smartlist-app/Smartlist.svg?style=flat)](https://github.com/ManuTheCoder/Smartlist-desktop)
-[![Build Status](https://img.shields.io/github/stars/Smartlist-app/Smartlist.svg?style=flat)](https://github.com/ManuTheCoder/Smartlist-desktop)
-[![License](https://img.shields.io/github/license/Smartlist-app/Smartlist.svg?style=flat)](https://github.com/ManuTheCoder/Smartlist-desktop)
+[![Build Status](https://img.shields.io/github/forks/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
+[![Build Status](https://img.shields.io/github/stars/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
+[![License](https://img.shields.io/github/license/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
 [![Better Uptime Badge](https://betteruptime.com/status-badges/v1/monitor/77o4.svg)](https://betteruptime.com/?utm_source=status_badge)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/Smartlist-App/Smartlist.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Smartlist-App/Smartlist/alerts/)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Smartlist-App/Smartlist.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Smartlist-App/Smartlist/context:javascript)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Dysperse-App/Dysperse.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Dysperse-App/Dysperse/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Dysperse-App/Dysperse.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Dysperse-App/Dysperse/context:javascript)
 
-## Meet Smartlist.
+## Meet Dysperse.
 
 Dysperse is a free home inventory app that lets you keep track of what you have in your home, and helps you save money.
 
@@ -28,7 +28,7 @@ Dysperse started in 2020, around the peak COVID-19 crisis. Dysperse is **non-com
 
 ### By students, for students & families
 
-Hey! I'm Manu. I started Dysperse as a middle school project. I often found my parents struggling with home inventory, shopping lists, and more. That's why I wanted to build Smartlist: Home inventory for free!
+Hey! I'm Manu. I started Dysperse as a middle school project. I often found my parents struggling with home inventory, shopping lists, and more. That's why I wanted to build Dysperse: Home inventory for free!
 
 ## Top contributors
 
