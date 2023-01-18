@@ -66,14 +66,6 @@ export function EditProperty({
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
-  useEffect(() => {
-    if (open) {
-      document
-        .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute("content", colors[color][900]);
-    }
-  }, [open, color]);
-
   return (
     <SwipeableDrawer
       ModalProps={{
