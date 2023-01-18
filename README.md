@@ -2,7 +2,7 @@
 
 # Dysperse
 
-## Next-gen home inventory
+## Your all-in-one personal productivity platform
 
 ![CB](https://img.shields.io/badge/Contributors-20-yellow?style=flat)
 ![Frontend](https://img.shields.io/static/v1?label=Frontend&message=HTML,%20CSS,%20JS&color=%3CCOLOR%3E&style=flat)
