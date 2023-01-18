@@ -158,7 +158,7 @@ export default function Prompt() {
 
   document
     .querySelector(`meta[name="theme-color"]`)
-    ?.setAttribute("content", window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b");
+    ?.setAttribute("content", window.innerWidth < 600 ? "#F4CEEB" : "#6b4b4b");
 
   const [step, setStep] = useState(1);
 
@@ -180,7 +180,6 @@ export default function Prompt() {
           PaperProps={{
             sx: {
               background: colors.brown[50],
-
               mx: "auto",
               maxWidth: "500px",
             },
@@ -253,7 +252,7 @@ export default function Prompt() {
 
         <Paper
           sx={{
-            background: "#c4b5b5",
+            background: "#F4CEEB",
             borderRadius: { sm: 5 },
             top: 0,
             left: 0,
@@ -336,7 +335,7 @@ export default function Prompt() {
                     bottom: 0,
                     left: 0,
                     py: 1,
-                    background: "#c4b5b5",
+                    background: "#F4CEEB",
                     width: { xs: "100vw", sm: "auto" },
                   }}
                 >
@@ -345,9 +344,10 @@ export default function Prompt() {
                     loading={buttonLoading}
                     type="submit"
                     variant="contained"
+                    disableElevation
                     id="_loading"
                     sx={{
-                      background: `${colors.brown[900]}!important`,
+                      background: `#200923!important`,
                       borderRadius: 2,
                       ml: "auto",
                       mr: 1,
@@ -417,6 +417,7 @@ export default function Prompt() {
                     float: "right",
                     textAlign: "center",
                     mx: "auto",
+                    color: "#200923",
                     transition: "none",
                     "&:hover": { textDecoration: "underline" },
                   }}
@@ -440,6 +441,7 @@ export default function Prompt() {
                     float: "right",
                     textAlign: "center",
                     mx: "auto",
+                    color: "#200923",
                     transition: "none",
                     "&:hover": { textDecoration: "underline" },
                   }}
@@ -468,7 +470,7 @@ export default function Prompt() {
               transition: "none",
             },
             userSelect: "none",
-            background: "#c4b5b5",
+            background: "#F4CEEB",
             borderRadius: { sm: 5 },
             mx: "auto",
             maxWidth: "100vw",

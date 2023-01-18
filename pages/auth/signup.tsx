@@ -132,6 +132,7 @@ export default function Prompt() {
                 label="Your name"
                 value={formik.values.name}
                 name="name"
+                fullWidth
                 onChange={formik.handleChange}
                 sx={{ mb: 1.5 }}
                 variant="filled"
@@ -144,6 +145,7 @@ export default function Prompt() {
                 value={formik.values.email}
                 name="email"
                 onChange={formik.handleChange}
+                fullWidth
                 sx={{ mb: 1.5 }}
                 variant="filled"
               />
@@ -153,6 +155,7 @@ export default function Prompt() {
                 disabled={buttonLoading}
                 label="Password"
                 value={formik.values.password}
+                fullWidth
                 sx={{ mb: 1.5 }}
                 name="password"
                 onChange={formik.handleChange}
@@ -160,6 +163,7 @@ export default function Prompt() {
               />
               <TextField
                 required
+                fullWidth
                 autoComplete={"off"}
                 disabled={buttonLoading}
                 label="Repeat password"
@@ -186,6 +190,7 @@ export default function Prompt() {
                     float: "right",
                     textAlign: "center",
                     transition: "none",
+                    color: "#200923",
                     "&:hover": { textDecoration: "underline" },
                   }}
                 >
@@ -211,7 +216,9 @@ export default function Prompt() {
                   type="submit"
                   variant="contained"
                   id="_loading"
+                  disableElevation
                   sx={{
+                    background: "#200923",
                     borderRadius: 2,
                     ml: "auto",
                     mr: 1,

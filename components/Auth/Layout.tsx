@@ -27,7 +27,7 @@ export function Layout({ children }): JSX.Element {
       <ThemeProvider theme={darkTheme}>
         <Box
           sx={{
-            backgroundColor: "#6b4b4b",
+            background: "linear-gradient(45deg, #DB94CA, #6E79C9)",
             position: "fixed",
             top: 0,
             left: 0,
@@ -40,14 +40,14 @@ export function Layout({ children }): JSX.Element {
           <Box
             sx={{
               display: "inline-flex",
-              color: "#c4b5b5",
+              color: "#200923",
               alignItems: "center",
-              gap: "10px",
+              gap: 3,
               userSelect: "none",
-              mx: 2,
+              mx: 4,
               pr: 2,
               borderRadius: 4,
-              mt: 2,
+              mt: 4,
               cursor: "pointer",
               transition: "all 0.2s ease",
               "&:active": {
@@ -59,9 +59,9 @@ export function Layout({ children }): JSX.Element {
           >
             <picture>
               <img
-                src="https://i.ibb.co/F7vSQPP/Dysperse-Home-inventory-and-finance-tracking-2.png"
-                width="80"
-                height="80"
+                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/dark.png"
+                width="50"
+                height="50"
                 alt="logo"
                 style={{
                   borderRadius: "28px",
@@ -71,8 +71,13 @@ export function Layout({ children }): JSX.Element {
             </picture>
             <Typography variant="h6" sx={{ mt: -0.5 }}>
               Dysperse
+              <Chip
+                label="alpha"
+                color="info"
+                size="small"
+                sx={{ ml: 2, px: 1, background: "#200923" }}
+              />
             </Typography>
-            <Chip label="ALPHA" color="warning" size="small" sx={{ ml: 1 }} />
           </Box>
           {children}
         </Box>
