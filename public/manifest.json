@@ -487,7 +487,7 @@
     {
       "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v5/android/android-launchericon-192-192.png",
       "sizes": "192x192",
-      "purpose": "any"
+      "purpose": "maskable"
     },
     {
       "src": "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v5/android/android-launchericon-144-144.png",
