@@ -61,9 +61,9 @@ function RenderWithLayout({
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", "hsl(240, 11%, 10%)");
-      document
-        .querySelector(`link[rel="shortcut icon"]`)
-        ?.setAttribute("href", "https://i.ibb.co/gtLtGLR/image-1.png");
+      // document
+        // .querySelector(`link[rel="shortcut icon"]`)
+        // ?.setAttribute("href", "https://i.ibb.co/gtLtGLR/image-1.png");
     }
   }, [data]);
 
