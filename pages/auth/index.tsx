@@ -260,7 +260,7 @@ export default function Prompt() {
             mx: "auto",
             maxWidth: "100vw",
             overflowY: "auto",
-            width: { sm: "450px" },
+            width: { xs: "100vw", sm: "450px" },
             p: { xs: 2, sm: 5 },
             mt: { sm: 5 },
             pt: { xs: 6, sm: 5 },
@@ -280,21 +280,25 @@ export default function Prompt() {
           >
             <picture>
               <img
-                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v2/rounded.png"
-                width="70"
-                height="70"
+                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v6/dark.png"
+                width="40"
+                height="40"
+                style={{
+                  borderRadius: "999px",
+                }}
                 alt="logo"
               />
             </picture>
-            <Typography variant="h6" sx={{ mt: -1 }}>
-              Dysperse
-            </Typography>
+            <Typography variant="h6">Dysperse</Typography>
           </Box>
           <form onSubmit={formik.handleSubmit}>
             {step === 1 ? (
               <Box sx={{ pt: 3 }}>
                 <Box sx={{ px: 1 }}>
-                  <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
+                  <Typography
+                    variant="h4"
+                    sx={{ mb: 1, fontWeight: "600", mt: { xs: 3, sm: 0 } }}
+                  >
                     {window.location.href.includes("?application=availability")
                       ? "Sign into Dysperse Availability"
                       : "Welcome back!"}
@@ -474,6 +478,7 @@ export default function Prompt() {
             borderRadius: { sm: 5 },
             mx: "auto",
             maxWidth: "100vw",
+            display: { xs: "none", sm: "flex" },
             overflowY: "auto",
             width: { sm: "450px" },
             p: { xs: 2 },
