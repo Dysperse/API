@@ -329,7 +329,7 @@ export const Board = function Board({
             // display: { xs: "none", sm: "inline-flex" },
           }}
         >
-          <Icon className={starred ? "" : "outlined"}>star</Icon>
+          <Icon className={starred ? "" : "outlined"}>push_pin</Icon>
         </IconButton>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
