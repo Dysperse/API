@@ -360,6 +360,7 @@ export function TasksLayout() {
       }}
     >
       <SwipeableDrawer
+        disableBackdropTransition
         anchor="bottom"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
@@ -367,8 +368,6 @@ export function TasksLayout() {
         disableSwipeToOpen
         PaperProps={{
           sx: {
-            maxWidth: "600px",
-            width: "100%",
             pb: 2,
           },
         }}

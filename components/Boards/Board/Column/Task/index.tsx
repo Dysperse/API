@@ -35,6 +35,9 @@ const renderText = (txt) =>
       <Link
         target="_blank"
         href={part}
+        sx={{
+          color: colors[themeColor]["700"],
+        }}
         onClick={(e) => {
           e.stopPropagation();
         }}

@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { colors } from "../../../../../lib/colors";
 
 // use whatever you want here
 const URL_REGEX =
@@ -16,6 +17,9 @@ const renderText = (txt) =>
       <Link
         target="_blank"
         href={part}
+        sx={{
+          color: colors[themeColor]["700"],
+        }}
         onClick={(e) => {
           e.stopPropagation();
         }}
