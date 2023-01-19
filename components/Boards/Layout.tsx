@@ -249,6 +249,9 @@ export function TasksLayout() {
           global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][100]
         }`,
       },
+      color: global.user.darkMode
+        ? "hsl(240,11%,80%)!important"
+        : `${colors[themeColor][700]}!important`,
     }),
     ...(condition && {
       background: global.user.darkMode
