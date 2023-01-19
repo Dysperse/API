@@ -594,19 +594,21 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           setOption={setOption}
         />
       </Box>
-      <TextField
-        size="small"
-        placeholder='Try searching for "Shopping list"'
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Icon>search</Icon>
-            </InputAdornment>
-          ),
-        }}
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+      <Box sx={{ px: 1 }}>
+        <TextField
+          size="small"
+          placeholder='Try searching for "Shopping list"'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Icon>search</Icon>
+              </InputAdornment>
+            ),
+          }}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </Box>
       {currentOption === "Checklist" ? (
         <>
           {checklists.filter((checklist) =>

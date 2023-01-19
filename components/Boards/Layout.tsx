@@ -204,6 +204,10 @@ export function TasksLayout() {
       } else {
         setActiveTab(data[0].id);
       }
+    } else {
+      if (data && !data[0]) {
+        setActiveTab("new");
+      }
     }
   }, [data]);
 
