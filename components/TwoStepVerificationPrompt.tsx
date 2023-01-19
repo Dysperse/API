@@ -56,14 +56,6 @@ export function Prompt({
     }
   };
 
-  /**
-   * handleOpen
-   */
-  const handleOpen = React.useMemo(() => {
-    setOpen(false);
-    callback();
-  }, []);
-
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });

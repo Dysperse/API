@@ -157,11 +157,7 @@ export function AddPersonModal({
 
   return (
     <>
-      <Prompt
-        callback={() => {
-          setOpen(true);
-        }}
-      >
+      <Prompt callback={() => setOpen(true)}>
         <Button
           variant="contained"
           disabled={global.property.permission !== "owner"}
@@ -187,7 +183,7 @@ export function AddPersonModal({
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: colors[color][50],
+            background: colors[color][global.user.darkMode ? 900 : 50],
             width: {
               sm: "50vw",
             },
