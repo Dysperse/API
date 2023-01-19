@@ -53,7 +53,7 @@ export function Group({
   ].includes(color);
 
   useEffect(() => {
-    if (open) {
+    if (open && data.propertyId === global.property.propertyId) {
       setTimeout(() => {
         document
           .querySelector(`meta[name="theme-color"]`)
@@ -77,7 +77,7 @@ export function Group({
             : undefined
         }
         onClick={async () => {
-          if (data.propertyId === global.property.propertyId) {
+          if (data.propertyId == global.property.propertyId) {
             setOpen(true);
           } else {
             try {
@@ -196,7 +196,7 @@ export function Group({
           ModalProps={{
             keepMounted: false,
           }}
-          //  disableBackdropTransition
+          
           PaperProps={{
             sx: {
               height: "100vh",

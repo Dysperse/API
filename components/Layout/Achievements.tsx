@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-
 import { achievements } from "./achievements";
 
 export function Achievements({ styles }) {

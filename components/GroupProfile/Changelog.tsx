@@ -49,134 +49,138 @@ export function Changelog() {
         disableSwipeToOpen
         anchor="bottom"
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            position: "sticky",
-            top: 0,
-            left: 0,
-            p: 5,
-            px: 4,
-            pb: 1,
-            zIndex: 9,
-            width: "100%",
-            background: global.user.darkMode
-              ? "hsla(240,11%,15%)"
-              : hexToRgba(colors[themeColor][50], 0.9),
-          }}
-        >
-          <Typography
-            variant="h5"
-            className="font-secondary"
-            gutterBottom
-            sx={{ flexGrow: 1 }}
-          >
-            Changelog
-          </Typography>
-          <IconButton
-            disableRipple
-            color="inherit"
-            onClick={() => setOpen(false)}
-            sx={{
-              color: colors[themeColor][global.user.darkMode ? 50 : 900],
-            }}
-          >
-            <Icon>close</Icon>
-          </IconButton>
-        </Box>
-        <Box
-          sx={{
-            maxHeight: "450px",
-            px: 4,
-          }}
-        >
-          {error && (
-            <ErrorHandler error="An error occurred while trying to fetch your inbox" />
-          )}
-          {!data && (
+        {open && (
+          <>
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
+                position: "sticky",
+                top: 0,
+                left: 0,
+                p: 5,
+                px: 4,
+                pb: 1,
+                zIndex: 9,
+                width: "100%",
+                background: global.user.darkMode
+                  ? "hsla(240,11%,15%)"
+                  : hexToRgba(colors[themeColor][50], 0.9),
               }}
             >
-              <CircularProgress />
-            </Box>
-          )}
-          <Timeline
-            sx={{
-              [`& .${timelineItemClasses.root}:before`]: {
-                flex: 0,
-                padding: 0,
-              },
-            }}
-          >
-            {data && (
-              <List
-                className="List"
-                height={450}
-                itemCount={data.length}
-                itemSize={100}
-                width="100%"
+              <Typography
+                variant="h5"
+                className="font-secondary"
+                gutterBottom
+                sx={{ flexGrow: 1 }}
               >
-                {({ index, style }) => (
-                  <>
-                    <TimelineItem key={data[index].id} sx={style}>
-                      <TimelineSeparator>
-                        <TimelineDot
-                          sx={{
-                            background:
-                              colors[themeColor][
-                                global.user.darkMode ? 900 : 200
-                              ],
-                          }}
-                        />
-                        <TimelineConnector
-                          sx={{
-                            background:
-                              colors[themeColor][
-                                global.user.darkMode ? 900 : 100
-                              ],
-                          }}
-                        />
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Typography gutterBottom>
-                          <b>
-                            {data[index].who === global.user.name
-                              ? "You"
-                              : data[index].who}
-                          </b>{" "}
-                          {data[index].what}
-                        </Typography>
-                        <Typography variant="body2">
-                          {dayjs(data[index].when).fromNow()}
-                        </Typography>
-                      </TimelineContent>
-                    </TimelineItem>
-                  </>
-                )}
-              </List>
-            )}
-          </Timeline>
-
-          {data && data.length === 0 && (
-            <Typography
-              variant="body1"
+                Changelog
+              </Typography>
+              <IconButton
+                disableRipple
+                color="inherit"
+                onClick={() => setOpen(false)}
+                sx={{
+                  color: colors[themeColor][global.user.darkMode ? 50 : 900],
+                }}
+              >
+                <Icon>close</Icon>
+              </IconButton>
+            </Box>
+            <Box
               sx={{
-                mt: 2,
-                background: colors[themeColor][100],
-                p: 3,
-                borderRadius: 5,
+                maxHeight: "450px",
+                px: 4,
               }}
             >
-              No recent activity
-            </Typography>
-          )}
-        </Box>
+              {error && (
+                <ErrorHandler error="An error occurred while trying to fetch your inbox" />
+              )}
+              {!data && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
+              <Timeline
+                sx={{
+                  [`& .${timelineItemClasses.root}:before`]: {
+                    flex: 0,
+                    padding: 0,
+                  },
+                }}
+              >
+                {data && (
+                  <List
+                    className="List"
+                    height={450}
+                    itemCount={data.length}
+                    itemSize={100}
+                    width="100%"
+                  >
+                    {({ index, style }) => (
+                      <>
+                        <TimelineItem key={data[index].id} sx={style}>
+                          <TimelineSeparator>
+                            <TimelineDot
+                              sx={{
+                                background:
+                                  colors[themeColor][
+                                    global.user.darkMode ? 900 : 200
+                                  ],
+                              }}
+                            />
+                            <TimelineConnector
+                              sx={{
+                                background:
+                                  colors[themeColor][
+                                    global.user.darkMode ? 900 : 100
+                                  ],
+                              }}
+                            />
+                          </TimelineSeparator>
+                          <TimelineContent>
+                            <Typography gutterBottom>
+                              <b>
+                                {data[index].who === global.user.name
+                                  ? "You"
+                                  : data[index].who}
+                              </b>{" "}
+                              {data[index].what}
+                            </Typography>
+                            <Typography variant="body2">
+                              {dayjs(data[index].when).fromNow()}
+                            </Typography>
+                          </TimelineContent>
+                        </TimelineItem>
+                      </>
+                    )}
+                  </List>
+                )}
+              </Timeline>
+
+              {data && data.length === 0 && (
+                <Typography
+                  variant="body1"
+                  sx={{
+                    mt: 2,
+                    background: colors[themeColor][100],
+                    p: 3,
+                    borderRadius: 5,
+                  }}
+                >
+                  No recent activity
+                </Typography>
+              )}
+            </Box>
+          </>
+        )}
       </SwipeableDrawer>
       <IconButton
         sx={{

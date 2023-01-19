@@ -70,22 +70,12 @@ export function InviteButton() {
         }}
         PaperProps={{
           sx: {
-            boxShadow: "none!important",
             position: { sm: "static!important" },
-            width: {
-              sm: "350px",
-            },
             "-webkit-app-region": "no-drag",
-            height: "auto",
-            maxWidth: { sm: "350px" },
-            overflow: "hidden!important",
             borderRadius: {
               xs: "20px 20px 0 0",
               sm: 5,
             },
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 20%)",
-            }),
           },
         }}
         disableSwipeToOpen
