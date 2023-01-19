@@ -78,7 +78,8 @@ function ResponsiveDrawer({
           {children}
           <Toolbar />
         </Box>
-        {trigger && <BottomNav />}
+         <BottomNav />
+
       </Box>
     </Box>
   );
