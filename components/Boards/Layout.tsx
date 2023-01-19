@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Icon,
   Menu,
   MenuItem,
@@ -17,6 +18,30 @@ import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
+
+function Loading() {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <CircularProgress
+        disableShrink
+        sx={{
+          animationDuration: ".5s",
+          "& .MuiCircularProgress-circle": {
+            strokeLinecap: "round",
+          },
+        }}
+      />
+    </Box>
+  );
+}
 
 const Tab = React.memo(function Tab({
   mutationUrl,
@@ -167,9 +192,7 @@ const Tab = React.memo(function Tab({
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
-  const [activeTab, setActiveTab] = useState(
-    data && data[0] ? data[0].id : "new"
-  );
+  const [activeTab, setActiveTab] = useState("loading");
   useEffect(() => {
     if (data && data[0]) {
       if (
@@ -394,6 +417,7 @@ export function TasksLayout() {
             length={data ? data.length : 0}
           />
         )}
+        {activeTab === "loading" && <Loading />}
         {data &&
           data.map(
             (board) =>
