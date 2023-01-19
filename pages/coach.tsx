@@ -190,7 +190,14 @@ function DailyRoutine() {
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute("content", open ? `#${bannerColors[5]}` : "#fff");
+      ?.setAttribute(
+        "content",
+        open
+          ? `#${bannerColors[0]}`
+          : global.user.darkMode
+          ? "hsl(240,11%,10%)"
+          : "#fff"
+      );
   });
 
   const doneTasks = !data

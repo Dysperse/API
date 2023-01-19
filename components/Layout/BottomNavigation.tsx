@@ -53,7 +53,9 @@ export function BottomNav() {
           flex: "0 0 35px",
           width: "60px",
           background: `${
-            colors[themeColor][global.user.darkMode ? 900 : 100]
+            global.user.darkMode
+              ? "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"
+              : colors[themeColor][100]
           }!important`,
         },
       }),
@@ -175,7 +177,7 @@ export function BottomNav() {
         </Box>
 
         <Box
-          onClick={() => router.push("/tasks")}
+          onClick={() => router.push("/spaces")}
           sx={styles(router.asPath === "/spaces")}
         >
           <span

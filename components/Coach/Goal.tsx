@@ -20,7 +20,14 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
-    tag.setAttribute("content", open ? colors[themeColor][900] : "#fff");
+    tag.setAttribute(
+      "content",
+      open
+        ? colors[themeColor][900]
+        : global.user.darkMode
+        ? "hsl(240,11%,10%)"
+        : "#fff"
+    );
   });
 
   React.useEffect(() => {
