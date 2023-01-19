@@ -95,8 +95,11 @@ export function CreateTask({
   checkList = false,
 }: any) {
   const allCompleted = !(
+    column &&
+    column.tasks &&
     column.tasks.filter((task) => task.completed).length ==
-      column.tasks.length && column.tasks.length >= 1
+      column.tasks.length &&
+    column.tasks.length >= 1
   );
   const [open, setOpen] = useState(false);
 
