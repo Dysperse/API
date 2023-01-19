@@ -263,7 +263,7 @@ export const Task = React.memo(function Task({
             cursor: "unset!important",
             "&:hover": {
               backgroundColor: global.user.darkMode
-                ? "hsl(240,11%,16%)"
+                ? "hsl(240,11%,19%)!important"
                 : "rgba(200,200,200,0.3)",
             },
             "&:active": {

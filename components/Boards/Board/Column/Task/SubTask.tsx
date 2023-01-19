@@ -97,12 +97,12 @@ export function SubTask({
           }),
           ...(checkList && {
             background: global.user.darkMode
-              ? "hsl(240,11%,13%)"
+              ? "hsl(240,11%,19%)"
               : "#f3f4f6!important",
 
             ...(global.user.darkMode && {
               "&:hover": {
-                background: "hsl(240,11%,17%)!important",
+                background: "hsl(240,11%,19%)!important",
               },
               "&:active": {
                 background: "hsl(240,11%,20%)!important",
