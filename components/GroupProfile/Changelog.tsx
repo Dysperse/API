@@ -61,10 +61,9 @@ export function Changelog() {
             pb: 1,
             zIndex: 9,
             width: "100%",
-            background: hexToRgba(
-              colors[themeColor][global.user.darkMode ? 900 : 50],
-              0.9
-            ),
+            background: global.user.darkMode
+              ? "hsla(240,11%,15%)"
+              : hexToRgba(colors[themeColor][50], 0.9),
           }}
         >
           <Typography

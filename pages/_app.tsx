@@ -374,7 +374,7 @@ function useUser(): {
   isError: boolean;
   error: any;
 } {
-  const url = "/api/user";
+  const url = "/api/unigerser";
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );

@@ -16,7 +16,7 @@ export function Error({ message }) {
         position: "fixed",
         top: 0,
         textAlign: "center",
-        background: "#6b4b4b",
+        background: "linear-gradient(45deg, #DB94CA, #6E79C9)",
         height: "100%",
         width: "100%",
         color: "#232323",
@@ -28,29 +28,41 @@ export function Error({ message }) {
         ref={() =>
           document
             .querySelector(`meta[name="theme-color"]`)
-            ?.setAttribute("content", "#6b4b4b")
+            ?.setAttribute("content", "#6E79C9")
         }
         sx={{
           position: "fixed",
           p: 5,
           borderRadius: 5,
           top: "50%",
-          background: "#c4b5b5",
+          background: "#200923",
+          color: "#fff",
           left: "50%",
           maxWidth: "calc(100vw - 20px)",
-          width: "350px",
+          width: "370px",
           transform: "translate(-50%, -50%)",
           textAlign: "left",
         }}
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            fontWeight: "700",
+            textDecoration: "underline",
+          }}
+        >
           Oh no!
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" className="font-secondary">
           Something weird happened! If this problem persists, feel free to
           contact us at:{" "}
           <Link href="mailto:hello@dysperse.com" target="_blank" legacyBehavior>
-            <MuiLink href="mailto:hello@dysperse.com" target="_blank">
+            <MuiLink
+              href="mailto:hello@dysperse.com"
+              target="_blank"
+              sx={{ color: "#fff", textDecorationColor: "#fff" }}
+            >
               hello@dysperse.com
             </MuiLink>
           </Link>
@@ -59,8 +71,11 @@ export function Error({ message }) {
           sx={{
             mt: 2,
             justifyContent: "start",
-            color: "#232323",
+            color: "#fff",
             borderRadius: 9,
+            ...(open && {
+              background: "rgba(255,255,255,0.05)",
+            }),
           }}
           fullWidth
           onClick={() => {
@@ -79,7 +94,7 @@ export function Error({ message }) {
           <Box
             className="font-secondary"
             sx={{
-              background: "rgba(0,0,0,0.05)",
+              background: "rgba(255,255,255,0.05)",
               p: 2,
               borderRadius: 2,
               mt: 2,

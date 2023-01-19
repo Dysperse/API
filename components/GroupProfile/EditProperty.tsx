@@ -190,7 +190,7 @@ export function EditProperty({ color }: { color: string }) {
           <FormControl fullWidth sx={{ my: 4 }}>
             <Typography
               sx={{
-                background: colors[color][100],
+                background: colors[color][global.user.darkMode ? 800 : 100],
                 p: 2,
                 borderRadius: 3,
                 display: "flex",
