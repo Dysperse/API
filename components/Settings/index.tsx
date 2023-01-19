@@ -91,9 +91,6 @@ function SettingsMenu({
       <SwipeableDrawer
         open={open}
         swipeAreaWidth={0}
-        ModalProps={{
-          keepMounted: true,
-        }}
         anchor="bottom"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
@@ -182,15 +179,12 @@ export default function FullScreenDialog({
 
       <SwipeableDrawer
         anchor="bottom"
-        swipeAreaWidth={0}
+        disableSwipeToOpen
         onOpen={handleClickOpen}
         PaperProps={{
           sx: {
-            width: {
-              sm: "50vw",
-            },
-            maxWidth: "650px",
             maxHeight: "95vh",
+            maxWidth: "600px",
           },
         }}
         open={open}

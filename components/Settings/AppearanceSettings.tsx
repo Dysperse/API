@@ -4,11 +4,13 @@ import {
   Box,
   ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   ListSubheader,
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { colors } from "../../lib/colors";
 
 /**
  * Function to change theme color (Not dark mode!)
@@ -18,20 +20,18 @@ function ThemeColorSettings() {
     <Box>
       <ListSubheader>Theme color</ListSubheader>
       {[
-        "Brown",
-        "Red",
-        "Lime",
-        "Green",
-        "Blue",
-        "Pink",
-        "Purple",
-        "Indigo",
-        "Yellow",
-        "Amber",
-        "Orange",
-        "Teal",
-        "Cyan",
-        "Grey",
+        "brown",
+        "red",
+        "lime",
+        "green",
+        "blue",
+        "pink",
+        "purple",
+        "indigo",
+        "amber",
+        "orange",
+        "teal",
+        "cyan",
       ].map((color) => (
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
@@ -44,9 +44,27 @@ function ThemeColorSettings() {
               <Radio edge="end" checked={themeColor === color.toLowerCase()} />
             }
             disablePadding
+            sx={{ textTransform: "capitalize" }}
           >
+            <ListItemIcon
+              sx={{
+                mr: 0,
+                pr: 0,
+                width: "20px",
+              }}
+            >
+              <Box
+                sx={{
+                  ml: "20px",
+                  background: colors[color]["A700"],
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: 999,
+                }}
+              />
+            </ListItemIcon>
             <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
-              <ListItemText primary={color === "Brown" ? "Dysperse" : color} />
+              <ListItemText primary={color === "brown" ? "Dysperse" : color} />
             </ListItemButton>
           </ListItem>
         </RadioGroup>

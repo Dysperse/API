@@ -10,40 +10,48 @@ import { mutate } from "swr";
  * @param property - Update property settings, or user settings?
  * @returns Object
  */
-export function updateSettings(
+export async function updateSettings(
   key: string,
   value: string,
   debug = false,
   callback: null | (() => void) = null,
   property = false
 ) {
-  let url = `/api/user/update?${new URLSearchParams({
-    token: global.user.token,
-    [key]: value,
-  }).toString()}`;
-  if (property) {
-    url = `/api/property/updateInfo?${new URLSearchParams({
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
-      userName: global.user.name,
-      timestamp: new Date().toISOString(),
-      [key]: value,
-
-      changedKey: key,
-      changedValue: value,
-    }).toString()}`;
-  }
-  const fetcher = fetch(url, {
-    method: "POST",
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      callback && callback();
-      toast.success("Saved!");
-      mutate("/api/user");
-      if (debug) {
-        alert(JSON.stringify(res));
+  toast.promise(
+    new Promise(async (resolve, reject) => {
+      try {
+        let url = `/api/user/update?${new URLSearchParams({
+          token: global.user.token,
+          [key]: value,
+        }).toString()}`;
+        if (property) {
+          url = `/api/property/updateInfo?${new URLSearchParams({
+            property: global.property.propertyId,
+            accessToken: global.property.accessToken,
+            userName: global.user.name,
+            timestamp: new Date().toISOString(),
+            [key]: value,
+            changedKey: key,
+            changedValue: value,
+          }).toString()}`;
+        }
+        let res: any = await fetch(url, {
+          method: "POST",
+        });
+        res = await res.json();
+        callback && callback();
+        mutate("/api/user").then(() => resolve("Saved!"));
+        if (debug) {
+          resolve(JSON.stringify(res));
+        }
+      } catch (err: any) {
+        reject(err.message);
       }
-    });
-  return fetcher;
+    }),
+    {
+      loading: "Saving...",
+      success: (message: any) => message,
+      error: (err: any) => err,
+    }
+  );
 }

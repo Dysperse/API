@@ -154,11 +154,10 @@ function Renderer({ data, url, board }) {
   );
 }
 
-export const Board = React.memo(function Board({
+export const Board = function Board({
   setDrawerOpen,
   board,
   collapsed,
-
   mutationUrl,
 }: any) {
   const boardSwitcherStyles = {
@@ -397,4 +396,4 @@ export const Board = React.memo(function Board({
       </Box>
     </Box>
   );
-});
+};

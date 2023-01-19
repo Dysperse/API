@@ -1,12 +1,10 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import React, { useState } from "react";
 import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
-import { colors } from "../lib/colors";
 import { Puller } from "./Puller";
-
-import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 
 /**
  * Verify if 2fa code is correct
@@ -61,10 +59,10 @@ export function Prompt({
   /**
    * handleOpen
    */
-  const handleOpen = () => {
+  const handleOpen = React.useMemo(() => {
     setOpen(false);
     callback();
-  };
+  }, []);
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
@@ -107,7 +105,6 @@ export function Prompt({
               >
                 Enter the 6-digit code from your authenticator app
               </Typography>
-
               <Box
                 sx={{
                   textAlign: "center",
@@ -123,11 +120,7 @@ export function Prompt({
               <LoadingButton
                 variant="contained"
                 loading={buttonLoading}
-                onClick={
-                  process.env.NODE_ENV === "development"
-                    ? handleOpen
-                    : handleSubmit
-                }
+                onClick={handleSubmit}
                 size="large"
                 sx={{
                   width: "100%",
@@ -135,9 +128,6 @@ export function Prompt({
                   mt: 3,
                   boxShadow: 0,
                   borderRadius: 99,
-                  ...(!buttonLoading && {
-                    background: `${colors[themeColor][900]}!important`,
-                  }),
                   textTransform: "none",
                   border: "2px solid transparent !important",
                 }}
@@ -202,7 +192,6 @@ export function Prompt({
                     width: "100%",
                     my: 0.5,
                     boxShadow: 0,
-                    background: `${colors[themeColor][900]}!important`,
                     borderRadius: 99,
                     textTransform: "none",
                     border: "2px solid transparent !important",
