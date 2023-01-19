@@ -354,7 +354,7 @@ export const Board = function Board({
 
           maxWidth: "100vw",
           pl: {
-            xs: data && board.columns.length === 1 ? 0 : 7,
+            xs: data && board.columns.length === 1 ? 0 : 17,
             sm: data && board.columns.length === 1 ? 0 : 4,
           },
           pr: data ? 0 : 4,
