@@ -34,11 +34,13 @@ function SettingsMenu({
   icon,
   primary,
   secondary,
+  disabled = false,
 }: {
   content: React.ReactNode;
   icon: React.ReactNode;
   primary: string | React.ReactNode;
   secondary: string | React.ReactNode;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open);
@@ -50,6 +52,7 @@ function SettingsMenu({
     <>
       <ListItem
         button
+        disabled={disabled}
         onClick={() => setOpen(true)}
         sx={{
           transiton: { sm: "none!important" },
@@ -190,130 +193,127 @@ export default function FullScreenDialog({
         open={open}
         onClose={handleClose}
       >
-        <Box sx={{ height: "auto", overflow: "scroll" }}>
-          <Puller />
-          <Box sx={{ px: 5 }}>
-            <Typography
-              sx={{
-                flex: 1,
-                fontWeight: "900",
-                mb: 1,
-                mt: 3,
-              }}
-              variant="h5"
-              component="div"
-            >
-              Account
-            </Typography>
-            <Typography
-              sx={{ flex: 1, fontWeight: "400", mb: 1 }}
-              component="div"
-            >
-              {global.user.name} &bull; {global.user.email}
-            </Typography>
-          </Box>
-
-          <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
-            <SettingsMenu
-              content={<AppearanceSettings />}
-              icon="palette"
-              primary="Appearance"
-              secondary={`Current theme: ${global.theme}`}
-            />
-            <SettingsMenu
-              content={<TwoFactorAuth />}
-              icon="verified_user"
-              primary="Two factor authentication"
-              secondary={
-                <>
-                  {global.property.role === "owner" &&
-                  global.user.twoFactorSecret &&
-                  global.user.twoFactorSecret === "false" ? (
-                    <span style={{ color: colors.red[600] }}>
-                      Your account is at greater risk because 2-factor auth
-                      isn&rsquo;t enabled!
-                      <br />
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  2FA is currently{" "}
-                  {global.user.twoFactorSecret &&
-                  global.user.twoFactorSecret !== "false"
-                    ? "enabled"
-                    : "disabled"}
-                </>
-              }
-            />
-            <SettingsMenu
-              content={<AccountSettings />}
-              icon="person"
-              primary="Account"
-              secondary={
-                <>
-                  {global.user.name} &bull; {global.user.email}
-                </>
-              }
-            />
-            <SettingsMenu
-              content={<Notifications />}
-              icon="notifications"
-              primary="Notifications"
-              secondary={
-                <>
-                  If an item&apos;s quantity is {global.user.notificationMin} or
-                  less
-                </>
-              }
-            />
-            <ConfirmationModal
-              title="Sign out"
-              question="Are you sure you want to sign out?"
-              buttonText="Sign out"
-              callback={() =>
-                fetch("/api/logout").then(() => mutate("/api/user"))
-              }
-            >
-              <ListItem
-                button
-                sx={{
-                  transiton: "none!important",
-                  "& *": { transiton: "none!important" },
-                  borderRadius: 4,
-                  "&:hover": {
-                    background: global.user.darkMode
-                      ? "hsl(240,11%,25%)"
-                      : colors[themeColor][200],
-                  },
-                  "& .MuiAvatar-root": {
-                    background: global.user.darkMode
-                      ? "hsl(240,11%,35%)"
-                      : colors[themeColor][200],
-                  },
-                }}
-              >
-                <ListItemAvatar>
-                  <Avatar
-                    sx={{
-                      color: global.user.darkMode ? "#fff" : "#000",
-                      background:
-                        colors[themeColor][global.user.darkMode ? 900 : 100],
-                      borderRadius: 4,
-                    }}
-                  >
-                    <Icon>logout</Icon>
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Typography sx={{ fontWeight: "600" }}>Sign out</Typography>
-                  }
-                  secondary="Sign out of Dysperse and its related apps"
-                />
-              </ListItem>
-            </ConfirmationModal>
-          </List>
+        <Puller />
+        <Box sx={{ px: 5 }}>
+          <Typography
+            sx={{
+              flex: 1,
+              fontWeight: "900",
+              mb: 1,
+              mt: 3,
+            }}
+            variant="h5"
+            component="div"
+          >
+            Account
+          </Typography>
+          <Typography
+            sx={{ flex: 1, fontWeight: "400", mb: 1 }}
+            component="div"
+          >
+            {global.user.name} &bull; {global.user.email}
+          </Typography>
         </Box>
+
+        <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
+          <SettingsMenu
+            content={<AppearanceSettings />}
+            icon="palette"
+            primary="Appearance"
+            secondary={`Current theme: ${global.user.color.toUpperCase()}`}
+          />
+          <SettingsMenu
+            content={<TwoFactorAuth />}
+            icon="verified_user"
+            primary="Two factor authentication"
+            secondary={
+              <>
+                2FA is currently{" "}
+                {global.user.twoFactorSecret &&
+                global.user.twoFactorSecret !== "false"
+                  ? "enabled"
+                  : "disabled"}
+              </>
+            }
+          />
+          <SettingsMenu
+            content={<></>}
+            icon="link"
+            primary="Integrations"
+            secondary={
+              <>Coming soon &bull; Manage third-party integrations and access</>
+            }
+            disabled
+          />
+          <SettingsMenu
+            content={<AccountSettings />}
+            icon="person"
+            primary="Account"
+            secondary={
+              <>
+                {global.user.name} &bull; {global.user.email}
+              </>
+            }
+          />
+          <SettingsMenu
+            content={<Notifications />}
+            icon="notifications"
+            primary="Notifications"
+            secondary={
+              <>
+                {global.user.notificationSubscription
+                  ? "Notifications enabled for 1 device"
+                  : "Notifications off"}
+              </>
+            }
+          />
+          <ConfirmationModal
+            title="Sign out"
+            question="Are you sure you want to sign out?"
+            buttonText="Sign out"
+            callback={() =>
+              fetch("/api/logout").then(() => mutate("/api/user"))
+            }
+          >
+            <ListItem
+              button
+              sx={{
+                transiton: "none!important",
+                "& *": { transiton: "none!important" },
+                borderRadius: 4,
+                "&:hover": {
+                  background: global.user.darkMode
+                    ? "hsl(240,11%,25%)"
+                    : colors[themeColor][200],
+                },
+                "& .MuiAvatar-root": {
+                  background: global.user.darkMode
+                    ? "hsl(240,11%,35%)"
+                    : colors[themeColor][200],
+                },
+              }}
+            >
+              <ListItemAvatar>
+                <Avatar
+                  sx={{
+                    color: global.user.darkMode ? "#fff" : "#000",
+                    background:
+                      colors[themeColor][global.user.darkMode ? 900 : 100],
+                    borderRadius: 4,
+                  }}
+                >
+                  <Icon>logout</Icon>
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography sx={{ fontWeight: "600" }}>Sign out</Typography>
+                }
+                secondary="Sign out of Dysperse and its apps"
+              />
+            </ListItem>
+          </ConfirmationModal>
+        </List>
       </SwipeableDrawer>
     </div>
   );

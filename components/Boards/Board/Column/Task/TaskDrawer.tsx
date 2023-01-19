@@ -88,7 +88,6 @@ export function TaskDrawer({
       ModalProps={{
         keepMounted: false,
       }}
-      disableSwipeToOpen
       BackdropProps={{
         className: "override-bg",
         sx: {
