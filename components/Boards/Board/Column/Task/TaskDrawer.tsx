@@ -229,6 +229,7 @@ export function TaskDrawer({
             </Button>
             <Button
               variant={"contained"}
+              id="subTasksTrigger"
               onClick={() => setView("Subtasks")}
               sx={{
                 gap: 1.5,

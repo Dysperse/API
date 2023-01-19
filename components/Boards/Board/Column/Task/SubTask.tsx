@@ -1,10 +1,31 @@
-import { Checkbox, ListItem, ListItemText } from "@mui/material";
+import { Checkbox, Link, ListItem, ListItemText } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+
+// use whatever you want here
+const URL_REGEX =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
+const renderText = (txt) =>
+  txt.split(" ").map((part) =>
+    URL_REGEX.test(part) ? (
+      <Link
+        target="_blank"
+        href={part}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        {part.replace(/\/$/, "").replace("https://", "").replace("http://", "")}{" "}
+      </Link>
+    ) : (
+      `${part} `
+    )
+  );
 
 export function SubTask({
   checkList,
@@ -78,7 +99,14 @@ export function SubTask({
         </MenuItem>
       </Menu>
       <ListItem
-        onClick={() => setOpen && setOpen(true)}
+        onClick={() => {
+          if (setOpen) {
+            setOpen(true);
+            setTimeout(() => {
+              document.getElementById("subTasksTrigger")?.click();
+            }, 10);
+          }
+        }}
         onContextMenu={handleContextMenu}
         key={subtask.id}
         className="rounded-xl select-none transition-transform dark:bg-transparent duration-100 active:duration-[0s] hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400"
@@ -147,7 +175,7 @@ export function SubTask({
                 textDecoration: checked ? "line-through" : "none",
               }}
             >
-              {subtask.name}
+              {renderText(subtask.name)}
             </span>
           }
         />
