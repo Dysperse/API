@@ -132,7 +132,7 @@ export function EditProperty({ color }: { color: string }) {
               </Typography>
             </Toolbar>
           </AppBar>
-          
+
           <TextField
             variant="filled"
             sx={{ color: "white" }}
@@ -253,7 +253,7 @@ export function EditProperty({ color }: { color: string }) {
             "indigo",
             "deepPurple",
           ].map((item) => (
-            <Color s={color} color={item} />
+            <Color s={color} color={item} key={color} />
           ))}
         </Box>
       </SwipeableDrawer>

@@ -487,7 +487,9 @@ export const Column = React.memo(function Column({
               sx={{
                 display: "flex",
                 alignItems: "center",
-                background: "rgba(200,200,200,.3)",
+                background: global.user.darkMode
+                  ? "hsl(240,11%,20%)"
+                  : "rgba(200,200,200,.3)",
                 p: 2,
                 borderRadius: 3,
                 gap: 2,
