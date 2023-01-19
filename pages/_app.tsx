@@ -234,6 +234,8 @@ function RenderWithLayout({
       MuiDrawer: {
         defaultProps: {
           elevation: 0,
+          disableBackdropTransition: true,
+          disableSwipeToOpen: true,
         },
         styleOverrides: {
           paperAnchorBottom: {
@@ -255,7 +257,7 @@ function RenderWithLayout({
               : colors[global.themeColor][50],
           },
         },
-      },
+      } as any,
       MuiTooltip: {
         styleOverrides: {
           tooltip: {
