@@ -129,9 +129,6 @@ export function BottomNav() {
                 ? "rounded"
                 : "outlined"
             }`}
-            style={{
-              transition: "all .2s!important",
-            }}
           >
             verified
           </span>
@@ -153,9 +150,6 @@ export function BottomNav() {
             className={`material-symbols-${
               router.asPath === "/coach" ? "rounded" : "outlined"
             }`}
-            style={{
-              transition: "all .2s!important",
-            }}
           >
             routine
           </span>
@@ -174,9 +168,6 @@ export function BottomNav() {
                 ? "rounded"
                 : "outlined"
             }`}
-            style={{
-              transition: "all .2s!important",
-            }}
           >
             category
           </span>
@@ -191,9 +182,6 @@ export function BottomNav() {
             className={`material-symbols-${
               router.asPath === "/spaces" ? "rounded" : "outlined"
             }`}
-            style={{
-              transition: "all .2s!important",
-            }}
           >
             view_agenda
           </span>
