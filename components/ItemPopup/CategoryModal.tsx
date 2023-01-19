@@ -37,11 +37,6 @@ export function CategoryModal({
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
-        PaperProps={{
-          sx: {
-            maxWidth: "500px",
-          },
-        }}
       >
         <Puller />
         <Box sx={{ p: 2, mt: 2, maxHeight: "60vh", overflowY: "auto" }}>

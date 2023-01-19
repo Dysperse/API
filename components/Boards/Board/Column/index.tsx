@@ -122,7 +122,7 @@ function CompletedTasks({
 }
 function EmojiPickerModal({ emoji, setEmoji }: any) {
   const [open, setOpen] = React.useState(false);
-  useStatusBar(open, 1);
+  useStatusBar(open);
 
   return (
     <>

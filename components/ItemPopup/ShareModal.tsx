@@ -55,7 +55,7 @@ export function ShareModal({
   const handleClose = () => {
     setOpen(false);
   };
-  useStatusBar(open, 1);
+  useStatusBar(open);
 
   return (
     <>

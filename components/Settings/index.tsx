@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Chip,
   Icon,
   List,
   ListItem,
@@ -42,10 +41,11 @@ function SettingsMenu({
   secondary: string | React.ReactNode;
 }) {
   const [open, setOpen] = useState<boolean>(false);
-  useStatusBar(open, 1);
+  useStatusBar(open);
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+
   return (
     <>
       <ListItem
@@ -193,9 +193,6 @@ export default function FullScreenDialog({
             maxHeight: "95vh",
           },
         }}
-        ModalProps={{
-          keepMounted: true,
-        }}
         open={open}
         onClose={handleClose}
       >
@@ -232,30 +229,13 @@ export default function FullScreenDialog({
             <SettingsMenu
               content={<TwoFactorAuth />}
               icon="verified_user"
-              primary={
-                <span id="twoFactorAuthSettings">
-                  Two factor authentication
-                  <Chip
-                    component="span"
-                    label="New"
-                    sx={{
-                      display: { xs: "none", sm: "unset" },
-                      height: "auto",
-                      ml: 2,
-                      py: 0.4,
-                      px: 0.7,
-                      background: "#B00200",
-                      color: "#fff",
-                    }}
-                  />
-                </span>
-              }
+              primary="Two factor authentication"
               secondary={
                 <>
                   {global.property.role === "owner" &&
                   global.user.twoFactorSecret &&
                   global.user.twoFactorSecret === "false" ? (
-                    <span style={{ color: "red" }}>
+                    <span style={{ color: colors.red[600] }}>
                       Your account is at greater risk because 2-factor auth
                       isn&rsquo;t enabled!
                       <br />
@@ -274,7 +254,7 @@ export default function FullScreenDialog({
             <SettingsMenu
               content={<AccountSettings />}
               icon="person"
-              primary={<span id="accountSettings">Account</span>}
+              primary="Account"
               secondary={
                 <>
                   {global.user.name} &bull; {global.user.email}

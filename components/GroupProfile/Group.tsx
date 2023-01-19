@@ -23,8 +23,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useStatusBar } from "../../hooks/useStatusBar";
-
 import { Changelog } from "./Changelog";
 
 /**
@@ -41,65 +39,68 @@ export function Group({
   data: House;
 }): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  useStatusBar(open, 1);
-  const [editMode, setEditMode] = React.useState(false);
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const color: string = data.profile.color ?? "red";
-  const propertyType = global.property.profile.type;
+  const color: string = data.profile.color ?? "lime";
+
+  const router = useRouter();
+  const invertColors: boolean = [
+    "lime",
+    "cyan",
+    "green",
+    "teal",
+    "blue",
+  ].includes(color);
 
   useEffect(() => {
     if (open) {
+      setTimeout(() => {
+        document
+          .querySelector(`meta[name="theme-color"]`)
+          ?.setAttribute("content", colors[color]["A400"]);
+      });
+      neutralizeBack(() => setOpen(false));
+    } else {
+      revivalBack();
       document
         .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute(
-          "content",
-          editMode ? colors[color][100] : colors[color]["A400"]
-        );
+        ?.setAttribute("content", colors[themeColor][100]);
     }
-  }, [color, editMode, open]);
-
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
-  const router = useRouter();
-
-  const invertColors = ["lime", "cyan", "green", "teal", "blue"].includes(
-    color
-  );
+  }, [color, open]);
 
   return (
     <>
       <ListItem
         id={
-          data.propertyId === global.property.propertyId ? "activeProperty" : ""
+          data.propertyId === global.property.propertyId
+            ? "activeProperty"
+            : undefined
         }
-        onClick={() => {
+        onClick={async () => {
           if (data.propertyId === global.property.propertyId) {
             setOpen(true);
           } else {
-            router.push("/tasks");
-            setLoading(true);
-            fetchApiWithoutHook("property/join", {
-              email: global.user.email,
-              accessToken1: data.accessToken,
-            })
-              .then((res) => {
-                toast(
-                  <>
-                    Currently viewing&nbsp;&nbsp;&nbsp;<u>{res.profile.name}</u>
-                  </>
-                );
-                mutate("/api/user");
-                setLoading(false);
-                handleClose();
-              })
-              .catch(() => {
-                toast.error(
-                  "An error occured while trying to switch properties!"
-                );
-                setLoading(false);
+            try {
+              router.push("/tasks");
+              setLoading(true);
+              const res = await fetchApiWithoutHook("property/join", {
+                email: global.user.email,
+                accessToken1: data.accessToken,
               });
+              setLoading(false);
+              handleClose();
+              await mutate("/api/user");
+              toast.success(
+                <>
+                  Switched to &ldquo;<u>{res.profile.name}</u>&rdquo;
+                </>
+              );
+            } catch (error) {
+              toast.error(
+                "Oh no! An error occured while trying to switch groups. Please try again later."
+              );
+              setLoading(false);
+            }
           }
         }}
         sx={{
@@ -108,6 +109,7 @@ export function Group({
           "&:active .MuiListItem-root": {
             transform: "scale(.98)",
           },
+          cursor: "pointer",
           "&:active": {
             background: `${
               colors[themeColor][global.user.darkMode ? 800 : 100]
@@ -148,6 +150,7 @@ export function Group({
                     display: "flex",
                     alignItems: "center",
                     gap: 1,
+                    textTransform: "capitalize",
                     mt: 1,
                   }}
                 >
@@ -181,7 +184,7 @@ export function Group({
               }}
             >
               {data.propertyId === global.property.propertyId && (
-                <Icon>east</Icon>
+                <Icon className="outlined">settings</Icon>
               )}
             </LoadingButton>
           </ListItemIcon>
@@ -257,24 +260,7 @@ export function Group({
                   Group
                 </Typography>
                 <Changelog />
-                {global.property.permission !== "read-only" && (
-                  <IconButton
-                    disableRipple
-                    sx={{
-                      color: "inherit",
-                      zIndex: 1,
-                    }}
-                    onClick={() => setEditMode(!editMode)}
-                  >
-                    <Icon>more_vert</Icon>
-                  </IconButton>
-                )}
-                <EditProperty
-                  color={color}
-                  setOpen={setEditMode}
-                  propertyType={propertyType}
-                  open={editMode}
-                />
+                <EditProperty color={color} />
               </Box>
 
               <Box
@@ -305,15 +291,15 @@ export function Group({
                   }}
                 >
                   <Icon>
-                    {propertyType === "dorm"
+                    {global.property.profile.type === "dorm"
                       ? "cottage"
-                      : propertyType === "apartment"
+                      : global.property.profile.type === "apartment"
                       ? "location_city"
-                      : propertyType === "study group"
+                      : global.property.profile.type === "study group"
                       ? "school"
                       : "home"}
                   </Icon>
-                  {propertyType}
+                  {global.property.profile.type}
                 </Typography>
                 <Typography variant="h4" className="font-secondary underline">
                   {global.property.profile.name || "Untitled property"}

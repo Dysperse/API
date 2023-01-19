@@ -31,9 +31,6 @@ export default function AppearanceSettings() {
         <ListItemText
           primary={
             <TextField
-              InputProps={{
-                readOnly: true,
-              }}
               disabled
               sx={{ mb: 2 }}
               variant="filled"
@@ -45,7 +42,9 @@ export default function AppearanceSettings() {
       </ListItem>
       <Typography sx={{ mb: 3, px: 2 }}>
         If you want to deactivate your account,{" "}
-        <Link href="mailto:hello@dysperse.com">please contact us</Link>
+        <Link href="mailto:hello@dysperse.com" target="_blank">
+          please contact us
+        </Link>
       </Typography>
     </Box>
   );

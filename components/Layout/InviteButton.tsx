@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CardActionArea,
   Icon,
   SwipeableDrawer,
   Typography,
@@ -11,46 +10,8 @@ import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
 import { Group } from "../GroupProfile/Group";
 import { Puller } from "../Puller";
-import { updateSettings } from "../Settings/updateSettings";
-
-/**
- * Color component for house profile
- * @param {any} {s
- * @param {any} color
- * @returns {any}
- */
-export function Color({ s, color }: { s: string; color: string }) {
-  return (
-    <CardActionArea
-      onClick={() => {
-        updateSettings("color", color, false, null, true);
-      }}
-      sx={{
-        width: 36,
-        height: 36,
-        borderRadius: "50%",
-        display: "inline-flex",
-        mr: 1,
-        mb: 1,
-        backgroundColor: `${colors[color]["A700"]}!important`,
-      }}
-    >
-      <span
-        className="material-symbols-outlined"
-        style={{
-          color: "#fff",
-          margin: "auto",
-          opacity: s === color ? 1 : 0,
-        }}
-      >
-        check
-      </span>
-    </CardActionArea>
-  );
-}
 
 /**
  * Invite button to trigger property list
@@ -75,19 +36,16 @@ export function InviteButton() {
 
   const trigger = useMediaQuery("(min-width: 600px)");
 
-  let properties = global.user.properties;
-  properties = properties.filter(
-    (v, i, a) => a.findIndex((t) => t.propertyId === v.propertyId) === i
-  );
+  const properties = global.user.properties.reduce((acc, curr) => {
+    if (!acc.find((property) => property.propertyId === curr.propertyId)) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
 
   return (
     <>
       <SwipeableDrawer
-        ModalProps={
-          {
-            // keepMounted: true,
-          }
-        }
         disableBackdropTransition
         open={open}
         onOpen={() => setOpen(true)}
@@ -136,11 +94,11 @@ export function InviteButton() {
           <Puller />
         </Box>
         <Box sx={{ px: 2, textAlign: "center" }} />
-        {properties.map((house: any) => (
+        {properties.map((group: any) => (
           <Group
             handleClose={() => setOpen(false)}
-            key={house.accessToken.toString()}
-            data={house}
+            key={group.accessToken.toString()}
+            data={group}
           />
         ))}
       </SwipeableDrawer>

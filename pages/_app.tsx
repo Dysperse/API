@@ -24,7 +24,7 @@ import {
   createTheme,
   NoSsr,
   ThemeProvider,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -62,8 +62,8 @@ function RenderWithLayout({
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", "hsl(240, 11%, 10%)");
       // document
-        // .querySelector(`link[rel="shortcut icon"]`)
-        // ?.setAttribute("href", "https://i.ibb.co/gtLtGLR/image-1.png");
+      // .querySelector(`link[rel="shortcut icon"]`)
+      // ?.setAttribute("href", "https://i.ibb.co/gtLtGLR/image-1.png");
     }
   }, [data]);
 
@@ -228,6 +228,7 @@ function RenderWithLayout({
         styleOverrides: {
           paperAnchorBottom: {
             borderRadius: "20px 20px 0 0",
+            maxWidth: "500px",
             bottom: "0vh!important",
             margin: "auto",
           },

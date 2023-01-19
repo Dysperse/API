@@ -477,11 +477,7 @@ function CreateRoom({ mutationUrl }) {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
-        PaperProps={{
-          sx: {
-            maxWidth: "500px",
-          },
-        }}
+      
       >
         <Puller />
         <Box

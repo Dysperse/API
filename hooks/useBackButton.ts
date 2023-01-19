@@ -15,4 +15,6 @@ export const neutralizeBack = (callback: () => void): void => {
  * Restores the default browser back button
  * @returns {any}
  */
-export const revivalBack = () => null;
+export const revivalBack = (): void => {
+  window.onpopstate = null;
+};

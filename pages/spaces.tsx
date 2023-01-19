@@ -142,11 +142,6 @@ function CreatePostMenu({ url }) {
         onClose={() => setVisibilityModalOpen(false)}
         onOpen={() => setVisibilityModalOpen(true)}
         disableSwipeToOpen
-        PaperProps={{
-          sx: {
-            maxWidth: "500px",
-          },
-        }}
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>

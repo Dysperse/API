@@ -1,14 +1,5 @@
-import {
-  Box,
-  Snackbar,
-  Tab,
-  Tabs,
-  useMediaQuery,
-  useScrollTrigger,
-} from "@mui/material";
-import hexToRgba from "hex-to-rgba";
+import { Box, Snackbar, useMediaQuery, useScrollTrigger } from "@mui/material";
 import { useRouter } from "next/router";
-import React from "react";
 import { colors } from "../../lib/colors";
 
 /**
@@ -23,52 +14,53 @@ export function BottomNav() {
 
   const styles = (active) => {
     return {
-      borderRadius: 3,
       textTransform: "none",
       color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
       height: "70px",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
-        height: "24px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 9,
+        height: "35px",
+        flex: "0 0 35px",
+        width: "60px",
       },
       fontWeight: "200",
+      cursor: "pointer",
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      fontSize: "14.5px",
+      transition: "transform .2s",
+      "&:active": {
+        transform: "scale(.93)",
+        transition: "none",
+      },
       ...(active && {
-        fontWeight: "700",
+        fontWeight: "900",
         color: `${
           colors[themeColor][global.user.darkMode ? 100 : 800]
         }!important`,
+        "& .material-symbols-rounded, & .material-symbols-outlined": {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 9,
+          height: "35px",
+          flex: "0 0 35px",
+          width: "60px",
+          background: `${
+            colors[themeColor][global.user.darkMode ? 900 : 100]
+          }!important`,
+        },
       }),
     };
   };
 
   const router = useRouter();
-  const [value, setValue] = React.useState<number>(0);
-
-  React.useEffect(() => {
-    const url = router.asPath;
-    switch (url) {
-      case "":
-      case "/":
-      case "/tasks":
-        setValue(0);
-        break;
-      case "/trash":
-      case "/items":
-        setValue(2);
-        break;
-      case "/coach":
-        setValue(1);
-        break;
-      case "/spaces":
-        setValue(3);
-        break;
-      default:
-        if (router.asPath.includes("/rooms")) {
-          setValue(2);
-        } else {
-          setValue(0);
-        }
-    }
-  }, [router, router.asPath]);
 
   /**
    * Handles button click
@@ -95,7 +87,7 @@ export function BottomNav() {
           transition: "bottom .3s",
           overflowX: "hidden",
           display: {
-            xs: "block",
+            xs: "flex",
             md: "none",
           },
           [`@media (max-height: 500px)`]: {
@@ -103,6 +95,7 @@ export function BottomNav() {
           },
           zIndex: 999,
           height: "70px",
+          userSelect: "none",
           "&, & *": {
             overflow: "hidden!important",
           },
@@ -115,133 +108,97 @@ export function BottomNav() {
             ? "1px solid hsla(240,11%,15%)"
             : "1px solid rgba(200,200,200,.3)",
           backdropFilter: "blur(10px)",
+          alignItems: "center",
         }}
       >
-        <Tabs
-          TabIndicatorProps={{
-            children: <span className="MuiTabs-indicatorSpan" />,
-          }}
-          variant="fullWidth"
-          value={value}
-          aria-label="basic tabs example"
-          sx={{
-            overflowX: "hidden",
-            height: "100%",
-            "& .MuiTabs-indicator": {
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "transparent",
-              height: "100%",
-            },
-            "& .MuiTabs-indicatorSpan": {
-              minWidth: "65px",
-              maxWidth: "70px",
-              width: "50%",
-              height: 34,
-              mt: -2.855,
-              backgroundColor: global.user.darkMode
-                ? "rgba(153, 153, 158, .1)"
-                : hexToRgba(colors[themeColor][500], 0.2),
-              borderRadius: 99,
-            },
-          }}
+        <Box
+          onClick={() => router.push("/tasks")}
+          sx={styles(
+            router.asPath === "/tasks" ||
+              router.asPath === "/" ||
+              router.asPath === "" ||
+              router.asPath.includes("/tasks")
+          )}
         >
-          <Tab
-            disableRipple
-            sx={styles(
+          <span
+            className={`material-symbols-${
               router.asPath === "/tasks" ||
-                router.asPath === "/" ||
-                router.asPath === "" ||
-                router.asPath.includes("/tasks")
-            )}
-            icon={
-              <span
-                className={`material-symbols-${
-                  router.asPath === "/tasks" ||
-                  router.asPath === "/" ||
-                  router.asPath === "" ||
-                  router.asPath.includes("/tasks")
-                    ? "rounded"
-                    : "outlined"
-                }`}
-                style={{
-                  transition: "all .2s!important",
-                }}
-              >
-                verified
-              </span>
-            }
-            label="Lists"
-            onClick={() => router.push("/tasks").then(() => setValue(0))}
-          />
-
-          <Tab
-            disableRipple
-            onDoubleClick={() => {
-              router.push("/coach").then(() => {
-                setTimeout(() => {
-                  document.getElementById("routineTrigger")?.click();
-                }, 500);
-              });
+              router.asPath === "/" ||
+              router.asPath === "" ||
+              router.asPath.includes("/tasks")
+                ? "rounded"
+                : "outlined"
+            }`}
+            style={{
+              transition: "all .2s!important",
             }}
-            sx={styles(router.asPath === "/coach")}
-            icon={
-              <span
-                className={`material-symbols-${
-                  router.asPath === "/coach" ? "rounded" : "outlined"
-                }`}
-                style={{
-                  transition: "all .2s!important",
-                }}
-              >
-                routine
-              </span>
-            }
-            label="Coach"
-            onClick={() => router.push("/coach").then(() => setValue(1))}
-          />
-          <Tab
-            disableRipple
-            sx={styles(
+          >
+            verified
+          </span>
+          Lists
+        </Box>
+
+        <Box
+          sx={styles(router.asPath === "/coach")}
+          onDoubleClick={() => {
+            router.push("/coach").then(() => {
+              setTimeout(() => {
+                document.getElementById("routineTrigger")?.click();
+              }, 500);
+            });
+          }}
+          onClick={() => router.push("/coach")}
+        >
+          <span
+            className={`material-symbols-${
+              router.asPath === "/coach" ? "rounded" : "outlined"
+            }`}
+            style={{
+              transition: "all .2s!important",
+            }}
+          >
+            routine
+          </span>
+          Coach
+        </Box>
+
+        <Box
+          sx={styles(
+            router.asPath === "/items" || router.asPath.includes("rooms")
+          )}
+          onClick={() => router.push("/items")}
+        >
+          <span
+            className={`material-symbols-${
               router.asPath === "/items" || router.asPath.includes("rooms")
-            )}
-            icon={
-              <span
-                className={`material-symbols-${
-                  router.asPath === "/items" || router.asPath.includes("rooms")
-                    ? "rounded"
-                    : "outlined"
-                }`}
-                style={{
-                  transition: "all .2s!important",
-                }}
-              >
-                category
-              </span>
-            }
-            label="Items"
-            onClick={() => router.push("/items").then(() => setValue(2))}
-          />
-          <Tab
-            disableRipple
-            sx={styles(router.asPath === "/spaces")}
-            icon={
-              <span
-                className={`material-symbols-${
-                  router.asPath === "/spaces" ? "rounded" : "outlined"
-                }`}
-                style={{
-                  transition: "all .2s!important",
-                }}
-              >
-                view_agenda
-              </span>
-            }
-            label="Spaces"
-            onClick={() => router.push("/spaces").then(() => setValue(3))}
-          />
-        </Tabs>
+                ? "rounded"
+                : "outlined"
+            }`}
+            style={{
+              transition: "all .2s!important",
+            }}
+          >
+            category
+          </span>
+          Items
+        </Box>
+
+        <Box
+          onClick={() => router.push("/tasks")}
+          sx={styles(router.asPath === "/spaces")}
+        >
+          <span
+            className={`material-symbols-${
+              router.asPath === "/spaces" ? "rounded" : "outlined"
+            }`}
+            style={{
+              transition: "all .2s!important",
+            }}
+          >
+            view_agenda
+          </span>
+          Spaces
+        </Box>
       </Box>
     </>
   );

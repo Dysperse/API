@@ -92,7 +92,7 @@ function Room({
  */
 export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
   const [open, setOpen] = useState<boolean>(false);
-  useStatusBar(open, 1);
+  useStatusBar(open);
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });

@@ -538,7 +538,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
       <Box
         sx={{
-          // maxWidth: "500px",
+          // ,
           background:
             "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/images/board-header.png)",
           backgroundRepeat: "no-repeat",

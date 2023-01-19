@@ -29,8 +29,6 @@ export default function App() {
         <Box>
           <Typography>2FA is enabled for your account!</Typography>
           <Prompt
-            open={open}
-            setOpen={setOpen}
             callback={() => {
               setLoadingDisable(true);
               updateSettings("twoFactorSecret", "", false, () => {
@@ -38,16 +36,16 @@ export default function App() {
                 setLoadingDisable(false);
               });
             }}
-          />
-          <LoadingButton
-            loading={loadingDisable}
-            onClick={() => setOpen(true)}
-            sx={{ mt: 5, boxShadow: 0, width: "100%", borderRadius: "100px" }}
-            variant="contained"
-            size="large"
           >
-            Disable
-          </LoadingButton>
+            <LoadingButton
+              loading={loadingDisable}
+              sx={{ mt: 5, boxShadow: 0, width: "100%", borderRadius: "100px" }}
+              variant="contained"
+              size="large"
+            >
+              Disable
+            </LoadingButton>
+          </Prompt>
         </Box>
       ) : (
         <Box>

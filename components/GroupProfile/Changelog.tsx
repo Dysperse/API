@@ -22,12 +22,6 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 
-const Row = ({ index, style }) => (
-  <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
-    Row {index}
-  </div>
-);
-
 export function Changelog() {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
@@ -54,12 +48,6 @@ export function Changelog() {
         disableBackdropTransition
         disableSwipeToOpen
         anchor="bottom"
-        PaperProps={{
-          sx: {
-            borderRadius: "20px 20px 0px 0px",
-            maxWidth: "500px",
-          },
-        }}
       >
         <Box
           sx={{

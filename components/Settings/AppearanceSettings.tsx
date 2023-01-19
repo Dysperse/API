@@ -9,7 +9,6 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { mutate } from "swr";
 
 /**
  * Function to change theme color (Not dark mode!)
@@ -38,25 +37,15 @@ function ThemeColorSettings() {
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
           key={color}
+          onClick={() => updateSettings("color", color.toLowerCase())}
         >
           <ListItem
             secondaryAction={
-              <Radio
-                edge="end"
-                checked={themeColor === color.toLowerCase()}
-                onChange={() => {
-                  updateSettings("color", color.toLowerCase());
-                }}
-              />
+              <Radio edge="end" checked={themeColor === color.toLowerCase()} />
             }
             disablePadding
           >
-            <ListItemButton
-              sx={{ borderRadius: 2, transition: "none" }}
-              onClick={() => {
-                updateSettings("color", color.toLowerCase());
-              }}
-            >
+            <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
               <ListItemText primary={color === "Brown" ? "Dysperse" : color} />
             </ListItemButton>
           </ListItem>
@@ -80,17 +69,11 @@ export default function AppearanceSettings() {
       >
         <ListItem
           key="light"
-          onClick={() => {
-            mutate("/api/user");
-            updateSettings("darkMode", "false");
-          }}
+          onClick={() => updateSettings("darkMode", "false")}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => {
-                mutate("/api/user");
-                updateSettings("darkMode", "false");
-              }}
+              onChange={() => updateSettings("darkMode", "false")}
               checked={global.theme === "light"}
             />
           }
@@ -102,17 +85,11 @@ export default function AppearanceSettings() {
         </ListItem>
         <ListItem
           key="dark"
-          onClick={() => {
-            mutate("/api/user");
-            updateSettings("darkMode", "true");
-          }}
+          onClick={() => updateSettings("darkMode", "true")}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => {
-                mutate("/api/user");
-                updateSettings("darkMode", "true");
-              }}
+              onChange={() => updateSettings("darkMode", "true")}
               checked={global.user.darkMode}
             />
           }

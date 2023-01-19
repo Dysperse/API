@@ -139,51 +139,49 @@ export function AddPersonModal({
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [permission, setpermission] = React.useState("member");
+  const [permission, setPermission] = React.useState("member");
 
-  const [twoFactorPrompt, setTwoFactorPrompt] = React.useState(false);
   /**
    * Add person modal
    * @param {SelectChangeEvent} event
    * @returns {any}
    */
-  const handleChange = (event: SelectChangeEvent) => {
-    setpermission(event.target.value as string);
-  };
+  const handleChange = React.useCallback(
+    (event: SelectChangeEvent) => setPermission(event.target.value as string),
+    []
+  );
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  }, [open]);
 
   return (
     <>
-      <Button
-        onClick={() => setTwoFactorPrompt(true)}
-        variant="contained"
-        disabled={global.property.permission !== "owner"}
-        sx={{
-          mb: 2,
-          borderRadius: 4,
-          ml: "auto",
-          boxShadow: 0,
-          ...(global.property.permission === "owner" && {
-            backgroundColor: `${
-              colors[color][global.user.darkMode ? 800 : 900]
-            }!important`,
-            color: `${colors[color][50]}!important`,
-          }),
-        }}
-      >
-        <Icon>add</Icon>
-        Invite
-      </Button>
       <Prompt
-        open={twoFactorPrompt}
-        setOpen={setTwoFactorPrompt}
         callback={() => {
           setOpen(true);
         }}
-      />
+      >
+        <Button
+          variant="contained"
+          disabled={global.property.permission !== "owner"}
+          sx={{
+            mb: 2,
+            borderRadius: 4,
+            ml: "auto",
+            boxShadow: 0,
+            ...(global.property.permission === "owner" && {
+              backgroundColor: `${
+                colors[color][global.user.darkMode ? 800 : 900]
+              }!important`,
+              color: `${colors[color][50]}!important`,
+            }),
+          }}
+        >
+          <Icon>add</Icon>
+          Invite
+        </Button>
+      </Prompt>
       <SwipeableDrawer
         open={open}
         onOpen={() => setOpen(true)}

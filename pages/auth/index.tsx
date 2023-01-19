@@ -10,7 +10,6 @@ import { useSWRConfig } from "swr";
 import { Layout } from "../../components/Auth/Layout";
 import { Puller } from "../../components/Puller";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { colors } from "../../lib/colors";
 
 import {
   Box,
@@ -19,7 +18,7 @@ import {
   Paper,
   SwipeableDrawer,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 
 /**
@@ -177,13 +176,6 @@ export default function Prompt() {
           onClose={() => setTwoFactorModalOpen(false)}
           onOpen={() => setTwoFactorModalOpen(true)}
           disableSwipeToOpen
-          PaperProps={{
-            sx: {
-              background: colors.brown[50],
-              mx: "auto",
-              maxWidth: "500px",
-            },
-          }}
         >
           <Puller />
           <Box
