@@ -3,9 +3,9 @@ import {
   Button,
   Checkbox,
   Chip,
+  Drawer,
   Icon,
   IconButton,
-  Drawer,
   //SwipeableDrawer,
   TextField,
   Typography,
@@ -84,14 +84,18 @@ export function TaskDrawer({
     <Drawer
       anchor="right"
       onClose={() => setOpen(false)}
-     // onOpen={() => setOpen(true)}
       open={open}
-    //  disableSwipeToOpen
+      ModalProps={{
+        keepMounted: false,
+      }}
+      disableSwipeToOpen
       BackdropProps={{
         className: "override-bg",
         sx: {
-          background:
-            `${hexToRgba(colors[task.color ?? "brown"][200], 0.5)}!important`,
+          background: `${hexToRgba(
+            colors[task.color ?? "brown"][200],
+            0.5
+          )}!important`,
           backdropFilter: "blur(5px)",
         },
       }}

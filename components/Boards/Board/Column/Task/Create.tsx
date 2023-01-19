@@ -102,7 +102,6 @@ export function CreateTask({
     column.tasks.length >= 1
   );
   const [open, setOpen] = useState(false);
-
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -126,10 +125,6 @@ export function CreateTask({
       background: colors[themeColor][700],
       color: colors[themeColor][50],
     },
-    // iconTheme: {
-    // primary: colors[themeColor][50],
-    // secondary: colors[themeColor][900],
-    // },
   };
 
   useEffect(() => {

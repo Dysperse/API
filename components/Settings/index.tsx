@@ -209,7 +209,7 @@ export default function FullScreenDialog({
               sx={{ flex: 1, fontWeight: "400", mb: 1 }}
               component="div"
             >
-              {global.user.name}
+              {global.user.name} &bull; {global.user.email}
             </Typography>
           </Box>
 
