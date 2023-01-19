@@ -353,10 +353,7 @@ export const Board = function Board({
           gap: "10px",
 
           maxWidth: "100vw",
-          pl: {
-            xs: data && board.columns.length === 1 ? 0 : 17,
-            sm: data && board.columns.length === 1 ? 0 : 4,
-          },
+          pl: data && board.columns.length === 1 ? 0 : 3,
           pr: data ? 0 : 4,
         }}
         className="snap-x snap-proximity scroll-smooth"
