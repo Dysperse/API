@@ -206,6 +206,7 @@ export function CreateColumn({ hide, mutationUrl, id }: any) {
               pl: 3,
               mr: 4,
               gap: 2,
+              color: colors[themeColor][700],
               transition: "none!important",
               backgroundColor: global.user.darkMode
                 ? "hsl(240,11%,15%)"
