@@ -34,7 +34,9 @@ function ImageModal({ image, setImage, styles }) {
           ...styles,
           mx: 0.5,
           background: image
-            ? `${colors[themeColor][global.user.darkMode ? 900 : 100]}!important`
+            ? `${
+                colors[themeColor][global.user.darkMode ? 900 : 100]
+              }!important`
             : "",
         }}
         size="small"
@@ -92,6 +94,10 @@ export function CreateTask({
   column,
   checkList = false,
 }: any) {
+  const allCompleted = !(
+    column.tasks.filter((task) => task.completed).length ==
+      column.tasks.length && column.tasks.length >= 1
+  );
   const [open, setOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -501,6 +507,7 @@ export function CreateTask({
         sx={{
           px: !checkList ? 0 : 0.5,
           py: !checkList ? 0.5 : 1,
+          ...(!allCompleted && { flex: "0 0 50px" }),
           cursor: "unset!important",
           "&:hover": {
             backgroundColor: global.user.darkMode
@@ -545,7 +552,7 @@ export function CreateTask({
               : checkList
               ? "#303030"
               : "#505050",
-            marginLeft: "7px",
+            marginLeft: !allCompleted ? "10px" : "7px",
             marginRight: "5px",
             fontSize: "30px",
           }}
@@ -553,18 +560,20 @@ export function CreateTask({
           add_circle
         </span>
 
-        <ListItemText
-          className="textbox"
-          primary={
-            <span
-              style={{
-                fontWeight: 300,
-              }}
-            >
-              {parent ? "New subtask" : "New list item"}
-            </span>
-          }
-        />
+        {allCompleted && (
+          <ListItemText
+            className="textbox"
+            primary={
+              <span
+                style={{
+                  fontWeight: 300,
+                }}
+              >
+                {parent ? "New subtask" : "New list item"}
+              </span>
+            }
+          />
+        )}
       </ListItem>
     </>
   );

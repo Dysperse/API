@@ -363,11 +363,6 @@ export const Column = React.memo(function Column({
           setCollapsed(!collapsed);
         }
       }}
-      onClick={() => {
-        if (!checkList && collapsed) {
-          setCollapsed(false);
-        }
-      }}
       className="w-[350px] bg-gray-100 dark:border-[hsla(240,11%,18%)] border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
@@ -386,14 +381,8 @@ export const Column = React.memo(function Column({
         pt: 4,
         px: collapsed ? 1 : checkList ? 4 : 2,
         borderRadius: 5,
-        transition: "flex .2s",
         ...(collapsed && {
           cursor: "pointer",
-          transition: "all .2s",
-          "&:active": {
-            transition: "none",
-            transform: "scale(.95)",
-          },
         }),
         ...(checkList && {
           flex: "0 0 100%!important",
@@ -491,13 +480,49 @@ export const Column = React.memo(function Column({
               columnId={column.id}
             />
           ))}
-        <CreateTask
-          column={column}
-          tasks={tasks}
-          checkList={checkList}
-          mutationUrl={mutationUrl}
-          boardId={boardId}
-        />
+        {columnTasks.filter((task) => task.completed).length ==
+          columnTasks.length &&
+          columnTasks.length >= 1 && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                background: "rgba(200,200,200,.3)",
+                p: 2,
+                borderRadius: 3,
+                gap: 2,
+                mb: 1,
+              }}
+            >
+              <picture>
+                <img
+                  src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
+                  width="40px"
+                  height="40px"
+                />
+              </picture>
+              <Typography sx={{ width: "100%" }}>0 items remaining!</Typography>
+              <CreateTask
+                column={column}
+                tasks={tasks}
+                checkList={checkList}
+                mutationUrl={mutationUrl}
+                boardId={boardId}
+              />
+            </Box>
+          )}
+        {!(
+          columnTasks.filter((task) => task.completed).length ==
+            columnTasks.length && columnTasks.length >= 1
+        ) && (
+          <CreateTask
+            column={column}
+            tasks={tasks}
+            checkList={checkList}
+            mutationUrl={mutationUrl}
+            boardId={boardId}
+          />
+        )}
 
         <CompletedTasks
           checkList={checkList}
