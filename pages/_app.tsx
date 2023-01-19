@@ -49,7 +49,12 @@ function RenderWithLayout({
   pageProps: JSX.Element;
   router: NextRouter;
 }) {
-  const theme: "dark" | "light" = data.user.darkMode ? "dark" : "light";
+  const theme: "dark" | "light" =
+    (typeof document !== "undefined" &&
+      document.cookie.includes("dark=true")) ||
+    data.user.darkMode
+      ? "dark"
+      : "light";
   const themeColor = data.user.color;
 
   global.user = data.user;
@@ -61,9 +66,15 @@ function RenderWithLayout({
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", "hsl(240, 11%, 10%)");
-      // document
-      // .querySelector(`link[rel="shortcut icon"]`)
-      // ?.setAttribute("href", "https://i.ibb.co/gtLtGLR/image-1.png");
+      document.cookie = "dark=true";
+      document
+        .querySelector(`link[rel="shortcut icon"]`)
+        ?.setAttribute(
+          "href",
+          "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/dark.png"
+        );
+    } else {
+      document.cookie = "dark=false";
     }
   }, [data]);
 
@@ -74,7 +85,6 @@ function RenderWithLayout({
       },
       MuiIcon: {
         defaultProps: {
-          // Replace the `material-icons` default value.
           baseClassName: "material-symbols-rounded",
         },
         variants: [
