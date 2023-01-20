@@ -498,6 +498,7 @@ export const Column = React.memo(function Column({
             >
               <picture>
                 <img
+                  alt="0 items remaining!"
                   src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
                   width="40px"
                   height="40px"

@@ -65,7 +65,7 @@ export const Group = React.memo(function Group({
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", colors[themeColor][100]);
     }
-  }, [color, open]);
+  }, [color, open, data.propertyId]);
 
   return (
     <>
