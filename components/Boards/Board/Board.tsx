@@ -413,7 +413,6 @@ export const Board = function Board({
 
           maxWidth: "100vw",
           pl: data && board.columns.length === 1 ? 0 : 3,
-          pr: data ? 0 : 4,
         }}
         id="taskContainer"
         onScroll={() => {
