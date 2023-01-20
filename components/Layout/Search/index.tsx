@@ -244,7 +244,7 @@ export function SearchPopup({ styles }) {
             ?.setAttribute("content", "#c0c0c0");
         }}
         actions={actions}
-        shortcut={["mod + P", "mod + K", "/"]}
+        shortcut={["mod + K", "/"]}
         searchIcon={<Icon>search</Icon>}
         searchPlaceholder="Search..."
         actionComponent={CustomAction}
