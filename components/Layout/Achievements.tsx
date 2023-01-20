@@ -13,7 +13,7 @@ import {
 import React, { useState } from "react";
 import { achievements } from "./achievements";
 
-const Achievement = React.memo(function Achievement({
+export const Achievement: any = React.memo(function Achievement({
   achievement,
   index,
 }: any) {
@@ -192,7 +192,7 @@ export function Achievements({ styles }) {
               TO BE UNLOCKED
             </Typography>
             {availableAchievements.map((achievement: any, index) => (
-              <Achievements
+              <Achievement
                 achievement={achievement}
                 key={index}
                 index={index}
