@@ -31,7 +31,7 @@ import { Changelog } from "./Changelog";
  * @param {any} {data}
  * @returns {any}
  */
-export function Group({
+export const Group = React.memo(function Group({
   handleClose,
   data,
 }: {
@@ -42,7 +42,6 @@ export function Group({
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const color: string = data.profile.color ?? "lime";
-
   const router = useRouter();
   const invertColors: boolean = [
     "lime",
@@ -196,7 +195,6 @@ export function Group({
           ModalProps={{
             keepMounted: false,
           }}
-          
           PaperProps={{
             sx: {
               height: "100vh",
@@ -328,4 +326,4 @@ export function Group({
       )}
     </>
   );
-}
+});
