@@ -354,6 +354,10 @@ export const Board = function Board({
         }}
         className="snap-x snap-proximity scroll-smooth"
         id="taskContainer"
+        onScroll={() => {
+          const container: any = document.getElementById("boardContainer");
+          container.scrollTo({ top: 0, behavior: "smooth" });
+        }}
       >
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your tasks" />

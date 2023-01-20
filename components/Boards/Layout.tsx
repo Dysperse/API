@@ -416,6 +416,7 @@ export function TasksLayout() {
           overflowY: { sm: "auto" },
           flexGrow: 1,
         }}
+        id="boardContainer"
       >
         {activeTab === "new" && (
           <CreateBoard
