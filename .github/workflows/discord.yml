@@ -11,6 +11,6 @@ jobs:
         with:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          color: "#123456"
-          username: "GitHub"
+          color: "#DB94CA"
+          username: "GitHub [BOT]"
           message: "A new version of Dysperse is available! \nChanges: ${{ github.event.commits[0].message }} \nVisit https://my.dysperse.com to view the latest deployment"
