@@ -9,6 +9,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useScrollTrigger,
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -133,19 +134,75 @@ function BoardSettings({ mutationUrl, board }) {
 }
 
 const Renderer = React.memo(function Renderer({ data, url, board }: any) {
+  const [currentColumn, setCurrentColumn] = React.useState(0);
+  const trigger = useScrollTrigger({
+    threshold: 0,
+    target: window ? window : undefined,
+  });
+
   return (
     <>
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: trigger ? "30px" : "90px",
+          transition: "bottom .3s",
+          boxShadow:
+            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          border: "1px solid rgba(200,200,200,.3)",
+          backdropFilter: "blur(5px)",
+          p: 1,
+          borderRadius: 9,
+          left: "50%",
+          transform: "translateX(-50%)",
+          background: "rgba(255,255,255,.7)",
+          zIndex: 999,
+          display: board.columns.length === 1 ? "none" : "flex",
+        }}
+      >
+        <Button
+          size="small"
+          sx={{ borderRadius: 999 }}
+          onClick={() => {
+            setCurrentColumn(currentColumn - 1);
+          }}
+          disabled={currentColumn <= 0}
+        >
+          <Icon sx={{ color: currentColumn <= 0 ? "#aaa" : "#000" }}>
+            arrow_back
+          </Icon>
+        </Button>
+        <Button
+          size="small"
+          sx={{ borderRadius: 999 }}
+          onClick={() => {
+            setCurrentColumn(currentColumn + 1);
+          }}
+          disabled={currentColumn >= board.columns.length - 1}
+        >
+          <Icon
+            sx={{
+              color:
+                currentColumn >= board.columns.length - 1 ? "#aaa" : "#000",
+            }}
+          >
+            arrow_forward
+          </Icon>
+        </Button>
+      </Box>
       {data &&
-        data.map((column) => (
-          <Column
-            key={column.id}
-            tasks={data.map((column) => column.tasks).flat()}
-            checkList={board.columns.length === 1}
-            mutationUrl={url}
-            boardId={board.id}
-            column={column}
-          />
-        ))}
+        data
+          .filter((col, id) => id === currentColumn)
+          .map((column) => (
+            <Column
+              key={column.id}
+              tasks={data.map((column) => column.tasks).flat()}
+              checkList={board.columns.length === 1}
+              mutationUrl={url}
+              boardId={board.id}
+              column={column}
+            />
+          ))}
     </>
   );
 });
@@ -341,7 +398,6 @@ export const Board = function Board({
           pl: data && board.columns.length === 1 ? 0 : 3,
           pr: data ? 0 : 4,
         }}
-        className="snap-x snap-proximity scroll-smooth"
         id="taskContainer"
         onScroll={() => {
           const container: any = document.getElementById("boardContainer");
