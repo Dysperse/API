@@ -31,7 +31,7 @@ const renderText = (txt) =>
     )
   );
 
-export function SubTask({
+export const SubTask = React.memo(function SubTask({
   checkList,
   setOpen,
   noMargin = false,
@@ -186,4 +186,4 @@ export function SubTask({
       </ListItem>
     </>
   );
-}
+});

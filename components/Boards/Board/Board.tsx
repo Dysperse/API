@@ -131,6 +131,7 @@ function BoardSettings({ mutationUrl, board }) {
     </>
   );
 }
+
 function Renderer({ data, url, board }) {
   return (
     <>

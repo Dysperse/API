@@ -6,14 +6,13 @@ import {
   Drawer,
   Icon,
   IconButton,
-  //SwipeableDrawer,
   TextField,
   Typography,
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import hexToRgba from "hex-to-rgba";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
@@ -28,7 +27,7 @@ import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 import { SubTask } from "./SubTask";
 
-export function TaskDrawer({
+export const TaskDrawer = React.memo(function TaskDrawer({
   checked,
   setChecked,
   task,
@@ -40,7 +39,7 @@ export function TaskDrawer({
   mutationUrl,
   columnId,
   handleDelete,
-}) {
+}: any) {
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)
@@ -381,4 +380,4 @@ export function TaskDrawer({
       </Box>
     </Drawer>
   );
-}
+});
