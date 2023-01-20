@@ -328,10 +328,9 @@ function Action({
       disableRipple
       onContextMenu={(e) => {
         e.preventDefault();
-        navigator.vibrate(50);
         e.stopPropagation();
         ref.current.click();
-        navigator.vibrate(500);
+        navigator.vibrate(50);
       }}
       onClick={() => {
         if (href) router.push(href).then(() => setLoading(false));
@@ -477,7 +476,6 @@ function CreateRoom({ mutationUrl }) {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
-      
       >
         <Puller />
         <Box
