@@ -447,15 +447,17 @@ export const Board = function Board({
               overflow: "hidden",
             }}
           >
-            {[...new Array(5)].map(() => (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                key={Math.random().toString()}
-                height={500}
-                sx={{ width: "350px", flex: "0 0 350px", borderRadius: 5 }}
-              />
-            ))}
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              key={Math.random().toString()}
+              height={500}
+              sx={{
+                width: "calc(100vw - 50px)",
+                flex: "0 0 calc(100vw - 50px)",
+                borderRadius: 5,
+              }}
+            />
           </Box>
         )}
       </Box>
