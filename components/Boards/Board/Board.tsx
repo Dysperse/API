@@ -355,10 +355,8 @@ export const Board = function Board({
         className="snap-x snap-proximity scroll-smooth"
         id="taskContainer"
         onScroll={() => {
-          if (window.matchMedia("(max-width: 767px)").matches) {
-            const container: any = document.getElementById("boardContainer");
-            container.scrollTo({ top: 0, behavior: "smooth" });
-          }
+          const container: any = document.getElementById("boardContainer");
+          container.scrollTo({ top: 0, behavior: "smooth" });
         }}
       >
         {error && (
