@@ -174,6 +174,14 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
             arrow_back
           </Icon>
         </Button>
+        {board.columns.length !== 1 && (
+          <CreateColumn
+            mobile
+            id={board.id}
+            mutationUrl={url}
+            hide={board.columns.length === 1 || data.length >= 5}
+          />
+        )}
         <Button
           size="small"
           sx={{ borderRadius: 999 }}
@@ -418,6 +426,7 @@ export const Board = function Board({
           <>
             {board.columns.length !== 1 && (
               <CreateColumn
+                mobile={false}
                 id={board.id}
                 mutationUrl={url}
                 hide={board.columns.length === 1 || data.length >= 5}
