@@ -2,10 +2,10 @@ import {
   AppBar,
   Box,
   Chip,
+  Drawer,
   Icon,
   IconButton,
   LinearProgress,
-  SwipeableDrawer,
   Toolbar,
   Tooltip,
   Typography,
@@ -86,12 +86,10 @@ export function Achievements({ styles }) {
 
   return (
     <>
-      <SwipeableDrawer
+      <Drawer
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             maxWidth: "700px",
@@ -202,7 +200,7 @@ export function Achievements({ styles }) {
             ))}
           </Box>
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
       <Tooltip title="Achievements">
         <IconButton
           color="inherit"
