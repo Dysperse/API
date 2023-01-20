@@ -160,7 +160,10 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           gap: 1.5,
           background: "rgba(255,255,255,.7)",
           zIndex: 999,
-          display: board.columns.length === 1 || !isMobile ? "none" : "flex",
+          display:
+            (board && board.columns.length === 1) || !isMobile
+              ? "none"
+              : "flex",
         }}
       >
         <Button
@@ -180,7 +183,10 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
             mobile
             id={board.id}
             mutationUrl={url}
-            hide={board.columns.length === 1 || data.length >= 5}
+            hide={
+              (board && board.columns.length === 1) ||
+              (data && data.length >= 5)
+            }
           />
         )}
         <Button
