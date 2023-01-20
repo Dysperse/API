@@ -357,6 +357,9 @@ export const Board = function Board({
         onScroll={() => {
           const container: any = document.getElementById("boardContainer");
           container.scrollTo({ top: 0, behavior: "smooth" });
+          setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }, 100);
         }}
       >
         {error && (
