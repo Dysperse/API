@@ -1,4 +1,4 @@
-import { Box, Grow, Toolbar, useMediaQuery } from "@mui/material";
+import { Box, Grow, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
@@ -29,7 +29,6 @@ function ResponsiveDrawer({
   children: JSX.Element;
 }): JSX.Element {
   const router = useRouter();
-  const trigger = useMediaQuery("(min-width: 480px)");
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -40,14 +39,14 @@ function ResponsiveDrawer({
         />
       )}
       <Navbar />
-      {trigger && <KeyboardShortcutsModal />}
+      <KeyboardShortcutsModal />
       <Box
         sx={{
           width: { md: "85px" },
           flexShrink: { md: 0 },
         }}
       >
-        {!trigger && <Sidebar />}
+        <Sidebar />
       </Box>
       <Box
         component="main"
@@ -78,8 +77,7 @@ function ResponsiveDrawer({
           {children}
           <Toolbar />
         </Box>
-         <BottomNav />
-
+        <BottomNav />
       </Box>
     </Box>
   );

@@ -37,11 +37,10 @@ export function useApi(path, initialParams = {}, removeDefaultParams = false) {
       ),
     [path, initialParams, removeDefaultParams, global.property, global.user]
   );
-  preload(url);
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  preload(url, fetcher);
 
-  const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
-  );
+  const { data, error } = useSWR(url, fetcher);
 
   const [response, setResponse] = useState({
     data,
