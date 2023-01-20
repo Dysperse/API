@@ -10,8 +10,75 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import { achievements } from "./achievements";
+
+const Achievement = React.memo(function Achievement({
+  achievement,
+  index,
+}: any) {
+  return (
+    <Box
+      key={index}
+      sx={{
+        p: 2,
+        px: 3,
+        background: global.user.darkMode
+          ? "hsl(240,11%,20%)"
+          : "rgba(200,200,200,.3)",
+        borderRadius: 5,
+        mb: 2,
+      }}
+    >
+      <Chip
+        label={achievement.type.split(":")[0]}
+        sx={{
+          textTransform: "capitalize",
+          background: global.user.darkMode
+            ? "hsl(240,11%,30%)"
+            : "rgba(200,200,200,.3)",
+          mb: 1,
+        }}
+        size="small"
+      />
+      <Typography
+        sx={{
+          fontWeight: "700",
+          textDecoration: "underline",
+        }}
+      >
+        {achievement.name}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          opacity: 0.8,
+          whiteSpace: "nowrap",
+          mb: 1,
+        }}
+      >
+        {achievement.description}
+      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Typography
+          color="warning.main"
+          variant="body2"
+          sx={{
+            fontWeight: "600",
+          }}
+        >
+          Level 1
+        </Typography>
+        <LinearProgress
+          variant="determinate"
+          color="warning"
+          sx={{ height: 3, flexGrow: 1, borderRadius: 999 }}
+          value={Math.random() * 100}
+        />
+      </Box>
+    </Box>
+  );
+});
 
 export function Achievements({ styles }) {
   const [open, setOpen] = useState(false);
@@ -127,65 +194,11 @@ export function Achievements({ styles }) {
               TO BE UNLOCKED
             </Typography>
             {availableAchievements.map((achievement: any, index) => (
-              <Box
+              <Achievements
+                achievement={achievement}
                 key={index}
-                sx={{
-                  p: 2,
-                  px: 3,
-                  background: global.user.darkMode
-                    ? "hsl(240,11%,20%)"
-                    : "rgba(200,200,200,.3)",
-                  borderRadius: 5,
-                  mb: 2,
-                }}
-              >
-                <Chip
-                  label={achievement.type.split(":")[0]}
-                  sx={{
-                    textTransform: "capitalize",
-                    background: global.user.darkMode
-                      ? "hsl(240,11%,30%)"
-                      : "rgba(200,200,200,.3)",
-                    mb: 1,
-                  }}
-                  size="small"
-                />
-                <Typography
-                  sx={{
-                    fontWeight: "700",
-                    textDecoration: "underline",
-                  }}
-                >
-                  {achievement.name}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    opacity: 0.8,
-                    whiteSpace: "nowrap",
-                    mb: 1,
-                  }}
-                >
-                  {achievement.description}
-                </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <Typography
-                    color="warning.main"
-                    variant="body2"
-                    sx={{
-                      fontWeight: "600",
-                    }}
-                  >
-                    Level 1
-                  </Typography>
-                  <LinearProgress
-                    variant="determinate"
-                    color="warning"
-                    sx={{ height: 3, flexGrow: 1, borderRadius: 999 }}
-                    value={Math.random() * 100}
-                  />
-                </Box>
-              </Box>
+                index={index}
+              />
             ))}
           </Box>
         </Box>
