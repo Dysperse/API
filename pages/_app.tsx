@@ -1,4 +1,5 @@
 import { experimental_sx as sx } from "@mui/material/styles";
+import { Analytics } from "@vercel/analytics/react";
 import hex2rgba from "hex-to-rgba";
 import Head from "next/head";
 import { NextRouter } from "next/router";
@@ -437,11 +438,13 @@ function RenderRoot({
 
   return disableLayout ? (
     <NoSsr>
+      <Analytics />
       <Component {...pageProps} />
       <Toaster containerClassName="noDrag" />
     </NoSsr>
   ) : (
     <>
+      <Analytics />
       {isLoading && <Loading />}
       {isError && <Error message={error} />}
       {!isLoading && !isError && !data.error && (
