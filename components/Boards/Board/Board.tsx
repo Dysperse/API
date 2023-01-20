@@ -9,6 +9,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
 import React from "react";
@@ -139,6 +140,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
     threshold: 0,
     target: window ? window : undefined,
   });
+  const isMobile = useMediaQuery("(max-width: 610px)");
 
   return (
     <>
@@ -157,7 +159,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           transform: "translateX(-50%)",
           background: "rgba(255,255,255,.7)",
           zIndex: 999,
-          display: board.columns.length === 1 ? "none" : "flex",
+          display: board.columns.length === 1 || !isMobile ? "none" : "flex",
         }}
       >
         <Button
@@ -192,7 +194,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
       </Box>
       {data &&
         data
-          .filter((col, id) => id === currentColumn)
+          .filter((col, id) => id === currentColumn || !isMobile)
           .map((column) => (
             <Column
               key={column.id}
