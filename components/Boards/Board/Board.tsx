@@ -157,7 +157,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           borderRadius: 9,
           left: "50%",
           transform: "translateX(-50%)",
-          gap: 1,
+          gap: 0.5,
           background: "rgba(255,255,255,.7)",
           zIndex: 999,
           display:
