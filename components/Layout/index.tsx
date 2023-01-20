@@ -75,7 +75,6 @@ function ResponsiveDrawer({
           }}
         >
           {children}
-          <Toolbar />
         </Box>
         <BottomNav />
       </Box>
