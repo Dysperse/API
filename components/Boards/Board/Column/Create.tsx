@@ -200,6 +200,7 @@ export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
               color: "#000",
               minWidth: "auto",
               borderRadius: 5,
+              px: 2,
               transition: "none!important",
             }}
           >

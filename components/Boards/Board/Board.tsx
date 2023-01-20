@@ -157,7 +157,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           borderRadius: 9,
           left: "50%",
           transform: "translateX(-50%)",
-          gap: 1.5,
+          gap: 1,
           background: "rgba(255,255,255,.7)",
           zIndex: 999,
           display:
@@ -168,7 +168,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
       >
         <Button
           size="small"
-          sx={{ borderRadius: 999, minWidth: "auto", px: 1 }}
+          sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
           onClick={() => {
             setCurrentColumn(currentColumn - 1);
           }}
@@ -191,7 +191,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
         )}
         <Button
           size="small"
-          sx={{ borderRadius: 999, minWidth: "auto", px: 1 }}
+          sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
           onClick={() => {
             setCurrentColumn(currentColumn + 1);
           }}
