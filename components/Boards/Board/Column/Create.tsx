@@ -198,6 +198,7 @@ export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
               whiteSpace: "nowrap",
               background: "rgba(200,200,200,.3)!important",
               color: "#000",
+              minWidth: "auto",
               borderRadius: 5,
               transition: "none!important",
             }}
