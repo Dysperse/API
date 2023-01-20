@@ -41,7 +41,7 @@ import {
  * @param {variant} variant - The variant of the trigger
  */
 
-export const Item = React.memo(function Item({
+const Item = React.memo(function Item({
   displayRoom = false,
   data,
 }: {
@@ -271,13 +271,7 @@ export const Item = React.memo(function Item({
         PaperProps={{
           sx: {
             maxHeight: "90vh",
-            width: {
-              xs: "100vw",
-              sm: "95vw",
-              md: "80vw",
-              lg: "70vw",
-              xl: "60vw",
-            },
+            maxWidth: "800px",
           },
         }}
         swipeAreaWidth={0}
@@ -678,3 +672,4 @@ export const Item = React.memo(function Item({
     </>
   );
 });
+export default Item;
