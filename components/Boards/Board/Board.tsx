@@ -132,19 +132,14 @@ function BoardSettings({ mutationUrl, board }) {
   );
 }
 
-function Renderer({ data, url, board }) {
+const Renderer = React.memo(function Renderer({ data, url, board }: any) {
   return (
     <>
       {data &&
         data.map((column) => (
           <Column
             key={column.id}
-            tasks={
-              /**
-               * Return all tasks in boards, which contain columns containing tasks
-               */
-              data.map((column) => column.tasks).flat()
-            }
+            tasks={data.map((column) => column.tasks).flat()}
             checkList={board.columns.length === 1}
             mutationUrl={url}
             boardId={board.id}
@@ -153,7 +148,7 @@ function Renderer({ data, url, board }) {
         ))}
     </>
   );
-}
+});
 
 export const Board = function Board({
   setDrawerOpen,

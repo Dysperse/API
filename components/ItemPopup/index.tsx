@@ -41,7 +41,7 @@ import {
  * @param {variant} variant - The variant of the trigger
  */
 
-export default function Item({
+export const Item = React.memo(function Item({
   displayRoom = false,
   data,
 }: {
@@ -677,4 +677,4 @@ export default function Item({
       </Collapse>
     </>
   );
-}
+});
