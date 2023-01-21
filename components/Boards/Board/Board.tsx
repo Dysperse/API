@@ -112,7 +112,14 @@ function BoardSettings({ mutationUrl, board }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            window.navigator.share({
+              url: window.location.href,
+            });
+          }}
+        >
           <Icon className="outlined">share</Icon>
           Share
         </MenuItem>
