@@ -23,6 +23,7 @@ import {
   Button,
   CircularProgress,
   createTheme,
+  Grow,
   NoSsr,
   ThemeProvider,
   Typography,
@@ -30,6 +31,20 @@ import {
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
+
+const Transition = React.forwardRef(function Transition(
+  props: any,
+  ref: React.Ref<unknown>
+) {
+  return (
+    <Grow
+      in={props.open}
+      ref={ref}
+      {...props}
+      easing="cubic-bezier(.17,.67,.2,1.29)"
+    />
+  );
+});
 
 /**
  * Main function, including layout and theme.
@@ -213,6 +228,9 @@ function RenderWithLayout({
         },
       },
       MuiDialog: {
+        defaultProps: {
+          TransitionComponent: Transition,
+        },
         styleOverrides: {
           paper: {
             borderRadius: "28px",
