@@ -160,6 +160,9 @@ export const Task = React.memo(function Task({
         mutationUrl={mutationUrl}
       />
       <Menu
+        sx={{
+          display: { xs: "none", sm: "" },
+        }}
         open={contextMenu !== null}
         onClose={handleClose}
         anchorReference="anchorPosition"
