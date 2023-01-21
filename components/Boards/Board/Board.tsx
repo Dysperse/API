@@ -492,51 +492,62 @@ export const Board = function Board({
             />
           </Box>
         </Box>
-        <IconButton
-          size="small"
-          disableRipple
-          onClick={() => {
-            setPinned(!pinned);
-            fetchApiWithoutHook("property/boards/pin", {
-              id: board.id,
-              pinned: !pinned ? "true" : "false",
-            }).then((res) => {
-              toast.success(!pinned ? "Pinned board!" : "Unpinned board!");
-            });
-          }}
-          sx={{
-            transition: "none",
-            "&:hover": {
-              background: `${
-                global.user.darkMode
-                  ? "hsla(240,11%,14%)"
-                  : colors[themeColor][50]
-              }!important`,
-            },
-            "&:active": {
-              background: `${
-                global.user.darkMode
-                  ? "hsla(240,11%,17%)"
-                  : colors[themeColor][100]
-              }!important`,
-            },
-            ml: "auto",
-            flex: "0 0 auto",
-
-            // display: { xs: "none", sm: "inline-flex" },
+        <ConfirmationModal
+          title={pinned ? "Unpin?" : "Pin?"}
+          question={
+            pinned
+              ? "Are you sure you want to unpin this board?"
+              : "Are you sure you want to pin this board?"
+          }
+          callback={() => {
+            setTimeout(() => {
+              setPinned(!pinned);
+              fetchApiWithoutHook("property/boards/pin", {
+                id: board.id,
+                pinned: !pinned ? "true" : "false",
+              }).then((res) => {
+                toast.success(!pinned ? "Pinned board!" : "Unpinned board!");
+              });
+            }, 100);
           }}
         >
-          <Icon
-            className={pinned ? "" : "outlined"}
+          <IconButton
+            size="small"
+            disableRipple
             sx={{
-              ...(pinned && {
-                transform: "rotate(-30deg)!important",
-              }),
+              transition: "none",
+              "&:hover": {
+                background: `${
+                  global.user.darkMode
+                    ? "hsla(240,11%,14%)"
+                    : colors[themeColor][50]
+                }!important`,
+              },
+              "&:active": {
+                background: `${
+                  global.user.darkMode
+                    ? "hsla(240,11%,17%)"
+                    : colors[themeColor][100]
+                }!important`,
+              },
+              ml: "auto",
+              flex: "0 0 auto",
+
+              // display: { xs: "none", sm: "inline-flex" },
             }}
           >
-            push_pin
-          </Icon>
-        </IconButton>
+            <Icon
+              className={pinned ? "" : "outlined"}
+              sx={{
+                ...(pinned && {
+                  transform: "rotate(-30deg)!important",
+                }),
+              }}
+            >
+              push_pin
+            </Icon>
+          </IconButton>
+        </ConfirmationModal>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
 
