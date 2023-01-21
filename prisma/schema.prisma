@@ -126,6 +126,7 @@ model Board {
   id      String   @id @default(uuid())
   name    String
   public  Boolean  @default(false)
+  pinned  Boolean  @default(false)
   columns Column[]
 
   propertyId String

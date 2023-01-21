@@ -384,7 +384,7 @@ export const Board = function Board({
   // alert(JSON.stringify(data));
   // }, [data]);
 
-  const [starred, setStarred] = React.useState(board.starred || false);
+  const [pinned, setPinned] = React.useState(board.pinned || false);
 
   return (
     <Box
@@ -496,8 +496,13 @@ export const Board = function Board({
           size="small"
           disableRipple
           onClick={() => {
-            setStarred(!starred);
-            toast("Coming soon!");
+            setPinned(!pinned);
+            fetchApiWithoutHook("property/boards/pin", {
+              id: board.id,
+              pinned: !pinned ? "true" : "false",
+            }).then((res) => {
+              toast.success(!pinned ? "Pinned board!" : "Unpinned board!");
+            });
           }}
           sx={{
             transition: "none",
@@ -521,7 +526,16 @@ export const Board = function Board({
             // display: { xs: "none", sm: "inline-flex" },
           }}
         >
-          <Icon className={starred ? "" : "outlined"}>push_pin</Icon>
+          <Icon
+            className={pinned ? "" : "outlined"}
+            sx={{
+              ...(pinned && {
+                transform: "rotate(-30deg)!important",
+              }),
+            }}
+          >
+            push_pin
+          </Icon>
         </IconButton>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>

@@ -15,22 +15,24 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-
-  //  List all boards with columns, but not items
-  const data = await prisma.board.findMany({
+  await prisma.board.updateMany({
+    data: {
+      pinned: false,
+    },
     where: {
-      property: {
-        id: req.query.property,
-      },
-    },
-    include: {
-      columns: true,
-    },
-    orderBy: {
-      // id: "desc",
-      pinned: "desc",
+      propertyId: req.query.property,
     },
   });
+
+  const data = await prisma.board.update({
+    data: {
+      pinned: req.query.pinned == "true",
+    },
+    where: {
+      id: req.query.id,
+    },
+  });
+
   res.json(data);
 };
 
