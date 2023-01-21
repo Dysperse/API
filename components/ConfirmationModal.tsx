@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useStatusBar } from "../hooks/useStatusBar";
 import { colors } from "../lib/colors";
 
 export function ConfirmationModal({
@@ -23,6 +24,19 @@ export function ConfirmationModal({
   const trigger = React.cloneElement(children, {
     onClick: () => setOpen(true),
   });
+
+  const handleClick = async () => {
+    try {
+      setLoading(true);
+      await callback();
+      setLoading(false);
+      setOpen(false);
+    } catch (e: any) {
+      setLoading(false);
+      toast.error(`An error occured: ${e.message}`);
+    }
+  };
+  useStatusBar(open, 1);
 
   return (
     <>
@@ -82,17 +96,7 @@ export function ConfirmationModal({
               border: "2px solid transparent",
             }}
             loading={loading}
-            onClick={async () => {
-              try {
-                setLoading(true);
-                await callback();
-                setLoading(false);
-                setOpen(false);
-              } catch (e: any) {
-                setLoading(false);
-                toast.error(`An error occured: ${e.message}`);
-              }
-            }}
+            onClick={handleClick}
           >
             {buttonText}
           </LoadingButton>

@@ -494,6 +494,7 @@ export const Board = function Board({
         </Box>
         <ConfirmationModal
           title={pinned ? "Unpin?" : "Pin?"}
+          buttonText="Yes!"
           question={
             pinned
               ? "Are you sure you want to unpin this board?"
@@ -505,7 +506,7 @@ export const Board = function Board({
               fetchApiWithoutHook("property/boards/pin", {
                 id: board.id,
                 pinned: !pinned ? "true" : "false",
-              }).then((res) => {
+              }).then(() => {
                 toast.success(!pinned ? "Pinned board!" : "Unpinned board!");
               });
             }, 100);
