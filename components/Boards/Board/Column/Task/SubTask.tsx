@@ -132,6 +132,9 @@ export const SubTask = React.memo(function SubTask({
           boxShadow: {
             sm: "none!important",
           },
+            border: {
+              sm: "none!important",
+            },
           gap: "10px!important",
           mb: {
             xs: 1.5,
