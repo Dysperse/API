@@ -183,10 +183,11 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
-            <TextField
+            <TextField multiline
               disabled={global.permission === "read-only"}
-              defaultValue={task.name}
+              defaultValue={task.name.replace(/\n/g, '')}
               onBlur={(e: any) => {
+                e.target.value = e.target.value.replace(/\n/g, '')
                 fetchApiWithoutHook("property/boards/editTask", {
                   name: e.target.value,
                   id: task.id,
