@@ -339,11 +339,11 @@ export function CreateTask({
                 </Button>
               </Box>
             )}
-            <TextField
+            <TextField multiline 
               inputRef={titleRef}
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value.replace(/\n/g, ''))}
               autoFocus
               variant="standard"
               placeholder={
