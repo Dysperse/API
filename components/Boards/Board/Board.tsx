@@ -112,16 +112,11 @@ function BoardSettings({ mutationUrl, board }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            setRenameOpen(true);
-            handleClose();
-          }}
-        >
-          <Icon className="outlined">edit</Icon>
-          Edit title
+        <MenuItem onClick={handleClose}>
+          <Icon className="outlined">share</Icon>
+          Share
         </MenuItem>
-        {/* <Box onClick={handleClose}> */}
+
         {board && board.columns.length !== 1 && (
           <CreateColumn
             setCurrentColumn={(e: any) => e}
@@ -134,7 +129,16 @@ function BoardSettings({ mutationUrl, board }) {
             }
           />
         )}
-        {/* </Box> */}
+
+        <MenuItem
+          onClick={() => {
+            setRenameOpen(true);
+            handleClose();
+          }}
+        >
+          <Icon className="outlined">edit</Icon>
+          Rename
+        </MenuItem>
         <ConfirmationModal
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
@@ -146,7 +150,7 @@ function BoardSettings({ mutationUrl, board }) {
           }}
         >
           <MenuItem onClick={handleClose}>
-            <Icon>delete</Icon>
+            <Icon className="outlined">delete</Icon>
             Delete
           </MenuItem>
         </ConfirmationModal>
