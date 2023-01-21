@@ -9,12 +9,12 @@ import { CreateTask } from "./Task/Create";
 import {
   Box,
   Button,
-  CardActionArea,
   Chip,
   Icon,
   IconButton,
   SwipeableDrawer,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
@@ -36,20 +36,12 @@ function CompletedTasks({
         cursor: "unset!important",
       }}
     >
-      <CardActionArea
-        disableRipple
+      <Box
+        className="p-3 mb-2 shadow-sm border flex border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
-          px: 1.5,
-          mb: 1,
           "& *": {
             transition: "none!important",
           },
-          py: 0.5,
-          borderRadius: 2,
-          display: "flex",
-          alignItems: "center",
-          mt: 1,
-          cursor: "unset!important",
           ...(open && {
             background: "rgba(200,200,200,.2)",
           }),
@@ -75,32 +67,28 @@ function CompletedTasks({
           />
         </Typography>
         <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
-      </CardActionArea>
+      </Box>
       <Box
         sx={{
           display: open ? "box" : "none",
           animation: "completedTasks .2s forwards",
         }}
       >
-        <Box sx={{ px: 1 }}>
-          <TextField
-            variant="standard"
-            size="small"
-            placeholder="Filter..."
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            InputProps={{
-              disableUnderline: true,
-              sx: {
-                px: 1,
-                mb: 1,
-                py: 0.5,
-                borderRadius: 2,
-                background: "rgba(200,200,200,.3)",
-              },
-            }}
-          />
-        </Box>
+        <TextField
+          variant="standard"
+          size="small"
+          placeholder="Filter..."
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          InputProps={{
+            className:
+              "p-3 py-2 pb-1 shadow-sm border border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none",
+            disableUnderline: true,
+            sx: {
+              mb: 1,
+            },
+          }}
+        />
         {columnTasks
           .filter((task) => task.completed)
           .filter((task) =>
@@ -327,10 +315,12 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column }) {
         )}
       </SwipeableDrawer>
       <IconButton
-        size="small"
+        // size="small"
         onClick={() => setOpen(true)}
         disableRipple
         sx={{
+          flexShrink: 0,
+          // background: "rgba(200,200,200,.3)!important",
           ml: "auto",
           transition: "none!important",
           "&:hover,&:active": {
@@ -358,7 +348,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[350px] bg-gray-100 dark:border-[hsla(240,11%,18%)] border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] sm:bg-gray-100 dark:border-[hsla(240,11%,18%)] sm:border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -373,8 +363,11 @@ export const Column = React.memo(function Column({
           sm: "0 0 350px",
         },
         p: 3,
-        pt: 4,
-        px: checkList ? 4 : 2,
+        pt: { xs: 0, sm: 3 },
+        px: {
+          xs: checkList ? 4 : 0,
+          sm: checkList ? 4 : 2,
+        },
         borderRadius: 5,
         ...(checkList && {
           flex: "0 0 100%!important",
@@ -387,44 +380,71 @@ export const Column = React.memo(function Column({
     >
       <Box
         sx={{
-          mb: 2,
+          mb: 3,
+          px: { sm: 0.5 },
         }}
       >
-        {!checkList && (
-          <Box sx={{ px: 1 }}>
-            <picture>
-              <img src={column.emoji} alt="emoji" />
-            </picture>
-          </Box>
-        )}
+        <Box
+          sx={{
+            display: { xs: "none", sm: "inline-flex" },
+            mb: { sm: 1 },
+          }}
+        >
+          <picture>
+            <img
+              src={column.emoji}
+              alt="emoji"
+              style={{ margin: "0!important" }}
+            />
+          </picture>
+        </Box>
         {!checkList && (
           <Box
             sx={{
               userSelect: "none",
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
-              px: 1,
+              justifyContent: "flex-start",
+              px: { xs: 1, sm: 0 },
+              gap: 3,
             }}
           >
-            <Box>
-              <Typography
-                variant="h5"
-                // className="font-secondary"
-                sx={{
-                  fontWeight: "600",
-                  mb: 1,
-                  mt: 2,
-                }}
-              >
-                {column.name}
-              </Typography>
+            <Box sx={{ display: { sm: "none" }, flexShrink: "0" }}>
+              <picture>
+                <img
+                  src={column.emoji}
+                  alt="emoji"
+                  width={"40px"}
+                  height={"40px"}
+                />
+              </picture>
+            </Box>
+            <Box
+              sx={{
+                maxWidth: { xs: "calc(100% - 150px)", sm: "100%" },
+                mx: 1,
+              }}
+            >
+              <Tooltip title={column.name}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    whiteSpace: { xs: "nowrap", sm: "unset" },
+                    textOverflow: { xs: "ellipsis", sm: "unset" },
+                    overflow: { xs: "hidden", sm: "unset" },
+                    maxWidth: { xs: "100%", sm: "unset" },
+                    fontWeight: "600",
+                  }}
+                >
+                  {column.name}
+                </Typography>
+              </Tooltip>
               <Typography
                 variant="body2"
                 sx={{
                   fontWeight: "400",
                   whiteSpace: "nowrap",
-                  mt: 1,
+                  mt: 0.5,
                 }}
               >
                 {columnTasks.filter((task) => task.completed).length} out of{" "}

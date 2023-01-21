@@ -147,7 +147,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
       <Box
         sx={{
           position: "fixed",
-          bottom: trigger ? "30px" : "90px",
+          bottom: trigger ? "20px" : "80px",
           transition: "bottom .3s",
           boxShadow:
             "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
@@ -163,15 +163,17 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           display: (data && data.length === 1) || !isMobile ? "none" : "flex",
         }}
       >
-        <Button
-          sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
-          onClick={() => setCurrentColumn(currentColumn - 1)}
-          disabled={currentColumn <= 0}
-        >
-          <Icon sx={{ color: currentColumn <= 0 ? "#aaa" : "#000" }}>
-            arrow_back
-          </Icon>
-        </Button>
+        <Tooltip title="Previous column" placement="top">
+          <Button
+            sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
+            onClick={() => setCurrentColumn(currentColumn - 1)}
+            disabled={currentColumn <= 0}
+          >
+            <Icon sx={{ color: currentColumn <= 0 ? "#aaa" : "#000" }}>
+              arrow_back
+            </Icon>
+          </Button>
+        </Tooltip>
         {data && data.length !== 1 && (
           <CreateColumn
             mobile
@@ -184,19 +186,22 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
             }
           />
         )}
-        <Button
-          sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
-          onClick={() => setCurrentColumn(currentColumn + 1)}
-          disabled={data && currentColumn >= data.length - 1}
-        >
-          <Icon
-            sx={{
-              color: data && currentColumn >= data.length - 1 ? "#aaa" : "#000",
-            }}
+        <Tooltip title="Next column" placement="top">
+          <Button
+            sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
+            onClick={() => setCurrentColumn(currentColumn + 1)}
+            disabled={data && currentColumn >= data.length - 1}
           >
-            arrow_forward
-          </Icon>
-        </Button>
+            <Icon
+              sx={{
+                color:
+                  data && currentColumn >= data.length - 1 ? "#aaa" : "#000",
+              }}
+            >
+              arrow_forward
+            </Icon>
+          </Button>
+        </Tooltip>
       </Box>
       {data &&
         data

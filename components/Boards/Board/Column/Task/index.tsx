@@ -74,15 +74,11 @@ export const Task = React.memo(function Task({
         hexToRgba(colors[task.color ?? "brown"][900], 0.1),
     },
     "input:not(:checked):hover ~ &": {
-      boxShadow: global.user.darkMode
-        ? "inset 0 0 0 2px rgba(255,255,255,0.5)"
-        : `inset 0 0 0 2.5px ${colors[task.color ?? "brown"]["A400"]}`,
       backgroundColor:
         global.theme !== "dark"
           ? colors[task.color ?? "brown"]["100"]
           : "hsl(240,11%,20%)!important",
     },
-    transition: "all 150ms",
     "input:disabled ~ &": {
       cursor: "not-allowed",
       opacity: 0.5,
@@ -259,45 +255,27 @@ export const Task = React.memo(function Task({
         <ListItem
           onClick={() => setOpen(true)}
           onContextMenu={handleContextMenu}
-          className="p-1 rounded-xl gap-0.5 bg-gray-100 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
+          className="p-1 shadow-sm border border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
           sx={{
             color: colors[task.color][global.user.darkMode ? "A100" : "A700"],
             p: 1,
             cursor: "unset!important",
-            "&:hover": {
-              backgroundColor: global.user.darkMode
-                ? "hsl(240,11%,19%)!important"
-                : "rgba(200,200,200,0.3)",
-            },
-            "&:active": {
-              backgroundColor: global.user.darkMode
-                ? "hsl(240,11%,16%)"
-                : "rgba(200,200,200,0.5)",
-            },
-
-            ...(!checkList && {
-              px: "0!important",
-              py: "2px!important",
-              boxShadow: "none!important",
-              border: "0!important",
+            ...(global.user.darkMode && {
+              "&:hover": {
+                backgroundColor: "hsl(240,11%,19%)!important",
+              },
+              "&:active": {
+                backgroundColor: "hsl(240,11%,16%)",
+              },
             }),
-            ...(checkList && {
-              background: global.user.darkMode
-                ? "hsl(240,11%,15%)!important"
-                : "#fff",
-              ...(global.user.darkMode && {
-                "&:hover": {
-                  background: "hsl(240,11%,17%)!important",
-                },
-                "&:active": {
-                  background: "hsl(240,11%,20%)!important",
-                },
-              }),
-              boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-              gap: "10px!important",
-              borderRadius: "15px!important",
-              mb: 2,
-            }),
+            boxShadow: {
+              sm: "none!important",
+            },
+            gap: "10px!important",
+            mb: {
+              xs: 1.5,
+              sm: 0,
+            },
           }}
         >
           <ListItemText

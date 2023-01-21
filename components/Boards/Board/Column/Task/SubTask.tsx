@@ -113,38 +113,30 @@ export const SubTask = React.memo(function SubTask({
         }}
         onContextMenu={handleContextMenu}
         key={subtask.id}
-        className="rounded-xl select-none transition-transform dark:bg-transparent duration-100 active:duration-[0s] hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400"
+        className="p-1 shadow-sm border border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
-          ml: noMargin ? "10px" : "30px",
-          maxWidth: "calc(100% - 30px)",
-          gap: 1.5,
-          py: 0.5,
-          pl: 1.5,
-          ...(noMargin && {
-            ml: -0.5,
+          color: colors["brown"][global.user.darkMode ? "A100" : "A700"],
+          p: { xs: 1, sm: 0 },
+          width: "calc(100% - 20px)",
+          ml: "20px",
+          py: { sm: "0!important" },
+          cursor: "unset!important",
+          ...(global.user.darkMode && {
+            "&:hover": {
+              backgroundColor: "hsl(240,11%,19%)!important",
+            },
+            "&:active": {
+              backgroundColor: "hsl(240,11%,16%)",
+            },
           }),
-          borderRadius: 4,
-          ...(!checkList && {
-            border: "0!important",
-          }),
-          ...(checkList && {
-            background: global.user.darkMode
-              ? "hsl(240,11%,19%)"
-              : "#f3f4f6!important",
-
-            ...(global.user.darkMode && {
-              "&:hover": {
-                background: "hsl(240,11%,19%)!important",
-              },
-              "&:active": {
-                background: "hsl(240,11%,20%)!important",
-              },
-            }),
-            boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-            gap: "10px!important",
-            borderRadius: "15px!important",
-            mb: 1.5,
-          }),
+          boxShadow: {
+            sm: "none!important",
+          },
+          gap: "10px!important",
+          mb: {
+            xs: 1.5,
+            sm: 0,
+          },
         }}
       >
         <Checkbox
@@ -161,10 +153,6 @@ export const SubTask = React.memo(function SubTask({
             }).catch(() =>
               toast.error("An error occured while updating the task")
             );
-          }}
-          sx={{
-            p: 0,
-            "&:hover": { bgcolor: "transparent" },
           }}
           color="default"
           checkedIcon={<BpCheckedIcon />}

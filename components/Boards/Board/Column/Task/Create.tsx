@@ -501,50 +501,36 @@ export function CreateTask({
       </SwipeableDrawer>
       <ListItem
         disabled={global.permission === "read-only"}
-        className="rounded-xl gap-0.5 select-none transition-transform duration-100 active:duration-[0s] dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 hover:border-gray-300 active:border-gray-400 shadow-md"
+        className="p-1 shadow-sm border border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
-          px: !checkList ? 0 : 0.5,
-          py: !checkList ? 0.5 : 1,
-          ...(!allCompleted && { flex: "0 0 50px" }),
+          color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
+          p: 1,
           cursor: "unset!important",
-          "&:hover": {
-            backgroundColor: global.user.darkMode
-              ? "hsl(240,11%,19%)!important"
-              : "rgba(200,200,200,0.3)",
-          },
-          "&:active": {
-            backgroundColor: global.user.darkMode
-              ? "hsl(240,11%,16%)"
-              : "rgba(200,200,200,0.5)",
-          },
-
-          ...(!checkList && {
-            boxShadow: "none!important",
-            border: "0!important",
+          ...(global.user.darkMode && {
+            "&:hover": {
+              backgroundColor: "hsl(240,11%,19%)!important",
+            },
+            "&:active": {
+              backgroundColor: "hsl(240,11%,16%)",
+            },
           }),
-          ...(checkList && {
-            background: global.user.darkMode
-              ? "hsl(240,11%,15%)!important"
-              : "#fff",
-            ...(global.user.darkMode && {
-              "&:hover": {
-                background: "hsl(240,11%,17%)!important",
-              },
-              "&:active": {
-                background: "hsl(240,11%,20%)!important",
-              },
+          boxShadow: { sm: "none!important" },
+          gap: "10px!important",
+          mb: 1.5,
+          ...(tasks &&
+            tasks.filter((task) => task.completed).length == tasks.length &&
+            tasks.length >= 1 && {
+              width: "auto",
+              border: "0!important",
             }),
-            boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-            gap: "10px!important",
-            borderRadius: "15px!important",
-            mb: 1.5,
-          }),
         }}
         onClick={() => setOpen(true)}
       >
         <span
           className="material-symbols-outlined"
           style={{
+            marginTop: "4px",
+            marginBottom: "4px",
             color: global.user.darkMode
               ? "rgba(255,255,255,.6)"
               : checkList
