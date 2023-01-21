@@ -147,14 +147,14 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
       <Box
         sx={{
           position: "fixed",
-          bottom: trigger ? "20px" : "80px",
+          bottom: trigger ? "10px" : "80px",
           transition: "bottom .3s",
-          boxShadow:
-            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
           border: "1px solid rgba(200,200,200,.3)",
           backdropFilter: "blur(5px)",
           p: 1,
           borderRadius: 9,
+          width: "auto",
           left: "50%",
           transform: "translateX(-50%)",
           gap: 0.5,
@@ -165,12 +165,17 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
       >
         <Tooltip title="Previous column" placement="top">
           <Button
-            sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
+            sx={{
+              borderRadius: 999,
+              minWidth: "auto",
+              px: 1.5,
+              color: currentColumn <= 0 ? "#aaa" : "#000",
+            }}
             onClick={() => setCurrentColumn(currentColumn - 1)}
             disabled={currentColumn <= 0}
           >
             <Icon sx={{ color: currentColumn <= 0 ? "#aaa" : "#000" }}>
-              arrow_back
+              west
             </Icon>
           </Button>
         </Tooltip>
@@ -188,7 +193,12 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
         )}
         <Tooltip title="Next column" placement="top">
           <Button
-            sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
+            sx={{
+              borderRadius: 999,
+              minWidth: "auto",
+              px: 1.5,
+              color: data && currentColumn >= data.length - 1 ? "#aaa" : "#000",
+            }}
             onClick={() => setCurrentColumn(currentColumn + 1)}
             disabled={data && currentColumn >= data.length - 1}
           >
@@ -198,7 +208,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
                   data && currentColumn >= data.length - 1 ? "#aaa" : "#000",
               }}
             >
-              arrow_forward
+              east
             </Icon>
           </Button>
         </Tooltip>

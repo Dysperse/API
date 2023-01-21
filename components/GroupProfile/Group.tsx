@@ -130,13 +130,18 @@ export const Group = React.memo(function Group({
           <ListItemAvatar sx={{ width: "auto", minWidth: "auto" }}>
             <Box
               sx={{
-                width: 20,
-                height: 20,
+                width: 40,
+                height: 40,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 borderRadius: "100%",
                 backgroundColor: colors[data.profile.color]["A400"],
                 marginRight: 1,
               }}
-            />
+            >
+              <Icon>tag</Icon>
+            </Box>
           </ListItemAvatar>
           <ListItemText
             primary={
@@ -183,7 +188,7 @@ export const Group = React.memo(function Group({
               }}
             >
               {data.propertyId === global.property.propertyId && (
-                <Icon className="outlined">settings</Icon>
+                <Icon className="outlined">east</Icon>
               )}
             </LoadingButton>
           </ListItemIcon>

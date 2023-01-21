@@ -1,5 +1,12 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Button, Icon, SwipeableDrawer, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  SwipeableDrawer,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -216,22 +223,24 @@ export function CreateColumn({
       </SwipeableDrawer>
       <Box>
         {!open && mobile ? (
-          <Button
-            disabled={hide || open || mobileOpen}
-            onClick={() => {
-              setMobileOpen(true);
-            }}
-            sx={{
-              whiteSpace: "nowrap",
-              color: "#000",
-              minWidth: "auto",
-              borderRadius: 5,
-              px: 2,
-              transition: "none!important",
-            }}
-          >
-            <Icon className="outlined">add_circle</Icon>
-          </Button>
+          <Tooltip title="Create column" placement="top">
+            <Button
+              disabled={hide || open || mobileOpen}
+              onClick={() => {
+                setMobileOpen(true);
+              }}
+              sx={{
+                whiteSpace: "nowrap",
+                color: "#000",
+                minWidth: "auto",
+                borderRadius: 5,
+                px: 2,
+                transition: "none!important",
+              }}
+            >
+              <Icon className="outlined">post_add</Icon>
+            </Button>
+          </Tooltip>
         ) : (
           <Button
             disableRipple
