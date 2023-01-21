@@ -200,7 +200,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               InputProps={{
                 sx: {
                   fontSize: "40px",
-                  height: "70px",
+                 // height: "70px",
                   mb: 3,
                   borderRadius: 4,
                 },
