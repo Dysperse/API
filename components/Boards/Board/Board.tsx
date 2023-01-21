@@ -4,6 +4,8 @@ import {
   Chip,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
   Skeleton,
   SwipeableDrawer,
   TextField,
@@ -16,72 +18,68 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
-import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
-
 import { ConfirmationModal } from "../../ConfirmationModal";
+
 import { ErrorHandler } from "../../Error";
+import { Puller } from "../../Puller";
 import { Column } from "./Column";
 import { CreateColumn } from "./Column/Create";
 
 function BoardSettings({ mutationUrl, board }) {
-  const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState(board.name);
-  useStatusBar(open);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    navigator.vibrate(50);
+  };
+  const handleClose = () => {
+    mutate(mutationUrl);
+
+    setAnchorEl(null);
+  };
+
+  const ref: any = React.useRef();
+
+  const [renameOpen, setRenameOpen] = React.useState(false);
 
   return (
     <>
       <SwipeableDrawer
         anchor="bottom"
-        open={open}
-        onClose={() => {
-          mutate(mutationUrl);
-          setOpen(false);
-        }}
-        onOpen={() => {
-          setOpen(true);
-          navigator.vibrate(200);
-        }}
+        open={renameOpen}
+        onOpen={() => setRenameOpen(true)}
+        onClose={() => setRenameOpen(false)}
         disableSwipeToOpen
-        PaperProps={{
-          sx: {
-            maxWidth: "400px",
-            maxHeight: "400px",
-            width: "auto",
-            p: 2,
-            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            mb: { sm: 5 },
-          },
-        }}
+        disableBackdropTransition
       >
-        <TextField
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          id={"renameInput"}
-          autoFocus
-          size="small"
-          InputProps={{
-            sx: {
-              fontWeight: "700",
-            },
-          }}
-        />
-        <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
-          <ConfirmationModal
-            title="Delete board?"
-            question="Are you sure you want to delete this board? This action annot be undone."
-            callback={async () => {
-              await fetchApiWithoutHook("property/boards/deleteBoard", {
-                id: board.id,
-              });
-              await mutate(mutationUrl);
+        <Puller />
+        <Box sx={{ px: 4, mb: 2 }}>
+          <TextField
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            id={"renameInput"}
+            autoFocus
+            InputProps={{
+              sx: {
+                fontWeight: "700",
+                mb: 2,
+              },
+            }}
+          />
+          <Button
+            variant="outlined"
+            sx={{ mb: 1 }}
+            fullWidth
+            onClick={() => {
+              setRenameOpen(false);
+              ref.current?.click();
             }}
           >
-            <Button variant="outlined" fullWidth>
-              <Icon className="outlined">delete</Icon>
-              Delete
-            </Button>
-          </ConfirmationModal>
+            Cancel
+          </Button>
           <Button
             variant="contained"
             fullWidth
@@ -101,14 +99,61 @@ function BoardSettings({ mutationUrl, board }) {
               }
             }}
           >
-            <Icon className="outlined">edit</Icon>
             Save
           </Button>
         </Box>
       </SwipeableDrawer>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setRenameOpen(true);
+            handleClose();
+          }}
+        >
+          <Icon className="outlined">edit</Icon>
+          Edit title
+        </MenuItem>
+        {/* <Box onClick={handleClose}> */}
+        {board && board.columns.length !== 1 && (
+          <CreateColumn
+            setCurrentColumn={(e: any) => e}
+            mobile={true}
+            id={board.id}
+            mutationUrl={mutationUrl}
+            hide={
+              (board && board.columns.length === 1) ||
+              (board && board.columns.length >= 5)
+            }
+          />
+        )}
+        {/* </Box> */}
+        <ConfirmationModal
+          title="Delete board?"
+          question="Are you sure you want to delete this board? This action annot be undone."
+          callback={async () => {
+            await fetchApiWithoutHook("property/boards/deleteBoard", {
+              id: board.id,
+            });
+            await mutate(mutationUrl);
+          }}
+        >
+          <MenuItem onClick={handleClose}>
+            <Icon>delete</Icon>
+            Delete
+          </MenuItem>
+        </ConfirmationModal>
+      </Menu>
       <IconButton
         size="small"
-        onClick={() => setOpen(true)}
+        onClick={handleClick}
         sx={{
           transition: "none",
           "&:hover": {
@@ -118,6 +163,13 @@ function BoardSettings({ mutationUrl, board }) {
                 : colors[themeColor][50]
             }!important`,
           },
+          ...(open && {
+            background: `${
+              global.user.darkMode
+                ? "hsla(240,11%,14%)"
+                : colors[themeColor][100]
+            }!important`,
+          }),
           "&:active": {
             background: `${
               global.user.darkMode
@@ -126,8 +178,9 @@ function BoardSettings({ mutationUrl, board }) {
             }!important`,
           },
         }}
+        ref={ref}
       >
-        <Icon className="outlined">edit</Icon>
+        <Icon className="outlined">more_vert</Icon>
       </IconButton>
     </>
   );
@@ -199,18 +252,31 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
             </Icon>
           </Button>
         </Tooltip>
-        {data && data.length !== 1 && (
-          <CreateColumn
-            mobile
-            id={board.id}
-            mutationUrl={url}
-            setCurrentColumn={setCurrentColumn}
-            hide={
-              (board && board.columns.length === 1) ||
-              (data && data.length >= 5)
-            }
-          />
-        )}
+
+        <Tooltip title="New task" placement="top">
+          <Button
+            sx={{
+              color: "#000!important",
+              background: colors[themeColor]["A100"] + "!important",
+              borderRadius: 999,
+              px: 2,
+              minWidth: "auto",
+            }}
+            onClick={() => document.getElementById("createTask")?.click()}
+          >
+            <Icon
+              sx={
+                {
+                  // color: global.user.darkMode ? "#fff" : "#fff",
+                }
+              }
+              className="outlined"
+            >
+              add
+            </Icon>
+          </Button>
+        </Tooltip>
+
         <Tooltip title="Next column" placement="top">
           <Button
             sx={{
@@ -462,15 +528,18 @@ export const Board = function Board({
       >
         <Renderer data={data} url={url} board={board} />
 
-        <CreateColumn
-          setCurrentColumn={(e: any) => e}
-          mobile={false}
-          id={board.id}
-          mutationUrl={url}
-          hide={
-            (board && board.columns.length === 1) || (data && data.length >= 5)
-          }
-        />
+        {board && board.columns.length !== 1 && (
+          <CreateColumn
+            setCurrentColumn={(e: any) => e}
+            mobile={false}
+            id={board.id}
+            mutationUrl={url}
+            hide={
+              (board && board.columns.length === 1) ||
+              (data && data.length >= 5)
+            }
+          />
+        )}
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your tasks" />
         )}

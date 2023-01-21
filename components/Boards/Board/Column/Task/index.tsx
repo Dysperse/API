@@ -255,7 +255,7 @@ export const Task = React.memo(function Task({
         <ListItem
           onClick={() => setOpen(true)}
           onContextMenu={handleContextMenu}
-          className="p-1 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
+          className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
           sx={{
             color: colors[task.color][global.user.darkMode ? "A100" : "A700"],
             p: 1,
@@ -268,16 +268,18 @@ export const Task = React.memo(function Task({
                 backgroundColor: "hsl(240,11%,16%)",
               },
             }),
-            boxShadow: {
-              sm: "none!important",
-            },
-            border: {
-              sm: "none!important",
-            },
+            ...(!checkList && {
+              boxShadow: {
+                sm: "none!important",
+              },
+              border: {
+                sm: "none!important",
+              },
+            }),
             gap: "10px!important",
             mb: {
               xs: 1.5,
-              sm: 0,
+              sm: checkList ? 1.5 : 0,
             },
           }}
         >

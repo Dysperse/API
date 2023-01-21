@@ -3,9 +3,9 @@ import {
   Box,
   Button,
   Icon,
+  MenuItem,
   SwipeableDrawer,
   TextField,
-  Tooltip,
 } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
@@ -90,6 +90,10 @@ export function CreateColumn({
             e.stopPropagation();
             if (e.key === "Enter") {
               document.getElementById("createColumnButton")?.click();
+            }
+            if (e.key === "Escape") {
+              setOpen(false);
+              setMobileOpen(false);
             }
           }}
           id="create-column-title"
@@ -217,30 +221,23 @@ export function CreateColumn({
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
         disableSwipeToOpen
+        sx={{
+          zIndex: 999999,
+        }}
       >
         <Puller />
         <Children mobile={true} />
       </SwipeableDrawer>
       <Box>
         {!open && mobile ? (
-          <Tooltip title="Create column" placement="top">
-            <Button
-              disabled={hide || open || mobileOpen}
-              onClick={() => {
-                setMobileOpen(true);
-              }}
-              sx={{
-                whiteSpace: "nowrap",
-                color: global.user.darkMode?"#fff":"#000",
-                minWidth: "auto",
-                borderRadius: 5,
-                px: 2,
-                transition: "none!important",
-              }}
-            >
-              <Icon className="outlined">post_add</Icon>
-            </Button>
-          </Tooltip>
+          <MenuItem
+            disabled={hide || open || mobileOpen}
+            onClick={() => {
+              setMobileOpen(true);
+            }}
+          >
+            <Icon className="outlined">post_add</Icon> New column
+          </MenuItem>
         ) : (
           <Button
             disableRipple

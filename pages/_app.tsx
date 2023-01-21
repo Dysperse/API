@@ -107,7 +107,7 @@ function RenderWithLayout({
         styleOverrides: {
           root: sx({
             "&:focus-visible": {
-              boxShadow: "0px 0px 0px 2px var(--themeDark) !important",
+              boxShadow: "0px 0px 0px 1.5px var(--themeDark) !important",
             },
           }),
         },
@@ -149,6 +149,8 @@ function RenderWithLayout({
       },
       MuiMenu: {
         defaultProps: {
+          disableEnforceFocus: true,
+          disableAutoFocusItem: true,
           BackdropProps: {
             sx: {
               opacity: "0!important",
@@ -177,7 +179,7 @@ function RenderWithLayout({
               },
               "& .MuiMenuItem-root": {
                 gap: 2,
-                "&:hover": {
+                "&:focus-visible, &:hover": {
                   background: global.user.darkMode
                     ? colors[global.themeColor][800]
                     : colors[global.themeColor][100],
@@ -199,9 +201,6 @@ function RenderWithLayout({
                   fontSize: 25,
                   color: colors[global.themeColor][700],
                   marginRight: 1.9,
-                },
-                "&:focus": {
-                  background: "transparent!important",
                 },
                 "&:active": {
                   background: global.user.darkMode

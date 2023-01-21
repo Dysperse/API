@@ -315,7 +315,6 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column }) {
         )}
       </SwipeableDrawer>
       <IconButton
-        // size="small"
         onClick={() => setOpen(true)}
         disableRipple
         sx={{
@@ -328,7 +327,7 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column }) {
           },
         }}
       >
-        <Icon className="outlined">more_horiz</Icon>
+        <Icon className="outlined">settings</Icon>
       </IconButton>
     </>
   );
@@ -386,7 +385,7 @@ export const Column = React.memo(function Column({
       >
         <Box
           sx={{
-            display: { xs: "none", sm: "inline-flex" },
+            display: { xs: "none", sm: checkList ? "none" : "inline-flex" },
             mb: { sm: 1 },
           }}
         >

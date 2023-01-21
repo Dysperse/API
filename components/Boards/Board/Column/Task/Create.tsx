@@ -150,7 +150,7 @@ export function CreateTask({
       setDate(nextMonth);
     }
   }, [title]);
-const titleRef = useRef<HTMLInputElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (title === "") {
@@ -196,7 +196,6 @@ const titleRef = useRef<HTMLInputElement>(null);
     px: 1,
     mr: 1,
   };
-  
 
   useEffect(() => {
     setTimeout(() => {
@@ -340,13 +339,19 @@ const titleRef = useRef<HTMLInputElement>(null);
                 </Button>
               </Box>
             )}
-            <TextField multiline 
+            <TextField
+              multiline
               inputRef={titleRef}
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value.replace(/\n/g, ''))}
+              onChange={(e) => setTitle(e.target.value.replace(/\n/g, ""))}
               autoFocus
               variant="standard"
+              onKeyDown={(e) => {
+                if (e.key == "Enter") {
+                  handleSubmit(e);
+                }
+              }}
               placeholder={
                 'Add an item to "' +
                 (column || { name: "this task" }).name +
@@ -502,6 +507,7 @@ const titleRef = useRef<HTMLInputElement>(null);
       </SwipeableDrawer>
       <ListItem
         disabled={global.permission === "read-only"}
+        id="createTask"
         className="p-1 shadow-sm border dark:border-[hsl(240,11%,18%)] border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
           color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
