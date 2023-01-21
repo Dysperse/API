@@ -300,6 +300,13 @@ function RenderWithLayout({
         },
       },
     },
+
+    transitions: {
+      duration: {
+        enteringScreen: 250,
+        leavingScreen: 250,
+      },
+    },
     palette: {
       primary: {
         main: colors[themeColor][global.user.darkMode ? "A200" : "A700"],
