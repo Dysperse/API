@@ -525,10 +525,16 @@ export function CreateTask({
           gap: "10px!important",
           mb: 1.5,
           ...(tasks &&
-            tasks.filter((task) => task.completed).length == tasks.length &&
+            tasks.filter((task) => task.completed && task.columnId == column.id)
+              .length ==
+              tasks.filter((task) => task.columnId == column.id).length &&
             tasks.length >= 1 && {
               width: "auto",
+              p: "0!important",
+              pr: "5px!important",
+              mb: "0!important",
               border: "0!important",
+              borderColor: "transparent!important",
             }),
         }}
         onClick={() => setOpen(true)}
