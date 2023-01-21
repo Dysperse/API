@@ -150,7 +150,7 @@ export function CreateTask({
       setDate(nextMonth);
     }
   }, [title]);
-
+const titleRef = useRef<HTMLInputElement>(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (title === "") {
@@ -179,6 +179,7 @@ export function CreateTask({
     setDate(null);
     setImage(null);
     setPinned(false);
+    titleRef.current?.focus();
     // setOpen(false);
   };
 
@@ -195,7 +196,7 @@ export function CreateTask({
     px: 1,
     mr: 1,
   };
-  const titleRef = useRef<HTMLInputElement>(null);
+  
 
   useEffect(() => {
     setTimeout(() => {
