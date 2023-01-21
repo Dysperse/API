@@ -494,7 +494,7 @@ export const Board = function Board({
         </Box>
         <ConfirmationModal
           title={pinned ? "Unpin?" : "Pin?"}
-          buttonText="Yes!"
+          buttonText="Yes, please!"
           question={
             pinned
               ? "Are you sure you want to unpin this board?"
