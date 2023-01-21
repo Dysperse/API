@@ -128,6 +128,9 @@ function RenderWithLayout({
             },
           },
           outlined: {},
+          text: {
+            color: `${colors[themeColor][global.user.darkMode ? 50 : 700]}`,
+          },
           disabled: {
             background: `${colors["grey"]["200"]}!important`,
           },

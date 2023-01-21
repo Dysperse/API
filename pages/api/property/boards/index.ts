@@ -26,6 +26,9 @@ const handler = async (req, res) => {
     include: {
       columns: true,
     },
+    orderBy: {
+      id: "desc",
+    },
   });
   res.json(data);
 };

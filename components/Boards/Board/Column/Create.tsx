@@ -1,32 +1,39 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Button, Icon, SwipeableDrawer, TextField } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
+import { Puller } from "../../../Puller";
 
-import { Box, Button, Icon, SwipeableDrawer, TextField } from "@mui/material";
-
-export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
+export function CreateColumn({
+  setCurrentColumn,
+  hide,
+  mutationUrl,
+  id,
+  mobile = false,
+}: any) {
   const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [title, setTitle] = useState("");
+  const ref: any = useRef();
   const [loading, setLoading] = useState(false);
   const [emoji, setEmoji] = useState(
     "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
   );
 
   useEffect(() => {
-    if (open) {
+    if (open || mobileOpen) {
       setTimeout(() => {
         const el = document.getElementById("create-column-title");
         if (el) el.focus();
       });
     }
-  }, [open]);
+  }, [open, mobileOpen]);
 
-  const children = (
+  const Children = ({ mobile = false }) => (
     <Box
       sx={{
         display: "flex",
@@ -37,16 +44,22 @@ export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
     >
       <Box
         sx={{
-          backgroundColor: global.user.darkMode
-            ? "hsl(240,11%,13%)"
-            : "rgba(200, 200, 200, 0.3)",
-          width: "400px",
-          flex: "0 0 auto",
-          mr: 2,
+          ...(mobile
+            ? {
+                mb: 2,
+              }
+            : {
+                backgroundColor: global.user.darkMode
+                  ? "hsl(240,11%,13%)"
+                  : "rgba(200, 200, 200, 0.3)",
+                width: "400px",
+                flex: "0 0 auto",
+                mr: 2,
+                border: global.user.darkMode
+                  ? "1px solid hsl(240,11%,30%)!important"
+                  : "1px solid rgba(200, 200, 200, 0.9)",
+              }),
           height: "auto",
-          border: global.user.darkMode
-            ? "1px solid hsl(240,11%,30%)!important"
-            : "1px solid rgba(200, 200, 200, 0.9)",
           p: 3,
           px: 4,
           borderRadius: 5,
@@ -67,13 +80,13 @@ export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
         </Button>
         <TextField
           onKeyDown={(e) => {
+            e.stopPropagation();
             if (e.key === "Enter") {
               document.getElementById("createColumnButton")?.click();
             }
           }}
           id="create-column-title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          inputRef={ref}
           variant="standard"
           placeholder="Column name"
           InputProps={{
@@ -100,7 +113,14 @@ export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
             alignItems: "center",
           }}
         >
-          <Button onClick={() => setOpen(false)} variant="outlined" fullWidth>
+          <Button
+            onClick={() => {
+              setMobileOpen(false);
+              setOpen(false);
+            }}
+            variant="outlined"
+            fullWidth
+          >
             Cancel
           </Button>
           <LoadingButton
@@ -116,15 +136,17 @@ export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
             onClick={() => {
               setLoading(true);
               fetchApiWithoutHook("property/boards/createColumn", {
-                title,
+                title: ref?.current?.value,
                 emoji,
                 id: id,
               })
                 .then(() => {
+                  toast.success("Created column!");
+                  setOpen(false);
                   mutate(mutationUrl)
                     .then(() => {
+                      setCurrentColumn((e) => e + 1);
                       setLoading(false);
-                      setTitle("");
                       setEmoji(
                         "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
                       );
@@ -181,22 +203,26 @@ export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
           />
         </Box>
       </SwipeableDrawer>
-      {open && children}
+      {open && <Children mobile={false} />}
+      <SwipeableDrawer
+        anchor="bottom"
+        open={mobileOpen}
+        onOpen={() => setMobileOpen(true)}
+        onClose={() => setMobileOpen(false)}
+        disableSwipeToOpen
+      >
+        <Puller />
+        <Children mobile={true} />
+      </SwipeableDrawer>
       <Box>
         {!open && mobile ? (
           <Button
-            disabled={hide || open}
+            disabled={hide || open || mobileOpen}
             onClick={() => {
-              setOpen(true);
-              setTimeout(() => {
-                const container: any = document.getElementById("taskContainer");
-                container.scrollLeft += 20000;
-              }, 10);
+              setMobileOpen(true);
             }}
-            size="small"
             sx={{
               whiteSpace: "nowrap",
-              background: "rgba(200,200,200,.3)!important",
               color: "#000",
               minWidth: "auto",
               borderRadius: 5,
@@ -209,7 +235,7 @@ export function CreateColumn({ hide, mutationUrl, id, mobile = false }: any) {
         ) : (
           <Button
             disableRipple
-            disabled={hide || open}
+            disabled={hide || open || mobileOpen}
             onClick={() => {
               setOpen(true);
               setTimeout(() => {

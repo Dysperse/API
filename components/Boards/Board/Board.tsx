@@ -125,7 +125,6 @@ function BoardSettings({ mutationUrl, board }) {
                 : colors[themeColor][100]
             }!important`,
           },
-          // ml: "auto",
         }}
       >
         <Icon className="outlined">edit</Icon>
@@ -140,6 +139,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
     threshold: 0,
     target: window ? window : undefined,
   });
+
   const isMobile = useMediaQuery("(max-width: 610px)");
 
   return (
@@ -160,29 +160,24 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           gap: 0.5,
           background: "rgba(255,255,255,.7)",
           zIndex: 999,
-          display:
-            (board && board.columns.length === 1) || !isMobile
-              ? "none"
-              : "flex",
+          display: (data && data.length === 1) || !isMobile ? "none" : "flex",
         }}
       >
         <Button
-          size="small"
           sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
-          onClick={() => {
-            setCurrentColumn(currentColumn - 1);
-          }}
+          onClick={() => setCurrentColumn(currentColumn - 1)}
           disabled={currentColumn <= 0}
         >
           <Icon sx={{ color: currentColumn <= 0 ? "#aaa" : "#000" }}>
             arrow_back
           </Icon>
         </Button>
-        {board.columns.length !== 1 && (
+        {data && data.length !== 1 && (
           <CreateColumn
             mobile
             id={board.id}
             mutationUrl={url}
+            setCurrentColumn={setCurrentColumn}
             hide={
               (board && board.columns.length === 1) ||
               (data && data.length >= 5)
@@ -190,17 +185,13 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           />
         )}
         <Button
-          size="small"
           sx={{ borderRadius: 999, minWidth: "auto", px: 1.5 }}
-          onClick={() => {
-            setCurrentColumn(currentColumn + 1);
-          }}
-          disabled={currentColumn >= board.columns.length - 1}
+          onClick={() => setCurrentColumn(currentColumn + 1)}
+          disabled={data && currentColumn >= data.length - 1}
         >
           <Icon
             sx={{
-              color:
-                currentColumn >= board.columns.length - 1 ? "#aaa" : "#000",
+              color: data && currentColumn >= data.length - 1 ? "#aaa" : "#000",
             }}
           >
             arrow_forward
@@ -209,10 +200,11 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
       </Box>
       {data &&
         data
-          .filter((col, id) => id === currentColumn || !isMobile)
+          .filter((_, id) => id === currentColumn || !isMobile)
           .map((column) => (
             <Column
               key={column.id}
+              setCurrentColumn={setCurrentColumn}
               tasks={data.map((column) => column.tasks).flat()}
               checkList={board.columns.length === 1}
               mutationUrl={url}
@@ -262,6 +254,11 @@ export const Board = function Board({
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
+
+  // useEffect(() => {
+  // alert(JSON.stringify(data));
+  // }, [data]);
+
   const [starred, setStarred] = React.useState(board.starred || false);
 
   return (
@@ -410,36 +407,26 @@ export const Board = function Board({
           mt: data && board.columns.length === 1 ? -2 : 4,
           display: "flex",
           gap: "10px",
-
           maxWidth: "100vw",
           pl: data && board.columns.length === 1 ? 0 : 3,
         }}
         id="taskContainer"
-        onScroll={() => {
-          const container: any = document.getElementById("boardContainer");
-          container.scrollTo({ top: 0, behavior: "smooth" });
-          setTimeout(() => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }, 100);
-        }}
       >
+        <Renderer data={data} url={url} board={board} />
+
+        <CreateColumn
+          setCurrentColumn={(e: any) => e}
+          mobile={false}
+          id={board.id}
+          mutationUrl={url}
+          hide={
+            (board && board.columns.length === 1) || (data && data.length >= 5)
+          }
+        />
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your tasks" />
         )}
-        <Renderer data={data} url={url} board={board} />
-
-        {data ? (
-          <>
-            {board.columns.length !== 1 && (
-              <CreateColumn
-                mobile={false}
-                id={board.id}
-                mutationUrl={url}
-                hide={board.columns.length === 1 || data.length >= 5}
-              />
-            )}
-          </>
-        ) : (
+        {!data && (
           <Box
             sx={{
               display: "flex",

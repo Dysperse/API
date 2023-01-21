@@ -1,5 +1,5 @@
 import EmojiPicker from "emoji-picker-react";
-import React, { useState } from "react";
+import React from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
@@ -159,7 +159,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
   );
 }
 
-function OptionsMenu({ collapsed, mutationUrl, column }) {
+function OptionsMenu({ setCurrentColumn, mutationUrl, column }) {
   const [open, setOpen] = React.useState(false);
   const styles = {
     width: "100%",
@@ -271,6 +271,7 @@ function OptionsMenu({ collapsed, mutationUrl, column }) {
                 });
                 await mutate(mutationUrl);
                 setOpen(false);
+                setCurrentColumn((e) => e - 1);
               }}
             >
               <Button sx={styles} size="large">
@@ -331,7 +332,6 @@ function OptionsMenu({ collapsed, mutationUrl, column }) {
         disableRipple
         sx={{
           ml: "auto",
-          display: collapsed ? "none" : "",
           transition: "none!important",
           "&:hover,&:active": {
             color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
@@ -345,6 +345,7 @@ function OptionsMenu({ collapsed, mutationUrl, column }) {
 }
 
 export const Column = React.memo(function Column({
+  setCurrentColumn,
   checkList,
   mutationUrl,
   boardId,
@@ -354,36 +355,27 @@ export const Column = React.memo(function Column({
   const columnTasks = column.tasks.filter(
     (task) => task.parentTasks.length === 0
   );
-  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <Box
-      onDoubleClick={() => {
-        if (!checkList) {
-          setCollapsed(!collapsed);
-        }
-      }}
       className="w-[350px] bg-gray-100 dark:border-[hsla(240,11%,18%)] border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
         flexDirection: "column",
         position: "relative",
         width: {
-          xs: collapsed ? "70px" : "calc(100vw - 50px)",
-          sm: collapsed ? "70px" : "350px",
+          xs: "calc(100vw - 50px)",
+          sm: "350px",
         },
         height: "100%",
         flex: {
-          xs: collapsed ? "0 0 70px" : "0 0 calc(100vw - 50px)",
-          sm: collapsed ? "0 0 70px" : "0 0 350px",
+          xs: "0 0 calc(100vw - 50px)",
+          sm: "0 0 350px",
         },
-        p: collapsed ? 1 : 3,
+        p: 3,
         pt: 4,
-        px: collapsed ? 1 : checkList ? 4 : 2,
+        px: checkList ? 4 : 2,
         borderRadius: 5,
-        ...(collapsed && {
-          cursor: "pointer",
-        }),
         ...(checkList && {
           flex: "0 0 100%!important",
           border: "0!important",
@@ -401,16 +393,7 @@ export const Column = React.memo(function Column({
         {!checkList && (
           <Box sx={{ px: 1 }}>
             <picture>
-              <img
-                src={column.emoji}
-                alt="emoji"
-                style={{
-                  ...(collapsed && {
-                    transform: "scale(.8)",
-                    marginLeft: "3px",
-                  }),
-                }}
-              />
+              <img src={column.emoji} alt="emoji" />
             </picture>
           </Box>
         )}
@@ -431,12 +414,6 @@ export const Column = React.memo(function Column({
                 sx={{
                   fontWeight: "600",
                   mb: 1,
-                  ...(collapsed && {
-                    writingMode: "vertical-rl",
-                    transform: "rotate(180deg)",
-                    textOrientation: "mixed",
-                    textTransform: "lowercase",
-                  }),
                   mt: 2,
                 }}
               >
@@ -445,7 +422,6 @@ export const Column = React.memo(function Column({
               <Typography
                 variant="body2"
                 sx={{
-                  display: collapsed ? "none" : "",
                   fontWeight: "400",
                   whiteSpace: "nowrap",
                   mt: 1,
@@ -456,18 +432,14 @@ export const Column = React.memo(function Column({
               </Typography>
             </Box>
             <OptionsMenu
-              collapsed={collapsed}
               column={column}
               mutationUrl={mutationUrl}
+              setCurrentColumn={setCurrentColumn}
             />
           </Box>
         )}
       </Box>
-      <Box
-        sx={{
-          display: collapsed ? "none" : "",
-        }}
-      >
+      <Box>
         {columnTasks
           .filter((task) => !task.completed)
           .map((task) => (

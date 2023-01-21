@@ -21,6 +21,7 @@ import { useStatusBar } from "../../../hooks/useStatusBar";
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState(false);
   useStatusBar(open);
+
   return (
     <>
       <Dialog
@@ -250,6 +251,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
 
 export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
+
   const templates = [
     {
       name: "School planner",

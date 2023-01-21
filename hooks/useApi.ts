@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import useSWR, { preload } from "swr";
+import useSWR from "swr";
 
 const getInfo = (
   path,
@@ -38,7 +38,7 @@ export function useApi(path, initialParams = {}, removeDefaultParams = false) {
     [path, initialParams, removeDefaultParams, global.property, global.user]
   );
   const fetcher = (url) => fetch(url).then((res) => res.json());
-  preload(url, fetcher);
+  // preload(url, fetcher);
 
   const { data, error } = useSWR(url, fetcher);
 

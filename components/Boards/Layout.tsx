@@ -117,9 +117,7 @@ const Tab = React.memo(function Tab({
         onClick={(e) => {
           setDrawerOpen(false);
           window.location.hash = board.id;
-          if (activeTab === board.id && !editMode) {
-            handleClick(e);
-          } else {
+          if (!(activeTab === board.id && !editMode)) {
             setActiveTab(board.id);
           }
         }}
@@ -185,7 +183,6 @@ const Tab = React.memo(function Tab({
             onChange={(e) => setTitle(e.target.value)}
           />
         )}
-        {/* {activeTab === board.id && <Icon>more_vert</Icon>} */}
       </Button>
     </div>
   );

@@ -70,6 +70,8 @@ export function InviteButton() {
         }}
         PaperProps={{
           sx: {
+            maxWidth: "400px!important",
+            height: "auto",
             position: { sm: "static!important" },
             "-webkit-app-region": "no-drag",
             borderRadius: {
