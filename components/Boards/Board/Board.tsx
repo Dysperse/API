@@ -146,6 +146,22 @@ function BoardSettings({ mutationUrl, board }) {
           <Icon className="outlined">edit</Icon>
           Rename
         </MenuItem>
+
+        <ConfirmationModal
+          title="Archive board?"
+          question="Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
+          callback={async () => {
+            await fetchApiWithoutHook("property/boards/archiveBoard", {
+              id: board.id,
+            });
+            await mutate(mutationUrl);
+          }}
+        >
+          <MenuItem onClick={handleClose}>
+            <Icon className="outlined">inventory_2</Icon>
+            Archive
+          </MenuItem>
+        </ConfirmationModal>
         <ConfirmationModal
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
