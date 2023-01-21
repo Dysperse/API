@@ -158,7 +158,9 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           left: "50%",
           transform: "translateX(-50%)",
           gap: 0.5,
-          background: "rgba(255,255,255,.7)",
+          background: global.user.darkMode
+            ? "hsla(240,11%,25%,.6)"
+            : "rgba(255,255,255,.7)",
           zIndex: 999,
           display: (data && data.length === 1) || !isMobile ? "none" : "flex",
         }}
@@ -169,12 +171,30 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
               borderRadius: 999,
               minWidth: "auto",
               px: 1.5,
-              color: currentColumn <= 0 ? "#aaa" : "#000",
+              color:
+                currentColumn <= 0
+                  ? global.user.darkMode
+                    ? "#ccc"
+                    : "#aaa"
+                  : global.user.darkMode
+                  ? "#fff"
+                  : "#000",
             }}
             onClick={() => setCurrentColumn(currentColumn - 1)}
             disabled={currentColumn <= 0}
           >
-            <Icon sx={{ color: currentColumn <= 0 ? "#aaa" : "#000" }}>
+            <Icon
+              sx={{
+                color:
+                  currentColumn <= 0
+                    ? global.user.darkMode
+                      ? "#ccc"
+                      : "#aaa"
+                    : global.user.darkMode
+                    ? "#fff"
+                    : "#000",
+              }}
+            >
               west
             </Icon>
           </Button>
@@ -197,7 +217,14 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
               borderRadius: 999,
               minWidth: "auto",
               px: 1.5,
-              color: data && currentColumn >= data.length - 1 ? "#aaa" : "#000",
+              color:
+                data && currentColumn >= data.length - 1
+                  ? global.user.darkMode
+                    ? "#ccc"
+                    : "#aaa"
+                  : global.user.darkMode
+                  ? "#fff"
+                  : "#000",
             }}
             onClick={() => setCurrentColumn(currentColumn + 1)}
             disabled={data && currentColumn >= data.length - 1}
@@ -205,7 +232,13 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
             <Icon
               sx={{
                 color:
-                  data && currentColumn >= data.length - 1 ? "#aaa" : "#000",
+                  data && currentColumn >= data.length - 1
+                    ? global.user.darkMode
+                      ? "#ccc"
+                      : "#aaa"
+                    : global.user.darkMode
+                    ? "#fff"
+                    : "#000",
               }}
             >
               east

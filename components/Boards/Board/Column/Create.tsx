@@ -231,7 +231,7 @@ export function CreateColumn({
               }}
               sx={{
                 whiteSpace: "nowrap",
-                color: "#000",
+                color: global.user.darkMode?"#fff":"#000",
                 minWidth: "auto",
                 borderRadius: 5,
                 px: 2,

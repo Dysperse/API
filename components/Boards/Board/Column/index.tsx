@@ -37,7 +37,7 @@ function CompletedTasks({
       }}
     >
       <Box
-        className="p-3 mb-2 shadow-sm border flex border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
+        className="p-3 mb-2 dark:border-[hsl(240,11%,18%)] shadow-sm border flex border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
           "& *": {
             transition: "none!important",
@@ -348,7 +348,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[350px] sm:bg-gray-100 dark:border-[hsla(240,11%,18%)] sm:border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:bg-[hsl(240,11%,13%)]"
+      className="w-[350px] sm:bg-gray-100 dark:sm:border-[hsla(240,11%,18%)] sm:border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:sm:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
         flexDirection: "column",
