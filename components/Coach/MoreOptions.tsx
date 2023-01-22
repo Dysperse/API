@@ -2,6 +2,7 @@ import { Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { ConfirmationModal } from "../ConfirmationModal";
 
 export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -28,12 +29,10 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
           <Icon>share</Icon>
           Share
         </MenuItem>
-        <MenuItem onClick={handleClose} disabled={goal.completed}>
-          <Icon>edit</Icon> Edit
-        </MenuItem>
-        <MenuItem
-          disabled={goal.completed}
-          onClick={() => {
+        <ConfirmationModal
+          title="Stop goal?"
+          question="Are you sure you want to stop working towards this goal? ALL your progress will be lost FOREVER. You won't be able to undo this action!"
+          callback={() => {
             handleClose();
             fetchApiWithoutHook("user/routines/delete", {
               id: goal.id,
@@ -43,8 +42,10 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
             });
           }}
         >
-          <Icon>delete</Icon> Delete
-        </MenuItem>
+          <MenuItem disabled={goal.completed}>
+            <Icon>stop</Icon> Stop goal
+          </MenuItem>
+        </ConfirmationModal>
       </Menu>
       <IconButton color="inherit" disableRipple onClick={handleClick}>
         <Icon>more_horiz</Icon>
