@@ -77,7 +77,7 @@ function SearchBar({
     >
       <Icon>search</Icon>
       <TextField
-        placeholder="Search"
+        placeholder="Search for an item..."
         id="outlined-size-small"
         onKeyDown={handleBlurEvent}
         onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
