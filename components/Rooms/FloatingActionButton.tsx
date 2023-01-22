@@ -37,19 +37,19 @@ export function FloatingActionButton({ sm = false }) {
           aria-label="add"
           sx={{
             borderRadius: "20px",
-            px: sm ? 2 : 3,
+            px: 3,
             fontSize: "15px",
             boxShadow: "none",
             "&:focus-within": {
               boxShadow: "none",
             },
-            width: sm ? "100%" : "auto",
-            justifyContent: sm ? "start" : "center",
+            justifyContent: "center",
             backdropFilter: "blur(15px)",
-            background:
-              `${global.user.darkMode
+            background: `${
+              global.user.darkMode
                 ? "rgba(57, 57, 71, .7)"
-                : colors[themeColor][100]}!important`,
+                : colors[themeColor][100]
+            }!important`,
             color: global.user.darkMode
               ? "hsl(240, 11%, 95%)"
               : colors[themeColor]["900"],
@@ -68,7 +68,7 @@ export function FloatingActionButton({ sm = false }) {
             },
             transition: "transform .2s",
 
-            py: sm ? 1 : 2,
+            py: sm ? 1.5 : 2,
             textTransform: "none",
             height: "auto",
             maxHeight: "auto",

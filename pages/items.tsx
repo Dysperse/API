@@ -383,7 +383,6 @@ function Action({
               global.theme === "dark"
                 ? "hsl(240,11%,13%)!important"
                 : colors[themeColor][50] + "!important",
-            sm: "transparent!important",
           },
         },
         borderRadius: 5,
@@ -618,7 +617,7 @@ export default function Categories({ children = null }: any) {
           borderRight: {
             sm: global.user.darkMode
               ? "1px solid hsl(240,11%,15%)"
-              : "1px solid rgba(0,0,0,.1)",
+              : "1px solid rgba(200,200,200,.3)",
           },
           ml: { sm: -1 },
         }}
@@ -815,21 +814,17 @@ export default function Categories({ children = null }: any) {
               borderRadius: 5,
               p: 3,
               py: 2,
-              width: "400px",
-              background: global.user.darkMode
-                ? "hsl(240,11%,20%)"
-                : colors[themeColor][50],
+              textAlign: "center",
             }}
           >
             <Typography
               variant="h6"
-              sx={{ ...(global.permission !== "read-only" && { mb: 1 }) }}
+              sx={{ ...(global.permission !== "read-only" && { mb: 2 }) }}
             >
-              No room selected
+              <u>No room selected</u>
             </Typography>
             {global.permission !== "read-only" && <FloatingActionButton sm />}
           </Box>
-          {/* {global.permission !== "read-only" && <Tidy />} */}
         </Box>
       )}
     </Box>

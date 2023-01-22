@@ -310,14 +310,14 @@ function DailyRoutine() {
         onClick={() => setOpen(true)}
         sx={{
           ...(!data && {
-            opacity: 0.5,
+            filter: "blur(5px)",
             pointerEvents: "none",
           }),
           p: 2,
           mb: 4,
           px: 3,
           cursor: "pointer",
-          transition: "transform 0.2s",
+          transition: "blur .2s, transform 0.2s",
           "&:active": {
             transform: "scale(0.98)",
             transitionDuration: "0s",

@@ -140,9 +140,6 @@ const Tab = React.memo(function Tab({
         ) : (
           <input
             id={`renameInput${board.id}`}
-            onKeyDown={(e: any) => {
-              if (e.key == "Enter") e.target.blur();
-            }}
             onBlur={async () => {
               setEditMode(false);
               if (title !== board.name && title.trim() !== "") {
