@@ -24,26 +24,25 @@ export default function Document() {
           crossOrigin="anonymous"
         />
         <link rel="preconnect" href="https://i.ibb.co" />
-        <link rel="preconnect" href="https://vitals.vercel-insights.com" />
         <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-        <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="true"
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          as="style"
+          crossOrigin="anonymous"
         />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
           rel="stylesheet"
         />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />
         <link
