@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   ListItem,
@@ -115,6 +116,11 @@ export default function Notifications() {
 
   return isInPwa || process.env.NODE_ENV !== "production" ? (
     <Box sx={{ mb: 2 }}>
+      <Alert severity="warning">
+        Notifications is still in beta, and you might encounter bugs. We
+        recommend you to turn this on later, but if you are curious - feel free
+        to try it out at your own risk!
+      </Alert>
       {!periodicSyncSupported && (
         <ErrorHandler error="Push notifications are not supported. Please use a supported browser, or the Dysperse app" />
       )}
