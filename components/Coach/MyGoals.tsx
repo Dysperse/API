@@ -167,7 +167,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         role="button"
         tabIndex={0}
         className={
-          "w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform my-3 " +
+          "w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform mb-3 " +
           (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")
         }
         style={{
@@ -180,7 +180,9 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             Set a goal to get started with your routine
           </h4>
         </div>
-        <Icon className="ml-auto">add</Icon>
+        <Icon className="outlined" sx={{ ml: "auto" }}>
+          add_circle
+        </Icon>
       </div>
     </>
   );

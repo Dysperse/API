@@ -6,6 +6,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { categories, goals } from "./goalTemplates";
 
+import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
   Box,
@@ -30,14 +31,64 @@ interface TabPanelProps {
   value: number;
 }
 
-function CreateGoal() {
+function CreateGoal({ mutationUrl }) {
   const [open, setOpen] = React.useState(false);
 
-  const [age, setAge] = React.useState("");
+  const [time, setTime] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    setTime(event.target.value as string);
   };
+  const [loading, setLoading] = React.useState(false);
+
+  const titleRef: any = React.useRef();
+  const descriptionRef: any = React.useRef();
+  const durationRef: any = React.useRef();
+  const goalStepName: any = React.useRef();
+
+  const handleSubmit = async () => {
+    if (!titleRef.current.value) {
+      toast.error("Goal must have a name");
+      return;
+    }
+    if (!goalStepName.current.value) {
+      toast.error("Goal must have a step name.");
+      return;
+    }
+    if (
+      !durationRef.current.value ||
+      parseInt(durationRef.current.value) > 100 ||
+      parseInt(durationRef.current.value) < 10
+    ) {
+      toast.error("Goal must be between 10 and 100 days");
+      return;
+    }
+    if (!time) {
+      toast.error("Goal must have a time");
+      return;
+    }
+    setLoading(true);
+
+    try {
+      await fetchApiWithoutHook("user/routines/create", {
+        name: titleRef.current.value,
+        stepName: goalStepName.current.value,
+        category: "Any",
+        durationDays: durationRef.current.value,
+        time: time,
+      });
+      setLoading(false);
+      await mutate(mutationUrl);
+      setOpen(false);
+      toast.success("Created goal!");
+    } catch (e) {
+      setLoading(false);
+      toast.error(
+        "An error occurred while trying to set your goal. Please try again."
+      );
+    }
+  };
+
   return (
     <>
       <SwipeableDrawer
@@ -48,7 +99,7 @@ function CreateGoal() {
         disableSwipeToOpen
         PaperProps={{
           sx: {
-            backgroundColor: "hsl(240,11%,70%)",
+            backgroundColor: "hsl(240,11%,90%)",
             color: "hsl(240,11%,10%)",
             ...(global.user.darkMode && {
               backgroundColor: "hsl(240,11%,10%)",
@@ -61,8 +112,8 @@ function CreateGoal() {
           <AppBar
             elevation={0}
             sx={{
-              background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
               zIndex: 1,
+              background: "transparent",
               color: "hsl(240,11%,5%)",
             }}
             position="sticky"
@@ -91,51 +142,68 @@ function CreateGoal() {
             </Toolbar>
           </AppBar>
 
-          <Box sx={{ p: 5 }}>
-            <TextField variant="filled" label="Goal name" margin="dense" />
+          <Box sx={{ p: 5, pt: 3 }}>
+            <TextField
+              inputRef={titleRef}
+              variant="filled"
+              label="Goal name"
+              margin="dense"
+            />
             <TextField
               variant="filled"
               multiline
-              rows={4}
-              label="Add a description"
+              rows={3}
+              inputRef={descriptionRef}
+              label="Add a description (optional)"
+              placeholder="Speak Spanish for 10 minutes, every day"
               margin="dense"
             />
             <TextField
               variant="filled"
-              margin="dense"
-              label="Goal duration (in days)"
-            />
-            <TextField
-              variant="filled"
+              inputRef={goalStepName}
               margin="dense"
               label="Goal step name"
-              helperText="e.g. Meditate Today"
+              helperText={`For example, if you want to learn a new language, the step name would be: "Practice for 30 minutes today"`}
             />
-            <FormControl fullWidth sx={{ mt: 2 }}>
-              <InputLabel id="demo-simple-select-label">Time of day</InputLabel>
-              <Select
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <TextField
+                variant="filled"
+                inputRef={durationRef}
                 margin="dense"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Time of day"
-                fullWidth
-                onChange={handleChange}
-              >
-                <MenuItem value={"any"}>Any time</MenuItem>
-                <MenuItem value={"morning"}>Morning</MenuItem>
-                <MenuItem value={"afternoon"}>Afternoon</MenuItem>
-                <MenuItem value={"evening"}>Evening</MenuItem>
-                <MenuItem value={"night"}>Night</MenuItem>
-              </Select>
-            </FormControl>
-            <Button
+                label="Goal duration (in days)"
+              />
+
+              <FormControl fullWidth variant="filled">
+                <InputLabel id="demo-simple-select-label">
+                  Time of day
+                </InputLabel>
+                <Select
+                  margin="dense"
+                  variant="filled"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={time}
+                  label="Time of day"
+                  fullWidth
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"any"}>Any time</MenuItem>
+                  <MenuItem value={"morning"}>Morning</MenuItem>
+                  <MenuItem value={"afternoon"}>Afternoon</MenuItem>
+                  <MenuItem value={"evening"}>Evening</MenuItem>
+                  <MenuItem value={"night"}>Night</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <LoadingButton
               fullWidth
               size="large"
-              variant="outlined"
+              variant="contained"
+              loading={loading}
               sx={{
                 mt: 5,
               }}
+              onClick={handleSubmit}
             >
               Set goal
               <Icon
@@ -145,7 +213,7 @@ function CreateGoal() {
               >
                 rocket_launch
               </Icon>
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </SwipeableDrawer>
@@ -353,7 +421,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
           </TabPanel>
         ))}
       </Box>
-      <CreateGoal />
+      <CreateGoal mutationUrl={mutationUrl} />
       <Button
         href="/feedback"
         target="_blank"

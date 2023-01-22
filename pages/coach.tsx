@@ -248,7 +248,7 @@ function DailyRoutine() {
           position="static"
           sx={{
             zIndex: 1,
-            background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
+            background: "linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,0))",
           }}
         >
           <Toolbar className="flex" sx={{ height: "70px" }}>
@@ -307,6 +307,7 @@ function DailyRoutine() {
       </SwipeableDrawer>
       <Box
         id="routineTrigger"
+        className="shadow-sm"
         onClick={() => setOpen(true)}
         sx={{
           ...(!data && {
@@ -328,7 +329,12 @@ function DailyRoutine() {
           alignItems: "center",
           background: global.user.darkMode
             ? "hsl(240,11%,16%)"
-            : colors[themeColor][100],
+            : colors[themeColor][50],
+          border:
+            "1px solid " +
+            (global.user.darkMode
+              ? "hsl(240,11%,16%)"
+              : colors[themeColor][100]),
         }}
       >
         <Box sx={{ mr: "auto" }}>
