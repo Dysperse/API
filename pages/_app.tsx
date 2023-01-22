@@ -138,8 +138,10 @@ function RenderWithLayout({
               colors[themeColor][global.theme !== "dark" ? "800" : "50"] +
               "!important",
             color: colors[themeColor][global.theme !== "dark" ? "50" : "800"],
-            ":disabled": {
-              background: `${colors["grey"]["200"]}!important`,
+            "&.Mui-disabled": {
+              background: `${
+                colors["grey"][global.user.darkMode ? 900 : 200]
+              }!important`,
             },
           },
           outlined: {},
@@ -147,7 +149,9 @@ function RenderWithLayout({
             color: `${colors[themeColor][global.user.darkMode ? 50 : 700]}`,
           },
           disabled: {
-            background: `${colors["grey"]["200"]}!important`,
+            background: `${
+              colors["grey"][global.user.darkMode ? 900 : 200]
+            }!important`,
           },
           root: {
             gap: "10px",

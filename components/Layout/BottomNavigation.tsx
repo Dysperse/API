@@ -56,7 +56,7 @@ export function BottomNav() {
           background: `${
             global.user.darkMode
               ? "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"
-              : hexToRgba(colors[themeColor][200], 0.8)
+              : hexToRgba(colors[themeColor][300], 0.5)
           }!important`,
         },
       }),

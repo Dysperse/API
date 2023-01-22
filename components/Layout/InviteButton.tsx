@@ -53,7 +53,7 @@ export function InviteButton() {
         anchor={trigger ? "left" : "bottom"}
         BackdropProps={{
           sx: {
-            "-webkit-app-region": "no-drag",
+            WebkitAppRegion: "no-drag",
             background: {
               sm: "rgba(0,0,0,0)!important",
             },
@@ -73,7 +73,7 @@ export function InviteButton() {
             maxWidth: "400px!important",
             height: "auto",
             position: { sm: "static!important" },
-            "-webkit-app-region": "no-drag",
+            WebkitAppRegion: "no-drag",
             borderRadius: {
               xs: "20px 20px 0 0",
               sm: 5,

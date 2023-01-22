@@ -55,7 +55,7 @@ export function UpdateButton() {
             ? "hsl(240, 11%, 90%)"
             : colors.green[700],
           transition: "none !important",
-          "-webkit-app-region": "no-drag",
+          WebkitAppRegion: "no-drag",
         }}
       >
         <Icon className="rounded">download</Icon>

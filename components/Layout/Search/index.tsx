@@ -255,7 +255,7 @@ export function SearchPopup({ styles }) {
           onClick={() => openSpotlight()}
           disableRipple
           sx={{
-            "-webkit-app-region": "no-drag",
+            WebkitAppRegion: "no-drag",
             background: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
               : `${colors[themeColor][50]}!important`,

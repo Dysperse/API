@@ -129,7 +129,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           <Icon
             sx={{
               display: { xs: "none!important", sm: "block!important" },
-              "-webkit-app-region": "no-drag",
+              WebkitAppRegion: "no-drag",
             }}
           >
             close
@@ -142,7 +142,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             (board && board.archived) || global.permission === "read-only"
           }
           sx={{
-            "-webkit-app-region": "no-drag",
+            WebkitAppRegion: "no-drag",
           }}
           onClick={() => {
             handleDelete(task.id);

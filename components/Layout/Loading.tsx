@@ -11,7 +11,7 @@ export function Loading(): JSX.Element {
       sx={{
         position: "fixed",
         top: 0,
-        "-webkit-app-region": "drag",
+        WebkitAppRegion: "drag",
         left: 0,
         background:
           global.user && global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
