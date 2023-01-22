@@ -521,7 +521,7 @@ export const Board = function Board({
           question={
             pinned
               ? "Are you sure you want to unpin this board?"
-              : "Are you sure you want to pin this board?"
+              : "Are you sure you want to pin this board? Any other pinned boards will be unpinned."
           }
           callback={() => {
             setTimeout(() => {
