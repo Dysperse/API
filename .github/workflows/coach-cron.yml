@@ -1,0 +1,13 @@
+name: coach-cron
+on:
+  schedule:
+    - cron: "0 6 * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call our API route
+        run: |
+          curl --request POST \
+          --url 'https://my.dysperse.com/api/coach-notif' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
