@@ -7,6 +7,7 @@ import { Prompt } from "../TwoStepVerificationPrompt";
 import { updateSettings } from "./updateSettings";
 
 import { Box, Link, TextField, Typography } from "@mui/material";
+import { ConfirmationModal } from "../ConfirmationModal";
 
 /**
  * Top-level component for the two-factor authentication settings page.
@@ -121,13 +122,10 @@ export default function App() {
             sx={{ mt: 2 }}
           />
 
-          <LoadingButton
-            loading={loading}
-            variant="contained"
-            sx={{ mt: 2, boxShadow: 0, borderRadius: 5, mb: 4 }}
-            fullWidth
-            size="large"
-            onClick={() => {
+          <ConfirmationModal
+            title="Turn on 2FA?"
+            question="Are you sure you want to turn on 2FA? If you lose access to your authenticator, you will be locked out of your account."
+            callback={() => {
               setLoading(true);
               fetch(
                 `/api/user/2fa/setup?${new URLSearchParams({
@@ -154,8 +152,16 @@ export default function App() {
                 });
             }}
           >
-            Verify
-          </LoadingButton>
+            <LoadingButton
+              loading={loading}
+              variant="contained"
+              sx={{ mt: 2, boxShadow: 0, borderRadius: 5, mb: 4 }}
+              fullWidth
+              size="large"
+            >
+              Verify
+            </LoadingButton>
+          </ConfirmationModal>
         </Box>
       )}
     </Box>
