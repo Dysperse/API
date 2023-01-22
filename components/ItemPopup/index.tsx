@@ -311,7 +311,17 @@ const Item = React.memo(function Item({
                     variant="standard"
                     // multiline
                     onKeyDown={(e: any) => {
-                      if (e.key == "Enter") e.target.bur();
+                      if (e.key == "Enter") e.target.blur();
+                    }}
+                    onBlur={(e: any) => {
+                      setItemData({
+                        ...item,
+                        name: e.target.value,
+                      });
+                      fetchApiWithoutHook("property/inventory/edit", {
+                        name: item.name,
+                        id: item.id,
+                      });
                     }}
                     InputProps={{
                       disableUnderline: true,
@@ -352,7 +362,7 @@ const Item = React.memo(function Item({
                         "& *::placeholder": {
                           color: global.user.darkMode
                             ? "hsl(240, 11%, 24%)"
-                            : colors[themeColor][500],
+                            : colors[themeColor][800],
                         },
                         color: global.user.darkMode
                           ? "hsl(240, 11%, 90%)"
@@ -450,6 +460,9 @@ const Item = React.memo(function Item({
                         borderRadius: "15px",
                         display: "block",
                       },
+                    }}
+                    onKeyDown={(e: any) => {
+                      if (e.key == "Enter") e.target.blur();
                     }}
                     minRows={3}
                     spellCheck={false}

@@ -79,11 +79,12 @@ export function CategoryModal({
                       ]),
                     });
                   }
-                  alert(item.category);
-                  fetchApiWithoutHook("property/inventory/edit", {
-                    category: item.category,
-                    id: item.id,
-                  });
+                  setTimeout(() => {
+                    fetchApiWithoutHook("property/inventory/edit", {
+                      category: item.category,
+                      id: item.id,
+                    });
+                  }, 100);
                 }}
               >
                 <Box

@@ -23,6 +23,9 @@ export default function AppearanceSettings() {
               defaultValue={global.user && global.user.name}
               label="Name"
               onBlur={(e) => updateSettings("name", e.target.value)}
+              onKeyDown={(e: any) => {
+                if (e.key == "Enter") e.target.blur();
+              }}
             />
           }
         />

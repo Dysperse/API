@@ -193,6 +193,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 (board && board.archived) || global.permission === "read-only"
               }
               defaultValue={task.name.replace(/\n/g, "")}
+              onKeyDown={(e: any) => {
+                if (e.key == "Enter") e.target.blur();
+              }}
               onBlur={(e: any) => {
                 e.target.value = e.target.value.replace(/\n/g, "");
                 fetchApiWithoutHook("property/boards/editTask", {
@@ -297,6 +300,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                         ],
                     },
                   },
+                }}
+                onKeyDown={(e: any) => {
+                  if (e.key == "Enter") e.target.blur();
                 }}
                 onBlur={(e) => {
                   fetchApiWithoutHook("property/boards/editTask", {

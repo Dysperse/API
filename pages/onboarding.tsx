@@ -230,6 +230,9 @@ export default function Onboarding() {
         variant="filled"
         label="Your home's name/address"
         placeholder="The Johnson's"
+        onKeyDown={(e: any) => {
+          if (e.key == "Enter") e.target.blur();
+        }}
         defaultValue={global.property.profile.name}
         onBlur={(event) => {
           updateSettings(

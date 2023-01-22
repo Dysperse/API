@@ -101,6 +101,9 @@ function SearchBar({
             );
           }, 50);
         }}
+        onKeyDown={(e: any) => {
+          if (e.key == "Enter") e.target.blur();
+        }}
         size="small"
         variant="standard"
         InputProps={{

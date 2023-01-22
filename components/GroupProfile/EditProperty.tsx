@@ -139,6 +139,9 @@ export function EditProperty({ color }: { color: string }) {
             defaultValue={global.property.profile.name || "Untitled property"}
             id="nameInput"
             label="Home name / Family name / Address"
+            onKeyDown={(e: any) => {
+              if (e.key == "Enter") e.target.blur();
+            }}
             placeholder="1234 Rainbow Road"
             onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
               handleUpdateName(e)
