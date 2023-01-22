@@ -261,7 +261,10 @@ export const Task = React.memo(function Task({
           className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-200 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
           sx={{
             color: colors[task.color][global.user.darkMode ? "A100" : "A700"],
-            p: 1,
+            p: {
+              xs: 1,
+              sm: 0,
+            },
             cursor: "unset!important",
             ...(global.user.darkMode && {
               "&:hover": {

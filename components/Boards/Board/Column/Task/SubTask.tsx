@@ -118,7 +118,10 @@ export const SubTask = React.memo(function SubTask({
         className="p-1 shadow-sm border dark:border-[hsl(240,11%,18%)] border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
           color: colors["brown"][global.user.darkMode ? "A100" : "A700"],
-          p: { xs: 1, sm: 0 },
+          p: {
+            xs: 1,
+            sm: 0,
+          },
           ...(!noMargin && {
             width: "calc(100% - 20px)",
             ml: "20px",

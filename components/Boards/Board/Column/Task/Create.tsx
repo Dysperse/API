@@ -506,12 +506,15 @@ export function CreateTask({
         </Box>
       </SwipeableDrawer>
       <ListItem
-        disabled={global.permission === "read-only"}
+        // disabled={global.permission === "read-only"}
         id="createTask"
         className="p-1 shadow-sm border dark:border-[hsl(240,11%,18%)] border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
           color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
-          p: 1,
+          p: {
+            xs: 1,
+            sm: 0,
+          },
           cursor: "unset!important",
           ...(global.user.darkMode && {
             "&:hover": {
