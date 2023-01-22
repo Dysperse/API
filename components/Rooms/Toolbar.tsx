@@ -108,7 +108,6 @@ function SearchBar({
           sx: {
             border: "0!important",
             mr: 0.5,
-            px: 2,
             width: "100%",
             background: "transparent!important",
           },
@@ -179,16 +178,18 @@ export function Toolbar({
           py: 1.3,
           gap: 1.5,
           verticalAlign: "middle",
-          background:
-            `${colors[themeColor][global.user.darkMode ? 900 : 50]}!important`,
+          background: `${
+            colors[themeColor][global.user.darkMode ? 900 : 50]
+          }!important`,
 
           "&:hover": {
             background:
               colors[themeColor][global.user.darkMode ? 900 : 100] +
               "!important",
           },
-          color:
-            `${colors[themeColor][global.user.darkMode ? 50 : 900]}!important`,
+          color: `${
+            colors[themeColor][global.user.darkMode ? 50 : 900]
+          }!important`,
         }}
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
