@@ -405,7 +405,7 @@ export const Column = React.memo(function Column({
               alignItems: "center",
               justifyContent: "flex-start",
               px: { xs: 1, sm: 0 },
-              gap: 3,
+              gap: 1.5,
             }}
           >
             <Box sx={{ display: { sm: "none" }, flexShrink: "0" }}>
