@@ -127,7 +127,7 @@ export default function Notifications() {
       <ListItem>
         <ListItemText
           primary="Enable notifications"
-          secondary="Receive push notifications to your device (BETA)"
+          secondary="Receive push notifications to your device"
         />
         <Switch
           disabled={!periodicSyncSupported}
