@@ -358,7 +358,6 @@ export function CreateTask({
                 '"'
               }
               InputProps={{
-                // className: "font-secondary",
                 disableUnderline: true,
                 sx: { fontSize: 19 },
               }}

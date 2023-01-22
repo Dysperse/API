@@ -144,7 +144,6 @@ export function InviteButton() {
             overflow: "hidden",
             whiteSpace: "nowrap",
           }}
-          // className="font-secondary"
           noWrap
         >
           {global.property.profile.name || "My group"}

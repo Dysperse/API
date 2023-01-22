@@ -89,6 +89,9 @@ export function Achievements({ styles }) {
       <Drawer
         anchor="right"
         open={open}
+        ModalProps={{
+          keepMounted: false,
+        }}
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {

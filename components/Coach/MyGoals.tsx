@@ -175,7 +175,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         }}
       >
         <div>
-          <h3 className="font-secondary font-bold">Set a goal</h3>
+          <h3 className="font-bold">Set a goal</h3>
           <h4 className="font-sm font-light">
             Set a goal to get started with your routine
           </h4>

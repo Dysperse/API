@@ -398,7 +398,6 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
                       <Box>
                         <Typography
                           sx={{ fontWeight: "600" }}
-                          className="font-secondary"
                         >
                           {goal.name}
                         </Typography>

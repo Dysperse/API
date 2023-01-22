@@ -304,7 +304,7 @@ export const Group = React.memo(function Group({
                   </Icon>
                   {global.property.profile.type}
                 </Typography>
-                <Typography variant="h4" className="font-secondary underline">
+                <Typography variant="h4" className="underline">
                   {global.property.profile.name || "Untitled property"}
                 </Typography>
               </Box>

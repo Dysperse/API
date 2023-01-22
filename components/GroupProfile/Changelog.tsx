@@ -70,7 +70,6 @@ export function Changelog() {
             >
               <Typography
                 variant="h5"
-                className="font-secondary"
                 gutterBottom
                 sx={{ flexGrow: 1 }}
               >

@@ -54,7 +54,7 @@ export function Error({ message }) {
         >
           Oh no!
         </Typography>
-        <Typography variant="body1" className="font-secondary">
+        <Typography variant="body1">
           Something weird happened! If this problem persists, feel free to
           contact us at:{" "}
           <Link href="mailto:hello@dysperse.com" target="_blank" legacyBehavior>
@@ -92,7 +92,6 @@ export function Error({ message }) {
         </Button>
         <Collapse in={open} orientation="vertical">
           <Box
-            className="font-secondary"
             sx={{
               background: "rgba(255,255,255,0.05)",
               p: 2,

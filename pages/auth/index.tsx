@@ -295,7 +295,7 @@ export default function Prompt() {
                       ? "Sign into Dysperse Availability"
                       : "Welcome back!"}
                   </Typography>
-                  <Typography sx={{ mb: 2 }} className="font-secondary">
+                  <Typography sx={{ mb: 2 }}>
                     Sign in with your Dysperse ID
                   </Typography>
                 </Box>
@@ -374,7 +374,7 @@ export default function Prompt() {
                 >
                   Verifying...
                 </Typography>
-                <Typography sx={{ mb: 2 }} className="font-secondary">
+                <Typography sx={{ mb: 2 }}>
                   Hang on while we verify that you&apos;re a human.
                 </Typography>
                 <Turnstile

@@ -1,4 +1,5 @@
 import { Box, Snackbar, useMediaQuery, useScrollTrigger } from "@mui/material";
+import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
 
@@ -42,7 +43,7 @@ export function BottomNav() {
       ...(active && {
         fontWeight: "900",
         color: `${
-          colors[themeColor][global.user.darkMode ? 100 : 800]
+          colors[themeColor][global.user.darkMode ? 100 : 900]
         }!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           display: "flex",
@@ -55,7 +56,7 @@ export function BottomNav() {
           background: `${
             global.user.darkMode
               ? "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"
-              : colors[themeColor][100]
+              : hexToRgba(colors[themeColor][200], 0.8)
           }!important`,
         },
       }),
