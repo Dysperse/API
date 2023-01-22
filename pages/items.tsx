@@ -611,9 +611,9 @@ export default function Categories({ children = null }: any) {
           flex: { xs: "100%", sm: "0 0 300px" },
           px: 1.5,
           display: { xs: children ? "none" : "block", sm: "block" },
-          minHeight: "calc(100vh - 70px)",
+          minHeight: "calc(100vh - var(--navbar-height))",
           pt: { sm: 0.5 },
-          height: { sm: "calc(100vh - 64px)" },
+          height: { sm: "calc(100vh - var(--navbar-height))" },
           overflowY: { sm: "scroll" },
           borderRight: {
             sm: global.user.darkMode
@@ -786,9 +786,9 @@ export default function Categories({ children = null }: any) {
       {children ? (
         <Box
           sx={{
-            maxHeight: { sm: "calc(100vh - 70px)" },
-            minHeight: { sm: "calc(100vh - 64px)" },
-            height: { sm: "calc(100vh - 64px)" },
+            maxHeight: { sm: "calc(100vh - var(--navbar-height))" },
+            minHeight: { sm: "calc(100vh - var(--navbar-height))" },
+            height: { sm: "calc(100vh - var(--navbar-height))" },
             overflowY: { sm: "auto" },
             flexGrow: 1,
           }}
