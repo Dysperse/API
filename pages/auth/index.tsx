@@ -18,7 +18,7 @@ import {
   Paper,
   SwipeableDrawer,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 
 /**
@@ -368,7 +368,10 @@ export default function Prompt() {
               </Box>
             ) : (
               <Box>
-                <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
+                <Typography
+                  variant="h4"
+                  sx={{ mb: 1, mt: { xs: 5, sm: 0 }, fontWeight: "600" }}
+                >
                   Verifying...
                 </Typography>
                 <Typography sx={{ mb: 2 }} className="font-secondary">
