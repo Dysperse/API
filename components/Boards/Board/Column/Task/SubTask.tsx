@@ -32,6 +32,7 @@ const renderText = (txt) =>
   );
 
 export const SubTask = React.memo(function SubTask({
+  board,
   checkList,
   setOpen,
   noMargin = false,
@@ -40,6 +41,7 @@ export const SubTask = React.memo(function SubTask({
   BpCheckedIcon,
   BpIcon,
 }: {
+  board: any;
   checkList: any;
   setOpen?: any;
   noMargin?: any;
@@ -84,7 +86,7 @@ export const SubTask = React.memo(function SubTask({
   return (
     <>
       <Menu
-        open={contextMenu !== null}
+        open={!(board && board.archived) && contextMenu !== null}
         onClose={handleClose}
         anchorReference="anchorPosition"
         anchorPosition={
@@ -117,8 +119,10 @@ export const SubTask = React.memo(function SubTask({
         sx={{
           color: colors["brown"][global.user.darkMode ? "A100" : "A700"],
           p: { xs: 1, sm: 0 },
-          width: "calc(100% - 20px)",
-          ml: "20px",
+          ...(!noMargin && {
+            width: "calc(100% - 20px)",
+            ml: "20px",
+          }),
           py: { sm: "0!important" },
           cursor: "unset!important",
           ...(global.user.darkMode && {
@@ -132,9 +136,9 @@ export const SubTask = React.memo(function SubTask({
           boxShadow: {
             sm: "none!important",
           },
-            border: {
-              sm: "none!important",
-            },
+          border: {
+            sm: "none!important",
+          },
           gap: "10px!important",
           mb: {
             xs: 1.5,
@@ -143,6 +147,7 @@ export const SubTask = React.memo(function SubTask({
         }}
       >
         <Checkbox
+          disabled={board && board.archived}
           disableRipple
           checked={checked}
           onClick={(e) => {

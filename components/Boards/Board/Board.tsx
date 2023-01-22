@@ -113,6 +113,7 @@ function BoardSettings({ mutationUrl, board }) {
         }}
       >
         <MenuItem
+          disabled={board.archived}
           onClick={() => {
             handleClose();
             window.navigator.share({
@@ -138,6 +139,7 @@ function BoardSettings({ mutationUrl, board }) {
         )}
 
         <MenuItem
+          disabled={board.archived}
           onClick={() => {
             setRenameOpen(true);
             handleClose();
@@ -149,17 +151,22 @@ function BoardSettings({ mutationUrl, board }) {
 
         <ConfirmationModal
           title="Archive board?"
-          question="Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
+          question={
+            board.archived
+              ? "Are you sure you want to unarchive this board?"
+              : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
+          }
           callback={async () => {
             await fetchApiWithoutHook("property/boards/archiveBoard", {
               id: board.id,
+              archive: !board.archived,
             });
             await mutate(mutationUrl);
           }}
         >
           <MenuItem onClick={handleClose}>
             <Icon className="outlined">inventory_2</Icon>
-            Archive
+            {board.archived ? "Unarchive" : "Archive"}
           </MenuItem>
         </ConfirmationModal>
         <ConfirmationModal
@@ -172,7 +179,7 @@ function BoardSettings({ mutationUrl, board }) {
             await mutate(mutationUrl);
           }}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleClose} disabled={board.archived}>
             <Icon className="outlined">delete</Icon>
             Delete
           </MenuItem>
@@ -349,7 +356,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
               tasks={data.map((column) => column.tasks).flat()}
               checkList={board.columns.length === 1}
               mutationUrl={url}
-              boardId={board.id}
+              board={board}
               column={column}
             />
           ))}

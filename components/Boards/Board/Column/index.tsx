@@ -24,7 +24,7 @@ import { ConfirmationModal } from "../../../ConfirmationModal";
 function CompletedTasks({
   checkList,
   mutationUrl,
-  boardId,
+  board,
   columnTasks,
   column,
 }) {
@@ -100,7 +100,7 @@ function CompletedTasks({
               checkList={checkList}
               task={task}
               mutationUrl={mutationUrl}
-              boardId={boardId}
+              board={board}
               columnId={column.id}
             />
           ))}
@@ -147,7 +147,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
   );
 }
 
-function OptionsMenu({ setCurrentColumn, mutationUrl, column }) {
+function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
   const [open, setOpen] = React.useState(false);
   const styles = {
     width: "100%",
@@ -319,7 +319,7 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column }) {
         disableRipple
         sx={{
           flexShrink: 0,
-          // background: "rgba(200,200,200,.3)!important",
+          display: board.archived ? "none" : "",
           ml: "auto",
           transition: "none!important",
           "&:hover,&:active": {
@@ -337,7 +337,7 @@ export const Column = React.memo(function Column({
   setCurrentColumn,
   checkList,
   mutationUrl,
-  boardId,
+  board,
   column,
   tasks,
 }: any) {
@@ -451,6 +451,7 @@ export const Column = React.memo(function Column({
               </Typography>
             </Box>
             <OptionsMenu
+              board={board}
               column={column}
               mutationUrl={mutationUrl}
               setCurrentColumn={setCurrentColumn}
@@ -467,7 +468,7 @@ export const Column = React.memo(function Column({
               checkList={checkList}
               task={task}
               mutationUrl={mutationUrl}
-              boardId={boardId}
+              board={board}
               columnId={column.id}
             />
           ))}
@@ -501,27 +502,28 @@ export const Column = React.memo(function Column({
                 tasks={tasks}
                 checkList={checkList}
                 mutationUrl={mutationUrl}
-                boardId={boardId}
+                boardId={board.id}
               />
             </Box>
           )}
-        {!(
-          columnTasks.filter((task) => task.completed).length ==
-            columnTasks.length && columnTasks.length >= 1
-        ) && (
-          <CreateTask
-            column={column}
-            tasks={tasks}
-            checkList={checkList}
-            mutationUrl={mutationUrl}
-            boardId={boardId}
-          />
-        )}
+        {!board.archived &&
+          !(
+            columnTasks.filter((task) => task.completed).length ==
+              columnTasks.length && columnTasks.length >= 1
+          ) && (
+            <CreateTask
+              column={column}
+              tasks={tasks}
+              checkList={checkList}
+              mutationUrl={mutationUrl}
+              boardId={board.id}
+            />
+          )}
 
         <CompletedTasks
           checkList={checkList}
           mutationUrl={mutationUrl}
-          boardId={boardId}
+          board={board}
           columnTasks={columnTasks}
           column={column}
         />

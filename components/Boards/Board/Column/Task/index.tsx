@@ -50,7 +50,7 @@ const renderText = (txt) =>
   );
 
 export const Task = React.memo(function Task({
-  boardId,
+  board,
   columnId,
   mutationUrl,
   task,
@@ -152,7 +152,7 @@ export const Task = React.memo(function Task({
         setChecked={setChecked}
         task={task}
         columnId={columnId}
-        boardId={boardId}
+        board={board}
         open={open}
         setOpen={setOpen}
         BpIcon={BpIcon}
@@ -298,7 +298,10 @@ export const Task = React.memo(function Task({
                 }}
               >
                 <Checkbox
-                  disabled={global.permission === "read-only"}
+                  disabled={
+                    (board && board.archived) ||
+                    global.permission === "read-only"
+                  }
                   disableRipple
                   checked={checked}
                   onChange={(e) => {
@@ -377,6 +380,7 @@ export const Task = React.memo(function Task({
       )}
       {task.subTasks.map((subtask) => (
         <SubTask
+          board={board}
           checkList={checkList}
           mutationUrl={mutationUrl}
           setOpen={setOpen}

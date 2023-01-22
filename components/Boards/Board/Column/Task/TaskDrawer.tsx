@@ -31,7 +31,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   checked,
   setChecked,
   task,
-  boardId,
+  board,
   open,
   setOpen,
   BpIcon,
@@ -138,7 +138,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         <Typography sx={{ mx: "auto", opacity: { sm: 0 } }}>Details</Typography>
         <IconButton
           disableRipple
-          disabled={global.permission === "read-only"}
+          disabled={
+            (board && board.archived) || global.permission === "read-only"
+          }
           sx={{
             "-webkit-app-region": "no-drag",
           }}
@@ -160,7 +162,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         >
           <Box sx={{ height: "100%", alignSelf: "flex-start", pt: 2 }}>
             <Checkbox
-              disabled={global.permission === "read-only"}
+              disabled={
+                (board && board.archived) || global.permission === "read-only"
+              }
               disableRipple
               checked={checked}
               onChange={(e) => {
@@ -183,11 +187,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
-            <TextField multiline
-              disabled={global.permission === "read-only"}
-              defaultValue={task.name.replace(/\n/g, '')}
+            <TextField
+              multiline
+              disabled={
+                (board && board.archived) || global.permission === "read-only"
+              }
+              defaultValue={task.name.replace(/\n/g, "")}
               onBlur={(e: any) => {
-                e.target.value = e.target.value.replace(/\n/g, '')
+                e.target.value = e.target.value.replace(/\n/g, "");
                 fetchApiWithoutHook("property/boards/editTask", {
                   name: e.target.value,
                   id: task.id,
@@ -200,7 +207,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               InputProps={{
                 sx: {
                   fontSize: "40px",
-                 // height: "70px",
+                  // height: "70px",
                   mb: 3,
                   borderRadius: 4,
                 },
@@ -299,7 +306,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                     mutate(mutationUrl);
                   });
                 }}
-                disabled={global.permission === "read-only"}
+                disabled={
+                  (board && board.archived) || global.permission === "read-only"
+                }
                 placeholder={
                   global.permission === "read-only"
                     ? "Add a description. Wait you can't because you have no permission 😂"
@@ -321,7 +330,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             <ImageViewer url={task.image} />
           </Box>
         )}
-        {view === "Details" && (
+        {!(board && board.archived) && view === "Details" && (
           <Box
             ref={emblaRef}
             sx={{
@@ -365,17 +374,20 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 checkList={false}
                 key={subtask.id}
                 noMargin
+                board={board}
                 BpIcon={BpIcon}
                 BpCheckedIcon={BpCheckedIcon}
                 subtask={subtask}
               />
             ))}
-            <CreateTask
-              parent={task.id}
-              boardId={boardId}
-              columnId={columnId}
-              mutationUrl={mutationUrl}
-            />
+            {!(board && board.archived) && (
+              <CreateTask
+                parent={task.id}
+                boardId={board.id}
+                columnId={columnId}
+                mutationUrl={mutationUrl}
+              />
+            )}
           </Box>
         )}
       </Box>

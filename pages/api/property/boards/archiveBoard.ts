@@ -21,7 +21,7 @@ const handler = async (req, res) => {
       id: req.query.id,
     },
     data: {
-      archived: true,
+      archived: req.query.archive === "true",
     },
   });
 
