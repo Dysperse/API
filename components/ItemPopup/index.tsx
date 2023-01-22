@@ -1,7 +1,6 @@
 import type { Item as ItemType } from "@prisma/client";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -280,18 +279,6 @@ const Item = React.memo(function Item({
         onClose={() => setDrawerState(false)}
         onOpen={() => setDrawerState(true)}
       >
-        {drawerState && (
-          <Head>
-            <title>
-              {item.name} &bull; {data.room} &bull;{" "}
-              {global.property.profile.name.replace(/./, (c) =>
-                c.toUpperCase()
-              )}{" "}
-              &bull; Dysperse
-            </title>
-          </Head>
-        )}
-
         <Box
           sx={{
             flexGrow: 1,
@@ -322,7 +309,10 @@ const Item = React.memo(function Item({
                   <TextField
                     defaultValue={item.name || "(no title)"}
                     variant="standard"
-                    multiline
+                    // multiline
+                    onKeyDown={(e: any) => {
+                      if (e.key == "Enter") e.target.bur();
+                    }}
                     InputProps={{
                       disableUnderline: true,
                       sx: {

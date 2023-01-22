@@ -1,7 +1,7 @@
 import { Item as ItemType } from "@prisma/client";
 import BoringAvatar from "boring-avatars";
 import { useState } from "react";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
@@ -79,6 +79,11 @@ export function CategoryModal({
                       ]),
                     });
                   }
+                  alert(item.category);
+                  fetchApiWithoutHook("property/inventory/edit", {
+                    category: item.category,
+                    id: item.id,
+                  });
                 }}
               >
                 <Box
