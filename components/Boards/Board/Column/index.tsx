@@ -421,7 +421,7 @@ export const Column = React.memo(function Column({
             <Box
               sx={{
                 maxWidth: { xs: "calc(100% - 150px)", sm: "100%" },
-                mx: 1,
+                mx: { xs: 1, sm: 0 },
               }}
             >
               <Tooltip title={column.name}>
