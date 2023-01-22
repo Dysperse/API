@@ -134,7 +134,7 @@ export function KeyboardShortcutsModal() {
             ],
           },
         ].map((group, index) => (
-          <>
+          <React.Fragment key={group.name}>
             <Typography sx={{ mt: index === 0 ? 0 : 2, fontWeight: "700" }}>
               {group.name}
             </Typography>
@@ -150,7 +150,7 @@ export function KeyboardShortcutsModal() {
                 </Box>
               </Typography>
             ))}
-          </>
+          </React.Fragment>
         ))}
       </Box>
     </Dialog>
