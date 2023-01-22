@@ -654,7 +654,10 @@ const Item = React.memo(function Item({
                         )}
                       </div>
                     </Box>
-                    <Typography variant="body1" sx={{ ml: "auto" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{ ml: "auto", flexShrink: 0 }}
+                    >
                       {displayRoom
                         ? data.room
                         : item.quantity.substring(0, 18) || ""}

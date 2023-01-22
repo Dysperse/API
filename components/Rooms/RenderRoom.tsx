@@ -45,7 +45,7 @@ export function RenderRoom({ data, index }: { data: Item[]; index: string }) {
           },
         }}
       >
-        <Masonry columns={{ xs: 1, sm: 3 }} spacing={{ xs: 0, sm: 2 }}>
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
           {items.length === 0 ? (
             <Paper
               sx={{
