@@ -253,25 +253,12 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
         }}
       >
         <Tooltip title="Previous column" placement="top">
-          <Button
-            sx={{
-              borderRadius: 999,
-              minWidth: "auto",
-              px: 1.5,
-              color:
-                currentColumn <= 0
-                  ? global.user.darkMode
-                    ? "#ccc"
-                    : "#aaa"
-                  : global.user.darkMode
-                  ? "#fff"
-                  : "#000",
-            }}
-            onClick={() => setCurrentColumn(currentColumn - 1)}
-            disabled={currentColumn <= 0}
-          >
-            <Icon
+          <span>
+            <Button
               sx={{
+                borderRadius: 999,
+                minWidth: "auto",
+                px: 1.5,
                 color:
                   currentColumn <= 0
                     ? global.user.darkMode
@@ -281,10 +268,25 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
                     ? "#fff"
                     : "#000",
               }}
+              onClick={() => setCurrentColumn(currentColumn - 1)}
+              disabled={currentColumn <= 0}
             >
-              west
-            </Icon>
-          </Button>
+              <Icon
+                sx={{
+                  color:
+                    currentColumn <= 0
+                      ? global.user.darkMode
+                        ? "#ccc"
+                        : "#aaa"
+                      : global.user.darkMode
+                      ? "#fff"
+                      : "#000",
+                }}
+              >
+                west
+              </Icon>
+            </Button>
+          </span>
         </Tooltip>
 
         <Tooltip title="New task" placement="top">
@@ -312,25 +314,12 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
         </Tooltip>
 
         <Tooltip title="Next column" placement="top">
-          <Button
-            sx={{
-              borderRadius: 999,
-              minWidth: "auto",
-              px: 1.5,
-              color:
-                data && currentColumn >= data.length - 1
-                  ? global.user.darkMode
-                    ? "#ccc"
-                    : "#aaa"
-                  : global.user.darkMode
-                  ? "#fff"
-                  : "#000",
-            }}
-            onClick={() => setCurrentColumn(currentColumn + 1)}
-            disabled={data && currentColumn >= data.length - 1}
-          >
-            <Icon
+          <span>
+            <Button
               sx={{
+                borderRadius: 999,
+                minWidth: "auto",
+                px: 1.5,
                 color:
                   data && currentColumn >= data.length - 1
                     ? global.user.darkMode
@@ -340,10 +329,25 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
                     ? "#fff"
                     : "#000",
               }}
+              onClick={() => setCurrentColumn(currentColumn + 1)}
+              disabled={data && currentColumn >= data.length - 1}
             >
-              east
-            </Icon>
-          </Button>
+              <Icon
+                sx={{
+                  color:
+                    data && currentColumn >= data.length - 1
+                      ? global.user.darkMode
+                        ? "#ccc"
+                        : "#aaa"
+                      : global.user.darkMode
+                      ? "#fff"
+                      : "#000",
+                }}
+              >
+                east
+              </Icon>
+            </Button>
+          </span>
         </Tooltip>
       </Box>
       {data &&

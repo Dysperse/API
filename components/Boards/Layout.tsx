@@ -428,6 +428,7 @@ export function TasksLayout() {
             (board) =>
               activeTab === board.id && (
                 <Board
+                  key={board.id}
                   mutationUrl={url}
                   board={board}
                   setDrawerOpen={setOpen}
