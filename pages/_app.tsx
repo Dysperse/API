@@ -159,9 +159,9 @@ function RenderWithLayout({
             transition: "none",
             textTransform: "none",
             "&.Mui-disabled": {
-              background: `${
-                colors["grey"][global.user.darkMode ? 900 : 200]
-              }!important`,
+              // background: `${
+            //    colors["grey"][global.user.darkMode ? 900 : 200]
+             // }!important`,
             },
           },
         },
