@@ -269,7 +269,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
                     : "#000",
               }}
               onClick={() => setCurrentColumn(currentColumn - 1)}
-              disabled={currentColumn <= 0}
+              disabled={currentColumn <= 0} size="large"
             >
               <Icon
                 sx={{
@@ -290,7 +290,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
         </Tooltip>
 
         <Tooltip title="New task" placement="top">
-          <Button
+          <Button size="large
             sx={{
               color: "#000!important",
               background: colors[themeColor]["A100"] + "!important",
@@ -315,7 +315,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
 
         <Tooltip title="Next column" placement="top">
           <span>
-            <Button
+            <Button size="large
               sx={{
                 borderRadius: 999,
                 minWidth: "auto",
