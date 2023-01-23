@@ -10,7 +10,7 @@ export function OptionsGroup({ currentOption, setOption, options }) {
         width: "100%",
         gap: 0.1,
         background: `${
-          colors[themeColor][global.user.darkMode ? 900 : 100]
+          global.user.darkMode ? "hsl(240,11%,20%)" : colors[themeColor][100]
         }!important`,
       }}
       aria-label="outlined primary button group"
@@ -24,12 +24,17 @@ export function OptionsGroup({ currentOption, setOption, options }) {
           sx={{
             transition: "none!important",
             background: `${
-              colors[themeColor][global.user.darkMode ? 50 : 900]
+              global.user.darkMode
+                ? "hsl(240,11%,30%)"
+                : colors[themeColor][900]
             }!important`,
-            color: colors[themeColor][global.user.darkMode ? 900 : 50],
+
+            color: global.user.darkMode ? "#fff" : colors[themeColor][0],
             ...(currentOption !== option && {
               background: `${
-                colors[themeColor][global.user.darkMode ? 900 : 100]
+                global.user.darkMode
+                  ? "hsl(240,11%,20%)"
+                  : colors[themeColor][100]
               }!important`,
               color: `${
                 colors[themeColor][global.user.darkMode ? 50 : 900]

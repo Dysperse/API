@@ -521,7 +521,7 @@ export function CreateTask({
               backgroundColor: "hsl(240,11%,19%)!important",
             },
             "&:active": {
-              backgroundColor: "hsl(240,11%,16%)",
+              backgroundColor: "hsl(240,11%,16%)!important",
             },
           }),
           ...(!checkList && {

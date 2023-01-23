@@ -37,7 +37,8 @@ function CompletedTasks({
       }}
     >
       <Box
-        className="p-3 mb-2 dark:border-[hsl(240,11%,18%)] shadow-sm border flex border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
+        tabIndex={0}
+        className="p-3 mb-2 dark:border-[hsl(240,11%,18%)] dark:hover:border-[hsl(240,11%,25%)] shadow-sm border flex border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
           border: { sm: "none!important" },
           "& *": {
@@ -48,6 +49,11 @@ function CompletedTasks({
           }),
           "&:active": {
             background: "rgba(200,200,200,.3)",
+          },
+          "&:focus-visible": {
+            boxShadow: global.user.darkMode
+              ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+              : "0px 0px 0px 1.5px var(--themeDark) !important",
           },
           justifyContent: "space-between",
         }}
