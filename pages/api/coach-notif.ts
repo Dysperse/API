@@ -45,8 +45,8 @@ const Notification = async (req, res) => {
         .sendNotification(
           JSON.parse(notificationSubscription) as any,
           JSON.stringify({
-            title: "You have an upcoming maintenance task",
-            body: "Replace the AC filter",
+            title: "Let's work on your goals!",
+            body: "Tap to start your daily routine",
             actions: [
               {
                 title: "⚡ Start my daily routine",
