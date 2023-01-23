@@ -139,6 +139,16 @@ function RenderWithLayout({
               "!important",
             color: colors[themeColor][global.theme !== "dark" ? "50" : "800"],
           },
+          outlined: {
+            color: `${
+              colors[themeColor][global.theme == "dark" ? 50 : 800]
+            }!important`,
+            "&:hover": {
+              background:
+                colors[themeColor][global.theme !== "dark" ? "100" : "900"] +
+                "!important",
+            },
+          },
           text: {
             color: `${colors[themeColor][global.user.darkMode ? 50 : 700]}`,
           },

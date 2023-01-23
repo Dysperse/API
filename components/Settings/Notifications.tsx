@@ -2,12 +2,18 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
+  Divider,
   ListItem,
   ListItemText,
   Switch,
   useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";
 import { updateSettings } from "./updateSettings";
 
@@ -27,6 +33,8 @@ const base64ToUint8Array = (base64) => {
  * Top-level component for the notification settings page.
  */
 export default function Notifications() {
+  const { data, url, error } = useApi("user/notificationSettings");
+
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [subscription, setSubscription] = useState<any>(null);
   const [registration, setRegistration] = useState<any>(null);
@@ -97,78 +105,149 @@ export default function Notifications() {
     });
   };
 
-  const [periodicSyncSupported, setPeriodicSyncSupported] = useState(false);
-  useEffect(() => {
-    navigator.serviceWorker.ready.then((registration: any) => {
-      setPeriodicSyncSupported(registration.periodicSync);
+  const isInPwa = useMediaQuery(
+    "(display-mode: standalone), (display-mode: window-controls-overlay)"
+  );
+
+  const handleNotificationChange = async (name, value) => {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        await fetchApiWithoutHook("user/handleNotificationChange", {
+          name: name,
+          value: value,
+        });
+        await mutate(url);
+        resolve("");
+      } catch (error: any) {
+        reject(error.message);
+      }
     });
-  }, []);
 
-  const [todoListEnabled, setTodoListEnabled] = useState(false);
-
-  async function registerPeriodicSync() {
-    await registration.periodicSync.register("get-lists", {
-      minInterval: 1000 * 60 * 60 * 24,
+    toast.promise(promise, {
+      loading: "Saving...",
+      success: "Saved!",
+      error: "Failed to save",
     });
-  }
+  };
 
-  const isInPwa = useMediaQuery("(display-mode: standalone)");
+  const enabledOnAnotherDevice =
+    !isSubscribed && global.user.notificationSubscription;
 
   return isInPwa || process.env.NODE_ENV !== "production" ? (
-    <Box sx={{ mb: 2 }}>
-      <Alert severity="warning">
-        Notifications is still in beta, and you might encounter bugs. We
-        recommend you to turn this on later, but if you are curious - feel free
-        to try it out at your own risk!
-      </Alert>
-      {!periodicSyncSupported && (
-        <ErrorHandler error="Push notifications are not supported. Please use a supported browser, or the Dysperse app" />
-      )}
-      <ListItem>
-        <ListItemText
-          primary="Enable notifications"
-          secondary="Receive push notifications to your device"
-        />
-        <Switch
-          disabled={!periodicSyncSupported}
-          checked={isSubscribed}
-          onClick={(event) => {
-            if (isSubscribed) {
-              unsubscribeButtonOnClick(event);
-            } else {
-              subscribeButtonOnClick(event);
+    data ? (
+      <Box sx={{ mb: 2 }}>
+        <Alert
+          severity="warning"
+          variant="filled"
+          sx={{ borderRadius: 4, mb: 1 }}
+        >
+          Notifications is still in beta, and you might encounter bugs. We
+          recommend you to turn this on later, but if you are curious - feel
+          free to try it out at your own risk!
+        </Alert>
+        <ListItem>
+          <ListItemText
+            primary="Enable notifications"
+            secondary={
+              <>
+                <span
+                  style={{
+                    display: "block",
+                  }}
+                >
+                  Receive push notifications on one device
+                </span>
+                <Button
+                  onClick={sendNotificationButtonOnClick}
+                  disabled={!isSubscribed}
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    mt: 1,
+                    boxShadow: 0,
+                  }}
+                >
+                  Send test notification
+                </Button>
+              </>
             }
-          }}
-        />
-      </ListItem>
+          />
+          <button
+            style={{ display: "none" }}
+            id="enable-notifications"
+            onClick={(event) => subscribeButtonOnClick(event)}
+          ></button>
+          {enabledOnAnotherDevice ? (
+            <>
+              <ConfirmationModal
+                title="Recieve notifications on this device?"
+                question="If you've enabled notifications on another device, enabling them here will disable them on the other device."
+                callback={() =>
+                  document.getElementById("enable-notifications")?.click()
+                }
+              >
+                <Button variant="contained">Enable</Button>
+              </ConfirmationModal>
+            </>
+          ) : (
+            <Switch
+              checked={isSubscribed}
+              disabled={enabledOnAnotherDevice}
+              onClick={(event) => {
+                if (isSubscribed) {
+                  unsubscribeButtonOnClick(event);
+                } else {
+                  subscribeButtonOnClick(event);
+                }
+              }}
+            />
+          )}
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText
+            primary="To-do list updates"
+            secondary="Recieve notifiations when you set "
+          />
+          <Switch
+            checked={data.todoListUpdates}
+            onClick={(e: any) =>
+              handleNotificationChange("todoListUpdates", e.target.checked)
+            }
+          />
+        </ListItem>
 
-      <ListItem>
-        <ListItemText primary="To-do list updates" />
-        <Switch
-          checked={todoListEnabled}
-          onClick={() => {
-            registerPeriodicSync();
-            setTodoListEnabled(!todoListEnabled);
-          }}
-        />
-      </ListItem>
-
-      <Button
-        onClick={sendNotificationButtonOnClick}
-        disabled={!isSubscribed}
-        variant="contained"
-        fullWidth
-        size="large"
-        sx={{
-          boxShadow: 0,
-          mt: 2,
-          mb: 1,
-          borderRadius: 5,
-        }}
-      >
-        Send test notification
-      </Button>
-    </Box>
+        <ListItem>
+          <ListItemText
+            primary="Daily Coach reminders"
+            secondary="Get a nudge to complete your daily routine every day"
+          />
+          <Switch
+            checked={data.dailyRoutineNudge}
+            onClick={(e: any) =>
+              handleNotificationChange("dailyRoutineNudge", e.target.checked)
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primary="Low item count reminders (COMING SOON)"
+            secondary="Recieve a notification when you have less than 5 items in your inventory"
+          />
+          <Switch
+            disabled
+            checked={false}
+            onClick={(e: any) =>
+              handleNotificationChange("lowItemCount", e.target.checked)
+            }
+          />
+        </ListItem>
+      </Box>
+    ) : error ? (
+      <ErrorHandler error="An error occured while trying to fetch your notification settings" />
+    ) : (
+      <CircularProgress />
+    )
   ) : (
     <Box
       sx={{ p: 3, borderRadius: 5, background: "rgba(200,200,200,.3)", mb: 5 }}

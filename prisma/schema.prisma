@@ -8,18 +8,18 @@ datasource db {
 }
 
 model User {
-  id                       Int                  @id @unique @default(autoincrement())
-  identifier               String               @unique @default(cuid())
+  id                       Int                   @id @unique @default(autoincrement())
+  identifier               String                @unique @default(cuid())
   name                     String
-  email                    String               @unique
+  email                    String                @unique
   password                 String
-  darkMode                 Boolean              @default(false)
-  color                    String               @default("cyan")
-  onboardingComplete       Boolean              @default(false)
-  verifiedEmail            Boolean              @default(false)
-  trophies                 Int                  @default(0)
-  twoFactorSecret          String               @default("")
-  notificationSubscription String?              @db.VarChar(500)
+  darkMode                 Boolean               @default(false)
+  color                    String                @default("cyan")
+  onboardingComplete       Boolean               @default(false)
+  verifiedEmail            Boolean               @default(false)
+  trophies                 Int                   @default(0)
+  twoFactorSecret          String                @default("")
+  notificationSubscription String?               @db.VarChar(500)
   properties               PropertyInvite[]
   sessions                 Session[]
   PasswordResetToken       PasswordResetToken[]
@@ -27,6 +27,16 @@ model User {
   SpaceItem                SpaceItem[]
   CustomRoom               CustomRoom[]
   OAuthToken               OAuthToken[]
+  NotificationSettings     NotificationSettings?
+}
+
+model NotificationSettings {
+  id                Int     @id @default(autoincrement())
+  todoListUpdates   Boolean @default(true)
+  dailyRoutineNudge Boolean @default(true)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier])
 }
 
 model Session {
