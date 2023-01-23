@@ -584,7 +584,7 @@ export const Board = function Board({
           overflowX: "scroll",
           mt: data && board.columns.length === 1 ? -2 : 4,
           display: "flex",
-          gap: "10px",
+          gap: "15px",
           maxWidth: "100vw",
           pl: data && board.columns.length === 1 ? 0 : 3,
         }}

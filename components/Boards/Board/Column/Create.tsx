@@ -238,10 +238,8 @@ export function CreateColumn({
           >
             <Icon className="outlined">post_add</Icon> New column
           </MenuItem>
-        ) : (
-          <Button
-            disableRipple
-            disabled={hide || open || mobileOpen}
+        ) : hide || open || mobileOpen ? null : (
+          <Box
             onClick={() => {
               setOpen(true);
               setTimeout(() => {
@@ -249,44 +247,14 @@ export function CreateColumn({
                 container.scrollLeft += 20000;
               }, 10);
             }}
-            size="large"
+            className="p-4 px-5 mb-2 dark:border-[hsl(240,11%,18%)] border flex hover:border-gray-300 rounded-xl dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none gap-3 mr-10 shadow-lg pr-5"
             sx={{
-              display: { xs: "none", sm: "flex" },
-              width: "350px",
               whiteSpace: "nowrap",
-              borderRadius: 5,
-              justifyContent: "flex-start",
-              py: 2,
-              pl: 3,
-              mr: 4,
-              gap: 2,
-              color: colors[themeColor][700],
               transition: "none!important",
-              backgroundColor: global.user.darkMode
-                ? "hsl(240,11%,15%)"
-                : "rgba(200, 200, 200, 0.3)!important",
-              border: global.user.darkMode
-                ? "1px solid hsl(240,11%,25%)"
-                : "1px solid rgba(200, 200, 200, 0.5)!important",
-              "&:hover": {
-                color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
-              },
-              "&:active": {
-                color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
-                border: global.user.darkMode
-                  ? "1px solid hsl(240,11%,30%)!important"
-                  : "1px solid rgba(200, 200, 200, 0.9)!important",
-                backgroundColor: global.user.darkMode
-                  ? "hsl(240,11%,15%)"
-                  : "rgba(200, 200, 200, 0.5)!important",
-                boxShadow: global.user.darkMode
-                  ? "0 0 0 1px hsl(240,11%,30%) inset"
-                  : "0 0 0 1px rgba(200, 200, 200, 0.9) inset",
-              },
             }}
           >
             <Icon className="outlined">add_circle</Icon> Create column
-          </Button>
+          </Box>
         )}
       </Box>
     </>
