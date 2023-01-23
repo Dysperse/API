@@ -30,8 +30,8 @@ self.addEventListener("notificationclick", function (event) {
   let path = "/";
 
   switch (event.action) {
-    case 'startDailyRoutine':
-      path = "/coach#daily-routine"
+    case "startDailyRoutine":
+      path = "/coach#daily-routine";
       break;
   }
 
