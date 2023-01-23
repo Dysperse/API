@@ -7,6 +7,7 @@ const Notification = async (req, res) => {
       req.headers.authorization !== `Bearer ${process.env.COACH_CRON_API_KEY}`
     ) {
       res.status(401).json({
+        currentHeaders: req.headers.authorization,
         error: "Unauthorized",
       });
       return;
