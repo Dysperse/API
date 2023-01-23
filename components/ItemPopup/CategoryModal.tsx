@@ -16,6 +16,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
@@ -24,12 +25,9 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const handleSubmit = () => {
     const category = ref.current.value;
     if (JSON.parse(item.category).includes(category)) {
-      setItemData({
-        ...item,
-        category: JSON.stringify(
-          JSON.parse(item.category).filter((c: string) => c !== category)
-        ),
-      });
+      toast("Category already exists");
+      ref.current.value = "";
+      return;
     } else {
       setItemData({
         ...item,
