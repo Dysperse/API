@@ -460,6 +460,20 @@ export const Column = React.memo(function Column({
         )}
       </Box>
       <Box>
+        {!board.archived &&
+          !(
+            columnTasks.filter((task) => task.completed).length ==
+              columnTasks.length && columnTasks.length >= 1
+          ) && (
+            <CreateTask
+              column={column}
+              tasks={tasks}
+              checkList={checkList}
+              mutationUrl={mutationUrl}
+              boardId={board.id}
+            />
+          )}
+
         {columnTasks
           .filter((task) => !task.completed)
           .map((task) => (
@@ -506,20 +520,6 @@ export const Column = React.memo(function Column({
               />
             </Box>
           )}
-        {!board.archived &&
-          !(
-            columnTasks.filter((task) => task.completed).length ==
-              columnTasks.length && columnTasks.length >= 1
-          ) && (
-            <CreateTask
-              column={column}
-              tasks={tasks}
-              checkList={checkList}
-              mutationUrl={mutationUrl}
-              boardId={board.id}
-            />
-          )}
-
         <CompletedTasks
           checkList={checkList}
           mutationUrl={mutationUrl}

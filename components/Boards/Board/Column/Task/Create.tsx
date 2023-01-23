@@ -507,7 +507,7 @@ export function CreateTask({
       <ListItem
         // disabled={global.permission === "read-only"}
         id="createTask"
-        className="p-1 shadow-sm border dark:border-[hsl(240,11%,18%)] border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
+        className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
         sx={{
           color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
           p: {
@@ -523,9 +523,19 @@ export function CreateTask({
               backgroundColor: "hsl(240,11%,16%)",
             },
           }),
-          boxShadow: { sm: "none!important" },
-          gap: "10px!important",
-          mb: 1.5,
+          ...(!checkList && {
+            boxShadow: {
+              sm: "none!important",
+            },
+            border: {
+              sm: "none!important",
+            },
+          }),
+          gap: "5px!important",
+          mb: {
+            xs: 1.5,
+            sm: checkList ? 1.5 : 0,
+          },
           ...(tasks &&
             tasks.filter((task) => task.completed && task.columnId == column.id)
               .length ==
@@ -544,19 +554,21 @@ export function CreateTask({
         <span
           className="material-symbols-outlined"
           style={{
-            marginTop: "4px",
-            marginBottom: "4px",
+            marginTop: "7px",
+            marginBottom: "7px",
+            border: "2px solid #505050",
+            borderRadius: "10px",
             color: global.user.darkMode
               ? "rgba(255,255,255,.6)"
               : checkList
               ? "#303030"
               : "#505050",
-            marginLeft: !allCompleted ? "10px" : "7px",
+            marginLeft: !allCompleted ? "10px" : "9px",
             marginRight: "5px",
-            fontSize: "30px",
+            fontSize: "20px",
           }}
         >
-          add_circle
+          add
         </span>
 
         {allCompleted && (
@@ -566,6 +578,7 @@ export function CreateTask({
               <span
                 style={{
                   fontWeight: 300,
+                  color: "#505050",
                 }}
               >
                 {parent ? "New subtask" : "New list item"}
