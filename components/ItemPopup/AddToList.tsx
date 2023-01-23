@@ -1,6 +1,5 @@
 import type { Item as ItemType } from "@prisma/client";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import type { ApiResponse } from "../../types/client";
@@ -19,6 +18,91 @@ import {
   ListItemText,
   Skeleton,
 } from "@mui/material";
+import { toast } from "react-hot-toast";
+
+function BoardModal({ handleClose, title, list }) {
+  const [open, setOpen] = useState(false);
+
+  const handleClick = async (column) => {
+    try {
+      await fetchApiWithoutHook("property/boards/createTask", {
+        title,
+        description: "(Imported from inventory)",
+        pinned: "false",
+
+        boardId: list.id,
+        columnId: column.id,
+      });
+      toast.success("Task created");
+    } catch (e) {
+      toast.error("An error occured while trying to create a task");
+    }
+  };
+
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        PaperProps={{
+          sx: {
+            width: "400px",
+            maxWidth: "calc(100vw - 20px)",
+            borderRadius: "28px",
+            p: 2,
+          },
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: "800" }}>
+          Select a column
+          <DialogContentText
+            id="alert-dialog-slide-description"
+            sx={{ mt: 1, mb: 2 }}
+          >
+            {list.name}
+          </DialogContentText>
+          {list.columns.map((column) => (
+            <ListItem
+              disablePadding
+              key={list.id.toString()}
+              disabled={global.permission === "read-only"}
+            >
+              <ListItemButton
+                sx={{
+                  borderRadius: 5,
+                  py: 0.5,
+                  px: 2,
+                  transition: "none",
+                  gap: 2,
+                }}
+                onClick={() => handleClick(column)}
+              >
+                <picture>
+                  <img src={column.emoji} alt={column.name} width={25} />
+                </picture>
+                <ListItemText primary={column.name} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </DialogTitle>
+      </Dialog>
+      <ListItem
+        disablePadding
+        key={list.id.toString()}
+        disabled={global.permission === "read-only"}
+      >
+        <ListItemButton
+          sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
+          onClick={() => setOpen(true)}
+        >
+          <ListItemText primary={list.name} secondary={list.description} />
+        </ListItemButton>
+      </ListItem>
+    </>
+  );
+}
 
 /**
  * Description
@@ -33,7 +117,7 @@ function RoomList({
   title: string;
   handleClose: () => void;
 }): JSX.Element {
-  const { data, error }: ApiResponse = useApi("property/lists");
+  const { data, error }: ApiResponse = useApi("property/boards");
 
   if (error) {
     return (
@@ -54,27 +138,12 @@ function RoomList({
   return (
     <List sx={{ mt: -1 }}>
       {data.map((list: any) => (
-        <ListItem
-          disablePadding
-          key={list.id.toString()}
-          disabled={global.permission === "read-only"}
-        >
-          <ListItemButton
-            sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
-            onClick={() => {
-              fetchApiWithoutHook("property/lists/createItem", {
-                list: list.id,
-                name: title,
-                details: "",
-              }).then(() => {
-                toast.success("Added item!");
-                handleClose();
-              });
-            }}
-          >
-            <ListItemText primary={list.name} secondary={list.description} />
-          </ListItemButton>
-        </ListItem>
+        <BoardModal
+          list={list}
+          title={title}
+          handleClose={handleClose}
+          key={list.id}
+        />
       ))}
     </List>
   );
