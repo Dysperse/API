@@ -382,6 +382,7 @@ export const Column = React.memo(function Column({
           xs: checkList ? 4 : 0,
           sm: checkList ? 4 : 2,
         },
+        border: { xs "none!important", sm: "" },
         borderRadius: 5,
         ...(checkList && {
           flex: "0 0 100%!important",
