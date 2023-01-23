@@ -248,6 +248,7 @@ function DailyRoutine() {
           position="static"
           sx={{
             zIndex: 1,
+            color: "#fff",
             background: "linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,0))",
           }}
         >

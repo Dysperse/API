@@ -68,7 +68,7 @@ export function Navbar(): JSX.Element {
             : "rgba(255,255,255,.8)",
           sm: global.user.darkMode
             ? "rgba(23, 23, 28, .8)"
-            : "rgba(255,255,255,.9)",
+            : "rgba(255,255,255,.7)",
         },
         borderBottom: global.user.darkMode
           ? "1px solid rgba(255,255,255,0.1)"
