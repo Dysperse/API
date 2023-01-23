@@ -27,6 +27,14 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
+  let path = "/";
+
+  switch (event.action) {
+    case 'startDailyRoutine':
+      path = "/coach#daily-routine"
+      break;
+  }
+
   event.waitUntil(
     clients
       .matchAll({ type: "window", includeUncontrolled: true })
@@ -40,7 +48,7 @@ self.addEventListener("notificationclick", function (event) {
           }
           return client.focus();
         }
-        return clients.openWindow("/");
+        return clients.openWindow(path);
       })
   );
 });
@@ -75,10 +83,10 @@ const getLists = () => {
 
         fetch(
           "/api/property/lists?" +
-            new URLSearchParams({
-              property: propertyId,
-              accessToken,
-            })
+          new URLSearchParams({
+            property: propertyId,
+            accessToken,
+          })
         )
           .then((result) => result.json())
           .then(async (result) => {
