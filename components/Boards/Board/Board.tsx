@@ -259,6 +259,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
                 borderRadius: 999,
                 minWidth: "auto",
                 px: 1.5,
+py: 1,
                 color:
                   currentColumn <= 0
                     ? global.user.darkMode
@@ -292,6 +293,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
         <Tooltip title="New task" placement="top">
           <Button size="large"
             sx={{
+py: 1,
               color: "#000!important",
               background: colors[themeColor]["A100"] + "!important",
               borderRadius: 999,
@@ -320,6 +322,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
                 borderRadius: 999,
                 minWidth: "auto",
                 px: 1.5,
+py: 1,
                 color:
                   data && currentColumn >= data.length - 1
                     ? global.user.darkMode
