@@ -383,11 +383,11 @@ export const Board = function Board({
     maxWidth: "100%",
     px: 1,
     mb: 0.2,
-    color: global.user.darkMode ? "hsl(240,11%,70%)" : "#404040",
+    color: global.user.darkMode ? "hsl(240,11%,80%)" : "#404040",
     cursor: "auto!important",
     userSelect: "none",
     "&:hover": {
-      color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
+      color: global.user.darkMode ? "hsl(240,11%,85%)" : "#303030",
       background: global.user.darkMode
         ? "hsl(240,11%,13%)"
         : "rgba(200,200,200,.3)",

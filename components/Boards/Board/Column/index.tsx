@@ -39,6 +39,7 @@ function CompletedTasks({
       <Box
         className="p-3 mb-2 dark:border-[hsl(240,11%,18%)] shadow-sm border flex border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
+          border: { sm: "none!important" },
           "& *": {
             transition: "none!important",
           },
@@ -82,7 +83,7 @@ function CompletedTasks({
           onChange={(e) => setValue(e.target.value)}
           InputProps={{
             className:
-              "p-3 py-2 pb-1 shadow-sm border border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none",
+              "p-3 py-2 pb-1 shadow-sm border border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none dark:border-[hsl(240,11%,18%)] ",
             disableUnderline: true,
             sx: {
               mb: 1,
