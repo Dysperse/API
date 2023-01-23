@@ -15,7 +15,7 @@ import {
   SwipeableDrawer,
   TextField,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
@@ -123,22 +123,25 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
         PaperProps={{
           sx: {
             width: "100%",
-            maxWidth: "50vw",
+            maxWidth: "400px",
+            mb: { sm: 2 },
+            borderRadius: { xs: "20px 20px 0 0", sm: 4 },
           },
         }}
       >
-        <div className="p-2">
-          <EmojiPicker
-            // theme={global.user.darkMode ? "dark" : "light"}
-            lazyLoadEmojis={true}
-            width="100%"
-            onEmojiClick={(event) => {
-              const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
-              setEmoji(url);
-              setOpen(false);
-            }}
-          />
-        </div>
+        <EmojiPicker
+          // theme={global.user.darkMode ? "dark" : "light"}
+          skinTonePickerLocation={"PREVIEW" as any}
+          theme={(global.user.darkMode?"dark":"light") as any}
+
+          lazyLoadEmojis={true}
+          width="100%"
+          onEmojiClick={(event) => {
+            const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
+            setEmoji(url);
+            setOpen(false);
+          }}
+        />
       </SwipeableDrawer>
       <Button onClick={() => setOpen(true)}>
         <picture>
@@ -213,7 +216,6 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
             <EmojiPickerModal
               emoji={emoji}
               setEmoji={setEmoji}
-              // theme={global.user.darkMode ? "dark" : "light"}
               lazyLoadEmojis={true}
             />
           )}

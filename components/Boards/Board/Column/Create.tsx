@@ -195,26 +195,24 @@ export function CreateColumn({
         disableSwipeToOpen
         PaperProps={{
           sx: {
-            maxWidth: "600px",
-            maxHeight: "600px",
-            width: "auto",
-            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            mb: { sm: 5 },
+            width: "100%",
+            maxWidth: "400px",
+            mb: { sm: 2 },
+            borderRadius: { xs: "20px 20px 0 0", sm: 4 },
           },
         }}
       >
-        <Box sx={{ p: 3 }}>
-          <EmojiPicker
-            // theme={global.user.darkMode ? "dark" : "light"}
-            lazyLoadEmojis={true}
-            width="100%"
-            onEmojiClick={(event) => {
-              const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
-              setEmoji(url);
-              setShowEmojiPicker(false);
-            }}
-          />
-        </Box>
+        <EmojiPicker
+          skinTonePickerLocation={"PREVIEW" as any}
+          theme={(global.user.darkMode ? "dark" : "light") as any}
+          lazyLoadEmojis={true}
+          width="100%"
+          onEmojiClick={(event) => {
+            const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
+            setEmoji(url);
+            setShowEmojiPicker(false);
+          }}
+        />
       </SwipeableDrawer>
       {open && <Children mobile={false} />}
       <SwipeableDrawer
