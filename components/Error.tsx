@@ -19,9 +19,9 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
         p: 2,
         borderRadius: 5,
         display: "flex",
-        color: red[900],
-        background: red[50],
-        border: `1px solid ${red[100]}`,
+        color: red[global.user.darkMode ? 50 : 900],
+        background: red[global.user.darkMode ? 900 : 50],
+        border: `1px solid ${red[global.user.darkMode ? 800 : 100]}`,
         gap: 2,
         alignItems: "center",
       }}
