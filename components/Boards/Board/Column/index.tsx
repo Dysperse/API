@@ -347,19 +347,19 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[350px] sm:bg-gray-100 dark:sm:border-[hsla(240,11%,18%)] sm:border scroll-ml-7 sm:scroll-ml-10 snap-always snap-start border-gray-200 mb-10 dark:sm:bg-[hsl(240,11%,13%)]"
+      className="w-[370px] border border-gray-200 shadow-lg dark:sm:border-[hsla(240,11%,18%)] mb-10 dark:sm:bg-[hsl(240,11%,13%)]"
       sx={{
         display: "flex",
         flexDirection: "column",
         position: "relative",
         width: {
           xs: "calc(100vw - 50px)",
-          sm: "350px",
+          sm: "370px",
         },
         height: "100%",
         flex: {
           xs: "0 0 calc(100vw - 50px)",
-          sm: "0 0 350px",
+          sm: "0 0 370px",
         },
         p: 3,
         pt: { xs: 0, sm: 3 },

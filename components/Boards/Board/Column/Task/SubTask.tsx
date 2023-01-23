@@ -1,4 +1,4 @@
-import { Checkbox, Link, ListItem, ListItemText } from "@mui/material";
+import { Box, Checkbox, Link, ListItem } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import React, { useState } from "react";
@@ -115,7 +115,7 @@ export const SubTask = React.memo(function SubTask({
         }}
         onContextMenu={handleContextMenu}
         key={subtask.id}
-        className="p-1 shadow-sm border dark:border-[hsl(240,11%,18%)] border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
+        className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
         sx={{
           color: colors["brown"][global.user.darkMode ? "A100" : "A700"],
           p: {
@@ -136,13 +136,15 @@ export const SubTask = React.memo(function SubTask({
               backgroundColor: "hsl(240,11%,16%)",
             },
           }),
+          position: "relative",
+          overflow: "hidden",
           boxShadow: {
             sm: "none!important",
           },
           border: {
             sm: "none!important",
           },
-          gap: "10px!important",
+          gap: "5px!important",
           mb: {
             xs: 1.5,
             sm: 0,
@@ -170,18 +172,20 @@ export const SubTask = React.memo(function SubTask({
           icon={<BpIcon />}
           inputProps={{ "aria-label": "Checkbox demo" }}
         />
-        <ListItemText
-          primary={
-            <span
-              style={{
-                opacity: checked ? 0.5 : 1,
-                textDecoration: checked ? "line-through" : "none",
-              }}
-            >
-              {renderText(subtask.name)}
-            </span>
-          }
-        />
+        <Box
+          sx={{
+            overflow: "hidden",
+            fontWeight: "200",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            ...(checked && {
+              textDecoration: "line-through",
+              opacity: 0.7,
+            }),
+          }}
+        >
+          {renderText(subtask.name)}
+        </Box>
       </ListItem>
     </>
   );
