@@ -447,9 +447,17 @@ export const Board = function Board({
           }}
         >
           <Typography
+            tabIndex={0}
+            sx={{
+              ...boardSwitcherStyles,
+              "&:focus-visible": {
+                boxShadow: global.user.darkMode
+                  ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+                  : "0px 0px 0px 1.5px var(--themeDark) !important",
+              },
+            }}
             variant="h5"
             onClick={() => setDrawerOpen(true)}
-            sx={boardSwitcherStyles}
           >
             {board.name}
             <Icon>expand_more</Icon>

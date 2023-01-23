@@ -4,15 +4,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
 
-import {
-  Box,
-  Drawer,
-  Icon,
-  IconButton,
-  Tab,
-  Tabs,
-  Tooltip,
-} from "@mui/material";
+import { Box, Button, Drawer, Icon, Tab, Tabs, Tooltip } from "@mui/material";
 
 export function Sidebar() {
   const [value, setValue] = useState<number>(0);
@@ -75,6 +67,11 @@ export function Sidebar() {
         ? "hsl(240,11%,14%)"
         : colors[themeColor][50],
       // border: "1px solid #ccc",
+    },
+    "&:focus-visible span": {
+      boxShadow: global.user.darkMode
+        ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+        : "0px 0px 0px 1.5px var(--themeDark) !important",
     },
     "&:active .material-symbols-outlined": {
       background: global.user.darkMode
@@ -290,7 +287,14 @@ export function Sidebar() {
                 sx: { pointerEvents: "none" },
               }}
             >
-              <IconButton color="inherit" disableRipple sx={styles}>
+              <Button
+                color="inherit"
+                disableRipple
+                sx={{
+                  ...styles,
+                  background: "transparent!important",
+                }}
+              >
                 <Icon
                   className="material-symbols-outlined"
                   sx={{
@@ -299,7 +303,7 @@ export function Sidebar() {
                 >
                   settings
                 </Icon>
-              </IconButton>
+              </Button>
             </Tooltip>
           </Settings>
         </Box>

@@ -122,7 +122,9 @@ function RenderWithLayout({
         styleOverrides: {
           root: sx({
             "&:focus-visible": {
-              boxShadow: "0px 0px 0px 1.5px var(--themeDark) !important",
+              boxShadow: global.user.darkMode
+                ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+                : "0px 0px 0px 1.5px var(--themeDark) !important",
             },
           }),
         },

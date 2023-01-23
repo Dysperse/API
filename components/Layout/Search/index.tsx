@@ -262,15 +262,20 @@ export function SearchPopup({ styles }) {
             : `1px solid ${colors[themeColor][50]}`,
           "&:hover": {
             border: global.user.darkMode
-              ? "hsl(250,11%,15%)"
+              ? "hsl(250,11%,17%)"
               : `1px solid ${colors[themeColor][100]}`,
             background: global.user.darkMode
-              ? "hsl(240,11%,15%)!important"
+              ? "hsl(240,11%,20%)!important"
               : `${hexToRgba(colors[themeColor][100], 0.5)}!important`,
+          },
+          "&:focus-visible": {
+            boxShadow: global.user.darkMode
+              ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+              : "0px 0px 0px 1.5px var(--themeDark) !important",
           },
           transition: "none !important",
           "&:hover, &:active": {
-            cursor: "pointer",
+            cursor: "unset",
           },
           "&:active": {
             boxShadow:
@@ -304,7 +309,7 @@ export function SearchPopup({ styles }) {
               padding: "2px 5px",
               borderRadius: "5px",
               background: global.user.darkMode
-                ? "hsl(240,11%,20%)"
+                ? "hsla(240,11%,30%, .3)"
                 : colors[themeColor][100],
             }}
           >

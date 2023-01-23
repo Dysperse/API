@@ -67,12 +67,9 @@ function Products() {
             cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background:
-                colors[global.themeColor][global.user.darkMode ? 900 : 100],
-              // category.bg ??
-              // (global.user.darkMode
-              //   ? "hsl(240, 11%, 40%)"
-              //   : colors[global.themeColor][200]),
+              background: global.user.darkMode
+                ? "hsl(240,11%,30%)"
+                : colors[global.themeColor][100],
             },
             transition: "all .2s, background 0s",
             "&:before": {
@@ -176,8 +173,9 @@ function Apps() {
             cursor: "pointer",
             background: "transparent",
             "&:hover, &.Mui-expanded": {
-              background:
-                colors[global.themeColor][global.user.darkMode ? 900 : 100],
+              background: global.user.darkMode
+                ? "hsl(240,11%,30%)"
+                : colors[global.themeColor][100],
             },
             transition: "all .2s, background 0s",
             "&:before": {
@@ -328,8 +326,12 @@ export function AppsMenu({ styles }) {
 
           <Box
             sx={{
-              borderTop: "1px solid " + colors[themeColor][100],
-              mt: 3,
+              borderTop:
+                "1px solid " +
+                (global.user.darkMode
+                  ? "hsl(240,11%,30%)"
+                  : colors[themeColor][100]),
+              mt: 2,
               pt: 2,
             }}
           />

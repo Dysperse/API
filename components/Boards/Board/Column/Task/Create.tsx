@@ -488,8 +488,9 @@ export function CreateTask({
                       px: 2,
                       minWidth: "auto",
                       background:
-                        colors[themeColor][global.user.darkMode ? 100 : 900] +
-                        "!important",
+                        colors[themeColor][
+                          global.user.darkMode ? "A100" : 900
+                        ] + "!important",
                       color:
                         colors[themeColor][global.theme !== "dark" ? 50 : 900] +
                         "!important",

@@ -32,11 +32,15 @@ export function Navbar(): JSX.Element {
     color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
     transition: "opacity .2s",
     "&:hover": {
-      background: "rgba(200,200,200,.3)",
+      background: global.user.darkMode
+        ? "hsl(240,11%,15%)"
+        : "rgba(200,200,200,.3)",
       color: global.user.darkMode ? "hsl(240,11%,100%)" : "#000",
     },
     "&:active": {
-      background: "rgba(200,200,200,.5)",
+      background: global.user.darkMode
+        ? "hsl(240,11%,20%)"
+        : "rgba(200,200,200,.5)",
       transition: "none",
     },
   };
@@ -48,6 +52,9 @@ export function Navbar(): JSX.Element {
       sx={{
         paddingTop: "env(titlebar-area-height, 0px)",
         zIndex: 999,
+        "& *": {
+          cursor: "unset!important",
+        },
         color: {
           xs: global.user.darkMode
             ? "white"

@@ -108,6 +108,11 @@ export function InviteButton() {
           }, 50);
         }}
         sx={{
+          "&:focus-visible": {
+            boxShadow: global.user.darkMode
+              ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+              : "0px 0px 0px 1.5px var(--themeDark) !important",
+          },
           background: "transparent!important",
           color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
           "&:hover": {
@@ -116,6 +121,7 @@ export function InviteButton() {
               : "#eee!important",
             color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
           },
+          cursor: "unset",
           "&:active": {
             backgroundColor: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
@@ -126,7 +132,6 @@ export function InviteButton() {
               : "#000!important",
           },
           userSelect: "none",
-          cursor: "pointer",
           transition: "transform .2s",
           p: 1,
           py: 0,
