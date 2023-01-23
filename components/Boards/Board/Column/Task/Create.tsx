@@ -554,8 +554,8 @@ export function CreateTask({
         <span
           className="material-symbols-outlined"
           style={{
-            marginTop: "7px",
-            marginBottom: "7px",
+            marginTop: "10px",
+            marginBottom: "10px",
             border: "2px solid #505050",
             borderRadius: "10px",
             color: global.user.darkMode
@@ -577,7 +577,7 @@ export function CreateTask({
             primary={
               <span
                 style={{
-                  fontWeight: 300,
+                  fontWeight: 700,
                   color: "#505050",
                 }}
               >
@@ -587,6 +587,7 @@ export function CreateTask({
           />
         )}
       </ListItem>
+      {/* <Divider sx={{ my: 0.5 }} /> */}
     </>
   );
 }
