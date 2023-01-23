@@ -523,11 +523,12 @@ export const Board = function Board({
                 size="small"
                 color="warning"
                 icon={
-                  <Icon className="outlined" sx={{ color: "#fff" }}>
+                  <Icon className="outlined" sx={{ color: "#fff!important" }}>
                     inventory_2
                   </Icon>
                 }
                 sx={{
+                  color: "#fff!important",
                   pl: 0.5,
                 }}
                 label={"Archived"}

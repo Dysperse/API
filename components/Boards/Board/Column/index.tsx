@@ -15,7 +15,7 @@ import {
   SwipeableDrawer,
   TextField,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
@@ -132,8 +132,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
         <EmojiPicker
           // theme={global.user.darkMode ? "dark" : "light"}
           skinTonePickerLocation={"PREVIEW" as any}
-          theme={(global.user.darkMode?"dark":"light") as any}
-
+          theme={(global.user.darkMode ? "dark" : "light") as any}
           lazyLoadEmojis={true}
           width="100%"
           onEmojiClick={(event) => {
@@ -356,7 +355,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="w-[370px] border border-gray-200 shadow-lg dark:sm:border-[hsla(240,11%,18%)] mb-10 dark:sm:bg-[hsl(240,11%,13%)]"
+      className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10"
       sx={{
         display: "flex",
         flexDirection: "column",

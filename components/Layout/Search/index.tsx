@@ -1,10 +1,9 @@
-import hexToRgba from "hex-to-rgba";
-import { colors } from "../../../lib/colors";
-import { updateSettings } from "../../Settings/updateSettings";
-
 import { openSpotlight, SpotlightProvider } from "@mantine/spotlight";
 import { Button, Divider, Icon, IconButton, Tooltip } from "@mui/material";
+import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
+import { colors } from "../../../lib/colors";
+import { updateSettings } from "../../Settings/updateSettings";
 
 import {
   Badge,
@@ -226,111 +225,109 @@ export function SearchPopup({ styles }) {
   ];
 
   return (
-    <>
-      <SpotlightProvider
-        limit={7}
-        // highlightQuery
-        onSpotlightClose={() => {
-          document
-            .querySelector(`meta[name="theme-color"]`)
-            ?.setAttribute(
-              "content",
-              global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
-            );
-        }}
-        onSpotlightOpen={() => {
-          document
-            .querySelector(`meta[name="theme-color"]`)
-            ?.setAttribute("content", "#c0c0c0");
-        }}
-        actions={actions}
-        shortcut={["mod + K", "/"]}
-        searchIcon={<Icon>search</Icon>}
-        searchPlaceholder="Search..."
-        actionComponent={CustomAction}
-        nothingFoundMessage="Nothing found..."
-      >
-        <Button
-          disabled={!window.navigator.onLine}
-          onClick={() => openSpotlight()}
-          disableRipple
-          sx={{
-            WebkitAppRegion: "no-drag",
+    <SpotlightProvider
+      limit={7}
+      // highlightQuery
+      onSpotlightClose={() => {
+        document
+          .querySelector(`meta[name="theme-color"]`)
+          ?.setAttribute(
+            "content",
+            global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
+          );
+      }}
+      onSpotlightOpen={() => {
+        document
+          .querySelector(`meta[name="theme-color"]`)
+          ?.setAttribute("content", "#c0c0c0");
+      }}
+      actions={actions}
+      shortcut={["mod + K", "/"]}
+      searchIcon={<Icon>search</Icon>}
+      searchPlaceholder="Search..."
+      actionComponent={CustomAction}
+      nothingFoundMessage="Nothing found..."
+    >
+      <Button
+        disabled={!window.navigator.onLine}
+        onClick={() => openSpotlight()}
+        disableRipple
+        sx={{
+          WebkitAppRegion: "no-drag",
+          background: global.user.darkMode
+            ? "hsl(240,11%,15%)!important"
+            : `${colors[themeColor][50]}!important`,
+          border: global.user.darkMode
+            ? "hsl(240,11%,13%)"
+            : `1px solid ${colors[themeColor][50]}`,
+          "&:hover": {
+            border: global.user.darkMode
+              ? "hsl(250,11%,15%)"
+              : `1px solid ${colors[themeColor][100]}`,
             background: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
-              : `${colors[themeColor][50]}!important`,
-            border: global.user.darkMode
-              ? "hsl(240,11%,13%)"
-              : `1px solid ${colors[themeColor][50]}`,
-            "&:hover": {
-              border: global.user.darkMode
-                ? "hsl(250,11%,15%)"
-                : `1px solid ${colors[themeColor][100]}`,
+              : `${hexToRgba(colors[themeColor][100], 0.5)}!important`,
+          },
+          transition: "none !important",
+          "&:hover, &:active": {
+            cursor: "pointer",
+          },
+          "&:active": {
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          },
+          width: "30vw",
+          justifyContent: "start",
+          "& .MuiTouchRipple-rippleVisible": {
+            transitionDuration: ".2s!important",
+          },
+          px: 2,
+          ml: "auto",
+          cursor: "text",
+          color: global.user.darkMode
+            ? "hsl(240,11%,95%)!important"
+            : colors[themeColor][900],
+          display: { xs: "none", sm: "flex" },
+          height: "45px",
+          borderRadius: 3,
+          "&:hover .hover": {
+            opacity: 1,
+          },
+        }}
+        className={global.user.darkMode ? "rippleDark" : ""}
+      >
+        <Icon>search</Icon>
+        Jump to
+        <span className="hover" style={{ marginLeft: "auto" }}>
+          <span
+            style={{
+              padding: "2px 5px",
+              borderRadius: "5px",
               background: global.user.darkMode
-                ? "hsl(240,11%,15%)!important"
-                : `${hexToRgba(colors[themeColor][100], 0.5)}!important`,
-            },
-            transition: "none !important",
-            "&:hover, &:active": {
-              cursor: "pointer",
-            },
-            "&:active": {
-              boxShadow:
-                "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-            },
-            width: "30vw",
-            justifyContent: "start",
-            "& .MuiTouchRipple-rippleVisible": {
-              transitionDuration: ".2s!important",
-            },
-            px: 2,
-            ml: "auto",
-            cursor: "text",
-            color: global.user.darkMode
-              ? "hsl(240,11%,95%)!important"
-              : colors[themeColor][900],
-            display: { xs: "none", sm: "flex" },
-            height: "45px",
-            borderRadius: 3,
-            "&:hover .hover": {
-              opacity: 1,
-            },
-          }}
-          className={global.user.darkMode ? "rippleDark" : ""}
-        >
-          <Icon>search</Icon>
-          Jump to
-          <span className="hover" style={{ marginLeft: "auto" }}>
-            <span
-              style={{
-                padding: "2px 5px",
-                borderRadius: "5px",
-                background: global.user.darkMode
-                  ? "hsl(240,11%,20%)"
-                  : colors[themeColor][100],
-              }}
-            >
-              ⌘ &nbsp;K
-            </span>
-          </span>
-        </Button>
-        <Tooltip
-          title="Jump to"
-          PopperProps={{
-            sx: { mt: "-5px!important" },
-          }}
-        >
-          <IconButton
-            disabled={!window.navigator.onLine}
-            disableRipple
-            onClick={() => openSpotlight()}
-            color="inherit"
-            sx={{ ...styles, display: { sm: "none" } }}
+                ? "hsl(240,11%,20%)"
+                : colors[themeColor][100],
+            }}
           >
-            <Icon className="outlined">search</Icon>
-          </IconButton>
-        </Tooltip>
-      </SpotlightProvider>
-    </>
+            ⌘ &nbsp;K
+          </span>
+        </span>
+      </Button>
+      <Tooltip
+        title="Jump to"
+        PopperProps={{
+          sx: { mt: "-5px!important" },
+        }}
+      >
+        <IconButton
+          disabled={!window.navigator.onLine}
+          disableRipple
+          onClick={() => openSpotlight()}
+          color="inherit"
+          sx={{ ...styles, display: { sm: "none" } }}
+        >
+          <Icon className="outlined">search</Icon>
+        </IconButton>
+      </Tooltip>
+    </SpotlightProvider>
   );
 }
