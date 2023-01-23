@@ -258,7 +258,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
               sx={{
                 borderRadius: 999,
                 minWidth: "auto",
-                px: 1.5,
+                px: 2,
 py: 1,
                 color:
                   currentColumn <= 0
@@ -321,7 +321,7 @@ py: 1,
               sx={{
                 borderRadius: 999,
                 minWidth: "auto",
-                px: 1.5,
+                px: 2,
 py: 1,
                 color:
                   data && currentColumn >= data.length - 1
