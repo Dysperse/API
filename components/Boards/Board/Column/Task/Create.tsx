@@ -512,7 +512,7 @@ export function CreateTask({
           color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
           p: {
             xs: 1,
-            sm: 0,
+            sm: "0!important",
           },
           cursor: "unset!important",
           ...(global.user.darkMode && {
