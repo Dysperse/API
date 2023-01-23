@@ -30,8 +30,8 @@ self.addEventListener("notificationclick", function (event) {
   let path = "/";
 
   switch (event.action) {
-    case 'startDailyRoutine':
-      path = "/coach#daily-routine"
+    case "startDailyRoutine":
+      path = "/coach#daily-routine";
       break;
   }
 
@@ -83,10 +83,10 @@ const getLists = () => {
 
         fetch(
           "/api/property/lists?" +
-          new URLSearchParams({
-            property: propertyId,
-            accessToken,
-          })
+            new URLSearchParams({
+              property: propertyId,
+              accessToken,
+            })
         )
           .then((result) => result.json())
           .then(async (result) => {
