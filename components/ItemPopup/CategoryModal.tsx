@@ -1,6 +1,6 @@
 import { Item as ItemType } from "@prisma/client";
 import BoringAvatar from "boring-avatars";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
@@ -14,7 +14,87 @@ import {
   ListItem,
   ListItemText,
   SwipeableDrawer,
+  TextField,
 } from "@mui/material";
+import { mutate } from "swr";
+
+function CreateCategoryModal({ setItemData, item, mutationUrl }) {
+  const ref: any = useRef();
+  const [open, setOpen] = useState(false);
+  const handleSubmit = () => {
+    const category = ref.current.value;
+    if (JSON.parse(item.category).includes(category)) {
+      setItemData({
+        ...item,
+        category: JSON.stringify(
+          JSON.parse(item.category).filter((c: string) => c !== category)
+        ),
+      });
+    } else {
+      setItemData({
+        ...item,
+        category: JSON.stringify([...JSON.parse(item.category), category]),
+      });
+    }
+    setTimeout(() => {
+      fetchApiWithoutHook("property/inventory/edit", {
+        category: item.category,
+        id: item.id,
+      });
+      mutate(mutationUrl);
+      ref.current.value = "";
+    }, 100);
+  };
+
+  return (
+    <>
+      <Button
+        size="large"
+        variant="contained"
+        onClick={() => setOpen(true)}
+        sx={{
+          mt: 2,
+          width: "100%",
+          borderRadius: 999,
+        }}
+      >
+        Create
+      </Button>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+      >
+        <Puller />
+        <Box sx={{ p: 2, pt: 0 }}>
+          <TextField
+            label="Category name"
+            autoComplete="off"
+            margin="dense"
+            inputRef={ref}
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key == "Enter") {
+                handleSubmit();
+              }
+            }}
+          />
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            fullWidth
+            onClick={handleSubmit}
+          >
+            <Icon>add</Icon>
+            Create
+          </Button>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 /**
  * Category modal
@@ -27,7 +107,7 @@ export function CategoryModal({
   item: ItemType;
 }) {
   const [open, setOpen] = useState(false);
-  const { data, error } = useApi("property/inventory/categories");
+  const { data, url, error } = useApi("property/inventory/categories");
 
   return (
     <>
@@ -128,18 +208,11 @@ export function CategoryModal({
                 />
               </ListItem>
             ))}
-          <Button
-            size="large"
-            variant="contained"
-            sx={{
-              background: `${colors[themeColor][600]}!important`,
-              mt: 2,
-              width: "100%",
-              borderRadius: 999,
-            }}
-          >
-            Create
-          </Button>
+          <CreateCategoryModal
+            setItemData={setItemData}
+            item={item}
+            mutationUrl={url}
+          />
         </Box>
       </SwipeableDrawer>
       <Chip

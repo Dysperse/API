@@ -323,6 +323,7 @@ const Item = React.memo(function Item({
                         id: item.id,
                       });
                     }}
+                    placeholder="(no title)"
                     InputProps={{
                       disableUnderline: true,
                       sx: {
@@ -361,7 +362,7 @@ const Item = React.memo(function Item({
                         py: 0,
                         "& *::placeholder": {
                           color: global.user.darkMode
-                            ? "hsl(240, 11%, 24%)"
+                            ? "hsl(240, 11%, 60%)"
                             : colors[themeColor][800],
                         },
                         color: global.user.darkMode
