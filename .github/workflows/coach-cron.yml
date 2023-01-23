@@ -1,4 +1,4 @@
-name: coach-cron
+name: Send daily routine nudge to users with notifications enabled
 on:
   schedule:
     - cron: "0 6 * * *"
