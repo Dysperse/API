@@ -10,4 +10,4 @@ jobs:
         run: |
           curl --request POST \
           --url 'https://my.dysperse.com/api/coach-notif' \
-          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
+          --header 'Authorization: Bearer ${{ secrets.COACH_CRON_API_KEY }}'
