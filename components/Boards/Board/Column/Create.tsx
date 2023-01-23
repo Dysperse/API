@@ -205,6 +205,8 @@ export function CreateColumn({
       >
         <Box sx={{ p: 3 }}>
           <EmojiPicker
+            // theme={global.user.darkMode ? "dark" : "light"}
+            lazyLoadEmojis={true}
             width="100%"
             onEmojiClick={(event) => {
               const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;

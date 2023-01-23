@@ -129,6 +129,8 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
       >
         <div className="p-2">
           <EmojiPicker
+            // theme={global.user.darkMode ? "dark" : "light"}
+            lazyLoadEmojis={true}
             width="100%"
             onEmojiClick={(event) => {
               const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
@@ -208,7 +210,12 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
               <img src={column.emoji} alt="emoji" width="30" height="30" />
             </picture>
           ) : (
-            <EmojiPickerModal emoji={emoji} setEmoji={setEmoji} />
+            <EmojiPickerModal
+              emoji={emoji}
+              setEmoji={setEmoji}
+              // theme={global.user.darkMode ? "dark" : "light"}
+              lazyLoadEmojis={true}
+            />
           )}
           {editMode ? (
             <TextField
