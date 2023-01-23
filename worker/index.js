@@ -16,7 +16,7 @@ self.addEventListener("push", (event) => {
     self.registration.showNotification(title, {
       body,
       tag,
-      icon: "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v5/android/android-launchericon-192-192.png",
+      icon: "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/20230123_114910_0000.png",
       vibrate: [200, 100, 200],
       badge:
         "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/notification_updated.png",
