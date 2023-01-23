@@ -138,16 +138,18 @@ export const SubTask = React.memo(function SubTask({
           }),
           position: "relative",
           overflow: "hidden",
-          boxShadow: {
-            sm: "none!important",
-          },
-          border: {
-            sm: "none!important",
-          },
+          ...(!checkList && {
+            boxShadow: {
+              sm: "none!important",
+            },
+            border: {
+              sm: "none!important",
+            },
+          }),
           gap: "5px!important",
           mb: {
             xs: 1.5,
-            sm: 0,
+            sm: checkList ? 1.5 : 0,
           },
         }}
       >

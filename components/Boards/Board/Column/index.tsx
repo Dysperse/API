@@ -370,10 +370,10 @@ export const Column = React.memo(function Column({
         borderRadius: 5,
         ...(checkList && {
           flex: "0 0 100%!important",
-          border: "0!important",
           maxWidth: { xs: "100%", sm: "800px" },
           width: "100%!important",
-          background: "transparent!important",
+          boxShadow: "none!important",
+          border: "none!important",
         }),
       }}
     >

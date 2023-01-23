@@ -517,6 +517,22 @@ export const Board = function Board({
                   : "0%"
               }
             />
+
+            {board.archived && (
+              <Chip
+                size="small"
+                color="warning"
+                icon={
+                  <Icon className="outlined" sx={{ color: "#fff" }}>
+                    inventory_2
+                  </Icon>
+                }
+                sx={{
+                  pl: 0.5,
+                }}
+                label={"Archived"}
+              />
+            )}
           </Box>
         </Box>
         <ConfirmationModal
@@ -560,9 +576,8 @@ export const Board = function Board({
               },
               ml: "auto",
               flex: "0 0 auto",
-
-              // display: { xs: "none", sm: "inline-flex" },
             }}
+            disabled={board.archived}
           >
             <Icon
               className={pinned ? "" : "outlined"}
@@ -592,7 +607,7 @@ export const Board = function Board({
       >
         <Renderer data={data} url={url} board={board} />
 
-        {board && board.columns.length !== 1 && (
+        {data && board && board.columns.length !== 1 && (
           <CreateColumn
             setCurrentColumn={(e: any) => e}
             mobile={false}
@@ -611,21 +626,23 @@ export const Board = function Board({
           <Box
             sx={{
               display: "flex",
-              gap: 1,
+              gap: 2,
               overflow: "hidden",
             }}
           >
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              key={Math.random().toString()}
-              height={500}
-              sx={{
-                width: "calc(100vw - 50px)",
-                flex: "0 0 calc(100vw - 50px)",
-                borderRadius: 5,
-              }}
-            />
+            {[...new Array(5).map((_, i) => i)].map((i) => (
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                key={Math.random().toString()}
+                height={500}
+                sx={{
+                  width: { xs: "calc(100vw - 50px)", sm: "370px" },
+                  flex: { xs: "0 0 calc(100vw - 50px)", sm: "0 0 370px" },
+                  borderRadius: 5,
+                }}
+              />
+            ))}
           </Box>
         )}
       </Box>
