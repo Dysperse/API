@@ -293,7 +293,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
  * @param {string} href - The room's link
  * @param {Function} onClick - Callback function for the room's click event
  */
-function Action({
+const Action = React.memo(function Action({
   count,
   icon,
   disableLoading = false,
@@ -430,16 +430,22 @@ function Action({
         </Avatar>
       </ListItemAvatar>
       <ListItemText
+        sx={
+          {
+            // ml: "auto",
+            // float: "right",
+          }
+        }
         primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
         secondary={
-          <Typography className="text-sm sm:hidden font-normal">
-            {itemCount} item{itemCount !== 1 && "s"}
+          <Typography className="text-sm sm font-normal">
+            {itemCount !== "0" ? itemCount : "No"} item{itemCount !== 1 && "s"}
           </Typography>
         }
       />
     </ListItem>
   );
-}
+});
 
 function CreateRoom({ mutationUrl }) {
   const [open, setOpen] = React.useState(false);
