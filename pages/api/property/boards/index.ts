@@ -27,7 +27,6 @@ const handler = async (req, res) => {
       columns: true,
     },
     orderBy: {
-      // id: "desc",
       pinned: "desc",
     },
   });

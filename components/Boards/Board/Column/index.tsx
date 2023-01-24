@@ -41,7 +41,10 @@ function CompletedTasks({
         tabIndex={0}
         className="p-3 mb-2 dark:border-[hsl(240,11%,18%)] dark:hover:border-[hsl(240,11%,25%)] shadow-sm border flex border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
         sx={{
+          py: { sm: "5px!important" },
+          mt: 1,
           border: { sm: "none!important" },
+          boxShadow: { sm: "none!important" },
           "& *": {
             transition: "none!important",
           },
@@ -79,7 +82,6 @@ function CompletedTasks({
       <Box
         sx={{
           display: open ? "box" : "none",
-          animation: "completedTasks .2s forwards",
         }}
       >
         <TextField

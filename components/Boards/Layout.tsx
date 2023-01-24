@@ -55,7 +55,6 @@ const Tab = React.memo(function Tab({
 }: any) {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(board.name);
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -115,14 +114,20 @@ const Tab = React.memo(function Tab({
         size="large"
         disableRipple
         onContextMenu={handleClick}
-        onClick={(e) => {
+        onClick={() => {
           setDrawerOpen(false);
           window.location.hash = board.id;
           if (!(activeTab === board.id && !editMode)) {
             setActiveTab(board.id);
           }
         }}
-        sx={styles(activeTab === board.id)}
+        sx={{
+          ...styles(activeTab === board.id),
+          ...(board.archived &&
+            activeTab !== board.id && {
+              opacity: 0.6,
+            }),
+        }}
       >
         {!editMode ? (
           <Box
@@ -153,7 +158,7 @@ const Tab = React.memo(function Tab({
                     loading: "Renaming...",
                     success: "Renamed board",
                     error: "An error occurred while renaming the board",
-                  },
+                  }
                 );
               }
             }}
@@ -277,7 +282,10 @@ export function TasksLayout() {
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
       {data &&
-        data.map((board) => (
+        [
+          ...data.filter((x) => !x.archived),
+          ...data.filter((x) => x.archived),
+        ].map((board) => (
           <Tab
             setDrawerOpen={setOpen}
             key={board.id}

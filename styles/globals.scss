@@ -221,28 +221,6 @@ input:-webkit-autofill {
   }
 }
 
-@keyframes completedTasks {
-  0% {
-    margin-bottom: -5px;
-  }
-  100% {
-    margin-bottom: 0;
-  }
-}
-
 ::-webkit-scrollbar {
   -webkit-appearance: none;
-}
-@media screen and (max-width: 768px) {
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-  }
-}
-
-.titleBar {
-  position: fixed;
-  left: env(titlebar-area-x, 0);
-  top: env(titlebar-area-y, 0);
-  height: env(titlebar-area-height, 50px);
-  width: env(titlebar-area-width, 100%);
 }
