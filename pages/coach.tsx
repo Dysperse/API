@@ -321,8 +321,8 @@ function DailyRoutine() {
             filter: "blur(5px)",
             pointerEvents: "none",
           }),
+          ml: "auto",
           p: 2,
-          mb: 4,
           px: 3,
           cursor: "pointer",
           transition: "blur .2s, transform 0.2s",
@@ -342,6 +342,7 @@ function DailyRoutine() {
             (global.user.darkMode
               ? "hsl(240,11%,16%)"
               : colors[themeColor][100]),
+          gap: 5,
         }}
       >
         <Box sx={{ mr: "auto" }}>
@@ -389,21 +390,30 @@ export default function Render() {
         <title>Coach &bull; Dysperse</title>
       </Head>
       <Box
-        className="mt-5 sm:mt-10"
+        className="mt-5 sm:mt-10 "
         sx={{
           pb: 3,
         }}
       >
-        <Box className="p-3 max-w-[100vw] hidden sm:block">
+        <Box className="p-3 max-w-[100vw] flex-col sm:flex-row gap-5 flex items-center px-8">
           {!hideRoutine && (
-            <Typography sx={{ fontWeight: "600" }} variant="h5">
+            <Typography
+              sx={{
+                fontWeight: "600",
+                fontSize: {
+                  xs: "25px",
+                  sm: "35px",
+                },
+              }}
+              variant="h5"
+            >
               {greeting}
               {global.user.name}!
             </Typography>
           )}
-        </Box>
-        <Box className="p-3 pt-0 max-w-[100vw]">
           {!hideRoutine && <DailyRoutine />}
+        </Box>
+        <Box className="p-3 px-8 pt-0 max-w-[100vw]">
           <MyGoals setHideRoutine={setHideRoutine} />
         </Box>
       </Box>

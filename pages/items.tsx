@@ -36,6 +36,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { toastStyles } from "../lib/useCustomTheme";
 
 /**
  * Category modal

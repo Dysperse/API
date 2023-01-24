@@ -103,13 +103,12 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             <Typography
               variant="h5"
               sx={{
-                mb: 1.5,
-                ml: 1.5,
+                mb: 2,
                 fontWeight: "900",
                 mt: 7,
               }}
             >
-              Personal goals
+              My progress
             </Typography>
           )}
           {data.length === 0 ? (
