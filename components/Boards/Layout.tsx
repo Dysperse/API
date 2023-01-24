@@ -142,7 +142,16 @@ const Tab = React.memo(function Tab({
             <Icon className={activeTab === board.id ? "rounded" : "outlined"}>
               {board.columns.length === 1 ? "check_circle" : "view_kanban"}
             </Icon>
-            <span>{board.name}</span>
+            <span
+              style={{
+                maxWidth: "calc(100% - 25px)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {board.name}
+            </span>
             {board.pinned && (
               <Icon className="outlined" sx={{ ml: "auto" }}>
                 push_pin
