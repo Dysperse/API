@@ -404,6 +404,7 @@ export default function Render() {
                   xs: "25px",
                   sm: "35px",
                 },
+                textDecoration: "underline",
               }}
               variant="h5"
             >
