@@ -137,9 +137,9 @@ export const goals = [
   },
   {
     name: "Write a book",
-    stepName: "Write a book",
+    stepName: "Work on my book",
     category: "Education",
-    description: "Write a book every day, for a year",
+    description: "Work on a book every day, for a year",
     durationDays: 365,
     time: "any",
     icon: "",
