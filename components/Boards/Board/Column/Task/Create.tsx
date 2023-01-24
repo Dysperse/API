@@ -20,6 +20,7 @@ import {
   ListItemText,
   SwipeableDrawer,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
@@ -154,7 +155,7 @@ export function CreateTask({
     (e) => {
       if (open) {
         e.preventDefault();
-        dateModalButtonRef.current?.click();
+        document.getElementById("dateModal")?.click();
       }
     },
     {
@@ -470,50 +471,54 @@ export function CreateTask({
                 </Alert>
               )}
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
-              <IconButton
-                disableRipple
-                onClick={() => {
-                  setPinned(!pinned);
-                  titleRef.current?.focus();
-                }}
-                sx={{
-                  ...styles,
-                  background: pinned
-                    ? colors[themeColor][global.user.darkMode ? 900 : 100] +
-                      "!important"
-                    : "",
-                }}
-                size="small"
-              >
-                <Icon className={pinned ? "rounded" : "outlined"}>
-                  priority
-                </Icon>
-              </IconButton>
+              <Tooltip title="Mark as important (ALT + A)" placement="top">
+                <IconButton
+                  disableRipple
+                  onClick={() => {
+                    setPinned(!pinned);
+                    titleRef.current?.focus();
+                  }}
+                  sx={{
+                    ...styles,
+                    background: pinned
+                      ? colors[themeColor][global.user.darkMode ? 900 : 100] +
+                        "!important"
+                      : "",
+                  }}
+                  size="small"
+                >
+                  <Icon className={pinned ? "rounded" : "outlined"}>
+                    priority
+                  </Icon>
+                </IconButton>
+              </Tooltip>
               <ImageModal styles={styles} image={image} setImage={setImage} />
-              <IconButton
-                disableRipple
-                onClick={() => {
-                  setShowDescription(!showDescription);
-                  setTimeout(() => {
-                    {
-                      if (!showDescription)
-                        document.getElementById("description")?.focus();
-                      else document.getElementById("title")?.focus();
-                    }
-                  }, 100);
-                }}
-                sx={{
-                  ...styles,
-                  mx: 0.5,
-                  background: showDescription
-                    ? colors[themeColor][global.user.darkMode ? 900 : 100] +
-                      "!important"
-                    : "",
-                }}
-                size="small"
-              >
-                <Icon>notes</Icon>
-              </IconButton>
+              <Tooltip title="Description (ALT + D)" placement="top">
+                <IconButton
+                  disableRipple
+                  onClick={() => {
+                    setShowDescription(!showDescription);
+                    setTimeout(() => {
+                      {
+                        if (!showDescription)
+                          document.getElementById("description")?.focus();
+                        else document.getElementById("title")?.focus();
+                      }
+                    }, 100);
+                  }}
+                  sx={{
+                    ...styles,
+                    mx: 0.5,
+                    background: showDescription
+                      ? colors[themeColor][global.user.darkMode ? 900 : 100] +
+                        "!important"
+                      : "",
+                  }}
+                  size="small"
+                >
+                  <Icon>notes</Icon>
+                </IconButton>
+              </Tooltip>
 
               <Box
                 sx={{

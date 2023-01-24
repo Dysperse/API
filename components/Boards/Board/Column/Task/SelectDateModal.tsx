@@ -1,5 +1,5 @@
 import { Calendar } from "@mantine/dates";
-import { Box, Button, Icon, SwipeableDrawer } from "@mui/material";
+import { Box, Button, Icon, SwipeableDrawer, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { colors } from "../../../../../lib/colors";
@@ -103,49 +103,50 @@ export function SelectDateModal({ ref, styles, date, setDate }) {
           </Box>
         </Box>
       </SwipeableDrawer>
-      <Button
-        ref={ref}
-        disableRipple
-        sx={{
-          ...styles,
-          gap: 1,
-          background: "transparent!important",
-          borderRadius: 9999,
-          transition: "all .2s",
-          color: colors[themeColor][global.user.darkMode ? 50 : 900],
-          ...(!date && {
-            gap: 0,
-            minWidth: "auto",
-          }),
-          px: 2,
-          "&:active": {
-            transition: "none",
-            opacity: ".6!important",
-          },
-          ...(date && {
-            animation: "dateIntro .2s forwards",
-            background: `${colors[themeColor][200]}!important`,
-            color: `${colors[themeColor][900]}!important`,
-          }),
-        }}
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        <Icon>today</Icon>
-        <span style={{ fontSize: "15px" }}>
-          {today === formatDate(date) && "Today"}
-          {dayjs(today).add(1, "day").format("MM-DD-YYYY") ===
-            formatDate(date) && "Tomorrow"}
+      <Tooltip title="Select date (ALT + S)" placement="top">
+        <Button
+          id="dateModal"
+          ref={ref}
+          disableRipple
+          sx={{
+            ...styles,
+            gap: 1,
+            background: "transparent!important",
+            borderRadius: 9999,
+            transition: "all .2s",
+            color: colors[themeColor][global.user.darkMode ? 50 : 900],
+            ...(!date && {
+              gap: 0,
+              minWidth: "auto",
+            }),
+            px: 2,
+            "&:active": {
+              transition: "none",
+              opacity: ".6!important",
+            },
+            ...(date && {
+              animation: "dateIntro .2s forwards",
+              background: `${colors[themeColor][200]}!important`,
+              color: `${colors[themeColor][900]}!important`,
+            }),
+          }}
+          onClick={() => setOpen(!open)}
+        >
+          <Icon>today</Icon>
+          <span style={{ fontSize: "15px" }}>
+            {today === formatDate(date) && "Today"}
+            {dayjs(today).add(1, "day").format("MM-DD-YYYY") ===
+              formatDate(date) && "Tomorrow"}
 
-          {dayjs(date).format("MMM D") === "Invalid Date"
-            ? ""
-            : today !== formatDate(date) &&
-              dayjs(today).add(1, "day").format("MM-DD-YYYY") !==
-                formatDate(date) &&
-              dayjs(date).format("MMM D")}
-        </span>
-      </Button>
+            {dayjs(date).format("MMM D") === "Invalid Date"
+              ? ""
+              : today !== formatDate(date) &&
+                dayjs(today).add(1, "day").format("MM-DD-YYYY") !==
+                  formatDate(date) &&
+                dayjs(date).format("MMM D")}
+          </span>
+        </Button>
+      </Tooltip>
     </>
   );
 }
