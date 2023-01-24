@@ -204,9 +204,9 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         <Box
           sx={{
             mt: "-70px",
-            background: `linear-gradient(45deg, ${colors[themeColor]["600"]}, ${colors[themeColor]["500"]})`,
-            height: "400px",
-            minHeight: "400px",
+            background: `linear-gradient(45deg, ${colors[themeColor]["A400"]}, ${colors[themeColor]["A100"]})`,
+            height: "300px",
+            minHeight: "300px",
             mb: 5,
             color: colors[themeColor][50],
             p: 5,
@@ -218,13 +218,17 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
               label={goal.category}
               sx={{
                 mb: 1,
-                color: "#fff",
-                background: "rgba(255,255,255,.1)",
+                color: "#000",
+                background: "rgba(0,0,0,.1)",
               }}
             />
             <Typography
               variant="h4"
-              sx={{ fontWeight: "900", textDecoration: "underline" }}
+              sx={{
+                fontWeight: "900",
+                color: "#000",
+                textDecoration: "underline",
+              }}
             >
               {goal.name}
             </Typography>
