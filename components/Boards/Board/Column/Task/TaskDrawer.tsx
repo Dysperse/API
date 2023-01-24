@@ -168,7 +168,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 loading: task.pinned
                   ? "Removing important label"
                   : "Marking important...",
-                success: "Marked as important",
+                success: task.pinned
+                  ? "The priority has been set back to normal"
+                  : "Marked as important!",
                 error: "Failed to change priority",
               }
             );
