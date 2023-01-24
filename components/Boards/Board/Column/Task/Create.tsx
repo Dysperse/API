@@ -221,14 +221,13 @@ export function CreateTask({
             overflowX: "scroll",
             whiteSpace: "nowrap",
           }}
+          onClick={() => titleRef.current?.focus()}
         >
           <Chip
             label="Important"
             sx={{ ...chipStyles, ml: 1 }}
             icon={<Icon>priority</Icon>}
-            onClick={() => {
-              setTitle((t) => t + " (important)");
-            }}
+            onClick={() => setTitle((t) => t + " (important)")}
           />
           <Chip
             label="Today"

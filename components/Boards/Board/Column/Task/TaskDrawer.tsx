@@ -59,6 +59,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
+  const setPinned = async (pinned: boolean) => {
+    return fetchApiWithoutHook("property/boards/togglePin", {
+      id: task.id,
+      pinned: pinned ? "true" : "false",
+    }).then(() => {
+      mutate(mutationUrl);
+    });
+  };
   const [emblaRef] = useEmblaCarousel(
     {
       loop: false,
@@ -145,6 +153,37 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           sx={{
             WebkitAppRegion: "no-drag",
           }}
+          onClick={async () => {
+            toast.promise(
+              new Promise(async (resolve, reject) => {
+                try {
+                  await setPinned(!task.pinned);
+                  await mutate(mutationUrl);
+                  resolve("");
+                } catch (e) {
+                  reject(e);
+                }
+              }),
+              {
+                loading: task.pinned
+                  ? "Removing important label"
+                  : "Marking important...",
+                success: "Marked as important",
+                error: "Failed to change priority",
+              }
+            );
+          }}
+        >
+          <Icon className={task.pinned ? "rounded" : "outlined"}>priority</Icon>
+        </IconButton>
+        <IconButton
+          disableRipple
+          disabled={
+            (board && board.archived) || global.permission === "read-only"
+          }
+          sx={{
+            WebkitAppRegion: "no-drag",
+          }}
           onClick={() => {
             handleDelete(task.id);
             setOpen(false);
@@ -174,7 +213,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                   completed: e.target.checked ? "true" : "false",
                   id: task.id,
                 }).catch(() =>
-                  toast.error("An error occured while updating the task", toastStyles)
+                  toast.error(
+                    "An error occured while updating the task",
+                    toastStyles
+                  )
                 );
               }}
               sx={{

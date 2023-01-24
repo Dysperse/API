@@ -507,6 +507,7 @@ export const Column = React.memo(function Column({
 
         {columnTasks
           .filter((task) => !task.completed)
+          .sort((x, y) => (x.pinned === y.pinned ? 0 : x.pinned ? -1 : 1))
           .map((task) => (
             <Task
               key={task.id}

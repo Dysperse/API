@@ -18,13 +18,14 @@ import {
   Menu,
   MenuItem,
   styled,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { mutate } from "swr";
+import { toastStyles } from "../../../../../lib/useCustomTheme";
 import { ImageViewer } from "./ImageViewer";
 import { SubTask } from "./SubTask";
 import { TaskDrawer } from "./TaskDrawer";
-import { toastStyles } from "../../../../../lib/useCustomTheme";
 
 // use whatever you want here
 const URL_REGEX =
@@ -259,6 +260,10 @@ export const Task = React.memo(function Task({
           onContextMenu={handleContextMenu}
           className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
           sx={{
+            ...(task.pinned && {
+              background:
+                colors.red[global.user.darkMode ? 900 : 50] + "!important",
+            }),
             "&:focus-visible": {
               boxShadow: global.user.darkMode
                 ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
@@ -287,9 +292,9 @@ export const Task = React.memo(function Task({
               },
             }),
             gap: "10px!important",
-            mb: {
+            mt: {
               xs: 1.5,
-              sm: checkList ? 1.5 : 0,
+              sm: checkList ? 1.5 : task.pinned ? 0.5 : 0,
             },
           }}
         >
@@ -317,7 +322,10 @@ export const Task = React.memo(function Task({
                       completed: e.target.checked ? "true" : "false",
                       id: task.id,
                     }).catch(() =>
-                      toast.error("An error occured while updating the task",toastStyles)
+                      toast.error(
+                        "An error occured while updating the task",
+                        toastStyles
+                      )
                     );
                   }}
                   onClick={(e) => {
@@ -346,6 +354,20 @@ export const Task = React.memo(function Task({
                   {renderText(task.name)}
                   {task.image && <ImageViewer trimHeight url={task.image} />}
                 </Box>
+                {task.pinned && (
+                  <Tooltip title="Marked as important" placement="top">
+                    <Icon
+                      sx={{
+                        ml: "auto",
+                        mr: 1,
+                        color: colors.red["A400"],
+                      }}
+                      className="outlined"
+                    >
+                      priority
+                    </Icon>
+                  </Tooltip>
+                )}
               </Box>
             }
             secondary={
