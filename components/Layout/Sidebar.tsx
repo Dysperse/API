@@ -4,7 +4,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
 
-import { Box, Button, Drawer, Icon, Tab, Tabs, Tooltip } from "@mui/material";
+import { Box, Button, Drawer, Icon, Tooltip } from "@mui/material";
 
 export function Sidebar() {
   const [value, setValue] = useState<number>(0);
@@ -44,43 +44,52 @@ export function Sidebar() {
     [open]
   );
 
-  const styles = {
-    color: colors[themeColor][global.user.darkMode ? 50 : 700],
-    borderRadius: 3,
-    my: 0.5,
-    maxHeight: "9999px",
-    overflow: "visible",
-    "& .material-symbols-rounded, & .material-symbols-outlined": {
-      transition: "none",
-      height: 50,
-      width: 50,
-      // maxWidth: 55,
-      // minHeight: 55,
-      display: "flex",
-      alignItems: "center",
-      borderRadius: 5,
-      justifyContent: "center",
-      border: "1px solid transparent",
-    },
-    "&:hover .material-symbols-outlined": {
-      background: global.user.darkMode
-        ? "hsl(240,11%,14%)"
-        : colors[themeColor][50],
-      // border: "1px solid #ccc",
-    },
-    "&:focus-visible span": {
-      boxShadow: global.user.darkMode
-        ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-        : "0px 0px 0px 1.5px var(--themeDark) !important",
-    },
-    "&:active .material-symbols-outlined": {
-      background: global.user.darkMode
-        ? "hsl(240,11%,17%)"
-        : colors[themeColor][100],
-      border:
-        "1px solid " +
-        (global.user.darkMode ? "hsl(240,11%,20%)" : colors[themeColor][200]),
-    },
+  const styles = (active: any = false) => {
+    return {
+      color: colors[themeColor][global.user.darkMode ? 50 : 700],
+      borderRadius: 3,
+      my: 0.5,
+      maxHeight: "9999px",
+      overflow: "visible",
+      "& .material-symbols-rounded, & .material-symbols-outlined": {
+        transition: "none",
+        height: 50,
+        width: 50,
+        display: "flex",
+        alignItems: "center",
+        borderRadius: 5,
+        justifyContent: "center",
+        border: "1px solid transparent",
+      },
+      "&:hover .material-symbols-outlined": {
+        background: global.user.darkMode
+          ? "hsl(240,11%,14%)"
+          : colors[themeColor][100],
+      },
+      "&:focus-visible span": {
+        boxShadow: global.user.darkMode
+          ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+          : "0px 0px 0px 1.5px var(--themeDark) !important",
+      },
+      "&:active .material-symbols-outlined": {
+        background: global.user.darkMode
+          ? "hsl(240,11%,17%)"
+          : colors[themeColor][100],
+      },
+      userSelect: "none",
+      ...(active && {
+        " .material-symbols-outlined,  .material-symbols-rounded": {
+          background: global.user.darkMode
+            ? "hsl(240,11%,17%)"
+            : colors[themeColor][100],
+          border:
+            "1px solid " +
+            (global.user.darkMode
+              ? "hsl(240,11%,20%)"
+              : colors[themeColor][200]),
+        },
+      }),
+    };
   };
 
   useEffect(() => {
@@ -154,126 +163,75 @@ export function Sidebar() {
         }}
       >
         <Box sx={{ mt: "auto" }} />
-        <Tabs
-          orientation="vertical"
-          TabIndicatorProps={{
-            children: <span className="MuiTabs-indicatorSpan" />,
-          }}
-          variant="fullWidth"
-          value={value}
-          aria-label="basic tabs example"
-          sx={{
-            "& .MuiTabs-indicator": {
-              pointerEvents: "none",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "transparent",
-              height: "100%",
-              width: "100%",
-            },
-            "& .MuiTabs-indicatorSpan": {
-              minWidth: 50,
-              pointerEvents: "none",
-              height: 50,
-              width: 50,
-              background: `linear-gradient(45deg, ${
-                global.user.darkMode
-                  ? "hsl(240,11%,14%)"
-                  : colors[themeColor][100]
-              } 0%, ${
-                global.user.darkMode
-                  ? "hsl(240,11%,13%)"
-                  : colors[themeColor][100]
-              } 100%)`,
-              zIndex: -1,
-              borderRadius: 5,
-            },
-            // Tab styles
-            "& .MuiTab-root": {
-              width: 55,
-              "&.Mui-selected *": {
-                color:
-                  colors[themeColor][global.user.darkMode ? 50 : 900] +
-                  "!important",
-                fontVariationSettings: `"FILL" 1, "wght" 300, "GRAD" 1, "opsz" 40`,
-              },
-            },
-          }}
-        >
-          <Tab
-            disableRipple
-            sx={styles}
-            onClick={() => router.push("/tasks").then(() => setValue(0))}
-            icon={
-              <Tooltip title="Lists" placement="right">
-                <span
-                  className={`material-symbols-${
-                    router.asPath.includes("/tasks") ||
-                    router.asPath === "/" ||
-                    router.asPath === ""
-                      ? "rounded"
-                      : "outlined"
-                  }`}
-                >
-                  verified
-                </span>
-              </Tooltip>
-            }
-          />
-          <Tab
-            disableRipple
-            sx={styles}
-            onClick={() => router.push("/coach").then(() => setValue(1))}
-            icon={
-              <Tooltip title="Coach" placement="right">
-                <span
-                  className={`material-symbols-${
-                    router.asPath === "/coach" ? "rounded" : "outlined"
-                  }`}
-                >
-                  routine
-                </span>
-              </Tooltip>
-            }
-          />
-          <Tab
-            disableRipple
-            sx={styles}
-            onClick={() => router.push("/items").then(() => setValue(2))}
-            icon={
-              <Tooltip title="Inventory" placement="right">
-                <span
-                  className={`material-symbols-${
-                    router.asPath === "/items" ||
-                    router.asPath.includes("rooms")
-                      ? "rounded"
-                      : "outlined"
-                  }`}
-                >
-                  category
-                </span>
-              </Tooltip>
-            }
-          />
 
-          <Tab
-            disableRipple
-            sx={styles}
-            onClick={() => router.push("/spaces").then(() => setValue(3))}
-            icon={
-              <Tooltip title="Spaces" placement="right">
-                <span
-                  className={`material-symbols-${
-                    router.asPath === "/spaces" ? "rounded" : "outlined"
-                  }`}
-                >
-                  view_agenda
-                </span>
-              </Tooltip>
-            }
-          />
-        </Tabs>
+        <Box
+          sx={styles(
+            router.asPath.includes("/tasks") ||
+              router.asPath === "/" ||
+              router.asPath === ""
+          )}
+          onClick={() => router.push("/tasks")}
+        >
+          <Tooltip title="Lists" placement="right">
+            <span
+              className={`material-symbols-${
+                router.asPath.includes("/tasks") ||
+                router.asPath === "/" ||
+                router.asPath === ""
+                  ? "rounded"
+                  : "outlined"
+              }`}
+            >
+              verified
+            </span>
+          </Tooltip>
+        </Box>
+        <Box
+          sx={styles(router.asPath === "/coach")}
+          onClick={() => router.push("/coach")}
+        >
+          <Tooltip title="Coach" placement="right">
+            <span
+              className={`material-symbols-${
+                router.asPath === "/coach" ? "rounded" : "outlined"
+              }`}
+            >
+              routine
+            </span>
+          </Tooltip>
+        </Box>
+        <Box
+          sx={styles(
+            router.asPath === "/items" || router.asPath.includes("rooms")
+          )}
+          onClick={() => router.push("/items")}
+        >
+          <Tooltip title="Inventory" placement="right">
+            <span
+              className={`material-symbols-${
+                router.asPath === "/items" || router.asPath.includes("rooms")
+                  ? "rounded"
+                  : "outlined"
+              }`}
+            >
+              category
+            </span>
+          </Tooltip>
+        </Box>
+        <Box
+          sx={styles(router.asPath === "/spaces")}
+          onClick={() => router.push("/spaces")}
+        >
+          <Tooltip title="Spaces" placement="right">
+            <span
+              className={`material-symbols-${
+                router.asPath === "/spaces" ? "rounded" : "outlined"
+              }`}
+            >
+              view_agenda
+            </span>
+          </Tooltip>
+        </Box>
         <Box
           sx={{
             mt: "auto",
@@ -292,7 +250,7 @@ export function Sidebar() {
                 color="inherit"
                 disableRipple
                 sx={{
-                  ...styles,
+                  ...styles(),
                   background: "transparent!important",
                 }}
               >
