@@ -263,6 +263,10 @@ export const Task = React.memo(function Task({
             ...(task.pinned && {
               background:
                 colors.red[global.user.darkMode ? 900 : 50] + "!important",
+              "&:active": {
+                background:
+                  colors.red[global.user.darkMode ? 800 : 100] + "!important",
+              },
             }),
             "&:focus-visible": {
               boxShadow: global.user.darkMode
