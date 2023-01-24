@@ -14,6 +14,9 @@ export default async function handler(req, res) {
     where: {
       userId: req.query.userIdentifier,
     },
+    orderBy: {
+      progress: "asc",
+    },
   });
   res.json(data);
 }

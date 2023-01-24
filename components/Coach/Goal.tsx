@@ -182,7 +182,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           position="static"
           sx={{
             zIndex: 999,
-            background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
+            background: "transparent",
           }}
         >
           <Toolbar className="flex" sx={{ height: "70px" }}>
