@@ -5,8 +5,6 @@ export const categories = [
   "Finance",
   "Relationships",
   "Hobbies",
-  "Travel",
-  "Personal Growth",
   "Mental health",
 ];
 
@@ -188,6 +186,36 @@ export const goals = [
     category: "Mental health",
     description: "Limit your screen time to 1.5 hours every day, for 30 days",
     durationDays: 30,
+    time: "any",
+    icon: "",
+  },
+
+  {
+    name: "Create a retirement plan",
+    stepName: "Create a retirement plan",
+    category: "Finance",
+    description: "Research and create a retirement plan within the next month",
+    durationDays: 30,
+    time: "any",
+    icon: "",
+  },
+
+  {
+    name: "Pay off credit card debt",
+    stepName: "Pay off credit card debt",
+    category: "Finance",
+    description: "Pay off all credit card debt within 3 months",
+    durationDays: 90,
+    time: "any",
+    icon: "",
+  },
+
+  {
+    name: "Save $1000",
+    stepName: "Save $1000",
+    category: "Finance",
+    description: "Save $1000 in your savings account within 3 months",
+    durationDays: 90,
     time: "any",
     icon: "",
   },
