@@ -16,7 +16,6 @@ const handler = async (req, res) => {
     return;
   }
 
-  console.log(req.query.completed);
   const data = await prisma.task.update({
     where: {
       id: parseInt(req.query.id),
