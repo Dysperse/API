@@ -250,7 +250,7 @@ export function CreateColumn({
                 container.scrollLeft += 20000;
               }, 10);
             }}
-            className="p-4 px-5 mb-2 dark:border-[hsl(240,11%,18%)] border flex hover:border-gray-300 rounded-xl dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none gap-3 mr-10 shadow-lg pr-5"
+            className="p-4 px-5 mb-2 dark:border-[hsl(240,11%,18%)] border sm:flex hover:border-gray-300 rounded-xl dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none gap-3 mr-10 shadow-lg pr-5 hidden"
             sx={{
               whiteSpace: "nowrap",
               transition: "none!important",
