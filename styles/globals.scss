@@ -56,6 +56,7 @@ img {
   user-select: none;
 }
 *:not(
+    .font-heading,
     .MuiIcon-root,
     .MuiIcon-root *,
     .material-symbols-outlined,
@@ -65,6 +66,10 @@ img {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "DM Sans", sans-serif !important;
+}
+.font-heading,
+.font-heading * {
+  font-family: "DM Serif Display", serif !important;
 }
 
 ::-webkit-scrollbar {

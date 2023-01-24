@@ -33,9 +33,10 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display&display=swap"
           rel="stylesheet"
         />
+
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />

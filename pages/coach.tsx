@@ -18,7 +18,7 @@ import {
   IconButton,
   SwipeableDrawer,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 import { toastStyles } from "../lib/useCustomTheme";
 
@@ -398,8 +398,8 @@ export default function Render() {
         <Box className="p-3 max-w-[100vw] flex-col sm:flex-row gap-5 flex items-center px-8">
           {!hideRoutine && (
             <Typography
+              className="font-heading"
               sx={{
-                fontWeight: "600",
                 fontSize: {
                   xs: "25px",
                   sm: "35px",
