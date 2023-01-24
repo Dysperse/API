@@ -147,6 +147,13 @@ export function BottomNav() {
               }, 500);
             });
           }}
+onContextMenu={() => {
+            router.push("/coach").then(() => {
+              setTimeout(() => {
+                document.getElementById("routineTrigger")?.click();
+              }, 500);
+            });
+          }}
           onClick={() => router.push("/coach")}
         >
           <span
