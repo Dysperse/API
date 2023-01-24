@@ -128,7 +128,33 @@ export function CreateTask({
             titleRef.current?.focus();
             // titleRef.current?.select();
           }
-        }, 500);
+        }, 50);
+      }
+    },
+    {
+      enableOnTags: ["INPUT", "TEXTAREA"],
+    }
+  );
+
+  useHotkeys(
+    "alt+a",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        setPinned(!pinned);
+      }
+    },
+    {
+      enableOnTags: ["INPUT", "TEXTAREA"],
+    }
+  );
+
+  useHotkeys(
+    "alt+s",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        dateModalButtonRef.current?.click();
       }
     },
     {
@@ -166,6 +192,7 @@ export function CreateTask({
     }
   }, [title]);
   const titleRef = useRef<HTMLInputElement>(null);
+  const dateModalButtonRef = useRef<HTMLButtonElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -498,6 +525,7 @@ export function CreateTask({
                 }}
               >
                 <SelectDateModal
+                  ref={dateModalButtonRef}
                   styles={styles}
                   date={date}
                   setDate={(e) => {

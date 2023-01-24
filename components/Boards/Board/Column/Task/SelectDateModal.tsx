@@ -6,7 +6,7 @@ import { colors } from "../../../../../lib/colors";
 import { Puller } from "../../../../Puller";
 import { formatDate } from "./formatDate";
 
-export function SelectDateModal({ styles, date, setDate }) {
+export function SelectDateModal({ ref, styles, date, setDate }) {
   const [open, setOpen] = useState(false);
   const today = formatDate(new Date());
 
@@ -104,6 +104,7 @@ export function SelectDateModal({ styles, date, setDate }) {
         </Box>
       </SwipeableDrawer>
       <Button
+        ref={ref}
         disableRipple
         sx={{
           ...styles,
