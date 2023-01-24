@@ -37,7 +37,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   return (
     <>
       <Box
-        className="active:scale-[.98]"
+        className="active:scale-[.98] shadow-md border"
         onClick={() => setOpen(true)}
         sx={{
           borderRadius: { xs: 0, sm: 5 },
@@ -47,7 +47,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           mb: 1,
           cursor: "pointer",
           background: {
-            sm: global.user.darkMode ? "hsl(240,11%,13%)" : "#eee",
+            sm: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
           },
           borderBottom: {
             xs: global.user.darkMode
