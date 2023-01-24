@@ -69,7 +69,6 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
         <Box sx={{ p: 2, pt: 0 }}>
           <TextField
             label="Category name"
-            autoComplete="off"
             margin="dense"
             inputRef={ref}
             autoFocus

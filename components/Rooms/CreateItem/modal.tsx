@@ -196,7 +196,6 @@ export function CreateItemModal({
                 autoFocus
                 margin="dense"
                 required
-                autoComplete={"off"}
                 onChange={(e) => {
                   formik.setFieldValue("title", e.target.value);
                   setFilteredCards(
@@ -236,7 +235,6 @@ export function CreateItemModal({
             <TextField
               margin="dense"
               placeholder="Add a quantity"
-              autoComplete={"off"}
               onChange={(e) => {
                 formik.setFieldValue("quantity", e.target.value);
               }}

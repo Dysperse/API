@@ -128,7 +128,6 @@ export default function Prompt() {
               <TextField
                 required
                 disabled={buttonLoading}
-                autoComplete={"off"}
                 label="Your name"
                 value={formik.values.name}
                 name="name"
@@ -140,7 +139,6 @@ export default function Prompt() {
               <TextField
                 required
                 disabled={buttonLoading}
-                autoComplete={"off"}
                 label="Your email address"
                 value={formik.values.email}
                 name="email"
@@ -151,7 +149,6 @@ export default function Prompt() {
               />
               <TextField
                 required
-                autoComplete={"off"}
                 disabled={buttonLoading}
                 label="Password"
                 value={formik.values.password}
@@ -164,7 +161,6 @@ export default function Prompt() {
               <TextField
                 required
                 fullWidth
-                autoComplete={"off"}
                 disabled={buttonLoading}
                 label="Repeat password"
                 value={formik.values.confirmPassword}

@@ -118,7 +118,6 @@ export default function Prompt() {
               <TextField
                 required
                 disabled={buttonLoading}
-                autoComplete={"off"}
                 label="Your email address"
                 value={formik.values.email}
                 name="email"

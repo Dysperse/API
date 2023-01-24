@@ -301,7 +301,6 @@ export default function Prompt() {
                 </Box>
                 <TextField
                   disabled={buttonLoading}
-                  autoComplete={"off"}
                   label="Your email address"
                   value={formik.values.email}
                   fullWidth
@@ -311,7 +310,6 @@ export default function Prompt() {
                   variant="filled"
                 />
                 <TextField
-                  autoComplete={"off"}
                   disabled={buttonLoading}
                   label="Password"
                   value={formik.values.password}

@@ -559,13 +559,13 @@ export function CreateTask({
             marginBottom: "10px",
             border:
               "2px solid " +
-              (global.user.darkMode ? "rgba(255,255,255,.3)" : "#505050"),
+              (global.user.darkMode ? "rgba(255,255,255,.3)" : "#808080"),
             borderRadius: "10px",
             color: global.user.darkMode
               ? "fff"
               : checkList
               ? "#303030"
-              : "#505050",
+              : "#808080",
             marginLeft: !allCompleted ? "10px" : "9px",
             marginRight: "5px",
             fontSize: "20px",
@@ -581,7 +581,7 @@ export function CreateTask({
               <span
                 style={{
                   fontWeight: 700,
-                  color: global.user.darkMode ? "#fff" : "#505050",
+                  color: global.user.darkMode ? "#fff" : "#606060",
                 }}
               >
                 {parent ? "New subtask" : "New list item"}

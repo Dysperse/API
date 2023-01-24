@@ -123,7 +123,6 @@ export default function Prompt() {
               <TextField
                 required
                 disabled={buttonLoading}
-                autoComplete={"off"}
                 label="New password"
                 value={formik.values.password}
                 name="password"
@@ -135,7 +134,6 @@ export default function Prompt() {
               <TextField
                 required
                 disabled={buttonLoading}
-                autoComplete={"off"}
                 label="Confirm new password"
                 value={formik.values.confirmPassword}
                 name="confirmPassword"

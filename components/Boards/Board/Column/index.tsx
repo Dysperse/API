@@ -16,6 +16,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
@@ -338,7 +339,15 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
           ml: "auto",
           transition: "none!important",
           "&:hover,&:active": {
+            background: global.user.darkMode
+              ? "hsl(240,11%,13%)"
+              : "rgba(200,200,200,.3)",
             color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
+          },
+          "&:active": {
+            background: global.user.darkMode
+              ? "hsl(240,11%,15%)"
+              : "rgba(200,200,200,.4)",
           },
         }}
       >
@@ -360,6 +369,7 @@ export const Column = React.memo(function Column({
     (task) => task.parentTasks.length === 0
   );
 
+  const trigger = useMediaQuery("(max-width: 600px)");
   return (
     <Box
       className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10"
@@ -382,8 +392,10 @@ export const Column = React.memo(function Column({
           xs: checkList ? 4 : 0,
           sm: checkList ? 4 : 2,
         },
-        border: { xs: "none!important", sm: "" },
-        boxShadow: { xs: "none!important", sm: "" },
+        ...(trigger && {
+          border: "none !important",
+          boxShadow: "none !important",
+        }),
         borderRadius: 5,
         ...(checkList && {
           flex: "0 0 100%!important",
