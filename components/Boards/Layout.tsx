@@ -5,7 +5,7 @@ import {
   Icon,
   Menu,
   MenuItem,
-  SwipeableDrawer,
+  SwipeableDrawer
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -153,7 +153,10 @@ const Tab = React.memo(function Tab({
               {board.name}
             </span>
             {board.pinned && (
-              <Icon className="outlined" sx={{ ml: "auto" }}>
+              <Icon
+                className="outlined"
+                sx={{ ml: "auto", transform: "rotate(-45deg)" }}
+              >
                 push_pin
               </Icon>
             )}
