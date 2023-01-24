@@ -32,6 +32,7 @@ function ResponsiveDrawer({
 
   return (
     <Box
+      onContextMenu={(e) => e.preventDefault()}
       sx={{
         display: "flex",
       }}
