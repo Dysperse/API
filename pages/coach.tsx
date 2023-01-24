@@ -18,7 +18,7 @@ import {
   IconButton,
   SwipeableDrawer,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import { toastStyles } from "../lib/useCustomTheme";
 
@@ -314,7 +314,7 @@ function DailyRoutine() {
       </SwipeableDrawer>
       <Box
         id="routineTrigger"
-        className="shadow-sm"
+        className="shadow-md"
         onClick={() => setOpen(true)}
         sx={{
           ...(!data && {

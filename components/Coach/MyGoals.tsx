@@ -166,7 +166,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         role="button"
         tabIndex={0}
         className={
-          "w-full p-4 rounded-2xl flex items-center select-none cursor-pointer active:scale-[.98] transition-transform mb-3 " +
+          "w-full p-4 rounded-2xl flex items-center select-none border shadow-sm cursor-pointer active:scale-[.98] transition-transform mb-3 " +
           (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")
         }
         style={{

@@ -37,7 +37,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   return (
     <>
       <Box
-        className="active:scale-[.98] shadow-lg border"
+        className="active:scale-[.98] shadow-md border"
         onClick={() => setOpen(true)}
         sx={{
           borderRadius: { xs: 0, sm: 5 },
