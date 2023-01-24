@@ -104,7 +104,7 @@ export function Sidebar() {
         break;
       default:
         if (router.asPath.includes("/rooms")) {
-          setValue(1);
+          setValue(2);
         } else {
           setValue(0);
         }
