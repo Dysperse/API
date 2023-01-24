@@ -21,6 +21,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import { useHotkeys } from "react-hotkeys-hook";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 
 function ImageModal({ image, setImage, styles }) {
@@ -113,6 +114,28 @@ export function CreateTask({
   const [showDescription, setShowDescription] = useState(false);
   useStatusBar(open);
 
+  useHotkeys(
+    "alt+d",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        setShowDescription(!showDescription);
+        setTimeout(() => {
+          if (!showDescription) {
+            descriptionRef.current?.focus();
+            descriptionRef.current?.select();
+          } else {
+            titleRef.current?.focus();
+            // titleRef.current?.select();
+          }
+        }, 500);
+      }
+    },
+    {
+      enableOnTags: ["INPUT", "TEXTAREA"],
+    }
+  );
+
   const styles = {
     color: colors[themeColor][global.user.darkMode ? 50 : 800],
     borderRadius: 3,
@@ -143,6 +166,7 @@ export function CreateTask({
     }
   }, [title]);
   const titleRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (title === "") {
@@ -376,6 +400,7 @@ export function CreateTask({
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                inputRef={descriptionRef}
                 variant="standard"
                 placeholder="Add a description"
                 InputProps={{
@@ -420,7 +445,10 @@ export function CreateTask({
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <IconButton
                 disableRipple
-                onClick={() => setPinned(!pinned)}
+                onClick={() => {
+                  setPinned(!pinned);
+                  titleRef.current?.focus();
+                }}
                 sx={{
                   ...styles,
                   background: pinned
@@ -430,16 +458,9 @@ export function CreateTask({
                 }}
                 size="small"
               >
-                <span
-                  style={{ transform: "rotate(-45deg)" }}
-                  className={
-                    pinned
-                      ? "material-symbols-rounded"
-                      : "material-symbols-outlined"
-                  }
-                >
-                  push_pin
-                </span>
+                <Icon className={pinned ? "rounded" : "outlined"}>
+                  priority
+                </Icon>
               </IconButton>
               <ImageModal styles={styles} image={image} setImage={setImage} />
               <IconButton
@@ -479,7 +500,12 @@ export function CreateTask({
                 <SelectDateModal
                   styles={styles}
                   date={date}
-                  setDate={setDate}
+                  setDate={(e) => {
+                    setDate(e);
+                    setTimeout(() => {
+                      titleRef.current?.focus();
+                    }, 100);
+                  }}
                 />
                 <div>
                   <LoadingButton
