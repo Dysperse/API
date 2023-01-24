@@ -245,7 +245,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           width: "auto",
           left: "50%",
           transform: "translateX(-50%)",
-          gap: 0.5,
+          gap: 0.2,
           background: global.user.darkMode
             ? "hsla(240,11%,25%,.6)"
             : "rgba(255,255,255,.7)",
@@ -260,7 +260,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
                 borderRadius: 999,
                 minWidth: "auto",
                 px: 2,
-py: 1,
+                py: 1,
                 color:
                   currentColumn <= 0
                     ? global.user.darkMode
@@ -271,7 +271,8 @@ py: 1,
                     : "#000",
               }}
               onClick={() => setCurrentColumn(currentColumn - 1)}
-              disabled={currentColumn <= 0} size="large"
+              disabled={currentColumn <= 0}
+              size="large"
             >
               <Icon
                 sx={{
@@ -292,9 +293,10 @@ py: 1,
         </Tooltip>
 
         <Tooltip title="New task" placement="top">
-          <Button size="large"
+          <Button
+            size="large"
             sx={{
-py: 1,
+              py: 1,
               color: "#000!important",
               background: colors[themeColor]["A100"] + "!important",
               borderRadius: 999,
@@ -318,12 +320,13 @@ py: 1,
 
         <Tooltip title="Next column" placement="top">
           <span>
-            <Button size="large"
+            <Button
+              size="large"
               sx={{
                 borderRadius: 999,
                 minWidth: "auto",
                 px: 2,
-py: 1,
+                py: 1,
                 color:
                   data && currentColumn >= data.length - 1
                     ? global.user.darkMode
@@ -563,7 +566,10 @@ export const Board = function Board({
                 id: board.id,
                 pinned: !pinned ? "true" : "false",
               }).then(() => {
-                toast.success(!pinned ? "Pinned board!" : "Unpinned board!", toastStyles);
+                toast.success(
+                  !pinned ? "Pinned board!" : "Unpinned board!",
+                  toastStyles
+                );
               });
             }, 100);
           }}
