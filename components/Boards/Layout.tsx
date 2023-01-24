@@ -135,13 +135,19 @@ const Tab = React.memo(function Tab({
               textAlign: "left",
               display: "flex",
               alignItems: "center",
+              width: "100%",
               gap: 1,
             }}
           >
             <Icon className={activeTab === board.id ? "rounded" : "outlined"}>
               {board.columns.length === 1 ? "check_circle" : "view_kanban"}
             </Icon>
-            {board.name}
+            <span>{board.name}</span>
+            {board.pinned && (
+              <Icon className="outlined" sx={{ ml: "auto" }}>
+                push_pin
+              </Icon>
+            )}
           </Box>
         ) : (
           <input
