@@ -148,7 +148,7 @@ export const SubTask = React.memo(function SubTask({
             },
           }),
           gap: "5px!important",
-          mb: {
+          mt: {
             xs: 1.5,
             sm: checkList ? 1.5 : 0,
           },
