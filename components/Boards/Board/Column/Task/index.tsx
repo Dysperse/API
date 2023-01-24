@@ -19,7 +19,7 @@ import {
   MenuItem,
   styled,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import { mutate } from "swr";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
@@ -388,23 +388,28 @@ export const Task = React.memo(function Task({
               >
                 {task.description}
                 {task.due && (
-                  <span
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "2px",
-                      marginTop: "3px",
-                      marginLeft: "-5px",
-                    }}
+                  <Tooltip
+                    title={dayjs(task.due).format("MMMM D, YYYY")}
+                    followCursor
                   >
-                    <Icon
-                      sx={{ mx: 1, transform: "scale(.9)" }}
-                      className="outlined"
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "2px",
+                        marginTop: "3px",
+                        marginLeft: "-5px",
+                      }}
                     >
-                      schedule
-                    </Icon>
-                    {dayjs(task.due).format("MMMM D, YYYY")}
-                  </span>
+                      <Icon
+                        sx={{ mx: 1, transform: "scale(.9)" }}
+                        className="outlined"
+                      >
+                        schedule
+                      </Icon>
+                      {dayjs(task.due).fromNow()}
+                    </span>
+                  </Tooltip>
                 )}
               </span>
             }
