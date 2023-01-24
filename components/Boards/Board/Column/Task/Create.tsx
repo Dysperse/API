@@ -225,9 +225,26 @@ export function CreateTask({
         >
           <Chip
             label="Important"
-            sx={{ ...chipStyles, ml: 1 }}
-            icon={<Icon>priority</Icon>}
-            onClick={() => setTitle((t) => t + " (important)")}
+            sx={{
+              ...chipStyles,
+              ml: 1,
+              ...(pinned && {
+                background: colors[themeColor]["900"] + "!important",
+                color: "#fff!important",
+              }),
+            }}
+            icon={
+              <Icon
+                sx={{
+                  ...(pinned && {
+                    color: "#fff!important",
+                  }),
+                }}
+              >
+                priority
+              </Icon>
+            }
+            onClick={() => setPinned(!pinned)}
           />
           <Chip
             label="Today"
