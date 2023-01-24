@@ -228,6 +228,7 @@ export function CreateTask({
             sx={{
               ...chipStyles,
               ml: 1,
+              transition: "transform .2s",
               ...(pinned && {
                 background: colors[themeColor]["900"] + "!important",
                 color: "#fff!important",
