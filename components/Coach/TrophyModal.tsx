@@ -13,6 +13,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 export function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState(false);
@@ -84,18 +85,23 @@ export function TrophyModal({ goal, mutationUrl }) {
                         await mutate(mutationUrl);
                         setStepTwoOpen(false);
                         toast.success(
-                          "A trophy has been added to your account! Thanks for your feedback! 🎉"
+                          "A trophy has been added to your account! Thanks for your feedback! 🎉",
+                          toastStyles
                         );
                       } catch (e) {
                         toast.error(
-                          "An error occurred. Please try again later."
+                          "An error occurred. Please try again later.",
+                          toastStyles
                         );
                       }
                       setLoading(false);
                     })
                     .catch(() => {
                       setLoading(false);
-                      toast.error("An error occurred. Please try again later.");
+                      toast.error(
+                        "An error occurred. Please try again later.",
+                        toastStyles
+                      );
                     });
                 }}
                 disableRipple

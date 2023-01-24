@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import { toastStyles } from "../../lib/useCustomTheme";
 import type { ApiResponse } from "../../types/client";
 import type { Member as MemberType } from "../../types/houseProfile";
 import { ErrorHandler } from "../Error";
@@ -103,7 +104,7 @@ function Member({
                 }).then(() => {
                   mutate(mutationUrl);
                   handleClose();
-                  toast.success("Updated permissions!");
+                  toast.success("Updated permissions!",toastStyles);
                 });
               }}
             >
@@ -121,7 +122,7 @@ function Member({
                 }).then(() => {
                   mutate(mutationUrl);
                   handleClose();
-                  toast.success("Updated permissions!");
+                  toast.success("Updated permissions!", toastStyles);
                 });
               }}
             >
@@ -160,7 +161,7 @@ function Member({
                       removeeName: member.user.name,
                       timestamp: new Date().toISOString(),
                     }).then(() => {
-                      toast.success("Removed person from your home");
+                      toast.success("Removed person from your home",toastStyles);
                       setLoading(false);
                       setDeleted(true);
                     });

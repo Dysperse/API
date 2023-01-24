@@ -18,6 +18,7 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * @description A room
@@ -57,7 +58,7 @@ function Room({
           setOpen(false);
           setDrawerState(false);
           setTimeout(() => {
-            toast.success("Moved item!");
+            toast.success("Moved item!",toastStyles);
           }, 100);
         });
       }}

@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useStatusBar } from "../hooks/useStatusBar";
 import { colors } from "../lib/colors";
+import { toastStyles } from "../lib/useCustomTheme";
 
 export function ConfirmationModal({
   title,
@@ -33,7 +34,7 @@ export function ConfirmationModal({
       setOpen(false);
     } catch (e: any) {
       setLoading(false);
-      toast.error(`An error occured: ${e.message}`);
+      toast.error(`An error occured: ${e.message}`, toastStyles);
     }
   };
   useStatusBar(open, 1);

@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
+import { toastStyles } from "../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 
 import { ErrorHandler } from "../../Error";
@@ -562,7 +563,7 @@ export const Board = function Board({
                 id: board.id,
                 pinned: !pinned ? "true" : "false",
               }).then(() => {
-                toast.success(!pinned ? "Pinned board!" : "Unpinned board!");
+                toast.success(!pinned ? "Pinned board!" : "Unpinned board!", toastStyles);
               });
             }, 100);
           }}

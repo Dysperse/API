@@ -21,6 +21,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import { toastStyles } from "../../../../../lib/useCustomTheme";
 
 function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState(false);
@@ -116,15 +117,6 @@ export function CreateTask({
     color: colors[themeColor][global.user.darkMode ? 50 : 800],
     borderRadius: 3,
     transition: "none",
-  };
-
-  const toastStyles = {
-    style: {
-      borderRadius: 99999,
-      paddingLeft: "15px",
-      background: colors[themeColor][700],
-      color: colors[themeColor][50],
-    },
   };
 
   useEffect(() => {

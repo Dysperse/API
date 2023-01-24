@@ -94,10 +94,10 @@ export function Sidebar() {
         break;
       case "/trash":
       case "/items":
-        setValue(1);
+        setValue(2);
         break;
       case "/coach":
-        setValue(2);
+        setValue(1);
         break;
       case "/spaces":
         setValue(3);
@@ -224,7 +224,23 @@ export function Sidebar() {
           <Tab
             disableRipple
             sx={styles}
-            onClick={() => router.push("/items").then(() => setValue(1))}
+            onClick={() => router.push("/coach").then(() => setValue(1))}
+            icon={
+              <Tooltip title="Coach" placement="right">
+                <span
+                  className={`material-symbols-${
+                    router.asPath === "/coach" ? "rounded" : "outlined"
+                  }`}
+                >
+                  routine
+                </span>
+              </Tooltip>
+            }
+          />
+          <Tab
+            disableRipple
+            sx={styles}
+            onClick={() => router.push("/items").then(() => setValue(2))}
             icon={
               <Tooltip title="Inventory" placement="right">
                 <span
@@ -240,22 +256,7 @@ export function Sidebar() {
               </Tooltip>
             }
           />
-          <Tab
-            disableRipple
-            sx={styles}
-            onClick={() => router.push("/coach").then(() => setValue(2))}
-            icon={
-              <Tooltip title="Coach" placement="right">
-                <span
-                  className={`material-symbols-${
-                    router.asPath === "/coach" ? "rounded" : "outlined"
-                  }`}
-                >
-                  routine
-                </span>
-              </Tooltip>
-            }
-          />
+
           <Tab
             disableRipple
             sx={styles}

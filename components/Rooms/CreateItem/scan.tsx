@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
+import { toastStyles } from "../../../lib/useCustomTheme";
 
 const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
   const [forever, setForever] = React.useState(false);
@@ -102,7 +103,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
         return "Success";
       }
     } catch (err: any) {
-      toast.error("Error: " + err.message);
+      toast.error("Error: " + err.message, toastStyles);
     }
   }, [forever, webcamRef, formik, setOpen, room]);
 

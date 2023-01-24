@@ -7,6 +7,7 @@ import { Layout } from "../../../components/Auth/Layout";
 import { colors } from "../../../lib/colors";
 
 import { Box, Paper, TextField, Typography } from "@mui/material";
+import { toastStyles } from "../../../lib/useCustomTheme";
 
 /**
  * Top-level component for the signup page.
@@ -39,18 +40,18 @@ export default function Prompt() {
       })
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Successfully changed your password!");
+            toast.success("Successfully changed your password!",toastStyles);
             router.push("/tasks");
             // setButtonLoading(false);
           } else {
             toast.error(
-              "An error occurred while trying to change your password."
+              "An error occurred while trying to change your password.", toastStyles
             );
             setButtonLoading(false);
           }
         })
         .catch(() => {
-          toast.error("An error occurred while trying to change your password");
+          toast.error("An error occurred while trying to change your password", toastStyles);
           setButtonLoading(false);
         });
     },

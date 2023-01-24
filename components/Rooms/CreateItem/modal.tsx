@@ -18,6 +18,7 @@ import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
+import { toastStyles } from "../../../lib/useCustomTheme";
 import { Puller } from "../../Puller";
 import { cards } from "./cards";
 import { ImageRecognition } from "./scan";
@@ -138,7 +139,7 @@ export function CreateItemModal({
           );
         })
         .catch(() => {
-          toast.error("Couldn't create item. Please try again.");
+          toast.error("Couldn't create item. Please try again.",toastStyles);
           setLoading(false);
         });
     },

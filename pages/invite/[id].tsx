@@ -10,6 +10,7 @@ import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
 
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -166,7 +167,8 @@ export default function Onboarding() {
                   })
                   .catch(() => {
                     toast.error(
-                      "Something went wrong while accepting the invite. Please try again later."
+                      "Something went wrong while accepting the invite. Please try again later.",
+                      toastStyles
                     );
                   });
               } else {

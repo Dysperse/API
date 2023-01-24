@@ -2,6 +2,15 @@ import { experimental_sx as sx } from "@mui/material/styles";
 import { Transition } from "../pages/_app";
 import { colors } from "./colors";
 
+export const toastStyles = {
+  style: {
+    borderRadius: 99999,
+    paddingLeft: "15px",
+    background: colors[global.themeColor ?? "brown"][700],
+    color: colors[global.themeColor ?? "brown"][50],
+  },
+};
+
 export const useCustomTheme = ({ darkMode, themeColor }): any => {
   return {
     components: {

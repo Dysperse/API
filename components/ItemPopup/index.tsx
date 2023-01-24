@@ -32,6 +32,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * Item popup
@@ -155,7 +156,7 @@ const Item = React.memo(function Item({
           Undo
         </Button>
       </span>
-    ));
+    ),toastStyles);
   };
   const styles = {
     transition: "none",

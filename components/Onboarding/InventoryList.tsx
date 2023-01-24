@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 import { Box, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * Inventory list
@@ -35,7 +36,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
               lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               room: item.room,
             }).then(() => {
-              toast.success("Added to inventory!");
+              toast.success("Added to inventory!",toastStyles);
             });
           }}
         >

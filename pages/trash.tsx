@@ -7,6 +7,7 @@ import { mutate } from "swr";
 import { ConfirmationModal } from "../components/ConfirmationModal";
 import { ErrorHandler } from "../components/Error";
 import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
+import { toastStyles } from "../lib/useCustomTheme";
 import Categories from "./items";
 
 function DeleteCard({ item }) {
@@ -48,7 +49,8 @@ function DeleteCard({ item }) {
             forever: true,
           }).catch(() => {
             toast.error(
-              "An error occured while trying to delete this item. Please try again later"
+              "An error occured while trying to delete this item. Please try again later",
+              toastStyles
             );
             setHidden(false);
           });
@@ -83,7 +85,8 @@ export default function Trash() {
             await fetchApiWithoutHook("property/inventory/clearTrash")
               .catch(() => {
                 toast.error(
-                  "An error occured while trying to empty your trash. Please try again later"
+                  "An error occured while trying to empty your trash. Please try again later",
+                  toastStyles
                 );
               })
               .then(() => {

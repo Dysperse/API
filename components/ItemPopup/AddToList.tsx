@@ -19,6 +19,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 function BoardModal({ handleClose, title, list }) {
   const [open, setOpen] = useState(false);
@@ -33,9 +34,9 @@ function BoardModal({ handleClose, title, list }) {
         boardId: list.id,
         columnId: column.id,
       });
-      toast.success("Task created");
+      toast.success("Task created",toastStyles);
     } catch (e) {
-      toast.error("An error occured while trying to create a task");
+      toast.error("An error occured while trying to create a task",toastStyles);
     }
   };
 

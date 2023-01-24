@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
+import { toastStyles } from "../../../../../lib/useCustomTheme";
 
 // use whatever you want here
 const URL_REGEX =
@@ -166,7 +167,7 @@ export const SubTask = React.memo(function SubTask({
               completed: e.target.checked ? "true" : "false",
               id: subtask.id,
             }).catch(() =>
-              toast.error("An error occured while updating the task")
+              toast.error("An error occured while updating the task", toastStyles)
             );
           }}
           color="default"

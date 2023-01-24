@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
+import { toastStyles } from "../../../../lib/useCustomTheme";
 import { Puller } from "../../../Puller";
 
 export function CreateColumn({
@@ -152,7 +153,7 @@ export function CreateColumn({
                 id: id,
               })
                 .then(() => {
-                  toast.success("Created column!");
+                  toast.success("Created column!", toastStyles);
                   setOpen(false);
                   mutate(mutationUrl)
                     .then(() => {
@@ -166,14 +167,16 @@ export function CreateColumn({
                     .catch(() => {
                       setLoading(false);
                       toast.error(
-                        "Something went wrong while updating the board. Try reloading the page."
+                        "Something went wrong while updating the board. Try reloading the page.",
+                        toastStyles
                       );
                     });
                 })
                 .catch(() => {
                   setLoading(false);
                   toast.error(
-                    "An error occurred while creating the column. Try again later."
+                    "An error occurred while creating the column. Try again later.",
+                    toastStyles
                   );
                 });
             }}

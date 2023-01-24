@@ -22,6 +22,7 @@ import {
   revivalBack,
 } from "../../../../../hooks/useBackButton";
 import { colors } from "../../../../../lib/colors";
+import { toastStyles } from "../../../../../lib/useCustomTheme";
 import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
@@ -173,7 +174,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                   completed: e.target.checked ? "true" : "false",
                   id: task.id,
                 }).catch(() =>
-                  toast.error("An error occured while updating the task")
+                  toast.error("An error occured while updating the task", toastStyles)
                 );
               }}
               sx={{

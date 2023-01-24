@@ -20,6 +20,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { toastStyles } from "../lib/useCustomTheme";
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
@@ -122,7 +123,8 @@ const Task = ({ task }) => {
                 .catch(() => {
                   setLoading(false);
                   toast.error(
-                    "Something went wrong while trying to mark your routine as done."
+                    "Something went wrong while trying to mark your routine as done.",
+                    toastStyles
                   );
                 });
             }}
@@ -186,6 +188,10 @@ function DailyRoutine() {
   } else {
     bannerColors = timeColors.night;
   }
+
+  useEffect(() => {
+    if (window.location.hash == "#daily-routine") setOpen(true);
+  }, [setOpen]);
 
   useEffect(() => {
     document

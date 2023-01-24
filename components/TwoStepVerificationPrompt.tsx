@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
+import { toastStyles } from "../lib/useCustomTheme";
 import { Puller } from "./Puller";
 
 /**
@@ -44,13 +45,14 @@ export function Prompt({
         callback();
         setOpen(false);
       } else {
-        toast.error("Invalid code!");
+        toast.error("Invalid code!", toastStyles);
         setCode("");
       }
       setButtonLoading(false);
     } catch (error) {
       toast.error(
-        "An error occured while verifying your code. Please try again later."
+        "An error occured while verifying your code. Please try again later.",
+        toastStyles
       );
       setButtonLoading(false);
     }

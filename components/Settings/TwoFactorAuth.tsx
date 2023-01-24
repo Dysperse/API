@@ -8,6 +8,7 @@ import { updateSettings } from "./updateSettings";
 
 import { Box, Link, TextField, Typography } from "@mui/material";
 import { ConfirmationModal } from "../ConfirmationModal";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * Top-level component for the two-factor authentication settings page.
@@ -142,12 +143,12 @@ export default function App() {
                   if (res.error) {
                     throw new Error(res.error);
                   }
-                  toast.success("2FA setup successful!");
+                  toast.success("2FA setup successful!",toastStyles);
                   setLoading(false);
                   mutate("/api/user");
                 })
                 .catch(() => {
-                  toast.error("Invalid code!");
+                  toast.error("Invalid code!",toastStyles);
                   setLoading(false);
                 });
             }}

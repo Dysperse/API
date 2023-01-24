@@ -11,6 +11,7 @@ import {
   ListItem,
   TextField,
 } from "@mui/material";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * Share modal
@@ -118,7 +119,7 @@ export function ShareModal({
             }}
             onClick={() => {
               navigator.clipboard.writeText(href);
-              toast.success("Copied link to clipboard");
+              toast.success("Copied link to clipboard",toastStyles);
               handleClose();
             }}
           >

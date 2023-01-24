@@ -8,6 +8,7 @@ import { Layout } from "../../components/Auth/Layout";
 import { colors } from "../../lib/colors";
 
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * Top-level component for the signup page.
@@ -33,16 +34,16 @@ export default function Prompt() {
       })
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Check your email for further instructions.");
+            toast.success("Check your email for further instructions.",toastStyles);
             router.push("/tasks");
             setButtonLoading(false);
           } else {
-            toast.error("An error occurred.");
+            toast.error("An error occurred.",toastStyles);
             setButtonLoading(false);
           }
         })
         .catch(() => {
-          toast.error("An error occurred.");
+          toast.error("An error occurred.",toastStyles);
           setButtonLoading(false);
         });
     },

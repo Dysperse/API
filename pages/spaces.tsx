@@ -30,6 +30,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { toastStyles } from "../lib/useCustomTheme";
 
 const isValidUrl = (urlString) => {
   var urlPattern = new RegExp(
@@ -103,7 +104,7 @@ function LinkModal({ value, setValue }) {
               setLink("");
               setOpen(false);
             } else {
-              toast.error("Please enter a valid URL");
+              toast.error("Please enter a valid URL", toastStyles);
             }
           }}
         >
@@ -386,13 +387,13 @@ function CreatePostMenu({ url }) {
                   setContentVisibility("Only me");
                   ref.current?.focus();
                   setLoading(false);
-                  toast.success("Post created");
+                  toast.success("Post created", toastStyles);
                   const e: any = document?.getElementById("imageAttachment");
                   e.value = "";
                   mutate(url);
                 })
                 .catch(() => {
-                  toast.error("Something went wrong");
+                  toast.error("Something went wrong", toastStyles);
                   setLoading(false);
                 });
             }}
@@ -859,7 +860,7 @@ function Post({ data, url }) {
                   mutate(url);
                 })
                 .catch(() => {
-                  toast.error("Something went wrong");
+                  toast.error("Something went wrong", toastStyles);
                   setExpanded(false);
                   setLoading(false);
                 });

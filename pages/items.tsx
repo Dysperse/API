@@ -456,12 +456,13 @@ function CreateRoom({ mutationUrl }) {
         setOpen(false);
         setLoading(false);
         setName("");
-        toast.success("Room created");
+        toast.success("Room created", toastStyles);
         mutate(mutationUrl);
       })
       .catch(() => {
         toast.error(
-          "An error occurred while trying to create your room. Please try again later."
+          "An error occurred while trying to create your room. Please try again later.",
+          toastStyles
         );
         setLoading(false);
       });

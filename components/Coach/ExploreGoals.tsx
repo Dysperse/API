@@ -24,6 +24,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -48,11 +49,11 @@ function CreateGoal({ mutationUrl }) {
 
   const handleSubmit = async () => {
     if (!titleRef.current.value) {
-      toast.error("Goal must have a name");
+      toast.error("Goal must have a name", toastStyles);
       return;
     }
     if (!goalStepName.current.value) {
-      toast.error("Goal must have a step name.");
+      toast.error("Goal must have a step name.", toastStyles);
       return;
     }
     if (
@@ -60,11 +61,11 @@ function CreateGoal({ mutationUrl }) {
       parseInt(durationRef.current.value) > 100 ||
       parseInt(durationRef.current.value) < 10
     ) {
-      toast.error("Goal must be between 10 and 100 days");
+      toast.error("Goal must be between 10 and 100 days", toastStyles);
       return;
     }
     if (!time) {
-      toast.error("Goal must have a time");
+      toast.error("Goal must have a time", toastStyles);
       return;
     }
     setLoading(true);
@@ -80,11 +81,12 @@ function CreateGoal({ mutationUrl }) {
       setLoading(false);
       await mutate(mutationUrl);
       setOpen(false);
-      toast.success("Created goal!");
+      toast.success("Created goal!", toastStyles);
     } catch (e) {
       setLoading(false);
       toast.error(
-        "An error occurred while trying to set your goal. Please try again."
+        "An error occurred while trying to set your goal. Please try again.",
+        toastStyles
       );
     }
   };
@@ -371,7 +373,8 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
                         } catch (e) {
                           setLoading(false);
                           toast.error(
-                            "An error occurred while trying to set your goal. Please try again."
+                            "An error occurred while trying to set your goal. Please try again.",
+                            toastStyles
                           );
                         }
                       }}
@@ -396,9 +399,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
                       }}
                     >
                       <Box>
-                        <Typography
-                          sx={{ fontWeight: "600" }}
-                        >
+                        <Typography sx={{ fontWeight: "600" }}>
                           {goal.name}
                         </Typography>
                         <Typography variant="body2">

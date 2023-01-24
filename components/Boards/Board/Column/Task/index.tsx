@@ -24,6 +24,7 @@ import { mutate } from "swr";
 import { ImageViewer } from "./ImageViewer";
 import { SubTask } from "./SubTask";
 import { TaskDrawer } from "./TaskDrawer";
+import { toastStyles } from "../../../../../lib/useCustomTheme";
 
 // use whatever you want here
 const URL_REGEX =
@@ -316,7 +317,7 @@ export const Task = React.memo(function Task({
                       completed: e.target.checked ? "true" : "false",
                       id: task.id,
                     }).catch(() =>
-                      toast.error("An error occured while updating the task")
+                      toast.error("An error occured while updating the task",toastStyles)
                     );
                   }}
                   onClick={(e) => {

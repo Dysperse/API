@@ -9,6 +9,7 @@ import { useSWRConfig } from "swr";
 import { Layout } from "../../components/Auth/Layout";
 
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * Top-level component for the signup page.
@@ -51,11 +52,11 @@ export default function Prompt() {
           }
           mutate("/api/user");
           router.push("/");
-          toast.success("Welcome to Dysperse!");
+          toast.success("Welcome to Dysperse!", toastStyles);
         })
         .catch((err) => {
           setButtonLoading(false);
-          toast.error(err);
+          toast.error(err,toastStyles);
         });
     },
   });

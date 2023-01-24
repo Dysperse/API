@@ -13,6 +13,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
+import { toastStyles } from "../../lib/useCustomTheme";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
@@ -152,7 +153,7 @@ const Tab = React.memo(function Tab({
                     loading: "Renaming...",
                     success: "Renamed board",
                     error: "An error occurred while renaming the board",
-                  }
+                  },
                 );
               }
             }}
@@ -381,7 +382,8 @@ export function TasksLayout() {
               <Button size="small" onClick={() => setCollapsed(false)}>
                 Undo
               </Button>
-            </>
+            </>,
+            toastStyles
           );
         }}
         sx={{
