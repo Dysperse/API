@@ -13,6 +13,9 @@
 :root {
   --navbar-height: calc(70px + env(titlebar-area-height, 0px));
 }
+.MuiToolbar-root {
+  height: var(--navbar-height);
+}
 html,
 body {
   overscroll-behavior-y: none;

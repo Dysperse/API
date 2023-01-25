@@ -633,7 +633,8 @@ export const Board = function Board({
           justifyContent: { xs: "center", sm: "start" },
           maxWidth: "100vw",
           pl: {
-            sm: data && board.columns.length === 1 ? 0 : 3,
+            xs: data ? 0 : 2,
+            sm: data ? (board.columns.length === 1 ? 0 : 3) : 2,
           },
         }}
         id="taskContainer"

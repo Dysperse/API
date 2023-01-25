@@ -17,26 +17,28 @@ export default function Document() {
           })(window,document,'script','dataLayer','GTM-PPH4TH4');
          `}
         </Script>
-        <link
-          rel="preload"
-          href="/api/user"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
-        <link rel="preconnect" href="https://i.ibb.co" />
-        <link rel="preconnect" href="https://ouch-cdn2.icons8.com" />
+
+        {/* Preconnect */}
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link rel="preconnect" href="https://assets.dysperse.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           rel="preconnect"
-          href="https://fonts.gstatic.com"
+          href="https://fonts.googleapis.com"
           crossOrigin="anonymous"
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+        {/* Preload */}
+        <link rel="preload" href="/api/user" as="fetch" />
         <link
           rel="preload"
           as="style"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
         />
+
+        {/* DNS prefetch */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com/" />
+
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"

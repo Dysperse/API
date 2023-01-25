@@ -67,11 +67,7 @@ function ResponsiveDrawer({
           },
         }}
       >
-        <Toolbar
-          sx={{
-            height: "calc(70px + env(titlebar-area-height, 0px))",
-          }}
-        />
+        <Toolbar />
         <Box
           sx={{
             height: "70px",

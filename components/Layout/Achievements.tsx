@@ -144,8 +144,10 @@ export function Achievements({ styles }) {
           >
             <picture>
               <Image
-                placeholder="blur"
+                // placeholder=""
                 src="/images/stats-banner.png"
+                height={1080}
+                width={1920}
                 alt="Achievement banner"
                 style={{
                   height: "100%",

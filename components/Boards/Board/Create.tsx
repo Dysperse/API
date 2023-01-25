@@ -16,6 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
@@ -540,8 +541,6 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
       <Box
         sx={{
-          background:
-            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/images/board-header.png)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -550,9 +549,28 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           p: 4,
           mb: 7,
           mx: { sm: 1 },
+          overflow: "hidden",
           py: 5,
+          position: "relative",
         }}
       >
+        <Image
+          src="/images/board-header.png"
+          alt="Banner"
+          // placeholder="blur"
+          width={1500}
+          height={500}
+          style={{
+            filter: "brightness(80%)",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            position: "absolute",
+            top: 0,
+            zIndex: -1,
+            left: 0,
+          }}
+        />
         <Typography
           variant="h5"
           onClick={() => length !== 0 && setDrawerOpen(true)}
