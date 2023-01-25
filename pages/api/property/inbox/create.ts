@@ -1,5 +1,6 @@
 import { prisma } from "../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../lib/validatePermissions";
+const webPush = require("web-push");
 
 /**
  * API handler
@@ -33,6 +34,47 @@ export const createInboxNotification = async (
       property: true,
     },
   });
+
+  // Fetch all members of the property
+  const members = await prisma.propertyInvite.findMany({
+    where: {
+      propertyId,
+    },
+    select: {
+      user: {
+        select: {
+          notificationSubscription: true,
+        },
+      },
+    },
+  });
+
+  // Send a notification to each member
+  for (let i = 0; i < members.length; i++) {
+    const { notificationSubscription } = members[i].user;
+    if (notificationSubscription) {
+      webPush.setVapidDetails(
+        `mailto:${process.env.WEB_PUSH_EMAIL}`,
+        process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
+        process.env.WEB_PUSH_PRIVATE_KEY
+      );
+
+      webPush
+        .sendNotification(
+          notificationSubscription,
+          JSON.stringify({
+            title: "Your group has a new notification",
+            body: `${who} ${what}`,
+            actions: [{ title: "⚡ View", action: "view" }],
+          })
+        )
+        .then(() => console.log("Sent"))
+        .catch((err) => {
+          console.log(err);
+          console.log("Error");
+        });
+    }
+  }
 
   return data;
 };
