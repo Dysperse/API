@@ -61,11 +61,11 @@ export const createInboxNotification = async (
 
       webPush
         .sendNotification(
-          notificationSubscription,
+          JSON.parse(notificationSubscription) as any,
           JSON.stringify({
             title: "Your group has a new notification",
             body: `${who} ${what}`,
-            actions: [{ title: "⚡ View", action: "view" }],
+            actions: [{ title: "⚡ View", action: "viewGroupModification" }],
           })
         )
         .then(() => console.log("Sent"))
