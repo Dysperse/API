@@ -350,12 +350,18 @@ function DailyRoutine() {
           <Typography>
             {data ? (
               <>
-                {tasksRemaining.length} tasks remaining &bull; Click to{" "}
-                {doneTasks === 0
-                  ? "start"
-                  : tasksRemaining === 0
-                  ? "view"
-                  : "resume"}
+                {tasksRemaining.length == 0 ? (
+                  <>✔️ Complete!</>
+                ) : (
+                  <>
+                    {tasksRemaining.length + " tasks remaining"} &bull; Click to{" "}
+                    {doneTasks === 0
+                      ? "start"
+                      : tasksRemaining === 0
+                      ? "view"
+                      : "resume"}
+                  </>
+                )}
               </>
             ) : (
               "Loading..."

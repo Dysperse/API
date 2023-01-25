@@ -46,8 +46,11 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
               ? "hsl(240%,11%,20%)"
               : "rgba(200,200,200,.3)",
           },
+          "&:active": {
+            transition: { sm: "none!important" },
+          },
           py: 2,
-          transition: "all .2s!important",
+          transition: "transform .2s!important",
           px: 3,
           mb: 2,
           cursor: "pointer",
