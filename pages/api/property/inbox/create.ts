@@ -63,7 +63,7 @@ export const createInboxNotification = async (
         .sendNotification(
           JSON.parse(notificationSubscription) as any,
           JSON.stringify({
-            title: "Your group has a new notification",
+            title: `${who} has edited your group`,
             body: `${who} ${what}`,
             actions: [{ title: "⚡ View", action: "viewGroupModification" }],
           })
