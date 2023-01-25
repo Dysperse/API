@@ -65,7 +65,7 @@ function CircularProgressWithLabel(
   );
 }
 
-const Task = ({ task }) => {
+const Task: any = React.memo(function Task({ task }: any) {
   const [checked, setChecked] = React.useState(
     task.lastCompleted === dayjs().format("YYYY-MM-DD")
   );
@@ -160,7 +160,7 @@ const Task = ({ task }) => {
       </Box>
     </Box>
   );
-};
+});
 
 function DailyRoutine() {
   const { data, url } = useApi("user/routines");
