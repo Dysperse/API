@@ -1,4 +1,4 @@
-import { AppBar, Box, Skeleton, Toolbar } from "@mui/material";
+import { AppBar, Box, Icon, Skeleton, Toolbar } from "@mui/material";
 
 /**
  * Loading screen
@@ -67,10 +67,10 @@ export function Loading(): JSX.Element {
                 }}
               />
             ))}
-            {/* <div style={{ opacity: 0 }}>
+            <div style={{ opacity: 0 }}>
               <Icon>add_circle</Icon>
               <Icon className="outlined">add_circle</Icon>
-            </div> */}
+            </div>
           </Box>
         </Toolbar>
       </AppBar>
