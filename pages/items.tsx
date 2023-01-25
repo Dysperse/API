@@ -1,19 +1,11 @@
-import { LoadingButton } from "@mui/lab";
-import type { CustomRoom, Item } from "@prisma/client";
-import BoringAvatar from "boring-avatars";
-import { decode, encode } from "js-base64";
+import { decode } from "js-base64";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
-import toast from "react-hot-toast";
-import { mutate } from "swr";
 import { OptionsGroup } from "../components/Boards/Board/OptionsGroup";
 import { ErrorHandler } from "../components/Error";
-import { Puller } from "../components/Puller";
 import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
-import { ItemCard } from "../components/Rooms/ItemCard";
-import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
+import { useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
 
@@ -22,143 +14,23 @@ import {
   Box,
   CircularProgress,
   Divider,
-  FormLabel,
-  Icon,
-  IconButton,
   ListItem,
   ListItemAvatar,
   ListItemText,
   Menu,
   MenuItem,
   Skeleton,
-  SwipeableDrawer,
-  Switch,
-  TextField,
   Typography,
 } from "@mui/material";
-import { toastStyles } from "../lib/useCustomTheme";
-
-/**
- * Category modal
- * @param {string} category - The category name
- */
-function CategoryModal({ category }: { category: string }) {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [data, setData] = React.useState([]);
-
-  React.useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
-
-  return (
-    <>
-      <SwipeableDrawer
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        disableSwipeToOpen
-        open={open}
-        anchor="bottom"
-        PaperProps={{
-          sx: {
-            width: {
-              sm: "50vw",
-            },
-            maxWidth: "600px",
-            maxHeight: "95vh",
-          },
-        }}
-      >
-        <Puller />
-        <Box sx={{ p: 3, pt: 0, overflow: "scroll" }}>
-          <Typography
-            sx={{
-              textAlign: "center",
-              my: 4,
-              textTransform: "capitalize",
-              fontWeight: "600",
-            }}
-            variant="h5"
-          >
-            {category}
-          </Typography>
-          {data
-            .filter((item) => item)
-            .map((item: Item) => (
-              <Box sx={{ mb: 1 }} key={item.id.toString()}>
-                <ItemCard item={item} displayRoom={false} />
-              </Box>
-            ))}
-          {data.length === 0 && <>No items</>}
-        </Box>
-      </SwipeableDrawer>
-      <ListItem
-        button
-        onClick={() => {
-          setLoading(true);
-          fetchApiWithoutHook("property/inventory/categoryList", {
-            category: category,
-          })
-            .then((res) => {
-              setData(res);
-              setOpen(true);
-              setLoading(false);
-            })
-            .catch(() => {
-              setLoading(false);
-            });
-        }}
-        sx={{
-          mb: 1,
-          transition: "transform .2s !important",
-          gap: 2,
-          borderRadius: 4,
-          "&:active": {
-            transition: "none!important",
-            transform: "scale(.97)",
-            background: global.user.darkMode
-              ? "hsl(240, 11%, 20%)"
-              : "rgba(200,200,200,.4)",
-          },
-          ...(theme === "dark" && {
-            "&:hover .MuiAvatar-root": {
-              background: "hsl(240,11%,27%)",
-            },
-          }),
-        }}
-      >
-        <BoringAvatar
-          name={category}
-          size={30}
-          colors={["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"]}
-        />
-        <ListItemText
-          primary={
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              {category}{" "}
-              {loading && (
-                <CircularProgress
-                  size={15}
-                  sx={{
-                    ml: "auto",
-                    animationDuration: ".4s",
-                    transitionDuration: ".4s",
-                  }}
-                  disableShrink
-                />
-              )}
-            </Box>
-          }
-        />
-      </ListItem>
-    </>
-  );
-}
+import { CategoryModal } from "../components/Rooms/items/CategoryModal";
+import { CreateRoom } from "../components/Rooms/items/CreateRoom";
+import { RoomActionMenu } from "../components/Rooms/items/RoomActionMenu";
+import { Rooms } from "../components/Rooms/items/Rooms";
 
 /**
  * Component to dispay items by category
  */
-function CategoryList() {
+const CategoryList = React.memo(function CategoryList() {
   const { error, data }: ApiResponse = useApi("property/inventory/categories");
 
   return (
@@ -203,88 +75,7 @@ function CategoryList() {
       )}
     </>
   );
-}
-
-function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  return (
-    <IconButton
-      disabled={global.permission === "read-only" || !isCustom}
-      size="small"
-      ref={itemRef}
-      onClick={(e: any) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleClick(e);
-      }}
-      onMouseDown={(e: any) => {
-        e.preventDefault();
-        e.stopPropagation();
-      }}
-      disableRipple
-      sx={{
-        transition: "none",
-        "&:hover": {
-          background: "rgba(200,200,200,.3)",
-        },
-        ...(global.permission === "read-only" && {
-          display: { sm: "none" },
-          opacity: "1!important",
-        }),
-      }}
-    >
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          handleClose();
-        }}
-      >
-        <MenuItem onClick={handleClose} disabled>
-          Rename
-        </MenuItem>
-        <MenuItem onClick={handleClose} disabled>
-          Make {isPrivate ? "private" : "public"}
-        </MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
-      </Menu>
-      <Icon className="outlined">
-        {global.permission === "read-only" ? (
-          "chevron_right"
-        ) : isPrivate ? (
-          "lock"
-        ) : isCustom ? (
-          "more_horiz"
-        ) : (
-          <Box
-            sx={{
-              display: { sm: "none!important" },
-              color: global.user.darkMode ? "#fff" : "#404040",
-            }}
-            className="material-symbols-rounded"
-          >
-            chevron_right
-          </Box>
-        )}
-      </Icon>
-    </IconButton>
-  );
-}
+});
 
 /**
  * Room button
@@ -293,7 +84,7 @@ function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
  * @param {string} href - The room's link
  * @param {Function} onClick - Callback function for the room's click event
  */
-const Action = React.memo(function Action({
+export const Action = React.memo(function Action({
   count,
   icon,
   disableLoading = false,
@@ -466,148 +257,10 @@ const Action = React.memo(function Action({
   );
 });
 
-function CreateRoom({ mutationUrl }) {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [name, setName] = React.useState("");
-  const [isPrivate, setIsPrivate] = React.useState(false);
-
-  const handleSubmit = () => {
-    setLoading(true);
-    fetchApiWithoutHook("property/rooms/create", {
-      name: name,
-      private: isPrivate ? "true" : "false",
-    })
-      .then(() => {
-        setOpen(false);
-        setLoading(false);
-        setName("");
-        toast.success("Room created", toastStyles);
-        mutate(mutationUrl);
-      })
-      .catch(() => {
-        toast.error(
-          "An error occurred while trying to create your room. Please try again later.",
-          toastStyles
-        );
-        setLoading(false);
-      });
-  };
-
-  return (
-    <>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={open}
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        disableSwipeToOpen
-      >
-        <Puller />
-        <Box
-          sx={{
-            px: 3,
-            pb: 3,
-          }}
-        >
-          <Typography variant="h6" className="font-bold">
-            Create{" "}
-            {global.property.profile.type === "study group"
-              ? "container"
-              : "room"}
-          </Typography>
-          <TextField
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            label={
-              global.property.profile.type === "study group"
-                ? "Container name (Example: backpack, drawer, etc.)"
-                : "Room name"
-            }
-            variant="filled"
-            margin="dense"
-            autoFocus
-            sx={{ mt: 2 }}
-          />
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 2 }}>
-            <Switch
-              checked={isPrivate}
-              onChange={(e) => setIsPrivate(e.target.checked)}
-            />
-            <FormLabel>
-              <b>Private</b>
-              <br />
-              {isPrivate
-                ? "Only you can see this " +
-                  (global.property.profile.type === "study group"
-                    ? "container"
-                    : "room") +
-                  " and its contents"
-                : (global.property.profile.type === "study group"
-                    ? "Container"
-                    : "Room") + " will be visible to other group members"}
-            </FormLabel>
-          </Box>
-          <LoadingButton
-            variant="contained"
-            fullWidth
-            loading={loading}
-            sx={{
-              background: colors[themeColor][900] + "!important",
-              mt: 2,
-              borderRadius: 999,
-            }}
-            size="large"
-            onClick={handleSubmit}
-          >
-            Create
-          </LoadingButton>
-        </Box>
-      </SwipeableDrawer>
-      <Action
-        disableLoading
-        icon="add_circle"
-        primary={
-          global.property.profile.type === "study group"
-            ? "New container"
-            : "New room"
-        }
-        onClick={() => setOpen(true)}
-      />
-    </>
-  );
-}
-
-/**
- * Rooms popup
- */
-function Rooms({ data, error }) {
-  return (
-    <>
-      {data &&
-        data.map((room: CustomRoom) => (
-          <Action
-            href={`/rooms/${encode(
-              `${room.id},${room.name}`
-            ).toString()}?custom=true`}
-            icon="label"
-            isPrivate={room.private}
-            primary={room.name}
-            key={room.id.toString()}
-            isCustom={true}
-          />
-        ))}
-      {error && (
-        <ErrorHandler error="An error occured while trying to fetch your items" />
-      )}
-    </>
-  );
-}
-
 /**
  * Top-level component for the items page
  */
-export default function Categories({ children = null }: any) {
+export default function Inventory({ children = null }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   /**
