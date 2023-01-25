@@ -143,10 +143,6 @@ function RenderWithLayout({
     <>
       <Head>
         <title>Dysperse</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content"
-        />
       </Head>
       <ThemeProvider theme={userTheme}>
         <Box>

@@ -49,6 +49,10 @@ export default function Document() {
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content"
+        />
 
         <link
           rel="apple-touch-icon"
