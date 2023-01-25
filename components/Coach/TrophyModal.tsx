@@ -146,13 +146,16 @@ export function TrophyModal({ goal, mutationUrl }) {
         <Box
           sx={{
             position: "absolute",
-            bottom: 0,
-            left: 0,
+            bottom: "10px",
+            left: "10px",
             background: "rgba(0,0,0,0.7)",
-            p: 4,
-            width: "100%",
+            p: 2,
+            px: 3,
             color: "#fff",
             zIndex: 999999999,
+            borderRadius: 5,
+            width: "calc(100% - 20px)",
+            mb: "20px",
             backdropFilter: "blur(20px)",
           }}
           className="slide-in-bottom"
@@ -165,12 +168,17 @@ export function TrophyModal({ goal, mutationUrl }) {
             Congratulations!
           </Typography>
           <Typography variant="body1">
-            After spending {goal.durationDays} days working hard towards this
-            goal, you finally achieved it! Pat yourself on the back!
+            After spending{" "}
+            <b>
+              <u>{goal.durationDays} days</u>
+            </b>{" "}
+            working hard towards this goal, you finally achieved it! Pat
+            yourself on the back!
           </Typography>
           <Button
             sx={{
               boxShadow: 0,
+              borderRadius: 9999,
               background: "#fff!important",
               color: "#000",
               mt: 2,

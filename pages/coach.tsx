@@ -351,7 +351,7 @@ function DailyRoutine() {
             {data ? (
               <>
                 {tasksRemaining.length == 0 ? (
-                  <>✔️ Complete!</>
+                  <>Hurray! You worked towards all of your goals today!</>
                 ) : (
                   <>
                     {tasksRemaining.length + " tasks remaining"} &bull; Click to{" "}
@@ -407,9 +407,10 @@ export default function Render() {
               className="font-heading"
               sx={{
                 fontSize: {
-                  xs: "25px",
+                  xs: "40px",
                   sm: "35px",
                 },
+                my: 3,
                 textDecoration: "underline",
               }}
               variant="h5"
