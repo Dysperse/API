@@ -192,8 +192,8 @@ function CategoryList() {
             {[...new Array(5)].map(() => (
               <Skeleton
                 animation="wave"
-                height={50}
-                sx={{ width: "100%", mb: 1, borderRadius: 3 }}
+                height={60}
+                sx={{ width: "100%", mb: 2, borderRadius: 3 }}
                 variant="rectangular"
                 key={Math.random().toString()}
               />
@@ -321,7 +321,7 @@ const Action = React.memo(function Action({
   const itemCount =
     count && count.byRoom[primary.toLowerCase()]
       ? count.byRoom[primary.toLowerCase()]
-      : 0;
+      : -1;
   const ref: any = React.useRef(null);
   return (
     <ListItem
@@ -436,10 +436,29 @@ const Action = React.memo(function Action({
             // float: "right",
           }
         }
-        primary={<Typography sx={{ fontWeight: "500" }}>{primary}</Typography>}
+        primary={
+          <Typography
+            sx={{
+              fontWeight: "500",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {primary}
+          </Typography>
+        }
         secondary={
-          <Typography className="text-sm sm font-normal">
-            {itemCount !== "0" ? itemCount : "No"} item{itemCount !== 1 && "s"}
+          <Typography
+            className="text-sm sm font-normal"
+            sx={{
+              ...(!count &&
+                itemCount !== -1 && {
+                  filter: "blur(2px)!important",
+                }),
+            }}
+          >
+            {itemCount !== -1 ? itemCount : "No"} item{itemCount !== 1 && "s"}
           </Typography>
         }
       />
