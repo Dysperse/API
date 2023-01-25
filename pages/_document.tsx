@@ -8,7 +8,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="afterInteractive" defer>
           {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -113,6 +113,7 @@ export default function Document() {
           }}
         />
         <Script
+          defer
           src="/prevent-navigate-history.js"
           strategy="afterInteractive"
         />
