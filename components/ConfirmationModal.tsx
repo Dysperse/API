@@ -54,9 +54,12 @@ export function ConfirmationModal({
           },
         }}
       >
-        <DialogTitle sx={{ fontWeight: "800" }}>
+        <DialogTitle className="font-[800]">
           {title}
-          <DialogContentText id="alert-dialog-slide-description" sx={{ mt: 1 }}>
+          <DialogContentText
+            id="alert-dialog-slide-description"
+            className="mt-1.5"
+          >
             {question}
           </DialogContentText>
         </DialogTitle>
