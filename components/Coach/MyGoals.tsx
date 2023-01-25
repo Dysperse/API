@@ -140,7 +140,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               </Box>
             </div>
           ) : (
-            <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 2, sm: 2 }}>
+            <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
               {[
                 ...data.filter((item) => item.tasks === item.completed),
                 ...data.filter((item) => item.tasks !== item.completed),
@@ -153,13 +153,18 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       ) : error ? (
         <ErrorHandler error="An error occured while trying to fetch your routines" />
       ) : (
-        <Skeleton
-          variant="rectangular"
-          width="100%"
-          height={50}
-          animation="wave"
-          sx={{ borderRadius: 5 }}
-        />
+        <Box>
+          {[...new Array(10)].map((_, i) => (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              key={i.toString()}
+              height={70}
+              animation="wave"
+              sx={{ borderRadius: 5, my: 4 }}
+            />
+          ))}
+        </Box>
       )}
       <div
         onClick={() => setOpen(true)}

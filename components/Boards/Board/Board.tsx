@@ -191,6 +191,7 @@ function BoardSettings({ mutationUrl, board }) {
         onClick={handleClick}
         sx={{
           transition: "none",
+          flexShrink: 0,
           "&:hover": {
             background: `${
               global.user.darkMode
@@ -388,6 +389,8 @@ export const Board = function Board({
     borderRadius: 2,
     overflow: "hidden",
     maxWidth: "100%",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
     px: 1,
     mb: 0.2,
     color: global.user.darkMode ? "hsl(240,11%,80%)" : "#404040",
@@ -405,9 +408,6 @@ export const Board = function Board({
         ? "hsl(240,11%,16%)"
         : "rgba(200,200,200,.4)",
     },
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "10px",
   };
 
   const { data, url, error } = useApi("property/boards/tasks", {
@@ -450,7 +450,9 @@ export const Board = function Board({
       >
         <Box
           sx={{
-            maxWidth: "100%",
+            maxWidth: { xs: "100vw", sm: "100%" },
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           <Typography
@@ -467,7 +469,15 @@ export const Board = function Board({
             onClick={() => setDrawerOpen(true)}
           >
             {board.name}
-            <Icon>expand_more</Icon>
+            <Icon
+              sx={{
+                flexShrink: 0,
+                mb: -0.5,
+                ml: 1,
+              }}
+            >
+              expand_more
+            </Icon>
           </Typography>
           <Box
             sx={{
@@ -578,6 +588,7 @@ export const Board = function Board({
             size="small"
             disableRipple
             sx={{
+              flexShrink: 0,
               transition: "none",
               "&:hover": {
                 background: `${
@@ -615,12 +626,15 @@ export const Board = function Board({
 
       <Box
         sx={{
-          overflowX: "scroll",
+          overflowX: { sm: "scroll" },
           mt: data && board.columns.length === 1 ? -2 : 4,
           display: "flex",
-          gap: "15px",
+          gap: { sm: "15px" },
+          justifyContent: { xs: "center", sm: "start" },
           maxWidth: "100vw",
-          pl: data && board.columns.length === 1 ? 0 : 3,
+          pl: {
+            sm: data && board.columns.length === 1 ? 0 : 3,
+          },
         }}
         id="taskContainer"
       >

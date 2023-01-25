@@ -380,13 +380,13 @@ export const Column = React.memo(function Column({
         flexDirection: "column",
         position: "relative",
         width: {
-          xs: "calc(100vw - 50px)",
-          sm: "370px",
+          xs: "calc(100vw - 10px)!important",
+          sm: "370px!important",
         },
         height: "100%",
         flex: {
-          xs: "0 0 calc(100vw - 50px)",
-          sm: "0 0 370px",
+          xs: "0 0 calc(100vw - 10px)!important",
+          sm: "0 0 370px!important",
         },
         p: 3,
         pt: { xs: 0, sm: 3 },

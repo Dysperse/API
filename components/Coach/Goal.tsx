@@ -35,16 +35,21 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   });
 
   return (
-    <>
+    <Box>
       <Box
         className="active:scale-[.98] shadow-md border"
         onClick={() => setOpen(true)}
         sx={{
           borderRadius: 5,
+          "&:hover": {
+            background: global.user.darkMode
+              ? "hsl(240%,11%,20%)"
+              : "rgba(200,200,200,.3)",
+          },
           py: 2,
           transition: "all .2s!important",
           px: 3,
-          mb: 1,
+          mb: 2,
           cursor: "pointer",
           background: {
             sm: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
@@ -277,6 +282,6 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           </Typography>
         </Box>
       </SwipeableDrawer>
-    </>
+    </Box>
   );
 }

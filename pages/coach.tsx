@@ -321,7 +321,7 @@ function DailyRoutine() {
             filter: "blur(5px)",
             pointerEvents: "none",
           }),
-          ml: "auto",
+          ml: { sm: "auto" },
           p: 2,
           px: 3,
           cursor: "pointer",
