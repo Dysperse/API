@@ -19,7 +19,7 @@ const handler = async (req, res) => {
   }
   await createInboxNotification(
     req.query.userName,
-    `changed the ${req.query.changedKey} of the property to "${req.query.changedValue}"`,
+    `changed the ${req.query.changedKey} of the group to "${req.query.changedValue}"`,
     new Date(req.query.timestamp),
     req.query.property,
     req.query.accessToken
