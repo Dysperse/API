@@ -167,7 +167,7 @@ export function TrophyModal({ goal, mutationUrl }) {
           >
             Congratulations!
           </Typography>
-          <Typography variant="body1">
+          <Typography variant="body1" className="mt-1">
             After spending{" "}
             <b>
               <u>{goal.durationDays} days</u>
@@ -181,7 +181,7 @@ export function TrophyModal({ goal, mutationUrl }) {
               borderRadius: 9999,
               background: "#fff!important",
               color: "#000",
-              mt: 2,
+              mt: 1,
               width: "100%",
             }}
             variant="contained"

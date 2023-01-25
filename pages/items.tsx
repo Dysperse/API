@@ -362,14 +362,11 @@ export default function Inventory({ children = null }: any) {
             borderRadius: "15px!important",
           }}
         >
-          <Typography
-            sx={{ my: 5, fontWeight: "600", display: { sm: "none" } }}
-            variant="h5"
-          >
+          <h1 className="text-4xl underline font-heading my-10 sm:hidden font-light">
             {global.property.profile.type === "study group"
               ? "Belongings"
               : "Inventory"}
-          </Typography>
+          </h1>
           <OptionsGroup
             currentOption={viewBy}
             setOption={setViewBy}
