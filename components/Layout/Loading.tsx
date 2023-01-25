@@ -67,6 +67,10 @@ export function Loading(): JSX.Element {
                 }}
               />
             ))}
+            {/* <div style={{ opacity: 0 }}>
+              <Icon>add_circle</Icon>
+              <Icon className="outlined">add_circle</Icon>
+            </div> */}
           </Box>
         </Toolbar>
       </AppBar>

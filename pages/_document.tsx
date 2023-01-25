@@ -36,15 +36,15 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display&display=swap"
           rel="stylesheet"
         />
-
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />
+        <meta name="mobile-web-app-capable" content="yes" />
+
         <link
           rel="apple-touch-icon"
           href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/57.png"
         />
-        <meta name="mobile-web-app-capable" content="yes" />
         <link
           rel="apple-touch-icon"
           sizes="57x57"
@@ -99,7 +99,10 @@ export default function Document() {
             __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPH4TH4" height="0" width="0" style="display: none; visibility: hidden;" />`,
           }}
         />
-        <Script src="/prevent-navigate-history.js" />
+        <Script
+          src="/prevent-navigate-history.js"
+          strategy="afterInteractive"
+        />
       </body>
     </Html>
   );
