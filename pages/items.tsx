@@ -189,7 +189,7 @@ function CategoryList() {
       ) : (
         !error && (
           <>
-            {[...new Array(5)].map(() => (
+            {[...new Array(15)].map(() => (
               <Skeleton
                 animation="wave"
                 height={60}
