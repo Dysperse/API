@@ -104,9 +104,9 @@ function CompletedTasks({
           .filter((task) =>
             task.name.toLowerCase().includes(value.toLowerCase())
           )
-          .map((task) => (
+          .map((task, i) => (
             <Task
-              key={task.id}
+              key={task.id + i}
               checkList={checkList}
               task={task}
               mutationUrl={mutationUrl}
@@ -390,10 +390,7 @@ export const Column = React.memo(function Column({
         },
         p: 3,
         pt: { xs: 0, sm: 3 },
-        px: {
-          xs: checkList ? 4 : 0,
-          sm: checkList ? 4 : 2,
-        },
+        px: checkList ? 4 : 2,
         ...(trigger && {
           border: "none !important",
           boxShadow: "none !important",
@@ -508,9 +505,9 @@ export const Column = React.memo(function Column({
         {columnTasks
           .filter((task) => !task.completed)
           .sort((x, y) => (x.pinned === y.pinned ? 0 : x.pinned ? -1 : 1))
-          .map((task) => (
+          .map((task, i) => (
             <Task
-              key={task.id}
+              key={task.id + i}
               checkList={checkList}
               task={task}
               mutationUrl={mutationUrl}
