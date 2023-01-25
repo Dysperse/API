@@ -10,6 +10,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
 import React, { useState } from "react";
 import { achievements } from "./achievements";
 
@@ -142,12 +143,9 @@ export function Achievements({ styles }) {
             }}
           >
             <picture>
-              <img
-                src={
-                  global.user.darkMode
-                    ? "/images/stats-banner.png"
-                    : "https://cdn.dribbble.com/users/1731254/screenshots/11649852/nature_gradients_illustration_tubikarts_4x.png?resize=1400x400&compress=1"
-                }
+              <Image
+                placeholder="blur"
+                src="/images/stats-banner.png"
                 alt="Achievement banner"
                 style={{
                   height: "100%",
