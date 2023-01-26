@@ -1,10 +1,12 @@
 import { DispatchNotification } from "../../lib/notification";
 
-export async function handler(req, res) {
+export default async function handler(req, res) {
+  // console.log(JSON.stringify(req.query.subscription));
   await DispatchNotification({
-    subscription: JSON.stringify(req.body.subscription),
+    subscription: req.query.subscription,
     title: "Swoosh!",
     body: "Notificiations are working!",
   });
+
   res.status(200).json({ success: true });
 }
