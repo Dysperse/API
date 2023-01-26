@@ -60,6 +60,19 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             boxShadow: "none!important",
             background: `${colors[themeColor][!darkMode ? 800 : 50]}!important`,
             color: colors[themeColor][!darkMode ? 50 : 800],
+            "&:hover": {
+              background: `${
+                colors[themeColor][darkMode ? 100 : 900]
+              }!important`,
+            },
+            "&:disabled": {
+              background: `${
+                colors[themeColor][darkMode ? 100 : 200]
+              }!important`,
+              cursor: "not-allowed!important",
+              opacity: 0.7,
+              color: colors[themeColor][!darkMode ? 800 : 50],
+            },
           },
           outlined: {
             color: `${colors[themeColor][darkMode ? 50 : 800]}!important`,
@@ -72,9 +85,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           text: {
             color: `${colors[themeColor][darkMode ? 50 : 700]}`,
           },
+
           root: {
             gap: "10px",
             transition: "none",
+            borderRadius: "999px",
+            paddingLeft: "30px",
+            paddingRight: "30px",
             textTransform: "none",
           },
         },

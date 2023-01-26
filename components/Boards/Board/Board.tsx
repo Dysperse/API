@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Chip,
+  DialogActions,
   Icon,
   IconButton,
   Menu,
@@ -57,7 +58,7 @@ function BoardSettings({ mutationUrl, board }) {
         disableBackdropTransition
       >
         <Puller />
-        <Box sx={{ px: 4, mb: 2 }}>
+        <Box sx={{ px: 2.5, mb: 1 }}>
           <TextField
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -70,39 +71,39 @@ function BoardSettings({ mutationUrl, board }) {
               },
             }}
           />
-          <Button
-            variant="outlined"
-            sx={{ mb: 1 }}
-            fullWidth
-            onClick={() => {
-              setRenameOpen(false);
-              ref.current?.click();
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={() => {
-              if (title !== board.name && title.trim() !== "") {
-                toast.promise(
-                  fetchApiWithoutHook("property/boards/renameBoard", {
-                    id: board.id,
-                    name: title,
-                  }).then(() => mutate(mutationUrl)),
-                  {
-                    loading: "Renaming...",
-                    success: "Renamed board!",
-                    error: "An error occurred while renaming the board",
-                  },
-                  toastStyles
-                );
-              }
-            }}
-          >
-            Save
-          </Button>
+          <DialogActions>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setRenameOpen(false);
+                ref.current?.click();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              disabled={title == board.name || title.trim() == ""}
+              onClick={() => {
+                if (title !== board.name && title.trim() !== "") {
+                  toast.promise(
+                    fetchApiWithoutHook("property/boards/renameBoard", {
+                      id: board.id,
+                      name: title,
+                    }).then(() => mutate(mutationUrl)),
+                    {
+                      loading: "Renaming...",
+                      success: "Renamed board!",
+                      error: "An error occurred while renaming the board",
+                    },
+                    toastStyles
+                  );
+                }
+              }}
+            >
+              Save
+            </Button>
+          </DialogActions>
         </Box>
       </SwipeableDrawer>
       <Menu
