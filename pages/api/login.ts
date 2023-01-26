@@ -107,7 +107,7 @@ export default async function handler(req, res) {
     await DispatchNotification({
       subscription: user.notificationSubscription as string,
       title: `${newToken?.token} is your Dysperse login code`,
-      body: "Your Dysperse ID has been used to sign into an authorized application",
+      body: "Dysperse employess will NEVER ask for this code. DO NOT share it with ANYONE!",
       actions: [],
     });
 
