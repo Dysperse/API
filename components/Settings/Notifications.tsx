@@ -127,8 +127,8 @@ export default function Notifications() {
   };
 
   const enabledOnAnotherDevice =
-    !isSubscribed && global.user.notificationSubscription;
-
+    (!isSubscribed && global.user.notificationSubscription) ||
+    global.user.notificationSubscription !== JSON.stringify(subscription);
   return isInPwa || process.env.NODE_ENV !== "production" ? (
     data ? (
       <Box sx={{ mb: 2 }}>
