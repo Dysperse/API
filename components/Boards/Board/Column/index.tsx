@@ -20,6 +20,7 @@ import {
 import { toast } from "react-hot-toast";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
 import { ConfirmationModal } from "../../../ConfirmationModal";
+import { toastStyles } from "../../../../lib/useCustomTheme";
 
 function CompletedTasks({
   checkList,
@@ -310,6 +311,7 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
                     setOpen(false);
                   }),
                   {
+                    ...toastStyles,
                     loading: "Saving your changes...",
                     success: "Your changes were saved",
                     error: "There was a problem saving your changes.",

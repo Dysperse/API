@@ -92,6 +92,7 @@ function BoardSettings({ mutationUrl, board }) {
                       name: title,
                     }).then(() => mutate(mutationUrl)),
                     {
+                      ...toastStyles,
                       loading: "Renaming...",
                       success: "Renamed board!",
                       error: "An error occurred while renaming the board",

@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * Function to update a user's setting and save it to the database.
@@ -49,6 +50,7 @@ export async function updateSettings(
       }
     }),
     {
+      ...toastStyles,
       loading: "Saving...",
       success: (message: any) => message,
       error: (err: any) => err,

@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { toastStyles } from "../../lib/useCustomTheme";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";
 import { updateSettings } from "./updateSettings";
@@ -124,6 +125,7 @@ export default function Notifications() {
     });
 
     toast.promise(promise, {
+      ...toastStyles,
       loading: "Saving...",
       success: "Saved!",
       error: "Failed to save",

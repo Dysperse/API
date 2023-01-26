@@ -571,6 +571,7 @@ function ImageBox({ isTrigger, image }) {
               });
             }),
             {
+              ...toastStyles,
               loading: "Copying image...",
               success: "Image copied to clipboard",
               error: "Something went wrong",

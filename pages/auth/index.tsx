@@ -114,30 +114,24 @@ export default function Prompt() {
           }
           if (window.location.href.includes("?close=true")) {
             // Success
-            toast.promise(
-              new Promise(() => {}),
-              {
-                loading: "Logging you in...",
-                success: "Success!",
-                error: "An error occured. Please try again later",
-              },
-              toastStyles
-            );
+            toast.promise(new Promise(() => {}), {
+              ...toastStyles,
+              loading: "Logging you in...",
+              success: "Success!",
+              error: "An error occured. Please try again later",
+            });
             mutate("/api/user").then(() => {
               window.close();
             });
             return;
           }
           // Success
-          toast.promise(
-            new Promise(() => {}),
-            {
-              loading: "Logging you in...",
-              success: "Success!",
-              error: "An error occured. Please try again later",
-            },
-            toastStyles
-          );
+          toast.promise(new Promise(() => {}), {
+            ...toastStyles,
+            loading: "Logging you in...",
+            success: "Success!",
+            error: "An error occured. Please try again later",
+          });
           if (window.location.href.includes("?application=")) {
             window.location.href =
               "https://availability.dysperse.com/api/oauth/redirect?token=" +

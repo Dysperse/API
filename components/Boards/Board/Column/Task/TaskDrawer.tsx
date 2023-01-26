@@ -165,6 +165,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 }
               }),
               {
+                ...toastStyles,
                 loading: task.pinned
                   ? "Removing important label"
                   : "Marking important...",

@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { colors } from "../lib/colors";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { toastStyles } from "../lib/useCustomTheme";
 
 export default function Redeem() {
   const [code, setCode] = React.useState("");
@@ -54,6 +55,7 @@ export default function Redeem() {
                 }, 2000);
               }),
               {
+                ...toastStyles,
                 loading: "Redeeming...",
                 success: "Success!",
                 error: (err) => {
