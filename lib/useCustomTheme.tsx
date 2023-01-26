@@ -71,7 +71,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               }!important`,
               cursor: "not-allowed!important",
               opacity: 0.7,
-              color: colors[themeColor][!darkMode ? 800 : 50],
+              color: colors[themeColor][!darkMode ? 900 : 50],
             },
           },
           outlined: {

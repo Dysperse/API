@@ -543,6 +543,7 @@ export function CreateTask({
                 <div>
                   <LoadingButton
                     loading={loading}
+                    disabled={title.trim() === ""}
                     type="submit"
                     disableRipple
                     sx={{
@@ -555,13 +556,6 @@ export function CreateTask({
                       borderRadius: 5,
                       px: 2,
                       minWidth: "auto",
-                      background:
-                        colors[themeColor][
-                          global.user.darkMode ? "A100" : 900
-                        ] + "!important",
-                      color:
-                        colors[themeColor][global.theme !== "dark" ? 50 : 900] +
-                        "!important",
                     }}
                     variant="contained"
                   >
