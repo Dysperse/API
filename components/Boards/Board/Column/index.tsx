@@ -2,7 +2,6 @@ import EmojiPicker from "emoji-picker-react";
 import React from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
-import { colors } from "../../../../lib/colors";
 import { Task } from "./Task";
 import { CreateTask } from "./Task/Create";
 
@@ -169,11 +168,6 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
     transition: "none!important",
     justifyContent: "start",
     gap: 2,
-    "&:hover": {
-      backgroundColor: `${
-        global.user.darkMode ? "hsl(240,11%,18%)" : colors[themeColor]["100"]
-      }!important`,
-    },
   };
   const [editMode, setEditMode] = React.useState(false);
   const [title, setTitle] = React.useState(column.name);
@@ -297,17 +291,14 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
               Cancel
             </Button>
             <Button
-              sx={{
-                ...styles,
-                background: `${colors[themeColor]["800"]}!important`,
-                color: `${colors[themeColor]["50"]}!important`,
-                "&:hover": {
-                  background: `${colors[themeColor]["900"]}!important`,
-                },
-              }}
+              sx={styles}
               size="large"
               variant="contained"
               ref={buttonRef}
+              disabled={
+                title.trim() == "" ||
+                (title === column.name && emoji === column.emoji)
+              }
               onClick={() => {
                 toast.promise(
                   fetchApiWithoutHook("property/boards/editColumn", {
