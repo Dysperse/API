@@ -2,6 +2,7 @@ import argon2 from "argon2";
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import * as twofactor from "node-2fa";
+import { DispatchNotification } from "../../lib/notification";
 import { prisma } from "../../lib/prismaClient";
 
 /**
@@ -83,6 +84,7 @@ export default async function handler(req, res) {
       id: true,
       password: true,
       twoFactorSecret: true,
+      notificationSubscription: true,
     },
   });
   // If the user doesn't exist, return an error
@@ -128,10 +130,21 @@ export default async function handler(req, res) {
         },
       },
     });
-
+    await DispatchNotification({
+      subscription: user.notificationSubscription as string,
+      title: "Account activity alert",
+      body: "Your Dysperse ID has been used to sign into an authorized application",
+      actions: [],
+    });
     return res.json({ success: true, accessToken: token.accessToken });
   }
 
+  await DispatchNotification({
+    subscription: user.notificationSubscription as string,
+    title: "Account activity alert",
+    body: "Someone (hopefully you) has successfully logged in to your account",
+    actions: [],
+  });
   const encoded = await createSession(user.id, res);
   res.json({ success: true, key: encoded });
 }
