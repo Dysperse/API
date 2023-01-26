@@ -109,11 +109,13 @@ export const Action = React.memo(function Action({
 }) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
-  const itemCount =
-    count && count.byRoom[primary.toLowerCase()]
+  const itemCount = count
+    ? count.byRoom[primary.toLowerCase()]
       ? count.byRoom[primary.toLowerCase()]
-      : -1;
+      : -2
+    : -1;
   const ref: any = React.useRef(null);
+
   return (
     <ListItem
       button
@@ -221,12 +223,6 @@ export const Action = React.memo(function Action({
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        sx={
-          {
-            // ml: "auto",
-            // float: "right",
-          }
-        }
         primary={
           <Typography
             sx={{
@@ -243,13 +239,12 @@ export const Action = React.memo(function Action({
           <Typography
             className="text-sm sm font-normal"
             sx={{
-              ...(!count &&
-                itemCount !== -1 && {
-                  filter: "blur(2px)!important",
-                }),
+              ...(itemCount == -1 && {
+                filter: "blur(3px)!important",
+              }),
             }}
           >
-            {itemCount !== -1 ? itemCount : "No"} item{itemCount !== 1 && "s"}
+            {itemCount !== -2 ? itemCount : "No"} item{itemCount !== 1 && "s"}
           </Typography>
         }
       />

@@ -141,12 +141,24 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             </div>
           ) : (
             <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
-              {[
-                ...data.filter((item) => item.tasks === item.completed),
-                ...data.filter((item) => item.tasks !== item.completed),
-              ].map((goal) => (
-                <Goal key={goal.id} goal={goal} mutationUrl={url} />
-              ))}
+              {
+                // Sort goals by days left (goal.progress  / goal.durationDays). Sort in reverse order, and move `goal.progress === goal.durationDays` to the end
+                data
+                  .sort((a, b) => {
+                    if (a.progress === a.durationDays) {
+                      return 1;
+                    }
+                    if (b.progress === b.durationDays) {
+                      return -1;
+                    }
+                    return (
+                      b.progress / b.durationDays - a.progress / a.durationDays
+                    );
+                  })
+                  .map((goal) => (
+                    <Goal key={goal.id} goal={goal} mutationUrl={url} />
+                  ))
+              }
             </Masonry>
           )}
         </>
