@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Chip,
   Icon,
   List,
   ListItem,
@@ -244,7 +245,26 @@ export default function FullScreenDialog({
           <SettingsMenu
             content={<Notifications />}
             icon="notifications"
-            primary="Notifications"
+            primary={
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontWeight: "600",
+                }}
+              >
+                Notifications
+                <Chip
+                  sx={{
+                    ml: 1.5,
+                    background:
+                      "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+                  }}
+                  size="small"
+                  label="BETA"
+                />
+              </span>
+            }
             secondary={
               <>
                 {global.user.notificationSubscription
