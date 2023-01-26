@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  SwipeableDrawer,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -43,7 +44,7 @@ function SettingsMenu({
   disabled?: boolean;
 }) {
   const [open, setOpen] = useState<boolean>(false);
-  useStatusBar(open);
+  // useStatusBar(open, 2);
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
@@ -147,30 +148,20 @@ export default function FullScreenDialog({
 }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
-  /**
-   * Open the settings drawer
-   * @returns {any}
-   */
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
 
-  /**
-   * Closes the popup
-   * @returns void
-   */
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
+
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-  useStatusBar(open);
 
   useHotkeys("ctrl+,", (e) => {
     e.preventDefault();
     document.getElementById("settingsTrigger")?.click();
   });
+
+  useStatusBar(open);
 
   return (
     <div>
@@ -178,16 +169,14 @@ export default function FullScreenDialog({
         {children}
       </Box>
 
-      <Drawer
+      <SwipeableDrawer
         anchor="bottom"
         PaperProps={{
-          sx: {
-            maxHeight: "95vh",
-            maxWidth: "600px",
-          },
+          sx: { maxWidth: "600px", maxHeight: "95vh" },
         }}
         open={open}
         onClose={handleClose}
+        onOpen={handleClickOpen}
       >
         <Puller />
         <Box sx={{ px: 5 }}>
@@ -310,7 +299,7 @@ export default function FullScreenDialog({
             </ListItem>
           </ConfirmationModal>
         </List>
-      </Drawer>
+      </SwipeableDrawer>
     </div>
   );
 }
