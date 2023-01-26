@@ -173,7 +173,6 @@ export const SubTask = React.memo(function SubTask({
           color="default"
           checkedIcon={<BpCheckedIcon />}
           icon={<BpIcon />}
-          inputProps={{ "aria-label": "Checkbox demo" }}
         />
         <Box
           sx={{

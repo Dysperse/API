@@ -378,7 +378,7 @@ export default function AddPopup({
   return (
     <>
       <CssBaseline />
-      <div aria-hidden id="add_trigger" onClick={handleAddItemDrawerOpen}>
+      <div id="add_trigger" onClick={handleAddItemDrawerOpen}>
         {children}
       </div>
 

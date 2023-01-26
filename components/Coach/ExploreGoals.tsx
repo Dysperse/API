@@ -240,7 +240,6 @@ export function TabPanel(props: TabPanelProps) {
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
       {value === index && <Box sx={{ py: 1 }}>{children}</Box>}
@@ -251,7 +250,6 @@ export function TabPanel(props: TabPanelProps) {
 export function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -307,7 +305,6 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label="basic tabs example"
             variant="scrollable"
             scrollButtons="auto"
             sx={{

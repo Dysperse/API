@@ -34,7 +34,6 @@ function ThemeColorSettings() {
         "cyan",
       ].map((color) => (
         <RadioGroup
-          aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
           key={color}
           onClick={() => updateSettings("color", color.toLowerCase())}
@@ -82,7 +81,6 @@ export default function AppearanceSettings() {
       <ThemeColorSettings />
       <ListSubheader sx={{ mt: 3 }}>Theme</ListSubheader>
       <RadioGroup
-        aria-labelledby="demo-controlled-radio-buttons-group"
         name="controlled-radio-buttons-group"
       >
         <ListItem

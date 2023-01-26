@@ -108,8 +108,6 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
           transition: "all .2s",
         }}
         onClose={() => setOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
         PaperProps={{
           sx: {
             width: {

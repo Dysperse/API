@@ -92,7 +92,6 @@ function Products() {
           onFocus={() => handleChange(category.key)}
         >
           <AccordionSummary
-            aria-controls="panel1d-content"
             id="panel1d-header"
             sx={{
               fontWeight: "500",
@@ -197,7 +196,6 @@ function Apps() {
           onFocus={() => handleChange(category.key)}
         >
           <AccordionSummary
-            aria-controls="panel1d-content"
             id="panel1d-header"
             sx={{
               fontWeight: "500",

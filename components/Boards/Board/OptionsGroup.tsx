@@ -13,7 +13,6 @@ export function OptionsGroup({ currentOption, setOption, options }) {
           global.user.darkMode ? "hsl(240,11%,20%)" : colors[themeColor][100]
         }!important`,
       }}
-      aria-label="outlined primary button group"
     >
       {options.map((option) => (
         <Button

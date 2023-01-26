@@ -191,9 +191,6 @@ export function Toolbar({
             colors[themeColor][global.user.darkMode ? 50 : 900]
           }!important`,
         }}
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
         <Icon className="outlined">filter_alt</Icon>
@@ -203,9 +200,6 @@ export function Toolbar({
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
         anchorOrigin={{
           vertical: "top",
           horizontal: "right",

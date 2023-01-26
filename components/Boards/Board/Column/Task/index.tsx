@@ -341,7 +341,6 @@ export const Task = React.memo(function Task({
                   color="default"
                   checkedIcon={<BpCheckedIcon dark />}
                   icon={<BpIcon dark />}
-                  inputProps={{ "aria-label": "Checkbox demo" }}
                 />
 
                 <Box

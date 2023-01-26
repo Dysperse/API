@@ -228,7 +228,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               color="default"
               checkedIcon={<BpCheckedIcon />}
               icon={<BpIcon />}
-              inputProps={{ "aria-label": "Checkbox demo" }}
             />
           </Box>
           <Box sx={{ flexGrow: 1 }}>

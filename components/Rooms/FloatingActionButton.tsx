@@ -34,7 +34,6 @@ export function FloatingActionButton({ sm = false }) {
           variant="extended"
           color="primary"
           disableRipple
-          aria-label="add"
           sx={{
             borderRadius: "20px",
             px: 3,

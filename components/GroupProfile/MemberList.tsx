@@ -88,9 +88,6 @@ function Member({
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
           >
             <MenuItem
               disabled={member.permission === "read-only"}

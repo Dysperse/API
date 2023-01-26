@@ -42,9 +42,6 @@ export function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();

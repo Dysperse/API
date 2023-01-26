@@ -109,9 +109,6 @@ function BoardSettings({ mutationUrl, board }) {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
       >
         <MenuItem
           disabled={board.archived}

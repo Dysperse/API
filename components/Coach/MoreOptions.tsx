@@ -21,9 +21,6 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
       >
         <MenuItem onClick={handleClose}>
           <Icon>share</Icon>

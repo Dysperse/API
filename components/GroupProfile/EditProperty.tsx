@@ -122,7 +122,6 @@ export function EditProperty({ color }: { color: string }) {
                 edge="start"
                 color="inherit"
                 sx={{ mr: 2 }}
-                aria-label="menu"
                 onClick={() => setOpen(false)}
               >
                 <Icon>expand_more</Icon>
@@ -166,7 +165,6 @@ export function EditProperty({ color }: { color: string }) {
               color: colors[color][global.user.darkMode ? 50 : 900],
               borderTopRightRadius: 6,
             }}
-            aria-haspopup="true"
             disabled={global.property.permission === "read-only"}
             onClick={handleClick}
           >
