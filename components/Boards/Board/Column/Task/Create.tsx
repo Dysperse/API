@@ -197,7 +197,7 @@ export function CreateTask({
   const descriptionRef = useRef<HTMLInputElement>(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (title === "") {
+    if (title.trim() === "") {
       toast.error("Please enter a title", toastStyles);
       return;
     }
