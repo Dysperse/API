@@ -93,9 +93,10 @@ function BoardSettings({ mutationUrl, board }) {
                   }).then(() => mutate(mutationUrl)),
                   {
                     loading: "Renaming...",
-                    success: "Renamed board",
+                    success: "Renamed board!",
                     error: "An error occurred while renaming the board",
-                  }
+                  },
+                  toastStyles
                 );
               }
             }}

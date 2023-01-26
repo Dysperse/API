@@ -9,6 +9,10 @@ export const toastStyles = {
     background: colors[global.themeColor ?? "brown"][700],
     color: colors[global.themeColor ?? "brown"][50],
   },
+  iconTheme: {
+    primary: colors[global.themeColor ?? "brown"][50],
+    secondary: colors[global.themeColor ?? "brown"][700],
+  },
 };
 
 export const useCustomTheme = ({ darkMode, themeColor }): any => {
@@ -104,11 +108,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               background: darkMode
                 ? colors[themeColor][900]
                 : colors[themeColor][50],
-              color: global.user.darkMode
+              color: darkMode
                 ? colors[themeColor][200]
                 : colors[themeColor][800],
               "& .MuiMenu-list": {
-                padding: "2px",
+                padding: "3px",
               },
               "& .MuiMenuItem-root": {
                 gap: 2,
@@ -135,7 +139,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   marginRight: 1.9,
                 },
                 "&:active": {
-                  background: global.user.darkMode
+                  background: darkMode
                     ? colors[themeColor][700]
                     : colors[themeColor][200],
                 },
