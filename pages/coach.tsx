@@ -405,7 +405,7 @@ export default function Render() {
           {!hideRoutine && (
             <Typography
               className="font-heading"
-              sx={{
+              sx={{ textAlign: {xs: "center", sm: "left"},
                 fontSize: {
                   xs: "40px",
                   sm: "35px",
