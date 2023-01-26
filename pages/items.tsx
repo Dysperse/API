@@ -239,6 +239,7 @@ export const Action = React.memo(function Action({
           <Typography
             className="text-sm sm font-normal"
             sx={{
+              ...(isCustom && { display: "none" }),
               ...(itemCount == -1 && {
                 filter: "blur(3px)!important",
               }),
