@@ -1,13 +1,10 @@
+import { Box, Button, Drawer, Icon, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
 
-import { Box, Button, Drawer, Icon, Tooltip } from "@mui/material";
-
 export function Sidebar() {
-  const [value, setValue] = useState<number>(0);
   const router = useRouter();
 
   useHotkeys(
@@ -91,35 +88,6 @@ export function Sidebar() {
       }),
     };
   };
-
-  useEffect(() => {
-    const url = router.asPath;
-
-    switch (url) {
-      case "":
-      case "/":
-      case "/tasks":
-        setValue(0);
-        break;
-      case "/trash":
-      case "/items":
-        setValue(2);
-        break;
-      case "/coach":
-        setValue(1);
-        break;
-      case "/spaces":
-        setValue(3);
-        break;
-      default:
-        if (router.asPath.includes("/rooms")) {
-          setValue(2);
-        } else {
-          setValue(0);
-        }
-    }
-  }, [router.asPath]);
-
   return (
     <Drawer
       variant="permanent"

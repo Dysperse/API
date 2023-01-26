@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Drawer,
   Icon,
   List,
   ListItem,
@@ -44,7 +43,7 @@ function SettingsMenu({
   disabled?: boolean;
 }) {
   const [open, setOpen] = useState<boolean>(false);
-  // useStatusBar(open, 2);
+  useStatusBar(open, 2);
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
@@ -92,10 +91,11 @@ function SettingsMenu({
           secondary={secondary}
         />
       </ListItem>
-      <Drawer
+      <SwipeableDrawer
         open={open}
         anchor="bottom"
         onClose={() => setOpen(false)}
+        onOpen={() => setOpen(false)}
         PaperProps={{
           sx: {
             width: {
@@ -131,7 +131,7 @@ function SettingsMenu({
             {content}
           </Box>
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 }
@@ -149,30 +149,31 @@ export default function FullScreenDialog({
   const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => setOpen(true);
-
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useEffect(() =>
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack()
+  );
 
   useHotkeys("ctrl+,", (e) => {
     e.preventDefault();
     document.getElementById("settingsTrigger")?.click();
   });
 
-  useStatusBar(open);
+  useStatusBar(open, 1);
 
   return (
-    <div>
+    <>
       <Box id="settingsTrigger" onClick={handleClickOpen}>
         {children}
       </Box>
-
       <SwipeableDrawer
         anchor="bottom"
         PaperProps={{
           sx: { maxWidth: "600px", maxHeight: "95vh" },
+        }}
+        ModalProps={{
+          keepMounted: false,
         }}
         open={open}
         onClose={handleClose}
@@ -300,6 +301,6 @@ export default function FullScreenDialog({
           </ConfirmationModal>
         </List>
       </SwipeableDrawer>
-    </div>
+    </>
   );
 }
