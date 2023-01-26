@@ -229,6 +229,15 @@ export default function Notifications() {
             }
           />
         </ListItem>
+
+        <ListItem>
+          <ListItemText
+            primary="Account activity"
+            secondary="Recieve a notification when suspicious or new activity is detected on your account. You cannot change this setting."
+          />
+          <Switch disabled checked />
+        </ListItem>
+
         <ListItem>
           <ListItemText
             primary="Low item count reminders (COMING SOON)"
