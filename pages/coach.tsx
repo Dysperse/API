@@ -320,6 +320,7 @@ function DailyRoutine() {
           ...(!data && {
             filter: "blur(5px)",
             pointerEvents: "none",
+            minWidth: "90%",
           }),
           ml: { sm: "auto" },
           p: 2,
@@ -405,7 +406,8 @@ export default function Render() {
           {!hideRoutine && (
             <Typography
               className="font-heading"
-              sx={{ textAlign: {xs: "center", sm: "left"},
+              sx={{
+                textAlign: { xs: "center", sm: "left" },
                 fontSize: {
                   xs: "40px",
                   sm: "35px",

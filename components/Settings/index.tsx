@@ -1,12 +1,12 @@
 import {
   Avatar,
   Box,
+  Drawer,
   Icon,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  SwipeableDrawer,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -91,11 +91,9 @@ function SettingsMenu({
           secondary={secondary}
         />
       </ListItem>
-      <SwipeableDrawer
+      <Drawer
         open={open}
-        swipeAreaWidth={0}
         anchor="bottom"
-        onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
@@ -104,7 +102,7 @@ function SettingsMenu({
             },
             maxWidth: "650px",
             overflow: "scroll",
-            maxHeight: "95vh",
+            maxHeight: "93vh",
 
             mx: "auto",
             ...(global.user.darkMode && {
@@ -132,7 +130,7 @@ function SettingsMenu({
             {content}
           </Box>
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
     </>
   );
 }
@@ -180,10 +178,8 @@ export default function FullScreenDialog({
         {children}
       </Box>
 
-      <SwipeableDrawer
+      <Drawer
         anchor="bottom"
-        disableSwipeToOpen
-        onOpen={handleClickOpen}
         PaperProps={{
           sx: {
             maxHeight: "95vh",
@@ -314,7 +310,7 @@ export default function FullScreenDialog({
             </ListItem>
           </ConfirmationModal>
         </List>
-      </SwipeableDrawer>
+      </Drawer>
     </div>
   );
 }

@@ -110,7 +110,8 @@ export function Achievements({ styles }) {
           position="static"
           sx={{
             zIndex: 1,
-            background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
+            background: "transparent",
+            color: "#fff",
           }}
         >
           <Toolbar className="flex" sx={{ height: "var(--navbar-height)" }}>
@@ -139,6 +140,7 @@ export function Achievements({ styles }) {
               position: "relative",
               display: "block",
               height: "350px",
+              color: "#fff",
               mt: "calc(var(--navbar-height) * -1)",
             }}
           >
@@ -152,9 +154,9 @@ export function Achievements({ styles }) {
                 style={{
                   height: "100%",
                   width: "100%",
+                  filter: "brightness(0.5)",
                   position: "absolute",
                   top: 0,
-                  opacity: ".5",
                   left: 0,
                   objectFit: "cover",
                   zIndex: -1,
