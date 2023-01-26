@@ -7,7 +7,7 @@ import {
   ListItem,
   ListItemText,
   Switch,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -96,7 +96,7 @@ export default function Notifications() {
     }
 
     fetchApiWithoutHook("notification", {
-      subscription: JSON.stringify(subscription),
+      subscription: JSON.stringify(global.user.notificationSubscription),
     });
   };
 
