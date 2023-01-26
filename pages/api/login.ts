@@ -103,6 +103,14 @@ export default async function handler(req, res) {
     user.twoFactorSecret !== "false"
   ) {
     const newToken = twofactor.generateToken(user.twoFactorSecret);
+
+    await DispatchNotification({
+      subscription: user.notificationSubscription as string,
+      title: `${newToken?.token} is your Dysperse login code`,
+      body: "Your Dysperse ID has been used to sign into an authorized application",
+      actions: [],
+    });
+
     return res.json({
       twoFactor: true,
       token: newToken,
@@ -115,6 +123,7 @@ export default async function handler(req, res) {
       user.twoFactorSecret,
       req.body.twoFactorCode
     );
+
     if (!login || login.delta !== 0) {
       return res.status(401).json({ error: "Invalid code" });
     }
