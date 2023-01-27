@@ -29,7 +29,7 @@ export default function Document() {
         />
 
         {/* Preload */}
-        <link rel="preload" href="/api/user" as="fetch" />
+        <link rel="preload" href="/api/user" as="fetch" crossOrigin="anonymous" />
         <link
           rel="preload"
           as="style"
