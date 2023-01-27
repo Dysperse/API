@@ -10,8 +10,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import hexToRgba from "hex-to-rgba";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -59,15 +57,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-
-  const [emblaRef] = useEmblaCarousel(
-    {
-      loop: false,
-      containScroll: "keepSnaps",
-      dragFree: true,
-    },
-    [WheelGesturesPlugin()]
-  );
 
   useHotkeys("alt+s", (e) => {
     e.preventDefault();
@@ -407,38 +396,33 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         )}
         {!(board && board.archived) && view === "Details" && (
           <Box
-            ref={emblaRef}
             sx={{
-              mt: 2,
+              display: "flex",
               gap: 2,
-              overflowX: "auto",
-              ml: 7,
-              borderRadius: 5,
+              flexWrap: "wrap",
             }}
           >
-            <Box className="embla__container" sx={{ gap: 1 }}>
-              {[
-                "red",
-                "orange",
-                "deepOrange",
-                "lightBlue",
-                "blue",
-                "indigo",
-                "purple",
-                "pink",
-                "green",
-                "lime",
-                "brown",
-                "blueGrey",
-              ].map((color) => (
-                <Color
-                  task={task}
-                  mutationUrl={mutationUrl}
-                  color={color}
-                  key={color}
-                />
-              ))}
-            </Box>
+            {[
+              "red",
+              "orange",
+              "deepOrange",
+              "lightBlue",
+              "blue",
+              "indigo",
+              "purple",
+              "pink",
+              "green",
+              "lime",
+              "brown",
+              "blueGrey",
+            ].map((color) => (
+              <Color
+                task={task}
+                mutationUrl={mutationUrl}
+                color={color}
+                key={color}
+              />
+            ))}
           </Box>
         )}
         {view === "Subtasks" && (
