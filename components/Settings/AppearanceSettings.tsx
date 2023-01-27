@@ -90,6 +90,23 @@ export default function AppearanceSettings() {
           }
           disablePadding
         >
+          <ListItemIcon
+            sx={{
+              mr: 0,
+              pr: 0,
+              width: "20px",
+            }}
+          >
+            <Box
+              sx={{
+                ml: "20px",
+                background: "#aaa",
+                width: "20px",
+                height: "20px",
+                borderRadius: 999,
+              }}
+            />
+          </ListItemIcon>
           <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
             <ListItemText primary="Light" />
           </ListItemButton>
@@ -106,6 +123,23 @@ export default function AppearanceSettings() {
           }
           disablePadding
         >
+          <ListItemIcon
+            sx={{
+              mr: 0,
+              pr: 0,
+              width: "20px",
+            }}
+          >
+            <Box
+              sx={{
+                ml: "20px",
+                background: "hsl(240,11%,10%)",
+                width: "20px",
+                height: "20px",
+                borderRadius: 999,
+              }}
+            />
+          </ListItemIcon>
           <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
             <ListItemText primary="Dark" />
           </ListItemButton>
