@@ -9,6 +9,9 @@
   .room-button {
     @apply mb-1 sm:mb-0.5 rounded-2xl;
   }
+  .task {
+    @apply p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none;
+  }
 }
 :root {
   --navbar-height: calc(70px + env(titlebar-area-height, 0px));

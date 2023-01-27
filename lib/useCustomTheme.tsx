@@ -61,9 +61,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             background: `${colors[themeColor][!darkMode ? 800 : 50]}!important`,
             color: colors[themeColor][!darkMode ? 50 : 800],
             "&:hover": {
-              background: `${
-                colors[themeColor][darkMode ? 100 : 900]
-              }!important`,
+              background: `${colors[themeColor][darkMode ? 100 : 900]}`,
             },
             "&:disabled": {
               background: `${
@@ -123,7 +121,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               borderRadius: "10px",
               minWidth: 180,
               background: darkMode
-                ? colors[themeColor][900]
+                ? "hsl(240,11%,20%)"
                 : colors[themeColor][50],
               color: darkMode
                 ? colors[themeColor][200]
@@ -135,7 +133,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 gap: 2,
                 "&:focus-visible, &:hover": {
                   background: darkMode
-                    ? colors[themeColor][800]
+                    ? "hsl(240,11%,30%)"
                     : colors[themeColor][100],
                   color: darkMode
                     ? colors[themeColor][100]

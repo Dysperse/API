@@ -7,19 +7,20 @@ import {
   Icon,
   IconButton,
   TextField,
-  Typography
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import hexToRgba from "hex-to-rgba";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import {
   neutralizeBack,
-  revivalBack
+  revivalBack,
 } from "../../../../../hooks/useBackButton";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
@@ -59,14 +60,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
-  const setPinned = async (pinned: boolean) => {
-    return fetchApiWithoutHook("property/boards/togglePin", {
-      id: task.id,
-      pinned: pinned ? "true" : "false",
-    }).then(() => {
-      mutate(mutationUrl);
-    });
-  };
   const [emblaRef] = useEmblaCarousel(
     {
       loop: false,
@@ -87,6 +80,45 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   });
 
   const [view, setView] = useState<"Details" | "Subtasks">("Details");
+  const handlePriorityClick = useCallback(async () => {
+    toast.promise(
+      new Promise(async (resolve, reject) => {
+        try {
+          await fetchApiWithoutHook("property/boards/togglePin", {
+            id: task.id,
+            pinned: !task.pinned ? "true" : "false",
+          }).then(() => {
+            mutate(mutationUrl);
+          });
+          await mutate(mutationUrl);
+          resolve("");
+        } catch (e) {
+          reject(e);
+        }
+      }),
+      {
+        ...toastStyles,
+        loading: task.pinned
+          ? "Removing important label"
+          : "Marking important...",
+        success: task.pinned
+          ? "The priority has been set back to normal"
+          : "Marked as important!",
+        error: "Failed to change priority",
+      }
+    );
+  }, [task.pinned, task.id, mutationUrl]);
+
+  useHotkeys(
+    "alt+e",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        handlePriorityClick();
+      }
+    },
+    [handlePriorityClick]
+  );
 
   return (
     <Drawer
@@ -145,55 +177,45 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           </Icon>
         </IconButton>
         <Typography sx={{ mx: "auto", opacity: { sm: 0 } }}>Details</Typography>
-        <IconButton
-          disableRipple
-          disabled={
-            (board && board.archived) || global.permission === "read-only"
+        <Tooltip
+          title={
+            task.pinned
+              ? "Remove important label (alt • e)"
+              : "Mark as important (alt • e)"
           }
-          sx={{
-            WebkitAppRegion: "no-drag",
-          }}
-          onClick={async () => {
-            toast.promise(
-              new Promise(async (resolve, reject) => {
-                try {
-                  await setPinned(!task.pinned);
-                  await mutate(mutationUrl);
-                  resolve("");
-                } catch (e) {
-                  reject(e);
-                }
-              }),
-              {
-                ...toastStyles,
-                loading: task.pinned
-                  ? "Removing important label"
-                  : "Marking important...",
-                success: task.pinned
-                  ? "The priority has been set back to normal"
-                  : "Marked as important!",
-                error: "Failed to change priority",
-              }
-            );
-          }}
         >
-          <Icon className={task.pinned ? "rounded" : "outlined"}>priority</Icon>
-        </IconButton>
-        <IconButton
-          disableRipple
-          disabled={
-            (board && board.archived) || global.permission === "read-only"
-          }
-          sx={{
-            WebkitAppRegion: "no-drag",
-          }}
-          onClick={() => {
-            handleDelete(task.id);
-            setOpen(false);
-          }}
-        >
-          <Icon>delete</Icon>
-        </IconButton>
+          <IconButton
+            disableRipple
+            disabled={
+              (board && board.archived) || global.permission === "read-only"
+            }
+            sx={{
+              WebkitAppRegion: "no-drag",
+            }}
+            onClick={handlePriorityClick}
+          >
+            <Icon className={task.pinned ? "rounded" : "outlined"}>
+              priority
+            </Icon>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete task (alt • a)">
+          <IconButton
+            disableRipple
+            disabled={
+              (board && board.archived) || global.permission === "read-only"
+            }
+            sx={{
+              WebkitAppRegion: "no-drag",
+            }}
+            onClick={() => {
+              handleDelete(task.id);
+              setOpen(false);
+            }}
+          >
+            <Icon>delete</Icon>
+          </IconButton>
+        </Tooltip>
       </Box>
       <Box sx={{ p: 5, px: 3, pt: 2, overflowY: "auto" }}>
         <Box
@@ -267,6 +289,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               sx={{
                 borderRadius: 4,
                 mr: 1,
+                px: 1.5,
                 background:
                   view === "Details"
                     ? colors[task.color][global.user.darkMode ? 50 : 900] +
@@ -287,6 +310,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               id="subTasksTrigger"
               onClick={() => setView("Subtasks")}
               sx={{
+                px: 1.5,
                 gap: 1.5,
                 background:
                   view === "Subtasks"

@@ -91,7 +91,10 @@ const Tab = React.memo(function Tab({
           {board.pinned && (
             <Icon
               className="outlined"
-              sx={{ ml: "auto", transform: "rotate(-45deg)" }}
+              sx={{
+                ml: "auto",
+                transform: "rotate(-45deg)",
+              }}
             >
               push_pin
             </Icon>
@@ -142,23 +145,14 @@ export function TasksLayout() {
         ? "hsl(240,11%,15%)"
         : `${colors[themeColor][50]}!important`,
     },
-    border: "1px solid transparent",
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
-    "&:active": {
-      border: `1px solid ${
-        global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][200]
-      }!important`,
-    },
     ...(!condition && {
       "&:hover": {
         background: global.user.darkMode
           ? "hsl(240,11%,15%)"
           : `${colors[themeColor][50]}!important`,
-        border: `1px solid ${
-          global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][100]
-        }`,
       },
       color: global.user.darkMode
         ? "hsl(240,11%,80%)!important"
@@ -172,9 +166,6 @@ export function TasksLayout() {
         background: global.user.darkMode
           ? "hsl(240,11%,25%)!important"
           : `${colors[themeColor][100]}!important`,
-        border: `1px solid ${
-          global.user.darkMode ? "hsl(240,11%,25%)" : colors[themeColor][100]
-        }!important`,
       },
       color: global.user.darkMode
         ? "hsl(240,11%,95%)!important"

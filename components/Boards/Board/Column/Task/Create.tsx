@@ -621,10 +621,10 @@ export function CreateTask({
             marginBottom: "10px",
             border:
               "2px solid " +
-              (global.user.darkMode ? "rgba(255,255,255,.3)" : "#808080"),
+              (global.user.darkMode ? "hsl(240,11%,70%)" : "#808080"),
             borderRadius: "10px",
             color: global.user.darkMode
-              ? "fff"
+              ? "hsl(240,11%,90%)"
               : checkList
               ? "#303030"
               : "#808080",
@@ -642,7 +642,7 @@ export function CreateTask({
             primary={
               <span
                 style={{
-                  fontWeight: 700,
+                  fontWeight: 400,
                   color: global.user.darkMode ? "#fff" : "#606060",
                 }}
               >
