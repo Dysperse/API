@@ -14,7 +14,7 @@ model User {
   email                    String                @unique
   password                 String
   darkMode                 Boolean               @default(false)
-  color                    String                @default("cyan")
+  color                    String                @default("lime")
   onboardingComplete       Boolean               @default(false)
   verifiedEmail            Boolean               @default(false)
   trophies                 Int                   @default(0)

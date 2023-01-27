@@ -20,9 +20,8 @@ function ThemeColorSettings() {
     <Box>
       <ListSubheader>Theme color</ListSubheader>
       {[
-        "brown",
-        "red",
         "lime",
+        "red",
         "green",
         "blue",
         "pink",
@@ -63,7 +62,7 @@ function ThemeColorSettings() {
               />
             </ListItemIcon>
             <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
-              <ListItemText primary={color === "brown" ? "Dysperse" : color} />
+              <ListItemText primary={color === "lime" ? "Dysperse" : color} />
             </ListItemButton>
           </ListItem>
         </RadioGroup>
@@ -80,9 +79,7 @@ export default function AppearanceSettings() {
     <Box>
       <ThemeColorSettings />
       <ListSubheader sx={{ mt: 3 }}>Theme</ListSubheader>
-      <RadioGroup
-        name="controlled-radio-buttons-group"
-      >
+      <RadioGroup name="controlled-radio-buttons-group">
         <ListItem
           key="light"
           onClick={() => updateSettings("darkMode", "false")}
