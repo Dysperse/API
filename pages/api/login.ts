@@ -156,6 +156,6 @@ export default async function handler(req, res) {
     actions: [],
   });
   const encoded = await createSession(user.id, res);
-  cacheData.del(req.cookies.token);
+  // cacheData.del(req.cookies.token);
   res.json({ success: true, key: encoded });
 }

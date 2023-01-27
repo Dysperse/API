@@ -13,6 +13,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
@@ -278,7 +279,7 @@ export default function FullScreenDialog({
             question="Are you sure you want to sign out?"
             buttonText="Sign out"
             callback={() =>
-              fetch("/api/logout").then(() => mutate("/api/user"))
+              fetchApiWithoutHook("/api/logout").then(() => mutate("/api/user"))
             }
           >
             <ListItem

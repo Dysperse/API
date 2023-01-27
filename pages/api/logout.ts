@@ -19,6 +19,6 @@ export default function handler(req, res) {
     })
   );
 
-  cacheData.del(req.cookies.token);
+  cacheData.del(req.query.accessToken);
   res.redirect("/");
 }
