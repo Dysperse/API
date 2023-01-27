@@ -1,9 +1,5 @@
 const handler = {
-  async fetch(
-    request: Request,
-    env: any,
-    ctx: any
-  ): Promise<Response> {
+  async fetch(request: Request, env: any, ctx: any): Promise<Response> {
     return new Response("🎉 Push server is running!");
   },
   async scheduled(controller: any, env: any, ctx: any) {
