@@ -1,5 +1,6 @@
 // Remove `token` cookie
 import { serialize } from "cookie";
+import cacheData from "memory-cache";
 
 /**
  * API handler for the /api/logout endpoint
@@ -17,5 +18,7 @@ export default function handler(req, res) {
       expires: new Date(0),
     })
   );
+
+  cacheData.del(req.cookies.token);
   res.redirect("/");
 }
