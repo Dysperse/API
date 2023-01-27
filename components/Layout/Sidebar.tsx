@@ -56,7 +56,6 @@ export function Sidebar() {
         alignItems: "center",
         borderRadius: 5,
         justifyContent: "center",
-        border: "1px solid transparent",
       },
       "&:hover .material-symbols-outlined": {
         background: global.user.darkMode
@@ -79,11 +78,6 @@ export function Sidebar() {
           background: global.user.darkMode
             ? "hsl(240,11%,17%)"
             : colors[themeColor][100],
-          border:
-            "1px solid " +
-            (global.user.darkMode
-              ? "hsl(240,11%,20%)"
-              : colors[themeColor][200]),
         },
       }),
     };
