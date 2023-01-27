@@ -1,4 +1,5 @@
 // Update user settings
+import cacheData from "memory-cache";
 import { prisma } from "../../../lib/prismaClient";
 
 /**
@@ -8,7 +9,6 @@ import { prisma } from "../../../lib/prismaClient";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  // Get user info from sessions table using accessToken
   const session = await prisma.session.findUnique({
     where: {
       id: req.query.token,
@@ -45,6 +45,7 @@ const handler = async (req, res) => {
         undefined,
     },
   });
+  cacheData.del(req.cookies.token);
   res.json(user);
 };
 export default handler;

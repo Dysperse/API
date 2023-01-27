@@ -1,3 +1,4 @@
+import cacheData from "memory-cache";
 import { prisma } from "../../../lib/prismaClient";
 import { validatePermissions } from "../../../lib/validatePermissions";
 import { createInboxNotification } from "./inbox/create";
@@ -37,6 +38,7 @@ const handler = async (req, res) => {
     },
   });
 
+  cacheData.del(req.cookies.token);
   res.json(data);
 };
 export default handler;
