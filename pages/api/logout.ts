@@ -20,5 +20,5 @@ export default function handler(req, res) {
   );
 
   cacheData.del(req.query.accessToken);
-  res.redirect("/");
+  res.status(200).json({})
 }
