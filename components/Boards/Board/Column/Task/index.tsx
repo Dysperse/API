@@ -355,7 +355,8 @@ export const Task = React.memo(function Task({
                       sx={{
                         ml: "auto",
                         mr: 1,
-                        color: colors.red["A400"],
+                        color:
+                          colors.red[global.user.darkMode ? "200" : "A400"],
                       }}
                       className="outlined"
                     >
