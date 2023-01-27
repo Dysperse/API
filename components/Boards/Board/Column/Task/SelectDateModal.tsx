@@ -1,12 +1,17 @@
 import { Calendar } from "@mantine/dates";
 import { Box, Button, Icon, SwipeableDrawer, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import React, { useState } from "react";
 import { colors } from "../../../../../lib/colors";
 import { Puller } from "../../../../Puller";
 import { formatDate } from "./formatDate";
 
-export function SelectDateModal({ ref, styles, date, setDate }) {
+export const SelectDateModal: any = React.memo(function SelectDateModal({
+  ref,
+  styles,
+  date,
+  setDate,
+}: any) {
   const [open, setOpen] = useState(false);
   const today = formatDate(new Date());
 
@@ -149,4 +154,4 @@ export function SelectDateModal({ ref, styles, date, setDate }) {
       </Tooltip>
     </>
   );
-}
+});
