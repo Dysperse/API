@@ -395,7 +395,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               "blueGrey",
             ].map((color) => (
               <Color
-                task={task}
+                task={taskData}
                 mutationUrl={mutationUrl}
                 color={color}
                 key={color}
