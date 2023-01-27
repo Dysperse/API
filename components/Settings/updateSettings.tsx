@@ -51,10 +51,9 @@ export async function updateSettings(
       }
     }),
     {
-      ...toastStyles,
       loading: "Saving...",
       success: (message: any) => message,
       error: (err: any) => err,
-    }
+    },toastStyles
   );
 }

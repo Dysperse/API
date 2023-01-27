@@ -173,7 +173,6 @@ export const Task = React.memo(function Task({
         }
       }),
       {
-        ...toastStyles,
         loading: taskData.pinned
           ? "Removing important label"
           : "Marking important...",
@@ -181,7 +180,7 @@ export const Task = React.memo(function Task({
           ? "The priority has been set back to normal"
           : "Marked as important!",
         error: "Failed to change priority",
-      }
+      },toastStyles
     );
   }, [taskData.pinned, taskData.id, mutationUrl]);
 

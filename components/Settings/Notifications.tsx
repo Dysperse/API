@@ -119,11 +119,10 @@ export default function Notifications() {
     });
 
     toast.promise(promise, {
-      ...toastStyles,
       loading: "Saving...",
       success: "Saved!",
       error: "Failed to save",
-    });
+    },toastStyles);
   };
 
   const enabledOnAnotherDevice =

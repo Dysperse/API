@@ -55,13 +55,12 @@ export default function Redeem() {
                 }, 2000);
               }),
               {
-                ...toastStyles,
                 loading: "Redeeming...",
                 success: "Success!",
                 error: (err) => {
                   return err;
                 },
-              }
+              },toastStyles
             );
           }}
           sx={{

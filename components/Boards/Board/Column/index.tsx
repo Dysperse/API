@@ -311,11 +311,10 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
                     setOpen(false);
                   }),
                   {
-                    ...toastStyles,
                     loading: "Saving your changes...",
                     success: "Your changes were saved",
                     error: "There was a problem saving your changes.",
-                  }
+                  },toastStyles
                 );
               }}
             >
