@@ -1,8 +1,8 @@
 const handler = {
-  async fetch(request: any, env: any, ctx: any): Promise<Response> {
-    return new Response("🎉 Push server is running!");
+  async fetch(): Promise<Response> {
+    return new Response("\u{1F389}Push server is running!");
   },
-  async scheduled(controller: any, env: any, ctx: any) {
+  async scheduled(env: any) {
     // Send daily nudge to users who have daily nudge enabled
     const data = await fetch("https://my.dysperse.com/api/cron/dailyNudge", {
       method: "POST",
@@ -11,7 +11,7 @@ const handler = {
       },
     }).then((res) => res.json());
     console.log(data);
-    return new Response("🎉 Push server is running!");
+    return new Response("\u{1F389} Push server is running!");
   },
 };
 
