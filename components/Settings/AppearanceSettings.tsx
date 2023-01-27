@@ -28,8 +28,6 @@ function ThemeColorSettings() {
         "purple",
         "indigo",
         "amber",
-        "orange",
-        "teal",
         "cyan",
       ].map((color) => (
         <RadioGroup
