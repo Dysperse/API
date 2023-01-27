@@ -8,23 +8,23 @@ import { getUserData } from "./user/info";
  * @returns {any}
  */
 export const sessionData = async (providedToken) => {
-  // const value = cacheData.get(providedToken);
-
-  // if (value) {
-  // return value;
-  // } else {
   const { accessToken } = jwt.verify(
     providedToken,
     process.env.SECRET_COOKIE_PASSWORD
   );
-  const hours = 24;
 
-  const token: string = accessToken;
-  const info = await getUserData(token);
+  const value = cacheData.get(accessToken);
+  if (value) {
+    return value;
+  } else {
+    const hours = 24;
 
-  cacheData.put(providedToken, info, hours * 1000 * 60 * 60);
-  return JSON.parse(JSON.stringify(info));
-  // }
+    const token: string = accessToken;
+    const info = await getUserData(token);
+
+    cacheData.put(accessToken, info, hours * 1000 * 60 * 60);
+    return JSON.parse(JSON.stringify(info));
+  }
 };
 
 /**
@@ -34,10 +34,6 @@ export const sessionData = async (providedToken) => {
  * @returns {any}
  */
 const handler = async (req, res) => {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
   const time1 = Date.now();
   if (req.cookies.token) {
     const info = await sessionData(req.cookies.token);
