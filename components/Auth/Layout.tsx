@@ -59,7 +59,7 @@ export function Layout({ children }): JSX.Element {
           >
             <picture>
               <img
-                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/dark.png"
+                src="https://assets.dysperse.com/v6/dark.png"
                 width="50"
                 height="50"
                 alt="logo"

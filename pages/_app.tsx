@@ -85,10 +85,7 @@ function RenderWithLayout({
       document.cookie = "dark=true";
       document
         .querySelector(`link[rel="shortcut icon"]`)
-        ?.setAttribute(
-          "href",
-          "https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/dark.png"
-        );
+        ?.setAttribute("href", "https://assets.dysperse.com/v6/dark.png");
     } else {
       document.cookie = "dark=false";
     }
@@ -258,7 +255,7 @@ function RenderRoot({
       {!isLoading && !isError && data.error && (
         <Box
           sx={{
-            background: "#6b4b4b",
+            background: "linear-gradient(45deg, #DB94CA, #6E79C9)",
             position: "fixed",
             top: 0,
             left: 0,
@@ -269,7 +266,7 @@ function RenderRoot({
           <Box
             sx={{
               display: "flex",
-              color: "#c4b5b5",
+              color: "#000",
               alignItems: "center",
               gap: "10px",
               userSelect: "none",

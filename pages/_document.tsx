@@ -29,7 +29,12 @@ export default function Document() {
         />
 
         {/* Preload */}
-        <link rel="preload" href="/api/user" as="fetch" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          href="/api/user"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
         <link
           rel="preload"
           as="style"
@@ -58,50 +63,50 @@ export default function Document() {
 
         <link
           rel="apple-touch-icon"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/57.png"
+          href="https://assets.dysperse.com/v6/ios/57.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="57x57"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/57.png"
+          href="https://assets.dysperse.com/v6/ios/57.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="72x72"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/72.png"
+          href="https://assets.dysperse.com/v6/ios/72.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="76x76"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/76.png"
+          href="https://assets.dysperse.com/v6/ios/76.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="114x114"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/114.png"
+          href="https://assets.dysperse.com/v6/ios/114.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="120x120"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/120.png"
+          href="https://assets.dysperse.com/v6/ios/120.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="144x144"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/144.png"
+          href="https://assets.dysperse.com/v6/ios/144.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="152x152"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/152.png"
+          href="https://assets.dysperse.com/v6/ios/152.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v6/ios/180.png"
+          href="https://assets.dysperse.com/v6/ios/180.png"
         />
         <link
-          href="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@latest/v5/windows11/SmallTile.scale-100.png"
+          href="https://assets.dysperse.com/v5/windows11/SmallTile.scale-100.png"
           rel="shortcut icon"
         />
         <link href="/manifest.json" rel="manifest" />
