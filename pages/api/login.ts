@@ -1,6 +1,7 @@
 import argon2 from "argon2";
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
+import cacheData from "memory-cache";
 import * as twofactor from "node-2fa";
 import { DispatchNotification } from "../../lib/notification";
 import { prisma } from "../../lib/prismaClient";
@@ -155,5 +156,6 @@ export default async function handler(req, res) {
     actions: [],
   });
   const encoded = await createSession(user.id, res);
+  cacheData.del(req.cookies.token);
   res.json({ success: true, key: encoded });
 }
