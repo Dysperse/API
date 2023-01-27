@@ -279,7 +279,7 @@ export default function FullScreenDialog({
             question="Are you sure you want to sign out?"
             buttonText="Sign out"
             callback={() =>
-              fetchApiWithoutHook("/api/logout").then(() => mutate("/api/user"))
+              fetchApiWithoutHook("logout").then(() => mutate("/api/user"))
             }
           >
             <ListItem
