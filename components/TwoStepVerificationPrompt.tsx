@@ -83,7 +83,7 @@ export function Prompt({
               <Typography
                 variant="h5"
                 sx={{
-                  marginBottom: "20px",
+                  mb: "20px",
                   fontWeight: 600,
                   textAlign: "center",
                 }}
@@ -93,7 +93,7 @@ export function Prompt({
               <Typography
                 variant="body1"
                 sx={{
-                  marginBottom: "20px",
+                  mb: "20px",
                   textAlign: "center",
                 }}
               >

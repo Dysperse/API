@@ -8,10 +8,10 @@ import { colors } from "../lib/colors";
 export function Puller({ variant }: { variant?: "side" }) {
   return (
     <Box
+    // className="pull"
       sx={{
         position: "sticky",
         top: 0,
-
         zIndex: 1,
         left: 0,
         width: "100%",

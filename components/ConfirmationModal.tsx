@@ -9,7 +9,6 @@ import {
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useStatusBar } from "../hooks/useStatusBar";
-import { colors } from "../lib/colors";
 import { toastStyles } from "../lib/useCustomTheme";
 
 export function ConfirmationModal({
@@ -67,15 +66,6 @@ export function ConfirmationModal({
           <Button
             variant="outlined"
             size="large"
-            sx={{
-              borderRadius: 99,
-              px: 2.5,
-              py: 1,
-              ...(global.user.darkMode && {
-                borderColor: "hsl(240,11%,20%) !important",
-                color: "hsl(240,11%,95%) !important",
-              }),
-            }}
             onClick={() => {
               setOpen(false);
             }}
@@ -85,20 +75,6 @@ export function ConfirmationModal({
           <LoadingButton
             variant="contained"
             size="large"
-            sx={{
-              background: `${
-                global.user.darkMode
-                  ? "hsl(240,11%,18%)"
-                  : colors[themeColor][900]
-              }!important`,
-              borderRadius: 99,
-              px: 2.5,
-              py: 1,
-              color: global.user.darkMode
-                ? "hsl(240,11%,95%)"
-                : colors[themeColor][50],
-              border: "2px solid transparent",
-            }}
             loading={loading}
             onClick={handleClick}
           >
