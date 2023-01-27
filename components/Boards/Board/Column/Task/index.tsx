@@ -19,7 +19,7 @@ import {
   MenuItem,
   styled,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import { mutate } from "swr";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
@@ -260,14 +260,6 @@ export const Task = React.memo(function Task({
           onContextMenu={handleContextMenu}
           className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
           sx={{
-            ...(task.pinned && {
-              background:
-                colors.red[global.user.darkMode ? 900 : 50] + "!important",
-              "&:active": {
-                background:
-                  colors.red[global.user.darkMode ? 800 : 100] + "!important",
-              },
-            }),
             "&:focus-visible": {
               boxShadow: global.user.darkMode
                 ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
