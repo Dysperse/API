@@ -3,7 +3,6 @@ import { DispatchNotification } from "../../../lib/notification";
 import { prisma } from "../../../lib/prismaClient";
 
 const Notification = async (req, res) => {
-  // if (req.method === "POST" || process.env.NODE_ENV !== "production") {
   if (
     req.headers.authorization !== `Bearer ${process.env.COACH_CRON_API_KEY}` &&
     process.env.NODE_ENV === "production"
