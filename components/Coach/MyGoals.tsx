@@ -100,16 +100,40 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       {data ? (
         <>
           {data.length !== 0 && (
-            <Typography
-              variant="h5"
-              sx={{
-                mb: 2,
-                fontWeight: "900",
-                mt: 7,
-              }}
-            >
-              My progress
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 7, mb: 2 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: "900",
+                }}
+              >
+                My progress
+              </Typography>
+              <Box
+                sx={{
+                  ml: "auto",
+                  display: "flex",
+                  alignItems: "center",
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: 999,
+                  gap: "10px",
+                  backgroundColor: global.user.darkMode
+                    ? "hsl(240,11%,14%)"
+                    : "rgba(200,200,200,.3)",
+                }}
+              >
+                <picture>
+                  <img
+                    src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
+                    alt="trophy"
+                    width={20}
+                    height={20}
+                  />
+                </picture>
+                <span>{global.user.trophies}</span>
+              </Box>
+            </Box>
           )}
           {data.length === 0 ? (
             <div
