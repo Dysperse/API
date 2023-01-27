@@ -1,9 +1,5 @@
 const handler = {
-  async fetch(
-    request: Request,
-    env: any,
-    ctx: any
-  ): Promise<Response> {
+  async fetch(request: any, env: any, ctx: any): Promise<Response> {
     return new Response("🎉 Push server is running!");
   },
   async scheduled(controller: any, env: any, ctx: any) {
@@ -13,7 +9,7 @@ const handler = {
       headers: {
         Authorization: `Bearer ${env.COACH_CRON_API_KEY}`,
       },
-    });
+    }).then((res) => res.json());
     console.log(data);
     return new Response("🎉 Push server is running!");
   },

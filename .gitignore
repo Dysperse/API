@@ -142,3 +142,6 @@ dist
 **/public/worker-*.js
 # Sentry
 .sentryclirc
+
+
+/push-server/wrangler.toml

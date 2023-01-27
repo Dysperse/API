@@ -9,8 +9,8 @@
   },
   "private": true,
   "scripts": {
-    "start": "wrangler dev src/index.ts --test-scheduled",
-    "deploy": "wrangler publish src/index.ts",
+    "start": "wrangler dev src/dailyNudge.ts --test-scheduled",
+    "deploy": "wrangler publish src/dailyNudge.ts",
     "test": "vitest"
   }
 }
