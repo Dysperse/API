@@ -19,8 +19,8 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
-import { ConfirmationModal } from "../../../ConfirmationModal";
 import { toastStyles } from "../../../../lib/useCustomTheme";
+import { ConfirmationModal } from "../../../ConfirmationModal";
 
 function CompletedTasks({
   checkList,
@@ -445,7 +445,7 @@ export const Column = React.memo(function Column({
                 mx: { xs: 1, sm: 0 },
               }}
             >
-              <Tooltip title={column.name}>
+              <Tooltip title={column.name} followCursor>
                 <Typography
                   variant="h6"
                   sx={{
