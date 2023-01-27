@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
@@ -28,9 +28,8 @@ import { ImageViewer } from "./ImageViewer";
 import { SubTask } from "./SubTask";
 
 export const TaskDrawer = React.memo(function TaskDrawer({
-  checked,
-  setChecked,
-  task,
+  taskData,
+  setTaskData,
   board,
   open,
   setOpen,
@@ -39,7 +38,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   mutationUrl,
   columnId,
   handleDelete,
-  handlePriorityClick
+  handlePriorityClick,
 }: any) {
   useEffect(() => {
     document
@@ -47,7 +46,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       ?.setAttribute(
         "content",
         open
-          ? colors[task.color ?? global.themeColor ?? "brown"][
+          ? colors[taskData.color ?? global.themeColor ?? "brown"][
               global.user.darkMode ? 900 : 50
             ]
           : global.user.darkMode
@@ -94,7 +93,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         className: "override-bg",
         sx: {
           background: `${hexToRgba(
-            colors[task.color ?? "brown"][200],
+            colors[taskData.color ?? "brown"][200],
             0.5
           )}!important`,
           backdropFilter: "blur(5px)",
@@ -107,9 +106,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           height: "100vh",
           maxWidth: "500px",
           background:
-            colors[task.color ?? task.color ?? global.themeColor ?? "brown"][
-              global.user.darkMode ? 900 : 50
-            ],
+            colors[
+              taskData.color ?? taskData.color ?? global.themeColor ?? "brown"
+            ][global.user.darkMode ? 900 : 50],
         },
       }}
     >
@@ -141,7 +140,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         <Typography sx={{ mx: "auto", opacity: { sm: 0 } }}>Details</Typography>
         <Tooltip
           title={
-            task.pinned
+            taskData.pinned
               ? "Remove important label (alt • e)"
               : "Mark as important (alt • e)"
           }
@@ -156,7 +155,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             }}
             onClick={handlePriorityClick}
           >
-            <Icon className={task.pinned ? "rounded" : "outlined"}>
+            <Icon className={taskData.pinned ? "rounded" : "outlined"}>
               priority
             </Icon>
           </IconButton>
@@ -171,7 +170,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               WebkitAppRegion: "no-drag",
             }}
             onClick={() => {
-              handleDelete(task.id);
+              handleDelete(taskData.id);
               setOpen(false);
             }}
           >
@@ -193,12 +192,15 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 (board && board.archived) || global.permission === "read-only"
               }
               disableRipple
-              checked={checked}
+              checked={taskData.checked}
               onChange={(e) => {
-                setChecked(e.target.checked);
+                setTaskData((prev: any) => ({
+                  ...prev,
+                  checked: e.target.checked,
+                }));
                 fetchApiWithoutHook("property/boards/markTask", {
                   completed: e.target.checked ? "true" : "false",
-                  id: task.id,
+                  id: taskData.id,
                 }).catch(() =>
                   toast.error(
                     "An error occured while updating the task",
@@ -221,7 +223,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               disabled={
                 (board && board.archived) || global.permission === "read-only"
               }
-              defaultValue={task.name.replace(/\n/g, "")}
+              defaultValue={taskData.name.replace(/\n/g, "")}
               onKeyDown={(e: any) => {
                 if (e.key == "Enter") e.target.blur();
               }}
@@ -229,7 +231,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 e.target.value = e.target.value.replace(/\n/g, "");
                 fetchApiWithoutHook("property/boards/editTask", {
                   name: e.target.value,
-                  id: task.id,
+                  id: taskData.id,
                 }).then(() => {
                   mutate(mutationUrl);
                 });
@@ -254,14 +256,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 px: 1.5,
                 background:
                   view === "Details"
-                    ? colors[task.color][global.user.darkMode ? 50 : 900] +
+                    ? colors[taskData.color][global.user.darkMode ? 50 : 900] +
                       "!important"
                     : "transparent!important",
                 color:
                   view === "Details"
-                    ? colors[task.color][global.user.darkMode ? 900 : 50] +
+                    ? colors[taskData.color][global.user.darkMode ? 900 : 50] +
                       "!important"
-                    : colors[task.color][global.user.darkMode ? 50 : 900] +
+                    : colors[taskData.color][global.user.darkMode ? 50 : 900] +
                       "!important",
               }}
             >
@@ -276,28 +278,29 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 gap: 1.5,
                 background:
                   view === "Subtasks"
-                    ? colors[task.color][global.user.darkMode ? 50 : "900"] +
-                      "!important"
+                    ? colors[taskData.color][
+                        global.user.darkMode ? 50 : "900"
+                      ] + "!important"
                     : "transparent!important",
                 borderRadius: 4,
                 color:
                   view === "Subtasks"
-                    ? colors[task.color][global.user.darkMode ? 900 : 50] +
+                    ? colors[taskData.color][global.user.darkMode ? 900 : 50] +
                       "!important"
-                    : colors[task.color][global.user.darkMode ? 50 : 900] +
+                    : colors[taskData.color][global.user.darkMode ? 50 : 900] +
                       "!important",
               }}
             >
               Subtasks
               <Chip
-                label={task.subTasks.length}
+                label={taskData.subTasks.length}
                 size="small"
                 sx={{
                   transition: "none",
                   pointerEvents: "none",
                   backgroundColor:
-                    colors[task.color][view === "Subtasks" ? 700 : 100],
-                  color: colors[task.color][view === "Subtasks" ? 50 : 900],
+                    colors[taskData.color][view === "Subtasks" ? 700 : 100],
+                  color: colors[taskData.color][view === "Subtasks" ? 50 : 900],
                 }}
               />
             </Button>
@@ -309,11 +312,11 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                   disableUnderline: true,
                   sx: {
                     color:
-                      colors[task.color ?? global.themeColor ?? "brown"][
+                      colors[taskData.color ?? global.themeColor ?? "brown"][
                         global.user.darkMode ? 50 : 900
                       ],
                     background:
-                      colors[task.color ?? global.themeColor ?? "brown"][
+                      colors[taskData.color ?? global.themeColor ?? "brown"][
                         global.user.darkMode ? 800 : 100
                       ],
                     borderRadius: 5,
@@ -321,12 +324,12 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                     mt: 2,
                     "&:focus-within": {
                       background:
-                        colors[task.color ?? global.themeColor ?? "brown"][
+                        colors[taskData.color ?? global.themeColor ?? "brown"][
                           global.user.darkMode ? 800 : 100
                         ],
                       boxShadow:
                         "0px 0px 0px 2px " +
-                        colors[task.color ?? global.themeColor ?? "brown"][
+                        colors[taskData.color ?? global.themeColor ?? "brown"][
                           global.user.darkMode ? 700 : 900
                         ],
                     },
@@ -338,7 +341,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 onBlur={(e) => {
                   fetchApiWithoutHook("property/boards/editTask", {
                     description: e.target.value == "" ? false : e.target.value,
-                    id: task.id,
+                    id: taskData.id,
                   }).then(() => {
                     mutate(mutationUrl);
                   });
@@ -352,19 +355,19 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                     : "Add a description"
                 }
                 minRows={4}
-                defaultValue={task.description}
+                defaultValue={taskData.description}
               />
             )}
           </Box>
         </Box>
-        {view === "Details" && task.image && (
+        {view === "Details" && taskData.image && (
           <Box
             sx={{
               ml: 7,
-              mt: task.image ? 2 : 0,
+              mt: taskData.image ? 2 : 0,
             }}
           >
-            <ImageViewer url={task.image} />
+            <ImageViewer url={taskData.image} />
           </Box>
         )}
         {!(board && board.archived) && view === "Details" && (
@@ -402,7 +405,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         )}
         {view === "Subtasks" && (
           <Box sx={{ ml: 6, mt: 2 }}>
-            {task.subTasks.map((subtask) => (
+            {taskData.subTasks.map((subtask) => (
               <SubTask
                 mutationUrl={mutationUrl}
                 checkList={false}
@@ -416,7 +419,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             ))}
             {!(board && board.archived) && (
               <CreateTask
-                parent={task.id}
+                parent={taskData.id}
                 boardId={board.id}
                 columnId={columnId}
                 mutationUrl={mutationUrl}

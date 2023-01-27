@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
@@ -56,6 +56,12 @@ export const Task = React.memo(function Task({
   task,
   checkList,
 }: any): JSX.Element {
+  const [taskData, setTaskData] = useState(task);
+
+  useEffect(() => {
+    setTaskData(task);
+  }, [task]);
+
   const BpIcon: any = styled("span")(() => ({
     borderRadius: 10,
     width: 23,
@@ -63,20 +69,20 @@ export const Task = React.memo(function Task({
     boxShadow:
       (global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : `inset 0 0 0 1.5px ${colors[task.color ?? "brown"]["A400"]}`) +
+        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "brown"]["A400"]}`) +
       ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
     backgroundColor: "transparent",
     ".Mui-focusVisible &": {
       boxShadow:
         "0px 0px 0px 2px inset " +
-        colors[task.color ?? "brown"][700] +
+        colors[taskData.color ?? "brown"][700] +
         ", 0px 0px 0px 15px inset " +
-        hexToRgba(colors[task.color ?? "brown"][900], 0.1),
+        hexToRgba(colors[taskData.color ?? "brown"][900], 0.1),
     },
     "input:not(:checked):hover ~ &": {
       backgroundColor:
         global.theme !== "dark"
-          ? colors[task.color ?? "brown"]["100"]
+          ? colors[taskData.color ?? "brown"]["100"]
           : "hsl(240,11%,20%)!important",
     },
     "input:disabled ~ &": {
@@ -89,10 +95,10 @@ export const Task = React.memo(function Task({
     boxShadow:
       (global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : `inset 0 0 0 1.5px ${colors[task.color ?? "brown"]["A400"]}`) +
+        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "brown"]["A400"]}`) +
       ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
     backgroundColor: `${
-      colors[task.color || "brown"][global.user.darkMode ? 50 : "A400"]
+      colors[taskData.color || "brown"][global.user.darkMode ? 50 : "A400"]
     }!important`,
     "&:before": {
       display: "block",
@@ -107,7 +113,7 @@ export const Task = React.memo(function Task({
     },
     "input:hover ~ &": {
       backgroundColor:
-        colors[task.color ?? global.themeColor ?? "brown"][
+        colors[taskData.color ?? global.themeColor ?? "brown"][
           global.user.darkMode ? 50 : 900
         ],
     },
@@ -115,6 +121,7 @@ export const Task = React.memo(function Task({
 
   const handleDelete = React.useCallback(
     function handleDelete(taskId) {
+      setTaskData(null);
       fetchApiWithoutHook("property/boards/deleteTask", {
         id: taskId,
       }).then(() => {
@@ -125,7 +132,7 @@ export const Task = React.memo(function Task({
   );
 
   const [loading, setLoading] = React.useState(false);
-  const [checked, setChecked] = useState(task.completed);
+  const [checked, setChecked] = useState(taskData.completed);
   const [open, setOpen] = useState(false);
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
@@ -149,12 +156,13 @@ export const Task = React.memo(function Task({
   };
 
   const handlePriorityClick = React.useCallback(async () => {
+    setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
           await fetchApiWithoutHook("property/boards/togglePin", {
-            id: task.id,
-            pinned: !task.pinned ? "true" : "false",
+            id: taskData.id,
+            pinned: !taskData.pinned ? "true" : "false",
           }).then(() => {
             mutate(mutationUrl);
           });
@@ -166,25 +174,26 @@ export const Task = React.memo(function Task({
       }),
       {
         ...toastStyles,
-        loading: task.pinned
+        loading: taskData.pinned
           ? "Removing important label"
           : "Marking important...",
-        success: task.pinned
+        success: taskData.pinned
           ? "The priority has been set back to normal"
           : "Marked as important!",
         error: "Failed to change priority",
       }
     );
-  }, [task.pinned, task.id, mutationUrl]);
+  }, [taskData.pinned, taskData.id, mutationUrl]);
 
-  return (
+  return !taskData ? (
+    <></>
+  ) : (
     <>
       <TaskDrawer
         handlePriorityClick={handlePriorityClick}
         handleDelete={handleDelete}
-        checked={checked}
-        setChecked={setChecked}
-        task={task}
+        taskData={taskData}
+        setTaskData={setTaskData}
         columnId={columnId}
         board={board}
         open={open}
@@ -210,13 +219,13 @@ export const Task = React.memo(function Task({
           }}
         >
           <Box>
-            <Typography variant="h6">{renderText(task.name)}</Typography>
+            <Typography variant="h6">{renderText(taskData.name)}</Typography>
             <Typography variant="body2">
-              {task.description.trim() !== ""
-                ? task.description
+              {taskData.description.trim() !== ""
+                ? taskData.description
                 : "(no description provided)"}
-              {task.due && <>&nbsp;&bull;&nbsp;</>}
-              {task.due && dayjs(task.due).format("MMMM D, YYYY")}
+              {taskData.due && <>&nbsp;&bull;&nbsp;</>}
+              {taskData.due && dayjs(taskData.due).format("MMMM D, YYYY")}
             </Typography>
           </Box>
         </MenuItem>
@@ -229,12 +238,12 @@ export const Task = React.memo(function Task({
           }}
         >
           <Icon className="outlined">priority</Icon>Mark as{" "}
-          {task.pinned ? "unimportant" : "important"}
+          {taskData.pinned ? "unimportant" : "important"}
         </MenuItem>
         <MenuItem
           onClick={() => {
             setLoading(true);
-            handleDelete(task.id);
+            handleDelete(taskData.id);
           }}
         >
           <Box sx={{ position: "relative", width: "100%" }}>
@@ -261,7 +270,7 @@ export const Task = React.memo(function Task({
           </Box>
         </MenuItem>
       </Menu>
-      {task.subTasks.length >= 0 && (
+      {taskData.subTasks.length >= 0 && (
         <ListItem
           tabIndex={0}
           onClick={() => setOpen(true)}
@@ -273,7 +282,8 @@ export const Task = React.memo(function Task({
                 ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
                 : "0px 0px 0px 1.5px var(--themeDark) !important",
             },
-            color: colors[task.color][global.user.darkMode ? "A100" : "A700"],
+            color:
+              colors[taskData.color][global.user.darkMode ? "A100" : "A700"],
             p: {
               xs: 1,
               sm: 0,
@@ -298,7 +308,7 @@ export const Task = React.memo(function Task({
             gap: "10px!important",
             mt: {
               xs: 1.5,
-              sm: checkList ? 1.5 : task.pinned ? 0.5 : 0,
+              sm: checkList ? 1.5 : taskData.pinned ? 0.5 : 0,
             },
           }}
         >
@@ -324,7 +334,7 @@ export const Task = React.memo(function Task({
                     setChecked(e.target.checked);
                     fetchApiWithoutHook("property/boards/markTask", {
                       completed: e.target.checked ? "true" : "false",
-                      id: task.id,
+                      id: taskData.id,
                     }).catch(() =>
                       toast.error(
                         "An error occured while updating the task",
@@ -354,10 +364,12 @@ export const Task = React.memo(function Task({
                     }),
                   }}
                 >
-                  {renderText(task.name)}
-                  {task.image && <ImageViewer trimHeight url={task.image} />}
+                  {renderText(taskData.name)}
+                  {taskData.image && (
+                    <ImageViewer trimHeight url={taskData.image} />
+                  )}
                 </Box>
-                {task.pinned && (
+                {taskData.pinned && (
                   <Tooltip title="Marked as important" placement="top">
                     <Icon
                       sx={{
@@ -380,16 +392,16 @@ export const Task = React.memo(function Task({
                   marginLeft: "45px",
                   display: "block",
                   position: "relative",
-                  top: task.image ? "3px" : "-7px",
-                  ...(task.image && {
+                  top: taskData.image ? "3px" : "-7px",
+                  ...(taskData.image && {
                     marginBottom: "7px",
                   }),
                 }}
               >
-                {task.description}
-                {task.due && (
+                {taskData.description}
+                {taskData.due && (
                   <Tooltip
-                    title={dayjs(task.due).format("MMMM D, YYYY")}
+                    title={dayjs(taskData.due).format("MMMM D, YYYY")}
                     followCursor
                   >
                     <span
@@ -407,7 +419,7 @@ export const Task = React.memo(function Task({
                       >
                         schedule
                       </Icon>
-                      {dayjs(task.due).fromNow()}
+                      {dayjs(taskData.due).fromNow()}
                     </span>
                   </Tooltip>
                 )}
@@ -416,13 +428,13 @@ export const Task = React.memo(function Task({
           />
         </ListItem>
       )}
-      {task.subTasks.map((subtask) => (
+      {taskData.subTasks.map((subtask) => (
         <SubTask
           board={board}
           checkList={checkList}
           mutationUrl={mutationUrl}
           setOpen={setOpen}
-          key={task.id}
+          key={taskData.id}
           BpIcon={BpIcon}
           BpCheckedIcon={BpCheckedIcon}
           subtask={subtask}
