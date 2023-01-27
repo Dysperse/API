@@ -161,7 +161,7 @@ onContextMenu={() => {
               router.asPath === "/coach" ? "rounded" : "outlined"
             }`}
           >
-            routine
+            sunny
           </span>
           Coach
         </Box>
