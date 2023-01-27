@@ -2,7 +2,7 @@ const handler = {
   async fetch(
     request: Request,
     env: any,
-    ctx: ExecutionContext
+    ctx: any
   ): Promise<Response> {
     return new Response("🎉 Push server is running!");
   },
