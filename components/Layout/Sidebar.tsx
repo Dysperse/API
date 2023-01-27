@@ -164,7 +164,7 @@ export function Sidebar() {
                 router.asPath === "/coach" ? "rounded" : "outlined"
               }`}
             >
-              routine
+              sunny
             </span>
           </Tooltip>
         </Box>
