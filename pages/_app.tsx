@@ -17,34 +17,12 @@ import "../styles/globals.scss";
 import { Property, Session } from "../types/session";
 
 // Day.JS
-import {
-  Box,
-  Button,
-  CircularProgress,
-  createTheme,
-  Grow,
-  NoSsr,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { Box, Button, createTheme, NoSsr, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useCustomTheme } from "../lib/useCustomTheme";
+import { AuthLoading } from "../components/Auth/AuthLoading";
 dayjs.extend(relativeTime);
-
-export const Transition = React.forwardRef(function Transition(
-  props: any,
-  ref: React.Ref<unknown>
-) {
-  return (
-    <Grow
-      in={props.open}
-      ref={ref}
-      {...props}
-      easing="cubic-bezier(.17,.67,.2,1.29)"
-    />
-  );
-});
 
 /**
  * Main function, including layout and theme.
@@ -235,7 +213,6 @@ function RenderRoot({
 
   return disableLayout ? (
     <NoSsr>
-      <Analytics />
       <Component {...pageProps} />
       <Toaster containerClassName="noDrag" />
     </NoSsr>
@@ -252,66 +229,7 @@ function RenderRoot({
           data={data}
         />
       )}
-      {!isLoading && !isError && data.error && (
-        <Box
-          sx={{
-            background: "linear-gradient(45deg, #DB94CA, #6E79C9)",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              color: "#000",
-              alignItems: "center",
-              gap: "10px",
-              userSelect: "none",
-              px: 2,
-              pt: 2,
-            }}
-          >
-            <picture>
-              <img
-                src="https://i.ibb.co/F7vSQPP/Dysperse-Home-inventory-and-finance-tracking-2.png"
-                width="80"
-                height="80"
-                alt="logo"
-                style={{
-                  borderRadius: "28px",
-                }}
-                draggable={false}
-              />
-            </picture>
-            <Typography variant="h6" sx={{ mt: -0.5 }}>
-              Dysperse
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <CircularProgress
-              disableShrink
-              ref={(i: any) => i && i.click()}
-              size={20}
-              sx={{
-                color: "#c4b5b5",
-              }}
-              onClick={() => {
-                router.push("/auth");
-              }}
-            />
-          </Box>
-        </Box>
-      )}
+      {!isLoading && !isError && data.error && <AuthLoading />}
     </>
   );
 }

@@ -1,6 +1,21 @@
+import { Grow } from "@mui/material";
 import { experimental_sx as sx } from "@mui/material/styles";
-import { Transition } from "../pages/_app";
+import React from "react";
 import { colors } from "./colors";
+
+const Transition = React.forwardRef(function Transition(
+  props: any,
+  ref: React.Ref<unknown>
+) {
+  return (
+    <Grow
+      in={props.open}
+      ref={ref}
+      {...props}
+      easing="cubic-bezier(.17,.67,.2,1.29)"
+    />
+  );
+});
 
 export const toastStyles = {
   style: {
