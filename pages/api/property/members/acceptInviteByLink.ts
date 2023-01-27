@@ -1,11 +1,5 @@
 import { prisma } from "../../../../lib/prismaClient";
 
-/**
- * API handler
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
 const handler = async (req, res) => {
   // Find email from `user` table
   const user = await prisma.user.findUnique({

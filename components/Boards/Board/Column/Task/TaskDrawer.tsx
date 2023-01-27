@@ -7,7 +7,7 @@ import {
   Icon,
   IconButton,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -19,7 +19,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import {
   neutralizeBack,
-  revivalBack,
+  revivalBack
 } from "../../../../../hooks/useBackButton";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
@@ -351,7 +351,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 }}
                 onBlur={(e) => {
                   fetchApiWithoutHook("property/boards/editTask", {
-                    description: e.target.value,
+                    description: e.target.value == "" ? false : e.target.value,
                     id: task.id,
                   }).then(() => {
                     mutate(mutationUrl);

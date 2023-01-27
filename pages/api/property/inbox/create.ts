@@ -2,12 +2,6 @@ import { prisma } from "../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 const webPush = require("web-push");
 
-/**
- * API handler
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
 export const createInboxNotification = async (
   who: string,
   what: string,

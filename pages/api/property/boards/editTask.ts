@@ -1,29 +1,22 @@
 import { prisma } from "../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../lib/validatePermissions";
-/**
- * API handler
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
+
 const handler = async (req, res) => {
   const permissions = await validatePermissions(
     req.query.property,
     req.query.accessToken
   );
-  if (!permissions) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
+  if (!permissions) return res.status(401).json({ error: "Unauthorized" });
 
-  console.log(req.query.completed);
   const data = await prisma.task.update({
     where: {
       id: parseInt(req.query.id),
     },
     data: {
       ...(req.query.name && { name: req.query.name }),
-      ...(req.query.description && { description: req.query.description }),
+      ...((req.query.description || req.query.description === "") && {
+        description: req.query.description,
+      }),
       ...(req.query.color && { color: req.query.color }),
     },
   });

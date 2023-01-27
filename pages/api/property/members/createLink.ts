@@ -2,12 +2,6 @@ import { prisma } from "../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 import { createInboxNotification } from "../inbox/create";
 
-/**
- * API handler
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
 const handler = async (req, res) => {
   const permissions = await validatePermissions(
     req.query.property,
@@ -24,7 +18,6 @@ const handler = async (req, res) => {
     req.query.property,
     req.query.accessToken
   );
-
 
   // Get user id
   const data = await prisma.propertyLinkInvite.create({
