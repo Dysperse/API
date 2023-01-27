@@ -16,6 +16,7 @@ import { SpotlightActionProps } from "@mantine/spotlight";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
+import { toastStyles } from "../../../lib/useCustomTheme";
 
 function CustomAction({
   action,
@@ -173,7 +174,8 @@ export function SearchPopup({ styles }) {
                 toast(
                   <>
                     Currently viewing&nbsp;&nbsp;&nbsp;<u>{res.profile.name}</u>
-                  </>
+                  </>,
+                  toastStyles
                 );
                 mutate("/api/user");
               });

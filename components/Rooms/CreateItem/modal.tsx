@@ -126,7 +126,7 @@ export function CreateItemModal({
         lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       })
         .then(() => {
-          toast("Created item!");
+          toast("Created item!", toastStyles);
           setLoading(false);
           setOpen(false);
           formik.resetForm();

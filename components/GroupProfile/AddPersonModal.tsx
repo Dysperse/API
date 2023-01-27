@@ -293,7 +293,8 @@ export function AddPersonModal({
                       .catch(() => {
                         toast(
                           "An invitation was sent, but something went wrong while trying to send an email notification",
-                          { duration: 10000 }
+                          { duration: 10000 },
+                          toastStyles
                         );
                         setLoading(false);
                       });

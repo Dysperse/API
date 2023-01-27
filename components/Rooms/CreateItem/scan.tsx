@@ -94,7 +94,8 @@ const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
             <Typography variant="body1">
               {title} &bull; {qty}
             </Typography>
-          </Box>
+          </Box>,
+          toastStyles
         );
       } else {
         formik.setFieldValue("title", title);

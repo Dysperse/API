@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();
@@ -25,7 +26,7 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const handleSubmit = () => {
     const category = ref.current.value;
     if (JSON.parse(item.category).includes(category)) {
-      toast("Category already exists");
+      toast("Category already exists", toastStyles);
       ref.current.value = "";
       return;
     } else {
