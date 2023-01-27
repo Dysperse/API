@@ -39,6 +39,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   mutationUrl,
   columnId,
   handleDelete,
+  handlePriorityClick
 }: any) {
   useEffect(() => {
     document
@@ -69,34 +70,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   });
 
   const [view, setView] = useState<"Details" | "Subtasks">("Details");
-  const handlePriorityClick = useCallback(async () => {
-    toast.promise(
-      new Promise(async (resolve, reject) => {
-        try {
-          await fetchApiWithoutHook("property/boards/togglePin", {
-            id: task.id,
-            pinned: !task.pinned ? "true" : "false",
-          }).then(() => {
-            mutate(mutationUrl);
-          });
-          await mutate(mutationUrl);
-          resolve("");
-        } catch (e) {
-          reject(e);
-        }
-      }),
-      {
-        ...toastStyles,
-        loading: task.pinned
-          ? "Removing important label"
-          : "Marking important...",
-        success: task.pinned
-          ? "The priority has been set back to normal"
-          : "Marked as important!",
-        error: "Failed to change priority",
-      }
-    );
-  }, [task.pinned, task.id, mutationUrl]);
 
   useHotkeys(
     "alt+e",

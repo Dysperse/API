@@ -4,13 +4,11 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
-import { Color } from "./Color";
 
 import {
   Box,
   Checkbox,
   CircularProgress,
-  Divider,
   Icon,
   Link,
   ListItem,
@@ -115,13 +113,17 @@ export const Task = React.memo(function Task({
     },
   });
 
-  const handleDelete = (taskId) => {
-    fetchApiWithoutHook("property/boards/deleteTask", {
-      id: taskId,
-    }).then(() => {
-      mutate(mutationUrl);
-    });
-  };
+  const handleDelete = React.useCallback(
+    function handleDelete(taskId) {
+      fetchApiWithoutHook("property/boards/deleteTask", {
+        id: taskId,
+      }).then(() => {
+        mutate(mutationUrl);
+      });
+    },
+    [mutationUrl]
+  );
+
   const [loading, setLoading] = React.useState(false);
   const [checked, setChecked] = useState(task.completed);
   const [open, setOpen] = useState(false);
@@ -146,9 +148,39 @@ export const Task = React.memo(function Task({
     setContextMenu(null);
   };
 
+  const handlePriorityClick = React.useCallback(async () => {
+    toast.promise(
+      new Promise(async (resolve, reject) => {
+        try {
+          await fetchApiWithoutHook("property/boards/togglePin", {
+            id: task.id,
+            pinned: !task.pinned ? "true" : "false",
+          }).then(() => {
+            mutate(mutationUrl);
+          });
+          await mutate(mutationUrl);
+          resolve("");
+        } catch (e) {
+          reject(e);
+        }
+      }),
+      {
+        ...toastStyles,
+        loading: task.pinned
+          ? "Removing important label"
+          : "Marking important...",
+        success: task.pinned
+          ? "The priority has been set back to normal"
+          : "Marked as important!",
+        error: "Failed to change priority",
+      }
+    );
+  }, [task.pinned, task.id, mutationUrl]);
+
   return (
     <>
       <TaskDrawer
+        handlePriorityClick={handlePriorityClick}
         handleDelete={handleDelete}
         checked={checked}
         setChecked={setChecked}
@@ -188,40 +220,16 @@ export const Task = React.memo(function Task({
             </Typography>
           </Box>
         </MenuItem>
-        <Divider sx={{ m: -1 }} />
-        <MenuItem
-          disableRipple
-          sx={{
-            cursor: "auto",
-          }}
-        >
-          <Box className="embla__container" sx={{ gap: 1 }}>
-            {[
-              "red",
-              "orange",
-              "deepOrange",
-              "lightBlue",
-              "blue",
-              "indigo",
-              "purple",
-              "pink",
-              "green",
-              "lime",
-              "brown",
-              "blueGrey",
-            ].map((color) => (
-              <Color
-                small
-                task={task}
-                mutationUrl={mutationUrl}
-                color={color}
-                key={color}
-              />
-            ))}
-          </Box>
-        </MenuItem>
         <MenuItem onClick={() => setOpen(true)}>
           <Icon className="outlined">edit</Icon>Edit
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handlePriorityClick();
+          }}
+        >
+          <Icon className="outlined">priority</Icon>Mark as{" "}
+          {task.pinned ? "unimportant" : "important"}
         </MenuItem>
         <MenuItem
           onClick={() => {
