@@ -4,7 +4,7 @@ const handler = {
   async fetch(): Promise<Response> {
     return new Response("\u{1F389}Push server is running!");
   },
-  async scheduled(env: any) {
+  async scheduled(_: any, env: any) {
     const id = await SentryInit();
     // Send daily nudge to users who have daily nudge enabled
     const data = await fetch("https://my.dysperse.com/api/cron/dailyNudge", {
