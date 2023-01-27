@@ -15,6 +15,7 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
+import hexToRgba from "hex-to-rgba";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -524,8 +525,8 @@ export const Board = function Board({
                     : "none",
                 color: "success.main",
                 background: global.user.darkMode
-                  ? "hsl(240,11%,20%)"
-                  : colors.green[50],
+                  ? "hsla(240,11%,30%, .5)"
+                  : hexToRgba(colors.green[100], 0.5),
               }}
               label={
                 // Calculate percentage of completed tasks

@@ -70,7 +70,7 @@ export function BottomNav() {
    * @param {any} href
    * @returns {any}
    */
-  const matches = useMediaQuery("(max-height: 400px)");
+  const matches = useMediaQuery("(max-height: 500px)");
 
   return (
     <>
@@ -147,7 +147,7 @@ export function BottomNav() {
               }, 500);
             });
           }}
-onContextMenu={() => {
+          onContextMenu={() => {
             router.push("/coach").then(() => {
               setTimeout(() => {
                 document.getElementById("routineTrigger")?.click();
