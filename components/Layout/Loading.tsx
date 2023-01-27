@@ -180,13 +180,24 @@ export function Loading(): JSX.Element {
           left: "50%",
           transform: "translateX(-50%)",
           textAlign: "center",
-          background: "#fff",
+          background: "rgba(255,255,255,.5)",
+          backdropFilter: "blur(10px)",
+          boxShadow:
+            "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
           border: "1px solid #e0e0e0",
           borderRadius: 5,
           p: 3,
         }}
       >
-        <Typography>Having issues?</Typography>
+        <Typography
+          sx={{
+            fontWeight: 500,
+            fontSize: "17px",
+            mb: 0.5,
+          }}
+        >
+          Experiencing issues?
+        </Typography>
         <Link
           href="https://status.dysperse.com"
           target="_blank"
