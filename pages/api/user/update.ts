@@ -45,7 +45,8 @@ const handler = async (req, res) => {
         undefined,
     },
   });
-  cacheData.del(req.query.accessToken);
+  console.log("Access token: " + req.query.accessToken);
+  cacheData.del(req.query.sessionId);
   res.json(user);
 };
 export default handler;

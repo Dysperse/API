@@ -13,6 +13,8 @@ export const sessionData = async (providedToken) => {
     process.env.SECRET_COOKIE_PASSWORD
   );
 
+  console.log("Purge me plssssss: " + accessToken);
+
   const value = cacheData.get(accessToken);
   if (value) {
     return value;

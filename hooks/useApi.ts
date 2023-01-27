@@ -14,6 +14,7 @@ const getInfo = (
       }
     : {
         ...initialParams,
+        sessionId: user.token,
         property: property.propertyId,
         accessToken: property.accessToken,
         userIdentifier: user.identifier,

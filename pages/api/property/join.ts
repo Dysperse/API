@@ -34,7 +34,7 @@ const handler = async (req, res) => {
     },
   });
 
-  cacheData.del(req.query.accessToken);
+  cacheData.del(req.query.sessionId);
   res.json(data);
 };
 export default handler;

@@ -19,6 +19,6 @@ export default function handler(req, res) {
     })
   );
 
-  cacheData.del(req.query.accessToken);
+  cacheData.del(req.query.sessionId);
   res.status(200).json({})
 }

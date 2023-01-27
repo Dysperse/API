@@ -22,6 +22,7 @@ export async function updateSettings(
     new Promise(async (resolve, reject) => {
       try {
         let url = `/api/user/update?${new URLSearchParams({
+          sessionId: global.user.token,
           token: global.user.token,
           [key]: value,
         }).toString()}`;
