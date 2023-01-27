@@ -19,7 +19,7 @@ import {
   Select,
   SwipeableDrawer,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
 
@@ -98,7 +98,7 @@ function LinkToken({ color }) {
             sx={{ mt: 2, borderRadius: 999 }}
             onClick={() => {
               navigator.clipboard.writeText(url);
-              toast.success("Copied to clipboard",toastStyles);
+              toast.success("Copied to clipboard", toastStyles);
             }}
           >
             Copy
@@ -264,7 +264,10 @@ export function AddPersonModal({
             loading={loading}
             onClick={() => {
               if (members.find((member) => member === value)) {
-                toast.error("This person is already a member of this house",toastStyles);
+                toast.error(
+                  "This person is already a member of this house",
+                  toastStyles
+                );
                 return;
               }
               if (isEmail(value)) {
@@ -287,14 +290,13 @@ export function AddPersonModal({
                         "6Q4BZ_DN9bCSJFZYM"
                       )
                       .then(() => {
-                        toast.success("Invitation sent!",toastStyles);
+                        toast.success("Invitation sent!", toastStyles);
                         setLoading(false);
                       })
                       .catch(() => {
                         toast(
                           "An invitation was sent, but something went wrong while trying to send an email notification",
-                          { duration: 10000 },
-                          toastStyles
+                          { ...toastStyles, duration: 10000 }
                         );
                         setLoading(false);
                       });
@@ -302,12 +304,13 @@ export function AddPersonModal({
                   .catch(() => {
                     setLoading(false);
                     toast.error(
-                      "An error occured while trying to send an invite",toastStyles
+                      "An error occured while trying to send an invite",
+                      toastStyles
                     );
                   });
                 setLoading(true);
               } else {
-                toast.error("Please enter a valid email address",toastStyles);
+                toast.error("Please enter a valid email address", toastStyles);
               }
             }}
             variant="outlined"
