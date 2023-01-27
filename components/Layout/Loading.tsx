@@ -1,4 +1,12 @@
-import { AppBar, Box, Icon, Skeleton, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Icon,
+  Link,
+  Skeleton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 
 /**
  * Loading screen
@@ -162,6 +170,42 @@ export function Loading(): JSX.Element {
             </Box>
           </Box>
         </Box>
+      </Box>
+
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: "20px",
+          display: { xs: "none", sm: "block" },
+          left: "50%",
+          transform: "translateX(-50%)",
+          textAlign: "center",
+          background: "#fff",
+          border: "1px solid #e0e0e0",
+          borderRadius: 5,
+          p: 3,
+        }}
+      >
+        <Typography>Having issues?</Typography>
+        <Link
+          href="https://status.dysperse.com"
+          target="_blank"
+          sx={{
+            fontSize: "13px",
+            mr: 2,
+          }}
+        >
+          Server status ↗
+        </Link>
+        <Link
+          href="https://twitter.com/getdysperse"
+          target="_blank"
+          sx={{
+            fontSize: "13px",
+          }}
+        >
+          Official Twitter ↗
+        </Link>
       </Box>
     </Box>
   );
