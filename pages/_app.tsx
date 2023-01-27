@@ -20,8 +20,8 @@ import { Property, Session } from "../types/session";
 import { Box, Button, createTheme, NoSsr, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useCustomTheme } from "../lib/useCustomTheme";
 import { AuthLoading } from "../components/Auth/AuthLoading";
+import { useCustomTheme } from "../lib/useCustomTheme";
 dayjs.extend(relativeTime);
 
 /**

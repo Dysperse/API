@@ -146,36 +146,15 @@ export function Loading(): JSX.Element {
                 width: "100%",
               }}
             >
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                height={694}
-                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                height={694}
-                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                height={694}
-                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                height={694}
-                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                height={694}
-                sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
-              />
+              {[...new Array(5)].map((_, i) => (
+                <Skeleton
+                  variant="rectangular"
+                  animation="wave"
+                  key={i}
+                  height={694}
+                  sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
+                />
+              ))}
               <div style={{ opacity: 0 }}>
                 <Icon>add_circle</Icon>
                 <Icon className="outlined">add_circle</Icon>
