@@ -100,7 +100,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       {data ? (
         <>
           {data.length !== 0 && (
-            <Box sx={{ display: "flex", alignItems: "center", mt: 7, mb: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 7, mb: 3 }}>
               <Typography
                 variant="h5"
                 sx={{
