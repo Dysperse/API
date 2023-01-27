@@ -398,7 +398,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           <Box
             sx={{
               display: "flex",
-              gap: 2,
+              gap: 1.5,
+              pl: 7,
+              pt: 3,
               flexWrap: "wrap",
             }}
           >
