@@ -14,23 +14,31 @@ const Notification = async (req, res) => {
     return;
   }
   // Select user's push notification subscription URL, also asking one of their incompleted goals.
-  let users = await prisma.user.findMany({
+  let subscriptions = await prisma.notificationSettings.findMany({
+    where: {
+      dailyRoutineNudge: true,
+    },
     select: {
-      notificationSubscription: true,
-      RoutineItem: {
+      user: {
         select: {
-          completed: true,
+          notificationSubscription: true,
+          RoutineItem: {
+            select: {
+              id: true,
+            },
+            where: {
+              completed: false,
+            },
+          },
         },
-        where: {
-          completed: true,
-        },
-        take: 1,
       },
     },
   });
 
   // Make sure that user actually has goals (which aren't completed!)
-  users = users.filter((user) => user.RoutineItem.length === 1);
+  subscriptions = subscriptions.filter(
+    (subscription) => subscription.user.RoutineItem.length > 0
+  );
 
   webPush.setVapidDetails(
     `mailto:${process.env.WEB_PUSH_EMAIL}`,
@@ -39,10 +47,9 @@ const Notification = async (req, res) => {
   );
 
   // For each user
-  for (let i = 0; i < users.length; i++) {
-    const user = users[i];
-    const { notificationSubscription }: any = user;
-    //   Send notification
+  for (let i = 0; i < subscriptions.length; i++) {
+    const subscription = subscriptions[i];
+    const { notificationSubscription }: any = subscription.user;
     try {
       await DispatchNotification({
         title: "Let's work on your goals!",
@@ -62,7 +69,6 @@ const Notification = async (req, res) => {
   }
 
   res.status(200).json({ message: "Notification sent" });
-  // }
 };
 
 export default Notification;
