@@ -171,10 +171,10 @@ export function SearchPopup({ styles }) {
                 email: global.user.email,
                 accessToken1: property.accessToken,
               }).then((res) => {
-                toast(
-                  <>
-                    Currently viewing&nbsp;&nbsp;&nbsp;<u>{res.profile.name}</u>
-                  </>,
+                toast.success(
+                  <span>
+                    Switched to &nbsp;<u>{res.profile.name}</u>
+                  </span>,
                   toastStyles
                 );
                 mutate("/api/user");

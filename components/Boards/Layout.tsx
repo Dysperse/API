@@ -4,9 +4,11 @@ import {
   CircularProgress,
   Icon,
   SwipeableDrawer,
+  Tooltip,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
@@ -178,6 +180,18 @@ export function TasksLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const ref: any = useRef();
+  const menuRef: any = useRef();
+
+  useHotkeys("alt+c", (e) => {
+    e.preventDefault();
+    ref.current?.click();
+  });
+  useHotkeys("alt+m", (e) => {
+    e.preventDefault();
+    menuRef.current?.click();
+  });
+
   const children = (
     <>
       {error && (
@@ -204,56 +218,62 @@ export function TasksLayout() {
           mb: -2,
         }}
       >
-        <Button
-          size="large"
-          onClick={() => {
-            setOpen(false);
-            setActiveTab("new");
-          }}
-          disableRipple
-          sx={{
-            ...styles(activeTab === "new"),
-            px: 2,
-            justifyContent: { xs: "start", sm: "center" },
-          }}
-        >
-          <Icon className={activeTab === "new" ? "" : "outlined"}>
-            add_circle
-          </Icon>
-          <Box
+        <Tooltip title="Create board (alt • c)">
+          <Button
+            ref={ref}
+            size="large"
+            onClick={() => {
+              setOpen(false);
+              setActiveTab("new");
+            }}
+            disableRipple
             sx={{
-              display: { xs: "block", sm: "none" },
+              ...styles(activeTab === "new"),
+              px: 2,
+              justifyContent: { xs: "start", sm: "center" },
             }}
           >
-            Create board
-          </Box>
-        </Button>
-        <Button
-          size="large"
-          onClick={() => {
-            setCollapsed(!collapsed);
-          }}
-          disableRipple
-          sx={{
-            ...styles(false),
-            px: 2,
-            display: { xs: "none", sm: "block" },
-            justifyContent: "center",
-          }}
-        >
-          <Icon
-            className={activeTab === "new" ? "" : "outlined"}
+            <Icon className={activeTab === "new" ? "" : "outlined"}>
+              add_circle
+            </Icon>
+            <Box
+              sx={{
+                display: { xs: "block", sm: "none" },
+              }}
+            >
+              Create board
+            </Box>
+          </Button>
+        </Tooltip>
+        <Tooltip title="Toggle menu visibility (alt • m)">
+          <Button
+            ref={menuRef}
+            size="large"
+            onClick={() => {
+              setCollapsed(!collapsed);
+            }}
+            disableRipple
             sx={{
-              transform: collapsed
-                ? "rotate(180deg) scale(1.1)"
-                : "rotate(0deg) scale(1)",
-              mb: -1,
-              transition: "transform 0.3s",
+              ...styles(false),
+              px: 2,
+              display: { xs: "none", sm: "block" },
+              justifyContent: "center",
             }}
           >
-            menu_open
-          </Icon>
-        </Button>
+            <Icon
+              className={activeTab === "new" ? "" : "outlined"}
+              sx={{
+                transform: collapsed
+                  ? "rotate(180deg) scale(1.1)"
+                  : "rotate(0deg) scale(1)",
+                mb: -1,
+                transition: "transform 0.3s",
+              }}
+            >
+              menu_open
+            </Icon>
+          </Button>
+        </Tooltip>
       </Box>
     </>
   );

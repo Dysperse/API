@@ -236,7 +236,7 @@ export const Task = React.memo(function Task({
             handlePriorityClick();
           }}
         >
-          <Icon className="outlined">priority</Icon>Mark as{" "}
+          <Icon className="outlined">error</Icon>Mark as{" "}
           {taskData.pinned ? "unimportant" : "important"}
         </MenuItem>
         <MenuItem
@@ -376,11 +376,11 @@ export const Task = React.memo(function Task({
                         ml: "auto",
                         mr: 1,
                         color:
-                          colors.red[global.user.darkMode ? "200" : "A400"],
+                          colors.orange[global.user.darkMode ? "200" : "A400"],
                       }}
                       className="outlined"
                     >
-                      priority
+                      error
                     </Icon>
                   </Tooltip>
                 )}

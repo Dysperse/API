@@ -246,6 +246,9 @@ export function CreateTask({
 
   useEffect(() => {
     setTimeout(() => {
+      if (open) {
+        titleRef.current?.select();
+      }
       titleRef.current?.focus();
     });
   }, [open, titleRef]);
