@@ -81,6 +81,36 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     [handlePriorityClick]
   );
 
+  const styles = (activeView: string) => {
+    return {
+      px: 1.5,
+      cursor: "unset",
+      gap: 1.5,
+      background:
+        view === activeView
+          ? colors[taskData.color][global.user.darkMode ? 50 : 900] +
+            "!important"
+          : "transparent!important",
+
+      "&:hover": {
+        background:
+          view === activeView
+            ? colors[taskData.color][global.user.darkMode ? 100 : 800] +
+              "!important"
+            : colors[taskData.color][!global.user.darkMode ? 100 : 800] +
+              "!important",
+      },
+
+      mr: 0.5,
+      borderRadius: 4,
+      color:
+        view === activeView
+          ? colors[taskData.color][global.user.darkMode ? 900 : 50] +
+            "!important"
+          : colors[taskData.color][global.user.darkMode ? 50 : 900] +
+            "!important",
+    };
+  };
   return (
     <Drawer
       anchor="right"
@@ -233,6 +263,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                   name: e.target.value,
                   id: taskData.id,
                 }).then(() => {
+                  setTaskData({
+                    ...taskData,
+                    name: e.target.value,
+                  });
                   mutate(mutationUrl);
                 });
               }}
@@ -250,22 +284,8 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             <Button
               variant={"contained"}
               onClick={() => setView("Details")}
-              sx={{
-                borderRadius: 4,
-                mr: 1,
-                px: 1.5,
-                background:
-                  view === "Details"
-                    ? colors[taskData.color][global.user.darkMode ? 50 : 900] +
-                      "!important"
-                    : "transparent!important",
-                color:
-                  view === "Details"
-                    ? colors[taskData.color][global.user.darkMode ? 900 : 50] +
-                      "!important"
-                    : colors[taskData.color][global.user.darkMode ? 50 : 900] +
-                      "!important",
-              }}
+              onMouseDown={() => setView("Details")}
+              sx={styles("Details")}
             >
               Details
             </Button>
@@ -273,23 +293,8 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               variant={"contained"}
               id="subTasksTrigger"
               onClick={() => setView("Subtasks")}
-              sx={{
-                px: 1.5,
-                gap: 1.5,
-                background:
-                  view === "Subtasks"
-                    ? colors[taskData.color][
-                        global.user.darkMode ? 50 : "900"
-                      ] + "!important"
-                    : "transparent!important",
-                borderRadius: 4,
-                color:
-                  view === "Subtasks"
-                    ? colors[taskData.color][global.user.darkMode ? 900 : 50] +
-                      "!important"
-                    : colors[taskData.color][global.user.darkMode ? 50 : 900] +
-                      "!important",
-              }}
+              onMouseDown={() => setView("Subtasks")}
+              sx={styles("Subtasks")}
             >
               Subtasks
               <Chip
@@ -298,8 +303,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 sx={{
                   transition: "none",
                   pointerEvents: "none",
-                  backgroundColor:
-                    colors[taskData.color][view === "Subtasks" ? 700 : 100],
+                  backgroundColor: hexToRgba(
+                    colors[taskData.color][view === "Subtasks" ? 700 : 300],
+                    0.5
+                  ),
                   color: colors[taskData.color][view === "Subtasks" ? 50 : 900],
                 }}
               />
@@ -340,9 +347,13 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 }}
                 onBlur={(e) => {
                   fetchApiWithoutHook("property/boards/editTask", {
-                    description: e.target.value == "" ? false : e.target.value,
+                    description: e.target.value,
                     id: taskData.id,
                   }).then(() => {
+                    setTaskData({
+                      ...taskData,
+                      description: e.target.value,
+                    });
                     mutate(mutationUrl);
                   });
                 }}
