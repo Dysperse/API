@@ -96,7 +96,7 @@ export function Achievements({ styles }) {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            maxWidth: "700px",
+            maxWidth: { sm: "500px" },
             width: "100%",
             m: { sm: "20px" },
             maxHeight: { sm: "calc(100vh - 40px)" },

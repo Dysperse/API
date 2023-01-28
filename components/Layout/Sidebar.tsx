@@ -8,7 +8,7 @@ export function Sidebar() {
   const router = useRouter();
 
   useHotkeys(
-    "ctrl+d",
+    "ctrl+1",
     (e) => {
       e.preventDefault();
       router.push("/tasks");
@@ -17,7 +17,7 @@ export function Sidebar() {
   );
 
   useHotkeys(
-    "ctrl+e",
+    "ctrl+3",
     (e) => {
       e.preventDefault();
       router.push("/items");
@@ -25,7 +25,7 @@ export function Sidebar() {
     [open]
   );
   useHotkeys(
-    "ctrl+g",
+    "ctrl+2",
     (e) => {
       e.preventDefault();
       router.push("/coach");
@@ -33,7 +33,7 @@ export function Sidebar() {
     [open]
   );
   useHotkeys(
-    "ctrl+l",
+    "ctrl+4",
     (e) => {
       e.preventDefault();
       router.push("/spaces");

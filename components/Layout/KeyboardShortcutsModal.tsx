@@ -57,10 +57,6 @@ export function KeyboardShortcutsModal() {
                 keys: ["ctrl", "k"],
               },
               {
-                name: "Toggle inbox",
-                keys: ["ctrl", "i"],
-              },
-              {
                 name: "Toggle group list",
                 keys: ["ctrl", "p"],
               },
@@ -74,20 +70,20 @@ export function KeyboardShortcutsModal() {
             name: "Navigation",
             shortcuts: [
               {
-                name: "Dashboard",
-                keys: ["ctrl", "d"],
+                name: "Boards",
+                keys: ["ctrl", "1"],
               },
               {
                 name: "Inventory",
-                keys: ["ctrl", "e"],
+                keys: ["ctrl", "2"],
               },
               {
-                name: "Goals",
-                keys: ["ctrl", "g"],
+                name: "Coach",
+                keys: ["ctrl", "3"],
               },
               {
                 name: "Spaces",
-                keys: ["ctrl", "l"],
+                keys: ["ctrl", "4"],
               },
               {
                 name: "Settings",
