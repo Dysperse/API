@@ -172,7 +172,7 @@ export function DailyRoutine() {
           ...(!data && {
             filter: "blur(5px)",
             pointerEvents: "none",
-            minWidth: "90%",
+            minWidth: { xs: "90%", sm: "unset" },
           }),
           ml: { sm: "auto" },
           p: 2,
