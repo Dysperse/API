@@ -298,6 +298,7 @@ export function ImageRecognition({ formik, room }) {
           position="static"
           sx={{
             zIndex: 999,
+            color: "#fff",
             height: "var(--navbar-height)",
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
           }}
@@ -316,6 +317,7 @@ export function ImageRecognition({ formik, room }) {
               <Icon>west</Icon>
             </IconButton>
             <Typography
+              component="div"
               sx={{ mx: "auto", fontWeight: "600", display: "flex", gap: 2 }}
             >
               Scan
