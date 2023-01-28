@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Chip, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 
 export function AuthLoading() {
@@ -16,20 +16,28 @@ export function AuthLoading() {
     >
       <Box
         sx={{
-          display: "flex",
-          color: "#000",
+          display: "inline-flex",
+          color: "#200923",
           alignItems: "center",
-          gap: "10px",
+          gap: 3,
           userSelect: "none",
-          px: 2,
-          pt: 2,
+          mx: 4,
+          pr: 2,
+          borderRadius: 4,
+          mt: 4,
+          cursor: "pointer",
+          transition: "all 0.2s ease",
+          "&:active": {
+            transform: "scale(0.95)",
+            transitionDuration: "0s",
+          },
         }}
       >
         <picture>
           <img
-            src="https://i.ibb.co/F7vSQPP/Dysperse-Home-inventory-and-finance-tracking-2.png"
-            width="80"
-            height="80"
+            src="https://assets.dysperse.com/v6/dark.png"
+            width="50"
+            height="50"
             alt="logo"
             style={{
               borderRadius: "28px",
@@ -39,6 +47,12 @@ export function AuthLoading() {
         </picture>
         <Typography variant="h6" sx={{ mt: -0.5 }}>
           Dysperse
+          <Chip
+            label="alpha"
+            color="info"
+            size="small"
+            sx={{ ml: 2, px: 1, background: "#200923" }}
+          />
         </Typography>
       </Box>
       <Box

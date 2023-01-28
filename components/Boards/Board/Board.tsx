@@ -414,14 +414,16 @@ export const Board = function Board({
     id: board.id,
   });
 
-  const percent = (
-    (data
-      .map((column) => column.tasks)
-      .flat()
-      .filter((task) => task.completed).length /
-      data.map((column) => column.tasks).flat().length) *
-    100
-  ).toFixed(0);
+  const percent = data
+    ? (
+        (data
+          .map((column) => column.tasks)
+          .flat()
+          .filter((task) => task.completed).length /
+          data.map((column) => column.tasks).flat().length) *
+        100
+      ).toFixed(0)
+    : 0;
   // useEffect(() => {
   // alert(JSON.stringify(data));
   // }, [data]);
@@ -518,6 +520,7 @@ export const Board = function Board({
             <Chip
               size="small"
               sx={{
+                ...(percent == "NaN" && { display: "none" }),
                 color: "success.main",
                 background: global.user.darkMode
                   ? "hsla(240,11%,30%, .5)"
@@ -525,7 +528,7 @@ export const Board = function Board({
               }}
               label={
                 // Calculate percentage of completed tasks
-                data ? `${percent == "NaN" ? 100 : percent}% complete` : "0%"
+                data ? `${percent}% complete` : "0%"
               }
             />
 
