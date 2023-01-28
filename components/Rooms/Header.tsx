@@ -34,7 +34,7 @@ export function Header({
         borderRadius: 5,
         overflow: "hidden",
         background:
-          theme === "dark"
+          global.user.darkMode
             ? "hsl(240,11%,18%)!important"
             : "rgba(200,200,200,.3)!important",
         mb: 2,
@@ -42,10 +42,10 @@ export function Header({
         zIndex: 0,
         "&:focus": {
           background:
-            theme === "dark" ? "hsl(240,11%,27%)" : "rgba(200,200,200,.3)",
+            global.user.darkMode? "hsl(240,11%,27%)" : "rgba(200,200,200,.3)",
         },
 
-        ...(theme === "dark" && {
+        ...(global.user.darkMode && {
           "&:hover .avatar": {
             background: "hsl(240,11%,27%)",
           },

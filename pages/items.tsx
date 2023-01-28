@@ -14,8 +14,9 @@ import {
   Box,
   CircularProgress,
   Divider,
-  ListItem,
   ListItemAvatar,
+  ListItemButton,
+  ListItemSecondaryAction,
   ListItemText,
   Menu,
   MenuItem,
@@ -117,8 +118,7 @@ export const Action = React.memo(function Action({
   const ref: any = React.useRef(null);
 
   return (
-    <ListItem
-      button
+    <ListItemButton
       disableRipple
       onContextMenu={(e) => {
         e.preventDefault();
@@ -133,34 +133,13 @@ export const Action = React.memo(function Action({
         }
         setLoading(true);
       }}
-      secondaryAction={
-        !disableLoading && loading ? (
-          <CircularProgress
-            size={15}
-            sx={{
-              ml: "auto",
-              mt: "8px",
-              animationDuration: ".4s",
-              transitionDuration: ".4s",
-            }}
-            disableShrink
-          />
-        ) : (
-          <RoomActionMenu
-            isCustom={isCustom}
-            isPrivate={isPrivate}
-            itemRef={ref}
-          />
-        )
-      }
       className="room-button"
       sx={{
         "&:hover": {
           background: {
-            sm:
-              global.user.darkMode
-                ? "hsl(240,11%,13%)!important"
-                : colors[themeColor][50] + "!important",
+            sm: global.user.darkMode
+              ? "hsl(240,11%,13%)!important"
+              : colors[themeColor][50] + "!important",
           },
         },
         border: "1px solid transparent",
@@ -173,10 +152,9 @@ export const Action = React.memo(function Action({
                 : colors[themeColor][100] + "!important"),
           },
           background: {
-            xs:
-              global.user.darkMode
-                ? "hsl(240,11%,13%)!important"
-                : colors[themeColor][50] + "!important",
+            xs: global.user.darkMode
+              ? "hsl(240,11%,13%)!important"
+              : colors[themeColor][50] + "!important",
           },
         },
         borderRadius: 5,
@@ -189,15 +167,14 @@ export const Action = React.memo(function Action({
             primary.toLowerCase()
           ))
           ? {
-              background:
-                global.user.darkMode
-                  ? "hsl(240,11%,13%)!important"
-                  : colors[themeColor][50] + "!important",
+              background: global.user.darkMode
+                ? "hsl(240,11%,13%)!important"
+                : colors[themeColor][50] + "!important",
             }
           : {
               background: "transparent!important",
             }),
-        ...(theme === "dark" && {
+        ...(global.user.darkMode && {
           "&:hover .MuiAvatar-root": {
             background: "hsl(240,11%,17%)",
           },
@@ -249,7 +226,28 @@ export const Action = React.memo(function Action({
           </Typography>
         }
       />
-    </ListItem>
+      <ListItemSecondaryAction>
+        {!disableLoading && loading ? (
+          <CircularProgress
+            size={15}
+            sx={{
+              ml: "auto",
+              mt: "8px",
+              mr: 1,
+              animationDuration: ".4s",
+              transitionDuration: ".4s",
+            }}
+            disableShrink
+          />
+        ) : (
+          <RoomActionMenu
+            isCustom={isCustom}
+            isPrivate={isPrivate}
+            itemRef={ref}
+          />
+        )}
+      </ListItemSecondaryAction>
+    </ListItemButton>
   );
 });
 

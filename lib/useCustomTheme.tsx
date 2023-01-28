@@ -263,7 +263,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       primary: {
         main: colors[themeColor][darkMode ? "A200" : "A700"],
       },
-      mode: theme,
+      mode: darkMode ? "dark" : "light",
       ...(darkMode && {
         background: {
           default: "hsl(240, 11%, 10%)",

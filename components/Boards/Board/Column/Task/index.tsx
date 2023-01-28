@@ -80,10 +80,9 @@ export const Task = React.memo(function Task({
         hexToRgba(colors[taskData.color ?? "brown"][900], 0.1),
     },
     "input:not(:checked):hover ~ &": {
-      backgroundColor:
-        !global.user.darkMode
-          ? colors[taskData.color ?? "brown"]["100"]
-          : "hsl(240,11%,20%)!important",
+      backgroundColor: !global.user.darkMode
+        ? colors[taskData.color ?? "brown"]["100"]
+        : "hsl(240,11%,20%)!important",
     },
     "input:disabled ~ &": {
       cursor: "not-allowed",
@@ -349,8 +348,8 @@ export const Task = React.memo(function Task({
                     "&:hover": { bgcolor: "transparent" },
                   }}
                   color="default"
-                  checkedIcon={<BpCheckedIcon dark />}
-                  icon={<BpIcon dark />}
+                  checkedIcon={<BpCheckedIcon />}
+                  icon={<BpIcon />}
                 />
 
                 <Box
@@ -435,7 +434,7 @@ export const Task = React.memo(function Task({
           checkList={checkList}
           mutationUrl={mutationUrl}
           setOpen={setOpen}
-          key={taskData.id}
+          key={subtask.id}
           BpIcon={BpIcon}
           BpCheckedIcon={BpCheckedIcon}
           subtask={subtask}

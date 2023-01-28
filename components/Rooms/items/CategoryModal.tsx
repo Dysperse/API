@@ -96,7 +96,7 @@ export function CategoryModal({ category }: { category: string }) {
               ? "hsl(240, 11%, 20%)"
               : "rgba(200,200,200,.4)",
           },
-          ...(theme === "dark" && {
+          ...(global.user.darkMode && {
             "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",
             },

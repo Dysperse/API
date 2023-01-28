@@ -77,7 +77,7 @@ function RenderWithLayout({
 
   // If theme is dark, add `.dark` class to body
   useEffect(() => {
-    document.body.classList[theme === "dark" ? "add" : "remove"]("dark");
+    document.body.classList[global.user.darkMode ? "add" : "remove"]("dark");
   }, [theme]);
 
   // Return an error if user doesn't have any properties attached to their account
@@ -102,7 +102,7 @@ function RenderWithLayout({
   // Used in `globals.scss`
   document.documentElement.style.setProperty(
     "--backdropTheme",
-    theme === "dark"
+    global.user.darkMode
       ? "rgba(23, 23, 28, .4)"
       : hex2rgba(colors[themeColor ?? "brown"]["600"], 0.3)
   );
