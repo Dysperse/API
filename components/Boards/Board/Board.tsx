@@ -414,6 +414,14 @@ export const Board = function Board({
     id: board.id,
   });
 
+  const percent = (
+    (data
+      .map((column) => column.tasks)
+      .flat()
+      .filter((task) => task.completed).length /
+      data.map((column) => column.tasks).flat().length) *
+    100
+  ).toFixed(0);
   // useEffect(() => {
   // alert(JSON.stringify(data));
   // }, [data]);
@@ -501,14 +509,6 @@ export const Board = function Board({
               } completed`}
             >
               <Chip
-                sx={{
-                  display:
-                    !data ||
-                    (data &&
-                      data.map((column) => column.tasks).flat().length > 0)
-                      ? "flex"
-                      : "none",
-                }}
                 size="small"
                 label={`${
                   data ? data.map((column) => column.tasks).flat().length : 0
@@ -518,11 +518,6 @@ export const Board = function Board({
             <Chip
               size="small"
               sx={{
-                display:
-                  !data ||
-                  (data && data.map((column) => column.tasks).flat().length > 0)
-                    ? "flex"
-                    : "none",
                 color: "success.main",
                 background: global.user.darkMode
                   ? "hsla(240,11%,30%, .5)"
@@ -530,16 +525,7 @@ export const Board = function Board({
               }}
               label={
                 // Calculate percentage of completed tasks
-                data
-                  ? `${(
-                      (data
-                        .map((column) => column.tasks)
-                        .flat()
-                        .filter((task) => task.completed).length /
-                        data.map((column) => column.tasks).flat().length) *
-                      100
-                    ).toFixed(0)}% complete`
-                  : "0%"
+                data ? `${percent == "NaN" ? 100 : percent}% complete` : "0%"
               }
             />
 
