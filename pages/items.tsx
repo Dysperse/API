@@ -208,6 +208,7 @@ export const Action = React.memo(function Action({
               fontWeight: "500",
               whiteSpace: "nowrap",
               overflow: "hidden",
+              maxWidth: "calc(100% - 40px)",
               textOverflow: "ellipsis",
             }}
           >
@@ -243,6 +244,11 @@ export const Action = React.memo(function Action({
           />
         ) : (
           <RoomActionMenu
+            roomId={
+              href
+                ? decode(href.split("rooms/")[1].replace("?custom=true", ""))
+                : null
+            }
             isCustom={isCustom}
             isPrivate={isPrivate}
             itemRef={ref}

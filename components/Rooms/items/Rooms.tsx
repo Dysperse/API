@@ -1,12 +1,13 @@
 import { CustomRoom } from "@prisma/client";
 import { encode } from "js-base64";
+import React from "react";
 import { Action } from "../../../pages/items";
 import { ErrorHandler } from "../../Error";
 
 /**
  * Rooms popup
  */
-export function Rooms({ data, error }) {
+export const Rooms: any = React.memo(function Rooms({ data, error }: any) {
   return (
     <>
       {data &&
@@ -27,4 +28,4 @@ export function Rooms({ data, error }) {
       )}
     </>
   );
-}
+});

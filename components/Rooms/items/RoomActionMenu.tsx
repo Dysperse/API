@@ -1,7 +1,8 @@
 import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
+import { fetchApiWithoutHook } from "../../../hooks/useApi";
 
-export function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
+export function RoomActionMenu({ roomId, itemRef, isPrivate, isCustom }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,7 +55,16 @@ export function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
         <MenuItem onClick={handleClose} disabled>
           Make {isPrivate ? "private" : "public"}
         </MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem
+          onClick={() => {
+            alert(roomId);
+            fetchApiWithoutHook("property/rooms/delete", {
+              id: roomId,
+            });
+          }}
+        >
+          Delete
+        </MenuItem>
       </Menu>
       <Icon className="outlined">
         {global.permission === "read-only" ? (
