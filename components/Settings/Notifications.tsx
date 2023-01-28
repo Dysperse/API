@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemText,
   Switch,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -118,11 +119,15 @@ export default function Notifications() {
       }
     });
 
-    toast.promise(promise, {
-      loading: "Saving...",
-      success: "Saved!",
-      error: "Failed to save",
-    },toastStyles);
+    toast.promise(
+      promise,
+      {
+        loading: "Saving...",
+        success: "Saved!",
+        error: "Failed to save",
+      },
+      toastStyles
+    );
   };
 
   const enabledOnAnotherDevice =
@@ -250,7 +255,29 @@ export default function Notifications() {
     ) : error ? (
       <ErrorHandler error="An error occured while trying to fetch your notification settings" />
     ) : (
-      <CircularProgress />
+      <Box
+        sx={{
+          my: 10,
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress size={30} />
+        <Typography
+          sx={{
+            textAlign: "center",
+            px: 3,
+          }}
+        >
+          <b>Loading your preferences...</b>
+          <br />
+          Keep in mind that this feature is still in beta, and you might
+          encounter issues
+        </Typography>
+      </Box>
     )
   ) : (
     <Box
