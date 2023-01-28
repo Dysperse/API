@@ -166,7 +166,11 @@ export default function FullScreenDialog({
 
   return (
     <>
-      <Box id="settingsTrigger" onClick={handleClickOpen}>
+      <Box
+        id="settingsTrigger"
+        onClick={handleClickOpen}
+        onMouseDown={handleClickOpen}
+      >
         {children}
       </Box>
       <SwipeableDrawer

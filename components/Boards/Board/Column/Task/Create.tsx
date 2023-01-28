@@ -22,6 +22,7 @@ import {
   SwipeableDrawer,
   TextField,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
@@ -661,20 +662,25 @@ export function CreateTask({
             opacity: isHovered ? 1 : 0,
           }}
         >
-          <span
+          <Typography
             style={{
               fontWeight: 400,
               color: global.user.darkMode ? "#fff" : "#606060",
               background: global.user.darkMode
                 ? "hsl(240,11%,70%)"
                 : "rgba(200,200,200,.4)",
-              borderRadius: "10px",
-              padding: "3px 6px",
+              borderRadius: "3px",
               fontSize: "12px",
+              height: "20px",
+              display: { xs: "none", sm: "flex" },
+              alignItems: "center",
+              justifyContent: "center",
+              width: "20px",
+              marginRight: "10px",
             }}
           >
             c
-          </span>
+          </Typography>
         </ListItemIcon>
       </ListItem>
 

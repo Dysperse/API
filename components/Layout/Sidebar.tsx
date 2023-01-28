@@ -133,6 +133,7 @@ export function Sidebar() {
               router.asPath === ""
           )}
           onClick={() => router.push("/tasks")}
+          onMouseDown={() => router.push("/tasks")}
         >
           <Tooltip title="Lists" placement="right">
             <span
@@ -151,6 +152,7 @@ export function Sidebar() {
         <Box
           sx={styles(router.asPath === "/coach")}
           onClick={() => router.push("/coach")}
+          onMouseDown={() => router.push("/coach")}
         >
           <Tooltip title="Coach" placement="right">
             <span
@@ -167,6 +169,7 @@ export function Sidebar() {
             router.asPath === "/items" || router.asPath.includes("rooms")
           )}
           onClick={() => router.push("/items")}
+          onMouseDown={() => router.push("/items")}
         >
           <Tooltip title="Inventory" placement="right">
             <span
@@ -183,6 +186,7 @@ export function Sidebar() {
         <Box
           sx={styles(router.asPath === "/spaces")}
           onClick={() => router.push("/spaces")}
+          onMouseDown={() => router.push("/spaces")}
         >
           <Tooltip title="Spaces" placement="right">
             <span
@@ -213,6 +217,7 @@ export function Sidebar() {
                 disableRipple
                 sx={{
                   ...styles(),
+                  cursor: "unset",
                   background: "transparent!important",
                 }}
               >

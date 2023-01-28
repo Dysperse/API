@@ -48,16 +48,18 @@ const Tab = React.memo(function Tab({
   setActiveTab,
   board,
 }: any) {
+  const handleClick = React.useCallback(() => {
+    setDrawerOpen(false);
+    window.location.hash = board.id;
+    setActiveTab(board.id);
+  }, [board.id, setActiveTab, setDrawerOpen]);
   return (
     <div>
       <Button
         size="large"
         disableRipple
-        onClick={() => {
-          setDrawerOpen(false);
-          window.location.hash = board.id;
-          setActiveTab(board.id);
-        }}
+        onClick={handleClick}
+        onMouseDown={handleClick}
         sx={{
           ...styles(activeTab === board.id),
           ...(board.archived &&
@@ -129,6 +131,7 @@ export function TasksLayout() {
   const styles = (condition: boolean) => ({
     transition: "none!important",
     px: 2,
+    cursor: "unset!important",
     gap: 1.5,
     py: 1,
     width: "100%",

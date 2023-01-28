@@ -117,6 +117,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiMenu: {
         defaultProps: {
+          transitionDuration: 50,
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "center",
+          },
+          transformOrigin: { vertical: "top", horizontal: "center" },
+
           disableEnforceFocus: true,
           disableAutoFocusItem: true,
           BackdropProps: {
