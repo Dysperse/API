@@ -9,11 +9,14 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "analyze": "ANALYZE=true npm run build",
+    "static": "next build && next export",
     "lint": "next lint",
     "vapid": "web-push generate-vapid-keys"
   },
   "dependencies": {
+    "@capacitor/android": "^4.6.2",
+    "@capacitor/core": "^4.6.2",
+    "@capacitor/ios": "^4.6.2",
     "@emailjs/browser": "^3.7.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -81,6 +84,7 @@
   ],
   "description": "Next-gen home inventory",
   "devDependencies": {
+    "@capacitor/cli": "^4.6.2",
     "@next/eslint-plugin-next": "^13.0.7",
     "@tailwindcss/typography": "^0.5.8",
     "autoprefixer": "^10.4.13",
