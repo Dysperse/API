@@ -25,9 +25,9 @@ export function RoomActionMenu({ itemRef, isPrivate, isCustom }) {
         e.preventDefault();
         e.stopPropagation();
       }}
-      disableRipple
       sx={{
         transition: "none",
+        backdropFilter: "blur(1px)",
         "&:hover": {
           background: "rgba(200,200,200,.3)",
         },

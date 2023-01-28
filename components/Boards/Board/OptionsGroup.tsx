@@ -19,6 +19,7 @@ export function OptionsGroup({ currentOption, setOption, options }) {
           key={option}
           variant="contained"
           onClick={() => setOption(option)}
+          onMouseDown={() => setOption(option)}
           className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5"
           sx={{
             transition: "none!important",

@@ -117,7 +117,13 @@ export const Action = React.memo(function Action({
       : -2
     : -1;
   const ref: any = React.useRef(null);
-
+  const handleClick = React.useCallback(() => {
+    if (href) router.push(href).then(() => setLoading(false));
+    else {
+      onClick && onClick();
+    }
+    setLoading(true);
+  }, []);
   return (
     <ListItemButton
       disableRipple
@@ -127,13 +133,7 @@ export const Action = React.memo(function Action({
         ref.current.click();
         navigator.vibrate(50);
       }}
-      onClick={() => {
-        if (href) router.push(href).then(() => setLoading(false));
-        else {
-          onClick && onClick();
-        }
-        setLoading(true);
-      }}
+      onClick={handleClick}
       className="room-button"
       sx={{
         "&:hover": {
@@ -143,6 +143,7 @@ export const Action = React.memo(function Action({
               : colors[themeColor][50] + "!important",
           },
         },
+        cursor: "unset!important",
         border: "1px solid transparent",
         "&:active": {
           border: {
