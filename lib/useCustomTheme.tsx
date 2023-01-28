@@ -214,6 +214,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiDrawer: {
         defaultProps: {
+          
           elevation: 0,
         },
         styleOverrides: {

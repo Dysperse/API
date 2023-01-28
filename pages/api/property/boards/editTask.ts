@@ -7,6 +7,7 @@ const handler = async (req, res) => {
     req.query.accessToken
   );
   if (!permissions) return res.status(401).json({ error: "Unauthorized" });
+  console.log("desc: " + req.query.description);
 
   const data = await prisma.task.update({
     where: {
