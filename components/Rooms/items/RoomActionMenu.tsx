@@ -37,14 +37,8 @@ export function RoomActionMenu({
         e.stopPropagation();
       }}
       sx={{
-        transition: "none",
-        backdropFilter: "blur(1px)",
-        "&:hover": {
-          background: "rgba(200,200,200,.3)",
-        },
         ...(global.permission === "read-only" && {
           display: { sm: "none" },
-          opacity: "1!important",
         }),
         ...(open && {
           background:
@@ -64,11 +58,12 @@ export function RoomActionMenu({
           e.stopPropagation();
         }}
       >
-        <MenuItem onClick={handleClose} disabled>
-          Rename
+        <MenuItem onClick={handleClose}>
+          <Icon className="outlined">edit</Icon>Rename
         </MenuItem>
-        <MenuItem onClick={handleClose} disabled>
-          Make {isPrivate ? "private" : "public"}
+        <MenuItem onClick={handleClose}>
+          <Icon className="outlined">lock</Icon>Make{" "}
+          {isPrivate ? "private" : "public"}
         </MenuItem>
         <ConfirmationModal
           title="Delete room?"
@@ -82,7 +77,9 @@ export function RoomActionMenu({
             handleClose();
           }}
         >
-          <MenuItem>Delete</MenuItem>
+          <MenuItem>
+            <Icon className="outlined">delete</Icon>Delete
+          </MenuItem>
         </ConfirmationModal>
       </Menu>
 
