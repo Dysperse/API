@@ -169,15 +169,25 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 // if goals are completed
                 data.filter((goal) => goal.progress >= goal.durationDays)
                   .length > 0 && (
-                  <Typography>
+                  <Typography
+                    sx={{
+                      color: "warning.main",
+                      fontWeight: "600",
+                      mb: 2,
+                    }}
+                  >
                     You have completed{" "}
                     {
-                      data.filter((goal) => goal.progress >= goal.durationDays)
-                        .length
+                      data.filter(
+                        (goal) =>
+                          goal.progress >= goal.durationDays && !goal.completed
+                      ).length
                     }{" "}
                     goal
-                    {data.filter((goal) => goal.progress >= goal.durationDays)
-                      .length > 1 && "s"}
+                    {data.filter(
+                      (goal) =>
+                        goal.progress >= goal.durationDays && !goal.completed
+                    ).length > 1 && "s"}
                     ! Scroll down to claim your trophy.
                   </Typography>
                 )
