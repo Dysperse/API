@@ -244,11 +244,7 @@ export const Action = React.memo(function Action({
           />
         ) : (
           <RoomActionMenu
-            roomId={
-              href
-                ? decode(href.split("rooms/")[1].replace("?custom=true", ""))
-                : null
-            }
+            roomId={href ? href : null}
             isCustom={isCustom}
             isPrivate={isPrivate}
             itemRef={ref}
