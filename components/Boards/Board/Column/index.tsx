@@ -73,6 +73,7 @@ function CompletedTasks({
           <Chip
             sx={{
               ml: 1,
+              px: 1,
             }}
             label={columnTasks.filter((task) => task.completed).length}
             size="small"
@@ -507,7 +508,7 @@ export const Column = React.memo(function Column({
           ) && (
             <div onClick={() => setIsHovered(false)}>
               <CreateTask
-              isHovered={isHovered}
+                isHovered={isHovered}
                 column={column}
                 tasks={tasks}
                 checkList={checkList}
@@ -557,7 +558,7 @@ export const Column = React.memo(function Column({
               <Typography sx={{ width: "100%" }}>0 items remaining!</Typography>
               <div onClick={() => setIsHovered(false)}>
                 <CreateTask
-                isHovered={isHovered}
+                  isHovered={isHovered}
                   column={column}
                   tasks={tasks}
                   checkList={checkList}

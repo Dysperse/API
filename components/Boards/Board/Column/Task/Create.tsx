@@ -583,6 +583,9 @@ export function CreateTask({
             sm: "0!important",
           },
           cursor: "unset!important",
+          ...(isHovered && {
+            backgroundColor: { sm: "rgba(200,200,200,.1)!important" },
+          }),
           ...(global.user.darkMode && {
             "&:hover": {
               backgroundColor: "hsl(240,11%,19%)!important",
@@ -602,7 +605,7 @@ export function CreateTask({
           gap: "5px!important",
           mb: {
             xs: 1.5,
-            sm: checkList ? 1.5 : 0,
+            sm: checkList ? 1.5 : 0.5,
           },
           ...(tasks &&
             tasks.filter((task) => task.completed && task.columnId == column.id)
@@ -663,8 +666,8 @@ export function CreateTask({
           }}
         >
           <Typography
-            style={{
-              fontWeight: 400,
+            sx={{
+              fontWeight: 700,
               color: global.user.darkMode ? "#fff" : "#606060",
               background: global.user.darkMode
                 ? "hsl(240,11%,70%)"

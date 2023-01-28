@@ -145,7 +145,7 @@ export const Task = React.memo(function Task({
       contextMenu === null
         ? {
             mouseX: event.clientX + 2,
-            mouseY: event.clientY - 6,
+            mouseY: event.clientY - 10,
           }
         : null
     );
@@ -180,7 +180,8 @@ export const Task = React.memo(function Task({
           ? "The priority has been set back to normal"
           : "Marked as important!",
         error: "Failed to change priority",
-      },toastStyles
+      },
+      toastStyles
     );
   }, [taskData.pinned, taskData.id, mutationUrl]);
 
@@ -371,6 +372,7 @@ export const Task = React.memo(function Task({
                 {taskData.pinned && (
                   <Tooltip title="Marked as important" placement="top">
                     <Icon
+                      onClick={(e) => e.stopPropagation()}
                       sx={{
                         ml: "auto",
                         mr: 1,
