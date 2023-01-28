@@ -166,7 +166,7 @@ export function DailyRoutine() {
       </SwipeableDrawer>
       <Box
         id="routineTrigger"
-        className="shadow-md"
+        className="shadow-md hover:shadow-lg"
         onClick={() => setOpen(true)}
         sx={{
           ...(!data && {
@@ -177,7 +177,6 @@ export function DailyRoutine() {
           ml: { sm: "auto" },
           p: 2,
           px: 3,
-          cursor: "pointer",
           transition: "blur .2s, transform 0.2s",
           "&:active": {
             transform: "scale(0.98)",
@@ -195,6 +194,17 @@ export function DailyRoutine() {
             (global.user.darkMode
               ? "hsl(240,11%,16%)"
               : colors[themeColor][100]),
+          "&:hover": {
+            background: global.user.darkMode
+              ? "hsl(240,11%,16%)"
+              : colors[themeColor][100],
+            border:
+              "1px solid " +
+              (global.user.darkMode
+                ? "hsl(240,11%,16%)"
+                : colors[themeColor][200]),
+          },
+
           gap: 5,
         }}
       >

@@ -47,6 +47,7 @@ export function ConfirmationModal({
         }}
         PaperProps={{
           sx: {
+            userSelect: "none",
             width: "400px",
             maxWidth: "calc(100vw - 20px)",
             p: 1.5,

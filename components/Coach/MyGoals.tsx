@@ -129,6 +129,9 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                     alt="trophy"
                     width={20}
                     height={20}
+                    style={{
+                      transform: "rotate(-15deg)",
+                    }}
                   />
                 </picture>
                 <span>{global.user.trophies}</span>
@@ -167,8 +170,10 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             <>
               {
                 // if goals are completed
-                data.filter((goal) => goal.progress >= goal.durationDays)
-                  .length > 0 && (
+                data.filter(
+                  (goal) =>
+                    goal.progress >= goal.durationDays && !goal.completed
+                ).length > 0 && (
                   <Typography
                     sx={{
                       color: "warning.main",

@@ -8,7 +8,7 @@ export function OptionsGroup({ currentOption, setOption, options }) {
       className="rounded-[0.75rem!important] p-0.5 -mb-5"
       sx={{
         width: "100%",
-        gap: 0.1,
+        gap: 0.2,
         background: `${
           global.user.darkMode ? "hsl(240,11%,20%)" : colors[themeColor][100]
         }!important`,
@@ -35,6 +35,13 @@ export function OptionsGroup({ currentOption, setOption, options }) {
                   ? "hsl(240,11%,20%)"
                   : colors[themeColor][100]
               }!important`,
+              "&:hover": {
+                background: `${
+                  global.user.darkMode
+                    ? "hsl(240,11%,20%)"
+                    : colors[themeColor][200]
+                }!important`,
+              },
               color: `${
                 colors[themeColor][global.user.darkMode ? 50 : 900]
               }!important`,

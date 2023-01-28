@@ -1,3 +1,4 @@
+import cacheData from "memory-cache";
 import { prisma } from "../../../../lib/prismaClient";
 
 // name         String
@@ -37,6 +38,6 @@ export default async function handler(req: any, res: any) {
       identifier: req.query.userIdentifier,
     },
   });
-
+  cacheData.del(req.query.sessionId);
   res.json(data);
 }

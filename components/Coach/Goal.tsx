@@ -53,7 +53,6 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           transition: "transform .2s!important",
           px: 3,
           mb: 2,
-          cursor: "pointer",
           background: {
             sm: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
           },

@@ -57,6 +57,31 @@ export const Task: any = React.memo(function Task({ task }: any) {
   const [checked, setChecked] = React.useState(
     task.lastCompleted === dayjs().format("YYYY-MM-DD")
   );
+
+  const handleClick = React.useCallback(() => {
+    setLoading(true);
+    fetchApiWithoutHook("user/routines/markAsDone", {
+      date: dayjs().format("YYYY-MM-DD"),
+      progress:
+        task.progress && parseInt(task.progress)
+          ? task.progress + 1 > task.durationDays
+            ? task.durationDays
+            : task.progress + 1
+          : 1,
+      id: task.id,
+    })
+      .then(() => {
+        setChecked(true);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        toast.error(
+          "Something went wrong while trying to mark your routine as done.",
+          toastStyles
+        );
+      });
+  }, []);
   const [loading, setLoading] = React.useState(false);
 
   return (
@@ -91,31 +116,9 @@ export const Task: any = React.memo(function Task({ task }: any) {
             />
           </Box>
           <Checkbox
+            disableRipple
             disabled={checked}
-            onClick={() => {
-              setLoading(true);
-              fetchApiWithoutHook("user/routines/markAsDone", {
-                date: dayjs().format("YYYY-MM-DD"),
-                progress:
-                  task.progress && parseInt(task.progress)
-                    ? task.progress + 1 > task.durationDays
-                      ? task.durationDays
-                      : task.progress + 1
-                    : 1,
-                id: task.id,
-              })
-                .then(() => {
-                  setChecked(true);
-                  setLoading(false);
-                })
-                .catch(() => {
-                  setLoading(false);
-                  toast.error(
-                    "Something went wrong while trying to mark your routine as done.",
-                    toastStyles
-                  );
-                });
-            }}
+            onClick={handleClick}
             checked={checked}
             sx={{
               ...(loading && { opacity: 0.2, filter: "blur(1px)" }),
@@ -132,8 +135,7 @@ export const Task: any = React.memo(function Task({ task }: any) {
       >
         <Typography variant="h6">{task.stepName}</Typography>
         <Typography variant="body2">
-          {task.name} &bull;{" "}
-          {Math.round((task.progress / task.durationDays) * 100) || 0}% complete
+          {task.name} &bull; {task.durationDays - task.progress} days left
           &bull;{" "}
           {task.time === "any"
             ? "Daily"

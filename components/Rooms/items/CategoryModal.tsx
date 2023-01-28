@@ -102,6 +102,7 @@ export function CategoryModal({ category }: { category: string }) {
           gap: 2,
           borderRadius: 4,
           transition: "none!important",
+          cursor: "unset!important",
           ...(global.user.darkMode && {
             "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",

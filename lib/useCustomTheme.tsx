@@ -58,6 +58,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         },
         styleOverrides: {
           root: sx({
+            cursor: "unset",
+            "&:hover": {
+              background: "rgba(0,0,0,0.05)",
+            },
+            "&:active": {
+              background: "rgba(0,0,0,0.1)",
+            },
+            transition: "none",
             "&:focus-visible": {
               boxShadow: darkMode
                 ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
@@ -76,7 +84,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             background: `${colors[themeColor][!darkMode ? 800 : 50]}!important`,
             color: colors[themeColor][!darkMode ? 50 : 800],
             "&:hover": {
-              background: `${colors[themeColor][darkMode ? 100 : 900]}`,
+              background: `${
+                colors[themeColor][darkMode ? 200 : 900]
+              }!important`,
             },
             "&:disabled": {
               background: `${
@@ -102,6 +112,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           root: {
             gap: "10px",
             transition: "none",
+            cursor: "unset",
             borderRadius: "999px",
             paddingLeft: "30px",
             paddingRight: "30px",
@@ -156,6 +167,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 padding: "3px",
               },
               "& .MuiMenuItem-root": {
+                cursor: "unset",
                 gap: 2,
                 "&:focus-visible, &:hover": {
                   background: darkMode
@@ -214,7 +226,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiDrawer: {
         defaultProps: {
-          
           elevation: 0,
         },
         styleOverrides: {
