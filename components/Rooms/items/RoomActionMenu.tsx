@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { ConfirmationModal } from "../../ConfirmationModal";
+
 export function RoomActionMenu({
   roomId,
   itemRef,
@@ -54,7 +55,6 @@ export function RoomActionMenu({
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          handleClose();
         }}
       >
         <MenuItem onClick={handleClose} disabled>
@@ -72,6 +72,7 @@ export function RoomActionMenu({
             });
             await mutate(mutationUrl);
             toast.success("Deleted room!");
+            handleClose();
           }}
         >
           <MenuItem>Delete</MenuItem>
