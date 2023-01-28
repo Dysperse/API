@@ -17,6 +17,7 @@ import {
   Icon,
   IconButton,
   ListItem,
+  ListItemIcon,
   ListItemText,
   SwipeableDrawer,
   TextField,
@@ -90,6 +91,7 @@ function ImageModal({ image, setImage, styles }) {
 }
 
 export function CreateTask({
+  isHovered,
   tasks,
   parent = false,
   mutationUrl,
@@ -256,7 +258,9 @@ export function CreateTask({
           setOpen(false);
           mutate(mutationUrl);
         }}
-        onOpen={() => setOpen(true)}
+        onOpen={() => {
+          setOpen(true);
+        }}
         disableSwipeToOpen
         PaperProps={{
           sx: {
@@ -651,7 +655,29 @@ export function CreateTask({
             }
           />
         )}
+        <ListItemIcon
+          sx={{
+            minWidth: "auto",
+            opacity: isHovered ? 1 : 0,
+          }}
+        >
+          <span
+            style={{
+              fontWeight: 400,
+              color: global.user.darkMode ? "#fff" : "#606060",
+              background: global.user.darkMode
+                ? "hsl(240,11%,70%)"
+                : "rgba(200,200,200,.4)",
+              borderRadius: "10px",
+              padding: "3px 6px",
+              fontSize: "12px",
+            }}
+          >
+            c
+          </span>
+        </ListItemIcon>
       </ListItem>
+
       {/* <Divider sx={{ my: 0.5 }} /> */}
     </>
   );

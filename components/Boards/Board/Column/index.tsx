@@ -18,6 +18,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
 import { toastStyles } from "../../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../../ConfirmationModal";
@@ -314,7 +315,8 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
                     loading: "Saving your changes...",
                     success: "Your changes were saved",
                     error: "There was a problem saving your changes.",
-                  },toastStyles
+                  },
+                  toastStyles
                 );
               }}
             >
@@ -363,9 +365,27 @@ export const Column = React.memo(function Column({
     (task) => task.parentTasks.length === 0
   );
 
+  const [isHovered, setIsHovered] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  useHotkeys(
+    "c",
+    (e) => {
+      e.preventDefault();
+      if (isHovered) {
+        const trigger: any = ref.current?.querySelector("#createTask");
+        trigger?.click();
+        setIsHovered(false);
+      }
+    },
+    [isHovered]
+  );
   const trigger = useMediaQuery("(max-width: 600px)");
   return (
     <Box
+      ref={ref}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10"
       sx={{
         display: "flex",
@@ -485,13 +505,16 @@ export const Column = React.memo(function Column({
             columnTasks.filter((task) => task.completed).length ==
               columnTasks.length && columnTasks.length >= 1
           ) && (
-            <CreateTask
-              column={column}
-              tasks={tasks}
-              checkList={checkList}
-              mutationUrl={mutationUrl}
-              boardId={board.id}
-            />
+            <div onClick={() => setIsHovered(false)}>
+              <CreateTask
+              isHovered={isHovered}
+                column={column}
+                tasks={tasks}
+                checkList={checkList}
+                mutationUrl={mutationUrl}
+                boardId={board.id}
+              />
+            </div>
           )}
 
         {columnTasks
@@ -532,13 +555,16 @@ export const Column = React.memo(function Column({
                 />
               </picture>
               <Typography sx={{ width: "100%" }}>0 items remaining!</Typography>
-              <CreateTask
-                column={column}
-                tasks={tasks}
-                checkList={checkList}
-                mutationUrl={mutationUrl}
-                boardId={board.id}
-              />
+              <div onClick={() => setIsHovered(false)}>
+                <CreateTask
+                isHovered={isHovered}
+                  column={column}
+                  tasks={tasks}
+                  checkList={checkList}
+                  mutationUrl={mutationUrl}
+                  boardId={board.id}
+                />
+              </div>
             </Box>
           )}
         <CompletedTasks
