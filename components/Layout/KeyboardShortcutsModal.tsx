@@ -61,6 +61,10 @@ export function KeyboardShortcutsModal() {
                 keys: ["ctrl", "p"],
               },
               {
+                name: "View active group",
+                keys: ["ctrl", "shift", "p"],
+              },
+              {
                 name: "Toggle app drawer",
                 keys: ["ctrl", "q"],
               },
@@ -109,19 +113,19 @@ export function KeyboardShortcutsModal() {
             shortcuts: [
               {
                 name: "Delete an item",
-                keys: ["ctrl", "shift", "d"],
+                keys: ["alt", "d"],
               },
               {
                 name: "Edit an item",
-                keys: ["ctrl", "shift", "e"],
+                keys: ["alt", "e"],
               },
               {
                 name: "Star an item",
-                keys: ["ctrl", "shift", "s"],
+                keys: ["alt", "s"],
               },
               {
                 name: "Move to another room",
-                keys: ["ctrl", "shift", "m"],
+                keys: ["alt", "m"],
               },
               {
                 name: "Focus on note input",

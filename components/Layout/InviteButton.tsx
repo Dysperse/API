@@ -29,7 +29,23 @@ export function InviteButton() {
     "ctrl+p",
     (e) => {
       e.preventDefault();
-      setOpen(!open);
+      if (open) {
+        document.getElementById("activeProperty")?.click();
+      } else {
+        setOpen(true);
+      }
+    },
+    [open]
+  );
+
+  useHotkeys(
+    "ctrl+shift+p",
+    (e) => {
+      e.preventDefault();
+      setOpen(true);
+      setTimeout(() => {
+        document.getElementById("activeProperty")?.click();
+      }, 50);
     },
     [open]
   );

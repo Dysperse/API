@@ -130,40 +130,42 @@ const Item = React.memo(function Item({
     handleClose();
     setDrawerState(false);
 
-    toast.success((t) => (
-      <span>
-        Item moved to trash
-        <Button
-          size="small"
-          sx={{
-            ml: 2,
-            borderRadius: 999,
-            p: "0!important",
-            width: "auto",
-            minWidth: "auto",
-          }}
-          onClick={() => {
-            toast.dismiss(t.id);
-            fetchApiWithoutHook("property/inventory/restore", {
-              id: item.id.toString(),
-              lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-            });
-            setDeleted(false);
-            // Set embla slide to 1
-            emblaApi?.scrollTo(1);
-          }}
-        >
-          Undo
-        </Button>
-      </span>
-    ),toastStyles);
+    toast.success(
+      (t) => (
+        <span>
+          Item moved to trash
+          <Button
+            size="small"
+            sx={{
+              ml: 2,
+              borderRadius: 999,
+              p: "0!important",
+              width: "auto",
+              minWidth: "auto",
+            }}
+            onClick={() => {
+              toast.dismiss(t.id);
+              fetchApiWithoutHook("property/inventory/restore", {
+                id: item.id.toString(),
+                lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              });
+              setDeleted(false);
+              // Set embla slide to 1
+              emblaApi?.scrollTo(1);
+            }}
+          >
+            Undo
+          </Button>
+        </span>
+      ),
+      toastStyles
+    );
   };
   const styles = {
     transition: "none",
     mr: 1,
     py: 2,
     gap: 2,
-
     color: global.user.darkMode
       ? "hsl(240, 11%, 90%)"
       : colors[themeColor]["800"],
