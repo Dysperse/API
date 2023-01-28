@@ -8,7 +8,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
     const tag = tagRef.current;
     if (!tag) return;
     if (isOpen) {
-      if (global.theme !== "dark") {
+      if (!global.user.darkMode) {
         tag.setAttribute("content", colors[themeColor][nestedModals * 100]);
       } else {
         tag.setAttribute("content", `hsl(240, 11%, ${nestedModals * 10}%)`);

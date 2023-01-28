@@ -81,7 +81,7 @@ export const Task = React.memo(function Task({
     },
     "input:not(:checked):hover ~ &": {
       backgroundColor:
-        global.theme !== "dark"
+        !global.user.darkMode
           ? colors[taskData.color ?? "brown"]["100"]
           : "hsl(240,11%,20%)!important",
     },

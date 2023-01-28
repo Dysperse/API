@@ -85,7 +85,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "false")}
-              checked={global.theme === "light"}
+              checked={!global.user.darkMode}
             />
           }
           disablePadding

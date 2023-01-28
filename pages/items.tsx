@@ -158,7 +158,7 @@ export const Action = React.memo(function Action({
         "&:hover": {
           background: {
             sm:
-              global.theme === "dark"
+              global.user.darkMode
                 ? "hsl(240,11%,13%)!important"
                 : colors[themeColor][50] + "!important",
           },
@@ -168,13 +168,13 @@ export const Action = React.memo(function Action({
           border: {
             sm:
               "1px solid " +
-              (global.theme === "dark"
+              (global.user.darkMode
                 ? "hsl(240,11%,13%)!important"
                 : colors[themeColor][100] + "!important"),
           },
           background: {
             xs:
-              global.theme === "dark"
+              global.user.darkMode
                 ? "hsl(240,11%,13%)!important"
                 : colors[themeColor][50] + "!important",
           },
@@ -190,7 +190,7 @@ export const Action = React.memo(function Action({
           ))
           ? {
               background:
-                global.theme === "dark"
+                global.user.darkMode
                   ? "hsl(240,11%,13%)!important"
                   : colors[themeColor][50] + "!important",
             }

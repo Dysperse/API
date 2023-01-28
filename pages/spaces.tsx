@@ -94,7 +94,7 @@ function LinkModal({ value, setValue }) {
             borderRadius: 999,
             mt: 2,
             background:
-              (global.theme === "dark"
+              (global.user.darkMode
                 ? "hsl(240,11%,30%)"
                 : colors[themeColor][900]) + "!important",
           }}
@@ -574,7 +574,8 @@ function ImageBox({ isTrigger, image }) {
               loading: "Copying image...",
               success: "Image copied to clipboard",
               error: "Something went wrong",
-            },toastStyles
+            },
+            toastStyles
           );
         }}
       >

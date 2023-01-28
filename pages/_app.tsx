@@ -52,7 +52,6 @@ function RenderWithLayout({
   const themeColor = data.user.color;
 
   global.user = data.user;
-  global.theme = theme;
   global.themeColor = themeColor;
 
   useEffect(() => {

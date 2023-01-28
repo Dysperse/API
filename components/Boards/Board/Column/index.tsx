@@ -67,6 +67,7 @@ function CompletedTasks({
         }}
       >
         <Typography
+          component="div"
           sx={{ fontWeight: "700", display: "flex", alignItems: "center" }}
         >
           <span>Completed</span>

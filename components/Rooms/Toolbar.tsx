@@ -34,7 +34,7 @@ function SearchBar({
       disableRipple
       sx={{
         backgroundColor:
-          global.theme === "dark"
+          global.user.darkMode
             ? "hsl(240,11%,15%)!important"
             : `${grey[200]}!important`,
         borderRadius: 10,
