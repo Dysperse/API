@@ -235,12 +235,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             background: darkMode
               ? "hsl(240, 11%, 90%)"
               : colors[themeColor]["100"],
-            paddingLeft: "13px",
-            paddingRight: "13px",
-            paddingTop: "5px",
-            paddingBottom: "5px",
+            padding: "5px 13px",
             boxShadow:
-              "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           },
         },
       },
