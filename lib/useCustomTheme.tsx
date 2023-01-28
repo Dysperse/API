@@ -148,6 +148,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               color: darkMode
                 ? colors[themeColor][200]
                 : colors[themeColor][800],
+
+              border:
+                "1px solid" +
+                (darkMode ? colors[themeColor][200] : colors[themeColor][800]),
               "& .MuiMenu-list": {
                 padding: "3px",
               },
