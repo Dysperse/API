@@ -251,6 +251,7 @@ export function ImageRecognition({ formik, room }) {
         >
           <Box sx={{ p: 2 }}>
             <Typography
+              component="div"
               sx={{ mx: "auto", fontWeight: "600", display: "flex", gap: 2 }}
             >
               Scan

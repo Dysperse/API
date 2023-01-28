@@ -21,6 +21,7 @@ import {
   Menu,
   MenuItem,
   Skeleton,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { CategoryModal } from "../components/Rooms/items/CategoryModal";
@@ -216,7 +217,7 @@ export const Action = React.memo(function Action({
           <Typography
             className="text-sm sm font-normal"
             sx={{
-              ...(isCustom && { display: "none" }),
+              ...((isCustom || itemCount === -3) && { display: "none" }),
               ...(itemCount == -1 && {
                 filter: "blur(3px)!important",
               }),
@@ -444,7 +445,17 @@ export default function Inventory({ children = null }: any) {
             <CreateRoom mutationUrl={url} />
             <Divider sx={{ my: 1 }} />
             {/* <Action href="/starred" icon="star" primary="Starred" /> */}
-            <Action href="/trash" icon="delete" primary="Trash" />
+            <Action
+              href="/trash"
+              icon="delete"
+              primary="Trash"
+              count={{
+                byRoom: {
+                  trash: -3,
+                },
+              }}
+            />
+            <Toolbar />
           </>
         ) : (
           <CategoryList />

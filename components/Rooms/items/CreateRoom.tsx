@@ -122,6 +122,11 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
             ? "New container"
             : "New room"
         }
+        count={{
+          byRoom: {
+            "new room": -3,
+          },
+        }}
         onClick={() => setOpen(true)}
       />
     </>
