@@ -3,6 +3,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
+import { colors } from "../../../lib/colors";
 import { ConfirmationModal } from "../../ConfirmationModal";
 
 export function RoomActionMenu({
@@ -44,6 +45,12 @@ export function RoomActionMenu({
         ...(global.permission === "read-only" && {
           display: { sm: "none" },
           opacity: "1!important",
+        }),
+        ...(open && {
+          background:
+            (global.user.darkMode
+              ? "hsl(240,11%,20%)"
+              : colors[themeColor][100]) + "!important",
         }),
       }}
     >

@@ -210,12 +210,7 @@ const Item = React.memo(function Item({
             handleClose();
           }}
         >
-          <span
-            className="material-symbols-rounded"
-            style={{ marginRight: "20px" }}
-          >
-            open_in_new
-          </span>
+          <span className="material-symbols-rounded">open_in_new</span>
           View
         </MenuItem>
         <MenuItem
@@ -234,12 +229,7 @@ const Item = React.memo(function Item({
             navigator.share({ url: href }).then(handleClose);
           }}
         >
-          <span
-            className="material-symbols-rounded"
-            style={{ marginRight: "20px" }}
-          >
-            share
-          </span>
+          <span className="material-symbols-rounded">share</span>
           Share
         </MenuItem>
         <MenuItem
@@ -252,19 +242,13 @@ const Item = React.memo(function Item({
             className={`material-symbols-${
               item.starred ? "rounded" : "outlined"
             }`}
-            style={{ marginRight: "20px" }}
           >
             grade
           </span>
           {item.starred ? "Unstar" : "Star"}
         </MenuItem>
         <MenuItem onClick={handleItemDelete}>
-          <span
-            className="material-symbols-rounded"
-            style={{ marginRight: "20px" }}
-          >
-            delete
-          </span>
+          <span className="material-symbols-rounded">delete</span>
           Delete
         </MenuItem>
       </Menu>
