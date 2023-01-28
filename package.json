@@ -23,7 +23,6 @@
     "@marsidev/react-turnstile": "^0.0.5",
     "@mui/lab": "^5.0.0-alpha.101",
     "@mui/material": "^5.10.7",
-    "@next/font": "^13.1.5",
     "@prisma/client": "^4.9.0",
     "@sentry/nextjs": "^7.26.0",
     "@sentry/node": "^7.19.0",
