@@ -1,9 +1,11 @@
 import {
   Box,
   CircularProgress,
-  ListItem,
+  Drawer,
+  Icon,
+  IconButton,
+  ListItemButton,
   ListItemText,
-  SwipeableDrawer,
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
@@ -11,7 +13,6 @@ import BoringAvatar from "boring-avatars";
 import React from "react";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
-import { Puller } from "../../Puller";
 import { ItemCard } from "../ItemCard";
 
 /**
@@ -29,35 +30,48 @@ export function CategoryModal({ category }: { category: string }) {
 
   return (
     <>
-      <SwipeableDrawer
+      <Drawer
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         open={open}
-        anchor="bottom"
+        anchor="right"
+        ModalProps={{
+          keepMounted: false,
+        }}
         PaperProps={{
           sx: {
-            width: {
-              sm: "50vw",
-            },
+            width: "100%",
             maxWidth: "600px",
-            maxHeight: "95vh",
+            maxHeight: "100vh",
           },
         }}
       >
-        <Puller />
-        <Box sx={{ p: 3, pt: 0, overflow: "scroll" }}>
-          <Typography
+        <Box sx={{ p: 3, pt: 0 }}>
+          <Box
             sx={{
-              textAlign: "center",
               my: 4,
-              textTransform: "capitalize",
-              fontWeight: "600",
+              display: "flex",
+              alignItems: "center",
             }}
-            variant="h5"
           >
-            {category}
-          </Typography>
+            <Typography
+              sx={{
+                textAlign: "center",
+                textTransform: "capitalize",
+                fontWeight: "600",
+              }}
+              variant="h5"
+            >
+              {category}
+            </Typography>
+            <IconButton
+              onClick={() => setOpen(false)}
+              sx={{
+                ml: "auto",
+              }}
+            >
+              <Icon>close</Icon>
+            </IconButton>
+          </Box>
           {data
             .filter((item) => item)
             .map((item: Item) => (
@@ -67,9 +81,8 @@ export function CategoryModal({ category }: { category: string }) {
             ))}
           {data.length === 0 && <>No items</>}
         </Box>
-      </SwipeableDrawer>
-      <ListItem
-        button
+      </Drawer>
+      <ListItemButton
         onClick={() => {
           setLoading(true);
           fetchApiWithoutHook("property/inventory/categoryList", {
@@ -85,17 +98,10 @@ export function CategoryModal({ category }: { category: string }) {
             });
         }}
         sx={{
-          mb: 1,
-          transition: "transform .2s !important",
+          mb: 0.5,
           gap: 2,
           borderRadius: 4,
-          "&:active": {
-            transition: "none!important",
-            transform: "scale(.97)",
-            background: global.user.darkMode
-              ? "hsl(240, 11%, 20%)"
-              : "rgba(200,200,200,.4)",
-          },
+          transition: "none!important",
           ...(global.user.darkMode && {
             "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",
@@ -126,7 +132,7 @@ export function CategoryModal({ category }: { category: string }) {
             </Box>
           }
         />
-      </ListItem>
+      </ListItemButton>
     </>
   );
 }

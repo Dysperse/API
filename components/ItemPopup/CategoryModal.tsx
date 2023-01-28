@@ -11,7 +11,7 @@ import {
   Button,
   Chip,
   Icon,
-  ListItem,
+  ListItemButton,
   ListItemText,
   SwipeableDrawer,
   TextField,
@@ -134,8 +134,7 @@ export function CategoryModal({
           )}
           {data &&
             [...new Set(data)].map((category: any) => (
-              <ListItem
-                button
+              <ListItemButton
                 key={category}
                 sx={{ gap: 2, borderRadius: 999 }}
                 onClick={() => {
@@ -204,7 +203,7 @@ export function CategoryModal({
                     "& *": { fontWeight: "600" },
                   }}
                 />
-              </ListItem>
+              </ListItemButton>
             ))}
           <CreateCategoryModal
             setItemData={setItemData}

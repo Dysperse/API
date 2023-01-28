@@ -459,7 +459,9 @@ const Item = React.memo(function Item({
                             ? "hsl(240, 11%, 24%)"
                             : colors[themeColor][100]
                         }!important`,
-                        cursor: "pointer",
+                        "&, & *": {
+                          cursor: "unset!important",
+                        },
                         p: 2.5,
                         borderRadius: "15px",
                         display: "block",
@@ -605,6 +607,7 @@ const Item = React.memo(function Item({
                 onContextMenu={handleContextMenu}
                 onClick={() => setDrawerState(true)}
                 sx={{
+                  cursor: "unset!important",
                   flex: "0 0 100%",
                   transition: "none!important",
                   "&:focus-within": {
