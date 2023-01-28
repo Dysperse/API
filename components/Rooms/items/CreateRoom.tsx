@@ -115,6 +115,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
         </Box>
       </SwipeableDrawer>
       <Action
+        mutationUrl={mutationUrl}
         disableLoading
         icon="add_circle"
         primary={
