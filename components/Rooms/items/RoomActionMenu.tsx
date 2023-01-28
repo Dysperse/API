@@ -1,8 +1,16 @@
 import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
-
-export function RoomActionMenu({ roomId, itemRef, isPrivate, isCustom }) {
+import { ConfirmationModal } from "../../ConfirmationModal";
+export function RoomActionMenu({
+  roomId,
+  itemRef,
+  isPrivate,
+  mutationUrl,
+  isCustom,
+}) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,17 +63,21 @@ export function RoomActionMenu({ roomId, itemRef, isPrivate, isCustom }) {
         <MenuItem onClick={handleClose} disabled>
           Make {isPrivate ? "private" : "public"}
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            alert(roomId);
-            fetchApiWithoutHook("property/rooms/delete", {
+        <ConfirmationModal
+          title="Delete room?"
+          question="Are you sure you want to delete this room? This will delete all items in it, and CANNOT be undone!"
+          callback={async () => {
+            await fetchApiWithoutHook("property/rooms/delete", {
               id: roomId,
             });
+            await mutate(mutationUrl);
+            toast.success("Deleted room!");
           }}
         >
-          Delete
-        </MenuItem>
+          <MenuItem>Delete</MenuItem>
+        </ConfirmationModal>
       </Menu>
+
       <Icon className="outlined">
         {global.permission === "read-only" ? (
           "chevron_right"

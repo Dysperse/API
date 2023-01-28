@@ -7,12 +7,17 @@ import { ErrorHandler } from "../../Error";
 /**
  * Rooms popup
  */
-export const Rooms: any = React.memo(function Rooms({ data, error }: any) {
+export const Rooms: any = React.memo(function Rooms({
+  data,
+  mutationUrl,
+  error,
+}: any) {
   return (
     <>
       {data &&
         data.map((room: CustomRoom) => (
           <Action
+            mutationUrl={mutationUrl}
             href={`/rooms/${encode(
               `${room.id},${room.name}`
             ).toString()}?custom=true`}

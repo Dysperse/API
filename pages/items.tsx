@@ -89,6 +89,7 @@ const CategoryList = React.memo(function CategoryList() {
 export const Action = React.memo(function Action({
   count,
   icon,
+  mutationUrl,
   disableLoading = false,
   primary,
   href,
@@ -102,6 +103,7 @@ export const Action = React.memo(function Action({
       [key: string]: string | number | boolean;
     };
   };
+  mutationUrl: string;
   icon: string | JSX.Element;
   primary: string;
   href?: string;
@@ -244,7 +246,14 @@ export const Action = React.memo(function Action({
           />
         ) : (
           <RoomActionMenu
-            roomId={href ? href : null}
+            roomId={
+              href
+                ? decode(
+                    href.replace("/rooms/", "").replace("?custom=true", "")
+                  ).split(",")[0]
+                : null
+            }
+            mutationUrl={mutationUrl}
             isCustom={isCustom}
             isPrivate={isPrivate}
             itemRef={ref}
@@ -373,6 +382,7 @@ export default function Inventory({ children = null }: any) {
             {global.property.profile.type === "study group" ? (
               <>
                 <Action
+                  mutationUrl={url}
                   href="/rooms/backpack"
                   icon="backpack"
                   primary="Backpack"
@@ -383,6 +393,7 @@ export default function Inventory({ children = null }: any) {
               <>
                 <Action
                   href="/rooms/kitchen"
+                  mutationUrl={url}
                   icon="blender"
                   primary="Kitchen"
                   count={data}
@@ -390,6 +401,7 @@ export default function Inventory({ children = null }: any) {
                 <Action
                   href="/rooms/bedroom"
                   icon="bedroom_parent"
+                  mutationUrl={url}
                   primary="Bedroom"
                   count={data}
                 />
@@ -397,11 +409,13 @@ export default function Inventory({ children = null }: any) {
                   count={data}
                   href="/rooms/bathroom"
                   icon="bathroom"
+                  mutationUrl={url}
                   primary="Bathroom"
                 />
                 <Action
                   count={data}
                   href="/rooms/garage"
+                  mutationUrl={url}
                   icon="garage"
                   primary="Garage"
                 />
@@ -409,21 +423,25 @@ export default function Inventory({ children = null }: any) {
                   count={data}
                   href="/rooms/dining"
                   icon="dining"
+                  mutationUrl={url}
                   primary="Dining room"
                 />
                 <Action
                   count={data}
                   href="/rooms/living"
                   icon="living"
+                  mutationUrl={url}
                   primary="Living room"
                 />
                 <Action
                   href="/rooms/laundry"
+                  mutationUrl={url}
                   count={data}
                   icon="local_laundry_service"
                   primary="Laundry room"
                 />
                 <Action
+                  mutationUrl={url}
                   href="/rooms/storage"
                   count={data}
                   icon="inventory_2"
@@ -433,24 +451,27 @@ export default function Inventory({ children = null }: any) {
                   href="/rooms/garden"
                   count={data}
                   icon="yard"
+                  mutationUrl={url}
                   primary="Garden"
                 />
                 <Action
                   href="/rooms/camping"
                   count={data}
+                  mutationUrl={url}
                   icon="camping"
                   primary="Camping"
                 />
               </>
             )}
             <Divider sx={{ my: 1 }} />
-            <Rooms data={dataRooms} error={error} />
+            <Rooms data={dataRooms} error={error} mutationUrl={url} />
             <CreateRoom mutationUrl={url} />
             <Divider sx={{ my: 1 }} />
             {/* <Action href="/starred" icon="star" primary="Starred" /> */}
             <Action
               href="/trash"
               icon="delete"
+              mutationUrl={url}
               primary="Trash"
               count={{
                 byRoom: {
