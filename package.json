@@ -68,6 +68,7 @@
     "sass": "^1.55.0",
     "swr": "^2.0.1",
     "web-push": "^3.5.0",
+    "webpack-bundle-analyzer": "^4.7.0",
     "window-popup": "^1.1.0"
   },
   "keywords": [
