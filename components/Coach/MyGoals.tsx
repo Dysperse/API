@@ -164,26 +164,46 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               </Box>
             </div>
           ) : (
-            <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
+            <>
               {
-                // Sort goals by days left (goal.progress  / goal.durationDays). Sort in reverse order, and move `goal.progress === goal.durationDays` to the end
-                data
-                  .sort((a, b) => {
-                    if (a.progress === a.durationDays) {
-                      return 1;
-                    }
-                    if (b.progress === b.durationDays) {
-                      return -1;
-                    }
-                    return (
-                      b.progress / b.durationDays - a.progress / a.durationDays
-                    );
-                  })
-                  .map((goal) => (
-                    <Goal key={goal.id} goal={goal} mutationUrl={url} />
-                  ))
+                // if goals are completed
+                data.filter((goal) => goal.progress >= goal.durationDays)
+                  .length > 0 && (
+                  <Typography>
+                    You have completed{" "}
+                    {
+                      data.filter((goal) => goal.progress >= goal.durationDays)
+                        .length
+                    }{" "}
+                    goal
+                    {data.filter((goal) => goal.progress >= goal.durationDays)
+                      .length > 1 && "s"}
+                    ! Scroll down to claim your trophy.
+                  </Typography>
+                )
               }
-            </Masonry>
+              <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
+                {
+                  // Sort goals by days left (goal.progress  / goal.durationDays). Sort in reverse order, and move `goal.progress === goal.durationDays` to the end
+                  data
+                    .sort((a, b) => {
+                      if (a.progress === a.durationDays) {
+                        return 1;
+                      }
+                      if (b.progress === b.durationDays) {
+                        return -1;
+                      }
+                      return (
+                        b.progress / b.durationDays -
+                        a.progress / a.durationDays
+                      );
+                    })
+                    .map((goal) => (
+                      <Goal key={goal.id} goal={goal} mutationUrl={url} />
+                    ))
+                }
+              </Masonry>
+            </>
           )}
         </>
       ) : error ? (
