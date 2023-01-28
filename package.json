@@ -9,6 +9,7 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
+    "analyze": "ANALYZE=true npm run build",
     "lint": "next lint",
     "vapid": "web-push generate-vapid-keys"
   },
