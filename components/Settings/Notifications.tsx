@@ -8,7 +8,7 @@ import {
   ListItemText,
   Switch,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
