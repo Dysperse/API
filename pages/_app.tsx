@@ -1,14 +1,19 @@
 import { Analytics } from "@vercel/analytics/react";
 import hex2rgba from "hex-to-rgba";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { NextRouter } from "next/router";
 import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
-import Layout from "../components/Layout";
+
 import { Error } from "../components/Layout/Error";
 import { Loading } from "../components/Layout/Loading";
 import { colors } from "../lib/colors";
+
+const Layout = dynamic(() => import("../components/Layout"), {
+  loading: () => <Loading />,
+});
 
 // CSS files
 import "../styles/globals.scss";
