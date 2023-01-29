@@ -575,7 +575,6 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           variant="h5"
           onClick={() => length !== 0 && setDrawerOpen(true)}
           sx={{
-            fontWeight: 600,
             lineHeight: 1.5,
             letterSpacing: 0.15,
             borderRadius: 2,

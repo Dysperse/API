@@ -177,7 +177,6 @@ export function Achievements({ styles }) {
                 sx={{
                   mb: 2,
                   textDecoration: "underline",
-                  fontWeight: "600",
                 }}
               >
                 Achievements coming soon!

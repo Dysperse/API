@@ -213,9 +213,7 @@ export function TrophyModal({ goal, mutationUrl }) {
         }}
       >
         <Box>
-          <Typography variant="h6" sx={{ fontWeight: "600" }}>
-            You&apos;ve completed this goal!
-          </Typography>
+          <Typography variant="h6">You&apos;ve completed this goal!</Typography>
           <Typography variant="body1">
             All that hard work paid off! Tap to claim your trophy!
           </Typography>

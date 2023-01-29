@@ -61,7 +61,6 @@ const CategoryModal = React.memo(function CategoryModal({
               sx={{
                 textAlign: "center",
                 textTransform: "capitalize",
-                fontWeight: "600",
               }}
               variant="h5"
             >

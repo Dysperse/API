@@ -7,8 +7,8 @@ import { Prompt } from "../TwoStepVerificationPrompt";
 import { updateSettings } from "./updateSettings";
 
 import { Box, Link, TextField, Typography } from "@mui/material";
-import { ConfirmationModal } from "../ConfirmationModal";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { ConfirmationModal } from "../ConfirmationModal";
 
 /**
  * Top-level component for the two-factor authentication settings page.
@@ -51,9 +51,7 @@ export default function App() {
         </Box>
       ) : (
         <Box>
-          <Typography sx={{ fontWeight: "600" }} variant="h5">
-            2FA Setup
-          </Typography>
+          <Typography variant="h5">2FA Setup</Typography>
           <Typography sx={{ mt: 1 }}>
             Two-Factor Authentication (2FA) works by adding an additional layer
             of security to your Dysperse account.
@@ -143,12 +141,12 @@ export default function App() {
                   if (res.error) {
                     throw new Error(res.error);
                   }
-                  toast.success("2FA setup successful!",toastStyles);
+                  toast.success("2FA setup successful!", toastStyles);
                   setLoading(false);
                   mutate("/api/user");
                 })
                 .catch(() => {
-                  toast.error("Invalid code!",toastStyles);
+                  toast.error("Invalid code!", toastStyles);
                   setLoading(false);
                 });
             }}

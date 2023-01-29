@@ -756,13 +756,7 @@ function Post({ data, url }) {
                 </Typography>
               ),
               p: ({ children }) => (
-                <Typography
-                  variant="h6"
-                  gutterBottom
-                  sx={{
-                    fontWeight: "600",
-                  }}
-                >
+                <Typography variant="h6" gutterBottom>
                   {children}
                 </Typography>
               ),
@@ -894,7 +888,6 @@ export default function Spaces() {
         <>
           <Typography
             sx={{
-              fontWeight: "600",
               mb: 2,
               display: "flex",
               alignItems: "center",

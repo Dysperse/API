@@ -26,7 +26,7 @@ export default function Redeem() {
           maxWidth: "calc(100% - 20px)",
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "600", mb: 1 }}>
+        <Typography variant="h5" sx={{ mb: 1 }}>
           Redeem
         </Typography>
         <Typography variant="body1" sx={{ mb: 2 }}>
@@ -60,7 +60,8 @@ export default function Redeem() {
                 error: (err) => {
                   return err;
                 },
-              },toastStyles
+              },
+              toastStyles
             );
           }}
           sx={{

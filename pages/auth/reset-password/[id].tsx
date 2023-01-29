@@ -123,7 +123,7 @@ export default function Prompt() {
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
-                <Typography variant="h4" sx={{ mb: 1, fontWeight: "600" }}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
                   Create a new password
                 </Typography>
                 <Typography sx={{ mb: 2 }}>

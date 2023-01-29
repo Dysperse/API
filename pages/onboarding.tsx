@@ -149,9 +149,6 @@ export default function Onboarding() {
     <>
       <Typography
         variant="h5"
-        sx={{
-          fontWeight: 600,
-        }}
       >
         Welcome to Dysperse!
       </Typography>
@@ -171,9 +168,6 @@ export default function Onboarding() {
     <>
       <Typography
         variant="h5"
-        sx={{
-          fontWeight: 600,
-        }}
       >
         Choose your look and feel
       </Typography>
@@ -205,9 +199,6 @@ export default function Onboarding() {
     <>
       <Typography
         variant="h5"
-        sx={{
-          fontWeight: 600,
-        }}
       >
         Your group
       </Typography>
@@ -270,9 +261,6 @@ export default function Onboarding() {
     <>
       <Typography
         variant="h5"
-        sx={{
-          fontWeight: 600,
-        }}
       >
         Add some items
       </Typography>
@@ -293,9 +281,6 @@ export default function Onboarding() {
     <>
       <Typography
         variant="h5"
-        sx={{
-          fontWeight: 600,
-        }}
       >
         You&apos;re all set!
       </Typography>

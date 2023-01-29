@@ -15,7 +15,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -474,7 +474,6 @@ export const Column = React.memo(function Column({
                     textOverflow: { xs: "ellipsis", sm: "unset" },
                     overflow: { xs: "hidden", sm: "unset" },
                     maxWidth: { xs: "100%", sm: "unset" },
-                    fontWeight: "600",
                   }}
                 >
                   {column.name}

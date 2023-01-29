@@ -248,9 +248,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
                 mb: 4,
               }}
             >
-              <Typography variant="h5" sx={{ fontWeight: "600" }}>
-                Completed
-              </Typography>
+              <Typography variant="h5">Completed</Typography>
               <Typography variant="body2">
                 You completed this goal on{" "}
                 {dayjs(goal.lastDone).format("MMM DD, YYYY")}.

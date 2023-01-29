@@ -77,7 +77,7 @@ function LinkToken({ color }) {
             p: 5,
           }}
         >
-          <Typography gutterBottom variant="h6" sx={{ fontWeight: 600 }}>
+          <Typography gutterBottom variant="h6">
             Member invite link
           </Typography>
           <Typography gutterBottom>

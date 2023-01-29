@@ -145,12 +145,7 @@ export function DailyRoutine() {
           }}
         >
           <Box sx={{ mt: "auto" }}>
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "600" }}
-              gutterBottom
-              className="underline"
-            >
+            <Typography variant="h4" gutterBottom className="underline">
               Today&apos;s routine
             </Typography>
             <Typography variant="body2">

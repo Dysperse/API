@@ -13,6 +13,21 @@ const darkTheme = createTheme({
   },
 });
 
+export const authContainerStyles = {
+  background: "#F4CEEB",
+  borderRadius: { sm: 5 },
+  top: 0,
+  left: 0,
+  position: { xs: "fixed", sm: "unset" },
+  mx: "auto",
+  maxWidth: "100vw",
+  overflowY: "auto",
+  width: { xs: "100vw", sm: "450px" },
+  p: { xs: 2, sm: 5 },
+  mt: { sm: 5 },
+  pt: { xs: 6, sm: 5 },
+  height: { xs: "100vh", sm: "auto" },
+};
 /**
  * Layout for the app, including navbar, sidenav, etc
  * @param children Children

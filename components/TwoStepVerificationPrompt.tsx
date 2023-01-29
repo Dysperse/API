@@ -84,7 +84,6 @@ export function Prompt({
                 variant="h5"
                 sx={{
                   mb: "20px",
-                  fontWeight: 600,
                   textAlign: "center",
                 }}
               >
@@ -135,7 +134,6 @@ export function Prompt({
                 variant="h5"
                 sx={{
                   mb: "20px",
-                  fontWeight: 600,
                   textAlign: "center",
                 }}
               >

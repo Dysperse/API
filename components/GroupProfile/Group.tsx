@@ -161,9 +161,7 @@ export const Group = React.memo(function Group({
           <ListItemText
             primary={
               <>
-                <Typography variant="h6" sx={{ fontWeight: "600" }}>
-                  {data.profile.name}
-                </Typography>
+                <Typography variant="h6">{data.profile.name}</Typography>
                 <Typography
                   sx={{
                     display: "flex",
