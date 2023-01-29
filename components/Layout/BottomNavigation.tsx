@@ -1,5 +1,6 @@
 import { Box, Snackbar, useScrollTrigger } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
 
