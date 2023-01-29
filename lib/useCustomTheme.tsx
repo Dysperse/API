@@ -90,7 +90,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             },
             "&:disabled": {
               background: `${
-                colors[themeColor][darkMode ? 100 : 200]
+                colors[themeColor][darkMode ? 900 : 200]
               }!important`,
               cursor: "not-allowed!important",
               opacity: 0.7,
