@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 import { Box, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
@@ -36,7 +37,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
               lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               room: item.room,
             }).then(() => {
-              toast.success("Added to inventory!",toastStyles);
+              toast.success("Added to inventory!", toastStyles);
             });
           }}
         >
@@ -45,7 +46,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
               className="material-symbols-rounded"
               style={{
                 ...(inventory.includes(item.name) && {
-                  color: "green",
+                  color: colors.green["A700"],
                 }),
               }}
             >
@@ -55,7 +56,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
           <ListItemText
             sx={{
               ...(inventory.includes(item.name) && {
-                color: "green",
+                color: colors.green["A700"],
               }),
             }}
             primary={item.name}

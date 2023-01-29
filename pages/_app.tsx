@@ -131,6 +131,7 @@ function RenderWithLayout({
             ) : (
               // If the onboarding process is not complete, redirect to the onboarding page.
               <Button
+                ref={(i) => i && i.click()}
                 sx={{
                   position: "absolute",
                   top: "50%",

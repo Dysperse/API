@@ -1,7 +1,7 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loading } from "../components/Layout/Loading";
 import { Color } from "../components/Onboarding/Color";
 import { InventoryList } from "../components/Onboarding/InventoryList";
@@ -162,9 +162,10 @@ export default function Onboarding() {
           marginTop: 2,
         }}
       >
-        Thanks for choosing Dysperse! We&apos;re excited to have you here.
-        Let&apos;s get started by personalizing your theme and entering some
-        basic information about your home.
+        Thank you for choosing Dysperse! We&apos;re excited to have you here.
+        <br />
+        <br />
+        Let&apos;s get started by customizing your group and dashboard 🔥
       </Typography>
     </>,
     <>
@@ -176,31 +177,26 @@ export default function Onboarding() {
       >
         Choose your look and feel
       </Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          fontWeight: 400,
-          marginTop: 2,
-          mb: 1.5,
-        }}
-      >
-        What&apos;s your favorite color? We&apos;ll use this to customize your
-        dashboard.
+      <Typography variant="h6" sx={{ mt: 4 }}>
+        <span style={{ opacity: 0.6 }}>#1 </span>
+        What&apos;s your favorite color?
       </Typography>
       {[
+        "lime",
         "red",
-        "orange",
-        "blue",
-        "indigo",
-        "purple",
-        "pink",
         "green",
-        "brown",
+        "blue",
+        "pink",
+        "purple",
+        "indigo",
+        "amber",
+        "cyan",
       ].map((color) => (
         <Color handleNext={() => null} color={color} key={color} />
       ))}
 
       <Typography variant="h6" sx={{ mt: 4 }}>
+        <span style={{ opacity: 0.6 }}>#2 </span>
         Select a theme
       </Typography>
       <Color handleNext={() => setStep(step + 1)} color="grey" />
@@ -213,7 +209,7 @@ export default function Onboarding() {
           fontWeight: 600,
         }}
       >
-        Your home
+        Your <u>{type}</u>
       </Typography>
       <Typography
         variant="body1"
@@ -225,26 +221,6 @@ export default function Onboarding() {
       >
         Tell us a little bit about your home.
       </Typography>
-
-      <TextField
-        variant="filled"
-        label="Your home's name/address"
-        placeholder="The Johnson's"
-        onKeyDown={(e: any) => {
-          if (e.key == "Enter") e.target.blur();
-        }}
-        defaultValue={global.property.profile.name}
-        onBlur={(event) => {
-          updateSettings(
-            "name",
-            event.target.value as string,
-            false,
-            () => null,
-            true
-          );
-        }}
-        margin="dense"
-      />
       <FormControl fullWidth margin="dense">
         <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>
           Type
@@ -267,6 +243,29 @@ export default function Onboarding() {
           <MenuItem value="home">Home</MenuItem>
         </Select>
       </FormControl>
+      <TextField
+        variant="filled"
+        label="Set a name for your group"
+        placeholder={
+          type === "home" || type === "apartment"
+            ? "The Johnson's"
+            : "My study group"
+        }
+        onKeyDown={(e: any) => {
+          if (e.key == "Enter") e.target.blur();
+        }}
+        defaultValue={global.property.profile.name}
+        onBlur={(event) => {
+          updateSettings(
+            "name",
+            event.target.value as string,
+            false,
+            () => null,
+            true
+          );
+        }}
+        margin="dense"
+      />
     </>,
     <>
       <Typography
@@ -337,7 +336,10 @@ export default function Onboarding() {
     </>,
   ];
   const [step, setStep] = useState(0);
-
+  useEffect(() => {
+    const container: any = document.getElementById("onboardingContainer");
+    container.scrollTo({ top: 0 });
+  }, [step]);
   return (
     <Box>
       <Box
@@ -378,8 +380,9 @@ export default function Onboarding() {
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
           color: global.user.darkMode ? "white" : "hsl(240,11%,10%)",
           borderRadius: "10px",
-          padding: "20px",
+          padding: { xs: "7px", sm: "20px" },
         }}
+        id="onboardingContainer"
       >
         <Stepper
           sx={{
@@ -410,6 +413,21 @@ export default function Onboarding() {
               content={content[i]}
             />
           ))}
+          {step !== 0 && step !== content.length - 1 && (
+            <Button
+              size="small"
+              sx={{
+                mt: 2,
+                px: 1,
+                py: 0,
+              }}
+              onClick={() => {
+                setStep(step - 1);
+              }}
+            >
+              &larr; Back
+            </Button>
+          )}
         </Box>
       </Box>
     </Box>

@@ -23,8 +23,8 @@ export function Color({ color, handleNext }) {
         handleNext();
       }}
       sx={{
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
         borderRadius: 5,
         mr: 2,
         mt: 1,
@@ -41,7 +41,7 @@ export function Color({ color, handleNext }) {
       }}
     >
       {color === global.themeColor && (
-        <Icon style={{ color: "#fff" }}>check</Icon>
+        <Icon style={{ color: color === "lime" ? "#000" : "#fff" }}>check</Icon>
       )}
     </CardActionArea>
   );
