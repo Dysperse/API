@@ -2,7 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { useSWRConfig } from "swr";
@@ -56,14 +56,20 @@ export default function Prompt() {
         })
         .catch((err) => {
           setButtonLoading(false);
-          toast.error(err,toastStyles);
+          toast.error(err, toastStyles);
         });
     },
   });
 
-  document
-    .querySelector(`meta[name="theme-color"]`)
-    ?.setAttribute("content", window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b");
+  useEffect(() => {
+    if (typeof document !== "undefined")
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute(
+          "content",
+          window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
+        );
+  });
 
   return (
     <Layout>
