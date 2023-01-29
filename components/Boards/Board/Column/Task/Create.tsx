@@ -587,7 +587,11 @@ export function CreateTask({
           },
           cursor: "unset!important",
           ...(isHovered && {
-            backgroundColor: { sm: "rgba(200,200,200,.1)!important" },
+            backgroundColor: {
+              sm: global.user.darkMode
+                ? "hsl(240,11%,19%)!important"
+                : "rgba(200,200,200,.1)!important",
+            },
           }),
           ...(global.user.darkMode && {
             "&:hover": {
