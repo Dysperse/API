@@ -111,20 +111,31 @@ export const Group = React.memo(function Group({
           "&:active .MuiListItem-root": {
             transform: "scale(.98)",
           },
-          cursor: "pointer",
-          "&:active": {
+          cursor: "unset",
+          userSelect: "none",
+          "&:hover": {
             background: `${
               colors[themeColor][global.user.darkMode ? 800 : 100]
+            }!important`,
+          },
+          "&:active": {
+            background: `${
+              colors[themeColor][global.user.darkMode ? 800 : 200]
             }!important`,
           },
           ...(data.propertyId === global.property.propertyId && {
             background: global.user.darkMode
               ? "hsl(240,11%,25%)"
-              : `${colors[themeColor][100]}!important`,
+              : `${colors[themeColor][200]}!important`,
             "&:active": {
               background: global.user.darkMode
                 ? "hsl(240,11%,25%)"
-                : `${colors[themeColor][200]}!important`,
+                : `${colors[themeColor][400]}!important`,
+            },
+            "&:hover": {
+              background: global.user.darkMode
+                ? "hsl(240,11%,25%)"
+                : `${colors[themeColor][300]}!important`,
             },
           }),
         }}
@@ -133,13 +144,13 @@ export const Group = React.memo(function Group({
           <ListItemAvatar sx={{ width: "auto", minWidth: "auto" }}>
             <Box
               sx={{
-                width: 40,
-                height: 40,
+                width: 35,
+                height: 35,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#000!important",
-                borderRadius: "100%",
+                borderRadius: 4,
                 backgroundColor: colors[data.profile.color]["A400"],
                 marginRight: 1,
               }}
