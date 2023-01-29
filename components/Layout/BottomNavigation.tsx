@@ -108,6 +108,7 @@ export function BottomNav() {
       >
         <Box
           onClick={() => router.push("/tasks")}
+          onMouseDown={() => router.push("/tasks")}
           sx={styles(
             router.asPath === "/" ||
               router.asPath === "" ||
@@ -144,6 +145,7 @@ export function BottomNav() {
             });
           }}
           onClick={() => router.push("/coach")}
+          onMouseDown={() => router.push("/coach")}
         >
           <span
             className={`material-symbols-${
@@ -160,6 +162,7 @@ export function BottomNav() {
             router.asPath === "/items" || router.asPath.includes("rooms")
           )}
           onClick={() => router.push("/items")}
+          onMouseDown={() => router.push("/items")}
         >
           <span
             className={`material-symbols-${
@@ -175,6 +178,7 @@ export function BottomNav() {
 
         <Box
           onClick={() => router.push("/spaces")}
+          onMouseDown={() => router.push("/spaces")}
           sx={styles(router.asPath === "/spaces")}
         >
           <span

@@ -246,6 +246,9 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")
         }
         style={{
+          ...(global.user.darkMode && {
+            border: "1px solid hsl(240,11%,20%)",
+          }),
           color: global.user.darkMode ? "#fff" : "#000",
         }}
       >
