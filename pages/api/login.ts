@@ -75,18 +75,23 @@ export default async function handler(req, res) {
   // Get the user's email and password from the request body
   const { email } = req.body;
 
-  // Find the user in the database
-  const user = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-    select: {
-      id: true,
-      password: true,
-      twoFactorSecret: true,
-      notificationSubscription: true,
-    },
-  });
+  try {
+    // Find the user in the database
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        id: true,
+        password: true,
+        twoFactorSecret: true,
+        notificationSubscription: true,
+      },
+    });
+  } catch (e: any) {
+    return res.status(401).json({ message: e.message });
+  }
+
   // If the user doesn't exist, return an error
   if (!user) {
     return res.status(401).json({ message: "Invalid email or password" });

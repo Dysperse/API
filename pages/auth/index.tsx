@@ -92,6 +92,15 @@ export default function Prompt() {
           }),
         }).then((res) => res.json());
 
+        if (res.message.includes(`Can't reach database server`)) {
+          toast.error(
+            "Oh no! Our servers are down. Please try again later!",
+            toastStyles
+          );
+          setStep(1);
+          return;
+        }
+
         if (res.twoFactor) {
           setStep(1);
           setTwoFactorModalOpen(true);
