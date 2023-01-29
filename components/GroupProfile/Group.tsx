@@ -140,7 +140,7 @@ export const Group = React.memo(function Group({
           }),
         }}
       >
-        <ListItem sx={{ gap: 1.5, px: 0, py: 0 }}>
+        <ListItem sx={{ gap: 1.5, px: 0, py: 0 }} component="div">
           <ListItemAvatar sx={{ width: "auto", minWidth: "auto" }}>
             <Box
               sx={{

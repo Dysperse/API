@@ -243,7 +243,6 @@ export function EditProperty({ color }: { color: string }) {
             "lime",
             "pink",
             "orange",
-            "deepOrange",
             "red",
             "brown",
             "green",
