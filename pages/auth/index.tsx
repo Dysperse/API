@@ -15,6 +15,7 @@ import {
   Box,
   Button,
   Icon,
+  NoSsr,
   Paper,
   SwipeableDrawer,
   TextField,
@@ -294,15 +295,16 @@ export default function Prompt() {
             {step === 1 ? (
               <Box sx={{ pt: 3 }}>
                 <Box sx={{ px: 1 }}>
-                  <Typography
-                    variant="h4"
-                    sx={{ mb: 1, fontWeight: "600", mt: { xs: 3, sm: 0 } }}
-                  >
-                    {typeof window !== "undefined" &&
-                    window.location.href.includes("?application=availability")
-                      ? "Sign into Dysperse Availability"
-                      : "Welcome back!"}
-                  </Typography>
+                  <NoSsr>
+                    <Typography
+                      variant="h4"
+                      sx={{ mb: 1, fontWeight: "600", mt: { xs: 3, sm: 0 } }}
+                    >
+                      {router.pathname.includes("?application=availability")
+                        ? "Sign into Dysperse Availability"
+                        : "Welcome back!"}
+                    </Typography>
+                  </NoSsr>
                   <Typography sx={{ mb: 2 }}>
                     Sign in with your Dysperse ID
                   </Typography>

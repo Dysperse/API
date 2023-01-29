@@ -82,8 +82,7 @@ export default function Prompt() {
       >
         <Paper
           sx={{
-            background: "#fff",
-
+            background: "#F4CEEB",
             borderRadius: { sm: 5 },
             top: 0,
             mb: 5,

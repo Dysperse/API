@@ -69,7 +69,7 @@ export default function Prompt() {
           window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
         );
   });
-  
+
   return (
     <Layout>
       <Box
@@ -81,7 +81,7 @@ export default function Prompt() {
       >
         <Paper
           sx={{
-            background: "#c4b5b5",
+            background: "#F4CEEB",
             borderRadius: { sm: 5 },
             top: 0,
             mb: 5,
