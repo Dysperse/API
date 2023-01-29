@@ -36,19 +36,19 @@ model NotificationSettings {
   dailyRoutineNudge Boolean @default(true)
 
   userId String @unique
-  user   User   @relation(fields: [userId], references: [identifier])
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model Session {
   id     String @id @default(uuid())
   userId Int
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model OAuthToken {
   id     Int  @id @default(autoincrement())
   userId Int
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   accessToken String @unique @default(cuid())
 }
@@ -75,8 +75,8 @@ model PropertyInvite {
   permission  String   @default("read-only")
   accessToken String   @unique @default(uuid())
   accepted    Boolean  @default(false)
-  profile     Property @relation(fields: [propertyId], references: [id])
-  user        User     @relation(fields: [userId], references: [id])
+  profile     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model CustomRoom {
@@ -84,10 +84,10 @@ model CustomRoom {
   name       String
   private    Boolean  @default(false)
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
   userIdentifier String
-  user           User   @relation(fields: [userIdentifier], references: [identifier])
+  user           User   @relation(fields: [userIdentifier], references: [identifier], onDelete: Cascade)
 }
 
 model Item {
@@ -101,13 +101,13 @@ model Item {
   room         String   @default("kitchen")
   propertyId   String
   trash        Boolean  @default(false)
-  property     Property @relation(fields: [propertyId], references: [id])
+  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model PropertyLinkInvite {
   id         Int      @id @default(autoincrement())
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   token      String   @unique @default(uuid())
   accepted   Boolean  @default(false)
 }
@@ -119,13 +119,13 @@ model InboxItem {
   when DateTime
 
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model PasswordResetToken {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   token     String   @unique @default(uuid())
   createdAt DateTime @default(now())
 }
@@ -141,7 +141,7 @@ model Board {
   columns  Column[]
 
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model Column {
@@ -187,7 +187,7 @@ model RoutineItem {
   feedback  String? @default("")
 
   userId String
-  user   User   @relation(fields: [userId], references: [identifier])
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model SpaceItem {
@@ -199,8 +199,8 @@ model SpaceItem {
   public    Boolean  @default(false)
   image     String?
   timestamp DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [identifier])
+  user      User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
