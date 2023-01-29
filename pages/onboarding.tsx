@@ -147,11 +147,7 @@ export default function Onboarding() {
 
   const content = [
     <>
-      <Typography
-        variant="h5"
-      >
-        Welcome to Dysperse!
-      </Typography>
+      <Typography variant="h5">Welcome to Dysperse!</Typography>
       <Typography
         variant="body1"
         sx={{
@@ -166,11 +162,7 @@ export default function Onboarding() {
       </Typography>
     </>,
     <>
-      <Typography
-        variant="h5"
-      >
-        Choose your look and feel
-      </Typography>
+      <Typography variant="h5">Choose your look and feel</Typography>
       <Typography variant="h6" sx={{ mt: 4 }}>
         <span style={{ opacity: 0.6 }}>#1 </span>
         What&apos;s your favorite color?
@@ -197,11 +189,7 @@ export default function Onboarding() {
       <Color handleNext={() => setStep(step + 1)} color="white" />
     </>,
     <>
-      <Typography
-        variant="h5"
-      >
-        Your group
-      </Typography>
+      <Typography variant="h5">Your group</Typography>
       <Typography
         variant="body1"
         sx={{
@@ -259,11 +247,7 @@ export default function Onboarding() {
       />
     </>,
     <>
-      <Typography
-        variant="h5"
-      >
-        Add some items
-      </Typography>
+      <Typography variant="h5">Add some items</Typography>
       <Typography
         variant="body1"
         sx={{
@@ -279,11 +263,7 @@ export default function Onboarding() {
       <InventoryList data={[...cards]} />
     </>,
     <>
-      <Typography
-        variant="h5"
-      >
-        You&apos;re all set!
-      </Typography>
+      <Typography variant="h5">You&apos;re all set!</Typography>
       <Typography
         variant="body1"
         sx={{

@@ -81,7 +81,7 @@ export const Task: any = React.memo(function Task({ task }: any) {
           toastStyles
         );
       });
-  }, ["task.durationDays", "task.id", "task.progress"]);
+  }, [task.durationDays, task.id, task.progress]);
   const [loading, setLoading] = React.useState(false);
 
   return (
