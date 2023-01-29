@@ -1,4 +1,4 @@
-import { Box, Snackbar, useMediaQuery, useScrollTrigger } from "@mui/material";
+import { Box, Snackbar, useScrollTrigger } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
@@ -8,10 +8,7 @@ import { colors } from "../../lib/colors";
  * @returns {any}
  */
 export function BottomNav() {
-  const trigger = useScrollTrigger({
-    threshold: 0,
-    target: window ? window : undefined,
-  });
+  const trigger = useScrollTrigger({ threshold: 0 });
 
   const styles = (active) => {
     return {
@@ -70,12 +67,10 @@ export function BottomNav() {
    * @param {any} href
    * @returns {any}
    */
-  const matches = useMediaQuery("(max-height: 500px)");
-
   return (
     <>
       <Snackbar
-        open={window && window.navigator.onLine === false}
+        open={!navigator.onLine}
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: trigger ? 6.5 : 9, transition: "all .3s" }}
@@ -85,7 +80,7 @@ export function BottomNav() {
         sx={{
           width: "100%",
           position: "fixed",
-          bottom: matches ? -100.1 : trigger ? -71 : 0,
+          bottom: trigger ? -71 : 0,
           left: 0,
           transition: "bottom .3s",
           overflowX: "hidden",
@@ -117,15 +112,13 @@ export function BottomNav() {
         <Box
           onClick={() => router.push("/tasks")}
           sx={styles(
-            router.asPath === "/tasks" ||
-              router.asPath === "/" ||
+            router.asPath === "/" ||
               router.asPath === "" ||
               router.asPath.includes("/tasks")
           )}
         >
           <span
             className={`material-symbols-${
-              router.asPath === "/tasks" ||
               router.asPath === "/" ||
               router.asPath === "" ||
               router.asPath.includes("/tasks")
@@ -137,7 +130,6 @@ export function BottomNav() {
           </span>
           Lists
         </Box>
-
         <Box
           sx={styles(router.asPath === "/coach")}
           onDoubleClick={() => {
