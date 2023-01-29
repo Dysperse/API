@@ -204,6 +204,7 @@ export function TrophyModal({ goal, mutationUrl }) {
           cursor: "pointer",
           transition: "all .1s",
           userSelect: "none",
+          color: "#000",
           "&:active": {
             transform: "scale(0.98)",
             transition: "none",

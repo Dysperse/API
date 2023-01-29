@@ -151,13 +151,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 />
               </picture>
               <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
-                <Typography
-                  variant="h5"
-                  gutterBottom
-                  sx={{
-                    fontWeight: "900",
-                  }}
-                >
+                <Typography variant="h5" gutterBottom>
                   You haven&apos;t created any goals yet.
                 </Typography>
                 <Typography variant="body1">
@@ -181,7 +175,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                       mb: 2,
                     }}
                   >
-                    You have completed{" "}
+                    You completed{" "}
                     {
                       data.filter(
                         (goal) =>
