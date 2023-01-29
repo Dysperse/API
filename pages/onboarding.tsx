@@ -209,7 +209,7 @@ export default function Onboarding() {
           fontWeight: 600,
         }}
       >
-        Your <u>{type}</u>
+        Your group
       </Typography>
       <Typography
         variant="body1"
@@ -219,7 +219,7 @@ export default function Onboarding() {
           mb: 1.5,
         }}
       >
-        Tell us a little bit about your home.
+        Tell us a little bit about your {type}.
       </Typography>
       <FormControl fullWidth margin="dense">
         <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>
@@ -236,7 +236,7 @@ export default function Onboarding() {
         >
           <MenuItem value="study group">
             Study group
-            <Chip label="NEW" color="error" size="small" sx={{ ml: 1 }} />
+            <Chip label="NEW" color="error" size="small" />
           </MenuItem>
           <MenuItem value="dorm">Dorm</MenuItem>
           <MenuItem value="apartment">Apartment</MenuItem>
@@ -331,7 +331,7 @@ export default function Onboarding() {
           );
         }}
       >
-        Go to my dashboard
+        Let&apos;go!
       </Button>
     </>,
   ];
