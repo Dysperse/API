@@ -1,13 +1,12 @@
+import { Box, Checkbox, CircularProgress, Typography } from "@mui/material";
 import { CircularProgressProps } from "@mui/material/CircularProgress";
 import dayjs from "dayjs";
 import Head from "next/head";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { fetchApiWithoutHook } from "../hooks/useApi";
-
-import { Box, Checkbox, CircularProgress, Typography } from "@mui/material";
-import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { toastStyles } from "../lib/useCustomTheme";
 
 export function CircularProgressWithLabel(
