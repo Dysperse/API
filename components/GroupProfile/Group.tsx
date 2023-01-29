@@ -232,9 +232,7 @@ export const Group = React.memo(function Group({
             justifyContent: "center",
           }}
           open={open}
-          onClose={() => {
-            setOpen(false);
-          }}
+          onClose={() => setOpen(false)}
         >
           <Box
             sx={{
@@ -303,7 +301,6 @@ export const Group = React.memo(function Group({
                     px: 1.5,
                     pr: 2,
                     py: 0.5,
-                    fontWeight: "900",
                     borderRadius: 5,
                     fontSize: "14px",
                   }}
@@ -331,15 +328,10 @@ export const Group = React.memo(function Group({
               }}
             >
               <Storage color={color} />
-              {open && (
-                <Typography
-                  variant="h5"
-                  sx={{ fontWeight: "700", my: 2, mb: 1 }}
-                >
-                  Members
-                </Typography>
-              )}
-              {open && <MemberList color={color} setOpen={setOpen} />}
+              <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
+                Members
+              </Typography>
+              <MemberList color={color} setOpen={setOpen} />
             </Box>
           </Box>
         </Drawer>
