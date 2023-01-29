@@ -400,16 +400,7 @@ export default function Prompt() {
           </form>
           {step === 1 && (
             <Box>
-              <Link
-                href={
-                  router
-                    ? router.pathname.includes("?close=true")
-                      ? "/signup?close=true"
-                      : "/signup"
-                    : "/signup"
-                }
-                legacyBehavior
-              >
+              <Link href="/signup?close=true" legacyBehavior>
                 <Button
                   sx={{
                     textTransform: "none",
@@ -426,16 +417,7 @@ export default function Prompt() {
                   Create an account
                 </Button>
               </Link>
-              <Link
-                href={
-                  router
-                    ? router.pathname.includes("?close=true")
-                      ? "/auth/reset-id?close=true"
-                      : "/auth/reset-id"
-                    : "/auth-reset-id"
-                }
-                legacyBehavior
-              >
+              <Link href="/auth-reset-id?close=true" legacyBehavior>
                 <Button
                   sx={{
                     textTransform: "none",

@@ -2,6 +2,14 @@ import argon2 from "argon2";
 import { prisma } from "../../lib/prismaClient";
 import { createSession } from "./login";
 
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 /**
  * API handler for the /api/signup endpoint
  * @param {any} req
@@ -9,8 +17,15 @@ import { createSession } from "./login";
  */
 export default async function handler(req, res) {
   const body = JSON.parse(req.body);
+  if (!validateEmail(body.email)) {
+    return res
+      .status(401)
+      .json({ error: true, message: "Please type in a valid email address" });
+  }
   if (body.password !== body.confirmPassword) {
-    return res.status(401).json({ message: "Passwords do not match" });
+    return res
+      .status(401)
+      .json({ error: true, message: "Passwords do not match" });
   }
   //  Find if email is already in use
   const emailInUse = await prisma.user.findUnique({
@@ -20,7 +35,7 @@ export default async function handler(req, res) {
   });
 
   if (emailInUse) {
-    res.status(400).json({ message: "Email already in use" });
+    res.status(401).json({ error: true, message: "Email already in use" });
     return;
   }
   // Get the user's email and password from the request body
@@ -70,6 +85,5 @@ export default async function handler(req, res) {
       },
     },
   });
-
   res.status(200).json({ message: "Success", session });
 }

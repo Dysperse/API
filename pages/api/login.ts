@@ -1,7 +1,6 @@
 import argon2 from "argon2";
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
-import cacheData from "memory-cache";
 import * as twofactor from "node-2fa";
 import { DispatchNotification } from "../../lib/notification";
 import { prisma } from "../../lib/prismaClient";

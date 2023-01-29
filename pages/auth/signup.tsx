@@ -41,12 +41,14 @@ export default function Prompt() {
       })
         .then((res) => res.json())
         .then((res) => {
-          if (res.message === "Email already in use") {
-            throw new Error("Email already in use");
+          if (res.error) {
+            throw new Error(res.message);
           }
+          alert(JSON.stringify(res));
           if (window.location.href.includes("?close=true")) {
             mutate("/api/user").then(() => {
               window.close();
+              router.push("/");
             });
             return;
           }
@@ -56,7 +58,7 @@ export default function Prompt() {
         })
         .catch((err) => {
           setButtonLoading(false);
-          toast.error(err, toastStyles);
+          toast.error(err.message, toastStyles);
         });
     },
   });
@@ -162,6 +164,7 @@ export default function Prompt() {
                 fullWidth
                 sx={{ mb: 1.5 }}
                 name="password"
+                type="password"
                 onChange={formik.handleChange}
                 variant="filled"
               />
@@ -169,6 +172,7 @@ export default function Prompt() {
                 required
                 fullWidth
                 disabled={buttonLoading}
+                type="password"
                 label="Repeat password"
                 value={formik.values.confirmPassword}
                 sx={{ mb: 1.5 }}
@@ -176,16 +180,7 @@ export default function Prompt() {
                 onChange={formik.handleChange}
                 variant="filled"
               />
-              <Link
-                href={
-                  typeof window !== "undefined"
-                    ? window.location.href.includes("?close=true")
-                      ? "/?close=true"
-                      : "/"
-                    : "/"
-                }
-                legacyBehavior
-              >
+              <Link href="/?close=true" legacyBehavior>
                 <Button
                   sx={{
                     textTransform: "none",
@@ -212,7 +207,7 @@ export default function Prompt() {
                   left: 0,
                   zIndex: 1,
                   py: 1,
-                  background: "#fff",
+                  background: "#F4CEEB",
                   width: { xs: "100vw", sm: "100%" },
                 }}
               >
