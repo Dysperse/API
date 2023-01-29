@@ -71,8 +71,8 @@ const Action = React.memo(function Action({
         navigator.vibrate(50);
       }}
       onClick={handleClick}
-      className="room-button"
       sx={{
+        mb: 0.5,
         "&:hover": {
           background: {
             sm: global.user.darkMode

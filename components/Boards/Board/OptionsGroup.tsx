@@ -17,7 +17,7 @@ export function OptionsGroup({ currentOption, setOption, options }) {
       {options.map((option) => (
         <Button
           key={option}
-          variant="contained"
+          variant="text"
           onClick={() => setOption(option)}
           onMouseDown={() => setOption(option)}
           className="w-1/2 rounded-[0.75rem!important] overflow-hidden transition-none whitespace-nowrap overflow-ellipsis border-2 px-5"

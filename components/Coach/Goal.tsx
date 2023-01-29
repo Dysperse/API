@@ -40,6 +40,9 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         className="active:scale-[.98] shadow-md border"
         onClick={() => setOpen(true)}
         sx={{
+          ...(global.user.darkMode && {
+            border: "1px solid hsl(240,11%,20%)",
+          }),
           borderRadius: 5,
           "&:hover": {
             background: global.user.darkMode
@@ -183,6 +186,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           position="static"
           sx={{
             zIndex: 999,
+            color: "#000",
             background: "transparent",
           }}
         >
