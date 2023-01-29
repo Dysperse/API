@@ -44,7 +44,6 @@ export default function Prompt() {
           if (res.error) {
             throw new Error(res.message);
           }
-          alert(JSON.stringify(res));
           if (window.location.href.includes("?close=true")) {
             mutate("/api/user").then(() => {
               window.close();
