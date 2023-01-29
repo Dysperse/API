@@ -19,7 +19,11 @@ import { ItemCard } from "../ItemCard";
  * Category modal
  * @param {string} category - The category name
  */
-export function CategoryModal({ category }: { category: string }) {
+const CategoryModal = React.memo(function CategoryModal({
+  category,
+}: {
+  category: string;
+}) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState([]);
@@ -136,4 +140,5 @@ export function CategoryModal({ category }: { category: string }) {
       </ListItemButton>
     </>
   );
-}
+});
+export default CategoryModal;

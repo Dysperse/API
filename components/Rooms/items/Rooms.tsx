@@ -1,8 +1,8 @@
 import { CustomRoom } from "@prisma/client";
 import { encode } from "js-base64";
 import React from "react";
-import { Action } from "../../../pages/items";
 import { ErrorHandler } from "../../Error";
+import Action from "../Action";
 
 /**
  * Rooms popup

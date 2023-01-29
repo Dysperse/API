@@ -13,8 +13,8 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
-import { Action } from "../../../pages/items";
 import { Puller } from "../../Puller";
+import Action from "../../Rooms/Action";
 
 export function CreateRoom({ mutationUrl }): JSX.Element {
   const [open, setOpen] = React.useState(false);
