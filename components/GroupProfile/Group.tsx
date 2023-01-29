@@ -151,7 +151,7 @@ export const Group = React.memo(function Group({
                 justifyContent: "center",
                 color: "#000!important",
                 borderRadius: 4,
-                backgroundColor: colors[data.profile.color]["A400"],
+                background: colors[data.profile.color]["A400"],
                 marginRight: 1,
               }}
             >
