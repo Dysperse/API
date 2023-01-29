@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { Group } from "../GroupProfile/Group";
@@ -51,13 +52,15 @@ export function InviteButton() {
   );
 
   const trigger = useMediaQuery("(min-width: 600px)");
-
-  const properties = global.user.properties.reduce((acc, curr) => {
-    if (!acc.find((property) => property.propertyId === curr.propertyId)) {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
+  const { data, error } = useApi("user/properties");
+  const properties = [...global.user.properties, ...(data || [])]
+    .filter((group) => group)
+    .reduce((acc, curr) => {
+      if (!acc.find((property) => property.propertyId === curr.propertyId)) {
+        acc.push(curr);
+      }
+      return acc;
+    }, []);
 
   return (
     <>

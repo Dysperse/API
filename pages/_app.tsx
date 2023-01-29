@@ -48,14 +48,9 @@ function RenderWithLayout({
   pageProps: JSX.Element;
   router: NextRouter;
 }) {
-  const theme: "dark" | "light" =
-    (typeof document !== "undefined" &&
-      document.cookie.includes("dark=true")) ||
-    data.user.darkMode
-      ? "dark"
-      : "light";
-  const themeColor = data.user.color;
+  const theme: "dark" | "light" = data.user.darkMode ? "dark" : "light";
 
+  const themeColor = data.user.color;
   global.user = data.user;
   global.themeColor = themeColor;
 
@@ -64,19 +59,16 @@ function RenderWithLayout({
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", "hsl(240, 11%, 10%)");
-      document.cookie = "dark=true";
       document
         .querySelector(`link[rel="shortcut icon"]`)
         ?.setAttribute("href", "https://assets.dysperse.com/v6/dark.png");
-    } else {
-      document.cookie = "dark=false";
     }
   }, [data]);
 
   const userTheme = createTheme(
     useCustomTheme({
       darkMode: global.user.darkMode,
-      themeColor: global.themeColor,
+      themeColor: themeColor,
     })
   );
 

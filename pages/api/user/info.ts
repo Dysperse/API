@@ -26,6 +26,9 @@ export const getUserData = async (token: string) => {
           verifiedEmail: true,
           notificationSubscription: true,
           properties: {
+            where: {
+              selected: true,
+            },
             select: {
               propertyId: true,
               accessToken: true,
