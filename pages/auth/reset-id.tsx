@@ -2,7 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Layout } from "../../components/Auth/Layout";
 import { colors } from "../../lib/colors";
@@ -34,25 +34,33 @@ export default function Prompt() {
       })
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Check your email for further instructions.",toastStyles);
+            toast.success(
+              "Check your email for further instructions.",
+              toastStyles
+            );
             router.push("/tasks");
             setButtonLoading(false);
           } else {
-            toast.error("An error occurred.",toastStyles);
+            toast.error("An error occurred.", toastStyles);
             setButtonLoading(false);
           }
         })
         .catch(() => {
-          toast.error("An error occurred.",toastStyles);
+          toast.error("An error occurred.", toastStyles);
           setButtonLoading(false);
         });
     },
   });
 
-  document
-    .querySelector(`meta[name="theme-color"]`)
-    ?.setAttribute("content", window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b");
-
+  useEffect(() => {
+    if (typeof document !== "undefined")
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute(
+          "content",
+          window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
+        );
+  });
   return (
     <Layout>
       <Box
@@ -129,8 +137,10 @@ export default function Prompt() {
 
               <Link
                 href={
-                  window.location.href.includes("?close=true")
-                    ? "/auth?close=true"
+                  typeof window !== "undefined"
+                    ? window.location.href.includes("?close=true")
+                      ? "/auth?close=true"
+                      : "/auth"
                     : "/auth"
                 }
                 legacyBehavior

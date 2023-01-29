@@ -82,7 +82,8 @@ export default function Prompt() {
       >
         <Paper
           sx={{
-            background: "#c4b5b5",
+            background: "#fff",
+
             borderRadius: { sm: 5 },
             top: 0,
             mb: 5,
@@ -91,7 +92,7 @@ export default function Prompt() {
             mx: "auto",
             maxWidth: "100vw",
             overflowY: "auto",
-            width: { sm: "450px" },
+            width: { sm: "500px" },
             p: { xs: 2, sm: 5 },
             mt: { sm: 5 },
             pt: { xs: 6, sm: 5 },
@@ -178,8 +179,10 @@ export default function Prompt() {
               />
               <Link
                 href={
-                  window.location.href.includes("?close=true")
-                    ? "/?close=true"
+                  typeof window !== "undefined"
+                    ? window.location.href.includes("?close=true")
+                      ? "/?close=true"
+                      : "/"
                     : "/"
                 }
                 legacyBehavior
@@ -210,7 +213,7 @@ export default function Prompt() {
                   left: 0,
                   zIndex: 1,
                   py: 1,
-                  background: "#c4b5b5",
+                  background: "#fff",
                   width: { xs: "100vw", sm: "100%" },
                 }}
               >
@@ -221,7 +224,7 @@ export default function Prompt() {
                   id="_loading"
                   disableElevation
                   sx={{
-                    background: "#200923",
+                    background: "#200923!important",
                     borderRadius: 2,
                     ml: "auto",
                     mr: 1,

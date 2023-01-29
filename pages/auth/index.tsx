@@ -112,7 +112,10 @@ export default function Prompt() {
             setButtonLoading(false);
             return;
           }
-          if (window.location.href.includes("?close=true")) {
+          if (
+            typeof window !== "undefined" &&
+            window.location.href.includes("?close=true")
+          ) {
             // Success
             toast.promise(
               new Promise(() => {}),
@@ -154,11 +157,15 @@ export default function Prompt() {
         });
     },
   });
-
-  document
-    .querySelector(`meta[name="theme-color"]`)
-    ?.setAttribute("content", window.innerWidth < 600 ? "#F4CEEB" : "#6b4b4b");
-
+  useEffect(() => {
+    if (typeof document !== "undefined")
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute(
+          "content",
+          window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
+        );
+  });
   const [step, setStep] = useState(1);
 
   return (
@@ -291,7 +298,8 @@ export default function Prompt() {
                     variant="h4"
                     sx={{ mb: 1, fontWeight: "600", mt: { xs: 3, sm: 0 } }}
                   >
-                    {window.location.href.includes("?application=availability")
+                    {typeof window !== "undefined" &&
+                    window.location.href.includes("?application=availability")
                       ? "Sign into Dysperse Availability"
                       : "Welcome back!"}
                   </Typography>
@@ -400,8 +408,10 @@ export default function Prompt() {
             <Box>
               <Link
                 href={
-                  window.location.href.includes("?close=true")
-                    ? "/signup?close=true"
+                  typeof window !== "undefined"
+                    ? window.location.href.includes("?close=true")
+                      ? "/signup?close=true"
+                      : "/signup"
                     : "/signup"
                 }
                 legacyBehavior
@@ -424,9 +434,11 @@ export default function Prompt() {
               </Link>
               <Link
                 href={
-                  window.location.href.includes("?close=true")
-                    ? "/auth/reset-id?close=true"
-                    : "/auth/reset-id"
+                  typeof window !== "undefined"
+                    ? window.location.href.includes("?close=true")
+                      ? "/auth/reset-id?close=true"
+                      : "/auth/reset-id"
+                    : "/auth-reset-id"
                 }
                 legacyBehavior
               >
