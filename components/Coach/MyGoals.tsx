@@ -140,7 +140,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           )}
           {data.length === 0 ? (
             <div
-              className="flex items-center text-gray-900 w-full bg-gray-200 rounded-xl p-8 px-5 mb-4 flex-col sm:flex-row"
+              className="flex items-center text-gray-900 w-full bg-gray-200 rounded-xl p-8 px-5 mb-4 flex-col sm:flex-row dark:bg-gray-900 dark:text-white"
               style={{ gap: "30px" }}
             >
               <picture>

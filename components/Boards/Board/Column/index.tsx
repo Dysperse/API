@@ -11,11 +11,13 @@ import {
   Chip,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
   SwipeableDrawer,
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -109,7 +111,7 @@ function CompletedTasks({
           )
           .map((task, i) => (
             <Task
-              key={task.id + i}
+              key={i}
               checkList={checkList}
               task={task}
               mutationUrl={mutationUrl}
@@ -160,6 +162,92 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
           <img src={emoji} alt="emoji" width="30" height="30" />
         </picture>
       </Button>
+    </>
+  );
+}
+
+function FilterMenu({ originalTasks, columnTasks, setColumnTasks, board }) {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setColumnTasks(
+              originalTasks.sort((a, b) => (a.name > b.name ? 1 : -1))
+            );
+            handleClose();
+          }}
+        >
+          A-Z
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setColumnTasks(
+              originalTasks.sort((a, b) => (a.name > b.name ? 1 : -1)).reverse()
+            );
+            handleClose();
+          }}
+        >
+          Z-A
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setColumnTasks(originalTasks);
+            handleClose();
+          }}
+        >
+          Newest to oldest
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setColumnTasks(originalTasks.reverse());
+            handleClose();
+          }}
+        >
+          Oldest to newest
+        </MenuItem>
+      </Menu>
+      <IconButton
+        disableRipple
+        sx={{
+          flexShrink: 0,
+          display: board.archived ? "none" : "",
+          ml: "auto",
+          mr: -1,
+          transition: "none!important",
+          "&:hover,&:active": {
+            background: global.user.darkMode
+              ? "hsl(240,11%,13%)"
+              : "rgba(200,200,200,.3)",
+            color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
+          },
+          "&:active": {
+            background: global.user.darkMode
+              ? "hsl(240,11%,15%)"
+              : "rgba(200,200,200,.4)",
+          },
+        }}
+        onClick={handleClick}
+      >
+        <Icon className="outlined">filter_list</Icon>
+      </IconButton>
     </>
   );
 }
@@ -334,7 +422,6 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
         sx={{
           flexShrink: 0,
           display: board.archived ? "none" : "",
-          ml: "auto",
           transition: "none!important",
           "&:hover,&:active": {
             background: global.user.darkMode
@@ -363,9 +450,15 @@ export const Column = React.memo(function Column({
   column,
   tasks,
 }: any) {
-  const columnTasks = column.tasks.filter(
-    (task) => task.parentTasks.length === 0
+  const [columnTasks, setColumnTasks] = React.useState(
+    column.tasks.filter((task) => task.parentTasks.length === 0)
   );
+
+  React.useEffect(() => {
+    setColumnTasks(
+      column.tasks.filter((task) => task.parentTasks.length === 0)
+    );
+  }, [column]);
 
   const [isHovered, setIsHovered] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
@@ -464,6 +557,7 @@ export const Column = React.memo(function Column({
               sx={{
                 maxWidth: { xs: "calc(100% - 150px)", sm: "100%" },
                 mx: { xs: 1, sm: 0 },
+                mt: 1,
               }}
             >
               <Tooltip title={column.name} followCursor>
@@ -487,10 +581,20 @@ export const Column = React.memo(function Column({
                   mt: 0.5,
                 }}
               >
-                {columnTasks.filter((task) => task.completed).length} out of{" "}
-                {columnTasks.length} completed
+                {columnTasks.filter((task) => task.completed).length}{" "}
+                {columnTasks.length !== 0 && " out of "}
+                {columnTasks.length == 0 ? "" : columnTasks.length}{" "}
+                {columnTasks.length == 0 ? "tasks" : "completed"}
               </Typography>
             </Box>
+            <FilterMenu
+              originalTasks={column.tasks.filter(
+                (task) => task.parentTasks.length === 0
+              )}
+              board={board}
+              columnTasks={columnTasks}
+              setColumnTasks={setColumnTasks}
+            />
             <OptionsMenu
               board={board}
               column={column}
@@ -523,7 +627,7 @@ export const Column = React.memo(function Column({
           .sort((x, y) => (x.pinned === y.pinned ? 0 : x.pinned ? -1 : 1))
           .map((task, i) => (
             <Task
-              key={task.id + i}
+              key={i}
               checkList={checkList}
               task={task}
               mutationUrl={mutationUrl}

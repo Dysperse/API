@@ -88,78 +88,78 @@ export default async function handler(req, res) {
         notificationSubscription: true,
       },
     });
-  } catch (e: any) {
-    return res.status(401).json({ message: e.message });
-  }
 
-  // If the user doesn't exist, return an error
-  if (!user) {
-    return res.status(401).json({ message: "Invalid email or password" });
-  }
-
-  const validPassword = await argon2.verify(user.password, req.body.password);
-
-  if (!validPassword) {
-    return res.status(401).json({ message: "Invalid email or password" });
-  }
-  if (
-    !req.body.twoFactorCode &&
-    user.twoFactorSecret !== "" &&
-    user.twoFactorSecret !== "false"
-  ) {
-    const newToken = twofactor.generateToken(user.twoFactorSecret);
-
-    await DispatchNotification({
-      subscription: user.notificationSubscription as string,
-      title: `${newToken?.token} is your Dysperse login code`,
-      body: "Dysperse employess will NEVER ask for this code. DO NOT share it with ANYONE!",
-      actions: [],
-    });
-
-    return res.json({
-      twoFactor: true,
-      token: newToken,
-      secret: user.twoFactorSecret,
-    });
-  }
-
-  if (req.body.twoFactorCode) {
-    const login = twofactor.verifyToken(
-      user.twoFactorSecret,
-      req.body.twoFactorCode
-    );
-
-    if (!login || login.delta !== 0) {
-      return res.status(401).json({ error: "Invalid code" });
+    // If the user doesn't exist, return an error
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
-  }
 
-  if (req.body.application) {
-    const token = await prisma.oAuthToken.create({
-      data: {
-        user: {
-          connect: {
-            id: user.id,
+    const validPassword = await argon2.verify(user.password, req.body.password);
+
+    if (!validPassword) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+    if (
+      !req.body.twoFactorCode &&
+      user.twoFactorSecret !== "" &&
+      user.twoFactorSecret !== "false"
+    ) {
+      const newToken = twofactor.generateToken(user.twoFactorSecret);
+
+      await DispatchNotification({
+        subscription: user.notificationSubscription as string,
+        title: `${newToken?.token} is your Dysperse login code`,
+        body: "Dysperse employess will NEVER ask for this code. DO NOT share it with ANYONE!",
+        actions: [],
+      });
+
+      return res.json({
+        twoFactor: true,
+        token: newToken,
+        secret: user.twoFactorSecret,
+      });
+    }
+
+    if (req.body.twoFactorCode) {
+      const login = twofactor.verifyToken(
+        user.twoFactorSecret,
+        req.body.twoFactorCode
+      );
+
+      if (!login || login.delta !== 0) {
+        return res.status(401).json({ error: "Invalid code" });
+      }
+    }
+
+    if (req.body.application) {
+      const token = await prisma.oAuthToken.create({
+        data: {
+          user: {
+            connect: {
+              id: user.id,
+            },
           },
         },
-      },
-    });
+      });
+      await DispatchNotification({
+        subscription: user.notificationSubscription as string,
+        title: "Account activity alert",
+        body: "Your Dysperse ID has been used to sign into an authorized application",
+        actions: [],
+      });
+      return res.json({ success: true, accessToken: token.accessToken });
+    }
+
     await DispatchNotification({
       subscription: user.notificationSubscription as string,
       title: "Account activity alert",
-      body: "Your Dysperse ID has been used to sign into an authorized application",
+      body: "Someone (hopefully you) has successfully logged in to your account",
       actions: [],
     });
-    return res.json({ success: true, accessToken: token.accessToken });
+    const encoded = await createSession(user.id, res);
+    // cacheData.del(req.cookies.token);
+    res.json({ success: true, key: encoded });
+  } catch (e: any) {
+    return res.status(401).json({ message: e.message });
   }
-
-  await DispatchNotification({
-    subscription: user.notificationSubscription as string,
-    title: "Account activity alert",
-    body: "Someone (hopefully you) has successfully logged in to your account",
-    actions: [],
-  });
-  const encoded = await createSession(user.id, res);
-  // cacheData.del(req.cookies.token);
-  res.json({ success: true, key: encoded });
 }

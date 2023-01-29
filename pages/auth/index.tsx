@@ -97,6 +97,7 @@ export default function Prompt() {
             "Oh no! Our servers are down. Please try again later!",
             toastStyles
           );
+          setButtonLoading(false);
           setStep(1);
           return;
         }

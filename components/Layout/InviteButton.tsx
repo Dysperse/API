@@ -100,6 +100,9 @@ export function InviteButton() {
             },
           },
         }}
+        ModalProps={{
+          keepMounted: true,
+        }}
         disableSwipeToOpen
       >
         <Box sx={{ display: { sm: "none" } }}>
@@ -121,7 +124,13 @@ export function InviteButton() {
         disableRipple
         disabled={!window.navigator.onLine}
         id="houseProfileTrigger"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          if (data && properties.length === 1) {
+            document.getElementById("activeProperty")?.click();
+          } else {
+            setOpen(true);
+          }
+        }}
         onContextMenu={(e) => {
           navigator.vibrate(50);
           e.preventDefault();
@@ -176,7 +185,7 @@ export function InviteButton() {
         >
           {global.property.profile.name || "My group"}
         </Typography>
-        <Icon>chevron_right</Icon>
+        <Icon>{properties.length == 1 ? "chevron_right" : "expand_more"}</Icon>
       </Button>{" "}
     </>
   );

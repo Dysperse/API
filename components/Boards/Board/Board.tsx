@@ -623,7 +623,7 @@ export const Board = function Board({
           maxWidth: "100vw",
           pl: {
             xs: data ? 0 : 2,
-            sm: data ? (board.columns.length === 1 ? 0 : 3) : 2,
+            sm: data ? (board.columns.length === 1 ? 0 : 5) : 2,
           },
         }}
         id="taskContainer"

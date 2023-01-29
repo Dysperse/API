@@ -589,7 +589,7 @@ export function CreateTask({
           ...(isHovered && {
             backgroundColor: {
               sm: global.user.darkMode
-                ? "hsl(240,11%,19%)!important"
+                ? "hsl(240,11%,15%)!important"
                 : "rgba(200,200,200,.1)!important",
             },
           }),
@@ -677,7 +677,7 @@ export function CreateTask({
               fontWeight: 700,
               color: global.user.darkMode ? "#fff" : "#606060",
               background: global.user.darkMode
-                ? "hsl(240,11%,40%)"
+                ? "hsl(240,11%,25%)"
                 : "rgba(200,200,200,.4)",
               borderRadius: "3px",
               fontSize: "12px",
