@@ -23,8 +23,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { Changelog } from "./Changelog";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { Changelog } from "./Changelog";
 
 /**
  * House popup
@@ -93,11 +93,13 @@ export const Group = React.memo(function Group({
               toast.success(
                 <>
                   Switched to &ldquo;<u>{res.profile.name}</u>&rdquo;
-                </>,toastStyles
+                </>,
+                toastStyles
               );
             } catch (error) {
               toast.error(
-                "Oh no! An error occured while trying to switch groups. Please try again later.",toastStyles
+                "Oh no! An error occured while trying to switch groups. Please try again later.",
+                toastStyles
               );
               setLoading(false);
             }
@@ -136,6 +138,7 @@ export const Group = React.memo(function Group({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                color: "#000!important",
                 borderRadius: "100%",
                 backgroundColor: colors[data.profile.color]["A400"],
                 marginRight: 1,
