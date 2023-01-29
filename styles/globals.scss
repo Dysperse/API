@@ -25,19 +25,16 @@
 .MuiTypography-h4 {
   font-weight: 600 !important;
 }
-html,
-body {
-  overscroll-behavior-y: none;
-}
+
 .noDrag {
   -webkit-app-region: no-drag;
   & * {
     -webkit-app-region: no-drag;
   }
 }
+
 body {
   overflow-x: hidden;
-  font-weight: 600;
   margin: 0;
 }
 
@@ -62,13 +59,13 @@ body {
 .material-symbols-rounded {
   font-display: block !important;
   font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 40;
-
   min-width: fit-content;
 }
 
 img {
   user-select: none;
 }
+
 *:not(
     .font-heading,
     .MuiIcon-root,
@@ -81,6 +78,7 @@ img {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "DM Sans", sans-serif !important;
 }
+
 .font-heading,
 .font-heading * {
   font-family: "DM Serif Display", serif !important;
@@ -91,13 +89,15 @@ img {
   width: 0px;
   background: transparent;
 }
+
 .MuiTouchRipple-rippleVisible {
   animation-duration: 0.25s !important;
 }
 .MuiTouchRipple-child {
   filter: opacity(0.3) !important;
-  background: radial-gradient(#000, #000);
+  background: #000;
 }
+
 .rippleDark .MuiTouchRipple-child,
 .dark .MuiTouchRipple-child {
   background: radial-gradient(#fff, #000) !important;
@@ -113,18 +113,6 @@ img {
     background-color: var(--backdropTheme) !important;
   }
 }
-.MuiIconButton-root {
-  transform: scale(1) !important;
-}
-.MuiIconButton-root:active .material-symbols-rounded,
-.MuiIconButton-root:active .material-symbols-outlined {
-  transform: scale(1);
-  opacity: 1 !important;
-}
-.MuiIconButton-root:not(:active) .material-symbols-rounded,
-.MuiIconButton-root:not(:active) .material-symbols-outlined {
-  transition: transform 0.2s, opacity 0.2s;
-}
 
 .MuiIconButton-root .MuiTouchRipple-rippleVisible {
   animation-duration: 0.5s !important;
@@ -136,7 +124,7 @@ img {
 
 .MuiListSubheader-root {
   background: transparent !important;
-  position: unset !important;
+  backdrop-filter: blur(10px);
 }
 
 .MuiDialogActions-spacing {
@@ -192,19 +180,6 @@ input:-webkit-autofill {
   -webkit-background-clip: text;
 }
 
-@keyframes dateIntro {
-  0% {
-    opacity: 0;
-    transform: scale(1.5);
-    transform-origin: center center;
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    transform-origin: center center;
-  }
-}
-
 .animate-trophy {
   animation: trophy 2s ease-in-out forwards;
   transform: scale(0) rotate(-45deg);
@@ -228,6 +203,7 @@ input:-webkit-autofill {
   bottom: -500px;
   animation: slide-in-bottom 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
+
 @keyframes slide-in-bottom {
   0% {
     bottom: -500px;

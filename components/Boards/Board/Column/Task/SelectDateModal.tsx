@@ -130,7 +130,6 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
               opacity: ".6!important",
             },
             ...(date && {
-              animation: "dateIntro .2s forwards",
               background: `${colors[themeColor][200]}!important`,
               color: `${colors[themeColor][900]}!important`,
             }),
