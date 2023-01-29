@@ -15,7 +15,6 @@ import {
   Box,
   Button,
   Icon,
-  NoSsr,
   Paper,
   SwipeableDrawer,
   TextField,
@@ -92,8 +91,8 @@ export default function Prompt() {
           twoFactorCode: values.twoFactorCode,
           token: values.token,
 
-          ...(window.location.href.includes("?application=") && {
-            application: window.location.href.split("?application=")[1],
+          ...(router.pathname.includes("?application=") && {
+            application: router.pathname.split("?application=")[1],
           }),
         }),
       })
@@ -113,10 +112,7 @@ export default function Prompt() {
             setButtonLoading(false);
             return;
           }
-          if (
-            typeof window !== "undefined" &&
-            window.location.href.includes("?close=true")
-          ) {
+          if (router && router.pathname.includes("?close=true")) {
             // Success
             toast.promise(
               new Promise(() => {}),
@@ -142,14 +138,14 @@ export default function Prompt() {
             },
             toastStyles
           );
-          if (window.location.href.includes("?application=")) {
-            window.location.href =
+          if (router.pathname.includes("?application=")) {
+            router.pathname =
               "https://availability.dysperse.com/api/oauth/redirect?token=" +
               res.accessToken;
           } else {
             mutate("/api/user");
             router.push("/");
-            window.location.href = "/";
+            router.pathname = "/";
           }
         })
         .catch(() => {
@@ -159,14 +155,14 @@ export default function Prompt() {
     },
   });
   useEffect(() => {
-    if (typeof document !== "undefined")
+    if (typeof document !== "undefined" && typeof window !== "undefined")
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute(
           "content",
           window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
         );
-  });
+  }, []);
   const [step, setStep] = useState(1);
 
   return (
@@ -295,16 +291,12 @@ export default function Prompt() {
             {step === 1 ? (
               <Box sx={{ pt: 3 }}>
                 <Box sx={{ px: 1 }}>
-                  <NoSsr>
-                    <Typography
-                      variant="h4"
-                      sx={{ mb: 1, fontWeight: "600", mt: { xs: 3, sm: 0 } }}
-                    >
-                      {router.pathname.includes("?application=availability")
-                        ? "Sign into Dysperse Availability"
-                        : "Welcome back!"}
-                    </Typography>
-                  </NoSsr>
+                  <Typography
+                    variant="h4"
+                    sx={{ mb: 1, fontWeight: "600", mt: { xs: 3, sm: 0 } }}
+                  >
+                    Welcome back!
+                  </Typography>
                   <Typography sx={{ mb: 2 }}>
                     Sign in with your Dysperse ID
                   </Typography>
@@ -410,8 +402,8 @@ export default function Prompt() {
             <Box>
               <Link
                 href={
-                  typeof window !== "undefined"
-                    ? window.location.href.includes("?close=true")
+                  router
+                    ? router.pathname.includes("?close=true")
                       ? "/signup?close=true"
                       : "/signup"
                     : "/signup"
@@ -436,8 +428,8 @@ export default function Prompt() {
               </Link>
               <Link
                 href={
-                  typeof window !== "undefined"
-                    ? window.location.href.includes("?close=true")
+                  router
+                    ? router.pathname.includes("?close=true")
                       ? "/auth/reset-id?close=true"
                       : "/auth/reset-id"
                     : "/auth-reset-id"
