@@ -60,7 +60,7 @@ const Action = React.memo(function Action({
       onClick && onClick();
     }
     setLoading(true);
-  }, []);
+  }, [href, onClick, router]);
   return (
     <ListItemButton
       disableRipple
