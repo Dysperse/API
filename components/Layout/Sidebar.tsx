@@ -1,4 +1,4 @@
-import { Box, Button, Drawer, Icon, Tooltip } from "@mui/material";
+import { Box, Button, Icon, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
@@ -83,157 +83,137 @@ export function Sidebar() {
     };
   };
   return (
-    <Drawer
-      variant="permanent"
-      ModalProps={{
-        keepMounted: true,
-      }}
+    <Box
       sx={{
         display: { xs: "none", md: "flex!important" },
-        "& .MuiDrawer-paper": {
-          maxWidth: "85px",
-          width: "80px",
-          filter: "none!important",
-          overflowX: "hidden",
-          zIndex: 99,
-          borderRight: global.user.darkMode
-            ? "1px solid rgba(255,255,255,0.1)"
-            : global.user.darkMode
-            ? "1px solid hsla(240,11%,15%)"
-            : "1px solid rgba(200,200,200,.3)",
-          height: "100vh",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "rgba(255, 255, 255, 0.9)",
-          backdropFilter: "blur(10px)",
-          ...(global.user.darkMode && {
-            background: "hsl(240, 11%, 10%)",
-          }),
-        },
-      }}
-      open
-    >
-      <Box
-        sx={{
-          width: "100%",
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          justifyContent: "center",
-          pt: "70px",
-        }}
-      >
-        <Box sx={{ mt: "auto" }} />
+        maxWidth: "85px",
+        width: "80px",
+        filter: "none!important",
+        overflowX: "hidden",
+        borderRight: global.user.darkMode
+          ? "1px solid hsla(240,11%,15%)"
+          : "1px solid rgba(200,200,200,.3)",
+        height: "100vh",
+        backdropFilter: "blur(10px)",
+        position: "fixed",
+        background: global.user.darkMode
+          ? "hsl(240, 11%, 10%)"
+          : "rgba(255, 255, 255, 0.9)",
 
-        <Box
-          sx={styles(
-            router.asPath.includes("/tasks") ||
+        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        pt: "70px",
+      }}
+    >
+      <Box sx={{ mt: "auto" }} />
+      <Box
+        sx={styles(
+          router.asPath.includes("/tasks") ||
+            router.asPath === "/" ||
+            router.asPath === ""
+        )}
+        onClick={() => router.push("/tasks")}
+        onMouseDown={() => router.push("/tasks")}
+      >
+        <Tooltip title="Lists" placement="right">
+          <span
+            className={`material-symbols-${
+              router.asPath.includes("/tasks") ||
               router.asPath === "/" ||
               router.asPath === ""
-          )}
-          onClick={() => router.push("/tasks")}
-          onMouseDown={() => router.push("/tasks")}
-        >
-          <Tooltip title="Lists" placement="right">
-            <span
-              className={`material-symbols-${
-                router.asPath.includes("/tasks") ||
-                router.asPath === "/" ||
-                router.asPath === ""
-                  ? "rounded"
-                  : "outlined"
-              }`}
-            >
-              verified
-            </span>
-          </Tooltip>
-        </Box>
-        <Box
-          sx={styles(router.asPath === "/coach")}
-          onClick={() => router.push("/coach")}
-          onMouseDown={() => router.push("/coach")}
-        >
-          <Tooltip title="Coach" placement="right">
-            <span
-              className={`material-symbols-${
-                router.asPath === "/coach" ? "rounded" : "outlined"
-              }`}
-            >
-              sunny
-            </span>
-          </Tooltip>
-        </Box>
-        <Box
-          sx={styles(
-            router.asPath === "/items" || router.asPath.includes("rooms")
-          )}
-          onClick={() => router.push("/items")}
-          onMouseDown={() => router.push("/items")}
-        >
-          <Tooltip title="Inventory" placement="right">
-            <span
-              className={`material-symbols-${
-                router.asPath === "/items" || router.asPath.includes("rooms")
-                  ? "rounded"
-                  : "outlined"
-              }`}
-            >
-              category
-            </span>
-          </Tooltip>
-        </Box>
-        <Box
-          sx={styles(router.asPath === "/spaces")}
-          onClick={() => router.push("/spaces")}
-          onMouseDown={() => router.push("/spaces")}
-        >
-          <Tooltip title="Spaces" placement="right">
-            <span
-              className={`material-symbols-${
-                router.asPath === "/spaces" ? "rounded" : "outlined"
-              }`}
-            >
-              view_agenda
-            </span>
-          </Tooltip>
-        </Box>
-        <Box
-          sx={{
-            mt: "auto",
-            mb: 1,
-          }}
-        >
-          <Settings>
-            <Tooltip
-              title={global.user.email}
-              placement="left"
-              PopperProps={{
-                sx: { pointerEvents: "none" },
+                ? "rounded"
+                : "outlined"
+            }`}
+          >
+            verified
+          </span>
+        </Tooltip>
+      </Box>
+      <Box
+        sx={styles(router.asPath === "/coach")}
+        onClick={() => router.push("/coach")}
+        onMouseDown={() => router.push("/coach")}
+      >
+        <Tooltip title="Coach" placement="right">
+          <span
+            className={`material-symbols-${
+              router.asPath === "/coach" ? "rounded" : "outlined"
+            }`}
+          >
+            sunny
+          </span>
+        </Tooltip>
+      </Box>
+      <Box
+        sx={styles(
+          router.asPath === "/items" || router.asPath.includes("rooms")
+        )}
+        onClick={() => router.push("/items")}
+        onMouseDown={() => router.push("/items")}
+      >
+        <Tooltip title="Inventory" placement="right">
+          <span
+            className={`material-symbols-${
+              router.asPath === "/items" || router.asPath.includes("rooms")
+                ? "rounded"
+                : "outlined"
+            }`}
+          >
+            category
+          </span>
+        </Tooltip>
+      </Box>
+      <Box
+        sx={styles(router.asPath === "/spaces")}
+        onClick={() => router.push("/spaces")}
+        onMouseDown={() => router.push("/spaces")}
+      >
+        <Tooltip title="Spaces" placement="right">
+          <span
+            className={`material-symbols-${
+              router.asPath === "/spaces" ? "rounded" : "outlined"
+            }`}
+          >
+            view_agenda
+          </span>
+        </Tooltip>
+      </Box>
+      <Box
+        sx={{
+          mt: "auto",
+          mb: 1,
+        }}
+      >
+        <Settings>
+          <Tooltip
+            title={global.user.email}
+            placement="left"
+            PopperProps={{
+              sx: { pointerEvents: "none" },
+            }}
+          >
+            <Button
+              color="inherit"
+              disableRipple
+              sx={{
+                ...styles(),
+                cursor: "unset",
+                background: "transparent!important",
               }}
             >
-              <Button
-                color="inherit"
-                disableRipple
+              <Icon
+                className="material-symbols-outlined"
                 sx={{
-                  ...styles(),
-                  cursor: "unset",
-                  background: "transparent!important",
+                  fontVariationSettings: `"FILL" 0, "wght" 300, "GRAD" 1, "opsz" 40!important`,
                 }}
               >
-                <Icon
-                  className="material-symbols-outlined"
-                  sx={{
-                    fontVariationSettings: `"FILL" 0, "wght" 300, "GRAD" 1, "opsz" 40!important`,
-                  }}
-                >
-                  settings
-                </Icon>
-              </Button>
-            </Tooltip>
-          </Settings>
-        </Box>
+                settings
+              </Icon>
+            </Button>
+          </Tooltip>
+        </Settings>
       </Box>
-    </Drawer>
+    </Box>
   );
 }
