@@ -1,5 +1,5 @@
 import argon2 from "argon2";
-import { prisma } from "../../lib/prismaClient";
+import { prisma } from "../../../lib/prismaClient";
 import { createSession } from "./login";
 
 const validateEmail = (email) => {

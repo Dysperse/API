@@ -26,7 +26,7 @@ export default function Prompt() {
     },
     onSubmit: (values) => {
       setButtonLoading(true);
-      fetch("/api/reset-id", {
+      fetch("/api/auth/reset-id", {
         method: "POST",
         body: JSON.stringify({
           email: values.email,
