@@ -653,7 +653,7 @@ export const Board = function Board({
               overflow: "hidden",
             }}
           >
-            {[...new Array(5).map((_, i) => i)].map((i) => (
+            {[...new Array(5)].map(() => (
               <Skeleton
                 variant="rectangular"
                 animation="wave"

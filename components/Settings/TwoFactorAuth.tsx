@@ -19,7 +19,6 @@ export default function App() {
     account: global.user.email,
   });
   const [newSecret] = useState(secret);
-  const [open, setOpen] = useState(false);
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingDisable, setLoadingDisable] = useState<boolean>(false);

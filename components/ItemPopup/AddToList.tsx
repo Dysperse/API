@@ -21,7 +21,7 @@ import {
 import { toast } from "react-hot-toast";
 import { toastStyles } from "../../lib/useCustomTheme";
 
-function BoardModal({ handleClose, title, list }) {
+function BoardModal({ title, list }) {
   const [open, setOpen] = useState(false);
 
   const handleClick = async (column) => {
@@ -34,9 +34,12 @@ function BoardModal({ handleClose, title, list }) {
         boardId: list.id,
         columnId: column.id,
       });
-      toast.success("Task created",toastStyles);
+      toast.success("Task created", toastStyles);
     } catch (e) {
-      toast.error("An error occured while trying to create a task",toastStyles);
+      toast.error(
+        "An error occured while trying to create a task",
+        toastStyles
+      );
     }
   };
 
@@ -139,12 +142,7 @@ function RoomList({
   return (
     <List sx={{ mt: -1 }}>
       {data.map((list: any) => (
-        <BoardModal
-          list={list}
-          title={title}
-          handleClose={handleClose}
-          key={list.id}
-        />
+        <BoardModal list={list} title={title} key={list.id} />
       ))}
     </List>
   );

@@ -11,6 +11,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
+import { ErrorHandler } from "../Error";
 import { Group } from "../GroupProfile/Group";
 import { Puller } from "../Puller";
 
@@ -112,6 +113,9 @@ export function InviteButton() {
             data={group}
           />
         ))}
+        {error && (
+          <ErrorHandler error="An error occured while trying to fetch your other groups" />
+        )}
       </SwipeableDrawer>
       <Button
         disableRipple
