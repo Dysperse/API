@@ -17,7 +17,7 @@ import "../styles/globals.scss";
 import { Property, Session } from "../types/session";
 
 // Day.JS
-import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
+import { Box, Button, createTheme, NoSsr, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AuthLoading } from "../components/Auth/AuthLoading";
@@ -211,10 +211,10 @@ function RenderRoot({
   global.user = data;
 
   return disableLayout ? (
-    <>
+    <NoSsr>
       <Component {...pageProps} />
       <Toaster containerClassName="noDrag" />
-    </>
+    </NoSsr>
   ) : (
     <>
       <Analytics />
