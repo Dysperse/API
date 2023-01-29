@@ -11,6 +11,7 @@
     "start": "next start",
     "static": "next build && next export",
     "lint": "next lint",
+    "analyze": "ANALYZE=true next build",
     "vapid": "web-push generate-vapid-keys"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "@marsidev/react-turnstile": "^0.0.5",
     "@mui/lab": "^5.0.0-alpha.101",
     "@mui/material": "^5.10.7",
+    "@next/bundle-analyzer": "^13.1.6",
     "@prisma/client": "^4.9.0",
     "@sentry/nextjs": "^7.26.0",
     "@sentry/node": "^7.19.0",
