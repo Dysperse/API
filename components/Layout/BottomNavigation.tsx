@@ -10,19 +10,22 @@ import { colors } from "../../lib/colors";
 export function BottomNav() {
   const trigger = useScrollTrigger({ threshold: 0 });
 
+  const iconStyles = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 9,
+    height: "35px",
+    flex: "0 0 35px",
+    width: "60px",
+  };
   const styles = (active) => {
     return {
       textTransform: "none",
       color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
       height: "70px",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 9,
-        height: "35px",
-        flex: "0 0 35px",
-        width: "60px",
+        ...iconStyles,
       },
       fontWeight: "200",
       cursor: "pointer",
@@ -38,18 +41,12 @@ export function BottomNav() {
         transition: "none",
       },
       ...(active && {
-        fontWeight: "900",
+        fontWeight: 700,
         color: `${
           colors[themeColor][global.user.darkMode ? 100 : 900]
         }!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: 9,
-          height: "35px",
-          flex: "0 0 35px",
-          width: "60px",
+          ...iconStyles,
           background: `${
             global.user.darkMode
               ? "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"

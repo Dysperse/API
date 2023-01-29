@@ -57,7 +57,7 @@ export default function Prompt() {
 
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(true);
+  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
 
   useEffect(() => {
     twoFactorModalOpen
@@ -254,20 +254,13 @@ export default function Prompt() {
               alt="logo"
             />
           </picture>
-          <Typography
-            variant="h6"
-          >
-            Dysperse
-          </Typography>
+          <Typography variant="h6">Dysperse</Typography>
         </Box>
         <form onSubmit={formik.handleSubmit}>
           {step === 1 ? (
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
-                <Typography
-                  variant="h4"
-                  sx={{ mb: 1,  mt: { xs: 3, sm: 0 } }}
-                >
+                <Typography variant="h4" sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}>
                   Welcome back!
                 </Typography>
                 <Typography sx={{ mb: 2 }}>
@@ -338,10 +331,7 @@ export default function Prompt() {
             </Box>
           ) : (
             <Box>
-              <Typography
-                variant="h4"
-                sx={{ mb: 1, mt: { xs: 5, sm: 0 },  }}
-              >
+              <Typography variant="h4" sx={{ mb: 1, mt: { xs: 5, sm: 0 } }}>
                 Verifying...
               </Typography>
               <Typography sx={{ mb: 2 }}>
