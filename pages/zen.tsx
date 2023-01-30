@@ -131,6 +131,7 @@ export default function Home() {
               },
             }}
           />
+
           <Chip
             icon={
               <>
@@ -146,6 +147,15 @@ export default function Home() {
             sx={{
               userSelect: "none",
               color: orange["A400"],
+              mr: 1,
+            }}
+          />
+          <Chip
+            label="Zen mode is in beta"
+            sx={{
+              background: "linear-gradient(45deg, #c471f2, #f76cc6)",
+              color: "#000!important",
+              userSelect: "none",
             }}
           />
 
