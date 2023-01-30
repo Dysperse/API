@@ -3,6 +3,7 @@ import {
   Chip,
   Divider,
   Icon,
+  IconButton,
   List,
   ListItemButton,
   ListItemText,
@@ -39,7 +40,23 @@ export default function Home() {
     <>
       <div className="px-7 sm:hidden">
         <div className="blur-spotlight" />
-        <Box>
+        <Box
+          sx={{
+            mt: "calc(var(--navbar-height) * -1)",
+          }}
+        >
+          <Box sx={{ display: "flex", mb: 2, gap: 1 }}>
+            <IconButton sx={{ ml: "auto" }}>
+              <Icon className="outlined">edit</Icon>
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                document.getElementById("settingsTrigger")?.click()
+              }
+            >
+              <Icon className="outlined">account_circle</Icon>
+            </IconButton>
+          </Box>
           <Typography
             className="font-heading"
             sx={{
@@ -47,8 +64,7 @@ export default function Home() {
                 xs: "40px",
                 sm: "35px",
               },
-              my: 2,
-              mt: -5,
+              mb: 2,
               textDecoration: "underline",
             }}
             variant="h5"
@@ -151,14 +167,6 @@ export default function Home() {
               >
                 <Icon className="outlined">insights</Icon>
                 <ListItemText primary="Achievements" />
-              </ListItemButton>
-              <ListItemButton
-                onClick={() =>
-                  document.getElementById("settingsTrigger")?.click()
-                }
-              >
-                <Icon className="outlined">settings</Icon>
-                <ListItemText primary="Account" />
               </ListItemButton>
             </Box>
           </List>
