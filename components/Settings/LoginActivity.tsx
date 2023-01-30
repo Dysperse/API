@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   Icon,
   IconButton,
   ListItem,
@@ -42,7 +43,22 @@ const Session: any = React.memo(function Session({
         primary={dayjs(data[index].timestamp).format(
           "dddd, MMMM D, YYYY h:mm A"
         )}
-        secondary={`IP address: ${data[index].ip}`}
+        secondary={
+          <span className="flex items-center">
+            IP address: {data[index].ip}
+            {data[index].id === global.user.token && (
+              <Chip
+                size="small"
+                label="Current device"
+                sx={{
+                  ml: 1,
+                  background: "linear-gradient(45deg, #8338e3, #e0a9bb)!important",
+                  color:"#000!important"
+                }}
+              />
+            )}
+          </span>
+        }
       />
       <Tooltip
         title={
