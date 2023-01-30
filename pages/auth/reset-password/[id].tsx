@@ -31,7 +31,7 @@ export default function Prompt() {
         setButtonLoading(false);
         return;
       }
-      fetch("/api/change-password", {
+      fetch("/api/auth/change-password", {
         method: "POST",
         body: JSON.stringify({
           token: router.query.id,

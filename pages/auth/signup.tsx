@@ -30,7 +30,7 @@ export default function Prompt() {
     },
     onSubmit: (values) => {
       setButtonLoading(true);
-      fetch("/api/signup", {
+      fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify({
           name: values.name,
@@ -125,7 +125,7 @@ export default function Prompt() {
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
-                <Typography variant="h4" sx={{ mb: 1, }}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
                   Welcome to Dysperse!
                 </Typography>
                 <Typography sx={{ mb: 2 }}>

@@ -75,7 +75,7 @@ export default function Prompt() {
     onSubmit: async (values) => {
       setButtonLoading(true);
       try {
-        const res = await fetch("/api/login", {
+        const res = await fetch("/api/auth/login", {
           method: "POST",
           headers: {
             Credentials: "same-origin",

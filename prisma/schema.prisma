@@ -20,23 +20,22 @@ model User {
   trophies                 Int                   @default(0)
   twoFactorSecret          String                @default("")
   notificationSubscription String?               @db.VarChar(500)
-  properties               PropertyInvite[]
-  sessions                 Session[]
-  PasswordResetToken       PasswordResetToken[]
-  RoutineItem              RoutineItem[]
-  SpaceItem                SpaceItem[]
   CustomRoom               CustomRoom[]
-  OAuthToken               OAuthToken[]
   NotificationSettings     NotificationSettings?
+  OAuthToken               OAuthToken[]
+  PasswordResetToken       PasswordResetToken[]
+  properties               PropertyInvite[]
+  RoutineItem              RoutineItem[]
+  sessions                 Session[]
+  SpaceItem                SpaceItem[]
 }
 
 model NotificationSettings {
   id                Int     @id @default(autoincrement())
   todoListUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  userId            String  @unique
+  user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model Session {
@@ -46,11 +45,10 @@ model Session {
 }
 
 model OAuthToken {
-  id     Int  @id @default(autoincrement())
-  userId Int
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  id          Int    @id @default(autoincrement())
+  userId      Int
   accessToken String @unique @default(cuid())
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Property {
@@ -58,12 +56,12 @@ model Property {
   name                String               @default("My property")
   type                String               @default("apartment")
   color               String               @default("cyan")
+  Board               Board[]
   customRooms         CustomRoom[]
+  inbox               InboxItem[]
   inventory           Item[]
   members             PropertyInvite[]
   PropertyLinkInvites PropertyLinkInvite[]
-  inbox               InboxItem[]
-  Board               Board[]
   SpaceItem           SpaceItem[]
 }
 
@@ -80,14 +78,13 @@ model PropertyInvite {
 }
 
 model CustomRoom {
-  id         String   @id @default(uuid())
-  name       String
-  private    Boolean  @default(false)
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-
+  id             String   @id @default(uuid())
+  name           String
+  private        Boolean  @default(false)
+  propertyId     String
   userIdentifier String
-  user           User   @relation(fields: [userIdentifier], references: [identifier], onDelete: Cascade)
+  property       Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user           User     @relation(fields: [userIdentifier], references: [identifier], onDelete: Cascade)
 }
 
 model Item {
@@ -107,17 +104,16 @@ model Item {
 model PropertyLinkInvite {
   id         Int      @id @default(autoincrement())
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   token      String   @unique @default(uuid())
   accepted   Boolean  @default(false)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model InboxItem {
-  id   Int      @id @default(autoincrement())
-  who  String
-  what String
-  when DateTime
-
+  id         Int      @id @default(autoincrement())
+  who        String
+  what       String
+  when       DateTime
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
@@ -125,23 +121,20 @@ model InboxItem {
 model PasswordResetToken {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   token     String   @unique @default(uuid())
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// Kanban boards
-
 model Board {
-  id       String   @id @default(uuid())
-  name     String
-  public   Boolean  @default(false)
-  pinned   Boolean  @default(false)
-  archived Boolean  @default(false)
-  columns  Column[]
-
+  id         String   @id @default(uuid())
+  name       String
+  public     Boolean  @default(false)
+  pinned     Boolean  @default(false)
+  archived   Boolean  @default(false)
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  columns    Column[]
 }
 
 model Column {
@@ -154,22 +147,18 @@ model Column {
 }
 
 model Task {
-  id Int @id @default(autoincrement())
-
+  id          Int       @id @default(autoincrement())
   name        String
   description String?
   due         DateTime?
-
-  color     String  @default("brown")
-  pinned    Boolean @default(false)
-  completed Boolean @default(false)
-  image     String?
-
-  parentTasks Task[] @relation("subtasks")
-  subTasks    Task[] @relation("subtasks")
-
-  columnId Int?
-  column   Column? @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  color       String    @default("brown")
+  pinned      Boolean   @default(false)
+  completed   Boolean   @default(false)
+  image       String?
+  columnId    Int?
+  column      Column?   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  Task_A      Task[]    @relation("subtasks")
+  Task_B      Task[]    @relation("subtasks")
 }
 
 model RoutineItem {
@@ -182,25 +171,22 @@ model RoutineItem {
   time          String
   emoji         String
   lastCompleted String?
-
-  completed Boolean @default(false)
-  feedback  String? @default("")
-
-  userId String
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  completed     Boolean @default(false)
+  feedback      String? @default("")
+  userId        String
+  user          User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model SpaceItem {
-  id        String   @id @unique @default(cuid())
-  content   String   @db.VarChar(1000)
-  color     String   @default("blue")
-  pinned    Boolean  @default(false)
-  userId    String
-  public    Boolean  @default(false)
-  image     String?
-  timestamp DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-
+  id         String   @id @unique @default(cuid())
+  content    String   @db.VarChar(1000)
+  color      String   @default("blue")
+  pinned     Boolean  @default(false)
+  userId     String
+  public     Boolean  @default(false)
+  image      String?
+  timestamp  DateTime @default(now())
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
