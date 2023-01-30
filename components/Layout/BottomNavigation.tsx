@@ -49,7 +49,9 @@ export function BottomNav() {
           ...iconStyles,
           background: `${
             global.user.darkMode
-              ? "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"
+              ? router.asPath == "/zen"
+                ? "linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1))"
+                : "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"
               : hexToRgba(colors[themeColor][300], 0.5)
           }!important`,
         },
@@ -96,12 +98,12 @@ export function BottomNav() {
           },
           background: global.user.darkMode
             ? router.asPath == "/zen"
-              ? "hsla(240,11%,10%,.9)"
+              ? "hsla(240,11%,10%,.4)"
               : "hsla(240, 11%, 10%, .9)"
             : "rgba(255,255,255,.4)",
           borderTop: global.user.darkMode
             ? router.asPath == "/zen"
-              ? "1px solid hsla(240,11%,20%,1)"
+              ? "1px solid hsla(240,11%,20%,.5)"
               : "1px solid hsla(240, 11%, 20%, .8)"
             : global.user.darkMode
             ? "1px solid hsla(240,11%,15%)"
