@@ -21,14 +21,24 @@ import React, { useState } from "react";
 
 const CardOptions = React.memo(function CardOptions() {
   return (
-    <Box>
-      <IconButton>
+    <Box
+      sx={{
+        display: "flex",
+        gap: 0.5,
+        "& .MuiIconButton-root": {
+          "& .MuiIcon-root": {
+            fontSize: "20px!important",
+          },
+        },
+      }}
+    >
+      <IconButton size="small">
         <Icon>north</Icon>
       </IconButton>
-      <IconButton>
+      <IconButton size="small">
         <Icon className="outlined">delete</Icon>
       </IconButton>
-      <IconButton>
+      <IconButton size="small">
         <Icon>south</Icon>
       </IconButton>
     </Box>
@@ -195,7 +205,7 @@ export default function Home() {
               <Icon>task_alt</Icon>
               <ListItemText
                 primary="Tasks"
-                secondary="Daily goal: 4/7 completed"
+                secondary={!editMode && "Daily goal: 4/7 completed"}
               />
               {editMode && <CardOptions />}
             </ListItemButton>
@@ -204,7 +214,10 @@ export default function Home() {
               onClick={() => !editMode && router.push("/coach")}
             >
               <Icon>routine</Icon>
-              <ListItemText primary="Goals" secondary="7 tasks remaining" />
+              <ListItemText
+                primary="Goals"
+                secondary={!editMode && "7 tasks remaining"}
+              />
               {editMode && <CardOptions />}
             </ListItemButton>
 
