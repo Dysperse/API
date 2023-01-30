@@ -244,7 +244,7 @@ export default function Home() {
                     primary="Goals"
                     secondary={!editMode && "7 tasks remaining"}
                   />
-                  {editMode && <CardOptions section="top" />}
+                  {editMode && <CardOptions section="top" order={order} />}
                 </ListItemButton>
               )
             )}
