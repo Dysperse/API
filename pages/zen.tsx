@@ -1,3 +1,4 @@
+import { openSpotlight } from "@mantine/spotlight";
 import {
   Box,
   Chip,
@@ -53,12 +54,8 @@ export default function Home() {
               </IconButton>
             </Tooltip>
             <Tooltip title="My account" placement="bottom-start">
-              <IconButton
-                onClick={() =>
-                  document.getElementById("settingsTrigger")?.click()
-                }
-              >
-                <Icon className="outlined">account_circle</Icon>
+              <IconButton onClick={() => openSpotlight()}>
+                <Icon className="outlined">search</Icon>
               </IconButton>
             </Tooltip>
           </Box>
