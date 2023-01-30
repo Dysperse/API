@@ -134,10 +134,11 @@ export default function Home() {
             <Box>
               <ListItemButton>
                 <Icon className="outlined">school</Icon>
-                <ListItemText
-                  primary="Create a study plan"
-                  secondary="Have a test or quiz?"
-                />
+                <ListItemText primary="Create a study plan" />
+              </ListItemButton>
+              <ListItemButton>
+                <Icon className="outlined">star</Icon>
+                <ListItemText primary="Starred" />
               </ListItemButton>
               <ListItemButton>
                 <Icon className="outlined">view_in_ar</Icon>
