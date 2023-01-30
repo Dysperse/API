@@ -1,4 +1,4 @@
-  import { prisma } from "./prismaClient";
+import { prisma } from "./prismaClient";
 
 /**
  * Fetches the permissions of a user
