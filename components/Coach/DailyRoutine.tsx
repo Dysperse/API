@@ -74,12 +74,16 @@ export function DailyRoutine() {
   // If the data is available, the data returns an array of objects. Sort the array of objects by the `time` key, which can be a string containing the values: "morning", "afternoon", "evening", "night", "any". Sort them in the order: morning, any, afternoon, evening, night. This will ensure that the tasks are displayed in the correct order.
   const sortedTasks = !data
     ? []
-    : data.sort((a, b) => {
-        return (
-          ["morning", "any", "afternoon", "evening", "night"].indexOf(a.time) -
-          ["morning", "any", "afternoon", "evening", "night"].indexOf(b.time)
-        );
-      });
+    : data
+        .filter((task) => task.durationDays - task.progress > 0)
+        .sort((a, b) => {
+          return (
+            ["morning", "any", "afternoon", "evening", "night"].indexOf(
+              a.time
+            ) -
+            ["morning", "any", "afternoon", "evening", "night"].indexOf(b.time)
+          );
+        });
 
   return (
     <>
