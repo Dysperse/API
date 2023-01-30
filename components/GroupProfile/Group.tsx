@@ -64,7 +64,10 @@ export const Group = React.memo(function Group({
       revivalBack();
       document
         .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute("content", colors[themeColor][100]);
+        ?.setAttribute(
+          "content",
+          global.user.darkMode ? "hsl(240,11%,10%)" : colors[themeColor][100]
+        );
     }
   }, [color, open, data.propertyId]);
 
