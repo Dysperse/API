@@ -20,8 +20,8 @@ const moduleExports = {
       return [
         {
           source: "/",
-          destination: "/tasks",
-          permanent: true,
+          destination: "/zen",
+          permanent: false,
         },
         // {
         //   source: "/home",
