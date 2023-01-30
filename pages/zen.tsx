@@ -17,7 +17,23 @@ import {
 } from "@mui/material";
 import { orange } from "@mui/material/colors";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
+
+const CardOptions = React.memo(function CardOptions() {
+  return (
+    <Box>
+      <IconButton>
+        <Icon>north</Icon>
+      </IconButton>
+      <IconButton>
+        <Icon className="outlined">delete</Icon>
+      </IconButton>
+      <IconButton>
+        <Icon>south</Icon>
+      </IconButton>
+    </Box>
+  );
+});
 
 export default function Home() {
   const router = useRouter();
@@ -156,10 +172,12 @@ export default function Home() {
                     : "rgba(200,200,200,.3)",
                   transformOrigin: "top center",
                 }),
-                "&:active": {
-                  transform: "scale(.98)",
-                  transition: "none",
-                },
+                ...(!editMode && {
+                  "&:active": {
+                    transform: "scale(.98)",
+                    transition: "none",
+                  },
+                }),
                 transition: "margin .2s, transform .2s",
                 borderRadius: 3,
                 mb: !editMode ? 0.2 : 1,
@@ -192,6 +210,7 @@ export default function Home() {
               <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">school</Icon>
                 <ListItemText primary="Create a study plan" />
+                {editMode && <CardOptions />}
               </ListItemButton>
               <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">star</Icon>
