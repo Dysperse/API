@@ -135,19 +135,11 @@ export function BottomNav() {
         <Box
           onClick={() => router.push("/tasks")}
           onMouseDown={() => router.push("/tasks")}
-          sx={styles(
-            router.asPath === "/" ||
-              router.asPath === "" ||
-              router.asPath.includes("/tasks")
-          )}
+          sx={styles(router.asPath.includes("/tasks"))}
         >
           <span
             className={`material-symbols-${
-              router.asPath === "/" ||
-              router.asPath === "" ||
-              router.asPath.includes("/tasks")
-                ? "rounded"
-                : "outlined"
+              router.asPath.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
             circle
