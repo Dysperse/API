@@ -61,15 +61,15 @@ export function DailyRoutine() {
 
   const doneTasks = !data
     ? []
-    : data.filter(
-        (task) => task.lastCompleted === dayjs().format("YYYY-MM-DD")
-      );
+    : data
+        .filter((task) => task.durationDays - task.progress > 0)
+        .filter((task) => task.lastCompleted === dayjs().format("YYYY-MM-DD"));
 
   const tasksRemaining = !data
     ? []
-    : data.filter(
-        (task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD")
-      );
+    : data
+        .filter((task) => task.durationDays - task.progress > 0)
+        .filter((task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD"));
 
   // If the data is available, the data returns an array of objects. Sort the array of objects by the `time` key, which can be a string containing the values: "morning", "afternoon", "evening", "night", "any". Sort them in the order: morning, any, afternoon, evening, night. This will ensure that the tasks are displayed in the correct order.
   const sortedTasks = !data
@@ -216,7 +216,11 @@ export function DailyRoutine() {
                   <>Hurray! You worked towards all of your goals today!</>
                 ) : (
                   <>
-                    {tasksRemaining.length + " tasks remaining"} &bull; Click to{" "}
+                    {tasksRemaining.length +
+                      " task" +
+                      (tasksRemaining.length == 1 ? "" : "s") +
+                      " remaining"}{" "}
+                    &bull; Click to{" "}
                     {doneTasks === 0
                       ? "start"
                       : tasksRemaining === 0
@@ -231,7 +235,14 @@ export function DailyRoutine() {
           </Typography>
         </Box>
         <CircularProgressWithLabel
-          value={data ? (doneTasks.length / data.length) * 100 : 0}
+          value={
+            data
+              ? (doneTasks.length /
+                  data.filter((task) => task.durationDays - task.progress > 0)
+                    .length) *
+                100
+              : 0
+          }
         />
       </Box>
     </>
