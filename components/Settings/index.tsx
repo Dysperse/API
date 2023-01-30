@@ -21,6 +21,7 @@ import { ConfirmationModal } from "../ConfirmationModal";
 import { Puller } from "../Puller";
 import AccountSettings from "./AccountSettings";
 import AppearanceSettings from "./AppearanceSettings";
+import LoginActivity from "./LoginActivity";
 import Notifications from "./Notifications";
 import TwoFactorAuth from "./TwoFactorAuth";
 
@@ -248,6 +249,12 @@ export default function FullScreenDialog({
             }
           />
           <SettingsMenu
+            content={<LoginActivity />}
+            icon="history"
+            primary="Login activity"
+            secondary="View sessions/log out of other devices"
+          />
+          <SettingsMenu
             content={<Notifications />}
             icon="notifications"
             primary={
@@ -283,7 +290,7 @@ export default function FullScreenDialog({
             question="Are you sure you want to sign out?"
             buttonText="Sign out"
             callback={() =>
-              fetchApiWithoutHook("logout").then(() => mutate("/api/user"))
+              fetchApiWithoutHook("auth/logout").then(() => mutate("/api/user"))
             }
           >
             <ListItem

@@ -11,10 +11,12 @@ import { prisma } from "../../../lib/prismaClient";
  * @param {any} res
  * @returns {any}
  */
-export async function createSession(id: number, res) {
+export async function createSession(id: number, res, ip) {
   // Create a session token in the session table
   const session = await prisma.session.create({
     data: {
+      ip,
+      timestamp: new Date(),
       user: {
         connect: {
           id: id,
@@ -156,7 +158,9 @@ export default async function handler(req, res) {
       body: "Someone (hopefully you) has successfully logged in to your account",
       actions: [],
     });
-    const encoded = await createSession(user.id, res);
+    const ip =
+      req.headers["x-forwarded-for"] || req.socket.remoteAddress || "Unknown";
+    const encoded = await createSession(user.id, res, ip);
     // cacheData.del(req.cookies.token);
     res.json({ success: true, key: encoded });
   } catch (e: any) {

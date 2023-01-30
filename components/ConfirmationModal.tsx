@@ -45,6 +45,9 @@ export function ConfirmationModal({
         onClose={() => {
           setOpen(false);
         }}
+        sx={{
+          zIndex: 9999,
+        }}
         PaperProps={{
           sx: {
             userSelect: "none",

@@ -39,9 +39,11 @@ model NotificationSettings {
 }
 
 model Session {
-  id     String @id @default(uuid())
-  userId Int
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String    @id @default(uuid())
+  ip        String    @default("Unknown")
+  userId    Int
+  timestamp DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model OAuthToken {

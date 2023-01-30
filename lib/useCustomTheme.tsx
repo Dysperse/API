@@ -81,11 +81,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           contained: {
             boxShadow: "none!important",
-            background: `${colors[themeColor][!darkMode ? 800 : 50]}!important`,
-            color: colors[themeColor][!darkMode ? 50 : 800],
+            background: `${
+              darkMode ? "hsl(240,11%,20%)" : colors[themeColor][800]
+            }!important`,
+            color: colors[themeColor][50],
             "&:hover": {
               background: `${
-                colors[themeColor][darkMode ? 200 : 900]
+                darkMode ? "hsl(240,11%,30%)" : colors[themeColor][900]
               }!important`,
             },
             "&:disabled": {
@@ -99,10 +101,16 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           },
           outlined: {
             color: `${colors[themeColor][darkMode ? 50 : 800]}!important`,
+            ...(darkMode && {
+              borderColor: "hsla(240,11%,70%,.5)",
+            }),
             "&:hover": {
               background: `${
-                colors[themeColor][!darkMode ? 100 : 900]
+                darkMode ? "hsl(240,11%,30%)" : colors[themeColor][900]
               }!important`,
+              ...(darkMode && {
+                borderColor: "hsla(240,11%,70%,.8)",
+              }),
             },
           },
           text: {
@@ -111,7 +119,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
 
           root: {
             gap: "10px",
-            transition: "none",
+            transition: "none!important",
             cursor: "unset",
             borderRadius: "999px",
             paddingLeft: "30px",
