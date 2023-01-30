@@ -271,6 +271,7 @@ export default function FullScreenDialog({
                     ml: 1.5,
                     background:
                       "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+                    color: "#000",
                   }}
                   size="small"
                   label="BETA"

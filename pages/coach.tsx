@@ -176,28 +176,15 @@ export default function Render() {
           pb: 3,
         }}
       >
-        <Box className="p-3 max-w-[100vw] flex-col sm:flex-row gap-5 flex items-center px-8">
+        <Box className="p-3 pt-2 max-w-[100vw] flex-col sm:flex-row gap-5 flex px-6">
           {!hideRoutine && (
-            <Typography
-              className="font-heading"
-              sx={{
-                textAlign: { xs: "center", sm: "left" },
-                fontSize: {
-                  xs: "40px",
-                  sm: "35px",
-                },
-                my: 3,
-                textDecoration: "underline",
-              }}
-              variant="h5"
-            >
-              {greeting}
-              {global.user.name}!
-            </Typography>
+            <h1 className="text-4xl underline font-heading my-3 sm:hidden font-light">
+              My goals
+            </h1>
           )}
           {!hideRoutine && <DailyRoutine />}
         </Box>
-        <Box className="p-3 px-8 pt-0 max-w-[100vw]">
+        <Box className="p-3 px-6 pt-0 max-w-[100vw]">
           <MyGoals setHideRoutine={setHideRoutine} />
         </Box>
       </Box>

@@ -107,7 +107,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                   fontWeight: "900",
                 }}
               >
-                My progress
+                Progress
               </Typography>
               <Box
                 sx={{

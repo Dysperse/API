@@ -27,11 +27,10 @@ model User {
   properties               PropertyInvite[]
   RoutineItem              RoutineItem[]
   sessions                 Session[]
-  SpaceItem                SpaceItem[]
 }
 
 model NotificationSettings {
-  id                Int     @id @default(autoincrement())
+  id                Int     @id @unique @default(autoincrement())
   todoListUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
   userId            String  @unique
@@ -39,7 +38,7 @@ model NotificationSettings {
 }
 
 model Session {
-  id        String    @id @default(uuid())
+  id        String    @id @unique @default(uuid())
   ip        String    @default("Unknown")
   userId    Int
   timestamp DateTime?
@@ -47,14 +46,14 @@ model Session {
 }
 
 model OAuthToken {
-  id          Int    @id @default(autoincrement())
+  id          Int    @id @unique @default(autoincrement())
   userId      Int
   accessToken String @unique @default(cuid())
   user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Property {
-  id                  String               @id @default(uuid())
+  id                  String               @id @unique @default(uuid())
   name                String               @default("My property")
   type                String               @default("apartment")
   color               String               @default("cyan")
@@ -64,7 +63,6 @@ model Property {
   inventory           Item[]
   members             PropertyInvite[]
   PropertyLinkInvites PropertyLinkInvite[]
-  SpaceItem           SpaceItem[]
 }
 
 model PropertyInvite {
@@ -80,7 +78,7 @@ model PropertyInvite {
 }
 
 model CustomRoom {
-  id             String   @id @default(uuid())
+  id             String   @id @unique @default(uuid())
   name           String
   private        Boolean  @default(false)
   propertyId     String
@@ -90,7 +88,7 @@ model CustomRoom {
 }
 
 model Item {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id @unique @default(autoincrement())
   name         String
   quantity     String
   note         String
@@ -104,7 +102,7 @@ model Item {
 }
 
 model PropertyLinkInvite {
-  id         Int      @id @default(autoincrement())
+  id         Int      @id @unique @default(autoincrement())
   propertyId String
   token      String   @unique @default(uuid())
   accepted   Boolean  @default(false)
@@ -112,7 +110,7 @@ model PropertyLinkInvite {
 }
 
 model InboxItem {
-  id         Int      @id @default(autoincrement())
+  id         Int      @id @unique @default(autoincrement())
   who        String
   what       String
   when       DateTime
@@ -121,7 +119,7 @@ model InboxItem {
 }
 
 model PasswordResetToken {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id @unique @default(autoincrement())
   userId    Int
   token     String   @unique @default(uuid())
   createdAt DateTime @default(now())
@@ -129,7 +127,7 @@ model PasswordResetToken {
 }
 
 model Board {
-  id         String   @id @default(uuid())
+  id         String   @id @unique @default(uuid())
   name       String
   public     Boolean  @default(false)
   pinned     Boolean  @default(false)
@@ -140,7 +138,7 @@ model Board {
 }
 
 model Column {
-  id      Int    @id @default(autoincrement())
+  id      Int    @id @unique @default(autoincrement())
   name    String
   emoji   String
   boardId String
@@ -149,7 +147,7 @@ model Column {
 }
 
 model Task {
-  id          Int       @id @default(autoincrement())
+  id          Int       @id @unique @default(autoincrement())
   name        String
   description String?
   due         DateTime?
@@ -178,18 +176,4 @@ model RoutineItem {
   feedback      String? @default("")
   userId        String
   user          User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-}
-
-model SpaceItem {
-  id         String   @id @unique @default(cuid())
-  content    String   @db.VarChar(1000)
-  color      String   @default("blue")
-  pinned     Boolean  @default(false)
-  userId     String
-  public     Boolean  @default(false)
-  image      String?
-  timestamp  DateTime @default(now())
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  user       User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }

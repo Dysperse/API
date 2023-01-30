@@ -1,6 +1,5 @@
 import { Box, Snackbar, useScrollTrigger } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
 
@@ -96,10 +95,14 @@ export function BottomNav() {
             overflow: "hidden!important",
           },
           background: global.user.darkMode
-            ? "hsla(240, 11%, 10%, .9)"
+            ? router.asPath == "/zen"
+              ? "hsla(240,11%,10%,.9)"
+              : "hsla(240, 11%, 10%, .9)"
             : "rgba(255,255,255,.4)",
           borderTop: global.user.darkMode
-            ? "1px solid hsla(240, 11%, 20%, .8)"
+            ? router.asPath == "/zen"
+              ? "1px solid hsla(240,11%,20%,1)"
+              : "1px solid hsla(240, 11%, 20%, .8)"
             : global.user.darkMode
             ? "1px solid hsla(240,11%,15%)"
             : "1px solid rgba(200,200,200,.3)",
@@ -107,6 +110,28 @@ export function BottomNav() {
           alignItems: "center",
         }}
       >
+        <Box
+          onClick={() => router.push("/zen")}
+          onMouseDown={() => router.push("/zen")}
+          sx={styles(
+            router.asPath === "/" ||
+              router.asPath === "" ||
+              router.asPath.includes("/zen")
+          )}
+        >
+          <span
+            className={`material-symbols-${
+              router.asPath === "/" ||
+              router.asPath === "" ||
+              router.asPath.includes("/zen")
+                ? "rounded"
+                : "outlined"
+            }`}
+          >
+            change_history
+          </span>
+          Start
+        </Box>
         <Box
           onClick={() => router.push("/tasks")}
           onMouseDown={() => router.push("/tasks")}
@@ -125,7 +150,7 @@ export function BottomNav() {
                 : "outlined"
             }`}
           >
-            verified
+            circle
           </span>
           Lists
         </Box>
@@ -153,7 +178,7 @@ export function BottomNav() {
               router.asPath === "/coach" ? "rounded" : "outlined"
             }`}
           >
-            sunny
+            favorite
           </span>
           Coach
         </Box>
@@ -172,24 +197,9 @@ export function BottomNav() {
                 : "outlined"
             }`}
           >
-            category
+            crop_square
           </span>
           Items
-        </Box>
-
-        <Box
-          onClick={() => router.push("/spaces")}
-          onMouseDown={() => router.push("/spaces")}
-          sx={styles(router.asPath === "/spaces")}
-        >
-          <span
-            className={`material-symbols-${
-              router.asPath === "/spaces" ? "rounded" : "outlined"
-            }`}
-          >
-            view_agenda
-          </span>
-          Spaces
         </Box>
       </Box>
     </>

@@ -23,11 +23,11 @@ const moduleExports = {
           destination: "/tasks",
           permanent: true,
         },
-        {
-          source: "/home",
-          destination: "/tasks",
-          permanent: true,
-        },
+        // {
+        //   source: "/home",
+        //   destination: "/tasks",
+        //   permanent: false,
+        // },
         {
           source: "/signup",
           destination: "/auth/signup",
