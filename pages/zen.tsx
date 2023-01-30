@@ -1,7 +1,9 @@
 import { openSpotlight } from "@mantine/spotlight";
 import {
   Box,
+  Button,
   Chip,
+  Collapse,
   Divider,
   Icon,
   IconButton,
@@ -131,6 +133,18 @@ export default function Home() {
             }}
           />
 
+          <Collapse in={editMode} orientation="vertical">
+            <Button
+              variant="contained"
+              sx={{
+                float: "right",
+                opacity: editMode ? 1 : 0,
+                transition: "opacity .2s !important",
+              }}
+            >
+              <Icon>add</Icon>Add card
+            </Button>
+          </Collapse>
           <List
             sx={{
               mt: 2,
