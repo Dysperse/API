@@ -251,8 +251,8 @@ export default function Home() {
             <Chip
               label="Zen mode is in beta"
               sx={{
-                background: "linear-gradient(45deg, #fff, #eee)",
-                color: "#000!important",
+                background: global.user.darkMode ? "#fff" : "#000",
+                color: !global.user.darkMode ? "#fff" : "#000",
                 userSelect: "none",
               }}
             />
