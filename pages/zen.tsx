@@ -169,8 +169,8 @@ export default function Home() {
             }}
           >
             <ListItemButton
-              disabled={editMode}
-              onClick={() => router.push("/tasks")}
+              disableRipple={editMode}
+              onClick={() => !editMode && router.push("/tasks")}
             >
               <Icon>task_alt</Icon>
               <ListItemText
@@ -179,8 +179,8 @@ export default function Home() {
               />
             </ListItemButton>
             <ListItemButton
-              disabled={editMode}
-              onClick={() => router.push("/coach")}
+              disableRipple={editMode}
+              onClick={() => !editMode && router.push("/coach")}
             >
               <Icon>routine</Icon>
               <ListItemText primary="Goals" secondary="7 tasks remaining" />
@@ -189,21 +189,22 @@ export default function Home() {
             <Divider sx={{ my: 1 }} />
 
             <Box>
-              <ListItemButton disabled={editMode}>
+              <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">school</Icon>
                 <ListItemText primary="Create a study plan" />
               </ListItemButton>
-              <ListItemButton disabled={editMode}>
+              <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">star</Icon>
                 <ListItemText primary="Starred" />
               </ListItemButton>
-              <ListItemButton disabled={editMode}>
+              <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">view_in_ar</Icon>
                 <ListItemText primary="Scan items" />
               </ListItemButton>
               <ListItemButton
-                disabled={editMode}
+                disableRipple={editMode}
                 onClick={() =>
+                  !editMode &&
                   document.getElementById("achievementsTrigger")?.click()
                 }
               >
