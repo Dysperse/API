@@ -18,6 +18,7 @@ import {
 import { orange } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const CardOptions = React.memo(function CardOptions() {
   return (
@@ -68,6 +69,9 @@ export default function Home() {
   //     }, 1000);
   //   }
   // }, []);
+  useHotkeys("esc", () => {
+    setEditMode(false);
+  });
   return (
     <>
       <div className="px-7 sm:hidden">
