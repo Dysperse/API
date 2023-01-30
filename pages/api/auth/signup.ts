@@ -54,8 +54,11 @@ export default async function handler(req, res) {
   });
   //   Get user id from user
   const id = user.id;
+  const ip =
+    req.headers["x-forwarded-for"] || req.socket.remoteAddress || "Unknown";
+
   // Create a session token in the session table
-  const session = createSession(id, res);
+  const session = createSession(id, res, ip);
 
   //   Create a property
   const property = await prisma.property.create({
