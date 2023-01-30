@@ -157,8 +157,9 @@ model Task {
   image       String?
   columnId    Int?
   column      Column?   @relation(fields: [columnId], references: [id], onDelete: Cascade)
-  Task_A      Task[]    @relation("subtasks")
-  Task_B      Task[]    @relation("subtasks")
+
+  parentTasks Task[] @relation("subtasks")
+  subTasks    Task[] @relation("subtasks")
 }
 
 model RoutineItem {
