@@ -118,7 +118,7 @@ export default function Home() {
             label="10 days"
             sx={{
               userSelect: "none",
-              color: orange["A700"],
+              color: orange["A400"],
             }}
           />
 
