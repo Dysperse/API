@@ -150,14 +150,6 @@ export default function Home() {
               mr: 1,
             }}
           />
-          <Chip
-            label="Zen mode is in beta"
-            sx={{
-              background: "linear-gradient(45deg, #c471f2, #f76cc6)",
-              color: "#000!important",
-              userSelect: "none",
-            }}
-          />
 
           <Collapse in={editMode} orientation="vertical">
             <Button
@@ -247,6 +239,24 @@ export default function Home() {
               </ListItemButton>
             </Box>
           </List>
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mt: 3,
+            }}
+          >
+            <Chip
+              label="Zen mode is in beta"
+              sx={{
+                background: "linear-gradient(45deg, #fff, #eee)",
+                color: "#000!important",
+                userSelect: "none",
+              }}
+            />
+          </Box>
         </Box>
         <Toolbar />
       </div>
