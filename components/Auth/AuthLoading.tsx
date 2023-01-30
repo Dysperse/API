@@ -1,7 +1,7 @@
 import { Box, Chip, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 
-export function AuthLoading() {
+export default function AuthLoading() {
   const router = useRouter();
   return (
     <Box
