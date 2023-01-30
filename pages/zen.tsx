@@ -6,6 +6,7 @@ import {
   ListItemButton,
   ListItemText,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
@@ -49,6 +50,7 @@ export default function Home() {
           </Typography>
 
           <TextField
+            multiline
             placeholder="What's your goal for today?"
             size="small"
             variant="standard"
@@ -90,17 +92,19 @@ export default function Home() {
 
           <List
             sx={{
+              mt: 2,
               "& .MuiListItemButton-root": {
                 borderRadius: 3,
                 mb: 0.1,
                 gap: 2,
+                px: 1,
               },
             }}
           >
             <ListItemButton onClick={() => router.push("/tasks")}>
               <ListItemText
                 primary="Tasks"
-                secondary="4 left to complete daily goal"
+                secondary="Daily goal: 4/7 completed"
               />
             </ListItemButton>
             <ListItemButton onClick={() => router.push("/coach")}>
@@ -124,6 +128,7 @@ export default function Home() {
             </Box>
           </List>
         </Box>
+        <Toolbar />
       </div>
       <div className="hidden sm:flex items-center justify-center h-[100vh] flex-col">
         <Icon

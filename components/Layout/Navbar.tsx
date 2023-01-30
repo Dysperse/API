@@ -55,7 +55,10 @@ export function Navbar(): JSX.Element {
           router.asPath === "/zen" ||
           router.asPath === "" ||
           router.asPath === "/") && {
-          top: "calc(var(--navbar-height) * -1) !important",
+          top: {
+            xs: "calc(var(--navbar-height) * -1) !important",
+            sm: "0!important",
+          },
         }),
         transition: "top .4s",
         zIndex: 999,
