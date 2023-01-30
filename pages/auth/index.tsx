@@ -91,7 +91,7 @@ export default function Prompt() {
             }),
           }),
         }).then((res) => res.json());
-
+        console.log(res);
         if (res.message.includes(`Can't reach database server`)) {
           toast.error(
             "Oh no! Our servers are down. Please try again later!",
