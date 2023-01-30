@@ -100,7 +100,7 @@ export default function Home() {
               disableUnderline: true,
               sx: {
                 background: global.user.darkMode
-                  ? "hsla(240,11%,40%,.2)"
+                  ? "hsla(240,11%,40%,.35)"
                   : "rgba(200,200,200,.3)",
                 "&:focus-within": {
                   background: global.user.darkMode
