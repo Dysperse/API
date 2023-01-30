@@ -8,8 +8,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
   const time = new Date().getHours();
   let greeting;
   if (time < 10) {
@@ -23,18 +25,18 @@ export default function Home() {
   }
   return (
     <>
-      <div className="text-center sm:hidden">
+      <div className="px-7 sm:hidden">
         <div className="blur-spotlight" />
         <Box>
           <Typography
             className="font-heading"
             sx={{
-              textAlign: { xs: "center", sm: "left" },
               fontSize: {
                 xs: "40px",
                 sm: "35px",
               },
-              my: 3,
+              my: 2,
+              mt: -5,
               textDecoration: "underline",
             }}
             variant="h5"
@@ -64,11 +66,7 @@ export default function Home() {
                 p: 2,
                 py: 1,
                 borderRadius: 2,
-                maxWidth: "calc(100vw - 70px)",
                 mx: "auto",
-                "& *": {
-                  textAlign: "center",
-                },
                 mb: 2,
               },
             }}
@@ -92,7 +90,6 @@ export default function Home() {
 
           <List
             sx={{
-              p: 2,
               "& .MuiListItemButton-root": {
                 borderRadius: 3,
                 mb: 0.1,
@@ -100,19 +97,13 @@ export default function Home() {
               },
             }}
           >
-            <ListItemButton>
-              <ListItemText
-                primary="Today's agenda"
-                secondary="Plan your day"
-              />
-            </ListItemButton>
-            <ListItemButton>
+            <ListItemButton onClick={() => router.push("/tasks")}>
               <ListItemText
                 primary="Tasks"
                 secondary="4 left to complete daily goal"
               />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton onClick={() => router.push("/coach")}>
               <ListItemText primary="Goals" secondary="7 tasks remaining" />
             </ListItemButton>
 

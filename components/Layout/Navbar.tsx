@@ -51,27 +51,27 @@ export function Navbar(): JSX.Element {
       position="fixed"
       sx={{
         paddingTop: "env(titlebar-area-height, 0px)",
+        ...((!router ||
+          router.asPath === "/zen" ||
+          router.asPath === "" ||
+          router.asPath === "/") && {
+          top: "calc(var(--navbar-height) * -1) !important",
+        }),
+        transition: "top .4s",
         zIndex: 999,
         "& *": {
           cursor: "unset!important",
         },
         color: {
-          xs: global.user.darkMode
-            ? "white"
-            : router.asPath === "/tidy"
-            ? colors[themeColor][100]
-            : "black",
+          xs: global.user.darkMode ? "white" : "black",
           sm: global.user.darkMode ? "white" : "black",
         },
         pr: 0.4,
         height: "calc(70px + env(titlebar-area-height, 0px))",
         WebkitAppRegion: "drag",
-        transition: "box-shadow .2s",
         background: {
           xs: global.user.darkMode
             ? "rgba(23, 23, 28, .8)"
-            : router.asPath === "/tidy"
-            ? colors[themeColor][800]
             : "rgba(255,255,255,.8)",
           sm: global.user.darkMode
             ? "rgba(23, 23, 28, .8)"
