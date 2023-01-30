@@ -15,10 +15,12 @@ import {
 } from "@mui/material";
 import { orange } from "@mui/material/colors";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
   const time = new Date().getHours();
+  const [editMode, setEditMode] = useState(false);
   let greeting;
   if (time < 10) {
     greeting = "Good morning, ";
@@ -49,11 +51,21 @@ export default function Home() {
         >
           <Box sx={{ display: "flex", mb: 2, gap: 1 }}>
             <Tooltip title="Edit start">
-              <IconButton sx={{ ml: "auto" }}>
-                <Icon className="outlined">edit</Icon>
+              <IconButton
+                sx={{
+                  ml: "auto",
+                  ...(editMode && {
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,25%)!important"
+                      : "rgba(200,200,200,.3)!important",
+                  }),
+                }}
+                onClick={() => setEditMode(!editMode)}
+              >
+                <Icon className={editMode ? "" : "outlined"}>edit</Icon>
               </IconButton>
             </Tooltip>
-            <Tooltip title="My account" placement="bottom-start">
+            <Tooltip title="Jump to" placement="bottom-start">
               <IconButton onClick={() => openSpotlight()}>
                 <Icon className="outlined">search</Icon>
               </IconButton>
@@ -123,13 +135,20 @@ export default function Home() {
             sx={{
               mt: 2,
               "& .MuiListItemButton-root": {
+                ...(editMode && {
+                  animation: "jiggle .2s infinite",
+                  background: global.user.darkMode
+                    ? "hsla(240,11%,20%,.5)"
+                    : "rgba(200,200,200,.3)",
+                  transformOrigin: "top center",
+                }),
                 "&:active": {
                   transform: "scale(.98)",
                   transition: "none",
                 },
                 transition: "transform .2s",
                 borderRadius: 3,
-                mb: 0.1,
+                mb: 1,
                 gap: 2,
                 px: 1,
               },

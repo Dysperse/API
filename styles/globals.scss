@@ -227,3 +227,30 @@ input:-webkit-autofill {
   right: 0;
   z-index: 10;
 }
+
+@keyframes jiggle {
+  0% {
+    transform: rotate(-0.5deg);
+  }
+  50% {
+    transform: rotate(0.5deg);
+  }
+}
+
+@-webkit-keyframes jiggle {
+  0% {
+    -webkit-transform: rotate(-0.5deg);
+  }
+  50% {
+    -webkit-transform: rotate(0.5deg);
+  }
+}
+
+@-moz-keyframes jiggle {
+  0% {
+    -moz-transform: rotate(-0.5deg);
+  }
+  50% {
+    -moz-transform: rotate(0.5deg);
+  }
+}
