@@ -1,5 +1,6 @@
 import {
   Box,
+  Chip,
   Divider,
   Icon,
   List,
@@ -9,6 +10,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { orange } from "@mui/material/colors";
 import { useRouter } from "next/router";
 
 export default function Home() {
@@ -57,7 +59,6 @@ export default function Home() {
               : global.user.name}
             !
           </Typography>
-
           <TextField
             multiline
             placeholder="What's your goal for today?"
@@ -82,28 +83,33 @@ export default function Home() {
               },
             }}
           />
-
-          <Typography
+          <Chip
+            icon={
+              <>
+                <Icon
+                  sx={{ color: "inherit!important", ml: 1, mr: -1, mt: -0.2 }}
+                  className="outlined"
+                >
+                  local_fire_department
+                </Icon>
+              </>
+            }
+            label="10 days"
             sx={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 2,
-              px: 3,
-              background: global.user.darkMode
-                ? "hsla(240,11%,20%,.6)"
-                : "rgba(200,200,200,.3)",
-              borderRadius: 9,
-              py: 1,
-              color: "warning.main",
+              userSelect: "none",
+              color: orange["A700"],
             }}
-          >
-            <Icon>local_fire_department</Icon> 10 days
-          </Typography>
+          />
 
           <List
             sx={{
               mt: 2,
               "& .MuiListItemButton-root": {
+                "&:active": {
+                  transform: "scale(.98)",
+                  transition: "none",
+                },
+                transition: "transform .2s",
                 borderRadius: 3,
                 mb: 0.1,
                 gap: 2,
@@ -112,12 +118,14 @@ export default function Home() {
             }}
           >
             <ListItemButton onClick={() => router.push("/tasks")}>
+              <Icon>task_alt</Icon>
               <ListItemText
                 primary="Tasks"
                 secondary="Daily goal: 4/7 completed"
               />
             </ListItemButton>
             <ListItemButton onClick={() => router.push("/coach")}>
+              <Icon>routine</Icon>
               <ListItemText primary="Goals" secondary="7 tasks remaining" />
             </ListItemButton>
 

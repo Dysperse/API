@@ -22,7 +22,10 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
   const { data, error, url } = useApi("user/routines");
   useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
-    tag.setAttribute("content", open ? "#814f41" : "#fff");
+    tag.setAttribute(
+      "content",
+      open ? "#814f41" : global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
+    );
   });
 
   useEffect(() => {
