@@ -72,6 +72,17 @@ export default function Home() {
   useHotkeys("esc", () => {
     setEditMode(false);
   });
+
+  const order = {
+    top: ["goals", "tasks"],
+    bottom: [
+      "goals:templates:study_plan",
+      "inventory:starred",
+      "items:scan",
+      "achievements",
+    ],
+  };
+
   return (
     <>
       <div className="px-7 sm:hidden">
