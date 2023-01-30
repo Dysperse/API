@@ -160,22 +160,28 @@ export default function Home() {
                   transform: "scale(.98)",
                   transition: "none",
                 },
-                transition: "transform .2s",
+                transition: "margin .2s, transform .2s",
                 borderRadius: 3,
-                mb: 1,
+                mb: !editMode ? 0.2 : 1,
                 gap: 2,
                 px: 1,
               },
             }}
           >
-            <ListItemButton onClick={() => router.push("/tasks")}>
+            <ListItemButton
+              disabled={editMode}
+              onClick={() => router.push("/tasks")}
+            >
               <Icon>task_alt</Icon>
               <ListItemText
                 primary="Tasks"
                 secondary="Daily goal: 4/7 completed"
               />
             </ListItemButton>
-            <ListItemButton onClick={() => router.push("/coach")}>
+            <ListItemButton
+              disabled={editMode}
+              onClick={() => router.push("/coach")}
+            >
               <Icon>routine</Icon>
               <ListItemText primary="Goals" secondary="7 tasks remaining" />
             </ListItemButton>
@@ -183,19 +189,20 @@ export default function Home() {
             <Divider sx={{ my: 1 }} />
 
             <Box>
-              <ListItemButton>
+              <ListItemButton disabled={editMode}>
                 <Icon className="outlined">school</Icon>
                 <ListItemText primary="Create a study plan" />
               </ListItemButton>
-              <ListItemButton>
+              <ListItemButton disabled={editMode}>
                 <Icon className="outlined">star</Icon>
                 <ListItemText primary="Starred" />
               </ListItemButton>
-              <ListItemButton>
+              <ListItemButton disabled={editMode}>
                 <Icon className="outlined">view_in_ar</Icon>
                 <ListItemText primary="Scan items" />
               </ListItemButton>
               <ListItemButton
+                disabled={editMode}
                 onClick={() =>
                   document.getElementById("achievementsTrigger")?.click()
                 }
