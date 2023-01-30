@@ -39,6 +39,10 @@ const handler = async (req, res) => {
     const info = await sessionData(req.cookies.token);
     const time2 = Date.now();
     console.log(`User data request took ${time2 - time1}ms`);
+    if (info.user === false) {
+      res.status(401).json({ error: true });
+      return;
+    }
     res.json(info);
   } else {
     res.status(401).json({ error: true });
