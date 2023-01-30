@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { getUserData } from "./user/info";
+import { getUserData } from "../user/info";
 
 /**
  * Get session data from the auth cookie
