@@ -9,7 +9,6 @@ export default async function handler(req, res) {
       durationDays: parseInt(req.query.durationDays),
       time: req.query.time,
       emoji: "",
-
       user: {
         connect: {
           identifier: req.query.userIdentifier,

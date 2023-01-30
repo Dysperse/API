@@ -165,7 +165,7 @@ model Task {
 }
 
 model RoutineItem {
-  id            Int     @id @default(autoincrement())
+  id            Int     @id @unique @default(autoincrement())
   name          String
   stepName      String
   category      String
