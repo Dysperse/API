@@ -16,7 +16,7 @@ export default function Home() {
   const time = new Date().getHours();
   let greeting;
   if (time < 10) {
-    greeting = "Morning, ";
+    greeting = "Good morning, ";
   } else if (time < 14) {
     greeting = "Good afternoon, ";
   } else if (time < 18) {
@@ -85,6 +85,7 @@ export default function Home() {
                 : "rgba(200,200,200,.3)",
               borderRadius: 9,
               py: 1,
+              color: "warning.main",
             }}
           >
             <Icon>local_fire_department</Icon> 10 days
@@ -124,6 +125,22 @@ export default function Home() {
               <ListItemButton>
                 <Icon className="outlined">view_in_ar</Icon>
                 <ListItemText primary="Scan items" />
+              </ListItemButton>
+              <ListItemButton
+                onClick={() =>
+                  document.getElementById("achievementsTrigger")?.click()
+                }
+              >
+                <Icon className="outlined">insights</Icon>
+                <ListItemText primary="Achievements" />
+              </ListItemButton>
+              <ListItemButton
+                onClick={() =>
+                  document.getElementById("settingsTrigger")?.click()
+                }
+              >
+                <Icon className="outlined">settings</Icon>
+                <ListItemText primary="Account" />
               </ListItemButton>
             </Box>
           </List>

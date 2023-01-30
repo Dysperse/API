@@ -207,6 +207,7 @@ export function Achievements({ styles }) {
       </Drawer>
       <Tooltip title="Achievements">
         <IconButton
+          id="achievementsTrigger"
           color="inherit"
           disableRipple
           onClick={() => {
