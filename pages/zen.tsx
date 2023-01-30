@@ -52,7 +52,7 @@ export default function Home() {
                 <Icon className="outlined">edit</Icon>
               </IconButton>
             </Tooltip>
-            <Tooltip title="My account">
+            <Tooltip title="My account" placement="bottom-start">
               <IconButton
                 onClick={() =>
                   document.getElementById("settingsTrigger")?.click()
