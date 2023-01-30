@@ -55,6 +55,11 @@ export default function Document() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="hsl(240,11%,10%)"
+        />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta
           name="viewport"

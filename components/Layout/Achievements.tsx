@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { achievements } from "./achievements";
 
 export const Achievement: any = React.memo(function Achievement({
@@ -84,6 +85,7 @@ export const Achievement: any = React.memo(function Achievement({
 export function Achievements({ styles }) {
   const [open, setOpen] = useState(false);
   const availableAchievements = achievements;
+  useStatusBar(open);
 
   return (
     <>

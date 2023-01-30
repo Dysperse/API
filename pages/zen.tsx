@@ -24,6 +24,15 @@ export default function Home() {
   } else {
     greeting = "Good night, ";
   }
+  // useEffect(() => {
+  //   if (global.user.darkMode) {
+  //     setTimeout(() => {
+  //       document
+  //         .querySelector(`meta[name="theme-color"]`)
+  //         ?.setAttribute("content", "hsl(240, 11%, 10%)");
+  //     }, 1000);
+  //   }
+  // }, []);
   return (
     <>
       <div className="px-7 sm:hidden">
