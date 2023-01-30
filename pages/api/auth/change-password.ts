@@ -1,5 +1,5 @@
 import argon2 from "argon2";
-import { prisma } from "../../lib/prismaClient";
+import { prisma } from "../../../lib/prismaClient";
 
 /**
  * API handler for the /api/login endpoint
