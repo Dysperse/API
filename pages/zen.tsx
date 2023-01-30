@@ -80,8 +80,8 @@ export default function Home() {
                 xs: "40px",
                 sm: "35px",
               },
+              my: 4,
               mb: 2,
-              textDecoration: "underline",
             }}
             variant="h5"
           >
