@@ -195,6 +195,7 @@ export default function Home() {
                 primary="Tasks"
                 secondary="Daily goal: 4/7 completed"
               />
+              {editMode && <CardOptions />}
             </ListItemButton>
             <ListItemButton
               disableRipple={editMode}
@@ -202,6 +203,7 @@ export default function Home() {
             >
               <Icon>routine</Icon>
               <ListItemText primary="Goals" secondary="7 tasks remaining" />
+              {editMode && <CardOptions />}
             </ListItemButton>
 
             <Divider sx={{ my: 1 }} />
@@ -215,10 +217,12 @@ export default function Home() {
               <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">star</Icon>
                 <ListItemText primary="Starred" />
+                {editMode && <CardOptions />}
               </ListItemButton>
               <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">view_in_ar</Icon>
                 <ListItemText primary="Scan items" />
+                {editMode && <CardOptions />}
               </ListItemButton>
               <ListItemButton
                 disableRipple={editMode}
@@ -229,6 +233,7 @@ export default function Home() {
               >
                 <Icon className="outlined">insights</Icon>
                 <ListItemText primary="Achievements" />
+                {editMode && <CardOptions />}
               </ListItemButton>
             </Box>
           </List>
