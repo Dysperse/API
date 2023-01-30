@@ -57,4 +57,8 @@ const sentryWebpackPluginOptions = {
   silent: true,
 };
 
-module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
+if (process.env.NODE_ENV == "development") {
+  module.exports = moduleExports;
+} else {
+  module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
+}

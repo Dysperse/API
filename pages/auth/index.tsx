@@ -91,8 +91,12 @@ export default function Prompt() {
             }),
           }),
         }).then((res) => res.json());
+
         console.log(res);
-        if (res.message.includes(`Can't reach database server`)) {
+        if (
+          res.message &&
+          res.message.includes(`Can't reach database server`)
+        ) {
           toast.error(
             "Oh no! Our servers are down. Please try again later!",
             toastStyles
@@ -143,6 +147,7 @@ export default function Prompt() {
           },
           toastStyles
         );
+
         if (router.pathname.includes("?application=")) {
           router.pathname =
             "https://availability.dysperse.com/api/oauth/redirect?token=" +
