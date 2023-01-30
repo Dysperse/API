@@ -9,6 +9,7 @@ import {
   ListItemText,
   TextField,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { orange } from "@mui/material/colors";
@@ -46,16 +47,20 @@ export default function Home() {
           }}
         >
           <Box sx={{ display: "flex", mb: 2, gap: 1 }}>
-            <IconButton sx={{ ml: "auto" }}>
-              <Icon className="outlined">edit</Icon>
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                document.getElementById("settingsTrigger")?.click()
-              }
-            >
-              <Icon className="outlined">account_circle</Icon>
-            </IconButton>
+            <Tooltip title="Edit start">
+              <IconButton sx={{ ml: "auto" }}>
+                <Icon className="outlined">edit</Icon>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="My account">
+              <IconButton
+                onClick={() =>
+                  document.getElementById("settingsTrigger")?.click()
+                }
+              >
+                <Icon className="outlined">account_circle</Icon>
+              </IconButton>
+            </Tooltip>
           </Box>
           <Typography
             className="font-heading"
