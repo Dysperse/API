@@ -20,7 +20,13 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-const CardOptions = React.memo(function CardOptions() {
+const CardOptions = React.memo(function CardOptions({
+  order,
+  section,
+}: {
+  order: any;
+  section: "top" | "bottom";
+}) {
   return (
     <Box
       sx={{
@@ -36,9 +42,11 @@ const CardOptions = React.memo(function CardOptions() {
       <IconButton size="small">
         <Icon>north</Icon>
       </IconButton>
-      <IconButton size="small">
-        <Icon className="outlined">delete</Icon>
-      </IconButton>
+      {section !== "top" && (
+        <IconButton size="small">
+          <Icon className="outlined">delete</Icon>
+        </IconButton>
+      )}
       <IconButton size="small">
         <Icon>south</Icon>
       </IconButton>
@@ -213,28 +221,33 @@ export default function Home() {
               },
             }}
           >
-            <ListItemButton
-              disableRipple={editMode}
-              onClick={() => !editMode && router.push("/tasks")}
-            >
-              <Icon>task_alt</Icon>
-              <ListItemText
-                primary="Tasks"
-                secondary={!editMode && "Daily goal: 4/7 completed"}
-              />
-              {editMode && <CardOptions />}
-            </ListItemButton>
-            <ListItemButton
-              disableRipple={editMode}
-              onClick={() => !editMode && router.push("/coach")}
-            >
-              <Icon>routine</Icon>
-              <ListItemText
-                primary="Goals"
-                secondary={!editMode && "7 tasks remaining"}
-              />
-              {editMode && <CardOptions />}
-            </ListItemButton>
+            {order.top.map((card) =>
+              card == "tasks" ? (
+                <ListItemButton
+                  disableRipple={editMode}
+                  onClick={() => !editMode && router.push("/tasks")}
+                >
+                  <Icon>task_alt</Icon>
+                  <ListItemText
+                    primary="Tasks"
+                    secondary={!editMode && "Daily goal: 4/7 completed"}
+                  />
+                  {editMode && <CardOptions section="top" order={order.top} />}
+                </ListItemButton>
+              ) : (
+                <ListItemButton
+                  disableRipple={editMode}
+                  onClick={() => !editMode && router.push("/coach")}
+                >
+                  <Icon>routine</Icon>
+                  <ListItemText
+                    primary="Goals"
+                    secondary={!editMode && "7 tasks remaining"}
+                  />
+                  {editMode && <CardOptions section="top" />}
+                </ListItemButton>
+              )
+            )}
 
             <Divider sx={{ my: 1 }} />
 
@@ -242,17 +255,17 @@ export default function Home() {
               <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">school</Icon>
                 <ListItemText primary="Create a study plan" />
-                {editMode && <CardOptions />}
+                {editMode && <CardOptions section="bottom" order={order} />}
               </ListItemButton>
               <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">star</Icon>
                 <ListItemText primary="Starred" />
-                {editMode && <CardOptions />}
+                {editMode && <CardOptions section="bottom" order={order} />}
               </ListItemButton>
               <ListItemButton disableRipple={editMode}>
                 <Icon className="outlined">view_in_ar</Icon>
                 <ListItemText primary="Scan items" />
-                {editMode && <CardOptions />}
+                {editMode && <CardOptions section="bottom" order={order} />}
               </ListItemButton>
               <ListItemButton
                 disableRipple={editMode}
@@ -263,7 +276,7 @@ export default function Home() {
               >
                 <Icon className="outlined">insights</Icon>
                 <ListItemText primary="Achievements" />
-                {editMode && <CardOptions />}
+                {editMode && <CardOptions section="bottom" order={order} />}
               </ListItemButton>
             </Box>
           </List>
