@@ -17,7 +17,7 @@ export const sessionData = async (providedToken) => {
   if (value) {
     return value;
   } else {
-    const hours = 24;
+    const hours = 69;
 
     const token: string = accessToken;
     const info = await getUserData(token);
