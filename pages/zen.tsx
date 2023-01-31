@@ -26,7 +26,7 @@ import {
   DndContext,
   DragOverlay,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
   TouchSensor,
   useSensor,
   useSensors,
@@ -55,20 +55,34 @@ import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 
 function SortableItem(props) {
-  const { attributes, listeners, setNodeRef, transform, transition, active } =
-    useSortable({
-      id: props.id,
-      transition: {
-        duration: 150, // milliseconds
-        easing: "cubic-bezier(0.25, 1, 0.5, 1)",
-      },
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    activeIndex,
+  } = useSortable({
+    id: props.id,
+    transition: {
+      duration: 150, // milliseconds
+      easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+    },
+  });
+
+  // console.logs(activeIndex, props.index);
 
   const category = props.id.split(".")[0];
   const action = props.id.split(".")[1];
 
   const data = actions[category].find((e) => e.key === action);
-
+  const activeStyles = {
+    background: "rgba(200,200,200,.3)!important",
+    backdropFilter: "blur(10px)",
+    zIndex: "9999999999!important",
+    transform: "scale(1.05)!important",
+    transition: "all .2s!important",
+  };
   return (
     <div
       style={{
@@ -76,24 +90,28 @@ function SortableItem(props) {
         transition,
       }}
     >
-      <ListItemButton
-        disableRipple={props.editMode}
-        ref={setNodeRef}
-        sx={{
-          "&:active": {
-            background: "rgba(200,200,200,.3)!important",
-            backdropFilter: "blur(10px)",
-            zIndex: 9999999999,
-          },
-          cursor: "grabbing",
+      <div
+        style={{
+          animation: "jiggle .2s infinite",
         }}
-        {...attributes}
-        {...listeners}
       >
-        <Icon className="outlined">{data.icon}</Icon>
-        <ListItemText primary={data.primary} />
-        {props.editMode && <CardOptions />}
-      </ListItemButton>
+        <ListItemButton
+          disableRipple={props.editMode}
+          ref={setNodeRef}
+          sx={{
+            transition: "all .2s!important",
+            ...(activeIndex === props.index && activeStyles),
+            "&:active": activeStyles,
+            cursor: "grabbing",
+          }}
+          {...attributes}
+          {...listeners}
+        >
+          <Icon className="outlined">{data.icon}</Icon>
+          <ListItemText primary={data.primary} />
+          {props.editMode && <CardOptions />}
+        </ListItemButton>
+      </div>
     </div>
   );
 }
@@ -113,8 +131,13 @@ export default function Home() {
     greeting = "Good night, ";
   }
   const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(TouchSensor),
+    useSensor(MouseSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -131,6 +154,10 @@ export default function Home() {
         return arrayMove(items, oldIndex, newIndex);
       });
     }
+    document.body.classList.remove("overflow-hidden");
+  };
+  const handleDragStart = () => {
+    document.body.classList.add("overflow-hidden");
   };
 
   useHotkeys("esc", () => setEditMode(false));
@@ -262,7 +289,6 @@ export default function Home() {
               mt: 2,
               "& .MuiListItemButton-root": {
                 ...(editMode && {
-                  animation: "jiggle .2s infinite",
                   background: global.user.darkMode
                     ? "hsla(240,11%,60%,.1)"
                     : "rgba(200,200,200,.3)",
@@ -313,13 +339,19 @@ export default function Home() {
               sensors={sensors}
               collisionDetection={closestCenter}
               onDragEnd={handleDragEnd}
+              onDragStart={handleDragStart}
             >
               <SortableContext
                 items={items}
                 strategy={verticalListSortingStrategy}
               >
-                {items.map((id) => (
-                  <SortableItem key={id} id={id} editMode={editMode} />
+                {items.map((id, index) => (
+                  <SortableItem
+                    index={index}
+                    key={id}
+                    id={id}
+                    editMode={editMode}
+                  />
                 ))}
               </SortableContext>
               <DragOverlay></DragOverlay>
