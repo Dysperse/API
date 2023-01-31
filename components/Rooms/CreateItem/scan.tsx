@@ -197,7 +197,7 @@ export function ImageRecognition({
   foreverRequired = false,
 }: {
   formik: any;
-  room: string;
+  room: any;
   foreverRequired?: boolean;
 }) {
   const [open, setOpen] = React.useState(foreverRequired);
