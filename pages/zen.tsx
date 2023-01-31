@@ -44,9 +44,11 @@ import {
 
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Puller } from "../components/Puller";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { useStatusBar } from "../hooks/useStatusBar";
+import { toastStyles } from "../lib/useCustomTheme";
 
 const actions = {
   goals: [
@@ -58,11 +60,17 @@ const actions = {
     { key: "scan", primary: "Scan items", icon: "view_in_ar" },
   ],
   achievements: [
-    { key: "trigger", primary: "Achievements", icon: "insights" },
+    {
+      key: "trigger",
+      primary: "Achievements",
+      icon: "insights",
+      onClick: () => document.getElementById("achievementsTrigger")?.click(),
+    },
     {
       key: "my_productivity",
       primary: "My productivity",
       icon: "auto_awesome",
+      onClick: () => document.getElementById("achievementsTrigger")?.click(),
     },
   ],
   groups: [
@@ -192,6 +200,16 @@ function SortableItem(props) {
         className="containerListItem"
       >
         <ListItemButton
+          onClick={() => {
+            if (data.onClick) {
+              data.onClick();
+            } else {
+              toast.error(
+                "Invalid action - You shouldn't be seeing this error. Please contact support",
+                toastStyles
+              );
+            }
+          }}
           disableRipple={props.editMode}
           onContextMenu={() => props.setEditMode(true)}
           ref={setNodeRef}

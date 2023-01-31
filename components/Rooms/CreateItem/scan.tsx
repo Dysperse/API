@@ -191,8 +191,16 @@ const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
   );
 };
 
-export function ImageRecognition({ formik, room }) {
-  const [open, setOpen] = React.useState(false);
+export function ImageRecognition({
+  formik,
+  room,
+  foreverRequired = false,
+}: {
+  formik: any;
+  room: string;
+  foreverRequired?: boolean;
+}) {
+  const [open, setOpen] = React.useState(foreverRequired);
   const [facingMode, setFacingMode] = React.useState("environment");
 
   React.useEffect(() => {
@@ -331,6 +339,7 @@ export function ImageRecognition({ formik, room }) {
             </Typography>
             <IconButton
               color="inherit"
+              disabled={foreverRequired}
               disableRipple
               onClick={() => {
                 setFacingMode(facingMode === "user" ? "environment" : "user");

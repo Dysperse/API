@@ -19,9 +19,9 @@ const Transition = React.forwardRef(function Transition(
 
 export const toastStyles = {
   style: {
-    borderRadius: 99999,
+    borderRadius: "30px",
     paddingLeft: "15px",
-    background: colors[global.themeColor ?? "brown"][700],
+    background: colors[global.themeColor ?? "brown"][900],
     color: colors[global.themeColor ?? "brown"][50],
   },
   iconTheme: {
