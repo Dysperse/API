@@ -74,8 +74,18 @@ const actions = {
     },
   ],
   groups: [
-    { key: "trigger", primary: "Switch groups", icon: "swap_horiz" },
-    { key: "group_info", primary: "Group info", icon: "home" },
+    {
+      key: "trigger",
+      primary: "Switch groups",
+      icon: "swap_horiz",
+      onClick: () => document.getElementById("houseProfileTrigger")?.click(),
+    },
+    {
+      key: "group_info",
+      primary: "Group info",
+      icon: "home",
+      onClick: () => document.getElementById("activeProperty")?.click(),
+    },
   ],
 };
 
