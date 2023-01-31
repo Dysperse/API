@@ -11,7 +11,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
       if (!global.user.darkMode) {
         tag.setAttribute("content", colors[themeColor][nestedModals * 100]);
       } else {
-        tag.setAttribute("content", `hsl(240, 11%, ${nestedModals * 10}%)`);
+        tag.setAttribute("content", `hsl(240, 11%, 10%)`);
       }
     } else {
       if (isOpen && nestedModals > 1) {

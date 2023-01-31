@@ -9,7 +9,9 @@ import {
   IconButton,
   List,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
+  SwipeableDrawer,
   TextField,
   Toolbar,
   Tooltip,
@@ -32,17 +34,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 
-const actions = {
-  goals: [
-    { key: "study_plan", primary: "Create a study plan", icon: "school" },
-  ],
-  inventory: [
-    { key: "starred", primary: "Starred", icon: "star" },
-    { key: "scan", primary: "Scan items", icon: "view_in_ar" },
-  ],
-  achievements: [{ key: "trigger", primary: "Achievements", icon: "insights" }],
-};
-
 import {
   arrayMove,
   SortableContext,
@@ -53,6 +44,80 @@ import {
 
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
+import { Puller } from "../components/Puller";
+import { useStatusBar } from "../hooks/useStatusBar";
+
+const actions = {
+  goals: [
+    { key: "study_plan", primary: "Create a study plan", icon: "school" },
+  ],
+  inventory: [
+    { key: "starred", primary: "Starred", icon: "star" },
+    { key: "scan", primary: "Scan items", icon: "view_in_ar" },
+  ],
+  achievements: [{ key: "trigger", primary: "Achievements", icon: "insights" }],
+  groups: [{ key: "trigger", primary: "Switch groups", icon: "swap_horiz" }],
+};
+
+function CardGallery({ editMode, items, setItems }) {
+  const [open, setOpen] = useState(false);
+  useStatusBar(open);
+
+  return (
+    <>
+      <SwipeableDrawer
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        anchor="bottom"
+        disableSwipeToOpen
+      >
+        <Puller />
+        <Box sx={{ px: 3, pb: 3 }}>
+          {Object.keys(actions).map((category, index) => (
+            <Box key={category}>
+              <Typography
+                variant="h6"
+                sx={{ textTransform: "capitalize", mt: 1 }}
+              >
+                {category}
+              </Typography>
+              {actions[category].map((card, cardIndex) => (
+                <Box key={"card-" + cardIndex}>
+                  <ListItemButton
+                    sx={{ borderRadius: 3 }}
+                    disabled={items.includes(`${category}.${card.key}`)}
+                  >
+                    <ListItemIcon>
+                      <Icon className="outlined">{card.icon}</Icon>
+                    </ListItemIcon>
+                    <ListItemText primary={card.primary} />
+                    <Icon className="outlined">
+                      {items.includes(`${category}.${card.key}`)
+                        ? "check"
+                        : "add_circle"}
+                    </Icon>
+                  </ListItemButton>
+                </Box>
+              ))}
+            </Box>
+          ))}
+        </Box>
+      </SwipeableDrawer>
+      <Button
+        variant="contained"
+        sx={{
+          float: "right",
+          opacity: editMode ? 1 : 0,
+          transition: "opacity .2s !important",
+        }}
+        onClick={() => setOpen(true)}
+      >
+        <Icon>add</Icon>Add card
+      </Button>
+    </>
+  );
+}
 
 function SortableItem(props) {
   const {
@@ -289,16 +354,11 @@ export default function Home() {
           />
 
           <Collapse in={editMode} orientation="vertical">
-            <Button
-              variant="contained"
-              sx={{
-                float: "right",
-                opacity: editMode ? 1 : 0,
-                transition: "opacity .2s !important",
-              }}
-            >
-              <Icon>add</Icon>Add card
-            </Button>
+            <CardGallery
+              setItems={setItems}
+              items={items}
+              editMode={editMode}
+            />
           </Collapse>
           <List
             sx={{
