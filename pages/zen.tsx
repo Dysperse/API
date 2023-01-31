@@ -263,7 +263,7 @@ export default function Home() {
 
   const order = {
     top: ["goals", "tasks"],
-    bottom: [
+    bottom: global.user.zenCardOrder || [
       "goals.study_plan",
       "inventory.starred",
       "inventory.scan",
