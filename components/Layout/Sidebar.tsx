@@ -11,7 +11,7 @@ export function Sidebar() {
     "ctrl+1",
     (e) => {
       e.preventDefault();
-      router.push("/tasks");
+      router.push("/start");
     },
     [open]
   );
@@ -109,24 +109,39 @@ export function Sidebar() {
       <Box sx={{ mt: "auto" }} />
       <Box
         sx={styles(
-          router.asPath.includes("/tasks") ||
+          router.asPath === "/zen" ||
             router.asPath === "/" ||
             router.asPath === ""
         )}
-        onClick={() => router.push("/tasks")}
-        onMouseDown={() => router.push("/tasks")}
+        onClick={() => router.push("/zen")}
+        onMouseDown={() => router.push("/zen")}
       >
-        <Tooltip title="Lists" placement="right">
+        <Tooltip title="Spaces" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath.includes("/tasks") ||
+              router.asPath === "/zen" ||
               router.asPath === "/" ||
               router.asPath === ""
                 ? "rounded"
                 : "outlined"
             }`}
           >
-            verified
+            change_history
+          </span>
+        </Tooltip>
+      </Box>
+      <Box
+        sx={styles(router.asPath.includes("/tasks"))}
+        onClick={() => router.push("/tasks")}
+        onMouseDown={() => router.push("/tasks")}
+      >
+        <Tooltip title="Lists" placement="right">
+          <span
+            className={`material-symbols-${
+              router.asPath.includes("/tasks") ? "rounded" : "outlined"
+            }`}
+          >
+            circle
           </span>
         </Tooltip>
       </Box>
@@ -141,7 +156,7 @@ export function Sidebar() {
               router.asPath === "/coach" ? "rounded" : "outlined"
             }`}
           >
-            sunny
+            favorite
           </span>
         </Tooltip>
       </Box>
@@ -160,22 +175,7 @@ export function Sidebar() {
                 : "outlined"
             }`}
           >
-            category
-          </span>
-        </Tooltip>
-      </Box>
-      <Box
-        sx={styles(router.asPath === "/spaces")}
-        onClick={() => router.push("/spaces")}
-        onMouseDown={() => router.push("/spaces")}
-      >
-        <Tooltip title="Spaces" placement="right">
-          <span
-            className={`material-symbols-${
-              router.asPath === "/spaces" ? "rounded" : "outlined"
-            }`}
-          >
-            view_agenda
+            square
           </span>
         </Tooltip>
       </Box>

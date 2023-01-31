@@ -56,8 +56,18 @@ const actions = {
     { key: "starred", primary: "Starred", icon: "star" },
     { key: "scan", primary: "Scan items", icon: "view_in_ar" },
   ],
-  achievements: [{ key: "trigger", primary: "Achievements", icon: "insights" }],
-  groups: [{ key: "trigger", primary: "Switch groups", icon: "swap_horiz" }],
+  achievements: [
+    { key: "trigger", primary: "Achievements", icon: "insights" },
+    {
+      key: "my_productivity",
+      primary: "My productivity",
+      icon: "auto_awesome",
+    },
+  ],
+  groups: [
+    { key: "trigger", primary: "Switch groups", icon: "swap_horiz" },
+    { key: "group_info", primary: "Group info", icon: "home" },
+  ],
 };
 
 function CardGallery({ editMode, items, setItems }) {
@@ -260,9 +270,9 @@ export default function Home() {
 
   return (
     <>
-      <div className="px-7 sm:hidden">
+      <div className="px-7">
         <div
-          className="blur-spotlight"
+          className="blur-spotlight sm:hidden"
           style={{
             background: `linear-gradient(45deg, ${colors[themeColor]["A200"]}, ${colors[themeColor]["A700"]} 50%, ${colors[themeColor]["A400"]})`,
             opacity: global.user.darkMode ? 0.5 : 0.9,
@@ -270,7 +280,7 @@ export default function Home() {
         />
         <Box
           sx={{
-            mt: "calc(var(--navbar-height) * -1)",
+            mt: { xs: "calc(var(--navbar-height) * -1)", sm: "0" },
           }}
         >
           <Box sx={{ display: "flex", mb: 2, gap: 1 }}>
@@ -460,18 +470,6 @@ export default function Home() {
           </Box>
         </Box>
         <Toolbar />
-      </div>
-      <div className="hidden sm:flex items-center justify-center h-[100vh] flex-col">
-        <Icon
-          sx={{
-            fontSize: "40px!important",
-            mb: 2,
-            opacity: 0.8,
-          }}
-        >
-          auto_awesome
-        </Icon>
-        Zen is only available on mobile devices
       </div>
     </>
   );
