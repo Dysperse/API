@@ -78,6 +78,11 @@ function CardGallery({ editMode, items, setItems }) {
     <>
       <SwipeableDrawer
         open={open}
+        PaperProps={{
+          sx: {
+            maxHeight: "95vh",
+          },
+        }}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         anchor="bottom"
@@ -284,7 +289,7 @@ export default function Home() {
           }}
         >
           <Box sx={{ display: "flex", mb: 2, gap: 1 }}>
-            <Tooltip title="Edit start">
+            <Tooltip title={editMode ? "Save" : "Edit start"}>
               <IconButton
                 sx={{
                   ml: "auto",
@@ -296,7 +301,9 @@ export default function Home() {
                 }}
                 onClick={() => setEditMode(!editMode)}
               >
-                <Icon className={editMode ? "" : "outlined"}>edit</Icon>
+                <Icon className="outlined">
+                  {editMode ? "check_circle" : "edit"}
+                </Icon>
               </IconButton>
             </Tooltip>
             <Tooltip title="Jump to" placement="bottom-start">
