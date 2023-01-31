@@ -80,8 +80,8 @@ function SortableItem(props) {
     background: "rgba(200,200,200,.3)!important",
     backdropFilter: "blur(10px)",
     zIndex: "9999999999!important",
-    transform: "scale(1.05)!important",
     transition: "all .2s!important",
+    cursor: "grabbing",
   };
   return (
     <div
@@ -93,7 +93,10 @@ function SortableItem(props) {
       <div
         style={{
           ...(props.editMode && { animation: "jiggle .2s infinite" }),
+          display: "flex",
+          alignItems: "center",
         }}
+        className="containerListItem"
       >
         <ListItemButton
           disableRipple={props.editMode}
@@ -101,7 +104,11 @@ function SortableItem(props) {
           sx={{
             transition: "all .2s!important",
             ...(activeIndex === props.index && activeStyles),
-            ...(props.editMode && { "&:active": activeStyles }),
+            ...(props.editMode && {
+              borderTopRightRadius: "0px!important",
+              borderBottomRightRadius: "0px!important",
+              "&:active": activeStyles,
+            }),
             cursor: "grabbing",
           }}
           {...attributes}
@@ -110,10 +117,14 @@ function SortableItem(props) {
           {props.editMode && <Icon>drag_indicator</Icon>}
           <Icon className="outlined">{data.icon}</Icon>
           <ListItemText primary={data.primary} />
-          {props.editMode && (
-            <CardOptions items={props.items} setItems={props.setItems} />
-          )}
         </ListItemButton>
+        {props.editMode && (
+          <CardOptions
+            items={props.items}
+            setItems={props.setItems}
+            option={props.id}
+          />
+        )}
       </div>
     </div>
   );
@@ -341,8 +352,8 @@ export default function Home() {
 
             <Divider sx={{ my: editMode ? 2 : 1, transition: "all .2s" }} />
             <DndContext
-              sensors={editMode ? sensors : []}
               collisionDetection={closestCenter}
+              sensors={editMode ? sensors : []}
               onDragEnd={handleDragEnd}
               onDragStart={handleDragStart}
             >
