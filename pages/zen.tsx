@@ -183,7 +183,8 @@ export default function Home() {
         <div
           className="blur-spotlight"
           style={{
-            background: `linear-gradient(45deg, ${colors[themeColor]["A100"]}, ${colors[themeColor]["A700"]} 50%, ${colors[themeColor]["A400"]})`,
+            background: `linear-gradient(45deg, ${colors[themeColor]["A200"]}, ${colors[themeColor]["A700"]} 50%, ${colors[themeColor]["A400"]})`,
+            opacity: global.user.darkMode ? 0.5 : 0.9,
           }}
         />
         <Box
@@ -374,8 +375,9 @@ export default function Home() {
             <Chip
               label="Zen mode is in beta"
               sx={{
-                background: global.user.darkMode ? "#fff" : "#000",
-                color: !global.user.darkMode ? "#fff" : "#000",
+                background:
+                  colors[themeColor][global.user.darkMode ? 900 : "A700"],
+                color: !global.user.darkMode ? "#000" : "#fff",
                 userSelect: "none",
               }}
             />

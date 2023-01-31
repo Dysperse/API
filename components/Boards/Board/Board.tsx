@@ -248,7 +248,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           transform: "translateX(-50%)",
           gap: 0.2,
           background: global.user.darkMode
-            ? "hsla(240,11%,25%,.6)"
+            ? "hsla(240,11%,25%,.2)"
             : "rgba(255,255,255,.7)",
           zIndex: 999,
           display: (data && data.length === 1) || !isMobile ? "none" : "flex",
@@ -261,7 +261,6 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
                 borderRadius: 999,
                 minWidth: "auto",
                 px: 2,
-                py: 1,
                 color:
                   currentColumn <= 0
                     ? global.user.darkMode
@@ -273,7 +272,6 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
               }}
               onClick={() => setCurrentColumn(currentColumn - 1)}
               disabled={currentColumn <= 0}
-              size="large"
             >
               <Icon
                 sx={{
@@ -295,9 +293,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
 
         <Tooltip title="New task" placement="top">
           <Button
-            size="large"
             sx={{
-              py: 1,
               color: "#000!important",
               background: colors[themeColor]["A100"] + "!important",
               borderRadius: 999,
@@ -322,12 +318,10 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
         <Tooltip title="Next column" placement="top">
           <span>
             <Button
-              size="large"
               sx={{
                 borderRadius: 999,
                 minWidth: "auto",
                 px: 2,
-                py: 1,
                 color:
                   data && currentColumn >= data.length - 1
                     ? global.user.darkMode

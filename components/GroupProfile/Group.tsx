@@ -66,7 +66,7 @@ export const Group = React.memo(function Group({
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute(
           "content",
-          global.user.darkMode ? "hsl(240,11%,10%)" : colors[themeColor][100]
+          global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
         );
     }
   }, [color, open, data.propertyId]);
