@@ -92,7 +92,7 @@ function SortableItem(props) {
     >
       <div
         style={{
-          animation: "jiggle .2s infinite",
+          ...(props.editMode && { animation: "jiggle .2s infinite" }),
         }}
       >
         <ListItemButton
@@ -107,6 +107,18 @@ function SortableItem(props) {
           {...attributes}
           {...listeners}
         >
+          <div
+            style={{
+              opacity: props.editMode ? 1 : 0,
+              maxWidth: props.editMode ? "24px" : "0px",
+              overflow: "hidden!important",
+              display: "block",
+              marginLeft: props.editMode ? "" : "-18px",
+              transform: "all .2s",
+            }}
+          >
+            <Icon>drag_handle</Icon>
+          </div>
           <Icon className="outlined">{data.icon}</Icon>
           <ListItemText primary={data.primary} />
           {props.editMode && <CardOptions />}
