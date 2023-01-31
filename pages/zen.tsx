@@ -17,42 +17,86 @@ import {
 } from "@mui/material";
 import { orange } from "@mui/material/colors";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { CardOptions } from "../components/zen/CardOptions";
+import { colors } from "../lib/colors";
 
-const CardOptions = React.memo(function CardOptions({
-  order,
-  section,
-}: {
-  order: any;
-  section: "top" | "bottom";
-}) {
+import {
+  closestCenter,
+  DndContext,
+  DragOverlay,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+
+const actions = {
+  goals: [
+    { key: "study_plan", primary: "Create a study plan", icon: "school" },
+  ],
+  inventory: [
+    { key: "starred", primary: "Starred", icon: "star" },
+    { key: "scan", primary: "Scan items", icon: "view_in_ar" },
+  ],
+  achievements: [{ key: "trigger", primary: "Achievements", icon: "insights" }],
+};
+
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
+import { CSS } from "@dnd-kit/utilities";
+import { useState } from "react";
+
+function SortableItem(props) {
+  const { attributes, listeners, setNodeRef, transform, transition, active } =
+    useSortable({
+      id: props.id,
+      transition: {
+        duration: 150, // milliseconds
+        easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+      },
+    });
+
+  const category = props.id.split(".")[0];
+  const action = props.id.split(".")[1];
+
+  const data = actions[category].find((e) => e.key === action);
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        gap: 0.5,
-        "& .MuiIconButton-root": {
-          "& .MuiIcon-root": {
-            fontSize: "20px!important",
-          },
-        },
+    <div
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
       }}
     >
-      <IconButton size="small">
-        <Icon>north</Icon>
-      </IconButton>
-      {section !== "top" && (
-        <IconButton size="small">
-          <Icon className="outlined">delete</Icon>
-        </IconButton>
-      )}
-      <IconButton size="small">
-        <Icon>south</Icon>
-      </IconButton>
-    </Box>
+      <ListItemButton
+        disableRipple={props.editMode}
+        ref={setNodeRef}
+        sx={{
+          "&:active": {
+            background: "rgba(200,200,200,.3)!important",
+            backdropFilter: "blur(10px)",
+            zIndex: 9999999999,
+          },
+          cursor: "grabbing",
+        }}
+        {...attributes}
+        {...listeners}
+      >
+        <Icon className="outlined">{data.icon}</Icon>
+        <ListItemText primary={data.primary} />
+        {props.editMode && <CardOptions />}
+      </ListItemButton>
+    </div>
   );
-});
+}
 
 export default function Home() {
   const router = useRouter();
@@ -68,33 +112,50 @@ export default function Home() {
   } else {
     greeting = "Good night, ";
   }
-  // useEffect(() => {
-  //   if (global.user.darkMode) {
-  //     setTimeout(() => {
-  //       document
-  //         .querySelector(`meta[name="theme-color"]`)
-  //         ?.setAttribute("content", "hsl(240, 11%, 10%)");
-  //     }, 1000);
-  //   }
-  // }, []);
-  useHotkeys("esc", () => {
-    setEditMode(false);
-  });
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active && over && active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
+  useHotkeys("esc", () => setEditMode(false));
 
   const order = {
     top: ["goals", "tasks"],
     bottom: [
-      "goals:templates:study_plan",
-      "inventory:starred",
-      "items:scan",
-      "achievements",
+      "goals.study_plan",
+      "inventory.starred",
+      "inventory.scan",
+      "achievements.trigger",
     ],
   };
+
+  const [items, setItems] = useState(order.bottom);
 
   return (
     <>
       <div className="px-7 sm:hidden">
-        <div className="blur-spotlight" />
+        <div
+          className="blur-spotlight"
+          style={{
+            background: `linear-gradient(45deg, ${colors[themeColor]["A100"]}, ${colors[themeColor]["A700"]} 50%, ${colors[themeColor]["A400"]})`,
+          }}
+        />
         <Box
           sx={{
             mt: "calc(var(--navbar-height) * -1)",
@@ -203,7 +264,7 @@ export default function Home() {
                 ...(editMode && {
                   animation: "jiggle .2s infinite",
                   background: global.user.darkMode
-                    ? "hsla(240,11%,20%,.5)"
+                    ? "hsla(240,11%,60%,.1)"
                     : "rgba(200,200,200,.3)",
                   transformOrigin: "top center",
                 }),
@@ -215,7 +276,7 @@ export default function Home() {
                 }),
                 transition: "margin .2s, transform .2s",
                 borderRadius: 3,
-                mb: !editMode ? 0.2 : 1,
+                mb: !editMode ? 0.2 : 1.5,
                 gap: 2,
                 px: 1,
               },
@@ -232,7 +293,6 @@ export default function Home() {
                     primary="Tasks"
                     secondary={!editMode && "Daily goal: 4/7 completed"}
                   />
-                  {editMode && <CardOptions section="top" order={order.top} />}
                 </ListItemButton>
               ) : (
                 <ListItemButton
@@ -244,43 +304,27 @@ export default function Home() {
                     primary="Goals"
                     secondary={!editMode && "7 tasks remaining"}
                   />
-                  {editMode && <CardOptions section="top" order={order} />}
                 </ListItemButton>
               )
             )}
 
-            <Divider sx={{ my: 1 }} />
-
-            <Box>
-              <ListItemButton disableRipple={editMode}>
-                <Icon className="outlined">school</Icon>
-                <ListItemText primary="Create a study plan" />
-                {editMode && <CardOptions section="bottom" order={order} />}
-              </ListItemButton>
-              <ListItemButton disableRipple={editMode}>
-                <Icon className="outlined">star</Icon>
-                <ListItemText primary="Starred" />
-                {editMode && <CardOptions section="bottom" order={order} />}
-              </ListItemButton>
-              <ListItemButton disableRipple={editMode}>
-                <Icon className="outlined">view_in_ar</Icon>
-                <ListItemText primary="Scan items" />
-                {editMode && <CardOptions section="bottom" order={order} />}
-              </ListItemButton>
-              <ListItemButton
-                disableRipple={editMode}
-                onClick={() =>
-                  !editMode &&
-                  document.getElementById("achievementsTrigger")?.click()
-                }
+            <Divider sx={{ my: editMode ? 2 : 1, transition: "all .2s" }} />
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={items}
+                strategy={verticalListSortingStrategy}
               >
-                <Icon className="outlined">insights</Icon>
-                <ListItemText primary="Achievements" />
-                {editMode && <CardOptions section="bottom" order={order} />}
-              </ListItemButton>
-            </Box>
+                {items.map((id) => (
+                  <SortableItem key={id} id={id} editMode={editMode} />
+                ))}
+              </SortableContext>
+              <DragOverlay></DragOverlay>
+            </DndContext>
           </List>
-
           <Box
             sx={{
               display: "flex",

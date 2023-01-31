@@ -218,14 +218,14 @@ input:-webkit-autofill {
 }
 
 .blur-spotlight {
-  background: linear-gradient(45deg, #00dc82, #36e4da 50%, #0047e1);
   filter: blur(20vh);
   bottom: -30vh;
   height: 40vh;
   position: fixed;
+  opacity: 0.5;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: -1;
 }
 
 @keyframes jiggle {
