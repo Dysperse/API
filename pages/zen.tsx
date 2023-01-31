@@ -195,7 +195,7 @@ function SortableItem(props) {
           disableRipple={props.editMode}
           ref={setNodeRef}
           sx={{
-            transition: "all .2s!important",
+            opacity: "1!important",
             ...(activeIndex === props.index && activeStyles),
             ...(props.editMode && {
               borderTopRightRadius: "0px!important",
@@ -272,7 +272,7 @@ export default function Home() {
   useHotkeys("esc", () => setEditMode(false));
 
   const order = {
-    top: ["goals", "tasks"],
+    top: ["tasks", "goals"],
     bottom: JSON.parse(global.user.zenCardOrder) || [
       "goals.study_plan",
       "inventory.starred",
@@ -422,7 +422,7 @@ export default function Home() {
                   disableRipple={editMode}
                   onClick={() => !editMode && router.push("/tasks")}
                 >
-                  <Icon>task_alt</Icon>
+                  <Icon className="outlined">circle</Icon>
                   <ListItemText
                     primary="Tasks"
                     secondary={!editMode && "Daily goal: 4/7 completed"}
@@ -433,9 +433,9 @@ export default function Home() {
                   disableRipple={editMode}
                   onClick={() => !editMode && router.push("/coach")}
                 >
-                  <Icon>routine</Icon>
+                  <Icon className="outlined">favorite</Icon>
                   <ListItemText
-                    primary="Goals"
+                    primary="Daily routine"
                     secondary={!editMode && "7 tasks remaining"}
                   />
                 </ListItemButton>
