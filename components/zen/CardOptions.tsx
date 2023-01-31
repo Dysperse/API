@@ -18,6 +18,11 @@ export const CardOptions = memo(function CardOptions({
         background: global.user.darkMode
           ? "hsla(240,11%,60%,.1)!important"
           : "rgba(200,200,200,.3)!important",
+        "&:hover": {
+          background: global.user.darkMode
+            ? "hsla(240,11%,90%,.1)!important"
+            : "rgba(200,200,200,.5)!important",
+        },
         borderRadius: 3,
         borderTopLeftRadius: "0px!important",
         borderBottomLeftRadius: "0px!important",
