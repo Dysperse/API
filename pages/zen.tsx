@@ -45,6 +45,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 import { Puller } from "../components/Puller";
+import { updateSettings } from "../components/Settings/updateSettings";
 import { useStatusBar } from "../hooks/useStatusBar";
 
 const actions = {
@@ -104,7 +105,14 @@ function CardGallery({ editMode, items, setItems }) {
                     sx={{ borderRadius: 3 }}
                     disabled={items.includes(`${category}.${card.key}`)}
                     onClick={() => {
-                      setItems([...items, `${category}.${card.key}`]);
+                      setItems(() => {
+                        const newArray = [...items, `${category}.${card.key}`];
+                        updateSettings(
+                          "zenCardOrder",
+                          JSON.stringify(newArray)
+                        );
+                        return newArray;
+                      });
                       setOpen(false);
                     }}
                   >
@@ -249,8 +257,10 @@ export default function Home() {
       setItems((items) => {
         const oldIndex = items.indexOf(active.id);
         const newIndex = items.indexOf(over.id);
+        const newArray = arrayMove(items, oldIndex, newIndex);
+        updateSettings("zenCardOrder", JSON.stringify(newArray));
 
-        return arrayMove(items, oldIndex, newIndex);
+        return newArray;
       });
     }
     document.body.classList.remove("overflow-hidden");
@@ -263,7 +273,7 @@ export default function Home() {
 
   const order = {
     top: ["goals", "tasks"],
-    bottom: global.user.zenCardOrder || [
+    bottom: JSON.parse(global.user.zenCardOrder) || [
       "goals.study_plan",
       "inventory.starred",
       "inventory.scan",

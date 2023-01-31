@@ -1,5 +1,6 @@
 import { Icon, IconButton } from "@mui/material";
 import { memo } from "react";
+import { updateSettings } from "../Settings/updateSettings";
 
 export const CardOptions = memo(function CardOptions({
   option,
@@ -7,7 +8,11 @@ export const CardOptions = memo(function CardOptions({
   setItems,
 }: any) {
   const handleDelete = () => {
-    setItems(items.filter((item) => item !== option));
+    setItems((items) => {
+      const newArray = items.filter((item) => item !== option);
+      updateSettings("zenCardOrder", JSON.stringify(newArray));
+      return newArray;
+    });
   };
   return (
     <IconButton

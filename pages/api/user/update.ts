@@ -26,6 +26,7 @@ const handler = async (req, res) => {
     return;
   }
   const userId = session.user.id;
+  console.log(req.query.zenCardOrder);
   const user = await prisma.user.update({
     where: {
       id: userId,
@@ -34,6 +35,7 @@ const handler = async (req, res) => {
       name: req.query.name || undefined,
       email: req.query.email || undefined,
       twoFactorSecret: req.query.twoFactorSecret === "" ? "" : undefined,
+      zenCardOrder: req.query.zenCardOrder || undefined,
       notificationSubscription:
         req.query.notificationSubscription == ""
           ? ""
