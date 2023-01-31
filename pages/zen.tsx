@@ -101,7 +101,7 @@ function SortableItem(props) {
           sx={{
             transition: "all .2s!important",
             ...(activeIndex === props.index && activeStyles),
-            "&:active": activeStyles,
+            ...(props.editMode && { "&:active": activeStyles }),
             cursor: "grabbing",
           }}
           {...attributes}
@@ -110,7 +110,9 @@ function SortableItem(props) {
           {props.editMode && <Icon>drag_indicator</Icon>}
           <Icon className="outlined">{data.icon}</Icon>
           <ListItemText primary={data.primary} />
-          {props.editMode && <CardOptions />}
+          {props.editMode && (
+            <CardOptions items={props.items} setItems={props.setItems} />
+          )}
         </ListItemButton>
       </div>
     </div>
@@ -231,6 +233,7 @@ export default function Home() {
           </Typography>
           <TextField
             multiline
+            disabled={editMode}
             placeholder="What's your goal for today?"
             size="small"
             variant="standard"
@@ -337,7 +340,7 @@ export default function Home() {
 
             <Divider sx={{ my: editMode ? 2 : 1, transition: "all .2s" }} />
             <DndContext
-              sensors={sensors}
+              sensors={editMode ? sensors : []}
               collisionDetection={closestCenter}
               onDragEnd={handleDragEnd}
               onDragStart={handleDragStart}
@@ -352,6 +355,8 @@ export default function Home() {
                     key={id}
                     id={id}
                     editMode={editMode}
+                    items={items}
+                    setItems={setItems}
                   />
                 ))}
               </SortableContext>
