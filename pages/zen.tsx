@@ -50,6 +50,7 @@ import { useStatusBar } from "../hooks/useStatusBar";
 const actions = {
   goals: [
     { key: "study_plan", primary: "Create a study plan", icon: "school" },
+    { key: "set_goal", primary: "Set a goal", icon: "mindfulness" },
   ],
   inventory: [
     { key: "starred", primary: "Starred", icon: "star" },
@@ -87,6 +88,10 @@ function CardGallery({ editMode, items, setItems }) {
                   <ListItemButton
                     sx={{ borderRadius: 3 }}
                     disabled={items.includes(`${category}.${card.key}`)}
+                    onClick={() => {
+                      setItems([...items, `${category}.${card.key}`]);
+                      setOpen(false);
+                    }}
                   >
                     <ListItemIcon>
                       <Icon className="outlined">{card.icon}</Icon>
@@ -94,7 +99,7 @@ function CardGallery({ editMode, items, setItems }) {
                     <ListItemText primary={card.primary} />
                     <Icon className="outlined">
                       {items.includes(`${category}.${card.key}`)
-                        ? "check"
+                        ? "check_circle"
                         : "add_circle"}
                     </Icon>
                   </ListItemButton>
