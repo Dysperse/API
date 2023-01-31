@@ -193,6 +193,7 @@ function SortableItem(props) {
       >
         <ListItemButton
           disableRipple={props.editMode}
+          onContextMenu={() => props.setEditMode(true)}
           ref={setNodeRef}
           sx={{
             opacity: "1!important",
@@ -227,6 +228,10 @@ export default function Home() {
   const router = useRouter();
   const time = new Date().getHours();
   const [editMode, setEditMode] = useState(false);
+  useHotkeys("alt+e", (e) => {
+    e.preventDefault();
+    setEditMode((e) => !e);
+  });
   let greeting;
   if (time < 10) {
     greeting = "Good morning, ";
@@ -455,6 +460,7 @@ export default function Home() {
               >
                 {items.map((id, index) => (
                   <SortableItem
+                    setEditMode={setEditMode}
                     index={index}
                     key={id}
                     id={id}
