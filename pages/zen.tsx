@@ -107,18 +107,7 @@ function SortableItem(props) {
           {...attributes}
           {...listeners}
         >
-          <div
-            style={{
-              opacity: props.editMode ? 1 : 0,
-              maxWidth: props.editMode ? "24px" : "0px",
-              overflow: "hidden!important",
-              display: "block",
-              marginLeft: props.editMode ? "" : "-18px",
-              transform: "all .2s",
-            }}
-          >
-            <Icon>drag_handle</Icon>
-          </div>
+          {props.editMode && <Icon>drag_indicator</Icon>}
           <Icon className="outlined">{data.icon}</Icon>
           <ListItemText primary={data.primary} />
           {props.editMode && <CardOptions />}
