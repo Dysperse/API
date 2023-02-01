@@ -271,7 +271,6 @@ const Item = React.memo(function Item({
             flexGrow: 1,
             height: "100%",
             position: "relative",
-
             overflowY: "scroll!important",
             background: `${colors[themeColor][50]}!important`,
             ...(global.user.darkMode && {
@@ -545,7 +544,7 @@ const Item = React.memo(function Item({
               color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
               background: `${
                 global.user.darkMode
-                  ? "hsl(240, 11%, 17%)"
+                  ? "hsl(240, 11%, 20%)"
                   : "rgba(200,200,200,.4)"
               }!important`,
             },
@@ -553,12 +552,10 @@ const Item = React.memo(function Item({
               color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
               background: `${
                 global.user.darkMode
-                  ? "hsl(240, 11%, 17%)"
+                  ? "hsl(240, 11%, 23%)"
                   : "rgba(200,200,200,.6)"
               }!important`,
             },
-
-            transition: "transform .2s",
             mb: { xs: 2, sm: 0 },
             ...(item.starred && {
               background: colors.orange[50],
@@ -616,8 +613,8 @@ const Item = React.memo(function Item({
                     <Box>
                       <Typography
                         variant="h6"
-                        gutterBottom
                         sx={{
+                          mb: 0.2,
                           display: "block",
                         }}
                       >
@@ -635,11 +632,12 @@ const Item = React.memo(function Item({
                                 label={category}
                                 sx={{
                                   pointerEvents: "none",
-                                  px: 1.5,
+                                  px: 1,
                                   mr: 1,
-                                  mb: 1,
                                   color: "inherit",
-                                  background: "rgba(200,200,200,.3)",
+                                  background: global.user.darkMode
+                                    ? "hsla(240,11%,40%,.3)"
+                                    : "rgba(200,200,200,.3)",
                                   textTransform: "capitalize",
                                 }}
                               />

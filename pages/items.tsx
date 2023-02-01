@@ -8,6 +8,7 @@ import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
 
 import {
+  Alert,
   Box,
   Divider,
   Menu,
@@ -43,18 +44,9 @@ const CategoryList = React.memo(function CategoryList() {
             <CategoryModal category={category} key={category.toString()} />
           ))}
           {[...new Set(data)].length === 0 && (
-            <Box
-              sx={{
-                p: 2,
-                my: 1,
-                background: "rgba(200,200,200,.3)",
-                borderRadius: 5,
-                textAlign: "center",
-                fontWeight: "500",
-              }}
-            >
+            <Alert severity="info">
               You haven&apos;t added any categories to items yet
-            </Box>
+            </Alert>
           )}
         </>
       ) : (

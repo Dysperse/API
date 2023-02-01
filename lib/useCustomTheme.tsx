@@ -138,6 +138,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           fullWidth: true,
         },
       },
+      MuiAlert: {
+        styleOverrides: {
+          root: sx({
+            borderRadius: 5,
+          }),
+        },
+      },
       MuiMenu: {
         defaultProps: {
           transitionDuration: 10,
