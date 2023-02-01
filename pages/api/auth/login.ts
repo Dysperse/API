@@ -16,7 +16,6 @@ export async function createSession(id: number, res, ip) {
   const session = await prisma.session.create({
     data: {
       ip,
-      timestamp: new Date(),
       user: {
         connect: {
           id: id,

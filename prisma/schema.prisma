@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id                       Int                   @id @unique @default(autoincrement())
+  id                       String                @id @unique @default(cuid())
   identifier               String                @unique @default(cuid())
   name                     String
   email                    String                @unique
@@ -31,7 +31,7 @@ model User {
 }
 
 model NotificationSettings {
-  id                Int     @id @unique @default(autoincrement())
+  id                String  @id @unique @default(cuid())
   todoListUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
   userId            String  @unique
@@ -41,14 +41,14 @@ model NotificationSettings {
 model Session {
   id        String    @id @unique @default(uuid())
   ip        String    @default("Unknown")
-  userId    Int
-  timestamp DateTime?
+  userId    String
+  timestamp DateTime? @default(now())
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model OAuthToken {
-  id          Int    @id @unique @default(autoincrement())
-  userId      Int
+  id          String @id @unique @default(cuid())
+  userId      String
   accessToken String @unique @default(cuid())
   user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -67,8 +67,8 @@ model Property {
 }
 
 model PropertyInvite {
-  id          Int      @id @unique @default(autoincrement())
-  userId      Int
+  id          String   @id @unique @default(cuid())
+  userId      String
   propertyId  String
   selected    Boolean  @default(false)
   permission  String   @default("read-only")
@@ -89,7 +89,7 @@ model CustomRoom {
 }
 
 model Item {
-  id           Int      @id @unique @default(autoincrement())
+  id           String   @id @unique @default(cuid())
   name         String
   quantity     String
   note         String
@@ -103,7 +103,7 @@ model Item {
 }
 
 model PropertyLinkInvite {
-  id         Int      @id @unique @default(autoincrement())
+  id         String   @id @unique @default(cuid())
   propertyId String
   token      String   @unique @default(uuid())
   accepted   Boolean  @default(false)
@@ -111,7 +111,7 @@ model PropertyLinkInvite {
 }
 
 model InboxItem {
-  id         Int      @id @unique @default(autoincrement())
+  id         String   @id @unique @default(cuid())
   who        String
   what       String
   when       DateTime
@@ -120,8 +120,8 @@ model InboxItem {
 }
 
 model PasswordResetToken {
-  id        Int      @id @unique @default(autoincrement())
-  userId    Int
+  id        String   @id @unique @default(cuid())
+  userId    String
   token     String   @unique @default(uuid())
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -139,7 +139,7 @@ model Board {
 }
 
 model Column {
-  id      Int    @id @unique @default(autoincrement())
+  id      String @id @unique @default(cuid())
   name    String
   emoji   String
   boardId String
@@ -148,7 +148,7 @@ model Column {
 }
 
 model Task {
-  id          Int       @id @unique @default(autoincrement())
+  id          String    @id @unique @default(cuid())
   name        String
   description String?
   due         DateTime?
@@ -156,7 +156,7 @@ model Task {
   pinned      Boolean   @default(false)
   completed   Boolean   @default(false)
   image       String?
-  columnId    Int?
+  columnId    String?
   column      Column?   @relation(fields: [columnId], references: [id], onDelete: Cascade)
 
   parentTasks Task[] @relation("subtasks")
@@ -164,7 +164,7 @@ model Task {
 }
 
 model RoutineItem {
-  id            Int     @id @unique @default(autoincrement())
+  id            String  @id @unique @default(cuid())
   name          String
   stepName      String
   category      String
