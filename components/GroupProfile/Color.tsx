@@ -22,11 +22,15 @@ export function Color({ s, color }: { s: string; color: string }) {
       sx={{
         width: 36,
         height: 36,
+        cursor: "unset",
         borderRadius: "50%",
         display: "inline-flex",
         mr: 1,
         mb: 1,
         backgroundColor: `${colors[color]["A700"]}!important`,
+        "&:hover": {
+          backgroundColor: `${colors[color]["800"]}!important`,
+        },
       }}
     >
       <span

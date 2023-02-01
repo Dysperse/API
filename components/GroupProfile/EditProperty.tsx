@@ -150,23 +150,11 @@ export function EditProperty({ color }: { color: string }) {
           <Button
             variant="outlined"
             sx={{
-              border: "0!important",
-              background: "rgba(0,0,0,0.1)",
-              mt: 3,
-              borderBottom: "1px solid #313131 !important",
-              py: 2,
-              px: 1.5,
-              width: "100%",
-              textAlign: "left",
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              borderRadius: 0,
-              borderTopLeftRadius: 6,
-              color: colors[color][global.user.darkMode ? 50 : 900],
-              borderTopRightRadius: 6,
+              mt: 2,
             }}
             disabled={global.property.permission === "read-only"}
             onClick={handleClick}
+            onMouseDown={handleClick}
           >
             <Typography
               sx={{

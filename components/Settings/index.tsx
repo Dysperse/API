@@ -54,14 +54,14 @@ function SettingsMenu({
   return (
     <>
       <ListItem
-        button
         disabled={disabled}
         onClick={() => setOpen(true)}
         sx={{
           transiton: { sm: "none!important" },
           "& *": { transiton: { sm: "none!important" } },
           borderRadius: 4,
-          mb: 0.5,
+          cursor: "unset",
+          userSelect: "none",
           "&:hover": {
             background: global.user.darkMode
               ? "hsl(240,11%,25%)"
@@ -140,7 +140,7 @@ function SettingsMenu({
 }
 
 /**
- * Swttings drawer component
+ * Settings drawer component
  * @param {any} {children} - Children to add in trigger component
  * @returns {any}
  */
@@ -198,13 +198,7 @@ export default function FullScreenDialog({
             variant="h5"
             component="div"
           >
-            Account
-          </Typography>
-          <Typography
-            sx={{ flex: 1, fontWeight: "400", mb: 1 }}
-            component="div"
-          >
-            {global.user.name} &bull; {global.user.email}
+            Settings
           </Typography>
         </Box>
 
@@ -304,6 +298,7 @@ export default function FullScreenDialog({
                     ? "hsl(240,11%,25%)"
                     : colors[themeColor][100],
                 },
+                userSelect: "none",
                 "& .MuiAvatar-root": {
                   background: global.user.darkMode
                     ? "hsl(240,11%,35%)"

@@ -19,7 +19,6 @@ export const createInboxNotification = async (
       who: who,
       what: what,
       when: when,
-
       property: {
         connect: { id: propertyId },
       },
