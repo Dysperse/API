@@ -100,6 +100,7 @@ export default async function handler(req, res) {
     if (!validPassword) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
+    console.log(user.notificationSubscription);
     if (
       !req.body.twoFactorCode &&
       user.twoFactorSecret !== "" &&
@@ -107,6 +108,7 @@ export default async function handler(req, res) {
     ) {
       const newToken = twofactor.generateToken(user.twoFactorSecret);
 
+      console.log(user);
       await DispatchNotification({
         subscription: user.notificationSubscription as string,
         title: `${newToken?.token} is your Dysperse login code`,

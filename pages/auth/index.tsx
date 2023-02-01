@@ -1,22 +1,14 @@
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {
-  Box,
-  Button,
-  Icon,
-  SwipeableDrawer,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Icon, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { authContainerStyles, Layout } from "../../components/Auth/Layout";
-import { Puller } from "../../components/Puller";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { toastStyles } from "../../lib/useCustomTheme";
 
@@ -24,6 +16,7 @@ import { toastStyles } from "../../lib/useCustomTheme";
  * Login prompt
  */
 export default function Prompt() {
+  const ref: any = useRef();
   const proTips = [
     "PRO TIP: You can customize your theme color by visiting your appearance settings.",
     "DID YOU KNOW: Dysperse started in 2020, and has been growing ever since.",
@@ -92,7 +85,8 @@ export default function Prompt() {
           }),
         }).then((res) => res.json());
 
-        console.log(res);
+        ref.current?.reset();
+
         if (
           res.message &&
           res.message.includes(`Can't reach database server`)
@@ -107,8 +101,7 @@ export default function Prompt() {
         }
 
         if (res.twoFactor) {
-          setStep(1);
-          setTwoFactorModalOpen(true);
+          setStep(3);
           setButtonLoading(false);
           return;
         } else if (res.error) {
@@ -177,76 +170,6 @@ export default function Prompt() {
 
   return (
     <Layout>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={twoFactorModalOpen}
-        PaperProps={{
-          sx: {
-            maxWidth: "500px",
-            mx: "auto",
-            borderRadius: "20px 20px 0 0",
-          },
-        }}
-        onClose={() => setTwoFactorModalOpen(false)}
-        onOpen={() => setTwoFactorModalOpen(true)}
-        disableSwipeToOpen
-      >
-        <Puller />
-        <Box
-          sx={{
-            p: 3,
-          }}
-        >
-          <Typography
-            variant="h5"
-            sx={{
-              mb: "20px",
-              textAlign: "center",
-            }}
-          >
-            Help us protect your account
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              mb: "20px",
-              textAlign: "center",
-            }}
-          >
-            Enter the 6-digit code from your authenticator app
-          </Typography>
-
-          <Box
-            sx={{
-              textAlign: "center",
-            }}
-          >
-            <AuthCode
-              containerClassName="auth-code-container"
-              inputClassName="auth-code-input"
-              allowedCharacters="numeric"
-              onChange={(value) => formik.setFieldValue("twoFactorCode", value)}
-            />
-          </Box>
-          <LoadingButton
-            variant="contained"
-            loading={buttonLoading}
-            onClick={() => formik.handleSubmit()}
-            size="large"
-            disableElevation
-            sx={{
-              width: "100%",
-              background: "#000!important",
-              mt: 3,
-              borderRadius: 99,
-              textTransform: "none",
-            }}
-          >
-            Continue
-          </LoadingButton>
-        </Box>
-      </SwipeableDrawer>
-
       <Box sx={authContainerStyles}>
         <Box
           sx={{
@@ -286,6 +209,7 @@ export default function Prompt() {
                 disabled={buttonLoading}
                 label="Your email address"
                 value={formik.values.email}
+                spellCheck={false}
                 fullWidth
                 name="email"
                 onChange={formik.handleChange}
@@ -339,12 +263,12 @@ export default function Prompt() {
                     style={{ marginLeft: "10px" }}
                     className="material-symbols-rounded"
                   >
-                    arrow_forward
+                    east
                   </span>
                 </LoadingButton>
               </Box>
             </Box>
-          ) : (
+          ) : step == 2 ? (
             <Box>
               <Typography variant="h4" sx={{ mb: 1, mt: { xs: 5, sm: 0 } }}>
                 Verifying...
@@ -353,6 +277,7 @@ export default function Prompt() {
                 Hang on while we verify that you&apos;re a human.
               </Typography>
               <Turnstile
+                ref={ref}
                 siteKey="0x4AAAAAAABo1BKboDBdlv8r"
                 onError={() => {
                   toast.error(
@@ -370,6 +295,44 @@ export default function Prompt() {
                   }, 500);
                 }}
               />
+            </Box>
+          ) : (
+            <Box>
+              <Typography variant="h4" sx={{ mb: 1, mt: { xs: 5, sm: 0 } }}>
+                Help us protect your account
+              </Typography>
+              <Typography sx={{ mb: 2 }}>
+                Please type in your 2FA code via your authenticator app.
+              </Typography>
+              <AuthCode
+                containerClassName="auth-code-container font-heading"
+                inputClassName="auth-code-input"
+                allowedCharacters="numeric"
+                onChange={(value) =>
+                  formik.setFieldValue("twoFactorCode", value)
+                }
+              />
+              <LoadingButton
+                variant="contained"
+                loading={buttonLoading}
+                onClick={() => setStep(2)}
+                size="large"
+                disableElevation
+                sx={{
+                  float: "right",
+                  mt: 3,
+                  borderRadius: 99,
+                  ...(!formik.values.twoFactorCode.length < 6 && {
+                    background: `#200923!important`,
+                  }),
+                  textTransform: "none",
+                  gap: 2,
+                }}
+                disabled={formik.values.twoFactorCode.length < 6}
+              >
+                Continue
+                <span className="material-symbols-rounded">east</span>
+              </LoadingButton>
             </Box>
           )}
         </form>
