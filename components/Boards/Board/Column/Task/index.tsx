@@ -63,17 +63,17 @@ const renderDescription = (txt: any) => {
     const endIndex = startIndex + item.length;
 
     if (startIndex > lastIndex) {
-      result.push(txt.slice(lastIndex, startIndex));
+      result.push(txt.slice(lastIndex, startIndex) as any);
     }
 
     const id = item.split(":")[1].slice(0, -1);
-    result.push(<Chip size="small" key={id} label={id} />);
+    result.push((<Chip size="small" key={id} label={id} />) as any);
 
     lastIndex = endIndex;
   });
 
   if (lastIndex < txt.length) {
-    result.push(txt.slice(lastIndex));
+    result.push(txt.slice(lastIndex) as any);
   }
 
   return <>{result}</>;
