@@ -178,7 +178,7 @@ export default function Render() {
       >
         <Box className="p-3 pt-2 max-w-[100vw] flex-col sm:flex-row gap-5 flex px-6">
           {!hideRoutine && (
-            <h1 className="text-4xl underline font-heading my-3 sm:hidden font-light">
+            <h1 className="text-4xl underline font-heading my-3 font-light">
               My goals
             </h1>
           )}

@@ -1,4 +1,3 @@
-import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
   CardActionArea,
@@ -128,17 +127,11 @@ function Member({
 
             {global.property.permission !== "owner" ||
             member.permission === "owner" ? null : (
-              <LoadingButton
-                loading={loading}
-                variant="outlined"
+              <MenuItem
                 sx={{
-                  "&:not(.MuiLoadingButton-loading, .Mui-disabled)": {
-                    borderColor: `${colors[color][900]}!important`,
-                  },
-
-                  width: "100%",
-                  color: colors[color][900],
-                  borderRadius: 4,
+                  color:
+                    colors.red[global.user.darkMode ? "A200" : "A400"] +
+                    "!important",
                 }}
                 onClick={() => {
                   if (member.permission === "owner") {
@@ -169,7 +162,7 @@ function Member({
                 }}
               >
                 {"Remove"}
-              </LoadingButton>
+              </MenuItem>
             )}
           </Menu>
           <CardActionArea

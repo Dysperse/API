@@ -259,11 +259,20 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 },
                 "&:active": {
                   background: darkMode
-                    ? colors[themeColor][700]
+                    ? "hsl(240,11%,35%)"
                     : colors[themeColor][200],
                 },
               },
             },
+          }),
+        },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: sx({
+            cursor: "unset!important",
+            borderRadius: 4,
+            userSelect: "none",
           }),
         },
       },

@@ -6,6 +6,7 @@ import {
   List,
   ListItem,
   ListItemAvatar,
+  ListItemButton,
   ListItemText,
   SwipeableDrawer,
   Typography,
@@ -53,15 +54,13 @@ function SettingsMenu({
 
   return (
     <>
-      <ListItem
+      <ListItemButton
+        disableRipple
         disabled={disabled}
         onClick={() => setOpen(true)}
         sx={{
           transiton: { sm: "none!important" },
           "& *": { transiton: { sm: "none!important" } },
-          borderRadius: 4,
-          cursor: "unset",
-          userSelect: "none",
           "&:hover": {
             background: global.user.darkMode
               ? "hsl(240,11%,25%)"
@@ -93,7 +92,7 @@ function SettingsMenu({
           }
           secondary={secondary}
         />
-      </ListItem>
+      </ListItemButton>
       <SwipeableDrawer
         open={open}
         anchor="bottom"
