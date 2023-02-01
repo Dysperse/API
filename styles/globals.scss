@@ -228,6 +228,19 @@ input:-webkit-autofill {
   left: 0;
   right: 0;
   z-index: -1;
+  animation: blur-spotlight 7s infinite ease-in-out;
+}
+
+@keyframes blur-spotlight {
+  0% {
+    filter: brightness(50%) blur(20vh);
+  }
+  50% {
+    filter: brightness(100%) blur(20vh);
+  }
+  100% {
+    filter: brightness(50%) blur(20vh);
+  }
 }
 
 @keyframes jiggle {
