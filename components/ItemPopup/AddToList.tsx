@@ -27,7 +27,7 @@ function BoardModal({ itemId, title, list }) {
     try {
       await fetchApiWithoutHook("property/boards/createTask", {
         title,
-        description: `<items:${itemId}>`,
+        description: `<items:${itemId}:${title}>`,
         pinned: "false",
         boardId: list.id,
         columnId: column.id,
