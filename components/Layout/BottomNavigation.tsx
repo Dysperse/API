@@ -144,9 +144,9 @@ export function BottomNav() {
               router.asPath.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
-            circle
+            task_alt
           </span>
-          Lists
+          Boards
         </Box>
         <Box
           sx={styles(router.asPath === "/coach")}
@@ -172,7 +172,7 @@ export function BottomNav() {
               router.asPath === "/coach" ? "rounded" : "outlined"
             }`}
           >
-            favorite
+            filter_vintage
           </span>
           Coach
         </Box>
@@ -191,7 +191,7 @@ export function BottomNav() {
                 : "outlined"
             }`}
           >
-            crop_square
+            inventory_2
           </span>
           Items
         </Box>
