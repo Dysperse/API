@@ -17,7 +17,7 @@ const handler = async (req, res) => {
         some: {
           parentTasks: {
             some: {
-              id: parseInt(req.query.id),
+              id: req.query.id,
             },
           },
         },
@@ -26,7 +26,7 @@ const handler = async (req, res) => {
   });
   const data = await prisma.task.delete({
     where: {
-      id: parseInt(req.query.id),
+      id: req.query.id,
     },
   });
 

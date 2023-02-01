@@ -14,7 +14,7 @@ const handler = async (req, res) => {
     //   Delete an item
     const data = await prisma.item.delete({
       where: {
-        id: parseInt(req.query.id),
+        id: req.query.id,
       },
     });
     res.json(data);
@@ -22,7 +22,7 @@ const handler = async (req, res) => {
     //   Update the note on an item
     const data = await prisma.item.update({
       where: {
-        id: parseInt(req.query.id),
+        id: req.query.id,
       },
       data: {
         trash: true,

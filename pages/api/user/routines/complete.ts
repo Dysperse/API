@@ -24,7 +24,7 @@ export default async function handler(req: any, res: any) {
       feedback: req.query.feedback,
     },
     where: {
-      id: parseInt(req.query.id),
+      id: req.query.id,
     },
   });
   //   Add 1 more trophy to the users trophy count

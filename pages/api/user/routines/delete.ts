@@ -12,7 +12,7 @@ import { prisma } from "../../../../lib/prismaClient";
 export default async function handler(req, res) {
   const data = await prisma.routineItem.delete({
     where: {
-      id: parseInt(req.query.id),
+      id: req.query.id,
     },
   });
 

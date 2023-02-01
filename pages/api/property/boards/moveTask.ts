@@ -13,10 +13,10 @@ const handler = async (req, res) => {
 
   const data = await prisma.task.update({
     data: {
-      columnId: parseInt(req.query.columnId),
+      columnId: req.query.columnId,
     },
     where: {
-      id: parseInt(req.query.id),
+      id: req.query.id,
     },
   });
 

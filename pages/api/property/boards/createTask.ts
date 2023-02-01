@@ -17,7 +17,7 @@ const handler = async (req, res) => {
       ...(req.query.columnId !== "-1" && {
         column: {
           connect: {
-            id: parseInt(req.query.columnId),
+            id: req.query.columnId,
           },
         },
       }),
@@ -29,7 +29,7 @@ const handler = async (req, res) => {
       ...(req.query.parent && {
         parentTasks: {
           connect: {
-            id: parseInt(req.query.parent),
+            id: req.query.parent,
           },
         },
       }),

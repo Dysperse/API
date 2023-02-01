@@ -13,7 +13,7 @@ const handler = async (req, res) => {
   }
   const data = await prisma.item.update({
     where: {
-      id: parseInt(req.query.id),
+      id: req.query.id,
     },
     data: {
       starred: req.query.starred === "true" ? false : true,

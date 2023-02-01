@@ -22,7 +22,7 @@ const handler = async (req, res) => {
   //   Delete user from `propertyInvite` table
   const data = await prisma.propertyInvite.delete({
     where: {
-      id: parseInt(req.query.id),
+      id: req.query.id,
     },
   });
 

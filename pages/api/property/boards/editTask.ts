@@ -11,7 +11,7 @@ const handler = async (req, res) => {
 
   const data = await prisma.task.update({
     where: {
-      id: parseInt(req.query.id),
+      id: req.query.id,
     },
     data: {
       ...(req.query.name && { name: req.query.name }),
