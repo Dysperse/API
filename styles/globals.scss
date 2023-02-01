@@ -239,20 +239,13 @@ input:-webkit-autofill {
   }
 }
 
-@-webkit-keyframes jiggle {
-  0% {
-    -webkit-transform: rotate(-0.5deg);
-  }
-  50% {
-    -webkit-transform: rotate(0.5deg);
-  }
-}
-
-@-moz-keyframes jiggle {
-  0% {
-    -moz-transform: rotate(-0.5deg);
-  }
-  50% {
-    -moz-transform: rotate(0.5deg);
+@media (min-width: 600px) {
+  @keyframes jiggle {
+    0% {
+      transform: rotate(-0.1deg);
+    }
+    50% {
+      transform: rotate(0.1deg);
+    }
   }
 }

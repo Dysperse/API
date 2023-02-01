@@ -43,10 +43,11 @@ import {
 } from "@dnd-kit/sortable";
 
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../components/Puller";
 import { updateSettings } from "../components/Settings/updateSettings";
+import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
 
@@ -260,6 +261,10 @@ export default function Home() {
     e.preventDefault();
     setEditMode((e) => !e);
   });
+
+  useEffect(() => {
+    editMode ? neutralizeBack(() => setEditMode(false)) : revivalBack();
+  });
   let greeting;
   if (time < 10) {
     greeting = "Good morning, ";
@@ -329,31 +334,53 @@ export default function Home() {
         <Box
           sx={{
             mt: { xs: "calc(var(--navbar-height) * -1)", sm: "0" },
+            pt: 8,
           }}
         >
-          <Box sx={{ display: "flex", mb: 2, gap: 1 }}>
-            <Tooltip title={editMode ? "Save" : "Edit start"}>
-              <IconButton
-                sx={{
-                  ml: "auto",
-                  ...(editMode && {
-                    background: global.user.darkMode
-                      ? "hsl(240,11%,25%)!important"
-                      : "rgba(200,200,200,.3)!important",
-                  }),
-                }}
-                onClick={() => setEditMode(!editMode)}
-              >
-                <Icon className="outlined">
-                  {editMode ? "check_circle" : "edit"}
-                </Icon>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Jump to" placement="bottom-start">
-              <IconButton onClick={() => openSpotlight()}>
-                <Icon className="outlined">search</Icon>
-              </IconButton>
-            </Tooltip>
+          <Box
+            sx={{
+              display: { xs: "flex", sm: "static" },
+              mb: 2,
+              alignItems: "center",
+              pr: 2,
+              gap: 1,
+              height: "var(--navbar-height)",
+              position: "fixed",
+              top: 0,
+              backdropFilter: "blur(10px)",
+              zIndex: 9,
+              left: 0,
+              width: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                ml: "auto",
+              }}
+            >
+              <Tooltip title={editMode ? "Save" : "Edit start"}>
+                <IconButton
+                  sx={{
+                    mr: 0.5,
+                    ...(editMode && {
+                      background: global.user.darkMode
+                        ? "hsl(240,11%,25%)!important"
+                        : "rgba(200,200,200,.3)!important",
+                    }),
+                  }}
+                  onClick={() => setEditMode(!editMode)}
+                >
+                  <Icon className="outlined">
+                    {editMode ? "check_circle" : "edit"}
+                  </Icon>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Jump to" placement="bottom-start">
+                <IconButton onClick={() => openSpotlight()}>
+                  <Icon className="outlined">search</Icon>
+                </IconButton>
+              </Tooltip>
+            </Box>
           </Box>
           <Typography
             className="font-heading"
