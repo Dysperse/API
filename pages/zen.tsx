@@ -338,13 +338,13 @@ export default function Home() {
         >
           <Box
             sx={{
-              display: { xs: "flex", sm: "static" },
+              display: "flex",
               mb: 2,
               alignItems: "center",
               pr: 2,
               gap: 1,
               height: "var(--navbar-height)",
-              position: editMode ? "fixed" : "absolute",
+              position: { xs: editMode ? "fixed" : "absolute", sm: "static" },
               top: 0,
               backdropFilter: "blur(10px)",
               zIndex: 9,

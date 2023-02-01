@@ -18,7 +18,7 @@ export async function createSession(id: any, res, ip) {
       ip,
       user: {
         connect: {
-          id: id,
+          id: id.toString(),
         },
       },
     },
