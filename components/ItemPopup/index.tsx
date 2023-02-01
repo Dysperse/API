@@ -30,7 +30,7 @@ import {
   MenuItem,
   SwipeableDrawer,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
 
@@ -163,12 +163,15 @@ const Item = React.memo(function Item({
   };
   const styles = {
     transition: "none",
-    mr: 1,
-    py: 2,
+    py: 1.5,
+    cursor: "unset!important",
     gap: 2,
     color: global.user.darkMode
       ? "hsl(240, 11%, 90%)"
       : colors[themeColor]["800"],
+    background: global.user.darkMode
+      ? "hsl(240, 11%, 20%)"
+      : colors[themeColor][200],
     "&:hover, &:active": {
       background: global.user.darkMode
         ? "hsl(240, 11%, 25%)"

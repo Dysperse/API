@@ -82,17 +82,17 @@ export function Prompt({
             <>
               <Typography
                 variant="h5"
+                gutterBottom
                 sx={{
-                  mb: "20px",
                   textAlign: "center",
                 }}
               >
-                Help us protect your account.
+                Help us protect your account
               </Typography>
               <Typography
                 variant="body1"
                 sx={{
-                  mb: "20px",
+                  mb: 3,
                   textAlign: "center",
                 }}
               >
@@ -116,13 +116,8 @@ export function Prompt({
                 onClick={handleSubmit}
                 size="large"
                 sx={{
-                  width: "100%",
-                  mb: 1.4,
                   mt: 3,
-                  boxShadow: 0,
-                  borderRadius: 99,
-                  textTransform: "none",
-                  border: "2px solid transparent !important",
+                  float: "right",
                 }}
               >
                 Continue
@@ -132,8 +127,8 @@ export function Prompt({
             <>
               <Typography
                 variant="h5"
+                gutterBottom
                 sx={{
-                  mb: "20px",
                   textAlign: "center",
                 }}
               >
@@ -142,7 +137,7 @@ export function Prompt({
               <Typography
                 variant="body1"
                 sx={{
-                  mb: "20px",
+                  mb: 3,
                   textAlign: "center",
                 }}
               >
@@ -165,7 +160,7 @@ export function Prompt({
                   size="large"
                   sx={{
                     width: "100%",
-                    my: 0.5,
+                    mt: 0.5,
                     boxShadow: 0,
                     borderRadius: 99,
                     textTransform: "none",
@@ -182,7 +177,7 @@ export function Prompt({
                   size="large"
                   sx={{
                     width: "100%",
-                    my: 0.5,
+                    mt: 0.5,
                     boxShadow: 0,
                     borderRadius: 99,
                     textTransform: "none",

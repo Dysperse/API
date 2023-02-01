@@ -1,12 +1,12 @@
 import { updateSettings } from "./updateSettings";
 
 import {
+  Alert,
   Box,
   Link,
   ListItem,
   ListItemText,
   TextField,
-  Typography,
 } from "@mui/material";
 
 /**
@@ -43,12 +43,12 @@ export default function AppearanceSettings() {
           }
         />
       </ListItem>
-      <Typography sx={{ mb: 3, px: 2 }}>
+      <Alert sx={{ mb: 3, px: 2 }} severity="info">
         If you want to deactivate your account,{" "}
         <Link href="mailto:hello@dysperse.com" target="_blank">
           please contact us
         </Link>
-      </Typography>
+      </Alert>
     </Box>
   );
 }

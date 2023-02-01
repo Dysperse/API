@@ -274,6 +274,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           paper: {
             borderRadius: "28px",
+            border:
+              "1px solid " +
+              (darkMode ? "hsl(240,11%,20%)" : colors[themeColor][100]),
             background: darkMode ? "hsl(240,11%,12%)" : colors[themeColor][50],
             boxShadow: "none!important",
             filter:

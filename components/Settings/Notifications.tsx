@@ -137,7 +137,7 @@ export default function Notifications() {
   return isInPwa || process.env.NODE_ENV == "development" ? (
     data ? (
       <Box sx={{ mb: 2 }}>
-        <Alert severity="info" variant="filled" sx={{ borderRadius: 4, mb: 1 }}>
+        <Alert severity="info" sx={{ borderRadius: 4, mb: 1 }}>
           Notifications is still in beta, and you might encounter bugs. We
           recommend you to turn this on later, but if you are curious - feel
           free to try it out at your own risk!

@@ -21,16 +21,15 @@ import {
 import { toast } from "react-hot-toast";
 import { toastStyles } from "../../lib/useCustomTheme";
 
-function BoardModal({ title, list }) {
+function BoardModal({ itemId, title, list }) {
   const [open, setOpen] = useState(false);
 
   const handleClick = async (column) => {
     try {
       await fetchApiWithoutHook("property/boards/createTask", {
         title,
-        description: "(Imported from inventory)",
+        description: `<items:${itemId}>`,
         pinned: "false",
-
         boardId: list.id,
         columnId: column.id,
       });
@@ -60,7 +59,7 @@ function BoardModal({ title, list }) {
         }}
       >
         <DialogTitle sx={{ fontWeight: "800" }}>
-          Select a column
+          {list.columns.length == 1 ? "Confirm creation" : "Select a column"}
           <DialogContentText
             id="alert-dialog-slide-description"
             sx={{ mt: 1, mb: 2 }}
@@ -68,42 +67,40 @@ function BoardModal({ title, list }) {
             {list.name}
           </DialogContentText>
           {list.columns.map((column) => (
-            <ListItem
-              disablePadding
-              key={list.id.toString()}
+            <ListItemButton
+              key={column.id}
               disabled={global.permission === "read-only"}
+              sx={{
+                borderRadius: 5,
+                py: 0.5,
+                px: 2,
+                transition: "none",
+                gap: 2,
+              }}
+              onClick={() => handleClick(column)}
             >
-              <ListItemButton
-                sx={{
-                  borderRadius: 5,
-                  py: 0.5,
-                  px: 2,
-                  transition: "none",
-                  gap: 2,
-                }}
-                onClick={() => handleClick(column)}
-              >
+              {list.columns.length !== 1 && (
                 <picture>
                   <img src={column.emoji} alt={column.name} width={25} />
                 </picture>
-                <ListItemText primary={column.name} />
-              </ListItemButton>
-            </ListItem>
+              )}
+              <ListItemText
+                primary={
+                  column.name ||
+                  (list.columns.length == 1 && <>Add to list &rarr;</>)
+                }
+              />
+            </ListItemButton>
           ))}
         </DialogTitle>
       </Dialog>
-      <ListItem
-        disablePadding
-        key={list.id.toString()}
+      <ListItemButton
+        sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
         disabled={global.permission === "read-only"}
+        onClick={() => setOpen(true)}
       >
-        <ListItemButton
-          sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
-          onClick={() => setOpen(true)}
-        >
-          <ListItemText primary={list.name} secondary={list.description} />
-        </ListItemButton>
-      </ListItem>
+        <ListItemText primary={list.name} secondary={list.description} />
+      </ListItemButton>
     </>
   );
 }
@@ -115,6 +112,7 @@ function BoardModal({ title, list }) {
  * @returns {JSX.Element}
  */
 function RoomList({
+  itemId,
   title,
   handleClose,
 }: {
@@ -142,7 +140,7 @@ function RoomList({
   return (
     <List sx={{ mt: -1 }}>
       {data.map((list: any) => (
-        <BoardModal list={list} title={title} key={list.id} />
+        <BoardModal list={list} title={title} key={list.id} itemId={itemId} />
       ))}
     </List>
   );
@@ -195,7 +193,11 @@ export function AddToListModal({
           </DialogContentText>
         </DialogTitle>
         <DialogContent>
-          <RoomList title={item.name} handleClose={() => setOpen(false)} />
+          <RoomList
+            title={item.name}
+            handleClose={() => setOpen(false)}
+            itemId={item.id}
+          />
         </DialogContent>
         <DialogActions>
           <Button

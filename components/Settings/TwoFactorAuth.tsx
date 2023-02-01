@@ -6,7 +6,7 @@ import { mutate } from "swr";
 import { Prompt } from "../TwoStepVerificationPrompt";
 import { updateSettings } from "./updateSettings";
 
-import { Box, Link, TextField, Typography } from "@mui/material";
+import { Alert, Box, Link, TextField, Typography } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { ConfirmationModal } from "../ConfirmationModal";
 
@@ -28,7 +28,9 @@ export default function App() {
       {global.user.twoFactorSecret &&
       global.user.twoFactorSecret !== "false" ? (
         <Box>
-          <Typography>2FA is enabled for your account!</Typography>
+          <Alert severity="info">
+            2FA is enabled for your account &nbsp; 🎉
+          </Alert>
           <Prompt
             callback={() => {
               setLoadingDisable(true);
@@ -40,7 +42,8 @@ export default function App() {
           >
             <LoadingButton
               loading={loadingDisable}
-              sx={{ mt: 5, boxShadow: 0, width: "100%", borderRadius: "100px" }}
+              sx={{ my: 3 }}
+              fullWidth
               variant="contained"
               size="large"
             >

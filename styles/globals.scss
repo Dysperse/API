@@ -154,9 +154,14 @@ img {
   border: 0;
   background: rgba(0, 0, 0, 0.1);
   color: #000;
-  font-family: "Kantumruy Pro", sans-serif;
+  font-family: "DM Serif Display", serif !important;
   font-size: 24px;
   text-align: center;
+}
+
+.dark .auth-code-input {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
 @media screen and (max-width: 900px) {
