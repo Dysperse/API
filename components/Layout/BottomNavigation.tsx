@@ -144,7 +144,7 @@ export function BottomNav() {
               router.asPath.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
-            task_alt
+            check_circle
           </span>
           Boards
         </Box>

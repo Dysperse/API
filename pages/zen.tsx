@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Chip,
-  Collapse,
   Divider,
   Icon,
   IconButton,
@@ -155,8 +154,8 @@ function CardGallery({ editMode, items, setItems }) {
         variant="contained"
         sx={{
           float: "right",
-          opacity: editMode ? 1 : 0,
           transition: "opacity .2s !important",
+          display: (!editMode && "none") as string,
         }}
         onClick={() => setOpen(true)}
       >
@@ -345,7 +344,7 @@ export default function Home() {
               pr: 2,
               gap: 1,
               height: "var(--navbar-height)",
-              position: "fixed",
+              position: editMode ? "fixed" : "absolute",
               top: 0,
               backdropFilter: "blur(10px)",
               zIndex: 9,
@@ -371,15 +370,17 @@ export default function Home() {
                   onClick={() => setEditMode(!editMode)}
                 >
                   <Icon className="outlined">
-                    {editMode ? "check_circle" : "edit"}
+                    {editMode ? "check" : "edit"}
                   </Icon>
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Jump to" placement="bottom-start">
-                <IconButton onClick={() => openSpotlight()}>
-                  <Icon className="outlined">search</Icon>
-                </IconButton>
-              </Tooltip>
+              {!editMode && (
+                <Tooltip title="Jump to" placement="bottom-start">
+                  <IconButton onClick={() => openSpotlight()}>
+                    <Icon className="outlined">search</Icon>
+                  </IconButton>
+                </Tooltip>
+              )}
             </Box>
           </Box>
           <Typography
@@ -445,13 +446,7 @@ export default function Home() {
             }}
           />
 
-          <Collapse in={editMode} orientation="vertical">
-            <CardGallery
-              setItems={setItems}
-              items={items}
-              editMode={editMode}
-            />
-          </Collapse>
+          <CardGallery setItems={setItems} items={items} editMode={editMode} />
           <List
             sx={{
               mt: 2,

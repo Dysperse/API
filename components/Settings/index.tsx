@@ -211,7 +211,7 @@ export default function FullScreenDialog({
         <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
           <SettingsMenu
             content={<AppearanceSettings />}
-            icon="palette"
+            icon="format_paint"
             primary="Appearance"
             secondary={`Current theme: ${global.user.color.toUpperCase()}`}
           />
