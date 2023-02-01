@@ -8,8 +8,8 @@ datasource db {
 }
 
 model User {
-  id                       String                @id @unique @default(cuid())
-  identifier               String                @unique @default(cuid())
+  id                       String                @id @unique @default(uuid())
+  identifier               String                @unique @default(uuid())
   name                     String
   email                    String                @unique
   password                 String
@@ -31,7 +31,7 @@ model User {
 }
 
 model NotificationSettings {
-  id                String  @id @unique @default(cuid())
+  id                String  @id @unique @default(uuid())
   todoListUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
   userId            String  @unique
@@ -47,9 +47,9 @@ model Session {
 }
 
 model OAuthToken {
-  id          String @id @unique @default(cuid())
+  id          String @id @unique @default(uuid())
   userId      String
-  accessToken String @unique @default(cuid())
+  accessToken String @unique @default(uuid())
   user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -67,7 +67,7 @@ model Property {
 }
 
 model PropertyInvite {
-  id          String   @id @unique @default(cuid())
+  id          String   @id @unique @default(uuid())
   userId      String
   propertyId  String
   selected    Boolean  @default(false)
@@ -89,7 +89,7 @@ model CustomRoom {
 }
 
 model Item {
-  id           String   @id @unique @default(cuid())
+  id           String   @id @unique @default(uuid())
   name         String
   quantity     String
   note         String
@@ -103,7 +103,7 @@ model Item {
 }
 
 model PropertyLinkInvite {
-  id         String   @id @unique @default(cuid())
+  id         String   @id @unique @default(uuid())
   propertyId String
   token      String   @unique @default(uuid())
   accepted   Boolean  @default(false)
@@ -111,7 +111,7 @@ model PropertyLinkInvite {
 }
 
 model InboxItem {
-  id         String   @id @unique @default(cuid())
+  id         String   @id @unique @default(uuid())
   who        String
   what       String
   when       DateTime
@@ -120,7 +120,7 @@ model InboxItem {
 }
 
 model PasswordResetToken {
-  id        String   @id @unique @default(cuid())
+  id        String   @id @unique @default(uuid())
   userId    String
   token     String   @unique @default(uuid())
   createdAt DateTime @default(now())
@@ -139,7 +139,7 @@ model Board {
 }
 
 model Column {
-  id      String @id @unique @default(cuid())
+  id      String @id @unique @default(uuid())
   name    String
   emoji   String
   boardId String
@@ -148,7 +148,7 @@ model Column {
 }
 
 model Task {
-  id          String    @id @unique @default(cuid())
+  id          String    @id @unique @default(uuid())
   name        String
   description String?
   due         DateTime?
@@ -164,7 +164,7 @@ model Task {
 }
 
 model RoutineItem {
-  id            String  @id @unique @default(cuid())
+  id            String  @id @unique @default(uuid())
   name          String
   stepName      String
   category      String
