@@ -101,7 +101,7 @@ function Member({
                 }).then(() => {
                   mutate(mutationUrl);
                   handleClose();
-                  toast.success("Updated permissions!",toastStyles);
+                  toast.success("Updated permissions!", toastStyles);
                 });
               }}
             >
@@ -158,7 +158,10 @@ function Member({
                       removeeName: member.user.name,
                       timestamp: new Date().toISOString(),
                     }).then(() => {
-                      toast.success("Removed person from your home",toastStyles);
+                      toast.success(
+                        "Removed person from your home",
+                        toastStyles
+                      );
                       setLoading(false);
                       setDeleted(true);
                     });
@@ -278,30 +281,21 @@ export function MemberList({
           members={loading ? [] : data.map((member) => member.user.email)}
         />
       </Box>
-      {images.map((step) => (
+      {images.map((step, index) => (
         <Box
-          key={Math.random().toString()}
+          key={index}
           sx={{
-            pr: 2,
-            flex: "0 0 auto",
-            width: "100%",
+            p: 2,
             mb: 2,
-            overflow: "hidden",
+            userSelect: "none",
+            px: 2.5,
+            borderRadius: 5,
+            background: global.user.darkMode
+              ? "hsl(240,11%,20%)"
+              : colors[color][100],
           }}
         >
-          <Box
-            sx={{
-              p: 2,
-              userSelect: "none",
-              px: 2.5,
-              borderRadius: 5,
-              background: global.user.darkMode
-                ? colors[color][800]
-                : colors[color][100],
-            }}
-          >
-            {step.content}
-          </Box>
+          {step.content}
         </Box>
       ))}
     </>

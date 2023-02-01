@@ -164,7 +164,7 @@ export function AddPersonModal({
           disabled={global.property.permission !== "owner"}
           sx={{
             mb: 2,
-            borderRadius: 4,
+            px: 2,
             ml: "auto",
             boxShadow: 0,
             ...(global.property.permission === "owner" && {

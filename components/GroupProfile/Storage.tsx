@@ -16,15 +16,12 @@ export function Storage({ color }: { color: string }) {
   const storage = {
     items: (((data || { count: 0 }).count * 2.5) / max) * 100,
     boards: (((boardCount || []).length * 10) / max) * 100,
-    memos: (((memoCount || []).length * 5) / max) * 100,
   };
 
   const total =
     max -
     Math.round(
-      (memoCount || []).length * 5 +
-        (boardCount || []).length * 10 +
-        (data || { count: 0 }).count * 2.5
+      (boardCount || []).length * 10 + (data || { count: 0 }).count * 2.5
     );
 
   return !data ? null : (
@@ -34,9 +31,11 @@ export function Storage({ color }: { color: string }) {
       </Typography>
       <Box
         sx={{
-          background: `${colors[color][
-            global.user.darkMode ? 800 : 100
-          ].toString()}`,
+          background: `${
+            global.user.darkMode
+              ? "hsl(240,11%,20%)"
+              : colors[color][100].toString()
+          }`,
           color: colors[color][global.user.darkMode ? 50 : 900].toString(),
           borderRadius: 5,
           px: 3,
@@ -50,7 +49,7 @@ export function Storage({ color }: { color: string }) {
           sx={{
             marginBottom: "10px",
             background: `${
-              colors[color][global.user.darkMode ? 700 : 200]
+              global.user.darkMode ? "hsl(240,11%,19%)" : colors[color][200]
             }!important`,
           }}
           sections={[
@@ -61,10 +60,6 @@ export function Storage({ color }: { color: string }) {
             {
               value: storage.boards,
               color: colors[color][global.user.darkMode ? 200 : 800],
-            },
-            {
-              value: storage.memos,
-              color: colors[color][global.user.darkMode ? 500 : 900],
             },
           ]}
         />
@@ -77,11 +72,6 @@ export function Storage({ color }: { color: string }) {
           <b>Boards</b>
           <br /> {Math.round(storage.boards)}% &bull;{" "}
           {(boardCount || []).length} boards
-        </Typography>
-        <Typography gutterBottom>
-          <b>Memos</b>
-          <br /> {Math.round(storage.memos)}% &bull; {(memoCount || []).length}{" "}
-          memos
         </Typography>
         <Typography gutterBottom sx={{ mt: 1 }}>
           <b>

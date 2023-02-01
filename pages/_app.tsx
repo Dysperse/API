@@ -1,5 +1,4 @@
 import { Analytics } from "@vercel/analytics/react";
-import hex2rgba from "hex-to-rgba";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { NextRouter } from "next/router";
@@ -102,9 +101,7 @@ function RenderWithLayout({
   // Used in `globals.scss`
   document.documentElement.style.setProperty(
     "--backdropTheme",
-    global.user.darkMode
-      ? "rgba(23, 23, 28, .4)"
-      : hex2rgba(colors[themeColor ?? "brown"]["600"], 0.3)
+    global.user.darkMode ? "rgba(23, 23, 28, .4)" : "rgba(255,255,255,.3)"
   );
   document.documentElement.style.setProperty(
     "--themeDark",

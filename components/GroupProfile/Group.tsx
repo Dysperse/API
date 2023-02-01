@@ -20,7 +20,7 @@ import {
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { toastStyles } from "../../lib/useCustomTheme";
@@ -219,9 +219,9 @@ export const Group = React.memo(function Group({
           PaperProps={{
             sx: {
               height: "100vh",
-              background:
-                colors[data.profile.color][global.user.darkMode ? 900 : 50] +
-                "!important",
+              background: global.user.darkMode
+                ? "hsl(240,11%,15%)"
+                : colors[data.profile.color][50] + "!important",
               width: { xs: "100vw", md: "80vw", sm: "50vw" },
               maxWidth: "600px",
               overflow: "scroll",
