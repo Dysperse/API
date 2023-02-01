@@ -11,7 +11,7 @@ import { prisma } from "../../../lib/prismaClient";
  * @param {any} res
  * @returns {any}
  */
-export async function createSession(id: number, res, ip) {
+export async function createSession(id: any, res, ip) {
   // Create a session token in the session table
   const session = await prisma.session.create({
     data: {
