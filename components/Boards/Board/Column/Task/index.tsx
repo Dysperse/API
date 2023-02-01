@@ -52,9 +52,9 @@ const renderText = (txt) =>
 
 const renderDescription = (txt: any) => {
   let result: any = [];
-  let lastIndex: number = 0;
+  let lastIndex: any = 0;
 
-  const items = txt.match(/<items:(.*?)>/g);
+  const items: any = txt.match(/<items:(.*?):(.*?)>/g);
 
   if (!items) return txt;
 
@@ -66,8 +66,24 @@ const renderDescription = (txt: any) => {
       result.push(txt.slice(lastIndex, startIndex) as any);
     }
 
-    const id = item.split(":")[1].slice(0, -1);
-    result.push((<Chip size="small" key={id} label={id} />) as any);
+    const [, id, name] = item.split(":");
+    result.push(
+      (
+        <Tooltip
+          title={"Linked to item " + id}
+          followCursor
+          onClick={(e) => e.stopPropagation()}
+          placement="bottom-start"
+        >
+          <Chip
+            size="small"
+            key={id}
+            label={name.slice(0, -1)}
+            icon={<Icon>link</Icon>}
+          />
+        </Tooltip>
+      ) as any
+    );
 
     lastIndex = endIndex;
   });
