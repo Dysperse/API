@@ -322,7 +322,7 @@ export default function Prompt() {
                   float: "right",
                   mt: 3,
                   borderRadius: 99,
-                  ...(formik.values.twoFactorCode.length !== 6 && {
+                  ...(formik.values.twoFactorCode.length == 6 && {
                     background: `#200923!important`,
                   }),
                   textTransform: "none",
