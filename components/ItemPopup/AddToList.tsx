@@ -13,7 +13,6 @@ import {
   DialogTitle,
   Icon,
   List,
-  ListItem,
   ListItemButton,
   ListItemText,
   Skeleton,
@@ -116,6 +115,7 @@ function RoomList({
   title,
   handleClose,
 }: {
+  itemId: number;
   title: string;
   handleClose: () => void;
 }): JSX.Element {
@@ -196,7 +196,7 @@ export function AddToListModal({
           <RoomList
             title={item.name}
             handleClose={() => setOpen(false)}
-            itemId={item.id}
+            itemId={parseInt(item.id)}
           />
         </DialogContent>
         <DialogActions>
@@ -210,14 +210,13 @@ export function AddToListModal({
           </Button>
         </DialogActions>
       </Dialog>
-      <ListItem
+      <ListItemButton
         sx={styles}
-        button
         onClick={() => setOpen(true)}
         disabled={global.permission === "read-only"}
       >
         <Icon>receipt_long</Icon> Add to list
-      </ListItem>
+      </ListItemButton>
     </>
   );
 }
