@@ -1,5 +1,13 @@
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
+import {
+  Box,
+  Button,
+  Icon,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,15 +18,6 @@ import { mutate } from "swr";
 import { authContainerStyles, Layout } from "../../components/Auth/Layout";
 import { Puller } from "../../components/Puller";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-
-import {
-  Box,
-  Button,
-  Icon,
-  SwipeableDrawer,
-  TextField,
-  Typography,
-} from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
@@ -48,6 +47,7 @@ export default function Prompt() {
     "DID YOU KNOW: Dysperse keeps UX in mind, and is designed to be as intuitive as possible.",
     "DID YOU KNOW: Dysperse keeps you logged in for 30 days, so you don't have to worry about logging in every time you visit.",
   ];
+
   const [proTip, setProTip] = useState(
     proTips[Math.floor(Math.random() * proTips.length)]
   );

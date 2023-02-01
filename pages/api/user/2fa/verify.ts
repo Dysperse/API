@@ -1,6 +1,7 @@
 // Update user settings
-import { prisma } from "../../../../lib/prismaClient";
+import cacheData from "memory-cache";
 import * as twofactor from "node-2fa";
+import { prisma } from "../../../../lib/prismaClient";
 
 /**
  * API handler for the /api/user/update endpoint
@@ -33,6 +34,7 @@ const handler = async (req, res) => {
     req.query.code
   );
 
+  cacheData.del(req.query.sessionId);
   res.json({
     success: login && login.delta === 0,
   });
