@@ -16,11 +16,11 @@ import {
   Drawer,
   Icon,
   IconButton,
-  ListItem,
   ListItemAvatar,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { toastStyles } from "../../lib/useCustomTheme";
@@ -73,7 +73,15 @@ export const Group = React.memo(function Group({
 
   return (
     <>
-      <ListItem
+      <ListItemButton
+        sx={{
+          transition: "none",
+          ...(data.propertyId === global.property.propertyId && {
+            background: global.user.darkMode
+              ? "hsl(240,11%,20%)"
+              : colors[themeColor][200],
+          }),
+        }}
         id={
           data.propertyId === global.property.propertyId
             ? "activeProperty"
@@ -108,108 +116,71 @@ export const Group = React.memo(function Group({
             }
           }
         }}
-        sx={{
-          transition: "none",
-          "& .MuiListItem-root": { transition: "all .1s" },
-          "&:active .MuiListItem-root": {
-            transform: "scale(.98)",
-          },
-          cursor: "unset",
-          userSelect: "none",
-          "&:hover": {
-            background: `${
-              colors[themeColor][global.user.darkMode ? 800 : 100]
-            }!important`,
-          },
-          "&:active": {
-            background: `${
-              colors[themeColor][global.user.darkMode ? 800 : 200]
-            }!important`,
-          },
-          ...(data.propertyId === global.property.propertyId && {
-            background: global.user.darkMode
-              ? "hsl(240,11%,25%)"
-              : `${colors[themeColor][200]}!important`,
-            "&:active": {
-              background: global.user.darkMode
-                ? "hsl(240,11%,25%)"
-                : `${colors[themeColor][400]}!important`,
-            },
-            "&:hover": {
-              background: global.user.darkMode
-                ? "hsl(240,11%,25%)"
-                : `${colors[themeColor][300]}!important`,
-            },
-          }),
-        }}
       >
-        <ListItem sx={{ gap: 1.5, px: 0, py: 0 }} component="div">
-          <ListItemAvatar sx={{ width: "auto", minWidth: "auto" }}>
-            <Box
-              sx={{
-                width: 35,
-                height: 35,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#000!important",
-                borderRadius: 4,
-                background: colors[data.profile.color]["A400"],
-                marginRight: 1,
-              }}
-            >
-              <Icon>tag</Icon>
-            </Box>
-          </ListItemAvatar>
-          <ListItemText
-            primary={
-              <>
-                <Typography variant="h6">{data.profile.name}</Typography>
-                <Typography
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    textTransform: "capitalize",
-                    mt: 1,
-                  }}
-                >
-                  <Icon className="outlined">
-                    {data.profile.type === "dorm"
-                      ? "cottage"
-                      : data.profile.type === "apartment"
-                      ? "location_city"
-                      : data.profile.type === "study group"
-                      ? "school"
-                      : "home"}
-                  </Icon>
-                  {data.profile.type}
-                </Typography>
-                {!data.accepted && (
-                  <Chip size="small" color="error" label="Invitation pending" />
-                )}
-              </>
-            }
-          />
-          <ListItemIcon>
-            <LoadingButton
-              disableRipple
-              loading={loading}
-              sx={{
-                px: 0,
-                minWidth: "auto",
-                borderRadius: 9,
-                ml: "auto",
-                color: "inherit",
-              }}
-            >
-              {data.propertyId === global.property.propertyId && (
-                <Icon className="outlined">east</Icon>
+        <ListItemAvatar>
+          <Box
+            sx={{
+              width: 35,
+              height: 35,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#000!important",
+              borderRadius: 4,
+              background: colors[data.profile.color]["A400"],
+            }}
+          >
+            <Icon>tag</Icon>
+          </Box>
+        </ListItemAvatar>
+        <ListItemText
+          primary={
+            <>
+              <Typography variant="h6">{data.profile.name}</Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  textTransform: "capitalize",
+                  mt: 1,
+                }}
+              >
+                <Icon className="outlined">
+                  {data.profile.type === "dorm"
+                    ? "cottage"
+                    : data.profile.type === "apartment"
+                    ? "location_city"
+                    : data.profile.type === "study group"
+                    ? "school"
+                    : "home"}
+                </Icon>
+                {data.profile.type}
+              </Typography>
+              {!data.accepted && (
+                <Chip size="small" color="error" label="Invitation pending" />
               )}
-            </LoadingButton>
-          </ListItemIcon>
-        </ListItem>
-      </ListItem>
+            </>
+          }
+        />
+        <ListItemIcon>
+          <LoadingButton
+            disableRipple
+            loading={loading}
+            sx={{
+              px: 0,
+              minWidth: "auto",
+              borderRadius: 9,
+              ml: "auto",
+              color: "inherit",
+            }}
+          >
+            {data.propertyId === global.property.propertyId && (
+              <Icon className="outlined">east</Icon>
+            )}
+          </LoadingButton>
+        </ListItemIcon>
+      </ListItemButton>
       {data.propertyId === global.property.propertyId && (
         <Drawer
           anchor="right"
