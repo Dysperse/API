@@ -33,23 +33,17 @@ export function Header({
         transition: "transform .2s !important",
         borderRadius: 5,
         overflow: "hidden",
-        background:
-          global.user.darkMode
-            ? "hsl(240,11%,18%)!important"
-            : "rgba(200,200,200,.3)!important",
+        background: global.user.darkMode
+          ? "hsl(240,11%,18%)!important"
+          : "rgba(200,200,200,.3)!important",
         mb: 2,
         py: 3,
         zIndex: 0,
         "&:focus": {
-          background:
-            global.user.darkMode? "hsl(240,11%,27%)" : "rgba(200,200,200,.3)",
+          background: global.user.darkMode
+            ? "hsl(240,11%,27%)"
+            : "rgba(200,200,200,.3)",
         },
-
-        ...(global.user.darkMode && {
-          "&:hover .avatar": {
-            background: "hsl(240,11%,27%)",
-          },
-        }),
       }}
     >
       <Box
@@ -63,14 +57,11 @@ export function Header({
         <ListItemAvatar sx={{ mr: { xs: 2, sm: -3 } }}>
           <IconButton
             disableRipple
-            onClick={() => {
-              router.push("/items");
-            }}
+            onClick={() => router.push("/items")}
             size="large"
             sx={{
               display: { sm: "none" },
               background: "transparent",
-              transition: "background .2s",
             }}
             className="avatar"
           >
@@ -82,8 +73,8 @@ export function Header({
           sx={{ my: 1.4, textAlign: { xs: "center", sm: "left" } }}
           primary={
             <Typography
+              className="font-heading"
               sx={{
-                fontWeight: "900",
                 textDecoration: "underline",
                 fontSize: {
                   xs: "25px",

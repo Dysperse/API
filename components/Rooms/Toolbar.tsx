@@ -33,10 +33,9 @@ function SearchBar({
       id="basic-button"
       disableRipple
       sx={{
-        backgroundColor:
-          global.user.darkMode
-            ? "hsl(240,11%,15%)!important"
-            : `${grey[200]}!important`,
+        backgroundColor: global.user.darkMode
+          ? "hsl(240,11%,15%)!important"
+          : `${grey[200]}!important`,
         borderRadius: 10,
         border: "1px solid transparent",
         mt: { xs: 1, sm: 0 },
@@ -178,15 +177,6 @@ export function Toolbar({
           py: 1.3,
           gap: 1.5,
           verticalAlign: "middle",
-          background: `${
-            colors[themeColor][global.user.darkMode ? 900 : 50]
-          }!important`,
-
-          "&:hover": {
-            background:
-              colors[themeColor][global.user.darkMode ? 900 : 100] +
-              "!important",
-          },
           color: `${
             colors[themeColor][global.user.darkMode ? 50 : 900]
           }!important`,

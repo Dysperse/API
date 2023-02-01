@@ -139,7 +139,7 @@ export function CreateItemModal({
           );
         })
         .catch(() => {
-          toast.error("Couldn't create item. Please try again.",toastStyles);
+          toast.error("Couldn't create item. Please try again.", toastStyles);
           setLoading(false);
         });
     },
@@ -357,9 +357,6 @@ export function CreateItemModal({
             >
               <LoadingButton
                 sx={{
-                  background:
-                    colors[themeColor][global.user.darkMode ? 50 : 900] +
-                    "!important",
                   float: "right",
                   borderRadius: 100,
                   m: 1,
