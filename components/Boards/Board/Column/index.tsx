@@ -48,15 +48,9 @@ function CompletedTasks({
           mt: 1,
           border: { sm: "none!important" },
           boxShadow: { sm: "none!important" },
-          "& *": {
-            transition: "none!important",
-          },
           ...(open && {
             background: "rgba(200,200,200,.2)",
           }),
-          "&:active": {
-            background: "rgba(200,200,200,.3)",
-          },
           "&:focus-visible": {
             boxShadow: global.user.darkMode
               ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
@@ -64,9 +58,7 @@ function CompletedTasks({
           },
           justifyContent: "space-between",
         }}
-        onClick={() => {
-          setOpen(!open);
-        }}
+        onClick={() => setOpen(!open)}
       >
         <Typography
           component="div"

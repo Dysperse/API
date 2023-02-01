@@ -295,15 +295,14 @@ export default function FullScreenDialog({
             }
           >
             <ListItem
-              button
               sx={{
                 transiton: "none!important",
                 "& *": { transiton: "none!important" },
                 borderRadius: 4,
-                "&:hover": {
+                "&:hover, &:focus": {
                   background: global.user.darkMode
                     ? "hsl(240,11%,25%)"
-                    : colors[themeColor][200],
+                    : colors[themeColor][100],
                 },
                 "& .MuiAvatar-root": {
                   background: global.user.darkMode

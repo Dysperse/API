@@ -8,7 +8,7 @@ import {
   ListItemText,
   Switch,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -133,14 +133,11 @@ export default function Notifications() {
   const enabledOnAnotherDevice =
     (!isSubscribed && global.user.notificationSubscription) ||
     global.user.notificationSubscription !== JSON.stringify(subscription);
-  return isInPwa || process.env.NODE_ENV !== "production" ? (
+
+  return isInPwa || process.env.NODE_ENV == "development" ? (
     data ? (
       <Box sx={{ mb: 2 }}>
-        <Alert
-          severity="warning"
-          variant="filled"
-          sx={{ borderRadius: 4, mb: 1 }}
-        >
+        <Alert severity="info" variant="filled" sx={{ borderRadius: 4, mb: 1 }}>
           Notifications is still in beta, and you might encounter bugs. We
           recommend you to turn this on later, but if you are curious - feel
           free to try it out at your own risk!
@@ -280,14 +277,12 @@ export default function Notifications() {
       </Box>
     )
   ) : (
-    <Box
-      sx={{ p: 3, borderRadius: 5, background: "rgba(200,200,200,.3)", mb: 5 }}
-    >
+    <Alert sx={{ mb: 3 }} severity="info">
       Use the Dysperse PWA to enable notifications for Android, Desktop, and
       Chrome OS
       <Button
-        fullWidth
         variant="contained"
+        fullWidth
         href="//my.dysperse.com"
         target="_blank"
         sx={{
@@ -297,18 +292,6 @@ export default function Notifications() {
       >
         Open
       </Button>
-      <Button
-        fullWidth
-        href="//my.dysperse.com"
-        target="_blank"
-        size="small"
-        sx={{
-          mt: 1,
-          borderRadius: 9999,
-        }}
-      >
-        Don&apos;t have the app? Install now
-      </Button>
-    </Box>
+    </Alert>
   );
 }

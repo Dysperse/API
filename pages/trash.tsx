@@ -66,18 +66,15 @@ function DeleteCard({ item }) {
     </Box>
   );
 }
+
 export default function Trash() {
   const { data, url, error } = useApi("property/inventory/trashed-items");
 
   return (
     <Categories>
       <Box sx={{ p: 5 }}>
-        <Typography variant="h5" sx={{ mb: 1, fontWeight: "700" }}>
-          Trash
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 1, fontWeight: "700" }}>
-          {data ? data.length : 0} items
-        </Typography>
+        <Typography variant="h5">Trash</Typography>
+        <Typography variant="body2">{data ? data.length : 0} items</Typography>
         <ConfirmationModal
           title="Empty Trash?"
           question="Are you sure you want to empty your trash? This action cannot be undone."

@@ -279,6 +279,51 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         leavingScreen: 250,
       },
     },
+    MuiSwitch: {
+      defaultProps: {
+        focusVisibleClassName: ".Mui-focusVisible",
+        disableRipple: true,
+      },
+      styleOverrides: {
+        root: sx({
+          width: 42,
+          height: 26,
+          padding: 0,
+          "& .MuiSwitch-switchBase": {
+            padding: 0,
+            transitionDuration: "300ms",
+            margin: "2px",
+            "&.Mui-checked": {
+              transform: "translateX(16px)",
+              color: "#fff",
+            },
+            "&.Mui-focusVisible .MuiSwitch-thumb": {
+              color: "#33cf4d",
+              border: "6px solid #fff",
+            },
+            "&.Mui-disabled .MuiSwitch-thumb": {
+              color: darkMode ? "hsl(240,11%,75%)" : colors.grey[600],
+            },
+            "&.Mui-disabled + .MuiSwitch-track": {
+              opacity: darkMode ? 0.7 : 0.3,
+              ...(darkMode && {
+                background: "hsl(240,11%,15%)",
+              }),
+            },
+          },
+          "& .MuiSwitch-thumb": {
+            boxSizing: "border-box",
+            width: 22,
+            height: 22,
+          },
+          "& .MuiSwitch-track": {
+            borderRadius: 26 / 2,
+            backgroundColor: !darkMode ? "#E9E9EA" : "#39393D",
+            opacity: 1,
+          },
+        }),
+      },
+    },
     palette: {
       primary: {
         main: colors[themeColor][darkMode ? "A200" : "A700"],

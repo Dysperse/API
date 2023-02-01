@@ -11,13 +11,13 @@ export function Sidebar() {
     "ctrl+1",
     (e) => {
       e.preventDefault();
-      router.push("/start");
+      router.push("/zen");
     },
     [open]
   );
 
   useHotkeys(
-    "ctrl+3",
+    "ctrl+4",
     (e) => {
       e.preventDefault();
       router.push("/items");
@@ -25,7 +25,7 @@ export function Sidebar() {
     [open]
   );
   useHotkeys(
-    "ctrl+2",
+    "ctrl+3",
     (e) => {
       e.preventDefault();
       router.push("/coach");
@@ -33,10 +33,10 @@ export function Sidebar() {
     [open]
   );
   useHotkeys(
-    "ctrl+4",
+    "ctrl+2",
     (e) => {
       e.preventDefault();
-      router.push("/spaces");
+      router.push("/tasks");
     },
     [open]
   );
@@ -141,7 +141,7 @@ export function Sidebar() {
               router.asPath.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
-            circle
+            check_circle
           </span>
         </Tooltip>
       </Box>
@@ -156,7 +156,7 @@ export function Sidebar() {
               router.asPath === "/coach" ? "rounded" : "outlined"
             }`}
           >
-            favorite
+            filter_vintage
           </span>
         </Tooltip>
       </Box>
@@ -175,7 +175,7 @@ export function Sidebar() {
                 : "outlined"
             }`}
           >
-            square
+            inventory_2
           </span>
         </Tooltip>
       </Box>
