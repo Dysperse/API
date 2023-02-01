@@ -8,6 +8,7 @@ import { colors } from "../../../../../lib/colors";
 import {
   Box,
   Checkbox,
+  Chip,
   CircularProgress,
   Icon,
   Link,
@@ -48,6 +49,35 @@ const renderText = (txt) =>
       `${part} `
     )
   );
+
+const renderDescription = (txt: any) => {
+  let result: any = [];
+  let lastIndex: number = 0;
+
+  const items = txt.match(/<items:(.*?)>/g);
+
+  if (!items) return txt;
+
+  items.forEach((item) => {
+    const startIndex = txt.indexOf(item, lastIndex);
+    const endIndex = startIndex + item.length;
+
+    if (startIndex > lastIndex) {
+      result.push(txt.slice(lastIndex, startIndex));
+    }
+
+    const id = item.split(":")[1].slice(0, -1);
+    result.push(<Chip size="small" key={id} label={id} />);
+
+    lastIndex = endIndex;
+  });
+
+  if (lastIndex < txt.length) {
+    result.push(txt.slice(lastIndex));
+  }
+
+  return <>{result}</>;
+};
 
 export const Task = React.memo(function Task({
   board,
@@ -398,7 +428,7 @@ export const Task = React.memo(function Task({
                   }),
                 }}
               >
-                {taskData.description}
+                {renderDescription(taskData.description)}
                 {taskData.due && (
                   <Tooltip
                     title={dayjs(taskData.due).format("MMMM D, YYYY")}
