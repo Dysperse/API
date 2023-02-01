@@ -336,9 +336,8 @@ export function AppsMenu({ styles }) {
           <Button
             disableRipple
             target="_blank"
-            sx={{ transition: "none", gap: 1 }}
-            href="https://dysperse.com/support"
             size="small"
+            href="https://dysperse.com/support"
           >
             Knowledge base
             <Icon>arrow_forward</Icon>
@@ -346,21 +345,10 @@ export function AppsMenu({ styles }) {
           <Button
             disableRipple
             target="_blank"
-            sx={{ transition: "none", gap: 1 }}
-            href="https://discord.gg/fvngmDzh77"
             size="small"
+            href="https://discord.gg/fvngmDzh77"
           >
             Community Discord
-            <Icon>arrow_forward</Icon>
-          </Button>
-          <Button
-            disableRipple
-            target="_blank"
-            sx={{ transition: "none", gap: 1 }}
-            href="/feedback"
-            size="small"
-          >
-            Have feedback? Let us know!
             <Icon>arrow_forward</Icon>
           </Button>
         </Box>

@@ -117,15 +117,19 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             color: `${colors[themeColor][darkMode ? 50 : 700]}`,
           },
 
-          root: {
+          root: sx({
             gap: "10px",
             transition: "none!important",
             cursor: "unset",
             borderRadius: "999px",
-            paddingLeft: "30px",
-            paddingRight: "30px",
+            px: "30px",
+            "&.MuiButton-sizeSmall": {
+              px: "5px !important",
+              cursor: "auto!important",
+            },
+            userSelect: "none",
             textTransform: "none",
-          },
+          }),
         },
       },
       MuiTextField: {
