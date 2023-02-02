@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { achievements } from "./achievements";
 
@@ -136,7 +137,7 @@ export function Achievements({ styles }) {
             sx={{
               position: "relative",
               display: "block",
-              height: "350px",
+              height: "50vh",
               color: "#fff",
               mt: "calc(var(--navbar-height) * -1)",
             }}
@@ -149,7 +150,7 @@ export function Achievements({ styles }) {
                 width={1920}
                 alt="Achievement banner"
                 style={{
-                  height: "100%",
+                  height: "50vh",
                   width: "100%",
                   filter: "brightness(0.5)",
                   position: "absolute",
@@ -192,13 +193,17 @@ export function Achievements({ styles }) {
             <Typography variant="body2" sx={{ opacity: 0.7, mb: 3 }}>
               TO BE UNLOCKED
             </Typography>
-            {availableAchievements.map((achievement: any, index) => (
-              <Achievement
-                achievement={achievement}
-                key={index}
-                index={index}
-              />
-            ))}
+            <Virtuoso
+              style={{ height: "50vh" }}
+              totalCount={availableAchievements.length}
+              itemContent={(index) => (
+                <Achievement
+                  achievement={availableAchievements[index]}
+                  key={index}
+                  index={index}
+                />
+              )}
+            />
           </Box>
         </Box>
       </Drawer>
