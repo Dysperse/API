@@ -4,6 +4,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  Chip,
   Icon,
   IconButton,
   Skeleton,
@@ -21,7 +22,7 @@ import { colors } from "../../lib/colors";
  * Product list
  * @returns {any}
  */
-function Products() {
+function Products({ styles }) {
   const apps = [
     {
       key: 1,
@@ -31,7 +32,20 @@ function Products() {
     },
     {
       key: 2,
-      label: "Availability (NEW)",
+      label: (
+        <>
+          Availability
+          <Chip
+            label="NEW"
+            sx={{
+              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+              color: "#000",
+              ml: 1,
+            }}
+            size="small"
+          />
+        </>
+      ),
       href: "//availability.dysperse.com",
       description: "Find the best time for a group to get together",
     },
@@ -60,32 +74,7 @@ function Products() {
         <Accordion
           key={category.label.toString()}
           square
-          sx={{
-            boxShadow: "none!important",
-            margin: "0!important",
-            borderRadius: "9px",
-            cursor: "pointer",
-            background: "transparent",
-            "&:hover, &.Mui-expanded": {
-              background: global.user.darkMode
-                ? "hsl(240,11%,30%)"
-                : colors[global.themeColor][100],
-            },
-            transition: "all .2s, background 0s",
-            "&:before": {
-              display: "none",
-            },
-            "& .MuiAccordionDetails-root": {
-              opacity: 0,
-              transform: "scale(.95)",
-              transition: "all .3s",
-            },
-            "&:hover .MuiAccordionDetails-root, &.Mui-expanded .MuiAccordionDetails-root":
-              {
-                opacity: 1,
-                transform: "scale(1)",
-              },
-          }}
+          sx={styles.accordion}
           expanded={expanded === category.key}
           onMouseOver={() => handleChange(category.key)}
           onClick={() => category.href !== "" && window.open(category.href)}
@@ -122,7 +111,7 @@ function Products() {
   );
 }
 
-function Apps() {
+function Apps({ styles }) {
   const apps = [
     {
       key: 4,
@@ -130,7 +119,7 @@ function Apps() {
     },
     {
       key: 1,
-      label: "Windows",
+      label: "Windows & Mac",
     },
     {
       key: 2,
@@ -153,44 +142,12 @@ function Apps() {
   };
 
   return (
-    <div
-      onMouseLeave={() => {
-        handleChange(0);
-      }}
-      onBlur={() => {
-        handleChange(0);
-      }}
-    >
+    <div onMouseLeave={() => handleChange(0)} onBlur={() => handleChange(0)}>
       {apps.map((category) => (
         <Accordion
           key={category.label.toString()}
           square
-          sx={{
-            boxShadow: "none!important",
-            margin: "0!important",
-            borderRadius: "9px",
-            cursor: "pointer",
-            background: "transparent",
-            "&:hover, &.Mui-expanded": {
-              background: global.user.darkMode
-                ? "hsl(240,11%,30%)"
-                : colors[global.themeColor][100],
-            },
-            transition: "all .2s, background 0s",
-            "&:before": {
-              display: "none",
-            },
-            "& .MuiAccordionDetails-root": {
-              opacity: 0,
-              transform: "scale(.95)",
-              transition: "all .3s",
-            },
-            "&:hover .MuiAccordionDetails-root, &.Mui-expanded .MuiAccordionDetails-root":
-              {
-                opacity: 1,
-                transform: "scale(1)",
-              },
-          }}
+          sx={styles.accordion}
           expanded={expanded === category.key}
           onMouseOver={() => handleChange(category.key)}
           onFocus={() => handleChange(category.key)}
@@ -221,10 +178,7 @@ function Apps() {
               {category.label === "Web" ? (
                 <>You&apos;re using Dysperse for Web</>
               ) : (
-                <>
-                  (Coming soon) Download Dysperse for {category.label} for extra
-                  features such as push notifications, assistant, and more!
-                </>
+                <>Coming soon!</>
               )}
             </Typography>
           </AccordionDetails>
@@ -238,7 +192,7 @@ function Apps() {
  * Apps menu
  * @returns {any}
  */
-export function AppsMenu({ styles }) {
+export function AppsMenu() {
   const [open, setOpen] = React.useState<boolean>(false);
   useStatusBar(open);
   useHotkeys(
@@ -266,6 +220,34 @@ export function AppsMenu({ styles }) {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
 
+  const styles = {
+    accordion: {
+      boxShadow: "none!important",
+      margin: "0!important",
+      borderRadius: "9px",
+      cursor: "pointer",
+      background: "transparent",
+      "&:hover, &.Mui-expanded": {
+        background: global.user.darkMode
+          ? "hsl(240,11%,30%)"
+          : colors[global.themeColor][100],
+      },
+      transition: "all .2s, background 0s",
+      "&:before": {
+        display: "none",
+      },
+      "& .MuiAccordionDetails-root": {
+        opacity: 0,
+        transform: "scale(.95)",
+        transition: "all .3s",
+      },
+      "&:hover .MuiAccordionDetails-root, &.Mui-expanded .MuiAccordionDetails-root":
+        {
+          opacity: 1,
+          transform: "scale(1)",
+        },
+    },
+  };
   return (
     <>
       <Tooltip title="Apps">
@@ -314,13 +296,13 @@ export function AppsMenu({ styles }) {
       >
         <Box sx={{ px: 2, py: 1 }}>
           <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
-            Workspace
+            Apps
           </Typography>
-          <Products />
+          <Products styles={styles} />
           <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
             Platforms
           </Typography>
-          <Apps />
+          <Apps styles={styles} />
 
           <Box
             sx={{
