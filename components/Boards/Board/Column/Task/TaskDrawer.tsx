@@ -344,6 +344,18 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                 <HighlightWithinTextarea
                   placeholder={""}
                   value={value}
+                  onBlur={(value) => {
+                    fetchApiWithoutHook("property/boards/editTask", {
+                      description: value,
+                      id: taskData.id,
+                    }).then(() => {
+                      setTaskData({
+                        ...taskData,
+                        description: value,
+                      });
+                      mutate(mutationUrl);
+                    });
+                  }}
                   highlight={[
                     {
                       highlight: /<items:(.*?):(.*?)>/g,
