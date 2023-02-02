@@ -99,6 +99,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       id: itemData.id.toString(),
       lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     });
+    handleOpen();
 
     toast.success(
       (t) => (

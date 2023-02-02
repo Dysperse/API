@@ -147,12 +147,7 @@ export function MoveToRoom({ item, styles }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
-          <Button
-            variant="outlined"
-            size="large"
-            sx={{ borderRadius: 99 }}
-            onClick={() => setOpen(false)}
-          >
+          <Button variant="outlined" onClick={() => setOpen(false)}>
             Cancel
           </Button>
         </DialogActions>
