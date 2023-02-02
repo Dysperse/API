@@ -11,7 +11,7 @@ import {
 import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
 import React from "react";
-import { FixedSizeList as List } from "react-window";
+import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { ConfirmationModal } from "../ConfirmationModal";
@@ -20,12 +20,10 @@ const Session: any = React.memo(function Session({
   mutationUrl,
   index,
   data,
-  style,
 }: any) {
   return (
     <ListItem
       sx={{
-        ...style,
         ...(data[index].id === global.user.token && {
           background: global.user.darkMode
             ? "hsl(240,11%,30%)"
@@ -52,8 +50,9 @@ const Session: any = React.memo(function Session({
                 label="Current device"
                 sx={{
                   ml: 1,
-                  background: "linear-gradient(45deg, #8338e3, #e0a9bb)!important",
-                  color:"#000!important"
+                  background:
+                    "linear-gradient(45deg, #8338e3, #e0a9bb)!important",
+                  color: "#000!important",
                 }}
               />
             )}
@@ -119,16 +118,13 @@ export default function LoginActivity() {
         </Button>
       </ConfirmationModal>
       {data && (
-        <List height={400} itemCount={data.length} itemSize={70} width={"100%"}>
-          {({ index, style }) => (
-            <Session
-              mutationUrl={url}
-              index={index}
-              style={style}
-              data={data}
-            />
+        <Virtuoso
+          style={{ height: "400px", width: "100%" }}
+          totalCount={data.length}
+          itemContent={(index) => (
+            <Session mutationUrl={url} index={index} data={data} />
           )}
-        </List>
+        />
       )}
     </Box>
   );

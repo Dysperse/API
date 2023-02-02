@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useFormik } from "formik";
+import dynamic from "next/dynamic";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -21,7 +22,8 @@ import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
 import { Puller } from "../../Puller";
 import { cards } from "./cards";
-import { ImageRecognition } from "./scan";
+
+const ImageRecognition = dynamic(() => import("./scan"));
 
 /**
  * Shuffles array in place. ES6 version
@@ -331,9 +333,7 @@ export function CreateItemModal({
                       >
                         <Box>
                           <Typography variant="body2">Add</Typography>
-                          <Typography>
-                            {item.name}
-                          </Typography>
+                          <Typography>{item.name}</Typography>
                         </Box>
                       </Box>
                     </Box>

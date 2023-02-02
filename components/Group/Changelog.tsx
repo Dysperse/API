@@ -4,6 +4,8 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import { Virtuoso } from "react-virtuoso";
+
 import {
   Box,
   CircularProgress,
@@ -16,7 +18,6 @@ import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { FixedSizeList as List } from "react-window";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
@@ -68,11 +69,7 @@ export function Changelog() {
                   : hexToRgba(colors[themeColor][50], 0.9),
               }}
             >
-              <Typography
-                variant="h5"
-                gutterBottom
-                sx={{ flexGrow: 1 }}
-              >
+              <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
                 Changelog
               </Typography>
               <IconButton
@@ -115,16 +112,12 @@ export function Changelog() {
                 }}
               >
                 {data && (
-                  <List
-                    className="List"
-                    height={450}
-                    itemCount={data.length}
-                    itemSize={100}
-                    width="100%"
-                  >
-                    {({ index, style }) => (
+                  <Virtuoso
+                    style={{ height: "400px", width: "100%" }}
+                    totalCount={data.length}
+                    itemContent={(index) => (
                       <>
-                        <TimelineItem key={data[index].id} sx={style}>
+                        <TimelineItem key={data[index].id}>
                           <TimelineSeparator>
                             <TimelineDot
                               sx={{
@@ -159,7 +152,7 @@ export function Changelog() {
                         </TimelineItem>
                       </>
                     )}
-                  </List>
+                  />
                 )}
               </Timeline>
 

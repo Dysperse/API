@@ -191,7 +191,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
   );
 };
 
-export function ImageRecognition({
+export default function ImageRecognition({
   formik,
   room,
   foreverRequired = false,
