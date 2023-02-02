@@ -80,7 +80,7 @@ function Room({
  * @param {any} item
  * @returns {any}
  */
-export function MoveToRoom({ item, styles }) {
+export default function MoveToRoom({ item, styles }) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open);
   useEffect(() => {

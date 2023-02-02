@@ -152,7 +152,7 @@ function RoomList({
  * @param {any} item}
  * @returns {any}
  */
-export function AddToListModal({
+export default function AddToListModal({
   styles,
   item,
 }: {

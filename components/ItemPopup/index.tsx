@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Item } from "@prisma/client";
 import dayjs from "dayjs";
+import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
@@ -19,11 +20,12 @@ import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
-import { AddToListModal } from "./AddToList";
-import { CategoryModal } from "./CategoryModal";
-import { DeleteButton } from "./DeleteButton";
-import { MoveToRoom } from "./MoveToRoom";
-import { StarButton } from "./StarButton";
+
+const AddToListModal = dynamic(() => import("./AddToList"));
+const CategoryModal = dynamic(() => import("./CategoryModal"));
+const DeleteButton = dynamic(() => import("./DeleteButton"));
+const MoveToRoom = dynamic(() => import("./MoveToRoom"));
+const StarButton = dynamic(() => import("./StarButton"));
 
 const capitalizeFirstLetter = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
@@ -272,7 +274,6 @@ export default function ItemDrawer({
   }, []);
 
   const trigger = cloneElement(children, {
-    onClick: handleOpen,
     onTouchStart: handleOpen,
     onMouseDown: handleOpen,
   });

@@ -8,7 +8,7 @@ import type { Item } from "@prisma/client";
  * @param {any} handleItemStar}
  * @returns {any}
  */
-export function StarButton({
+export default function StarButton({
   styles,
   item,
   handleItemStar,

@@ -6,7 +6,7 @@
  */
 import { Icon, ListItemButton } from "@mui/material";
 
-export function DeleteButton({
+export default function DeleteButton({
   handleItemDelete,
   styles,
 }: {

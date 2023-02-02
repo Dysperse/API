@@ -97,7 +97,7 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
 /**
  * Category modal
  */
-export function CategoryModal({
+export default function CategoryModal({
   handleItemChange,
   setItemData,
   item,
