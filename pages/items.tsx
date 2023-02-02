@@ -31,7 +31,9 @@ const CategoryModal = dynamic(
  * Component to dispay items by category
  */
 const CategoryList = React.memo(function CategoryList() {
-  const { error, data }: ApiResponse = useApi("property/inventory/categories");
+  const { error, url, data }: ApiResponse = useApi(
+    "property/inventory/categories"
+  );
 
   return (
     <>
@@ -41,7 +43,11 @@ const CategoryList = React.memo(function CategoryList() {
       {!error && data ? (
         <>
           {[...new Set(data)].map((category: any) => (
-            <CategoryModal category={category} key={category.toString()} />
+            <CategoryModal
+              mutationUrl={url}
+              category={category}
+              key={category.toString()}
+            />
           ))}
           {[...new Set(data)].length === 0 && (
             <Alert severity="info">
