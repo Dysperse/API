@@ -274,7 +274,7 @@ export default function ItemDrawer({
   }, []);
 
   const trigger = cloneElement(children, {
-    onTouchStart: handleOpen,
+    //onTouchStart: handleOpen,
     onClick: handleOpen,
   });
 
