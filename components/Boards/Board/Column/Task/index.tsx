@@ -51,7 +51,7 @@ const renderText = (txt) =>
     )
   );
 
-const renderDescription = (txt: any) => {
+export const renderDescription = (txt: any) => {
   let result: any = [];
   let lastIndex: any = 0;
 

@@ -12,8 +12,10 @@ import {
 } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import React, { useEffect, useState } from "react";
+import { HighlightWithinTextarea } from "react-highlight-within-textarea";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import {
@@ -69,6 +71,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   });
 
   const [view, setView] = useState<"Details" | "Subtasks">("Details");
+  const [value, setValue] = useState(taskData.description);
 
   useHotkeys(
     "alt+e",
@@ -312,61 +315,39 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               />
             </Button>
             {view === "Details" && (
-              <TextField
-                multiline
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  sx: {
-                    color:
-                      colors[taskData.color ?? global.themeColor ?? "brown"][
-                        global.user.darkMode ? 50 : 900
-                      ],
-                    background:
-                      colors[taskData.color ?? global.themeColor ?? "brown"][
-                        global.user.darkMode ? 800 : 100
-                      ],
-                    borderRadius: 5,
-                    p: 2,
-                    mt: 2,
-                    "&:focus-within": {
-                      background:
-                        colors[taskData.color ?? global.themeColor ?? "brown"][
-                          global.user.darkMode ? 800 : 100
-                        ],
-                      boxShadow:
-                        "0px 0px 0px 2px " +
-                        colors[taskData.color ?? global.themeColor ?? "brown"][
-                          global.user.darkMode ? 700 : 900
-                        ],
-                    },
+              <HighlightWithinTextarea
+                placeholder={""}
+                value={value}
+                highlight={[
+                  {
+                    highlight: /<items:(.*?):(.*?)>/g,
+                    component: (props) => (
+                      <Tooltip
+                        title={"Linked to item"}
+                        followCursor
+                        onClick={(e) => e.stopPropagation()}
+                        placement="bottom-start"
+                      >
+                        <Chip
+                          label={props.spanText}
+                          size="small"
+                          icon={
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="24"
+                              width="24"
+                              fill="currentColor"
+                            >
+                              <path d="M11 17H7q-2.075 0-3.537-1.463Q2 14.075 2 12t1.463-3.538Q4.925 7 7 7h4v2H7q-1.25 0-2.125.875T4 12q0 1.25.875 2.125T7 15h4Zm-3-4v-2h8v2Zm5 4v-2h4q1.25 0 2.125-.875T20 12q0-1.25-.875-2.125T17 9h-4V7h4q2.075 0 3.538 1.462Q22 9.925 22 12q0 2.075-1.462 3.537Q19.075 17 17 17Z" />
+                            </svg>
+                          }
+                        />
+                      </Tooltip>
+                    ),
                   },
-                }}
-                onKeyDown={(e: any) => {
-                  if (e.key == "Enter") e.target.blur();
-                }}
-                onBlur={(e) => {
-                  fetchApiWithoutHook("property/boards/editTask", {
-                    description: e.target.value,
-                    id: taskData.id,
-                  }).then(() => {
-                    setTaskData({
-                      ...taskData,
-                      description: e.target.value,
-                    });
-                    mutate(mutationUrl);
-                  });
-                }}
-                disabled={
-                  (board && board.archived) || global.permission === "read-only"
-                }
-                placeholder={
-                  global.permission === "read-only"
-                    ? "Add a description. Wait you can't because you have no permission 😂"
-                    : "Add a description"
-                }
-                minRows={4}
-                defaultValue={taskData.description}
+                ]}
+                stripPastedStyles
+                onChange={(e) => setValue(e)}
               />
             )}
           </Box>
