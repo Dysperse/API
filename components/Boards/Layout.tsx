@@ -55,6 +55,7 @@ const Tab = React.memo(function Tab({
     window.location.hash = board.id;
     setActiveTab(board.id);
   }, [board.id, setActiveTab, setDrawerOpen]);
+
   return (
     <div>
       <Button
