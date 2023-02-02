@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -303,7 +304,9 @@ export default function ItemDrawer({
             mutationUrl={mutationUrl}
           />
         ) : !loading && itemData == null ? (
-          <Box sx={{ p: 3 }}>Item does not exist</Box>
+          <Box sx={{ p: 3 }}>
+            <Alert severity="error">Item does not exist</Alert>
+          </Box>
         ) : (
           <Box
             sx={{
