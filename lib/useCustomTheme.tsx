@@ -59,13 +59,17 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: sx({
             cursor: "unset",
+            transition: "none",
             "&:hover": {
-              background: "rgba(0,0,0,0.05)",
+              background: `${
+                darkMode ? "hsla(240,11%,14%)" : "rgba(0,0,0,0.05)"
+              }!important`,
             },
             "&:active": {
-              background: "rgba(0,0,0,0.1)",
+              background: `${
+                darkMode ? "hsla(240,11%,17%)" : "rgba(0,0,0,0.1)"
+              }!important`,
             },
-            transition: "none",
             "&:focus-visible": {
               boxShadow: darkMode
                 ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"

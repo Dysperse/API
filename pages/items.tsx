@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
-import { OptionsGroup } from "../components/Boards/Board/OptionsGroup";
 import { ErrorHandler } from "../components/Error";
+import { OptionsGroup } from "../components/OptionsGroup";
 import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
 import { useApi } from "../hooks/useApi";
 import { colors } from "../lib/colors";

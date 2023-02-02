@@ -113,6 +113,7 @@ const Tab = React.memo(function Tab({
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
   const [activeTab, setActiveTab] = useState("loading");
+
   useEffect(() => {
     if (data && data[0]) {
       if (
@@ -154,29 +155,30 @@ export function TasksLayout() {
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
-    ...(!condition && {
-      "&:hover": {
-        background: global.user.darkMode
-          ? "hsl(240,11%,15%)"
-          : `${colors[themeColor][50]}!important`,
-      },
-      color: global.user.darkMode
-        ? "hsl(240,11%,80%)!important"
-        : `${colors[themeColor][700]}!important`,
-    }),
-    ...(condition && {
-      background: global.user.darkMode
-        ? "hsl(240,11%,20%)!important"
-        : `${colors[themeColor][100]}!important`,
-      "&:hover, &:focus": {
-        background: global.user.darkMode
-          ? "hsl(240,11%,25%)!important"
-          : `${colors[themeColor][100]}!important`,
-      },
-      color: global.user.darkMode
-        ? "hsl(240,11%,95%)!important"
-        : `${colors[themeColor][900]}!important`,
-    }),
+    ...(!condition
+      ? {
+          "&:hover": {
+            background: global.user.darkMode
+              ? "hsl(240,11%,15%)"
+              : `${colors[themeColor][50]}!important`,
+          },
+          color: global.user.darkMode
+            ? "hsl(240,11%,80%)!important"
+            : `${colors[themeColor][700]}!important`,
+        }
+      : {
+          background: global.user.darkMode
+            ? "hsl(240,11%,20%)!important"
+            : `${colors[themeColor][100]}!important`,
+          "&:hover, &:focus": {
+            background: global.user.darkMode
+              ? "hsl(240,11%,25%)!important"
+              : `${colors[themeColor][100]}!important`,
+          },
+          color: global.user.darkMode
+            ? "hsl(240,11%,95%)!important"
+            : `${colors[themeColor][900]}!important`,
+        }),
   });
   const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
