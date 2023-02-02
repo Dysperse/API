@@ -117,11 +117,7 @@ export function Achievements({ styles }) {
           }}
         >
           <Toolbar className="flex" sx={{ height: "var(--navbar-height)" }}>
-            <IconButton
-              color="inherit"
-              disableRipple
-              onClick={() => setOpen(false)}
-            >
+            <IconButton color="inherit" onClick={() => setOpen(false)}>
               <Icon>close</Icon>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>
@@ -129,7 +125,6 @@ export function Achievements({ styles }) {
             </Typography>
             <IconButton
               color="inherit"
-              disableRipple
               sx={{ opacity: 0, pointerEvents: "none" }}
             >
               <Icon>more_horiz</Icon>
@@ -211,10 +206,7 @@ export function Achievements({ styles }) {
         <IconButton
           id="achievementsTrigger"
           color="inherit"
-          disableRipple
-          onClick={() => {
-            setOpen(true);
-          }}
+          onClick={() => setOpen(true)}
           sx={styles}
         >
           <Icon className="outlined">insights</Icon>

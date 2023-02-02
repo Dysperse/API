@@ -352,7 +352,6 @@ export const Board = function Board({
         >
           <IconButton
             size="small"
-            disableRipple
             sx={{
               flexShrink: 0,
               ml: "auto",

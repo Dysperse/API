@@ -55,7 +55,7 @@ export function Storage({ color }: { color: string }) {
           sections={[
             {
               value: storage.items,
-              color: colors[color][global.user.darkMode ? 50 : 700],
+              color: colors[color][global.user.darkMode ? 500 : 700],
             },
             {
               value: storage.boards,

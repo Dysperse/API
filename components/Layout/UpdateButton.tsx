@@ -47,7 +47,6 @@ export function UpdateButton() {
     <Tooltip title="A newer version of this app is available. Click to download">
       <IconButton
         color="inherit"
-        disableRipple
         onClick={() => window.location.reload()}
         sx={{
           mr: -1,

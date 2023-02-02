@@ -278,7 +278,6 @@ export function ImageRecognition({
           </Box>
         </Popover>
         <IconButton
-          disableRipple
           id="scanTrigger"
           size="large"
           onClick={() => setOpen(true)}
@@ -340,10 +339,9 @@ export function ImageRecognition({
             <IconButton
               color="inherit"
               disabled={foreverRequired}
-              disableRipple
-              onClick={() => {
-                setFacingMode(facingMode === "user" ? "environment" : "user");
-              }}
+              onClick={() =>
+                setFacingMode(facingMode === "user" ? "environment" : "user")
+              }
             >
               <Icon className={facingMode === "user" ? "outlined" : "rounded"}>
                 cameraswitch

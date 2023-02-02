@@ -113,7 +113,6 @@ export function Navbar(): JSX.Element {
             <Tooltip title="You're offline">
               <IconButton
                 color="inherit"
-                disableRipple
                 sx={{
                   p: 0,
                   mr: { xs: 0.2, sm: 0.6 },
@@ -152,7 +151,6 @@ export function Navbar(): JSX.Element {
             sx={{ ...styles, display: { xs: "none", sm: "inline-flex" } }}
             color="inherit"
             disabled={!window.navigator.onLine}
-            disableRipple
             onClick={() => window.open("https://dysperse.com/support")}
           >
             <Icon className="outlined">help</Icon>
@@ -169,7 +167,6 @@ export function Navbar(): JSX.Element {
             >
               <IconButton
                 color="inherit"
-                disableRipple
                 disabled={!window.navigator.onLine}
                 sx={styles}
               >

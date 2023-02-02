@@ -193,7 +193,6 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           <Toolbar className="flex" sx={{ height: "70px" }}>
             <IconButton
               color="inherit"
-              disableRipple
               onClick={() => setOpen(false)}
             >
               <Icon>west</Icon>

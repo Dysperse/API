@@ -67,7 +67,6 @@ export function EditProperty({ color }: { color: string }) {
     <>
       {global.property.permission !== "read-only" && (
         <IconButton
-          disableRipple
           sx={{
             color: "inherit",
             zIndex: 1,
@@ -82,20 +81,21 @@ export function EditProperty({ color }: { color: string }) {
           keepMounted: false,
         }}
         disableSwipeToOpen
-        anchor="bottom"
+        anchor="right"
         open={open}
         swipeAreaWidth={0}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: colors[color][global.user.darkMode ? 900 : 50],
+            background: global.user.darkMode
+              ? "hsl(240,11%,25%)"
+              : colors[color][50],
+
             color: colors[color][global.user.darkMode ? 50 : 900],
             px: 3,
-            width: { xs: "auto", sm: "50vw" },
+            width: { xs: "100vw", sm: "50vw" },
             py: 2,
-            maxHeight: "calc(100vh - 20px)",
-            mx: "auto",
           },
         }}
       >
@@ -109,22 +109,23 @@ export function EditProperty({ color }: { color: string }) {
           <AppBar
             position="absolute"
             sx={{
-              p: 2,
-              py: 1,
-              background: colors[color][global.user.darkMode ? 900 : 50],
+              height: "var(--navbar-height)",
+              px: 2,
+              background: global.user.darkMode
+                ? "hsl(240,11%,25%)"
+                : colors[color][50],
               color: colors[color][global.user.darkMode ? 50 : 900],
               boxShadow: "none",
             }}
           >
             <Toolbar>
               <IconButton
-                disableRipple
                 edge="start"
                 color="inherit"
                 sx={{ mr: 2 }}
                 onClick={() => setOpen(false)}
               >
-                <Icon>expand_more</Icon>
+                <Icon>close</Icon>
               </IconButton>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 Edit group

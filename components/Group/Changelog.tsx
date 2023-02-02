@@ -76,7 +76,6 @@ export function Changelog() {
                 Changelog
               </Typography>
               <IconButton
-                disableRipple
                 color="inherit"
                 onClick={() => setOpen(false)}
                 sx={{

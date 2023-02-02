@@ -1,21 +1,16 @@
-import { Box, Grow, Toolbar } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import React from "react";
 import { BottomNav } from "./BottomNavigation";
-import { KeyboardShortcutsModal } from "./KeyboardShortcutsModal";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
 
+const KeyboardShortcutsModal = dynamic(
+  () => import("./KeyboardShortcutsModal")
+);
+
 const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
   ssr: false,
-});
-
-export const Transition = React.forwardRef(function Transition(
-  props: any,
-  ref: React.Ref<unknown>
-) {
-  return <Grow in={props.open} ref={ref} {...props} />;
 });
 
 /**

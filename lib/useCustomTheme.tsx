@@ -63,12 +63,12 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             "&:hover": {
               background: `${
                 darkMode ? "hsla(240,11%,14%)" : "rgba(0,0,0,0.05)"
-              }!important`,
+              }`,
             },
             "&:active": {
               background: `${
                 darkMode ? "hsla(240,11%,17%)" : "rgba(0,0,0,0.1)"
-              }!important`,
+              }`,
             },
             "&:focus-visible": {
               boxShadow: darkMode

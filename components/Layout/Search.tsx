@@ -2,8 +2,8 @@ import { openSpotlight, SpotlightProvider } from "@mantine/spotlight";
 import { Button, Divider, Icon, IconButton, Tooltip } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
-import { colors } from "../../../lib/colors";
-import { updateSettings } from "../../Settings/updateSettings";
+import { colors } from "../../lib/colors";
+import { updateSettings } from "../Settings/updateSettings";
 
 import {
   Badge,
@@ -15,8 +15,8 @@ import {
 import { SpotlightActionProps } from "@mantine/spotlight";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
-import { toastStyles } from "../../../lib/useCustomTheme";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 function CustomAction({
   action,
@@ -327,7 +327,6 @@ export function SearchPopup({ styles }) {
       >
         <IconButton
           disabled={!window.navigator.onLine}
-          disableRipple
           onClick={() => openSpotlight()}
           color="inherit"
           sx={{ ...styles, display: { sm: "none" } }}

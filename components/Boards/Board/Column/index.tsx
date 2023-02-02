@@ -217,7 +217,6 @@ function FilterMenu({ originalTasks, columnTasks, setColumnTasks, board }) {
         </MenuItem>
       </Menu>
       <IconButton
-        disableRipple
         sx={{
           flexShrink: 0,
           display: board.archived ? "none" : "",
@@ -325,7 +324,7 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
               }}
             />
           ) : (
-            <Typography variant="h6" sx={{ fontWeight: "700" }}>
+            <Typography variant="h6">
               {column.name}
             </Typography>
           )}
@@ -410,7 +409,6 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
       </SwipeableDrawer>
       <IconButton
         onClick={() => setOpen(true)}
-        disableRipple
         sx={{
           flexShrink: 0,
           display: board.archived ? "none" : "",

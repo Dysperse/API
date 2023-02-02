@@ -32,7 +32,7 @@ import { Changelog } from "./Changelog";
  * @param {any} {data}
  * @returns {any}
  */
-export const Group = React.memo(function Group({
+const Group = React.memo(function Group({
   handleClose,
   data,
 }: {
@@ -233,10 +233,7 @@ export const Group = React.memo(function Group({
                 }}
               >
                 <IconButton
-                  disableRipple
-                  onClick={() => {
-                    setOpen(false);
-                  }}
+                  onClick={() => setOpen(false)}
                   sx={{
                     color: "inherit",
                     mr: 0.2,
@@ -311,3 +308,5 @@ export const Group = React.memo(function Group({
     </>
   );
 });
+
+export default Group;

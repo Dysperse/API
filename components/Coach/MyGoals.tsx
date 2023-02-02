@@ -64,7 +64,6 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           <Toolbar sx={{ height: "64px" }}>
             <IconButton
               color="inherit"
-              disableRipple
               onClick={() => setOpen(false)}
             >
               <span
@@ -85,7 +84,6 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             </Typography>
             <IconButton
               color="inherit"
-              disableRipple
               onClick={() => setOpen(false)}
             >
               <span

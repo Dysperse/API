@@ -481,7 +481,6 @@ export function CreateTask({
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <Tooltip title="Mark as important (ALT + A)" placement="top">
                 <IconButton
-                  disableRipple
                   onClick={() => {
                     setPinned(!pinned);
                     titleRef.current?.focus();
@@ -503,7 +502,6 @@ export function CreateTask({
               <ImageModal styles={styles} image={image} setImage={setImage} />
               <Tooltip title="Description (ALT + D)" placement="top">
                 <IconButton
-                  disableRipple
                   onClick={() => {
                     setShowDescription(!showDescription);
                     setTimeout(() => {

@@ -6,14 +6,16 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { ErrorHandler } from "../Error";
-import { Group } from "../GroupProfile/Group";
 import { Puller } from "../Puller";
+
+const Group = dynamic(() => import("../Group"));
 
 /**
  * Invite button to trigger property list

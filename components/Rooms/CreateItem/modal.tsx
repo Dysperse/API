@@ -331,7 +331,7 @@ export function CreateItemModal({
                       >
                         <Box>
                           <Typography variant="body2">Add</Typography>
-                          <Typography sx={{ fontWeight: "700" }}>
+                          <Typography>
                             {item.name}
                           </Typography>
                         </Box>

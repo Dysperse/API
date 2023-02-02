@@ -44,7 +44,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
           </MenuItem>
         </ConfirmationModal>
       </Menu>
-      <IconButton color="inherit" disableRipple onClick={handleClick}>
+      <IconButton color="inherit"  onClick={handleClick}>
         <Icon>more_horiz</Icon>
       </IconButton>
     </>

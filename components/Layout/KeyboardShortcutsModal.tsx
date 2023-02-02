@@ -2,9 +2,8 @@ import { Box, Dialog, Icon, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import { Transition } from "./index";
 
-export function KeyboardShortcutsModal() {
+export default function KeyboardShortcutsModal() {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
   useHotkeys(
@@ -20,7 +19,6 @@ export function KeyboardShortcutsModal() {
     <Dialog
       scroll="body"
       open={open}
-      TransitionComponent={Transition}
       onClose={() => setOpen(false)}
       PaperProps={{
         sx: {
@@ -32,12 +30,9 @@ export function KeyboardShortcutsModal() {
       }}
     >
       <Box className="flex items-center">
-        <Typography sx={{ fontWeight: "700" }} variant="h5">
-          Keyboard shortcuts
-        </Typography>
+        <Typography variant="h5">Keyboard shortcuts</Typography>
         <IconButton
-          sx={{ ml: "auto", color: "#000" }}
-          disableRipple
+          sx={{ ml: "auto" }}
           onClick={() => setOpen(false)}
         >
           <Icon>close</Icon>

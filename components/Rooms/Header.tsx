@@ -56,7 +56,6 @@ export function Header({
       >
         <ListItemAvatar sx={{ mr: { xs: 2, sm: -3 } }}>
           <IconButton
-            disableRipple
             onClick={() => router.push("/items")}
             size="large"
             sx={{
@@ -109,9 +108,7 @@ export function Header({
             size="large"
             sx={{
               background: "transparent",
-              transition: "background .2s",
             }}
-            disableRipple
           >
             <Icon className="outlined">add_circle</Icon>
           </IconButton>

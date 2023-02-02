@@ -21,9 +21,7 @@ function DeleteCard({ item }) {
         background: "rgba(200,200,200,.3)",
       }}
     >
-      <Typography variant="h6" sx={{ fontWeight: "700" }}>
-        {item.name}
-      </Typography>
+      <Typography variant="h6">{item.name}</Typography>
       <Typography variant="body2">
         {item.quantity || "(no quantity specified)"}
       </Typography>

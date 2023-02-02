@@ -30,7 +30,6 @@ export function FloatingActionButton({ sm = false }) {
     >
       <AddPopup>
         <Fab
-          // onMouseOver={() => setHide(false)}
           variant="extended"
           color="primary"
           disableRipple

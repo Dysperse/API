@@ -179,7 +179,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           }
         >
           <IconButton
-            disableRipple
             disabled={
               (board && board.archived) || global.permission === "read-only"
             }
@@ -195,7 +194,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         </Tooltip>
         <Tooltip title="Delete task (alt • a)">
           <IconButton
-            disableRipple
             disabled={
               (board && board.archived) || global.permission === "read-only"
             }

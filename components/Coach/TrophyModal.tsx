@@ -104,7 +104,6 @@ export function TrophyModal({ goal, mutationUrl }) {
                       );
                     });
                 }}
-                disableRipple
                 disabled={loading}
               >
                 <span

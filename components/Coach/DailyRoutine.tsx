@@ -117,7 +117,6 @@ export function DailyRoutine() {
           <Toolbar className="flex" sx={{ height: "70px" }}>
             <IconButton
               color="inherit"
-              disableRipple
               onClick={() => setOpen(false)}
             >
               <Icon>west</Icon>
@@ -127,7 +126,6 @@ export function DailyRoutine() {
             </Typography>
             <IconButton
               color="inherit"
-              disableRipple
               sx={{ opacity: 0, pointerEvents: "none" }}
             >
               <Icon>more_horiz</Icon>
