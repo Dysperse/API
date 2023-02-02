@@ -192,7 +192,7 @@ function Apps({ styles }) {
  * Apps menu
  * @returns {any}
  */
-export function AppsMenu() {
+export function AppsMenu({ styles }) {
   const [open, setOpen] = React.useState<boolean>(false);
   useStatusBar(open);
   useHotkeys(
@@ -220,7 +220,7 @@ export function AppsMenu() {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
 
-  const styles = {
+  const appMenuStyles = {
     accordion: {
       boxShadow: "none!important",
       margin: "0!important",
@@ -298,11 +298,11 @@ export function AppsMenu() {
           <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
             Apps
           </Typography>
-          <Products styles={styles} />
+          <Products styles={appMenuStyles} />
           <Typography sx={{ my: 1.5, ml: 1.5, fontWeight: "800" }} variant="h6">
             Platforms
           </Typography>
-          <Apps styles={styles} />
+          <Apps styles={appMenuStyles} />
 
           <Box
             sx={{
