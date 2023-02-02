@@ -21,7 +21,15 @@ import {
  * @param {any} {index}
  * @returns {any}
  */
-export function RenderRoom({ data, index }: { data: Item[]; index: string }) {
+export function RenderRoom({
+  mutationUrl,
+  data,
+  index,
+}: {
+  mutationUrl:string;
+  data: Item[];
+  index: string;
+}) {
   const router = useRouter();
   const [items, setItems] = useState(data);
 
@@ -94,7 +102,7 @@ export function RenderRoom({ data, index }: { data: Item[]; index: string }) {
 
           {items.map((item: Item) => (
             <div key={item.id.toString()}>
-              <ItemCard item={item} />
+              <ItemCard item={item} mutationUrl={mutationUrl} />
             </div>
           ))}
         </Masonry>

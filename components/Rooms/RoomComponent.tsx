@@ -15,7 +15,7 @@ import { RenderRoom } from "./RenderRoom";
 
 export function RoomComponent({ index }: { index: string }): JSX.Element {
   const router = useRouter();
-  const { error, loading, data }: ApiResponse = useApi(
+  const { error, url, loading, data }: ApiResponse = useApi(
     "property/inventory/list",
     {
       room: router.query.custom
@@ -31,6 +31,6 @@ export function RoomComponent({ index }: { index: string }): JSX.Element {
   ) : loading ? (
     <LoadingScreen />
   ) : (
-    <RenderRoom data={data} index={index} />
+    <RenderRoom data={data} index={index} mutationUrl={url} />
   );
 }

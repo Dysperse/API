@@ -12,6 +12,7 @@ import { Item } from "@prisma/client";
 import dayjs from "dayjs";
 import { cloneElement, useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
+import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
@@ -23,11 +24,10 @@ import { DeleteButton } from "./DeleteButton";
 import { MoveToRoom } from "./MoveToRoom";
 import { StarButton } from "./StarButton";
 
-const capitalizeFirstLetter = (str: string): string => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+const capitalizeFirstLetter = (str: string): string =>
+  str.charAt(0).toUpperCase() + str.slice(1);
 
-function DrawerData({ itemData, setItemData }) {
+function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   const styles = {
     borderRadius: 0,
     transition: "none",
@@ -81,6 +81,9 @@ function DrawerData({ itemData, setItemData }) {
         id: itemData.id.toString(),
         [key]: value,
         lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
+      }).then(async () => {
+        mutationUrl && mutate(mutationUrl);
+        handleOpen();
       }),
       {
         loading: "Updating...",
@@ -237,9 +240,11 @@ function DrawerData({ itemData, setItemData }) {
 export default function ItemDrawer({
   id,
   children,
+  mutationUrl,
 }: {
   id: number;
   children: JSX.Element;
+  mutationUrl?: string;
 }): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const [itemData, setItemData] = useState<null | Item>(null);
@@ -286,7 +291,12 @@ export default function ItemDrawer({
           <ErrorHandler error="An error occured while trying to fetch the item's data. Please try again later" />
         )}
         {itemData ? (
-          <DrawerData itemData={itemData} setItemData={setItemData} />
+          <DrawerData
+            itemData={itemData}
+            handleOpen={handleOpen}
+            setItemData={setItemData}
+            mutationUrl={mutationUrl}
+          />
         ) : (
           <Box
             sx={{

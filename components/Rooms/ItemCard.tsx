@@ -14,14 +14,16 @@ import { colors } from "../../lib/colors";
  * Item card
  */
 export function ItemCard({
+  mutationUrl,
   displayRoom = false,
   item,
 }: {
+  mutationUrl:string;
   displayRoom?: boolean;
   item: ItemType;
 }) {
   return (
-    <Item id={parseInt(item.id)}>
+    <Item id={parseInt(item.id)} mutationUrl={mutationUrl}>
       <Card
         sx={{
           boxShadow: "0",
