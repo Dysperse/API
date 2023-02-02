@@ -186,7 +186,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       >
         {[capitalizeFirstLetter(itemData.room), ...categories].map(
           (category) => (
-            <Chip label={category} />
+            <Chip label={category} key={category} />
           )
         )}
         <CategoryModal
