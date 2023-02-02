@@ -190,6 +190,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
           )
         )}
         <CategoryModal
+          mutationUrl={mutationUrl}
           setItemData={setItemData}
           item={itemData}
           handleItemChange={handleItemChange}
