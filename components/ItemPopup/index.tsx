@@ -183,9 +183,11 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
           my: 2,
         }}
       >
-        {categories.map((category) => (
-          <Chip label={category} />
-        ))}
+        {[capitalizeFirstLetter(itemData.room), ...categories].map(
+          (category) => (
+            <Chip label={category} />
+          )
+        )}
         <CategoryModal
           setItemData={setItemData}
           item={itemData}
@@ -302,8 +304,9 @@ export default function ItemDrawer({
             sx={{
               display: "flex",
               alignItems: "center",
-              justifuContent: "center",
-              py: 5,
+              width: "100%",
+              justifyContent: "center",
+              py: 10,
             }}
           >
             <CircularProgress />
