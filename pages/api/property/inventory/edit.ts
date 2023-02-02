@@ -31,6 +31,17 @@ const handler = async (req, res) => {
             process.env.INVENTORY_ENCRYPTION_KEY
           ).toString() ?? "",
       }),
+      ...(req.query.note && {
+        note:
+          CryptoJS.AES.encrypt(
+            req.query.note,
+            process.env.INVENTORY_ENCRYPTION_KEY
+          ).toString() ?? "",
+      }),
+      ...(req.query.starred && {
+        starred: req.query.starred === "true" ? false : true,
+      }),
+      lastModified: new Date(req.query.lastModified),
       ...(req.query.category && {
         category:
           CryptoJS.AES.encrypt(

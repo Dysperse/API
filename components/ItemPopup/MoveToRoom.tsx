@@ -14,7 +14,7 @@ import {
   DialogContentText,
   DialogTitle,
   Icon,
-  ListItem,
+  ListItemButton,
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
@@ -23,29 +23,22 @@ import { toastStyles } from "../../lib/useCustomTheme";
 /**
  * @description A room
  * @param room Room
- * @param setDrawerState Set drawer state
  * @param setOpen Set open
  * @param id ID
- * @param setDeleted Set deleted
  * @returns JSX.Element
  */
 function Room({
   id,
-  setDeleted,
   room,
   setOpen,
-  setDrawerState,
 }: {
   id: number;
-  setDeleted: (deleted: boolean) => void;
   room: string;
   setOpen: (open: boolean) => void;
-  setDrawerState: (state: boolean) => void;
 }) {
   const [disabled, setDisabled] = useState(false);
   return (
-    <ListItem
-      button
+    <ListItemButton
       onClick={() => {
         setDisabled(true);
         fetchApiWithoutHook("property/inventory/moveToRoom", {
@@ -54,11 +47,9 @@ function Room({
           lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         }).then(() => {
           setDisabled(false);
-          setDeleted(true);
           setOpen(false);
-          setDrawerState(false);
           setTimeout(() => {
-            toast.success("Moved item!",toastStyles);
+            toast.success("Moved item!", toastStyles);
           }, 100);
         });
       }}
@@ -79,19 +70,17 @@ function Room({
           </span>
         }
       />
-    </ListItem>
+    </ListItemButton>
   );
 }
 
 /**
  * Description
- * @param {any} {styles
+ * @param {any} styles
  * @param {any} item
- * @param {any} setDeleted
- * @param {any} setDrawerState}
  * @returns {any}
  */
-export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
+export function MoveToRoom({ item, styles }) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open);
   useEffect(() => {
@@ -144,15 +133,15 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
               "Camping",
               "Garden",
             ]
-              .filter((index) => index.toLowerCase() !== room.toLowerCase())
+              .filter(
+                (index) => index.toLowerCase() !== item.room.toLowerCase()
+              )
               .map((index) => (
                 <Room
                   key={Math.random().toString()}
                   room={index}
-                  setDrawerState={setDrawerState}
                   setOpen={setOpen}
                   id={parseInt(item.id)}
-                  setDeleted={setDeleted}
                 />
               ))}
           </DialogContentText>
@@ -169,15 +158,14 @@ export function MoveToRoom({ room, styles, item, setDeleted, setDrawerState }) {
         </DialogActions>
       </SwipeableDrawer>
 
-      <ListItem
-        button
+      <ListItemButton
         sx={styles}
         onClick={() => setOpen(true)}
         disabled={global.permission === "read-only"}
       >
         <Icon>place_item</Icon>
         Move
-      </ListItem>
+      </ListItemButton>
     </>
   );
 }

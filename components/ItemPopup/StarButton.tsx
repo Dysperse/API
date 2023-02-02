@@ -1,4 +1,4 @@
-import { Icon, ListItem } from "@mui/material";
+import { Icon, ListItemButton } from "@mui/material";
 import type { Item } from "@prisma/client";
 
 /**
@@ -26,14 +26,13 @@ export function StarButton({
   handleItemStar: () => void;
 }): JSX.Element {
   return (
-    <ListItem
-      button
+    <ListItemButton
       sx={styles}
       onClick={handleItemStar}
       disabled={global.permission === "read-only"}
     >
       <Icon className={item.starred ? "" : "outlined"}>grade</Icon>
       {!item.starred ? "Star" : "Unstar"}
-    </ListItem>
+    </ListItemButton>
   );
 }

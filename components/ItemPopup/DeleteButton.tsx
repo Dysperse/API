@@ -4,7 +4,7 @@
  * @param {any} styles}
  * @returns {any}
  */
-import { Icon, ListItem } from "@mui/material";
+import { Icon, ListItemButton } from "@mui/material";
 
 export function DeleteButton({
   handleItemDelete,
@@ -22,14 +22,13 @@ export function DeleteButton({
   };
 }): JSX.Element {
   return (
-    <ListItem
-      button
+    <ListItemButton
       sx={styles}
       onClick={handleItemDelete}
       disabled={global.permission === "read-only"}
     >
       <Icon>delete</Icon>
       Delete
-    </ListItem>
+    </ListItemButton>
   );
 }

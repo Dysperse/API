@@ -98,9 +98,11 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
  * Category modal
  */
 export function CategoryModal({
+  handleItemChange,
   setItemData,
   item,
 }: {
+  handleItemChange: any;
   setItemData: any;
   item: ItemType;
 }) {
@@ -139,29 +141,31 @@ export function CategoryModal({
                 sx={{ gap: 2, borderRadius: 999 }}
                 onClick={() => {
                   if (JSON.parse(item.category).includes(category)) {
-                    setItemData({
-                      ...item,
-                      category: JSON.stringify(
+                    setItemData(() => {
+                      const c = JSON.stringify(
                         JSON.parse(item.category).filter(
                           (c: string) => c !== category
                         )
-                      ),
+                      );
+                      handleItemChange("category", c);
+                      return {
+                        ...item,
+                        category: c,
+                      };
                     });
                   } else {
-                    setItemData({
-                      ...item,
-                      category: JSON.stringify([
+                    setItemData(() => {
+                      const c = JSON.stringify([
                         ...JSON.parse(item.category),
                         category,
-                      ]),
+                      ]);
+                      handleItemChange("category", c);
+                      return {
+                        ...item,
+                        category: c,
+                      };
                     });
                   }
-                  setTimeout(() => {
-                    fetchApiWithoutHook("property/inventory/edit", {
-                      category: item.category,
-                      id: item.id,
-                    });
-                  }, 100);
                 }}
               >
                 <Box
@@ -222,7 +226,6 @@ export function CategoryModal({
         sx={{
           px: 1.5,
           mr: 1,
-          mb: 2.5,
           background: global.user.darkMode
             ? "hsl(240,11%,20%)"
             : `${colors[themeColor][200]}!important`,

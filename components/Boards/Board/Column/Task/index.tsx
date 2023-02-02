@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { mutate } from "swr";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
+import Item from "../../../../ItemPopup";
 import { ImageViewer } from "./ImageViewer";
 import { SubTask } from "./SubTask";
 import { TaskDrawer } from "./TaskDrawer";
@@ -67,21 +68,24 @@ const renderDescription = (txt: any) => {
     }
 
     const [, id, name] = item.split(":");
+
     result.push(
       (
-        <Tooltip
-          title={"Linked to item " + id}
-          followCursor
-          onClick={(e) => e.stopPropagation()}
-          placement="bottom-start"
-        >
-          <Chip
-            size="small"
-            key={id}
-            label={name.slice(0, -1)}
-            icon={<Icon>link</Icon>}
-          />
-        </Tooltip>
+        <Item id={id}>
+          <Tooltip
+            title={"Linked to item " + id}
+            followCursor
+            onClick={(e) => e.stopPropagation()}
+            placement="bottom-start"
+          >
+            <Chip
+              size="small"
+              key={id}
+              label={name.slice(0, -1)}
+              icon={<Icon>link</Icon>}
+            />
+          </Tooltip>
+        </Item>
       ) as any
     );
 
