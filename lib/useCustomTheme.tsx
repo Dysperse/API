@@ -348,8 +348,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
     },
     transitions: {
       duration: {
-        enteringScreen: 250,
-        leavingScreen: 250,
+        enteringScreen: 300,
+        leavingScreen: 300,
       },
     },
     MuiSwitch: {
