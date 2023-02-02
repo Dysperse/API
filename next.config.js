@@ -7,7 +7,7 @@ const withPWA = require("next-pwa")({
   reloadOnOnline: false,
   dynamicStartUrl: false,
   cacheOnFrontEndNav: true,
-  maximumFileSizeToCacheInBytes: 500,
+  maximumFileSizeToCacheInBytes: 1000000,
 });
 
 const moduleExports = {
