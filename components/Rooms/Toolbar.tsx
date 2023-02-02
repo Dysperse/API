@@ -63,7 +63,7 @@ function SearchBar({
           pointerEvents: "none",
         },
         "& *:focus": {
-          pointerEvents: "auto!important",
+          pointerEvents: "unset!important",
         },
         verticalAlign: "middle",
       }}

@@ -320,6 +320,7 @@ export function AppsMenu({ styles }) {
             target="_blank"
             size="small"
             href="https://dysperse.com/support"
+            sx={{ cursor: "pointer!important" }}
           >
             Support center
             <Icon>arrow_forward</Icon>
@@ -329,6 +330,7 @@ export function AppsMenu({ styles }) {
             target="_blank"
             size="small"
             href="https://discord.gg/fvngmDzh77"
+            sx={{ cursor: "pointer!important" }}
           >
             Community Discord
             <Icon>arrow_forward</Icon>

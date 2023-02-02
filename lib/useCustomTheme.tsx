@@ -129,7 +129,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             px: "30px",
             "&.MuiButton-sizeSmall": {
               px: "10px !important",
-              cursor: "auto!important",
             },
             userSelect: "none",
             textTransform: "none",

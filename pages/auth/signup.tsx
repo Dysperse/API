@@ -74,13 +74,7 @@ export default function Prompt() {
 
   return (
     <Layout>
-      <Box
-        sx={{
-          "& *": {
-            overscrollBehavior: "auto!important",
-          },
-        }}
-      >
+      <Box>
         <Paper
           sx={{
             background: "#F4CEEB",

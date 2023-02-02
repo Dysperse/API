@@ -177,7 +177,7 @@ export const Board = function Board({
     px: 1,
     mb: 0.2,
     color: global.user.darkMode ? "hsl(240,11%,80%)" : "#404040",
-    cursor: "auto!important",
+    cursor: "unset!important",
     userSelect: "none",
     "&:hover": {
       color: global.user.darkMode ? "hsl(240,11%,85%)" : "#303030",

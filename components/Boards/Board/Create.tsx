@@ -584,7 +584,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
             mb: 2,
             ml: -1,
             color: "hsl(240,11%,90%)!important",
-            cursor: "auto!important",
+            cursor: "unset!important",
             userSelect: "none",
             "&:hover": {
               color: "hsl(240,11%,80%)",
