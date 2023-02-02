@@ -262,7 +262,7 @@ export default function ItemDrawer({
     } catch (e) {
       setError(true);
     }
-  }, [open]);
+  }, [id, open]);
 
   const handleClose = useCallback(() => {
     setOpen(false);
