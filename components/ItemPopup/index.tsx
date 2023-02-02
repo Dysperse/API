@@ -190,7 +190,6 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
           )
         )}
         <CategoryModal
-          mutationUrl={mutationUrl}
           setItemData={setItemData}
           item={itemData}
           handleItemChange={handleItemChange}
@@ -253,6 +252,7 @@ export default function ItemDrawer({
   const [open, setOpen] = useState<boolean>(false);
   const [itemData, setItemData] = useState<null | Item>(null);
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleOpen = useCallback(async () => {
     setOpen(true);
@@ -260,6 +260,7 @@ export default function ItemDrawer({
     try {
       const data = await fetchApiWithoutHook("property/inventory/item", { id });
       setItemData(data);
+      setLoading(false);
     } catch (e) {
       setError(true);
     }
@@ -301,6 +302,8 @@ export default function ItemDrawer({
             setItemData={setItemData}
             mutationUrl={mutationUrl}
           />
+        ) : !loading && itemData == null ? (
+          <Box sx={{ p: 3 }}>Item does not exist</Box>
         ) : (
           <Box
             sx={{

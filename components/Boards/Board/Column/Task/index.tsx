@@ -270,7 +270,7 @@ export const Task = React.memo(function Task({
           <Box>
             <Typography variant="h6">{renderText(taskData.name)}</Typography>
             <Typography variant="body2">
-              {taskData.description.trim() !== ""
+              {taskData.description !== ""
                 ? taskData.description
                 : "(no description provided)"}
               {taskData.due && <>&nbsp;&bull;&nbsp;</>}
@@ -343,7 +343,7 @@ export const Task = React.memo(function Task({
                 backgroundColor: "hsl(240,11%,19%)!important",
               },
               "&:active": {
-                backgroundColor: "hsl(240,11%,16%)!importantgl",
+                backgroundColor: "hsl(240,11%,16%)!important",
               },
             }),
             ...(!checkList && {
