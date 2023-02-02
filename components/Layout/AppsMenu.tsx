@@ -321,7 +321,7 @@ export function AppsMenu({ styles }) {
             size="small"
             href="https://dysperse.com/support"
           >
-            Knowledge base
+            Support center
             <Icon>arrow_forward</Icon>
           </Button>
           <Button
