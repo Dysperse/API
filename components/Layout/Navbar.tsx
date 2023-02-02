@@ -1,9 +1,8 @@
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Offline } from "react-detect-offline";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
-import { AppsMenu } from "./AppsMenu";
-import { InviteButton } from "./InviteButton";
 import { SearchPopup } from "./Search";
 
 import {
@@ -14,9 +13,13 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
 import { Achievements } from "./Achievements";
 import { UpdateButton } from "./UpdateButton";
+
+const AppsMenu = dynamic(() => import("./AppsMenu"));
+const InviteButton = dynamic(() => import("./InviteButton"));
 
 /**
  * Navbar component for layout
@@ -44,6 +47,8 @@ export function Navbar(): JSX.Element {
       transition: "none",
     },
   };
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
     <AppBar
@@ -145,7 +150,7 @@ export function Navbar(): JSX.Element {
           </Offline>
         </Box>
         <Achievements styles={styles} />
-        <AppsMenu styles={styles} />
+        {!isMobile && <AppsMenu styles={styles} />}
         <Tooltip title="Support">
           <IconButton
             sx={{ ...styles, display: { xs: "none", sm: "inline-flex" } }}

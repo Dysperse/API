@@ -21,7 +21,7 @@ const Group = dynamic(() => import("../Group"));
  * Invite button to trigger property list
  * @returns {any}
  */
-export function InviteButton() {
+export default function InviteButton() {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
 

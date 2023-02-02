@@ -192,7 +192,7 @@ function Apps({ styles }) {
  * Apps menu
  * @returns {any}
  */
-export function AppsMenu({ styles }) {
+export default function AppsMenu({ styles }) {
   const [open, setOpen] = React.useState<boolean>(false);
   useStatusBar(open);
   useHotkeys(
