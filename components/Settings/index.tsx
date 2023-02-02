@@ -11,6 +11,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
@@ -20,11 +21,11 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { Puller } from "../Puller";
-import AccountSettings from "./AccountSettings";
-import AppearanceSettings from "./AppearanceSettings";
-import LoginActivity from "./LoginActivity";
-import Notifications from "./Notifications";
-import TwoFactorAuth from "./TwoFactorAuth";
+const AccountSettings = dynamic(() => import("./AccountSettings"));
+const AppearanceSettings = dynamic(() => import("./AppearanceSettings"));
+const LoginActivity = dynamic(() => import("./LoginActivity"));
+const Notifications = dynamic(() => import("./Notifications"));
+const TwoFactorAuth = dynamic(() => import("./TwoFactorAuth"));
 
 /**
  * Top-level component for the settings page.
