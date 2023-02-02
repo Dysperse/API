@@ -116,7 +116,7 @@ export function Sidebar() {
         onClick={() => router.push("/zen")}
         onMouseDown={() => router.push("/zen")}
       >
-        <Tooltip title="Spaces" placement="right">
+        <Tooltip title="Start" placement="right">
           <span
             className={`material-symbols-${
               router.asPath === "/zen" ||

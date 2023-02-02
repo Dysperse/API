@@ -59,6 +59,7 @@ export const getUserData = async (token: string) => {
  * @returns {any}
  */
 const handler = async (req, res) => {
+  res.setHeader("Cache-Control", "s-maxage=86400");
   try {
     const session = await getUserData(req.query.token);
     if (session && session.user !== false) {
