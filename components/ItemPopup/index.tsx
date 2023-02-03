@@ -266,7 +266,8 @@ export default function ItemDrawer({
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const handleOpen = useCallback(async () => {
+  const handleOpen = useCallback(async (e) => {
+    e.stopPropagation();
     setOpen(true);
     setError(false);
     try {

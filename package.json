@@ -12,6 +12,7 @@
     "static": "next build && next export",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build",
+    "open-android": "CAPACITOR_ANDROID_STUDIO_PATH=\"C:\\Users\\manus\\AppData\\Local\\Android\\sdk\" cap open android",
     "vapid": "web-push generate-vapid-keys"
   },
   "dependencies": {
