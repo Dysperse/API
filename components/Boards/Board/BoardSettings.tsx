@@ -21,6 +21,7 @@ import { CreateColumn } from "./Column/Create";
 
 export function BoardSettings({ mutationUrl, board }) {
   const [title, setTitle] = React.useState(board.name);
+  const [description, setDescription] = React.useState(board.description || "");
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -55,6 +56,25 @@ export function BoardSettings({ mutationUrl, board }) {
             onChange={(e) => setTitle(e.target.value)}
             id={"renameInput"}
             autoFocus
+            variant="filled"
+            label="Board name"
+            InputProps={{
+              sx: {
+                fontWeight: "700",
+                mb: 2,
+              },
+            }}
+          />
+
+          <TextField
+            multiline
+            rows={4}
+            value={description}
+            label="What's this board about?"
+            variant="filled"
+            onChange={(e) => setDescription(e.target.value)}
+            id={"descriptionInput"}
+            autoFocus
             InputProps={{
               sx: {
                 fontWeight: "700",
@@ -74,7 +94,12 @@ export function BoardSettings({ mutationUrl, board }) {
             </Button>
             <Button
               variant="contained"
-              disabled={title == board.name || title.trim() == ""}
+              disabled={
+                title == board.name ||
+                title.trim() == "" ||
+                description == board.description ||
+                description.trim() == ""
+              }
               onClick={() => {
                 if (title !== board.name && title.trim() !== "") {
                   toast.promise(
