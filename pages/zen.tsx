@@ -44,6 +44,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { Puller } from "../components/Puller";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { getActions } from "../components/zen/getActions";
@@ -273,6 +274,7 @@ export default function Home() {
   useEffect(() => {
     editMode ? neutralizeBack(() => setEditMode(false)) : revivalBack();
   });
+
   let greeting;
   if (time < 10) {
     greeting = "Good morning, ";
@@ -471,16 +473,7 @@ export default function Home() {
                   />
                 </ListItemButton>
               ) : (
-                <ListItemButton
-                  disableRipple={editMode}
-                  onClick={() => !editMode && router.push("/coach")}
-                >
-                  <Icon className="outlined">hive</Icon>
-                  <ListItemText
-                    primary="Daily routine"
-                    secondary={!editMode && "7 tasks remaining"}
-                  />
-                </ListItemButton>
+                <DailyRoutine zen editMode={editMode} />
               )
             )}
 

@@ -3,6 +3,8 @@ import {
   Box,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemText,
   SwipeableDrawer,
   Toolbar,
   Typography,
@@ -15,7 +17,7 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { CircularProgressWithLabel, Task } from "../../pages/coach";
 
-export function DailyRoutine() {
+export function DailyRoutine({ zen = false, editMode = false }: any) {
   const { data, url } = useApi("user/routines");
   const [open, setOpen] = React.useState(false);
 
@@ -85,6 +87,122 @@ export function DailyRoutine() {
           );
         });
 
+  const trigger = zen ? (
+    <>
+      <ListItemButton disableRipple={editMode} onClick={() => setOpen(true)}>
+        <Icon className="outlined">hive</Icon>
+        <ListItemText
+          primary="Daily routine"
+          secondary={
+            data ? (
+              <>
+                {tasksRemaining.length == 0 ? (
+                  <>Hurray! You worked towards all of your goals today!</>
+                ) : (
+                  <>
+                    {tasksRemaining.length +
+                      " task" +
+                      (tasksRemaining.length == 1 ? "" : "s") +
+                      " remaining"}{" "}
+                    &bull; Click to{" "}
+                    {doneTasks === 0
+                      ? "start"
+                      : tasksRemaining === 0
+                      ? "view"
+                      : "resume"}
+                  </>
+                )}
+              </>
+            ) : (
+              "Loading..."
+            )
+          }
+        />
+      </ListItemButton>
+    </>
+  ) : (
+    <Box
+      id="routineTrigger"
+      className="shadow-md hover:shadow-lg"
+      onClick={() => setOpen(true)}
+      sx={{
+        ...(!data && {
+          filter: "blur(5px)",
+          pointerEvents: "none",
+          minWidth: { xs: "90%", sm: "unset" },
+        }),
+        ml: { sm: "auto" },
+        p: 2,
+        px: 3,
+        transition: "blur .2s, transform 0.2s",
+        "&:active": {
+          transform: "scale(0.98)",
+          transitionDuration: "0s",
+        },
+        userSelect: "none",
+        borderRadius: 5,
+        display: "flex",
+        alignItems: "center",
+        background: global.user.darkMode
+          ? "hsl(240,11%,16%)"
+          : colors[themeColor][50],
+        border:
+          "1px solid " +
+          (global.user.darkMode ? "hsl(240,11%,16%)" : colors[themeColor][100]),
+        "&:hover": {
+          background: global.user.darkMode
+            ? "hsl(240,11%,16%)"
+            : colors[themeColor][100],
+          border:
+            "1px solid " +
+            (global.user.darkMode
+              ? "hsl(240,11%,16%)"
+              : colors[themeColor][200]),
+        },
+
+        gap: 5,
+      }}
+    >
+      <Box sx={{ mr: "auto" }}>
+        <Typography sx={{ fontWeight: "900" }}>Daily routine</Typography>
+        <Typography>
+          {data ? (
+            <>
+              {tasksRemaining.length == 0 ? (
+                <>Hurray! You worked towards all of your goals today!</>
+              ) : (
+                <>
+                  {tasksRemaining.length +
+                    " task" +
+                    (tasksRemaining.length == 1 ? "" : "s") +
+                    " remaining"}{" "}
+                  &bull; Click to{" "}
+                  {doneTasks === 0
+                    ? "start"
+                    : tasksRemaining === 0
+                    ? "view"
+                    : "resume"}
+                </>
+              )}
+            </>
+          ) : (
+            "Loading..."
+          )}
+        </Typography>
+      </Box>
+      <CircularProgressWithLabel
+        value={
+          data
+            ? (doneTasks.length /
+                data.filter((task) => task.durationDays - task.progress > 0)
+                  .length) *
+              100
+            : 0
+        }
+      />
+    </Box>
+  );
+
   return (
     <>
       <SwipeableDrawer
@@ -115,10 +233,7 @@ export function DailyRoutine() {
           }}
         >
           <Toolbar className="flex" sx={{ height: "70px" }}>
-            <IconButton
-              color="inherit"
-              onClick={() => setOpen(false)}
-            >
+            <IconButton color="inherit" onClick={() => setOpen(false)}>
               <Icon>west</Icon>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>
@@ -161,88 +276,7 @@ export function DailyRoutine() {
           ))}
         </Box>
       </SwipeableDrawer>
-      <Box
-        id="routineTrigger"
-        className="shadow-md hover:shadow-lg"
-        onClick={() => setOpen(true)}
-        sx={{
-          ...(!data && {
-            filter: "blur(5px)",
-            pointerEvents: "none",
-            minWidth: { xs: "90%", sm: "unset" },
-          }),
-          ml: { sm: "auto" },
-          p: 2,
-          px: 3,
-          transition: "blur .2s, transform 0.2s",
-          "&:active": {
-            transform: "scale(0.98)",
-            transitionDuration: "0s",
-          },
-          userSelect: "none",
-          borderRadius: 5,
-          display: "flex",
-          alignItems: "center",
-          background: global.user.darkMode
-            ? "hsl(240,11%,16%)"
-            : colors[themeColor][50],
-          border:
-            "1px solid " +
-            (global.user.darkMode
-              ? "hsl(240,11%,16%)"
-              : colors[themeColor][100]),
-          "&:hover": {
-            background: global.user.darkMode
-              ? "hsl(240,11%,16%)"
-              : colors[themeColor][100],
-            border:
-              "1px solid " +
-              (global.user.darkMode
-                ? "hsl(240,11%,16%)"
-                : colors[themeColor][200]),
-          },
-
-          gap: 5,
-        }}
-      >
-        <Box sx={{ mr: "auto" }}>
-          <Typography sx={{ fontWeight: "900" }}>Daily routine</Typography>
-          <Typography>
-            {data ? (
-              <>
-                {tasksRemaining.length == 0 ? (
-                  <>Hurray! You worked towards all of your goals today!</>
-                ) : (
-                  <>
-                    {tasksRemaining.length +
-                      " task" +
-                      (tasksRemaining.length == 1 ? "" : "s") +
-                      " remaining"}{" "}
-                    &bull; Click to{" "}
-                    {doneTasks === 0
-                      ? "start"
-                      : tasksRemaining === 0
-                      ? "view"
-                      : "resume"}
-                  </>
-                )}
-              </>
-            ) : (
-              "Loading..."
-            )}
-          </Typography>
-        </Box>
-        <CircularProgressWithLabel
-          value={
-            data
-              ? (doneTasks.length /
-                  data.filter((task) => task.durationDays - task.progress > 0)
-                    .length) *
-                100
-              : 0
-          }
-        />
-      </Box>
+      {trigger}
     </>
   );
 }
