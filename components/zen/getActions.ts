@@ -1,9 +1,7 @@
-import { useRouter } from "next/router";
+import router from "next/router";
 import { capitalizeFirstLetter } from "../ItemPopup";
 
 export const getActions = (type) => {
-  const router = useRouter();
-
   return {
     goals: [
       { key: "study_plan", primary: "Create a study plan", icon: "school" },
