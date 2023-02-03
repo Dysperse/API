@@ -24,7 +24,9 @@ export function BottomNav() {
     return {
       textTransform: "none",
       color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
-      height: "60px",
+      "& span": {
+        transition: "transform .2s",
+      },
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         ...iconStyles,
       },
@@ -32,15 +34,15 @@ export function BottomNav() {
       cursor: "pointer",
       width: "100%",
       display: "flex",
+      mx: "auto",
+      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      flexDirection: "column",
-      fontSize: "14.5px",
-      transition: "transform .2s",
-      "&:active": {
-        transform: "scale(.93)",
-        transition: "none",
-      },
+      "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
+        {
+          transform: "scale(.9)",
+          transition: "none",
+        },
       ...(active && {
         fontWeight: 700,
         color: `${
