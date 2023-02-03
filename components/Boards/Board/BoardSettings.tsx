@@ -78,6 +78,8 @@ function PublishBoard({ board }) {
             value={board.description}
             margin="dense"
             fullWidth
+            multiline
+            rows={4}
             label="Template description"
           />
         </DialogContent>
