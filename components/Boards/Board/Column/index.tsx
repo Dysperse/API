@@ -1,5 +1,5 @@
 import EmojiPicker from "emoji-picker-react";
-import React from "react";
+import React, { cloneElement } from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { Task } from "./Task";
@@ -17,12 +17,10 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
-import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
-import { toastStyles } from "../../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 
 function CompletedTasks({
@@ -158,7 +156,13 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
   );
 }
 
-function FilterMenu({ originalTasks, columnTasks, setColumnTasks, board }) {
+function FilterMenu({
+  children,
+  originalTasks,
+  columnTasks,
+  setColumnTasks,
+  board,
+}) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -168,15 +172,30 @@ function FilterMenu({ originalTasks, columnTasks, setColumnTasks, board }) {
     setAnchorEl(null);
   };
 
+  const trigger = cloneElement(children, {
+    onClick: handleClick,
+  });
+
   return (
     <>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
+        PaperProps={{
+          sx: {
+            mt: "-3px!important",
+            ml: "7px!important",
+          },
         }}
       >
         <MenuItem
@@ -216,34 +235,21 @@ function FilterMenu({ originalTasks, columnTasks, setColumnTasks, board }) {
           Oldest to newest
         </MenuItem>
       </Menu>
-      <IconButton
-        sx={{
-          flexShrink: 0,
-          display: board.archived ? "none" : "",
-          ml: "auto",
-          mr: -1,
-          transition: "none!important",
-          "&:hover,&:active": {
-            background: global.user.darkMode
-              ? "hsl(240,11%,13%)"
-              : "rgba(200,200,200,.3)",
-            color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
-          },
-          "&:active": {
-            background: global.user.darkMode
-              ? "hsl(240,11%,15%)"
-              : "rgba(200,200,200,.4)",
-          },
-        }}
-        onClick={handleClick}
-      >
-        <Icon className="outlined">filter_list</Icon>
-      </IconButton>
+      {trigger}
     </>
   );
 }
 
-function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
+function OptionsMenu({
+  columnTasks,
+  setColumnTasks,
+  isHovered,
+  setCurrentColumn,
+  mutationUrl,
+  column,
+  setIsHovered,
+  board,
+}) {
   const [open, setOpen] = React.useState(false);
   const styles = {
     width: "100%",
@@ -252,18 +258,117 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
     justifyContent: "start",
     gap: 2,
   };
+  const trigger = useMediaQuery("(max-width: 600px)");
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [editMode, setEditMode] = React.useState(false);
   const [title, setTitle] = React.useState(column.name);
   const [emoji, setEmoji] = React.useState(column.emoji);
   const ref: any = React.useRef();
   const buttonRef: any = React.useRef();
   useStatusBar(open);
+  const triggerRef: any = React.useRef();
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  useHotkeys(
+    "e",
+    (e) => {
+      e.preventDefault();
+      if (isHovered) {
+        setIsHovered(false);
+        triggerRef.current?.click();
+      }
+    },
+    [isHovered]
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const children = (
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 1.5,
+          py: 2,
+          mb: 1,
+          borderBottom: `1px solid ${
+            global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+          }`,
+        }}
+      >
+        <EmojiPickerModal
+          emoji={emoji}
+          setEmoji={setEmoji}
+          lazyLoadEmojis={true}
+        />
+        <TextField
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          id={"renameInput"}
+          inputRef={ref}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") {
+              buttonRef.current.click();
+            }
+          }}
+          size="small"
+          InputProps={{
+            sx: {
+              fontWeight: "700",
+            },
+          }}
+        />
+      </Box>
+
+      <Box>
+        <Button
+          sx={styles}
+          size="large"
+          onClick={() => {
+            setEditMode(true);
+            setTimeout(() => {
+              ref.current.focus();
+              ref.current.select();
+            });
+          }}
+        >
+          <Icon className="outlined">edit</Icon>
+          Edit
+        </Button>
+        <ConfirmationModal
+          title="Delete column?"
+          question="Are you sure you want to delete this column? This action annot be undone."
+          callback={async () => {
+            await fetchApiWithoutHook("property/boards/deleteColumn", {
+              id: column.id,
+            });
+            await mutate(mutationUrl);
+            setOpen(false);
+            setCurrentColumn((e) => e - 1);
+          }}
+        >
+          <Button sx={styles} size="large">
+            <Icon className="outlined">delete</Icon> Delete column
+          </Button>
+        </ConfirmationModal>
+      </Box>
+    </>
+  );
 
   return (
     <>
       <SwipeableDrawer
         anchor="bottom"
         open={open}
+        sx={{
+          zIndex: 9999999,
+        }}
         onClose={() => {
           mutate(mutationUrl);
           setOpen(false);
@@ -281,153 +386,63 @@ function OptionsMenu({ setCurrentColumn, mutationUrl, column, board }) {
           },
         }}
       >
-        <Box
+        {children}
+      </SwipeableDrawer>
+
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        <FilterMenu
+          originalTasks={column.tasks.filter(
+            (task) => task.parentTasks.length === 0
+          )}
+          board={board}
+          columnTasks={columnTasks}
+          setColumnTasks={setColumnTasks}
+        >
+          <MenuItem className="sortMenu">
+            <Icon className="outlined">filter_list</Icon>
+            Sort
+            <Icon className="outlined" sx={{ ml: "auto" }}>
+              chevron_right
+            </Icon>
+          </MenuItem>
+        </FilterMenu>
+        <MenuItem onClick={() => setOpen(true)}>
+          <Icon className="outlined">edit</Icon>Edit
+        </MenuItem>
+        <MenuItem disabled>
+          <Icon className="outlined">east</Icon>Move right
+        </MenuItem>
+        <MenuItem disabled>
+          <Icon className="outlined">west</Icon>Move left
+        </MenuItem>
+      </Menu>
+      <Tooltip title="Options (e)" placement="top">
+        <IconButton
+          onClick={handleClick}
+          ref={triggerRef}
+          size="small"
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1.5,
-            py: 2,
-            mb: 1,
-            borderBottom: `1px solid ${
-              global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
-            }`,
+            ml: "auto",
+            flexShrink: 0,
+            display: board.archived ? "none" : "",
+            transition: "none!important",
+
+            ...((isHovered || Boolean(anchorEl)) && {
+              background: global.user.darkMode
+                ? "hsl(240,11%,13%)!important"
+                : "rgba(200,200,200,.3)!important",
+            }),
+            "&:hover, &:active": {
+              background: global.user.darkMode
+                ? "hsl(240,11%,20%)!important"
+                : "rgba(200,200,200,.4)!important",
+            },
+            color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
           }}
         >
-          {!editMode ? (
-            <picture>
-              <img src={column.emoji} alt="emoji" width="30" height="30" />
-            </picture>
-          ) : (
-            <EmojiPickerModal
-              emoji={emoji}
-              setEmoji={setEmoji}
-              lazyLoadEmojis={true}
-            />
-          )}
-          {editMode ? (
-            <TextField
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              id={"renameInput"}
-              inputRef={ref}
-              onKeyDown={(e) => {
-                if (e.code === "Enter") {
-                  buttonRef.current.click();
-                }
-              }}
-              size="small"
-              InputProps={{
-                sx: {
-                  fontWeight: "700",
-                },
-              }}
-            />
-          ) : (
-            <Typography variant="h6">
-              {column.name}
-            </Typography>
-          )}
-        </Box>
-        {!editMode ? (
-          <Box>
-            <Button
-              sx={styles}
-              size="large"
-              onClick={() => {
-                setEditMode(true);
-                setTimeout(() => {
-                  ref.current.focus();
-                  ref.current.select();
-                });
-              }}
-            >
-              <Icon className="outlined">edit</Icon>
-              Edit
-            </Button>
-            <ConfirmationModal
-              title="Delete column?"
-              question="Are you sure you want to delete this column? This action annot be undone."
-              callback={async () => {
-                await fetchApiWithoutHook("property/boards/deleteColumn", {
-                  id: column.id,
-                });
-                await mutate(mutationUrl);
-                setOpen(false);
-                setCurrentColumn((e) => e - 1);
-              }}
-            >
-              <Button sx={styles} size="large">
-                <Icon className="outlined">delete</Icon> Delete column
-              </Button>
-            </ConfirmationModal>
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-            }}
-          >
-            <Button sx={styles} size="large" onClick={() => setEditMode(false)}>
-              <Icon className="outlined">cancel</Icon>
-              Cancel
-            </Button>
-            <Button
-              sx={styles}
-              size="large"
-              variant="contained"
-              ref={buttonRef}
-              disabled={
-                title.trim() == "" ||
-                (title === column.name && emoji === column.emoji)
-              }
-              onClick={() => {
-                toast.promise(
-                  fetchApiWithoutHook("property/boards/editColumn", {
-                    columnId: column.id,
-                    name: title,
-                    emoji: emoji,
-                  }).then(() => {
-                    mutate(mutationUrl);
-                    setOpen(false);
-                  }),
-                  {
-                    loading: "Saving your changes...",
-                    success: "Your changes were saved",
-                    error: "There was a problem saving your changes.",
-                  },
-                  toastStyles
-                );
-              }}
-            >
-              <Icon className="outlined">check</Icon>
-              Save
-            </Button>
-          </Box>
-        )}
-      </SwipeableDrawer>
-      <IconButton
-        onClick={() => setOpen(true)}
-        sx={{
-          flexShrink: 0,
-          display: board.archived ? "none" : "",
-          transition: "none!important",
-          "&:hover,&:active": {
-            background: global.user.darkMode
-              ? "hsl(240,11%,13%)"
-              : "rgba(200,200,200,.3)",
-            color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
-          },
-          "&:active": {
-            background: global.user.darkMode
-              ? "hsl(240,11%,15%)"
-              : "rgba(200,200,200,.4)",
-          },
-        }}
-      >
-        <Icon className="outlined">settings</Icon>
-      </IconButton>
+          <Icon className="outlined">more_horiz</Icon>
+        </IconButton>
+      </Tooltip>
     </>
   );
 }
@@ -508,6 +523,18 @@ export const Column = React.memo(function Column({
           px: { sm: 0.5 },
         }}
       >
+        <Box sx={{ display: "flex" }} onClick={() => setIsHovered(false)}>
+          <OptionsMenu
+            isHovered={isHovered}
+            setIsHovered={setIsHovered}
+            columnTasks={columnTasks}
+            setColumnTasks={setColumnTasks}
+            board={board}
+            column={column}
+            mutationUrl={mutationUrl}
+            setCurrentColumn={setCurrentColumn}
+          />
+        </Box>
         <Box
           sx={{
             display: { xs: "none", sm: checkList ? "none" : "inline-flex" },
@@ -577,20 +604,6 @@ export const Column = React.memo(function Column({
                 {columnTasks.length == 0 ? "tasks" : "completed"}
               </Typography>
             </Box>
-            <FilterMenu
-              originalTasks={column.tasks.filter(
-                (task) => task.parentTasks.length === 0
-              )}
-              board={board}
-              columnTasks={columnTasks}
-              setColumnTasks={setColumnTasks}
-            />
-            <OptionsMenu
-              board={board}
-              column={column}
-              mutationUrl={mutationUrl}
-              setCurrentColumn={setCurrentColumn}
-            />
           </Box>
         )}
       </Box>
