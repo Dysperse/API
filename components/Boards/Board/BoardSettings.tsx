@@ -59,18 +59,32 @@ function PublishBoard({ board }) {
               board
             </ListItem>
             <ListItem>You can always unpublish templates</ListItem>
-            <ListItem>Of</ListItem>
+            <ListItem>
+              Inappropriate/offensive content will be removed - and your account
+              will be banned!
+            </ListItem>
             <ListItem>
               Once you publish a template, you won&apos;t be able to edit the
               board&apos;s information
             </ListItem>
           </List>
-          <TextField value={board.name} fullWidth />
+          <TextField
+            value={board.name}
+            fullWidth
+            label="Template name"
+            margin="dense"
+          />
+          <TextField
+            value={board.description}
+            margin="dense"
+            fullWidth
+            label="Template description"
+          />
         </DialogContent>
         <DialogActions>
-          <Button>
-            <LoadingButton loading={loading}>Publish</LoadingButton>
-          </Button>
+          <LoadingButton variant="contained" loading={loading}>
+            Publish
+          </LoadingButton>
         </DialogActions>
       </Dialog>
       <MenuItem onClick={() => setOpen(true)}>
