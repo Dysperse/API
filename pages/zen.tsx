@@ -41,7 +41,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import { CSS } from "@dnd-kit/utilities";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { Puller } from "../components/Puller";
@@ -52,6 +52,58 @@ import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
 
 function DailyFocus({ editMode }) {
+  const randomGoals = [
+    "Exercise for 30 minutes",
+    "Meditate for 10 minutes",
+    "Drink 8 glasses of water",
+    "Eat a healthy breakfast",
+    "Read for 30 minutes",
+    "Write in a journal for 10 minutes",
+    "Call a friend or family member",
+    "Spend time in nature",
+    "Practice gratitude by listing 3 things you're thankful for",
+    "Declutter and organize my home",
+    "Plan and prepare meals for the day",
+    "Take a 10-minute break every 2 hours",
+    "Take a nap or rest for 20 minutes",
+    "Spend 30 minutes learning a new skill",
+    "Practice deep breathing for 5 minutes",
+    "Do a random act of kindness for someone else",
+    "Spend 30 minutes in quiet reflection",
+    "Take time to enjoy a hobby",
+    "Create a daily to-do list and prioritize tasks",
+    "Spend time outside in the sun",
+    "Spend 15 minutes in deep cleaning",
+    "Listen to a podcast or audiobook",
+    "Spend time in silence without technology",
+    "Volunteer or give back to the community",
+    "Take a walk or go for a run",
+    "Spend time with a pet",
+    "Try a new healthy recipe for dinner",
+    "Spend 30 minutes practicing mindfulness",
+    "Do a 15-minute home workout",
+    "Set and work towards a daily savings goal",
+    "Spend 15 minutes practicing self-care",
+    "Spend time with loved ones",
+    "Make a conscious effort to reduce waste and be eco-friendly",
+    "Do a quick housecleaning and tidy up",
+    "Spend time in solitude and introspection",
+    "Get 8 hours of sleep",
+    "Spend time with a friend or family member",
+    "Visit a new place or try a new activity",
+    "Focus on positive self-talk and avoid negative self-criticism",
+    "Spend 15 minutes decluttering and organizing",
+    "Create a budget and stick to it",
+    "Spend time with a loved one or pet",
+    "Spend 30 minutes in deep work or focusing on a task",
+    "Take a relaxing bath or shower",
+    "Spend time doing a creative activity",
+    "Practice forgiveness and let go of grudges",
+    "Touch grass",
+  ];
+
+  const ref: any = createRef();
+
   return (
     <Box
       sx={{
@@ -88,8 +140,19 @@ function DailyFocus({ editMode }) {
             mx: "auto",
           },
         }}
+        inputRef={ref}
       />
-      <IconButton>
+      <IconButton
+        onClick={(e: any) => {
+          const g = randomGoals[Math.floor(Math.random() * randomGoals.length)];
+          const chance = Math.random();
+
+          if (g === "Touch grass" && chance > 0.1) {
+            e.target.click();
+          }
+          ref.current.value = g;
+        }}
+      >
         <Icon className="outlined">casino</Icon>
       </IconButton>
     </Box>
