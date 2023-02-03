@@ -104,7 +104,7 @@ export function BottomNav() {
             : "rgba(255,255,255,.4)",
           borderTop: global.user.darkMode
             ? router.asPath == "/zen"
-              ? "1px solid hsla(240,11%,20%,.5)"
+              ? "1px solid hsla(240,11%,80%,.1)"
               : "1px solid hsla(240, 11%, 20%, .8)"
             : global.user.darkMode
             ? "1px solid hsla(240,11%,15%)"
@@ -171,7 +171,7 @@ export function BottomNav() {
               router.asPath === "/coach" ? "rounded" : "outlined"
             }`}
           >
-            filter_vintage
+            rocket_launch
           </span>
         </Box>
 

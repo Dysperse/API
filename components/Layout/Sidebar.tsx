@@ -156,7 +156,7 @@ export function Sidebar() {
               router.asPath === "/coach" ? "rounded" : "outlined"
             }`}
           >
-            filter_vintage
+            rocket_launch
           </span>
         </Tooltip>
       </Box>

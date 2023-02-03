@@ -90,7 +90,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
   const trigger = zen ? (
     <>
       <ListItemButton disableRipple={editMode} onClick={() => setOpen(true)}>
-        <Icon className="outlined">hive</Icon>
+        <Icon className="outlined">rocket_launch</Icon>
         <ListItemText
           primary="Daily routine"
           secondary={

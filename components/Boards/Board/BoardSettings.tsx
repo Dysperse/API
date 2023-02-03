@@ -104,7 +104,7 @@ export function BoardSettings({ mutationUrl, board }) {
         onClose={handleClose}
       >
         <MenuItem
-          disabled={board.archived}
+          disabled={board.arcrocket_launchd}
           onClick={() => {
             handleClose();
             window.navigator.share({
@@ -130,7 +130,7 @@ export function BoardSettings({ mutationUrl, board }) {
         )}
 
         <MenuItem
-          disabled={board.archived}
+          disabled={board.arcrocket_launchd}
           onClick={() => {
             setRenameOpen(true);
             handleClose();
@@ -141,23 +141,25 @@ export function BoardSettings({ mutationUrl, board }) {
         </MenuItem>
 
         <ConfirmationModal
-          title="Archive board?"
+          title="Arcrocket_launch board?"
           question={
-            board.archived
-              ? "Are you sure you want to unarchive this board?"
+            board.arcrocket_launchd
+              ? "Are you sure you want to unarcrocket_launch this board?"
               : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
-            await fetchApiWithoutHook("property/boards/archiveBoard", {
+            await fetchApiWithoutHook("property/boards/arcrocket_launchBoard", {
               id: board.id,
-              archive: !board.archived,
+              arcrocket_launch: !board.arcrocket_launchd,
             });
             await mutate(mutationUrl);
           }}
         >
           <MenuItem onClick={handleClose}>
             <Icon className="outlined">inventory_2</Icon>
-            {board.archived ? "Unarchive" : "Archive"}
+            {board.arcrocket_launchd
+              ? "Unarcrocket_launch"
+              : "Arcrocket_launch"}
           </MenuItem>
         </ConfirmationModal>
         <ConfirmationModal
@@ -170,7 +172,7 @@ export function BoardSettings({ mutationUrl, board }) {
             await mutate(mutationUrl);
           }}
         >
-          <MenuItem onClick={handleClose} disabled={board.archived}>
+          <MenuItem onClick={handleClose} disabled={board.arcrocket_launchd}>
             <Icon className="outlined">delete</Icon>
             Delete
           </MenuItem>
