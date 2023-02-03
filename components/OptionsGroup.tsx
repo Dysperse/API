@@ -29,7 +29,7 @@ export function OptionsGroup({ currentOption, setOption, options }) {
                 : colors[themeColor][900]
             }!important`,
 
-            color: global.user.darkMode ? "#fff" : colors[themeColor][0],
+            color: global.user.darkMode ? "#fff" : colors[themeColor][50],
             ...(currentOption !== option && {
               background: `${
                 global.user.darkMode
