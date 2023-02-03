@@ -147,6 +147,7 @@ function DailyFocus({ editMode }) {
           const g = randomGoals[Math.floor(Math.random() * randomGoals.length)];
           const chance = Math.random();
 
+          // Easter egg xD
           if (g === "Touch grass" && chance > 0.1) {
             e.target.click();
           }
