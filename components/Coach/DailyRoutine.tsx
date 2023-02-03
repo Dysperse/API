@@ -1,11 +1,11 @@
 import {
   AppBar,
   Box,
+  Drawer,
   Icon,
   IconButton,
   ListItemButton,
   ListItemText,
-  SwipeableDrawer,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -94,7 +94,9 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         <ListItemText
           primary="Daily routine"
           secondary={
-            data ? (
+            editMode ? (
+              <></>
+            ) : data ? (
               <>
                 {tasksRemaining.length == 0 ? (
                   <>Hurray! You worked towards all of your goals today!</>
@@ -205,14 +207,13 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
 
   return (
     <>
-      <SwipeableDrawer
+      <Drawer
         anchor="right"
         open={open}
         onClose={() => {
           mutate(url);
           setOpen(false);
         }}
-        onOpen={() => setOpen(false)}
         PaperProps={{
           sx: {
             maxWidth: "600px",
@@ -275,7 +276,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
             <Task task={task} key={task.id} />
           ))}
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
       {trigger}
     </>
   );

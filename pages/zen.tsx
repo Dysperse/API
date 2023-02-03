@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Chip,
-  Divider,
   Icon,
   IconButton,
   List,
@@ -337,7 +336,7 @@ export default function Home() {
         <div
           className="blur-spotlight sm:hidden"
           style={{
-            background: `linear-gradient(45deg, ${colors[themeColor]["A200"]}, ${colors[themeColor]["A700"]} 50%, ${colors[themeColor]["A400"]})`,
+            background: `linear-gradient(45deg, ${colors[themeColor]["A100"]}, ${colors[themeColor]["A400"]} 50%, ${colors[themeColor]["A200"]})`,
             opacity: global.user.darkMode ? 0.5 : 0.9,
           }}
         />
@@ -477,7 +476,6 @@ export default function Home() {
               )
             )}
 
-            <Divider sx={{ my: editMode ? 2 : 1, transition: "all .2s" }} />
             <DndContext
               collisionDetection={closestCenter}
               sensors={editMode ? sensors : []}

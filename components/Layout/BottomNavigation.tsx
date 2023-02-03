@@ -16,6 +16,7 @@ export function BottomNav() {
     justifyContent: "center",
     borderRadius: 9,
     height: "35px",
+    fontSize: "27px",
     flex: "0 0 35px",
     width: "60px",
   };
@@ -23,7 +24,7 @@ export function BottomNav() {
     return {
       textTransform: "none",
       color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
-      height: "70px",
+      height: "60px",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         ...iconStyles,
       },
@@ -91,14 +92,14 @@ export function BottomNav() {
             display: "none",
           },
           zIndex: 999,
-          height: "70px",
+          height: "60px",
           userSelect: "none",
           "&, & *": {
             overflow: "hidden!important",
           },
           background: global.user.darkMode
             ? router.asPath == "/zen"
-              ? "hsla(240,11%,10%,.4)"
+              ? "hsla(240,11%,10%,.0)"
               : "hsla(240, 11%, 10%, .9)"
             : "rgba(255,255,255,.4)",
           borderTop: global.user.darkMode
@@ -132,7 +133,6 @@ export function BottomNav() {
           >
             change_history
           </span>
-          Start
         </Box>
         <Box
           onClick={() => router.push("/tasks")}
@@ -146,7 +146,6 @@ export function BottomNav() {
           >
             check_circle
           </span>
-          Boards
         </Box>
         <Box
           sx={styles(router.asPath === "/coach")}
@@ -174,7 +173,6 @@ export function BottomNav() {
           >
             filter_vintage
           </span>
-          Coach
         </Box>
 
         <Box
@@ -193,7 +191,6 @@ export function BottomNav() {
           >
             inventory_2
           </span>
-          Items
         </Box>
       </Box>
     </>
