@@ -16,10 +16,10 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Achievements } from "./Achievements";
+import InviteButton from "./InviteButton";
 import { UpdateButton } from "./UpdateButton";
 
 const AppsMenu = dynamic(() => import("./AppsMenu"));
-const InviteButton = dynamic(() => import("./InviteButton"));
 
 /**
  * Navbar component for layout

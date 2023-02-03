@@ -46,52 +46,60 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../components/Puller";
 import { updateSettings } from "../components/Settings/updateSettings";
+import { getActions } from "../components/zen/getActions";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
 
-const actions = {
-  goals: [
-    { key: "study_plan", primary: "Create a study plan", icon: "school" },
-    { key: "set_goal", primary: "Set a goal", icon: "mindfulness" },
-  ],
-  inventory: [
-    { key: "starred", primary: "Starred", icon: "star" },
-    { key: "scan", primary: "Scan items", icon: "view_in_ar" },
-  ],
-  achievements: [
-    {
-      key: "trigger",
-      primary: "Achievements",
-      icon: "insights",
-      onClick: () => document.getElementById("achievementsTrigger")?.click(),
-    },
-    {
-      key: "my_productivity",
-      primary: "My productivity",
-      icon: "auto_awesome",
-      onClick: () => document.getElementById("achievementsTrigger")?.click(),
-    },
-  ],
-  groups: [
-    {
-      key: "trigger",
-      primary: "Switch groups",
-      icon: "swap_horiz",
-      onClick: () => document.getElementById("houseProfileTrigger")?.click(),
-    },
-    {
-      key: "group_info",
-      primary: "Group info",
-      icon: "home",
-      onClick: () => document.getElementById("activeProperty")?.click(),
-    },
-  ],
-};
+function DailyFocus({ editMode }) {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        mb: 2,
+        gap: 1,
+      }}
+    >
+      <TextField
+        multiline
+        disabled={editMode}
+        placeholder="What's your goal for today?"
+        size="small"
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+          sx: {
+            background: global.user.darkMode
+              ? "hsla(240,11%,40%,.35)"
+              : "rgba(200,200,200,.3)",
+            border: "1px solid transparent",
+            "&:focus-within": {
+              background: global.user.darkMode
+                ? "hsla(240,11%,10%,.5)"
+                : "rgba(200,200,200,.3)",
+              borderColor: global.user.darkMode
+                ? "rgba(255,255,255,.5)"
+                : "#000",
+            },
+            p: 2,
+            py: 1,
+            borderRadius: 2,
+            mx: "auto",
+          },
+        }}
+      />
+      <IconButton>
+        <Icon className="outlined">casino</Icon>
+      </IconButton>
+    </Box>
+  );
+}
 
 function CardGallery({ editMode, items, setItems }) {
   const [open, setOpen] = useState(false);
   useStatusBar(open);
+  const actions = getActions(global.property.profile.type);
 
   return (
     <>
@@ -181,14 +189,15 @@ function SortableItem(props) {
     },
   });
 
-  // console.logs(activeIndex, props.index);
-
+  const actions = getActions(global.property.profile.type);
   const category = props.id.split(".")[0];
   const action = props.id.split(".")[1];
 
   const data = actions[category].find((e) => e.key === action);
   const activeStyles = {
-    background: "rgba(200,200,200,.3)!important",
+    background: global.user.darkMode
+      ? "hsla(240,11%,60%,.5)"
+      : "rgba(200,200,200,.5)!important",
     backdropFilter: "blur(10px)",
     zIndex: "9999999999!important",
     transition: "all .2s!important",
@@ -345,6 +354,9 @@ export default function Home() {
               gap: 1,
               height: "var(--navbar-height)",
               position: { xs: editMode ? "fixed" : "absolute", sm: "static" },
+              background: global.user.darkMode
+                ? "hsla(240,11%,10%, .5)"
+                : "rgba(255,255,255,.5)",
               top: 0,
               backdropFilter: "blur(10px)",
               zIndex: 9,
@@ -401,32 +413,7 @@ export default function Home() {
               : global.user.name}
             !
           </Typography>
-          <TextField
-            multiline
-            disabled={editMode}
-            placeholder="What's your goal for today?"
-            size="small"
-            variant="standard"
-            InputProps={{
-              disableUnderline: true,
-              sx: {
-                background: global.user.darkMode
-                  ? "hsla(240,11%,40%,.35)"
-                  : "rgba(200,200,200,.3)",
-                "&:focus-within": {
-                  background: global.user.darkMode
-                    ? "hsla(240,11%,40%,.5)"
-                    : "rgba(200,200,200,.3)",
-                },
-                p: 2,
-                py: 1,
-                borderRadius: 2,
-                mx: "auto",
-                mb: 2,
-              },
-            }}
-          />
-
+          <DailyFocus editMode={editMode} />
           <Chip
             icon={
               <>
@@ -477,10 +464,10 @@ export default function Home() {
                   disableRipple={editMode}
                   onClick={() => !editMode && router.push("/tasks")}
                 >
-                  <Icon className="outlined">circle</Icon>
+                  <Icon className="outlined">check_circle</Icon>
                   <ListItemText
                     primary="Tasks"
-                    secondary={!editMode && "Daily goal: 4/7 completed"}
+                    secondary={!editMode && "5 tasks left to reach daily goal"}
                   />
                 </ListItemButton>
               ) : (
@@ -488,7 +475,7 @@ export default function Home() {
                   disableRipple={editMode}
                   onClick={() => !editMode && router.push("/coach")}
                 >
-                  <Icon className="outlined">favorite</Icon>
+                  <Icon className="outlined">hive</Icon>
                   <ListItemText
                     primary="Daily routine"
                     secondary={!editMode && "7 tasks remaining"}
@@ -520,27 +507,9 @@ export default function Home() {
                   />
                 ))}
               </SortableContext>
-              <DragOverlay></DragOverlay>
+              <DragOverlay />
             </DndContext>
           </List>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              mt: 3,
-            }}
-          >
-            <Chip
-              label="Zen mode is in beta"
-              sx={{
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : "A700"],
-                color: !global.user.darkMode ? "#000" : "#fff",
-                userSelect: "none",
-              }}
-            />
-          </Box>
         </Box>
         <Toolbar />
       </div>

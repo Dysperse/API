@@ -27,7 +27,7 @@ const DeleteButton = dynamic(() => import("./DeleteButton"));
 const MoveToRoom = dynamic(() => import("./MoveToRoom"));
 const StarButton = dynamic(() => import("./StarButton"));
 
-const capitalizeFirstLetter = (str: string): string =>
+export const capitalizeFirstLetter = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
@@ -266,18 +266,23 @@ export default function ItemDrawer({
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const handleOpen = useCallback(async (e) => {
-    e.stopPropagation();
-    setOpen(true);
-    setError(false);
-    try {
-      const data = await fetchApiWithoutHook("property/inventory/item", { id });
-      setItemData(data);
-      setLoading(false);
-    } catch (e) {
-      setError(true);
-    }
-  }, [id]);
+  const handleOpen = useCallback(
+    async (e) => {
+      e.stopPropagation();
+      setOpen(true);
+      setError(false);
+      try {
+        const data = await fetchApiWithoutHook("property/inventory/item", {
+          id,
+        });
+        setItemData(data);
+        setLoading(false);
+      } catch (e) {
+        setError(true);
+      }
+    },
+    [id]
+  );
 
   const handleClose = useCallback(() => {
     setOpen(false);

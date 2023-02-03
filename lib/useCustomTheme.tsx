@@ -61,9 +61,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             cursor: "unset",
             transition: "none",
             "&:hover": {
-              background: `${
-                darkMode ? "hsla(240,11%,14%)" : "rgba(0,0,0,0.05)"
-              }`,
+              background: {
+                sm: `${darkMode ? "hsla(240,11%,14%)" : "rgba(0,0,0,0.05)"}`,
+              },
             },
             "&:active": {
               background: `${
