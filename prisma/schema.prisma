@@ -128,14 +128,15 @@ model PasswordResetToken {
 }
 
 model Board {
-  id         String   @id @unique @default(uuid())
-  name       String
-  public     Boolean  @default(false)
-  pinned     Boolean  @default(false)
-  archived   Boolean  @default(false)
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  columns    Column[]
+  id          String   @id @unique @default(uuid())
+  name        String
+  description String   @default("")
+  public      Boolean  @default(false)
+  pinned      Boolean  @default(false)
+  archived    Boolean  @default(false)
+  propertyId  String
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  columns     Column[]
 }
 
 model Column {

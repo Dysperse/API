@@ -17,6 +17,7 @@ const handler = async (req, res) => {
     },
     data: {
       name: req.query.name,
+      description: req.query.description,
     },
   });
 

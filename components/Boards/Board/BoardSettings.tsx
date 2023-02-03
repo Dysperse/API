@@ -1,15 +1,22 @@
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
+  Chip,
+  Dialog,
   DialogActions,
+  DialogContent,
   Icon,
   IconButton,
+  List,
+  ListItem,
   Menu,
   MenuItem,
   SwipeableDrawer,
   TextField,
+  Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
@@ -18,6 +25,70 @@ import { toastStyles } from "../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
 import { CreateColumn } from "./Column/Create";
+
+function PublishBoard({ board }) {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(true)}
+        PaperProps={{
+          sx: {
+            maxWidth: "500px",
+          },
+        }}
+      >
+        <DialogContent>
+          <Typography variant="h5" sx={{ mb: 1 }}>
+            Publish as template
+          </Typography>
+          <List
+            sx={{
+              listStyleType: "disc",
+              pl: 3,
+              "& .MuiListItem-root": {
+                display: "list-item",
+              },
+            }}
+          >
+            <ListItem>
+              Others won&apos;t be able to see tasks &amp; files stored in this
+              board
+            </ListItem>
+            <ListItem>You can always unpublish templates</ListItem>
+            <ListItem>Of</ListItem>
+            <ListItem>
+              Once you publish a template, you won&apos;t be able to edit the
+              board&apos;s information
+            </ListItem>
+          </List>
+          <TextField value={board.name} fullWidth />
+        </DialogContent>
+        <DialogActions>
+          <Button>
+            <LoadingButton loading={loading}>Publish</LoadingButton>
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <MenuItem onClick={() => setOpen(true)}>
+        <Icon className="outlined">auto_awesome</Icon>
+        Publish
+        <Chip
+          label="NEW"
+          size="small"
+          sx={{
+            background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+            color: "#000",
+            ml: "auto",
+          }}
+        />
+      </MenuItem>
+    </>
+  );
+}
 
 export function BoardSettings({ mutationUrl, board }) {
   const [title, setTitle] = React.useState(board.name);
@@ -56,8 +127,7 @@ export function BoardSettings({ mutationUrl, board }) {
             onChange={(e) => setTitle(e.target.value)}
             id={"renameInput"}
             autoFocus
-            variant="filled"
-            label="Board name"
+            placeholder="Board name"
             InputProps={{
               sx: {
                 fontWeight: "700",
@@ -70,14 +140,12 @@ export function BoardSettings({ mutationUrl, board }) {
             multiline
             rows={4}
             value={description}
-            label="What's this board about?"
-            variant="filled"
+            placeholder="What's this board about?"
             onChange={(e) => setDescription(e.target.value)}
             id={"descriptionInput"}
             autoFocus
             InputProps={{
               sx: {
-                fontWeight: "700",
                 mb: 2,
               },
             }}
@@ -95,17 +163,22 @@ export function BoardSettings({ mutationUrl, board }) {
             <Button
               variant="contained"
               disabled={
-                title == board.name ||
-                title.trim() == "" ||
-                description == board.description ||
-                description.trim() == ""
+                (title == board.name && description === board.description) ||
+                title.trim() == ""
               }
               onClick={() => {
-                if (title !== board.name && title.trim() !== "") {
+                if (
+                  !(
+                    (title == board.name &&
+                      description === board.description) ||
+                    title.trim() == ""
+                  )
+                ) {
                   toast.promise(
-                    fetchApiWithoutHook("property/boards/renameBoard", {
+                    fetchApiWithoutHook("property/boards/edit", {
                       id: board.id,
                       name: title,
+                      description: description,
                     }).then(() => mutate(mutationUrl)),
                     {
                       loading: "Renaming...",
@@ -162,8 +235,9 @@ export function BoardSettings({ mutationUrl, board }) {
           }}
         >
           <Icon className="outlined">edit</Icon>
-          Rename
+          Edit
         </MenuItem>
+        <PublishBoard board={board} />
 
         <ConfirmationModal
           title="Archive board?"
