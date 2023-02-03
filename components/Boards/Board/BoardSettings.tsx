@@ -16,6 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import EmojiPicker from "emoji-picker-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -29,11 +30,16 @@ import { CreateColumn } from "./Column/Create";
 function PublishBoard({ board }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [emoji, setEmoji] = useState(
+    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png"
+  );
+  const [emojiOpen, setEmojiOpen] = useState(false);
 
   return (
     <>
       <Dialog
         open={open}
+        scroll="body"
         onClose={() => setOpen(true)}
         PaperProps={{
           sx: {
@@ -41,7 +47,30 @@ function PublishBoard({ board }) {
           },
         }}
       >
-        <DialogContent>
+        <Dialog
+          open={emojiOpen}
+          onClose={() => setEmojiOpen(false)}
+          PaperProps={{
+            sx: {
+              maxWidth: "calc(100% - 20px)",
+              width: "400px",
+            },
+          }}
+        >
+          <EmojiPicker
+            skinTonePickerLocation={"PREVIEW" as any}
+            theme={(global.user.darkMode ? "dark" : "light") as any}
+            lazyLoadEmojis={true}
+            width="100%"
+            onEmojiClick={(event) => {
+              const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
+              setEmoji(url);
+              setEmojiOpen(false);
+            }}
+          />
+        </Dialog>
+
+        <DialogContent sx={{ p: 4 }}>
           <Typography variant="h5" sx={{ mb: 1 }}>
             Publish as template
           </Typography>
@@ -55,35 +84,54 @@ function PublishBoard({ board }) {
             }}
           >
             <ListItem>
+              <b>Privacy</b>
+              <br />
               Others won&apos;t be able to see tasks &amp; files stored in this
               board
-            </ListItem>
-            <ListItem>You can always unpublish templates</ListItem>
-            <ListItem>
-              Inappropriate/offensive content will be removed - and your account
-              will be banned!
             </ListItem>
             <ListItem>
               Once you publish a template, you won&apos;t be able to edit the
               board&apos;s information
             </ListItem>
+            <ListItem>
+              <b>Removing content</b>
+              <br />
+              You can always unpublish templates
+            </ListItem>
+            <ListItem>
+              Inappropriate/offensive content will be removed - and your account
+              will be banned!
+            </ListItem>
+            <ListItem>Duplicate templates will be deleted</ListItem>
           </List>
           <TextField
             value={board.name}
             fullWidth
             label="Template name"
-            margin="dense"
+            sx={{ my: 2 }}
           />
           <TextField
             value={board.description}
-            margin="dense"
+            sx={{ mb: 2 }}
             fullWidth
             multiline
             rows={4}
             label="Template description"
           />
+          <Box>
+            <Button
+              onClick={() => setEmojiOpen(true)}
+              variant="outlined"
+              sx={{ px: 2, gap: 2 }}
+            >
+              <picture>
+                <img src={emoji} width={30} />
+              </picture>
+              Select emoji
+            </Button>
+          </Box>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 1 }}>
           <LoadingButton variant="contained" loading={loading}>
             Publish
           </LoadingButton>
