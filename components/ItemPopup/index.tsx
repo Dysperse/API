@@ -189,7 +189,16 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       >
         {[capitalizeFirstLetter(itemData.room), ...categories].map(
           (category) => (
-            <Chip label={category} key={category} />
+            <Chip
+              label={category}
+              key={category}
+              sx={{
+                background:
+                  (global.user.darkMode
+                    ? "hsl(240,11%,25%)"
+                    : colors[themeColor][100]) + "!important",
+              }}
+            />
           )
         )}
         <CategoryModal
@@ -267,7 +276,7 @@ export default function ItemDrawer({
     } catch (e) {
       setError(true);
     }
-  }, [id, open]);
+  }, [id]);
 
   const handleClose = useCallback(() => {
     setOpen(false);

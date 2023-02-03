@@ -115,7 +115,7 @@ function RoomList({
   title,
   handleClose,
 }: {
-  itemId: number;
+  itemId: string;
   title: string;
   handleClose: () => void;
 }): JSX.Element {
@@ -196,7 +196,7 @@ export default function AddToListModal({
           <RoomList
             title={item.name}
             handleClose={() => setOpen(false)}
-            itemId={parseInt(item.id)}
+            itemId={item.id}
           />
         </DialogContent>
         <DialogActions>

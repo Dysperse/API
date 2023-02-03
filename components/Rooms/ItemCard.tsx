@@ -18,12 +18,12 @@ export function ItemCard({
   displayRoom = false,
   item,
 }: {
-  mutationUrl:string;
+  mutationUrl: string;
   displayRoom?: boolean;
   item: ItemType;
 }) {
   return (
-    <Item id={parseInt(item.id)} mutationUrl={mutationUrl}>
+    <Item id={item.id as any} mutationUrl={mutationUrl}>
       <Card
         sx={{
           boxShadow: "0",
