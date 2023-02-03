@@ -75,7 +75,6 @@ function DailyFocus({ editMode }) {
     "Spend time outside in the sun",
     "Spend 15 minutes in deep cleaning",
     "Listen to a podcast or audiobook",
-    "Spend time in silence without technology",
     "Volunteer or give back to the community",
     "Take a walk or go for a run",
     "Spend time with a pet",
@@ -103,6 +102,7 @@ function DailyFocus({ editMode }) {
   ];
 
   const ref: any = createRef();
+  const [value, setValue] = useState("");
 
   return (
     <Box
@@ -140,7 +140,7 @@ function DailyFocus({ editMode }) {
             mx: "auto",
           },
         }}
-        inputRef={ref}
+        value={g}
       />
       <IconButton
         onClick={(e: any) => {
@@ -148,10 +148,11 @@ function DailyFocus({ editMode }) {
           const chance = Math.random();
 
           // Easter egg xD
-          if (g === "Touch grass" && chance > 0.1) {
+          if ((g === "Touch grass" && chance > 0.01) || value === g) {
             e.target.click();
           }
-          ref.current.value = g;
+
+          setValue(g);
         }}
       >
         <Icon className="outlined">casino</Icon>
