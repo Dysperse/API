@@ -37,7 +37,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
       <Box
         sx={{
           position: "fixed",
-          bottom: trigger ? "10px" : "80px",
+          bottom: trigger ? "10px" : "70px",
           transition: "bottom .3s",
           boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
           border: "1px solid rgba(200,200,200,.3)",

@@ -140,7 +140,7 @@ function DailyFocus({ editMode }) {
             mx: "auto",
           },
         }}
-        value={g}
+        value={value}
       />
       <IconButton
         onClick={(e: any) => {
