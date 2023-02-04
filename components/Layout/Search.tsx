@@ -239,9 +239,11 @@ export default function SearchPopup({ styles }) {
           );
       }}
       onSpotlightOpen={() => {
-        document
-          .querySelector(`meta[name="theme-color"]`)
-          ?.setAttribute("content", "#c0c0c0");
+        if (global.user.darkMode) {
+          document
+            .querySelector(`meta[name="theme-color"]`)
+            ?.setAttribute("content", "#c0c0c0");
+        }
       }}
       actions={actions}
       shortcut={["mod + K", "/"]}
