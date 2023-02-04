@@ -1,9 +1,4 @@
 import { Masonry } from "@mui/lab";
-import React, { useEffect } from "react";
-import { useApi } from "../../hooks/useApi";
-import { ErrorHandler } from "../Error";
-import { ExploreGoals } from "./ExploreGoals";
-
 import {
   AppBar,
   Box,
@@ -14,7 +9,13 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import dynamic from "next/dynamic";
+import React, { useEffect } from "react";
+import { useApi } from "../../hooks/useApi";
+import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
+
+const ExploreGoals = dynamic(() => import("./ExploreGoals"));
 
 export function MyGoals({ setHideRoutine }): JSX.Element {
   const [open, setOpen] = React.useState(false);
@@ -57,7 +58,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           sx={{
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
             zIndex: 1,
-            color: global.user.darkMode ? "#fff" : "#000",
+            color: "#fff",
           }}
           position="absolute"
         >
