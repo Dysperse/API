@@ -89,7 +89,15 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
 
   const trigger = zen ? (
     <>
-      <ListItemButton disableRipple={editMode} onClick={() => setOpen(true)}>
+      <ListItemButton
+        disableRipple={editMode}
+        onClick={() => setOpen(true)}
+        sx={{
+          ...(sortedTasks.length === 0 && {
+            display: "none",
+          }),
+        }}
+      >
         <Icon className="outlined">rocket_launch</Icon>
         <ListItemText
           primary="Daily routine"
