@@ -20,7 +20,6 @@ export default function Document() {
 
         {/* Preconnect */}
         <link rel="preconnect" href="https://assets.dysperse.com" />
-        <link rel="preconnect" href="https://assets.dysperse.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           rel="preconnect"
