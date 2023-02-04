@@ -14,12 +14,12 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
-import { Achievements } from "./Achievements";
 import InviteButton from "./InviteButton";
 import { UpdateButton } from "./UpdateButton";
 
 const AppsMenu = dynamic(() => import("./AppsMenu"));
 const SearchPopup = dynamic(() => import("./Search"));
+const Achievements = dynamic(() => import("./Achievements"));
 
 /**
  * Navbar component for layout

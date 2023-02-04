@@ -13,7 +13,7 @@ const handler = async (req, res) => {
 
   const data = await prisma.column.update({
     where: {
-      id: req.query.columnId,
+      id: req.query.id,
     },
     data: {
       ...(req.query.name && { name: req.query.name }),

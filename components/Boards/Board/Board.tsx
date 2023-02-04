@@ -3,10 +3,11 @@ import {
   Button,
   Chip,
   Icon,
-  IconButton, Tooltip,
+  IconButton,
+  Tooltip,
   Typography,
   useMediaQuery,
-  useScrollTrigger
+  useScrollTrigger,
 } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import React from "react";

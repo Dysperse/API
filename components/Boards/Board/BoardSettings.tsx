@@ -241,7 +241,7 @@ export function BoardSettings({ mutationUrl, board }) {
         }}
         ref={ref}
       >
-        <Icon className="outlined">more_vert</Icon>
+        <Icon className="outlined">expand_more</Icon>
       </IconButton>
     </>
   );

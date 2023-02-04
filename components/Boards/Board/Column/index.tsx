@@ -17,8 +17,9 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
+import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
 import { ConfirmationModal } from "../../../ConfirmationModal";
@@ -260,7 +261,6 @@ function OptionsMenu({
   };
   const trigger = useMediaQuery("(max-width: 600px)");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [editMode, setEditMode] = React.useState(false);
   const [title, setTitle] = React.useState(column.name);
   const [emoji, setEmoji] = React.useState(column.emoji);
   const ref: any = React.useRef();
@@ -330,16 +330,18 @@ function OptionsMenu({
         <Button
           sx={styles}
           size="large"
-          onClick={() => {
-            setEditMode(true);
-            setTimeout(() => {
-              ref.current.focus();
-              ref.current.select();
+          onClick={async () => {
+            await fetchApiWithoutHook("property/boards/editColumn", {
+              id: column.id,
+              name: title,
+              emoji: emoji,
             });
+            await mutate(mutationUrl);
+            toast.success("Saved!");
           }}
         >
-          <Icon className="outlined">edit</Icon>
-          Edit
+          <Icon className="outlined">save</Icon>
+          Save
         </Button>
         <ConfirmationModal
           title="Delete column?"
@@ -438,6 +440,8 @@ function OptionsMenu({
                 : "rgba(200,200,200,.4)!important",
             },
             color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
+            position: "relative",
+            bottom: { xs: -50, sm: 0 },
           }}
         >
           <Icon className="outlined">more_horiz</Icon>
@@ -489,6 +493,7 @@ export const Column = React.memo(function Column({
       className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10"
       sx={{
         display: "flex",
+        mt: { xs: -5, sm: 0 },
         flexDirection: "column",
         position: "relative",
         width: {

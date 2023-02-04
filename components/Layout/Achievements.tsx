@@ -83,7 +83,7 @@ export const Achievement: any = React.memo(function Achievement({
   );
 });
 
-export function Achievements({ styles }) {
+export default function Achievements({ styles }) {
   const [open, setOpen] = useState(false);
   const availableAchievements = achievements;
   useStatusBar(open);
