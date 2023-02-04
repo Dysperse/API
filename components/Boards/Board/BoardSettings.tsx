@@ -175,6 +175,7 @@ export function BoardSettings({ mutationUrl, board }) {
           }
           callback={async () => {
             await fetchApiWithoutHook("property/boards/setVisibility", {
+              id: board.id,
               public: !board.public,
             });
             await mutate(mutationUrl);
