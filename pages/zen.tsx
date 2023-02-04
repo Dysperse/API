@@ -495,6 +495,9 @@ export default function Home() {
             sx={{
               userSelect: "none",
               color: orange["A400"],
+              background: `linear-gradient(45deg, ${
+                orange[global.user.darkMode ? 900 : 100]
+              }, ${orange[global.user.darkMode ? 800 : 50]})`,
               mr: 1,
             }}
           />
