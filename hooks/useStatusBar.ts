@@ -1,21 +1,25 @@
 import { useCallback, useEffect, useRef } from "react";
 import { colors } from "../lib/colors";
 
-export function useStatusBar(open: boolean, nestedModals = 1) {
+export function useStatusBar(
+  open: boolean,
+  nestedModals = 1,
+  darkModeOverride = false
+) {
   const tagRef = useRef<HTMLMetaElement | null>(null);
 
   const setThemeColor = useCallback((isOpen: boolean, nestedModals: number) => {
     const tag = tagRef.current;
     if (!tag) return;
     if (isOpen) {
-      if (!global.user.darkMode) {
+      if (!global.user.darkMode && !darkModeOverride) {
         tag.setAttribute("content", "#fff");
       } else {
         tag.setAttribute("content", `hsl(240, 11%, 10%)`);
       }
     } else {
       if (isOpen && nestedModals > 1) {
-        if (global.user.darkMode) {
+        if (global.user.darkMode || darkModeOverride) {
           tag.setAttribute("content", `hsl(240, 11%, ${nestedModals * 10}%)`);
         } else {
           tag.setAttribute("content", colors[themeColor][nestedModals * 100]);
@@ -23,7 +27,7 @@ export function useStatusBar(open: boolean, nestedModals = 1) {
       } else if (nestedModals === 1) {
         tag.setAttribute(
           "content",
-          global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
+          global.user.darkMode || darkModeOverride ? "hsl(240,11%,10%)" : "#fff"
         );
       }
     }

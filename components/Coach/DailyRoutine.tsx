@@ -18,6 +18,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { CircularProgressWithLabel } from "../../pages/coach";
@@ -366,6 +367,8 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     );
   }, [indexWhereUserLeftOff]);
 
+  useStatusBar(open, undefined, true);
+
   return (
     <>
       <Drawer
@@ -379,13 +382,17 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           sx: {
             maxWidth: "600px",
             width: "100vw",
-            ...(global.user.darkMode && {
-              backgroundColor: "hsl(240, 11%, 5%)",
-            }),
+            "& *": {
+              color: "hsl(240, 11%, 80%)",
+            },
           },
         }}
       >
         <Stories
+          storyContainerStyles={{
+            background: "hsl(240, 11%, 10%)",
+            color: "hsl(240, 11%, 80%)",
+          }}
           stories={stories}
           defaultInterval={300}
           width={"100vw"}
