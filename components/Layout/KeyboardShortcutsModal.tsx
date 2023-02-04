@@ -66,11 +66,11 @@ export default function KeyboardShortcutsModal() {
             name: "Navigation",
             shortcuts: [
               {
-                name: "Boards",
+                name: "Zen",
                 keys: ["ctrl", "1"],
               },
               {
-                name: "Inventory",
+                name: "Boards",
                 keys: ["ctrl", "2"],
               },
               {
@@ -78,7 +78,7 @@ export default function KeyboardShortcutsModal() {
                 keys: ["ctrl", "3"],
               },
               {
-                name: "Spaces",
+                name: "Inventory",
                 keys: ["ctrl", "4"],
               },
               {
@@ -101,6 +101,19 @@ export default function KeyboardShortcutsModal() {
               {
                 name: "Sort",
                 keys: ["s"],
+              },
+            ],
+          },
+          {
+            name: "Boards",
+            shortcuts: [
+              {
+                name: "Create a task",
+                keys: ["c (when hovered over a column)"],
+              },
+              {
+                name: "Toggle options menu",
+                keys: ["e (when hovered over a column)"],
               },
             ],
           },
