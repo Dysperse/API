@@ -343,22 +343,6 @@ function OptionsMenu({
           <Icon className="outlined">save</Icon>
           Save
         </Button>
-        <ConfirmationModal
-          title="Delete column?"
-          question="Are you sure you want to delete this column? This action annot be undone."
-          callback={async () => {
-            await fetchApiWithoutHook("property/boards/deleteColumn", {
-              id: column.id,
-            });
-            await mutate(mutationUrl);
-            setOpen(false);
-            setCurrentColumn((e) => e - 1);
-          }}
-        >
-          <Button sx={styles} size="large">
-            <Icon className="outlined">delete</Icon> Delete column
-          </Button>
-        </ConfirmationModal>
       </Box>
     </>
   );
@@ -408,6 +392,22 @@ function OptionsMenu({
             </Icon>
           </MenuItem>
         </FilterMenu>
+        <ConfirmationModal
+          title="Delete column?"
+          question="Are you sure you want to delete this column? This action annot be undone."
+          callback={async () => {
+            await fetchApiWithoutHook("property/boards/deleteColumn", {
+              id: column.id,
+            });
+            await mutate(mutationUrl);
+            setOpen(false);
+            setCurrentColumn((e) => e - 1);
+          }}
+        >
+          <MenuItem onClick={() => setOpen(true)}>
+            <Icon className="outlined">delete</Icon>Delete column
+          </MenuItem>
+        </ConfirmationModal>
         <MenuItem onClick={() => setOpen(true)}>
           <Icon className="outlined">edit</Icon>Edit
         </MenuItem>

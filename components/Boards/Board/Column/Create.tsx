@@ -147,6 +147,10 @@ export function CreateColumn({
             }}
             onClick={() => {
               setLoading(true);
+              if (ref?.current?.value.trim() === "") {
+                toast.error("Enter a name for this column 👀");
+                return;
+              }
               fetchApiWithoutHook("property/boards/createColumn", {
                 title: ref?.current?.value,
                 emoji,

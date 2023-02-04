@@ -446,6 +446,10 @@ export const Task = React.memo(function Task({
                   ...(taskData.image && {
                     marginBottom: "7px",
                   }),
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100%",
+                  overflow: "hidden",
                 }}
               >
                 {renderDescription(taskData.description)}

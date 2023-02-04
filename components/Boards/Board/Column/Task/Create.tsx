@@ -205,7 +205,7 @@ export function CreateTask({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (title.trim() === "") {
-      toast.error("Please enter a title", toastStyles);
+      toast.error("You can't have an empty task... 🤦", toastStyles);
       return;
     }
 
