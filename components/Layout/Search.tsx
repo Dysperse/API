@@ -239,7 +239,7 @@ export default function SearchPopup({ styles }) {
           );
       }}
       onSpotlightOpen={() => {
-        if (global.user.darkMode) {
+        if (!global.user.darkMode) {
           document
             .querySelector(`meta[name="theme-color"]`)
             ?.setAttribute("content", "#c0c0c0");
