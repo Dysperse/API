@@ -175,6 +175,9 @@ export function CreateTask({
 
   useEffect(() => {
     // If the title contains "today", set the date to today
+    if (title.includes("!!")) {
+      setPinned(true);
+    }
     if (title.toLowerCase().includes("today")) {
       setDate(new Date());
     } else if (
