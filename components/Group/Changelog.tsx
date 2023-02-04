@@ -177,7 +177,6 @@ export function Changelog({ disabled }) {
         disabled={disabled}
         sx={{
           color: "inherit",
-          zIndex: 1,
           ml: "auto",
         }}
         onClick={() => setOpen(true)}
