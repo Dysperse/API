@@ -59,13 +59,10 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             zIndex: 1,
             color: global.user.darkMode ? "#fff" : "#000",
           }}
-          position="static"
+          position="absolute"
         >
           <Toolbar sx={{ height: "64px" }}>
-            <IconButton
-              color="inherit"
-              onClick={() => setOpen(false)}
-            >
+            <IconButton color="inherit" onClick={() => setOpen(false)}>
               <span
                 className="material-symbols-rounded"
                 style={{ color: global.user.darkMode ? "#fff" : "#000" }}
@@ -84,7 +81,9 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             </Typography>
             <IconButton
               color="inherit"
-              onClick={() => setOpen(false)}
+              onClick={() =>
+                document.getElementById("createBlankGoalTrigger")?.click()
+              }
             >
               <span
                 className="material-symbols-outlined"

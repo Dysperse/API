@@ -24,6 +24,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 
@@ -445,6 +446,36 @@ export function CreateTask({
                 }}
               />
             </Collapse>
+            {title.includes("study ") && (
+              <Alert
+                severity="info"
+                sx={{
+                  mt: 1,
+                  mb: 2,
+                  borderRadius: 5,
+                  background:
+                    colors[themeColor][global.user.darkMode ? 900 : 100],
+                  color: colors[themeColor][!global.user.darkMode ? 900 : 100],
+                }}
+                icon={
+                  <span
+                    className="material-symbols-rounded"
+                    style={{
+                      color:
+                        colors[themeColor][global.user.darkMode ? 100 : 800],
+                    }}
+                  >
+                    info
+                  </span>
+                }
+              >
+                Do you want to create{" "}
+                <Link href="/coach" style={{ textDecoration: "underline" }}>
+                  goal
+                </Link>{" "}
+                instead?
+              </Alert>
+            )}
             {!parent &&
               title !== "" &&
               tasks.filter((task) =>

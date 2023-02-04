@@ -121,10 +121,7 @@ function CreateGoal({ mutationUrl }) {
             position="sticky"
           >
             <Toolbar sx={{ height: "64px" }}>
-              <IconButton
-                color="inherit"
-                onClick={() => setOpen(false)}
-              >
+              <IconButton color="inherit" onClick={() => setOpen(false)}>
                 <Icon>west</Icon>
               </IconButton>
               <Typography sx={{ mx: "auto", fontWeight: "600" }}>
@@ -219,6 +216,7 @@ function CreateGoal({ mutationUrl }) {
       </SwipeableDrawer>
       <Button
         onClick={() => setOpen(true)}
+        id="createBlankGoalTrigger"
         sx={{ transition: "none", mb: 2, ml: 5 }}
         size="small"
         disableRipple
@@ -263,7 +261,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
   return (
     <div
       style={{
-        background: global.user.darkMode ? "hsl(240,11%,15%)" : "white",
+        background: global.user.darkMode ? "hsl(240,11%,15%)" : "",
       }}
     >
       <Box
@@ -275,7 +273,7 @@ export function ExploreGoals({ setOpen, mutationUrl }) {
           color: global.user.darkMode ? "#fff" : "#000",
           p: 4,
           mt: "-64px",
-          minHeight: "350px",
+          minHeight: "450px",
           display: "flex",
         }}
       >
