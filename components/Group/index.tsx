@@ -18,6 +18,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { ErrorHandler } from "../Error";
+import { EditProperty } from "./EditProperty";
 import { MemberList } from "./MemberList";
 import { Storage } from "./Storage";
 
@@ -78,7 +79,7 @@ function PropertyInfo({
                 onClick={async () => {
                   try {
                     setLoading(true);
-                    const res =await fetchApiWithoutHook("property/join", {
+                    const res = await fetchApiWithoutHook("property/join", {
                       email: global.user.email,
                       accessToken1: propertyData.accessToken,
                     });
@@ -122,17 +123,27 @@ function PropertyInfo({
             color: "#000",
           }}
         >
-          <IconButton
-            sx={{
-              position: "absolute",
-              color: "inherit",
-              top: 0,
-              right: 0,
-              m: 2,
-            }}
+          <EditProperty
+            propertyId={propertyData.propertyId}
+            accessToken={accessToken}
+            color={propertyData.profile.color}
           >
-            <Icon className="outlined">edit</Icon>
-          </IconButton>
+            <IconButton
+              sx={{
+                position: "absolute",
+                color: "#000!important",
+                ...(propertyData.profile.id !== global.property.propertyId && {
+                  opacity: 0.3,
+                }),
+                top: 0,
+                right: 0,
+                m: 2,
+              }}
+              disabled={propertyData.profile.id !== global.property.propertyId}
+            >
+              <Icon className="outlined">edit</Icon>
+            </IconButton>
+          </EditProperty>
           <Typography
             variant="h4"
             sx={{ mt: 15, mb: 0.5, fontSize: "40px" }}

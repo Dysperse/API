@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { cloneElement, useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
@@ -23,7 +23,12 @@ import {
 /**
  * Edit property
  */
-export function EditProperty({ color }: { color: string }) {
+export function EditProperty({
+  children,
+  propertyId,
+  accessToken,
+  color,
+}: any) {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -63,19 +68,13 @@ export function EditProperty({ color }: { color: string }) {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen(!open),
+  });
+
   return (
     <>
-      {global.property.permission !== "read-only" && (
-        <IconButton
-          sx={{
-            color: "inherit",
-            zIndex: 1,
-          }}
-          onClick={() => setOpen(!open)}
-        >
-          <Icon>more_vert</Icon>
-        </IconButton>
-      )}
+      {trigger}
       <SwipeableDrawer
         ModalProps={{
           keepMounted: false,
