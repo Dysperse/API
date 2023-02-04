@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { mutate } from "swr";
 import { useApi } from "../../hooks/useApi";
@@ -87,48 +88,58 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           );
         });
 
+  const router = useRouter();
   const trigger = zen ? (
     <>
       <ListItemButton
         disableRipple={editMode}
-        onClick={() => setOpen(true)}
-        sx={{
-          ...(sortedTasks.length === 0 && {
-            display: "none",
-          }),
+        onClick={() => {
+          if (sortedTasks.length == 0) {
+            router.push("/coach");
+          } else {
+            setOpen(true);
+          }
         }}
       >
         <Icon className="outlined">rocket_launch</Icon>
         <ListItemText
-          primary="Daily routine"
+          primary={
+            sortedTasks.length == 0
+              ? "You don't have any goals set"
+              : "Daily routine"
+          }
           secondary={
             editMode ? (
               <></>
             ) : data ? (
-              <>
-                {tasksRemaining.length == 0 ? (
-                  <>Hurray! You worked towards all of your goals today!</>
-                ) : (
-                  <>
-                    {tasksRemaining.length +
-                      " task" +
-                      (tasksRemaining.length == 1 ? "" : "s") +
-                      " remaining"}{" "}
-                    &bull; Click to{" "}
-                    {doneTasks === 0
-                      ? "start"
-                      : tasksRemaining === 0
-                      ? "view"
-                      : "resume"}
-                  </>
-                )}
-              </>
+              sortedTasks.length == 0 ? (
+                "Tap to set a goal"
+              ) : (
+                <>
+                  {tasksRemaining.length == 0 ? (
+                    <>Hurray! You worked towards all of your goals today!</>
+                  ) : (
+                    <>
+                      {tasksRemaining.length +
+                        " task" +
+                        (tasksRemaining.length == 1 ? "" : "s") +
+                        " remaining"}{" "}
+                      &bull; Click to{" "}
+                      {doneTasks === 0
+                        ? "start"
+                        : tasksRemaining === 0
+                        ? "view"
+                        : "resume"}
+                    </>
+                  )}
+                </>
+              )
             ) : (
               "Loading..."
             )
           }
         />
-        {tasksRemaining.length == 0 && (
+        {tasksRemaining.length == 0 && sortedTasks.length !== 0 && (
           <Icon
             sx={{
               color: colors.green[global.user.darkMode ? "A400" : "A700"],
