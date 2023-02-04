@@ -16,6 +16,11 @@ const handler = async (req, res) => {
   const data = await prisma.board.create({
     data: {
       name: board.name,
+      user: {
+        connect: {
+          identifier: req.query.userIdentifier,
+        },
+      },
       columns: {
         createMany: {
           data: board.columns.map((column) => ({

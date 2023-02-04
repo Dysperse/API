@@ -28,6 +28,7 @@ model User {
   properties               PropertyInvite[]
   RoutineItem              RoutineItem[]
   sessions                 Session[]
+  Board                    Board[]
 }
 
 model NotificationSettings {
@@ -128,15 +129,19 @@ model PasswordResetToken {
 }
 
 model Board {
-  id          String   @id @unique @default(uuid())
+  id          String  @id @unique @default(uuid())
   name        String
-  description String   @default("")
-  public      Boolean  @default(false)
-  pinned      Boolean  @default(false)
-  archived    Boolean  @default(false)
-  propertyId  String
-  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  columns     Column[]
+  description String  @default("")
+  public      Boolean @default(true)
+  pinned      Boolean @default(false)
+  archived    Boolean @default(false)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  columns    Column[]
 }
 
 model Column {
