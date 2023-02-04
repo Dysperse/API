@@ -141,6 +141,15 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           fullWidth: true,
         },
       },
+      MuiSkeleton: {
+        styleOverrides: {
+          root: {
+            ...(darkMode && {
+              background: "hsla(240,11%,40%,0.5)",
+            }),
+          },
+        },
+      },
       MuiAlert: {
         styleOverrides: {
           root: sx({
