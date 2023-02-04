@@ -7,10 +7,27 @@ import type { ApiResponse } from "../../types/client";
 /**
  * Item limit
  */
-export function Storage({ color }: { color: string }) {
-  const { data }: ApiResponse = useApi("property/inventory/count");
-  const { data: boardCount }: ApiResponse = useApi("property/boards");
-  const { data: memoCount } = useApi("property/spaces");
+export function Storage({
+  propertyId,
+  accessToken,
+  color,
+}: {
+  accessToken: string;
+  propertyId: string;
+  color: string;
+}) {
+  const { data }: ApiResponse = useApi("property/inventory/count", {
+    property: propertyId,
+    accessToken,
+  });
+  const { data: boardCount }: ApiResponse = useApi("property/boards", {
+    property: propertyId,
+    accessToken,
+  });
+  const { data: memoCount } = useApi("property/spaces", {
+    property: propertyId,
+    accessToken,
+  });
 
   const max = 500;
   const storage = {
@@ -26,7 +43,7 @@ export function Storage({ color }: { color: string }) {
 
   return !data ? null : (
     <Box>
-      <Typography variant="h5" sx={{ fontWeight: "700", my: 2, mb: 1 }}>
+      <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
         Storage
       </Typography>
       <Box

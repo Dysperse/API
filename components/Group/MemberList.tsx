@@ -4,6 +4,7 @@ import {
   Icon,
   Menu,
   MenuItem,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -234,11 +235,21 @@ function Member({
 export function MemberList({
   color,
   setOpen,
+  propertyId,
+  accessToken,
 }: {
   color: string;
   setOpen: (open: boolean) => void;
+  propertyId: string;
+  accessToken: string;
 }): JSX.Element {
-  const { error, loading, data, url }: ApiResponse = useApi("property/members");
+  const { error, loading, data, url }: ApiResponse = useApi(
+    "property/members",
+    {
+      propertyId: propertyId,
+      propertyAccessToken: accessToken,
+    }
+  );
   const images = data
     ? [
         ...[
@@ -258,7 +269,11 @@ export function MemberList({
       ]
     : [
         {
-          content: <Box>Loading...</Box>,
+          content: (
+            <Box>
+              <Skeleton animation="wave" />
+            </Box>
+          ),
         },
       ];
 
@@ -268,7 +283,17 @@ export function MemberList({
     />
   ) : (
     <>
-      <Box sx={{ width: "100%", display: "flex", marginTop: "-40px" }}>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          mt: 4,
+          alignItems: "center",
+          mb: 3,
+          px: 1,
+        }}
+      >
+        <Typography variant="h6">Members</Typography>
         <AddPersonModal
           color={color}
           members={loading ? [] : data.map((member) => member.user.email)}

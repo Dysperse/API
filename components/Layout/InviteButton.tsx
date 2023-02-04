@@ -114,9 +114,13 @@ export default function InviteButton() {
         {properties.map((group: any) => (
           <Group
             handleClose={() => setOpen(false)}
-            key={group.accessToken.toString()}
-            data={group}
-          />
+            data={{
+              id: group.propertyId,
+              accessToken: group.accessToken,
+            }}
+          >
+            <button>open meeee</button>
+          </Group>
         ))}
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your other groups" />

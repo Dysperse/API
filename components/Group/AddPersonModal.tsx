@@ -163,7 +163,6 @@ export function AddPersonModal({
           variant="contained"
           disabled={global.property.permission !== "owner"}
           sx={{
-            mb: 2,
             px: 2,
             ml: "auto",
             boxShadow: 0,

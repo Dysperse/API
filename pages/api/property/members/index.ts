@@ -3,16 +3,17 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
   const permissions = await validatePermissions(
-    req.query.property,
-    req.query.accessToken
+    req.query.propertyId,
+    req.query.propertyAccessToken
   );
   if (!permissions) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
+
   const data = await prisma.propertyInvite.findMany({
     where: {
-      propertyId: req.query.property,
+      propertyId: req.query.propertyId,
     },
     select: {
       id: true,
