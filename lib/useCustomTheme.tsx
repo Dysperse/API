@@ -145,7 +145,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: {
             ...(darkMode && {
-              background: "hsla(240,11%,40%,0.5)",
+              background: "hsla(240,11%,40%,0.4)",
             }),
           },
         },
