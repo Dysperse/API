@@ -1,23 +1,15 @@
-import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
-  Chip,
-  Dialog,
   DialogActions,
-  DialogContent,
   Icon,
   IconButton,
-  List,
-  ListItem,
   Menu,
   MenuItem,
   SwipeableDrawer,
   TextField,
-  Typography,
 } from "@mui/material";
-import EmojiPicker from "emoji-picker-react";
-import React, { useState } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
@@ -26,133 +18,6 @@ import { toastStyles } from "../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
 import { CreateColumn } from "./Column/Create";
-
-function PublishBoard({ board }) {
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [emoji, setEmoji] = useState(
-    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png"
-  );
-  const [emojiOpen, setEmojiOpen] = useState(false);
-
-  return (
-    <>
-      <Dialog
-        open={open}
-        scroll="body"
-        onClose={() => setOpen(true)}
-        PaperProps={{
-          sx: {
-            maxWidth: "500px",
-          },
-        }}
-      >
-        <Dialog
-          open={emojiOpen}
-          onClose={() => setEmojiOpen(false)}
-          PaperProps={{
-            sx: {
-              maxWidth: "calc(100% - 20px)",
-              width: "400px",
-            },
-          }}
-        >
-          <EmojiPicker
-            skinTonePickerLocation={"PREVIEW" as any}
-            theme={(global.user.darkMode ? "dark" : "light") as any}
-            lazyLoadEmojis={true}
-            width="100%"
-            onEmojiClick={(event) => {
-              const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
-              setEmoji(url);
-              setEmojiOpen(false);
-            }}
-          />
-        </Dialog>
-
-        <DialogContent sx={{ p: 4 }}>
-          <Typography variant="h5" sx={{ mb: 1 }}>
-            Publish as template
-          </Typography>
-          <List
-            sx={{
-              listStyleType: "disc",
-              pl: 3,
-              "& .MuiListItem-root": {
-                display: "list-item",
-              },
-            }}
-          >
-            <ListItem>
-              <b>Privacy</b>
-              <br />
-              Others won&apos;t be able to see tasks &amp; files stored in this
-              board
-            </ListItem>
-            <ListItem>
-              Once you publish a template, you won&apos;t be able to edit the
-              board&apos;s information
-            </ListItem>
-            <ListItem>
-              <b>Removing content</b>
-              <br />
-              You can always unpublish templates
-            </ListItem>
-            <ListItem>
-              Inappropriate/offensive content will be removed - and your account
-              will be banned!
-            </ListItem>
-            <ListItem>Duplicate templates will be deleted</ListItem>
-          </List>
-          <TextField
-            value={board.name}
-            fullWidth
-            label="Template name"
-            sx={{ my: 2 }}
-          />
-          <TextField
-            value={board.description}
-            sx={{ mb: 2 }}
-            fullWidth
-            multiline
-            rows={4}
-            label="Template description"
-          />
-          <Box>
-            <Button
-              onClick={() => setEmojiOpen(true)}
-              variant="outlined"
-              sx={{ px: 2, gap: 2 }}
-            >
-              <picture>
-                <img src={emoji} width={30} />
-              </picture>
-              Select emoji
-            </Button>
-          </Box>
-        </DialogContent>
-        <DialogActions sx={{ p: 1 }}>
-          <LoadingButton variant="contained" loading={loading}>
-            Publish
-          </LoadingButton>
-        </DialogActions>
-      </Dialog>
-      <MenuItem onClick={() => setOpen(true)}>
-        <Icon className="outlined">auto_awesome</Icon>
-        Publish
-        <Chip
-          label="NEW"
-          size="small"
-          sx={{
-            background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
-            color: "#000",
-            ml: "auto",
-          }}
-        />
-      </MenuItem>
-    </>
-  );
-}
 
 export function BoardSettings({ mutationUrl, board }) {
   const [title, setTitle] = React.useState(board.name);
@@ -301,7 +166,27 @@ export function BoardSettings({ mutationUrl, board }) {
           <Icon className="outlined">edit</Icon>
           Edit
         </MenuItem>
-        <PublishBoard board={board} />
+        <ConfirmationModal
+          title="Change board visibility?"
+          question={
+            !board.public
+              ? "Are you sure you want to make this board public? Other members in your group will be able to view and edit content within this board"
+              : "Are you sure you want to make this board private? Other members in your group won't be able to view/edit content within this board anymore."
+          }
+          callback={async () => {
+            await fetchApiWithoutHook("property/boards/setVisibility", {
+              public: !board.public,
+            });
+            await mutate(mutationUrl);
+          }}
+        >
+          <MenuItem>
+            <Icon className="outlined">
+              {!board.public ? "visibility" : "visibility_off"}
+            </Icon>
+            Make {!board.public ? "public" : "private"}
+          </MenuItem>
+        </ConfirmationModal>
 
         <ConfirmationModal
           title="Archive board?"
