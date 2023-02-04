@@ -9,6 +9,7 @@ import {
   IconButton,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { Property } from "@prisma/client";
 import { cloneElement, useCallback, useState } from "react";
@@ -185,6 +186,7 @@ export default function Group({
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
+  const isDesktop = useMediaQuery("(min-width: 600px)");
 
   const handleOpen = useCallback(
     async (e) => {
@@ -217,7 +219,7 @@ export default function Group({
       <Drawer
         onClose={handleDrawerClose}
         open={open}
-        anchor="bottom"
+        anchor={isDesktop ? "right" : "bottom"}
         PaperProps={{
           sx: {
             background: global.user.darkMode ? "" : "#fff",
