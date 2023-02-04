@@ -19,7 +19,7 @@ export default function Document() {
         </Script>
 
         {/* Preconnect */}
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link rel="preconnect" href="https://assets.dysperse.com" />
         <link rel="preconnect" href="https://assets.dysperse.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
