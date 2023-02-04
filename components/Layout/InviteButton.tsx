@@ -116,6 +116,7 @@ export default function InviteButton() {
         <Box sx={{ px: 2, textAlign: "center" }} />
         {properties.map((group: any) => (
           <Group
+            key={group.propertyId}
             handleClose={() => setOpen(false)}
             data={{
               id: group.propertyId,
