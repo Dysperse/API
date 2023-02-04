@@ -144,6 +144,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiAlert: {
         styleOverrides: {
           root: sx({
+            alignItems: "center",
             borderRadius: 5,
           }),
         },
