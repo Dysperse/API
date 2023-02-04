@@ -1,5 +1,5 @@
 import { Progress } from "@mantine/core";
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
@@ -41,7 +41,28 @@ export function Storage({
       (boardCount || []).length * 10 + (data || { count: 0 }).count * 2.5
     );
 
-  return !data ? null : (
+  return !data ? (
+    <Box>
+      <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
+        Storage
+      </Typography>
+      <Box
+        sx={{
+          p: 2,
+          mt: 2,
+          mb: 2,
+          userSelect: "none",
+          px: 2.5,
+          borderRadius: 5,
+          background: global.user.darkMode
+            ? "hsl(240,11%,20%)"
+            : colors[color][100],
+        }}
+      >
+        <Skeleton animation="wave" />
+      </Box>
+    </Box>
+  ) : (
     <Box>
       <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
         Storage
