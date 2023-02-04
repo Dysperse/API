@@ -1,7 +1,10 @@
 import {
   Box,
   Button,
+  colors,
   Icon,
+  ListItemButton,
+  ListItemText,
   SwipeableDrawer,
   Typography,
   useMediaQuery,
@@ -119,7 +122,34 @@ export default function InviteButton() {
               accessToken: group.accessToken,
             }}
           >
-            <button>open meeee</button>
+            <ListItemButton
+              sx={{
+                gap: 2,
+                borderRadius: 0,
+                transition: "none",
+                ...(group.id === global.property.id && {
+                  background: global.user.darkMode
+                    ? "hsla(240,11%,20%)"
+                    : "rgba(200,200,200,.2)!important",
+                }),
+              }}
+            >
+              <Box
+                sx={{
+                  width: 20,
+                  height: 20,
+                  background: colors[group.profile.color]["A700"],
+                  borderRadius: 99,
+                }}
+              />
+              <ListItemText
+                primary={group.profile.name}
+                secondary={group.profile.type}
+                sx={{
+                  textTransform: "capitalize",
+                }}
+              />
+            </ListItemButton>
           </Group>
         ))}
         {error && (

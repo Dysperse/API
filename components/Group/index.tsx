@@ -1,4 +1,6 @@
+import { LoadingButton } from "@mui/lab";
 import {
+  Alert,
   AppBar,
   Box,
   CircularProgress,
@@ -10,8 +12,11 @@ import {
 } from "@mui/material";
 import { Property } from "@prisma/client";
 import { cloneElement, useCallback, useState } from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import { toastStyles } from "../../lib/useCustomTheme";
 import { ErrorHandler } from "../Error";
 import { MemberList } from "./MemberList";
 import { Storage } from "./Storage";
@@ -25,15 +30,16 @@ function PropertyInfo({
   accessToken: string;
   propertyData: any;
 }) {
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <Box>
       <AppBar
         elevation={0}
         sx={{
-          position: "fixed",
+          position: "sticky",
           top: 0,
           left: 0,
-          zIndex: 9,
+          zIndex: 999,
           background: global.user.darkMode
             ? "hsla(240,11%,15%, 0.5)"
             : "rgba(255,255,255,.5)",
@@ -60,9 +66,49 @@ function PropertyInfo({
       <Box
         sx={{
           p: 4,
-          pt: 14,
         }}
       >
+        {propertyData.propertyId !== global.property.propertyId ? (
+          <Alert
+            severity="info"
+            sx={{ mb: 2 }}
+            action={
+              <LoadingButton
+                loading={loading}
+                onClick={async () => {
+                  try {
+                    setLoading(true);
+                    const res = await fetchApiWithoutHook("property/join", {
+                      email: global.user.email,
+                      accessToken1: propertyData.accessToken,
+                    });
+                    await mutate("/api/user");
+                    toast.success(
+                      <span>
+                        Switched to &nbsp;<u>{res.profile.name}</u>
+                      </span>,
+                      toastStyles
+                    );
+                    setLoading(false);
+                  } catch (e) {
+                    toast.error(
+                      "An error occured while trying to switch groups",
+                      toastStyles
+                    );
+                  }
+                }}
+              >
+                Switch
+              </LoadingButton>
+            }
+          >
+            You&apos;re currently viewing this group
+          </Alert>
+        ) : (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            You&apos;re in this group!
+          </Alert>
+        )}
         <Box
           sx={{
             background: `linear-gradient(45deg, ${
