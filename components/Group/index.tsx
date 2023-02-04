@@ -58,7 +58,7 @@ function PropertyInfo({
           <IconButton onClick={handleClose} sx={{ mr: "auto" }}>
             <Icon>close</Icon>
           </IconButton>
-          <Typography>Group info</Typography>
+          <Typography sx={{ fontWeight: "700" }}>Group info</Typography>
           <Changelog
             disabled={propertyData.profile.id !== global.property.propertyId}
           />
@@ -105,7 +105,7 @@ function PropertyInfo({
               </LoadingButton>
             }
           >
-            You&apos;re currently viewing this group
+            You&apos;re spectating this group
           </Alert>
         )}
         <Box
