@@ -334,20 +334,40 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     {
       content: (props) => (
         <div style={{ padding: 20, textAlign: "center", width: "100%" }}>
-          <Confetti width={width} height={height} style={{ zIndex: 1 }} />
-          <Typography variant="h1" gutterBottom>
-            🎉
-          </Typography>
-          <Typography variant="h6">
-            You worked towards all your goals today!
-          </Typography>
-          <Button
-            onClick={() => setOpen(false)}
-            sx={{ mt: 1 }}
-            variant="contained"
-          >
-            <span>✌</span> Let&apos;s go &rarr;
-          </Button>
+          {tasksRemaining == 0 ? (
+            <>
+              <Confetti width={width} height={height} style={{ zIndex: 1 }} />
+              <Typography variant="h1" gutterBottom>
+                🎉
+              </Typography>
+              <Typography variant="h6">
+                You worked towards all your goals today!
+              </Typography>
+              <Button
+                onClick={() => setOpen(false)}
+                sx={{ mt: 1 }}
+                variant="contained"
+              >
+                <span>✌</span> Let&apos;s go &rarr;
+              </Button>
+            </>
+          ) : (
+            <>
+              <Typography variant="h1" gutterBottom>
+                🎉
+              </Typography>
+              <Typography variant="h6">
+                You have {tasksRemaining.length} goals to work towards today
+                <Button
+                  onClick={() => setOpen(false)}
+                  sx={{ mt: 1 }}
+                  variant="contained"
+                >
+                  <span>👉</span> Exit &rarr;
+                </Button>
+              </Typography>
+            </>
+          )}
         </div>
       ),
     },
@@ -377,6 +397,13 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         onClose={() => {
           mutate(url);
           setOpen(false);
+          setTimeout(() => {
+            setCurrentIndex(
+              indexWhereUserLeftOff === -1
+                ? sortedTasks.length
+                : indexWhereUserLeftOff
+            );
+          }, 300);
         }}
         PaperProps={{
           sx: {

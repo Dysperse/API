@@ -27,7 +27,7 @@ export function useStatusBar(
       } else if (nestedModals === 1) {
         tag.setAttribute(
           "content",
-          global.user.darkMode || darkModeOverride ? "hsl(240,11%,10%)" : "#fff"
+          global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
         );
       }
     }
