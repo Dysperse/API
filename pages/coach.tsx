@@ -1,4 +1,10 @@
-import { Box, Checkbox, CircularProgress, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Checkbox,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { CircularProgressProps } from "@mui/material/CircularProgress";
 import dayjs from "dayjs";
 import Head from "next/head";
@@ -186,6 +192,9 @@ export default function Render() {
         </Box>
         <Box className="p-3 px-6 pt-0 max-w-[100vw]">
           <MyGoals setHideRoutine={setHideRoutine} />
+          {!hideRoutine && (
+            <Alert severity="info">Your goals are only visible to you 🔥</Alert>
+          )}
         </Box>
       </Box>
     </Box>
