@@ -120,14 +120,16 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
             )
           }
         />
-        <Icon
-          sx={{
-            color: colors.green["A400"],
-            fontSize: "30px!important",
-          }}
-        >
-          check_circle
-        </Icon>
+        {tasksRemaining.length == 0 && (
+          <Icon
+            sx={{
+              color: colors.green[global.user.darkMode ? "A400" : "A700"],
+              fontSize: "30px!important",
+            }}
+          >
+            check_circle
+          </Icon>
+        )}
       </ListItemButton>
     </>
   ) : (
