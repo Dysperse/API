@@ -50,7 +50,13 @@ function RenderWithLayout({
   pageProps: JSX.Element;
   router: NextRouter;
 }) {
-  const theme: "dark" | "light" = data.user.darkMode ? "dark" : "light";
+  const theme: "dark" | "light" = data
+    ? data.user.darkMode
+      ? "dark"
+      : "light"
+    : window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 
   const themeColor = data.user.color;
   global.user = data.user;
