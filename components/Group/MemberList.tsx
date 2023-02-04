@@ -37,9 +37,11 @@ export function isEmail(email: string): boolean {
 function Member({
   color,
   setOpen,
+  propertyId,
   member,
   mutationUrl,
 }: {
+  propertyId: string;
   color: string;
   setOpen: (open: boolean) => void;
   member: MemberType;
@@ -169,6 +171,7 @@ function Member({
           <CardActionArea
             onClick={handleClick}
             disabled={
+              propertyId !== global.property.propertyId ||
               global.permission !== "owner" ||
               member.user.email === global.user.email
             }
@@ -211,6 +214,7 @@ function Member({
               style={{
                 marginLeft: "auto",
                 opacity:
+                  propertyId !== global.property.propertyId ||
                   global.permission !== "owner" ||
                   member.user.email === global.user.email
                     ? "0"
@@ -260,6 +264,7 @@ export function MemberList({
             return {
               content: (
                 <Member
+                  propertyId={propertyId}
                   color={color}
                   setOpen={setOpen}
                   member={member}
@@ -299,6 +304,7 @@ export function MemberList({
         {data && !data.error && (
           <AddPersonModal
             color={color}
+            disabled={propertyId !== global.property.propertyId}
             members={loading ? [] : data.map((member) => member.user.email)}
           />
         )}

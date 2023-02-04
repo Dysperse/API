@@ -132,8 +132,10 @@ function LinkToken({ color }) {
  */
 export function AddPersonModal({
   color,
+  disabled,
   members,
 }: {
+  disabled;
   color: string;
   members: string[];
 }) {
@@ -161,7 +163,7 @@ export function AddPersonModal({
       <Prompt callback={() => setOpen(true)}>
         <Button
           variant="contained"
-          disabled={global.property.permission !== "owner"}
+          disabled={disabled || global.property.permission !== "owner"}
           sx={{
             px: 2,
             ml: "auto",
