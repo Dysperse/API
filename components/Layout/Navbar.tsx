@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { Offline } from "react-detect-offline";
 import { colors } from "../../lib/colors";
 import Settings from "../Settings/index";
-import { SearchPopup } from "./Search";
 
 import {
   AppBar,
@@ -20,6 +19,7 @@ import InviteButton from "./InviteButton";
 import { UpdateButton } from "./UpdateButton";
 
 const AppsMenu = dynamic(() => import("./AppsMenu"));
+const SearchPopup = dynamic(() => import("./Search"));
 
 /**
  * Navbar component for layout

@@ -456,7 +456,7 @@ export default function Home() {
               {!editMode && (
                 <Tooltip title="Jump to" placement="bottom-start">
                   <IconButton onClick={() => openSpotlight()}>
-                    <Icon className="outlined">search</Icon>
+                    <Icon className="outlined">bolt</Icon>
                   </IconButton>
                 </Tooltip>
               )}

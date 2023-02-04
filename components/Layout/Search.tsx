@@ -93,7 +93,7 @@ function CustomAction({
   );
 }
 
-export function SearchPopup({ styles }) {
+export default function SearchPopup({ styles }) {
   const router = useRouter();
 
   const { data: roomData } = useApi("property/rooms");
@@ -245,8 +245,8 @@ export function SearchPopup({ styles }) {
       }}
       actions={actions}
       shortcut={["mod + K", "/"]}
-      searchIcon={<Icon>search</Icon>}
-      searchPlaceholder="Search..."
+      searchIcon={<Icon>bolt</Icon>}
+      searchPlaceholder="Find anything →"
       actionComponent={CustomAction}
       nothingFoundMessage="Nothing found..."
     >
@@ -303,7 +303,7 @@ export function SearchPopup({ styles }) {
         }}
         className={global.user.darkMode ? "rippleDark" : ""}
       >
-        <Icon>search</Icon>
+        <Icon>bolt</Icon>
         Jump to
         <span className="hover" style={{ marginLeft: "auto" }}>
           <span
@@ -331,7 +331,7 @@ export function SearchPopup({ styles }) {
           color="inherit"
           sx={{ ...styles, display: { sm: "none" } }}
         >
-          <Icon className="outlined">search</Icon>
+          <Icon className="outlined">bolt</Icon>
         </IconButton>
       </Tooltip>
     </SpotlightProvider>
