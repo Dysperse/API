@@ -19,6 +19,7 @@ import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { ErrorHandler } from "../Error";
+import { Changelog } from "./Changelog";
 import { EditProperty } from "./EditProperty";
 import { MemberList } from "./MemberList";
 import { Storage } from "./Storage";
@@ -58,9 +59,9 @@ function PropertyInfo({
             <Icon>close</Icon>
           </IconButton>
           <Typography>Group info</Typography>
-          <IconButton onClick={handleClose} sx={{ ml: "auto", opacity: 0 }}>
-            <Icon>close</Icon>
-          </IconButton>
+          <Changelog
+            disabled={propertyData.profile.id !== global.property.propertyId}
+          />
         </Toolbar>
       </AppBar>
 

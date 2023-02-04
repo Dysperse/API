@@ -23,7 +23,7 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 
-export function Changelog() {
+export function Changelog({ disabled }) {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
   const { error, data } = useApi("property/inbox");
@@ -50,7 +50,7 @@ export function Changelog() {
         disableSwipeToOpen
         anchor="bottom"
       >
-        {open && (
+        {!disabled && open && (
           <>
             <Box
               sx={{
@@ -174,14 +174,11 @@ export function Changelog() {
         )}
       </SwipeableDrawer>
       <IconButton
+        disabled={disabled}
         sx={{
           color: "inherit",
           zIndex: 1,
-          mr: 1,
-          position: "absolute",
-          right: "55px",
-
-          mt: 0.2,
+          ml: "auto",
         }}
         onClick={() => setOpen(true)}
       >
