@@ -31,10 +31,7 @@ export default function KeyboardShortcutsModal() {
     >
       <Box className="flex items-center">
         <Typography variant="h5">Keyboard shortcuts</Typography>
-        <IconButton
-          sx={{ ml: "auto" }}
-          onClick={() => setOpen(false)}
-        >
+        <IconButton sx={{ ml: "auto" }} onClick={() => setOpen(false)}>
           <Icon>close</Icon>
         </IconButton>
       </Box>
@@ -100,6 +97,10 @@ export default function KeyboardShortcutsModal() {
               {
                 name: "Navigate 1 room downwards",
                 keys: ["ctrl", <>&#8595;</>],
+              },
+              {
+                name: "Sort",
+                keys: ["s"],
               },
             ],
           },

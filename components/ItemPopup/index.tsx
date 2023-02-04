@@ -42,11 +42,11 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       : colors[themeColor]["800"],
     background: global.user.darkMode
       ? "hsl(240, 11%, 20%)"
-      : colors[themeColor][200],
+      : colors[themeColor][100],
     "&:hover, &:active, &:focus-within": {
       background: global.user.darkMode
         ? "hsl(240, 11%, 25%)"
-        : colors[themeColor][200],
+        : colors[themeColor][100],
       color: global.user.darkMode
         ? "hsl(240, 11%, 95%)"
         : colors[themeColor][900],

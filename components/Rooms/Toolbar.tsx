@@ -1,10 +1,10 @@
 import type { Item } from "@prisma/client";
 import React from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { colors } from "../../lib/colors";
 
 import { Box, Button, Icon, Menu, MenuItem, TextField } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useHotkeys } from "react-hotkeys-hook";
 
 /**
  * Search bar
@@ -155,6 +155,15 @@ export function Toolbar({
   React.useEffect(() => {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
+  const ref: any = React.useRef();
+  useHotkeys(
+    "s",
+    (e) => {
+      e.preventDefault();
+      ref.current?.click();
+    },
+    [ref]
+  );
   return (
     <Box
       sx={{
@@ -170,6 +179,7 @@ export function Toolbar({
         disableRipple
         id="basic-button"
         variant="contained"
+        ref={ref}
         sx={{
           borderRadius: 10,
           ml: 1,
@@ -177,13 +187,10 @@ export function Toolbar({
           py: 1.3,
           gap: 1.5,
           verticalAlign: "middle",
-          color: `${
-            colors[themeColor][global.user.darkMode ? 50 : 900]
-          }!important`,
         }}
         onClick={handleClick}
       >
-        <Icon className="outlined">filter_alt</Icon>
+        <Icon className="outlined">filter_list</Icon>
       </Button>
       <Menu
         id="basic-menu"
