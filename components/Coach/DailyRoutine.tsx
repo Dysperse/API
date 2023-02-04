@@ -340,7 +340,11 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         <div style={{ padding: 20, textAlign: "center", width: "100%" }}>
           {tasksRemaining == 0 ? (
             <>
-              <Confetti width={width} height={height} style={{ zIndex: 1 }} />
+              <Confetti
+                width={width > 600 ? 600 : width}
+                height={height}
+                style={{ zIndex: 1 }}
+              />
               <Typography variant="h1" gutterBottom>
                 🎉
               </Typography>
@@ -428,7 +432,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           }}
           stories={stories}
           defaultInterval={300}
-          width={"100vw"}
+          width={"100%"}
           preventDefault
           currentIndex={currentIndex}
           height={"100vh"}
