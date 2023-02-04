@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Chip,
+  Divider,
   Icon,
   IconButton,
   List,
@@ -494,7 +495,7 @@ export default function Home() {
             label="10 days"
             sx={{
               userSelect: "none",
-              color: orange["A400"],
+              color: orange[global.user.darkMode ? 50 : "A400"],
               background: `linear-gradient(45deg, ${
                 orange[global.user.darkMode ? 900 : 100]
               }, ${orange[global.user.darkMode ? 800 : 50]})`,
@@ -533,7 +534,7 @@ export default function Home() {
                   disableRipple={editMode}
                   onClick={() => !editMode && router.push("/tasks")}
                 >
-                  <Icon className="outlined">check_circle</Icon>
+                  <Icon>task_alt</Icon>
                   <ListItemText
                     primary="Tasks"
                     secondary={!editMode && "5 tasks left to reach daily goal"}
@@ -543,6 +544,7 @@ export default function Home() {
                 <DailyRoutine zen editMode={editMode} />
               )
             )}
+            <Divider sx={{ my: 1, opacity: 0.5 }} />
 
             <DndContext
               collisionDetection={closestCenter}
