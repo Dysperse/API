@@ -271,7 +271,7 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
           p: 4,
           position: "relative",
           mt: "-64px",
-          minHeight: "450px",
+          minHeight: { xs: "400px", sm: "450px" },
           display: "flex",
         }}
       >

@@ -1,22 +1,135 @@
 import {
-  AppBar,
   Box,
+  Button,
+  Chip,
   Drawer,
   Icon,
-  IconButton,
   ListItemButton,
   ListItemText,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Confetti from "react-confetti";
+import toast from "react-hot-toast";
+import Stories from "react-insta-stories";
+import useWindowSize from "react-use/lib/useWindowSize";
 import { mutate } from "swr";
-import { useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
-import { CircularProgressWithLabel, Task } from "../../pages/coach";
+import { toastStyles } from "../../lib/useCustomTheme";
+import { CircularProgressWithLabel } from "../../pages/coach";
+
+function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
+  const handleClick = React.useCallback(() => {
+    fetchApiWithoutHook("user/routines/markAsDone", {
+      date: dayjs().format("YYYY-MM-DD"),
+      progress:
+        task.progress && parseInt(task.progress)
+          ? task.progress + 1 > task.durationDays
+            ? task.durationDays
+            : task.progress + 1
+          : 1,
+      id: task.id,
+    })
+      .then(() => {
+        mutate(mutationUrl);
+      })
+      .catch(() => {
+        toast.error(
+          "Something went wrong while trying to mark your routine as done.",
+          toastStyles
+        );
+      });
+  }, [task.durationDays, task.id, task.progress]);
+
+  return (
+    <Box sx={{ p: 4 }}>
+      <Typography variant="h2" className="font-heading" gutterBottom>
+        {task.stepName}
+      </Typography>
+      <Typography>
+        <i>{task.name}</i>
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          my: 2,
+        }}
+      >
+        <Chip label={task.category} size="small" />
+        <Chip
+          size="small"
+          label={~~((task.progress / task.durationDays) * 100) + "% complete"}
+        />
+        <Chip
+          size="small"
+          label={
+            task.time === "any"
+              ? "Daily"
+              : task.time === "morning"
+              ? "Every morning"
+              : task.time === "afternoon"
+              ? "Every afternoon"
+              : task.time === "evening"
+              ? "Every evening"
+              : "Nightly"
+          }
+        />
+      </Box>
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          width: "100%",
+          left: 0,
+          gap: 1,
+          p: 4,
+          display: "flex",
+          flexDirection: "column",
+          pb: 2,
+        }}
+      >
+        <Button
+          disabled={task.lastCompleted === dayjs().format("YYYY-MM-DD")}
+          variant="contained"
+          fullWidth
+          size="large"
+          onClick={handleClick}
+        >
+          {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
+            <>
+              <span>🔥</span> You worked on this goal today!
+            </>
+          ) : (
+            <>
+              <span>🎯</span> I worked towards it!
+            </>
+          )}
+        </Button>
+        <Button
+          sx={{ opacity: 0.7 }}
+          size="large"
+          onClick={() => setCurrentIndex((i) => currentIndex + 1)}
+        >
+          {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
+            <>
+              <span>👀</span> Onwards! &rarr;
+            </>
+          ) : (
+            <>
+              <span>💤</span> Skip for now
+            </>
+          )}
+        </Button>
+      </Box>
+    </Box>
+  );
+}
 
 export function DailyRoutine({ zen = false, editMode = false }: any) {
   const { data, url } = useApi("user/routines");
@@ -26,41 +139,11 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
-  const timeColors = {
-    afternoon: ["6198ff", "4385ff", "2071ff", "0061f1", "0056d6", "004cbb"],
-    morning: ["7dc4a4", "6cab8e", "5d947b", "578a73", "477862", "3b6351"],
-    evening: ["ff007b", "db0d71", "bd045e", "a60855", "94044a", "7a053e"],
-    night: ["080f14", "0e1820", "141f29", "15222e", "1e303f", "283e52"],
-  };
-
-  const time = new Date().getHours();
-  let bannerColors;
-  if (time < 10) {
-    bannerColors = timeColors.morning;
-  } else if (time < 17) {
-    bannerColors = timeColors.afternoon;
-  } else if (time < 20) {
-    bannerColors = timeColors.evening;
-  } else {
-    bannerColors = timeColors.night;
-  }
-
   useEffect(() => {
     if (window.location.hash == "#daily-routine") setOpen(true);
   }, [setOpen]);
 
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        open
-          ? `#${bannerColors[0]}`
-          : global.user.darkMode
-          ? "hsl(240,11%,10%)"
-          : "#fff"
-      );
-  });
+  const { width, height } = useWindowSize();
 
   const doneTasks = !data
     ? []
@@ -234,6 +317,55 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     </Box>
   );
 
+  const stories = [
+    ...sortedTasks.map((task) => {
+      return {
+        content: (props) => (
+          <Task
+            task={task}
+            mutationUrl={url}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+          />
+        ),
+      };
+    }),
+    {
+      content: (props) => (
+        <div style={{ padding: 20, textAlign: "center", width: "100%" }}>
+          <Confetti width={width} height={height} style={{ zIndex: 1 }} />
+          <Typography variant="h1" gutterBottom>
+            🎉
+          </Typography>
+          <Typography variant="h6">
+            You worked towards all your goals today!
+          </Typography>
+          <Button
+            onClick={() => setOpen(false)}
+            sx={{ mt: 1 }}
+            variant="contained"
+          >
+            <span>✌</span> Let&apos;s go &rarr;
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
+  const indexWhereUserLeftOff = sortedTasks
+    ? sortedTasks.findIndex(
+        (task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD")
+      )
+    : 0;
+
+  const [currentIndex, setCurrentIndex] = useState(indexWhereUserLeftOff);
+
+  useEffect(() => {
+    setCurrentIndex(
+      indexWhereUserLeftOff === -1 ? sortedTasks.length : indexWhereUserLeftOff
+    );
+  }, [indexWhereUserLeftOff]);
+
   return (
     <>
       <Drawer
@@ -253,58 +385,14 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           },
         }}
       >
-        <AppBar
-          elevation={0}
-          position="static"
-          sx={{
-            zIndex: 1,
-            color: "#fff",
-            background: "linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,0))",
-          }}
-        >
-          <Toolbar className="flex" sx={{ height: "70px" }}>
-            <IconButton color="inherit" onClick={() => setOpen(false)}>
-              <Icon>west</Icon>
-            </IconButton>
-            <Typography sx={{ mx: "auto", fontWeight: "600" }}>
-              Today&apos;s routine
-            </Typography>
-            <IconButton
-              color="inherit"
-              sx={{ opacity: 0, pointerEvents: "none" }}
-            >
-              <Icon>more_horiz</Icon>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Box
-          sx={{
-            mt: "-70px",
-            backgroundImage: `url("data:image/svg+xml,%0A%3Csvg id='visual' viewBox='0 0 900 600' width='900' height='600' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1'%3E%3Cpath d='M0 217L75 204C150 191 300 165 450 153C600 141 750 143 825 144L900 145L900 0L825 0C750 0 600 0 450 0C300 0 150 0 75 0L0 0Z' fill='%23${bannerColors[0]}'%3E%3C/path%3E%3Cpath d='M0 271L75 266C150 261 300 251 450 246C600 241 750 241 825 241L900 241L900 143L825 142C750 141 600 139 450 151C300 163 150 189 75 202L0 215Z' fill='%23${bannerColors[1]}'%3E%3C/path%3E%3Cpath d='M0 379L75 383C150 387 300 395 450 392C600 389 750 375 825 368L900 361L900 239L825 239C750 239 600 239 450 244C300 249 150 259 75 264L0 269Z' fill='%23${bannerColors[2]}'%3E%3C/path%3E%3Cpath d='M0 439L75 442C150 445 300 451 450 451C600 451 750 445 825 442L900 439L900 359L825 366C750 373 600 387 450 390C300 393 150 385 75 381L0 377Z' fill='%23${bannerColors[3]}'%3E%3C/path%3E%3Cpath d='M0 517L75 519C150 521 300 525 450 521C600 517 750 505 825 499L900 493L900 437L825 440C750 443 600 449 450 449C300 449 150 443 75 440L0 437Z' fill='%23${bannerColors[4]}'%3E%3C/path%3E%3Cpath d='M0 601L75 601C150 601 300 601 450 601C600 601 750 601 825 601L900 601L900 491L825 497C750 503 600 515 450 519C300 523 150 519 75 517L0 515Z' fill='%23${bannerColors[5]}'%3E%3C/path%3E%3C/svg%3E")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            width: "100%",
-            display: "flex",
-            p: 3,
-            color: "#fff",
-            minHeight: "300px",
-          }}
-        >
-          <Box sx={{ mt: "auto" }}>
-            <Typography variant="h4" gutterBottom className="underline">
-              Today&apos;s routine
-            </Typography>
-            <Typography variant="body2">
-              You have {tasksRemaining.length} tasks remaining today
-            </Typography>
-          </Box>
-        </Box>
-        <Box sx={{ p: 4 }}>
-          {sortedTasks.map((task) => (
-            <Task task={task} key={task.id} />
-          ))}
-        </Box>
+        <Stories
+          stories={stories}
+          defaultInterval={300}
+          width={"100vw"}
+          preventDefault
+          currentIndex={currentIndex}
+          height={"100vh"}
+        />
       </Drawer>
       {trigger}
     </>
