@@ -251,32 +251,33 @@ export function MemberList({
     }
   );
 
-  const images = data
-    ? [
-        ...[
-          ...new Map(data.map((item) => [item.user.email, item])).values(),
-        ].map((member: any) => {
-          return {
+  const images =
+    data && !data.error
+      ? [
+          ...[
+            ...new Map(data.map((item) => [item.user.email, item])).values(),
+          ].map((member: any) => {
+            return {
+              content: (
+                <Member
+                  color={color}
+                  setOpen={setOpen}
+                  member={member}
+                  mutationUrl={url}
+                />
+              ),
+            };
+          }),
+        ]
+      : [
+          {
             content: (
-              <Member
-                color={color}
-                setOpen={setOpen}
-                member={member}
-                mutationUrl={url}
-              />
+              <Box>
+                <Skeleton animation="wave" />
+              </Box>
             ),
-          };
-        }),
-      ]
-    : [
-        {
-          content: (
-            <Box>
-              <Skeleton animation="wave" />
-            </Box>
-          ),
-        },
-      ];
+          },
+        ];
 
   return error ? (
     <ErrorHandler
@@ -295,10 +296,12 @@ export function MemberList({
         }}
       >
         <Typography variant="h6">Members</Typography>
-        <AddPersonModal
-          color={color}
-          members={loading ? [] : data.map((member) => member.user.email)}
-        />
+        {data && !data.error && (
+          <AddPersonModal
+            color={color}
+            members={loading ? [] : data.map((member) => member.user.email)}
+          />
+        )}
       </Box>
       {images.map((step, index) => (
         <Box

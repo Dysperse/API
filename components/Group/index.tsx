@@ -78,7 +78,7 @@ function PropertyInfo({
                 onClick={async () => {
                   try {
                     setLoading(true);
-                    const res = await fetchApiWithoutHook("property/join", {
+                    const res =await fetchApiWithoutHook("property/join", {
                       email: global.user.email,
                       accessToken1: propertyData.accessToken,
                     });
