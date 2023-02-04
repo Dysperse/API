@@ -60,6 +60,9 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           alignItems: "center",
           gap: 1,
           my: 2,
+          "& .MuiChip-root": {
+            background: "hsl(240,11%,20%)!important",
+          },
         }}
       >
         <Chip label={task.category} size="small" />
@@ -99,6 +102,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           disabled={task.lastCompleted === dayjs().format("YYYY-MM-DD")}
           variant="contained"
           fullWidth
+          sx={{ "&,&:hover": { background: "hsl(240,11%,14%)!important" } }}
           size="large"
           onClick={handleClick}
         >
@@ -113,7 +117,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           )}
         </Button>
         <Button
-          sx={{ opacity: 0.7 }}
+          sx={{ opacity: 0.6, color: "#fff" }}
           size="large"
           onClick={() => setCurrentIndex((i) => currentIndex + 1)}
         >
@@ -123,7 +127,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
             </>
           ) : (
             <>
-              <span>💤</span> Skip for now
+              <span>✍</span> Skip for now
             </>
           )}
         </Button>
@@ -357,15 +361,16 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
                 🎉
               </Typography>
               <Typography variant="h6">
-                You have {tasksRemaining.length} goals to work towards today
-                <Button
-                  onClick={() => setOpen(false)}
-                  sx={{ mt: 1 }}
-                  variant="contained"
-                >
-                  <span>👉</span> Exit &rarr;
-                </Button>
+                You have {tasksRemaining.length} goal
+                {tasksRemaining.length !== 1 && "s"} left to finish
               </Typography>
+              <Button
+                onClick={() => setOpen(false)}
+                sx={{ mt: 1 }}
+                variant="contained"
+              >
+                <span>👉</span> Exit &rarr;
+              </Button>
             </>
           )}
         </div>
