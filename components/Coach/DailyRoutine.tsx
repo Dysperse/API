@@ -397,7 +397,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
   return (
     <>
       <Drawer
-        anchor="right"
+        anchor="bottom"
         open={open}
         onClose={() => {
           mutate(url);
@@ -412,6 +412,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         }}
         PaperProps={{
           sx: {
+            borderRadius: 0,
             maxWidth: "600px",
             width: "100vw",
             "& *": {
