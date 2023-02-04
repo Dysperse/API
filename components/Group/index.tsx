@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Property } from "@prisma/client";
-import { cloneElement, useCallback, useState } from "react";
+import { cloneElement, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
@@ -70,7 +70,7 @@ function PropertyInfo({
           p: 4,
         }}
       >
-        {propertyData.propertyId !== global.property.propertyId ? (
+        {propertyData.propertyId !== global.property.propertyId && (
           <Alert
             severity="info"
             sx={{ mb: 2 }}
@@ -105,10 +105,6 @@ function PropertyInfo({
             }
           >
             You&apos;re currently viewing this group
-          </Alert>
-        ) : (
-          <Alert severity="info" sx={{ mb: 2 }}>
-            You&apos;re in this group!
           </Alert>
         )}
         <Box
@@ -187,6 +183,21 @@ export default function Group({
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
   const isDesktop = useMediaQuery("(min-width: 600px)");
+
+  useEffect(() => {
+    const tag: any = document.querySelector(`meta[name="theme-color"]`);
+    if (open) {
+      tag?.setAttribute(
+        "content",
+        global.user.darkMode ? "hsl(240,11%,15%)" : "#fff"
+      );
+    } else {
+      tag?.setAttribute(
+        "content",
+        global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
+      );
+    }
+  });
 
   const handleOpen = useCallback(
     async (e) => {
