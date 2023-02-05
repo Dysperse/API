@@ -431,7 +431,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
             color: "hsl(240, 11%, 80%)",
           }}
           stories={stories}
-          defaultInterval={150000000000000}
+          defaultInterval={69696969696969696969696969696969}
           width={"100%"}
           isPaused
           onStoryEnd={() => {}}
