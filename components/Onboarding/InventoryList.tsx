@@ -30,7 +30,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
           onClick={() => {
             setInventory([...inventory, item.name]);
 
-            fetchApiWithoutHook("property/inventory/itemss/create", {
+            fetchApiWithoutHook("property/inventory/items/create", {
               name: item.name,
               qty: "1",
               category: JSON.stringify([]),

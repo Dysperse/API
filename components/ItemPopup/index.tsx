@@ -57,7 +57,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     "&:hover, &:active, &:focus-within": {
       background: global.user.darkMode
         ? "hsl(240, 11%, 20%)"
-        : colors[themeColor][200],
+        : colors[themeColor][100],
     },
     borderRadius: 2,
     pl: "10px",
@@ -80,7 +80,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const handleItemChange = async (key: string, value: string) => {
     toast.promise(
-      fetchApiWithoutHook("property/inventory/itemss/edit", {
+      fetchApiWithoutHook("property/inventory/items/edit", {
         id: itemData.id.toString(),
         [key]: value,
         lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),

@@ -23,7 +23,7 @@ const CategoryModal = React.memo(function CategoryModal({
   mutationUrl,
   category,
 }: {
-  mutationUrl:string
+  mutationUrl: string;
   category: string;
 }) {
   const [open, setOpen] = React.useState(false);

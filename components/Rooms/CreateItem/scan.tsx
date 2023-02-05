@@ -31,7 +31,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
         webcamContainer.style.opacity = "1";
       }, 100);
 
-      const response = await fetch("/api/property/inventory/itemss/scan", {
+      const response = await fetch("/api/property/inventory/items/scan", {
         method: "POST",
         body: JSON.stringify({
           imageUrl: imageSrc,
@@ -78,7 +78,7 @@ const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
       title = title.trim();
       title = title.charAt(0).toUpperCase() + title.slice(1);
       if (forever) {
-        await fetchApiWithoutHook("property/inventory/itemss/create", {
+        await fetchApiWithoutHook("property/inventory/items/create", {
           room: room.toString().toLowerCase(),
           name: title,
           quantity: qty,
