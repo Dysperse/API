@@ -54,10 +54,9 @@ export function Header({
           width: "100%",
         }}
       >
-        <ListItemAvatar sx={{ mr: { xs: 2, sm: -3 } }}>
+        <ListItemAvatar sx={{ mr: { xs: 0, sm: -3 } }}>
           <IconButton
             onClick={() => router.push("/items")}
-            size="large"
             sx={{
               display: { sm: "none" },
               background: "transparent",
@@ -102,10 +101,9 @@ export function Header({
           }
         />
       </Box>
-      <ListItemAvatar sx={{ ml: 2 }}>
+      <ListItemAvatar>
         <CreateItemModal room={useAlias ? decode(room).split(",")[0] : room}>
           <IconButton
-            size="large"
             sx={{
               background: "transparent",
             }}
