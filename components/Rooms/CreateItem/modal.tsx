@@ -106,6 +106,8 @@ export function CreateItemModal({
         <AppBar
           elevation={0}
           sx={{
+            borderTopLeftRadius: { sm: "20px" },
+            borderTopRightRadius: { sm: "20px" },
             zIndex: 99,
             background: "rgba(255,255,255,.3)",
             color: "#000",
