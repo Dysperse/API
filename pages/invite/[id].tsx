@@ -17,7 +17,7 @@ export default function Onboarding() {
   const id = window.location.pathname.split("/invite/")[1];
   const [loading, setLoading] = React.useState(false);
   const { data } = useApi(
-    "property/members/inviteLinkInfo",
+    "property/members/invite-link/info",
     {
       token: id as string,
     },
@@ -152,7 +152,7 @@ export default function Onboarding() {
               setLoading(true);
               if (global.user.user && global.user.user.email) {
                 fetchApiWithoutHook(
-                  "property/members/acceptInviteByLink",
+                  "property/members/invite-link/accept",
                   {
                     token: id as string,
                     email: global.user.user.email,

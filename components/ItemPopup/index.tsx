@@ -80,7 +80,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const handleItemChange = async (key: string, value: string) => {
     toast.promise(
-      fetchApiWithoutHook("property/inventory/edit", {
+      fetchApiWithoutHook("property/inventory/itemss/edit", {
         id: itemData.id.toString(),
         [key]: value,
         lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
@@ -272,7 +272,7 @@ export default function ItemDrawer({
       setOpen(true);
       setError(false);
       try {
-        const data = await fetchApiWithoutHook("property/inventory/item", {
+        const data = await fetchApiWithoutHook("property/inventory/items", {
           id,
         });
         setItemData(data);

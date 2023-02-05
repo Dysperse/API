@@ -1,6 +1,6 @@
-import { prisma } from "../../../../lib/prismaClient";
-import { validatePermissions } from "../../../../lib/validatePermissions";
-import { createInboxNotification } from "../inbox/create";
+import { prisma } from "../../../../../lib/prismaClient";
+import { validatePermissions } from "../../../../../lib/validatePermissions";
+import { createInboxNotification } from "../../inbox/create";
 
 const handler = async (req, res) => {
   const permissions = await validatePermissions(

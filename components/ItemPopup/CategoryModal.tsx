@@ -36,7 +36,7 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
       });
     }
     setTimeout(() => {
-      fetchApiWithoutHook("property/inventory/edit", {
+      fetchApiWithoutHook("property/inventory/itemss/edit", {
         category: item.category,
         id: item.id,
       });

@@ -120,7 +120,7 @@ export function CreateItemModal({
       quantity: string;
     }) => {
       setLoading(true);
-      fetchApiWithoutHook("property/inventory/create", {
+      fetchApiWithoutHook("property/inventory/itemss/create", {
         room: room.toString().toLowerCase(),
         name: values.title,
         quantity: values.quantity,

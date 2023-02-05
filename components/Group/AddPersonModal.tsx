@@ -38,7 +38,7 @@ function LinkToken({ color }) {
         loading={loading}
         onClick={() => {
           setLoading(true);
-          fetchApiWithoutHook("property/members/createLink", {
+          fetchApiWithoutHook("property/members/invite-link/create", {
             inviterName: global.user.name,
             timestamp: new Date().toISOString(),
           }).then((res) => {

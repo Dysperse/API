@@ -1,4 +1,4 @@
-import { prisma } from "../../../../lib/prismaClient";
+import { prisma } from "../../../../../lib/prismaClient";
 
 const handler = async (req, res) => {
   const data = await prisma.propertyLinkInvite.findUnique({

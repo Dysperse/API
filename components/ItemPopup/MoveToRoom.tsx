@@ -41,7 +41,7 @@ function Room({
     <ListItemButton
       onClick={() => {
         setDisabled(true);
-        fetchApiWithoutHook("property/inventory/moveToRoom", {
+        fetchApiWithoutHook("property/inventory/itemss/move", {
           id: id.toString(),
           room: room.toLowerCase().replace(" room", ""),
           lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),

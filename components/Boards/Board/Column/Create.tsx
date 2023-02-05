@@ -5,11 +5,12 @@ import {
   Icon,
   MenuItem,
   SwipeableDrawer,
-  TextField
+  TextField,
 } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
 import { toastStyles } from "../../../../lib/useCustomTheme";
@@ -151,8 +152,7 @@ export function CreateColumn({
                 setLoading(false);
                 return;
               }
-              fetchApiWithoutHook("property/boards/column/create
-", {
+              fetchApiWithoutHook("property/boards/column/create", {
                 title: ref?.current?.value,
                 emoji,
                 id: id,
