@@ -12,6 +12,7 @@ import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -20,7 +21,8 @@ import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
 import { cards } from "./cards";
-import ImageRecognition from "./scan";
+
+const ImageRecognition = dynamic(() => import("./scan"));
 
 export function CreateItemModal({
   room,
