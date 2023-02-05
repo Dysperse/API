@@ -12,6 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Property } from "@prisma/client";
+import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -23,6 +24,8 @@ import { Changelog } from "./Changelog";
 import { EditProperty } from "./EditProperty";
 import { MemberList } from "./MemberList";
 import { Storage } from "./Storage";
+
+const Integrations = dynamic(() => import("./Integrations"));
 
 function PropertyInfo({
   handleClose,
@@ -162,6 +165,10 @@ function PropertyInfo({
           propertyId={propertyData.propertyId}
           accessToken={accessToken}
         />
+        {propertyData &&
+          propertyData.profile.id == global.property.propertyId && (
+            <Integrations />
+          )}
       </Box>
     </Box>
   );
@@ -179,7 +186,7 @@ export default function Group({
   children: JSX.Element;
   handleClose: () => unknown;
 }) {
-  const [propertyData, setPropertyData] = useState<null | Property>(null);
+  const [propertyData, setPropertyData] = useState<null | any>(null);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);

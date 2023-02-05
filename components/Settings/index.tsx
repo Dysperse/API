@@ -224,15 +224,6 @@ export default function FullScreenDialog({
             }
           />
           <SettingsMenu
-            content={<></>}
-            icon="link"
-            primary="Integrations"
-            secondary={
-              <>Coming soon &bull; Manage third-party integrations and access</>
-            }
-            disabled
-          />
-          <SettingsMenu
             content={<AccountSettings />}
             icon="person"
             primary="Account"

@@ -29,6 +29,25 @@ model User {
   RoutineItem              RoutineItem[]
   sessions                 Session[]
   Board                    Board[]
+  Integration              Integration[]
+}
+
+model Integration {
+  id   String @id @unique @default(uuid())
+  name String // Also used to identify the integration
+
+  inputParams String // Stuff like urls, auth tokens, etc... (SHOULD BE ENCRYPTED!!!)
+  outputType  String @default("board")
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  // Optional
+  boardId String?
+  board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model NotificationSettings {
@@ -65,6 +84,7 @@ model Property {
   inventory           Item[]
   members             PropertyInvite[]
   PropertyLinkInvites PropertyLinkInvite[]
+  Integration         Integration[]
 }
 
 model PropertyInvite {
@@ -139,9 +159,10 @@ model Board {
   userId String?
   user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  columns    Column[]
+  propertyId  String
+  property    Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  columns     Column[]
+  Integration Integration[]
 }
 
 model Column {

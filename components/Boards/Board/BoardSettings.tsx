@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   DialogActions,
@@ -141,6 +142,20 @@ export function BoardSettings({ mutationUrl, board }) {
         >
           <Icon className="outlined">share</Icon>
           Share
+        </MenuItem>
+
+        <MenuItem
+          disabled={board.archived}
+          onClick={() => {
+            handleClose();
+            fetchApiWithoutHook("property/integrations/run",)
+          }}
+        >
+          <Avatar
+            src="https://www.instructure.com/sites/default/files/image/2021-12/canvas_reversed_logo.png"
+            sx={{ width: "24px", height: "24px" }}
+          />
+          Sync to Canvas
         </MenuItem>
 
         {board && board.columns.length !== 1 && (
