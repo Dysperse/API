@@ -98,7 +98,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     );
   };
   const handleItemDelete = () => {
-    fetchApiWithoutHook("property/inventory/trash", {
+    fetchApiWithoutHook("property/inventory/trash/item", {
       id: itemData.id.toString(),
       lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     });

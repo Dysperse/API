@@ -37,7 +37,7 @@ export function CustomRooms({ houseType }: { houseType: string }) {
       ),
     ]);
 
-    fetchApiWithoutHook("property/rooms/create", {
+    fetchApiWithoutHook("property/inventory/room/create", {
       property: global.property.propertyId,
       accessToken: global.property.accessToken,
       name: newValue

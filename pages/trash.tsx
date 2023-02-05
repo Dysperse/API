@@ -42,7 +42,7 @@ function DeleteCard({ item }) {
         variant="contained"
         onClick={() => {
           setHidden(true);
-          fetchApiWithoutHook("property/inventory/trash", {
+          fetchApiWithoutHook("property/inventory/trash/item", {
             id: item.id,
             forever: true,
           }).catch(() => {
@@ -66,7 +66,7 @@ function DeleteCard({ item }) {
 }
 
 export default function Trash() {
-  const { data, url, error } = useApi("property/inventory/trashed-items");
+  const { data, url, error } = useApi("property/inventory/trash");
 
   return (
     <Categories>
@@ -77,7 +77,7 @@ export default function Trash() {
           title="Empty Trash?"
           question="Are you sure you want to empty your trash? This action cannot be undone."
           callback={async () => {
-            await fetchApiWithoutHook("property/inventory/clearTrash")
+            await fetchApiWithoutHook("property/inventory/trash/clear")
               .catch(() => {
                 toast.error(
                   "An error occured while trying to empty your trash. Please try again later",

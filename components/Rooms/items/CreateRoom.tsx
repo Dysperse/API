@@ -24,7 +24,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
 
   const handleSubmit = () => {
     setLoading(true);
-    fetchApiWithoutHook("property/rooms/create", {
+    fetchApiWithoutHook("property/inventory/room/create", {
       name: name,
       private: isPrivate ? "true" : "false",
     })

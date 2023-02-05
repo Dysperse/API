@@ -1,7 +1,6 @@
-import type { Item } from "@prisma/client";
 import CryptoJS from "crypto-js";
-import { prisma } from "../../../../lib/prismaClient";
-import { validatePermissions } from "../../../../lib/validatePermissions";
+import { prisma } from "../../../../../lib/prismaClient";
+import { validatePermissions } from "../../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
   const permissions = await validatePermissions(
@@ -16,14 +15,14 @@ const handler = async (req, res) => {
   const data = await prisma.item.findMany({
     where: {
       room: req.query.room,
-      trash: false,
+      trash: true,
       property: {
         id: req.query.property,
       },
     },
   });
   res.json(
-    data.map((item: Item) => {
+    data.map((item) => {
       return {
         ...item,
         name: CryptoJS.AES.decrypt(

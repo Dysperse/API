@@ -69,7 +69,7 @@ export function RoomActionMenu({
           title="Delete room?"
           question="Are you sure you want to delete this room? This will delete all items in it, and CANNOT be undone!"
           callback={async () => {
-            await fetchApiWithoutHook("property/rooms/delete", {
+            await fetchApiWithoutHook("property/inventory/room/delete", {
               id: roomId,
             });
             await mutate(mutationUrl);

@@ -16,7 +16,7 @@ import { RenderRoom } from "./RenderRoom";
 export function RoomComponent({ index }: { index: string }): JSX.Element {
   const router = useRouter();
   const { error, url, loading, data }: ApiResponse = useApi(
-    "property/inventory/list",
+    "property/inventory/room",
     {
       room: router.query.custom
         ? decode(index).split(",")[0]
