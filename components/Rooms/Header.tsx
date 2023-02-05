@@ -75,8 +75,8 @@ export function Header({
               sx={{
                 textDecoration: "underline",
                 fontSize: {
-                  xs: "25px",
-                  md: "35px",
+                  xs: "35px",
+                  md: "45px",
                 },
               }}
               gutterBottom
@@ -93,7 +93,7 @@ export function Header({
             <Typography
               sx={{
                 color: "inherit",
-                fontWeight: "500",
+                mt: -0.5,
               }}
             >
               {itemCount} item{itemCount !== 1 && "s"}
