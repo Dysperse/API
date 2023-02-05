@@ -433,6 +433,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           stories={stories}
           defaultInterval={300}
           width={"100%"}
+          onStoryEnd={() => {}}
           preventDefault
           currentIndex={currentIndex}
           height={"100vh"}
