@@ -162,7 +162,7 @@ model Board {
   propertyId  String
   property    Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   columns     Column[]
-  Integration Integration[]
+  integrations Integration[]
 }
 
 model Column {

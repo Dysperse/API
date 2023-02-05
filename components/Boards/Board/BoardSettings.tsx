@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   DialogActions,
+  Divider,
   Icon,
   IconButton,
   Menu,
@@ -144,20 +145,6 @@ export function BoardSettings({ mutationUrl, board }) {
           Share
         </MenuItem>
 
-        <MenuItem
-          disabled={board.archived}
-          onClick={() => {
-            handleClose();
-            fetchApiWithoutHook("property/integrations/run",)
-          }}
-        >
-          <Avatar
-            src="https://www.instructure.com/sites/default/files/image/2021-12/canvas_reversed_logo.png"
-            sx={{ width: "24px", height: "24px" }}
-          />
-          Sync to Canvas
-        </MenuItem>
-
         {board && board.columns.length !== 1 && (
           <CreateColumn
             setCurrentColumn={(e: any) => e}
@@ -239,6 +226,28 @@ export function BoardSettings({ mutationUrl, board }) {
             Delete
           </MenuItem>
         </ConfirmationModal>
+        {board &&
+          board.integrations &&
+          board.integrations.find(
+            (integration) => integration.name === "Canvas LMS"
+          ) && (
+            <>
+              <Divider />
+              <MenuItem
+                disabled={board.archived}
+                onClick={() => {
+                  handleClose();
+                  fetchApiWithoutHook("property/integrations/run");
+                }}
+              >
+                <Avatar
+                  src="https://www.instructure.com/sites/default/files/image/2021-12/canvas_reversed_logo.png"
+                  sx={{ width: "24px", height: "24px" }}
+                />
+                Resync to Canvas
+              </MenuItem>
+            </>
+          )}
       </Menu>
       <IconButton
         size="small"
