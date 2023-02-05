@@ -8,7 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import dayjs from "dayjs";
 import { cloneElement, useCallback, useState } from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../../hooks/useApi";
+import { useStatusBar } from "../../../hooks/useStatusBar";
+import { toastStyles } from "../../../lib/useCustomTheme";
 import ImageRecognition from "./scan";
 
 export function CreateItemModal({
@@ -19,10 +25,40 @@ export function CreateItemModal({
   children: JSX.Element;
 }) {
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);
 
+  const handleSubmit = useCallback(() => {
+    fetchApiWithoutHook("property/inventory/create", {
+      room: room.toString().toLowerCase(),
+      name: title,
+      quantity: quantity,
+      lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    })
+      .then(() => {
+        toast("Created item!", toastStyles);
+        setLoading(false);
+        setOpen(false);
+        mutate(
+          `/api/property/inventory/list/?${new URLSearchParams({
+            sessionId: global.user.token,
+            property: global.property.propertyId,
+            accessToken: global.property.accessToken,
+            userIdentifier: global.user.identifier,
+            room: room.toString().toLowerCase(),
+          }).toString()}`
+        );
+      })
+      .catch(() => {
+        toast.error("Couldn't create item. Please try again.", toastStyles);
+        setLoading(false);
+      });
+  }, []);
+
+  useStatusBar(open);
+  
   const [title, setTitle] = useState("");
   const [quantity, setQuantity] = useState("");
 
@@ -65,7 +101,7 @@ export function CreateItemModal({
             >
               {room}
             </Typography>
-            <IconButton>
+            <IconButton onClick={handleSubmit}>
               <Icon>check</Icon>
             </IconButton>
           </Toolbar>

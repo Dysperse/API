@@ -7,14 +7,13 @@ import {
   Icon,
   IconButton,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
-import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
 
 const WebcamComponent = ({
@@ -202,6 +201,7 @@ export default function ImageRecognition({
 }: {
   setQuantity?: any;
   setTitle?: any;
+  room: any;
   foreverRequired?: boolean;
 }) {
   const [open, setOpen] = React.useState(foreverRequired);
@@ -209,7 +209,11 @@ export default function ImageRecognition({
 
   React.useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
-    tag.content = open ? "#000000" : colors[themeColor]["200"];
+    tag.content = open
+      ? "#000000"
+      : global.user.darkMode
+      ? "hsl(240,11%,10%)"
+      : "#fff";
   }, [open]);
 
   return (
