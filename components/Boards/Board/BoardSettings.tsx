@@ -235,9 +235,12 @@ export function BoardSettings({ mutationUrl, board }) {
               <Divider />
               <MenuItem
                 disabled={board.archived}
-                onClick={() => {
+                onClick={async () => {
                   handleClose();
-                  fetchApiWithoutHook("property/integrations/run");
+                  await fetchApiWithoutHook("property/integrations/run", {
+                    boardId: board.id,
+                  });
+                  mutate(mutationUrl);
                 }}
               >
                 <Avatar

@@ -28,6 +28,9 @@ const handler = async (req, res) => {
         {
           propertyId: req.query.property,
         },
+        {
+          boardId: req.query.boardId,
+        },
       ],
     },
     take: 1,
