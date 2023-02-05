@@ -7,12 +7,15 @@ import {
   DialogTitle,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { toastStyles } from "../../lib/useCustomTheme";
 
 function Integration({ integration }) {
   const [open, setOpen] = useState(false);
@@ -29,16 +32,24 @@ function Integration({ integration }) {
     },
     [params]
   );
+  const [boardId, setBoardId] = useState<string | null>("-1");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (integration.type === "board" && boardId === "-1") {
+      toast.error("Please select a board", toastStyles);
+      return;
+    }
     await fetchApiWithoutHook("property/integrations/create", {
       name: integration.name,
       inputParams: JSON.stringify(params),
       outputType: integration.type,
+
+      ...(integration.type === "board" && { boardId }),
     });
-    toast.success("Added integration!");
+    toast.success("Added integration!", toastStyles);
   };
+  const { data, error } = useApi("property/boards");
 
   return (
     <>
@@ -67,6 +78,25 @@ function Integration({ integration }) {
                 key={param.name}
               />
             ))}
+            {integration.type == "board" && (
+              <Select
+                value={boardId}
+                size="small"
+                sx={{ mt: 1 }}
+                fullWidth
+                required
+                onChange={(e) => setBoardId(e.target.value)}
+                defaultValue="-1"
+              >
+                <MenuItem value={-1} disabled>
+                  Select a board
+                </MenuItem>
+                {data &&
+                  data.map((board) => (
+                    <MenuItem value={board.id}>{board.name}</MenuItem>
+                  ))}
+              </Select>
+            )}
           </DialogContent>
           <DialogActions>
             <Button type="submit">Configure</Button>
