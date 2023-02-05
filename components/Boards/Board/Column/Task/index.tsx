@@ -38,6 +38,7 @@ const renderText = (txt) =>
         target="_blank"
         href={part}
         sx={{
+          textDecorationColor: colors[themeColor]["700"],
           color: colors[themeColor]["700"],
         }}
         onClick={(e) => {
@@ -50,53 +51,84 @@ const renderText = (txt) =>
       `${part} `
     )
   );
-
 export const renderDescription = (txt: any) => {
   let result: any = [];
   let lastIndex: any = 0;
 
   const items: any = txt.match(/<items:(.*?):(.*?)>/g);
+  const links: any = txt.match(
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
+  );
 
-  if (!items) return txt;
+  if (!items && !links) return txt;
 
-  items.forEach((item) => {
-    const startIndex = txt.indexOf(item, lastIndex);
-    const endIndex = startIndex + item.length;
+  if (items) {
+    items.forEach((item) => {
+      const startIndex = txt.indexOf(item, lastIndex);
+      const endIndex = startIndex + item.length;
 
-    if (startIndex > lastIndex) {
-      result.push(txt.slice(lastIndex, startIndex) as any);
-    }
+      if (startIndex > lastIndex) {
+        result.push(txt.slice(lastIndex, startIndex) as any);
+      }
 
-    const [, id, name] = item.split(":");
+      const [, id, name] = item.split(":");
 
-    result.push(
-      (
-        <Item id={id}>
-          <Tooltip
-            title={"Linked to item " + id}
-            followCursor
-            onClick={(e) => e.stopPropagation()}
-            placement="bottom-start"
-          >
-            <Chip
-              size="small"
-              key={id}
-              label={name.slice(0, -1)}
-              icon={<Icon>link</Icon>}
-            />
-          </Tooltip>
-        </Item>
-      ) as any
-    );
+      result.push(
+        (
+          <Item id={id}>
+            <Tooltip
+              title={"Linked to item " + id}
+              followCursor
+              onClick={(e) => e.stopPropagation()}
+              placement="bottom-start"
+            >
+              <Chip
+                size="small"
+                key={id}
+                label={name.slice(0, -1)}
+                icon={<Icon>link</Icon>}
+              />
+            </Tooltip>
+          </Item>
+        ) as any
+      );
 
-    lastIndex = endIndex;
-  });
+      lastIndex = endIndex;
+    });
+  }
+
+  if (links) {
+    links.forEach((link) => {
+      const startIndex = txt.indexOf(link, lastIndex);
+      const endIndex = startIndex + link.length;
+
+      if (startIndex > lastIndex) {
+        result.push(txt.slice(lastIndex, startIndex) as any);
+      }
+
+      result.push(
+        (
+          <Chip
+            size="small"
+            label={new URL(link).hostname}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(link);
+            }}
+            icon={<Icon>open_in_new</Icon>}
+          />
+        ) as any
+      );
+
+      lastIndex = endIndex;
+    });
+  }
 
   if (lastIndex < txt.length) {
     result.push(txt.slice(lastIndex) as any);
   }
 
-  return <>{result}</>;
+  return result;
 };
 
 export const Task = React.memo(function Task({
