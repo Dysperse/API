@@ -2,7 +2,7 @@ import { prisma } from "../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
 /**
- * API handler for the /api/property/updateInfo endpoint
+ * API handler for the /api/property/update endpoint
  * @param {any} req
  * @param {any} res
  * @returns {any}

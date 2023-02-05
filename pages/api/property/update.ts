@@ -4,7 +4,7 @@ import { validatePermissions } from "../../../lib/validatePermissions";
 import { createInboxNotification } from "./inbox/create";
 
 /**
- * API handler for the /api/property/updateInfo endpoint
+ * API handler for the /api/property/update endpoint
  * @param {any} req
  * @param {any} res
  * @returns {any}

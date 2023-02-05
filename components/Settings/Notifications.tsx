@@ -96,7 +96,7 @@ export default function Notifications() {
       return;
     }
 
-    fetchApiWithoutHook("notification", {
+    fetchApiWithoutHook("/test-notification", {
       subscription: global.user.notificationSubscription,
     });
   };

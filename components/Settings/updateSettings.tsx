@@ -27,7 +27,7 @@ export async function updateSettings(
           [key]: value,
         }).toString()}`;
         if (property) {
-          url = `/api/property/updateInfo?${new URLSearchParams({
+          url = `/api/property/update?${new URLSearchParams({
             property: global.property.propertyId,
             accessToken: global.property.accessToken,
             userName: global.user.name,
@@ -54,6 +54,7 @@ export async function updateSettings(
       loading: "Saving...",
       success: (message: any) => message,
       error: (err: any) => err,
-    },toastStyles
+    },
+    toastStyles
   );
 }
