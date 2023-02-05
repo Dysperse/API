@@ -229,7 +229,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                   ...prev,
                   checked: e.target.checked,
                 }));
-                fetchApiWithoutHook("property/boards/markTask", {
+                fetchApiWithoutHook("property/boards/column/task/mark", {
                   completed: e.target.checked ? "true" : "false",
                   id: taskData.id,
                 }).catch(() =>
@@ -260,7 +260,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               }}
               onBlur={(e: any) => {
                 e.target.value = e.target.value.replace(/\n/g, "");
-                fetchApiWithoutHook("property/boards/editTask", {
+                fetchApiWithoutHook("property/boards/column/task/edit", {
                   name: e.target.value,
                   id: taskData.id,
                 }).then(() => {
@@ -343,7 +343,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
                   placeholder={""}
                   value={value}
                   onBlur={() => {
-                    fetchApiWithoutHook("property/boards/editTask", {
+                    fetchApiWithoutHook("property/boards/column/task/edit", {
                       description: value,
                       id: taskData.id,
                     }).then(() => {

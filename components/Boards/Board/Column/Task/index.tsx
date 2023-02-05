@@ -203,7 +203,7 @@ export const Task = React.memo(function Task({
   const handleDelete = React.useCallback(
     function handleDelete(taskId) {
       setTaskData(null);
-      fetchApiWithoutHook("property/boards/deleteTask", {
+      fetchApiWithoutHook("property/boards/column/task/delete", {
         id: taskId,
       }).then(() => {
         mutate(mutationUrl);
@@ -413,7 +413,7 @@ export const Task = React.memo(function Task({
                   checked={checked}
                   onChange={(e) => {
                     setChecked(e.target.checked);
-                    fetchApiWithoutHook("property/boards/markTask", {
+                    fetchApiWithoutHook("property/boards/column/task/mark", {
                       completed: e.target.checked ? "true" : "false",
                       id: taskData.id,
                     }).catch(() =>

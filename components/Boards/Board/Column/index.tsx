@@ -331,7 +331,7 @@ function OptionsMenu({
           sx={styles}
           size="large"
           onClick={async () => {
-            await fetchApiWithoutHook("property/boards/editColumn", {
+            await fetchApiWithoutHook("property/boards/column/edit", {
               id: column.id,
               name: title,
               emoji: emoji,
@@ -406,7 +406,7 @@ function OptionsMenu({
           title="Delete column?"
           question="Are you sure you want to delete this column? This action annot be undone."
           callback={async () => {
-            await fetchApiWithoutHook("property/boards/deleteColumn", {
+            await fetchApiWithoutHook("property/boards/column/delete", {
               id: column.id,
             });
             await mutate(mutationUrl);

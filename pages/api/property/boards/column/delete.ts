@@ -1,5 +1,5 @@
-import { prisma } from "../../../../lib/prismaClient";
-import { validatePermissions } from "../../../../lib/validatePermissions";
+import { prisma } from "../../../../../lib/prismaClient";
+import { validatePermissions } from "../../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
   const permissions = await validatePermissions(
@@ -10,13 +10,10 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-
-  const data = await prisma.task.update({
+  // Delete column, and all tasks in it
+  const data = await prisma.column.delete({
     where: {
-      id: req.query.id,
-    },
-    data: {
-      completed: req.query.completed === "true",
+      id: (req.query.id),
     },
   });
 

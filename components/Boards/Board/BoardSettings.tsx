@@ -199,7 +199,7 @@ export function BoardSettings({ mutationUrl, board }) {
               : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
-            await fetchApiWithoutHook("property/boards/archiveBoard", {
+            await fetchApiWithoutHook("property/boards/archive", {
               id: board.id,
               archive: !board.archived,
             });
@@ -215,7 +215,7 @@ export function BoardSettings({ mutationUrl, board }) {
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
-            await fetchApiWithoutHook("property/boards/deleteBoard", {
+            await fetchApiWithoutHook("property/boards/delete", {
               id: board.id,
             });
             await mutate(mutationUrl);

@@ -32,7 +32,7 @@ export function Color({
         },
       }}
       onClick={() => {
-        fetchApiWithoutHook("property/boards/editTask", {
+        fetchApiWithoutHook("property/boards/column/task/edit", {
           color: color,
           id: task.id,
         }).then(() => {

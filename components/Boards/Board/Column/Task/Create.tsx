@@ -210,7 +210,7 @@ export function CreateTask({
     }
 
     setLoading(true);
-    fetchApiWithoutHook("property/boards/createTask", {
+    fetchApiWithoutHook("property/boards/column/task/create", {
       title,
       description,
       ...(image && { image: image.url }),

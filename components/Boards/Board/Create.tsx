@@ -125,7 +125,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             sx={{ borderRadius: 99, mx: "auto" }}
             onClick={() => {
               setLoading(true);
-              fetchApiWithoutHook("property/boards/createBoard", {
+              fetchApiWithoutHook("property/boards/create", {
                 board: JSON.stringify(template),
               }).then(async () => {
                 setOpen(false);
@@ -648,7 +648,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                   key={template.name}
                   onClick={() => {
                     setLoading(true);
-                    fetchApiWithoutHook("property/boards/createBoard", {
+                    fetchApiWithoutHook("property/boards/create", {
                       board: JSON.stringify(template),
                     }).then(async () => {
                       await mutate(mutationUrl);

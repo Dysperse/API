@@ -54,7 +54,7 @@ export const SubTask = React.memo(function SubTask({
   const [checked, setChecked] = useState(subtask.completed);
 
   const handleDelete = () => {
-    fetchApiWithoutHook("property/boards/deleteTask", {
+    fetchApiWithoutHook("property/boards/column/task/delete", {
       id: subtask.id,
     }).then(() => {
       mutate(mutationUrl);
@@ -163,11 +163,14 @@ export const SubTask = React.memo(function SubTask({
           }}
           onChange={(e) => {
             setChecked(e.target.checked);
-            fetchApiWithoutHook("property/boards/markTask", {
+            fetchApiWithoutHook("property/boards/column/task/mark", {
               completed: e.target.checked ? "true" : "false",
               id: subtask.id,
             }).catch(() =>
-              toast.error("An error occured while updating the task", toastStyles)
+              toast.error(
+                "An error occured while updating the task",
+                toastStyles
+              )
             );
           }}
           color="default"

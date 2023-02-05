@@ -25,7 +25,7 @@ function BoardModal({ itemId, title, list }) {
 
   const handleClick = async (column) => {
     try {
-      await fetchApiWithoutHook("property/boards/createTask", {
+      await fetchApiWithoutHook("property/boards/column/task/create", {
         title,
         description: `<items:${itemId}:${title}>`,
         pinned: "false",
