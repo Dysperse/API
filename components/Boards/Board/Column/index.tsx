@@ -392,6 +392,16 @@ function OptionsMenu({
             </Icon>
           </MenuItem>
         </FilterMenu>
+
+        <MenuItem onClick={() => setOpen(true)}>
+          <Icon className="outlined">edit</Icon>Edit
+        </MenuItem>
+        <MenuItem disabled>
+          <Icon className="outlined">east</Icon>Move right
+        </MenuItem>
+        <MenuItem disabled>
+          <Icon className="outlined">west</Icon>Move left
+        </MenuItem>
         <ConfirmationModal
           title="Delete column?"
           question="Are you sure you want to delete this column? This action annot be undone."
@@ -408,15 +418,6 @@ function OptionsMenu({
             <Icon className="outlined">delete</Icon>Delete column
           </MenuItem>
         </ConfirmationModal>
-        <MenuItem onClick={() => setOpen(true)}>
-          <Icon className="outlined">edit</Icon>Edit
-        </MenuItem>
-        <MenuItem disabled>
-          <Icon className="outlined">east</Icon>Move right
-        </MenuItem>
-        <MenuItem disabled>
-          <Icon className="outlined">west</Icon>Move left
-        </MenuItem>
       </Menu>
       <Tooltip title="Options (e)" placement="top">
         <IconButton
