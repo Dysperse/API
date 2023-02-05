@@ -93,7 +93,14 @@ function Integration({ integration }) {
                 </MenuItem>
                 {data &&
                   data.map((board) => (
-                    <MenuItem value={board.id}>{board.name}</MenuItem>
+                    <MenuItem
+                      value={board.id}
+                      disabled={board.integrations.find(
+                        (integration) => integration.name === "Canvas LMS"
+                      )}
+                    >
+                      {board.name}
+                    </MenuItem>
                   ))}
               </Select>
             )}

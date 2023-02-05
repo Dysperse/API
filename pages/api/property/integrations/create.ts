@@ -17,6 +17,9 @@ const handler = async (req, res) => {
       outputType: req.query.outputType,
       property: { connect: { id: req.query.property } },
       user: { connect: { identifier: req.query.userIdentifier } },
+      ...(req.query.boardId && {
+        board: { connect: { id: req.query.boardId } },
+      }),
     },
   });
   console.log(data);
