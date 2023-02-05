@@ -95,6 +95,7 @@ function Integration({ integration }) {
                   data.map((board) => (
                     <MenuItem
                       value={board.id}
+                      key={board.id}
                       disabled={board.integrations.find(
                         (integration) => integration.name === "Canvas LMS"
                       )}
