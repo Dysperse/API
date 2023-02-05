@@ -431,6 +431,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
             color: "hsl(240, 11%, 80%)",
           }}
           stories={stories}
+          // idk why the story doesnt pause in production but the line below works, OK?
           defaultInterval={69696969696969696969696969696969}
           width={"100%"}
           isPaused
