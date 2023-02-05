@@ -7,7 +7,7 @@ import {
   Icon,
   IconButton,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
@@ -225,6 +225,7 @@ export default function ImageRecognition({
           onClick={() => setOpen(true)}
           sx={{
             color: "#000",
+            boxShadow: "none!important",
             background: "linear-gradient(45deg, #fc00ff, #00dbde)!important",
             "&:hover": {
               background: "linear-gradient(45deg, #00dbde, #fc00ff)!important",

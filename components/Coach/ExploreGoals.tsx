@@ -421,7 +421,7 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
                           marginLeft: "auto",
                         }}
                       >
-                        arrow_forward
+                        east
                       </span>
                     </Box>
                   </Box>
@@ -439,7 +439,7 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
         disableRipple
       >
         Have another goal in mind? Suggest it!
-        <Icon>arrow_forward</Icon>
+        <Icon>east</Icon>
       </Button>
     </div>
   );

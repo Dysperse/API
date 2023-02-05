@@ -322,7 +322,7 @@ export default function AppsMenu({ styles }) {
             sx={{ cursor: "pointer!important" }}
           >
             Support center
-            <Icon>arrow_forward</Icon>
+            <Icon>east</Icon>
           </Button>
           <Button
             disableRipple
@@ -332,7 +332,7 @@ export default function AppsMenu({ styles }) {
             sx={{ cursor: "pointer!important" }}
           >
             Community Discord
-            <Icon>arrow_forward</Icon>
+            <Icon>east</Icon>
           </Button>
         </Box>
       </SwipeableDrawer>
