@@ -3,9 +3,9 @@ import {
   Box,
   Chip,
   Drawer,
+  Fab,
   Icon,
   IconButton,
-  Popover,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -17,7 +17,13 @@ import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
 
-const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
+const WebcamComponent = ({
+  setTitle,
+  setQuantity,
+  setOpen,
+  facingMode,
+  room,
+}) => {
   const [forever, setForever] = React.useState(false);
   const webcamRef: any = React.useRef(null);
 
@@ -95,15 +101,15 @@ const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
           toastStyles
         );
       } else {
-        formik.setFieldValue("title", title);
-        formik.setFieldValue("quantity", qty);
+        setTitle(title);
+        setQuantity(qty);
         setOpen(false);
         return "Success";
       }
     } catch (err: any) {
       toast.error("Error: " + err.message, toastStyles);
     }
-  }, [forever, webcamRef, formik, setOpen, room]);
+  }, [forever, webcamRef, setTitle, setQuantity, setOpen, room]);
 
   const videoConstraints = {
     facingMode:
@@ -189,12 +195,13 @@ const WebcamComponent = ({ formik, setOpen, facingMode, room }) => {
 };
 
 export default function ImageRecognition({
-  formik,
+  setQuantity,
+  setTitle,
   room,
   foreverRequired = false,
 }: {
-  formik: any;
-  room: any;
+  setQuantity?: any;
+  setTitle?: any;
   foreverRequired?: boolean;
 }) {
   const [open, setOpen] = React.useState(foreverRequired);
@@ -205,86 +212,32 @@ export default function ImageRecognition({
     tag.content = open ? "#000000" : colors[themeColor]["200"];
   }, [open]);
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const popoverOpen = Boolean(anchorEl);
-  const id = popoverOpen ? "simple-popover" : undefined;
-
-  React.useEffect(() => {
-    const popoverClosedBefore = localStorage.getItem("popoverClosedBefore");
-    if (popoverClosedBefore) return;
-    setTimeout(() => {
-      const btn: any = document.getElementById("scanTrigger");
-      setAnchorEl(btn);
-      localStorage.setItem("popoverClosedBefore", "true");
-    }, 1000);
-  }, []);
-
   return (
     <>
       <Box sx={{ pt: 2 }}>
-        <Popover
-          id={id}
-          open={popoverOpen}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              ml: 1,
-              background: "#000",
-              color: "#fff",
-              maxWidth: "250px",
-              borderRadius: 5,
-            },
-          }}
-          BackdropProps={{
-            sx: {
-              opacity: "0!important",
-            },
-          }}
-        >
-          <Box sx={{ p: 2 }}>
-            <Typography
-              component="div"
-              sx={{ mx: "auto", fontWeight: "600", display: "flex", gap: 2 }}
-            >
-              Scan
-              <Chip
-                size="small"
-                label="BETA"
-                sx={{
-                  background: "linear-gradient(45deg, #fc00ff, #00dbde)",
-                }}
-              />
-            </Typography>
-            <Typography sx={{ mt: 1 }}>
-              Quickly scan items and build up your inventory. Now in public
-              beta.
-            </Typography>
-          </Box>
-        </Popover>
-        <IconButton
+        <Fab
           id="scanTrigger"
           size="large"
           onClick={() => setOpen(true)}
           sx={{
             color: "#000",
             background: "linear-gradient(45deg, #fc00ff, #00dbde)!important",
+            "&:hover": {
+              background: "linear-gradient(45deg, #00dbde, #fc00ff)!important",
+            },
+            position: "fixed",
+            bottom: 0,
+            right: 0,
+            gap: 2,
+            textTransform: "none",
+            m: 3,
           }}
+          className="shadow-lg hover:shadow-xl"
+          variant="extended"
         >
-          <Icon className="outlined">view_in_ar</Icon>
-        </IconButton>
+          <Icon className="outlined">photo_camera</Icon>
+          Scan items
+        </Fab>
       </Box>
       <Drawer
         anchor="right"
@@ -348,7 +301,8 @@ export default function ImageRecognition({
         </AppBar>
         <WebcamComponent
           room={room}
-          formik={formik}
+          setTitle={setTitle}
+          setQuantity={setQuantity}
           setOpen={setOpen}
           facingMode={facingMode}
         />
