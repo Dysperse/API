@@ -94,7 +94,7 @@ const CategoryModal = React.memo(function CategoryModal({
       <ListItemButton
         onClick={() => {
           setLoading(true);
-          fetchApiWithoutHook("property/inventory/categoryList", {
+          fetchApiWithoutHook("property/inventory/categories/items", {
             category: category,
           })
             .then((res) => {

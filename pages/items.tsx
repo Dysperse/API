@@ -88,7 +88,7 @@ export default function Inventory({ children = null }: any) {
     setAnchorEl(null);
   };
   const [viewBy, setViewBy] = React.useState("Room");
-  const { data } = useApi("property/inventory/count");
+  const { data } = useApi("property/inventory/room/itemCount");
 
   const { data: dataRooms, url, error } = useApi("property/rooms");
 

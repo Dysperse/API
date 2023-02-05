@@ -1,7 +1,7 @@
 import type { Item } from "@prisma/client";
 import CryptoJS from "crypto-js";
-import { prisma } from "../../../../lib/prismaClient";
-import { validatePermissions } from "../../../../lib/validatePermissions";
+import { prisma } from "../../../../../lib/prismaClient";
+import { validatePermissions } from "../../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
   const permissions = await validatePermissions(

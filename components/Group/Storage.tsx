@@ -16,7 +16,7 @@ export function Storage({
   propertyId: string;
   color: string;
 }) {
-  const { data }: ApiResponse = useApi("property/inventory/count", {
+  const { data }: ApiResponse = useApi("property/inventory/room/itemCount", {
     property: propertyId,
     accessToken,
   });
