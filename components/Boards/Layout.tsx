@@ -225,6 +225,13 @@ export function TasksLayout() {
       >
         <Icon className={archiveOpen ? "" : "outlined"}>inventory_2</Icon>
         Archived
+        <Icon
+          sx={{
+            ml: "auto",
+          }}
+        >
+          {archiveOpen ? "expand_less" : "expand_more"}
+        </Icon>
       </Button>
       {archiveOpen &&
         data &&
