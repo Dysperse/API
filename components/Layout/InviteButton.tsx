@@ -124,6 +124,7 @@ export default function InviteButton() {
             }}
           >
             <ListItemButton
+              id="activeProperty"
               sx={{
                 gap: 2,
                 borderRadius: 0,
@@ -171,10 +172,7 @@ export default function InviteButton() {
         onContextMenu={(e) => {
           navigator.vibrate(50);
           e.preventDefault();
-          setOpen(true);
-          setTimeout(() => {
-            document.getElementById("activeProperty")?.click();
-          }, 50);
+          document.getElementById("activeProperty")?.click();
         }}
         sx={{
           "&:focus-visible": {
