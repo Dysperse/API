@@ -234,7 +234,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               ml: -1,
               borderRadius: "10px",
               minWidth: 180,
-              color: darkMode ? colors[themeColor][200] : "#606060",
+              color: darkMode ? colors[themeColor][200] : "#505050",
               border:
                 "1px solid " +
                 (darkMode ? "hsl(240,11%,50%)" : "rgba(200,200,200,.5)"),

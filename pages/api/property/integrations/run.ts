@@ -109,8 +109,6 @@ const handler = async (req, res) => {
         },
       },
     });
-
-    console.log(d);
   }
 
   res.json(data);
