@@ -108,7 +108,7 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
           </Box>
         </Box>
       </SwipeableDrawer>
-      <Tooltip title="Select date (ALT + S)" placement="top">
+      <Tooltip title="Select date (alt • f)" placement="top">
         <Button
           id="dateModal"
           ref={ref}
@@ -125,12 +125,8 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
               minWidth: "auto",
             }),
             px: 2,
-            "&:active": {
-              transition: "none",
-              opacity: ".6!important",
-            },
             ...(date && {
-              background: `${colors[themeColor][200]}!important`,
+              background: `${colors[themeColor][50]}!important`,
               color: `${colors[themeColor][900]}!important`,
             }),
           }}

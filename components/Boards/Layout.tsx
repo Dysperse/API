@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Collapse,
   Divider,
   Icon,
   SwipeableDrawer,
@@ -221,32 +222,29 @@ export function TasksLayout() {
         size="large"
         disableRipple
         onClick={() => setArchiveOpen(!archiveOpen)}
-        sx={styles(archiveOpen)}
+        sx={styles(false)}
       >
         <Icon className={archiveOpen ? "" : "outlined"}>inventory_2</Icon>
         Archived
-        <Icon
-          sx={{
-            ml: "auto",
-          }}
-        >
+        <Icon sx={{ ml: "auto" }}>
           {archiveOpen ? "expand_less" : "expand_more"}
         </Icon>
       </Button>
-      {archiveOpen &&
-        data &&
-        data
-          .filter((x) => x.archived)
-          .map((board) => (
-            <Tab
-              setDrawerOpen={setOpen}
-              key={board.id}
-              styles={styles}
-              activeTab={activeTab}
-              board={board}
-              setActiveTab={setActiveTab}
-            />
-          ))}
+      <Collapse in={archiveOpen} orientation="vertical">
+        {data &&
+          data
+            .filter((x) => x.archived)
+            .map((board) => (
+              <Tab
+                setDrawerOpen={setOpen}
+                key={board.id}
+                styles={styles}
+                activeTab={activeTab}
+                board={board}
+                setActiveTab={setActiveTab}
+              />
+            ))}
+      </Collapse>
       <Box
         sx={{
           display: "flex",

@@ -1,4 +1,4 @@
-import { Grow } from "@mui/material";
+import { Grow, Slide } from "@mui/material";
 import { experimental_sx as sx } from "@mui/material/styles";
 import React from "react";
 import { colors } from "./colors";
@@ -13,6 +13,20 @@ const Transition = React.forwardRef(function Transition(
       ref={ref}
       {...props}
       easing="cubic-bezier(.17,.67,.2,1.29)"
+    />
+  );
+});
+
+const DrawerTransition = React.forwardRef(function Transition(
+  props: any,
+  ref: React.Ref<unknown>
+) {
+  return (
+    <Slide
+      in={props.open}
+      ref={ref}
+      {...props}
+      easing="cubic-bezier(0.4, 0, 0.2, 1)"
     />
   );
 });
@@ -98,11 +112,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               }!important`,
             },
             "&:disabled": {
-              background: `${
-                colors[themeColor][darkMode ? 900 : 200]
-              }!important`,
               cursor: "not-allowed!important",
-              opacity: 0.7,
+              opacity: 0.5,
               color: colors[themeColor][!darkMode ? 900 : 50],
             },
           },
@@ -310,6 +321,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiDrawer: {
         defaultProps: {
           elevation: 0,
+          TransitionComponent: DrawerTransition,
         },
         styleOverrides: {
           paperAnchorBottom: {

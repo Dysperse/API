@@ -30,35 +30,38 @@ import { toastStyles } from "../../../../../lib/useCustomTheme";
 
 function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState(false);
+
   return (
     <>
-      <IconButton
-        onClick={() => {
-          document.getElementById("imageAttachment")?.click();
-        }}
-        sx={{
-          ...styles,
-          mx: 0.5,
-          background: image
-            ? `${
-                colors[themeColor][global.user.darkMode ? 900 : 100]
-              }!important`
-            : "",
-        }}
-        size="small"
-      >
-        {imageUploading ? (
-          <CircularProgress size={20} sx={{ mx: 0.5 }} />
-        ) : (
-          <span
-            className={
-              image ? "material-symbols-rounded" : "material-symbols-outlined"
-            }
-          >
-            image
-          </span>
-        )}
-      </IconButton>
+      <Tooltip title="Attach an image (alt • s)" placement="top">
+        <IconButton
+          onClick={() => {
+            document.getElementById("imageAttachment")?.click();
+          }}
+          sx={{
+            ...styles,
+            mx: 0.5,
+            background: image
+              ? global.user.darkMode
+                ? "hsl(240,11%,20%)"
+                : "#ddd !important"
+              : "",
+          }}
+          size="small"
+        >
+          {imageUploading ? (
+            <CircularProgress size={20} sx={{ mx: 0.5 }} />
+          ) : (
+            <span
+              className={
+                image ? "material-symbols-rounded" : "material-symbols-outlined"
+              }
+            >
+              image
+            </span>
+          )}
+        </IconButton>
+      </Tooltip>
       <input
         type="file"
         id="imageAttachment"
@@ -112,12 +115,25 @@ export function CreateTask({
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState<any>(null);
+  const [date, setDate] = useState<any>(new Date());
   const [pinned, setPinned] = useState(false);
   const [image, setImage] = useState<any>(null);
 
   const [showDescription, setShowDescription] = useState(false);
   useStatusBar(open);
+
+  useHotkeys(
+    "alt+s",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        document.getElementById("imageAttachment")?.click();
+      }
+    },
+    {
+      enableOnTags: ["INPUT", "TEXTAREA"],
+    }
+  );
 
   useHotkeys(
     "alt+d",
@@ -155,7 +171,7 @@ export function CreateTask({
   );
 
   useHotkeys(
-    "alt+s",
+    "alt+f",
     (e) => {
       if (open) {
         e.preventDefault();
@@ -168,7 +184,10 @@ export function CreateTask({
   );
 
   const styles = {
-    color: colors[themeColor][global.user.darkMode ? 50 : 800],
+    color: global.user.darkMode ? "hsl(240,11%,90%)" : "#505050",
+    "&:hover": {
+      color: global.user.darkMode ? "#fff" : "#000",
+    },
     borderRadius: 3,
     transition: "none",
   };
@@ -235,9 +254,13 @@ export function CreateTask({
   };
 
   const chipStyles = {
+    border: "1px solid",
+    borderColor: global.user.darkMode
+      ? "hsl(240, 11%, 25%)"
+      : "rgba(200,200,200,.5)",
     background: global.user.darkMode
       ? "hsl(240,11%,20%)!important"
-      : colors[themeColor]["50"] + "!important",
+      : "#fff !important",
     transition: "all .2s",
     "&:active": {
       transition: "none",
@@ -274,6 +297,7 @@ export function CreateTask({
           sx: {
             maxWidth: "600px",
             mb: { sm: 5 },
+            border: "0!important",
             background: "transparent!important",
             mx: "auto",
           },
@@ -352,9 +376,11 @@ export function CreateTask({
           sx={{
             p: 3,
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            background: global.user.darkMode
-              ? "hsl(240,11%,15%)"
-              : colors[themeColor]["50"],
+            background: global.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
+            border: "1px solid",
+            borderColor: global.user.darkMode
+              ? "hsl(240, 11%, 25%)"
+              : "rgba(200,200,200,.5)",
           }}
         >
           <form onSubmit={handleSubmit}>
@@ -442,7 +468,7 @@ export function CreateTask({
                 onChange={(e) => setDescription(e.target.value)}
                 inputRef={descriptionRef}
                 variant="standard"
-                placeholder="Add a description"
+                placeholder="Add description..."
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: 15, mt: 0.5, mb: 1 },
@@ -513,7 +539,7 @@ export function CreateTask({
                 </Alert>
               )}
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
-              <Tooltip title="Mark as important (ALT + A)" placement="top">
+              <Tooltip title="Mark as important (alt • a)" placement="top">
                 <IconButton
                   onClick={() => {
                     setPinned(!pinned);
@@ -522,8 +548,9 @@ export function CreateTask({
                   sx={{
                     ...styles,
                     background: pinned
-                      ? colors[themeColor][global.user.darkMode ? 900 : 100] +
-                        "!important"
+                      ? global.user.darkMode
+                        ? "hsl(240,11%,20%)"
+                        : "#ddd !important"
                       : "",
                   }}
                   size="small"
@@ -534,7 +561,7 @@ export function CreateTask({
                 </IconButton>
               </Tooltip>
               <ImageModal styles={styles} image={image} setImage={setImage} />
-              <Tooltip title="Description (ALT + D)" placement="top">
+              <Tooltip title="Description (alt • d)" placement="top">
                 <IconButton
                   onClick={() => {
                     setShowDescription(!showDescription);
@@ -550,8 +577,9 @@ export function CreateTask({
                     ...styles,
                     mx: 0.5,
                     background: showDescription
-                      ? colors[themeColor][global.user.darkMode ? 900 : 100] +
-                        "!important"
+                      ? global.user.darkMode
+                        ? "hsl(240,11%,20%)"
+                        : "#ddd !important"
                       : "",
                   }}
                   size="small"
