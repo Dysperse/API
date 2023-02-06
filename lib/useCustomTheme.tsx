@@ -88,12 +88,12 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           contained: {
             boxShadow: "none!important",
             background: `${
-              darkMode ? "hsl(240,11%,20%)" : colors[themeColor][800]
+              darkMode ? "hsl(240,11%,20%)" : colors[themeColor][100]
             }!important`,
-            color: colors[themeColor][50],
+            color: colors[themeColor][900],
             "&:hover": {
               background: `${
-                darkMode ? "hsl(240,11%,30%)" : colors[themeColor][900]
+                darkMode ? "hsl(240,11%,30%)" : colors[themeColor]["A100"]
               }!important`,
             },
             "&:disabled": {
@@ -107,16 +107,16 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           },
           outlined: {
             color: `${colors[themeColor][darkMode ? 50 : 800]}!important`,
-            ...(darkMode && {
-              borderColor: "hsla(240,11%,70%,.5)",
-            }),
+            borderColor:
+              (!darkMode ? colors[themeColor][100] : "hsla(240,11%,70%,.5)") +
+              "!important",
             "&:hover": {
               background: `${
                 darkMode ? "hsl(240,11%,30%)" : colors[themeColor][100]
               }!important`,
-              ...(darkMode && {
-                borderColor: "hsla(240,11%,70%,.8)",
-              }),
+              borderColor:
+                (!darkMode ? colors[themeColor][200] : "hsla(240,11%,70%,.8)") +
+                "!important",
             },
           },
           text: {
@@ -300,8 +300,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             borderRadius: "28px",
             border:
               "1px solid " +
-              (darkMode ? "hsl(240,11%,20%)" : colors[themeColor][100]),
-            background: darkMode ? "hsl(240,11%,12%)" : colors[themeColor][50],
+              (darkMode ? "hsl(240,11%,20%)" : "rgba(200,200,200,.3)"),
+            background: darkMode ? "hsl(240,11%,12%)" : "#fff",
             boxShadow: "none!important",
             filter:
               "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",

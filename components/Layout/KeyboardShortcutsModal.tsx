@@ -25,6 +25,7 @@ export default function KeyboardShortcutsModal() {
           borderRadius: 5,
           minWidth: "500px",
           p: 3,
+          userSelect: "none",
           maxWidth: "calc(100vw - 32px)",
         },
       }}
