@@ -362,7 +362,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           ) : (
             <>
               <Typography variant="h1" gutterBottom>
-                🎉
+                👉
               </Typography>
               <Typography variant="h6">
                 You have {tasksRemaining.length} goal
@@ -373,7 +373,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
                 sx={{ mt: 1 }}
                 variant="contained"
               >
-                <span>👉</span> Exit &rarr;
+                <span>🎯</span> Exit &rarr;
               </Button>
             </>
           )}
