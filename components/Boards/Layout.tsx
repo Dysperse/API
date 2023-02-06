@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Divider,
   Icon,
   SwipeableDrawer,
   Tooltip,
@@ -195,25 +196,50 @@ export function TasksLayout() {
     menuRef.current?.click();
   });
 
+  const [archiveOpen, setArchiveOpen] = useState(false);
+
   const children = (
     <>
       {error && (
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
       {data &&
-        [
-          ...data.filter((x) => !x.archived),
-          ...data.filter((x) => x.archived),
-        ].map((board) => (
-          <Tab
-            setDrawerOpen={setOpen}
-            key={board.id}
-            styles={styles}
-            activeTab={activeTab}
-            board={board}
-            setActiveTab={setActiveTab}
-          />
-        ))}
+        data
+          .filter((x) => !x.archived)
+          .map((board) => (
+            <Tab
+              setDrawerOpen={setOpen}
+              key={board.id}
+              styles={styles}
+              activeTab={activeTab}
+              board={board}
+              setActiveTab={setActiveTab}
+            />
+          ))}
+      <Divider sx={{ mb: 1, width: "90%", mx: "auto", opacity: 0.6 }} />
+      <Button
+        size="large"
+        disableRipple
+        onClick={() => setArchiveOpen(!archiveOpen)}
+        sx={styles(archiveOpen)}
+      >
+        <Icon className={archiveOpen ? "" : "outlined"}>inventory_2</Icon>
+        Archived
+      </Button>
+      {archiveOpen &&
+        data &&
+        data
+          .filter((x) => x.archived)
+          .map((board) => (
+            <Tab
+              setDrawerOpen={setOpen}
+              key={board.id}
+              styles={styles}
+              activeTab={activeTab}
+              board={board}
+              setActiveTab={setActiveTab}
+            />
+          ))}
       <Box
         sx={{
           display: "flex",

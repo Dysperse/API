@@ -297,11 +297,19 @@ export const Task = React.memo(function Task({
           onClick={handleClose}
           sx={{
             pointerEvents: "none",
+            maxWidth: "300px",
           }}
         >
           <Box>
             <Typography variant="h6">{renderText(taskData.name)}</Typography>
-            <Typography variant="body2">
+            <Typography
+              variant="body2"
+              sx={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "hidden",
+              }}
+            >
               {taskData.description !== ""
                 ? taskData.description
                 : "(no description provided)"}
@@ -358,11 +366,6 @@ export const Task = React.memo(function Task({
           onContextMenu={handleContextMenu}
           className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-100 cursor-auto select-none"
           sx={{
-            "&:focus-visible": {
-              boxShadow: global.user.darkMode
-                ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-                : "0px 0px 0px 1.5px var(--themeDark) !important",
-            },
             color:
               colors[taskData.color][global.user.darkMode ? "A100" : "A700"],
             p: {
@@ -413,6 +416,7 @@ export const Task = React.memo(function Task({
                   checked={checked}
                   onChange={(e) => {
                     setChecked(e.target.checked);
+                    mutate(mutationUrl);
                     fetchApiWithoutHook("property/boards/column/task/mark", {
                       completed: e.target.checked ? "true" : "false",
                       id: taskData.id,
@@ -489,6 +493,7 @@ export const Task = React.memo(function Task({
                   <Tooltip
                     title={dayjs(taskData.due).format("MMMM D, YYYY")}
                     followCursor
+                    placement="bottom-start"
                   >
                     <span
                       style={{

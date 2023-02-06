@@ -265,9 +265,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   marginRight: 1.9,
                 },
                 "&:active": {
-                  background: darkMode
-                    ? "hsl(240,11%,35%)"
-                    : colors[themeColor][100],
+                  background: darkMode ? "hsl(240,11%,35%)" : "#eee",
                 },
               },
             },
