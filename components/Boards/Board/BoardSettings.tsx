@@ -15,7 +15,6 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
-import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
@@ -262,7 +261,7 @@ export function BoardSettings({ mutationUrl, board }) {
             background: `${
               global.user.darkMode
                 ? "hsla(240,11%,14%)"
-                : colors[themeColor][100]
+                : "rgba(200,200,200,.3)"
             }!important`,
           }),
         }}

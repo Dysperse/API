@@ -61,6 +61,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             cursor: "unset",
             transition: "none",
             "&:hover": {
+              color: darkMode ? "#fff" : "#000",
               background: {
                 sm: `${
                   darkMode ? "hsla(240,11%,25%, 0.2)" : "rgba(0,0,0,0.05)"
@@ -112,10 +113,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "!important",
             "&:hover": {
               background: `${
-                darkMode ? "hsl(240,11%,30%)" : colors[themeColor][100]
+                darkMode ? "hsl(240,11%,30%)" : colors[themeColor][50]
               }!important`,
               borderColor:
-                (!darkMode ? colors[themeColor][200] : "hsla(240,11%,70%,.8)") +
+                (!darkMode ? colors[themeColor][100] : "hsla(240,11%,70%,.8)") +
                 "!important",
             },
           },
@@ -215,7 +216,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             horizontal: "center",
           },
           transformOrigin: { vertical: "top", horizontal: "center" },
-
           disableEnforceFocus: true,
           disableAutoFocusItem: true,
           BackdropProps: {
@@ -234,16 +234,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               ml: -1,
               borderRadius: "10px",
               minWidth: 180,
-              background: darkMode
-                ? "hsl(240,11%,20%)"
-                : colors[themeColor][50],
-              color: darkMode
-                ? colors[themeColor][200]
-                : colors[themeColor][800],
-
+              color: darkMode ? colors[themeColor][200] : "#606060",
               border:
-                "1px solid" +
-                (darkMode ? "hsl(240,11%,50%)" : colors[themeColor][100]),
+                "1px solid " +
+                (darkMode ? "hsl(240,11%,50%)" : "rgba(200,200,200,.5)"),
               "& .MuiMenu-list": {
                 padding: "3px",
               },
@@ -253,10 +247,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 "&:focus-visible, &:hover": {
                   background: darkMode
                     ? "hsl(240,11%,30%)"
-                    : colors[themeColor][100],
-                  color: darkMode
-                    ? colors[themeColor][100]
-                    : colors[themeColor][900],
+                    : "rgba(200,200,200,.3)",
+                  color: darkMode ? colors[themeColor][100] : "#000",
                   "& .MuiSvgIcon-root": {
                     color: darkMode
                       ? colors[themeColor][200]
@@ -275,7 +267,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 "&:active": {
                   background: darkMode
                     ? "hsl(240,11%,35%)"
-                    : colors[themeColor][200],
+                    : colors[themeColor][100],
                 },
               },
             },
