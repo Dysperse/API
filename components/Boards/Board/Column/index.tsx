@@ -494,7 +494,7 @@ export const Column = React.memo(function Column({
       className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10"
       sx={{
         display: "flex",
-        mt: { xs: checkList ? 5 : -5, sm: 0 },
+        mt: { xs: checkList ? 5 : -2, sm: 0 },
         flexDirection: "column",
         position: "relative",
         width: {
