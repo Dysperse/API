@@ -118,6 +118,7 @@ function DailyFocus({ editMode }) {
         multiline
         disabled={editMode}
         placeholder="What's your goal for today?"
+        onChange={(e) => setValue(e.target.value)}
         size="small"
         variant="standard"
         InputProps={{
@@ -128,12 +129,13 @@ function DailyFocus({ editMode }) {
               : "rgba(200,200,200,.3)",
             border: "1px solid transparent",
             "&:focus-within": {
+              boxShadow: "15px 15px 30px rgba(0,0,0,.1)",
               background: global.user.darkMode
                 ? "hsla(240,11%,10%,.5)"
-                : "rgba(200,200,200,.3)",
+                : "rgba(255,255,255,.9)",
               borderColor: global.user.darkMode
                 ? "rgba(255,255,255,.5)"
-                : "#000",
+                : "#ccc",
             },
             p: 2,
             py: 1,
