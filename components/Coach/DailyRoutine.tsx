@@ -353,7 +353,13 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
               </Typography>
               <Button
                 onClick={() => setOpen(false)}
-                sx={{ mt: 1 }}
+                sx={{
+                  mt: 1,
+                  "&, &:hover": {
+                    background: "hsl(240,11%,20%)!important",
+                    color: "#fff!important",
+                  },
+                }}
                 variant="contained"
               >
                 <span>✌</span> Let&apos;s go &rarr;
@@ -370,7 +376,13 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
               </Typography>
               <Button
                 onClick={() => setOpen(false)}
-                sx={{ mt: 1 }}
+                sx={{
+                  mt: 1,
+                  "&, &:hover": {
+                    background: "hsl(240,11%,20%)!important",
+                    color: "#fff!important",
+                  },
+                }}
                 variant="contained"
               >
                 <span>🎯</span> Exit &rarr;
