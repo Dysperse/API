@@ -243,6 +243,8 @@ export default function Group({
           sx: {
             background: global.user.darkMode ? "" : "#fff",
             height: error ? "auto" : "100vh",
+            width: "100%",
+            maxWidth: "600px",
             borderRadius: !error ? 0 : "20px 20px 0 0",
           },
         }}

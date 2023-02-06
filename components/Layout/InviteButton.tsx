@@ -131,7 +131,7 @@ export default function InviteButton() {
                 ...(group.id === global.property.id && {
                   background: global.user.darkMode
                     ? "hsla(240,11%,20%)"
-                    : "rgba(200,200,200,.2)!important",
+                    : "rgba(200,200,200,.4)!important",
                 }),
               }}
             >
@@ -144,7 +144,7 @@ export default function InviteButton() {
                 }}
               />
               <ListItemText
-                primary={group.profile.name}
+                primary={<b>{group.profile.name}</b>}
                 secondary={group.profile.type}
                 sx={{
                   textTransform: "capitalize",

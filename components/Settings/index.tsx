@@ -65,11 +65,11 @@ function SettingsMenu({
           "&:hover": {
             background: global.user.darkMode
               ? "hsl(240,11%,25%)"
-              : colors[themeColor][100],
+              : colors[themeColor][50],
             "& .MuiAvatar-root": {
               background: global.user.darkMode
                 ? "hsl(240,11%,35%)"
-                : colors[themeColor][200],
+                : colors[themeColor][100],
             },
           },
         }}

@@ -15,7 +15,6 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import hexToRgba from "hex-to-rgba";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
@@ -50,7 +49,7 @@ export function Changelog({ disabled }) {
         disableSwipeToOpen
         anchor="bottom"
       >
-        {!disabled && open && (
+        {!disabled && (
           <>
             <Box
               sx={{
@@ -66,7 +65,7 @@ export function Changelog({ disabled }) {
                 width: "100%",
                 background: global.user.darkMode
                   ? "hsla(240,11%,15%)"
-                  : hexToRgba(colors[themeColor][50], 0.9),
+                  : "rgba(255,255,255,.9)",
               }}
             >
               <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>

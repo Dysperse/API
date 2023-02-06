@@ -336,9 +336,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             boxShadow: "none !important",
             filter:
               "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
-            background: darkMode
-              ? "hsl(240, 11%, 15%)"
-              : colors[themeColor][50],
+            background: darkMode ? "hsl(240, 11%, 15%)" : "#fff",
+            border: "1px solid",
+            borderColor: darkMode
+              ? "hsl(240, 11%, 25%)"
+              : "rgba(200,200,200,.5)",
           },
         },
       } as any,
