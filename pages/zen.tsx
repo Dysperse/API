@@ -408,7 +408,7 @@ export default function Home() {
         />
         <Box
           sx={{
-            mt: { xs: "calc(var(--navbar-height) * -1)", sm: "0" },
+            mt: { xs: "calc(var(--navbar-height) * -1)", sm: "-50px" },
             pt: 8,
           }}
         >
