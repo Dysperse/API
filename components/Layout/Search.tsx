@@ -247,7 +247,7 @@ export default function SearchPopup({ styles }) {
       }}
       actions={actions}
       shortcut={["mod + K", "/"]}
-      searchIcon={<Icon>bolt</Icon>}
+      searchIcon={<Icon className="outlined">bolt</Icon>}
       searchPlaceholder="Find anything →"
       actionComponent={CustomAction}
       nothingFoundMessage="Nothing found..."
