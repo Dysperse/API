@@ -115,7 +115,7 @@ function CreateGoal({ mutationUrl }) {
           <AppBar
             elevation={0}
             sx={{
-              zIndex: 1,
+              zIndex: 10,
               background: "transparent",
               color: global.user.darkMode ? "#fff" : "hsl(240,11%,5%)",
             }}

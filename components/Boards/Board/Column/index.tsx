@@ -442,7 +442,7 @@ function OptionsMenu({
             },
             color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
             position: "relative",
-            bottom: { xs: -50, sm: 0 },
+            bottom: { xs: board.columns.length ? 0 : -50, sm: 0 },
           }}
         >
           <Icon className="outlined">more_horiz</Icon>
@@ -494,7 +494,7 @@ export const Column = React.memo(function Column({
       className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10"
       sx={{
         display: "flex",
-        mt: { xs: -5, sm: 0 },
+        mt: { xs: checkList ? 5 : -5, sm: 0 },
         flexDirection: "column",
         position: "relative",
         width: {
