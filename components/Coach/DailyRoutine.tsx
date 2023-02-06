@@ -416,6 +416,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         }}
         PaperProps={{
           sx: {
+            border: 0,
             borderRadius: 0,
             maxWidth: "600px",
             width: "100vw",
