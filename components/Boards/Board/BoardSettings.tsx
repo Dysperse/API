@@ -131,6 +131,50 @@ export function BoardSettings({ mutationUrl, board }) {
         open={open}
         onClose={handleClose}
       >
+        <ConfirmationModal
+          title={board.pinned ? "Unpin?" : "Pin?"}
+          buttonText="Yes, please!"
+          question={
+            board.pinned
+              ? "Are you sure you want to unpin this board?"
+              : "Are you sure you want to pin this board? Any other board.pinned boards will be unpinned."
+          }
+          callback={() => {
+            setTimeout(() => {
+              fetchApiWithoutHook("property/boards/pin", {
+                id: board.id,
+                pinned: !board.pinned ? "true" : "false",
+              }).then(() => {
+                toast.success(
+                  !board.pinned ? "board.pinned board!" : "Unpinned board!",
+                  toastStyles
+                );
+              });
+            }, 100);
+          }}
+        >
+          <MenuItem
+            sx={{
+              flexShrink: 0,
+              ml: "auto",
+              flex: "0 0 auto",
+            }}
+            disabled={board.archived}
+          >
+            <Icon
+              className={board.pinned ? "" : "outlined"}
+              sx={{
+                transition: "transform .2s",
+                ...(board.pinned && {
+                  transform: "rotate(-30deg)!important",
+                }),
+              }}
+            >
+              push_pin
+            </Icon>
+            {board.pinned ? "Unpin" : "Pin"}
+          </MenuItem>
+        </ConfirmationModal>
         <MenuItem
           disabled={board.archived}
           onClick={() => {
@@ -257,6 +301,7 @@ export function BoardSettings({ mutationUrl, board }) {
         sx={{
           transition: "none",
           flexShrink: 0,
+          ml: "auto",
           ...(open && {
             background: `${
               global.user.darkMode

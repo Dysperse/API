@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Chip,
   Icon,
   IconButton,
   Tooltip,
@@ -9,7 +8,6 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
-import hexToRgba from "hex-to-rgba";
 import React from "react";
 import toast from "react-hot-toast";
 
@@ -208,7 +206,6 @@ export const Board = function Board({
       ).toFixed(0)
     : 0;
 
-  const [pinned, setPinned] = React.useState(board.pinned || false);
 
   return (
     <Box
@@ -269,109 +266,8 @@ export const Board = function Board({
               expand_more
             </Icon>
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              pt: 0.5,
-              gap: 1,
-              ml: 0.5,
-              alignItems: "center",
-            }}
-          >
-            <Tooltip
-              title={`${
-                data
-                  ? data
-                      .map((column) => column.tasks)
-                      .flat()
-                      .filter((task) => task.completed).length
-                  : 0
-              } out of ${
-                data ? data.map((column) => column.tasks).flat().length : 0
-              } completed`}
-            >
-              <Chip
-                size="small"
-                label={`${
-                  data ? data.map((column) => column.tasks).flat().length : 0
-                } items`}
-              />
-            </Tooltip>
-            <Chip
-              size="small"
-              sx={{
-                ...(percent == "NaN" && { display: "none" }),
-                color: "success.main",
-                background: global.user.darkMode
-                  ? "hsla(240,11%,30%, .5)"
-                  : hexToRgba(colors.green[100], 0.5),
-              }}
-              label={data ? `${percent}% complete` : "0%"}
-            />
-
-            {board.archived && (
-              <Chip
-                size="small"
-                color="warning"
-                icon={
-                  <Icon className="outlined" sx={{ color: "#fff!important" }}>
-                    inventory_2
-                  </Icon>
-                }
-                sx={{
-                  color: "#fff!important",
-                  pl: 0.5,
-                }}
-                label={"Archived"}
-              />
-            )}
-          </Box>
         </Box>
-        <ConfirmationModal
-          title={pinned ? "Unpin?" : "Pin?"}
-          buttonText="Yes, please!"
-          question={
-            pinned
-              ? "Are you sure you want to unpin this board?"
-              : "Are you sure you want to pin this board? Any other pinned boards will be unpinned."
-          }
-          callback={() => {
-            setTimeout(() => {
-              setPinned(!pinned);
-              fetchApiWithoutHook("property/boards/pin", {
-                id: board.id,
-                pinned: !pinned ? "true" : "false",
-              }).then(() => {
-                toast.success(
-                  !pinned ? "Pinned board!" : "Unpinned board!",
-                  toastStyles
-                );
-              });
-            }, 100);
-          }}
-        >
-          <IconButton
-            size="small"
-            sx={{
-              flexShrink: 0,
-              ml: "auto",
-              flex: "0 0 auto",
-            }}
-            disabled={board.archived}
-          >
-            <Icon
-              className={pinned ? "" : "outlined"}
-              sx={{
-                transition: "transform .2s",
-                ...(pinned && {
-                  transform: "rotate(-30deg)!important",
-                }),
-              }}
-            >
-              push_pin
-            </Icon>
-          </IconButton>
-        </ConfirmationModal>
+    
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
       <Box
