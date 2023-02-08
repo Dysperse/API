@@ -107,9 +107,9 @@ export default function Inventory({ children = null }: any) {
           flex: { xs: "100%", sm: "0 0 300px" },
           px: 1.5,
           display: { xs: children ? "none" : "block", sm: "block" },
-          minHeight: "calc(100vh - var(--navbar-height))",
+          minHeight: "100vh",
           pt: { sm: 0.5 },
-          height: { sm: "calc(100vh - var(--navbar-height))" },
+          height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
           borderRight: {
             sm: global.user.darkMode

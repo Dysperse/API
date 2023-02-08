@@ -7,7 +7,7 @@ import {
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
-  Typography,
+  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import dynamic from "next/dynamic";
@@ -18,6 +18,7 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
+import Settings from "../Settings/index";
 
 const Group = dynamic(() => import("../Group"));
 
@@ -25,7 +26,7 @@ const Group = dynamic(() => import("../Group"));
  * Invite button to trigger property list
  * @returns {any}
  */
-export default function InviteButton() {
+export default function InviteButton({ styles }) {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
 
@@ -92,8 +93,8 @@ export default function InviteButton() {
         }}
         sx={{
           display: { sm: "flex" },
-          alignItems: { sm: "start" },
-          mt: 9,
+          alignItems: { sm: "end" },
+          mb: 11,
           pl: 2,
           justifyContent: { sm: "start" },
         }}
@@ -161,66 +162,42 @@ export default function InviteButton() {
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your other groups" />
         )}
-      </SwipeableDrawer>
-      <Button
-        disableRipple
-        disabled={!window.navigator.onLine}
-        id="houseProfileTrigger"
-        onClick={() => {
-          if (data && properties.length === 1) {
-            document.getElementById("activeProperty")?.click();
-          } else {
-            setOpen(true);
-          }
-        }}
-        onContextMenu={(e) => {
-          navigator.vibrate(50);
-          e.preventDefault();
-          document.getElementById("activeProperty")?.click();
-        }}
-        sx={{
-          background: "transparent!important",
-          color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
-          "&:hover": {
-            backgroundColor: global.user.darkMode
-              ? "hsl(240,11%,15%)!important"
-              : "#eee!important",
-            color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
-          },
-          cursor: "unset",
-          "&:active": {
-            backgroundColor: global.user.darkMode
-              ? "hsl(240,11%,15%)!important"
-              : "#ddd!important",
 
-            color: global.user.darkMode
-              ? "hsl(240,11%,95%)!important"
-              : "#000!important",
-          },
-          userSelect: "none",
-          transition: "transform .2s",
-          p: 1,
-          py: 0,
-          gap: 1,
-          borderRadius: 2,
-        }}
-      >
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{
-            fontWeight: "500",
-            maxWidth: "40vw",
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
-          noWrap
-        >
-          {global.property.profile.name || "My group"}
-        </Typography>
-        <Icon>{properties.length == 1 ? "chevron_right" : "expand_more"}</Icon>
-      </Button>{" "}
+        <Settings>
+          <Tooltip
+            title={global.user.email}
+            placement="left"
+            PopperProps={{
+              sx: { pointerEvents: "none" },
+            }}
+          >
+            <Button
+              color="inherit"
+              disableRipple
+              sx={{
+                ...styles(),
+                cursor: "unset",
+                background: "transparent!important",
+              }}
+            >
+              <Icon
+                className="material-symbols-outlined"
+                sx={{
+                  fontVariationSettings: `"FILL" 0, "wght" 300, "GRAD" 1, "opsz" 40!important`,
+                }}
+              >
+                settings
+              </Icon>
+            </Button>
+          </Tooltip>
+        </Settings>
+      </SwipeableDrawer>
+
+      <Box sx={styles(false)} onClick={() => setOpen(true)}>
+        <Tooltip title="Inventory" placement="right">
+          <Icon className="outlined">settings</Icon>
+        </Tooltip>
+      </Box>
     </>
   );
 }

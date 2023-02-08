@@ -343,8 +343,8 @@ export function TasksLayout() {
           display: collapsed
             ? "none"
             : { xs: "none", sm: data && data.length === 0 ? "none" : "flex" },
-          minHeight: "calc(100vh - var(--navbar-height))",
-          height: { sm: "calc(100vh - var(--navbar-height))" },
+          minHeight: "100vh",
+          height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
           flexDirection: "column",
           borderRight: {
@@ -358,9 +358,9 @@ export function TasksLayout() {
       </Box>
       <Box
         sx={{
-          maxHeight: { sm: "calc(100vh - var(--navbar-height))" },
-          minHeight: { sm: "calc(100vh - var(--navbar-height))" },
-          height: { sm: "calc(100vh - var(--navbar-height))" },
+          maxHeight: { sm: "100vh" },
+          minHeight: { sm: "100vh" },
+          height: { sm: "100vh" },
           overflowY: { sm: "auto" },
           flexGrow: 1,
         }}

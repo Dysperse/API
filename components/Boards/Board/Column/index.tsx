@@ -494,7 +494,6 @@ export const Column = React.memo(function Column({
       className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10"
       sx={{
         display: "flex",
-        mt: { xs: checkList ? 5 : -2, sm: 0 },
         flexDirection: "column",
         position: "relative",
         width: {
@@ -506,6 +505,7 @@ export const Column = React.memo(function Column({
           xs: "0 0 calc(100vw - 10px)!important",
           sm: "0 0 370px!important",
         },
+        overflowY: "scroll",
         p: 3,
         pt: { xs: 0, sm: 3 },
         px: checkList ? 4 : 2,

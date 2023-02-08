@@ -2,19 +2,15 @@ import {
   Box,
   Button,
   Icon,
-  IconButton,
   Tooltip,
   Typography,
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
 import React from "react";
-import toast from "react-hot-toast";
 
-import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
+import { useApi } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
-import { toastStyles } from "../../../lib/useCustomTheme";
-import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { BoardSettings } from "./BoardSettings";
 import { Column } from "./Column";
@@ -206,11 +202,9 @@ export const Board = function Board({
       ).toFixed(0)
     : 0;
 
-
   return (
     <Box
       sx={{
-        pb: 2,
         ml: { sm: collapsed ? -2 : -1 },
       }}
     >
@@ -225,7 +219,6 @@ export const Board = function Board({
             ? "hsla(240,11%,10%)"
             : "rgba(255,255,255,.7)",
           zIndex: 1,
-          p: 2,
           maxWidth: "100vw",
           pt: { xs: 1, sm: 3 },
           px: { xs: 2, sm: 4 },
@@ -267,21 +260,20 @@ export const Board = function Board({
             </Icon>
           </Typography>
         </Box>
-    
+
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
       <Box
         sx={{
           overflowX: { sm: "scroll" },
-          mt: data && board.columns.length === 1 ? -2 : 4,
           display: "flex",
           gap: { sm: "15px" },
+          p: 4,
           justifyContent: { xs: "center", sm: "start" },
           maxWidth: "100vw",
-          pl: {
-            xs: data ? 0 : 2,
-            sm: data ? (board.columns.length === 1 ? 0 : 5) : 2,
-          },
+          height: "100vh",
+          maxHeight: "100vh",
+          position: "relative",
         }}
         id="taskContainer"
       >

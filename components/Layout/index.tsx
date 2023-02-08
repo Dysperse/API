@@ -1,8 +1,7 @@
-import { Box, Toolbar } from "@mui/material";
+import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { BottomNav } from "./BottomNavigation";
-import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
 
 const KeyboardShortcutsModal = dynamic(
@@ -38,7 +37,6 @@ function ResponsiveDrawer({
           copyTitle="Add Dysperse to your home screen!"
         />
       )}
-      <Navbar />
       <KeyboardShortcutsModal />
       <Box
         sx={{
@@ -62,7 +60,6 @@ function ResponsiveDrawer({
           },
         }}
       >
-        <Toolbar />
         <Box
           sx={{
             height: "70px",
