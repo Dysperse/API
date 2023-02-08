@@ -88,6 +88,7 @@ export function Sidebar() {
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
+        zIndex: 9999,
         filter: "none!important",
         overflowX: "hidden",
         borderRight: global.user.darkMode
@@ -103,7 +104,6 @@ export function Sidebar() {
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
-        pt: "70px",
       }}
     >
       <Box sx={{ mt: "auto" }} />

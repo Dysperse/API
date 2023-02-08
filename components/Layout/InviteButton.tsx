@@ -179,11 +179,6 @@ export default function InviteButton() {
           document.getElementById("activeProperty")?.click();
         }}
         sx={{
-          "&:focus-visible": {
-            boxShadow: global.user.darkMode
-              ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-              : "0px 0px 0px 1.5px var(--themeDark) !important",
-          },
           background: "transparent!important",
           color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
           "&:hover": {
