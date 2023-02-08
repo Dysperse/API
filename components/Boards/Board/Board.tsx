@@ -191,17 +191,6 @@ export const Board = function Board({
     id: board.id,
   });
 
-  const percent = data
-    ? (
-        (data
-          .map((column) => column.tasks)
-          .flat()
-          .filter((task) => task.completed).length /
-          data.map((column) => column.tasks).flat().length) *
-        100
-      ).toFixed(0)
-    : 0;
-
   return (
     <Box
       sx={{
@@ -218,12 +207,13 @@ export const Board = function Board({
           background: global.user.darkMode
             ? "hsla(240,11%,10%)"
             : "rgba(255,255,255,.7)",
+          // REMOVE THIS
+          display: "none",
           zIndex: 1,
           maxWidth: "100vw",
           pt: { xs: 1, sm: 3 },
           px: { xs: 2, sm: 4 },
           backdropFilter: "blur(10px)",
-          display: "flex",
           alignItems: "center",
           gap: 1,
         }}

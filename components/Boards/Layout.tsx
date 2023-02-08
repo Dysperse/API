@@ -7,6 +7,7 @@ import {
   Icon,
   SwipeableDrawer,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -15,6 +16,7 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
+import { Agenda } from "./Agenda";
 import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
 
@@ -77,17 +79,22 @@ const Tab = React.memo(function Tab({
             display: "flex",
             alignItems: "center",
             width: "100%",
-            gap: 1,
+            gap: 1.5,
           }}
         >
-          <Icon className={activeTab === board.id ? "rounded" : "outlined"}>
-            {board.columns.length === 1 ? "check_circle" : "view_kanban"}
+          <Icon
+            sx={{
+              opacity: activeTab === board.id ? 1 : 0.8,
+            }}
+          >
+            tag
           </Icon>
           <span
             style={{
               maxWidth: "calc(100% - 25px)",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              opacity: activeTab === board.id ? 1 : 0.9,
               whiteSpace: "nowrap",
             }}
           >
@@ -134,7 +141,7 @@ export function TasksLayout() {
 
   const styles = (condition: boolean) => ({
     transition: "none!important",
-    px: 2,
+    px: 1.5,
     cursor: "unset!important",
     gap: 1.5,
     py: 1,
@@ -202,6 +209,26 @@ export function TasksLayout() {
       {error && (
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
+
+      <Typography sx={{ my: 1, opacity: 0.5, fontSize: "13px", px: 1.5 }}>
+        Planner
+      </Typography>
+      <Button
+        size="large"
+        disableRipple
+        sx={styles(activeTab === "__agenda")}
+        onMouseDown={() => setActiveTab("__agenda")}
+        onClick={() => setActiveTab("__agenda")}
+      >
+        <Icon className={activeTab === "__agenda" ? "" : "outlined"}>
+          calendar_view_day
+        </Icon>
+        Overview
+      </Button>
+      <Divider sx={{ mb: 1, width: "90%", mx: "auto", opacity: 0.6 }} />
+      <Typography sx={{ my: 1, opacity: 0.5, fontSize: "13px", px: 1.5 }}>
+        Boards
+      </Typography>
       {data &&
         data
           .filter((x) => !x.archived)
@@ -374,6 +401,7 @@ export function TasksLayout() {
           />
         )}
         {activeTab === "loading" && <Loading />}
+        {activeTab === "__agenda" && <Agenda />}
         {data &&
           data.map(
             (board) =>
