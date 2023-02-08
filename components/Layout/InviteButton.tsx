@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   colors,
+  Grow,
   Icon,
   ListItemButton,
   ListItemText,
@@ -73,6 +74,9 @@ export default function InviteButton() {
       <SwipeableDrawer
         disableBackdropTransition
         open={open}
+        {...(trigger && {
+          TransitionComponent: Grow,
+        })}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         anchor={trigger ? "left" : "bottom"}
