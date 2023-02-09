@@ -18,7 +18,6 @@ function Column({ day }) {
         flexGrow: 1,
         flexBasis: 0,
         minWidth: "300px",
-        p: 3,
         ...(isPast && {
           opacity: 0.5,
         }),
@@ -27,6 +26,9 @@ function Column({ day }) {
       <Box
         sx={{
           color: day.date == dayjs().format("MMMM D") ? orange[800] : "#000",
+          borderBottom: "1px solid",
+          p: 3,
+          borderColor: "rgba(200,200,200,.3)",
         }}
       >
         <Typography
@@ -49,8 +51,8 @@ function Column({ day }) {
 
 export function Agenda({ view }: { view: "day" | "month" | "year" }) {
   // Gets days in week
-  const startOfWeek = dayjs().startOf("day");
-  const endOfWeek = dayjs().add(7, "day");
+  const startOfWeek = dayjs().startOf("week");
+  const endOfWeek = dayjs().endOf("week");
 
   const days: any = [];
 
