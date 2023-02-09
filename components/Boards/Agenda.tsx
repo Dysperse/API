@@ -11,6 +11,9 @@ function Column({ day }) {
     <Box
       sx={{
         borderRight: "1px solid",
+        background: "#fff",
+        borderTopRightRadius: "10px",
+        borderBottomRightRadius: "10px",
         borderColor: "rgba(200,200,200,.3)",
         flexGrow: 1,
         flexBasis: 0,
@@ -46,8 +49,8 @@ function Column({ day }) {
 
 export function Agenda() {
   // Gets days in week
-  const startOfWeek = dayjs().startOf("week");
-  const endOfWeek = dayjs().endOf("week");
+  const startOfWeek = dayjs().startOf("day");
+  const endOfWeek = dayjs().add(7, "day");
 
   const days: any = [];
 
@@ -70,6 +73,32 @@ export function Agenda() {
       {days.map((day) => (
         <Column day={day} />
       ))}
+      <div
+        style={{
+          height: "100vh",
+          width: "400px",
+          flex: "0 0 400px",
+          display: "block",
+          position: "relative",
+          marginLeft: "-40px",
+          zIndex: -1,
+        }}
+      >
+        <picture>
+          <img
+            src="https://images.unsplash.com/photo-1598438924166-6d89ca57f248?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDh8fG1vdW50YWlufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1400&q=60"
+            style={{
+              width: "100%",
+              position: "absolute",
+              top: 0,
+              transition: "all .2s",
+              left: 0,
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </picture>
+      </div>
     </Box>
   );
 }
