@@ -1,11 +1,21 @@
 import { Box, Typography } from "@mui/material";
 import { orange } from "@mui/material/colors";
 import dayjs from "dayjs";
+import { CreateTask } from "./Board/Column/Task/Create";
 
-function Column({ day }) {
+function Column({ view, day }) {
   const isPast =
     dayjs(day.unchanged).isBefore(dayjs()) &&
     day.date !== dayjs().format("MMMM D");
+
+  const heading =
+    view === "day"
+      ? "h:mm A"
+      : view === "week"
+      ? "MMMM D"
+      : view === "month"
+      ? "MMMM D"
+      : "MMMM";
 
   return (
     <Box
@@ -18,9 +28,6 @@ function Column({ day }) {
         flexGrow: 1,
         flexBasis: 0,
         minWidth: "300px",
-        ...(isPast && {
-          opacity: 0.5,
-        }),
       }}
     >
       <Box
@@ -29,6 +36,9 @@ function Column({ day }) {
           borderBottom: "1px solid",
           p: 3,
           borderColor: "rgba(200,200,200,.3)",
+          ...(isPast && {
+            opacity: 0.5,
+          }),
         }}
       >
         <Typography
@@ -38,26 +48,49 @@ function Column({ day }) {
             ...(isPast && {
               textDecoration: "line-through",
             }),
-            mb: 0.5,
+            mb: 0.7,
           }}
         >
-          {day.day}
+          {dayjs(day.unchanged).format(heading)}
         </Typography>
-        <Typography sx={{ fontSize: "20px" }}>{day.date}</Typography>
+        <Typography sx={{ fontSize: "20px" }}>
+          {dayjs(day.unchanged).format(heading)}
+        </Typography>
+      </Box>
+      <Box sx={{ p: 3 }}>
+        <CreateTask
+          isHovered={false}
+          column={{ name: "" }}
+          tasks={[]}
+          defaultDate={day.unchanged}
+          label="Set a goal"
+          checkList={false}
+          mutationUrl={""}
+          boardId={1}
+        />
       </Box>
     </Box>
   );
 }
 
-export function Agenda({ view }: { view: "day" | "month" | "year" }) {
+export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
   // Gets days in week
-  const startOfWeek = dayjs().startOf("week");
-  const endOfWeek = dayjs().endOf("week");
+  const startOfWeek = dayjs().startOf(view);
+  const endOfWeek = dayjs().endOf(view);
 
   const days: any = [];
 
-  for (let i = 0; i <= endOfWeek.diff(startOfWeek, "day"); i++) {
-    const currentDay = startOfWeek.add(i, "day");
+  const e =
+    view === "day"
+      ? "hour"
+      : view === "week"
+      ? "day"
+      : view === "month"
+      ? "week"
+      : "month";
+
+  for (let i = 0; i <= endOfWeek.diff(startOfWeek, e); i++) {
+    const currentDay = startOfWeek.add(i, e);
     days.push({
       unchanged: currentDay,
       date: currentDay.format("MMMM D"),
@@ -73,7 +106,7 @@ export function Agenda({ view }: { view: "day" | "month" | "year" }) {
       }}
     >
       {days.map((day) => (
-        <Column key={day.day} day={day} />
+        <Column key={day.day} day={day} view={view} />
       ))}
       <div
         style={{

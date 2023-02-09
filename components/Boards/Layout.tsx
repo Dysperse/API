@@ -216,6 +216,18 @@ export function TasksLayout() {
       <Button
         size="large"
         disableRipple
+        sx={styles(activeTab === "__agenda.day")}
+        onMouseDown={() => setActiveTab("__agenda.day")}
+        onClick={() => setActiveTab("__agenda.day")}
+      >
+        <Icon className={activeTab === "__agenda.day" ? "" : "outlined"}>
+          calendar_view_day
+        </Icon>
+        Today
+      </Button>
+      <Button
+        size="large"
+        disableRipple
         sx={styles(activeTab === "__agenda.week")}
         onMouseDown={() => setActiveTab("__agenda.week")}
         onClick={() => setActiveTab("__agenda.week")}
@@ -244,7 +256,7 @@ export function TasksLayout() {
         onMouseDown={() => setActiveTab("__agenda.year")}
         onClick={() => setActiveTab("__agenda.year")}
       >
-        <Icon className={activeTab === "__agenda" ? "" : "outlined"}>
+        <Icon className={activeTab === "__agenda.year" ? "" : "outlined"}>
           calendar_month
         </Icon>
         Years
@@ -425,9 +437,10 @@ export function TasksLayout() {
           />
         )}
         {activeTab === "loading" && <Loading />}
-        {activeTab.includes("__agenda") && (
-          <Agenda view={activeTab.split(".")[1] as "day" | "month" | "year"} />
-        )}
+        {activeTab.includes("__agenda.day") && <Agenda view="day" />}
+        {activeTab.includes("__agenda.week") && <Agenda view="week" />}
+        {activeTab.includes("__agenda.month") && <Agenda view="month" />}
+        {activeTab.includes("__agenda.year") && <Agenda view="year" />}
         {data &&
           data.map(
             (board) =>

@@ -96,6 +96,8 @@ function ImageModal({ image, setImage, styles }) {
 }
 
 export function CreateTask({
+  label = "New list item",
+  defaultDate = false,
   isHovered,
   tasks,
   parent = false,
@@ -115,7 +117,7 @@ export function CreateTask({
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState<any>(new Date());
+  const [date, setDate] = useState<any>(new Date(defaultDate) || new Date());
   const [pinned, setPinned] = useState(false);
   const [image, setImage] = useState<any>(null);
 
@@ -721,7 +723,7 @@ export function CreateTask({
                   color: global.user.darkMode ? "#fff" : "#606060",
                 }}
               >
-                {parent ? "New subtask" : "New list item"}
+                {parent ? "New subtask" : label}
               </span>
             }
           />
