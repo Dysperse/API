@@ -88,7 +88,7 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, []);
+  }, ["category", "quantity", "room", "title"]);
 
   return (
     <>

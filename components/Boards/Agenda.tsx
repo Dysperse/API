@@ -71,7 +71,7 @@ export function Agenda({ view }: { view: "day" | "month" | "year" }) {
       }}
     >
       {days.map((day) => (
-        <Column day={day} />
+        <Column key={day.day} day={day} />
       ))}
       <div
         style={{
