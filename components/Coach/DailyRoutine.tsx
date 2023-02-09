@@ -6,7 +6,7 @@ import {
   Icon,
   ListItemButton,
   ListItemText,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
