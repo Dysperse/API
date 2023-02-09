@@ -47,7 +47,7 @@ function Column({ day }) {
   );
 }
 
-export function Agenda() {
+export function Agenda({ view }: { view: "day" | "month" | "year" }) {
   // Gets days in week
   const startOfWeek = dayjs().startOf("day");
   const endOfWeek = dayjs().add(7, "day");
@@ -87,6 +87,7 @@ export function Agenda() {
         <picture>
           <img
             src="https://images.unsplash.com/photo-1598438924166-6d89ca57f248?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDh8fG1vdW50YWlufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1400&q=60"
+            alt="banner"
             style={{
               width: "100%",
               position: "absolute",

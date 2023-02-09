@@ -149,7 +149,7 @@ export function TasksLayout() {
     justifyContent: "flex-start",
     borderRadius: 4,
     mr: 1,
-    mb: 1,
+    mb: 0.5,
     fontSize: "15px",
     ...(global.user.darkMode && {
       color: "hsl(240,11%, 80%)",
@@ -216,14 +216,38 @@ export function TasksLayout() {
       <Button
         size="large"
         disableRipple
-        sx={styles(activeTab === "__agenda")}
-        onMouseDown={() => setActiveTab("__agenda")}
-        onClick={() => setActiveTab("__agenda")}
+        sx={styles(activeTab === "__agenda.week")}
+        onMouseDown={() => setActiveTab("__agenda.week")}
+        onClick={() => setActiveTab("__agenda.week")}
+      >
+        <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
+          view_week
+        </Icon>
+        Week
+      </Button>
+      <Button
+        size="large"
+        disableRipple
+        sx={styles(activeTab === "__agenda.month")}
+        onMouseDown={() => setActiveTab("__agenda.month")}
+        onClick={() => setActiveTab("__agenda.month")}
+      >
+        <Icon className={activeTab === "__agenda.month" ? "" : "outlined"}>
+          calendar_view_month
+        </Icon>
+        Month
+      </Button>
+      <Button
+        size="large"
+        disableRipple
+        sx={styles(activeTab === "__agenda.year")}
+        onMouseDown={() => setActiveTab("__agenda.year")}
+        onClick={() => setActiveTab("__agenda.year")}
       >
         <Icon className={activeTab === "__agenda" ? "" : "outlined"}>
-          calendar_view_day
+          calendar_month
         </Icon>
-        Overview
+        Years
       </Button>
       <Divider sx={{ mb: 1, width: "90%", mx: "auto", opacity: 0.6 }} />
       <Typography sx={{ my: 1, opacity: 0.5, fontSize: "13px", px: 1.5 }}>
@@ -401,7 +425,9 @@ export function TasksLayout() {
           />
         )}
         {activeTab === "loading" && <Loading />}
-        {activeTab === "__agenda" && <Agenda />}
+        {activeTab.includes("__agenda") && (
+          <Agenda view={activeTab.split(".")[1] as "day" | "month" | "year"} />
+        )}
         {data &&
           data.map(
             (board) =>
