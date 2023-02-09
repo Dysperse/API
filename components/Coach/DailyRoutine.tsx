@@ -44,13 +44,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           toastStyles
         );
       });
-  }, [
-    task.durationDays,
-    task.id,
-    task.progress,
-    mutationUrl,
-    sortedTasks.length,
-  ]);
+  }, [task.durationDays, task.id, task.progress, mutationUrl]);
 
   return (
     <Box sx={{ p: 4 }}>
@@ -412,7 +406,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     setCurrentIndex(
       indexWhereUserLeftOff === -1 ? sortedTasks.length : indexWhereUserLeftOff
     );
-  }, [indexWhereUserLeftOff]);
+  }, [indexWhereUserLeftOff, sortedTasks.length]);
 
   useStatusBar(open, undefined, true);
 
