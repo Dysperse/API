@@ -1,60 +1,88 @@
 import { Box, Typography } from "@mui/material";
-import { orange } from "@mui/material/colors";
 import dayjs from "dayjs";
+import { colors } from "../../lib/colors";
 import { CreateTask } from "./Board/Column/Task/Create";
 
 function Column({ view, day }) {
-  const isPast =
-    dayjs(day.unchanged).isBefore(dayjs()) &&
-    day.date !== dayjs().format("MMMM D");
-
-  const heading =
+  const subheading =
     view === "day"
-      ? "h:mm A"
+      ? dayjs(day.unchanged).format("d") == dayjs().format("d")
+        ? "A"
+        : "A • M/d"
       : view === "week"
-      ? "MMMM D"
+      ? "dddd"
       : view === "month"
-      ? "MMMM D"
-      : "MMMM";
+      ? "YYYY"
+      : "YYYY";
+
+  const startOf =
+    view === "day"
+      ? "hour"
+      : view === "week"
+      ? "day"
+      : view === "month"
+      ? "month"
+      : "year";
+
+  const isPast =
+    dayjs(day.unchanged).isBefore(dayjs().startOf(startOf)) &&
+    day.date !== dayjs().startOf(startOf).format(day.heading);
 
   return (
     <Box
       sx={{
         borderRight: "1px solid",
-        background: "#fff",
+        background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
         borderTopRightRadius: "10px",
         borderBottomRightRadius: "10px",
-        borderColor: "rgba(200,200,200,.3)",
+        borderColor: global.user.darkMode
+          ? "hsl(240,11%,16%)"
+          : "rgba(200,200,200,.3)",
+        zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
-        minWidth: "300px",
+        minWidth: "250px",
       }}
     >
       <Box
         sx={{
-          color: day.date == dayjs().format("MMMM D") ? orange[800] : "#000",
+          color: global.user.darkMode ? "#fff" : "#000",
           borderBottom: "1px solid",
           p: 3,
-          borderColor: "rgba(200,200,200,.3)",
-          ...(isPast && {
-            opacity: 0.5,
-          }),
+          borderColor: global.user.darkMode
+            ? "hsl(240,11%,16%)"
+            : "rgba(200,200,200,.3)",
         }}
       >
         <Typography
           variant="h4"
           className="font-heading"
           sx={{
+            fontSize: "35px",
+            ...(day.date == dayjs().startOf(startOf).format(day.heading) && {
+              color: "hsl(240,11%,10%)",
+              background:
+                colors[themeColor][global.user.darkMode ? "A200" : 800],
+              px: 0.5,
+              ml: -0.5,
+            }),
+            borderRadius: 1,
+            width: "auto",
+            height: 45,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
             ...(isPast && {
+              opacity: 0.5,
               textDecoration: "line-through",
             }),
             mb: 0.7,
           }}
         >
-          {dayjs(day.unchanged).format(heading)}
+          {dayjs(day.unchanged).format(day.heading)}
         </Typography>
         <Typography sx={{ fontSize: "20px" }}>
-          {dayjs(day.unchanged).format(heading)}
+          {dayjs(day.unchanged).format(subheading)}
         </Typography>
       </Box>
       <Box sx={{ p: 3 }}>
@@ -75,9 +103,23 @@ function Column({ view, day }) {
 
 export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
   // Gets days in week
-  const startOfWeek = dayjs().startOf(view);
-  const endOfWeek = dayjs().endOf(view);
-
+  let startOfWeek = dayjs().startOf(view);
+  if (view === "week") {
+    startOfWeek = dayjs().startOf("day").subtract(1, "day");
+  }
+  if (view === "day") {
+    startOfWeek = dayjs().startOf("hour").subtract(1, "hour");
+  }
+  let endOfWeek = dayjs().endOf(view);
+  if (view === "month") {
+    endOfWeek = dayjs().startOf("month").add(3, "month");
+  }
+  if (view === "day") {
+    endOfWeek = dayjs().startOf("hour").add(2, "hour");
+  }
+  if (view === "year") {
+    endOfWeek = dayjs().startOf("year").add(3, "year");
+  }
   const days: any = [];
 
   const e =
@@ -86,14 +128,24 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
       : view === "week"
       ? "day"
       : view === "month"
-      ? "week"
-      : "month";
+      ? "month"
+      : "year";
 
   for (let i = 0; i <= endOfWeek.diff(startOfWeek, e); i++) {
     const currentDay = startOfWeek.add(i, e);
+
+    const heading =
+      view === "day"
+        ? "h"
+        : view === "week"
+        ? "D"
+        : view === "month"
+        ? "MMMM"
+        : "YYYY";
     days.push({
       unchanged: currentDay,
-      date: currentDay.format("MMMM D"),
+      heading,
+      date: currentDay.format(heading),
       day: currentDay.format("dddd"),
     });
   }
@@ -108,20 +160,23 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
       {days.map((day) => (
         <Column key={day.day} day={day} view={view} />
       ))}
-      <div
-        style={{
+      <Box
+        sx={{
+          "&:hover": {
+            filter: "blur(10px)",
+          },
+          transition: "all .2s",
           height: "100vh",
           width: "400px",
           flex: "0 0 400px",
           display: "block",
           position: "relative",
           marginLeft: "-40px",
-          zIndex: -1,
         }}
       >
         <picture>
           <img
-            src="https://images.unsplash.com/photo-1598438924166-6d89ca57f248?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDh8fG1vdW50YWlufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1400&q=60"
+            src="https://static.timestripe.com/backgrounds/mountain-05.jpg"
             alt="banner"
             style={{
               width: "100%",
@@ -134,7 +189,7 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
             }}
           />
         </picture>
-      </div>
+      </Box>
     </Box>
   );
 }

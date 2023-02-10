@@ -223,7 +223,7 @@ export function TasksLayout() {
         <Icon className={activeTab === "__agenda.day" ? "" : "outlined"}>
           calendar_view_day
         </Icon>
-        Today
+        Hourly
       </Button>
       <Button
         size="large"
@@ -379,6 +379,7 @@ export function TasksLayout() {
     <Box
       sx={{
         display: "flex",
+        background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
       }}
     >
       <SwipeableDrawer
@@ -403,6 +404,7 @@ export function TasksLayout() {
           flex: { xs: "100%", sm: "0 0 250px" },
           ml: -1,
           p: 3,
+          background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
           display: collapsed
             ? "none"
             : { xs: "none", sm: data && data.length === 0 ? "none" : "flex" },
