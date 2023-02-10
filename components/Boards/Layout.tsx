@@ -210,7 +210,15 @@ export function TasksLayout() {
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
 
-      <Typography sx={{ my: 1, opacity: 0.5, fontSize: "13px", px: 1.5 }}>
+      <Typography
+        sx={{
+          my: 1,
+          opacity: 0.5,
+          fontSize: "13px",
+          px: 1.5,
+          color: global.user.darkMode ? "#fff" : "#000",
+        }}
+      >
         Planner
       </Typography>
       <Button
@@ -262,7 +270,15 @@ export function TasksLayout() {
         Years
       </Button>
       <Divider sx={{ mb: 1, width: "90%", mx: "auto", opacity: 0.6 }} />
-      <Typography sx={{ my: 1, opacity: 0.5, fontSize: "13px", px: 1.5 }}>
+      <Typography
+        sx={{
+          my: 1,
+          opacity: 0.5,
+          fontSize: "13px",
+          px: 1.5,
+          color: global.user.darkMode ? "#fff" : "#000",
+        }}
+      >
         Boards
       </Typography>
       {data &&
