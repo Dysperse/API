@@ -13,7 +13,7 @@ function Column({ view, day }) {
       ? "dddd"
       : view === "month"
       ? "YYYY"
-      : "YYYY";
+      : "-";
 
   const startOf =
     view === "day"
@@ -81,9 +81,11 @@ function Column({ view, day }) {
         >
           {dayjs(day.unchanged).format(day.heading)}
         </Typography>
-        <Typography sx={{ fontSize: "20px" }}>
-          {dayjs(day.unchanged).format(subheading)}
-        </Typography>
+        {subheading !== "-" && (
+          <Typography sx={{ fontSize: "20px" }}>
+            {dayjs(day.unchanged).format(subheading)}
+          </Typography>
+        )}
       </Box>
       <Box sx={{ p: 3 }}>
         <CreateTask
