@@ -179,7 +179,7 @@ export function TasksLayout() {
             : `${colors[themeColor][100]}!important`,
           "&:hover, &:focus": {
             background: global.user.darkMode
-              ? "hsl(240,11%,25%)!important"
+              ? "hsl(240,11%,15%)!important"
               : `${colors[themeColor][100]}!important`,
           },
           color: global.user.darkMode
@@ -212,7 +212,7 @@ export function TasksLayout() {
 
       <Typography
         sx={{
-          my: 1,
+          mb: 1,
           opacity: 0.5,
           fontSize: "13px",
           px: 1.5,
@@ -257,7 +257,7 @@ export function TasksLayout() {
         </Icon>
         Years
       </Button>
-      <Divider sx={{ mb: 1, width: "90%", mx: "auto", opacity: 0.6 }} />
+      <Divider sx={{ my: 1, width: "90%", mx: "auto", opacity: 0.6 }} />
       <Typography
         sx={{
           my: 1,
@@ -289,7 +289,6 @@ export function TasksLayout() {
         onClick={() => setArchiveOpen(!archiveOpen)}
         sx={styles(false)}
       >
-        <Icon className={archiveOpen ? "" : "outlined"}>inventory_2</Icon>
         Archived
         <Icon sx={{ ml: "auto" }}>
           {archiveOpen ? "expand_less" : "expand_more"}

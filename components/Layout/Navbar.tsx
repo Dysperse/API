@@ -107,8 +107,8 @@ export function Navbar(): JSX.Element {
         >
           <Image
             src="/logo.svg"
-        width={40}
-        height={40}
+            width={40}
+            height={40}
             alt="Logo"
             style={{
               marginTop: "15px",
@@ -123,7 +123,7 @@ export function Navbar(): JSX.Element {
             mx: { sm: "auto" },
           }}
         >
-          <Tooltip title="Jump to" placement="right">
+          <Tooltip title="Jump to" placement="bottom">
             <IconButton
               onClick={() => openSpotlight()}
               color="inherit"

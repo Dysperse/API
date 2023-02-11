@@ -117,6 +117,7 @@ function SettingsMenu({
         sx={{
           zIndex: 9999,
         }}
+        disableSwipeToOpen
       >
         <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
           <Puller />
@@ -191,6 +192,7 @@ export default function FullScreenDialog({
         open={open}
         onClose={handleClose}
         onOpen={handleClickOpen}
+        disableSwipeToOpen
       >
         <Puller />
         <Box sx={{ px: 5 }}>

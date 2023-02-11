@@ -87,7 +87,7 @@ function Column({ mutationUrl, view, day, data }) {
             ...(isToday && {
               color: "hsl(240,11%,10%)",
               background:
-                colors[themeColor][global.user.darkMode ? "A200" : "A400"],
+                colors[themeColor][global.user.darkMode ? "A200" : "A100"],
               px: 0.5,
               ml: -0.5,
             }),

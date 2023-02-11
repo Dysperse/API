@@ -245,11 +245,9 @@ export default function Group({
             height: error ? "auto" : "100vh",
             width: "100%",
             maxWidth: "600px",
+            border: 0,
             borderRadius: !error ? 0 : "20px 20px 0 0",
           },
-        }}
-        sx={{
-          zIndex: 9999,
         }}
       >
         {propertyData && (

@@ -227,7 +227,6 @@ export default function SearchPopup({ styles }) {
   return (
     <SpotlightProvider
       limit={7}
-      // highlightQuery
       onSpotlightClose={() => {
         document
           .querySelector(`meta[name="theme-color"]`)
@@ -248,7 +247,7 @@ export default function SearchPopup({ styles }) {
       searchIcon={<Icon className="outlined">bolt</Icon>}
       searchPlaceholder="Find anything →"
       actionComponent={CustomAction}
-      nothingFoundMessage="Nothing found..."
+      nothingFoundMessage="😭 Nothing found..."
     />
   );
 }

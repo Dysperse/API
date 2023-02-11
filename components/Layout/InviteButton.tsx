@@ -90,6 +90,8 @@ export default function InviteButton({ styles }) {
               ? "hsl(240,11%,20%)!important"
               : "#eee!important",
             width: "300px",
+            ml: { sm: "60px!important" },
+            // mt: { sm: "-20px!important" },
             overflow: "hidden",
           },
         }}
@@ -97,6 +99,7 @@ export default function InviteButton({ styles }) {
           "& .MuiMenu-list": {
             p: "0!important",
           },
+          zIndex: 999,
         }}
       >
         {properties.map((group: any) => (
@@ -133,6 +136,7 @@ export default function InviteButton({ styles }) {
                 primary={<b>{group.profile.name}</b>}
                 secondary={group.profile.type}
                 sx={{
+                  color: global.user.darkMode ? "#fff" : "#000",
                   textTransform: "capitalize",
                 }}
               />
@@ -157,8 +161,25 @@ export default function InviteButton({ styles }) {
         </Settings>
       </Menu>
 
-      <IconButton sx={styles(false)} onClick={handleClick}>
+      <Box
+        sx={{
+          ...styles(Boolean(anchorEl)),
+          display: { xs: "none", sm: "block" },
+        }}
+        onClick={handleClick}
+      >
         <Tooltip title="Groups" placement="right">
+          <Icon className="outlined">settings</Icon>
+        </Tooltip>
+      </Box>
+      <IconButton
+        sx={{
+          ...styles(Boolean(anchorEl)),
+          display: { sm: "none" },
+        }}
+        onClick={handleClick}
+      >
+        <Tooltip title="Groups" placement="bottom-end">
           <Icon className="outlined">settings</Icon>
         </Tooltip>
       </IconButton>
