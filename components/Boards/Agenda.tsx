@@ -231,8 +231,11 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
         <Button
           onClick={() => {
             setNavigation(0);
-            const activeHighlight = document.getElementById("activeHighlight");
-            if (activeHighlight) activeHighlight.scrollIntoView();
+            setTimeout(() => {
+              const activeHighlight =
+                document.getElementById("activeHighlight");
+              if (activeHighlight) activeHighlight.scrollIntoView();
+            }, 1);
           }}
           disabled={navigation === 0}
           disableRipple
