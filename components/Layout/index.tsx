@@ -1,7 +1,8 @@
-import { Box, CssBaseline } from "@mui/material";
+import { Box, CssBaseline, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { BottomNav } from "./BottomNavigation";
+import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
 
 const KeyboardShortcutsModal = dynamic(
@@ -31,6 +32,7 @@ function ResponsiveDrawer({
         display: "flex",
       }}
     >
+      <Navbar />
       {router && (
         <PWAPrompt
           copyBody="Add Dysperse to your home screen to have easy access, recieve push notifications, and more!"
@@ -60,6 +62,7 @@ function ResponsiveDrawer({
           },
         }}
       >
+        <Toolbar sx={{ display: { sm: "none" } }} />
         <Box
           sx={{
             height: "70px",

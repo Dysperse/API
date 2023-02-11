@@ -1,4 +1,5 @@
-import { Box, Tooltip } from "@mui/material";
+import { openSpotlight } from "@mantine/spotlight";
+import { Box, Icon, IconButton, Tooltip } from "@mui/material";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -92,9 +93,11 @@ export function Sidebar() {
         zIndex: "1!important",
         filter: "none!important",
         overflowX: "hidden",
-        background: global.user.darkMode
-          ? "hsla(240,11%,5%)"
-          : "rgba(250,250,250,.8)",
+        background: {
+          sm: global.user.darkMode
+            ? "hsla(240,11%,5%)"
+            : "rgba(250,250,250,.8)",
+        },
         height: "100vh",
         backdropFilter: "blur(10px)",
         position: "fixed",
@@ -199,6 +202,16 @@ export function Sidebar() {
         }}
       >
         <SearchPopup styles={styles} />
+        <Tooltip title="Jump to" placement="right">
+          <IconButton
+            onClick={() => openSpotlight()}
+            color="inherit"
+            size="small"
+            sx={styles(false)}
+          >
+            <Icon className="outlined">bolt</Icon>
+          </IconButton>
+        </Tooltip>
         <InviteButton styles={styles} />
       </Box>
     </Box>

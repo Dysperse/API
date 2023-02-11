@@ -248,6 +248,9 @@ export default function Group({
             borderRadius: !error ? 0 : "20px 20px 0 0",
           },
         }}
+        sx={{
+          zIndex: 9999,
+        }}
       >
         {propertyData && (
           <PropertyInfo

@@ -4,6 +4,7 @@ import {
   colors,
   Divider,
   Icon,
+  IconButton,
   ListItemButton,
   ListItemText,
   Menu,
@@ -82,7 +83,12 @@ export default function InviteButton({ styles }) {
         PaperProps={{
           sx: {
             borderRadius: "28px!important",
-
+            background: global.user.darkMode
+              ? "hsl(240,11%,14%)!important"
+              : "#fff!important",
+            borderColor: global.user.darkMode
+              ? "hsl(240,11%,20%)!important"
+              : "#eee!important",
             width: "300px",
             overflow: "hidden",
           },
@@ -151,11 +157,11 @@ export default function InviteButton({ styles }) {
         </Settings>
       </Menu>
 
-      <Box sx={styles(false)} onClick={handleClick}>
+      <IconButton sx={styles(false)} onClick={handleClick}>
         <Tooltip title="Groups" placement="right">
           <Icon className="outlined">settings</Icon>
         </Tooltip>
-      </Box>
+      </IconButton>
     </>
   );
 }

@@ -1,5 +1,5 @@
-import { openSpotlight, SpotlightProvider } from "@mantine/spotlight";
-import { Box, Divider, Icon, Tooltip } from "@mui/material";
+import { SpotlightProvider } from "@mantine/spotlight";
+import { Divider, Icon } from "@mui/material";
 import { useRouter } from "next/router";
 import { updateSettings } from "../Settings/updateSettings";
 
@@ -114,9 +114,9 @@ export default function SearchPopup({ styles }) {
       icon: <Icon className="outlined">category</Icon>,
     },
     {
-      title: "Spaces",
-      onTrigger: () => router.push("/spaces"),
-      icon: <Icon className="outlined">view_agenda</Icon>,
+      title: "Start",
+      onTrigger: () => router.push("/zen"),
+      icon: <Icon className="outlined">change_history</Icon>,
     },
     {
       title: "Light theme",
@@ -249,12 +249,6 @@ export default function SearchPopup({ styles }) {
       searchPlaceholder="Find anything →"
       actionComponent={CustomAction}
       nothingFoundMessage="Nothing found..."
-    >
-      <Tooltip title="Jump to" placement="right">
-        <Box onClick={() => openSpotlight()} color="inherit" sx={styles(false)}>
-          <Icon className="outlined">bolt</Icon>
-        </Box>
-      </Tooltip>
-    </SpotlightProvider>
+    />
   );
 }
