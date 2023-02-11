@@ -152,7 +152,7 @@ export default function InviteButton({ styles }) {
       </Menu>
 
       <Box sx={styles(false)} onClick={handleClick}>
-        <Tooltip title="Inventory" placement="right">
+        <Tooltip title="Groups" placement="right">
           <Icon className="outlined">settings</Icon>
         </Tooltip>
       </Box>
