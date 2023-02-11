@@ -132,6 +132,9 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
     case "year":
       endOfWeek = endOfWeek.add(3, "year");
       break;
+    case "day":
+      endOfWeek = endOfWeek;
+      break;
   }
 
   const days: any = [];
