@@ -1,5 +1,6 @@
 import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import dayjs from "dayjs";
+import { useState } from "react";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./Board/Column/Task/Create";
 
@@ -110,33 +111,7 @@ function Column({ view, day }) {
 }
 
 export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
-  // Gets days in week
-  let startOfWeek = dayjs().startOf(view);
-  if (view === "week") {
-    startOfWeek = dayjs().startOf("day").subtract(1, "day");
-  }
-  if (view === "day") {
-    startOfWeek = dayjs().startOf("hour").subtract(1, "hour");
-  }
-  let endOfWeek = dayjs().endOf(view);
-  if (view === "month") {
-    endOfWeek = dayjs().startOf("month").add(3, "month");
-  }
-  if (view === "day") {
-    endOfWeek = dayjs().startOf("hour").add(2, "hour");
-  }
-  if (view === "year") {
-    endOfWeek = dayjs().startOf("year").add(3, "year");
-  }
-  if (view === "week") {
-    if (dayjs().endOf("week").diff(dayjs(), "day") <= 4) {
-      endOfWeek = dayjs(endOfWeek).add(
-        dayjs().endOf("week").diff(dayjs(), "day"),
-        "day"
-      );
-    }
-  }
-  const days: any = [];
+  const [navigation, setNavigation] = useState(0);
 
   const e =
     view === "day"
@@ -146,6 +121,11 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
       : view === "month"
       ? "month"
       : "year";
+
+  let startOfWeek = dayjs().add(navigation, view).startOf(view);
+  let endOfWeek = dayjs().add(navigation, view).endOf(view);
+
+  const days: any = [];
 
   for (let i = 0; i <= endOfWeek.diff(startOfWeek, e); i++) {
     const currentDay = startOfWeek.add(i, e);
@@ -190,10 +170,11 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
           m: 5,
         }}
       >
-        <IconButton>
+        <IconButton onClick={() => setNavigation(navigation - 1)}>
           <Icon>west</Icon>
         </IconButton>
         <Button
+          onClick={() => setNavigation(0)}
           sx={{
             color: global.user.darkMode ? "#fff" : "#000",
             px: 1.7,
@@ -202,7 +183,7 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
         >
           Today
         </Button>
-        <IconButton>
+        <IconButton onClick={() => setNavigation(navigation + 1)}>
           <Icon>east</Icon>
         </IconButton>
       </Box>

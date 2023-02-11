@@ -111,11 +111,7 @@ export default function Inventory({ children = null }: any) {
           pt: { sm: 0.5 },
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
-          borderRight: {
-            sm: global.user.darkMode
-              ? "1px solid hsl(240,11%,15%)"
-              : "1px solid rgba(200,200,200,.3)",
-          },
+          background: global.user.darkMode ? "hsl(240,11%,7%)" : "#fff",
           ml: { sm: -1 },
         }}
       >
