@@ -221,7 +221,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiMenu: {
         defaultProps: {
-          transitionDuration: 10,
+          transitionDuration: 200,
           anchorOrigin: {
             vertical: "bottom",
             horizontal: "center",

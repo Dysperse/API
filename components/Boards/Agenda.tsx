@@ -125,6 +125,7 @@ function Column({ mutationUrl, view, day, data }) {
       <Box sx={{ p: 3, pb: { xs: 15, sm: 0 } }}>
         {tasksWithinTimeRange.map((task) => (
           <Task
+            key={task.id}
             board={task.board || false}
             columnId={task.column ? task.column.id : -1}
             isAgenda
