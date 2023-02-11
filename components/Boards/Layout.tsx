@@ -197,7 +197,20 @@ export function TasksLayout() {
     e.preventDefault();
     ref.current?.click();
   });
+  useHotkeys("alt+w", (e) => {
+    e.preventDefault();
+    document.getElementById("__agenda.week")?.click();
+  });
   useHotkeys("alt+m", (e) => {
+    e.preventDefault();
+    document.getElementById("__agenda.month")?.click();
+  });
+  useHotkeys("alt+y", (e) => {
+    e.preventDefault();
+    document.getElementById("__agenda.year")?.click();
+  });
+
+  useHotkeys("alt+q", (e) => {
     e.preventDefault();
     menuRef.current?.click();
   });
@@ -222,6 +235,7 @@ export function TasksLayout() {
         Planner
       </Typography>
       <Button
+        id="__agenda.week"
         size="large"
         disableRipple
         sx={styles(activeTab === "__agenda.week")}
@@ -234,6 +248,7 @@ export function TasksLayout() {
         This week
       </Button>
       <Button
+        id="__agenda.month"
         size="large"
         disableRipple
         sx={styles(activeTab === "__agenda.month")}
@@ -246,6 +261,7 @@ export function TasksLayout() {
         Months
       </Button>
       <Button
+        id="__agenda.year"
         size="large"
         disableRipple
         sx={styles(activeTab === "__agenda.year")}
@@ -257,11 +273,20 @@ export function TasksLayout() {
         </Icon>
         Years
       </Button>
-      <Divider sx={{ my: 1, width: "90%", mx: "auto", opacity: 0.6 }} />
+      <Divider
+        sx={{
+          my: 1,
+          width: "90%",
+          mx: "auto",
+          opacity: 0.6,
+          ...(data.length === 0 && { display: "none" }),
+        }}
+      />
       <Typography
         sx={{
           my: 1,
           opacity: 0.5,
+          ...(data.length === 0 && { display: "none" }),
           fontSize: "13px",
           px: 1.5,
           color: global.user.darkMode ? "#fff" : "#000",
@@ -282,12 +307,20 @@ export function TasksLayout() {
               setActiveTab={setActiveTab}
             />
           ))}
-      <Divider sx={{ mb: 1, width: "90%", mx: "auto", opacity: 0.6 }} />
+      <Divider
+        sx={{
+          mb: 1,
+          ...(data.length === 0 && { display: "none" }),
+          width: "90%",
+          mx: "auto",
+          opacity: 0.6,
+        }}
+      />
       <Button
         size="large"
         disableRipple
         onClick={() => setArchiveOpen(!archiveOpen)}
-        sx={styles(false)}
+        sx={{ ...styles(false), ...(data.length === 0 && { display: "none" }) }}
       >
         Archived
         <Icon sx={{ ml: "auto" }}>
@@ -343,7 +376,7 @@ export function TasksLayout() {
             </Box>
           </Button>
         </Tooltip>
-        <Tooltip title="Toggle menu visibility (alt • m)">
+        <Tooltip title="Toggle menu visibility (alt • q)">
           <Button
             ref={menuRef}
             size="large"
@@ -410,9 +443,7 @@ export function TasksLayout() {
           background: global.user.darkMode
             ? "hsl(240,11%,7%)"
             : "rgba(200,200,200, .05)",
-          display: collapsed
-            ? "none"
-            : { xs: "none", sm: data && data.length === 0 ? "none" : "flex" },
+          display: collapsed ? "none" : { xs: "none", sm: "flex" },
           minHeight: "100vh",
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
