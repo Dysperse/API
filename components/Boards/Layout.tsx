@@ -224,18 +224,6 @@ export function TasksLayout() {
       <Button
         size="large"
         disableRipple
-        sx={styles(activeTab === "__agenda.day")}
-        onMouseDown={() => setActiveTab("__agenda.day")}
-        onClick={() => setActiveTab("__agenda.day")}
-      >
-        <Icon className={activeTab === "__agenda.day" ? "" : "outlined"}>
-          calendar_view_day
-        </Icon>
-        Hours
-      </Button>
-      <Button
-        size="large"
-        disableRipple
         sx={styles(activeTab === "__agenda.week")}
         onMouseDown={() => setActiveTab("__agenda.week")}
         onClick={() => setActiveTab("__agenda.week")}
@@ -243,7 +231,7 @@ export function TasksLayout() {
         <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
           view_week
         </Icon>
-        Days
+        This week
       </Button>
       <Button
         size="large"
@@ -456,7 +444,6 @@ export function TasksLayout() {
           />
         )}
         {activeTab === "loading" && <Loading />}
-        {activeTab.includes("__agenda.day") && <Agenda view="day" />}
         {activeTab.includes("__agenda.week") && <Agenda view="week" />}
         {activeTab.includes("__agenda.month") && <Agenda view="month" />}
         {activeTab.includes("__agenda.year") && <Agenda view="year" />}

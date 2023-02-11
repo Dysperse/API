@@ -133,6 +133,7 @@ export const renderDescription = (txt: any) => {
 
 export const Task = React.memo(function Task({
   board,
+  isAgenda = false,
   columnId,
   mutationUrl,
   task,
@@ -489,7 +490,7 @@ export const Task = React.memo(function Task({
                 }}
               >
                 {renderDescription(taskData.description)}
-                {taskData.due && (
+                {taskData.due && !isAgenda && (
                   <Tooltip
                     title={dayjs(taskData.due).format("MMMM D, YYYY")}
                     followCursor

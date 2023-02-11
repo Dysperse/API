@@ -7,29 +7,13 @@ import { Task } from "./Board/Column/Task";
 import { CreateTask } from "./Board/Column/Task/Create";
 
 function Column({ mutationUrl, view, day, data }) {
-  const subheading =
-    view === "day"
-      ? dayjs(day.unchanged).format("d") == dayjs().format("d")
-        ? "A"
-        : "A • M/d"
-      : view === "week"
-      ? "dddd"
-      : view === "month"
-      ? "YYYY"
-      : "-";
-
-  const startOf =
-    view === "day"
-      ? "hour"
-      : view === "week"
-      ? "day"
-      : view === "month"
-      ? "month"
-      : "year";
+  const subheading = view === "week" ? "dddd" : view === "month" ? "YYYY" : "-";
+  const startOf = view === "week" ? "day" : view === "month" ? "month" : "year";
 
   const isPast =
     dayjs(day.unchanged).isBefore(dayjs().startOf(startOf)) &&
     day.date !== dayjs().startOf(startOf).format(day.heading);
+
   let placeholder = dayjs(day.unchanged).from(dayjs().startOf(startOf));
   if (placeholder === "a few seconds ago" && view === "month") {
     placeholder = "this month";
@@ -41,10 +25,7 @@ function Column({ mutationUrl, view, day, data }) {
 
   useEffect(() => {
     const activeHighlight = document.getElementById("activeHighlight");
-    if (activeHighlight)
-      activeHighlight.scrollIntoView({
-        // behavior: "smooth",
-      });
+    if (activeHighlight) activeHighlight.scrollIntoView();
   }, []);
 
   const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
@@ -69,6 +50,9 @@ function Column({ mutationUrl, view, day, data }) {
         flexBasis: 0,
         overflowY: "scroll",
         minWidth: "250px",
+        ...(!data && {
+          filter: "blur(10px)",
+        }),
       }}
     >
       <Box
@@ -136,6 +120,7 @@ function Column({ mutationUrl, view, day, data }) {
           <Task
             board={task.board || false}
             columnId={task.column ? task.column.id : -1}
+            isAgenda
             task={task}
             checkList={false}
           />
@@ -156,17 +141,10 @@ function Column({ mutationUrl, view, day, data }) {
   );
 }
 
-export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
+export function Agenda({ view }: { view: "week" | "month" | "year" }) {
   const [navigation, setNavigation] = useState(0);
 
-  const e =
-    view === "day"
-      ? "hour"
-      : view === "week"
-      ? "day"
-      : view === "month"
-      ? "month"
-      : "year";
+  const e = view === "week" ? "day" : view === "month" ? "month" : "year";
 
   let startOfWeek = dayjs().add(navigation, view).startOf(view);
   let endOfWeek = dayjs().add(navigation, view).endOf(view);
@@ -178,10 +156,6 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
     case "year":
       endOfWeek = endOfWeek.add(3, "year");
       break;
-    case "day":
-      startOfWeek = dayjs().subtract(1, "hour");
-      endOfWeek = dayjs().endOf("day");
-      break;
   }
 
   const days: any = [];
@@ -189,14 +163,7 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
   for (let i = 0; i <= endOfWeek.diff(startOfWeek, e); i++) {
     const currentDay = startOfWeek.add(i, e);
 
-    const heading =
-      view === "day"
-        ? "h"
-        : view === "week"
-        ? "D"
-        : view === "month"
-        ? "MMMM"
-        : "YYYY";
+    const heading = view === "week" ? "D" : view === "month" ? "MMMM" : "YYYY";
     days.push({
       unchanged: currentDay,
       heading,
@@ -230,16 +197,16 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
           right: 0,
           color: global.user.darkMode ? "#fff" : "#000",
           display: "flex",
-          ...(view == "day" && {
-            display: "none",
-          }),
           alignItems: "center",
           p: 1,
           py: 0.5,
           m: 5,
         }}
       >
-        <IconButton onClick={() => setNavigation(navigation - 1)}>
+        <IconButton
+          onClick={() => setNavigation(navigation - 1)}
+          disabled={navigation === 0}
+        >
           <Icon>west</Icon>
         </IconButton>
         <Button
