@@ -224,7 +224,7 @@ export default function Group({
         setError(e.message);
       }
     },
-    [open, data.accessToken, data.id]
+    [data.accessToken, data.id]
   );
 
   const handleDrawerClose = () => setOpen(false);
