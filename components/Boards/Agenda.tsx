@@ -1,10 +1,12 @@
 import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
+import { Task } from "./Board/Column/Task";
 import { CreateTask } from "./Board/Column/Task/Create";
 
-function Column({ view, day }) {
+function Column({ mutationUrl, view, day, data }) {
   const subheading =
     view === "day"
       ? dayjs(day.unchanged).format("d") == dayjs().format("d")
@@ -44,6 +46,14 @@ function Column({ view, day }) {
         // behavior: "smooth",
       });
   }, []);
+
+  const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
+  const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
+
+  const tasksWithinTimeRange = (data || []).filter((task) => {
+    const dueDate = new Date(task.due);
+    return dueDate >= startTime && dueDate <= endTime;
+  });
 
   return (
     <Box
@@ -114,15 +124,23 @@ function Column({ view, day }) {
         )}
       </Box>
       <Box sx={{ p: 3 }}>
+        {tasksWithinTimeRange.map((task) => (
+          <Task
+            board={task.board || false}
+            columnId={task.column ? task.column.id : -1}
+            task={task}
+            checkList={false}
+          />
+        ))}
         <CreateTask
           isHovered={false}
-          column={{ name: "" }}
+          column={{ id: "-1", name: "" }}
           tasks={[]}
           defaultDate={day.unchanged}
           label="Set a goal"
           placeholder={"Set a goal to be achieved " + placeholder}
           checkList={false}
-          mutationUrl={""}
+          mutationUrl={mutationUrl}
           boardId={1}
         />
       </Box>
@@ -178,6 +196,11 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
       day: currentDay.format("dddd"),
     });
   }
+
+  const { data, url, error } = useApi("property/boards/agenda", {
+    startTime: startOfWeek.toISOString(),
+    endTime: endOfWeek.toISOString(),
+  });
 
   return (
     <>
@@ -244,7 +267,13 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
         }}
       >
         {days.map((day) => (
-          <Column key={day.day} day={day} view={view} />
+          <Column
+            key={day.day}
+            day={day}
+            view={view}
+            data={data}
+            mutationUrl={url}
+          />
         ))}
       </Box>
     </>
