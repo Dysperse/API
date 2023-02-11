@@ -122,7 +122,7 @@ export function TasksLayout() {
   const [activeTab, setActiveTab] = useState("loading");
 
   useEffect(() => {
-    if (data && data[0]) {
+    if (data && data[0] && data.find((board) => board.pinned)) {
       if (
         window.location.hash &&
         data.filter((x) => x.id === window.location.hash.replace("#", ""))
@@ -135,6 +135,8 @@ export function TasksLayout() {
     } else {
       if (data && !data[0]) {
         setActiveTab("new");
+      } else {
+        setActiveTab("__agenda.week");
       }
     }
   }, [data]);
@@ -310,7 +312,10 @@ export function TasksLayout() {
       <Divider
         sx={{
           mb: 1,
-          ...(data.length === 0 && { display: "none" }),
+          ...(data &&
+            (data.length === 0 || !data.find((board) => board.archived)) && {
+              display: "none",
+            }),
           width: "90%",
           mx: "auto",
           opacity: 0.6,
@@ -320,7 +325,13 @@ export function TasksLayout() {
         size="large"
         disableRipple
         onClick={() => setArchiveOpen(!archiveOpen)}
-        sx={{ ...styles(false), ...(data.length === 0 && { display: "none" }) }}
+        sx={{
+          ...styles(false),
+          ...(data &&
+            (data.length === 0 || !data.find((board) => board.archived)) && {
+              display: "none",
+            }),
+        }}
       >
         Archived
         <Icon sx={{ ml: "auto" }}>
