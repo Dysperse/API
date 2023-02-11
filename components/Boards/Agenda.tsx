@@ -220,13 +220,20 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
         }}
       >
         <IconButton
-          onClick={() => setNavigation(navigation - 1)}
+          onClick={() => {
+            setNavigation(navigation - 1);
+            document.getElementById("agendaContainer")?.scrollTo(0, 0);
+          }}
           disabled={navigation === 0 && view == "month"}
         >
           <Icon>west</Icon>
         </IconButton>
         <Button
-          onClick={() => setNavigation(0)}
+          onClick={() => {
+            setNavigation(0);
+            const activeHighlight = document.getElementById("activeHighlight");
+            if (activeHighlight) activeHighlight.scrollIntoView();
+          }}
           disabled={navigation === 0}
           disableRipple
           sx={{
@@ -245,7 +252,12 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
         >
           Today
         </Button>
-        <IconButton onClick={() => setNavigation(navigation + 1)}>
+        <IconButton
+          onClick={() => {
+            setNavigation(navigation + 1);
+            document.getElementById("agendaContainer")?.scrollTo(0, 0);
+          }}
+        >
           <Icon>east</Icon>
         </IconButton>
       </Box>
