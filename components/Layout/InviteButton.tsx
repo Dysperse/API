@@ -21,6 +21,7 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { ErrorHandler } from "../Error";
 import Settings from "../Settings/index";
+import AppsMenu from "./AppsMenu";
 
 const Group = dynamic(() => import("../Group"));
 
@@ -159,6 +160,7 @@ export default function InviteButton({ styles }) {
           <ErrorHandler error="An error occured while trying to fetch your other groups" />
         )}
         <Divider />
+        <AppsMenu styles={styles} />
         <Settings>
           <Button
             color="inherit"
