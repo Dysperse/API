@@ -78,7 +78,7 @@ function Column({ view, day }) {
             ...(isToday && {
               color: "hsl(240,11%,10%)",
               background:
-                colors[themeColor][global.user.darkMode ? "A200" : 800],
+                colors[themeColor][global.user.darkMode ? "A200" : "A400"],
               px: 0.5,
               ml: -0.5,
             }),
@@ -90,7 +90,6 @@ function Column({ view, day }) {
             justifyContent: "center",
             ...(isPast && {
               opacity: 0.5,
-              textDecoration: "line-through",
             }),
             mb: 0.7,
           }}
@@ -98,7 +97,15 @@ function Column({ view, day }) {
           {dayjs(day.unchanged).format(day.heading)}
         </Typography>
         {subheading !== "-" && (
-          <Typography sx={{ fontSize: "20px" }}>
+          <Typography
+            sx={{
+              fontSize: "20px",
+              ...(isPast && {
+                opacity: 0.5,
+                textDecoration: "line-through",
+              }),
+            }}
+          >
             {view === "month" &&
             dayjs(day.unchanged).format("M") !== dayjs().format("M")
               ? dayjs(day.unchanged).fromNow()
@@ -183,6 +190,8 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
             ? "hsla(240,11%,14%)"
             : "rgba(255,255,255,.1)",
           border: "1px solid",
+          boxShadow:
+            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
           borderColor: global.user.darkMode
             ? "hsla(240,11%,16%, 0.5)"
@@ -204,7 +213,17 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
         </IconButton>
         <Button
           onClick={() => setNavigation(0)}
+          disabled={navigation === 0}
+          disableRipple
           sx={{
+            "&:active": {
+              background: `${
+                global.user.darkMode
+                  ? "hsla(240,11%,25%, 0.3)"
+                  : "rgba(0,0,0,0.1)"
+              }`,
+            },
+            py: 1,
             color: global.user.darkMode ? "#fff" : "#000",
             px: 1.7,
           }}

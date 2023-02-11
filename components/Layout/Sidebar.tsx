@@ -94,7 +94,7 @@ export function Sidebar() {
         overflowX: "hidden",
         background: global.user.darkMode
           ? "hsla(240,11%,5%)"
-          : "rgba(240,240,240,.3)",
+          : "rgba(250,250,250,.8)",
         height: "100vh",
         backdropFilter: "blur(10px)",
         position: "fixed",
