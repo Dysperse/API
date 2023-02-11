@@ -125,6 +125,15 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
   let startOfWeek = dayjs().add(navigation, view).startOf(view);
   let endOfWeek = dayjs().add(navigation, view).endOf(view);
 
+  switch (view) {
+    case "month":
+      endOfWeek = endOfWeek.add(2, "month");
+      break;
+    case "year":
+      endOfWeek = endOfWeek.add(3, "year");
+      break;
+  }
+
   const days: any = [];
 
   for (let i = 0; i <= endOfWeek.diff(startOfWeek, e); i++) {
