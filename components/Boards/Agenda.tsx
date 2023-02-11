@@ -67,17 +67,25 @@ function Column({ mutationUrl, view, day, data }) {
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
+        overflowY: "scroll",
         minWidth: "250px",
       }}
     >
       <Box
         sx={{
           color: global.user.darkMode ? "#fff" : "#000",
-          borderBottom: "1px solid",
           p: 3,
-          borderColor: global.user.darkMode
-            ? "hsl(240,11%,16%)"
+          background: global.user.darkMode
+            ? "hsla(240,11%,16%, 0.2)"
             : "rgba(200,200,200,.3)",
+          borderBottom: "1px solid",
+          borderColor: global.user.darkMode
+            ? "hsla(240,11%,18%, 0.2)"
+            : "rgba(200,200,200,.2)",
+          position: "sticky",
+          top: 0,
+          zIndex: 9,
+          backdropFilter: "blur(10px)",
         }}
       >
         <Typography
