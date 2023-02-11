@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Icon, IconButton, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./Board/Column/Task/Create";
@@ -33,8 +33,6 @@ function Column({ view, day }) {
       sx={{
         borderRight: "1px solid",
         background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
-        borderTopRightRadius: "10px",
-        borderBottomRightRadius: "10px",
         borderColor: global.user.darkMode
           ? "hsl(240,11%,16%)"
           : "rgba(200,200,200,.3)",
@@ -48,6 +46,7 @@ function Column({ view, day }) {
         sx={{
           color: global.user.darkMode ? "#fff" : "#000",
           borderBottom: "1px solid",
+          borderTop: "1px solid",
           p: 3,
           borderColor: global.user.darkMode
             ? "hsl(240,11%,16%)"
@@ -83,7 +82,10 @@ function Column({ view, day }) {
         </Typography>
         {subheading !== "-" && (
           <Typography sx={{ fontSize: "20px" }}>
-            {dayjs(day.unchanged).format(subheading)}
+            {view === "month" &&
+            dayjs(day.unchanged).format("M") !== dayjs().format("M")
+              ? dayjs(day.unchanged).fromNow()
+              : dayjs(day.unchanged).format(subheading)}
           </Typography>
         )}
       </Box>
@@ -122,6 +124,14 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
   if (view === "year") {
     endOfWeek = dayjs().startOf("year").add(3, "year");
   }
+  if (view === "week") {
+    if (dayjs().endOf("week").diff(dayjs(), "day") <= 4) {
+      endOfWeek = dayjs(endOfWeek).add(
+        dayjs().endOf("week").diff(dayjs(), "day"),
+        "day"
+      );
+    }
+  }
   const days: any = [];
 
   const e =
@@ -153,45 +163,48 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "100vh",
-      }}
-    >
-      {days.map((day) => (
-        <Column key={day.day} day={day} view={view} />
-      ))}
+    <>
       <Box
         sx={{
-          "&:hover": {
-            filter: "blur(10px)",
-          },
-          transition: "all .2s",
-          height: "100vh",
-          width: "400px",
-          flex: "0 0 400px",
-          display: "block",
-          position: "relative",
-          marginLeft: "-40px",
+          position: "fixed",
+          bottom: 0,
+          zIndex: 9,
+          background: global.user.darkMode
+            ? "hsla(240,11%,14%)"
+            : "rgba(255,255,255,.1)",
+          border: "1px solid",
+          borderRadius: 999,
+          borderColor: global.user.darkMode
+            ? "hsla(240,11%,16%, 0.5)"
+            : "rgba(200,200,200, 0.5)",
+          right: 0,
+          color: global.user.darkMode ? "#fff" : "#000",
+          display: "flex",
+          alignItems: "center",
+          p: 1,
+          py: 0.5,
+          gap: 0.5,
+          m: 5,
         }}
       >
-        <picture>
-          <img
-            src="https://static.timestripe.com/backgrounds/mountain-05.jpg"
-            alt="banner"
-            style={{
-              width: "100%",
-              position: "absolute",
-              top: 0,
-              transition: "all .2s",
-              left: 0,
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </picture>
+        <IconButton>
+          <Icon>west</Icon>
+        </IconButton>
+        <IconButton>
+          <Icon>east</Icon>
+        </IconButton>
       </Box>
-    </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          height: "100vh",
+        }}
+      >
+        {days.map((day) => (
+          <Column key={day.day} day={day} view={view} />
+        ))}
+      </Box>
+    </>
   );
 }

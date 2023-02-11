@@ -231,7 +231,7 @@ export function TasksLayout() {
         <Icon className={activeTab === "__agenda.day" ? "" : "outlined"}>
           calendar_view_day
         </Icon>
-        Hourly
+        Hours
       </Button>
       <Button
         size="large"
@@ -243,7 +243,7 @@ export function TasksLayout() {
         <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
           view_week
         </Icon>
-        Week
+        Days
       </Button>
       <Button
         size="large"
@@ -255,7 +255,7 @@ export function TasksLayout() {
         <Icon className={activeTab === "__agenda.month" ? "" : "outlined"}>
           calendar_view_month
         </Icon>
-        Month
+        Months
       </Button>
       <Button
         size="large"

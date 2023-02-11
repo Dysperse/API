@@ -113,7 +113,12 @@ export function Sidebar() {
         width={50}
         height={50}
         alt="Logo"
-        style={{ marginTop: "15px" }}
+        style={{
+          marginTop: "15px",
+          ...(global.user.darkMode && {
+            filter: "invert(100%)",
+          }),
+        }}
       />
       <Box sx={{ mt: "auto" }} />
       <Box

@@ -657,10 +657,10 @@ export function CreateTask({
           }),
           ...(global.user.darkMode && {
             "&:hover": {
-              backgroundColor: "hsl(240,11%,19%)!important",
+              backgroundColor: "hsl(240,11%,16%)!important",
             },
             "&:active": {
-              backgroundColor: "hsl(240,11%,16%)!important",
+              backgroundColor: "hsl(240,11%,19%)!important",
             },
           }),
           ...(!checkList && {
