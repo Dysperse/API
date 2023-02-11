@@ -205,7 +205,7 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
       >
         <IconButton
           onClick={() => setNavigation(navigation - 1)}
-          disabled={navigation === 0}
+          disabled={navigation === 0 && view == "month"}
         >
           <Icon>west</Icon>
         </IconButton>
