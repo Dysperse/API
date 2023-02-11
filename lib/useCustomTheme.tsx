@@ -312,6 +312,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiChip: {
         styleOverrides: {
           root: {
+            boxShadow: "none!important",
             ...(darkMode && {
               background: "hsla(240, 11%, 70%, .2)",
             }),

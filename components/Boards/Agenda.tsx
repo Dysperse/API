@@ -44,12 +44,12 @@ function Column({ mutationUrl, view, day, data }) {
         borderRight: "1px solid",
         borderColor: global.user.darkMode
           ? "hsl(240,11%,16%)"
-          : "rgba(200,200,200,.3)",
+          : "rgba(200,200,200,.2)",
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
         overflowY: "scroll",
-        minWidth: "250px",
+        minWidth: { xs: "80vw", sm: "250px" },
         ...(!data && {
           filter: "blur(10px)",
         }),
@@ -61,11 +61,11 @@ function Column({ mutationUrl, view, day, data }) {
           p: 3,
           background: global.user.darkMode
             ? "hsla(240,11%,16%, 0.2)"
-            : "rgba(200,200,200,.3)",
+            : "rgba(200,200,200,.05)",
           borderBottom: "1px solid",
           borderColor: global.user.darkMode
             ? "hsla(240,11%,18%, 0.2)"
-            : "rgba(200,200,200,.2)",
+            : "rgba(200,200,200,.3)",
           position: "sticky",
           top: 0,
           zIndex: 9,
@@ -115,7 +115,7 @@ function Column({ mutationUrl, view, day, data }) {
           </Typography>
         )}
       </Box>
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 3, pb: { xs: 15, sm: 0 } }}>
         {tasksWithinTimeRange.map((task) => (
           <Task
             board={task.board || false}
@@ -182,7 +182,7 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
       <Box
         sx={{
           position: "fixed",
-          bottom: 0,
+          bottom: { xs: 35, sm: 0 },
           zIndex: 9,
           background: global.user.darkMode
             ? "hsla(240,11%,14%)"
@@ -238,7 +238,10 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
         id="agendaContainer"
         sx={{
           display: "flex",
-          height: "100vh",
+          maxWidth: "100vw",
+          mt: "-15px",
+          overflowX: "scroll",
+          height: { xs: "calc(100vh - var(--navbar-height))", sm: "100vh" },
         }}
       >
         {days.map((day) => (
