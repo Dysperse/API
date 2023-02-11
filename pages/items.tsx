@@ -294,9 +294,9 @@ export default function Inventory({ children = null }: any) {
       {children ? (
         <Box
           sx={{
-            maxHeight: { sm: "calc(100vh - var(--navbar-height))" },
-            minHeight: { sm: "calc(100vh - var(--navbar-height))" },
-            height: { sm: "calc(100vh - var(--navbar-height))" },
+            maxHeight: { sm: "100vh" },
+            minHeight: { sm: "100vh" },
+            height: { sm: "100vh" },
             overflowY: { sm: "auto" },
             flexGrow: 1,
           }}
