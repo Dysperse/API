@@ -1,4 +1,11 @@
-import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  Typography,
+  useScrollTrigger,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useApi } from "../../hooks/useApi";
@@ -143,7 +150,10 @@ function Column({ mutationUrl, view, day, data }) {
 
 export function Agenda({ view }: { view: "week" | "month" | "year" }) {
   const [navigation, setNavigation] = useState(0);
-
+  const trigger = useScrollTrigger({
+    threshold: 0,
+    target: window ? window : undefined,
+  });
   const e = view === "week" ? "day" : view === "month" ? "month" : "year";
 
   let startOfWeek = dayjs().add(navigation, view).startOf(view);
@@ -182,12 +192,17 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
       <Box
         sx={{
           position: "fixed",
-          bottom: { xs: 35, sm: 0 },
+          bottom: {
+            xs: trigger ? 0 : "40px",
+            sm: 0,
+          },
           zIndex: 9,
           background: global.user.darkMode
-            ? "hsla(240,11%,14%)"
-            : "rgba(255,255,255,.1)",
+            ? "hsla(240,11%,14%,0.5)"
+            : "rgba(255,255,255,.5)",
           border: "1px solid",
+          transition: "bottom .3s",
+          backdropFilter: "blur(10px)",
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
@@ -239,9 +254,9 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
         sx={{
           display: "flex",
           maxWidth: "100vw",
-          mt: "-15px",
+          mt: { xs: "-15px", sm: 0 },
           overflowX: "scroll",
-          height: { xs: "calc(100vh - var(--navbar-height))", sm: "100vh" },
+          height: { sm: "100vh" },
         }}
       >
         {days.map((day) => (

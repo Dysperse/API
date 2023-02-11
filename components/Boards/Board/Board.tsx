@@ -262,9 +262,9 @@ export const Board = function Board({
           p: 4,
           justifyContent: { xs: "center", sm: "start" },
           maxWidth: "100vw",
-          height: "100vh",
-          maxHeight: "100vh",
-          position: "relative",
+          height: { sm: "100vh" },
+          maxHeight: { sm: "100vh" },
+          position: { sm: "relative" },
         }}
         id="taskContainer"
       >

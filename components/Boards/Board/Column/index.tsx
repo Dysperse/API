@@ -491,21 +491,21 @@ export const Column = React.memo(function Column({
       ref={ref}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10"
+      className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10 sm:mb-0"
       sx={{
         display: "flex",
         flexDirection: "column",
-        position: "relative",
+        position: { sm: "relative" },
         width: {
           xs: "calc(100vw - 10px)!important",
           sm: "370px!important",
         },
-        height: "100%",
+        height: { sm: "100%" },
         flex: {
           xs: "0 0 calc(100vw - 10px)!important",
           sm: "0 0 370px!important",
         },
-        overflowY: "scroll",
+        overflowY: { xs: "initial", sm: "scroll" },
         p: 3,
         pt: { xs: 0, sm: 3 },
         px: checkList ? 4 : 2,
