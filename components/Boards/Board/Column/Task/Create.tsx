@@ -97,6 +97,7 @@ function ImageModal({ image, setImage, styles }) {
 
 export function CreateTask({
   label = "New list item",
+  placeholder = false,
   defaultDate = false,
   isHovered,
   tasks,
@@ -317,7 +318,7 @@ export function CreateTask({
             label="Important"
             sx={{
               ...chipStyles,
-              ml: 1,
+              ml: { xs: 1, sm: 0.3 },
               transition: "transform .2s",
               ...(pinned && {
                 background: colors[themeColor]["900"] + "!important",
@@ -454,9 +455,11 @@ export function CreateTask({
                 }
               }}
               placeholder={
-                'Add an item to "' +
-                (column || { name: "this task" }).name +
-                '"'
+                placeholder
+                  ? placeholder
+                  : 'Add an item to "' +
+                    (column || { name: "this task" }).name +
+                    '"'
               }
               InputProps={{
                 disableUnderline: true,
@@ -616,7 +619,9 @@ export function CreateTask({
                     disabled={title.trim() === ""}
                     type="submit"
                     disableRipple
+                    color="inherit"
                     sx={{
+                      ...(title.trim() !== "" && { color: "#fff" }),
                       "&:active": {
                         transform: "scale(.95)",
                         transition: "none",

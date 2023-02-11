@@ -1,4 +1,4 @@
-import { Box, Icon, IconButton, Typography } from "@mui/material";
+import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./Board/Column/Task/Create";
@@ -27,12 +27,16 @@ function Column({ view, day }) {
   const isPast =
     dayjs(day.unchanged).isBefore(dayjs().startOf(startOf)) &&
     day.date !== dayjs().startOf(startOf).format(day.heading);
-
+  let placeholder = dayjs(day.unchanged).from(dayjs().startOf(startOf));
+  if (placeholder === "a few seconds ago" && view === "month") {
+    placeholder = "this month";
+  } else if (placeholder === "a few seconds ago" && view === "year") {
+    placeholder = "this year";
+  }
   return (
     <Box
       sx={{
         borderRight: "1px solid",
-        background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
         borderColor: global.user.darkMode
           ? "hsl(240,11%,16%)"
           : "rgba(200,200,200,.3)",
@@ -46,7 +50,6 @@ function Column({ view, day }) {
         sx={{
           color: global.user.darkMode ? "#fff" : "#000",
           borderBottom: "1px solid",
-          borderTop: "1px solid",
           p: 3,
           borderColor: global.user.darkMode
             ? "hsl(240,11%,16%)"
@@ -96,6 +99,7 @@ function Column({ view, day }) {
           tasks={[]}
           defaultDate={day.unchanged}
           label="Set a goal"
+          placeholder={"Set a goal to be achieved " + placeholder}
           checkList={false}
           mutationUrl={""}
           boardId={1}
@@ -183,13 +187,21 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
           alignItems: "center",
           p: 1,
           py: 0.5,
-          gap: 0.5,
           m: 5,
         }}
       >
         <IconButton>
           <Icon>west</Icon>
         </IconButton>
+        <Button
+          sx={{
+            color: global.user.darkMode ? "#fff" : "#000",
+            px: 1.7,
+          }}
+          color="inherit"
+        >
+          Today
+        </Button>
         <IconButton>
           <Icon>east</Icon>
         </IconButton>

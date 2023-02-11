@@ -92,16 +92,15 @@ export function Sidebar() {
         zIndex: "1!important",
         filter: "none!important",
         overflowX: "hidden",
-        borderRight: "1px solid",
-        borderColor: global.user.darkMode
-          ? "hsla(240,11%,15%)"
-          : "rgba(200,200,200,.3)",
+        background: global.user.darkMode
+          ? "hsla(240,11%,5%)"
+          : "rgba(240,240,240,.3)",
         height: "100vh",
         backdropFilter: "blur(10px)",
         position: "fixed",
-        background: global.user.darkMode
-          ? "hsl(240, 11%, 10%)"
-          : "rgba(255, 255, 255, 0.9)",
+        // background: global.user.darkMode
+        //   ? "hsl(240, 11%, 10%)"
+        //   : "rgba(255, 255, 255, 0.9)",
 
         alignItems: "center",
         flexDirection: "column",

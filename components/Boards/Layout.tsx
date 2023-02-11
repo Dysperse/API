@@ -420,7 +420,7 @@ export function TasksLayout() {
           flex: { xs: "100%", sm: "0 0 250px" },
           ml: -1,
           p: 3,
-          background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+          background: global.user.darkMode ? "hsl(240,11%,7%)" : "#fff",
           display: collapsed
             ? "none"
             : { xs: "none", sm: data && data.length === 0 ? "none" : "flex" },
@@ -428,11 +428,9 @@ export function TasksLayout() {
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
           flexDirection: "column",
-          borderRight: {
-            sm: global.user.darkMode
-              ? "1px solid hsla(240,11%,15%)"
-              : "1px solid rgba(200,200,200,.3)",
-          },
+          boxShadow: global.user.darkMode
+            ? "0 25px 50px -12px hsla(240, 11%, 15%, 0.5)"
+            : "0 25px 50px -12px rgb(200 200 200 / 0.1)",
         }}
       >
         {children}

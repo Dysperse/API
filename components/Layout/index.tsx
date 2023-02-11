@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { BottomNav } from "./BottomNavigation";
@@ -69,6 +69,7 @@ function ResponsiveDrawer({
         >
           {children}
         </Box>
+        <CssBaseline />
         <BottomNav />
       </Box>
     </Box>
