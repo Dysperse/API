@@ -562,57 +562,62 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           width={1500}
           height={500}
           style={{
-            filter: "brightness(80%)",
+            filter: "brightness(60%)",
             width: "100%",
             height: "100%",
             objectFit: "cover",
             position: "absolute",
+            zIndex: 0,
             top: 0,
-            zIndex: -1,
             left: 0,
           }}
         />
-        <Typography
-          variant="h5"
-          onClick={() => length !== 0 && setDrawerOpen(true)}
-          sx={{
-            lineHeight: 1.5,
-            letterSpacing: 0.15,
-            borderRadius: 2,
-            overflow: "hidden",
-            maxWidth: "100%",
-            px: 1,
-            mb: 2,
-            ml: -1,
-            color: "hsl(240,11%,90%)!important",
-            cursor: "unset!important",
-            userSelect: "none",
-            "&:hover": {
-              color: "hsl(240,11%,80%)",
-              background: "hsl(240,11%,13%)",
-            },
-            "&:active": {
-              color: "hsl(240,11%,95%)",
-              background: "hsl(240,11%,16%)",
-            },
+        <Box sx={{ zIndex: 9, position: "sticky" }}>
+          <Typography
+            variant="h5"
+            onClick={() => length !== 0 && setDrawerOpen(true)}
+            sx={{
+              zIndex: 9,
+              lineHeight: 1.5,
+              letterSpacing: 0.15,
+              borderRadius: 2,
+              overflow: "hidden",
+              maxWidth: "100%",
+              px: 1,
+              mb: 2,
+              ml: -1,
+              color: "hsl(240,11%,90%)!important",
+              cursor: "unset!important",
+              userSelect: "none",
+              "&:hover": {
+                color: "hsl(240,11%,80%)",
+                background: "hsl(240,11%,13%)",
+              },
+              "&:active": {
+                color: "hsl(240,11%,95%)",
+                background: "hsl(240,11%,16%)",
+              },
 
-            display: { xs: "inline-flex", md: "inline-flex" },
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          Create a board {length !== 0 && <Icon>expand_more</Icon>}
-        </Typography>
-        <Typography sx={{ mb: 2, color: "#fff" }}>
-          Boards are sweet places where you can keep track of almost anything,
-          from tasks, to shopping lists, to even product planning. You can
-          always edit templates after creating.
-        </Typography>
-        <OptionsGroup
-          options={["Board", "Checklist"]}
-          currentOption={currentOption}
-          setOption={setOption}
-        />
+              display: { xs: "inline-flex", md: "inline-flex" },
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            Create a board {length !== 0 && <Icon>expand_more</Icon>}
+          </Typography>
+          <Typography sx={{ mb: 2, color: "#fff", zIndex: 9 }}>
+            Boards are sweet places where you can keep track of almost anything,
+            from tasks, to shopping lists, to even product planning. You can
+            always edit templates after creating.
+          </Typography>
+          <Box sx={{ zIndex: 9 }}>
+            <OptionsGroup
+              options={["Board", "Checklist"]}
+              currentOption={currentOption}
+              setOption={setOption}
+            />
+          </Box>
+        </Box>
       </Box>
       <Box sx={{ px: 1 }}>
         <TextField

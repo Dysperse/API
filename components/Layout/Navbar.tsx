@@ -111,7 +111,6 @@ export function Navbar(): JSX.Element {
             height={40}
             alt="Logo"
             style={{
-              marginTop: "15px",
               ...(global.user.darkMode && {
                 filter: "invert(100%)",
               }),
