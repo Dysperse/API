@@ -1,6 +1,6 @@
 import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { colors } from "../../lib/colors";
 import { CreateTask } from "./Board/Column/Task/Create";
 
@@ -34,9 +34,22 @@ function Column({ view, day }) {
   } else if (placeholder === "a few seconds ago" && view === "year") {
     placeholder = "this year";
   }
+
+  const isToday = day.date == dayjs().startOf(startOf).format(day.heading);
+
+  useEffect(() => {
+    const activeHighlight = document.getElementById("activeHighlight");
+    if (activeHighlight)
+      activeHighlight.scrollIntoView({
+        // behavior: "smooth",
+      });
+  }, []);
+
   return (
     <Box
+      {...(isToday && { id: "activeHighlight" })}
       sx={{
+        scrollMarginRight: "25px",
         borderRight: "1px solid",
         borderColor: global.user.darkMode
           ? "hsl(240,11%,16%)"
@@ -62,7 +75,7 @@ function Column({ view, day }) {
           className="font-heading"
           sx={{
             fontSize: "35px",
-            ...(day.date == dayjs().startOf(startOf).format(day.heading) && {
+            ...(isToday && {
               color: "hsl(240,11%,10%)",
               background:
                 colors[themeColor][global.user.darkMode ? "A200" : 800],
@@ -133,7 +146,8 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
       endOfWeek = endOfWeek.add(3, "year");
       break;
     case "day":
-      endOfWeek = endOfWeek;
+      startOfWeek = dayjs().subtract(1, "hour");
+      endOfWeek = dayjs().endOf("day");
       break;
   }
 
@@ -176,6 +190,9 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
           right: 0,
           color: global.user.darkMode ? "#fff" : "#000",
           display: "flex",
+          ...(view == "day" && {
+            display: "none",
+          }),
           alignItems: "center",
           p: 1,
           py: 0.5,
@@ -201,6 +218,7 @@ export function Agenda({ view }: { view: "day" | "week" | "month" | "year" }) {
       </Box>
 
       <Box
+        id="agendaContainer"
         sx={{
           display: "flex",
           height: "100vh",
