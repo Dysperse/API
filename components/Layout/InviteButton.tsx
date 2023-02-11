@@ -2,22 +2,21 @@ import {
   Box,
   Button,
   colors,
-  Grow,
+  Divider,
   Icon,
   ListItemButton,
   ListItemText,
-  SwipeableDrawer,
+  Menu,
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { ErrorHandler } from "../Error";
-import { Puller } from "../Puller";
 import Settings from "../Settings/index";
 
 const Group = dynamic(() => import("../Group"));
@@ -70,55 +69,30 @@ export default function InviteButton({ styles }) {
       return acc;
     }, []);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (e) => setAnchorEl(e.target);
+  const handleClose = (e) => setAnchorEl(null);
+
   return (
     <>
-      <SwipeableDrawer
-        disableBackdropTransition
-        open={open}
-        {...(trigger && {
-          TransitionComponent: Grow,
-        })}
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        anchor={trigger ? "left" : "bottom"}
-        BackdropProps={{
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        PaperProps={{
           sx: {
-            WebkitAppRegion: "no-drag",
-            background: {
-              sm: "rgba(0,0,0,0)!important",
-            },
-            backdropFilter: { sm: "blur(0px)" },
-            opacity: { sm: "0!important" },
+            borderRadius: "28px!important",
+
+            width: "300px",
+            overflow: "hidden",
           },
         }}
         sx={{
-          display: { sm: "flex" },
-          alignItems: { sm: "end" },
-          mb: 11,
-          pl: 2,
-          justifyContent: { sm: "start" },
-        }}
-        PaperProps={{
-          sx: {
-            maxWidth: "400px!important",
-            height: "auto",
-            position: { sm: "static!important" },
-            WebkitAppRegion: "no-drag",
-            borderRadius: {
-              xs: "20px 20px 0 0",
-              sm: 5,
-            },
+          "& .MuiMenu-list": {
+            p: "0!important",
           },
         }}
-        ModalProps={{
-          keepMounted: true,
-        }}
-        disableSwipeToOpen
       >
-        <Box sx={{ display: { sm: "none" } }}>
-          <Puller />
-        </Box>
-        <Box sx={{ px: 2, textAlign: "center" }} />
         {properties.map((group: any) => (
           <Group
             key={group.propertyId}
@@ -162,38 +136,22 @@ export default function InviteButton({ styles }) {
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your other groups" />
         )}
-
+        <Divider />
         <Settings>
-          <Tooltip
-            title={global.user.email}
-            placement="left"
-            PopperProps={{
-              sx: { pointerEvents: "none" },
-            }}
+          <Button
+            color="inherit"
+            disableRipple
+            size="large"
+            fullWidth
+            sx={{ justifyContent: "start", p: 2, borderRadius: 0 }}
           >
-            <Button
-              color="inherit"
-              disableRipple
-              sx={{
-                ...styles(),
-                cursor: "unset",
-                background: "transparent!important",
-              }}
-            >
-              <Icon
-                className="material-symbols-outlined"
-                sx={{
-                  fontVariationSettings: `"FILL" 0, "wght" 300, "GRAD" 1, "opsz" 40!important`,
-                }}
-              >
-                settings
-              </Icon>
-            </Button>
-          </Tooltip>
+            <Icon className="outlined">account_circle</Icon>
+            Account settings
+          </Button>
         </Settings>
-      </SwipeableDrawer>
+      </Menu>
 
-      <Box sx={styles(false)} onClick={() => setOpen(true)}>
+      <Box sx={styles(false)} onClick={handleClick}>
         <Tooltip title="Inventory" placement="right">
           <Icon className="outlined">settings</Icon>
         </Tooltip>

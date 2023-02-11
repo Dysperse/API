@@ -114,6 +114,9 @@ function SettingsMenu({
             }),
           },
         }}
+        sx={{
+          zIndex: 9999,
+        }}
       >
         <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
           <Puller />
@@ -181,6 +184,9 @@ export default function FullScreenDialog({
         }}
         ModalProps={{
           keepMounted: false,
+        }}
+        sx={{
+          zIndex: 9999,
         }}
         open={open}
         onClose={handleClose}
