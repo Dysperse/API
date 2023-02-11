@@ -281,14 +281,14 @@ export function TasksLayout() {
           width: "90%",
           mx: "auto",
           opacity: 0.6,
-          ...(data.length === 0 && { display: "none" }),
+          ...(data && data.length === 0 && { display: "none" }),
         }}
       />
       <Typography
         sx={{
           my: 1,
           opacity: 0.5,
-          ...(data.length === 0 && { display: "none" }),
+          ...(data && data.length === 0 && { display: "none" }),
           fontSize: "13px",
           px: 1.5,
           color: global.user.darkMode ? "#fff" : "#000",

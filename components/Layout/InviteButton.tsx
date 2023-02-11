@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   colors,
   Divider,
   Icon,
@@ -14,6 +15,7 @@ import {
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { preload } from "swr";
 import { useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
@@ -60,7 +62,7 @@ export default function InviteButton({ styles }) {
   );
 
   const trigger = useMediaQuery("(min-width: 600px)");
-  const { data, error } = useApi("user/properties");
+  const { data, loading, url, fetcher, error } = useApi("user/properties");
   const properties = [...global.user.properties, ...(data || [])]
     .filter((group) => group)
     .reduce((acc, curr) => {
@@ -69,6 +71,7 @@ export default function InviteButton({ styles }) {
       }
       return acc;
     }, []);
+  preload(url, fetcher);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (e) => setAnchorEl(e.target);
@@ -80,6 +83,14 @@ export default function InviteButton({ styles }) {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
         PaperProps={{
           sx: {
             borderRadius: "28px!important",
@@ -91,10 +102,10 @@ export default function InviteButton({ styles }) {
               : "#eee!important",
             width: "300px",
             ml: { sm: "60px!important" },
-            // mt: { sm: "-20px!important" },
             overflow: "hidden",
           },
         }}
+        keepMounted
         sx={{
           "& .MuiMenu-list": {
             p: "0!important",
@@ -102,6 +113,7 @@ export default function InviteButton({ styles }) {
           zIndex: 999,
         }}
       >
+        {loading && <CircularProgress />}
         {properties.map((group: any) => (
           <Group
             key={group.propertyId}

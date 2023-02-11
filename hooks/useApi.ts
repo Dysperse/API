@@ -48,6 +48,7 @@ export function useApi(path, initialParams = {}, removeDefaultParams = false) {
     url,
     loading: !error && !data,
     error: error,
+    fetcher: fetcher,
   });
 
   useEffect(() => {
@@ -56,6 +57,7 @@ export function useApi(path, initialParams = {}, removeDefaultParams = false) {
       url,
       loading: !error && !data,
       error: error,
+      fetcher: fetcher,
     });
   }, [data, error]);
 
