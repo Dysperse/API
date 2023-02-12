@@ -479,9 +479,6 @@ export function TasksLayout() {
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
           flexDirection: "column",
-          boxShadow: global.user.darkMode
-            ? "0 25px 50px -12px hsla(240, 11%, 15%, 0.5)"
-            : "0 25px 50px -12px hsla(240, 11%, 15%, 0.25)",
         }}
       >
         {children}
