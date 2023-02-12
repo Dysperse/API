@@ -58,7 +58,7 @@ function Column({ mutationUrl, view, day, data }) {
         minHeight: "100vh",
         overflowY: "scroll",
         minWidth: { xs: "80vw", sm: "250px" },
-        ...(!data && {
+      ...(!data && {
           filter: "blur(10px)",
         }),
       }}

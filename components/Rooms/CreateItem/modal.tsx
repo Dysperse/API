@@ -88,7 +88,7 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, ["category", "quantity", "room", "title"]);
+  }, [category, quantity, room, title]);
 
   return (
     <>
@@ -99,6 +99,7 @@ export function CreateItemModal({
         PaperProps={{
           sx: {
             width: "100vw",
+            borderRadius: { xs: "0!important", sm: "20px 20px 0 0" },
             height: "100vh",
             background: global.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
           },
@@ -108,8 +109,8 @@ export function CreateItemModal({
         <AppBar
           elevation={0}
           sx={{
-            borderTopLeftRadius: { sm: "20px" },
-            borderTopRightRadius: { sm: "20px" },
+            borderTopLeftRadius: { xs: 0, sm: "20px" },
+            borderTopRightRadius: { xs: 0, sm: "20px" },
             zIndex: 99,
             background: global.user.darkMode
               ? "hsla(240,11%,20%,0.1)"
