@@ -133,6 +133,7 @@ export default function SearchPopup({ styles }) {
       },
       icon: <Icon className="outlined">dark_mode</Icon>,
     },
+
     ...(roomData
       ? roomData.map((room: any) => {
           return {
@@ -207,7 +208,20 @@ export default function SearchPopup({ styles }) {
             badge: "Room",
           };
         })),
-
+    {
+      title: "Sign out",
+      onTrigger: () => {
+        toast.promise(
+          fetchApiWithoutHook("auth/logout").then(() => mutate("/api/user")),
+          {
+            loading: "Signing you out",
+            error: "Oh no! An error occured while trying to sign you out.",
+            success: "Redirecting you...",
+          }
+        );
+      },
+      icon: <Icon className="outlined">logout</Icon>,
+    },
     {
       title: "Feedback center",
       onTrigger: () => {
