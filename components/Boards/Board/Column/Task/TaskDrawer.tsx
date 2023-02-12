@@ -43,20 +43,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   handlePriorityClick,
 }: any) {
   useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        open
-          ? colors[taskData.color ?? global.themeColor ?? "brown"][
-              global.user.darkMode ? 900 : 50
-            ]
-          : global.user.darkMode
-          ? "hsl(240,11%,10%)"
-          : "#fff"
-      );
-  });
-  useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
