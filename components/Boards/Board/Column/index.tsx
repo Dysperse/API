@@ -507,6 +507,7 @@ export const Column = React.memo(function Column({
         },
         overflowY: { xs: "initial", sm: "scroll" },
         p: 3,
+        mt: { xs: -4, sm: 0 },
         pt: { xs: 0, sm: 3 },
         px: checkList ? 4 : 2,
         ...(trigger && {
