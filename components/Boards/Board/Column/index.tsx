@@ -440,12 +440,12 @@ function OptionsMenu({
                 ? "hsl(240,11%,20%)!important"
                 : "rgba(200,200,200,.4)!important",
             },
-            color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
             position: "relative",
+            backdropFilter: "blur(10px)",
             bottom: { xs: board.columns.length ? 0 : -50, sm: 0 },
           }}
         >
-          <Icon className="outlined">more_horiz</Icon>
+          <Icon className="outlined">edit</Icon>
         </IconButton>
       </Tooltip>
     </>
@@ -507,7 +507,6 @@ export const Column = React.memo(function Column({
         },
         overflowY: { xs: "initial", sm: "scroll" },
         p: 3,
-        mt: { xs: -4, sm: 0 },
         pt: { xs: 0, sm: 3 },
         px: checkList ? 4 : 2,
         ...(trigger && {

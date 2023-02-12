@@ -3,7 +3,6 @@ import {
   Button,
   Icon,
   Tooltip,
-  Typography,
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
@@ -186,58 +185,50 @@ export const Board = function Board({
     >
       <Box
         sx={{
-          position: { sm: "sticky" },
-          top: "0",
-          borderBottom: global.user.darkMode
-            ? "1px solid hsla(240,11%,15%)"
-            : "1px solid rgba(200,200,200,.3)",
-          background: global.user.darkMode
-            ? "hsla(240,11%,10%)"
-            : "rgba(255,255,255,.7)",
-          // REMOVE THIS
-          display: "none",
+          position: {
+            xs: "sticky",
+            sm: "fixed",
+          },
+          right: { sm: 0 },
+          top: { xs: "var(--navbar-height)", sm: "0" },
+          borderBottom: {
+            xs: global.user.darkMode
+              ? "1px solid hsla(240,11%,15%)"
+              : "1px solid rgba(200,200,200,.3)",
+            sm: "unset",
+          },
+          background: {
+            xs: global.user.darkMode
+              ? "hsla(240,11%,10%)"
+              : "rgba(255,255,255,.7)",
+            sm: "transparent",
+          },
           zIndex: 1,
           maxWidth: "100vw",
-          pt: { xs: 1, sm: 3 },
-          px: { xs: 2, sm: 4 },
-          backdropFilter: "blur(10px)",
+          p: 1,
+          mt: { xs: -4, sm: 0 },
+          px: 3,
+          backdropFilter: {
+            xs: "blur(10px)",
+            sm: "none",
+          },
           alignItems: "center",
+          display: "flex",
           gap: 1,
         }}
       >
-        <Box
+        <Button
+          size="small"
+          onClick={() => setDrawerOpen(true)}
           sx={{
-            maxWidth: { xs: "100vw", sm: "100%" },
-            overflow: "hidden",
-            textOverflow: "ellipsis",
+            fontWeight: "700",
+            display: { sm: "none" },
+            fontSize: "15px",
           }}
         >
-          <Typography
-            tabIndex={0}
-            sx={{
-              ...boardSwitcherStyles,
-              "&:focus-visible": {
-                boxShadow: global.user.darkMode
-                  ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-                  : "0px 0px 0px 1.5px var(--themeDark) !important",
-              },
-            }}
-            variant="h5"
-            onClick={() => setDrawerOpen(true)}
-          >
-            {board.name}
-            <Icon
-              sx={{
-                flexShrink: 0,
-                mb: -0.5,
-                ml: 1,
-              }}
-            >
-              expand_more
-            </Icon>
-          </Typography>
-        </Box>
-
+          {board.name}
+          <Icon>expand_more</Icon>
+        </Button>
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
       <Box
