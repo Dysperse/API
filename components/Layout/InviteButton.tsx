@@ -162,7 +162,7 @@ export default function InviteButton({ styles }) {
             disableRipple
             size="large"
             fullWidth
-            sx={{ justifyContent: "start", p: 2, borderRadius: 0 }}
+            sx={{ justifyContent: "start", p: 2, borderRadius: 0, gap: 2 }}
           >
             <Icon className="outlined">account_circle</Icon>
             Account settings

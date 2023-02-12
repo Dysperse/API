@@ -255,9 +255,9 @@ export default function AppsMenu({ styles }) {
           size="large"
           onClick={handleClick}
           fullWidth
-          sx={{ justifyContent: "start", p: 2, borderRadius: 0 }}
+          sx={{ justifyContent: "start", p: 2, borderRadius: 0, gap: 2 }}
         >
-          <Icon className="outlined">apps</Icon>
+          <Icon className="outlined">workspace</Icon>
           Workspace
         </Button>
       ) : (
