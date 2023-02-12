@@ -164,7 +164,7 @@ export default function InviteButton({ styles }) {
             fullWidth
             sx={{ justifyContent: "start", p: 2, borderRadius: 0, gap: 2 }}
           >
-            <Icon className="outlined">settings</Icon>
+            <Icon className="outlined">person</Icon>
             My account
           </Button>
         </Settings>
