@@ -55,6 +55,7 @@ function Column({ mutationUrl, view, day, data }) {
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
+        minHeight: "100vh",
         overflowY: "scroll",
         minWidth: { xs: "80vw", sm: "250px" },
         ...(!data && {
