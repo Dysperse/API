@@ -1,8 +1,15 @@
-import { Box, Button, Icon, Tooltip } from "@mui/material";
+import { openSpotlight } from "@mantine/spotlight";
+import { Box, Icon, Tooltip } from "@mui/material";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useHotkeys } from "react-hotkeys-hook";
 import { colors } from "../../lib/colors";
-import Settings from "../Settings/index";
+import InviteButton from "./InviteButton";
+
+const AppsMenu = dynamic(() => import("./AppsMenu"));
+const SearchPopup = dynamic(() => import("./Search"));
+const Achievements = dynamic(() => import("./Achievements"));
 
 export function Sidebar() {
   const router = useRouter();
@@ -60,17 +67,12 @@ export function Sidebar() {
       "&:hover .material-symbols-outlined": {
         background: global.user.darkMode
           ? "hsl(240,11%,14%)"
-          : colors[themeColor][100],
+          : colors[themeColor][50],
       },
       "&:focus-visible span": {
         boxShadow: global.user.darkMode
           ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
           : "0px 0px 0px 1.5px var(--themeDark) !important",
-      },
-      "&:active .material-symbols-outlined": {
-        background: global.user.darkMode
-          ? "hsl(240,11%,17%)"
-          : colors[themeColor][100],
       },
       userSelect: "none",
       ...(active && {
@@ -88,24 +90,40 @@ export function Sidebar() {
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
+        zIndex: "1!important",
         filter: "none!important",
         overflowX: "hidden",
-        borderRight: global.user.darkMode
-          ? "1px solid hsla(240,11%,15%)"
-          : "1px solid rgba(200,200,200,.3)",
+        background: {
+          sm: global.user.darkMode
+            ? "hsla(240,11%,5%)"
+            : "rgba(250,250,250,.8)",
+        },
         height: "100vh",
         backdropFilter: "blur(10px)",
         position: "fixed",
-        background: global.user.darkMode
-          ? "hsl(240, 11%, 10%)"
-          : "rgba(255, 255, 255, 0.9)",
-
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
-        pt: "70px",
       }}
     >
+      <Image
+        onClick={() =>
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          })
+        }
+        src="/logo.svg"
+        width={50}
+        height={50}
+        alt="Logo"
+        style={{
+          marginTop: "15px",
+          ...(global.user.darkMode && {
+            filter: "invert(100%)",
+          }),
+        }}
+      />
       <Box sx={{ mt: "auto" }} />
       <Box
         sx={styles(
@@ -179,40 +197,23 @@ export function Sidebar() {
           </span>
         </Tooltip>
       </Box>
+
       <Box
         sx={{
           mt: "auto",
           mb: 1,
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Settings>
-          <Tooltip
-            title={global.user.email}
-            placement="left"
-            PopperProps={{
-              sx: { pointerEvents: "none" },
-            }}
-          >
-            <Button
-              color="inherit"
-              disableRipple
-              sx={{
-                ...styles(),
-                cursor: "unset",
-                background: "transparent!important",
-              }}
-            >
-              <Icon
-                className="material-symbols-outlined"
-                sx={{
-                  fontVariationSettings: `"FILL" 0, "wght" 300, "GRAD" 1, "opsz" 40!important`,
-                }}
-              >
-                settings
-              </Icon>
-            </Button>
-          </Tooltip>
-        </Settings>
+        <SearchPopup styles={styles} />
+        <Tooltip title="Jump to" placement="right">
+          <Box onClick={() => openSpotlight()} sx={styles(false)}>
+            <Icon className="outlined">bolt</Icon>
+          </Box>
+        </Tooltip>
+        <InviteButton styles={styles} />
       </Box>
     </Box>
   );

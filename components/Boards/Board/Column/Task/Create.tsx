@@ -96,6 +96,9 @@ function ImageModal({ image, setImage, styles }) {
 }
 
 export function CreateTask({
+  label = "New list item",
+  placeholder = false,
+  defaultDate = false,
   isHovered,
   tasks,
   parent = false,
@@ -115,7 +118,7 @@ export function CreateTask({
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState<any>(new Date());
+  const [date, setDate] = useState<any>(new Date(defaultDate) || new Date());
   const [pinned, setPinned] = useState(false);
   const [image, setImage] = useState<any>(null);
 
@@ -315,7 +318,7 @@ export function CreateTask({
             label="Important"
             sx={{
               ...chipStyles,
-              ml: 1,
+              ml: { xs: 1, sm: 0.3 },
               transition: "transform .2s",
               ...(pinned && {
                 background: colors[themeColor]["900"] + "!important",
@@ -452,9 +455,11 @@ export function CreateTask({
                 }
               }}
               placeholder={
-                'Add an item to "' +
-                (column || { name: "this task" }).name +
-                '"'
+                placeholder
+                  ? placeholder
+                  : 'Add an item to "' +
+                    (column || { name: "this task" }).name +
+                    '"'
               }
               InputProps={{
                 disableUnderline: true,
@@ -614,7 +619,9 @@ export function CreateTask({
                     disabled={title.trim() === ""}
                     type="submit"
                     disableRipple
+                    color="inherit"
                     sx={{
+                      ...(title.trim() !== "" && { color: "#fff" }),
                       "&:active": {
                         transform: "scale(.95)",
                         transition: "none",
@@ -655,10 +662,10 @@ export function CreateTask({
           }),
           ...(global.user.darkMode && {
             "&:hover": {
-              backgroundColor: "hsl(240,11%,19%)!important",
+              backgroundColor: "hsl(240,11%,16%)!important",
             },
             "&:active": {
-              backgroundColor: "hsl(240,11%,16%)!important",
+              backgroundColor: "hsl(240,11%,19%)!important",
             },
           }),
           ...(!checkList && {
@@ -721,7 +728,7 @@ export function CreateTask({
                   color: global.user.darkMode ? "#fff" : "#606060",
                 }}
               >
-                {parent ? "New subtask" : "New list item"}
+                {parent ? "New subtask" : label}
               </span>
             }
           />

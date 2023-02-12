@@ -1,4 +1,4 @@
-import { Box, Toolbar } from "@mui/material";
+import { Box, CssBaseline, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { BottomNav } from "./BottomNavigation";
@@ -32,13 +32,13 @@ function ResponsiveDrawer({
         display: "flex",
       }}
     >
+      <Navbar />
       {router && (
         <PWAPrompt
           copyBody="Add Dysperse to your home screen to have easy access, recieve push notifications, and more!"
           copyTitle="Add Dysperse to your home screen!"
         />
       )}
-      <Navbar />
       <KeyboardShortcutsModal />
       <Box
         sx={{
@@ -62,7 +62,7 @@ function ResponsiveDrawer({
           },
         }}
       >
-        <Toolbar />
+        <Toolbar sx={{ display: { sm: "none" } }} />
         <Box
           sx={{
             height: "70px",
@@ -72,6 +72,7 @@ function ResponsiveDrawer({
         >
           {children}
         </Box>
+        <CssBaseline />
         <BottomNav />
       </Box>
     </Box>

@@ -221,7 +221,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiMenu: {
         defaultProps: {
-          transitionDuration: 10,
+          transitionDuration: 200,
           anchorOrigin: {
             vertical: "bottom",
             horizontal: "center",
@@ -246,9 +246,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               borderRadius: "10px",
               minWidth: 180,
               color: darkMode ? colors[themeColor][200] : "#505050",
-              border:
-                "1px solid " +
-                (darkMode ? "hsl(240,11%,50%)" : "rgba(200,200,200,.5)"),
+              border: "1px solid",
+              background: darkMode
+                ? "hsl(240,11%,14%)!important"
+                : "#fff!important",
+              borderColor: darkMode
+                ? "hsl(240,11%,20%)!important"
+                : "#eee!important",
               "& .MuiMenu-list": {
                 padding: "3px",
               },
@@ -312,6 +316,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiChip: {
         styleOverrides: {
           root: {
+            boxShadow: "none!important",
             ...(darkMode && {
               background: "hsla(240, 11%, 70%, .2)",
             }),

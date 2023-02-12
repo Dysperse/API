@@ -1,23 +1,27 @@
 import {
   Box,
   Button,
+  CircularProgress,
   colors,
-  Grow,
+  Divider,
   Icon,
+  IconButton,
   ListItemButton,
   ListItemText,
-  SwipeableDrawer,
-  Typography,
+  Menu,
+  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { preload } from "swr";
 import { useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { ErrorHandler } from "../Error";
-import { Puller } from "../Puller";
+import Settings from "../Settings/index";
+import AppsMenu from "./AppsMenu";
 
 const Group = dynamic(() => import("../Group"));
 
@@ -25,7 +29,7 @@ const Group = dynamic(() => import("../Group"));
  * Invite button to trigger property list
  * @returns {any}
  */
-export default function InviteButton() {
+export default function InviteButton({ styles }) {
   const [open, setOpen] = React.useState(false);
   useStatusBar(open);
 
@@ -59,7 +63,7 @@ export default function InviteButton() {
   );
 
   const trigger = useMediaQuery("(min-width: 600px)");
-  const { data, error } = useApi("user/properties");
+  const { data, loading, url, fetcher, error } = useApi("user/properties");
   const properties = [...global.user.properties, ...(data || [])]
     .filter((group) => group)
     .reduce((acc, curr) => {
@@ -68,56 +72,44 @@ export default function InviteButton() {
       }
       return acc;
     }, []);
+  preload(url, fetcher);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (e) => setAnchorEl(e.target);
+  const handleClose = (e) => setAnchorEl(null);
 
   return (
     <>
-      <SwipeableDrawer
-        disableBackdropTransition
-        open={open}
-        {...(trigger && {
-          TransitionComponent: Grow,
-        })}
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        anchor={trigger ? "left" : "bottom"}
-        BackdropProps={{
-          sx: {
-            WebkitAppRegion: "no-drag",
-            background: {
-              sm: "rgba(0,0,0,0)!important",
-            },
-            backdropFilter: { sm: "blur(0px)" },
-            opacity: { sm: "0!important" },
-          },
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
         }}
-        sx={{
-          display: { sm: "flex" },
-          alignItems: { sm: "start" },
-          mt: 9,
-          pl: 2,
-          justifyContent: { sm: "start" },
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
         }}
         PaperProps={{
           sx: {
-            maxWidth: "400px!important",
-            height: "auto",
-            position: { sm: "static!important" },
-            WebkitAppRegion: "no-drag",
-            borderRadius: {
-              xs: "20px 20px 0 0",
-              sm: 5,
-            },
+            borderRadius: "28px!important",
+
+            width: "300px",
+            ml: { sm: "60px!important" },
+            overflow: "hidden",
           },
         }}
-        ModalProps={{
-          keepMounted: true,
+        keepMounted
+        sx={{
+          "& .MuiMenu-list": {
+            p: "0!important",
+          },
+          zIndex: 999,
         }}
-        disableSwipeToOpen
       >
-        <Box sx={{ display: { sm: "none" } }}>
-          <Puller />
-        </Box>
-        <Box sx={{ px: 2, textAlign: "center" }} />
+        {loading && <CircularProgress />}
         {properties.map((group: any) => (
           <Group
             key={group.propertyId}
@@ -152,6 +144,7 @@ export default function InviteButton() {
                 primary={<b>{group.profile.name}</b>}
                 secondary={group.profile.type}
                 sx={{
+                  color: global.user.darkMode ? "#fff" : "#000",
                   textTransform: "capitalize",
                 }}
               />
@@ -161,71 +154,44 @@ export default function InviteButton() {
         {error && (
           <ErrorHandler error="An error occured while trying to fetch your other groups" />
         )}
-      </SwipeableDrawer>
-      <Button
-        disableRipple
-        disabled={!window.navigator.onLine}
-        id="houseProfileTrigger"
-        onClick={() => {
-          if (data && properties.length === 1) {
-            document.getElementById("activeProperty")?.click();
-          } else {
-            setOpen(true);
-          }
-        }}
-        onContextMenu={(e) => {
-          navigator.vibrate(50);
-          e.preventDefault();
-          document.getElementById("activeProperty")?.click();
-        }}
-        sx={{
-          "&:focus-visible": {
-            boxShadow: global.user.darkMode
-              ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-              : "0px 0px 0px 1.5px var(--themeDark) !important",
-          },
-          background: "transparent!important",
-          color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
-          "&:hover": {
-            backgroundColor: global.user.darkMode
-              ? "hsl(240,11%,15%)!important"
-              : "#eee!important",
-            color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
-          },
-          cursor: "unset",
-          "&:active": {
-            backgroundColor: global.user.darkMode
-              ? "hsl(240,11%,15%)!important"
-              : "#ddd!important",
+        <Divider />
+        <AppsMenu styles={styles} />
+        <Settings>
+          <Button
+            color="inherit"
+            disableRipple
+            size="large"
+            fullWidth
+            sx={{ justifyContent: "start", p: 2, borderRadius: 0, gap: 2 }}
+          >
+            <Icon className="outlined">person</Icon>
+            My account
+          </Button>
+        </Settings>
+      </Menu>
 
-            color: global.user.darkMode
-              ? "hsl(240,11%,95%)!important"
-              : "#000!important",
-          },
-          userSelect: "none",
-          transition: "transform .2s",
-          p: 1,
-          py: 0,
-          gap: 1,
-          borderRadius: 2,
+      <Box
+        sx={{
+          ...styles(Boolean(anchorEl)),
+          display: { xs: "none", sm: "block" },
         }}
+        onClick={handleClick}
       >
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{
-            fontWeight: "500",
-            maxWidth: "40vw",
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
-          noWrap
-        >
-          {global.property.profile.name || "My group"}
-        </Typography>
-        <Icon>{properties.length == 1 ? "chevron_right" : "expand_more"}</Icon>
-      </Button>{" "}
+        <Tooltip title="Groups" placement="right">
+          <Icon className="outlined">unfold_more</Icon>
+        </Tooltip>
+      </Box>
+      <IconButton
+        sx={{
+          ...styles(Boolean(anchorEl)),
+          display: { sm: "none" },
+        }}
+        onClick={handleClick}
+      >
+        <Tooltip title="Groups" placement="bottom-end">
+          <Icon className="outlined">unfold_more</Icon>
+        </Tooltip>
+      </IconButton>
     </>
   );
 }

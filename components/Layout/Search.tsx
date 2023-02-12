@@ -1,8 +1,6 @@
-import { openSpotlight, SpotlightProvider } from "@mantine/spotlight";
-import { Button, Divider, Icon, IconButton, Tooltip } from "@mui/material";
-import hexToRgba from "hex-to-rgba";
+import { SpotlightProvider } from "@mantine/spotlight";
+import { Divider, Icon } from "@mui/material";
 import { useRouter } from "next/router";
-import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 
 import {
@@ -116,9 +114,9 @@ export default function SearchPopup({ styles }) {
       icon: <Icon className="outlined">category</Icon>,
     },
     {
-      title: "Spaces",
-      onTrigger: () => router.push("/spaces"),
-      icon: <Icon className="outlined">view_agenda</Icon>,
+      title: "Start",
+      onTrigger: () => router.push("/zen"),
+      icon: <Icon className="outlined">change_history</Icon>,
     },
     {
       title: "Light theme",
@@ -229,7 +227,6 @@ export default function SearchPopup({ styles }) {
   return (
     <SpotlightProvider
       limit={7}
-      // highlightQuery
       onSpotlightClose={() => {
         document
           .querySelector(`meta[name="theme-color"]`)
@@ -250,92 +247,7 @@ export default function SearchPopup({ styles }) {
       searchIcon={<Icon className="outlined">bolt</Icon>}
       searchPlaceholder="Find anything →"
       actionComponent={CustomAction}
-      nothingFoundMessage="Nothing found..."
-    >
-      <Button
-        disabled={!window.navigator.onLine}
-        onClick={() => openSpotlight()}
-        disableRipple
-        sx={{
-          WebkitAppRegion: "no-drag",
-          background: global.user.darkMode
-            ? "hsl(240,11%,15%)!important"
-            : `${colors[themeColor][50]}!important`,
-          border: global.user.darkMode
-            ? "hsl(240,11%,13%)"
-            : `1px solid ${colors[themeColor][50]}`,
-          "&:hover": {
-            border: global.user.darkMode
-              ? "hsl(250,11%,17%)"
-              : `1px solid ${colors[themeColor][100]}`,
-            background: global.user.darkMode
-              ? "hsl(240,11%,20%)!important"
-              : `${hexToRgba(colors[themeColor][100], 0.5)}!important`,
-          },
-          "&:focus-visible": {
-            boxShadow: global.user.darkMode
-              ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-              : "0px 0px 0px 1.5px var(--themeDark) !important",
-          },
-          transition: "none !important",
-          "&:hover, &:active": {
-            cursor: "unset",
-          },
-          "&:active": {
-            boxShadow:
-              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-          },
-          width: "30vw",
-          justifyContent: "start",
-          "& .MuiTouchRipple-rippleVisible": {
-            transitionDuration: ".2s!important",
-          },
-          px: 2,
-          ml: "auto",
-          cursor: "text",
-          color: global.user.darkMode
-            ? "hsl(240,11%,95%)!important"
-            : colors[themeColor][900],
-          display: { xs: "none", sm: "flex" },
-          height: "45px",
-          borderRadius: 3,
-          "&:hover .hover": {
-            opacity: 1,
-          },
-        }}
-        className={global.user.darkMode ? "rippleDark" : ""}
-      >
-        <Icon>bolt</Icon>
-        Jump to
-        <span className="hover" style={{ marginLeft: "auto" }}>
-          <span
-            style={{
-              padding: "2px 5px",
-              borderRadius: "5px",
-              background: global.user.darkMode
-                ? "hsla(240,11%,30%, .3)"
-                : colors[themeColor][100],
-            }}
-          >
-            ⌘ &nbsp;K
-          </span>
-        </span>
-      </Button>
-      <Tooltip
-        title="Jump to"
-        PopperProps={{
-          sx: { mt: "-5px!important" },
-        }}
-      >
-        <IconButton
-          disabled={!window.navigator.onLine}
-          onClick={() => openSpotlight()}
-          color="inherit"
-          sx={{ ...styles, display: { sm: "none" } }}
-        >
-          <Icon className="outlined">bolt</Icon>
-        </IconButton>
-      </Tooltip>
-    </SpotlightProvider>
+      nothingFoundMessage="😭 Nothing found..."
+    />
   );
 }

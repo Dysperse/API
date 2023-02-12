@@ -107,15 +107,11 @@ export default function Inventory({ children = null }: any) {
           flex: { xs: "100%", sm: "0 0 300px" },
           px: 1.5,
           display: { xs: children ? "none" : "block", sm: "block" },
-          minHeight: "calc(100vh - var(--navbar-height))",
+          minHeight: "100vh",
           pt: { sm: 0.5 },
-          height: { sm: "calc(100vh - var(--navbar-height))" },
+          height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
-          borderRight: {
-            sm: global.user.darkMode
-              ? "1px solid hsl(240,11%,15%)"
-              : "1px solid rgba(200,200,200,.3)",
-          },
+          background: { sm: global.user.darkMode ? "hsl(240,11%,7%)" : "#fff" },
           ml: { sm: -1 },
         }}
       >
@@ -298,9 +294,9 @@ export default function Inventory({ children = null }: any) {
       {children ? (
         <Box
           sx={{
-            maxHeight: { sm: "calc(100vh - var(--navbar-height))" },
-            minHeight: { sm: "calc(100vh - var(--navbar-height))" },
-            height: { sm: "calc(100vh - var(--navbar-height))" },
+            maxHeight: { sm: "100vh" },
+            minHeight: { sm: "100vh" },
+            height: { sm: "100vh" },
             overflowY: { sm: "auto" },
             flexGrow: 1,
           }}

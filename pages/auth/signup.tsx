@@ -98,7 +98,7 @@ export default function Prompt() {
             sx={{
               color: "#202020",
               alignItems: "center",
-              gap: "10px",
+              gap: 2,
               userSelect: "none",
               display: { xs: "flex", sm: "none" },
               mt: -3,
@@ -106,15 +106,16 @@ export default function Prompt() {
           >
             <picture>
               <img
-                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v2/rounded.png"
-                width="80"
-                height="80"
+                src="https://assets.dysperse.com/v6/dark.png"
+                width="40"
+                height="40"
+                style={{
+                  borderRadius: "999px",
+                }}
                 alt="logo"
               />
             </picture>
-            <Typography variant="h5" sx={{ mt: -1 }}>
-              Dysperse
-            </Typography>
+            <Typography variant="h6">Dysperse</Typography>
           </Box>
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ pt: 3 }}>

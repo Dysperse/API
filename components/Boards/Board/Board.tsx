@@ -2,19 +2,14 @@ import {
   Box,
   Button,
   Icon,
-  IconButton,
   Tooltip,
   Typography,
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
 import React from "react";
-import toast from "react-hot-toast";
 
-import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
-import { colors } from "../../../lib/colors";
-import { toastStyles } from "../../../lib/useCustomTheme";
-import { ConfirmationModal } from "../../ConfirmationModal";
+import { useApi } from "../../../hooks/useApi";
 import { ErrorHandler } from "../../Error";
 import { BoardSettings } from "./BoardSettings";
 import { Column } from "./Column";
@@ -38,13 +33,16 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
           bottom: trigger ? "10px" : "70px",
           transition: "bottom .3s",
           boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-          border: "1px solid rgba(200,200,200,.3)",
+          border: "1px solid",
+          borderColor: global.user.darkMode
+            ? "hsla(240,11%,30%, 0.5)"
+            : "rgba(200,200,200, 0.5)",
           backdropFilter: "blur(5px)",
           p: 1,
           borderRadius: 9,
           width: "auto",
-          left: "50%",
-          transform: "translateX(-50%)",
+          right: 0,
+          mr: 3,
           gap: 0.2,
           background: global.user.darkMode
             ? "hsla(240,11%,25%,.2)"
@@ -88,21 +86,6 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
             </Button>
           </span>
         </Tooltip>
-
-        <Tooltip title="New task" placement="top">
-          <Button
-            sx={{
-              color: "#000!important",
-              background: colors[themeColor]["A100"] + "!important",
-              px: 2,
-              minWidth: "auto",
-            }}
-            onClick={() => document.getElementById("createTask")?.click()}
-          >
-            <Icon>add</Icon>
-          </Button>
-        </Tooltip>
-
         <Tooltip title="Next column" placement="top">
           <span>
             <Button
@@ -195,22 +178,9 @@ export const Board = function Board({
     id: board.id,
   });
 
-  const percent = data
-    ? (
-        (data
-          .map((column) => column.tasks)
-          .flat()
-          .filter((task) => task.completed).length /
-          data.map((column) => column.tasks).flat().length) *
-        100
-      ).toFixed(0)
-    : 0;
-
-
   return (
     <Box
       sx={{
-        pb: 2,
         ml: { sm: collapsed ? -2 : -1 },
       }}
     >
@@ -224,13 +194,13 @@ export const Board = function Board({
           background: global.user.darkMode
             ? "hsla(240,11%,10%)"
             : "rgba(255,255,255,.7)",
+          // REMOVE THIS
+          display: "none",
           zIndex: 1,
-          p: 2,
           maxWidth: "100vw",
           pt: { xs: 1, sm: 3 },
           px: { xs: 2, sm: 4 },
           backdropFilter: "blur(10px)",
-          display: "flex",
           alignItems: "center",
           gap: 1,
         }}
@@ -267,21 +237,21 @@ export const Board = function Board({
             </Icon>
           </Typography>
         </Box>
-    
+
         <BoardSettings board={board} mutationUrl={mutationUrl} />
       </Box>
       <Box
         sx={{
           overflowX: { sm: "scroll" },
-          mt: data && board.columns.length === 1 ? -2 : 4,
+          overflowY: "hidden",
           display: "flex",
           gap: { sm: "15px" },
+          p: 4,
           justifyContent: { xs: "center", sm: "start" },
           maxWidth: "100vw",
-          pl: {
-            xs: data ? 0 : 2,
-            sm: data ? (board.columns.length === 1 ? 0 : 5) : 2,
-          },
+          height: { sm: "100vh" },
+          maxHeight: { sm: "100vh" },
+          position: { sm: "relative" },
         }}
         id="taskContainer"
       >

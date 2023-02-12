@@ -52,19 +52,23 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
                 borderRadius: 19,
                 transition: "border-radius .2s",
                 "&:hover": {
-                  background: colors[themeColor][100],
+                  background:
+                    colors[themeColor][global.user.darkMode ? 900 : 100],
                 },
                 color: colors[themeColor][500],
                 "&[data-outside]": {
                   color: `${
-                    theme.colorScheme === "dark"
+                    global.user.darkMode
                       ? theme.colors.dark[3]
                       : theme.colors.gray[5]
                   }!important`,
                 },
                 "&[data-selected]": {
-                  backgroundColor: colors[themeColor][900],
-                  color: "#fff!important",
+                  backgroundColor:
+                    colors[themeColor][global.user.darkMode ? 100 : 900],
+                  color: global.user.darkMode
+                    ? "#000!important"
+                    : "#fff!important",
                   borderRadius: 9,
                   position: "relative",
                 },
@@ -126,8 +130,12 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
             }),
             px: 2,
             ...(date && {
-              background: `${colors[themeColor][50]}!important`,
-              color: `${colors[themeColor][900]}!important`,
+              background: `${
+                colors[themeColor][global.user.darkMode ? 900 : 50]
+              }!important`,
+              color: `${
+                colors[themeColor][global.user.darkMode ? 50 : 900]
+              }!important`,
             }),
           }}
           onClick={() => setOpen(!open)}

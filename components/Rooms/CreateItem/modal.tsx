@@ -88,7 +88,7 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, []);
+  }, ["category", "quantity", "room", "title"]);
 
   return (
     <>
@@ -111,10 +111,14 @@ export function CreateItemModal({
             borderTopLeftRadius: { sm: "20px" },
             borderTopRightRadius: { sm: "20px" },
             zIndex: 99,
-            background: "rgba(255,255,255,.3)",
-            color: "#000",
+            background: global.user.darkMode
+              ? "hsla(240,11%,20%,0.1)"
+              : "rgba(255,255,255,.3)",
+            color: global.user.darkMode ? "#fff" : "#000",
             borderBottom: "1px solid",
-            borderColor: "rgba(200,200,200,.3)",
+            borderColor: global.user.darkMode
+              ? "hsla(240,11%,20%,0.8)"
+              : "rgba(200,200,200,.3)",
           }}
           position="sticky"
         >

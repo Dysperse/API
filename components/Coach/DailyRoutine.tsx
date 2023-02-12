@@ -6,7 +6,7 @@ import {
   Icon,
   ListItemButton,
   ListItemText,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -44,7 +44,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           toastStyles
         );
       });
-  }, [task.durationDays, task.id, task.progress]);
+  }, [task.durationDays, task.id, task.progress, mutationUrl]);
 
   return (
     <Box sx={{ p: 4 }}>
@@ -406,7 +406,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     setCurrentIndex(
       indexWhereUserLeftOff === -1 ? sortedTasks.length : indexWhereUserLeftOff
     );
-  }, [indexWhereUserLeftOff]);
+  }, [indexWhereUserLeftOff, sortedTasks.length]);
 
   useStatusBar(open, undefined, true);
 

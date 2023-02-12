@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Offline } from "react-detect-offline";
 import { colors } from "../../lib/colors";
-import Settings from "../Settings/index";
 
+import { openSpotlight } from "@mantine/spotlight";
 import {
   AppBar,
   Box,
@@ -14,6 +14,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
+import Image from "next/image";
 import InviteButton from "./InviteButton";
 import { UpdateButton } from "./UpdateButton";
 
@@ -27,25 +28,27 @@ const Achievements = dynamic(() => import("./Achievements"));
  */
 export function Navbar(): JSX.Element {
   const router = useRouter();
-  const styles = {
-    WebkitAppRegion: "no-drag",
-    borderRadius: 94,
-    p: 0.8,
-    m: 0,
-    color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
-    transition: "opacity .2s",
-    "&:hover": {
-      background: global.user.darkMode
-        ? "hsl(240,11%,15%)"
-        : "rgba(200,200,200,.3)",
-      color: global.user.darkMode ? "hsl(240,11%,100%)" : "#000",
-    },
-    "&:active": {
-      background: global.user.darkMode
-        ? "hsl(240,11%,20%)"
-        : "rgba(200,200,200,.5)",
-      transition: "none",
-    },
+  const styles = () => {
+    return {
+      WebkitAppRegion: "no-drag",
+      borderRadius: 94,
+      p: 0.8,
+      m: 0,
+      color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
+      transition: "opacity .2s",
+      "&:hover": {
+        background: global.user.darkMode
+          ? "hsl(240,11%,15%)"
+          : "rgba(200,200,200,.3)",
+        color: global.user.darkMode ? "hsl(240,11%,100%)" : "#000",
+      },
+      "&:active": {
+        background: global.user.darkMode
+          ? "hsl(240,11%,20%)"
+          : "rgba(200,200,200,.5)",
+        transition: "none",
+      },
+    };
   };
 
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -91,6 +94,7 @@ export function Navbar(): JSX.Element {
           ? "1px solid hsla(240,11%,15%)"
           : "1px solid rgba(200,200,200,.3)",
         backdropFilter: "blur(10px)",
+        display: { sm: "none" },
       }}
     >
       <CssBaseline />
@@ -101,14 +105,39 @@ export function Navbar(): JSX.Element {
             WebkitAppRegion: "no-drag",
           }}
         >
-          <InviteButton />
+          <Image
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
+            src="/logo.svg"
+            width={40}
+            height={40}
+            alt="Logo"
+            style={{
+              ...(global.user.darkMode && {
+                filter: "invert(100%)",
+              }),
+            }}
+          />
         </Box>
         <Box
           sx={{
             mx: { sm: "auto" },
           }}
         >
-          <SearchPopup styles={styles} />
+          <Tooltip title="Jump to" placement="bottom">
+            <IconButton
+              onClick={() => openSpotlight()}
+              color="inherit"
+              size="small"
+              sx={styles}
+            >
+              <Icon className="outlined">bolt</Icon>
+            </IconButton>
+          </Tooltip>
         </Box>
         <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
           <UpdateButton />
@@ -150,6 +179,7 @@ export function Navbar(): JSX.Element {
           </Offline>
         </Box>
         <Achievements styles={styles} />
+        <InviteButton styles={styles} />
         {!isMobile && <AppsMenu styles={styles} />}
         <Tooltip title="Support">
           <IconButton
@@ -161,25 +191,6 @@ export function Navbar(): JSX.Element {
             <Icon className="outlined">help</Icon>
           </IconButton>
         </Tooltip>
-        <Box sx={{ display: { sm: "none" } }}>
-          <Settings>
-            <Tooltip
-              title="Settings"
-              placement="bottom-start"
-              PopperProps={{
-                sx: { pointerEvents: "none" },
-              }}
-            >
-              <IconButton
-                color="inherit"
-                disabled={!window.navigator.onLine}
-                sx={styles}
-              >
-                <Icon className="outlined">account_circle</Icon>
-              </IconButton>
-            </Tooltip>
-          </Settings>
-        </Box>
       </Toolbar>
     </AppBar>
   );

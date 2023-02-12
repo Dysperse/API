@@ -6,10 +6,8 @@ import {
   Button,
   Chip,
   Icon,
-  IconButton,
   Skeleton,
   SwipeableDrawer,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -250,26 +248,27 @@ export default function AppsMenu({ styles }) {
   };
   return (
     <>
-      <Tooltip title="Apps">
-        {global.user ? (
-          <IconButton
-            disabled={!window.navigator.onLine}
-            color="inherit"
-            sx={{ ...styles, display: { xs: "none", sm: "flex" } }}
-            onClick={handleClick}
-          >
-            <Icon>apps</Icon>
-          </IconButton>
-        ) : (
-          <Skeleton
-            sx={{ mr: 2 }}
-            variant="circular"
-            width={40}
-            height={40}
-            animation="wave"
-          />
-        )}
-      </Tooltip>
+      {global.user ? (
+        <Button
+          color="inherit"
+          disableRipple
+          size="large"
+          onClick={handleClick}
+          fullWidth
+          sx={{ justifyContent: "start", p: 2, borderRadius: 0, gap: 2 }}
+        >
+          <Icon className="outlined">workspaces</Icon>
+          Workspace
+        </Button>
+      ) : (
+        <Skeleton
+          sx={{ mr: 2 }}
+          variant="circular"
+          width={40}
+          height={40}
+          animation="wave"
+        />
+      )}
       <SwipeableDrawer
         disableSwipeToOpen
         onOpen={() => setOpen(true)}
