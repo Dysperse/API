@@ -105,7 +105,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             background: `${
               darkMode ? "hsl(240,11%,20%)" : colors[themeColor][100]
             }!important`,
-            color: colors[themeColor][900],
+            color: colors[themeColor][darkMode ? 50 : 900],
             "&:hover": {
               background: `${
                 darkMode ? "hsl(240,11%,30%)" : colors[themeColor]["A100"]
