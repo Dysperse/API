@@ -20,6 +20,7 @@ import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { cards } from "./cards";
 
 const ImageRecognition = dynamic(() => import("./scan"));
@@ -35,7 +36,12 @@ export function CreateItemModal({
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleOpen = useCallback(() => setOpen(true), []);
-  const handleClose = useCallback(() => setOpen(false), []);
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    setTitle("");
+    setQuantity("");
+    setCategory("[]");
+  }, []);
 
   useStatusBar(open);
 
@@ -83,6 +89,9 @@ export function CreateItemModal({
             room: room.toString().toLowerCase(),
           }).toString()}`
         );
+        setTitle("");
+        setQuantity("");
+        setCategory("[]");
       })
       .catch(() => {
         toast.error("Couldn't create item. Please try again.", toastStyles);
@@ -124,9 +133,17 @@ export function CreateItemModal({
           position="sticky"
         >
           <Toolbar>
-            <IconButton onClick={handleClose} disabled={loading}>
-              <Icon>close</Icon>
-            </IconButton>
+            <ConfirmationModal
+              callback={handleClose}
+              disabled={title.trim() === ""}
+              title="Discard changes?"
+              question="Changes you made will not be saved"
+            >
+              <IconButton disabled={loading}>
+                <Icon>close</Icon>
+              </IconButton>
+            </ConfirmationModal>
+
             <Typography
               sx={{ mx: "auto", textTransform: "capitalize", fontWeight: 600 }}
             >

@@ -6,12 +6,13 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
 
 export function ConfirmationModal({
+  disabled = false,
   title,
   question,
   children,
@@ -36,15 +37,20 @@ export function ConfirmationModal({
       toast.error(`An error occured: ${e.message}`, toastStyles);
     }
   };
+
+  useEffect(() => {
+    if (open && disabled) {
+      handleClick();
+    }
+  }, [open, disabled]);
+
   useStatusBar(open, 1);
 
   return (
     <>
       <Dialog
         open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
+        onClose={() => setOpen(false)}
         sx={{
           zIndex: 9999,
         }}
