@@ -244,6 +244,7 @@ export default function ImageRecognition({
         PaperProps={{
           sx: {
             width: "100vw",
+            maxWidth: "600px",
             border: 0,
             background: "black",
           },
