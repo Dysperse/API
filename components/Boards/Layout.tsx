@@ -362,6 +362,18 @@ export function TasksLayout() {
               />
             ))}
       </Collapse>
+      <Divider
+        sx={{
+          mb: 1,
+          ...(data &&
+            (data.length === 0 || !data.find((board) => board.archived)) && {
+              display: "none",
+            }),
+          width: "90%",
+          mx: "auto",
+          opacity: 0.6,
+        }}
+      />
       <Box
         sx={{
           display: "flex",
