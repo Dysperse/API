@@ -1,5 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
@@ -196,7 +196,6 @@ export function CreateTask({
   };
 
   useEffect(() => {
-    // If the title contains "today", set the date to today
     if (title.includes("!!")) {
       setPinned(true);
     }
@@ -221,40 +220,55 @@ export function CreateTask({
       setDate(nextMonth);
     }
   }, [title]);
+
   const titleRef = useRef<HTMLInputElement>(null);
   const dateModalButtonRef = useRef<HTMLButtonElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (title.trim() === "") {
-      toast.error("You can't have an empty task... 🤦", toastStyles);
-      return;
-    }
 
-    setLoading(true);
-    fetchApiWithoutHook("property/boards/column/task/create", {
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (title.trim() === "") {
+        toast.error("You can't have an empty task... 🤦", toastStyles);
+        return;
+      }
+
+      setLoading(true);
+      fetchApiWithoutHook("property/boards/column/task/create", {
+        title,
+        description,
+        ...(image && { image: image.url }),
+        date,
+        pinned: pinned ? "true" : "false",
+        due: date ? date.toISOString() : "false",
+        ...(parent && { parent }),
+
+        boardId,
+        columnId: (column || { id: -1 }).id,
+      });
+      toast.success("Created task!", toastStyles);
+
+      setLoading(false);
+      setTitle("");
+      setDescription("");
+      setDate(null);
+      setImage(null);
+      setPinned(false);
+      titleRef.current?.focus();
+      // setOpen(false);
+    },
+    [
       title,
+      setTitle,
       description,
-      ...(image && { image: image.url }),
-      date,
-      pinned: pinned ? "true" : "false",
-      due: date ? date.toISOString() : "false",
-      ...(parent && { parent }),
-
-      boardId,
-      columnId: (column || { id: -1 }).id,
-    });
-    toast.success("Created task!", toastStyles);
-
-    setLoading(false);
-    setTitle("");
-    setDescription("");
-    setDate(null);
-    setImage(null);
-    setPinned(false);
-    titleRef.current?.focus();
-    // setOpen(false);
-  };
+      setDescription,
+      image,
+      setImage,
+      pinned,
+      setPinned,
+      toastStyles,
+    ]
+  );
 
   const chipStyles = {
     border: "1px solid",
@@ -292,9 +306,7 @@ export function CreateTask({
           setOpen(false);
           mutate(mutationUrl);
         }}
-        onOpen={() => {
-          setOpen(true);
-        }}
+        onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
           sx: {
@@ -621,7 +633,9 @@ export function CreateTask({
                     disableRipple
                     color="inherit"
                     sx={{
-                      ...(title.trim() !== "" && { color: "#fff" }),
+                      ...(title.trim() !== "" && {
+                        color: global.user.darkMode ? "#fff" : "#000",
+                      }),
                       "&:active": {
                         transform: "scale(.95)",
                         transition: "none",
@@ -694,7 +708,12 @@ export function CreateTask({
               borderColor: "transparent!important",
             }),
         }}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+          if (defaultDate) {
+            setDate(defaultDate);
+          }
+        }}
       >
         <span
           className="material-symbols-outlined"

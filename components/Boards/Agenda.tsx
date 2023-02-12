@@ -26,6 +26,8 @@ function Column({ mutationUrl, view, day, data }) {
     placeholder = "this month";
   } else if (placeholder === "a few seconds ago" && view === "year") {
     placeholder = "this year";
+  } else if (placeholder === "a few seconds ago" && view === "week") {
+    placeholder = "today";
   }
 
   const isToday = day.date == dayjs().startOf(startOf).format(day.heading);

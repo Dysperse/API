@@ -142,9 +142,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
         </Box>
       </Dialog>
       <Box
-        onClick={() => {
-          setOpen(true);
-        }}
+        onClick={() => setOpen(true)}
         sx={{
           width: "100%",
           px: { sm: 1 },
