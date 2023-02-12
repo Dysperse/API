@@ -299,6 +299,7 @@ export function BoardSettings({ mutationUrl, board }) {
       <Tooltip title="Board settings" placement="bottom-end">
         <IconButton
           onClick={handleClick}
+          className="shadow-lg"
           sx={{
             backdropFilter: "blur(10px)",
             border: { sm: "1px solid rgba(200,200,200,.3)" },
@@ -321,7 +322,14 @@ export function BoardSettings({ mutationUrl, board }) {
           }}
           ref={ref}
         >
-          <Icon className="outlined">more_horiz</Icon>
+          <Icon
+            className="outlined"
+            sx={{
+              transform: { sm: "rotate(90deg)" },
+            }}
+          >
+            more_horiz
+          </Icon>
         </IconButton>
       </Tooltip>
     </>
