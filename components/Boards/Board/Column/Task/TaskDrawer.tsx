@@ -119,16 +119,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       anchor="right"
       onClose={() => setOpen(false)}
       open={open}
-      ModalProps={{
-        keepMounted: false,
-      }}
       BackdropProps={{
         className: "override-bg",
         sx: {
-          background: `${hexToRgba(
-            colors[taskData.color ?? "brown"][200],
-            0.5
-          )}!important`,
           backdropFilter: "blur(5px)",
         },
       }}
@@ -137,6 +130,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           width: "100%",
           mx: "auto",
           height: "100vh",
+          border: 0,
           maxWidth: "500px",
           background:
             colors[
