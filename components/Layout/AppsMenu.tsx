@@ -257,7 +257,7 @@ export default function AppsMenu({ styles }) {
           fullWidth
           sx={{ justifyContent: "start", p: 2, borderRadius: 0, gap: 2 }}
         >
-          <Icon className="outlined">workspace</Icon>
+          <Icon className="outlined">workspaces</Icon>
           Workspace
         </Button>
       ) : (
