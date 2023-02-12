@@ -231,6 +231,7 @@ export function TasksLayout() {
           fontSize: "13px",
           px: 1.5,
           color: global.user.darkMode ? "#fff" : "#000",
+          userSelect: "none",
         }}
       >
         Planner
@@ -291,6 +292,7 @@ export function TasksLayout() {
           opacity: 0.5,
           ...(data && data.length === 0 && { display: "none" }),
           fontSize: "13px",
+          userSelect: "none",
           px: 1.5,
           color: global.user.darkMode ? "#fff" : "#000",
         }}
@@ -357,6 +359,7 @@ export function TasksLayout() {
       <Divider
         sx={{
           mb: 1,
+          display: { sm: "none" },
           ...(data &&
             (data.length === 0 || !data.find((board) => board.archived)) && {
               display: "none",
