@@ -106,6 +106,7 @@ export function Navbar(): JSX.Element {
           }}
         >
           <Image
+            onClick={() => router.push("/zen")}
             src="/logo.svg"
             width={40}
             height={40}
