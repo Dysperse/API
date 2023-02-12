@@ -95,7 +95,7 @@ export default function InviteButton({ styles }) {
         PaperProps={{
           sx: {
             borderRadius: "28px!important",
-            
+
             width: "300px",
             ml: { sm: "60px!important" },
             overflow: "hidden",
@@ -189,7 +189,7 @@ export default function InviteButton({ styles }) {
         onClick={handleClick}
       >
         <Tooltip title="Groups" placement="bottom-end">
-          <Icon className="outlined">settings</Icon>
+          <Icon className="outlined">unfold_more</Icon>
         </Tooltip>
       </IconButton>
     </>
