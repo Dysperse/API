@@ -95,12 +95,7 @@ export default function InviteButton({ styles }) {
         PaperProps={{
           sx: {
             borderRadius: "28px!important",
-            background: global.user.darkMode
-              ? "hsl(240,11%,14%)!important"
-              : "#fff!important",
-            borderColor: global.user.darkMode
-              ? "hsl(240,11%,20%)!important"
-              : "#eee!important",
+            
             width: "300px",
             ml: { sm: "60px!important" },
             overflow: "hidden",
