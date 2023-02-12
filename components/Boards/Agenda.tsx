@@ -209,7 +209,7 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
           borderColor: global.user.darkMode
-            ? "hsla(240,11%,16%, 0.5)"
+            ? "hsla(240,11%,25%, 0.5)"
             : "rgba(200,200,200, 0.5)",
           right: 0,
           color: global.user.darkMode ? "#fff" : "#000",
