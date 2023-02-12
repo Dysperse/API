@@ -194,9 +194,10 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
         sx={{
           position: "fixed",
           bottom: {
-            xs: trigger ? 0 : "40px",
-            sm: 0,
+            xs: trigger ? "10px" : "70px",
+            sm: "60px",
           },
+          mr: 2,
           zIndex: 9,
           background: global.user.darkMode
             ? "hsla(240,11%,14%,0.5)"
@@ -216,7 +217,6 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
           alignItems: "center",
           p: 1,
           py: 0.5,
-          m: 5,
         }}
       >
         <IconButton

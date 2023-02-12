@@ -5,9 +5,11 @@ import {
   Collapse,
   Divider,
   Icon,
+  IconButton,
   SwipeableDrawer,
   Tooltip,
   Typography,
+  useScrollTrigger,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -120,6 +122,11 @@ const Tab = React.memo(function Tab({
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
   const [activeTab, setActiveTab] = useState("loading");
+
+  const trigger = useScrollTrigger({
+    threshold: 0,
+    target: window ? window : undefined,
+  });
 
   useEffect(() => {
     if (data && data[0] && data.find((board) => board.pinned)) {
@@ -236,45 +243,47 @@ export function TasksLayout() {
       >
         Planner
       </Typography>
-      <Button
-        id="__agenda.week"
-        size="large"
-        disableRipple
-        sx={styles(activeTab === "__agenda.week")}
-        onMouseDown={() => setActiveTab("__agenda.week")}
-        onClick={() => setActiveTab("__agenda.week")}
-      >
-        <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
-          view_week
-        </Icon>
-        This week
-      </Button>
-      <Button
-        id="__agenda.month"
-        size="large"
-        disableRipple
-        sx={styles(activeTab === "__agenda.month")}
-        onMouseDown={() => setActiveTab("__agenda.month")}
-        onClick={() => setActiveTab("__agenda.month")}
-      >
-        <Icon className={activeTab === "__agenda.month" ? "" : "outlined"}>
-          calendar_view_month
-        </Icon>
-        Months
-      </Button>
-      <Button
-        id="__agenda.year"
-        size="large"
-        disableRipple
-        sx={styles(activeTab === "__agenda.year")}
-        onMouseDown={() => setActiveTab("__agenda.year")}
-        onClick={() => setActiveTab("__agenda.year")}
-      >
-        <Icon className={activeTab === "__agenda.year" ? "" : "outlined"}>
-          calendar_month
-        </Icon>
-        Years
-      </Button>
+      <Box onClick={() => setOpen(false)}>
+        <Button
+          id="__agenda.week"
+          size="large"
+          disableRipple
+          sx={styles(activeTab === "__agenda.week")}
+          onMouseDown={() => setActiveTab("__agenda.week")}
+          onClick={() => setActiveTab("__agenda.week")}
+        >
+          <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
+            view_week
+          </Icon>
+          This week
+        </Button>
+        <Button
+          id="__agenda.month"
+          size="large"
+          disableRipple
+          sx={styles(activeTab === "__agenda.month")}
+          onMouseDown={() => setActiveTab("__agenda.month")}
+          onClick={() => setActiveTab("__agenda.month")}
+        >
+          <Icon className={activeTab === "__agenda.month" ? "" : "outlined"}>
+            calendar_view_month
+          </Icon>
+          Months
+        </Button>
+        <Button
+          id="__agenda.year"
+          size="large"
+          disableRipple
+          sx={styles(activeTab === "__agenda.year")}
+          onMouseDown={() => setActiveTab("__agenda.year")}
+          onClick={() => setActiveTab("__agenda.year")}
+        >
+          <Icon className={activeTab === "__agenda.year" ? "" : "outlined"}>
+            calendar_month
+          </Icon>
+          Years
+        </Button>
+      </Box>
       <Divider
         sx={{
           my: 1,
@@ -477,6 +486,31 @@ export function TasksLayout() {
         }}
         id="boardContainer"
       >
+        <IconButton
+          onClick={() => setOpen(true)}
+          size="large"
+          sx={{
+            position: "fixed",
+            bottom: trigger ? "10px" : "70px",
+            transition: "bottom .3s",
+            border: "1px solid",
+            borderColor: global.user.darkMode
+              ? "hsla(240,11%,30%, 0.5)"
+              : "rgba(200,200,200, 0.5)",
+
+            background: global.user.darkMode
+              ? "hsla(240,11%,25%,.2)!important"
+              : "rgba(255,255,255,.7)!important",
+
+            backdropFilter: "blur(5px)",
+            zIndex: 999,
+            boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+            left: 15,
+            display: { sm: "none" },
+          }}
+        >
+          <Icon>menu</Icon>
+        </IconButton>
         {activeTab === "new" && (
           <CreateBoard
             mutationUrl={url}
