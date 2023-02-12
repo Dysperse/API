@@ -14,6 +14,7 @@ import {
   Chip,
   CircularProgress,
   Collapse,
+  Grow,
   Icon,
   IconButton,
   ListItem,
@@ -23,6 +24,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -297,9 +299,14 @@ export function CreateTask({
     });
   }, [open, titleRef]);
 
+  const trigger = useMediaQuery("(min-width: 600px)");
+
   return (
     <>
       <SwipeableDrawer
+        {...(trigger && {
+          TransitionComponent: Grow,
+        })}
         anchor="bottom"
         open={open}
         onClose={() => {

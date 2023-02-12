@@ -299,7 +299,7 @@ export function BoardSettings({ mutationUrl, board }) {
       <Tooltip title="Board settings" placement="bottom-end">
         <IconButton
           onClick={handleClick}
-          className="shadow-lg"
+          className="sm:shadow-lg"
           sx={{
             backdropFilter: "blur(10px)",
             border: { sm: "1px solid rgba(200,200,200,.3)" },
