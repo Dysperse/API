@@ -106,7 +106,12 @@ export function Navbar(): JSX.Element {
           }}
         >
           <Image
-            onClick={() => router.push("/zen")}
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
             src="/logo.svg"
             width={40}
             height={40}
