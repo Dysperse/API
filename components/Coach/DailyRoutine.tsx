@@ -6,7 +6,7 @@ import {
   Icon,
   ListItemButton,
   ListItemText,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -265,18 +265,10 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         background: global.user.darkMode
           ? "hsl(240,11%,16%)"
           : colors[themeColor][50],
-        border:
-          "1px solid " +
-          (global.user.darkMode ? "hsl(240,11%,16%)" : colors[themeColor][100]),
         "&:hover": {
           background: global.user.darkMode
             ? "hsl(240,11%,16%)"
             : colors[themeColor][100],
-          border:
-            "1px solid " +
-            (global.user.darkMode
-              ? "hsl(240,11%,16%)"
-              : colors[themeColor][200]),
         },
 
         gap: 5,

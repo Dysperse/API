@@ -58,7 +58,7 @@ function Column({ mutationUrl, view, day, data }) {
         minHeight: "100vh",
         overflowY: "scroll",
         minWidth: { xs: "80vw", sm: "250px" },
-      ...(!data && {
+        ...(!data && {
           filter: "blur(10px)",
         }),
       }}
@@ -75,6 +75,7 @@ function Column({ mutationUrl, view, day, data }) {
             ? "hsla(240,11%,18%, 0.2)"
             : "rgba(200,200,200,.3)",
           position: "sticky",
+          userSelect: "none",
           top: 0,
           zIndex: 9,
           backdropFilter: "blur(10px)",
@@ -196,9 +197,12 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
           position: "fixed",
           bottom: {
             xs: trigger ? "10px" : "70px",
-            sm: "60px",
+            sm: "30px",
           },
-          mr: 2,
+          mr: {
+            xs: 2,
+            sm: 3,
+          },
           zIndex: 9,
           background: global.user.darkMode
             ? "hsla(240,11%,14%,0.5)"

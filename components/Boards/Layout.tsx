@@ -15,7 +15,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 import { Agenda } from "./Agenda";
@@ -166,7 +165,7 @@ export function TasksLayout() {
     "&:hover, &:focus": {
       background: global.user.darkMode
         ? "hsl(240,11%,15%)"
-        : `${colors[themeColor][50]}!important`,
+        : `hsl(240,11%,95%)!important`,
     },
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -176,24 +175,24 @@ export function TasksLayout() {
           "&:hover": {
             background: global.user.darkMode
               ? "hsl(240,11%,15%)"
-              : `${colors[themeColor][50]}!important`,
+              : `hsl(240,11%,93%)!important`,
           },
           color: global.user.darkMode
             ? "hsl(240,11%,80%)!important"
-            : `${colors[themeColor][700]}!important`,
+            : `hsl(240,11%,30%)!important`,
         }
       : {
           background: global.user.darkMode
             ? "hsl(240,11%,20%)!important"
-            : `${colors[themeColor][100]}!important`,
+            : `hsl(240,11%,85%)!important`,
           "&:hover, &:focus": {
             background: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
-              : `${colors[themeColor][100]}!important`,
+              : `hsl(240,11%,85%)!important`,
           },
           color: global.user.darkMode
             ? "hsl(240,11%,95%)!important"
-            : `${colors[themeColor][900]}!important`,
+            : `hsl(240,11%,10%)!important`,
         }),
   });
   const [collapsed, setCollapsed] = useState(false);
@@ -474,7 +473,7 @@ export function TasksLayout() {
           p: 3,
           background: global.user.darkMode
             ? "hsl(240,11%,7%)"
-            : "rgba(200,200,200, .05)",
+            : "hsl(240,11%,95%)",
           display: collapsed ? "none" : { xs: "none", sm: "flex" },
           minHeight: "100vh",
           height: { sm: "100vh" },
@@ -482,7 +481,7 @@ export function TasksLayout() {
           flexDirection: "column",
           boxShadow: global.user.darkMode
             ? "0 25px 50px -12px hsla(240, 11%, 15%, 0.5)"
-            : "0 25px 50px -12px rgb(200 200 200 / 0.5)",
+            : "0 25px 50px -12px hsla(240, 11%, 15%, 0.25)",
         }}
       >
         {children}
