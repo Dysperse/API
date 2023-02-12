@@ -2,6 +2,7 @@ import {
   AppBar,
   Box,
   Chip,
+  CircularProgress,
   Drawer,
   Fab,
   Icon,
@@ -15,6 +16,7 @@ import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
+import { capitalizeFirstLetter } from "../../ItemPopup";
 
 const WebcamComponent = ({
   setTitle,
@@ -24,10 +26,12 @@ const WebcamComponent = ({
   room,
 }) => {
   const [forever, setForever] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const webcamRef: any = React.useRef(null);
 
   const capture = React.useCallback(async () => {
     try {
+      setLoading(true);
       const imageSrc = webcamRef.current.getScreenshot();
 
       const webcamContainer: any = document.getElementById("webcamContainer");
@@ -47,41 +51,10 @@ const WebcamComponent = ({
           throw new Error(err.message);
         });
 
-      let text = response.includes("sitting")
-        ? response.split("sitting")[0]
-        : response;
-      text = text.replace("a person holding", "");
-      text = text.replace("in their hand", "");
-      if (text.includes("holding a")) text = text.split("holding a")[1];
-      if (text.includes("on top")) text = text.split("on top")[0];
-      if (text.includes("over")) text = text.split("over")[0];
-      let title = text.includes(" of ") ? text.split(" of ")[1] : text;
       let qty = "1";
-      [
-        "jar",
-        "container",
-        "pair",
-        "box",
-        "pack",
-        "packet",
-        "package",
-        "bottle",
-        "bag",
-        "canister",
-      ].forEach((word) => {
-        if (text.includes(word)) {
-          qty = "1 " + word;
-        }
-      });
-      title = text.includes("filled with")
-        ? text.split("filled with")[1]
-        : text;
-      title = text.replace("jar of", "");
-      if (title.startsWith(" an ")) title = title.replace(" an ", "");
-      if (title.startsWith(" a ")) title = title.replace(" a ", "");
-      text = text.replace("in their hand", "");
-      title = title.trim();
-      title = title.charAt(0).toUpperCase() + title.slice(1);
+      let title = capitalizeFirstLetter(response[0].label);
+      if (title.includes(", ")) title = title.split(", ")[0];
+
       if (forever) {
         await fetchApiWithoutHook("property/inventory/items/create", {
           room: room.toString().toLowerCase(),
@@ -105,6 +78,7 @@ const WebcamComponent = ({
         setOpen(false);
         return "Success";
       }
+      setLoading(false);
     } catch (err: any) {
       toast.error("Error: " + err.message, toastStyles);
     }
@@ -122,7 +96,7 @@ const WebcamComponent = ({
   return (
     <>
       <Webcam
-        screenshotQuality={0.6}
+        screenshotQuality={0.9}
         audio={false}
         ref={webcamRef}
         id="webcamContainer"
@@ -153,14 +127,33 @@ const WebcamComponent = ({
           border: "5px solid #fff",
           cursor: "pointer",
           transition: "all .2s",
+          ...(loading && {
+            opacity: 0.5,
+            pointerEvents: "none",
+          }),
           "&:active": {
             transition: "none",
             transform: "translateX(-50%) scale(.9)",
           },
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           borderRadius: 99,
         }}
         onClick={capture}
-      />
+      >
+        <CircularProgress
+          size={45}
+          sx={{
+            opacity: loading ? 1 : 0,
+            animationDuration: ".5s",
+            "& .MuiCircularProgress-circle": {
+              strokeLinecap: "round",
+            },
+          }}
+          disableShrink
+        />
+      </Box>
       <Box
         sx={{
           position: "absolute",
@@ -289,6 +282,7 @@ export default function ImageRecognition({
                 label="BETA"
                 sx={{
                   background: "linear-gradient(45deg, #fc00ff, #00dbde)",
+                  color: "#000",
                 }}
               />
             </Typography>
