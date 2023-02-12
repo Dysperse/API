@@ -107,6 +107,12 @@ export function Sidebar() {
       }}
     >
       <Image
+        onClick={() =>
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          })
+        }
         src="/logo.svg"
         width={50}
         height={50}
