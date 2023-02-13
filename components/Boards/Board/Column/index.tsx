@@ -12,6 +12,7 @@ import {
   Chip,
   Icon,
   IconButton,
+  ListItem,
   Menu,
   MenuItem,
   SwipeableDrawer,
@@ -40,17 +41,11 @@ function CompletedTasks({
         cursor: "unset!important",
       }}
     >
-      <Box
+      <ListItem
         tabIndex={0}
-        className="p-3 mb-2 dark:border-[hsl(240,11%,18%)] dark:hover:border-[hsl(240,11%,25%)] shadow-sm border flex border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none"
+        className="task my-4 flex p-4"
         sx={{
-          py: { sm: "5px!important" },
-          mt: 1,
-          border: { sm: "none!important" },
-          boxShadow: { sm: "none!important" },
-          ...(open && {
-            background: "rgba(200,200,200,.2)",
-          }),
+          background: "transparent!important",
           "&:focus-visible": {
             boxShadow: global.user.darkMode
               ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
@@ -67,15 +62,15 @@ function CompletedTasks({
           <span>Completed</span>
           <Chip
             sx={{
-              ml: 1,
-              px: 1,
+              ml: 1.5,
+              px: 0.5,
             }}
             label={columnTasks.filter((task) => task.completed).length}
             size="small"
           />
         </Typography>
         <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
-      </Box>
+      </ListItem>
       <Box
         sx={{
           display: open ? "box" : "none",
@@ -492,7 +487,7 @@ export const Column = React.memo(function Column({
       ref={ref}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="w-[370px] border border-gray-200 shadow-lg dark:shadow-xl dark:sm:border-[hsla(240,11%,18%)] mb-10 sm:mb-0"
+      className="mb-10 w-[370px] border border-gray-200 shadow-lg dark:shadow-xl sm:mb-0 dark:sm:border-[hsla(240,11%,18%)]"
       sx={{
         display: "flex",
         flexDirection: "column",
