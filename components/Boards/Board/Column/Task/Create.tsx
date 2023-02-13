@@ -703,7 +703,7 @@ export function CreateTask({
           }),
           mt: {
             xs: 1.5,
-            sm: checkList ? 1.5 : 0,
+            sm: checkList ? 1.5 : label ? -1 : 0,
           },
 
           ...(tasks &&
