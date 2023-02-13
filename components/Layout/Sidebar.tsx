@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useHotkeys } from "react-hotkeys-hook";
-import { colors } from "../../lib/colors";
 import InviteButton from "./InviteButton";
 
 const AppsMenu = dynamic(() => import("./AppsMenu"));
@@ -50,7 +49,7 @@ export function Sidebar() {
 
   const styles = (active: any = false) => {
     return {
-      color: colors[themeColor][global.user.darkMode ? 50 : 700],
+      color: global.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,30%)",
       borderRadius: 3,
       my: 0.5,
       maxHeight: "9999px",
@@ -67,7 +66,7 @@ export function Sidebar() {
       "&:hover .material-symbols-outlined": {
         background: global.user.darkMode
           ? "hsl(240,11%,14%)"
-          : colors[themeColor][50],
+          : "hsl(240,11%,90%)",
       },
       "&:focus-visible span": {
         boxShadow: global.user.darkMode
@@ -79,7 +78,8 @@ export function Sidebar() {
         " .material-symbols-outlined,  .material-symbols-rounded": {
           background: global.user.darkMode
             ? "hsl(240,11%,17%)"
-            : colors[themeColor][100],
+            : "hsl(240,11%,85%)",
+          color: global.user.darkMode ? "hsl(240,11%,95%)" : "hsl(240,11%,10%)",
         },
       }),
     };
@@ -90,13 +90,11 @@ export function Sidebar() {
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
-        zIndex: "1!important",
+        zIndex: "999!important",
         filter: "none!important",
         overflowX: "hidden",
         background: {
-          sm: global.user.darkMode
-            ? "hsla(240,11%,5%)"
-            : "rgba(250,250,250,.8)",
+          sm: global.user.darkMode ? "hsla(240,11%,5%)" : "hsl(240,11%,93%)",
         },
         height: "100vh",
         backdropFilter: "blur(10px)",

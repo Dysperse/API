@@ -5,17 +5,14 @@ import {
   Collapse,
   Divider,
   Icon,
-  IconButton,
   SwipeableDrawer,
   Tooltip,
   Typography,
-  useScrollTrigger,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 import { Agenda } from "./Agenda";
@@ -123,11 +120,6 @@ export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
   const [activeTab, setActiveTab] = useState("loading");
 
-  const trigger = useScrollTrigger({
-    threshold: 0,
-    target: window ? window : undefined,
-  });
-
   useEffect(() => {
     if (data && data[0] && data.find((board) => board.pinned)) {
       if (
@@ -166,7 +158,7 @@ export function TasksLayout() {
     "&:hover, &:focus": {
       background: global.user.darkMode
         ? "hsl(240,11%,15%)"
-        : `${colors[themeColor][50]}!important`,
+        : `hsl(240,11%,95%)!important`,
     },
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -176,24 +168,24 @@ export function TasksLayout() {
           "&:hover": {
             background: global.user.darkMode
               ? "hsl(240,11%,15%)"
-              : `${colors[themeColor][50]}!important`,
+              : `hsl(240,11%,93%)!important`,
           },
           color: global.user.darkMode
             ? "hsl(240,11%,80%)!important"
-            : `${colors[themeColor][700]}!important`,
+            : `hsl(240,11%,30%)!important`,
         }
       : {
           background: global.user.darkMode
             ? "hsl(240,11%,20%)!important"
-            : `${colors[themeColor][100]}!important`,
+            : `hsl(240,11%,85%)!important`,
           "&:hover, &:focus": {
             background: global.user.darkMode
               ? "hsl(240,11%,15%)!important"
-              : `${colors[themeColor][100]}!important`,
+              : `hsl(240,11%,85%)!important`,
           },
           color: global.user.darkMode
             ? "hsl(240,11%,95%)!important"
-            : `${colors[themeColor][900]}!important`,
+            : `hsl(240,11%,10%)!important`,
         }),
   });
   const [collapsed, setCollapsed] = useState(false);
@@ -239,6 +231,7 @@ export function TasksLayout() {
           fontSize: "13px",
           px: 1.5,
           color: global.user.darkMode ? "#fff" : "#000",
+          userSelect: "none",
         }}
       >
         Planner
@@ -299,6 +292,7 @@ export function TasksLayout() {
           opacity: 0.5,
           ...(data && data.length === 0 && { display: "none" }),
           fontSize: "13px",
+          userSelect: "none",
           px: 1.5,
           color: global.user.darkMode ? "#fff" : "#000",
         }}
@@ -365,6 +359,7 @@ export function TasksLayout() {
       <Divider
         sx={{
           mb: 1,
+          display: { sm: "none" },
           ...(data &&
             (data.length === 0 || !data.find((board) => board.archived)) && {
               display: "none",
@@ -474,15 +469,12 @@ export function TasksLayout() {
           p: 3,
           background: global.user.darkMode
             ? "hsl(240,11%,7%)"
-            : "rgba(200,200,200, .05)",
+            : "hsl(240,11%,95%)",
           display: collapsed ? "none" : { xs: "none", sm: "flex" },
           minHeight: "100vh",
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
           flexDirection: "column",
-          boxShadow: global.user.darkMode
-            ? "0 25px 50px -12px hsla(240, 11%, 15%, 0.5)"
-            : "0 25px 50px -12px rgb(200 200 200 / 0.5)",
         }}
       >
         {children}
@@ -498,31 +490,6 @@ export function TasksLayout() {
         }}
         id="boardContainer"
       >
-        <IconButton
-          onClick={() => setOpen(true)}
-          size="large"
-          sx={{
-            position: "fixed",
-            bottom: trigger ? "10px" : "70px",
-            transition: "bottom .3s",
-            border: "1px solid",
-            borderColor: global.user.darkMode
-              ? "hsla(240,11%,30%, 0.5)"
-              : "rgba(200,200,200, 0.5)",
-
-            background: global.user.darkMode
-              ? "hsla(240,11%,25%,.2)!important"
-              : "rgba(255,255,255,.7)!important",
-
-            backdropFilter: "blur(5px)",
-            zIndex: 999,
-            boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-            left: 15,
-            display: { sm: "none" },
-          }}
-        >
-          <Icon>menu</Icon>
-        </IconButton>
         {activeTab === "new" && (
           <CreateBoard
             mutationUrl={url}

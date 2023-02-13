@@ -271,19 +271,6 @@ export const Task = React.memo(function Task({
     <></>
   ) : (
     <>
-      <TaskDrawer
-        handlePriorityClick={handlePriorityClick}
-        handleDelete={handleDelete}
-        taskData={taskData}
-        setTaskData={setTaskData}
-        columnId={columnId}
-        board={board}
-        open={open}
-        setOpen={setOpen}
-        BpIcon={BpIcon}
-        BpCheckedIcon={BpCheckedIcon}
-        mutationUrl={mutationUrl}
-      />
       <Menu
         open={contextMenu !== null}
         onClose={handleClose}
@@ -361,164 +348,168 @@ export const Task = React.memo(function Task({
         </MenuItem>
       </Menu>
       {taskData.subTasks.length >= 0 && (
-        <ListItem
-          tabIndex={0}
-          onClick={() => setOpen(true)}
-          onContextMenu={handleContextMenu}
-          className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-100 cursor-auto select-none"
-          sx={{
-            color:
-              colors[taskData.color][global.user.darkMode ? "A100" : "A700"],
-            p: {
-              xs: 1,
-              sm: 0,
-            },
-            cursor: "unset!important",
-            ...(global.user.darkMode && {
-              "&:hover": {
-                backgroundColor: "hsl(240,11%,19%)!important",
-              },
-              "&:active": {
-                backgroundColor: "hsl(240,11%,16%)!important",
-              },
-            }),
-            ...(!checkList && {
-              boxShadow: {
-                sm: "none!important",
-              },
-              border: {
-                sm: "none!important",
-              },
-            }),
-            gap: "10px!important",
-            mt: {
-              xs: 1.5,
-              sm: checkList ? 1.5 : taskData.pinned ? 0.5 : 0,
-            },
-          }}
-        >
-          <ListItemText
+        <TaskDrawer id={taskData.id} mutationUrl={mutationUrl}>
+          <ListItem
+            tabIndex={0}
+            onClick={() => setOpen(true)}
+            onContextMenu={handleContextMenu}
+            className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-100 cursor-auto select-none"
             sx={{
-              my: 0,
+              color:
+                colors[taskData.color][global.user.darkMode ? "A100" : "A700"],
+              p: {
+                xs: 1,
+                sm: 0,
+              },
+              cursor: "unset!important",
+              ...(global.user.darkMode && {
+                "&:hover": {
+                  backgroundColor: "hsl(240,11%,19%)!important",
+                },
+                "&:active": {
+                  backgroundColor: "hsl(240,11%,16%)!important",
+                },
+              }),
+              ...(!checkList && {
+                boxShadow: {
+                  sm: "none!important",
+                },
+                border: {
+                  sm: "none!important",
+                },
+              }),
+              gap: "10px!important",
+              mt: {
+                xs: 1.5,
+                sm: checkList ? 1.5 : taskData.pinned ? 0.5 : 0,
+              },
             }}
-            primary={
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Checkbox
-                  disabled={
-                    (board && board.archived) ||
-                    global.permission === "read-only"
-                  }
-                  disableRipple
-                  checked={checked}
-                  onChange={(e) => {
-                    setChecked(e.target.checked);
-                    mutate(mutationUrl);
-                    fetchApiWithoutHook("property/boards/column/task/mark", {
-                      completed: e.target.checked ? "true" : "false",
-                      id: taskData.id,
-                    }).catch(() =>
-                      toast.error(
-                        "An error occured while updating the task",
-                        toastStyles
-                      )
-                    );
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  sx={{
-                    "&:hover": { bgcolor: "transparent" },
-                  }}
-                  color="default"
-                  checkedIcon={<BpCheckedIcon />}
-                  icon={<BpIcon />}
-                />
-
+          >
+            <ListItemText
+              sx={{
+                my: 0,
+              }}
+              primary={
                 <Box
                   sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    ...(checked && {
-                      textDecoration: "line-through",
-                      opacity: 0.7,
-                    }),
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
-                  {renderText(taskData.name)}
-                  {taskData.image && (
-                    <ImageViewer trimHeight url={taskData.image} />
-                  )}
-                </Box>
-                {taskData.pinned && (
-                  <Tooltip title="Marked as important" placement="top">
-                    <Icon
-                      onClick={(e) => e.stopPropagation()}
-                      sx={{
-                        ml: "auto",
-                        mr: 1,
-                        color:
-                          colors.orange[global.user.darkMode ? "200" : "A400"],
-                      }}
-                      className="outlined"
-                    >
-                      error
-                    </Icon>
-                  </Tooltip>
-                )}
-              </Box>
-            }
-            secondary={
-              <span
-                style={{
-                  marginLeft: "45px",
-                  display: "block",
-                  position: "relative",
-                  top: taskData.image ? "3px" : "-7px",
-                  ...(taskData.image && {
-                    marginBottom: "7px",
-                  }),
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                }}
-              >
-                {renderDescription(taskData.description)}
-                {taskData.due && !isAgenda && (
-                  <Tooltip
-                    title={dayjs(taskData.due).format("MMMM D, YYYY")}
-                    followCursor
-                    placement="bottom-start"
+                  <Checkbox
+                    disabled={
+                      (board && board.archived) ||
+                      global.permission === "read-only"
+                    }
+                    disableRipple
+                    checked={checked}
+                    onChange={(e) => {
+                      setChecked(e.target.checked);
+                      mutate(mutationUrl);
+                      fetchApiWithoutHook("property/boards/column/task/mark", {
+                        completed: e.target.checked ? "true" : "false",
+                        id: taskData.id,
+                      }).catch(() =>
+                        toast.error(
+                          "An error occured while updating the task",
+                          toastStyles
+                        )
+                      );
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    sx={{
+                      "&:hover": { bgcolor: "transparent" },
+                    }}
+                    color="default"
+                    checkedIcon={<BpCheckedIcon />}
+                    icon={<BpIcon />}
+                  />
+
+                  <Box
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      ...(checked && {
+                        textDecoration: "line-through",
+                        opacity: 0.7,
+                      }),
+                    }}
                   >
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "2px",
-                        marginTop: "3px",
-                        marginLeft: "-5px",
-                      }}
-                    >
+                    {renderText(taskData.name)}
+                    {taskData.image && (
+                      <ImageViewer trimHeight url={taskData.image} />
+                    )}
+                  </Box>
+                  {taskData.pinned && (
+                    <Tooltip title="Marked as important" placement="top">
                       <Icon
-                        sx={{ mx: 1, transform: "scale(.9)" }}
+                        onClick={(e) => e.stopPropagation()}
+                        sx={{
+                          ml: "auto",
+                          mr: 1,
+                          color:
+                            colors.orange[
+                              global.user.darkMode ? "200" : "A400"
+                            ],
+                        }}
                         className="outlined"
                       >
-                        schedule
+                        error
                       </Icon>
-                      {dayjs(taskData.due).fromNow()}
-                    </span>
-                  </Tooltip>
-                )}
-              </span>
-            }
-          />
-        </ListItem>
+                    </Tooltip>
+                  )}
+                </Box>
+              }
+              secondary={
+                <span
+                  style={{
+                    marginLeft: "45px",
+                    display: "block",
+                    position: "relative",
+                    top: taskData.image ? "3px" : "-7px",
+                    ...(taskData.image && {
+                      marginBottom: "7px",
+                    }),
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                  }}
+                >
+                  {renderDescription(taskData.description)}
+                  {taskData.due && !isAgenda && (
+                    <Tooltip
+                      title={dayjs(taskData.due).format("MMMM D, YYYY")}
+                      followCursor
+                      placement="bottom-start"
+                    >
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "2px",
+                          marginTop: "3px",
+                          marginLeft: "-5px",
+                        }}
+                      >
+                        <Icon
+                          sx={{ mx: 1, transform: "scale(.9)" }}
+                          className="outlined"
+                        >
+                          schedule
+                        </Icon>
+                        {dayjs(taskData.due).fromNow()}
+                      </span>
+                    </Tooltip>
+                  )}
+                </span>
+              }
+            />
+          </ListItem>
+        </TaskDrawer>
       )}
       {taskData.subTasks.map((subtask) => (
         <SubTask

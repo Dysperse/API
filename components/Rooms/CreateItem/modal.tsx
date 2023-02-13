@@ -20,6 +20,7 @@ import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { cards } from "./cards";
 
 const ImageRecognition = dynamic(() => import("./scan"));
@@ -35,7 +36,12 @@ export function CreateItemModal({
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleOpen = useCallback(() => setOpen(true), []);
-  const handleClose = useCallback(() => setOpen(false), []);
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    setTitle("");
+    setQuantity("");
+    setCategory("[]");
+  }, []);
 
   useStatusBar(open);
 
@@ -83,12 +89,15 @@ export function CreateItemModal({
             room: room.toString().toLowerCase(),
           }).toString()}`
         );
+        setTitle("");
+        setQuantity("");
+        setCategory("[]");
       })
       .catch(() => {
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, ["category", "quantity", "room", "title"]);
+  }, [category, quantity, room, title]);
 
   return (
     <>
@@ -99,6 +108,7 @@ export function CreateItemModal({
         PaperProps={{
           sx: {
             width: "100vw",
+            borderRadius: { xs: "0!important", sm: "20px 20px 0 0" },
             height: "100vh",
             background: global.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
           },
@@ -108,8 +118,8 @@ export function CreateItemModal({
         <AppBar
           elevation={0}
           sx={{
-            borderTopLeftRadius: { sm: "20px" },
-            borderTopRightRadius: { sm: "20px" },
+            borderTopLeftRadius: { xs: 0, sm: "20px" },
+            borderTopRightRadius: { xs: 0, sm: "20px" },
             zIndex: 99,
             background: global.user.darkMode
               ? "hsla(240,11%,20%,0.1)"
@@ -123,9 +133,17 @@ export function CreateItemModal({
           position="sticky"
         >
           <Toolbar>
-            <IconButton onClick={handleClose} disabled={loading}>
-              <Icon>close</Icon>
-            </IconButton>
+            <ConfirmationModal
+              callback={handleClose}
+              disabled={title.trim() === ""}
+              title="Discard changes?"
+              question="Changes you made will not be saved"
+            >
+              <IconButton disabled={loading}>
+                <Icon>close</Icon>
+              </IconButton>
+            </ConfirmationModal>
+
             <Typography
               sx={{ mx: "auto", textTransform: "capitalize", fontWeight: 600 }}
             >

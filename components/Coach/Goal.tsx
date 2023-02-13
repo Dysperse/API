@@ -124,7 +124,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
             value={goal.progress}
             max={goal.durationDays}
             step={
-              goal.durationDays > 50 ? Math.round(goal.durationDays / 50) : 1
+              goal.durationDays > 30 ? Math.round(goal.durationDays / 30) : 2
             }
             marks
             sx={{
@@ -191,10 +191,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           }}
         >
           <Toolbar className="flex" sx={{ height: "70px" }}>
-            <IconButton
-              color="inherit"
-              onClick={() => setOpen(false)}
-            >
+            <IconButton color="inherit" onClick={() => setOpen(false)}>
               <Icon>west</Icon>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>Goal</Typography>

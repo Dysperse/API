@@ -220,9 +220,7 @@ export default function CategoryModal({
         key={Math.random().toString()}
         disabled={global.permission === "read-only"}
         label={item.category === "[]" ? <>+ &nbsp;&nbsp;Add a category</> : "+"}
-        onClick={() => {
-          setOpen(true);
-        }}
+        onClick={() => setOpen(true)}
         sx={{
           px: 1.5,
           mr: 1,

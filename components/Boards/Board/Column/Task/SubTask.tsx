@@ -7,6 +7,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
+import { TaskDrawer } from "./TaskDrawer";
 
 // use whatever you want here
 const URL_REGEX =
@@ -105,93 +106,95 @@ export const SubTask = React.memo(function SubTask({
           Delete
         </MenuItem>
       </Menu>
-      <ListItem
-        onClick={() => {
-          if (setOpen) {
-            setOpen(true);
-            setTimeout(() => {
-              document.getElementById("subTasksTrigger")?.click();
-            }, 10);
-          }
-        }}
-        onContextMenu={handleContextMenu}
-        key={subtask.id}
-        className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
-        sx={{
-          color: colors["brown"][global.user.darkMode ? "A100" : "A700"],
-          p: {
-            xs: 1,
-            sm: 0,
-          },
-          ...(!noMargin && {
-            width: "calc(100% - 20px)",
-            ml: "20px",
-          }),
-          py: { sm: "0!important" },
-          cursor: "unset!important",
-          ...(global.user.darkMode && {
-            "&:hover": {
-              backgroundColor: "hsl(240,11%,19%)!important",
-            },
-            "&:active": {
-              backgroundColor: "hsl(240,11%,16%)!important",
-            },
-          }),
-          position: "relative",
-          overflow: "hidden",
-          ...(!checkList && {
-            boxShadow: {
-              sm: "none!important",
-            },
-            border: {
-              sm: "none!important",
-            },
-          }),
-          gap: "5px!important",
-          mt: {
-            xs: 1.5,
-            sm: checkList ? 1.5 : 0,
-          },
-        }}
-      >
-        <Checkbox
-          disabled={board && board.archived}
-          disableRipple
-          checked={checked}
-          onClick={(e) => {
-            e.stopPropagation();
+      <TaskDrawer id={subtask.id} mutationUrl={mutationUrl}>
+        <ListItem
+          onClick={() => {
+            if (setOpen) {
+              setOpen(true);
+              setTimeout(() => {
+                document.getElementById("subTasksTrigger")?.click();
+              }, 10);
+            }
           }}
-          onChange={(e) => {
-            setChecked(e.target.checked);
-            fetchApiWithoutHook("property/boards/column/task/mark", {
-              completed: e.target.checked ? "true" : "false",
-              id: subtask.id,
-            }).catch(() =>
-              toast.error(
-                "An error occured while updating the task",
-                toastStyles
-              )
-            );
-          }}
-          color="default"
-          checkedIcon={<BpCheckedIcon />}
-          icon={<BpIcon />}
-        />
-        <Box
+          onContextMenu={handleContextMenu}
+          key={subtask.id}
+          className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
           sx={{
-            overflow: "hidden",
-            fontWeight: "200",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            ...(checked && {
-              textDecoration: "line-through",
-              opacity: 0.7,
+            color: colors["brown"][global.user.darkMode ? "A100" : "A700"],
+            p: {
+              xs: 1,
+              sm: 0,
+            },
+            ...(!noMargin && {
+              width: "calc(100% - 20px)",
+              ml: "20px",
             }),
+            py: { sm: "0!important" },
+            cursor: "unset!important",
+            ...(global.user.darkMode && {
+              "&:hover": {
+                backgroundColor: "hsl(240,11%,19%)!important",
+              },
+              "&:active": {
+                backgroundColor: "hsl(240,11%,16%)!important",
+              },
+            }),
+            position: "relative",
+            overflow: "hidden",
+            ...(!checkList && {
+              boxShadow: {
+                sm: "none!important",
+              },
+              border: {
+                sm: "none!important",
+              },
+            }),
+            gap: "5px!important",
+            mt: {
+              xs: 1.5,
+              sm: checkList ? 1.5 : 0,
+            },
           }}
         >
-          {renderText(subtask.name)}
-        </Box>
-      </ListItem>
+          <Checkbox
+            disabled={board && board.archived}
+            disableRipple
+            checked={checked}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              setChecked(e.target.checked);
+              fetchApiWithoutHook("property/boards/column/task/mark", {
+                completed: e.target.checked ? "true" : "false",
+                id: subtask.id,
+              }).catch(() =>
+                toast.error(
+                  "An error occured while updating the task",
+                  toastStyles
+                )
+              );
+            }}
+            color="default"
+            checkedIcon={<BpCheckedIcon />}
+            icon={<BpIcon />}
+          />
+          <Box
+            sx={{
+              overflow: "hidden",
+              fontWeight: "200",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              ...(checked && {
+                textDecoration: "line-through",
+                opacity: 0.7,
+              }),
+            }}
+          >
+            {renderText(subtask.name)}
+          </Box>
+        </ListItem>
+      </TaskDrawer>
     </>
   );
 });

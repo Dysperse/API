@@ -10,6 +10,7 @@ import {
   MenuItem,
   SwipeableDrawer,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -295,25 +296,42 @@ export function BoardSettings({ mutationUrl, board }) {
             </>
           )}
       </Menu>
-      <IconButton
-        size="small"
-        onClick={handleClick}
-        sx={{
-          transition: "none",
-          flexShrink: 0,
-          ml: "auto",
-          ...(open && {
-            background: `${
-              global.user.darkMode
-                ? "hsla(240,11%,14%)"
-                : "rgba(200,200,200,.3)"
-            }!important`,
-          }),
-        }}
-        ref={ref}
-      >
-        <Icon className="outlined">expand_more</Icon>
-      </IconButton>
+      <Tooltip title="Board settings" placement="bottom-end">
+        <IconButton
+          onClick={handleClick}
+          className="sm:shadow-lg"
+          sx={{
+            backdropFilter: "blur(10px)",
+            border: { sm: "1px solid rgba(200,200,200,.3)" },
+            transition: "none",
+            flexShrink: 0,
+            ml: "auto",
+            m: { sm: 2 },
+            ...(open && {
+              background: `${
+                global.user.darkMode
+                  ? "hsla(240,11%,14%)"
+                  : "rgba(200,200,200,.3)"
+              }!important`,
+            }),
+            "&:hover, &:active": {
+              background: global.user.darkMode
+                ? "hsl(240,11%,20%)!important"
+                : "rgba(200,200,200,.4)!important",
+            },
+          }}
+          ref={ref}
+        >
+          <Icon
+            className="outlined"
+            sx={{
+              transform: { sm: "rotate(90deg)" },
+            }}
+          >
+            more_horiz
+          </Icon>
+        </IconButton>
+      </Tooltip>
     </>
   );
 }
