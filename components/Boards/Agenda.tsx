@@ -234,7 +234,7 @@ export function Agenda({
             sm: "none",
           },
           alignItems: "center",
-          display: "flex",
+          display: { xs: "flex", sm: "none" },
           gap: 1,
         }}
       >

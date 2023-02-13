@@ -167,7 +167,7 @@ export function TasksLayout() {
       ? {
           "&:hover": {
             background: global.user.darkMode
-              ? "hsl(240,11%,15%)"
+              ? "hsl(240,11%,20%)"
               : `hsl(240,11%,93%)!important`,
           },
           color: global.user.darkMode
@@ -180,7 +180,7 @@ export function TasksLayout() {
             : `hsl(240,11%,85%)!important`,
           "&:hover, &:focus": {
             background: global.user.darkMode
-              ? "hsl(240,11%,15%)!important"
+              ? "hsl(240,11%,20%)!important"
               : `hsl(240,11%,85%)!important`,
           },
           color: global.user.darkMode
