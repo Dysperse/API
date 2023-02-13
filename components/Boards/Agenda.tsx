@@ -131,7 +131,10 @@ function Column({ mutationUrl, view, day, data }) {
         )}
       </Box>
       <Box sx={{ p: 3.5, py: 2, pb: { xs: 15, sm: 0 } }}>
-        {tasksWithinTimeRange.map((task) => (
+        {[
+          ...tasksWithinTimeRange.filter((task) => !task.completed),
+          ...tasksWithinTimeRange.filter((task) => task.completed),
+        ].map((task) => (
           <Task
             key={task.id}
             board={task.board || false}
@@ -341,7 +344,7 @@ export function Agenda({
           display: "flex",
           maxWidth: "100vw",
           overflowX: "scroll",
-          mt: 4,
+          mt: { xs: 4, sm: 0 },
           height: { sm: "100vh" },
         }}
       >
