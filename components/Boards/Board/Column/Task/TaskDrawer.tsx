@@ -215,7 +215,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
             >
               <ListItemButton
                 sx={{ p: 0 }}
-                className="shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
+                className="cursor-auto select-none gap-0.5 rounded-xl border border-gray-100 shadow-sm hover:border-gray-300 hover:bg-gray-100 active:border-gray-300 active:bg-gray-200 dark:border-[hsl(240,11%,18%)] dark:bg-transparent sm:hover:bg-gray-100 sm:active:bg-gray-200"
               >
                 <ListItemIcon>
                   <Checkbox
@@ -316,7 +316,12 @@ export function TaskDrawer({
             <ErrorHandler error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support" />
           )}
           {loading && (
-            <Box>
+            <Box
+              sx={{
+                textAlign: "center",
+                py: 30,
+              }}
+            >
               <CircularProgress />
             </Box>
           )}

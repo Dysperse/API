@@ -233,7 +233,7 @@ export const Board = function Board({
       </Box>
       <Box
         sx={{
-          overflowX: { sm: "scroll" },
+          overflowX: { xs: "hidden", sm: "scroll" },
           overflowY: "hidden",
           display: "flex",
           gap: { sm: "15px" },
