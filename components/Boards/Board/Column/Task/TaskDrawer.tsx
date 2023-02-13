@@ -139,7 +139,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
             background: global.user.darkMode
               ? "hsl(240,11%,20%)"
               : "rgba(200,200,200,.3)",
-            "&:focus, &:hover": {
+            "&:focus-within, &:hover": {
               background: global.user.darkMode
                 ? "hsl(240,11%,22%)"
                 : "rgba(200,200,200,.4)",
@@ -161,7 +161,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
             background: global.user.darkMode
               ? "hsl(240,11%,20%)"
               : "rgba(200,200,200,.3)",
-            "&:focus, &:hover": {
+            "&:focus-within, &:hover": {
               background: global.user.darkMode
                 ? "hsl(240,11%,22%)"
                 : "rgba(200,200,200,.4)",
