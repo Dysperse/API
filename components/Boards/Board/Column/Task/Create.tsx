@@ -120,7 +120,9 @@ export function CreateTask({
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState<any>(new Date(defaultDate) || new Date());
+  const [date, setDate] = useState<any>(
+    new Date(defaultDate || new Date().toISOString()) || new Date()
+  );
   const [pinned, setPinned] = useState(false);
   const [image, setImage] = useState<any>(null);
 
@@ -663,7 +665,7 @@ export function CreateTask({
       </SwipeableDrawer>
       <ListItem
         id="createTask"
-        className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
+        className="cursor-auto select-none gap-0.5 rounded-xl border border-gray-100 p-1 shadow-sm hover:border-gray-300 hover:bg-gray-100 active:border-gray-300 active:bg-gray-200 dark:border-[hsl(240,11%,18%)] dark:bg-transparent sm:p-0 sm:hover:bg-gray-100 sm:active:bg-gray-200"
         sx={{
           color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
           p: {

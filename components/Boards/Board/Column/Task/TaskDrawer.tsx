@@ -1,5 +1,6 @@
 import {
   Alert,
+  Button,
   Checkbox,
   Chip,
   CircularProgress,
@@ -12,7 +13,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { green, orange } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import { cloneElement, useCallback, useState } from "react";
@@ -80,6 +80,34 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
     [data.id]
   );
 
+  const iconStyles = {
+    flexDirection: "column",
+    borderRadius: 5,
+    gap: 1,
+    py: 2,
+    color: global.user.darkMode ? "hsl(240,11%,80%)" : "hsl(240,11%,30%)",
+    "&:hover": {
+      background: global.user.darkMode
+        ? "hsl(240, 11%, 22%)"
+        : "rgba(200, 200, 200, .3)",
+    },
+    "& .MuiIcon-root": {
+      fontVariationSettings:
+        '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
+      width: 40,
+      color: global.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,10%)",
+      height: 40,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 99999,
+      border: "1px solid",
+      borderColor: global.user.darkMode
+        ? "hsl(240, 11%, 30%)"
+        : "rgba(200, 200, 200, .3)",
+    },
+  };
+
   return (
     <>
       {/* Task name input */}
@@ -128,71 +156,40 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
       {data.image && <ImageViewer url={data.image} />}
       <Box
         sx={{
-          backdropFilter: "blur(10px)",
-          my: 1,
-          "& .MuiChip-root": {
-            fontWeight: 700,
-            mr: 1,
-            mb: 1,
-            color: global.user.darkMode ? "#fff" : "#000",
-            userSelect: "none",
-            background: global.user.darkMode
-              ? "hsl(240,11%,30%)"
-              : "hsl(240,11%,80%)",
-          },
+          display: "flex",
+          background: global.user.darkMode
+            ? "hsl(240,11%,20%)"
+            : "rgba(200,200,200,.3)",
+          borderRadius: 5,
+          p: 1,
+          my: 2,
         }}
       >
-        <Chip
-          onClick={handleCompletion}
-          label={data.completed ? "Completed" : "Not done"}
-          icon={
-            <Icon
-              sx={{
-                color: global.user.darkMode
-                  ? "#fff!important"
-                  : "#000!important",
-              }}
-            >
-              {data.completed ? "check" : "close"}
-            </Icon>
-          }
-          sx={{
-            ...(data.completed && {
-              background: `${
-                green[global.user.darkMode ? "900" : "A700"]
-              }!important`,
-            }),
-            transition: "none",
-            color: global.user.darkMode ? "#fff!important" : "#000!important",
-          }}
-        />
+        <Button onClick={handleCompletion} sx={iconStyles} fullWidth>
+          <Icon className="shadow-xl">
+            {data.completed ? "check" : "close"}
+          </Icon>
+          {data.completed ? "Completed" : "Incomplete"}
+        </Button>
+        <Button
+          onClick={!data.pinned ? handlePriorityChange : undefined}
+          sx={iconStyles}
+          fullWidth
+        >
+          <Icon className="shadow-xl">push_pin</Icon>
+          {data.pinned ? "Important" : "Unpinned "}{" "}
+        </Button>
         <ConfirmationModal
           title="Delete task?"
           question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
           disabled={data.subTasks.length == 0}
           callback={() => handleDelete(data.id)}
         >
-          <Chip label="Delete" icon={<Icon>delete</Icon>} />
+          <Button sx={iconStyles} fullWidth>
+            <Icon className="outlined shadow-xl">delete</Icon>
+            Delete
+          </Button>
         </ConfirmationModal>
-        <Chip
-          label={data.pinned ? "Important" : "Mark as important "}
-          onDelete={data.pinned ? handlePriorityChange : undefined}
-          onClick={!data.pinned ? handlePriorityChange : undefined}
-          color="warning"
-          sx={{
-            background: `${orange[data.pinned ? 400 : 100]}!important`,
-            color: "#000!important",
-          }}
-        />
-        {data.id.includes("-event-assignment") && (
-          <Chip
-            label="Synced to Canvas LMS"
-            sx={{
-              background: "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
-              color: "#000!important",
-            }}
-          />
-        )}
       </Box>
       <Box
         sx={{
@@ -242,6 +239,15 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
           boardId={1}
         />
       </Box>
+      {data.id.includes("-event-assignment") && (
+        <Chip
+          label="Synced to Canvas LMS"
+          sx={{
+            background: "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
+            color: "#000!important",
+          }}
+        />
+      )}
     </>
   );
 }
