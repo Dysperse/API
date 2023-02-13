@@ -1,4 +1,5 @@
 import {
+  Alert,
   Checkbox,
   Chip,
   CircularProgress,
@@ -56,7 +57,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
 
   const handleDelete = useCallback(
     function handleDelete(taskId) {
-      setTaskData(null);
+      setTaskData("deleted");
       fetchApiWithoutHook("property/boards/column/task/delete", {
         id: taskId,
       }).then(() => {
@@ -290,7 +291,10 @@ export function TaskDrawer({
   // Some basic drawer styles
   const drawerStyles = {
     width: "100vw",
-    maxWidth: data && data.parentTasks.length == 1 ? "500px" : "600px",
+    maxWidth:
+      data && data !== "deleted" && data.parentTasks.length == 1
+        ? "500px"
+        : "600px",
     maxHeight: "80vh",
     borderBottom: 0,
     borderLeft: 0,
@@ -316,12 +320,17 @@ export function TaskDrawer({
               <CircularProgress />
             </Box>
           )}
-          {data && (
+          {data && data !== "deleted" && (
             <DrawerContent
               data={data}
               mutationUrl={mutationUrl}
               setTaskData={setData}
             />
+          )}
+          {data == "deleted" && (
+            <Alert severity="info" icon="💥">
+              This task has &quot;mysteriously&quot; vanished into thin air
+            </Alert>
           )}
         </Box>
       </Drawer>
