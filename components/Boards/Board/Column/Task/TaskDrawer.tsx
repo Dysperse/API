@@ -118,7 +118,7 @@ function DrawerContent({ mutationUrl, data }) {
       )}
       {data.parentTasks.length === 0 &&
         data.subTasks.map((subTask) => (
-          <TaskDrawer id={subTask.id} mutationUrl={mutationUrl}>
+          <TaskDrawer key={subTask.id} id={subTask.id} mutationUrl={mutationUrl}>
             <ListItemButton sx={{ px: 0, py: 0.5 }}>
               <ListItemIcon>
                 <Checkbox checked={subTask.completed} />
