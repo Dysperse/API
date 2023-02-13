@@ -85,6 +85,8 @@ function Column({ mutationUrl, view, day, data }) {
           userSelect: "none",
           zIndex: 9,
           backdropFilter: "blur(10px)",
+          position: "sticky",
+          top: 0,
         }}
       >
         <Typography
@@ -132,7 +134,12 @@ function Column({ mutationUrl, view, day, data }) {
       </Box>
       <Box sx={{ p: 3.5, py: 2, pb: { xs: 15, sm: 0 } }}>
         {[
-          ...tasksWithinTimeRange.filter((task) => !task.completed),
+          ...tasksWithinTimeRange.filter(
+            (task) => !task.completed && task.pinned
+          ),
+          ...tasksWithinTimeRange.filter(
+            (task) => !task.completed && !task.pinned
+          ),
           ...tasksWithinTimeRange.filter((task) => task.completed),
         ].map((task) => (
           <Task
@@ -140,6 +147,7 @@ function Column({ mutationUrl, view, day, data }) {
             board={task.board || false}
             columnId={task.column ? task.column.id : -1}
             isAgenda
+            mutationUrl={mutationUrl}
             task={task}
           />
         ))}

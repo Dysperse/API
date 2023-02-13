@@ -19,7 +19,6 @@ import {
   IconButton,
   ListItem,
   ListItemIcon,
-  ListItemText,
   SwipeableDrawer,
   TextField,
   Tooltip,
@@ -702,13 +701,11 @@ export function CreateTask({
               sm: "none!important",
             },
           }),
-          gap: "5px!important",
-          mb: label
-            ? 0
-            : {
-                xs: 1.5,
-                sm: checkList ? 1.5 : 0.5,
-              },
+          mt: {
+            xs: 1.5,
+            sm: checkList ? 1.5 : 0,
+          },
+
           ...(tasks &&
             tasks.filter((task) => task.completed && task.columnId == column.id)
               .length ==
@@ -752,19 +749,9 @@ export function CreateTask({
         </span>
 
         {allCompleted && (
-          <ListItemText
-            className="textbox"
-            primary={
-              <span
-                style={{
-                  fontWeight: 400,
-                  color: global.user.darkMode ? "#fff" : "#606060",
-                }}
-              >
-                {parent ? "New subtask" : label || "New list item"}
-              </span>
-            }
-          />
+          <Typography sx={{ ml: label ? -1.5 : 0.5 }}>
+            {parent ? "New subtask" : label || "New list item"}
+          </Typography>
         )}
         <ListItemIcon
           sx={{
@@ -782,7 +769,7 @@ export function CreateTask({
               borderRadius: "3px",
               fontSize: "12px",
               height: "20px",
-              display: { xs: "none", sm: "flex" },
+              display: { xs: "none", sm: label ? "none" : "flex" },
               alignItems: "center",
               justifyContent: "center",
               width: "20px",
@@ -793,8 +780,6 @@ export function CreateTask({
           </Typography>
         </ListItemIcon>
       </ListItem>
-
-      {/* <Divider sx={{ my: 0.5 }} /> */}
     </>
   );
 }

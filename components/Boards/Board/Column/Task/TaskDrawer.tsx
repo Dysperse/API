@@ -13,7 +13,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { green } from "@mui/material/colors";
 import { Box } from "@mui/system";
+import ConfettiExplosion from "confetti-explosion-react";
 import dayjs from "dayjs";
 import { cloneElement, useCallback, useState } from "react";
 import toast from "react-hot-toast";
@@ -60,6 +62,19 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
       setTaskData("deleted");
       fetchApiWithoutHook("property/boards/column/task/delete", {
         id: taskId,
+      }).then(() => {
+        mutate(mutationUrl);
+      });
+    },
+    [mutationUrl]
+  );
+
+  const handleEdit = useCallback(
+    function handleEdit(id, key, value) {
+      setTaskData((prev) => ({ ...prev, [key]: value }));
+      fetchApiWithoutHook("property/boards/column/task/edit", {
+        id,
+        [key]: [value],
       }).then(() => {
         mutate(mutationUrl);
       });
@@ -116,6 +131,9 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         fullWidth
         defaultValue={data.name.trim()}
         variant="standard"
+        onBlur={(e) => handleEdit(data.id, "name", e.target.value)}
+        onChange={(e) => (e.target.value = e.target.value.replaceAll("\n", ""))}
+        onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
         margin="dense"
         InputProps={{
           disableUnderline: true,
@@ -126,6 +144,10 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
 
       {/* Description */}
       <TextField
+        onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
+        onKeyDown={(e: any) =>
+          e.key === "Enter" && !e.shiftKey && e.target.blur()
+        }
         multiline
         placeholder="Click to add description"
         fullWidth
@@ -193,18 +215,33 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         }}
       >
         <Button onClick={handleCompletion} sx={iconStyles} fullWidth>
-          <Icon className="shadow-md dark:shadow-xl">
+          {data.completed && <ConfettiExplosion />}
+          <Icon
+            className="shadow-md dark:shadow-xl"
+            sx={{
+              ...(data.completed && {
+                background: green[900],
+                color: "#fff!important",
+              }),
+            }}
+          >
             {data.completed ? "check" : "close"}
           </Icon>
           {data.completed ? "Completed" : "Incomplete"}
         </Button>
-        <Button
-          onClick={!data.pinned ? handlePriorityChange : undefined}
-          sx={iconStyles}
-          fullWidth
-        >
-          <Icon className="shadow-md dark:shadow-xl">push_pin</Icon>
-          {data.pinned ? "Important" : "Unpinned "}{" "}
+        <Button onClick={handlePriorityChange} sx={iconStyles} fullWidth>
+          <Icon
+            className="shadow-md dark:shadow-xl"
+            sx={{
+              ...(data.pinned && {
+                transform: "rotate(-20deg)",
+              }),
+              transition: "all .2s",
+            }}
+          >
+            push_pin
+          </Icon>
+          {data.pinned ? "Important" : "Unpinned "}
         </Button>
         <ConfirmationModal
           title="Delete task?"

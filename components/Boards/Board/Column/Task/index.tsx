@@ -16,7 +16,6 @@ import {
   styled,
   Tooltip,
 } from "@mui/material";
-import { mutate } from "swr";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 import Item from "../../../../ItemPopup";
 import { ImageViewer } from "./ImageViewer";
@@ -145,18 +144,19 @@ export const Task = function Task({
     borderRadius: 10,
     width: 23,
     height: 23,
-    boxShadow:
-      (global.user.darkMode
+    boxShadow: `${
+      global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "brown"]["A400"]}`) +
-      ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
+        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "brown"]["A700"]}`
+    }, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)`,
     backgroundColor: "transparent",
     ".Mui-focusVisible &": {
-      boxShadow:
-        "0px 0px 0px 2px inset " +
-        colors[taskData.color ?? "brown"][700] +
-        ", 0px 0px 0px 15px inset " +
-        hexToRgba(colors[taskData.color ?? "brown"][900], 0.1),
+      boxShadow: `0px 0px 0px 2px inset ${
+        colors[taskData.color ?? "brown"][700]
+      }, 0px 0px 0px 15px inset ${hexToRgba(
+        colors[taskData.color ?? "brown"][900],
+        0.1
+      )}`,
     },
     "input:disabled ~ &": {
       cursor: "not-allowed",
@@ -165,13 +165,13 @@ export const Task = function Task({
   }));
 
   const BpCheckedIcon: any = styled(BpIcon)({
-    boxShadow:
-      (global.user.darkMode
+    boxShadow: `${
+      global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "brown"]["A400"]}`) +
-      ", 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
+        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "brown"][500]}`
+    }, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)`,
     backgroundColor: `${
-      colors[taskData.color || "brown"][global.user.darkMode ? 50 : "A400"]
+      colors[taskData.color || "brown"][global.user.darkMode ? 50 : 500]
     }!important`,
     "&:before": {
       display: "block",
@@ -186,19 +186,17 @@ export const Task = function Task({
     },
   });
 
-  const [checked, setChecked] = useState(taskData.completed);
   const ref: any = useRef();
 
   const handleCompletion = useCallback(
     async (e) => {
-      setChecked(!taskData.completed);
+      setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
       try {
         await fetchApiWithoutHook("property/boards/column/task/mark", {
           completed: e.target.checked ? "true" : "false",
           id: taskData.id,
         });
-        await mutate(mutationUrl);
-        setChecked(taskData.completed);
+        // await mutate(mutationUrl);
       } catch (e) {
         toast.error("An error occured while updating the task", toastStyles);
       }
@@ -214,7 +212,7 @@ export const Task = function Task({
         <ListItem
           itemRef={ref}
           tabIndex={0}
-          className="task"
+          className="task mb-1.5"
           sx={{
             ...(isSubTask && {
               ml: "20px",
@@ -244,10 +242,6 @@ export const Task = function Task({
               },
             }),
             gap: "10px!important",
-            mt: {
-              xs: 1.5,
-              sm: checkList ? 1.5 : taskData.pinned ? 0.5 : 0,
-            },
           }}
         >
           <ListItemText
@@ -267,7 +261,7 @@ export const Task = function Task({
                     global.permission === "read-only"
                   }
                   disableRipple
-                  checked={checked}
+                  checked={taskData.completed}
                   onChange={handleCompletion}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -286,7 +280,7 @@ export const Task = function Task({
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
-                    ...(checked && {
+                    ...(taskData.completed && {
                       textDecoration: "line-through",
                       opacity: 0.7,
                     }),
@@ -305,7 +299,7 @@ export const Task = function Task({
                         ml: "auto",
                         mr: 1,
                         color:
-                          colors.orange[global.user.darkMode ? "200" : "A400"],
+                          colors.orange[global.user.darkMode ? "200" : "A700"],
                       }}
                       className="outlined"
                     >

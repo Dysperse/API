@@ -43,7 +43,7 @@ function CompletedTasks({
     >
       <ListItem
         tabIndex={0}
-        className="task my-4 flex p-4"
+        className="task my-4 mb-1 flex"
         sx={{
           background: "transparent!important",
           "&:focus-visible": {
