@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
@@ -187,6 +187,7 @@ export const Task = function Task({
   });
 
   const [checked, setChecked] = useState(taskData.completed);
+  const ref: any = useRef();
 
   const handleCompletion = useCallback(
     async (e) => {
@@ -211,6 +212,7 @@ export const Task = function Task({
     <>
       <TaskDrawer id={taskData.id} mutationUrl={mutationUrl}>
         <ListItem
+          itemRef={ref}
           tabIndex={0}
           className="task"
           sx={{
