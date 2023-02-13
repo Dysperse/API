@@ -4,13 +4,12 @@ import {
   Checkbox,
   Chip,
   CircularProgress,
-  Drawer,
   Icon,
   InputAdornment,
-  SwipeableDrawer,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  SwipeableDrawer,
   TextField,
   Typography,
 } from "@mui/material";
@@ -194,7 +193,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         }}
       >
         <Button onClick={handleCompletion} sx={iconStyles} fullWidth>
-          <Icon className="shadow-xl">
+          <Icon className="shadow-md dark:shadow-xl">
             {data.completed ? "check" : "close"}
           </Icon>
           {data.completed ? "Completed" : "Incomplete"}
@@ -204,7 +203,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
           sx={iconStyles}
           fullWidth
         >
-          <Icon className="shadow-xl">push_pin</Icon>
+          <Icon className="shadow-md dark:shadow-xl">push_pin</Icon>
           {data.pinned ? "Important" : "Unpinned "}{" "}
         </Button>
         <ConfirmationModal
@@ -214,7 +213,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
           callback={() => handleDelete(data.id)}
         >
           <Button sx={iconStyles} fullWidth>
-            <Icon className="outlined shadow-xl">delete</Icon>
+            <Icon className="outlined shadow-md dark:shadow-xl">delete</Icon>
             Delete
           </Button>
         </ConfirmationModal>

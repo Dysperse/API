@@ -427,9 +427,11 @@ function OptionsMenu({
             transition: "none!important",
 
             ...((isHovered || Boolean(anchorEl)) && {
-              background: global.user.darkMode
-                ? "hsl(240,11%,13%)!important"
-                : "rgba(200,200,200,.3)!important",
+              background: {
+                sm: global.user.darkMode
+                  ? "hsl(240,11%,13%)!important"
+                  : "rgba(200,200,200,.3)!important",
+              },
             }),
             "&:hover, &:active": {
               background: global.user.darkMode

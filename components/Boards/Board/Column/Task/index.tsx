@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
@@ -158,11 +158,6 @@ export const Task = function Task({
         ", 0px 0px 0px 15px inset " +
         hexToRgba(colors[taskData.color ?? "brown"][900], 0.1),
     },
-    "input:not(:checked):hover ~ &": {
-      backgroundColor: !global.user.darkMode
-        ? colors[taskData.color ?? "brown"]["100"]
-        : "hsl(240,11%,20%)!important",
-    },
     "input:disabled ~ &": {
       cursor: "not-allowed",
       opacity: 0.5,
@@ -189,15 +184,26 @@ export const Task = function Task({
       backgroundRepeat: "no-repeat",
       content: '""',
     },
-    "input:hover ~ &": {
-      backgroundColor:
-        colors[taskData.color ?? global.themeColor ?? "brown"][
-          global.user.darkMode ? 50 : 900
-        ],
-    },
   });
 
   const [checked, setChecked] = useState(taskData.completed);
+
+  const handleCompletion = useCallback(
+    async (e) => {
+      setChecked(!taskData.completed);
+      try {
+        await fetchApiWithoutHook("property/boards/column/task/mark", {
+          completed: e.target.checked ? "true" : "false",
+          id: taskData.id,
+        });
+        await mutate(mutationUrl);
+        setChecked(taskData.completed);
+      } catch (e) {
+        toast.error("An error occured while updating the task", toastStyles);
+      }
+    },
+    [mutationUrl, toastStyles]
+  );
 
   return !taskData ? (
     <></>
@@ -260,24 +266,13 @@ export const Task = function Task({
                   }
                   disableRipple
                   checked={checked}
-                  onChange={(e) => {
-                    setChecked(e.target.checked);
-                    mutate(mutationUrl);
-                    fetchApiWithoutHook("property/boards/column/task/mark", {
-                      completed: e.target.checked ? "true" : "false",
-                      id: taskData.id,
-                    }).catch(() =>
-                      toast.error(
-                        "An error occured while updating the task",
-                        toastStyles
-                      )
-                    );
-                  }}
+                  onChange={handleCompletion}
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
                   sx={{
                     "&:hover": { bgcolor: "transparent" },
+                    cursor: "unset",
                   }}
                   color="default"
                   checkedIcon={<BpCheckedIcon />}
@@ -368,7 +363,7 @@ export const Task = function Task({
       {taskData &&
         taskData.subTasks &&
         taskData.subTasks.map((subtask) => (
-          <Task 
+          <Task
             key={subtask.id}
             isSubTask
             board={board}
