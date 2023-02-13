@@ -32,6 +32,12 @@
   }
 }
 
+input {
+  -webkit-appearance: none;
+  -appearance: none;
+  -moz-appearance: none;
+}
+
 body {
   overflow-x: hidden;
   margin: 0;

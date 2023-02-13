@@ -98,7 +98,7 @@ function ImageModal({ image, setImage, styles }) {
 }
 
 export function CreateTask({
-  label = "New list item",
+  label = false,
   placeholder = false,
   defaultDate = false,
   isHovered,
@@ -664,7 +664,6 @@ export function CreateTask({
         </Box>
       </SwipeableDrawer>
       <ListItem
-        // disabled={global.permission === "read-only"}
         id="createTask"
         className="p-1 sm:p-0 shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
         sx={{
@@ -673,6 +672,12 @@ export function CreateTask({
             xs: 1,
             sm: "0!important",
           },
+          ...(label && {
+            border: "none!important",
+            borderColor: "transparent!important",
+            boxShadow: "none!important",
+            py: "0!important",
+          }),
           cursor: "unset!important",
           ...(isHovered && {
             backgroundColor: {
@@ -698,10 +703,12 @@ export function CreateTask({
             },
           }),
           gap: "5px!important",
-          mb: {
-            xs: 1.5,
-            sm: checkList ? 1.5 : 0.5,
-          },
+          mb: label
+            ? 0
+            : {
+                xs: 1.5,
+                sm: checkList ? 1.5 : 0.5,
+              },
           ...(tasks &&
             tasks.filter((task) => task.completed && task.columnId == column.id)
               .length ==
@@ -737,7 +744,7 @@ export function CreateTask({
               ? "#303030"
               : "#808080",
             marginLeft: !allCompleted ? "10px" : "9px",
-            marginRight: "5px",
+            marginRight: label ? "20px" : "5px",
             fontSize: "20px",
           }}
         >
@@ -754,7 +761,7 @@ export function CreateTask({
                   color: global.user.darkMode ? "#fff" : "#606060",
                 }}
               >
-                {parent ? "New subtask" : label}
+                {parent ? "New subtask" : label || "New list item"}
               </span>
             }
           />

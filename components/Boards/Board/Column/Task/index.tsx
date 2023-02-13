@@ -131,7 +131,7 @@ export const renderDescription = (txt: any) => {
   return result;
 };
 
-export const Task = React.memo(function Task({
+export const Task = function Task({
   board,
   isAgenda = false,
   columnId,
@@ -525,4 +525,4 @@ export const Task = React.memo(function Task({
       ))}
     </>
   );
-});
+};

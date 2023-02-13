@@ -15,20 +15,77 @@ import { green, orange } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import { cloneElement, useCallback, useState } from "react";
+import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { toastStyles } from "../../../../../lib/useCustomTheme";
+import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { ErrorHandler } from "../../../../Error";
 import { Puller } from "../../../../Puller";
+import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 
-function DrawerContent({ mutationUrl, data }) {
+function DrawerContent({ setTaskData, mutationUrl, data }) {
+  const handlePriorityChange = useCallback(async () => {
+    setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
+    toast.promise(
+      new Promise(async (resolve, reject) => {
+        try {
+          await fetchApiWithoutHook("property/boards/togglePin", {
+            id: data.id,
+            pinned: !data.pinned ? "true" : "false",
+          }).then(() => {
+            mutate(mutationUrl);
+          });
+          await mutate(mutationUrl);
+          resolve("");
+        } catch (e) {
+          reject(e);
+        }
+      }),
+      {
+        loading: data.pinned ? "Changing priority..." : "Marking important...",
+        success: data.pinned
+          ? "The priority has been set back to normal"
+          : "Marked as important!",
+        error: "Failed to change priority",
+      },
+      toastStyles
+    );
+  }, [data.pinned, data.id, mutationUrl]);
+
+  const handleDelete = useCallback(
+    function handleDelete(taskId) {
+      setTaskData(null);
+      fetchApiWithoutHook("property/boards/column/task/delete", {
+        id: taskId,
+      }).then(() => {
+        mutate(mutationUrl);
+      });
+    },
+    [mutationUrl]
+  );
+
+  const handleCompletion = useCallback(
+    async (e) => {
+      setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
+      fetchApiWithoutHook("property/boards/column/task/mark", {
+        completed: e.target.checked ? "true" : "false",
+        id: data.id,
+      }).catch(() =>
+        toast.error("An error occured while updating the task", toastStyles)
+      );
+    },
+    [data.id]
+  );
+
   return (
     <>
       {/* Task name input */}
       <TextField
         multiline
         fullWidth
-        defaultValue={data.name}
+        defaultValue={data.name.trim()}
         variant="standard"
         margin="dense"
         InputProps={{
@@ -46,7 +103,7 @@ function DrawerContent({ mutationUrl, data }) {
         defaultValue={data.description}
         margin="dense"
         InputProps={{
-          sx: { fontSize: "20px", borderRadius: 5 },
+          sx: { borderRadius: 5 },
         }}
       />
 
@@ -85,16 +142,41 @@ function DrawerContent({ mutationUrl, data }) {
         }}
       >
         <Chip
-          label={data.completed ? "Mark as not done" : "Mark as complete"}
-          onClick={() => {}}
+          onClick={handleCompletion}
+          label={data.completed ? "Completed" : "Not done"}
+          icon={
+            <Icon
+              sx={{
+                color: global.user.darkMode
+                  ? "#fff!important"
+                  : "#000!important",
+              }}
+            >
+              {data.completed ? "check" : "close"}
+            </Icon>
+          }
           sx={{
-            ...(data.completed && { background: green["A700"] }),
+            ...(data.completed && {
+              background: `${
+                green[global.user.darkMode ? "900" : "A700"]
+              }!important`,
+            }),
+            transition: "none",
+            color: global.user.darkMode ? "#fff!important" : "#000!important",
           }}
         />
+        <ConfirmationModal
+          title="Delete task?"
+          question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
+          disabled={data.subTasks.length == 0}
+          callback={() => handleDelete(data.id)}
+        >
+          <Chip label="Delete" icon={<Icon>delete</Icon>} />
+        </ConfirmationModal>
         <Chip
           label={data.pinned ? "Important" : "Mark as important "}
-          onDelete={data.pinned ? () => {} : undefined}
-          onClick={!data.pinned ? () => {} : undefined}
+          onDelete={data.pinned ? handlePriorityChange : undefined}
+          onClick={!data.pinned ? handlePriorityChange : undefined}
           color="warning"
           sx={{
             background: `${orange[data.pinned ? 400 : 100]}!important`,
@@ -111,25 +193,54 @@ function DrawerContent({ mutationUrl, data }) {
           />
         )}
       </Box>
-      {data.parentTasks.length === 0 && (
-        <Typography variant="h6" sx={{ mt: 2 }}>
+      <Box
+        sx={{
+          background: global.user.darkMode
+            ? "hsl(240,11%,20%)"
+            : "rgba(200,200,200,.3)",
+          borderRadius: 5,
+          p: 3,
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 1 }}>
           Subtasks
         </Typography>
-      )}
-      {data.parentTasks.length === 0 &&
-        data.subTasks.map((subTask) => (
-          <TaskDrawer key={subTask.id} id={subTask.id} mutationUrl={mutationUrl}>
-            <ListItemButton sx={{ px: 0, py: 0.5 }}>
-              <ListItemIcon>
-                <Checkbox checked={subTask.completed} />
-              </ListItemIcon>
-              <ListItemText
-                primary={subTask.name}
-                secondary={subTask.description}
-              />
-            </ListItemButton>
-          </TaskDrawer>
-        ))}
+        {data.parentTasks.length === 0 &&
+          data.subTasks.map((subTask) => (
+            <TaskDrawer
+              key={subTask.id}
+              id={subTask.id}
+              mutationUrl={mutationUrl}
+            >
+              <ListItemButton
+                sx={{ p: 0 }}
+                className="shadow-sm border border-gray-100 dark:border-[hsl(240,11%,18%)] hover:border-gray-300 active:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-100 sm:hover:bg-gray-100 active:bg-gray-200 sm:active:bg-gray-200 cursor-auto select-none"
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    checked={subTask.completed}
+                    disableRipple
+                    size="medium"
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary={subTask.name}
+                  secondary={subTask.description}
+                />
+              </ListItemButton>
+            </TaskDrawer>
+          ))}
+        <CreateTask
+          isHovered={false}
+          column={{ id: "-1", name: "" }}
+          tasks={[]}
+          parent={data.id}
+          label="Create a subtask"
+          checkList={false}
+          mutationUrl={mutationUrl}
+          boardId={1}
+        />
+      </Box>
     </>
   );
 }
@@ -181,7 +292,9 @@ export function TaskDrawer({
     width: "100vw",
     maxWidth: data && data.parentTasks.length == 1 ? "500px" : "600px",
     maxHeight: "80vh",
-    border: 0,
+    borderBottom: 0,
+    borderLeft: 0,
+    borderRight: 0,
   };
 
   return (
@@ -203,7 +316,13 @@ export function TaskDrawer({
               <CircularProgress />
             </Box>
           )}
-          {data && <DrawerContent data={data} mutationUrl={mutationUrl} />}
+          {data && (
+            <DrawerContent
+              data={data}
+              mutationUrl={mutationUrl}
+              setTaskData={setData}
+            />
+          )}
         </Box>
       </Drawer>
     </>
