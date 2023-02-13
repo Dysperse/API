@@ -368,7 +368,8 @@ export const Task = function Task({
       {taskData &&
         taskData.subTasks &&
         taskData.subTasks.map((subtask) => (
-          <Task
+          <Task 
+            key={subtask.id}
             isSubTask
             board={board}
             isAgenda={isAgenda}
