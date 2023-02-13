@@ -1,6 +1,7 @@
 import { Grow, Slide } from "@mui/material";
 import { experimental_sx as sx } from "@mui/material/styles";
 import React from "react";
+import hexToRgba from 'hex-to-rgba';
 import { colors } from "./colors";
 
 const Transition = React.forwardRef(function Transition(
@@ -35,7 +36,8 @@ export const toastStyles = {
   style: {
     borderRadius: "30px",
     paddingLeft: "15px",
-    background: colors[global.themeColor ?? "brown"][900],
+    background: hexToRgba(colors[global.themeColor ?? "brown"][900], 0.6),
+    backdropFilter: "blur(10px)",
     color: colors[global.themeColor ?? "brown"][50],
   },
   iconTheme: {
