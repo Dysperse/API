@@ -36,7 +36,7 @@ export const toastStyles = {
   style: {
     borderRadius: "30px",
     paddingLeft: "15px",
-    background: hexToRgba(colors[global.themeColor ?? "brown"][900], 0.6),
+    background: hexToRgba(colors[global.themeColor ?? "indigo"][900], 0.6),
     backdropFilter: "blur(10px)",
     color: colors[global.themeColor ?? "brown"][50],
   },
