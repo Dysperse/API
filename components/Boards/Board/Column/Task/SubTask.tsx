@@ -106,7 +106,7 @@ export const SubTask = React.memo(function SubTask({
           Delete
         </MenuItem>
       </Menu>
-      <TaskDrawer id={subtask.id}>
+      <TaskDrawer id={subtask.id} mutationUrl={mutationUrl}>
         <ListItem
           onClick={() => {
             if (setOpen) {
