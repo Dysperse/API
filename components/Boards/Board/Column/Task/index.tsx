@@ -128,12 +128,12 @@ export const renderDescription = (txt: any) => {
 
 export const Task = function Task({
   isSubTask = false,
-  board,
   isAgenda = false,
+  checkList = false,
+  board,
   columnId,
   mutationUrl,
   task,
-  checkList,
 }: any): JSX.Element {
   const [taskData, setTaskData] = useState(task);
 

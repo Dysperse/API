@@ -138,7 +138,6 @@ function Column({ mutationUrl, view, day, data }) {
             columnId={task.column ? task.column.id : -1}
             isAgenda
             task={task}
-            checkList={false}
           />
         ))}
         <Box sx={{ mt: 1.5 }}>
