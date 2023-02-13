@@ -12,7 +12,7 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import InviteButton from "./InviteButton";
@@ -102,7 +102,7 @@ export function Navbar(): JSX.Element {
       <Toolbar sx={{ height: "100%", gap: 1 }}>
         <Box
           sx={{
-            transition: "all .2s",
+            transition: "all .3s",
             "&:active": {
               transform: "scale(0.9) rotate(-90deg)",
               transition: "none",

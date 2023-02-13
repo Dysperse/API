@@ -469,9 +469,7 @@ export function CreateTask({
               autoFocus
               variant="standard"
               onKeyDown={(e) => {
-                if (e.key == "Enter") {
-                  handleSubmit(e);
-                }
+                if (e.key == "Enter") handleSubmit(e);
               }}
               placeholder={
                 placeholder
@@ -732,8 +730,6 @@ export function CreateTask({
         <span
           className="material-symbols-outlined"
           style={{
-            marginTop: "10px",
-            marginBottom: "10px",
             border:
               "2px solid " +
               (global.user.darkMode ? "hsl(240,11%,70%)" : "#808080"),
@@ -743,9 +739,11 @@ export function CreateTask({
               : checkList
               ? "#303030"
               : "#808080",
-            marginLeft: !allCompleted ? "10px" : "9px",
+            marginLeft: !allCompleted ? "15px" : "9px",
             marginRight: label ? "20px" : "5px",
             fontSize: "20px",
+            marginTop: "10px",
+            marginBottom: "10px",
           }}
         >
           add

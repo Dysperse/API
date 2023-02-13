@@ -6,6 +6,7 @@ import { Task } from "./Task";
 import { CreateTask } from "./Task/Create";
 
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -647,29 +648,16 @@ export const Column = React.memo(function Column({
         {columnTasks.filter((task) => task.completed).length ==
           columnTasks.length &&
           columnTasks.length >= 1 && (
-            <Box
+            <Alert
+              severity="info"
+              icon="🥳"
               sx={{
-                display: "flex",
-                alignItems: "center",
                 background: global.user.darkMode
-                  ? "hsl(240,11%,20%)"
+                  ? "hsl(240,11%,15%)"
                   : "rgba(200,200,200,.3)",
-                p: 2,
-                borderRadius: 3,
-                gap: 2,
-                mb: 1,
+                color: global.user.darkMode ? "#fff" : "#000",
               }}
-            >
-              <picture>
-                <img
-                  alt="0 items remaining!"
-                  src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
-                  width="40px"
-                  height="40px"
-                />
-              </picture>
-              <Typography sx={{ width: "100%" }}>0 items remaining!</Typography>
-              <div onClick={() => setIsHovered(false)}>
+              action={
                 <CreateTask
                   isHovered={isHovered}
                   column={column}
@@ -678,8 +666,10 @@ export const Column = React.memo(function Column({
                   mutationUrl={mutationUrl}
                   boardId={board.id}
                 />
-              </div>
-            </Box>
+              }
+            >
+              <Typography sx={{ width: "100%" }}>0 items remaining!</Typography>
+            </Alert>
           )}
         <CompletedTasks
           checkList={checkList}
