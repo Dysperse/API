@@ -12,7 +12,7 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import Image from "next/image";
 import InviteButton from "./InviteButton";
@@ -102,7 +102,12 @@ export function Navbar(): JSX.Element {
       <Toolbar sx={{ height: "100%", gap: 1 }}>
         <Box
           sx={{
-            flexGrow: { xs: 1, sm: "unset" },
+            transition: "all .2s",
+            "&:active": {
+              transform: "scale(0.9) rotate(-90deg)",
+              transition: "none",
+            },
+            mr: "auto",
             WebkitAppRegion: "no-drag",
           }}
         >
@@ -113,6 +118,7 @@ export function Navbar(): JSX.Element {
                 behavior: "smooth",
               })
             }
+            draggable="false"
             src="/logo.svg"
             width={40}
             height={40}
