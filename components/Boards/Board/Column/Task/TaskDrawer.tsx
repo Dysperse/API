@@ -16,7 +16,6 @@ import {
 import { green } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
-import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -107,8 +106,10 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         : "rgba(200, 200, 200, .3)",
     },
     "& .MuiIcon-root": {
-      fontVariationSettings:
-        '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
+      "&:not(.pinned)": {
+        fontVariationSettings:
+          '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
+      },
       width: 40,
       color: global.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,10%)",
       height: 40,
@@ -230,7 +231,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         </Button>
         <Button onClick={handlePriorityChange} sx={iconStyles} fullWidth>
           <Icon
-            className="shadow-md dark:shadow-xl"
+            className={`${data.pinned && "pinned"} shadow-md dark:shadow-xl`}
             sx={{
               ...(data.pinned && {
                 transform: "rotate(-20deg)",
