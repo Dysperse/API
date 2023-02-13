@@ -88,11 +88,12 @@ export function Navbar(): JSX.Element {
             ? "rgba(23, 23, 28, .8)"
             : "rgba(255,255,255,.7)",
         },
-        borderBottom: global.user.darkMode
-          ? "1px solid rgba(255,255,255,0.1)"
-          : global.user.darkMode
-          ? "1px solid hsla(240,11%,15%)"
-          : "1px solid rgba(200,200,200,.3)",
+        borderBottom: {
+          xs: global.user.darkMode
+            ? "1px solid hsla(240,11%,15%)"
+            : "1px solid rgba(200,200,200,.3)",
+          sm: "unset",
+        },
         backdropFilter: "blur(10px)",
         display: { sm: "none" },
       }}

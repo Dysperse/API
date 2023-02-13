@@ -498,9 +498,15 @@ export function TasksLayout() {
           />
         )}
         {activeTab === "loading" && <Loading />}
-        {activeTab.includes("__agenda.week") && <Agenda view="week" />}
-        {activeTab.includes("__agenda.month") && <Agenda view="month" />}
-        {activeTab.includes("__agenda.year") && <Agenda view="year" />}
+        {activeTab.includes("__agenda.week") && (
+          <Agenda setDrawerOpen={setOpen} view="week" />
+        )}
+        {activeTab.includes("__agenda.month") && (
+          <Agenda setDrawerOpen={setOpen} view="month" />
+        )}
+        {activeTab.includes("__agenda.year") && (
+          <Agenda setDrawerOpen={setOpen} view="year" />
+        )}
         {data &&
           data.map(
             (board) =>

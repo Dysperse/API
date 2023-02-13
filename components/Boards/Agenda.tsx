@@ -34,7 +34,12 @@ function Column({ mutationUrl, view, day, data }) {
 
   useEffect(() => {
     const activeHighlight = document.getElementById("activeHighlight");
-    if (activeHighlight) activeHighlight.scrollIntoView();
+    if (activeHighlight)
+      activeHighlight.scrollIntoView({
+        block: "nearest",
+        inline: "start",
+      });
+    window.scrollTo(0, 0);
   }, []);
 
   const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
@@ -69,6 +74,7 @@ function Column({ mutationUrl, view, day, data }) {
         sx={{
           color: global.user.darkMode ? "#fff" : "#000",
           p: 3,
+          px: 5,
           background: global.user.darkMode
             ? "hsla(240,11%,16%, 0.2)"
             : "rgba(200,200,200,.05)",
@@ -76,9 +82,7 @@ function Column({ mutationUrl, view, day, data }) {
           borderColor: global.user.darkMode
             ? "hsla(240,11%,18%, 0.2)"
             : "rgba(200,200,200,.3)",
-          position: "sticky",
           userSelect: "none",
-          top: 0,
           zIndex: 9,
           backdropFilter: "blur(10px)",
         }}
@@ -126,7 +130,7 @@ function Column({ mutationUrl, view, day, data }) {
           </Typography>
         )}
       </Box>
-      <Box sx={{ p: 3, pb: { xs: 15, sm: 0 } }}>
+      <Box sx={{ p: 3.5, py: 2, pb: { xs: 15, sm: 0 } }}>
         {tasksWithinTimeRange.map((task) => (
           <Task
             key={task.id}
@@ -137,23 +141,31 @@ function Column({ mutationUrl, view, day, data }) {
             checkList={false}
           />
         ))}
-        <CreateTask
-          isHovered={false}
-          column={{ id: "-1", name: "" }}
-          tasks={[]}
-          defaultDate={day.unchanged}
-          label="Set a goal"
-          placeholder={"Set a goal to be achieved " + placeholder}
-          checkList={false}
-          mutationUrl={mutationUrl}
-          boardId={1}
-        />
+        <Box sx={{ mt: 1.5 }}>
+          <CreateTask
+            isHovered={false}
+            column={{ id: "-1", name: "" }}
+            tasks={[]}
+            defaultDate={day.unchanged}
+            label="Set a goal"
+            placeholder={"Set a goal to be achieved " + placeholder}
+            checkList={false}
+            mutationUrl={mutationUrl}
+            boardId={1}
+          />
+        </Box>
       </Box>
     </Box>
   );
 }
 
-export function Agenda({ view }: { view: "week" | "month" | "year" }) {
+export function Agenda({
+  setDrawerOpen,
+  view,
+}: {
+  setDrawerOpen: any;
+  view: "week" | "month" | "year";
+}) {
   const [navigation, setNavigation] = useState(0);
   const trigger = useScrollTrigger({
     threshold: 0,
@@ -194,6 +206,53 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
 
   return (
     <>
+      <Box
+        sx={{
+          position: "fixed",
+          left: 0,
+          height: "55px",
+          width: "100%",
+          top: "var(--navbar-height)",
+          borderBottom: {
+            xs: global.user.darkMode
+              ? "1px solid hsla(240,11%,15%)"
+              : "1px solid rgba(200,200,200,.3)",
+            sm: "unset",
+          },
+          background: {
+            xs: global.user.darkMode
+              ? "hsla(240,11%,10%, .7)"
+              : "rgba(255,255,255,.7)",
+            sm: "transparent",
+          },
+          zIndex: 9,
+          maxWidth: "100vw",
+          p: 1,
+          px: 3,
+          backdropFilter: {
+            xs: "blur(10px)",
+            sm: "none",
+          },
+          alignItems: "center",
+          display: "flex",
+          gap: 1,
+        }}
+      >
+        <Button
+          size="small"
+          onClick={() => setDrawerOpen(true)}
+          sx={{
+            fontWeight: "700",
+            display: { sm: "none" },
+            fontSize: "15px",
+            textTransform: "capitalize",
+          }}
+        >
+          Agenda
+          <Icon>expand_more</Icon>
+        </Button>
+      </Box>
+
       <Box
         sx={{
           position: "fixed",
@@ -241,7 +300,12 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
             setTimeout(() => {
               const activeHighlight =
                 document.getElementById("activeHighlight");
-              if (activeHighlight) activeHighlight.scrollIntoView();
+              if (activeHighlight)
+                activeHighlight.scrollIntoView({
+                  block: "nearest",
+                  inline: "center",
+                });
+              window.scrollTo(0, 0);
             }, 1);
           }}
           disabled={navigation === 0}
@@ -277,8 +341,8 @@ export function Agenda({ view }: { view: "week" | "month" | "year" }) {
         sx={{
           display: "flex",
           maxWidth: "100vw",
-          mt: { xs: "-15px", sm: 0 },
           overflowX: "scroll",
+          mt: 4,
           height: { sm: "100vh" },
         }}
       >
