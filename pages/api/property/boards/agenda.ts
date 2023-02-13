@@ -11,9 +11,6 @@ const handler = async (req, res) => {
     return;
   }
 
-  console.log(new Date(req.query.startTime));
-  console.log(new Date(req.query.endTime));
-
   /**
    * 🚨🚨🚨🚨🚨🚨🚨 DO NOT REMOVE THIS COMMENT 🚨🚨🚨🚨🚨🚨🚨🚨
    * this is probably the most complicated postgres query in my app 😭
