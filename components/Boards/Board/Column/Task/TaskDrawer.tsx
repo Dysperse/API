@@ -152,7 +152,9 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
       <TextField
         fullWidth
         variant="standard"
-        defaultValue={data.due && dayjs(data.due).format("dddd, MMMM D, YYYY")}
+        defaultValue={
+          data.due && dayjs(data.due).format("ddd, MMM D, YYYY h:mm A")
+        }
         placeholder="Set a due date"
         InputProps={{
           readOnly: true,
