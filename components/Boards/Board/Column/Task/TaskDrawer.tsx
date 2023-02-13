@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { Box } from "@mui/system";
-import ConfettiExplosion from "confetti-explosion-react";
 import dayjs from "dayjs";
+import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -215,7 +215,6 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         }}
       >
         <Button onClick={handleCompletion} sx={iconStyles} fullWidth>
-          {data.completed && <ConfettiExplosion />}
           <Icon
             className="shadow-md dark:shadow-xl"
             sx={{
