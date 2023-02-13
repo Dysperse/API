@@ -120,7 +120,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         InputProps={{
           disableUnderline: true,
           className: "font-heading",
-          sx: { fontSize: "35px", textDecoration: "underline" },
+          sx: { fontSize: "35px", textDecoration: "underline", mt: 2 },
         }}
       />
 
@@ -130,22 +130,47 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         placeholder="Click to add description"
         fullWidth
         defaultValue={data.description}
-        margin="dense"
+        variant="standard"
         InputProps={{
-          sx: { borderRadius: 5 },
+          disableUnderline: true,
+          sx: {
+            mt: 2,
+            borderRadius: 5,
+            background: global.user.darkMode
+              ? "hsl(240,11%,20%)"
+              : "rgba(200,200,200,.3)",
+            "&:focus, &:hover": {
+              background: global.user.darkMode
+                ? "hsl(240,11%,22%)"
+                : "rgba(200,200,200,.4)",
+            },
+            p: 3,
+          },
         }}
       />
 
       <TextField
         fullWidth
+        variant="standard"
         defaultValue={data.due && dayjs(data.due).format("dddd, MMMM D, YYYY")}
         placeholder="Set a due date"
-        margin="dense"
         InputProps={{
           readOnly: true,
           sx: {
             borderRadius: 5,
+            background: global.user.darkMode
+              ? "hsl(240,11%,20%)"
+              : "rgba(200,200,200,.3)",
+            "&:focus, &:hover": {
+              background: global.user.darkMode
+                ? "hsl(240,11%,22%)"
+                : "rgba(200,200,200,.4)",
+            },
+            p: 3,
+            mt: 2,
+            py: 1.5,
           },
+          disableUnderline: true,
           startAdornment: (
             <InputAdornment position="start">
               <Icon>today</Icon>
@@ -239,15 +264,18 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
           boardId={1}
         />
       </Box>
-      {data.id.includes("-event-assignment") && (
-        <Chip
-          label="Synced to Canvas LMS"
-          sx={{
-            background: "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
-            color: "#000!important",
-          }}
-        />
-      )}
+      <Box sx={{ textAlign: "center", mt: 4 }}>
+        {data.id.includes("-event-assignment") && (
+          <Chip
+            label="Synced to Canvas LMS"
+            sx={{
+              fontWeight: 700,
+              background: "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
+              color: "#000!important",
+            }}
+          />
+        )}
+      </Box>
     </>
   );
 }
