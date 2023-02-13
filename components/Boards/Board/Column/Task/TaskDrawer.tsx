@@ -223,6 +223,9 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
             : "rgba(200,200,200,.3)",
           borderRadius: 5,
           p: 3,
+          ...(data.parentTasks.length !== 0 && {
+            display: "none",
+          }),
         }}
       >
         <Typography variant="h6" sx={{ mb: 1 }}>
@@ -236,8 +239,8 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
               mutationUrl={mutationUrl}
             >
               <ListItemButton
-                sx={{ p: 0 }}
-                className="cursor-auto select-none gap-0.5 rounded-xl border border-gray-100 shadow-sm hover:border-gray-300 hover:bg-gray-100 active:border-gray-300 active:bg-gray-200 dark:border-[hsl(240,11%,18%)] dark:bg-transparent sm:hover:bg-gray-100 sm:active:bg-gray-200"
+                sx={{ p: 0, background: "transparent!important" }}
+                className="task"
               >
                 <ListItemIcon>
                   <Checkbox
