@@ -7,6 +7,7 @@ import {
   Drawer,
   Icon,
   InputAdornment,
+  SwipeableDrawer,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -343,9 +344,11 @@ export function TaskDrawer({
   return (
     <>
       {trigger}
-      <Drawer
+      <SwipeableDrawer
         open={open}
         onClose={handleClose}
+        onOpen={handleOpen}
+        disableSwipeToOpen
         anchor="bottom"
         PaperProps={{ sx: drawerStyles }}
       >
@@ -377,7 +380,7 @@ export function TaskDrawer({
             </Alert>
           )}
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 }
