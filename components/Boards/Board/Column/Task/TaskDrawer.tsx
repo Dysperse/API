@@ -372,9 +372,6 @@ export function TaskDrawer({
         ? "500px"
         : "600px",
     maxHeight: "80vh",
-    borderBottom: 0,
-    borderLeft: 0,
-    borderRight: 0,
   };
 
   return (
