@@ -642,6 +642,7 @@ export const Column = React.memo(function Column({
           .sort((x, y) => (x.pinned === y.pinned ? 0 : x.pinned ? -1 : 1))
           .map((task, i) => (
             <Task
+              isAgenda
               key={i}
               checkList={checkList}
               task={task}

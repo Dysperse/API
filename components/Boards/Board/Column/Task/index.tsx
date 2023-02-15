@@ -14,7 +14,7 @@ import {
   ListItem,
   ListItemText,
   styled,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 import Item from "../../../../ItemPopup";
@@ -208,7 +208,7 @@ export const Task = function Task({
     <></>
   ) : (
     <>
-      <TaskDrawer id={taskData.id} mutationUrl={mutationUrl}>
+      <TaskDrawer id={taskData.id} mutationUrl={mutationUrl} isAgenda>
         <ListItem
           itemRef={ref}
           tabIndex={0}

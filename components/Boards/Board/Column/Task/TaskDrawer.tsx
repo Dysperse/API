@@ -27,7 +27,7 @@ import { Puller } from "../../../../Puller";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 
-function DrawerContent({ setTaskData, mutationUrl, data }) {
+function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
   const handlePriorityChange = useCallback(async () => {
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
     toast.promise(
@@ -47,9 +47,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
       }),
       {
         loading: data.pinned ? "Changing priority..." : "Marking important...",
-        success: data.pinned
-          ? "The priority has been set back to normal"
-          : "Marked as important!",
+        success: data.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
       },
       toastStyles
@@ -95,6 +93,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
   );
 
   const iconStyles = {
+    width: "100%",
     flexDirection: "column",
     borderRadius: 5,
     gap: 1,
@@ -167,7 +166,8 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
                 ? "hsl(240,11%,22%)"
                 : "rgba(200,200,200,.4)",
             },
-            p: 3,
+            p: 2,
+            px: 3,
           },
         }}
       />
@@ -204,6 +204,7 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
         }}
       />
       {data.image && <ImageViewer url={data.image} />}
+
       <Box
         sx={{
           display: "flex",
@@ -211,49 +212,69 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
             ? "hsl(240,11%,20%)"
             : "rgba(200,200,200,.3)",
           borderRadius: 5,
-          p: 1,
+          p: 0.5,
           my: 2,
         }}
       >
-        <Button onClick={handleCompletion} sx={iconStyles} fullWidth>
-          <Icon
-            className="shadow-md dark:shadow-xl"
-            sx={{
-              ...(data.completed && {
-                background: green[900],
-                color: "#fff!important",
-              }),
-            }}
-          >
-            {data.completed ? "check" : "close"}
-          </Icon>
-          {data.completed ? "Completed" : "Incomplete"}
-        </Button>
-        <Button onClick={handlePriorityChange} sx={iconStyles} fullWidth>
-          <Icon
-            className={`${data.pinned && "pinned"} shadow-md dark:shadow-xl`}
-            sx={{
-              ...(data.pinned && {
-                transform: "rotate(-20deg)",
-              }),
-              transition: "all .2s",
-            }}
-          >
-            push_pin
-          </Icon>
-          {data.pinned ? "Important" : "Unpinned "}
-        </Button>
-        <ConfirmationModal
-          title="Delete task?"
-          question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
-          disabled={data.subTasks.length == 0}
-          callback={() => handleDelete(data.id)}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            width: "100%",
+          }}
         >
-          <Button sx={iconStyles} fullWidth>
-            <Icon className="outlined shadow-md dark:shadow-xl">delete</Icon>
-            Delete
+          <Button onClick={handleCompletion} sx={iconStyles}>
+            <Icon
+              className="shadow-md dark:shadow-xl"
+              sx={{
+                ...(data.completed && {
+                  background: green[900],
+                  color: "#fff!important",
+                }),
+              }}
+            >
+              {data.completed ? "check" : "close"}
+            </Icon>
+            {data.completed ? "Completed" : "Incomplete"}
           </Button>
-        </ConfirmationModal>
+          <Button onClick={handlePriorityChange} sx={iconStyles}>
+            <Icon
+              className={`${data.pinned && "pinned"} shadow-md dark:shadow-xl`}
+              sx={{
+                ...(data.pinned && {
+                  transform: "rotate(-20deg)",
+                }),
+                transition: "all .2s",
+              }}
+            >
+              push_pin
+            </Icon>
+            {data.pinned ? "Important" : "Unpinned "}
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            width: "100%",
+          }}
+        >
+          <ConfirmationModal
+            title="Delete task?"
+            question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
+            disabled={data.subTasks.length == 0}
+            callback={() => handleDelete(data.id)}
+          >
+            <Button sx={iconStyles}>
+              <Icon className="outlined shadow-md dark:shadow-xl">delete</Icon>
+              Delete
+            </Button>
+          </ConfirmationModal>
+          <Button sx={iconStyles}>
+            <Icon className="outlined shadow-md dark:shadow-xl">east</Icon>
+            Postpone
+          </Button>
+        </Box>
       </Box>
       <Box
         sx={{
@@ -267,12 +288,13 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
           }),
         }}
       >
-        <Typography variant="h6" sx={{ mb: 1 }}>
+        <Typography variant="h6" sx={{ mb: 1.5, ml: 0.5 }}>
           Subtasks
         </Typography>
         {data.parentTasks.length === 0 &&
           data.subTasks.map((subTask) => (
             <TaskDrawer
+              isAgenda={isAgenda}
               key={subTask.id}
               id={subTask.id}
               mutationUrl={mutationUrl}
@@ -323,10 +345,12 @@ function DrawerContent({ setTaskData, mutationUrl, data }) {
 }
 
 export function TaskDrawer({
+  isAgenda = false,
   children,
   id,
   mutationUrl,
 }: {
+  isAgenda?: boolean;
   children: JSX.Element;
   id: number;
   mutationUrl: string;
@@ -402,6 +426,7 @@ export function TaskDrawer({
           )}
           {data && data !== "deleted" && (
             <DrawerContent
+              isAgenda={isAgenda}
               data={data}
               mutationUrl={mutationUrl}
               setTaskData={setData}
