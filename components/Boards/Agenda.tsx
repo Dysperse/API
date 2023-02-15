@@ -7,7 +7,8 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { Task } from "./Board/Column/Task";
@@ -50,8 +51,31 @@ function Column({ mutationUrl, view, day, data }) {
     return dueDate >= startTime && dueDate <= endTime;
   });
 
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const ref: any = useRef();
+
+  useHotkeys(
+    "c",
+    (e) => {
+      e.preventDefault();
+      if (isHovered) {
+        const trigger: any = ref.current?.querySelector("#createTask");
+        trigger?.click();
+        setIsHovered(false);
+      }
+    },
+    [isHovered]
+  );
+
+  const tasksLeft =
+    tasksWithinTimeRange.length -
+    tasksWithinTimeRange.filter((task) => task.completed).length;
+
   return (
     <Box
+      ref={ref}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       {...(isToday && { id: "activeHighlight" })}
       sx={{
         scrollMarginRight: "25px",
@@ -118,24 +142,43 @@ function Column({ mutationUrl, view, day, data }) {
         {subheading !== "-" && (
           <Typography
             sx={{
+              display: "flex",
+              alignItems: "center",
               fontSize: "20px",
               ...(isPast && {
                 opacity: 0.5,
-                textDecoration: "line-through",
               }),
             }}
           >
-            {view === "month" &&
-            dayjs(day.unchanged).format("M") !== dayjs().format("M")
-              ? dayjs(day.unchanged).fromNow()
-              : dayjs(day.unchanged).format(subheading)}
+            <span
+              style={{
+                ...(isPast && {
+                  textDecoration: "line-through",
+                }),
+              }}
+            >
+              {view === "month" &&
+              dayjs(day.unchanged).format("M") !== dayjs().format("M")
+                ? dayjs(day.unchanged).fromNow()
+                : dayjs(day.unchanged).format(subheading)}
+            </span>
+            <Typography
+              variant="body2"
+              sx={{
+                ml: "auto",
+                opacity:
+                  tasksWithinTimeRange.length == 0 || tasksLeft === 0 ? 0 : 0.6,
+              }}
+            >
+              {tasksLeft} {isPast ? "unfinished" : "left"}
+            </Typography>
           </Typography>
         )}
       </Box>
       <Box sx={{ p: 3.5, py: 2, pb: { xs: 15, sm: 0 } }}>
         <Box sx={{ my: 0.5 }}>
           <CreateTask
-            isHovered={false}
+            isHovered={isHovered}
             column={{ id: "-1", name: "" }}
             tasks={[]}
             defaultDate={day.unchanged}

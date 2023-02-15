@@ -24,6 +24,7 @@ import {
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
+import { toastStyles } from "../../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 
 function CompletedTasks({
@@ -249,7 +250,7 @@ function OptionsMenu({
 }) {
   const [open, setOpen] = React.useState(false);
   const styles = {
-    width: "100%",
+    ml: "auto",
     borderRadius: 5,
     transition: "none!important",
     justifyContent: "start",
@@ -322,18 +323,25 @@ function OptionsMenu({
         />
       </Box>
 
-      <Box>
+      <Box sx={{ display: "flex" }}>
         <Button
           sx={styles}
           size="large"
           onClick={async () => {
-            await fetchApiWithoutHook("property/boards/column/edit", {
-              id: column.id,
-              name: title,
-              emoji: emoji,
-            });
-            await mutate(mutationUrl);
-            toast.success("Saved!");
+            toast.promise(
+              fetchApiWithoutHook("property/boards/column/edit", {
+                id: column.id,
+                name: title,
+                emoji: emoji,
+              }).then(() => mutate(mutationUrl)),
+              {
+                loading: "Saving...",
+                success: "Edited column!",
+                error: "Yikes! An error occured - Please try again later!",
+              },
+              toastStyles
+            );
+            setOpen(false);
           }}
         >
           <Icon className="outlined">save</Icon>

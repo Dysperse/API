@@ -760,6 +760,7 @@ export function CreateTask({
           sx={{
             minWidth: "auto",
             opacity: isHovered ? 1 : 0,
+            ml: "auto",
           }}
         >
           <Typography
@@ -772,7 +773,7 @@ export function CreateTask({
               borderRadius: "3px",
               fontSize: "12px",
               height: "20px",
-              display: { xs: "none", sm: label ? "none" : "flex" },
+              display: { xs: "none", sm: "flex" },
               alignItems: "center",
               justifyContent: "center",
               width: "20px",
