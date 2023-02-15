@@ -6,6 +6,7 @@ import {
   Typography,
   useScrollTrigger,
 } from "@mui/material";
+import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -145,15 +146,15 @@ function Column({ mutationUrl, view, day, data }) {
               display: "flex",
               alignItems: "center",
               fontSize: "20px",
-              ...(isPast && {
-                opacity: 0.5,
-              }),
             }}
           >
             <span
               style={{
                 ...(isPast && {
                   textDecoration: "line-through",
+                  ...(isPast && {
+                    opacity: 0.5,
+                  }),
                 }),
               }}
             >
@@ -167,10 +168,27 @@ function Column({ mutationUrl, view, day, data }) {
               sx={{
                 ml: "auto",
                 opacity:
-                  tasksWithinTimeRange.length == 0 || tasksLeft === 0 ? 0 : 0.6,
+                  tasksWithinTimeRange.length == 0
+                    ? 0
+                    : tasksLeft === 0
+                    ? 1
+                    : 0.6,
               }}
             >
-              {tasksLeft} {isPast ? "unfinished" : "left"}
+              {tasksLeft !== 0 ? (
+                <>
+                  {tasksLeft} {isPast ? "unfinished" : "left"}
+                </>
+              ) : (
+                <Icon
+                  sx={{
+                    color: green[global.user.darkMode ? "A700" : "800"],
+                  }}
+                  className="outlined"
+                >
+                  check_circle
+                </Icon>
+              )}
             </Typography>
           </Typography>
         )}
