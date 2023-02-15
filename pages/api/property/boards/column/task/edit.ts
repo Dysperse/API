@@ -18,6 +18,9 @@ const handler = async (req, res) => {
       ...((req.query.description || req.query.description === "") && {
         description: req.query.description,
       }),
+      ...((req.query.due || req.query.due === "") && {
+        due: req.query.due,
+      }),
       ...(req.query.color && { color: req.query.color }),
     },
   });

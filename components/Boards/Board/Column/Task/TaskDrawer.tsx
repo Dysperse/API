@@ -1,9 +1,11 @@
+import { Calendar } from "@mantine/dates";
 import {
   Alert,
   Button,
   Checkbox,
   Chip,
   CircularProgress,
+  Dialog,
   Icon,
   InputAdornment,
   ListItemButton,
@@ -20,6 +22,7 @@ import { cloneElement, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { ErrorHandler } from "../../../../Error";
@@ -92,6 +95,16 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
     [data.id]
   );
 
+  const handlePostpone = useCallback(() => {
+    handleEdit(data.id, "due", dayjs(data.due).add(1, "day").toISOString());
+    setTaskData((prev) => ({
+      ...prev,
+      due: dayjs(data.due).add(1, "day").toISOString(),
+    }));
+  }, [data.id]);
+
+  const [open, setOpen] = useState(false);
+
   const iconStyles = {
     width: "100%",
     flexDirection: "column",
@@ -156,6 +169,9 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
         InputProps={{
           disableUnderline: true,
           sx: {
+            "&, & *": {
+              cursor: "unset",
+            },
             mt: 2,
             borderRadius: 5,
             background: global.user.darkMode
@@ -172,6 +188,58 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
         }}
       />
 
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{ sx: { p: 3 } }}
+      >
+        <Calendar
+          value={new Date(data.due)}
+          firstDayOfWeek="sunday"
+          onChange={(e: any) => {
+            setTaskData((prev) => ({
+              ...prev,
+              due: e?.toISOString(),
+            }));
+            handleEdit(data.id, "due", e.toISOString());
+
+            setOpen(false);
+          }}
+          fullWidth
+          styles={(theme) => ({
+            // Weekend color
+            day: {
+              borderRadius: 19,
+              transition: "border-radius .2s",
+              "&:hover": {
+                background:
+                  colors[themeColor][global.user.darkMode ? 900 : 100],
+              },
+              color: colors[themeColor][500],
+              "&[data-outside]": {
+                color: `${
+                  global.user.darkMode
+                    ? theme.colors.dark[3]
+                    : theme.colors.gray[5]
+                }!important`,
+              },
+              "&[data-selected]": {
+                backgroundColor:
+                  colors[themeColor][global.user.darkMode ? 100 : 900],
+                color: global.user.darkMode
+                  ? "#000!important"
+                  : "#fff!important",
+                borderRadius: 9,
+                position: "relative",
+              },
+
+              "&[data-weekend]": {
+                color: colors[themeColor][500],
+              },
+            },
+          })}
+        />
+      </Dialog>
       <TextField
         fullWidth
         variant="standard"
@@ -179,9 +247,15 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
           data.due && dayjs(data.due).format("ddd, MMM D, YYYY h:mm A")
         }
         placeholder="Set a due date"
+        onClick={() => {
+          setOpen(true);
+        }}
         InputProps={{
           readOnly: true,
           sx: {
+            "&, & *": {
+              cursor: "unset",
+            },
             borderRadius: 5,
             background: global.user.darkMode
               ? "hsl(240,11%,20%)"
@@ -270,7 +344,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
               Delete
             </Button>
           </ConfirmationModal>
-          <Button sx={iconStyles}>
+          <Button sx={iconStyles} onClick={handlePostpone}>
             <Icon className="outlined shadow-md dark:shadow-xl">east</Icon>
             Postpone
           </Button>
