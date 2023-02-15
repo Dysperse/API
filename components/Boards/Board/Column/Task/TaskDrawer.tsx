@@ -245,9 +245,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
         variant="standard"
         value={data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")}
         placeholder="Set a due date"
-        onClick={() => {
-          setOpen(true);
-        }}
+        onClick={() => setOpen(true)}
         InputProps={{
           readOnly: true,
           sx: {
