@@ -19,6 +19,7 @@ import { green } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import { cloneElement, useCallback, useState } from "react";
+import { toArray } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
@@ -29,6 +30,20 @@ import { ErrorHandler } from "../../../../Error";
 import { Puller } from "../../../../Puller";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
+
+const parseEmojis = (value) => {
+  const emojisArray = toArray(value);
+
+  // toArray outputs React elements for emojis and strings for other
+  const newValue = emojisArray.reduce((previous: any, current: any) => {
+    if (typeof current === "string") {
+      return previous + current;
+    }
+    return previous + current.props.children;
+  }, "");
+
+  return newValue;
+};
 
 function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
   const handlePriorityChange = useCallback(async () => {
@@ -142,7 +157,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
       <TextField
         multiline
         fullWidth
-        defaultValue={data.name.trim()}
+        defaultValue={parseEmojis(data.name.trim())}
         variant="standard"
         onBlur={(e) => handleEdit(data.id, "name", e.target.value)}
         onChange={(e) => (e.target.value = e.target.value.replaceAll("\n", ""))}
@@ -164,7 +179,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
         multiline
         placeholder="Click to add description"
         fullWidth
-        defaultValue={data.description}
+        defaultValue={parseEmojis(data.description)}
         variant="standard"
         InputProps={{
           disableUnderline: true,

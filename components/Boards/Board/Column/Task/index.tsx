@@ -14,8 +14,10 @@ import {
   ListItem,
   ListItemText,
   styled,
-  Tooltip
+  Tooltip,
+  Typography,
 } from "@mui/material";
+import { Twemoji } from "react-emoji-render";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 import Item from "../../../../ItemPopup";
 import { ImageViewer } from "./ImageViewer";
@@ -280,13 +282,19 @@ export const Task = function Task({
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
+                    "& img": {
+                      display: "inline-flex !important",
+                      width: "23px!important",
+                      height: "23px!important",
+                      verticalAlign: "top !important",
+                    },
                     ...(taskData.completed && {
                       textDecoration: "line-through",
                       opacity: 0.7,
                     }),
                   }}
                 >
-                  {renderText(taskData.name)}
+                  <Twemoji>{renderText(taskData.name)}</Twemoji>
                   {taskData.image && (
                     <ImageViewer trimHeight url={taskData.image} />
                   )}
@@ -310,7 +318,7 @@ export const Task = function Task({
               </Box>
             }
             secondary={
-              <span
+              <Typography
                 style={{
                   marginLeft: "45px",
                   display: "block",
@@ -325,7 +333,20 @@ export const Task = function Task({
                   overflow: "hidden",
                 }}
               >
-                {renderDescription(taskData.description)}
+                <Typography
+                  sx={{
+                    "& img": {
+                      display: "inline-flex !important",
+                      width: "20px!important",
+                      height: "20px!important",
+                      verticalAlign: "top !important",
+                    },
+                  }}
+                >
+                  <Twemoji>
+                    {renderDescription(taskData.description || " ")}
+                  </Twemoji>
+                </Typography>
                 {taskData.due && !isAgenda && (
                   <Tooltip
                     title={dayjs(taskData.due).format("MMMM D, YYYY")}
@@ -351,7 +372,7 @@ export const Task = function Task({
                     </span>
                   </Tooltip>
                 )}
-              </span>
+              </Typography>
             }
           />
         </ListItem>
