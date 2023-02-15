@@ -199,7 +199,10 @@ export function CreateTask({
   };
 
   useEffect(() => {
-    if (title.includes("!!")) {
+    if (
+      title.includes("!!") ||
+      (title === title.toUpperCase() && title.length >= 3)
+    ) {
       setPinned(true);
     }
     if (title.toLowerCase().includes("today")) {
