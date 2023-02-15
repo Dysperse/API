@@ -64,7 +64,7 @@ function Column({ mutationUrl, view, day, data }) {
         flexBasis: 0,
         minHeight: "100vh",
         overflowY: "scroll",
-        minWidth: { xs: "80vw", sm: "250px" },
+        minWidth: { xs: "80vw", sm: "320px" },
         ...(!data && {
           filter: "blur(10px)",
         }),
