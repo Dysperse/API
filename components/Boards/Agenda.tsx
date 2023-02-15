@@ -225,6 +225,7 @@ function Column({ mutationUrl, view, day, data }) {
             task={task}
           />
         ))}
+        <Box sx={{ mb: 5 }} />
       </Box>
     </Box>
   );
