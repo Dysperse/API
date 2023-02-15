@@ -133,6 +133,19 @@ function Column({ mutationUrl, view, day, data }) {
         )}
       </Box>
       <Box sx={{ p: 3.5, py: 2, pb: { xs: 15, sm: 0 } }}>
+        <Box sx={{ my: 0.5 }}>
+          <CreateTask
+            isHovered={false}
+            column={{ id: "-1", name: "" }}
+            tasks={[]}
+            defaultDate={day.unchanged}
+            label="Set a goal"
+            placeholder={"Set a goal to be achieved " + placeholder}
+            checkList={false}
+            mutationUrl={mutationUrl}
+            boardId={1}
+          />
+        </Box>
         {[
           ...tasksWithinTimeRange.filter(
             (task) => !task.completed && task.pinned
@@ -151,19 +164,6 @@ function Column({ mutationUrl, view, day, data }) {
             task={task}
           />
         ))}
-        <Box sx={{ mt: 1.5 }}>
-          <CreateTask
-            isHovered={false}
-            column={{ id: "-1", name: "" }}
-            tasks={[]}
-            defaultDate={day.unchanged}
-            label="Set a goal"
-            placeholder={"Set a goal to be achieved " + placeholder}
-            checkList={false}
-            mutationUrl={mutationUrl}
-            boardId={1}
-          />
-        </Box>
       </Box>
     </Box>
   );
