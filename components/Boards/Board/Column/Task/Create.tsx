@@ -86,7 +86,6 @@ function ImageModal({ image, setImage, styles }) {
               setImageUploading(false);
             })
             .catch((err) => {
-              console.log(err);
               setImageUploading(false);
             });
         }}
