@@ -625,7 +625,12 @@ export const Column = React.memo(function Column({
             columnTasks.filter((task) => task.completed).length ==
               columnTasks.length && columnTasks.length >= 1
           ) && (
-            <div onClick={() => setIsHovered(false)}>
+            <div
+              onClick={() => setIsHovered(false)}
+              style={{
+                marginBottom: "5px",
+              }}
+            >
               <CreateTask
                 isHovered={isHovered}
                 column={column}
