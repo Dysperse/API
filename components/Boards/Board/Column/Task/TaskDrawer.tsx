@@ -243,9 +243,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
       <TextField
         fullWidth
         variant="standard"
-        defaultValue={
-          data.due && dayjs(data.due).format("ddd, MMM D, YYYY h:mm A")
-        }
+        value={data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")}
         placeholder="Set a due date"
         onClick={() => {
           setOpen(true);
