@@ -83,6 +83,11 @@ const handler = async (req, res) => {
         }),
       },
       create: {
+        property: {
+          connect: {
+            id: req.query.property,
+          },
+        },
         id: taskId,
         name,
         ...(due && {
