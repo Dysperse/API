@@ -111,7 +111,13 @@ export default function Inventory({ children = null }: any) {
           pt: { sm: 0.5 },
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
-          background: { sm: global.user.darkMode ? "hsl(240,11%,7%)" : "#fff" },
+          background: {
+            sm: global.user.darkMode
+              ? "hsl(240,11%,7%)"
+              : global.user.darkMode
+              ? "hsl(240,11%,7%)"
+              : "hsl(240,11%,95%)",
+          },
           ml: { sm: -1 },
         }}
       >
@@ -172,7 +178,7 @@ export default function Inventory({ children = null }: any) {
             borderRadius: "15px!important",
           }}
         >
-          <h1 className="text-4xl underline font-heading my-10 sm:hidden font-light">
+          <h1 className="font-heading my-10 text-4xl font-light underline sm:hidden">
             {global.property.profile.type === "study group"
               ? "Belongings"
               : "Inventory"}
