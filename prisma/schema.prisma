@@ -190,8 +190,8 @@ model Task {
   parentTasks Task[] @relation("subtasks")
   subTasks    Task[] @relation("subtasks")
 
-  propertyId String?
-  property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model RoutineItem {
