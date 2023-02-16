@@ -256,7 +256,6 @@ export function CreateTask({
       setLoading(false);
       setTitle("");
       setDescription("");
-      setDate(null);
       setImage(null);
       setPinned(false);
       titleRef.current?.focus();
