@@ -275,10 +275,10 @@ export default function Inventory({ children = null }: any) {
                 />
               </>
             )}
-            <Divider sx={{ my: 1 }} />
+            <Divider sx={{ my: 1.5, opacity: 0.7 }} />
             <Rooms data={dataRooms} error={error} mutationUrl={url} />
             <CreateRoom mutationUrl={url} />
-            <Divider sx={{ my: 1 }} />
+            <Divider sx={{ my: 1.5, opacity: 0.7 }} />
             {/* <Action href="/starred" icon="star" primary="Starred" /> */}
             <Action
               href="/trash"

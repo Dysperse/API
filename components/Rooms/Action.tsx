@@ -77,7 +77,7 @@ const Action = React.memo(function Action({
           background: {
             sm: global.user.darkMode
               ? "hsl(240,11%,13%)!important"
-              : colors[themeColor][50] + "!important",
+              : "hsl(240,11%,90%)!important",
           },
         },
         cursor: "unset!important",
@@ -108,7 +108,7 @@ const Action = React.memo(function Action({
           ? {
               background: global.user.darkMode
                 ? "hsl(240,11%,13%)!important"
-                : colors[themeColor][50] + "!important",
+                : "hsl(240,11%,90%)!important",
             }
           : {
               background: "transparent!important",
@@ -124,10 +124,10 @@ const Action = React.memo(function Action({
         <Avatar
           sx={{
             borderRadius: 4,
-            color: global.user.darkMode ? "#fff" : colors[themeColor][900],
+            color: global.user.darkMode ? "#fff" : "#000",
             background: global.user.darkMode
               ? "hsl(240,11%,17%)"
-              : colors[themeColor][100],
+              : "hsl(240,11%,80%)",
           }}
         >
           <span
@@ -154,7 +154,7 @@ const Action = React.memo(function Action({
         }
         secondary={
           <Typography
-            className="text-sm sm font-normal"
+            className="sm text-sm font-normal"
             sx={{
               ...((isCustom || itemCount === -3) && { display: "none" }),
               ...(itemCount == -1 && {
