@@ -30,6 +30,11 @@ const handler = async (req, res) => {
     where: {
       AND: [
         {
+          property: {
+            id: req.query.property,
+          },
+        },
+        {
           due: {
             gte: new Date(req.query.startTime),
           },
