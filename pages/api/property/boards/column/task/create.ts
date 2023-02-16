@@ -14,7 +14,9 @@ const handler = async (req, res) => {
   const data = await prisma.task.create({
     data: {
       property: {
-        id: req.query.property,
+        connect: {
+          id: req.query.property,
+        },
       },
       name: req.query.title,
       ...(req.query.columnId !== "-1" && {
