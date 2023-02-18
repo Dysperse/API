@@ -53,7 +53,6 @@ export default async function handler(req, res) {
   const { email } = JSON.parse(req.body);
   // Find the user in the database
   const user = await prisma.user.findUnique({
-    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       email: email,
     },

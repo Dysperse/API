@@ -22,7 +22,6 @@ const handler = async (req, res) => {
     return;
   }
   let data = await prisma.integration.findMany({
-    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       AND: [
         { name: "Canvas LMS" },

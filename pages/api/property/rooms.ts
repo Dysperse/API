@@ -17,7 +17,6 @@ const handler = async (req, res) => {
     return;
   }
   const data = await prisma.customRoom.findMany({
-    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       private: false,
       property: {
@@ -26,7 +25,6 @@ const handler = async (req, res) => {
     },
   });
   const data1 = await prisma.customRoom.findMany({
-    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       private: true,
       userIdentifier: req.query.userIdentifier,

@@ -15,7 +15,6 @@ const Notification = async (req, res) => {
   }
   // Select user's push notification subscription URL, also asking one of their incompleted goals.
   let subscriptions = await prisma.notificationSettings.findMany({
-    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       dailyRoutineNudge: true,
     },

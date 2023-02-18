@@ -29,7 +29,6 @@ export default async function handler(req, res) {
   }
   //  Find if email is already in use
   const emailInUse = await prisma.user.findUnique({
-    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       email: body.email,
     },
