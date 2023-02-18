@@ -13,7 +13,6 @@ const handler = async (req, res) => {
 
   //  List all tasks for a board from the column
   const data = await prisma.column.findMany({
-    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       board: {
         id: req.query.id,
