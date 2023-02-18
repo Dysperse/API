@@ -13,11 +13,10 @@ declare global {
 }
 
 if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient().$extends(useAccelerate);
+  prisma = new PrismaClient();
 } else {
   if (!global.prisma) {
-    const e: any = new PrismaClient().$extends(useAccelerate);
-    global.prisma = e;
+    global.prisma = new PrismaClient();
   }
   prisma = global.prisma;
 }

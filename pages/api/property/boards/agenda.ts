@@ -25,7 +25,6 @@ const handler = async (req, res) => {
         [ task is within time range ]
    */
 
-  console.time("How long does this insanely idiotic function take?");
   const data = await prisma.task.findMany({
     where: {
       AND: [
@@ -72,7 +71,6 @@ const handler = async (req, res) => {
       parentTasks: true,
     },
   });
-  console.timeEnd("How long does this insanely idiotic function take?");
   res.json(data);
 };
 

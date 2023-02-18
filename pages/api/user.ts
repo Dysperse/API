@@ -34,11 +34,10 @@ export const sessionData = async (providedToken) => {
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const time1 = Date.now();
+  console.time("🧑 Session data request took");
   if (req.cookies.token) {
     const info = await sessionData(req.cookies.token);
-    const time2 = Date.now();
-    console.log(`User data request took ${time2 - time1}ms`);
+    console.timeEnd("🧑 Session data request took");
     if (info.user === false) {
       res.status(401).json({ error: true });
       return;
