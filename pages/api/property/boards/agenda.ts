@@ -2,6 +2,10 @@ import { prisma } from "../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
+  // res.setHeader(
+  //   "Cache-Control",
+  //   "public, s-maxage=10, stale-while-revalidate=59"
+  // );
   const permissions = await validatePermissions(
     req.query.property,
     req.query.accessToken
