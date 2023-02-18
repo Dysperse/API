@@ -26,7 +26,6 @@ export const validatePermissions = async (
       select: {
         permission: true,
       },
-      cacheStrategy: { swr: 300, ttl: 600 },
     });
     cacheData.put(
       key,
