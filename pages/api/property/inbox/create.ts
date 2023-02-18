@@ -30,6 +30,7 @@ export const createInboxNotification = async (
 
   // Fetch all members of the property
   const members = await prisma.propertyInvite.findMany({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       propertyId,
     },

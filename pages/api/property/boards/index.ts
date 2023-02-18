@@ -13,6 +13,7 @@ const handler = async (req, res) => {
 
   //  List all boards with columns, but not items
   const data = await prisma.board.findMany({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       OR: [
         {

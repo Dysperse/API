@@ -11,6 +11,7 @@ const handler = async (req, res) => {
     return;
   }
   const data = await prisma.inboxItem.findMany({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       property: {
         id: req.query.property,

@@ -12,6 +12,7 @@ const handler = async (req, res) => {
   }
 
   const data = await prisma.propertyInvite.findMany({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       propertyId: req.query.propertyId,
     },

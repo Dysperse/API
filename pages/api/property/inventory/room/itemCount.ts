@@ -12,6 +12,7 @@ const handler = async (req, res) => {
   }
 
   const data = await prisma.item.findMany({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       room: req.query.room,
       property: {

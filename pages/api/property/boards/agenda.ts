@@ -27,6 +27,7 @@ const handler = async (req, res) => {
 
   console.time("How long does this insanely idiotic function take?");
   const data = await prisma.task.findMany({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       AND: [
         {

@@ -13,6 +13,7 @@ export default async function handler(req, res) {
   );
 
   const data = await prisma.propertyInvite.findMany({
+    cacheStrategy: { swr: 60, ttl: 60 },
     include: {
       profile: true,
     },
@@ -30,7 +31,6 @@ export default async function handler(req, res) {
         },
       ],
     },
-    cacheStrategy: { swr: 60, ttl: 60 },
   });
   res.json(data);
 }
