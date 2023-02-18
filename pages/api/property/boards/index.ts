@@ -34,7 +34,11 @@ const handler = async (req, res) => {
       ],
     },
     include: {
-      columns: true,
+      columns: {
+        orderBy: {
+          id: "desc",
+        },
+      },
       integrations: {
         select: {
           name: true,

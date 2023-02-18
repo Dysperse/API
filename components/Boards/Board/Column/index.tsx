@@ -131,6 +131,9 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
             borderRadius: { xs: "20px 20px 0 0", sm: 4 },
           },
         }}
+        sx={{
+          zIndex: 9999999,
+        }}
       >
         <EmojiPicker
           // theme={global.user.darkMode ? "dark" : "light"}
@@ -325,6 +328,7 @@ function OptionsMenu({
 
       <Box sx={{ display: "flex" }}>
         <Button
+          ref={buttonRef}
           sx={styles}
           size="large"
           onClick={async () => {

@@ -18,6 +18,9 @@ const handler = async (req, res) => {
         id: req.query.id,
       },
     },
+    orderBy: {
+      id: "desc",
+    },
     include: {
       tasks: {
         include: {
