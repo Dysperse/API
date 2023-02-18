@@ -7,7 +7,7 @@
   "repository": "https://github.com/Dysperse/Dysperse",
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate --data-proxy && next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "static": "next build && next export",
     "lint": "next lint",
