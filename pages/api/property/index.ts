@@ -15,7 +15,6 @@ const handler = async (req, res) => {
     where: {
       AND: [
         { propertyId: req.query.id },
-        { accepted: true },
         {
           accessToken: req.query.propertyAccessToken,
         },
