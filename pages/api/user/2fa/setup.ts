@@ -12,6 +12,7 @@ import { prisma } from "../../../../lib/prismaClient";
 const handler = async (req, res) => {
   // Get user info from sessions table using accessToken
   const session = await prisma.session.findUnique({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       id: req.query.token,
     },

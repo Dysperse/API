@@ -30,6 +30,7 @@ export default async function handler(req, res) {
         },
       ],
     },
+    cacheStrategy: { swr: 60, ttl: 60 },
   });
   res.json(data);
 }

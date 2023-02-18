@@ -13,6 +13,7 @@ const handler = async (req, res) => {
   }
   // Find email from `user` table
   const user = await prisma.user.findUnique({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       email: req.query.email,
     },

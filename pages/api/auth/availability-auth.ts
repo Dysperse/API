@@ -1,4 +1,4 @@
-import prisma from "../../../prisma/prisma";
+import { prisma } from "../../../lib/prismaClient";
 
 export default async function handler(req, res) {
   const { secret, accessToken } = req.query;
@@ -6,6 +6,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: "Invalid secret" });
   }
   const user = await prisma.oAuthToken.findUnique({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       accessToken: accessToken,
     },

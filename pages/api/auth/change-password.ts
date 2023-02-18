@@ -13,6 +13,7 @@ export default async function handler(req, res) {
 
   //  Find passwordResetToken in database and get user id from it
   const passwordResetToken: any = await prisma.passwordResetToken.findUnique({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       token: token,
     },

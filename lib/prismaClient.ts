@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import useAccelerate from "@prisma/extension-accelerate";
 
 // Avoid instantiating too many instances of Prisma in development
 // https://www.prisma.io/docs/support/help-articles/nextjs-prisma-client-dev-practices#problem
 
-let prisma: PrismaClient;
+let prisma: any;
 
 declare global {
   // allow global `var` declarations
@@ -12,10 +13,11 @@ declare global {
 }
 
 if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
+  prisma = new PrismaClient().$extends(useAccelerate);
 } else {
   if (!global.prisma) {
-    global.prisma = new PrismaClient();
+    const e: any = new PrismaClient().$extends(useAccelerate);
+    global.prisma = e;
   }
   prisma = global.prisma;
 }

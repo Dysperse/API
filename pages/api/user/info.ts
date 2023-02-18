@@ -7,6 +7,7 @@ import { prisma } from "../../../lib/prismaClient";
  */
 export const getUserData = async (token: string) => {
   const session = await prisma.session.findUnique({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       id: token,
     },

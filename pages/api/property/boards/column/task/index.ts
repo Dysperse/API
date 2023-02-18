@@ -12,6 +12,7 @@ const handler = async (req, res) => {
   }
 
   const data = await prisma.task.findUnique({
+    cacheStrategy: { swr: 60, ttl: 60 },
     where: {
       id: req.query.id,
     },
