@@ -14,8 +14,8 @@ export function Loading() {
           variant="rectangular"
           animation="wave"
           key={Math.random().toString()}
-          height={500}
           sx={{
+            height: "100%",
             width: { xs: "calc(100vw - 50px)", sm: "370px" },
             flex: { xs: "0 0 calc(100vw - 50px)", sm: "0 0 370px" },
             borderRadius: 5,

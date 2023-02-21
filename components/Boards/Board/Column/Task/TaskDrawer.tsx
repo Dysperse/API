@@ -99,18 +99,22 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
     [mutationUrl]
   );
 
-  const handleCompletion = useCallback(
-    async (e) => {
-      setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
-      fetchApiWithoutHook("property/boards/column/task/mark", {
-        completed: e.target.checked ? "true" : "false",
-        id: data.id,
-      }).catch(() =>
+  const handleComplete = useCallback(async () => {
+    let completed = data.completed;
+    setTaskData((prev) => {
+      completed = !prev.completed;
+      return { ...prev, completed };
+    });
+
+    fetchApiWithoutHook("property/boards/column/task/mark", {
+      completed: completed ? "true" : "false",
+      id: data.id,
+    })
+      .then(() => mutate(mutationUrl))
+      .catch(() =>
         toast.error("An error occured while updating the task", toastStyles)
       );
-    },
-    [data.id]
-  );
+  }, [data]);
 
   const handlePostpone: any = useCallback(
     (count, type) => {
@@ -325,7 +329,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
             width: "100%",
           }}
         >
-          <Button onClick={handleCompletion} sx={iconStyles}>
+          <Button onClick={handleComplete} sx={iconStyles}>
             <Icon
               className="shadow-md dark:shadow-xl"
               sx={{
