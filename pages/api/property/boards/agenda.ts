@@ -2,10 +2,6 @@ import { prisma } from "../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
-  // res.setHeader(
-  //   "Cache-Control",
-  //   "public, s-maxage=10, stale-while-revalidate=59"
-  // );
   const permissions = await validatePermissions(
     req.query.property,
     req.query.accessToken
@@ -15,23 +11,10 @@ const handler = async (req, res) => {
     return;
   }
 
-  /**
-   * 🚨🚨🚨🚨🚨🚨🚨 DO NOT REMOVE THIS COMMENT 🚨🚨🚨🚨🚨🚨🚨🚨
-   * this is probably the most complicated postgres query in my app 😭
-   * essentially it finds:
-    OR:
-    AND: [ tasks within a time range, column not specified ]
-    AND: 
-        OR: [
-            board is private, user id is equal to req.query.userIdentifier, 
-            board is public and group token is valid
-            ],
-        [ task is within time range ]
-   */
-
   const data = await prisma.task.findMany({
     where: {
       AND: [
+        // Prevent selecting subtasks
         {
           parentTasks: {
             none: {
@@ -41,11 +24,13 @@ const handler = async (req, res) => {
             },
           },
         },
+        // Make sure that the task is in the property
         {
           property: {
             id: req.query.property,
           },
         },
+        // Make sure that the tasks falls within these dates
         {
           due: {
             gte: new Date(req.query.startTime),
@@ -56,6 +41,8 @@ const handler = async (req, res) => {
             lte: new Date(req.query.endTime),
           },
         },
+        // If it's private, match up the task's user id with the provided identifier.
+        // If it's public, just *select it* bruh
         {
           OR: [
             {
