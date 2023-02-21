@@ -114,15 +114,15 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
 
   const handlePostpone: any = useCallback(
     (count, type) => {
+      setTaskData((prev) => ({
+        ...prev,
+        due: dayjs(data.due).add(count, type).toISOString(),
+      }));
       handleEdit(
         data.id,
         "due",
         dayjs(data.due).add(count, type).toISOString()
       );
-      setTaskData((prev) => ({
-        ...prev,
-        due: dayjs(data.due).add(count, type).toISOString(),
-      }));
     },
     [data.id]
   );

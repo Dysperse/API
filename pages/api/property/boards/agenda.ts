@@ -33,6 +33,15 @@ const handler = async (req, res) => {
     where: {
       AND: [
         {
+          parentTasks: {
+            none: {
+              property: {
+                id: req.query.property,
+              },
+            },
+          },
+        },
+        {
           property: {
             id: req.query.property,
           },

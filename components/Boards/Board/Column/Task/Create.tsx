@@ -250,6 +250,8 @@ export function CreateTask({
 
         boardId,
         columnId: (column || { id: -1 }).id,
+      }).then(() => {
+        mutate(mutationUrl);
       });
       toast.success("Created task!", toastStyles);
 
@@ -259,7 +261,6 @@ export function CreateTask({
       setImage(null);
       setPinned(false);
       titleRef.current?.focus();
-      // setOpen(false);
     },
     [
       title,

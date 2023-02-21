@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import useAccelerate from "@prisma/extension-accelerate";
 
 // Avoid instantiating too many instances of Prisma in development
 // https://www.prisma.io/docs/support/help-articles/nextjs-prisma-client-dev-practices#problem
 
-let prisma: any;
+let prisma: PrismaClient;
 
 declare global {
   // allow global `var` declarations
