@@ -344,7 +344,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
                 🎉
               </Typography>
               <Typography variant="h6">
-                You worked towards all your goals today!
+                You worked towards all of your goals today!
               </Typography>
               <Button
                 onClick={() => setOpen(false)}
