@@ -11,6 +11,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Menu,
+  MenuItem,
   SwipeableDrawer,
   TextField,
   Typography,
@@ -110,13 +112,20 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
     [data.id]
   );
 
-  const handlePostpone = useCallback(() => {
-    handleEdit(data.id, "due", dayjs(data.due).add(1, "day").toISOString());
-    setTaskData((prev) => ({
-      ...prev,
-      due: dayjs(data.due).add(1, "day").toISOString(),
-    }));
-  }, [data.id]);
+  const handlePostpone: any = useCallback(
+    (count, type) => {
+      handleEdit(
+        data.id,
+        "due",
+        dayjs(data.due).add(count, type).toISOString()
+      );
+      setTaskData((prev) => ({
+        ...prev,
+        due: dayjs(data.due).add(count, type).toISOString(),
+      }));
+    },
+    [data.id]
+  );
 
   const [open, setOpen] = useState(false);
 
@@ -151,6 +160,14 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
     },
   };
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const postponeOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <>
       {/* Task name input */}
@@ -355,7 +372,28 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
               Delete
             </Button>
           </ConfirmationModal>
-          <Button sx={iconStyles} onClick={handlePostpone}>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={postponeOpen}
+            onClose={handleClose}
+            disableAutoFocus={false}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={() => handlePostpone(1, "day")}>
+              <Icon className="outlined">today</Icon>
+              Tomorrow
+            </MenuItem>
+            <MenuItem onClick={() => handlePostpone(1, "week")}>
+              <Icon className="outlined">calendar_view_week</Icon>1 week
+            </MenuItem>
+            <MenuItem onClick={() => handlePostpone(1, "month")}>
+              <Icon className="outlined">calendar_view_month</Icon>1 month
+            </MenuItem>
+          </Menu>
+          <Button sx={iconStyles} onClick={handleClick}>
             <Icon className="outlined shadow-md dark:shadow-xl">east</Icon>
             Postpone
           </Button>

@@ -1,10 +1,10 @@
 import React, { cloneElement, useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 import { Color } from "./Color";
 
 import {
+  Alert,
   AppBar,
   Box,
   Button,
@@ -87,11 +87,7 @@ export function EditProperty({
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: global.user.darkMode
-              ? "hsl(240,11%,25%)"
-              : colors[color][50],
-
-            color: colors[color][global.user.darkMode ? 50 : 900],
+            background: global.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
             px: 3,
             width: { xs: "100vw", sm: "50vw" },
             py: 2,
@@ -110,10 +106,10 @@ export function EditProperty({
             sx={{
               height: "var(--navbar-height)",
               px: 2,
-              background: global.user.darkMode
-                ? "hsl(240,11%,25%)"
-                : colors[color][50],
-              color: colors[color][global.user.darkMode ? 50 : 900],
+              background: global.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
+              borderBottom: "1px solid",
+              borderColor: global.user.darkMode ? "hsl(240,11%,20%)" : "#eee",
+              color: global.user.darkMode ? "#fff" : "#000",
               boxShadow: "none",
             }}
           >
@@ -126,9 +122,12 @@ export function EditProperty({
               >
                 <Icon>close</Icon>
               </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Typography sx={{ fontWeight: "900", mx: "auto" }}>
                 Edit group
               </Typography>
+              <IconButton edge="start" color="inherit" sx={{ opacity: 0 }}>
+                <Icon>close</Icon>
+              </IconButton>
             </Toolbar>
           </AppBar>
 
@@ -177,21 +176,10 @@ export function EditProperty({
             </Typography>
           </Button>
           <FormControl fullWidth sx={{ my: 4 }}>
-            <Typography
-              sx={{
-                background: colors[color][global.user.darkMode ? 800 : 100],
-                p: 2,
-                borderRadius: 3,
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                color: "error",
-              }}
-            >
-              <Icon>warning</Icon>
+            <Alert severity="warning">
               Heads up! Changing your group type may cause data loss. Change
               this setting with caution.
-            </Typography>
+            </Alert>
             <Menu
               id="basic-menu"
               anchorEl={anchorEl}
@@ -243,6 +231,10 @@ export function EditProperty({
           ].map((item) => (
             <Color s={color} color={item} key={color} />
           ))}
+          <Alert severity="info" sx={{ mt: 2 }}>
+            Due to caching, changes will take up to 24 hours to appear for
+            everyone in your group.
+          </Alert>
         </Box>
       </SwipeableDrawer>
     </>

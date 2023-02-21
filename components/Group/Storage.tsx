@@ -56,7 +56,7 @@ export function Storage({
           borderRadius: 5,
           background: global.user.darkMode
             ? "hsl(240,11%,20%)"
-            : colors[color][100],
+            : colors[color][50],
         }}
       >
         <Skeleton animation="wave" />
@@ -70,9 +70,7 @@ export function Storage({
       <Box
         sx={{
           background: `${
-            global.user.darkMode
-              ? "hsl(240,11%,20%)"
-              : colors[color][100].toString()
+            global.user.darkMode ? "hsl(240,11%,20%)" : colors[color][50]
           }`,
           color: colors[color][global.user.darkMode ? 50 : 900].toString(),
           borderRadius: 5,

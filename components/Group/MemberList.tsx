@@ -320,7 +320,7 @@ export function MemberList({
             borderRadius: 5,
             background: global.user.darkMode
               ? "hsl(240,11%,20%)"
-              : colors[color][100],
+              : colors[color][50],
           }}
         >
           {step.content}

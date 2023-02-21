@@ -188,7 +188,6 @@ export function TasksLayout() {
             : `hsl(240,11%,10%)!important`,
         }),
   });
-  const [collapsed, setCollapsed] = useState(false);
   const [open, setOpen] = useState(false);
 
   const ref: any = useRef();
@@ -209,11 +208,6 @@ export function TasksLayout() {
   useHotkeys("alt+y", (e) => {
     e.preventDefault();
     document.getElementById("__agenda.year")?.click();
-  });
-
-  useHotkeys("alt+q", (e) => {
-    e.preventDefault();
-    menuRef.current?.click();
   });
 
   const [archiveOpen, setArchiveOpen] = useState(false);
@@ -388,48 +382,13 @@ export function TasksLayout() {
             sx={{
               ...styles(activeTab === "new"),
               px: 2,
-              justifyContent: { xs: "start", sm: "center" },
+              justifyContent: "start",
             }}
           >
             <Icon className={activeTab === "new" ? "" : "outlined"}>
               add_circle
             </Icon>
-            <Box
-              sx={{
-                display: { xs: "block", sm: "none" },
-              }}
-            >
-              Create board
-            </Box>
-          </Button>
-        </Tooltip>
-        <Tooltip title="Toggle menu visibility (alt • q)">
-          <Button
-            ref={menuRef}
-            size="large"
-            onClick={() => {
-              setCollapsed(!collapsed);
-            }}
-            disableRipple
-            sx={{
-              ...styles(false),
-              px: 2,
-              display: { xs: "none", sm: "block" },
-              justifyContent: "center",
-            }}
-          >
-            <Icon
-              className={activeTab === "new" ? "" : "outlined"}
-              sx={{
-                transform: collapsed
-                  ? "rotate(180deg) scale(1.1)"
-                  : "rotate(0deg) scale(1)",
-                mb: -1,
-                transition: "transform 0.3s",
-              }}
-            >
-              menu_open
-            </Icon>
+            Create
           </Button>
         </Tooltip>
       </Box>
@@ -470,7 +429,7 @@ export function TasksLayout() {
           background: global.user.darkMode
             ? "hsl(240,11%,7%)"
             : "hsl(240,11%,95%)",
-          display: collapsed ? "none" : { xs: "none", sm: "flex" },
+          display: { xs: "none", sm: "flex" },
           minHeight: "100vh",
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
@@ -516,7 +475,6 @@ export function TasksLayout() {
                   mutationUrl={url}
                   board={board}
                   setDrawerOpen={setOpen}
-                  collapsed={collapsed}
                 />
               )
           )}

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   CircularProgress,
@@ -95,7 +96,6 @@ export default function InviteButton({ styles }) {
         PaperProps={{
           sx: {
             borderRadius: "28px!important",
-
             width: "300px",
             ml: { sm: "60px!important" },
             overflow: "hidden",
@@ -125,7 +125,7 @@ export default function InviteButton({ styles }) {
                 gap: 2,
                 borderRadius: 0,
                 transition: "none",
-                ...(group.id === global.property.id && {
+                ...(group.propertyId === global.property.propertyId && {
                   background: global.user.darkMode
                     ? "hsla(240,11%,20%)"
                     : "rgba(200,200,200,.4)!important",
@@ -172,15 +172,20 @@ export default function InviteButton({ styles }) {
 
       <Box
         sx={{
-          ...styles(Boolean(anchorEl)),
+          ...styles(false),
           display: { xs: "none", sm: "block" },
         }}
         onClick={handleClick}
       >
         <Tooltip title="Groups" placement="right">
-          <Icon className="outlined">
-            {anchorEl ? "unfold_less" : "unfold_more"}
-          </Icon>
+          <Avatar
+            sx={{
+              background: colors[global.property.profile.color]["200"],
+              color: "#000",
+            }}
+          >
+            <Icon className="outlined">people</Icon>
+          </Avatar>
         </Tooltip>
       </Box>
       <IconButton

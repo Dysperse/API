@@ -239,6 +239,18 @@ export function Agenda({
   view: "week" | "month" | "year";
 }) {
   const [navigation, setNavigation] = useState(0);
+  useHotkeys("alt+n", (e) => {
+    e.preventDefault();
+    setNavigation((n) => n + 1);
+  });
+  useHotkeys("alt+p", (e) => {
+    e.preventDefault();
+    setNavigation((n) => n - 1);
+  });
+  useHotkeys("alt+t", (e) => {
+    e.preventDefault();
+    setNavigation(0);
+  });
   const trigger = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,

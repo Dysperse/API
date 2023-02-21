@@ -142,7 +142,6 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
 export const Board = function Board({
   setDrawerOpen,
   board,
-  collapsed,
   mutationUrl,
 }: any) {
   const boardSwitcherStyles = {
@@ -180,7 +179,7 @@ export const Board = function Board({
   return (
     <Box
       sx={{
-        ml: { sm: collapsed ? -2 : -1 },
+        ml: { sm: -1 },
       }}
     >
       <Box

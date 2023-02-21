@@ -77,10 +77,27 @@ function PropertyInfo({
         {propertyData.propertyId !== global.property.propertyId && (
           <Alert
             severity="info"
-            sx={{ mb: 2 }}
+            sx={{
+              mb: 2,
+              background: !global.user.darkMode
+                ? "rgba(200,200,200,.3)"
+                : "hsl(240,11%,15%)",
+              color: global.user.darkMode ? "#fff" : "#000",
+              "& *": {
+                color: global.user.darkMode ? "#fff" : "#000",
+              },
+            }}
             action={
               <LoadingButton
                 loading={loading}
+                sx={{
+                  "&:hover": {
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,20%)"
+                      : "rgba(200,200,200,.3)",
+                  },
+                  color: global.user.darkMode ? "#fff" : "#000",
+                }}
                 onClick={async () => {
                   try {
                     setLoading(true);
