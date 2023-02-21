@@ -58,7 +58,12 @@ function CompletedTasks({
       >
         <Typography
           component="div"
-          sx={{ fontWeight: "700", display: "flex", alignItems: "center" }}
+          sx={{
+            fontWeight: "700",
+            display: "flex",
+            alignItems: "center",
+            p: 2,
+          }}
         >
           <span>Completed</span>
           <Chip
