@@ -27,9 +27,6 @@ export const getUserData = async (token: string) => {
           zenCardOrder: true,
           notificationSubscription: true,
           properties: {
-            where: {
-              selected: true,
-            },
             select: {
               propertyId: true,
               accessToken: true,
