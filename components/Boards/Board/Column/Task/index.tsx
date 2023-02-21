@@ -282,7 +282,7 @@ export const Task = function Task({
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
-                    "& img": {
+                    "& span img": {
                       display: "inline-flex !important",
                       width: "23px!important",
                       height: "23px!important",
@@ -294,10 +294,9 @@ export const Task = function Task({
                     }),
                   }}
                 >
-                  <Twemoji>{renderText(taskData.name)}</Twemoji>
-                  {taskData.image && (
-                    <ImageViewer trimHeight url={taskData.image} />
-                  )}
+                  <span>
+                    <Twemoji>{renderText(taskData.name)}</Twemoji>
+                  </span>
                 </Box>
                 {taskData.pinned && (
                   <Tooltip title="Marked as important" placement="top">
@@ -323,7 +322,7 @@ export const Task = function Task({
                   marginLeft: "45px",
                   display: "block",
                   position: "relative",
-                  top: taskData.image ? "3px" : "-7px",
+                  top: taskData.image ? "-3px" : "-7px",
                   ...(taskData.image && {
                     marginBottom: "7px",
                   }),
@@ -333,6 +332,9 @@ export const Task = function Task({
                   overflow: "hidden",
                 }}
               >
+                {taskData.image && (
+                  <ImageViewer trimHeight url={taskData.image} />
+                )}
                 <Typography
                   sx={{
                     "& img": {
