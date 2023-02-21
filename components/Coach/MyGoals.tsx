@@ -66,7 +66,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             <IconButton color="inherit" onClick={() => setOpen(false)}>
               <span
                 className="material-symbols-rounded"
-                style={{ color: global.user.darkMode ? "#fff" : "#000" }}
+                style={{ color: "#fff" }}
               >
                 west
               </span>
@@ -75,7 +75,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               sx={{
                 mx: "auto",
                 fontWeight: "600",
-                color: global.user.darkMode ? "#fff" : "#000",
+                color: "#fff",
               }}
             >
               Explore
@@ -88,7 +88,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             >
               <span
                 className="material-symbols-outlined"
-                style={{ color: global.user.darkMode ? "#fff" : "#000" }}
+                style={{ color: "#fff" }}
               >
                 add_circle
               </span>
@@ -141,7 +141,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           )}
           {data.length === 0 ? (
             <div
-              className="flex items-center text-gray-900 w-full bg-gray-200 rounded-xl p-8 px-5 mb-4 flex-col sm:flex-row dark:bg-gray-900 dark:text-white"
+              className="mb-4 flex w-full flex-col items-center rounded-xl bg-gray-200 p-8 px-5 text-gray-900 dark:bg-gray-900 dark:text-white sm:flex-row"
               style={{ gap: "30px" }}
             >
               <picture>
@@ -232,15 +232,14 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           ))}
         </Box>
       )}
-      <div
+      <button
         onClick={() => setOpen(true)}
-        role="button"
-        tabIndex={0}
         className={
-          "w-full p-4 rounded-2xl flex items-center select-none border shadow-md cursor-pointer active:scale-[.98] transition-transform mb-3 " +
+          "mb-3 flex w-full cursor-pointer select-none items-center rounded-2xl border p-4 shadow-md transition-transform active:scale-[.98] " +
           (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")
         }
         style={{
+          textAlign: "left",
           ...(global.user.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
           }),
@@ -256,7 +255,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         <Icon className="outlined" sx={{ ml: "auto" }}>
           add_circle
         </Icon>
-      </div>
+      </button>
     </>
   );
 }

@@ -102,7 +102,10 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           disabled={task.lastCompleted === dayjs().format("YYYY-MM-DD")}
           variant="contained"
           fullWidth
-          sx={{ "&,&:hover": { background: "hsl(240,11%,14%)!important" } }}
+          sx={{
+            "&,&:hover": { background: "hsl(240,11%,14%)!important" },
+            color: "#fff",
+          }}
           size="large"
           onClick={handleClick}
         >
