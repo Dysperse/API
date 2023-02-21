@@ -62,7 +62,8 @@ function CompletedTasks({
             fontWeight: "700",
             display: "flex",
             alignItems: "center",
-            p: 2,
+            px: 3,
+            py: 1,
           }}
         >
           <span>Completed</span>
