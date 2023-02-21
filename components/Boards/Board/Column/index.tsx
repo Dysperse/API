@@ -62,7 +62,7 @@ function CompletedTasks({
             fontWeight: "700",
             display: "flex",
             alignItems: "center",
-            px: 3,
+            px: 2,
             py: 1,
           }}
         >
