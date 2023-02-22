@@ -42,12 +42,14 @@ import {
 } from "@dnd-kit/sortable";
 
 import { CSS } from "@dnd-kit/utilities";
+import dayjs from "dayjs";
 import { createRef, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { Puller } from "../components/Puller";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { getActions } from "../components/zen/getActions";
+import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
@@ -226,18 +228,50 @@ function CardGallery({ editMode, items, setItems }) {
           ))}
         </Box>
       </SwipeableDrawer>
-      <Button
-        variant="contained"
-        sx={{
-          float: "right",
-          transition: "opacity .2s !important",
-          display: (!editMode && "none") as string,
-        }}
-        onClick={() => setOpen(true)}
-      >
-        <Icon>add</Icon>Add card
-      </Button>
+      <Box sx={{ display: "flex" }}>
+        <Button
+          variant="contained"
+          sx={{
+            ml: "auto",
+            transition: "opacity .2s !important",
+            display: (!editMode && "none") as string,
+          }}
+          onClick={() => setOpen(true)}
+        >
+          <Icon>add</Icon>Add card
+        </Button>
+      </Box>
     </>
+  );
+}
+
+function CheckIn() {
+  return (
+    <Box
+      sx={{
+        background: global.user.darkMode
+          ? "hsl(240, 11%, 10%)"
+          : "rgba(200, 200, 200, 0.3)",
+        p: 3,
+        borderRadius: 5,
+      }}
+    >
+      <Typography variant="body2">Daily check-in</Typography>
+      <Typography variant="h6">How are you feeling today?</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          mt: 0.5,
+          mb: -1,
+        }}
+      >
+        {["😁", "😃", "😐", "😔", "😭"].map((emoji) => (
+          <IconButton sx={{ p: 0, width: 40, height: 40 }}>{emoji}</IconButton>
+        ))}
+      </Box>
+    </Box>
   );
 }
 
@@ -398,6 +432,10 @@ export default function Home() {
 
   const [items, setItems] = useState(order.bottom);
 
+  const { data, url, error } = useApi("property/boards/agenda", {
+    startTime: dayjs().startOf("day").toISOString(),
+    endTime: dayjs().endOf("day").toISOString(),
+  });
   return (
     <>
       <div className="px-7">
@@ -464,46 +502,57 @@ export default function Home() {
               )}
             </Box>
           </Box>
-          <Typography
-            className="font-heading"
-            sx={{
-              fontSize: {
-                xs: "40px",
-                sm: "35px",
-              },
-              my: 4,
-              mb: 2,
-            }}
-            variant="h5"
-          >
-            {greeting}
-            {global.user.name.includes(" ")
-              ? global.user.name.split(" ")[0]
-              : global.user.name}
-            !
-          </Typography>
-          <DailyFocus editMode={editMode} />
-          <Chip
-            icon={
-              <>
-                <Icon
-                  sx={{ color: "inherit!important", ml: 1, mr: -1, mt: -0.2 }}
-                  className="outlined"
-                >
-                  local_fire_department
-                </Icon>
-              </>
-            }
-            label="10 days"
-            sx={{
-              userSelect: "none",
-              color: orange[global.user.darkMode ? 50 : "A400"],
-              background: `linear-gradient(45deg, ${
-                orange[global.user.darkMode ? 900 : 100]
-              }, ${orange[global.user.darkMode ? 800 : 50]})`,
-              mr: 1,
-            }}
-          />
+          <Box sx={{ display: "flex", gap: 2, my: 4, alignItems: "center" }}>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography
+                className="font-heading"
+                sx={{
+                  fontSize: {
+                    xs: "40px",
+                    sm: "35px",
+                  },
+                  mb: 2,
+                }}
+                variant="h5"
+              >
+                {greeting}
+                {global.user.name.includes(" ")
+                  ? global.user.name.split(" ")[0]
+                  : global.user.name}
+                !
+              </Typography>
+              <DailyFocus editMode={editMode} />
+              <Chip
+                icon={
+                  <>
+                    <Icon
+                      sx={{
+                        color: "inherit!important",
+                        ml: 1,
+                        mr: -1,
+                        mt: -0.2,
+                      }}
+                      className="outlined"
+                    >
+                      local_fire_department
+                    </Icon>
+                  </>
+                }
+                label="10 days"
+                sx={{
+                  userSelect: "none",
+                  color: orange[global.user.darkMode ? 50 : "A400"],
+                  background: `linear-gradient(45deg, ${
+                    orange[global.user.darkMode ? 900 : 100]
+                  }, ${orange[global.user.darkMode ? 800 : 50]})`,
+                  mr: 1,
+                }}
+              />
+            </Box>
+            <Box>
+              <CheckIn />
+            </Box>
+          </Box>
 
           <CardGallery setItems={setItems} items={items} editMode={editMode} />
           <List
@@ -530,22 +579,56 @@ export default function Home() {
               },
             }}
           >
-            {order.top.map((card) =>
-              card == "tasks" ? (
-                <ListItemButton
-                  disableRipple={editMode}
-                  onClick={() => !editMode && router.push("/tasks")}
-                >
-                  <Icon>task_alt</Icon>
-                  <ListItemText
-                    primary="Tasks"
-                    secondary={!editMode && "5 tasks left to reach daily goal"}
-                  />
-                </ListItemButton>
-              ) : (
-                <DailyRoutine zen editMode={editMode} />
-              )
-            )}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: { sm: 2 },
+              }}
+            >
+              {order.top.map((card) =>
+                card == "tasks" ? (
+                  <ListItemButton
+                    disableRipple={editMode}
+                    onClick={() => !editMode && router.push("/tasks")}
+                  >
+                    <Icon>task_alt</Icon>
+                    <ListItemText
+                      primary="Today's agenda"
+                      secondary={
+                        !editMode && data.length == 0
+                          ? "You don't have any tasks scheduled for today"
+                          : data.length -
+                              data.filter((task) => task.completed).length ==
+                            0
+                          ? "Great job! You finished all your planned tasks today!"
+                          : `You have ${
+                              data.length -
+                              data.filter((task) => task.completed).length
+                            } tasks left for today`
+                      }
+                    />
+                    {data.length -
+                      data.filter((task) => task.completed).length ==
+                      0 && (
+                      <Icon
+                        sx={{
+                          color:
+                            colors.green[
+                              global.user.darkMode ? "A400" : "A700"
+                            ],
+                          fontSize: "30px!important",
+                        }}
+                      >
+                        check_circle
+                      </Icon>
+                    )}
+                  </ListItemButton>
+                ) : (
+                  <DailyRoutine zen editMode={editMode} />
+                )
+              )}
+            </Box>
             <Divider sx={{ my: 1, opacity: 0.5 }} />
 
             <DndContext

@@ -15,11 +15,9 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
-import InviteButton from "./InviteButton";
 import { UpdateButton } from "./UpdateButton";
-
+import InviteButton from "./UserMenu";
 const AppsMenu = dynamic(() => import("./AppsMenu"));
-const SearchPopup = dynamic(() => import("./Search"));
 const Achievements = dynamic(() => import("./Achievements"));
 
 /**

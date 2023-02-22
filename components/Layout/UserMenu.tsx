@@ -174,6 +174,7 @@ export default function InviteButton({ styles }) {
         sx={{
           ...styles(false),
           display: { xs: "none", sm: "block" },
+          mb: 2,
         }}
         onClick={handleClick}
       >
