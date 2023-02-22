@@ -228,7 +228,7 @@ export default function AppsMenu({ styles }) {
       "&:hover, &.Mui-expanded": {
         background: global.user.darkMode
           ? "hsl(240,11%,30%)"
-          : colors[global.themeColor][100],
+          : colors[global.themeColor][50],
       },
       transition: "all .2s, background 0s",
       "&:before": {
@@ -251,11 +251,17 @@ export default function AppsMenu({ styles }) {
       {global.user ? (
         <Button
           color="inherit"
-          disableRipple
           size="large"
           onClick={handleClick}
           fullWidth
-          sx={{ justifyContent: "start", p: 2, borderRadius: 0, gap: 2 }}
+          sx={{
+            justifyContent: "start",
+            p: 2,
+            py: 1.5,
+            borderRadius: 0,
+            gap: 2,
+            color: "inherit",
+          }}
         >
           <Icon className="outlined">workspaces</Icon>
           Workspace
@@ -280,12 +286,6 @@ export default function AppsMenu({ styles }) {
             m: 2,
             borderRadius: 5,
             height: "auto",
-            background: global.user.darkMode
-              ? "hsl(240, 11%, 20%)"
-              : colors[global.themeColor][50],
-            color: global.user.darkMode
-              ? "hsl(240, 11%, 90%)"
-              : colors[global.themeColor][900],
             maxHeight: "calc(100vh - 40px)",
             overflowY: "auto",
           },
@@ -308,7 +308,7 @@ export default function AppsMenu({ styles }) {
                 "1px solid " +
                 (global.user.darkMode
                   ? "hsl(240,11%,30%)"
-                  : colors[themeColor][100]),
+                  : colors[themeColor][50]),
               mt: 2,
               pt: 2,
             }}

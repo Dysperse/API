@@ -309,6 +309,8 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
           ),
         }}
       />
+      <br />
+      <br />
       {data.image && <ImageViewer url={data.image} />}
 
       <Box

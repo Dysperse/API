@@ -158,11 +158,17 @@ export default function InviteButton({ styles }) {
         <AppsMenu styles={styles} />
         <Settings>
           <Button
-            color="inherit"
-            disableRipple
             size="large"
+            color="inherit"
             fullWidth
-            sx={{ justifyContent: "start", p: 2, borderRadius: 0, gap: 2 }}
+            sx={{
+              justifyContent: "start",
+              p: 2,
+              py: 1.5,
+              borderRadius: 0,
+              gap: 2,
+              color: "inherit",
+            }}
           >
             <Icon className="outlined">person</Icon>
             My account
@@ -178,16 +184,20 @@ export default function InviteButton({ styles }) {
         }}
         onClick={handleClick}
       >
-        <Tooltip title="Groups" placement="right">
-          <Avatar
-            sx={{
-              background: colors[global.property.profile.color]["200"],
-              color: "#000",
-            }}
-          >
-            <Icon className="outlined">people</Icon>
-          </Avatar>
-        </Tooltip>
+        <Avatar
+          sx={{
+            background: colors[global.property.profile.color]["200"],
+            "&:hover": {
+              background: colors[global.property.profile.color]["300"],
+            },
+            ...(Boolean(anchorEl) && {
+              background: colors[global.property.profile.color]["300"],
+            }),
+            color: "#000",
+          }}
+        >
+          <Icon className="outlined">people</Icon>
+        </Avatar>
       </Box>
       <IconButton
         sx={{
