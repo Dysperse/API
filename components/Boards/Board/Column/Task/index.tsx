@@ -270,9 +270,7 @@ export const Task = function Task({
                   }}
                 >
                   <span>
-                    <Twemoji>
-                      {renderText(taskData.description || " ", params)}
-                    </Twemoji>
+                    <Twemoji>{taskData.name}</Twemoji>
                   </span>
                 </Box>
                 {taskData.pinned && (
