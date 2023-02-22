@@ -10,7 +10,6 @@ import {
   Checkbox,
   Chip,
   Icon,
-  Link,
   ListItem,
   ListItemText,
   styled,
@@ -23,105 +22,38 @@ import Item from "../../../../ItemPopup";
 import { ImageViewer } from "./ImageViewer";
 import { TaskDrawer } from "./TaskDrawer";
 
-// use whatever you want here
-const URL_REGEX =
-  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+export const renderText = (
+  text: string,
+  elements: {
+    regex: RegExp;
+    element: JSX.Element;
+  }[]
+) => {
+  const result: any = [];
+  let lastIndex = 0;
 
-const renderText = (txt) =>
-  txt.split(" ").map((part) =>
-    URL_REGEX.test(part) ? (
-      <Link
-        target="_blank"
-        href={part}
-        sx={{
-          textDecorationColor: colors[themeColor]["700"],
-          color: colors[themeColor]["700"],
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {part.replace(/\/$/, "").replace("https://", "").replace("http://", "")}{" "}
-      </Link>
-    ) : (
-      `${part} `
-    )
-  );
-export const renderDescription = (txt: any) => {
-  let result: any = [];
-  let lastIndex: any = 0;
-
-  const items: any = txt.match(/<items:(.*?):(.*?)>/g);
-  const links: any = txt.match(
-    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
-  );
-
-  if (!items && !links) return txt;
-
-  if (items) {
-    items.forEach((item) => {
-      const startIndex = txt.indexOf(item, lastIndex);
-      const endIndex = startIndex + item.length;
+  for (const { regex, element } of elements) {
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const startIndex = match.index;
+      const endIndex = startIndex + match[0].length;
 
       if (startIndex > lastIndex) {
-        result.push(txt.slice(lastIndex, startIndex) as any);
+        result.push(text.substring(lastIndex, startIndex));
       }
 
-      const [, id, name] = item.split(":");
-
-      result.push(
-        (
-          <Item id={id}>
-            <Tooltip
-              title={"Linked to item " + id}
-              followCursor
-              onClick={(e) => e.stopPropagation()}
-              placement="bottom-start"
-            >
-              <Chip
-                size="small"
-                key={id}
-                label={name.slice(0, -1)}
-                icon={<Icon>link</Icon>}
-              />
-            </Tooltip>
-          </Item>
-        ) as any
-      );
+      const matchedText = match[0];
+      const elementToRender = element(matchedText);
+      result.push(elementToRender);
 
       lastIndex = endIndex;
-    });
+    }
+
+    regex.lastIndex = 0;
   }
 
-  if (links) {
-    links.forEach((link) => {
-      const startIndex = txt.indexOf(link, lastIndex);
-      const endIndex = startIndex + link.length;
-
-      if (startIndex > lastIndex) {
-        result.push(txt.slice(lastIndex, startIndex) as any);
-      }
-
-      result.push(
-        (
-          <Chip
-            size="small"
-            label={new URL(link).hostname}
-            onClick={(e) => {
-              e.stopPropagation();
-              window.open(link);
-            }}
-            icon={<Icon>open_in_new</Icon>}
-          />
-        ) as any
-      );
-
-      lastIndex = endIndex;
-    });
-  }
-
-  if (lastIndex < txt.length) {
-    result.push(txt.slice(lastIndex) as any);
+  if (lastIndex < text.length) {
+    result.push(text.substring(lastIndex));
   }
 
   return result;
@@ -206,6 +138,43 @@ export const Task = function Task({
     [mutationUrl, toastStyles]
   );
 
+  const params = [
+    {
+      regex: /<items:(.*?):(.*?)>/g,
+      element: (matchedText, key, id, name) => (
+        <Item id={id}>
+          <Tooltip
+            title={"Linked to item " + id}
+            followCursor
+            onClick={(e) => e.stopPropagation()}
+            placement="bottom-start"
+          >
+            <Chip
+              size="small"
+              key={id}
+              label={name.slice(0, -1)}
+              icon={<Icon>link</Icon>}
+            />
+          </Tooltip>
+        </Item>
+      ),
+    },
+    {
+      regex:
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g,
+      element: (matchedText, key, link) => (
+        <Chip
+          size="small"
+          label={new URL(matchedText).hostname}
+          onClick={(e) => {
+            e.stopPropagation();
+            window.open(link);
+          }}
+          icon={<Icon>open_in_new</Icon>}
+        />
+      ),
+    },
+  ];
   return !taskData ? (
     <></>
   ) : (
@@ -295,7 +264,7 @@ export const Task = function Task({
                   }}
                 >
                   <span>
-                    <Twemoji>{renderText(taskData.name)}</Twemoji>
+                    <Twemoji>{renderText(taskData.name, params)}</Twemoji>
                   </span>
                 </Box>
                 {taskData.pinned && (
@@ -346,7 +315,7 @@ export const Task = function Task({
                   }}
                 >
                   <Twemoji>
-                    {renderDescription(taskData.description || " ")}
+                    {renderText(taskData.description || " ", params)}
                   </Twemoji>
                 </Typography>
                 {taskData.due && !isAgenda && (
