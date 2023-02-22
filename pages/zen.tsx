@@ -269,7 +269,9 @@ function CheckIn() {
         }}
       >
         {["😁", "😃", "😐", "😔", "😭"].map((emoji) => (
-          <IconButton sx={{ p: 0, width: 40, height: 40 }}>{emoji}</IconButton>
+          <IconButton key={emoji} sx={{ p: 0, width: 40, height: 40 }}>
+            {emoji}
+          </IconButton>
         ))}
       </Box>
     </Box>
