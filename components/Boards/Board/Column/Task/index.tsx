@@ -22,38 +22,41 @@ import Item from "../../../../ItemPopup";
 import { ImageViewer } from "./ImageViewer";
 import { TaskDrawer } from "./TaskDrawer";
 
-export const renderText = (
-  text: string,
-  elements: {
+const renderText = (
+  txt: string,
+  rules: {
     regex: RegExp;
-    element: JSX.Element;
+    element: any;
   }[]
 ) => {
-  const result: any = [];
+  let result: any = [];
   let lastIndex = 0;
+  const regexes = rules.map((e) => e.regex);
+  const regex = new RegExp(regexes.map((r) => `(${r.source})`).join("|"), "g");
 
-  for (const { regex, element } of elements) {
-    let match;
-    while ((match = regex.exec(text)) !== null) {
-      const startIndex = match.index;
-      const endIndex = startIndex + match[0].length;
+  const matches = txt.match(regex);
 
-      if (startIndex > lastIndex) {
-        result.push(text.substring(lastIndex, startIndex));
-      }
-
-      const matchedText = match[0];
-      const elementToRender = element(matchedText);
-      result.push(elementToRender);
-
-      lastIndex = endIndex;
-    }
-
-    regex.lastIndex = 0;
+  if (!matches) {
+    return txt;
   }
 
-  if (lastIndex < text.length) {
-    result.push(text.substring(lastIndex));
+  matches.forEach((match, index) => {
+    const matchIndex = txt.indexOf(match, lastIndex);
+
+    if (matchIndex > lastIndex) {
+      result.push(txt.slice(lastIndex, matchIndex));
+    }
+
+    const elementIndex = regexes.findIndex((r) => r.test(match));
+    const element = rules[elementIndex].element(match);
+
+    result.push(element);
+
+    lastIndex = matchIndex + match.length;
+  });
+
+  if (lastIndex < txt.length) {
+    result.push(txt.slice(lastIndex));
   }
 
   return result;
@@ -140,35 +143,38 @@ export const Task = function Task({
 
   const params = [
     {
-      regex: /<items:(.*?):(.*?)>/g,
-      element: (matchedText, key, id, name) => (
-        <Item id={id}>
-          <Tooltip
-            title={"Linked to item " + id}
-            followCursor
-            onClick={(e) => e.stopPropagation()}
-            placement="bottom-start"
-          >
-            <Chip
-              size="small"
-              key={id}
-              label={name.slice(0, -1)}
-              icon={<Icon>link</Icon>}
-            />
-          </Tooltip>
-        </Item>
-      ),
+      regex: /<items:(.*?):(.*?)>/,
+      element: (match) => {
+        const [, id, name] = match.split(":");
+
+        return (
+          <Item id={id}>
+            <Tooltip
+              title={"Linked to item " + id}
+              followCursor
+              onClick={(e) => e.stopPropagation()}
+              placement="bottom-start"
+            >
+              <Chip
+                size="small"
+                key={id}
+                label={name.slice(0, -1)}
+                icon={<Icon>link</Icon>}
+              />
+            </Tooltip>
+          </Item>
+        );
+      },
     },
     {
-      regex:
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g,
-      element: (matchedText, key, link) => (
+      regex: /https?:\/\/\S+/g,
+      element: (matchedText) => (
         <Chip
           size="small"
           label={new URL(matchedText).hostname}
           onClick={(e) => {
             e.stopPropagation();
-            window.open(link);
+            window.open(matchedText);
           }}
           icon={<Icon>open_in_new</Icon>}
         />
