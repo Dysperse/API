@@ -239,8 +239,14 @@ export function TasksLayout() {
           size="large"
           disableRipple
           sx={styles(activeTab === "__agenda.week")}
-          onMouseDown={() => setActiveTab("__agenda.week")}
-          onClick={() => setActiveTab("__agenda.week")}
+          onMouseDown={() => {
+            window.location.hash = "#/agenda/week";
+            setActiveTab("__agenda.week");
+          }}
+          onClick={() => {
+            window.location.hash = "#/agenda/week";
+            setActiveTab("__agenda.week");
+          }}
         >
           <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
             view_week
