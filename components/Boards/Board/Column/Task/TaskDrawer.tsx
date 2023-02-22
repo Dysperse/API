@@ -6,12 +6,12 @@ import {
   Chip,
   CircularProgress,
   Dialog,
+  Divider,
   Icon,
   InputAdornment,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Menu,
   MenuItem,
   SwipeableDrawer,
   TextField,
@@ -164,14 +164,10 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
     },
   };
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const postponeOpen = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [postponeOpen, setPostponeOpen] = useState<boolean>(false);
+  const handleClick = () => setPostponeOpen(true);
+  const handleClose = () => setPostponeOpen(false);
+
   return (
     <>
       {/* Task name input */}
@@ -378,19 +374,58 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
               Delete
             </Button>
           </ConfirmationModal>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
+          <SwipeableDrawer
+            disableSwipeToOpen
             open={postponeOpen}
             onClose={handleClose}
-            disableAutoFocus={false}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
+            onOpen={handleClick}
+            anchor="bottom"
+            PaperProps={{
+              sx: {
+                p: 1,
+                pt: 0,
+                "& .MuiMenuItem-root": {
+                  cursor: "unset",
+                  gap: 2,
+                  "&:focus-visible, &:hover": {
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,30%)"
+                      : "rgba(200,200,200,.3)",
+                    color: global.user.darkMode
+                      ? colors[themeColor][100]
+                      : "#000",
+                    "& .MuiSvgIcon-root": {
+                      color: global.user.darkMode
+                        ? colors[themeColor][200]
+                        : colors[themeColor][800],
+                    },
+                  },
+                  padding: "8.5px 12px",
+                  minHeight: 0,
+                  borderRadius: "10px",
+                  marginBottom: "1px",
+                  "& .MuiSvgIcon-root": {
+                    fontSize: 25,
+                    color: colors[themeColor][700],
+                    marginRight: 1.9,
+                  },
+                  "&:active": {
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,35%)"
+                      : "#eee",
+                  },
+                },
+              },
             }}
           >
+            <Puller />
             <MenuItem onClick={() => handlePostpone(1, "day")}>
-              <Icon className="outlined">today</Icon>
+              <Icon className="outlined">east</Icon>
               Tomorrow
+            </MenuItem>
+            <MenuItem onClick={() => handlePostpone(3, "day")}>
+              <Icon className="outlined">view_week</Icon>
+              In 3 days
             </MenuItem>
             <MenuItem onClick={() => handlePostpone(1, "week")}>
               <Icon className="outlined">calendar_view_week</Icon>1 week
@@ -398,10 +433,15 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
             <MenuItem onClick={() => handlePostpone(1, "month")}>
               <Icon className="outlined">calendar_view_month</Icon>1 month
             </MenuItem>
-          </Menu>
+            <Divider />
+            <MenuItem onClick={() => handlePostpone(-1, "day")}>
+              <Icon className="outlined">west</Icon>
+              Yesterday
+            </MenuItem>
+          </SwipeableDrawer>
           <Button sx={iconStyles} onClick={handleClick}>
-            <Icon className="outlined shadow-md dark:shadow-xl">east</Icon>
-            Postpone
+            <Icon className="outlined shadow-md dark:shadow-xl">schedule</Icon>
+            Reschedule
           </Button>
         </Box>
       </Box>
