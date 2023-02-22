@@ -28,6 +28,7 @@ import {
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
+import { capitalizeFirstLetter } from "../../../../ItemPopup";
 
 function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState(false);
@@ -468,7 +469,15 @@ export function CreateTask({
               inputRef={titleRef}
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value.replace(/\n/g, ""))}
+              onChange={(e) => {
+                if (e.target.value.length == 1) {
+                  setTitle(
+                    capitalizeFirstLetter(e.target.value.replace(/\n/g, ""))
+                  );
+                } else {
+                  setTitle(e.target.value.replace(/\n/g, ""));
+                }
+              }}
               autoFocus
               variant="standard"
               onKeyDown={(e) => {
@@ -500,7 +509,7 @@ export function CreateTask({
                 }}
               />
             </Collapse>
-            {title.includes("study ") && (
+            {title.toLowerCase().includes("study ") && (
               <Alert
                 severity="info"
                 sx={{
