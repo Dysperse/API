@@ -590,13 +590,13 @@ export default function Home() {
                 card == "tasks" ? (
                   <ListItemButton
                     disableRipple={editMode}
-                    onClick={() => !editMode && router.push("/tasks")}
+                    onClick={() => !editMode && router.push("/agenda/week")}
                   >
                     <Icon>task_alt</Icon>
                     <ListItemText
                       primary="Today's agenda"
                       secondary={
-                        !editMode && data.length == 0
+                        !editMode &&data&& data.length == 0
                           ? "You don't have any tasks scheduled for today"
                           : data.length -
                               data.filter((task) => task.completed).length ==
