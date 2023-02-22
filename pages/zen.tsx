@@ -596,33 +596,36 @@ export default function Home() {
                     <ListItemText
                       primary="Today's agenda"
                       secondary={
-                        !editMode &&data&& data.length == 0
+                        !editMode && data && data.length == 0
                           ? "You don't have any tasks scheduled for today"
-                          : data.length -
+                          : data &&
+                            data.length -
                               data.filter((task) => task.completed).length ==
-                            0
+                              0
                           ? "Great job! You finished all your planned tasks today!"
                           : `You have ${
+                              data &&
                               data.length -
-                              data.filter((task) => task.completed).length
+                                data.filter((task) => task.completed).length
                             } tasks left for today`
                       }
                     />
-                    {data.length -
-                      data.filter((task) => task.completed).length ==
-                      0 && (
-                      <Icon
-                        sx={{
-                          color:
-                            colors.green[
-                              global.user.darkMode ? "A400" : "A700"
-                            ],
-                          fontSize: "30px!important",
-                        }}
-                      >
-                        check_circle
-                      </Icon>
-                    )}
+                    {data &&
+                      data.length -
+                        data.filter((task) => task.completed).length ==
+                        0 && (
+                        <Icon
+                          sx={{
+                            color:
+                              colors.green[
+                                global.user.darkMode ? "A400" : "A700"
+                              ],
+                            fontSize: "30px!important",
+                          }}
+                        >
+                          check_circle
+                        </Icon>
+                      )}
                   </ListItemButton>
                 ) : (
                   <DailyRoutine zen editMode={editMode} />
