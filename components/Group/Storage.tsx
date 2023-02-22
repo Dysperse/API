@@ -24,10 +24,6 @@ export function Storage({
     property: propertyId,
     accessToken,
   });
-  const { data: memoCount } = useApi("property/spaces", {
-    property: propertyId,
-    accessToken,
-  });
 
   const max = 500;
   const storage = {
