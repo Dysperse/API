@@ -183,6 +183,15 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
   const trigger = zen ? (
     <>
       <ListItemButton
+        sx={{
+          px: "15px !important",
+          background: global.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+          border: "1px solid",
+          borderColor: global.user.darkMode
+            ? "hsl(240, 11%, 20%)"
+            : "rgba(200, 200, 200, 0.3)",
+        }}
+        className="shadow-md"
         disableRipple={editMode}
         onClick={() => {
           if (sortedTasks.length == 0) {
@@ -195,9 +204,11 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         <Icon className="outlined">rocket_launch</Icon>
         <ListItemText
           primary={
-            sortedTasks.length == 0
-              ? "You don't have any goals set"
-              : "Daily routine"
+            <b>
+              {sortedTasks.length == 0
+                ? "You don't have any goals set"
+                : "Daily routine"}
+            </b>
           }
           secondary={
             editMode ? (

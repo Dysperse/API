@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Chip,
-  Divider,
   Icon,
   IconButton,
   List,
@@ -128,7 +127,7 @@ function DailyFocus({ editMode }) {
           sx: {
             background: global.user.darkMode
               ? "hsla(240,11%,40%,.35)"
-              : "rgba(200,200,200,.3)",
+              : "rgba(200,200,200,.1)",
             border: "1px solid transparent",
             "&:focus-within": {
               boxShadow: "15px 15px 30px rgba(0,0,0,.1)",
@@ -249,12 +248,15 @@ function CheckIn() {
   return (
     <Box
       sx={{
-        background: global.user.darkMode
-          ? "hsl(240, 11%, 10%)"
+        background: global.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+        border: "1px solid",
+        borderColor: global.user.darkMode
+          ? "hsl(240, 11%, 20%)"
           : "rgba(200, 200, 200, 0.3)",
         p: 3,
         borderRadius: 5,
       }}
+      className="shadow-lg"
     >
       <Typography variant="body2">Daily check-in</Typography>
       <Typography variant="h6">How are you feeling today?</Typography>
@@ -262,7 +264,6 @@ function CheckIn() {
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
           mt: 0.5,
           mb: -1,
         }}
@@ -439,13 +440,6 @@ export default function Home() {
   return (
     <>
       <div className="px-7">
-        <div
-          className="blur-spotlight sm:hidden"
-          style={{
-            background: `linear-gradient(45deg, ${colors[themeColor]["A100"]}, ${colors[themeColor]["A400"]} 50%, ${colors[themeColor]["A200"]})`,
-            opacity: global.user.darkMode ? 0.5 : 0.9,
-          }}
-        />
         <Box
           sx={{
             mt: { xs: "calc(var(--navbar-height) * -1)", sm: "-50px" },
@@ -502,7 +496,16 @@ export default function Home() {
               )}
             </Box>
           </Box>
-          <Box sx={{ display: "flex", gap: 2, my: 4, alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 4,
+              my: 4,
+              mb: { xs: 0, sm: 4 },
+              alignItems: { sm: "center" },
+              flexDirection: { xs: "column", sm: "row" },
+            }}
+          >
             <Box sx={{ flexGrow: 1 }}>
               <Typography
                 className="font-heading"
@@ -583,18 +586,30 @@ export default function Home() {
               sx={{
                 display: "flex",
                 flexDirection: { xs: "column", sm: "row" },
-                gap: { sm: 2 },
+                gap: 1.5,
+                mb: 2,
               }}
             >
               {order.top.map((card) =>
                 card == "tasks" ? (
                   <ListItemButton
+                    sx={{
+                      px: "15px !important",
+                      background: global.user.darkMode
+                        ? "hsl(240, 11%, 10%)"
+                        : "#fff",
+                      border: "1px solid",
+                      borderColor: global.user.darkMode
+                        ? "hsl(240, 11%, 20%)"
+                        : "rgba(200, 200, 200, 0.3)",
+                    }}
+                    className="shadow-md"
                     disableRipple={editMode}
                     onClick={() => !editMode && router.push("/agenda/week")}
                   >
                     <Icon>task_alt</Icon>
                     <ListItemText
-                      primary="Today's agenda"
+                      primary={<b>Today's agenda</b>}
                       secondary={
                         !editMode && data && data.length == 0
                           ? "You don't have any tasks scheduled for today"
@@ -602,7 +617,7 @@ export default function Home() {
                             data.length -
                               data.filter((task) => task.completed).length ==
                               0
-                          ? "Great job! You finished all your planned tasks today!"
+                          ? "Great job! You finished all your tasks today!"
                           : `You have ${
                               data &&
                               data.length -
@@ -632,7 +647,6 @@ export default function Home() {
                 )
               )}
             </Box>
-            <Divider sx={{ my: 1, opacity: 0.5 }} />
 
             <DndContext
               collisionDetection={closestCenter}

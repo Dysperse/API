@@ -52,9 +52,7 @@ export function BottomNav() {
           ...iconStyles,
           background: `${
             global.user.darkMode
-              ? router.asPath == "/zen"
-                ? "linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1))"
-                : "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"
+              ? "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"
               : hexToRgba(colors[themeColor][300], 0.5)
           }!important`,
         },
