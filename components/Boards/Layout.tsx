@@ -138,6 +138,9 @@ export function TasksLayout() {
         setActiveTab("__agenda.week");
       }
     }
+    if (window.location.href.includes("#/agenda/week")) {
+      setActiveTab("__agenda.week");
+    }
   }, [data]);
 
   const styles = (condition: boolean) => ({

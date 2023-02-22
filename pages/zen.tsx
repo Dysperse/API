@@ -605,7 +605,9 @@ export default function Home() {
                     }}
                     className="shadow-md"
                     disableRipple={editMode}
-                    onClick={() => !editMode && router.push("/agenda/week")}
+                    onClick={() =>
+                      !editMode && router.push("/tasks/#/agenda/week")
+                    }
                   >
                     <Icon>task_alt</Icon>
                     <ListItemText
