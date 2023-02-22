@@ -562,8 +562,8 @@ export function TaskDrawer({
     width: "100vw",
     maxWidth:
       data && data !== "deleted" && data.parentTasks.length == 1
-        ? "500px"
-        : "600px",
+        ? "600px"
+        : "650px",
     maxHeight: "80vh",
   };
 
