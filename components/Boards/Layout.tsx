@@ -141,6 +141,12 @@ export function TasksLayout() {
     if (window.location.href.includes("#/agenda/week")) {
       setActiveTab("__agenda.week");
     }
+    if (window.location.href.includes("#/agenda/month")) {
+      setActiveTab("__agenda.month");
+    }
+    if (window.location.href.includes("#/agenda/year")) {
+      setActiveTab("__agenda.year");
+    }
   }, [data]);
 
   const styles = (condition: boolean) => ({
@@ -239,10 +245,7 @@ export function TasksLayout() {
           size="large"
           disableRipple
           sx={styles(activeTab === "__agenda.week")}
-          onMouseDown={() => {
-            window.location.hash = "#/agenda/week";
-            setActiveTab("__agenda.week");
-          }}
+          onMouseDown={() => setActiveTab("__agenda.week")}
           onClick={() => {
             window.location.hash = "#/agenda/week";
             setActiveTab("__agenda.week");
@@ -259,7 +262,10 @@ export function TasksLayout() {
           disableRipple
           sx={styles(activeTab === "__agenda.month")}
           onMouseDown={() => setActiveTab("__agenda.month")}
-          onClick={() => setActiveTab("__agenda.month")}
+          onClick={() => {
+            window.location.hash = "#/agenda/month";
+            setActiveTab("__agenda.month");
+          }}
         >
           <Icon className={activeTab === "__agenda.month" ? "" : "outlined"}>
             calendar_view_month
@@ -272,7 +278,10 @@ export function TasksLayout() {
           disableRipple
           sx={styles(activeTab === "__agenda.year")}
           onMouseDown={() => setActiveTab("__agenda.year")}
-          onClick={() => setActiveTab("__agenda.year")}
+          onClick={() => {
+            window.location.hash = "#/agenda/year";
+            setActiveTab("__agenda.year");
+          }}
         >
           <Icon className={activeTab === "__agenda.year" ? "" : "outlined"}>
             calendar_month
