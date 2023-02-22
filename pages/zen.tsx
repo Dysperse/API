@@ -613,7 +613,7 @@ export default function Home() {
                   >
                     <Icon>task_alt</Icon>
                     <ListItemText
-                      primary={<b>Today's agenda</b>}
+                      primary={<b>Today&apos;s agenda</b>}
                       secondary={
                         !editMode && data && data.length == 0
                           ? "You don't have any tasks scheduled for today"
