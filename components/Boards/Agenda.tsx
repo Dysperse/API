@@ -329,6 +329,7 @@ export function Agenda({
             fontWeight: "700",
             display: { sm: "none" },
             fontSize: "15px",
+            color: global.user.darkMode ? "#fff" : "#000",
             ...(view !== "week" && {
               textTransform: "capitalize",
             }),
