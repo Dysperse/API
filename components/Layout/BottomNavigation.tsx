@@ -115,7 +115,6 @@ export function BottomNav() {
       >
         <Box
           onClick={() => router.push("/zen")}
-          onTouchStart={() => router.push("/zen")}
           sx={styles(
             router.asPath === "/" ||
               router.asPath === "" ||
@@ -136,7 +135,6 @@ export function BottomNav() {
         </Box>
         <Box
           onClick={() => router.push("/tasks")}
-          onTouchStart={() => router.push("/tasks")}
           sx={styles(router.asPath.includes("/tasks"))}
         >
           <span
@@ -164,7 +162,6 @@ export function BottomNav() {
             });
           }}
           onClick={() => router.push("/coach")}
-          onTouchStart={() => router.push("/coach")}
         >
           <span
             className={`material-symbols-${
@@ -180,7 +177,6 @@ export function BottomNav() {
             router.asPath === "/items" || router.asPath.includes("rooms")
           )}
           onClick={() => router.push("/items")}
-          onTouchStart={() => router.push("/items")}
         >
           <span
             className={`material-symbols-${

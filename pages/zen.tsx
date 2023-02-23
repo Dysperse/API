@@ -615,18 +615,20 @@ export default function Home() {
                     <ListItemText
                       primary={<b>Today&apos;s agenda</b>}
                       secondary={
-                        !editMode && data && data.length == 0
-                          ? "You don't have any tasks scheduled for today"
-                          : data &&
-                            data.length -
-                              data.filter((task) => task.completed).length ==
-                              0
-                          ? "Great job! You finished all your tasks today!"
-                          : `You have ${
-                              data &&
+                        !editMode && data
+                          ? data && data.length == 0
+                            ? "You don't have any tasks scheduled for today"
+                            : data &&
                               data.length -
-                                data.filter((task) => task.completed).length
-                            } tasks left for today`
+                                data.filter((task) => task.completed).length ==
+                                0
+                            ? "Great job! You finished all your tasks today!"
+                            : `You have ${
+                                data &&
+                                data.length -
+                                  data.filter((task) => task.completed).length
+                              } tasks left for today`
+                          : "Loading..."
                       }
                     />
                     {data &&
