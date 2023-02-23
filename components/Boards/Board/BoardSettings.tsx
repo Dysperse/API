@@ -138,7 +138,7 @@ export function BoardSettings({ mutationUrl, board }) {
           question={
             board.pinned
               ? "Are you sure you want to unpin this board?"
-              : "Are you sure you want to pin this board? Any other board.pinned boards will be unpinned."
+              : "Are you sure you want to pin this board? Any other boards will be unpinned."
           }
           callback={() => {
             setTimeout(() => {
@@ -147,7 +147,7 @@ export function BoardSettings({ mutationUrl, board }) {
                 pinned: !board.pinned ? "true" : "false",
               }).then(() => {
                 toast.success(
-                  !board.pinned ? "board.pinned board!" : "Unpinned board!",
+                  !board.pinned ? "Pinned board!" : "Unpinned board!",
                   toastStyles
                 );
               });
@@ -196,10 +196,9 @@ export function BoardSettings({ mutationUrl, board }) {
             id={board.id}
             mutationUrl={mutationUrl}
             hide={
-              global.user.email !== "manusvathgurudath@gmail.com" && (
-              (board && board.columns.length === 1) ||
-              (board && board.columns.length >= 5)
-              )
+              global.user.email !== "manusvathgurudath@gmail.com" &&
+              ((board && board.columns.length === 1) ||
+                (board && board.columns.length >= 5))
             }
           />
         )}
