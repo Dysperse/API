@@ -106,6 +106,7 @@ export function Loading(): JSX.Element {
             display: "flex",
           }}
         >
+          {/* Sidebar 1 */}
           <Box
             sx={{
               display: { xs: "none", sm: "flex" },
@@ -156,10 +157,13 @@ export function Loading(): JSX.Element {
               width: "100%",
               display: "flex",
               alignItems: "center",
+              pt: { xs: "75px", sm: "0px" },
             }}
           >
+            {/* Sidebar 2 */}
             <Box
               sx={{
+                display: { xs: "none", sm: "block" },
                 background:
                   (global.user && global.user.darkMode) || defaultDarkMode
                     ? "hsl(240,11%,13%)"
@@ -251,11 +255,12 @@ export function Loading(): JSX.Element {
                       sx={{
                         p: 3,
                         borderBottom: "1px solid",
+                        borderTop: { xs: "1px solid", sm: "none" },
                         borderColor:
                           (global.user && global.user.darkMode) ||
                           defaultDarkMode
-                            ? "hsl(240,11%,13%)"
-                            : "rgba(200,200,200,.3)",
+                            ? "hsl(240,11%,13%)!important"
+                            : "rgba(200,200,200,.3)!important",
                       }}
                     >
                       <Skeleton
