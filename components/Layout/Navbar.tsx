@@ -129,7 +129,7 @@ export function Navbar(): JSX.Element {
           <Typography
             sx={{
               fontWeight: 700,
-              fontSize: "17px",
+              fontSize: "18px",
             }}
             variant="h6"
           >
