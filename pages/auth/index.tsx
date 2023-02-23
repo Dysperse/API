@@ -281,10 +281,14 @@ export default function Prompt() {
             </Box>
           ) : step == 2 ? (
             <Box>
-              <Typography variant="h4" sx={{ mb: 1, mt: { xs: 5, sm: 0 } }}>
+              <Typography
+                variant="h3"
+                sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
+                className="font-heading"
+              >
                 Verifying...
               </Typography>
-              <Typography sx={{ mb: 2 }}>
+              <Typography sx={{ my: 2, mb: 3 }}>
                 Hang on while we verify that you&apos;re a human.
               </Typography>
               <Turnstile
