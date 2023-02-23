@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { useSWRConfig } from "swr";
-import { Layout } from "../../components/Auth/Layout";
+import { authStyles, Layout } from "../../components/Auth/Layout";
 
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
@@ -75,25 +75,7 @@ export default function Prompt() {
   return (
     <Layout>
       <Box>
-        <Paper
-          sx={{
-            background: "#F4CEEB",
-            borderRadius: { sm: 5 },
-            top: 0,
-            mb: 5,
-            left: 0,
-            position: { xs: "fixed", sm: "unset" },
-            mx: "auto",
-            maxWidth: "100vw",
-            overflowY: "auto",
-            width: { sm: "500px" },
-            p: { xs: 2, sm: 5 },
-            mt: { sm: 5 },
-            pt: { xs: 6, sm: 5 },
-            height: { xs: "100vh", sm: "auto" },
-          }}
-          elevation={0}
-        >
+        <Box sx={authStyles.container}>
           <Box
             sx={{
               color: "#202020",
@@ -120,10 +102,14 @@ export default function Prompt() {
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
+                <Typography
+                  variant="h3"
+                  sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
+                  className="font-heading"
+                >
                   Welcome to Dysperse!
                 </Typography>
-                <Typography sx={{ mb: 2 }}>
+                <Typography sx={{ my: 2, mb: 3 }}>
                   Create a Dysperse ID to keep track of your lists, home
                   inventory, and start working towards your goals!
                 </Typography>
@@ -132,64 +118,54 @@ export default function Prompt() {
                 required
                 disabled={buttonLoading}
                 label="Your name"
+                placeholder="Jeff Bezos"
                 value={formik.values.name}
                 name="name"
                 fullWidth
                 onChange={formik.handleChange}
                 sx={{ mb: 1.5 }}
-                variant="filled"
+                variant="outlined"
               />
               <TextField
                 required
                 disabled={buttonLoading}
                 label="Your email address"
+                placeholder="jeffbezos@gmail.com"
                 value={formik.values.email}
                 name="email"
                 onChange={formik.handleChange}
                 fullWidth
                 sx={{ mb: 1.5 }}
-                variant="filled"
+                variant="outlined"
               />
               <TextField
                 required
                 disabled={buttonLoading}
                 label="Password"
                 value={formik.values.password}
+                placeholder="********"
                 fullWidth
                 sx={{ mb: 1.5 }}
                 name="password"
                 type="password"
                 onChange={formik.handleChange}
-                variant="filled"
+                variant="outlined"
               />
               <TextField
                 required
                 fullWidth
                 disabled={buttonLoading}
                 type="password"
+                placeholder="********"
                 label="Repeat password"
                 value={formik.values.confirmPassword}
                 sx={{ mb: 1.5 }}
                 name="confirmPassword"
                 onChange={formik.handleChange}
-                variant="filled"
+                variant="outlined"
               />
               <Link href="/?close=true" legacyBehavior>
-                <Button
-                  sx={{
-                    textTransform: "none",
-                    mt: 1,
-                    py: 0,
-                    mb: { xs: 10, sm: 0 },
-                    float: "right",
-                    textAlign: "center",
-                    transition: "none",
-                    color: "#200923",
-                    "&:hover": { textDecoration: "underline" },
-                  }}
-                >
-                  I already have an account
-                </Button>
+                <Button sx={authStyles.link}>I already have an account</Button>
               </Link>
               <Box sx={{ pb: { xs: 15, sm: 0 } }} />
               <Box
@@ -201,7 +177,7 @@ export default function Prompt() {
                   left: 0,
                   zIndex: 1,
                   py: 1,
-                  background: "#F4CEEB",
+                  background: "hsl(240,11%,90%)",
                   width: { xs: "100vw", sm: "100%" },
                 }}
               >
@@ -211,15 +187,7 @@ export default function Prompt() {
                   variant="contained"
                   id="_loading"
                   disableElevation
-                  sx={{
-                    background: "#200923!important",
-                    borderRadius: 2,
-                    ml: "auto",
-                    mr: 1,
-                    mt: { sm: 2 },
-                    textTransform: "none",
-                    transition: "none",
-                  }}
+                  sx={authStyles.submit}
                   size="large"
                 >
                   Continue
@@ -233,7 +201,7 @@ export default function Prompt() {
               </Box>
             </Box>
           </form>
-        </Paper>
+        </Box>
       </Box>
     </Layout>
   );

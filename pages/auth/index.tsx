@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { authContainerStyles, Layout } from "../../components/Auth/Layout";
+import { authStyles, Layout } from "../../components/Auth/Layout";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { toastStyles } from "../../lib/useCustomTheme";
 
@@ -170,7 +170,7 @@ export default function Prompt() {
 
   return (
     <Layout>
-      <Box sx={authContainerStyles}>
+      <Box sx={authStyles.container}>
         <Box
           sx={{
             color: "#202020",
@@ -198,34 +198,40 @@ export default function Prompt() {
           {step === 1 ? (
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
-                <Typography variant="h4" sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}>
+                <Typography
+                  variant="h3"
+                  sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
+                  className="font-heading"
+                >
                   Welcome back!
                 </Typography>
-                <Typography sx={{ mb: 2 }}>
+                <Typography sx={{ my: 2, mb: 3 }}>
                   Sign in with your Dysperse ID
                 </Typography>
               </Box>
               <TextField
                 disabled={buttonLoading}
                 label="Your email address"
+                placeholder="jeffbezos@gmail.com"
                 value={formik.values.email}
                 spellCheck={false}
                 fullWidth
                 name="email"
                 onChange={formik.handleChange}
                 sx={{ mb: 1.5 }}
-                variant="filled"
+                variant="outlined"
               />
               <TextField
                 disabled={buttonLoading}
                 label="Password"
+                placeholder="******"
                 value={formik.values.password}
                 fullWidth
                 sx={{ mb: 1.5 }}
                 name="password"
                 onChange={formik.handleChange}
                 type="password"
-                variant="filled"
+                variant="outlined"
               />
               <Box
                 sx={{
@@ -235,7 +241,7 @@ export default function Prompt() {
                   bottom: 0,
                   left: 0,
                   py: 1,
-                  background: "#F4CEEB",
+                  background: "hsl(240,11%,90%)",
                   width: { xs: "100vw", sm: "auto" },
                 }}
               >
@@ -247,7 +253,12 @@ export default function Prompt() {
                   disableElevation
                   id="_loading"
                   sx={{
-                    background: `#200923!important`,
+                    background: `hsl(240,11%,80%) !important`,
+                    color: "#202020!important",
+                    "&:hover": {
+                      background: `hsl(240,11%,75%) !important`,
+                      color: "#000!important",
+                    },
                     borderRadius: 99,
                     ml: "auto",
                     mr: 1,
@@ -339,38 +350,10 @@ export default function Prompt() {
         {step === 1 && (
           <Box>
             <Link href="/signup?close=true" legacyBehavior>
-              <Button
-                sx={{
-                  textTransform: "none",
-                  mt: 1,
-                  py: 0,
-                  float: "right",
-                  textAlign: "center",
-                  mx: "auto",
-                  color: "#200923",
-                  transition: "none",
-                  "&:hover": { textDecoration: "underline" },
-                }}
-              >
-                Create an account
-              </Button>
+              <Button sx={authStyles.link}>Create an account</Button>
             </Link>
             <Link href="/auth-reset-id?close=true" legacyBehavior>
-              <Button
-                sx={{
-                  textTransform: "none",
-                  mt: 1,
-                  py: 0,
-                  float: "right",
-                  textAlign: "center",
-                  mx: "auto",
-                  color: "#200923",
-                  transition: "none",
-                  "&:hover": { textDecoration: "underline" },
-                }}
-              >
-                I forgot my ID
-              </Button>
+              <Button sx={authStyles.link}>I forgot my ID</Button>
             </Link>
           </Box>
         )}
@@ -392,7 +375,7 @@ export default function Prompt() {
             transition: "none",
           },
           userSelect: "none",
-          background: "#F4CEEB",
+          background: "hsl(240,11%,90%)",
           borderRadius: { sm: 5 },
           mx: "auto",
           maxWidth: "100vw",

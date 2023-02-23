@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Layout } from "../../components/Auth/Layout";
-import { colors } from "../../lib/colors";
+import { authStyles, Layout } from "../../components/Auth/Layout";
 
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
@@ -139,21 +138,7 @@ export default function Prompt() {
                 }
                 legacyBehavior
               >
-                <Button
-                  sx={{
-                    textTransform: "none",
-                    mt: 1,
-                    py: 0,
-                    mb: { xs: 10, sm: 0 },
-                    float: "right",
-                    textAlign: "center",
-                    mx: "auto",
-                    transition: "none",
-                    "&:hover": { textDecoration: "underline" },
-                  }}
-                >
-                  Back to login
-                </Button>
+                <Button sx={authStyles.link}>Back to login</Button>
               </Link>
               <Box sx={{ pb: { xs: 15, sm: 0 } }} />
               <Box
@@ -175,15 +160,7 @@ export default function Prompt() {
                   type="submit"
                   variant="contained"
                   id="_loading"
-                  sx={{
-                    background: `${colors.brown[900]}!important`,
-                    borderRadius: 2,
-                    ml: "auto",
-                    mr: 1,
-                    mt: { sm: 2 },
-                    textTransform: "none",
-                    transition: "none",
-                  }}
+                  sx={authStyles.submit}
                   size="large"
                 >
                   Continue

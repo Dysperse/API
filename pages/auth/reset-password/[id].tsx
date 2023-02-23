@@ -3,10 +3,9 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Layout } from "../../../components/Auth/Layout";
-import { colors } from "../../../lib/colors";
+import { authStyles, Layout } from "../../../components/Auth/Layout";
 
-import { Box, Paper, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { toastStyles } from "../../../lib/useCustomTheme";
 
 /**
@@ -73,25 +72,7 @@ export default function Prompt() {
   return (
     <Layout>
       <Box>
-        <Paper
-          sx={{
-            background: "#F4CEEB",
-            borderRadius: { sm: 5 },
-            top: 0,
-            mb: 5,
-            left: 0,
-            position: { xs: "fixed", sm: "unset" },
-            mx: "auto",
-            maxWidth: "100vw",
-            overflowY: "auto",
-            width: { sm: "450px" },
-            p: { xs: 2, sm: 5 },
-            mt: { sm: 5 },
-            pt: { xs: 6, sm: 5 },
-            height: { xs: "100vh", sm: "auto" },
-          }}
-          elevation={0}
-        >
+        <Box sx={authStyles.container}>
           <Box
             sx={{
               color: "#202020",
@@ -166,15 +147,7 @@ export default function Prompt() {
                   type="submit"
                   variant="contained"
                   id="_loading"
-                  sx={{
-                    background: `${colors.brown[900]}!important`,
-                    borderRadius: 2,
-                    ml: "auto",
-                    mr: 1,
-                    mt: { sm: 2 },
-                    textTransform: "none",
-                    transition: "none",
-                  }}
+                  sx={authStyles.submit}
                   size="large"
                 >
                   Continue
@@ -188,7 +161,7 @@ export default function Prompt() {
               </Box>
             </Box>
           </form>
-        </Paper>
+        </Box>
       </Box>
     </Layout>
   );

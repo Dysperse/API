@@ -13,20 +13,47 @@ const darkTheme = createTheme({
   },
 });
 
-export const authContainerStyles = {
-  background: "#F4CEEB",
-  borderRadius: { sm: 5 },
-  top: 0,
-  left: 0,
-  position: { xs: "fixed", sm: "unset" },
-  mx: "auto",
-  maxWidth: "100vw",
-  overflowY: "auto",
-  width: { xs: "100vw", sm: "450px" },
-  p: { xs: 2, sm: 5 },
-  mt: { sm: 5 },
-  pt: { xs: 6, sm: 5 },
-  height: { xs: "100vh", sm: "auto" },
+export const authStyles = {
+  submit: {
+    background: `hsl(240,11%,80%) !important`,
+    color: "#202020!important",
+    "&:hover": {
+      background: `hsl(240,11%,75%) !important`,
+      color: "#000!important",
+    },
+    borderRadius: 99,
+    ml: "auto",
+    mr: 1,
+    mt: { sm: 2 },
+    textTransform: "none",
+    transition: "none",
+  },
+  container: {
+    background: "hsl(240,11%,90%)",
+    borderRadius: { sm: 5 },
+    top: 0,
+    left: 0,
+    position: { xs: "fixed", sm: "unset" },
+    mx: "auto",
+    maxWidth: "100vw",
+    overflowY: "auto",
+    width: { xs: "100vw", sm: "450px" },
+    p: { xs: 2, sm: 5 },
+    mt: { sm: 5 },
+    pt: { xs: 6, sm: 5 },
+    height: { xs: "100vh", sm: "auto" },
+  },
+  link: {
+    textTransform: "none",
+    mt: 1,
+    py: 0,
+    float: "right",
+    textAlign: "center",
+    mx: "auto",
+    color: "#505050",
+    transition: "none",
+    "&:hover": { color: "#000" },
+  },
 };
 /**
  * Layout for the app, including navbar, sidenav, etc
@@ -42,7 +69,7 @@ export function Layout({ children }): JSX.Element {
       <ThemeProvider theme={darkTheme}>
         <Box
           sx={{
-            background: "linear-gradient(45deg, #DB94CA, #6E79C9)",
+            background: "hsl(240,11%,95%)",
             position: "fixed",
             top: 0,
             left: 0,
@@ -55,7 +82,7 @@ export function Layout({ children }): JSX.Element {
           <Box
             sx={{
               display: "inline-flex",
-              color: "#200923",
+              color: "#000",
               alignItems: "center",
               gap: 3,
               userSelect: "none",
