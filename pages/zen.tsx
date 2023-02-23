@@ -627,7 +627,7 @@ export default function Home() {
                                 data &&
                                 data.length -
                                   data.filter((task) => task.completed).length
-                              } tasks left for today`
+                              } tasks remaining for today`
                           : "Loading..."
                       }
                     />
