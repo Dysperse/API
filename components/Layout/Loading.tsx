@@ -42,7 +42,9 @@ export function Loading(): JSX.Element {
           WebkitAppRegion: "drag",
           left: 0,
           background:
-            global.user && global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+            (global.user && global.user.darkMode) || defaultDarkMode
+              ? "hsl(240,11%,10%)"
+              : "#fff",
           width: "100%",
           height: "100%",
           overflow: "hidden",
