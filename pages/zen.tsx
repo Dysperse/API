@@ -491,7 +491,12 @@ export default function Home() {
               </Tooltip>
               {!editMode && (
                 <Tooltip title="Jump to" placement="bottom-start">
-                  <IconButton onClick={() => openSpotlight()}>
+                  <IconButton
+                    onClick={() => openSpotlight()}
+                    sx={{
+                      display: { sm: "none" },
+                    }}
+                  >
                     <Icon className="outlined">bolt</Icon>
                   </IconButton>
                 </Tooltip>
@@ -596,6 +601,7 @@ export default function Home() {
                 card == "tasks" ? (
                   <ListItemButton
                     sx={{
+                      width: "100%",
                       px: "15px !important",
                       background: global.user.darkMode
                         ? "hsl(240, 11%, 10%)"
@@ -628,7 +634,7 @@ export default function Home() {
                                 data.length -
                                   data.filter((task) => task.completed).length
                               } tasks remaining for today`
-                          : "Loading..."
+                          : !editMode && "Loading..."
                       }
                     />
                     {data &&

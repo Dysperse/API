@@ -184,6 +184,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     <>
       <ListItemButton
         sx={{
+          width: "100%",
           px: "15px !important",
           background: global.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
           border: "1px solid",

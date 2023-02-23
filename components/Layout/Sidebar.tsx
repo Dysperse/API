@@ -84,6 +84,7 @@ export function Sidebar() {
       }),
     };
   };
+
   return (
     <Box
       sx={{
@@ -94,7 +95,11 @@ export function Sidebar() {
         filter: "none!important",
         overflowX: "hidden",
         background: {
-          sm: global.user.darkMode ? "hsla(240,11%,5%)" : "hsl(240,11%,93%)",
+          sm: global.user.darkMode
+            ? router.asPath === "/zen" || router.asPath === "/coach"
+              ? "hsla(240,11%,8%)"
+              : "hsla(240,11%,5%)"
+            : "hsl(240,11%,93%)",
         },
         height: "100vh",
         backdropFilter: "blur(10px)",
