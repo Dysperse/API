@@ -93,6 +93,12 @@ export default function InviteButton({ styles }) {
           vertical: "bottom",
           horizontal: "left",
         }}
+        BackdropProps={{
+          sx: {
+            opacity: { xs: "1!important", sm: "0!important" },
+          },
+        }}
+        transitionDuration={300}
         PaperProps={{
           sx: {
             borderRadius: "28px!important",
