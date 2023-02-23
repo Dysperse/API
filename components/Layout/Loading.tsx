@@ -43,7 +43,7 @@ export function Loading(): JSX.Element {
           left: 0,
           background:
             (global.user && global.user.darkMode) || defaultDarkMode
-              ? "hsl(240,11%,10%)"
+              ? "hsl(240,11%,5%)"
               : "#fff",
           width: "100%",
           height: "100%",
@@ -54,6 +54,7 @@ export function Loading(): JSX.Element {
           sx={{
             position: "fixed",
             top: 0,
+            display: { sm: "none" },
             background: "transparent",
             py: {
               sm: 1,
@@ -112,12 +113,26 @@ export function Loading(): JSX.Element {
               alignItems: "center",
               height: "100vh",
               gap: 2,
+              background:
+                (global.user && global.user.darkMode) || defaultDarkMode
+                  ? "hsl(240,11%,10%)"
+                  : "#fff",
               justifyContent: "center",
               width: "95px",
-              pt: "75px",
+              py: 2,
               px: 2.5,
             }}
           >
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              key={Math.random().toString()}
+              sx={{
+                borderRadius: 5,
+                height: 50,
+                width: 50,
+              }}
+            />
             <Box sx={{ mt: "auto" }} />
             {[...new Array(5)].map((_, i) => (
               <Skeleton
@@ -130,7 +145,6 @@ export function Loading(): JSX.Element {
                   width: 50,
                   ...(i === 4 && {
                     mt: "auto",
-                    mb: 2,
                   }),
                 }}
               />
@@ -140,50 +154,143 @@ export function Loading(): JSX.Element {
             sx={{
               flexGrow: 1,
               width: "100%",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            {/* Main content */}
             <Box
               sx={{
-                mt: "140px",
-                pl: 2,
+                background:
+                  (global.user && global.user.darkMode) || defaultDarkMode
+                    ? "hsl(240,11%,13%)"
+                    : "#fff",
+                width: 300,
+                p: 3,
+                py: 4,
+                height: "100%",
+                flex: "0 0 250px",
+              }}
+            >
+              <Skeleton
+                key={Math.random().toString()}
+                variant="rectangular"
+                animation="wave"
+                height={15}
+                sx={{
+                  width: "40%",
+                  borderRadius: 1,
+                  mb: 2,
+                }}
+              />
+              {[...new Array(3)].map(() => (
+                <Skeleton
+                  key={Math.random().toString()}
+                  variant="rectangular"
+                  animation="wave"
+                  height={30}
+                  sx={{
+                    width: "100%",
+                    borderRadius: 2,
+                    mb: 2,
+                  }}
+                />
+              ))}
+
+              <Skeleton
+                key={Math.random().toString()}
+                variant="rectangular"
+                animation="wave"
+                height={15}
+                sx={{
+                  width: "55%",
+                  borderRadius: 1,
+                  mb: 2,
+                  mt: 5,
+                }}
+              />
+              {[...new Array(6)].map(() => (
+                <Skeleton
+                  key={Math.random().toString()}
+                  variant="rectangular"
+                  animation="wave"
+                  height={30}
+                  sx={{
+                    width: "100%",
+                    borderRadius: 2,
+                    mb: 2,
+                  }}
+                />
+              ))}
+            </Box>
+            <Box
+              sx={{
+                height: "100%",
               }}
             >
               <Box
                 sx={{
                   display: "flex",
-                  gap: 1,
                   overflow: "hidden",
-                  width: "100%",
-                  mb: 2,
-                }}
-              >
-                {[...new Array(20)].map(() => (
-                  <Skeleton
-                    key={Math.random().toString()}
-                    variant="rectangular"
-                    animation="wave"
-                    height={50}
-                    sx={{ width: "150px", flex: "0 0 150px", borderRadius: 5 }}
-                  />
-                ))}
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 2,
-                  overflow: "hidden",
+                  height: "100%",
                   width: "100%",
                 }}
               >
                 {[...new Array(5)].map((_, i) => (
-                  <Skeleton
-                    variant="rectangular"
-                    animation="wave"
-                    key={i}
-                    height={694}
-                    sx={{ width: "330px", flex: "0 0 330px", borderRadius: 5 }}
-                  />
+                  <Box
+                    sx={{
+                      width: "300px",
+                      flex: "0 0 300px",
+                      borderRight: "1px solid",
+                      borderColor:
+                        (global.user && global.user.darkMode) || defaultDarkMode
+                          ? "hsl(240,11%,13%)"
+                          : "#fff",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        p: 3,
+                        borderBottom: "1px solid",
+                        borderColor:
+                          (global.user && global.user.darkMode) ||
+                          defaultDarkMode
+                            ? "hsl(240,11%,13%)"
+                            : "#fff",
+                      }}
+                    >
+                      <Skeleton
+                        variant="rectangular"
+                        animation="wave"
+                        key={i}
+                        height={50}
+                        width={50}
+                        sx={{ borderRadius: 3, mb: 2 }}
+                      />
+                      <Skeleton
+                        variant="rectangular"
+                        animation="wave"
+                        key={i}
+                        height={20}
+                        width={"100%"}
+                        sx={{ borderRadius: 1.5 }}
+                      />
+                    </Box>
+                    <Box sx={{ p: 3 }}>
+                      {[...new Array(10)].map((_, i) => (
+                        <Skeleton
+                          key={Math.random().toString()}
+                          variant="rectangular"
+                          animation="wave"
+                          height={30}
+                          sx={{
+                            width: i % 2 ? "70%" : "100%",
+                            borderRadius: 2,
+                            mb: 2,
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </Box>
                 ))}
                 <div style={{ opacity: 0 }}>
                   <Icon>add_circle</Icon>
