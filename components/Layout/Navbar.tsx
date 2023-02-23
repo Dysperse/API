@@ -12,6 +12,7 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
@@ -100,12 +101,10 @@ export function Navbar(): JSX.Element {
       <Toolbar sx={{ height: "100%", gap: 1 }}>
         <Box
           sx={{
-            transition: "all .3s",
-            "&:active": {
-              transform: "scale(0.9) rotate(-90deg)",
-              transition: "none",
-            },
             mr: "auto",
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
             WebkitAppRegion: "no-drag",
           }}
         >
@@ -127,6 +126,24 @@ export function Navbar(): JSX.Element {
               }),
             }}
           />
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontSize: "17px",
+            }}
+            variant="h6"
+          >
+            {router.asPath.includes("tasks")
+              ? "Tasks"
+              : router.asPath.includes("items") ||
+                router.asPath.includes("trash") ||
+                router.asPath.includes("starred") ||
+                router.asPath.includes("rooms")
+              ? "Items"
+              : router.asPath.includes("coach")
+              ? "Coach"
+              : "Overview"}
+          </Typography>
         </Box>
         <Box
           sx={{
