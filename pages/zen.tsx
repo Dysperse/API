@@ -10,7 +10,6 @@ import {
   ListItemIcon,
   ListItemText,
   SwipeableDrawer,
-  TextField,
   Toolbar,
   Tooltip,
   Typography,
@@ -42,7 +41,7 @@ import {
 
 import { CSS } from "@dnd-kit/utilities";
 import dayjs from "dayjs";
-import { createRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { Puller } from "../components/Puller";
@@ -52,118 +51,6 @@ import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
-
-function DailyFocus({ editMode }) {
-  const randomGoals = [
-    "Exercise for 30 minutes",
-    "Meditate for 10 minutes",
-    "Drink 8 glasses of water",
-    "Eat a healthy breakfast",
-    "Read for 30 minutes",
-    "Write in a journal for 10 minutes",
-    "Call a friend or family member",
-    "Spend time in nature",
-    "Practice gratitude by listing 3 things you're thankful for",
-    "Declutter and organize my home",
-    "Plan and prepare meals for the day",
-    "Take a 10-minute break every 2 hours",
-    "Take a nap or rest for 20 minutes",
-    "Spend 30 minutes learning a new skill",
-    "Practice deep breathing for 5 minutes",
-    "Do a random act of kindness for someone else",
-    "Spend 30 minutes in quiet reflection",
-    "Take time to enjoy a hobby",
-    "Create a daily to-do list and prioritize tasks",
-    "Spend time outside in the sun",
-    "Spend 15 minutes in deep cleaning",
-    "Listen to a podcast or audiobook",
-    "Volunteer or give back to the community",
-    "Take a walk or go for a run",
-    "Spend time with a pet",
-    "Try a new healthy recipe for dinner",
-    "Spend 30 minutes practicing mindfulness",
-    "Do a 15-minute home workout",
-    "Set and work towards a daily savings goal",
-    "Spend 15 minutes practicing self-care",
-    "Spend time with loved ones",
-    "Make a conscious effort to reduce waste and be eco-friendly",
-    "Do a quick housecleaning and tidy up",
-    "Spend time in solitude and introspection",
-    "Get 8 hours of sleep",
-    "Spend time with a friend or family member",
-    "Visit a new place or try a new activity",
-    "Focus on positive self-talk and avoid negative self-criticism",
-    "Spend 15 minutes decluttering and organizing",
-    "Create a budget and stick to it",
-    "Spend time with a loved one or pet",
-    "Spend 30 minutes in deep work or focusing on a task",
-    "Take a relaxing bath or shower",
-    "Spend time doing a creative activity",
-    "Practice forgiveness and let go of grudges",
-    "Touch grass",
-  ];
-
-  const ref: any = createRef();
-  const [value, setValue] = useState("");
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        mb: 2,
-        gap: 1,
-      }}
-    >
-      <TextField
-        multiline
-        disabled={editMode}
-        placeholder="What's your goal for today?"
-        onChange={(e) => setValue(e.target.value)}
-        size="small"
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-          sx: {
-            background: global.user.darkMode
-              ? "hsla(240,11%,40%,.35)"
-              : "rgba(200,200,200,.1)",
-            border: "1px solid transparent",
-            "&:focus-within": {
-              boxShadow: "15px 15px 30px rgba(0,0,0,.1)",
-              background: global.user.darkMode
-                ? "hsla(240,11%,10%,.5)"
-                : "rgba(255,255,255,.9)",
-              borderColor: global.user.darkMode
-                ? "rgba(255,255,255,.5)"
-                : "#ccc",
-            },
-            p: 2,
-            py: 1,
-            borderRadius: 2,
-            mx: "auto",
-          },
-        }}
-        value={value}
-      />
-      <IconButton
-        onClick={(e: any) => {
-          const g = randomGoals[Math.floor(Math.random() * randomGoals.length)];
-          const chance = Math.random();
-
-          // Easter egg xD
-          if ((g === "Touch grass" && chance > 0.01) || value === g) {
-            e.target.click();
-          }
-
-          setValue(g);
-        }}
-      >
-        <Icon className="outlined">casino</Icon>
-      </IconButton>
-    </Box>
-  );
-}
 
 function CardGallery({ editMode, items, setItems }) {
   const [open, setOpen] = useState(false);
@@ -519,9 +406,9 @@ export default function Home() {
                 sx={{
                   fontSize: {
                     xs: "40px",
-                    sm: "35px",
+                    sm: "50px",
                   },
-                  mb: 2,
+                  mb: 1,
                 }}
                 variant="h5"
               >
@@ -531,7 +418,6 @@ export default function Home() {
                   : global.user.name}
                 !
               </Typography>
-              <DailyFocus editMode={editMode} />
               <Chip
                 icon={
                   <>
