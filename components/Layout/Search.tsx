@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { capitalizeFirstLetter } from "../ItemPopup";
 
 function CustomAction({
   action,
@@ -134,6 +135,14 @@ export default function SearchPopup({ styles }) {
       icon: <Icon className="outlined">dark_mode</Icon>,
     },
 
+    ...["week", "month", "year"].map((e) => {
+      return {
+        title: capitalizeFirstLetter(e),
+        onTrigger: () => router.push(`/tasks/#/agenda/${e}`),
+        icon: <Icon className="outlined">today</Icon>,
+        badge: "agenda",
+      };
+    }),
     ...(roomData
       ? roomData.map((room: any) => {
           return {
