@@ -221,6 +221,7 @@ export const Board = function Board({
           onClick={() => setDrawerOpen(true)}
           sx={{
             fontWeight: "700",
+            color: global.user.darkMode ? "#fff" : "#000",
             display: { sm: "none" },
             fontSize: "15px",
           }}

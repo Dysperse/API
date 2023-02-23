@@ -329,10 +329,12 @@ export function Agenda({
             fontWeight: "700",
             display: { sm: "none" },
             fontSize: "15px",
-            textTransform: "capitalize",
+            ...(view !== "week" && {
+              textTransform: "capitalize",
+            }),
           }}
         >
-          Agenda
+          {view === "week" && "This"} {view}
           <Icon>expand_more</Icon>
         </Button>
       </Box>
