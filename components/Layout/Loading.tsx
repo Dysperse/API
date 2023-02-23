@@ -116,7 +116,7 @@ export function Loading(): JSX.Element {
               background:
                 (global.user && global.user.darkMode) || defaultDarkMode
                   ? "hsl(240,11%,10%)"
-                  : "#fff",
+                  : "rgba(200,200,200,.3)",
               justifyContent: "center",
               width: "95px",
               py: 2,
@@ -163,7 +163,7 @@ export function Loading(): JSX.Element {
                 background:
                   (global.user && global.user.darkMode) || defaultDarkMode
                     ? "hsl(240,11%,13%)"
-                    : "#fff",
+                    : "rgba(200,200,200,.2)",
                 width: 300,
                 p: 3,
                 py: 4,
@@ -244,7 +244,7 @@ export function Loading(): JSX.Element {
                       borderColor:
                         (global.user && global.user.darkMode) || defaultDarkMode
                           ? "hsl(240,11%,13%)"
-                          : "#fff",
+                          : "rgba(200,200,200,.3)",
                     }}
                   >
                     <Box
@@ -255,7 +255,7 @@ export function Loading(): JSX.Element {
                           (global.user && global.user.darkMode) ||
                           defaultDarkMode
                             ? "hsl(240,11%,13%)"
-                            : "#fff",
+                            : "rgba(200,200,200,.3)",
                       }}
                     >
                       <Skeleton
