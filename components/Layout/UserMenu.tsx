@@ -213,7 +213,7 @@ export default function InviteButton({ styles }) {
         onClick={handleClick}
       >
         <Tooltip title="Groups" placement="bottom-end">
-          <Icon className="outlined">menu_open</Icon>
+          <Icon className="outlined">motion_mode</Icon>
         </Tooltip>
       </IconButton>
     </>
