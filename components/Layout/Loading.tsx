@@ -240,7 +240,8 @@ export function Loading(): JSX.Element {
                 }}
               >
                 {[...new Array(5)].map((_, i) => (
-                  <Box key={i}
+                  <Box
+                    key={i}
                     sx={{
                       width: "300px",
                       flex: "0 0 300px",
