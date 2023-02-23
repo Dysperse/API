@@ -207,9 +207,7 @@ export default function InviteButton({ styles }) {
         onClick={handleClick}
       >
         <Tooltip title="Groups" placement="bottom-end">
-          <Icon className="outlined">
-            {anchorEl ? "unfold_less" : "unfold_more"}
-          </Icon>
+          <Icon className="outlined">menu_open</Icon>
         </Tooltip>
       </IconButton>
     </>
