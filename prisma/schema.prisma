@@ -1,5 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -30,6 +30,7 @@ model User {
   sessions                 Session[]
   Board                    Board[]
   Integration              Integration[]
+  DailyCheckIn             DailyCheckIn[]
 }
 
 model Integration {
@@ -208,4 +209,12 @@ model RoutineItem {
   feedback      String? @default("")
   userId        String
   user          User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+model DailyCheckIn {
+  id     String   @id @unique @default(uuid())
+  mood   String
+  date   DateTime
+  userId String
+  user   User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }

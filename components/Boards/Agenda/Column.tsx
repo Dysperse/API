@@ -70,6 +70,7 @@ export function Column({ mutationUrl, view, day, data }) {
   return (
     <Box
       ref={ref}
+      className="snap-center"
       onMouseEnter={handleHoverIn}
       onMouseLeave={handleHoverOut}
       {...(isToday && { id: "activeHighlight" })}
@@ -84,7 +85,7 @@ export function Column({ mutationUrl, view, day, data }) {
         flexBasis: 0,
         minHeight: { sm: "100vh" },
         overflowY: "scroll",
-        minWidth: { xs: "80vw", sm: "320px" },
+        minWidth: { xs: "100vw", sm: "320px" },
         ...(!data && {
           filter: "blur(10px)",
         }),
