@@ -201,6 +201,7 @@ export function Agenda({
 
       <Box
         id="agendaContainer"
+        className="snap-x snap-mandatory sm:snap-none"
         sx={{
           display: "flex",
           maxWidth: "100vw",
