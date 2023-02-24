@@ -1,10 +1,13 @@
 import {
   AppBar,
+  Avatar,
   Box,
   CardActionArea,
+  Chip,
   Drawer,
   Icon,
   IconButton,
+  LinearProgress,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -14,6 +17,7 @@ import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { capitalizeFirstLetter } from "../ItemPopup";
 
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
 
@@ -88,24 +92,85 @@ export function DailyCheckInDrawer() {
           </Toolbar>
         </AppBar>
 
+        <Typography variant="h6" sx={{ p: 2, pb: 1 }}>
+          By day
+        </Typography>
+        <Box sx={{ display: "flex", gap: 2, overflowX: "scroll", px: 2 }}>
+          {data &&
+            data
+              .slice(0, 20)
+              .reverse()
+              .map(({ date, mood }, index) => (
+                <Chip
+                  key={index}
+                  label={capitalizeFirstLetter(
+                    dayjs(date)
+                      .fromNow()
+                      .replace("a day ago", "yesterday")
+                      .replace("12 hours ago", "today")
+                  )}
+                  sx={{
+                    py: 1,
+                    gap: 1,
+                    borderRadius: 9999,
+                    px: 2,
+                    height: "auto",
+                    maxHeight: "unset",
+                  }}
+                  icon={
+                    <Avatar
+                      sx={{
+                        width: 30,
+                        height: 30,
+                      }}
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${mood}.png`}
+                    />
+                  }
+                />
+              ))}
+        </Box>
+
+        <Typography variant="h6" sx={{ p: 2, pb: 1 }}>
+          By mood
+        </Typography>
         {moodOptions.map((emoji) => (
-          <IconButton
-            key={emoji}
-            sx={{
-              p: 0,
-              width: 35,
-              height: 35,
-            }}
+          <Box
+            sx={{ px: 2, py: 1, display: "flex", alignItems: "center", gap: 2 }}
           >
-            <picture>
-              <img
-                alt="emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-              />
-            </picture>
-          </IconButton>
+            <IconButton
+              key={emoji}
+              sx={{
+                p: 0,
+                width: 35,
+                height: 35,
+              }}
+            >
+              <picture>
+                <img
+                  alt="emoji"
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                />
+              </picture>
+            </IconButton>
+            <LinearProgress
+              variant="determinate"
+              sx={{
+                flexGrow: 1,
+                "&, & *": {
+                  borderRadius: 999,
+                },
+                height: 15,
+              }}
+              value={
+                data
+                  ? (data.filter(({ mood }) => mood === emoji).length /
+                      data.length) *
+                    100
+                  : 0
+              }
+            />
+          </Box>
         ))}
-        {JSON.stringify(data)}
       </Drawer>
     </>
   );
