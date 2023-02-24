@@ -134,7 +134,8 @@ export function DailyCheckInDrawer() {
           By mood
         </Typography>
         {moodOptions.map((emoji) => (
-          <Box key={emoji}
+          <Box
+            key={emoji}
             sx={{ px: 2, py: 1, display: "flex", alignItems: "center", gap: 2 }}
           >
             <IconButton
