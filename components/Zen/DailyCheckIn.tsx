@@ -26,6 +26,9 @@ export function DailyCheckInDrawer() {
     width: "100%",
     maxWidth: "600px",
   };
+
+  const { data, error } = useApi("user/checkIns/count");
+
   return (
     <>
       <CardActionArea
@@ -84,6 +87,25 @@ export function DailyCheckInDrawer() {
             </IconButton>
           </Toolbar>
         </AppBar>
+
+        {moodOptions.map((emoji) => (
+          <IconButton
+            key={emoji}
+            sx={{
+              p: 0,
+              width: 35,
+              height: 35,
+            }}
+          >
+            <picture>
+              <img
+                alt="emoji"
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+              />
+            </picture>
+          </IconButton>
+        ))}
+        {JSON.stringify(data)}
       </Drawer>
     </>
   );

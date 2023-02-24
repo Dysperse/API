@@ -4,12 +4,10 @@ import { prisma } from "../../../../lib/prismaClient";
 export default async function handler(req, res) {
   const data = await prisma.dailyCheckIn.findMany({
     where: {
-      AND: [
-        { date: new Date(req.query.date) },
-        {
-          userId: req.query.userIdentifier,
-        },
-      ],
+      userId: req.query.userIdentifier,
+    },
+    select: {
+      mood: true,
     },
   });
   res.json(data);
