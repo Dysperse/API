@@ -17,7 +17,7 @@ import {
 import { orange } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useHotkeys } from "react-hotkeys-hook";
-import { CardOptions } from "../components/zen/CardOptions";
+import { CardOptions } from "../components/Zen/CardOptions";
 import { colors } from "../lib/colors";
 
 import {
@@ -46,11 +46,12 @@ import toast from "react-hot-toast";
 import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { Puller } from "../components/Puller";
 import { updateSettings } from "../components/Settings/updateSettings";
-import { getActions } from "../components/zen/getActions";
+import { getActions } from "../components/Zen/getActions";
 import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
+import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 
 function CardGallery({ editMode, items, setItems }) {
   const [open, setOpen] = useState(false);
@@ -128,40 +129,6 @@ function CardGallery({ editMode, items, setItems }) {
         </Button>
       </Box>
     </>
-  );
-}
-
-function CheckIn() {
-  return (
-    <Box
-      sx={{
-        background: global.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
-        border: "1px solid",
-        borderColor: global.user.darkMode
-          ? "hsl(240, 11%, 20%)"
-          : "rgba(200, 200, 200, 0.3)",
-        p: 3,
-        borderRadius: 5,
-      }}
-      className="shadow-lg"
-    >
-      <Typography variant="body2">Daily check-in</Typography>
-      <Typography variant="h6">How are you feeling today?</Typography>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          mt: 0.5,
-          mb: -1,
-        }}
-      >
-        {["😁", "😃", "😐", "😔", "😭"].map((emoji) => (
-          <IconButton key={emoji} sx={{ p: 0, width: 40, height: 40 }}>
-            {emoji}
-          </IconButton>
-        ))}
-      </Box>
-    </Box>
   );
 }
 
@@ -446,7 +413,7 @@ export default function Home() {
               />
             </Box>
             <Box>
-              <CheckIn />
+              <DailyCheckIn />
             </Box>
           </Box>
 
