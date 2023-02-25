@@ -117,10 +117,10 @@ export function DailyCheckInDrawer() {
           </Toolbar>
         </AppBar>
 
-        <Typography variant="h6" sx={{ p: 3, pb: 0 }} gutterBottom>
+        <Typography variant="h6" sx={{ p: 4, pb: 0 }} gutterBottom>
           By day
         </Typography>
-        <Typography sx={{ px: 2 }} variant="body2" gutterBottom>
+        <Typography sx={{ px: 3 }} variant="body2" gutterBottom>
           <CardActionArea
             onClick={handleClick}
             sx={{
@@ -159,7 +159,7 @@ export function DailyCheckInDrawer() {
           </MenuItem>
         </Menu>
 
-        <Box sx={{ px: 3, mb: 2, height: "auto" }}>
+        <Box sx={{ px: 4, mb: 2, height: "auto", display: "flex", gap: 2 }}>
           <Sparklines
             data={[
               ...(data && data.length > 0
@@ -188,6 +188,21 @@ export function DailyCheckInDrawer() {
           </Sparklines>
         </Box>
 
+        <Box
+          sx={{
+            display: "flex",
+            opacity: 0.5,
+            width: "100%",
+            px: 4,
+            mb: 2,
+          }}
+        >
+          <Typography variant="body2">{lastBy} days ago</Typography>
+          <Typography variant="body2" sx={{ ml: "auto" }}>
+            today
+          </Typography>
+        </Box>
+
         <Box>
           <Box
             className="embla"
@@ -201,7 +216,7 @@ export function DailyCheckInDrawer() {
           >
             <div
               className="embla__container"
-              style={{ gap: "10px", paddingLeft: "18px" }}
+              style={{ gap: "10px", paddingLeft: "28px", marginTop: "10px" }}
             >
               {data &&
                 data
@@ -234,13 +249,13 @@ export function DailyCheckInDrawer() {
           </Box>
         </Box>
 
-        <Typography variant="h6" sx={{ p: 3, pb: 1, pt: 4 }}>
+        <Typography variant="h6" sx={{ p: 4, pb: 1, pt: 4 }}>
           By mood
         </Typography>
         {moodOptions.map((emoji) => (
           <Box
             key={emoji}
-            sx={{ px: 3, py: 1, display: "flex", alignItems: "center", gap: 2 }}
+            sx={{ px: 4, py: 1, display: "flex", alignItems: "center", gap: 2 }}
           >
             <IconButton
               key={emoji}
