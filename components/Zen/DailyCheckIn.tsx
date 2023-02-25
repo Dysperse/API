@@ -1,9 +1,11 @@
 import {
+  Alert,
   AppBar,
   Avatar,
   Box,
   CardActionArea,
   Chip,
+  Dialog,
   Drawer,
   Icon,
   IconButton,
@@ -25,6 +27,52 @@ import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { capitalizeFirstLetter } from "../ItemPopup";
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
+
+function InfoModal() {
+  const [open, setOpen] = useState<boolean>(false);
+  const handleClose = useCallback(() => setOpen(false), [open]);
+  const handleOpen = useCallback(() => setOpen(true), [open]);
+
+  return (
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          sx: {
+            p: 3,
+          },
+        }}
+      >
+        <Typography variant="h5" sx={{ mb: 2 }}>
+          Mental health{" "}
+          <Chip
+            sx={{
+              ml: 1.5,
+              background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+              color: "#000",
+            }}
+            size="small"
+            label="BETA"
+          />
+        </Typography>
+        <Alert severity="info" sx={{ mb: 1 }}>
+          Dysperse mental health is a tool to help track your mood over time
+        </Alert>
+        <Alert severity="info" sx={{ mb: 1 }}>
+          Your mood is only visible to you, meaning that other members in your
+          groyp won&apos;t be able to see how you&apos;re feeling
+        </Alert>
+        <Alert severity="warning" sx={{ mb: 1 }}>
+          Mood data is only stared for 1 year
+        </Alert>
+      </Dialog>
+      <IconButton onClick={handleOpen}>
+        <Icon className="outlined">info</Icon>
+      </IconButton>
+    </>
+  );
+}
 
 export function DailyCheckInDrawer() {
   const [open, setOpen] = useState<boolean>(false);
@@ -103,17 +151,13 @@ export function DailyCheckInDrawer() {
           }}
         >
           <Toolbar>
-            <IconButton onClick={handleClose} sx={{ mr: "auto" }}>
+            <IconButton onClick={handleClose}>
               <Icon>close</Icon>
             </IconButton>
-            <Typography sx={{ fontWeight: "700" }}>Mental health</Typography>
-            <IconButton
-              onClick={handleClose}
-              sx={{ ml: "auto", opacity: 0 }}
-              disabled
-            >
-              <Icon>close</Icon>
-            </IconButton>
+            <Typography sx={{ fontWeight: "700", mx: "auto" }}>
+              Mental health
+            </Typography>
+            <InfoModal />
           </Toolbar>
         </AppBar>
 
@@ -158,13 +202,18 @@ export function DailyCheckInDrawer() {
             365 days
           </MenuItem>
         </Menu>
-
         <Box sx={{ px: 4, mb: 2, height: "auto", display: "flex", gap: 2 }}>
           <Sparklines
             data={[
               ...(data && data.length > 0
                 ? data.slice(0, lastBy).map((day) => {
-                    return moodOptions.indexOf(day.mood);
+                    return [
+                      "1f62d",
+                      "1f614",
+                      "1f610",
+                      "1f600",
+                      "1f601",
+                    ].indexOf(day.mood);
                   })
                 : [0]),
             ]}
@@ -216,8 +265,9 @@ export function DailyCheckInDrawer() {
           >
             <div
               className="embla__container"
-              style={{ gap: "10px", paddingLeft: "28px", marginTop: "10px" }}
+              style={{ gap: "10px", paddingLeft: "20px", marginTop: "10px" }}
             >
+              <div></div>
               {data &&
                 data
                   .slice(0, lastBy)

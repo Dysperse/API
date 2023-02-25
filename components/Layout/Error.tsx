@@ -16,7 +16,7 @@ export function Error({ message }) {
         position: "fixed",
         top: 0,
         textAlign: "center",
-        background: "linear-gradient(45deg, #DB94CA, #6E79C9)",
+        background: "hsl(240,11%,90%)",
         height: "100%",
         width: "100%",
         color: "#232323",

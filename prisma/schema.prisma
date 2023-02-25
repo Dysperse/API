@@ -20,7 +20,7 @@ model User {
   trophies                 Int                   @default(0)
   twoFactorSecret          String                @default("")
   notificationSubscription String?               @db.VarChar(500)
-  zenCardOrder             String                @default("[\"goals.study_plan\", \"inventory.starred\", \"inventory.scan\", \"achievements.trigger\"]")
+  zenCardOrder             String                @default("[\"goals.study_plan\", \"inventory.starred\", \"inventory.scan\"]")
   CustomRoom               CustomRoom[]
   NotificationSettings     NotificationSettings?
   OAuthToken               OAuthToken[]

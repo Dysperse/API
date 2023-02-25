@@ -19,7 +19,6 @@ import Image from "next/image";
 import { UpdateButton } from "./UpdateButton";
 import InviteButton from "./UserMenu";
 const AppsMenu = dynamic(() => import("./AppsMenu"));
-const Achievements = dynamic(() => import("./Achievements"));
 
 /**
  * Navbar component for layout
@@ -200,7 +199,6 @@ export function Navbar(): JSX.Element {
             </Tooltip>
           </Offline>
         </Box>
-        <Achievements styles={styles} />
         <InviteButton styles={styles} />
         {!isMobile && <AppsMenu styles={styles} />}
         <Tooltip title="Support">
