@@ -15,7 +15,7 @@ await validatePermissions(res, {
     }`,
     new Date(req.query.timestamp),
     req.query.property,
-    req.query.accessToken
+    req.query.accessToken,req,res
   );
   //   Delete user from `propertyInvite` table
   const data = await prisma.propertyInvite.update({

@@ -13,7 +13,9 @@ const handler = async (req, res) => {
     `created an invite link for this group`,
     new Date(req.query.timestamp),
     req.query.property,
-    req.query.accessToken
+    req.query.accessToken,
+    req,
+    res
   );
 
   // Get user id
