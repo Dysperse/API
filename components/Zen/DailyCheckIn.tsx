@@ -30,8 +30,8 @@ export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
 
 function InfoModal() {
   const [open, setOpen] = useState<boolean>(false);
-  const handleClose = useCallback(() => setOpen(false), [open]);
-  const handleOpen = useCallback(() => setOpen(true), [open]);
+  const handleClose = useCallback(() => setOpen(false), []);
+  const handleOpen = useCallback(() => setOpen(true), []);
 
   return (
     <>
@@ -76,8 +76,8 @@ function InfoModal() {
 
 export function DailyCheckInDrawer() {
   const [open, setOpen] = useState<boolean>(false);
-  const handleClose = useCallback(() => setOpen(false), [open]);
-  const handleOpen = useCallback(() => setOpen(true), [open]);
+  const handleClose = useCallback(() => setOpen(false), []);
+  const handleOpen = useCallback(() => setOpen(true), []);
 
   const drawerStyles = {
     width: "100%",
@@ -382,7 +382,7 @@ export function DailyCheckIn() {
         );
       }
     },
-    [today]
+    [today, mutationUrl, mood]
   );
 
   return (

@@ -72,7 +72,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
       },
       toastStyles
     );
-  }, [data.pinned, data.id, mutationUrl]);
+  }, [data.pinned, data.id, mutationUrl, setTaskData]);
 
   const handleDelete = useCallback(
     function handleDelete(taskId) {
@@ -83,7 +83,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
         mutate(mutationUrl);
       });
     },
-    [mutationUrl]
+    [mutationUrl, setTaskData]
   );
 
   const handleEdit = useCallback(
@@ -96,7 +96,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
         mutate(mutationUrl);
       });
     },
-    [mutationUrl]
+    [mutationUrl, setTaskData]
   );
 
   const handleComplete = useCallback(async () => {
@@ -114,7 +114,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
       .catch(() =>
         toast.error("An error occured while updating the task", toastStyles)
       );
-  }, [data]);
+  }, [data, setTaskData]);
 
   const handlePostpone: any = useCallback(
     (count, type) => {
@@ -128,7 +128,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
         dayjs(data.due).add(count, type).toISOString()
       );
     },
-    [data.id]
+    [data.id, setTaskData]
   );
 
   const [open, setOpen] = useState(false);

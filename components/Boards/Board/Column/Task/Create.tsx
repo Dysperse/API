@@ -273,6 +273,11 @@ export function CreateTask({
       pinned,
       setPinned,
       toastStyles,
+      boardId,
+      column,
+      date,
+      mutationUrl,
+      parent,
     ]
   );
 

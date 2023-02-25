@@ -42,7 +42,7 @@ export function ConfirmationModal({
     if (open && disabled) {
       handleClick();
     }
-  }, [open, disabled]);
+  }, [open, disabled, handleClick]);
 
   useStatusBar(open, 1);
 

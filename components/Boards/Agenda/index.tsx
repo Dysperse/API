@@ -77,7 +77,7 @@ export function Agenda({
         });
       window.scrollTo(0, 0);
     }, 1);
-  }, [navigation]);
+  }, []);
 
   const { data, url, error } = useApi("property/boards/agenda", {
     startTime: startOfWeek.toISOString(),

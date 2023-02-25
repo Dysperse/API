@@ -60,8 +60,8 @@ export function Column({ mutationUrl, view, day, data }) {
     [isHovered]
   );
 
-  const handleHoverIn = useCallback(() => setIsHovered(true), [isHovered]);
-  const handleHoverOut = useCallback(() => setIsHovered(false), [isHovered]);
+  const handleHoverIn = useCallback(() => setIsHovered(true), []);
+  const handleHoverOut = useCallback(() => setIsHovered(false), []);
 
   const tasksLeft =
     tasksWithinTimeRange.length -

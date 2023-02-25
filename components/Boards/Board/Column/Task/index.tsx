@@ -138,7 +138,7 @@ export const Task = function Task({
         toast.error("An error occured while updating the task", toastStyles);
       }
     },
-    [mutationUrl, toastStyles]
+    [mutationUrl, toastStyles, taskData.id]
   );
 
   const params = [
