@@ -9,10 +9,10 @@ export const createInboxNotification = async (
   propertyId: string,
   accessToken: string
 ) => {
- await validatePermissions(res, {
-   minimum: "member",
-   credentials: [req.query.property, req.query.accessToken],
- });
+  await validatePermissions(res, {
+    minimum: "member",
+    credentials: [req.query.property, req.query.accessToken],
+  });
 
   const data = await prisma.inboxItem.create({
     data: {

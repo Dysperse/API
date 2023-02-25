@@ -23,7 +23,7 @@ const handler = async (req, res) => {
       },
     },
   });
-  
+
   if (!session) {
     res.status(401).json({ error: "Unauthorized" });
     return;

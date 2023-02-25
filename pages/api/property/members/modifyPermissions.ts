@@ -3,10 +3,10 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
 import { createInboxNotification } from "../inbox/create";
 
 const handler = async (req, res) => {
-await validatePermissions(res, {
-  minimum: "owner",
-  credentials: [req.query.property, req.query.accessToken],
-});
+  await validatePermissions(res, {
+    minimum: "owner",
+    credentials: [req.query.property, req.query.accessToken],
+  });
 
   await createInboxNotification(
     req.query.changerName,
