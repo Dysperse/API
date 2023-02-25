@@ -158,7 +158,7 @@ export const Board = function Board({
       <Box
         sx={{
           position: {
-            xs: "sticky",
+            xs: "static",
             sm: "fixed",
           },
           right: { sm: 0 },
@@ -178,7 +178,7 @@ export const Board = function Board({
           },
           maxWidth: "100vw",
           p: 1,
-          mt: { xs: -4, sm: 0 },
+          mt: { xs: -2, sm: 0 },
           px: 3,
           backdropFilter: {
             xs: "blur(10px)",

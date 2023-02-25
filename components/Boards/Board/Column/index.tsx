@@ -10,8 +10,10 @@ import {
   Box,
   Button,
   Chip,
+  Divider,
   Icon,
   IconButton,
+  InputAdornment,
   ListItem,
   Menu,
   MenuItem,
@@ -41,11 +43,11 @@ function CompletedTasks({
         cursor: "unset!important",
       }}
     >
+      <Divider sx={{ my: 2 }} />
       <ListItem
         tabIndex={0}
-        className="task my-4 mb-1 flex border-none"
+        className="task mb-2 flex border-none"
         sx={{
-          background: "transparent!important",
           "&:focus-visible": {
             boxShadow: global.user.darkMode
               ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
@@ -61,7 +63,6 @@ function CompletedTasks({
             fontWeight: "700",
             display: "flex",
             alignItems: "center",
-            px: 2,
             py: 1,
           }}
         >
@@ -75,7 +76,14 @@ function CompletedTasks({
             size="small"
           />
         </Typography>
-        <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
+        <Icon
+          sx={{
+            transition: "transform .2s",
+            transform: open ? "rotate(-180deg)" : "rotate(0deg)",
+          }}
+        >
+          expand_more
+        </Icon>
       </ListItem>
       <Box
         sx={{
@@ -89,29 +97,36 @@ function CompletedTasks({
           value={value}
           onChange={(e) => setValue(e.target.value)}
           InputProps={{
-            className:
-              "p-3 py-2 pb-1 shadow-sm border border-gray-100 hover:border-gray-300 rounded-xl gap-0.5 dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none dark:border-[hsl(240,11%,18%)] ",
+            className: "task",
             disableUnderline: true,
+            startAdornment: (
+              <InputAdornment position="start">
+                <Icon>search</Icon>
+              </InputAdornment>
+            ),
             sx: {
               mb: 1,
+              px: "15px!important",
+              py: "5px!important",
             },
           }}
         />
-        {columnTasks
-          .filter((task) => task.completed)
-          .filter((task) =>
-            task.name.toLowerCase().includes(value.toLowerCase())
-          )
-          .map((task, i) => (
-            <Task
-              key={i}
-              checkList={checkList}
-              task={task}
-              mutationUrl={mutationUrl}
-              board={board}
-              columnId={column.id}
-            />
-          ))}
+        {open &&
+          columnTasks
+            .filter((task) => task.completed)
+            .filter((task) =>
+              task.name.toLowerCase().includes(value.toLowerCase())
+            )
+            .map((task, i) => (
+              <Task
+                key={i}
+                checkList={checkList}
+                task={task}
+                mutationUrl={mutationUrl}
+                board={board}
+                columnId={column.id}
+              />
+            ))}
       </Box>
     </Box>
   ) : null;
@@ -465,7 +480,7 @@ export const Column = React.memo(function Column({
 
   return (
     <Box
-      className="mb-10 w-[370px] border border-gray-200 shadow-lg dark:shadow-xl sm:mb-0 dark:sm:border-[hsla(240,11%,18%)]"
+      className="mb-10 w-[370px] border border-gray-200 shadow-lg dark:border-[hsla(240,11%,18%)] dark:shadow-xl sm:mb-0"
       sx={{
         borderRight: "1px solid",
         borderColor: global.user.darkMode
@@ -585,7 +600,7 @@ export const Column = React.memo(function Column({
           </Box>
         )}
       </Box>
-      <Box sx={{ px: 2 }}>
+      <Box sx={{ px: 2, mb: 5 }}>
         {!board.archived &&
           !(
             columnTasks.filter((task) => task.completed).length ==

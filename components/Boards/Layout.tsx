@@ -343,6 +343,7 @@ export function TasksLayout() {
         PaperProps={{
           sx: {
             pb: 2,
+            maxHeight: "90vh",
           },
         }}
       >
