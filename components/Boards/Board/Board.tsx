@@ -48,7 +48,7 @@ const Renderer = React.memo(function Renderer({ data, url, board }: any) {
             ? "hsla(240,11%,25%,.2)"
             : "rgba(255,255,255,.7)",
           zIndex: 999,
-            bottom: {
+          bottom: {
             xs: "70px",
             sm: "30px",
           },
