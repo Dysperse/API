@@ -100,12 +100,12 @@ export function ItemCard({
                 </Typography>
                 <div className="override">
                   {[item.room, ...JSON.parse(item.category)].map(
-                    (category: string) => {
+                    (category: string, index) => {
                       return (
                         <Chip
                           disabled={global.permission === "read-only"}
                           size="small"
-                          key={Math.random().toString()}
+                          key={index}
                           label={category}
                           sx={{
                             pointerEvents: "none",

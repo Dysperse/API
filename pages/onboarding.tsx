@@ -371,7 +371,7 @@ export default function Onboarding() {
         <Box sx={{ mt: 2, p: 2 }}>
           {content.map((_, i) => (
             <StepContent
-              key={Math.random()}
+              key={i}
               forStep={i}
               currentStep={step}
               setCurrentStep={setStep}

@@ -22,7 +22,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import toast from "react-hot-toast";
-import { useHotkeys } from "react-hotkeys-hook";
 import { useStatusBar } from "../../../../hooks/useStatusBar";
 import { toastStyles } from "../../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../../ConfirmationModal";
@@ -44,7 +43,7 @@ function CompletedTasks({
     >
       <ListItem
         tabIndex={0}
-        className="task my-4 mb-1 flex"
+        className="task my-4 mb-1 flex border-none"
         sx={{
           background: "transparent!important",
           "&:focus-visible": {
@@ -250,11 +249,9 @@ function FilterMenu({
 function OptionsMenu({
   columnTasks,
   setColumnTasks,
-  isHovered,
   setCurrentColumn,
   mutationUrl,
   column,
-  setIsHovered,
   board,
 }) {
   const [open, setOpen] = React.useState(false);
@@ -277,18 +274,6 @@ function OptionsMenu({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  useHotkeys(
-    "e",
-    (e) => {
-      e.preventDefault();
-      if (isHovered) {
-        setIsHovered(false);
-        triggerRef.current?.click();
-      }
-    },
-    [isHovered]
-  );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -443,14 +428,6 @@ function OptionsMenu({
             flexShrink: 0,
             display: board.archived ? "none" : "",
             transition: "none!important",
-
-            ...((isHovered || Boolean(anchorEl)) && {
-              background: {
-                sm: global.user.darkMode
-                  ? "hsl(240,11%,13%)!important"
-                  : "rgba(200,200,200,.3)!important",
-              },
-            }),
             "&:hover, &:active": {
               background: global.user.darkMode
                 ? "hsl(240,11%,20%)!important"
@@ -486,69 +463,46 @@ export const Column = React.memo(function Column({
     );
   }, [column]);
 
-  const [isHovered, setIsHovered] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement>(null);
-
-  useHotkeys(
-    "c",
-    (e) => {
-      e.preventDefault();
-      if (isHovered) {
-        const trigger: any = ref.current?.querySelector("#createTask");
-        trigger?.click();
-        setIsHovered(false);
-      }
-    },
-    [isHovered]
-  );
-  const trigger = useMediaQuery("(max-width: 600px)");
   return (
     <Box
-      ref={ref}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className="mb-10 w-[370px] border border-gray-200 shadow-lg dark:shadow-xl sm:mb-0 dark:sm:border-[hsla(240,11%,18%)]"
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        position: { sm: "relative" },
-        width: {
-          xs: "calc(100vw - 10px)!important",
-          sm: "370px!important",
-        },
-        height: { sm: "100%" },
-        flex: {
-          xs: "0 0 calc(100vw - 10px)!important",
-          sm: "0 0 370px!important",
-        },
-        overflowY: { xs: "initial", sm: "scroll" },
-        p: 3,
-        pt: { xs: 0, sm: 3 },
-        px: checkList ? 0 : 2,
-        ...(trigger && {
-          border: "none !important",
-          boxShadow: "none !important",
-        }),
-        borderRadius: 5,
-        ...(checkList && {
-          flex: "0 0 100%!important",
-          maxWidth: { xs: "100%", sm: "800px" },
-          width: "100%!important",
-          boxShadow: "none!important",
-          border: "none!important",
-        }),
+        borderRight: "1px solid",
+        borderColor: global.user.darkMode
+          ? "hsl(240,11%,16%)"
+          : "rgba(200,200,200,.2)",
+        zIndex: 1,
+        flexGrow: 1,
+        flexBasis: 0,
+        ml: "-1px",
+        minHeight: { sm: "100vh" },
+        overflowY: "scroll",
+        minWidth: { xs: "100vw", sm: "320px" },
+        transition: "filter .2s",
       }}
     >
       <Box
         sx={{
+          color: global.user.darkMode ? "#fff" : "#000",
+          p: 3,
+          px: 5,
+          background: global.user.darkMode
+            ? "hsla(240,11%,16%, 0.2)"
+            : "rgba(200,200,200,.05)",
+          borderBottom: "1px solid",
+          borderColor: global.user.darkMode
+            ? "hsla(240,11%,18%, 0.2)"
+            : "rgba(200,200,200,.3)",
+          userSelect: "none",
+          zIndex: 9,
+          backdropFilter: "blur(10px)",
+          position: "sticky",
           mb: 3,
-          px: { sm: 0.5 },
+          top: 0,
         }}
       >
-        <Box sx={{ display: "flex" }} onClick={() => setIsHovered(false)}>
+        <Box sx={{ display: "flex" }}>
           <OptionsMenu
-            isHovered={isHovered}
-            setIsHovered={setIsHovered}
             columnTasks={columnTasks}
             setColumnTasks={setColumnTasks}
             board={board}
@@ -557,6 +511,7 @@ export const Column = React.memo(function Column({
             setCurrentColumn={setCurrentColumn}
           />
         </Box>
+
         <Box
           sx={{
             display: { xs: "none", sm: checkList ? "none" : "inline-flex" },
@@ -565,6 +520,7 @@ export const Column = React.memo(function Column({
         >
           <picture>
             <img
+              loading="lazy"
               src={column.emoji}
               alt="emoji"
               style={{ margin: "0!important" }}
@@ -629,20 +585,18 @@ export const Column = React.memo(function Column({
           </Box>
         )}
       </Box>
-      <Box>
+      <Box sx={{ px: 2 }}>
         {!board.archived &&
           !(
             columnTasks.filter((task) => task.completed).length ==
               columnTasks.length && columnTasks.length >= 1
           ) && (
             <div
-              onClick={() => setIsHovered(false)}
               style={{
-                marginBottom: "5px",
+                marginBottom: "7px",
               }}
             >
               <CreateTask
-                isHovered={isHovered}
                 column={column}
                 tasks={tasks}
                 checkList={checkList}
@@ -673,14 +627,11 @@ export const Column = React.memo(function Column({
               severity="info"
               icon="🥳"
               sx={{
-                background: global.user.darkMode
-                  ? "hsl(240,11%,15%)"
-                  : "rgba(200,200,200,.3)",
                 color: global.user.darkMode ? "#fff" : "#000",
+                background: "transparent",
               }}
               action={
                 <CreateTask
-                  isHovered={isHovered}
                   column={column}
                   tasks={tasks}
                   checkList={checkList}

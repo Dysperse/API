@@ -151,14 +151,8 @@ function MoreRooms(): JSX.Element {
         <Box sx={{ height: "100%", overflow: "scroll" }}>
           {!data ? (
             <Grid container sx={{ p: 2 }}>
-              {[...new Array(12)].map(() => (
-                <Grid
-                  item
-                  xs={12}
-                  sm={3}
-                  sx={{ p: 2, py: 1 }}
-                  key={Math.random().toString()}
-                >
+              {[...new Array(12)].map((_, i) => (
+                <Grid item xs={12} sm={3} sx={{ p: 2, py: 1 }} key={i}>
                   <div style={{ background: "#eee" }}>
                     <Skeleton
                       variant="rectangular"

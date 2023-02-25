@@ -16,7 +16,7 @@ import { colors } from "../../../../lib/colors";
 import { toastStyles } from "../../../../lib/useCustomTheme";
 import { Puller } from "../../../Puller";
 
-export function CreateColumn({
+export default function CreateColumn({
   setCurrentColumn,
   hide,
   mutationUrl,
@@ -255,7 +255,7 @@ export function CreateColumn({
                 container.scrollLeft += 20000;
               }, 10);
             }}
-            className="p-4 px-5 mb-2 dark:border-[hsl(240,11%,18%)] border sm:flex hover:border-gray-300 rounded-xl dark:bg-transparent hover:bg-gray-200 active:bg-gray-300 cursor-auto select-none gap-3 mr-10 shadow-lg pr-5 hidden"
+            className="mb-2 mr-10 hidden cursor-auto select-none gap-3 rounded-xl border p-4 px-5 pr-5 shadow-lg hover:border-gray-300 hover:bg-gray-200 active:bg-gray-300 dark:border-[hsl(240,11%,18%)] dark:bg-transparent sm:flex"
             sx={{
               whiteSpace: "nowrap",
               transition: "none!important",

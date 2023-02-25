@@ -58,13 +58,13 @@ const CategoryList = React.memo(function CategoryList() {
       ) : (
         !error && (
           <>
-            {[...new Array(15)].map(() => (
+            {[...new Array(15)].map((_, i) => (
               <Skeleton
                 animation="wave"
                 height={60}
                 sx={{ width: "100%", mb: 2, borderRadius: 3 }}
                 variant="rectangular"
-                key={Math.random().toString()}
+                key={i}
               />
             ))}
           </>

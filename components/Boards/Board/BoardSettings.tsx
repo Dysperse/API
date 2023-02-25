@@ -12,6 +12,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -19,9 +20,9 @@ import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
-import { CreateColumn } from "./Column/Create";
+const CreateColumn = dynamic(() => import("./Column/Create"));
 
-export function BoardSettings({ mutationUrl, board }) {
+export default function BoardSettings({ mutationUrl, board }) {
   const [title, setTitle] = React.useState(board.name);
   const [description, setDescription] = React.useState(board.description || "");
 
@@ -38,7 +39,6 @@ export function BoardSettings({ mutationUrl, board }) {
   };
 
   const ref: any = React.useRef();
-
   const [renameOpen, setRenameOpen] = React.useState(false);
 
   return (

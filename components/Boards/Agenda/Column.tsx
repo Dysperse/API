@@ -1,13 +1,17 @@
 import { Box, Icon, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import { memo, useEffect } from "react";
 import { colors } from "../../../lib/colors";
 import { Task } from "../Board/Column/Task";
 import { CreateTask } from "../Board/Column/Task/Create";
 
-export function Column({ mutationUrl, view, day, data }) {
+export const Column: any = memo(function Column({
+  mutationUrl,
+  view,
+  day,
+  data,
+}: any) {
   const subheading = view === "week" ? "dddd" : view === "month" ? "YYYY" : "-";
   const startOf = view === "week" ? "day" : view === "month" ? "month" : "year";
 
@@ -44,35 +48,13 @@ export function Column({ mutationUrl, view, day, data }) {
     return dueDate >= startTime && dueDate <= endTime;
   });
 
-  const [isHovered, setIsHovered] = useState<boolean>(false);
-  const ref: any = useRef();
-
-  useHotkeys(
-    "c",
-    (e) => {
-      e.preventDefault();
-      if (isHovered) {
-        const trigger: any = ref.current?.querySelector("#createTask");
-        trigger?.click();
-        setIsHovered(false);
-      }
-    },
-    [isHovered]
-  );
-
-  const handleHoverIn = useCallback(() => setIsHovered(true), []);
-  const handleHoverOut = useCallback(() => setIsHovered(false), []);
-
   const tasksLeft =
     tasksWithinTimeRange.length -
     tasksWithinTimeRange.filter((task) => task.completed).length;
 
   return (
     <Box
-      ref={ref}
       className="snap-center"
-      onMouseEnter={handleHoverIn}
-      onMouseLeave={handleHoverOut}
       {...(isToday && { id: "activeHighlight" })}
       sx={{
         scrollMarginRight: "25px",
@@ -86,9 +68,8 @@ export function Column({ mutationUrl, view, day, data }) {
         minHeight: { sm: "100vh" },
         overflowY: "scroll",
         minWidth: { xs: "100vw", sm: "320px" },
-        ...(!data && {
-          filter: "blur(10px)",
-        }),
+        transition: "filter .2s",
+        filter: data ? "blur(0px)" : "blur(10px)",
       }}
     >
       <Box
@@ -192,7 +173,6 @@ export function Column({ mutationUrl, view, day, data }) {
       <Box sx={{ p: 3.5, py: 2, pb: { xs: 15, sm: 0 } }}>
         <Box sx={{ my: 0.5 }}>
           <CreateTask
-            isHovered={isHovered}
             column={{ id: "-1", name: "" }}
             tasks={[]}
             defaultDate={day.unchanged}
@@ -228,4 +208,4 @@ export function Column({ mutationUrl, view, day, data }) {
       </Box>
     </Box>
   );
-}
+});

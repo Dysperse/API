@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
@@ -16,10 +16,15 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import { Twemoji } from "react-emoji-render";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 import Item from "../../../../ItemPopup";
-import { ImageViewer } from "./ImageViewer";
+
+const ImageViewer = dynamic(() =>
+  import("./ImageViewer").then((mod) => mod.ImageViewer)
+);
+
 import { TaskDrawer } from "./TaskDrawer";
 
 const renderText = (
@@ -62,7 +67,7 @@ const renderText = (
   return result;
 };
 
-export const Task = function Task({
+export const Task: any = React.memo(function Task({
   isSubTask = false,
   isAgenda = false,
   checkList = false,
@@ -370,4 +375,4 @@ export const Task = function Task({
         ))}
     </>
   );
-};
+});

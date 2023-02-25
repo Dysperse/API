@@ -138,7 +138,7 @@ export default function MoveToRoom({ item, styles }) {
               )
               .map((index) => (
                 <Room
-                  key={Math.random().toString()}
+                  key={index}
                   room={index}
                   setOpen={setOpen}
                   id={parseInt(item.id)}

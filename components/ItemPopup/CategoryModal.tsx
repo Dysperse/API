@@ -205,7 +205,6 @@ export default function CategoryModal({
         </Box>
       </SwipeableDrawer>
       <Chip
-        key={Math.random().toString()}
         disabled={global.permission === "read-only"}
         label={item.category === "[]" ? <>+ &nbsp;&nbsp;Add a category</> : "+"}
         onClick={() => setOpen(true)}

@@ -100,7 +100,6 @@ export function CreateTask({
   label = false,
   placeholder = false,
   defaultDate = false,
-  isHovered,
   tasks,
   parent = false,
   mutationUrl,
@@ -694,13 +693,6 @@ export function CreateTask({
             py: "0!important",
           }),
           cursor: "unset!important",
-          ...(isHovered && {
-            backgroundColor: {
-              sm: global.user.darkMode
-                ? "hsl(240,11%,15%)!important"
-                : "rgba(200,200,200,.1)!important",
-            },
-          }),
           ...(global.user.darkMode && {
             "&:hover": {
               backgroundColor: "hsl(240,11%,16%)!important",
@@ -769,33 +761,6 @@ export function CreateTask({
             {parent ? "New subtask" : label || "New list item"}
           </Typography>
         )}
-        <ListItemIcon
-          sx={{
-            minWidth: "auto",
-            opacity: isHovered ? 1 : 0,
-            ml: "auto",
-          }}
-        >
-          <Typography
-            sx={{
-              fontWeight: 700,
-              color: global.user.darkMode ? "#fff" : "#606060",
-              background: global.user.darkMode
-                ? "hsl(240,11%,25%)"
-                : "rgba(200,200,200,.4)",
-              borderRadius: "3px",
-              fontSize: "12px",
-              height: "20px",
-              display: { xs: "none", sm: "flex" },
-              alignItems: "center",
-              justifyContent: "center",
-              width: "20px",
-              marginRight: "10px",
-            }}
-          >
-            c
-          </Typography>
-        </ListItemIcon>
       </ListItem>
     </>
   );

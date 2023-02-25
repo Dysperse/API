@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CircularProgress,
   Collapse,
   Divider,
   Icon,
@@ -9,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
@@ -18,134 +17,45 @@ import { Puller } from "../Puller";
 import { Agenda } from "./Agenda";
 import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
-
-function Loading() {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "100%",
-        width: "100%",
-        minHeight: "500px",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <CircularProgress
-        disableShrink
-        sx={{
-          animationDuration: ".5s",
-          "& .MuiCircularProgress-circle": {
-            strokeLinecap: "round",
-          },
-        }}
-      />
-    </Box>
-  );
-}
-
-const Tab = React.memo(function Tab({
-  styles,
-  activeTab,
-  setDrawerOpen,
-  setActiveTab,
-  board,
-}: any) {
-  const handleClick = React.useCallback(() => {
-    setDrawerOpen(false);
-    window.location.hash = board.id;
-    setActiveTab(board.id);
-  }, [board.id, setActiveTab, setDrawerOpen]);
-
-  return (
-    <div>
-      <Button
-        size="large"
-        disableRipple
-        onClick={handleClick}
-        onMouseDown={handleClick}
-        sx={{
-          ...styles(activeTab === board.id),
-          ...(board.archived &&
-            activeTab !== board.id && {
-              opacity: 0.6,
-            }),
-        }}
-      >
-        <Box
-          sx={{
-            textAlign: "left",
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            gap: 1.5,
-          }}
-        >
-          <Icon
-            sx={{
-              opacity: activeTab === board.id ? 1 : 0.8,
-            }}
-          >
-            tag
-          </Icon>
-          <span
-            style={{
-              maxWidth: "calc(100% - 25px)",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              opacity: activeTab === board.id ? 1 : 0.9,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {board.name}
-          </span>
-          {board.pinned && (
-            <Icon
-              className="outlined"
-              sx={{
-                ml: "auto",
-                transform: "rotate(-45deg)",
-              }}
-            >
-              push_pin
-            </Icon>
-          )}
-        </Box>
-      </Button>
-    </div>
-  );
-});
+import { Loading } from "./Loading";
+import { Tab } from "./Tab";
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
   const [activeTab, setActiveTab] = useState("loading");
 
   useEffect(() => {
-    if (data && data[0] && data.find((board) => board.pinned)) {
-      if (
-        window.location.hash &&
-        data.filter((x) => x.id === window.location.hash.replace("#", ""))
-          .length > 0
-      ) {
-        setActiveTab(window.location.hash.replace("#", ""));
+    if (!data) {
+      setActiveTab("__agenda.week");
+      return;
+    }
+
+    const pinnedBoard = data.find((board) => board.pinned);
+    if (pinnedBoard) {
+      const hashBoard = data.find(
+        (x) => x.id === window.location.hash?.replace("#", "")
+      );
+      if (hashBoard) {
+        setActiveTab(window.location.hash?.replace("#", ""));
       } else {
         setActiveTab(data[0].id);
       }
+    } else if (!data[0]) {
+      setActiveTab("new");
     } else {
-      if (data && !data[0]) {
-        setActiveTab("new");
-      } else {
-        setActiveTab("__agenda.week");
-      }
-    }
-    if (window.location.href.includes("#/agenda/week")) {
       setActiveTab("__agenda.week");
     }
-    if (window.location.href.includes("#/agenda/month")) {
-      setActiveTab("__agenda.month");
-    }
-    if (window.location.href.includes("#/agenda/year")) {
-      setActiveTab("__agenda.year");
+
+    switch (window.location.hash) {
+      case "#/agenda/week":
+        setActiveTab("__agenda.week");
+        break;
+      case "#/agenda/month":
+        setActiveTab("__agenda.month");
+        break;
+      case "#/agenda/year":
+        setActiveTab("__agenda.year");
+        break;
     }
   }, [data]);
 
@@ -342,10 +252,11 @@ export function TasksLayout() {
         onClick={() => setArchiveOpen(!archiveOpen)}
         sx={{
           ...styles(false),
-          ...(data &&
-            (data.length === 0 || !data.find((board) => board.archived)) && {
-              display: "none",
-            }),
+          ...(!data ||
+            (data &&
+              (data.length === 0 || !data.find((board) => board.archived)) && {
+                display: "none",
+              })),
         }}
       >
         Archived

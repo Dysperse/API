@@ -86,12 +86,12 @@ export function Loading(): JSX.Element {
               }}
             />
             <Box sx={{ ml: "auto", display: "flex", gap: 1.5 }}>
-              {[...new Array(3)].map(() => (
+              {[...new Array(3)].map((_, i) => (
                 <Skeleton
                   variant="circular"
                   animation="wave"
                   width={35}
-                  key={Math.random().toString()}
+                  key={i}
                   height={35}
                   sx={{
                     maxWidth: "100%",
@@ -127,7 +127,6 @@ export function Loading(): JSX.Element {
             <Skeleton
               variant="rectangular"
               animation="wave"
-              key={Math.random().toString()}
               sx={{
                 borderRadius: 5,
                 height: 50,
@@ -139,7 +138,7 @@ export function Loading(): JSX.Element {
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                key={Math.random().toString()}
+                key={i}
                 sx={{
                   borderRadius: 5,
                   height: 50,
@@ -176,7 +175,6 @@ export function Loading(): JSX.Element {
               }}
             >
               <Skeleton
-                key={Math.random().toString()}
                 variant="rectangular"
                 animation="wave"
                 height={15}
@@ -186,9 +184,9 @@ export function Loading(): JSX.Element {
                   mb: 2,
                 }}
               />
-              {[...new Array(3)].map(() => (
+              {[...new Array(3)].map((_, i) => (
                 <Skeleton
-                  key={Math.random().toString()}
+                  key={i}
                   variant="rectangular"
                   animation="wave"
                   height={30}
@@ -201,7 +199,6 @@ export function Loading(): JSX.Element {
               ))}
 
               <Skeleton
-                key={Math.random().toString()}
                 variant="rectangular"
                 animation="wave"
                 height={15}
@@ -212,9 +209,9 @@ export function Loading(): JSX.Element {
                   mt: 5,
                 }}
               />
-              {[...new Array(6)].map(() => (
+              {[...new Array(6)].map((_, i) => (
                 <Skeleton
-                  key={Math.random().toString()}
+                  key={i}
                   variant="rectangular"
                   animation="wave"
                   height={30}
@@ -240,7 +237,8 @@ export function Loading(): JSX.Element {
                 }}
               >
                 {[...new Array(5)].map((_, i) => (
-                  <Box key={i}
+                  <Box
+                    key={i}
                     sx={{
                       width: "300px",
                       flex: "0 0 300px",
@@ -283,7 +281,7 @@ export function Loading(): JSX.Element {
                     <Box sx={{ p: 3 }}>
                       {[...new Array(10)].map((_, i) => (
                         <Skeleton
-                          key={Math.random().toString()}
+                          key={i}
                           variant="rectangular"
                           animation="wave"
                           height={30}

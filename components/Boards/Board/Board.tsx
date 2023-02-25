@@ -6,14 +6,14 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import React from "react";
-
 import { useApi } from "../../../hooks/useApi";
 import { ErrorHandler } from "../../Error";
-import { BoardSettings } from "./BoardSettings";
 import { Column } from "./Column";
-import { CreateColumn } from "./Column/Create";
 import { Loading } from "./Loading";
+const BoardSettings = dynamic(() => import("./BoardSettings"));
+const CreateColumn = dynamic(() => import("./Column/Create"));
 
 const Renderer = React.memo(function Renderer({ data, url, board }: any) {
   const [currentColumn, setCurrentColumn] = React.useState(0);
@@ -149,44 +149,12 @@ export const Board = function Board({
   board,
   mutationUrl,
 }: any) {
-  const boardSwitcherStyles = {
-    fontWeight: 600,
-    lineHeight: 1.5,
-    letterSpacing: 0.15,
-    borderRadius: 2,
-    overflow: "hidden",
-    maxWidth: "100%",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-    px: 1,
-    mb: 0.2,
-    color: global.user.darkMode ? "hsl(240,11%,80%)" : "#404040",
-    cursor: "unset!important",
-    userSelect: "none",
-    "&:hover": {
-      color: global.user.darkMode ? "hsl(240,11%,85%)" : "#303030",
-      background: global.user.darkMode
-        ? "hsl(240,11%,13%)"
-        : "rgba(200,200,200,.3)",
-    },
-    "&:active": {
-      color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
-      background: global.user.darkMode
-        ? "hsl(240,11%,16%)"
-        : "rgba(200,200,200,.4)",
-    },
-  };
-
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
 
   return (
-    <Box
-      sx={{
-        ml: { sm: -1 },
-      }}
-    >
+    <>
       <Box
         sx={{
           position: {
@@ -201,13 +169,13 @@ export const Board = function Board({
               : "1px solid rgba(200,200,200,.3)",
             sm: "unset",
           },
+          zIndex: 999,
           background: {
             xs: global.user.darkMode
               ? "hsla(240,11%,10%)"
               : "rgba(255,255,255,.7)",
             sm: "transparent",
           },
-          zIndex: 1,
           maxWidth: "100vw",
           p: 1,
           mt: { xs: -4, sm: 0 },
@@ -241,8 +209,6 @@ export const Board = function Board({
           overflowX: { xs: "hidden", sm: "scroll" },
           overflowY: "hidden",
           display: "flex",
-          gap: { sm: "15px" },
-          p: 4,
           justifyContent: { xs: "center", sm: "start" },
           maxWidth: "100vw",
           height: { sm: "100vh" },
@@ -269,6 +235,6 @@ export const Board = function Board({
         )}
         {!data && <Loading />}
       </Box>
-    </Box>
+    </>
   );
 };

@@ -9,11 +9,11 @@ export function Loading() {
         overflow: "hidden",
       }}
     >
-      {[...new Array(5)].map(() => (
+      {[...new Array(5)].map((_, i) => (
         <Skeleton
           variant="rectangular"
           animation="wave"
-          key={Math.random().toString()}
+          key={i}
           sx={{
             height: "100%",
             width: { xs: "calc(100vw - 50px)", sm: "370px" },

@@ -79,7 +79,7 @@ export function Agenda({
     }, 1);
   }, []);
 
-  const { data, url, error } = useApi("property/boards/agenda", {
+  const { data, url } = useApi("property/boards/agenda", {
     startTime: startOfWeek.toISOString(),
     endTime: endOfWeek.toISOString(),
   });

@@ -132,8 +132,8 @@ function RoomList({
   if (!data)
     return (
       <>
-        {[...new Array(10)].map(() => (
-          <Skeleton animation="wave" key={Math.random().toString()} />
+        {[...new Array(10)].map((_, i) => (
+          <Skeleton animation="wave" key={i} />
         ))}
       </>
     );
