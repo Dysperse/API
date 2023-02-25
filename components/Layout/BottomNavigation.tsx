@@ -1,4 +1,4 @@
-import { Box, Snackbar } from "@mui/material";
+import { Box, Snackbar, useScrollTrigger } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
@@ -8,6 +8,8 @@ import { colors } from "../../lib/colors";
  * @returns {any}
  */
 export function BottomNav() {
+  const trigger = useScrollTrigger({ threshold: 0 });
+
   const iconStyles = {
     display: "flex",
     alignItems: "center",
@@ -71,14 +73,14 @@ export function BottomNav() {
         open={!navigator.onLine}
         autoHideDuration={6000}
         onClose={() => null}
-        sx={{ mb: 9, transition: "all .3s" }}
+        sx={{ mb: trigger ? 6.5 : 9, transition: "all .3s" }}
         message="You're offline. Please check your network connection."
       />
       <Box
         sx={{
           width: "100%",
           position: "fixed",
-          bottom: 0,
+          bottom: trigger && router.asPath.includes("zen") ? -71 : 0,
           left: 0,
           transition: "bottom .3s",
           overflowX: "hidden",

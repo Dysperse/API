@@ -106,14 +106,14 @@ export function Navbar(): JSX.Element {
             gap: 2,
             WebkitAppRegion: "no-drag",
           }}
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            })
+          }
         >
           <Image
-            onClick={() =>
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              })
-            }
             draggable="false"
             src="/logo.svg"
             width={40}
@@ -129,6 +129,7 @@ export function Navbar(): JSX.Element {
             sx={{
               fontWeight: 700,
               fontSize: "18px",
+              userSelect: "none",
             }}
             variant="h6"
           >
