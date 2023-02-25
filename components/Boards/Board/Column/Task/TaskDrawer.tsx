@@ -20,11 +20,15 @@ import {
 import { green } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
-import { cloneElement, useCallback, useState } from "react";
+import { cloneElement, useCallback, useEffect, useState } from "react";
 import { toArray } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import {
+  neutralizeBack,
+  revivalBack,
+} from "../../../../../hooks/useBackButton";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
@@ -528,6 +532,10 @@ export function TaskDrawer({
   const [data, setData] = useState<null | any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
+
+  useEffect(() => {
+    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
+  });
 
   // Fetch data when the trigger is clicked on
   const handleOpen = useCallback(async () => {
