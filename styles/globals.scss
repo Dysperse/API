@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --navbar-height: calc(70px + env(titlebar-area-height, 0px));
+}
+
 @layer components {
   .kbd {
     @apply mr-1.5 select-none rounded-xl bg-gray-200 px-2 py-1 text-sm font-semibold dark:bg-gray-800;
@@ -10,15 +14,15 @@
     @apply cursor-auto select-none gap-0.5 rounded-xl border border-gray-100 p-1 shadow-sm hover:border-gray-300 hover:bg-gray-100 active:border-gray-300 active:bg-gray-200 dark:border-[hsl(240,11%,18%)] dark:bg-transparent sm:p-0 sm:hover:bg-gray-100 sm:active:bg-gray-100;
   }
 }
+
 .overflow-hidden {
   overflow: hidden !important;
 }
-:root {
-  --navbar-height: calc(70px + env(titlebar-area-height, 0px));
-}
+
 .MuiToolbar-root {
   height: var(--navbar-height);
 }
+
 .MuiTypography-h6:not(.font-heading),
 .MuiTypography-h5:not(.font-heading),
 .MuiTypography-h4:not(.font-heading) {
@@ -61,6 +65,7 @@ body {
   min-width: fit-content;
   font-variation-settings: "FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40;
 }
+
 .material-symbols-rounded {
   font-display: block !important;
   font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 40;
@@ -69,6 +74,7 @@ body {
 
 img {
   user-select: none;
+  user-drag: none;
 }
 
 *:not(
@@ -82,6 +88,7 @@ img {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "DM Sans", sans-serif !important;
+  scrollbar-width: none;
 }
 
 .font-heading,
@@ -90,14 +97,17 @@ img {
 }
 
 ::-webkit-scrollbar {
+  -webkit-appearance: none;
   display: none;
   width: 0px;
   background: transparent;
 }
 
+// Customize ripple effect
 .MuiTouchRipple-rippleVisible {
   animation-duration: 0.25s !important;
 }
+
 .MuiTouchRipple-child {
   filter: opacity(0.3) !important;
   background: #000;
@@ -105,13 +115,14 @@ img {
 
 .rippleDark .MuiTouchRipple-child,
 .dark .MuiTouchRipple-child {
-  background: radial-gradient(#fff, #000) !important;
+  background: #fff !important;
 }
 
 .MuiBackdrop-root:not(.override-bg) {
   -webkit-app-region: no-drag;
   background-color: rgba(0, 0, 0, 0.25) !important;
 }
+
 @supports (backdrop-filter: blur(2px)) {
   .MuiBackdrop-root:not(.override-bg) {
     backdrop-filter: blur(3px);
@@ -123,10 +134,6 @@ img {
   animation-duration: 0.5s !important;
 }
 
-* {
-  scrollbar-width: none;
-}
-
 .MuiListSubheader-root {
   background: transparent !important;
   backdrop-filter: blur(10px);
@@ -136,15 +143,18 @@ img {
   background-color: transparent !important;
 }
 
+// Customize selection
 ::selection {
   color: #fff;
   background: #000;
 }
+
 .dark ::selection {
   background: #fff;
   color: #000;
 }
 
+// Embla carousel styling
 .embla {
   overflow: hidden;
 }
@@ -155,6 +165,7 @@ img {
   flex: 0 0 100%;
 }
 
+// 2FA authentication code styling
 .auth-code-input {
   padding: 10px;
   width: 50px;
@@ -193,6 +204,7 @@ input:-webkit-autofill {
   -webkit-background-clip: text;
 }
 
+// Trophy animation
 .animate-trophy {
   animation: trophy 2s ease-in-out forwards;
   transform: scale(0) rotate(-45deg);
@@ -229,21 +241,7 @@ input:-webkit-autofill {
   }
 }
 
-::-webkit-scrollbar {
-  -webkit-appearance: none;
-}
-
-.blur-spotlight {
-  filter: blur(20vh);
-  bottom: -30vh;
-  height: 40vh;
-  position: fixed;
-  opacity: 0.2;
-  left: 0;
-  right: 0;
-  z-index: -1;
-}
-
+// Zen mode jiggle
 @keyframes jiggle {
   0% {
     transform: rotate(-0.5deg);
@@ -326,3 +324,21 @@ input:-webkit-autofill {
     color: #fff;
   }
 }
+// @media screen and (max-width: 900px) {
+//   .mantine-Spotlight-inner {
+//     position: fixed;
+//     bottom: 0 !important;
+//     top: unset !important;
+//     transform: none !important;
+//     height: calc(100vh - 100px);
+//     justify-content: end !important;
+//   }
+//   .mantine-Spotlight-root {
+//     margin: 0;
+//     height: calc(100vh - 100px) !important;
+//     max-height: unset !important;
+//   }
+//   .mantine-Spotlight-spotlight {
+//     border-radius: 15px 15px 0 0;
+//   }
+// }

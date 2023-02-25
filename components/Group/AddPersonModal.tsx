@@ -1,4 +1,3 @@
-import emailjs from "@emailjs/browser";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
@@ -278,37 +277,9 @@ export function AddPersonModal({
                   timestamp: new Date().toISOString(),
                   permission: permission,
                   email: value,
-                })
-                  .then((res) => {
-                    emailjs
-                      .send(
-                        "service_bhq01y6",
-                        "template_nbjdq1i",
-                        {
-                          to_email: value,
-                          house_name: res.profile.name,
-                        },
-                        "6Q4BZ_DN9bCSJFZYM"
-                      )
-                      .then(() => {
-                        toast.success("Invitation sent!", toastStyles);
-                        setLoading(false);
-                      })
-                      .catch(() => {
-                        toast(
-                          "An invitation was sent, but something went wrong while trying to send an email notification",
-                          { ...toastStyles, duration: 10000 }
-                        );
-                        setLoading(false);
-                      });
-                  })
-                  .catch(() => {
-                    setLoading(false);
-                    toast.error(
-                      "An error occured while trying to send an invite",
-                      toastStyles
-                    );
-                  });
+                }).then((res) => {
+                  toast.success("Invited!");
+                });
                 setLoading(true);
               } else {
                 toast.error("Please enter a valid email address", toastStyles);

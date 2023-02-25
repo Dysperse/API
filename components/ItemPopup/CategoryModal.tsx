@@ -1,5 +1,4 @@
 import { Item as ItemType } from "@prisma/client";
-import BoringAvatar from "boring-avatars";
 import { useRef, useState } from "react";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
@@ -189,17 +188,6 @@ export default function CategoryModal({
                       <Icon>check</Icon>
                     </Box>
                   )}
-                  <BoringAvatar
-                    name={category}
-                    size={30}
-                    colors={[
-                      "#264653",
-                      "#2a9d8f",
-                      "#e9c46a",
-                      "#f4a261",
-                      "#e76f51",
-                    ]}
-                  />
                 </Box>
                 <ListItemText
                   primary={category}

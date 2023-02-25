@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
-import BoringAvatar from "boring-avatars";
 import React from "react";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
@@ -119,11 +118,6 @@ const CategoryModal = React.memo(function CategoryModal({
           }),
         }}
       >
-        <BoringAvatar
-          name={category}
-          size={30}
-          colors={["#264653", "#2a9d8f", "#e9c46a", "#f4a261", "#e76f51"]}
-        />
         <ListItemText
           primary={
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
