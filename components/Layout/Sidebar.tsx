@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useHotkeys } from "react-hotkeys-hook";
 import InviteButton from "./UserMenu";
-const AppsMenu = dynamic(() => import("./AppsMenu"));
 const SearchPopup = dynamic(() => import("./Search"));
 
 export function Sidebar() {
