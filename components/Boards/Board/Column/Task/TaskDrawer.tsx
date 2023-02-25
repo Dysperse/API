@@ -114,7 +114,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
       .catch(() =>
         toast.error("An error occured while updating the task", toastStyles)
       );
-  }, [data, setTaskData]);
+  }, [data, setTaskData, mutationUrl]);
 
   const handlePostpone: any = useCallback(
     (count, type) => {
@@ -128,7 +128,7 @@ function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
         dayjs(data.due).add(count, type).toISOString()
       );
     },
-    [data.id, setTaskData]
+    [data.id, setTaskData, data.due, handleEdit]
   );
 
   const [open, setOpen] = useState(false);
@@ -544,7 +544,7 @@ export function TaskDrawer({
       setError(e.message);
       setLoading(false);
     }
-  }, []);
+  }, [id]);
 
   // Callback function when drawer is closed
   const handleClose = useCallback(() => {

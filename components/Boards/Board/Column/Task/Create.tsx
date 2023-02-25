@@ -272,7 +272,6 @@ export function CreateTask({
       setImage,
       pinned,
       setPinned,
-      toastStyles,
       boardId,
       column,
       date,
