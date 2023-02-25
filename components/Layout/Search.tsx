@@ -107,7 +107,7 @@ export default function SearchPopup({ styles }) {
     {
       title: "Coach",
       onTrigger: () => router.push("/coach"),
-      icon: <Icon className="outlined">routine</Icon>,
+      icon: <Icon className="outlined">rocket_launch</Icon>,
     },
     {
       title: "Items",
