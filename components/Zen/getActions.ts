@@ -42,20 +42,6 @@ export const getActions = (type) => {
         onClick: () => document.getElementById("settingsTrigger")?.click(),
       },
     ],
-    achievements: [
-      {
-        key: "trigger",
-        primary: "Achievements",
-        icon: "insights",
-        onClick: () => document.getElementById("achievementsTrigger")?.click(),
-      },
-      {
-        key: "my_productivity",
-        primary: "My productivity",
-        icon: "auto_awesome",
-        onClick: () => document.getElementById("achievementsTrigger")?.click(),
-      },
-    ],
     groups: [
       {
         key: "trigger",

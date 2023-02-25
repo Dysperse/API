@@ -46,12 +46,12 @@ import toast from "react-hot-toast";
 import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { Puller } from "../components/Puller";
 import { updateSettings } from "../components/Settings/updateSettings";
+import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 import { getActions } from "../components/Zen/getActions";
 import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
-import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 
 function CardGallery({ editMode, items, setItems }) {
   const [open, setOpen] = useState(false);
@@ -152,7 +152,9 @@ function SortableItem(props) {
   const category = props.id.split(".")[0];
   const action = props.id.split(".")[1];
 
-  const data = actions[category].find((e) => e.key === action);
+  const data =
+    actions[category] && actions[category].find((e) => e.key === action);
+
   const activeStyles = {
     background: global.user.darkMode
       ? "hsla(240,11%,60%,.5)"
@@ -163,60 +165,62 @@ function SortableItem(props) {
     cursor: "grabbing",
   };
   return (
-    <div
-      style={{
-        transform: CSS.Transform.toString(transform),
-        transition,
-      }}
-    >
+    data && (
       <div
         style={{
-          ...(props.editMode && { animation: "jiggle .2s infinite" }),
-          display: "flex",
-          alignItems: "center",
+          transform: CSS.Transform.toString(transform),
+          transition,
         }}
-        className="containerListItem"
       >
-        <ListItemButton
-          onClick={() => {
-            if (data.onClick) {
-              data.onClick();
-            } else {
-              toast.error(
-                "Invalid action - You shouldn't be seeing this error. Please contact support",
-                toastStyles
-              );
-            }
+        <div
+          style={{
+            ...(props.editMode && { animation: "jiggle .2s infinite" }),
+            display: "flex",
+            alignItems: "center",
           }}
-          disableRipple={props.editMode}
-          onContextMenu={() => props.setEditMode(true)}
-          ref={setNodeRef}
-          sx={{
-            opacity: "1!important",
-            ...(activeIndex === props.index && activeStyles),
-            ...(props.editMode && {
-              borderTopRightRadius: "0px!important",
-              borderBottomRightRadius: "0px!important",
-              "&:active": activeStyles,
-            }),
-            cursor: "grabbing",
-          }}
-          {...attributes}
-          {...listeners}
+          className="containerListItem"
         >
-          {props.editMode && <Icon>drag_indicator</Icon>}
-          <Icon className="outlined">{data.icon}</Icon>
-          <ListItemText primary={data.primary} />
-        </ListItemButton>
-        {props.editMode && (
-          <CardOptions
-            items={props.items}
-            setItems={props.setItems}
-            option={props.id}
-          />
-        )}
+          <ListItemButton
+            onClick={() => {
+              if (data.onClick) {
+                data.onClick();
+              } else {
+                toast.error(
+                  "Invalid action - You shouldn't be seeing this error. Please contact support",
+                  toastStyles
+                );
+              }
+            }}
+            disableRipple={props.editMode}
+            onContextMenu={() => props.setEditMode(true)}
+            ref={setNodeRef}
+            sx={{
+              opacity: "1!important",
+              ...(activeIndex === props.index && activeStyles),
+              ...(props.editMode && {
+                borderTopRightRadius: "0px!important",
+                borderBottomRightRadius: "0px!important",
+                "&:active": activeStyles,
+              }),
+              cursor: "grabbing",
+            }}
+            {...attributes}
+            {...listeners}
+          >
+            {props.editMode && <Icon>drag_indicator</Icon>}
+            <Icon className="outlined">{data.icon}</Icon>
+            <ListItemText primary={data.primary} />
+          </ListItemButton>
+          {props.editMode && (
+            <CardOptions
+              items={props.items}
+              setItems={props.setItems}
+              option={props.id}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    )
   );
 }
 
@@ -283,7 +287,6 @@ export default function Home() {
       "goals.study_plan",
       "inventory.starred",
       "inventory.scan",
-      "achievements.trigger",
     ],
   };
 
