@@ -137,7 +137,7 @@ export function CreateTask({
       }
     },
     {
-      enableOnTags: ["INPUT", "TEXTAREA"],
+      enableOnFormTags: ["INPUT", "TEXTAREA"],
     }
   );
 
@@ -159,7 +159,7 @@ export function CreateTask({
       }
     },
     {
-      enableOnTags: ["INPUT", "TEXTAREA"],
+      enableOnFormTags: ["INPUT", "TEXTAREA"],
     }
   );
 
@@ -172,7 +172,7 @@ export function CreateTask({
       }
     },
     {
-      enableOnTags: ["INPUT", "TEXTAREA"],
+      enableOnFormTags: ["INPUT", "TEXTAREA"],
     }
   );
 
@@ -185,7 +185,7 @@ export function CreateTask({
       }
     },
     {
-      enableOnTags: ["INPUT", "TEXTAREA"],
+      enableOnFormTags: ["INPUT", "TEXTAREA"],
     }
   );
 
@@ -676,7 +676,8 @@ export function CreateTask({
       <ListItem
         id="createTask"
         className="task"
-        sx={{mb:1,
+        sx={{
+          mb: 1,
           color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
           p: {
             xs: 1,
