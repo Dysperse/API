@@ -18,7 +18,6 @@ export const Tab = React.memo(function Tab({
     <div>
       <Button
         size="large"
-        disableRipple
         onClick={handleClick}
         onMouseDown={handleClick}
         sx={{

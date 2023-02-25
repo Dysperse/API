@@ -153,7 +153,6 @@ export function TasksLayout() {
         <Button
           id="__agenda.week"
           size="large"
-          disableRipple
           sx={styles(activeTab === "__agenda.week")}
           onMouseDown={() => setActiveTab("__agenda.week")}
           onClick={() => {
@@ -169,7 +168,6 @@ export function TasksLayout() {
         <Button
           id="__agenda.month"
           size="large"
-          disableRipple
           sx={styles(activeTab === "__agenda.month")}
           onMouseDown={() => setActiveTab("__agenda.month")}
           onClick={() => {
@@ -185,7 +183,6 @@ export function TasksLayout() {
         <Button
           id="__agenda.year"
           size="large"
-          disableRipple
           sx={styles(activeTab === "__agenda.year")}
           onMouseDown={() => setActiveTab("__agenda.year")}
           onClick={() => {

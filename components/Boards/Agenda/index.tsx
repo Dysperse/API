@@ -88,7 +88,6 @@ export function Agenda({
     <>
       <Box
         sx={{
-          position: "fixed",
           left: 0,
           height: "55px",
           width: "100%",
@@ -99,6 +98,7 @@ export function Agenda({
               : "1px solid rgba(200,200,200,.3)",
             sm: "unset",
           },
+          mt: { xs: -2, sm: 0 },
           background: {
             xs: global.user.darkMode
               ? "hsla(240,11%,10%, .7)"
@@ -208,7 +208,6 @@ export function Agenda({
           display: "flex",
           maxWidth: "100vw",
           overflowX: "scroll",
-          mt: { xs: 4, sm: 0 },
           height: { sm: "100vh" },
         }}
       >
