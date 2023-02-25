@@ -86,67 +86,52 @@ export function Agenda({
 
   return (
     <>
-      <Box
+      <IconButton
+        size="large"
+        onClick={() => setDrawerOpen(true)}
         sx={{
-          left: 0,
-          height: "55px",
-          width: "100%",
-          top: "var(--navbar-height)",
-          borderBottom: {
+          position: "fixed",
+          bottom: {
+            xs: "65px",
+            sm: "30px",
+          },
+          left: "10px",
+          zIndex: 9,
+          background: global.user.darkMode
+            ? "hsla(240,11%,14%,0.5)"
+            : "rgba(255,255,255,.5)",
+          boxShadow:
+            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+          backdropFilter: "blur(10px)",
+          border: {
             xs: global.user.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid rgba(200,200,200,.3)",
             sm: "unset",
           },
-          mt: { xs: -2, sm: 0 },
-          background: {
-            xs: global.user.darkMode
-              ? "hsla(240,11%,10%, .7)"
-              : "rgba(255,255,255,.7)",
-            sm: "transparent",
-          },
-          zIndex: 9,
-          maxWidth: "100vw",
-          p: 1,
-          px: 3,
-          backdropFilter: {
-            xs: "blur(10px)",
-            sm: "none",
-          },
-          alignItems: "center",
-          display: { xs: "flex", sm: "none" },
-          gap: 1,
+          fontWeight: "700",
+          display: { sm: "none" },
+          fontSize: "15px",
+          color: global.user.darkMode ? "#fff" : "#000",
+          ...(view !== "week" && {
+            textTransform: "capitalize",
+          }),
         }}
       >
-        <Button
-          size="small"
-          onClick={() => setDrawerOpen(true)}
-          sx={{
-            fontWeight: "700",
-            display: { sm: "none" },
-            fontSize: "15px",
-            color: global.user.darkMode ? "#fff" : "#000",
-            ...(view !== "week" && {
-              textTransform: "capitalize",
-            }),
-          }}
-        >
-          {view === "week" && "This"} {view}
-          <Icon>expand_more</Icon>
-        </Button>
-      </Box>
+        <Icon>menu</Icon>
+      </IconButton>
 
       <Box
         sx={{
           position: "fixed",
           bottom: {
-            xs: "70px",
+            xs: "65px",
             sm: "30px",
           },
           opacity: trigger ? 0 : 1,
           transform: trigger ? "scale(0.9)" : "scale(1)",
           mr: {
-            xs: 2,
+            xs: 1.5,
             sm: 3,
           },
           zIndex: 9,
@@ -188,7 +173,6 @@ export function Agenda({
                   : "rgba(0,0,0,0.1)"
               }`,
             },
-            py: 1,
             color: global.user.darkMode ? "#fff" : "#000",
             px: 1.7,
           }}
@@ -209,6 +193,7 @@ export function Agenda({
           maxWidth: "100vw",
           overflowX: "scroll",
           height: { sm: "100vh" },
+          mt: { xs: -2, sm: 0 },
         }}
       >
         {days.map((day) => (
