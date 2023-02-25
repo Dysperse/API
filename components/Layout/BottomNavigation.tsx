@@ -23,9 +23,9 @@ export function BottomNav() {
   const styles = (active) => {
     return {
       textTransform: "none",
-      color: global.user.darkMode ? "hsl(240,11%,90%)" : "#303030",
+      color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
       "& span": {
-        transition: "transform .2s",
+        transition: "opacity .2s",
       },
       "& .material-symbols-rounded, & .material-symbols-outlined": {
         ...iconStyles,
@@ -40,19 +40,19 @@ export function BottomNav() {
       justifyContent: "center",
       "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
         {
-          transform: "scale(.9)",
+          opacity: 0.5,
           transition: "none",
         },
       ...(active && {
         fontWeight: 700,
         color: `${
-          colors[themeColor][global.user.darkMode ? 100 : 900]
+          global.user.darkMode ? "#fff" : colors[themeColor][900]
         }!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           ...iconStyles,
           background: `${
             global.user.darkMode
-              ? "linear-gradient(120deg, hsl(240,11%,17%), hsl(240,11%,25%))"
+              ? "hsl(240,11%,17%)"
               : hexToRgba(colors[themeColor][300], 0.5)
           }!important`,
         },
@@ -92,20 +92,16 @@ export function BottomNav() {
             display: "none",
           },
           zIndex: 999,
-          height: "60px",
+          height: "53px",
           userSelect: "none",
           "&, & *": {
             overflow: "hidden!important",
           },
           background: global.user.darkMode
-            ? router.asPath == "/zen"
-              ? "hsla(240,11%,10%,.0)"
-              : "hsla(240, 11%, 10%, .9)"
+            ? "hsla(240, 11%, 10%, .9)"
             : "rgba(255,255,255,.4)",
           borderTop: global.user.darkMode
-            ? router.asPath == "/zen"
-              ? "1px solid hsla(240,11%,80%,.1)"
-              : "1px solid hsla(240, 11%, 20%, .8)"
+            ? "1px solid hsla(240, 11%, 20%, .8)"
             : global.user.darkMode
             ? "1px solid hsla(240,11%,15%)"
             : "1px solid rgba(200,200,200,.3)",
