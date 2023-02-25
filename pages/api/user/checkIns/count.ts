@@ -10,6 +10,9 @@ export default async function handler(req, res) {
       mood: true,
       date: true,
     },
+    orderBy: {
+      date: "asc",
+    },
   });
   res.json(data);
 }
