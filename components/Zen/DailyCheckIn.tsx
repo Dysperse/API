@@ -117,7 +117,7 @@ export function DailyCheckInDrawer() {
           </Toolbar>
         </AppBar>
 
-        <Typography variant="h6" sx={{ p: 2, pb: 0 }} gutterBottom>
+        <Typography variant="h6" sx={{ p: 3, pb: 0 }} gutterBottom>
           By day
         </Typography>
         <Typography sx={{ px: 2 }} variant="body2" gutterBottom>
@@ -128,7 +128,6 @@ export function DailyCheckInDrawer() {
               borderRadius: 2,
               width: "auto",
               px: 1,
-              ml: -1,
               gap: 1,
               alignItems: "center",
               justifyContent: "start",
@@ -160,7 +159,7 @@ export function DailyCheckInDrawer() {
           </MenuItem>
         </Menu>
 
-        <Box sx={{ px: 2, mb: 2, height: "auto" }}>
+        <Box sx={{ px: 3, mb: 2, height: "auto" }}>
           <Sparklines
             data={[
               ...(data && data.length > 0
@@ -235,13 +234,13 @@ export function DailyCheckInDrawer() {
           </Box>
         </Box>
 
-        <Typography variant="h6" sx={{ p: 2, pb: 1, pt: 4 }}>
+        <Typography variant="h6" sx={{ p: 3, pb: 1, pt: 4 }}>
           By mood
         </Typography>
         {moodOptions.map((emoji) => (
           <Box
             key={emoji}
-            sx={{ px: 2, py: 1, display: "flex", alignItems: "center", gap: 2 }}
+            sx={{ px: 3, py: 1, display: "flex", alignItems: "center", gap: 2 }}
           >
             <IconButton
               key={emoji}
