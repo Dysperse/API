@@ -287,6 +287,9 @@ export function DailyCheckInDrawer() {
                         borderRadius: 9999,
                         height: "auto",
                         maxHeight: "unset",
+                        ...(global.user.darkMode && {
+                          background: "hsl(240,11%,20%)",
+                        }),
                       }}
                       avatar={
                         <Avatar
