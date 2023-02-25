@@ -27,7 +27,9 @@ const handler = async (req, res) => {
     `invited ${user.name} with the permissions: ${req.query.permission}`,
     new Date(req.query.timestamp),
     req.query.property,
-    req.query.accessToken,req,res
+    req.query.accessToken,
+    req,
+    res
   );
 
   const data = await prisma.propertyInvite.create({

@@ -19,7 +19,9 @@ const handler = async (req, res) => {
     `changed the ${req.query.changedKey} of the group to "${req.query.changedValue}"`,
     new Date(req.query.timestamp),
     req.query.property,
-    req.query.accessToken,req,res
+    req.query.accessToken,
+    req,
+    res
   );
 
   //   Update name, type, and bannerColor

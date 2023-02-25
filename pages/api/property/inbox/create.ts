@@ -8,7 +8,8 @@ export const createInboxNotification = async (
   when: Date,
   propertyId: string,
   accessToken: string,
-  req, res
+  req,
+  res
 ) => {
   await validatePermissions(res, {
     minimum: "member",

@@ -3,17 +3,19 @@ import { validatePermissions } from "../../../../lib/validatePermissions";
 import { createInboxNotification } from "../inbox/create";
 
 const handler = async (req, res) => {
-await validatePermissions(res, {
-  minimum: "owner",
-  credentials: [req.query.property, req.query.accessToken],
-});
+  await validatePermissions(res, {
+    minimum: "owner",
+    credentials: [req.query.property, req.query.accessToken],
+  });
 
   await createInboxNotification(
     req.query.removerName,
     `removed ${req.query.removeeName}`,
     new Date(req.query.timestamp),
     req.query.property,
-    req.query.accessToken,req,res
+    req.query.accessToken,
+    req,
+    res
   );
   //   Delete user from `propertyInvite` table
   const data = await prisma.propertyInvite.delete({
