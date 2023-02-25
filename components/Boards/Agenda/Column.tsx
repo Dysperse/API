@@ -69,7 +69,7 @@ export const Column: any = memo(function Column({
         overflowY: "scroll",
         minWidth: { xs: "100vw", sm: "320px" },
         transition: "filter .2s",
-        filter: data ? "blur(0px)" : "blur(10px)",
+        filter: data ? "" : "blur(10px)",
       }}
     >
       <Box
