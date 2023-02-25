@@ -164,7 +164,7 @@ export function DailyCheckInDrawer() {
             data={[
               ...(data && data.length > 0
                 ? data.slice(0, lastBy).map((day) => {
-                    return moodOptions.reverse().indexOf(day.mood);
+                    return moodOptions.indexOf(day.mood);
                   })
                 : [0]),
             ]}
