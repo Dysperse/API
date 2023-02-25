@@ -1,5 +1,4 @@
 import { Grow, Slide } from "@mui/material";
-import { experimental_sx as sx } from "@mui/material/styles";
 import hexToRgba from "hex-to-rgba";
 import React from "react";
 import { colors } from "./colors";
@@ -73,28 +72,29 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           disableRipple: true,
         },
         styleOverrides: {
-          root: sx({
-            cursor: "unset",
-            transition: "none",
-            "&:hover": {
-              color: darkMode ? "#fff" : "#000",
-              background: {
-                sm: `${
-                  darkMode ? "hsla(240,11%,25%, 0.2)" : "rgba(0,0,0,0.05)"
+          root: (theme) =>
+            theme.unstable_sx({
+              cursor: "unset",
+              transition: "none",
+              "&:hover": {
+                color: darkMode ? "#fff" : "#000",
+                background: {
+                  sm: `${
+                    darkMode ? "hsla(240,11%,25%, 0.2)" : "rgba(0,0,0,0.05)"
+                  }`,
+                },
+              },
+              "&:active": {
+                background: `${
+                  darkMode ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.1)"
                 }`,
               },
-            },
-            "&:active": {
-              background: `${
-                darkMode ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.1)"
-              }`,
-            },
-            "&:focus-visible": {
-              boxShadow: darkMode
-                ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-                : "0px 0px 0px 1.5px var(--themeDark) !important",
-            },
-          }),
+              "&:focus-visible": {
+                boxShadow: darkMode
+                  ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+                  : "0px 0px 0px 1.5px var(--themeDark) !important",
+              },
+            }),
         },
       },
       MuiButton: {
@@ -137,18 +137,19 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             color: `${colors[themeColor][darkMode ? 50 : 700]}`,
           },
 
-          root: sx({
-            gap: "10px",
-            transition: "none!important",
-            cursor: "unset",
-            borderRadius: "999px",
-            px: "30px",
-            "&.MuiButton-sizeSmall": {
-              px: "10px !important",
-            },
-            userSelect: "none",
-            textTransform: "none",
-          }),
+          root: (theme) =>
+            theme.unstable_sx({
+              gap: "10px",
+              transition: "none!important",
+              cursor: "unset",
+              borderRadius: "999px",
+              px: "30px",
+              "&.MuiButton-sizeSmall": {
+                px: "10px !important",
+              },
+              userSelect: "none",
+              textTransform: "none",
+            }),
         },
       },
       MuiTextField: {
@@ -168,57 +169,59 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiAlert: {
         styleOverrides: {
-          root: sx({
-            alignItems: "center",
-            borderRadius: 5,
-          }),
+          root: (theme) =>
+            theme.unstable_sx({
+              alignItems: "center",
+              borderRadius: 5,
+            }),
         },
       },
       MuiSwitch: {
         styleOverrides: {
-          root: sx({
-            width: 42,
-            height: 26,
-            padding: 0,
-            "& .MuiSwitch-switchBase": {
+          root: (theme) =>
+            theme.unstable_sx({
+              width: 42,
+              height: 26,
               padding: 0,
-              margin: "2px",
-              transitionDuration: "300ms",
-              "&.Mui-checked": {
-                transform: "translateX(16px)",
-                color: "#fff",
-                "& + .MuiSwitch-track": {
-                  backgroundColor: darkMode ? "#2ECA45" : "#65C466",
-                  opacity: 1,
-                  border: 0,
+              "& .MuiSwitch-switchBase": {
+                padding: 0,
+                margin: "2px",
+                transitionDuration: "300ms",
+                "&.Mui-checked": {
+                  transform: "translateX(16px)",
+                  color: "#fff",
+                  "& + .MuiSwitch-track": {
+                    backgroundColor: darkMode ? "#2ECA45" : "#65C466",
+                    opacity: 1,
+                    border: 0,
+                  },
+                  "&.Mui-disabled + .MuiSwitch-track": {
+                    opacity: 0.5,
+                  },
+                },
+                "&.Mui-focusVisible .MuiSwitch-thumb": {
+                  color: "#33cf4d",
+                  border: "6px solid #fff",
+                },
+                "&.Mui-disabled .MuiSwitch-thumb": {
+                  color: !darkMode ? "hsl(240,11%,10%)" : colors.grey[600],
                 },
                 "&.Mui-disabled + .MuiSwitch-track": {
-                  opacity: 0.5,
+                  opacity: !darkMode ? 0.7 : 0.3,
                 },
               },
-              "&.Mui-focusVisible .MuiSwitch-thumb": {
-                color: "#33cf4d",
-                border: "6px solid #fff",
+              "& .MuiSwitch-thumb": {
+                boxSizing: "border-box",
+                width: 22,
+                height: 22,
               },
-              "&.Mui-disabled .MuiSwitch-thumb": {
-                color: !darkMode ? "hsl(240,11%,10%)" : colors.grey[600],
+              "& .MuiSwitch-track": {
+                borderRadius: 26 / 2,
+                backgroundColor: !darkMode ? "#E9E9EA" : "hsl(240,11%,30%)",
+                opacity: 1,
+                transition: "all .5s",
               },
-              "&.Mui-disabled + .MuiSwitch-track": {
-                opacity: !darkMode ? 0.7 : 0.3,
-              },
-            },
-            "& .MuiSwitch-thumb": {
-              boxSizing: "border-box",
-              width: 22,
-              height: 22,
-            },
-            "& .MuiSwitch-track": {
-              borderRadius: 26 / 2,
-              backgroundColor: !darkMode ? "#E9E9EA" : "hsl(240,11%,30%)",
-              opacity: 1,
-              transition: "all .5s",
-            },
-          }),
+            }),
         },
       },
       MuiMenu: {
@@ -238,64 +241,66 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           },
         },
         styleOverrides: {
-          root: sx({
-            transition: "all .2s",
-            "& .MuiPaper-root": {
-              mt: 1,
-              boxShadow:
-                "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-              ml: -1,
-              borderRadius: "10px",
-              minWidth: 180,
-              color: darkMode ? colors[themeColor][200] : "#505050",
-              border: "1px solid",
-              background: darkMode
-                ? "hsl(240,11%,14%)!important"
-                : "#fff!important",
-              borderColor: darkMode
-                ? "hsl(240,11%,20%)!important"
-                : "#eee!important",
-              "& .MuiMenu-list": {
-                padding: "3px",
-              },
-              "& .MuiMenuItem-root": {
-                cursor: "unset",
-                gap: 2,
-                "&:focus-visible, &:hover": {
-                  background: darkMode
-                    ? "hsl(240,11%,30%)"
-                    : "rgba(200,200,200,.3)",
-                  color: darkMode ? colors[themeColor][100] : "#000",
+          root: (theme) =>
+            theme.unstable_sx({
+              transition: "all .2s",
+              "& .MuiPaper-root": {
+                mt: 1,
+                boxShadow:
+                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                ml: -1,
+                borderRadius: "10px",
+                minWidth: 180,
+                color: darkMode ? colors[themeColor][200] : "#505050",
+                border: "1px solid",
+                background: darkMode
+                  ? "hsl(240,11%,14%)!important"
+                  : "#fff!important",
+                borderColor: darkMode
+                  ? "hsl(240,11%,20%)!important"
+                  : "#eee!important",
+                "& .MuiMenu-list": {
+                  padding: "3px",
+                },
+                "& .MuiMenuItem-root": {
+                  cursor: "unset",
+                  gap: 2,
+                  "&:focus-visible, &:hover": {
+                    background: darkMode
+                      ? "hsl(240,11%,30%)"
+                      : "rgba(200,200,200,.3)",
+                    color: darkMode ? colors[themeColor][100] : "#000",
+                    "& .MuiSvgIcon-root": {
+                      color: darkMode
+                        ? colors[themeColor][200]
+                        : colors[themeColor][800],
+                    },
+                  },
+                  padding: "8.5px 12px",
+                  minHeight: 0,
+                  borderRadius: "10px",
+                  marginBottom: "1px",
                   "& .MuiSvgIcon-root": {
-                    color: darkMode
-                      ? colors[themeColor][200]
-                      : colors[themeColor][800],
+                    fontSize: 25,
+                    color: colors[themeColor][700],
+                    marginRight: 1.9,
+                  },
+                  "&:active": {
+                    background: darkMode ? "hsl(240,11%,35%)" : "#eee",
                   },
                 },
-                padding: "8.5px 12px",
-                minHeight: 0,
-                borderRadius: "10px",
-                marginBottom: "1px",
-                "& .MuiSvgIcon-root": {
-                  fontSize: 25,
-                  color: colors[themeColor][700],
-                  marginRight: 1.9,
-                },
-                "&:active": {
-                  background: darkMode ? "hsl(240,11%,35%)" : "#eee",
-                },
               },
-            },
-          }),
+            }),
         },
       },
       MuiListItemButton: {
         styleOverrides: {
-          root: sx({
-            cursor: "unset!important",
-            borderRadius: 4,
-            userSelect: "none",
-          }),
+          root: (theme) =>
+            theme.unstable_sx({
+              cursor: "unset!important",
+              borderRadius: 4,
+              userSelect: "none",
+            }),
         },
       },
       MuiDialog: {
@@ -377,43 +382,44 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         disableRipple: true,
       },
       styleOverrides: {
-        root: sx({
-          width: 42,
-          height: 26,
-          padding: 0,
-          "& .MuiSwitch-switchBase": {
+        root: (theme) =>
+          theme.unstable_sx({
+            width: 42,
+            height: 26,
             padding: 0,
-            transitionDuration: "300ms",
-            margin: "2px",
-            "&.Mui-checked": {
-              transform: "translateX(16px)",
-              color: "#fff",
+            "& .MuiSwitch-switchBase": {
+              padding: 0,
+              transitionDuration: "300ms",
+              margin: "2px",
+              "&.Mui-checked": {
+                transform: "translateX(16px)",
+                color: "#fff",
+              },
+              "&.Mui-focusVisible .MuiSwitch-thumb": {
+                color: "#33cf4d",
+                border: "6px solid #fff",
+              },
+              "&.Mui-disabled .MuiSwitch-thumb": {
+                color: darkMode ? "hsl(240,11%,75%)" : colors.grey[600],
+              },
+              "&.Mui-disabled + .MuiSwitch-track": {
+                opacity: darkMode ? 0.7 : 0.3,
+                ...(darkMode && {
+                  background: "hsl(240,11%,15%)",
+                }),
+              },
             },
-            "&.Mui-focusVisible .MuiSwitch-thumb": {
-              color: "#33cf4d",
-              border: "6px solid #fff",
+            "& .MuiSwitch-thumb": {
+              boxSizing: "border-box",
+              width: 22,
+              height: 22,
             },
-            "&.Mui-disabled .MuiSwitch-thumb": {
-              color: darkMode ? "hsl(240,11%,75%)" : colors.grey[600],
+            "& .MuiSwitch-track": {
+              borderRadius: 26 / 2,
+              backgroundColor: !darkMode ? "#E9E9EA" : "#39393D",
+              opacity: 1,
             },
-            "&.Mui-disabled + .MuiSwitch-track": {
-              opacity: darkMode ? 0.7 : 0.3,
-              ...(darkMode && {
-                background: "hsl(240,11%,15%)",
-              }),
-            },
-          },
-          "& .MuiSwitch-thumb": {
-            boxSizing: "border-box",
-            width: 22,
-            height: 22,
-          },
-          "& .MuiSwitch-track": {
-            borderRadius: 26 / 2,
-            backgroundColor: !darkMode ? "#E9E9EA" : "#39393D",
-            opacity: 1,
-          },
-        }),
+          }),
       },
     },
     palette: {
