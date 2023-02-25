@@ -8,17 +8,22 @@ import {
   Icon,
   IconButton,
   LinearProgress,
+  Menu,
+  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { capitalizeFirstLetter } from "../ItemPopup";
-
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
 
 export function DailyCheckInDrawer() {
@@ -32,6 +37,26 @@ export function DailyCheckInDrawer() {
   };
 
   const { data, error } = useApi("user/checkIns/count");
+  const [lastBy, setLastBy] = useState<number>(7);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = (count: any = -1) => {
+    if (count !== -1) setLastBy(count);
+    setAnchorEl(null);
+  };
+
+  const [emblaRef] = useEmblaCarousel(
+    {
+      dragFree: true,
+      align: "start",
+      containScroll: "trimSnaps",
+      loop: false,
+    },
+    [WheelGesturesPlugin()]
+  );
 
   return (
     <>
@@ -92,45 +117,125 @@ export function DailyCheckInDrawer() {
           </Toolbar>
         </AppBar>
 
-        <Typography variant="h6" sx={{ p: 2, pb: 1 }}>
+        <Typography variant="h6" sx={{ p: 2, pb: 0 }} gutterBottom>
           By day
         </Typography>
-        <Box sx={{ display: "flex", gap: 2, overflowX: "scroll", px: 2 }}>
-          {data &&
-            data
-              .slice(0, 20)
-              .reverse()
-              .map(({ date, mood }, index) => (
-                <Chip
-                  key={index}
-                  label={capitalizeFirstLetter(
-                    dayjs(date)
-                      .fromNow()
-                      .replace("a day ago", "yesterday")
-                      .replace("12 hours ago", "today")
-                  )}
-                  sx={{
-                    py: 1,
-                    gap: 1,
-                    borderRadius: 9999,
-                    px: 2,
-                    height: "auto",
-                    maxHeight: "unset",
-                  }}
-                  icon={
-                    <Avatar
-                      sx={{
-                        width: 30,
-                        height: 30,
-                      }}
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${mood}.png`}
-                    />
-                  }
-                />
-              ))}
+        <Typography sx={{ px: 2 }} variant="body2" gutterBottom>
+          <CardActionArea
+            onClick={handleClick}
+            sx={{
+              display: "inline-flex",
+              borderRadius: 2,
+              width: "auto",
+              px: 1,
+              ml: -1,
+              gap: 1,
+              alignItems: "center",
+              justifyContent: "start",
+            }}
+          >
+            Last {lastBy} days <Icon>expand_more</Icon>
+          </CardActionArea>
+        </Typography>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={() => handleMenuClose(-1)}
+        >
+          <MenuItem selected={lastBy == 7} onClick={() => handleMenuClose(7)}>
+            7 days
+          </MenuItem>
+          <MenuItem selected={lastBy == 14} onClick={() => handleMenuClose(14)}>
+            14 days
+          </MenuItem>
+          <MenuItem selected={lastBy == 30} onClick={() => handleMenuClose(30)}>
+            30 days
+          </MenuItem>
+          <MenuItem
+            selected={lastBy == 365}
+            onClick={() => handleMenuClose(365)}
+          >
+            365 days
+          </MenuItem>
+        </Menu>
+
+        <Box sx={{ px: 2, mb: 2, height: "auto" }}>
+          <Sparklines
+            data={[
+              ...(data && data.length > 0
+                ? data.slice(0, lastBy).map((day) => {
+                    return moodOptions.reverse().indexOf(day.mood);
+                  })
+                : [0]),
+            ]}
+            margin={6}
+          >
+            <SparklinesLine
+              style={{
+                strokeWidth: 4,
+                stroke: colors[themeColor]["A700"],
+                fill: "none",
+              }}
+            />
+            <SparklinesSpots
+              size={4}
+              style={{
+                stroke: colors[themeColor]["A400"],
+                strokeWidth: 3,
+                fill: global.user.darkMode ? "hsl(240,11%,15%)" : "white",
+              }}
+            />
+          </Sparklines>
         </Box>
 
-        <Typography variant="h6" sx={{ p: 2, pb: 1 }}>
+        <Box>
+          <Box
+            className="embla"
+            ref={emblaRef}
+            sx={{
+              width: "100%",
+              whiteSpace: "nowrap",
+              overflowX: "scroll",
+              overflowY: "visible",
+            }}
+          >
+            <div
+              className="embla__container"
+              style={{ gap: "10px", paddingLeft: "18px" }}
+            >
+              {data &&
+                data
+                  .slice(0, lastBy)
+                  .reverse()
+                  .map(({ date, mood }, index) => (
+                    <Chip
+                      key={index}
+                      label={capitalizeFirstLetter(
+                        dayjs(date)
+                          .from(dayjs().startOf("day"))
+                          .replace("a day ago", "yesterday")
+                          .replace("a few seconds ago", "today")
+                      )}
+                      sx={{
+                        p: 1,
+                        gap: 1,
+                        borderRadius: 9999,
+                        height: "auto",
+                        maxHeight: "unset",
+                      }}
+                      avatar={
+                        <Avatar
+                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${mood}.png`}
+                        />
+                      }
+                    />
+                  ))}
+            </div>
+          </Box>
+        </Box>
+
+        <Typography variant="h6" sx={{ p: 2, pb: 1, pt: 4 }}>
           By mood
         </Typography>
         {moodOptions.map((emoji) => (
