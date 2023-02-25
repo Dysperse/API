@@ -13,14 +13,11 @@ function extractTextOutsideBrackets(text: any) {
 }
 
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
-    req.query.property,
-    req.query.accessToken
-  );
-  if (!permissions || permissions === "read-only") {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
+  await validatePermissions(res, {
+    minimum: "member",
+    credentials: [req.query.property, req.query.accessToken],
+  });
+
   let data = await prisma.integration.findMany({
     where: {
       AND: [

@@ -8,14 +8,11 @@ import { validatePermissions } from "../../../../../lib/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
-    req.query.property,
-    req.query.accessToken
-  );
-  if (!permissions || permissions === "read-only") {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
+  await validatePermissions(res, {
+    minimum: "member",
+    credentials: [req.query.property, req.query.accessToken],
+  });
+
   const data = await prisma.customRoom.create({
     data: {
       name: req.query.name,

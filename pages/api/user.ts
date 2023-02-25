@@ -18,7 +18,6 @@ export const sessionData = async (providedToken) => {
     return value;
   } else {
     const hours = 69;
-
     const token: string = accessToken;
     const info = await getUserData(token);
 

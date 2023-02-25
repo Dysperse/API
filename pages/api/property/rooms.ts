@@ -8,28 +8,27 @@ import { validatePermissions } from "../../../lib/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
-    req.query.property,
-    req.query.accessToken
-  );
-  if (!permissions) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
+  await validatePermissions(res, {
+    minimum: "read-only",
+    credentials: [req.query.property, req.query.accessToken],
+  });
   const data = await prisma.customRoom.findMany({
     where: {
-      private: false,
-      property: {
-        id: req.query.property,
-      },
+      OR: [
+        // If the room isn't private, but the property identifer matches
+        {
+          AND: [{ private: false }, { property: { id: req.query.property } }],
+        },
+        // If the room is private, but the user identifier matches the room owner
+        {
+          AND: [
+            { private: true },
+            { userIdentifier: req.query.userIdentifier },
+          ],
+        },
+      ],
     },
   });
-  const data1 = await prisma.customRoom.findMany({
-    where: {
-      private: true,
-      userIdentifier: req.query.userIdentifier,
-    },
-  });
-  res.json([...data, ...data1]);
+  res.json(data);
 };
 export default handler;

@@ -3,14 +3,11 @@ import { validatePermissions } from "../../../../../lib/validatePermissions";
 import { createInboxNotification } from "../../inbox/create";
 
 const handler = async (req, res) => {
-  const permissions = await validatePermissions(
-    req.query.property,
-    req.query.accessToken
-  );
-  if (!permissions || permissions !== "owner") {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
+  await validatePermissions(res, {
+    minimum: "owner",
+    credentials: [req.query.property, req.query.accessToken],
+  });
+
   await createInboxNotification(
     req.query.inviterName,
     `created an invite link for this group`,
