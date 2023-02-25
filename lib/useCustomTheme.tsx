@@ -72,7 +72,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           disableRipple: true,
         },
         styleOverrides: {
-          root: (theme) =>
+          root: ({ theme }) =>
             theme.unstable_sx({
               cursor: "unset",
               transition: "none",
@@ -137,7 +137,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             color: `${colors[themeColor][darkMode ? 50 : 700]}`,
           },
 
-          root: (theme) =>
+          root: ({ theme }) =>
             theme.unstable_sx({
               gap: "10px",
               transition: "none!important",
@@ -169,7 +169,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiAlert: {
         styleOverrides: {
-          root: (theme) =>
+          root: ({ theme }) =>
             theme.unstable_sx({
               alignItems: "center",
               borderRadius: 5,
@@ -178,7 +178,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiSwitch: {
         styleOverrides: {
-          root: (theme) =>
+          root: ({ theme }) =>
             theme.unstable_sx({
               width: 42,
               height: 26,
@@ -241,7 +241,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           },
         },
         styleOverrides: {
-          root: (theme) =>
+          root: ({ theme }) =>
             theme.unstable_sx({
               transition: "all .2s",
               "& .MuiPaper-root": {
@@ -295,7 +295,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiListItemButton: {
         styleOverrides: {
-          root: (theme) =>
+          root: ({ theme }) =>
             theme.unstable_sx({
               cursor: "unset!important",
               borderRadius: 4,
@@ -382,7 +382,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         disableRipple: true,
       },
       styleOverrides: {
-        root: (theme) =>
+        root: ({ theme }) =>
           theme.unstable_sx({
             width: 42,
             height: 26,
