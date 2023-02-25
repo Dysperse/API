@@ -18,7 +18,6 @@ import {
   Icon,
   IconButton,
   ListItem,
-  ListItemIcon,
   SwipeableDrawer,
   TextField,
   Tooltip,
@@ -687,8 +686,8 @@ export function CreateTask({
             sm: "0!important",
           },
           ...(label && {
-            border: "none!important",
-            borderColor: "transparent!important",
+            border: { sm: "none!important" },
+            borderColor: { sm: "transparent!important" },
             boxShadow: "none!important",
             py: "0!important",
           }),

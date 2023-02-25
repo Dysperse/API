@@ -98,8 +98,8 @@ export function Agenda({
           left: "10px",
           zIndex: 9,
           background: global.user.darkMode
-            ? "hsla(240,11%,14%,0.5)"
-            : "rgba(255,255,255,.5)",
+            ? "hsla(240,11%,14%,0.5)!important"
+            : "rgba(255,255,255,.5)!important",
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           backdropFilter: "blur(10px)",

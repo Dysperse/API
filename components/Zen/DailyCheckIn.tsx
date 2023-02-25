@@ -161,10 +161,10 @@ export function DailyCheckInDrawer() {
           </Toolbar>
         </AppBar>
 
-        <Typography variant="h6" sx={{ p: 4, pb: 0 }} gutterBottom>
+        <Typography variant="h6" sx={{ p: 4, pb: 0, mb: 0.5 }}>
           By day
         </Typography>
-        <Typography sx={{ px: 3 }} variant="body2" gutterBottom>
+        <Typography sx={{ px: 3, mb: 2 }} variant="body2" gutterBottom>
           <CardActionArea
             onClick={handleClick}
             sx={{
