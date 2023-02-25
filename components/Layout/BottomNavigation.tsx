@@ -20,6 +20,7 @@ export function BottomNav() {
     flex: "0 0 35px",
     width: "60px",
   };
+
   const styles = (active) => {
     return {
       textTransform: "none",

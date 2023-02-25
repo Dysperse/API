@@ -1,30 +1,20 @@
 import { colors } from "../../lib/colors";
 import AddPopup from "./CreateItem";
 
-import { Box, Fab, useScrollTrigger } from "@mui/material";
+import { Box, Fab } from "@mui/material";
 
 /**
  * Floating action button
  * @returns {any}
  */
 export function FloatingActionButton({ sm = false }) {
-  const trigger = useScrollTrigger({
-    threshold: 0,
-    target: window ? window : undefined,
-  });
-
   return global.property.role === "read-only" ? null : (
     <Box
       sx={{
         position: { xs: "fixed", sm: "unset" },
         zIndex: 1,
         transition: "bottom .3s",
-        bottom: {
-          lg: "15px",
-          sm: "15px",
-          md: "15px",
-          xs: trigger ? "15px" : "85px",
-        },
+        bottom: "65px",
         right: "15px",
       }}
     >
