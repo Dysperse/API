@@ -433,7 +433,7 @@ function OptionsMenu({
           </MenuItem>
         </ConfirmationModal>
       </Menu>
-      <Tooltip title="Options (e)" placement="top">
+      <Tooltip title="Edit column" placement="top">
         <IconButton
           onClick={handleClick}
           ref={triggerRef}
@@ -500,10 +500,12 @@ export const Column = React.memo(function Column({
         sx={{
           color: global.user.darkMode ? "#fff" : "#000",
           p: 3,
-          px: 5,
-          background: global.user.darkMode
-            ? "hsla(240,11%,16%, 0.2)"
-            : "rgba(200,200,200,.05)",
+          px: { xs: 3, sm: 5 },
+          background: {
+            sm: global.user.darkMode
+              ? "hsla(240,11%,16%, 0.2)"
+              : "rgba(200,200,200,.05)",
+          },
           borderBottom: "1px solid",
           borderColor: global.user.darkMode
             ? "hsla(240,11%,18%, 0.2)"
@@ -516,17 +518,6 @@ export const Column = React.memo(function Column({
           top: 0,
         }}
       >
-        <Box sx={{ display: "flex" }}>
-          <OptionsMenu
-            columnTasks={columnTasks}
-            setColumnTasks={setColumnTasks}
-            board={board}
-            column={column}
-            mutationUrl={mutationUrl}
-            setCurrentColumn={setCurrentColumn}
-          />
-        </Box>
-
         <Box
           sx={{
             display: { xs: "none", sm: checkList ? "none" : "inline-flex" },
@@ -568,34 +559,48 @@ export const Column = React.memo(function Column({
                 maxWidth: { xs: "calc(100% - 150px)", sm: "100%" },
                 mx: { xs: 1, sm: 0 },
                 mt: 1,
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              <Tooltip title={column.name} followCursor>
+              <Box>
+                <Tooltip title={column.name} followCursor>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      whiteSpace: { xs: "nowrap", sm: "unset" },
+                      textOverflow: { xs: "ellipsis", sm: "unset" },
+                      overflow: { xs: "hidden", sm: "unset" },
+                      maxWidth: { xs: "100%", sm: "unset" },
+                    }}
+                  >
+                    {column.name}
+                  </Typography>
+                </Tooltip>
                 <Typography
-                  variant="h6"
+                  variant="body2"
                   sx={{
-                    whiteSpace: { xs: "nowrap", sm: "unset" },
-                    textOverflow: { xs: "ellipsis", sm: "unset" },
-                    overflow: { xs: "hidden", sm: "unset" },
-                    maxWidth: { xs: "100%", sm: "unset" },
+                    fontWeight: "400",
+                    whiteSpace: "nowrap",
+                    mt: 0.5,
                   }}
                 >
-                  {column.name}
+                  {columnTasks.filter((task) => task.completed).length}{" "}
+                  {columnTasks.length !== 0 && " out of "}
+                  {columnTasks.length == 0 ? "" : columnTasks.length}{" "}
+                  {columnTasks.length == 0 ? "tasks" : "completed"}
                 </Typography>
-              </Tooltip>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: "400",
-                  whiteSpace: "nowrap",
-                  mt: 0.5,
-                }}
-              >
-                {columnTasks.filter((task) => task.completed).length}{" "}
-                {columnTasks.length !== 0 && " out of "}
-                {columnTasks.length == 0 ? "" : columnTasks.length}{" "}
-                {columnTasks.length == 0 ? "tasks" : "completed"}
-              </Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: "flex", ml: "auto" }}>
+              <OptionsMenu
+                columnTasks={columnTasks}
+                setColumnTasks={setColumnTasks}
+                board={board}
+                column={column}
+                mutationUrl={mutationUrl}
+                setCurrentColumn={setCurrentColumn}
+              />
             </Box>
           </Box>
         )}
