@@ -8,12 +8,16 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  SwipeableDrawer,
   TextField,
   Typography,
 } from "@mui/material";
-import { cloneElement, useCallback, useEffect, useState } from "react";
+import EmojiPicker from "emoji-picker-react";
+import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
+import { toastStyles } from "../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import BoardSettings from "./BoardSettings";
 import { Task } from "./Column/Task";
@@ -112,7 +116,6 @@ function ColumnSettings({
   column,
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
@@ -122,15 +125,110 @@ function ColumnSettings({
   const handleClose = useCallback(() => {
     setAnchorEl(null);
   }, [setAnchorEl]);
+
+  const [title, setTitle] = useState(column.name);
+  const [emoji, setEmoji] = useState(column.emoji);
+  const ref: any = useRef();
+  const buttonRef: any = useRef();
+  const [open, setOpen] = useState(false);
+
   return (
     <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        sx={{
+          zIndex: 9999999,
+        }}
+        onClose={() => {
+          mutate(mutationUrls.boardData);
+          setOpen(false);
+        }}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+        PaperProps={{
+          sx: {
+            maxWidth: "400px",
+            maxHeight: "400px",
+            width: "auto",
+            p: 1,
+            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
+            mb: { sm: 5 },
+          },
+        }}
+      >
+        <>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1.5,
+              py: 2,
+              mb: 1,
+              borderBottom: `1px solid ${
+                global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+              }`,
+            }}
+          >
+            <EmojiPickerModal
+              emoji={emoji}
+              setEmoji={setEmoji}
+              lazyLoadEmojis={true}
+            />
+            <TextField
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              id={"renameInput"}
+              inputRef={ref}
+              onKeyDown={(e) => {
+                if (e.code === "Enter") {
+                  buttonRef.current.click();
+                }
+              }}
+              size="small"
+              InputProps={{
+                sx: {
+                  fontWeight: "700",
+                },
+              }}
+            />
+          </Box>
+
+          <Box sx={{ display: "flex" }}>
+            <Button
+              ref={buttonRef}
+              size="large"
+              onClick={async () => {
+                toast.promise(
+                  fetchApiWithoutHook("property/boards/column/edit", {
+                    id: column.id,
+                    name: title,
+                    emoji: emoji,
+                  }).then(() => mutate(mutationUrls.boardData)),
+                  {
+                    loading: "Saving...",
+                    success: "Edited column!",
+                    error: "Yikes! An error occured - Please try again later!",
+                  },
+                  toastStyles
+                );
+                setOpen(false);
+              }}
+            >
+              <Icon className="outlined">save</Icon>
+              Save
+            </Button>
+          </Box>
+        </>
+      </SwipeableDrawer>
       <IconButton onClick={handleClick}>
         <Icon className="outlined">expand_circle_down</Icon>
       </IconButton>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open}
+        open={Boolean(anchorEl)}
         onClose={handleClose}
       >
         <FilterMenu
@@ -160,7 +258,7 @@ function ColumnSettings({
           <Icon className="outlined">west</Icon>Move left
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => setOpen(true)}>
           <Icon className="outlined">edit</Icon>
           Edit
         </MenuItem>
@@ -185,6 +283,51 @@ function ColumnSettings({
   );
 }
 
+function EmojiPickerModal({ emoji, setEmoji }: any) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+        PaperProps={{
+          sx: {
+            width: "100%",
+            maxWidth: "400px",
+            mb: { sm: 2 },
+            borderRadius: { xs: "20px 20px 0 0", sm: 4 },
+          },
+        }}
+        sx={{
+          zIndex: 9999999,
+        }}
+      >
+        {open && (
+          <EmojiPicker
+            skinTonePickerLocation={"PREVIEW" as any}
+            theme={(global.user.darkMode ? "dark" : "light") as any}
+            lazyLoadEmojis={true}
+            width="100%"
+            onEmojiClick={(event) => {
+              const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
+              setEmoji(url);
+              setOpen(false);
+            }}
+          />
+        )}
+      </SwipeableDrawer>
+      <Button onClick={() => setOpen(true)}>
+        <picture>
+          <img src={emoji} alt="emoji" width="30" height="30" />
+        </picture>
+      </Button>
+    </>
+  );
+}
+
 function Column({ board, mutationUrls, column }) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
@@ -196,8 +339,103 @@ function Column({ board, mutationUrls, column }) {
     [setShowCompleted]
   );
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [title, setTitle] = useState(column.name);
+  const [emoji, setEmoji] = useState(column.emoji);
+  const ref: any = useRef();
+  const buttonRef: any = useRef();
+  const [open, setOpen] = useState(false);
+
   return (
     <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        sx={{
+          zIndex: 9999999,
+        }}
+        onClose={() => {
+          mutate(mutationUrls.boardData);
+          setOpen(false);
+        }}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
+        PaperProps={{
+          sx: {
+            maxWidth: "400px",
+            maxHeight: "400px",
+            width: "auto",
+            p: 1,
+            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
+            mb: { sm: 5 },
+          },
+        }}
+      >
+        <>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1.5,
+              py: 2,
+              mb: 1,
+              borderBottom: `1px solid ${
+                global.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+              }`,
+            }}
+          >
+            <EmojiPickerModal
+              emoji={emoji}
+              setEmoji={setEmoji}
+              lazyLoadEmojis={true}
+            />
+            <TextField
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              id={"renameInput"}
+              inputRef={ref}
+              onKeyDown={(e) => {
+                if (e.code === "Enter") {
+                  buttonRef.current.click();
+                }
+              }}
+              size="small"
+              InputProps={{
+                sx: {
+                  fontWeight: "700",
+                },
+              }}
+            />
+          </Box>
+
+          <Box sx={{ display: "flex" }}>
+            <Button
+              ref={buttonRef}
+              size="large"
+              onClick={async () => {
+                toast.promise(
+                  fetchApiWithoutHook("property/boards/column/edit", {
+                    id: column.id,
+                    name: title,
+                    emoji: emoji,
+                  }).then(() => mutate(mutationUrls.boardData)),
+                  {
+                    loading: "Saving...",
+                    success: "Edited column!",
+                    error: "Yikes! An error occured - Please try again later!",
+                  },
+                  toastStyles
+                );
+                setOpen(false);
+              }}
+            >
+              <Icon className="outlined">save</Icon>
+              Save
+            </Button>
+          </Box>
+        </>
+      </SwipeableDrawer>
       <Box
         className="snap-center"
         sx={{
