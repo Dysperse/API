@@ -19,7 +19,6 @@ function Column({ board, mutationUrls, column }) {
       <Box
         className="snap-center"
         sx={{
-          scrollMarginRight: "25px",
           borderLeft: "1px solid",
           borderColor: global.user.darkMode
             ? "hsl(240,11%,16%)"
@@ -116,7 +115,7 @@ function Column({ board, mutationUrls, column }) {
 }
 
 function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
 
   return (
     <Box
@@ -125,6 +124,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         display: "flex",
         maxWidth: "100vw",
         overflowX: "scroll",
+        mt: { xs: -2, sm: 0 },
         height: { sm: "100vh" },
       }}
     >
@@ -133,8 +133,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         sx={{
           scrollMarginRight: "25px",
           borderRadius: 5,
-          mt: { xs: "35px", sm: "10px" },
-          ml: { xs: "35px", sm: "10px" },
+          mt: { xs: "30px", sm: "10px" },
+          ml: { xs: "30px", sm: "10px" },
           height: { xs: "calc(100vh - 170px)", sm: "calc(100vh - 20px)" },
           background: showInfo
             ? global.user.darkMode
@@ -148,6 +148,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           flexGrow: 1,
           flexBasis: 0,
           p: 4,
+          py: showInfo ? 3 : 2,
           overflowY: "scroll",
           flexDirection: "column",
           display: "flex",
@@ -252,9 +253,18 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
               </Box>
             </Box>
             <Box sx={{ mt: "auto", display: "flex", width: "100%" }}>
+              <IconButton
+                sx={{ mr: "auto", display: { sm: "none" } }}
+                onClick={() => setDrawerOpen(true)}
+              >
+                <Icon className="outlined">unfold_more</Icon>
+              </IconButton>
               <BoardSettings mutationUrl={mutationUrls.board} board={board} />
               <IconButton
-                sx={{ ml: "auto" }}
+                sx={{
+                  ml: "auto",
+                  display: { xs: "none", sm: "flex" },
+                }}
                 onClick={() => setShowInfo(false)}
               >
                 <Icon className="outlined">menu_open</Icon>

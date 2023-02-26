@@ -199,7 +199,7 @@ export default function BoardSettings({ mutationUrl, board }) {
       </Menu>
 
       <Tooltip title="Board settings">
-        <IconButton onClick={handleClick}>
+        <IconButton onClick={handleClick} sx={{ mr: { sm: "auto" } }}>
           <Icon className="outlined">settings</Icon>
         </IconButton>
       </Tooltip>
