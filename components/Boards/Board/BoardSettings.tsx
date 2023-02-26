@@ -88,7 +88,7 @@ export default function BoardSettings({ mutationUrl, board }) {
             {board.pinned ? "Unpin" : "Pin"}
           </MenuItem>
         </ConfirmationModal>
-        {board && board.columns.length !== 1 && (
+        {board && Boolean(anchorEl) && board.columns.length !== 1 && (
           <CreateColumn
             setCurrentColumn={(e: any) => e}
             mobile={true}
