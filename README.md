@@ -10,7 +10,6 @@
 [![Build Status](https://img.shields.io/github/forks/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
 [![Build Status](https://img.shields.io/github/stars/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
 [![License](https://img.shields.io/github/license/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
-[![Better Uptime Badge](https://betteruptime.com/status-badges/v1/monitor/77o4.svg)](https://betteruptime.com/?utm_source=status_badge)
 
 ## Meet Dysperse.
 
