@@ -6,14 +6,14 @@ import {
   MouseSensor,
   TouchSensor,
   useSensor,
-  useSensors
+  useSensors,
 } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
-  verticalListSortingStrategy
+  verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { openSpotlight } from "@mantine/spotlight";
@@ -29,7 +29,7 @@ import {
   SwipeableDrawer,
   Toolbar,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
