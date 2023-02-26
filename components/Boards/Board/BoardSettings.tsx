@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Divider,
-  Icon,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
+import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -171,31 +163,6 @@ export default function BoardSettings({ mutationUrl, board }) {
             Delete
           </MenuItem>
         </ConfirmationModal>
-        {board &&
-          board.integrations &&
-          board.integrations.find(
-            (integration) => integration.name === "Canvas LMS"
-          ) && (
-            <>
-              <Divider />
-              <MenuItem
-                disabled={board.archived}
-                onClick={async () => {
-                  handleClose();
-                  await fetchApiWithoutHook("property/integrations/run", {
-                    boardId: board.id,
-                  });
-                  mutate(mutationUrl);
-                }}
-              >
-                <Avatar
-                  src="https://www.instructure.com/sites/default/files/image/2021-12/canvas_reversed_logo.png"
-                  sx={{ width: "24px", height: "24px" }}
-                />
-                Resync to Canvas
-              </MenuItem>
-            </>
-          )}
       </Menu>
 
       <Tooltip title="Board settings">

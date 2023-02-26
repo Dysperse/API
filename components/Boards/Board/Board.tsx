@@ -662,6 +662,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           alignItems: "center",
           justifyContent: "center",
           minWidth: !showInfo ? "auto" : "320px",
+          maxWidth: { sm: "300px" },
           transition: "filter .2s",
         }}
       >
@@ -744,7 +745,16 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
                   (integration) => integration.name == "Canvas LMS"
                 ) && (
                   <Chip
-                    onClick={() => {}}
+                    onClick={async () => {
+                      toast(
+                        "Resyncing to Canvas LMS (this may take a while)",
+                        toastStyles
+                      );
+                      await fetchApiWithoutHook("property/integrations/run", {
+                        boardId: board.id,
+                      });
+                      mutate(mutationUrls.tasks);
+                    }}
                     label="Resync to Canvas"
                     sx={{
                       mr: 1,
