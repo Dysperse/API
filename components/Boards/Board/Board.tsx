@@ -616,9 +616,9 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           description: descriptionRef.current.value,
         }).then(() => mutate(mutationUrls.boardData)),
         {
-          loading: "Renaming...",
-          success: "Renamed board!",
-          error: "An error occurred while renaming the board",
+          loading: "Updating...",
+          success: "Updating board!",
+          error: "An error occurred while updating the board",
         },
         toastStyles
       );
