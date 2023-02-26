@@ -213,7 +213,7 @@ export default function CreateColumn({
         <EmojiPicker
           skinTonePickerLocation={"PREVIEW" as any}
           theme={(global.user.darkMode ? "dark" : "light") as any}
-          lazyLoadEmojis={true}
+          lazyLoadEmojis
           width="100%"
           onEmojiClick={(event) => {
             const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
@@ -234,7 +234,7 @@ export default function CreateColumn({
         }}
       >
         <Puller />
-        <Children mobile={true} />
+        <Children mobile />
       </SwipeableDrawer>
       <Box>
         {!open && mobile ? (
