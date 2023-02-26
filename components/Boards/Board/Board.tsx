@@ -553,6 +553,7 @@ function Column({ board, mutationUrls, column }) {
                   ? "hsl(240,11%,20%)!important"
                   : "rgba(200,200,200,.3)!important",
               }),
+              color: global.user.darkMode ? "#fff" : "#000",
             }}
             onClick={toggleShowCompleted}
           >
