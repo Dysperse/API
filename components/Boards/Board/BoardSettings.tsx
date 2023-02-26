@@ -1,31 +1,21 @@
 import {
   Avatar,
-  Box,
-  Button,
-  DialogActions,
   Divider,
   Icon,
   IconButton,
   Menu,
   MenuItem,
-  SwipeableDrawer,
-  TextField,
   Tooltip,
 } from "@mui/material";
-import dynamic from "next/dynamic";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
-import { Puller } from "../../Puller";
-const CreateColumn = dynamic(() => import("./Column/Create"));
+import CreateColumn from "./Column/Create";
 
 export default function BoardSettings({ mutationUrl, board }) {
-  const [title, setTitle] = React.useState(board.name);
-  const [description, setDescription] = React.useState(board.description || "");
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,99 +28,21 @@ export default function BoardSettings({ mutationUrl, board }) {
     setAnchorEl(null);
   };
 
-  const ref: any = React.useRef();
-  const [renameOpen, setRenameOpen] = React.useState(false);
-
   return (
     <>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={renameOpen}
-        onOpen={() => setRenameOpen(true)}
-        onClose={() => setRenameOpen(false)}
-        disableSwipeToOpen
-        disableBackdropTransition
-      >
-        <Puller />
-        <Box sx={{ px: 2.5, mb: 1 }}>
-          <TextField
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            id={"renameInput"}
-            autoFocus
-            placeholder="Board name"
-            InputProps={{
-              sx: {
-                fontWeight: "700",
-                mb: 2,
-              },
-            }}
-          />
-
-          <TextField
-            multiline
-            rows={4}
-            value={description}
-            placeholder="What's this board about?"
-            onChange={(e) => setDescription(e.target.value)}
-            id={"descriptionInput"}
-            autoFocus
-            InputProps={{
-              sx: {
-                mb: 2,
-              },
-            }}
-          />
-          <DialogActions>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setRenameOpen(false);
-                ref.current?.click();
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              disabled={
-                (title == board.name && description === board.description) ||
-                title.trim() == ""
-              }
-              onClick={() => {
-                if (
-                  !(
-                    (title == board.name &&
-                      description === board.description) ||
-                    title.trim() == ""
-                  )
-                ) {
-                  toast.promise(
-                    fetchApiWithoutHook("property/boards/edit", {
-                      id: board.id,
-                      name: title,
-                      description: description,
-                    }).then(() => mutate(mutationUrl)),
-                    {
-                      loading: "Renaming...",
-                      success: "Renamed board!",
-                      error: "An error occurred while renaming the board",
-                    },
-                    toastStyles
-                  );
-                }
-              }}
-            >
-              Save
-            </Button>
-          </DialogActions>
-        </Box>
-      </SwipeableDrawer>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        transformOrigin={{
+          horizontal: "left",
+          vertical: "bottom",
+        }}
+        anchorOrigin={{
+          horizontal: "left",
+          vertical: "bottom",
+        }}
       >
         <ConfirmationModal
           title={board.pinned ? "Unpin?" : "Pin?"}
@@ -176,6 +88,19 @@ export default function BoardSettings({ mutationUrl, board }) {
             {board.pinned ? "Unpin" : "Pin"}
           </MenuItem>
         </ConfirmationModal>
+        {board && board.columns.length !== 1 && (
+          <CreateColumn
+            setCurrentColumn={(e: any) => e}
+            mobile={true}
+            id={board.id}
+            mutationUrl={mutationUrl}
+            hide={
+              global.user.email !== "manusvathgurudath@gmail.com" &&
+              ((board && board.columns.length === 1) ||
+                (board && board.columns.length >= 5))
+            }
+          />
+        )}
         <MenuItem
           disabled={board.archived}
           onClick={() => {
@@ -187,31 +112,6 @@ export default function BoardSettings({ mutationUrl, board }) {
         >
           <Icon className="outlined">share</Icon>
           Share
-        </MenuItem>
-
-        {board && board.columns.length !== 1 && (
-          <CreateColumn
-            setCurrentColumn={(e: any) => e}
-            mobile
-            id={board.id}
-            mutationUrl={mutationUrl}
-            hide={
-              global.user.email !== "manusvathgurudath@gmail.com" &&
-              ((board && board.columns.length === 1) ||
-                (board && board.columns.length >= 5))
-            }
-          />
-        )}
-
-        <MenuItem
-          disabled={board.archived}
-          onClick={() => {
-            setRenameOpen(true);
-            handleClose();
-          }}
-        >
-          <Icon className="outlined">edit</Icon>
-          Edit
         </MenuItem>
         <ConfirmationModal
           title="Change board visibility?"
@@ -297,40 +197,10 @@ export default function BoardSettings({ mutationUrl, board }) {
             </>
           )}
       </Menu>
-      <Tooltip title="Board settings" placement="bottom-end">
-        <IconButton
-          onClick={handleClick}
-          className="sm:shadow-lg"
-          sx={{
-            backdropFilter: "blur(10px)",
-            border: { sm: "1px solid rgba(200,200,200,.3)" },
-            transition: "none",
-            flexShrink: 0,
-            ml: "auto",
-            m: { sm: 2 },
-            ...(open && {
-              background: `${
-                global.user.darkMode
-                  ? "hsla(240,11%,14%)"
-                  : "rgba(200,200,200,.3)"
-              }!important`,
-            }),
-            "&:hover, &:active": {
-              background: global.user.darkMode
-                ? "hsl(240,11%,20%)!important"
-                : "rgba(200,200,200,.4)!important",
-            },
-          }}
-          ref={ref}
-        >
-          <Icon
-            className="outlined"
-            sx={{
-              transform: { sm: "rotate(90deg)" },
-            }}
-          >
-            more_horiz
-          </Icon>
+
+      <Tooltip title="Board settings">
+        <IconButton onClick={handleClick}>
+          <Icon className="outlined">settings</Icon>
         </IconButton>
       </Tooltip>
     </>

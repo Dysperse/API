@@ -1,8 +1,25 @@
+import {
+  closestCenter,
+  DndContext,
+  DragOverlay,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { openSpotlight } from "@mantine/spotlight";
 import {
   Box,
   Button,
-  Chip,
   Icon,
   IconButton,
   List,
@@ -12,45 +29,23 @@ import {
   SwipeableDrawer,
   Toolbar,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
-import { orange } from "@mui/material/colors";
-import { useRouter } from "next/router";
-import { useHotkeys } from "react-hotkeys-hook";
-import { CardOptions } from "../components/Zen/CardOptions";
-import { colors } from "../lib/colors";
-
-import {
-  closestCenter,
-  DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-
-import { CSS } from "@dnd-kit/utilities";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { Puller } from "../components/Puller";
 import { updateSettings } from "../components/Settings/updateSettings";
+import { CardOptions } from "../components/Zen/CardOptions";
 import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 import { getActions } from "../components/Zen/getActions";
 import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useStatusBar } from "../hooks/useStatusBar";
+import { colors } from "../lib/colors";
 import { toastStyles } from "../lib/useCustomTheme";
 
 function CardGallery({ editMode, items, setItems }) {
@@ -388,32 +383,6 @@ export default function Home() {
                   : global.user.name}
                 !
               </Typography>
-              <Chip
-                icon={
-                  <>
-                    <Icon
-                      sx={{
-                        color: "inherit!important",
-                        ml: 1,
-                        mr: -1,
-                        mt: -0.2,
-                      }}
-                      className="outlined"
-                    >
-                      local_fire_department
-                    </Icon>
-                  </>
-                }
-                label="10 days"
-                sx={{
-                  userSelect: "none",
-                  color: orange[global.user.darkMode ? 50 : "A400"],
-                  background: global.user.darkMode
-                    ? "hsl(240,11%,20%)"
-                    : `linear-gradient(45deg, ${orange[100]}, ${orange[50]})`,
-                  mr: 1,
-                }}
-              />
             </Box>
             <Box>
               <DailyCheckIn />

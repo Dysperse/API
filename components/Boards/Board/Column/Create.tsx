@@ -76,6 +76,7 @@ export default function CreateColumn({
         <Button
           onClick={() => setShowEmojiPicker(true)}
           sx={{
+            px: 0,
             background: global.user.darkMode
               ? "hsl(240,11%,17%)"
               : "rgba(200, 200, 200, 0.3)!important",
@@ -104,7 +105,9 @@ export default function CreateColumn({
           InputProps={{
             disableUnderline: true,
             sx: {
-              background: "rgba(200, 200, 200, 0.3)",
+              background: global.user.darkMode
+                ? "hsl(240,11%,20%)"
+                : "rgba(200, 200, 200, 0.3)",
               fontWeight: "600",
               mb: 2,
               mt: 1,
@@ -201,6 +204,9 @@ export default function CreateColumn({
         onClose={() => setShowEmojiPicker(false)}
         onOpen={() => setShowEmojiPicker(true)}
         disableSwipeToOpen
+        sx={{
+          zIndex: 999999,
+        }}
         PaperProps={{
           sx: {
             width: "100%",
@@ -208,6 +214,9 @@ export default function CreateColumn({
             mb: { sm: 2 },
             borderRadius: { xs: "20px 20px 0 0", sm: 4 },
           },
+        }}
+        ModalProps={{
+          keepMounted: false,
         }}
       >
         <EmojiPicker
@@ -222,7 +231,6 @@ export default function CreateColumn({
           }}
         />
       </SwipeableDrawer>
-      {open && <Children mobile={false} />}
       <SwipeableDrawer
         anchor="bottom"
         open={mobileOpen}

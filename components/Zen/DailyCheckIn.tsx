@@ -26,6 +26,7 @@ import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { capitalizeFirstLetter } from "../ItemPopup";
+
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
 
 function InfoModal() {
@@ -61,7 +62,7 @@ function InfoModal() {
         </Alert>
         <Alert severity="info" sx={{ mb: 1 }}>
           Your mood is only visible to you, meaning that other members in your
-          group won&apos;t be able to see how you&apos;re feeling
+          groyp won&apos;t be able to see how you&apos;re feeling
         </Alert>
         <Alert severity="warning" sx={{ mb: 1 }}>
           Mood data is only stared for 1 year
@@ -111,6 +112,7 @@ export function DailyCheckInDrawer() {
       <CardActionArea
         onClick={handleOpen}
         sx={{
+          cursor: "unset",
           display: "flex",
           gap: 2,
           p: 3,
@@ -168,6 +170,7 @@ export function DailyCheckInDrawer() {
           <CardActionArea
             onClick={handleClick}
             sx={{
+              cursor: "unset",
               display: "inline-flex",
               borderRadius: 2,
               width: "auto",

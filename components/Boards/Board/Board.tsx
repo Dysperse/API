@@ -1,240 +1,316 @@
 import {
+  Alert,
   Box,
-  Button,
+  Chip,
   Icon,
-  Tooltip,
-  useMediaQuery,
-  useScrollTrigger,
+  IconButton,
+  TextField,
+  Typography,
 } from "@mui/material";
-import dynamic from "next/dynamic";
-import React from "react";
+import { useState } from "react";
 import { useApi } from "../../../hooks/useApi";
-import { ErrorHandler } from "../../Error";
-import { Column } from "./Column";
-import { Loading } from "./Loading";
-const BoardSettings = dynamic(() => import("./BoardSettings"));
-const CreateColumn = dynamic(() => import("./Column/Create"));
+import BoardSettings from "./BoardSettings";
+import { Task } from "./Column/Task";
+import { CreateTask } from "./Column/Task/Create";
 
-const Renderer = React.memo(function Renderer({ data, url, board }: any) {
-  const [currentColumn, setCurrentColumn] = React.useState(0);
-  const trigger = useScrollTrigger({
-    threshold: 0,
-    target: window ? window : undefined,
-  });
-
-  const isMobile = useMediaQuery("(max-width: 610px)");
-
+function Column({ board, mutationUrls, column }) {
   return (
     <>
       <Box
+        className="snap-center"
         sx={{
-          position: "fixed",
-          opacity: trigger ? 0 : 1,
-          transform: trigger ? "scale(0.9)" : "scale(1)",
-          transition: "transform .2s, opacity .2s",
-          boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-          border: "1px solid",
+          scrollMarginRight: "25px",
+          borderLeft: "1px solid",
           borderColor: global.user.darkMode
-            ? "hsla(240,11%,30%, 0.5)"
-            : "rgba(200,200,200, 0.5)",
-          backdropFilter: "blur(5px)",
-          p: 1,
-          borderRadius: 9,
-          width: "auto",
-          right: 0,
-          mr: 3,
-          gap: 0.2,
-          background: global.user.darkMode
-            ? "hsla(240,11%,25%,.2)"
-            : "rgba(255,255,255,.7)",
-          zIndex: 999,
-          bottom: {
-            xs: "70px",
-            sm: "30px",
-          },
-          display: (data && data.length === 1) || !isMobile ? "none" : "flex",
+            ? "hsl(240,11%,16%)"
+            : "rgba(200,200,200,.2)",
+          zIndex: 1,
+          flexGrow: 1,
+          flexBasis: 0,
+          ml: "-1px",
+          minHeight: { sm: "100vh" },
+          overflowY: "scroll",
+          minWidth: { xs: "100vw", sm: "340px" },
+          transition: "filter .2s",
         }}
       >
-        <Tooltip title="Previous column" placement="top">
-          <span>
-            <Button
-              sx={{
-                minWidth: "auto",
-                px: 2,
-                color:
-                  currentColumn <= 0
-                    ? global.user.darkMode
-                      ? "#ccc"
-                      : "#aaa"
-                    : global.user.darkMode
-                    ? "#fff"
-                    : "#000",
-              }}
-              onClick={() => setCurrentColumn(currentColumn - 1)}
-              disabled={currentColumn <= 0}
-            >
-              <Icon
+        <Box
+          sx={{
+            color: global.user.darkMode ? "#fff" : "#000",
+            p: 3,
+            px: 4,
+            background: global.user.darkMode
+              ? "hsla(240,11%,16%, 0.2)"
+              : "rgba(200,200,200,.05)",
+            borderBottom: "1px solid",
+            borderColor: global.user.darkMode
+              ? "hsla(240,11%,18%, 0.2)"
+              : "rgba(200,200,200,.3)",
+            userSelect: "none",
+            zIndex: 9,
+            backdropFilter: "blur(10px)",
+            position: "sticky",
+            top: 0,
+          }}
+        >
+          <Box sx={{ display: "flex", my: 1, gap: 3, alignItems: "center" }}>
+            <picture>
+              <img src={column.emoji} width={50} height={50} />
+            </picture>
+            <Box>
+              <Typography
+                variant="h4"
+                className="font-heading"
                 sx={{
-                  color:
-                    currentColumn <= 0
-                      ? global.user.darkMode
-                        ? "#ccc"
-                        : "#aaa"
-                      : global.user.darkMode
-                      ? "#fff"
-                      : "#000",
+                  fontSize: "30px",
+                  borderRadius: 1,
+                  width: "auto",
+                  mb: 0.5,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                west
-              </Icon>
-            </Button>
-          </span>
-        </Tooltip>
-        <Tooltip title="Next column" placement="top">
-          <span>
-            <Button
-              sx={{
-                minWidth: "auto",
-                px: 2,
-                color:
-                  data && currentColumn >= data.length - 1
-                    ? global.user.darkMode
-                      ? "#ccc"
-                      : "#aaa"
-                    : global.user.darkMode
-                    ? "#fff"
-                    : "#000",
-              }}
-              onClick={() => setCurrentColumn(currentColumn + 1)}
-              disabled={data && currentColumn >= data.length - 1}
-            >
-              <Icon
+                {column.name}
+              </Typography>
+              <Typography
                 sx={{
-                  color:
-                    data && currentColumn >= data.length - 1
-                      ? global.user.darkMode
-                        ? "#ccc"
-                        : "#aaa"
-                      : global.user.darkMode
-                      ? "#fff"
-                      : "#000",
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "18px",
                 }}
               >
-                east
-              </Icon>
-            </Button>
-          </span>
-        </Tooltip>
-      </Box>
-      {data &&
-        data
-          .filter((_, id) => id === currentColumn || !isMobile)
-          .map((column) => (
-            <Column
-              key={column.id}
-              setCurrentColumn={setCurrentColumn}
-              tasks={data.map((column) => column.tasks).flat()}
-              checkList={board.columns.length === 1}
-              mutationUrl={url}
+                {column.tasks.length} tasks
+              </Typography>
+            </Box>
+            <Box sx={{ ml: "auto" }}>
+              <IconButton>
+                <Icon className="outlined">expand_circle_down</Icon>
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
+        <Box sx={{ p: 2 }}>
+          <CreateTask
+            tasks={column.tasks}
+            mutationUrl={mutationUrls.tasks}
+            boardId={board.id}
+            column={column}
+          />
+          {column.tasks.map((task) => (
+            <Task
+              key={task.id}
               board={board}
-              column={column}
+              columnId={column.id}
+              mutationUrl={mutationUrls.tasks}
+              task={task}
             />
           ))}
+        </Box>
+      </Box>
     </>
   );
-});
+}
 
-export const Board = function Board({
-  setDrawerOpen,
-  board,
-  mutationUrl,
-}: any) {
+function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
+  const [showInfo, setShowInfo] = useState(false);
+
+  return (
+    <Box
+      className="snap-x snap-mandatory sm:snap-none"
+      sx={{
+        display: "flex",
+        maxWidth: "100vw",
+        overflowX: "scroll",
+        height: { sm: "100vh" },
+        mt: { xs: -2, sm: 0 },
+      }}
+    >
+      <Box
+        className="snap-center"
+        sx={{
+          scrollMarginRight: "25px",
+          borderRadius: 5,
+          mt: "10px",
+          ml: "10px",
+          height: "calc(100vh - 20px)",
+          background: showInfo
+            ? global.user.darkMode
+              ? "hsl(240,11%,15%)"
+              : "rgba(200,200,200,.2)"
+            : global.user.darkMode
+            ? "hsl(240,11%,13%)"
+            : "rgba(200,200,200,.1)",
+          mr: 2,
+          zIndex: 1,
+          flexGrow: 1,
+          flexBasis: 0,
+          p: 4,
+          overflowY: "scroll",
+          flexDirection: "column",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minWidth: { xs: "100vw", sm: !showInfo ? "auto" : "320px" },
+          transition: "filter .2s",
+        }}
+      >
+        {showInfo ? (
+          <>
+            <Box sx={{ mt: "auto" }}>
+              <TextField
+                defaultValue={board.name}
+                placeholder="Board name"
+                multiline
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  className: "font-heading",
+                  sx: {
+                    borderRadius: 2,
+                    p: 1,
+                    ml: -1,
+                    mb: 0.5,
+                    fontSize: "40px",
+                    py: 0.5,
+                    "&:focus-within": {
+                      background: global.user.darkMode
+                        ? "hsl(240,11%,18%)"
+                        : "rgba(200,200,200,.2)",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                multiline
+                defaultValue={board.description}
+                placeholder="Click to add description"
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    borderRadius: 2,
+                    p: 1,
+                    mb: 0.5,
+                    ml: -1,
+                    py: 1,
+                    "&:focus-within": {
+                      background: global.user.darkMode
+                        ? "hsl(240,11%,18%)"
+                        : "rgba(200,200,200,.2)",
+                    },
+                  },
+                }}
+                maxRows={3}
+              />
+              <Box sx={{ my: 1 }}>
+                <Chip
+                  sx={{ mr: 1, mb: 1 }}
+                  label={board.public ? "Public" : "Private"}
+                  icon={<Icon>{board.public ? "public " : "lock"}</Icon>}
+                />
+                {board.pinned && (
+                  <Chip
+                    label="Pinned"
+                    sx={{ mr: 1, mb: 1 }}
+                    icon={<Icon>push_pin</Icon>}
+                  />
+                )}
+                {board.archived && (
+                  <Chip
+                    label="Archived"
+                    sx={{ mr: 1, mb: 1 }}
+                    icon={<Icon>inventory_2</Icon>}
+                  />
+                )}
+                {board.integrations.find(
+                  (integration) => integration.name == "Canvas LMS"
+                ) && (
+                  <Chip
+                    onClick={() => {}}
+                    label="Resync to Canvas"
+                    sx={{
+                      mr: 1,
+                      mb: 1,
+                      background:
+                        "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+                      color: "#000",
+                    }}
+                    icon={
+                      <Icon
+                        sx={{
+                          color: "#000!important",
+                        }}
+                      >
+                        refresh
+                      </Icon>
+                    }
+                  />
+                )}
+              </Box>
+            </Box>
+            <Box sx={{ mt: "auto", display: "flex", width: "100%" }}>
+              <BoardSettings mutationUrl={mutationUrls.board} board={board} />
+              <IconButton
+                sx={{ ml: "auto" }}
+                onClick={() => setShowInfo(false)}
+              >
+                <Icon className="outlined">menu_open</Icon>
+              </IconButton>
+            </Box>
+          </>
+        ) : (
+          <Box sx={{ mt: "auto" }}>
+            <IconButton onClick={() => setShowInfo(true)}>
+              <Icon className="outlined">menu</Icon>
+            </IconButton>
+          </Box>
+        )}
+      </Box>
+      {data.map((column) => (
+        <Column
+          mutationUrls={mutationUrls}
+          column={column}
+          key={column.id}
+          board={board}
+        />
+      ))}
+    </Box>
+  );
+}
+
+export function Board({ mutationUrl, board, setDrawerOpen }) {
   const { data, url, error } = useApi("property/boards/tasks", {
     id: board.id,
   });
 
+  if (error) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="error">
+          Yikes! An error occured while trying to load the items in this board.
+        </Alert>
+      </Box>
+    );
+  }
+
+  if (!data) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="info">Loading...</Alert>
+      </Box>
+    );
+  }
+
   return (
-    <>
-      <Box
-        sx={{
-          position: {
-            xs: "static",
-            sm: "fixed",
-          },
-          right: { sm: 0 },
-          top: { xs: "var(--navbar-height)", sm: "0" },
-          borderBottom: {
-            xs: global.user.darkMode
-              ? "1px solid hsla(240,11%,15%)"
-              : "1px solid rgba(200,200,200,.3)",
-            sm: "unset",
-          },
-          zIndex: 999,
-          background: {
-            xs: global.user.darkMode
-              ? "hsla(240,11%,10%)"
-              : "rgba(255,255,255,.7)",
-            sm: "transparent",
-          },
-          maxWidth: "100vw",
-          p: 1,
-          mt: { xs: -2, sm: 0 },
-          px: 3,
-          backdropFilter: {
-            xs: "blur(10px)",
-            sm: "none",
-          },
-          alignItems: "center",
-          display: "flex",
-          gap: 1,
-        }}
-      >
-        <Button
-          size="small"
-          onClick={() => setDrawerOpen(true)}
-          sx={{
-            fontWeight: "700",
-            color: global.user.darkMode ? "#fff" : "#000",
-            display: { sm: "none" },
-            fontSize: "15px",
-          }}
-        >
-          {board.name}
-          <Icon>expand_more</Icon>
-        </Button>
-        <BoardSettings board={board} mutationUrl={mutationUrl} />
-      </Box>
-      <Box
-        sx={{
-          overflowX: { xs: "hidden", sm: "scroll" },
-          overflowY: "hidden",
-          display: "flex",
-          justifyContent: { xs: "center", sm: "start" },
-          maxWidth: "100vw",
-          height: { sm: "100vh" },
-          maxHeight: { sm: "100vh" },
-          position: { sm: "relative" },
-        }}
-        id="taskContainer"
-      >
-        <Renderer data={data} url={url} board={board} />
-        {data && board && board.columns.length !== 1 && (
-          <CreateColumn
-            setCurrentColumn={(e: any) => e}
-            mobile={false}
-            id={board.id}
-            mutationUrl={url}
-            hide={
-              (board && board.columns.length === 1) ||
-              (data && data.length >= 5)
-            }
-          />
-        )}
-        {error && (
-          <ErrorHandler error="An error occured while trying to fetch your tasks" />
-        )}
-        {!data && <Loading />}
-      </Box>
-    </>
+    <RenderBoard
+      data={data}
+      mutationUrls={{
+        boardData: mutationUrl,
+        tasks: url,
+      }}
+      board={board}
+      setDrawerOpen={setDrawerOpen}
+    />
   );
-};
+}

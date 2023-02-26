@@ -126,7 +126,9 @@ export default function InviteButton({ styles }) {
             }}
           >
             <ListItemButton
-              id="activeProperty"
+              {...(group.propertyId === global.property.propertyId && {
+                id: "activeProperty",
+              })}
               sx={{
                 gap: 2,
                 borderRadius: 0,

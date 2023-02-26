@@ -1,6 +1,5 @@
 import { Alert, CircularProgress, SwipeableDrawer } from "@mui/material";
 import { Box } from "@mui/system";
-import dynamic from "next/dynamic";
 import React, { cloneElement, useCallback, useEffect, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { mutate } from "swr";
@@ -11,7 +10,7 @@ import {
 } from "../../../../../hooks/useBackButton";
 import { ErrorHandler } from "../../../../Error";
 import { Puller } from "../../../../Puller";
-const DrawerContent = dynamic(() => import("./DrawerContent"));
+import DrawerContent from "./DrawerContent";
 
 export const parseEmojis = (value) => {
   const emojisArray = toArray(value);
