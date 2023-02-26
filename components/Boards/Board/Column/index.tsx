@@ -308,11 +308,7 @@ function OptionsMenu({
           }`,
         }}
       >
-        <EmojiPickerModal
-          emoji={emoji}
-          setEmoji={setEmoji}
-          lazyLoadEmojis
-        />
+        <EmojiPickerModal emoji={emoji} setEmoji={setEmoji} lazyLoadEmojis />
         <TextField
           value={title}
           onChange={(e) => setTitle(e.target.value)}
