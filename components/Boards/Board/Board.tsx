@@ -3,19 +3,194 @@ import {
   Box,
   Button,
   Chip,
+  Divider,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
-import { useCallback, useState } from "react";
-import { useApi } from "../../../hooks/useApi";
+import { cloneElement, useCallback, useEffect, useState } from "react";
+import { mutate } from "swr";
+import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import BoardSettings from "./BoardSettings";
 import { Task } from "./Column/Task";
 import { CreateTask } from "./Column/Task/Create";
 
+function FilterMenu({
+  children,
+  originalTasks,
+  columnTasks,
+  setColumnTasks,
+  board,
+}) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const trigger = cloneElement(children, {
+    onClick: handleClick,
+  });
+
+  return (
+    <>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        onClose={handleClose}
+        PaperProps={{
+          sx: {
+            mt: "-3px!important",
+            ml: "7px!important",
+          },
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            setColumnTasks(
+              originalTasks.sort((a, b) => (a.name > b.name ? 1 : -1))
+            );
+            handleClose();
+          }}
+        >
+          A-Z
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setColumnTasks(
+              originalTasks.sort((a, b) => (a.name > b.name ? 1 : -1)).reverse()
+            );
+            handleClose();
+          }}
+        >
+          Z-A
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setColumnTasks(originalTasks);
+            handleClose();
+          }}
+        >
+          Newest to oldest
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setColumnTasks(originalTasks.reverse());
+            handleClose();
+          }}
+        >
+          Oldest to newest
+        </MenuItem>
+      </Menu>
+      {trigger}
+    </>
+  );
+}
+
+function ColumnSettings({
+  originalTasks,
+  columnTasks,
+  setColumnTasks,
+  board,
+  mutationUrls,
+  column,
+}) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    },
+    [setAnchorEl]
+  );
+  const handleClose = useCallback(() => {
+    setAnchorEl(null);
+  }, [setAnchorEl]);
+  return (
+    <>
+      <IconButton onClick={handleClick}>
+        <Icon className="outlined">expand_circle_down</Icon>
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        <FilterMenu
+          originalTasks={column.tasks.filter(
+            (task) => task.parentTasks.length === 0
+          )}
+          board={board}
+          columnTasks={columnTasks}
+          setColumnTasks={setColumnTasks}
+        >
+          <MenuItem className="sortMenu">
+            <Icon className="outlined">filter_list</Icon>
+            Sort
+            <Icon className="outlined" sx={{ ml: "auto" }}>
+              chevron_right
+            </Icon>
+          </MenuItem>
+        </FilterMenu>
+        <Divider />
+        <Box sx={{ textAlign: "center" }}>
+          <Chip label="Coming soon" sx={{ my: 1 }} size="small" />
+        </Box>
+        <MenuItem disabled>
+          <Icon className="outlined">east</Icon>Move right
+        </MenuItem>
+        <MenuItem disabled>
+          <Icon className="outlined">west</Icon>Move left
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={handleClose}>
+          <Icon className="outlined">edit</Icon>
+          Edit
+        </MenuItem>
+        <ConfirmationModal
+          title="Delete column?"
+          question="Are you sure you want to delete this column? This action annot be undone."
+          callback={async () => {
+            await fetchApiWithoutHook("property/boards/column/delete", {
+              id: column.id,
+            });
+            await mutate(mutationUrls.board);
+            handleClose();
+          }}
+        >
+          <MenuItem>
+            <Icon className="outlined">delete</Icon>
+            Delete
+          </MenuItem>
+        </ConfirmationModal>
+      </Menu>
+    </>
+  );
+}
+
 function Column({ board, mutationUrls, column }) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
+  const [columnTasks, setColumnTasks] = useState(column.tasks);
+
+  useEffect(() => setColumnTasks(column.tasks), [column.tasks]);
+
   const toggleShowCompleted = useCallback(
     () => setShowCompleted((e) => !e),
     [setShowCompleted]
@@ -86,24 +261,29 @@ function Column({ board, mutationUrls, column }) {
                   fontSize: "18px",
                 }}
               >
-                {column.tasks.length} tasks
+                {columnTasks.length} tasks
               </Typography>
             </Box>
             <Box sx={{ ml: "auto" }}>
-              <IconButton>
-                <Icon className="outlined">expand_circle_down</Icon>
-              </IconButton>
+              <ColumnSettings
+                originalTasks={column.tasks}
+                columnTasks={columnTasks}
+                setColumnTasks={setColumnTasks}
+                column={column}
+                mutationUrls={mutationUrls}
+                board={board}
+              />
             </Box>
           </Box>
         </Box>
         <Box sx={{ p: 2 }}>
           <CreateTask
-            tasks={column.tasks}
+            tasks={columnTasks}
             mutationUrl={mutationUrls.tasks}
             boardId={board.id}
             column={column}
           />
-          {column.tasks
+          {columnTasks
             .filter((task) => !task.completed)
             .map((task) => (
               <Task
@@ -135,7 +315,7 @@ function Column({ board, mutationUrls, column }) {
             <Chip
               size="small"
               sx={{ borderRadius: 2, ml: 1 }}
-              label={column.tasks.filter((task) => task.completed).length}
+              label={columnTasks.filter((task) => task.completed).length}
             />
             <Icon
               sx={{
@@ -148,7 +328,7 @@ function Column({ board, mutationUrls, column }) {
             </Icon>
           </Button>
           {showCompleted &&
-            column.tasks
+            columnTasks
               .filter((task) => task.completed)
               .map((task) => (
                 <Task
@@ -310,7 +490,10 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
               >
                 <Icon className="outlined">unfold_more</Icon>
               </IconButton>
-              <BoardSettings mutationUrl={mutationUrls.board} board={board} />
+              <BoardSettings
+                mutationUrl={mutationUrls.boardData}
+                board={board}
+              />
               <IconButton
                 sx={{
                   ml: "auto",
