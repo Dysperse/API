@@ -131,9 +131,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
       <Box
         className="snap-center"
         sx={{
-          scrollMarginRight: "25px",
           borderRadius: 5,
-          mt: { xs: "30px", sm: "10px" },
+          mt: { xs: "35px", sm: "10px" },
           ml: { xs: "30px", sm: "10px" },
           height: { xs: "calc(100vh - 170px)", sm: "calc(100vh - 20px)" },
           background: showInfo
@@ -143,10 +142,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             : global.user.darkMode
             ? "hsl(240,11%,13%)"
             : "rgba(200,200,200,.1)",
-          mr: { xs: 5, sm: 2 },
+          mr: { xs: 3, sm: 2 },
           zIndex: 1,
           flexGrow: 1,
           flexBasis: 0,
+          flex: { xs: "0 0 calc(100% - 70px)", sm: "unset" },
           p: 4,
           py: showInfo ? 3 : 2,
           overflowY: "scroll",
