@@ -131,7 +131,7 @@ function Column({ board, mutationUrls, column }) {
             }}
             onClick={toggleShowCompleted}
           >
-            Completed tasks{" "}
+            Completed{" "}
             <Chip
               size="small"
               sx={{ px: 1, ml: 1 }}
