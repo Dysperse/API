@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Divider,
   Icon,
   IconButton,
@@ -835,8 +836,16 @@ export function Board({ mutationUrl, board, setDrawerOpen }) {
 
   if (!data) {
     return (
-      <Box sx={{ p: 3 }}>
-        <Alert severity="info">Loading...</Alert>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress disableShrink sx={{ animationDuration: ".5s" }} />
       </Box>
     );
   }
