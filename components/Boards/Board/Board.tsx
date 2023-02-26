@@ -108,7 +108,6 @@ function FilterMenu({
 }
 
 function ColumnSettings({
-  originalTasks,
   columnTasks,
   setColumnTasks,
   board,
@@ -222,8 +221,16 @@ function ColumnSettings({
           </Box>
         </>
       </SwipeableDrawer>
-      <IconButton onClick={handleClick}>
-        <Icon className="outlined">expand_circle_down</Icon>
+      <IconButton onClick={handleClick} size="small">
+        <Icon
+          className="outlined"
+          sx={{
+            transition: "all .2s",
+            ...(Boolean(anchorEl) && { transform: "rotate(180deg)" }),
+          }}
+        >
+          expand_circle_down
+        </Icon>
       </IconButton>
       <Menu
         id="basic-menu"
@@ -504,7 +511,6 @@ function Column({ board, mutationUrls, column }) {
             </Box>
             <Box sx={{ ml: "auto" }}>
               <ColumnSettings
-                originalTasks={column.tasks}
                 columnTasks={columnTasks}
                 setColumnTasks={setColumnTasks}
                 column={column}
@@ -586,6 +592,38 @@ function Column({ board, mutationUrls, column }) {
 function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   const [showInfo, setShowInfo] = useState(true);
 
+  const titleRef: any = useRef();
+  const descriptionRef: any = useRef();
+
+  useEffect(() => {
+    titleRef.current.value = board.name;
+    descriptionRef.current.value = board.description;
+  }, [board, titleRef, descriptionRef]);
+
+  const handleSave = useCallback(() => {
+    if (
+      !(
+        (titleRef.current.value == board.name &&
+          descriptionRef.current.value === board.description) ||
+        titleRef.current.value.trim() == ""
+      )
+    ) {
+      toast.promise(
+        fetchApiWithoutHook("property/boards/edit", {
+          id: board.id,
+          name: titleRef.current.value,
+          description: descriptionRef.current.value,
+        }).then(() => mutate(mutationUrls.boardData)),
+        {
+          loading: "Renaming...",
+          success: "Renamed board!",
+          error: "An error occurred while renaming the board",
+        },
+        toastStyles
+      );
+    }
+  }, [titleRef, descriptionRef]);
+
   return (
     <Box
       className="snap-x snap-mandatory sm:snap-none"
@@ -632,8 +670,13 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             <Box sx={{ mt: "auto" }}>
               <TextField
                 defaultValue={board.name}
+                onChange={(e: any) => {
+                  e.target.value = e.target.value.replace(/\n|\r/g, "");
+                }}
+                inputRef={titleRef}
                 placeholder="Board name"
                 multiline
+                onBlur={handleSave}
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,
@@ -656,6 +699,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
               <TextField
                 multiline
                 defaultValue={board.description}
+                inputRef={descriptionRef}
+                onBlur={handleSave}
                 placeholder="Click to add description"
                 variant="standard"
                 InputProps={{
