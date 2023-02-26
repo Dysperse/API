@@ -1,19 +1,26 @@
 import {
   Alert,
   Box,
+  Button,
   Chip,
   Icon,
   IconButton,
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useApi } from "../../../hooks/useApi";
 import BoardSettings from "./BoardSettings";
 import { Task } from "./Column/Task";
 import { CreateTask } from "./Column/Task/Create";
 
 function Column({ board, mutationUrls, column }) {
+  const [showCompleted, setShowCompleted] = useState<boolean>(false);
+  const toggleShowCompleted = useCallback(
+    () => setShowCompleted((e) => !e),
+    [setShowCompleted]
+  );
+
   return (
     <>
       <Box
@@ -96,18 +103,62 @@ function Column({ board, mutationUrls, column }) {
             boardId={board.id}
             column={column}
           />
-          {[
-            ...column.tasks.filter((task) => !task.completed),
-            ...column.tasks.filter((task) => task.completed),
-          ].map((task) => (
-            <Task
-              key={task.id}
-              board={board}
-              columnId={column.id}
-              mutationUrl={mutationUrls.tasks}
-              task={task}
+          {column.tasks
+            .filter((task) => !task.completed)
+            .map((task) => (
+              <Task
+                key={task.id}
+                board={board}
+                columnId={column.id}
+                mutationUrl={mutationUrls.tasks}
+                task={task}
+              />
+            ))}
+
+          <Button
+            className="task"
+            fullWidth
+            size="large"
+            sx={{
+              px: "10px!important",
+              py: "5px!important",
+              mb: 1,
+              ...(showCompleted && {
+                background: global.user.darkMode
+                  ? "hsl(240,11%,20%)!important"
+                  : "rgba(200,200,200,.3)!important",
+              }),
+            }}
+            onClick={toggleShowCompleted}
+          >
+            Completed tasks{" "}
+            <Chip
+              size="small"
+              sx={{ px: 1, ml: 1 }}
+              label={column.tasks.filter((task) => task.completed).length}
             />
-          ))}
+            <Icon
+              sx={{
+                ml: "auto",
+                transition: "all .2s",
+                ...(showCompleted && { transform: "rotate(180deg)" }),
+              }}
+            >
+              expand_more
+            </Icon>
+          </Button>
+          {showCompleted &&
+            column.tasks
+              .filter((task) => task.completed)
+              .map((task) => (
+                <Task
+                  key={task.id}
+                  board={board}
+                  columnId={column.id}
+                  mutationUrl={mutationUrls.tasks}
+                  task={task}
+                />
+              ))}
         </Box>
       </Box>
     </>
