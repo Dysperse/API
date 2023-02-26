@@ -97,7 +97,10 @@ function Column({ board, mutationUrls, column }) {
             boardId={board.id}
             column={column}
           />
-          {column.tasks.map((task) => (
+          {[
+            ...column.tasks.filter((task) => !task.completed),
+            ...column.tasks.filter((task) => task.completed),
+          ].map((task) => (
             <Task
               key={task.id}
               board={board}
