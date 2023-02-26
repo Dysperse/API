@@ -134,7 +134,7 @@ function Column({ board, mutationUrls, column }) {
             Completed{" "}
             <Chip
               size="small"
-              sx={{ px: 1, ml: 1 }}
+              sx={{ borderRadius: 2, ml: 1 }}
               label={column.tasks.filter((task) => task.completed).length}
             />
             <Icon
