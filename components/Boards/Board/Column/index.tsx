@@ -159,7 +159,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
           // theme={global.user.darkMode ? "dark" : "light"}
           skinTonePickerLocation={"PREVIEW" as any}
           theme={(global.user.darkMode ? "dark" : "light") as any}
-          lazyLoadEmojis={true}
+          lazyLoadEmojis
           width="100%"
           onEmojiClick={(event) => {
             const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
@@ -311,7 +311,7 @@ function OptionsMenu({
         <EmojiPickerModal
           emoji={emoji}
           setEmoji={setEmoji}
-          lazyLoadEmojis={true}
+          lazyLoadEmojis
         />
         <TextField
           value={title}

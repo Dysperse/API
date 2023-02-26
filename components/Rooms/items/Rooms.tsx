@@ -25,7 +25,7 @@ export const Rooms: any = React.memo(function Rooms({
             isPrivate={room.private}
             primary={room.name}
             key={room.id.toString()}
-            isCustom={true}
+            isCustom
           />
         ))}
       {error && (

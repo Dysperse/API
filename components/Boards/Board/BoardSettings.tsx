@@ -192,7 +192,7 @@ export default function BoardSettings({ mutationUrl, board }) {
         {board && board.columns.length !== 1 && (
           <CreateColumn
             setCurrentColumn={(e: any) => e}
-            mobile={true}
+            mobile
             id={board.id}
             mutationUrl={mutationUrl}
             hide={
