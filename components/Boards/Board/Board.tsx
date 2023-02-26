@@ -126,7 +126,6 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         maxWidth: "100vw",
         overflowX: "scroll",
         height: { sm: "100vh" },
-        mt: { xs: -2, sm: 0 },
       }}
     >
       <Box
@@ -134,9 +133,9 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         sx={{
           scrollMarginRight: "25px",
           borderRadius: 5,
-          mt: "10px",
-          ml: "10px",
-          height: "calc(100vh - 20px)",
+          mt: { xs: "35px", sm: "10px" },
+          ml: { xs: "35px", sm: "10px" },
+          height: { xs: "calc(100vh - 170px)", sm: "calc(100vh - 20px)" },
           background: showInfo
             ? global.user.darkMode
               ? "hsl(240,11%,15%)"
@@ -144,7 +143,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             : global.user.darkMode
             ? "hsl(240,11%,13%)"
             : "rgba(200,200,200,.1)",
-          mr: 2,
+          mr: { xs: 5, sm: 2 },
           zIndex: 1,
           flexGrow: 1,
           flexBasis: 0,
@@ -154,7 +153,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          minWidth: { xs: "100vw", sm: !showInfo ? "auto" : "320px" },
+          minWidth: !showInfo ? "auto" : "320px",
           transition: "filter .2s",
         }}
       >
