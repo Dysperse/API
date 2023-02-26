@@ -61,7 +61,7 @@ function InfoModal() {
         </Alert>
         <Alert severity="info" sx={{ mb: 1 }}>
           Your mood is only visible to you, meaning that other members in your
-          groyp won&apos;t be able to see how you&apos;re feeling
+          group won&apos;t be able to see how you&apos;re feeling
         </Alert>
         <Alert severity="warning" sx={{ mb: 1 }}>
           Mood data is only stared for 1 year
