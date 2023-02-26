@@ -645,13 +645,16 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           height: { xs: "calc(100vh - 170px)", sm: "calc(100vh - 20px)" },
           background: showInfo
             ? global.user.darkMode
-              ? "hsl(240,11%,15%)"
+              ? "hsla(240,11%,15%, 0.8)"
               : "rgba(200,200,200,.2)"
             : global.user.darkMode
-            ? "hsl(240,11%,13%)"
+            ? "hsla(240,11%,13%, 0.8)"
             : "rgba(200,200,200,.1)",
+          position: { sm: "sticky" },
+          left: "10px",
+          zIndex: 999,
+          backdropFilter: "blur(10px)",
           mr: { xs: 3, sm: 2 },
-          zIndex: 1,
           flexGrow: 1,
           flexBasis: 0,
           flex: { xs: "0 0 calc(100% - 70px)", sm: "unset" },
