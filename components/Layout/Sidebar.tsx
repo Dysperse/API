@@ -64,6 +64,7 @@ export function Sidebar() {
         background: global.user.darkMode
           ? "hsl(240,11%,14%)"
           : "hsl(240,11%,90%)",
+        color: global.user.darkMode ? "#fff" : "#000",
       },
       "&:focus-visible span": {
         boxShadow: global.user.darkMode
