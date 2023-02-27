@@ -636,18 +636,24 @@ const BoardInfo = ({
     <Box
       className="snap-center"
       sx={{
-        borderRadius: { sm: 5 },
+        borderRadius: 5,
         mt: { xs: 0, sm: "10px" },
         ml: { xs: 0, sm: "10px" },
         height: { xs: "500px", sm: "calc(100vh - 20px)" },
         minHeight: { xs: "100%", sm: "unset" },
-        background: showInfo
-          ? global.user.darkMode
-            ? "hsla(240,11%,15%, 0.8)"
-            : "hsla(240, 11%, 95%, 0.5)"
-          : global.user.darkMode
-          ? "hsla(240,11%,13%, 0.8)"
-          : "rgba(200,200,200,.1)",
+        background: {
+          sm: showInfo
+            ? global.user.darkMode
+              ? "hsla(240,11%,15%, 0.8)"
+              : "hsla(240, 11%, 95%, 0.5)"
+            : global.user.darkMode
+            ? "hsla(240,11%,13%, 0.8)"
+            : "rgba(200,200,200,.1)",
+        },
+        border: { xs: "1px solid", sm: "none" },
+        borderColor: global.user.darkMode
+          ? "hsla(240,11%,13%, 0.8)!important"
+          : "rgba(200,200,200,.4)!important",
         position: { sm: "sticky" },
         left: "10px",
         zIndex: 9,
