@@ -755,11 +755,9 @@ export function CreateTask({
           add
         </span>
 
-        {allCompleted && (
-          <Typography sx={{ ml: label ? -1.5 : 0.5 }}>
-            {parent ? "New subtask" : label || "New list item"}
-          </Typography>
-        )}
+        <Typography sx={{ ml: label ? -1.5 : 0.5 }}>
+          {parent ? "New subtask" : label || "New list item"}
+        </Typography>
       </ListItem>
     </>
   );

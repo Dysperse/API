@@ -12,6 +12,7 @@ import {
   SwipeableDrawer,
   TextField,
   Typography,
+  useScrollTrigger,
 } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
@@ -347,7 +348,6 @@ function Column({ board, mutationUrls, column }) {
     [setShowCompleted]
   );
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [title, setTitle] = useState(column.name);
   const [emoji, setEmoji] = useState(column.emoji);
   const ref: any = useRef();
@@ -548,6 +548,7 @@ function Column({ board, mutationUrls, column }) {
               px: "10px!important",
               py: "5px!important",
               mb: 1,
+              mt: 1,
               ...(showCompleted && {
                 background: global.user.darkMode
                   ? "hsl(240,11%,20%)!important"
@@ -625,6 +626,21 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
       );
     }
   }, [titleRef, descriptionRef]);
+
+  const trigger = useScrollTrigger({
+    threshold: 0,
+    target: window ? window : undefined,
+  });
+
+  const [currentColumn, setCurrentColumn] = useState<number>(0);
+  const handleNext = useCallback(
+    () => setCurrentColumn((c) => c + 1),
+    [setCurrentColumn]
+  );
+  const handlePrev = useCallback(
+    () => setCurrentColumn((c) => c - 1),
+    [setCurrentColumn]
+  );
 
   return (
     <Box
@@ -784,7 +800,10 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             <Box sx={{ mt: "auto", display: "flex", width: "100%" }}>
               <IconButton
                 sx={{ mr: "auto", display: { sm: "none" } }}
-                onClick={() => setDrawerOpen(true)}
+                onClick={() => {
+                  setDrawerOpen(true);
+                  navigator.vibrate(50);
+                }}
               >
                 <Icon className="outlined">unfold_more</Icon>
               </IconButton>
@@ -811,14 +830,75 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           </Box>
         )}
       </Box>
-      {data.map((column) => (
-        <Column
-          mutationUrls={mutationUrls}
-          column={column}
-          key={column.id}
-          board={board}
-        />
-      ))}
+
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: {
+            xs: "65px",
+            sm: "30px",
+          },
+          opacity: trigger ? 0 : 1,
+          transform: trigger ? "scale(0.9)" : "scale(1)",
+          mr: {
+            xs: 1.5,
+            sm: 3,
+          },
+          zIndex: 9,
+          background: global.user.darkMode
+            ? "hsla(240,11%,14%,0.5)"
+            : "rgba(255,255,255,.5)",
+          border: "1px solid",
+          transition: "transform .2s, opacity .2s",
+          backdropFilter: "blur(10px)",
+          boxShadow:
+            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+          borderRadius: 999,
+          borderColor: global.user.darkMode
+            ? "hsla(240,11%,25%, 0.5)"
+            : "rgba(200,200,200, 0.5)",
+          right: 0,
+          color: global.user.darkMode ? "#fff" : "#000",
+          display: "flex",
+          alignItems: "center",
+          p: 1,
+          py: 0.5,
+        }}
+      >
+        <IconButton onClick={handlePrev} disabled={currentColumn === 0}>
+          <Icon>west</Icon>
+        </IconButton>
+        <IconButton
+          disabled={currentColumn === 0}
+          sx={{
+            "&:active": {
+              background: `${
+                global.user.darkMode
+                  ? "hsla(240,11%,25%, 0.3)"
+                  : "rgba(0,0,0,0.1)"
+              }`,
+            },
+          }}
+        >
+          <Icon className="outlined">new_window</Icon>
+        </IconButton>
+        <IconButton
+          onClick={handleNext}
+          disabled={currentColumn === data.length - 1}
+        >
+          <Icon>east</Icon>
+        </IconButton>
+      </Box>
+      {data
+        .filter((column, index) => index == currentColumn)
+        .map((column) => (
+          <Column
+            mutationUrls={mutationUrls}
+            column={column}
+            key={column.id}
+            board={board}
+          />
+        ))}
     </Box>
   );
 }
