@@ -338,7 +338,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
   );
 }
 
-function Column({ board, mutationUrls, column }) {
+function Column({ board, mutationUrls, column, index }) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
 
@@ -522,7 +522,7 @@ function Column({ board, mutationUrls, column }) {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2 }} id={`container-${index}`}>
           <CreateTask
             tasks={columnTasks}
             mutationUrl={mutationUrls.tasks}
@@ -900,7 +900,13 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           <Icon>west</Icon>
         </IconButton>
         <IconButton
-          disabled={currentColumn === 0}
+          onClick={() => {
+            const container: any = document.getElementById(
+              `container-${currentColumn}`
+            );
+            const el: any = container.querySelector(".createTask");
+            el?.click();
+          }}
           sx={{
             "&:active": {
               background: `${
@@ -988,8 +994,9 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
 
       {data
         .filter((_, index) => index == currentColumn || !isMobile)
-        .map((column) => (
+        .map((column, index) => (
           <Column
+            index={index}
             mutationUrls={mutationUrls}
             column={column}
             key={column.id}

@@ -677,7 +677,7 @@ export function CreateTask({
       </SwipeableDrawer>
       <ListItem
         id="createTask"
-        className="task"
+        className="task createTask"
         sx={{
           mb: 1,
           color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
