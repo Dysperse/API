@@ -120,6 +120,7 @@ export function Sidebar() {
         height={50}
         alt="Logo"
         style={{
+          borderRadius: "999px",
           marginTop: "15px",
           ...(global.user.darkMode && {
             filter: "invert(100%)",

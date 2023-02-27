@@ -70,6 +70,9 @@ export const Column: any = memo(function Column({
         minWidth: { xs: "100vw", sm: "320px" },
         transition: "filter .2s",
         filter: data ? "" : "blur(10px)",
+        ...(!data && {
+          pointerEvents: "none",
+        }),
       }}
     >
       <Box

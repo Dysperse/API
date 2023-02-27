@@ -14,7 +14,9 @@ export function Loading() {
     >
       <CircularProgress
         disableShrink
+        size={20}
         sx={{
+          color: "#000",
           animationDuration: ".5s",
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
