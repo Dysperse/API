@@ -304,7 +304,6 @@ export function TasksLayout() {
               setOpen(false);
               setActiveTab("new");
             }}
-            disableRipple
             sx={{
               ...styles(activeTab === "new"),
               px: 2,
