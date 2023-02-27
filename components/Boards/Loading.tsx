@@ -16,7 +16,7 @@ export function Loading() {
         disableShrink
         size={20}
         sx={{
-          color: "#000",
+          color: global.user.darkMode ? "#fff" : "#000",
           animationDuration: ".5s",
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",

@@ -849,7 +849,17 @@ export function Board({ mutationUrl, board, setDrawerOpen }) {
           justifyContent: "center",
         }}
       >
-        <CircularProgress disableShrink sx={{ animationDuration: ".5s" }} />
+        <CircularProgress
+          disableShrink
+          size={20}
+          sx={{
+            color: global.user.darkMode ? "#fff" : "#000",
+            animationDuration: ".5s",
+            "& .MuiCircularProgress-circle": {
+              strokeLinecap: "round",
+            },
+          }}
+        />
       </Box>
     );
   }
