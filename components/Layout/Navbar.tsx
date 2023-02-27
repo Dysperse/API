@@ -122,6 +122,7 @@ export function Navbar(): JSX.Element {
             height={40}
             alt="Logo"
             style={{
+              borderRadius: "999px",
               ...(global.user.darkMode && {
                 filter: "invert(100%)",
               }),
