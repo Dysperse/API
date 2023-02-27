@@ -106,7 +106,6 @@ const CategoryModal = React.memo(function CategoryModal({
             });
         }}
         sx={{
-          mb: 0.5,
           gap: 2,
           borderRadius: 4,
           transition: "none!important",

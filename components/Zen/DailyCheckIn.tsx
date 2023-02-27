@@ -122,11 +122,29 @@ export function DailyCheckInDrawer() {
           borderBottomRightRadius: 0,
         }}
       >
-        <Box>
-          <Typography variant="body2">Daily check-in</Typography>
-          <Typography variant="h6">How are you feeling today?</Typography>
+        <Box sx={{ width: "100%" }}>
+          <Typography
+            variant="body2"
+            gutterBottom
+            sx={{
+              fontSize: "12px",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            Mental health{" "}
+            <Chip
+              label="beta"
+              size="small"
+              sx={{ fontSize: "12px", height: "auto" }}
+            />
+          </Typography>
+          <Typography sx={{ fontWeight: "900" }}>
+            How are you feeling today?
+          </Typography>
         </Box>
-        <Icon>chevron_right</Icon>
+        <Icon>arrow_forward_ios</Icon>
       </CardActionArea>
       <Drawer
         anchor="right"
@@ -401,8 +419,9 @@ export function DailyCheckIn() {
           ? "hsl(240, 11%, 20%)"
           : "rgba(200, 200, 200, 0.3)",
         borderRadius: 5,
+        mb: -1.25,
       }}
-      className="shadow-lg"
+      className="shadow-md"
     >
       <DailyCheckInDrawer />
       <Box

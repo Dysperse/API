@@ -26,7 +26,7 @@ export function RenderRoom({
   data,
   index,
 }: {
-  mutationUrl:string;
+  mutationUrl: string;
   data: Item[];
   index: string;
 }) {
@@ -38,75 +38,77 @@ export function RenderRoom({
   }, [data]);
 
   return (
-    <Container key={index} sx={{ mt: 4 }}>
+    <Box key={index}>
       <Header
         room={index}
         itemCount={data.length}
         useAlias={router?.query?.custom?.toString()}
       />
-      <Toolbar items={items} setItems={setItems} data={data} />
-      <Box
-        sx={{
-          display: "flex",
-          mr: {
-            sm: -2,
-          },
-        }}
-      >
-        <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
-          {items.length === 0 ? (
-            <Paper
-              sx={{
-                boxShadow: 0,
-                p: 0,
-                width: "calc(100% - 15px)!important",
-                textAlign: "center",
-                mb: 2,
-              }}
-              key={"_noItems"}
-            >
-              <Card
+      <Container>
+        <Toolbar items={items} setItems={setItems} data={data} />
+        <Box
+          sx={{
+            display: "flex",
+            mr: {
+              sm: -2,
+            },
+          }}
+        >
+          <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
+            {items.length === 0 ? (
+              <Paper
                 sx={{
+                  boxShadow: 0,
+                  p: 0,
+                  width: "calc(100% - 15px)!important",
+                  textAlign: "center",
                   mb: 2,
-                  background: global.user.darkMode
-                    ? "hsla(240,11%,15%)"
-                    : "rgba(200,200,200,.3)",
-                  borderRadius: 5,
-                  p: 3,
                 }}
+                key={"_noItems"}
               >
-                <CardContent>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      mt: 1,
-                      fontWeight: "700",
-                    }}
-                  >
-                    No items found
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      gap: "10px",
-                      alignItems: "center",
-                      mt: 1,
-                    }}
-                  >
-                    Try clearing any filters.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Paper>
-          ) : null}
+                <Card
+                  sx={{
+                    mb: 2,
+                    background: global.user.darkMode
+                      ? "hsla(240,11%,15%)"
+                      : "rgba(200,200,200,.3)",
+                    borderRadius: 5,
+                    p: 3,
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        mt: 1,
+                        fontWeight: "700",
+                      }}
+                    >
+                      No items found
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        gap: "10px",
+                        alignItems: "center",
+                        mt: 1,
+                      }}
+                    >
+                      Try clearing any filters.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Paper>
+            ) : null}
 
-          {items.map((item: Item) => (
-            <div key={item.id.toString()}>
-              <ItemCard item={item} mutationUrl={mutationUrl} />
-            </div>
-          ))}
-        </Masonry>
-      </Box>
-    </Container>
+            {items.map((item: Item) => (
+              <div key={item.id.toString()}>
+                <ItemCard item={item} mutationUrl={mutationUrl} />
+              </div>
+            ))}
+          </Masonry>
+        </Box>
+      </Container>
+    </Box>
   );
 }

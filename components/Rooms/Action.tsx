@@ -10,7 +10,6 @@ import {
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import React from "react";
-import { colors } from "../../lib/colors";
 import { RoomActionMenu } from "./items//RoomActionMenu";
 
 /**
@@ -63,7 +62,6 @@ const Action = React.memo(function Action({
   }, [href, onClick, router]);
   return (
     <ListItemButton
-      disableRipple
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -72,7 +70,7 @@ const Action = React.memo(function Action({
       }}
       onClick={handleClick}
       sx={{
-        mb: 0.5,
+        mb: 0.2,
         "&:hover": {
           background: {
             sm: global.user.darkMode
@@ -81,19 +79,17 @@ const Action = React.memo(function Action({
           },
         },
         cursor: "unset!important",
-        border: "1px solid transparent",
+        border: { xs: "1px solid transparent", sm: "none" },
         "&:active": {
           border: {
-            sm:
-              "1px solid " +
-              (global.user.darkMode
-                ? "hsl(240,11%,13%)!important"
-                : colors[themeColor][100] + "!important"),
+            sm: global.user.darkMode
+              ? "1px solid hsl(240,11%,13%)!important"
+              : "none!important",
           },
           background: {
             xs: global.user.darkMode
               ? "hsl(240,11%,13%)!important"
-              : colors[themeColor][50] + "!important",
+              : "hsl(240,11%,90%) !important",
           },
         },
         borderRadius: 5,
@@ -171,6 +167,7 @@ const Action = React.memo(function Action({
           <CircularProgress
             size={15}
             sx={{
+              color: "#000",
               ml: "auto",
               mt: "8px",
               mr: 1,

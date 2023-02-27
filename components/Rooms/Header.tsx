@@ -31,18 +31,20 @@ export function Header({
     <ListItem
       sx={{
         transition: "transform .2s !important",
-        borderRadius: 5,
         overflow: "hidden",
         background: global.user.darkMode
           ? "hsl(240,11%,18%)!important"
-          : "rgba(200,200,200,.3)!important",
+          : "hsla(240,11%,96%, 0.6)!important",
+        position: "sticky",
+        top: "0px",
         mb: 2,
+        zIndex: 99,
+        backdropFilter: "blur(10px)",
         py: 3,
-        zIndex: 0,
         "&:focus": {
           background: global.user.darkMode
             ? "hsl(240,11%,27%)"
-            : "rgba(200,200,200,.3)",
+            : "hsla(240,11%,97%, 0.8)",
         },
       }}
     >
