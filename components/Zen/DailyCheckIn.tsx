@@ -347,6 +347,7 @@ export function DailyCheckInDrawer() {
             />
           </Box>
         ))}
+        <Box sx={{ mt: 5 }} />
       </Drawer>
     </>
   );
