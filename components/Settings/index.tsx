@@ -20,6 +20,7 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { ConfirmationModal } from "../ConfirmationModal";
+import { capitalizeFirstLetter } from "../ItemPopup";
 import { Puller } from "../Puller";
 const AccountSettings = dynamic(() => import("./AccountSettings"));
 const AppearanceSettings = dynamic(() => import("./AppearanceSettings"));
@@ -215,7 +216,9 @@ export default function FullScreenDialog({
             content={<AppearanceSettings />}
             icon="format_paint"
             primary="Appearance"
-            secondary={`Current theme: ${global.user.color.toUpperCase()}`}
+            secondary={`Current theme: ${capitalizeFirstLetter(
+              global.user.color
+            )}`}
           />
           <SettingsMenu
             content={<TwoFactorAuth />}
