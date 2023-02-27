@@ -6,7 +6,7 @@ export default function AuthLoading() {
   return (
     <Box
       sx={{
-        background: "linear-gradient(45deg, #DB94CA, #6E79C9)",
+        background: "hsl(240, 11%, 95%)",
         position: "fixed",
         top: 0,
         left: 0,
