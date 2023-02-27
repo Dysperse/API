@@ -33,7 +33,7 @@ export function Header({
         transition: "transform .2s !important",
         overflow: "hidden",
         background: global.user.darkMode
-          ? "hsl(240,11%,18%)!important"
+          ? "hsl(240,11%,15%, 0.6)!important"
           : "hsla(240,11%,96%, 0.6)!important",
         position: "sticky",
         top: "0px",
