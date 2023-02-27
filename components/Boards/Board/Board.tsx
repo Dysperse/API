@@ -752,7 +752,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
                   <Chip
                     onClick={async () => {
                       toast(
-                        "Resyncing to Canvas LMS (this may take a while)",
+                        "Resyncing to Canvas LMS - this may take a while",
                         toastStyles
                       );
                       await fetchApiWithoutHook("property/integrations/run", {
