@@ -70,13 +70,6 @@ export function BottomNav() {
    */
   return (
     <>
-      <Snackbar
-        open={!navigator.onLine}
-        autoHideDuration={6000}
-        onClose={() => null}
-        sx={{ mb: trigger ? 6.5 : 9, transition: "all .3s" }}
-        message="You're offline. Please check your network connection."
-      />
       <Box
         sx={{
           width: "100%",

@@ -1,4 +1,4 @@
-import { Box, CssBaseline, Toolbar } from "@mui/material";
+import { Box, CssBaseline, Snackbar, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { BottomNav } from "./BottomNavigation";
@@ -32,6 +32,13 @@ function ResponsiveDrawer({
         display: "flex",
       }}
     >
+      <Snackbar
+        open={!navigator.onLine}
+        autoHideDuration={6000}
+        onClose={() => null}
+        sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+        message="You're offline. Please check your network connection."
+      />
       <Navbar />
       {router && (
         <PWAPrompt
