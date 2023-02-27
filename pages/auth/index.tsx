@@ -1,10 +1,18 @@
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Button, Icon, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -167,6 +175,11 @@ export default function Prompt() {
   }, []);
 
   const [step, setStep] = useState(1);
+  const [togglePassword, setTogglePassword] = useState(false);
+  const handleTogglePassword = useCallback(
+    () => setTogglePassword((e) => !e),
+    [setTogglePassword]
+  );
 
   return (
     <Layout>
@@ -206,7 +219,8 @@ export default function Prompt() {
                   Welcome back!
                 </Typography>
                 <Typography sx={{ my: 2, mb: 3 }}>
-                  We&apos;re so excited to see you again! Please sign in with your Dysperse ID.
+                  We&apos;re so excited to see you again! Please sign in with
+                  your Dysperse ID.
                 </Typography>
               </Box>
               <TextField
@@ -230,8 +244,19 @@ export default function Prompt() {
                 sx={{ mb: 1.5 }}
                 name="password"
                 onChange={formik.handleChange}
-                type="password"
+                type={togglePassword ? "text" : "password"}
                 variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleTogglePassword}>
+                        <span className="material-symbols-outlined">
+                          {togglePassword ? "visibility_off" : "visibility"}
+                        </span>
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Box
                 sx={{
