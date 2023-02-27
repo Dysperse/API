@@ -653,7 +653,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             : "rgba(200,200,200,.1)",
           position: { sm: "sticky" },
           left: "10px",
-          zIndex: 999,
+          zIndex: 9,
           backdropFilter: "blur(10px)",
           mr: { xs: 3, sm: 2 },
           flexGrow: 1,
