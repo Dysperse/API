@@ -25,6 +25,7 @@ import { CircularProgressWithLabel } from "../../pages/coach";
 
 function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
   const handleClick = React.useCallback(() => {
+    setCurrentIndex((index) => index + 1);
     fetchApiWithoutHook("user/routines/markAsDone", {
       date: dayjs().format("YYYY-MM-DD"),
       progress:

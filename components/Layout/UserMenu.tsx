@@ -11,7 +11,6 @@ import {
   ListItemText,
   Menu,
   Tooltip,
-  useMediaQuery,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
@@ -63,7 +62,6 @@ export default function InviteButton({ styles }) {
     [open]
   );
 
-  const trigger = useMediaQuery("(min-width: 600px)");
   const { data, loading, url, fetcher, error } = useApi("user/properties");
   const properties = [...global.user.properties, ...(data || [])]
     .filter((group) => group)
@@ -190,6 +188,7 @@ export default function InviteButton({ styles }) {
           display: { xs: "none", sm: "block" },
           mb: 2,
         }}
+        id="houseProfileTrigger"
         onClick={handleClick}
       >
         <Avatar

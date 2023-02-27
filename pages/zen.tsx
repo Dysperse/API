@@ -6,14 +6,14 @@ import {
   MouseSensor,
   TouchSensor,
   useSensor,
-  useSensors
+  useSensors,
 } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
-  verticalListSortingStrategy
+  verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { openSpotlight } from "@mantine/spotlight";
@@ -29,7 +29,7 @@ import {
   SwipeableDrawer,
   Toolbar,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -80,7 +80,18 @@ function CardGallery({ editMode, items, setItems }) {
               {actions[category].map((card, cardIndex) => (
                 <Box key={"card-" + cardIndex}>
                   <ListItemButton
-                    sx={{ borderRadius: 3 }}
+                    sx={{
+                      width: "100%",
+                      px: "15px !important",
+                      background: global.user.darkMode
+                        ? "hsl(240, 11%, 10%)"
+                        : "#fff",
+                      border: "1px solid",
+                      borderColor: global.user.darkMode
+                        ? "hsl(240, 11%, 20%)"
+                        : "rgba(200, 200, 200, 0.3)",
+                    }}
+                    className="shadow-md"
                     disabled={items.includes(`${category}.${card.key}`)}
                     onClick={() => {
                       setItems(() => {
@@ -190,6 +201,13 @@ function SortableItem(props) {
             onContextMenu={() => props.setEditMode(true)}
             ref={setNodeRef}
             sx={{
+              width: "100%",
+              px: "15px !important",
+              background: global.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+              border: "1px solid",
+              borderColor: global.user.darkMode
+                ? "hsl(240, 11%, 20%)"
+                : "rgba(200, 200, 200, 0.3)",
               opacity: "1!important",
               ...(activeIndex === props.index && activeStyles),
               ...(props.editMode && {
@@ -197,8 +215,10 @@ function SortableItem(props) {
                 borderBottomRightRadius: "0px!important",
                 "&:active": activeStyles,
               }),
+              mb: "13px!important",
               cursor: "grabbing",
             }}
+            className="shadow-md"
             {...attributes}
             {...listeners}
           >
