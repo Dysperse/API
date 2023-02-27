@@ -113,9 +113,6 @@ export function Agenda({
           display: { sm: "none" },
           fontSize: "15px",
           color: global.user.darkMode ? "#fff" : "#000",
-          ...(view !== "week" && {
-            textTransform: "capitalize",
-          }),
         }}
       >
         <Icon>menu</Icon>

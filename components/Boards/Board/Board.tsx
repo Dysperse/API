@@ -593,9 +593,13 @@ function Column({ board, mutationUrls, column }) {
   );
 }
 
-function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
-  const [showInfo, setShowInfo] = useState(true);
-
+const BoardInfo = ({
+  board,
+  showInfo,
+  mutationUrls,
+  setShowInfo,
+  setDrawerOpen,
+}) => {
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
 
@@ -628,6 +632,201 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     }
   }, [titleRef, descriptionRef]);
 
+  return (
+    <Box
+      className="snap-center"
+      sx={{
+        borderRadius: { sm: 5 },
+        mt: { xs: 0, sm: "10px" },
+        ml: { xs: 0, sm: "10px" },
+        height: { xs: "500px", sm: "calc(100vh - 20px)" },
+        minHeight: { xs: "100%", sm: "unset" },
+        background: showInfo
+          ? global.user.darkMode
+            ? "hsla(240,11%,15%, 0.8)"
+            : "hsla(240, 11%, 95%, 0.5)"
+          : global.user.darkMode
+          ? "hsla(240,11%,13%, 0.8)"
+          : "rgba(200,200,200,.1)",
+        position: { sm: "sticky" },
+        left: "10px",
+        zIndex: 9,
+        mr: { xs: 0, sm: 2 },
+        flexGrow: 1,
+        flexBasis: 0,
+        flex: { xs: "0 0 calc(100% - 70px)", sm: "unset" },
+        p: 4,
+        py: showInfo ? 3 : 2,
+        overflowY: "scroll",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        minWidth: !showInfo ? "auto" : "320px",
+        maxWidth: { sm: "300px" },
+        backdropFilter: "blur(20px)!important",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          transform: "translateY(-50%)",
+          background: "rgba(200,200,200,.3)",
+          height: "75px",
+          width: "3px",
+          right: "10px",
+          display: { sm: "none" },
+          borderRadius: 9999,
+        }}
+      />
+      {showInfo ? (
+        <>
+          <Box sx={{ mt: "auto" }}>
+            <TextField
+              defaultValue={board.name}
+              onChange={(e: any) => {
+                e.target.value = e.target.value.replace(/\n|\r/g, "");
+              }}
+              inputRef={titleRef}
+              placeholder="Board name"
+              multiline
+              onBlur={handleSave}
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                className: "font-heading",
+                sx: {
+                  borderRadius: 2,
+                  p: 1,
+                  ml: -1,
+                  mb: 0.5,
+                  fontSize: "40px",
+                  py: 0.5,
+                  "&:focus-within": {
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,18%)"
+                      : "rgba(200,200,200,.2)",
+                  },
+                },
+              }}
+            />
+            <TextField
+              multiline
+              defaultValue={board.description}
+              inputRef={descriptionRef}
+              onBlur={handleSave}
+              placeholder="Click to add description"
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  borderRadius: 2,
+                  p: 1,
+                  mb: 0.5,
+                  ml: -1,
+                  py: 1,
+                  "&:focus-within": {
+                    background: global.user.darkMode
+                      ? "hsl(240,11%,18%)"
+                      : "rgba(200,200,200,.2)",
+                  },
+                },
+              }}
+              maxRows={3}
+            />
+            <Box sx={{ my: 1 }}>
+              <Chip
+                sx={{ mr: 1, mb: 1 }}
+                label={board.public ? "Public" : "Private"}
+                icon={<Icon>{board.public ? "public " : "lock"}</Icon>}
+              />
+              {board.pinned && (
+                <Chip
+                  label="Pinned"
+                  sx={{ mr: 1, mb: 1 }}
+                  icon={<Icon>push_pin</Icon>}
+                />
+              )}
+              {board.archived && (
+                <Chip
+                  label="Archived"
+                  sx={{ mr: 1, mb: 1 }}
+                  icon={<Icon>inventory_2</Icon>}
+                />
+              )}
+              {board.integrations.find(
+                (integration) => integration.name == "Canvas LMS"
+              ) && (
+                <Chip
+                  onClick={async () => {
+                    toast(
+                      "Resyncing to Canvas LMS - this may take a while",
+                      toastStyles
+                    );
+                    await fetchApiWithoutHook("property/integrations/run", {
+                      boardId: board.id,
+                    });
+                    mutate(mutationUrls.tasks);
+                  }}
+                  label="Resync to Canvas"
+                  sx={{
+                    mr: 1,
+                    mb: 1,
+                    background:
+                      "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+                    color: "#000",
+                  }}
+                  icon={
+                    <Icon
+                      sx={{
+                        color: "#000!important",
+                      }}
+                    >
+                      refresh
+                    </Icon>
+                  }
+                />
+              )}
+            </Box>
+          </Box>
+
+          <Box sx={{ mt: "auto", display: "flex", width: "100%" }}>
+            <IconButton
+              sx={{ mr: "auto", display: { sm: "none" } }}
+              onClick={() => {
+                setDrawerOpen(true);
+                navigator.vibrate(50);
+              }}
+            >
+              <Icon className="outlined">unfold_more</Icon>
+            </IconButton>
+            <BoardSettings mutationUrl={mutationUrls.boardData} board={board} />
+            <IconButton
+              sx={{
+                ml: "auto",
+                display: { xs: "none", sm: "flex" },
+              }}
+              onClick={() => setShowInfo(false)}
+            >
+              <Icon className="outlined">menu_open</Icon>
+            </IconButton>
+          </Box>
+        </>
+      ) : (
+        <Box sx={{ mt: "auto" }}>
+          <IconButton onClick={() => setShowInfo(true)}>
+            <Icon className="outlined">menu</Icon>
+          </IconButton>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
+  const [showInfo, setShowInfo] = useState(true);
+
   const trigger = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,
@@ -643,8 +842,9 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     [setCurrentColumn]
   );
 
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
   return (
     <Box
       className="snap-x snap-mandatory sm:snap-none"
@@ -656,184 +856,6 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         height: { sm: "100vh" },
       }}
     >
-      <Box
-        className="snap-center"
-        sx={{
-          borderRadius: 5,
-          mt: { xs: "35px", sm: "10px" },
-          ml: { xs: "30px", sm: "10px" },
-          height: { xs: "calc(100vh - 170px)", sm: "calc(100vh - 20px)" },
-          background: showInfo
-            ? global.user.darkMode
-              ? "hsla(240,11%,15%, 0.8)"
-              : "rgba(200,200,200,.2)"
-            : global.user.darkMode
-            ? "hsla(240,11%,13%, 0.8)"
-            : "rgba(200,200,200,.1)",
-          position: { sm: "sticky" },
-          left: "10px",
-          zIndex: 9,
-          backdropFilter: "blur(20px)",
-          mr: { xs: 3, sm: 2 },
-          flexGrow: 1,
-          flexBasis: 0,
-          flex: { xs: "0 0 calc(100% - 70px)", sm: "unset" },
-          p: 4,
-          py: showInfo ? 3 : 2,
-          overflowY: "scroll",
-          flexDirection: "column",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minWidth: !showInfo ? "auto" : "320px",
-          maxWidth: { sm: "300px" },
-          transition: "filter .2s",
-        }}
-      >
-        {showInfo ? (
-          <>
-            <Box sx={{ mt: "auto" }}>
-              <TextField
-                defaultValue={board.name}
-                onChange={(e: any) => {
-                  e.target.value = e.target.value.replace(/\n|\r/g, "");
-                }}
-                inputRef={titleRef}
-                placeholder="Board name"
-                multiline
-                onBlur={handleSave}
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  className: "font-heading",
-                  sx: {
-                    borderRadius: 2,
-                    p: 1,
-                    ml: -1,
-                    mb: 0.5,
-                    fontSize: "40px",
-                    py: 0.5,
-                    "&:focus-within": {
-                      background: global.user.darkMode
-                        ? "hsl(240,11%,18%)"
-                        : "rgba(200,200,200,.2)",
-                    },
-                  },
-                }}
-              />
-              <TextField
-                multiline
-                defaultValue={board.description}
-                inputRef={descriptionRef}
-                onBlur={handleSave}
-                placeholder="Click to add description"
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  sx: {
-                    borderRadius: 2,
-                    p: 1,
-                    mb: 0.5,
-                    ml: -1,
-                    py: 1,
-                    "&:focus-within": {
-                      background: global.user.darkMode
-                        ? "hsl(240,11%,18%)"
-                        : "rgba(200,200,200,.2)",
-                    },
-                  },
-                }}
-                maxRows={3}
-              />
-              <Box sx={{ my: 1 }}>
-                <Chip
-                  sx={{ mr: 1, mb: 1 }}
-                  label={board.public ? "Public" : "Private"}
-                  icon={<Icon>{board.public ? "public " : "lock"}</Icon>}
-                />
-                {board.pinned && (
-                  <Chip
-                    label="Pinned"
-                    sx={{ mr: 1, mb: 1 }}
-                    icon={<Icon>push_pin</Icon>}
-                  />
-                )}
-                {board.archived && (
-                  <Chip
-                    label="Archived"
-                    sx={{ mr: 1, mb: 1 }}
-                    icon={<Icon>inventory_2</Icon>}
-                  />
-                )}
-                {board.integrations.find(
-                  (integration) => integration.name == "Canvas LMS"
-                ) && (
-                  <Chip
-                    onClick={async () => {
-                      toast(
-                        "Resyncing to Canvas LMS - this may take a while",
-                        toastStyles
-                      );
-                      await fetchApiWithoutHook("property/integrations/run", {
-                        boardId: board.id,
-                      });
-                      mutate(mutationUrls.tasks);
-                    }}
-                    label="Resync to Canvas"
-                    sx={{
-                      mr: 1,
-                      mb: 1,
-                      background:
-                        "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
-                      color: "#000",
-                    }}
-                    icon={
-                      <Icon
-                        sx={{
-                          color: "#000!important",
-                        }}
-                      >
-                        refresh
-                      </Icon>
-                    }
-                  />
-                )}
-              </Box>
-            </Box>
-            <Box sx={{ mt: "auto", display: "flex", width: "100%" }}>
-              <IconButton
-                sx={{ mr: "auto", display: { sm: "none" } }}
-                onClick={() => {
-                  setDrawerOpen(true);
-                  navigator.vibrate(50);
-                }}
-              >
-                <Icon className="outlined">unfold_more</Icon>
-              </IconButton>
-              <BoardSettings
-                mutationUrl={mutationUrls.boardData}
-                board={board}
-              />
-              <IconButton
-                sx={{
-                  ml: "auto",
-                  display: { xs: "none", sm: "flex" },
-                }}
-                onClick={() => setShowInfo(false)}
-              >
-                <Icon className="outlined">menu_open</Icon>
-              </IconButton>
-            </Box>
-          </>
-        ) : (
-          <Box sx={{ mt: "auto" }}>
-            <IconButton onClick={() => setShowInfo(true)}>
-              <Icon className="outlined">menu</Icon>
-            </IconButton>
-          </Box>
-        )}
-      </Box>
-
       <Box
         sx={{
           position: "fixed",
@@ -847,7 +869,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             xs: 1.5,
             sm: 3,
           },
-          zIndex: 9,
+          zIndex: 99,
           background: global.user.darkMode
             ? "hsla(240,11%,14%,0.5)"
             : "rgba(255,255,255,.5)",
@@ -892,6 +914,72 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           <Icon>east</Icon>
         </IconButton>
       </Box>
+      {!isMobile && (
+        <BoardInfo
+          setShowInfo={setShowInfo}
+          setDrawerOpen={setDrawerOpen}
+          board={board}
+          showInfo={showInfo}
+          mutationUrls={mutationUrls}
+        />
+      )}
+      <SwipeableDrawer
+        open={mobileOpen}
+        onOpen={() => setMobileOpen(true)}
+        onClose={() => setMobileOpen(false)}
+        sx={{
+          zIndex: 999,
+        }}
+        PaperProps={{
+          sx: {
+            borderRadius: "20px",
+            m: "30px",
+            maxHeight: "calc(100vh - 60px)",
+          },
+        }}
+      >
+        {isMobile && (
+          <BoardInfo
+            setShowInfo={setShowInfo}
+            setDrawerOpen={setDrawerOpen}
+            board={board}
+            showInfo={showInfo}
+            mutationUrls={mutationUrls}
+          />
+        )}
+      </SwipeableDrawer>
+      <IconButton
+        size="large"
+        onClick={() => setMobileOpen(true)}
+        sx={{
+          position: "fixed",
+          bottom: {
+            xs: "65px",
+            sm: "30px",
+          },
+          left: "10px",
+          zIndex: 9,
+          background: global.user.darkMode
+            ? "hsla(240,11%,14%,0.5)!important"
+            : "rgba(255,255,255,.5)!important",
+          boxShadow:
+            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+          backdropFilter: "blur(10px)",
+          border: {
+            xs: global.user.darkMode
+              ? "1px solid hsla(240,11%,15%)"
+              : "1px solid rgba(200,200,200,.3)",
+            sm: "unset",
+          },
+          fontWeight: "700",
+          display: { sm: "none" },
+          fontSize: "15px",
+          color: global.user.darkMode ? "#fff" : "#000",
+        }}
+      >
+        <Icon>menu</Icon>
+      </IconButton>
+
       {data
         .filter((_, index) => index == currentColumn || !isMobile)
         .map((column) => (
