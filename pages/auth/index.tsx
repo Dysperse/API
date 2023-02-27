@@ -206,7 +206,7 @@ export default function Prompt() {
                   Welcome back!
                 </Typography>
                 <Typography sx={{ my: 2, mb: 3 }}>
-                  Sign in with your Dysperse ID
+                  We&apos;re so excited to see you again! Please sign in with your Dysperse ID.
                 </Typography>
               </Box>
               <TextField
