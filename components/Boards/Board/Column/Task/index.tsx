@@ -279,19 +279,33 @@ export const Task: any = React.memo(function Task({
                   </span>
                 </Box>
                 {taskData.pinned && (
-                  <Tooltip title="Marked as important" placement="top">
-                    <Icon
-                      onClick={(e) => e.stopPropagation()}
+                  <Tooltip title="Important" placement="right">
+                    <Box
                       sx={{
+                        borderRadius: 9999,
+                        width: 25,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: 25,
+                        flexShrink: 0,
                         ml: "auto",
-                        mr: 1,
-                        color:
-                          colors.orange[global.user.darkMode ? "200" : "A700"],
+                        background:
+                          colors.orange[global.user.darkMode ? "A700" : "200"],
                       }}
-                      className="outlined"
                     >
-                      error
-                    </Icon>
+                      <Icon
+                        onClick={(e) => e.stopPropagation()}
+                        sx={{
+                          fontSize: "17px!important",
+                          color:
+                            colors.orange[global.user.darkMode ? 200 : 900],
+                          fontVariationSettings: `'FILL' 1, 'wght' 700, 'GRAD' 200, 'opsz' 20!important`,
+                        }}
+                      >
+                        priority_high
+                      </Icon>
+                    </Box>
                   </Tooltip>
                 )}
               </Box>
