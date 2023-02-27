@@ -102,12 +102,6 @@ export const cards = [
     tags: ["Appliances"],
     icon: "coffee_maker",
   },
-  {
-    name: "Soap",
-    room: "kitchen",
-    tags: ["Cleaning"],
-    icon: "soap",
-  },
 
   // Bathroom ---------------------------------------------------------------
   {
