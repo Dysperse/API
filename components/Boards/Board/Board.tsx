@@ -12,6 +12,7 @@ import {
   SwipeableDrawer,
   TextField,
   Typography,
+  useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
@@ -642,6 +643,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     [setCurrentColumn]
   );
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
     <Box
       className="snap-x snap-mandatory sm:snap-none"
@@ -890,7 +893,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         </IconButton>
       </Box>
       {data
-        .filter((column, index) => index == currentColumn)
+        .filter((_, index) => index == currentColumn || !isMobile)
         .map((column) => (
           <Column
             mutationUrls={mutationUrls}
