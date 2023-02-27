@@ -106,13 +106,6 @@ export function CreateTask({
   column,
   checkList = false,
 }: any) {
-  const allCompleted = !(
-    column &&
-    column.tasks &&
-    column.tasks.filter((task) => task.completed).length ==
-      column.tasks.length &&
-    column.tasks.length >= 1
-  );
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -745,7 +738,7 @@ export function CreateTask({
               : checkList
               ? "#303030"
               : "#808080",
-            marginLeft: !allCompleted ? "15px" : "9px",
+            marginLeft: "15px",
             marginRight: label ? "20px" : "5px",
             fontSize: "20px",
             marginTop: "10px",
