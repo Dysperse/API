@@ -106,6 +106,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                 variant="h5"
                 sx={{
                   fontWeight: "900",
+                  mb: 1,
                 }}
               >
                 Progress
@@ -192,27 +193,29 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                   </Typography>
                 )
               }
-              <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
-                {
-                  // Sort goals by days left (goal.progress  / goal.durationDays). Sort in reverse order, and move `goal.progress === goal.durationDays` to the end
-                  data
-                    .sort((a, b) => {
-                      if (a.progress === a.durationDays) {
-                        return 1;
-                      }
-                      if (b.progress === b.durationDays) {
-                        return -1;
-                      }
-                      return (
-                        b.progress / b.durationDays -
-                        a.progress / a.durationDays
-                      );
-                    })
-                    .map((goal) => (
-                      <Goal key={goal.id} goal={goal} mutationUrl={url} />
-                    ))
-                }
-              </Masonry>
+              <Box sx={{ mr: { sm: -2 } }}>
+                <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
+                  {
+                    // Sort goals by days left (goal.progress  / goal.durationDays). Sort in reverse order, and move `goal.progress === goal.durationDays` to the end
+                    data
+                      .sort((a, b) => {
+                        if (a.progress === a.durationDays) {
+                          return 1;
+                        }
+                        if (b.progress === b.durationDays) {
+                          return -1;
+                        }
+                        return (
+                          b.progress / b.durationDays -
+                          a.progress / a.durationDays
+                        );
+                      })
+                      .map((goal) => (
+                        <Goal key={goal.id} goal={goal} mutationUrl={url} />
+                      ))
+                  }
+                </Masonry>
+              </Box>
             </>
           )}
         </>
@@ -235,11 +238,14 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       <button
         onClick={() => setOpen(true)}
         className={
-          "mb-3 flex w-full cursor-pointer select-none items-center rounded-2xl border p-4 shadow-md transition-transform active:scale-[.98] " +
-          (data && data.length === 0 && "bg-gray-200 dark:bg-gray-900")
+          "mb-3 flex w-full select-none items-center rounded-2xl border p-4 shadow-md transition-transform hover:bg-[hsl(240,11%,95%)] active:scale-[.98] active:transition-none dark:bg-gray-900" +
+          (data &&
+            data.length === 0 &&
+            "dark:hover:bg-gray-[hsl(240,11%,20%)] bg-gray-200")
         }
         style={{
           textAlign: "left",
+          cursor: "unset",
           ...(global.user.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
           }),

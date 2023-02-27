@@ -37,7 +37,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   return (
     <Box>
       <Box
-        className="active:scale-[.98] shadow-md border"
+        className="border shadow-md active:scale-[.98]"
         onClick={() => setOpen(true)}
         sx={{
           ...(global.user.darkMode && {
@@ -47,7 +47,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           "&:hover": {
             background: global.user.darkMode
               ? "hsl(240%,11%,20%)"
-              : "rgba(200,200,200,.3)",
+              : "hsl(240,11%,95%)",
           },
           "&:active": {
             transition: { sm: "none!important" },
@@ -55,7 +55,6 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           py: 2,
           transition: "transform .2s!important",
           px: 3,
-          mb: 2,
           background: {
             sm: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
           },
@@ -110,7 +109,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           )}
         </Typography>
         <div
-          className="flex gap-3 items-center"
+          className="flex items-center gap-3"
           style={{
             ...(goal.progress === goal.durationDays && {
               color: colors[goal.completed ? "green" : "deepOrange"]["800"],

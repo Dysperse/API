@@ -280,11 +280,11 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         alignItems: "center",
         background: global.user.darkMode
           ? "hsl(240,11%,16%)"
-          : colors[themeColor][50],
+          : "hsl(240,11%,95%)",
         "&:hover": {
           background: global.user.darkMode
             ? "hsl(240,11%,16%)"
-            : colors[themeColor][100],
+            : "hsl(240,11%,90%)",
         },
 
         gap: 5,

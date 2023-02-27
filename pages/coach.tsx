@@ -182,21 +182,18 @@ export default function Render() {
           pb: 3,
         }}
       >
-        <Box className="p-3 pt-2 max-w-[100vw] flex-col sm:flex-row gap-5 flex px-6">
+        <Box className="flex max-w-[100vw] flex-col gap-5 p-3 px-6 pt-2 sm:flex-row">
           {!hideRoutine && (
-            <h1 className="text-4xl underline font-heading my-3 font-light">
+            <h1 className="font-heading my-3 text-4xl font-light underline">
               My goals
             </h1>
           )}
           {!hideRoutine && <DailyRoutine />}
         </Box>
-        <Box className="p-3 px-6 pt-0 max-w-[100vw]">
+        <Box className="max-w-[100vw] p-3 px-6 pt-0">
           <MyGoals setHideRoutine={setHideRoutine} />
           {!hideRoutine && (
-            <Alert
-              severity="info"
-              icon="🔥"
-            >
+            <Alert severity="info" icon="🔥">
               Your goals are only visible to you
             </Alert>
           )}
