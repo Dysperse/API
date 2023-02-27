@@ -295,13 +295,13 @@ export default function FullScreenDialog({
                 "&:hover, &:focus": {
                   background: global.user.darkMode
                     ? "hsl(240,11%,25%)"
-                    : colors[themeColor][100],
+                    : colors[themeColor][50],
                 },
                 userSelect: "none",
                 "& .MuiAvatar-root": {
                   background: global.user.darkMode
                     ? "hsl(240,11%,35%)"
-                    : colors[themeColor][200],
+                    : colors[themeColor][100],
                 },
               }}
             >

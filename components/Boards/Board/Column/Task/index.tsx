@@ -282,14 +282,17 @@ export const Task: any = React.memo(function Task({
                   <Tooltip title="Important" placement="right">
                     <Box
                       sx={{
-                        borderRadius: 9999,
-                        width: 25,
+                        mr: 1,
+                        borderRadius: 2,
+                        width: 20,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        height: 25,
+                        height: 20,
                         flexShrink: 0,
                         ml: "auto",
+                        position: "relative",
+                        right: -3,
                         background:
                           colors.orange[global.user.darkMode ? "A700" : "200"],
                       }}
@@ -297,10 +300,10 @@ export const Task: any = React.memo(function Task({
                       <Icon
                         onClick={(e) => e.stopPropagation()}
                         sx={{
-                          fontSize: "17px!important",
+                          fontSize: "15px!important",
                           color:
                             colors.orange[global.user.darkMode ? 200 : 900],
-                          fontVariationSettings: `'FILL' 1, 'wght' 700, 'GRAD' 200, 'opsz' 20!important`,
+                          fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
                         }}
                       >
                         priority_high
