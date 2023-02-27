@@ -35,7 +35,9 @@ export function OptionsGroup({ currentOption, setOption, options }) {
                   global.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)"
                 }!important`,
               },
-              color: `#303030 !important`,
+              color: global.user.darkMode
+                ? `hsl(240,11%,80%) !important`
+                : `#303030 !important`,
             }),
           }}
         >

@@ -181,10 +181,21 @@ export function Toolbar({
         variant="contained"
         ref={ref}
         sx={{
+          background:
+            (global.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)") +
+            "!important",
+          "&:hover": {
+            background:
+              (global.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)") +
+              "!important",
+            color: global.user.darkMode ? "#fff" : "#000",
+          },
+          color: global.user.darkMode ? "#aaa" : "#707070",
           borderRadius: 10,
           ml: 1,
           mt: { xs: 1, sm: 0 },
           py: 1.3,
+          px: 1,
           gap: 1.5,
           verticalAlign: "middle",
         }}
