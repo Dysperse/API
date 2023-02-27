@@ -193,14 +193,23 @@ export default function InviteButton({ styles }) {
       >
         <Avatar
           sx={{
-            background: colors[global.property.profile.color]["200"],
+            background:
+              colors[global.property.profile.color][
+                global.user.darkMode ? 900 : 200
+              ],
             "&:hover": {
-              background: colors[global.property.profile.color]["300"],
+              background:
+                colors[global.property.profile.color][
+                  global.user.darkMode ? 800 : 300
+                ],
             },
             ...(Boolean(anchorEl) && {
-              background: colors[global.property.profile.color]["300"],
+              background:
+                colors[global.property.profile.color][
+                  global.user.darkMode ? 800 : 300
+                ],
             }),
-            color: "#000",
+            color: global.user.darkMode ? "#fff" : "#000",
           }}
         >
           <Icon className="outlined">people</Icon>
