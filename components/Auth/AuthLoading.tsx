@@ -68,7 +68,7 @@ export default function AuthLoading() {
           ref={(i: any) => i && i.click()}
           size={20}
           sx={{
-            color: "#c4b5b5",
+            color: "#000",
           }}
           onClick={() => {
             router.push("/auth");
