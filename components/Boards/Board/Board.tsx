@@ -654,7 +654,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           position: { sm: "sticky" },
           left: "10px",
           zIndex: 9,
-          backdropFilter: "blur(10px)",
+          backdropFilter: "blur(20px)",
           mr: { xs: 3, sm: 2 },
           flexGrow: 1,
           flexBasis: 0,
