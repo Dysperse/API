@@ -894,8 +894,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           color: global.user.darkMode ? "#fff" : "#000",
           display: "flex",
           alignItems: "center",
-          p: 1,
-          py: 0.5,
+          p: 0.5,
+          px: 1,
           gap: 0.5,
         }}
       >
