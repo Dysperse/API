@@ -65,19 +65,6 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     ml: "-10px",
   };
 
-  /**
-   * Callback for clicking on the star button
-   * @returns {void}
-   */
-  const handleItemStar = (): void => {
-    setItemData({
-      ...itemData,
-      lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
-      starred: !itemData.starred,
-    });
-    handleItemChange("star", itemData.starred ? "true" : "false");
-  };
-
   const handleItemChange = async (key: string, value: string) => {
     toast.promise(
       fetchApiWithoutHook("property/inventory/items/edit", {
@@ -96,6 +83,18 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       },
       toastStyles
     );
+  };
+  /**
+   * Callback for clicking on the star button
+   * @returns {void}
+   */
+  const handleItemStar = (): void => {
+    setItemData({
+      ...itemData,
+      lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
+      starred: !itemData.starred,
+    });
+    handleItemChange("star", itemData.starred ? "true" : "false");
   };
   const handleItemDelete = () => {
     fetchApiWithoutHook("property/inventory/trash/item", {
@@ -268,7 +267,7 @@ export default function ItemDrawer({
 
   const handleOpen = useCallback(
     async (e) => {
-      e.stopPropagation();
+      if (e) e.stopPropagation();
       setOpen(true);
       setError(false);
       try {
