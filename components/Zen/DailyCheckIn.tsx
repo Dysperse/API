@@ -227,15 +227,18 @@ export function DailyCheckInDrawer() {
           <Sparklines
             data={[
               ...(data && data.length > 0
-                ? data.slice(0, lastBy).map((day) => {
-                    return [
-                      "1f62d",
-                      "1f614",
-                      "1f610",
-                      "1f600",
-                      "1f601",
-                    ].indexOf(day.mood);
-                  })
+                ? data
+                    .slice(0, lastBy)
+                    .reverse()
+                    .map((day) => {
+                      return [
+                        "1f62d",
+                        "1f614",
+                        "1f610",
+                        "1f600",
+                        "1f601",
+                      ].indexOf(day.mood);
+                    })
                 : [0]),
             ]}
             margin={6}
@@ -291,8 +294,8 @@ export function DailyCheckInDrawer() {
               <div></div>
               {data &&
                 data
-                  .slice(0, lastBy)
                   .reverse()
+                  .slice(0, lastBy)
                   .map(({ date, mood }, index) => (
                     <Chip
                       key={index}
