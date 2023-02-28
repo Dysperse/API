@@ -23,8 +23,8 @@ export default function Trash() {
         </Typography>
         {!error && data ? (
           data.map((item) => (
-            <ItemDrawer id={data.id} key={item.id} mutationUrl={url}>
-              <ItemCard item={data} mutationUrl={url} displayRoom={false} />
+            <ItemDrawer id={item.id} key={item.id} mutationUrl={url}>
+              <ItemCard item={item} mutationUrl={url} displayRoom={false} />
             </ItemDrawer>
           ))
         ) : (

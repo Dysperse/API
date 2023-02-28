@@ -54,8 +54,9 @@ export function ItemCard({
             }!important`,
           },
           mb: { xs: 2, sm: 0 },
+          border: "2px solid transparent",
           ...(item.starred && {
-            background: colors.orange[50],
+            borderColor: colors.orange[global.user.darkMode ? "A400" : 900],
           }),
           "& *:not(.MuiTouchRipple-root *, .override *)": {
             background: "transparent",

@@ -3,10 +3,10 @@ import { prisma } from "../../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
-await validatePermissions(res, {
-  minimum: "member",
-  credentials: [req.query.property, req.query.accessToken],
-});
+  await validatePermissions(res, {
+    minimum: "member",
+    credentials: [req.query.property, req.query.accessToken],
+  });
   //   Update the note on an item
   const data = await prisma.item.update({
     where: {

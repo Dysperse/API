@@ -94,8 +94,9 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
       starred: !itemData.starred,
     });
-    handleItemChange("star", itemData.starred ? "true" : "false");
+    handleItemChange("starred", itemData.starred ? "true" : "false");
   };
+
   const handleItemDelete = () => {
     fetchApiWithoutHook("property/inventory/trash/item", {
       id: itemData.id.toString(),
