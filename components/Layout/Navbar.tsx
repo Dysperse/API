@@ -1,8 +1,3 @@
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { Offline } from "react-detect-offline";
-import { colors } from "../../lib/colors";
-
 import { openSpotlight } from "@mantine/spotlight";
 import {
   AppBar,
@@ -16,9 +11,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { Offline } from "react-detect-offline";
+import { colors } from "../../lib/colors";
 import { UpdateButton } from "./UpdateButton";
 import InviteButton from "./UserMenu";
-const AppsMenu = dynamic(() => import("./AppsMenu"));
 
 /**
  * Navbar component for layout
@@ -49,7 +46,7 @@ export function Navbar(): JSX.Element {
     };
   };
 
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isMobile = useMediaQuery("(max-width: 900px)");
 
   return (
     <AppBar
@@ -63,7 +60,7 @@ export function Navbar(): JSX.Element {
           router.asPath === "/") && {
           top: {
             xs: "calc(var(--navbar-height) * -1) !important",
-            sm: "0!important",
+            md: "0!important",
           },
         }),
         transition: "top .4s",
@@ -73,7 +70,7 @@ export function Navbar(): JSX.Element {
         },
         color: {
           xs: global.user.darkMode ? "white" : "black",
-          sm: global.user.darkMode ? "white" : "black",
+          md: global.user.darkMode ? "white" : "black",
         },
         pr: 0.4,
         height: "calc(70px + env(titlebar-area-height, 0px))",
@@ -82,7 +79,7 @@ export function Navbar(): JSX.Element {
           xs: global.user.darkMode
             ? "rgba(23, 23, 28, .8)"
             : "rgba(255,255,255,.8)",
-          sm: global.user.darkMode
+          md: global.user.darkMode
             ? "rgba(23, 23, 28, .8)"
             : "rgba(255,255,255,.7)",
         },
@@ -90,10 +87,10 @@ export function Navbar(): JSX.Element {
           xs: global.user.darkMode
             ? "1px solid hsla(240,11%,15%)"
             : "1px solid rgba(200,200,200,.3)",
-          sm: "unset",
+          md: "unset",
         },
         backdropFilter: "blur(10px)",
-        display: { sm: "none" },
+        display: { md: "none" },
       }}
     >
       <CssBaseline />
@@ -150,7 +147,7 @@ export function Navbar(): JSX.Element {
         </Box>
         <Box
           sx={{
-            mx: { sm: "auto" },
+            mx: { md: "auto" },
           }}
         >
           <Tooltip title="Jump to" placement="bottom">
@@ -164,17 +161,17 @@ export function Navbar(): JSX.Element {
             </IconButton>
           </Tooltip>
         </Box>
-        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
+        <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
           <UpdateButton />
         </Box>
-        <Box sx={{ display: { xs: "none", sm: "unset" }, mr: { sm: 0.8 } }}>
+        <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
           <Offline>
             <Tooltip title="You're offline">
               <IconButton
                 color="inherit"
                 sx={{
                   p: 0,
-                  mr: { xs: 0.2, sm: 0.6 },
+                  mr: { xs: 0.2, md: 0.6 },
                   color: global.user.darkMode
                     ? "hsl(240, 11%, 90%)"
                     : "#606060",
@@ -204,10 +201,9 @@ export function Navbar(): JSX.Element {
           </Offline>
         </Box>
         <InviteButton styles={styles} />
-        {!isMobile && <AppsMenu styles={styles} />}
         <Tooltip title="Support">
           <IconButton
-            sx={{ ...styles, display: { xs: "none", sm: "inline-flex" } }}
+            sx={{ ...styles, display: { xs: "none", md: "inline-flex" } }}
             color="inherit"
             disabled={!window.navigator.onLine}
             onClick={() => window.open("https://dysperse.com/support")}

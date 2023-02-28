@@ -69,7 +69,7 @@ function ResponsiveDrawer({
           },
         }}
       >
-        <Toolbar sx={{ display: { sm: "none" } }} />
+        <Toolbar sx={{ display: { md: "none" } }} />
         <Box
           sx={{
             height: "70px",

@@ -197,7 +197,7 @@ export function TasksLayout() {
       </Box>
       <Divider
         sx={{
-          my: { xs: 2, sm: 1 },
+          my: { xs: 2, md: 1 },
           width: "90%",
           mx: "auto",
           opacity: 0.6,
@@ -232,7 +232,7 @@ export function TasksLayout() {
           ))}
       <Divider
         sx={{
-          mb: { xs: 2, sm: 1 },
+          mb: { xs: 2, md: 1 },
           ...(data &&
             (data.length === 0 || !data.find((board) => board.archived)) && {
               display: "none",
@@ -277,7 +277,7 @@ export function TasksLayout() {
       </Collapse>
       <Divider
         sx={{
-          display: { sm: "none" },
+          display: { md: "none" },
           ...(data &&
             (data.length === 0 || !data.find((board) => board.archived)) && {
               display: "none",
@@ -349,17 +349,17 @@ export function TasksLayout() {
       </SwipeableDrawer>
       <Box
         sx={{
-          width: { xs: "100%", sm: 300 },
-          flex: { xs: "100%", sm: "0 0 250px" },
+          width: { xs: "100%", md: 300 },
+          flex: { xs: "100%", md: "0 0 250px" },
           ml: -1,
           p: 3,
           background: global.user.darkMode
             ? "hsl(240,11%,7%)"
             : "hsl(240,11%,95%)",
-          display: { xs: "none", sm: "flex" },
+          display: { xs: "none", md: "flex" },
           minHeight: "100vh",
-          height: { sm: "100vh" },
-          overflowY: { sm: "scroll" },
+          height: { md: "100vh" },
+          overflowY: { md: "scroll" },
           flexDirection: "column",
         }}
       >
@@ -367,10 +367,10 @@ export function TasksLayout() {
       </Box>
       <Box
         sx={{
-          maxHeight: { sm: "100vh" },
-          minHeight: { sm: "100vh" },
-          height: { sm: "100vh" },
-          overflowY: { sm: "auto" },
+          maxHeight: { md: "100vh" },
+          minHeight: { md: "100vh" },
+          height: { md: "100vh" },
+          overflowY: { md: "auto" },
           flexGrow: 1,
           // overflow:"sh"
         }}

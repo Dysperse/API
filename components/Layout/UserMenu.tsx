@@ -98,7 +98,7 @@ export default function InviteButton({ styles }) {
         }}
         BackdropProps={{
           sx: {
-            opacity: { xs: "1!important", sm: "0!important" },
+            opacity: { xs: "1!important", md: "0!important" },
           },
         }}
         transitionDuration={300}
@@ -106,7 +106,7 @@ export default function InviteButton({ styles }) {
           sx: {
             borderRadius: "28px!important",
             width: "300px",
-            ml: { sm: "60px!important" },
+            ml: { md: "60px!important" },
             overflow: "hidden",
           },
         }}
@@ -190,7 +190,7 @@ export default function InviteButton({ styles }) {
       <Box
         sx={{
           ...styles(false),
-          display: { xs: "none", sm: "block" },
+          display: { xs: "none", md: "block" },
           mb: 2,
         }}
         id="houseProfileTrigger"
@@ -223,7 +223,7 @@ export default function InviteButton({ styles }) {
       <IconButton
         sx={{
           ...styles(Boolean(anchorEl)),
-          display: { sm: "none" },
+          display: { md: "none" },
         }}
         onClick={handleClick}
       >

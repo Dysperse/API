@@ -154,8 +154,8 @@ function ColumnSettings({
             maxHeight: "400px",
             width: "auto",
             p: 1,
-            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            mb: { sm: 5 },
+            borderRadius: { xs: "20px 20px 0 0", md: 5 },
+            mb: { md: 5 },
           },
         }}
       >
@@ -307,8 +307,8 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
           sx: {
             width: "100%",
             maxWidth: "400px",
-            mb: { sm: 2 },
-            borderRadius: { xs: "20px 20px 0 0", sm: 4 },
+            mb: { md: 2 },
+            borderRadius: { xs: "20px 20px 0 0", md: 4 },
           },
         }}
         sx={{
@@ -375,8 +375,8 @@ function Column({ board, mutationUrls, column, index }) {
             maxHeight: "400px",
             width: "auto",
             p: 1,
-            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            mb: { sm: 5 },
+            borderRadius: { xs: "20px 20px 0 0", md: 5 },
+            mb: { md: 5 },
           },
         }}
       >
@@ -456,9 +456,9 @@ function Column({ board, mutationUrls, column, index }) {
           flexGrow: 1,
           flexBasis: 0,
           ml: "-1px",
-          minHeight: { sm: "100vh" },
+          minHeight: { md: "100vh" },
           overflowY: "scroll",
-          minWidth: { xs: "100vw", sm: "340px" },
+          minWidth: { xs: "100vw", md: "340px" },
           transition: "filter .2s",
         }}
       >
@@ -522,7 +522,7 @@ function Column({ board, mutationUrls, column, index }) {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ p: 2, mb: { xs: 15, sm: 0 } }} id={`container-${index}`}>
+        <Box sx={{ p: 2, mb: { xs: 15, md: 0 } }} id={`container-${index}`}>
           <CreateTask
             mutationUrl={mutationUrls.tasks}
             boardId={board.id}
@@ -640,12 +640,12 @@ const BoardInfo = ({
       className="snap-center"
       sx={{
         borderRadius: 5,
-        mt: { xs: 0, sm: "10px" },
-        ml: { xs: 0, sm: "10px" },
-        height: { xs: "500px", sm: "calc(100vh - 20px)" },
-        minHeight: { xs: "100%", sm: "unset" },
+        mt: { xs: 0, md: "10px" },
+        ml: { xs: 0, md: "10px" },
+        height: { xs: "500px", md: "calc(100vh - 20px)" },
+        minHeight: { xs: "100%", md: "unset" },
         background: {
-          sm: showInfo
+          md: showInfo
             ? global.user.darkMode
               ? "hsla(240,11%,15%, 0.8)"
               : "hsla(240, 11%, 95%, 0.5)"
@@ -653,17 +653,17 @@ const BoardInfo = ({
             ? "hsla(240,11%,13%, 0.8)"
             : "rgba(200,200,200,.1)",
         },
-        border: { xs: "1px solid", sm: "none" },
+        border: { xs: "1px solid", md: "none" },
         borderColor: global.user.darkMode
           ? "hsla(240,11%,13%, 0.8)!important"
           : "rgba(200,200,200,.4)!important",
-        position: { sm: "sticky" },
+        position: { md: "sticky" },
         left: "10px",
         zIndex: 9,
-        mr: { xs: 0, sm: 2 },
+        mr: { xs: 0, md: 2 },
         flexGrow: 1,
         flexBasis: 0,
-        flex: { xs: "0 0 calc(100% - 70px)", sm: "unset" },
+        flex: { xs: "0 0 calc(100% - 70px)", md: "unset" },
         p: 4,
         py: showInfo ? 3 : 2,
         overflowY: "scroll",
@@ -672,7 +672,7 @@ const BoardInfo = ({
         flexDirection: "column",
         justifyContent: "center",
         minWidth: !showInfo ? "auto" : "320px",
-        maxWidth: { sm: "300px" },
+        maxWidth: { md: "300px" },
         backdropFilter: "blur(20px)!important",
       }}
     >
@@ -685,7 +685,7 @@ const BoardInfo = ({
           height: "75px",
           width: "3px",
           right: "10px",
-          display: { sm: "none" },
+          display: { md: "none" },
           borderRadius: 9999,
         }}
       />
@@ -821,7 +821,7 @@ const BoardInfo = ({
 
           <Box sx={{ mt: "auto", display: "flex", width: "100%" }}>
             <IconButton
-              sx={{ mr: "auto", display: { sm: "none" } }}
+              sx={{ mr: "auto", display: { md: "none" } }}
               onClick={() => {
                 setDrawerOpen(true);
                 navigator.vibrate(50);
@@ -833,7 +833,7 @@ const BoardInfo = ({
             <IconButton
               sx={{
                 ml: "auto",
-                display: { xs: "none", sm: "flex" },
+                display: { xs: "none", md: "flex" },
               }}
               onClick={() => setShowInfo(false)}
             >
@@ -896,7 +896,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isMobile = useMediaQuery("(max-width: 900px)");
   return (
     <Box
       className="snap-x snap-mandatory sm:snap-none"
@@ -904,8 +904,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         display: "flex",
         maxWidth: "100vw",
         overflowX: "scroll",
-        mt: { xs: -2, sm: 0 },
-        height: { sm: "100vh" },
+        mt: { xs: -2, md: 0 },
+        height: { md: "100vh" },
       }}
     >
       <Box
@@ -913,13 +913,13 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           position: "fixed",
           bottom: {
             xs: "65px",
-            sm: "30px",
+            md: "30px",
           },
           opacity: trigger ? 0 : 1,
           transform: trigger ? "scale(0.9)" : "scale(1)",
           mr: {
             xs: 1.5,
-            sm: 3,
+            md: 3,
           },
           zIndex: 99,
           background: global.user.darkMode
@@ -1026,7 +1026,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           position: "fixed",
           bottom: {
             xs: "65px",
-            sm: "30px",
+            md: "30px",
           },
           left: "10px",
           zIndex: 9,
@@ -1040,10 +1040,10 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             xs: global.user.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid rgba(200,200,200,.3)",
-            sm: "unset",
+            md: "unset",
           },
           fontWeight: "700",
-          display: { sm: "none" },
+          display: { md: "none" },
           fontSize: "15px",
           color: global.user.darkMode ? "#fff" : "#000",
         }}
