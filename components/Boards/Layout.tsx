@@ -296,7 +296,7 @@ export function TasksLayout() {
           mb: -2,
         }}
       >
-        <Tooltip title="Create board (alt • c)" placement="right">
+        <Tooltip title="alt • c" placement="right">
           <Button
             ref={ref}
             size="large"

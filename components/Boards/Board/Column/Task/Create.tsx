@@ -22,7 +22,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -738,7 +738,7 @@ export function CreateTask({
               : checkList
               ? "#303030"
               : "#808080",
-            marginLeft: "15px",
+            marginLeft: label ? "10px" : "15px",
             marginRight: label ? "20px" : "5px",
             fontSize: "20px",
             marginTop: "10px",

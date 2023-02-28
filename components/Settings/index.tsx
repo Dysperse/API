@@ -12,8 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import React, { cloneElement, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
@@ -152,7 +151,7 @@ function SettingsMenu({
 export default function FullScreenDialog({
   children,
 }: {
-  children: React.ReactNode;
+  children: JSX.Element;
 }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -163,22 +162,16 @@ export default function FullScreenDialog({
     open ? neutralizeBack(() => setOpen(false)) : revivalBack()
   );
 
-  useHotkeys("ctrl+,", (e) => {
-    e.preventDefault();
-    document.getElementById("settingsTrigger")?.click();
+  const trigger = cloneElement(children, {
+    onClick: handleClickOpen,
+    onmousedown: handleClickOpen,
+    id: "settingsTrigger",
   });
-
   useStatusBar(open, 1);
 
   return (
     <>
-      <Box
-        id="settingsTrigger"
-        onClick={handleClickOpen}
-        onMouseDown={handleClickOpen}
-      >
-        {children}
-      </Box>
+      {trigger}
       <SwipeableDrawer
         anchor="bottom"
         PaperProps={{
@@ -196,15 +189,15 @@ export default function FullScreenDialog({
         disableSwipeToOpen
       >
         <Puller />
-        <Box sx={{ px: 5 }}>
+        <Box sx={{ px: 4 }}>
           <Typography
             sx={{
               flex: 1,
-              fontWeight: "900",
               mb: 1,
               mt: 3,
             }}
-            variant="h5"
+            className="font-heading"
+            variant="h4"
             component="div"
           >
             Settings
