@@ -22,7 +22,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
