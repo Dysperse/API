@@ -524,7 +524,6 @@ function Column({ board, mutationUrls, column, index }) {
         </Box>
         <Box sx={{ p: 2 }} id={`container-${index}`}>
           <CreateTask
-            tasks={columnTasks}
             mutationUrl={mutationUrls.tasks}
             boardId={board.id}
             column={column}

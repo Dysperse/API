@@ -333,6 +333,7 @@ export const Task: any = React.memo(function Task({
                   <ImageViewer trimHeight url={taskData.image} />
                 )}
                 <Typography
+                  variant="body2"
                   sx={{
                     "& img": {
                       display: "inline-flex !important",
@@ -340,6 +341,10 @@ export const Task: any = React.memo(function Task({
                       height: "20px!important",
                       verticalAlign: "top !important",
                     },
+                    ...(taskData.completed && {
+                      textDecoration: "line-through",
+                      opacity: 0.7,
+                    }),
                   }}
                 >
                   <Twemoji>

@@ -99,7 +99,6 @@ export function CreateTask({
   label = false,
   placeholder = false,
   defaultDate = false,
-  tasks,
   parent = false,
   mutationUrl,
   boardId,
@@ -534,39 +533,6 @@ export function CreateTask({
                 instead?
               </Alert>
             )}
-            {!parent &&
-              title !== "" &&
-              tasks.filter((task) =>
-                new RegExp("\\b" + task.name.toLowerCase() + "\\b").test(
-                  title.toLowerCase()
-                )
-              ).length !== 0 && (
-                <Alert
-                  severity="info"
-                  sx={{
-                    mt: 1,
-                    mb: 2,
-                    borderRadius: 5,
-                    background:
-                      colors[themeColor][global.user.darkMode ? 900 : 100],
-                    color:
-                      colors[themeColor][!global.user.darkMode ? 900 : 100],
-                  }}
-                  icon={
-                    <span
-                      className="material-symbols-rounded"
-                      style={{
-                        color:
-                          colors[themeColor][global.user.darkMode ? 100 : 800],
-                      }}
-                    >
-                      info
-                    </span>
-                  }
-                >
-                  This item might be already added in your list.
-                </Alert>
-              )}
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <Tooltip title="Mark as important (alt • a)" placement="top">
                 <IconButton
@@ -705,19 +671,6 @@ export function CreateTask({
             xs: 1.5,
             sm: checkList ? 1.5 : label ? -1 : 0,
           },
-
-          ...(tasks &&
-            tasks.filter((task) => task.completed && task.columnId == column.id)
-              .length ==
-              tasks.filter((task) => task.columnId == column.id).length &&
-            tasks.length >= 1 && {
-              width: "auto",
-              p: "0!important",
-              pr: "5px!important",
-              mb: "0!important",
-              border: "0!important",
-              borderColor: "transparent!important",
-            }),
         }}
         onClick={() => {
           setOpen(true);

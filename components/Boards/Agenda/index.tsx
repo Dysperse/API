@@ -88,7 +88,14 @@ export function Agenda({
     <>
       <IconButton
         size="large"
-        onClick={() => setDrawerOpen(true)}
+        onContextMenu={() => {
+          navigator.vibrate(50);
+          setDrawerOpen(true);
+        }}
+        onClick={() => {
+          navigator.vibrate(50);
+          setDrawerOpen(true);
+        }}
         sx={{
           position: "fixed",
           bottom: {

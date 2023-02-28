@@ -57,7 +57,6 @@ export const Column: any = memo(function Column({
       className="snap-center"
       {...(isToday && { id: "activeHighlight" })}
       sx={{
-        scrollMarginRight: "25px",
         borderRight: "1px solid",
         borderColor: global.user.darkMode
           ? "hsl(240,11%,16%)"
@@ -177,7 +176,6 @@ export const Column: any = memo(function Column({
         <Box sx={{ my: 0.5 }}>
           <CreateTask
             column={{ id: "-1", name: "" }}
-            tasks={[]}
             defaultDate={day.unchanged}
             label="Set a goal"
             placeholder={

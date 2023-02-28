@@ -30,7 +30,12 @@ import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 import { parseEmojis, TaskDrawer } from "./TaskDrawer";
 
-export default function DrawerContent({ isAgenda, setTaskData, mutationUrl, data }) {
+export default function DrawerContent({
+  isAgenda,
+  setTaskData,
+  mutationUrl,
+  data,
+}) {
   const handlePriorityChange = useCallback(async () => {
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
     toast.promise(
@@ -471,7 +476,6 @@ export default function DrawerContent({ isAgenda, setTaskData, mutationUrl, data
           ))}
         <CreateTask
           column={{ id: "-1", name: "" }}
-          tasks={[]}
           parent={data.id}
           label="Create a subtask"
           checkList={false}
