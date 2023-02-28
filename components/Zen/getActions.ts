@@ -8,7 +8,12 @@ export const getActions = (type) => {
       { key: "set_goal", primary: "Set a goal", icon: "mindfulness" },
     ],
     inventory: [
-      { key: "starred", primary: "Starred", icon: "star" },
+      {
+        key: "starred",
+        primary: "Starred",
+        icon: "star",
+        onClick: () => router.push(`/starred`),
+      },
       { key: "scan", primary: "Scan items", icon: "view_in_ar" },
 
       ...(type !== "study group"
