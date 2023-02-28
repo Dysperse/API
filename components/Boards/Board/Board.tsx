@@ -606,6 +606,7 @@ const BoardInfo = ({
   const descriptionRef: any = useRef();
 
   useEffect(() => {
+    if (!descriptionRef.current || !descriptionRef.current || !board) return;
     titleRef.current.value = board.name;
     descriptionRef.current.value = board.description;
   }, [board, titleRef, descriptionRef]);
@@ -841,7 +842,31 @@ const BoardInfo = ({
           </Box>
         </>
       ) : (
-        <Box sx={{ mt: "auto" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            height: "100%",
+          }}
+        >
+          <IconButton
+            onClick={() => setShowInfo(true)}
+            sx={{ opacity: 0, pointerEvents: "none" }}
+          >
+            <Icon className="outlined">menu</Icon>
+          </IconButton>
+          <Typography
+            sx={{
+              writingMode: "vertical-rl",
+              textOrientation: "mixed",
+              transform: "rotate(180deg)",
+              my: "auto",
+              fontWeight: "700",
+            }}
+          >
+            Board info
+          </Typography>
           <IconButton onClick={() => setShowInfo(true)}>
             <Icon className="outlined">menu</Icon>
           </IconButton>
