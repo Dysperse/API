@@ -896,6 +896,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           alignItems: "center",
           p: 1,
           py: 0.5,
+          gap: 0.5,
         }}
       >
         <IconButton onClick={handlePrev} disabled={currentColumn === 0}>
@@ -910,7 +911,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             el?.click();
           }}
           sx={{
-            px: 2,
+            px: 1.5,
             minWidth: "unset",
             background: `${
               global.user.darkMode
