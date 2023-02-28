@@ -35,12 +35,14 @@ const TwoFactorAuth = dynamic(() => import("./TwoFactorAuth"));
  * @param secondary Secondary text for the settings option
  */
 function SettingsMenu({
+  parentOpen,
   content,
   icon,
   primary,
   secondary,
   disabled = false,
 }: {
+  parentOpen: boolean;
   content: React.ReactNode;
   icon: React.ReactNode;
   primary: string | React.ReactNode;
@@ -94,51 +96,52 @@ function SettingsMenu({
           secondary={secondary}
         />
       </ListItemButton>
-      <SwipeableDrawer
-        open={open}
-        anchor="bottom"
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(false)}
-        PaperProps={{
-          sx: {
-            width: {
-              sm: "50vw",
+      {parentOpen && (
+        <SwipeableDrawer
+          open={open}
+          anchor="bottom"
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(false)}
+          PaperProps={{
+            sx: {
+              width: {
+                sm: "50vw",
+              },
+              maxWidth: "650px",
+              overflow: "scroll",
+              maxHeight: "93vh",
+
+              mx: "auto",
+              ...(global.user.darkMode && {
+                background: "hsl(240, 11%, 25%)",
+              }),
             },
-            maxWidth: "650px",
-            overflow: "scroll",
-            maxHeight: "93vh",
-
-            mx: "auto",
-            ...(global.user.darkMode && {
-              background: "hsl(240, 11%, 25%)",
-            }),
-          },
-        }}
-        sx={{
-          zIndex: 9999,
-        }}
-        disableSwipeToOpen
-      >
-        <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
-          <Puller />
-
-          <Box sx={{ px: 5 }}>
-            <Typography
-              sx={{
-                flex: 1,
-                fontWeight: "900",
-                mt: 5,
-                mb: 3,
-              }}
-              variant="h5"
-              component="div"
-            >
-              {primary}
-            </Typography>
-            {content}
+          }}
+          sx={{
+            zIndex: 9999,
+          }}
+          disableSwipeToOpen
+        >
+          <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
+            <Puller />
+            <Box sx={{ px: 5 }}>
+              <Typography
+                sx={{
+                  flex: 1,
+                  fontWeight: "900",
+                  mt: 5,
+                  mb: 3,
+                }}
+                variant="h5"
+                component="div"
+              >
+                {primary}
+              </Typography>
+              {content}
+            </Box>
           </Box>
-        </Box>
-      </SwipeableDrawer>
+        </SwipeableDrawer>
+      )}
     </>
   );
 }
@@ -172,17 +175,12 @@ export default function FullScreenDialog({
   return (
     <>
       {trigger}
+
       <SwipeableDrawer
         anchor="bottom"
-        PaperProps={{
-          sx: { maxWidth: "600px", maxHeight: "95vh" },
-        }}
-        ModalProps={{
-          keepMounted: false,
-        }}
-        sx={{
-          zIndex: 9999,
-        }}
+        PaperProps={{ sx: { maxWidth: "600px", maxHeight: "95vh" } }}
+        ModalProps={{ keepMounted: true }}
+        sx={{ zIndex: 9999 }}
         open={open}
         onClose={handleClose}
         onOpen={handleClickOpen}
@@ -206,6 +204,7 @@ export default function FullScreenDialog({
 
         <List sx={{ p: 2, "& *": { transition: "none!important" } }}>
           <SettingsMenu
+            parentOpen={open}
             content={<AppearanceSettings />}
             icon="format_paint"
             primary="Appearance"
@@ -214,6 +213,7 @@ export default function FullScreenDialog({
             )}`}
           />
           <SettingsMenu
+            parentOpen={open}
             content={<TwoFactorAuth />}
             icon="verified_user"
             primary="Two factor authentication"
@@ -228,6 +228,7 @@ export default function FullScreenDialog({
             }
           />
           <SettingsMenu
+            parentOpen={open}
             content={<AccountSettings />}
             icon="person"
             primary="Account"
@@ -238,12 +239,14 @@ export default function FullScreenDialog({
             }
           />
           <SettingsMenu
+            parentOpen={open}
             content={<LoginActivity />}
             icon="history"
             primary="Login activity"
             secondary="View sessions/log out of other devices"
           />
           <SettingsMenu
+            parentOpen={open}
             content={<Notifications />}
             icon="notifications"
             primary={

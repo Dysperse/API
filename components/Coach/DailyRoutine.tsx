@@ -2,10 +2,10 @@ import {
   Box,
   Button,
   Chip,
-  Drawer,
   Icon,
   ListItemButton,
   ListItemText,
+  SwipeableDrawer,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -420,9 +420,11 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
 
   return (
     <>
-      <Drawer
+      <SwipeableDrawer
+        disableSwipeToOpen
         anchor="bottom"
         open={open}
+        onOpen={() => {}}
         onClose={() => {
           mutate(url);
           setOpen(false);
@@ -461,7 +463,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           currentIndex={currentIndex}
           height={"100vh"}
         />
-      </Drawer>
+      </SwipeableDrawer>
       {trigger}
     </>
   );

@@ -14,6 +14,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Offline } from "react-detect-offline";
 import { colors } from "../../lib/colors";
+import { capitalizeFirstLetter } from "../ItemPopup";
 import { UpdateButton } from "./UpdateButton";
 import InviteButton from "./UserMenu";
 
@@ -133,7 +134,9 @@ export function Navbar(): JSX.Element {
             }}
             variant="h6"
           >
-            {router.asPath.includes("tasks")
+            {window.location.href.includes("agenda")
+              ? capitalizeFirstLetter(window.location.hash.split("agenda/")[1])
+              : router.asPath.includes("tasks")
               ? "Tasks"
               : router.asPath.includes("items") ||
                 router.asPath.includes("trash") ||
