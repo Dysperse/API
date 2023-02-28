@@ -60,6 +60,7 @@ const Action = React.memo(function Action({
     }
     setLoading(true);
   }, [href, onClick, router]);
+
   return (
     <ListItemButton
       onContextMenu={(e) => {
@@ -69,6 +70,7 @@ const Action = React.memo(function Action({
         navigator.vibrate(50);
       }}
       onClick={handleClick}
+      onMouseDown={handleClick}
       sx={{
         mb: 0.2,
         "&:hover": {
@@ -79,18 +81,10 @@ const Action = React.memo(function Action({
           },
         },
         cursor: "unset!important",
-        border: { xs: "1px solid transparent", sm: "none" },
         "&:active": {
-          border: {
-            sm: global.user.darkMode
-              ? "1px solid hsl(240,11%,13%)!important"
-              : "none!important",
-          },
-          background: {
-            xs: global.user.darkMode
-              ? "hsl(240,11%,13%)!important"
-              : "hsl(240,11%,90%) !important",
-          },
+          background: global.user.darkMode
+            ? "hsl(240,11%,13%)!important"
+            : "hsl(240,11%,90%) !important",
         },
         borderRadius: 5,
         transition: "none!important",
@@ -167,7 +161,7 @@ const Action = React.memo(function Action({
           <CircularProgress
             size={15}
             sx={{
-              color: "#000",
+              color: global.user.darkMode ? "#fff" : "#000",
               ml: "auto",
               mt: "8px",
               mr: 1,

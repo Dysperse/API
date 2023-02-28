@@ -4,20 +4,17 @@ import { prisma } from "../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
-await validatePermissions(res, {
-  minimum: "read-only",
-  credentials: [req.query.property, req.query.accessToken],
-});
+  await validatePermissions(res, {
+    minimum: "read-only",
+    credentials: [req.query.property, req.query.accessToken],
+  });
 
   const data = await prisma.item.findMany({
     where: {
-      room: req.query.room,
-      starred: true,
-      property: {
-        id: req.query.property,
-      },
+      AND: [{ starred: true }, { property: { id: req.query.property } }],
     },
   });
+
   res.json(
     data.map((item: Item) => {
       return {

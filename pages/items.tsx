@@ -279,7 +279,17 @@ export default function Inventory({ children = null }: any) {
             <Rooms data={dataRooms} error={error} mutationUrl={url} />
             <CreateRoom mutationUrl={url} />
             <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-            {/* <Action href="/starred" icon="star" primary="Starred" /> */}
+            <Action
+              href="/starred"
+              mutationUrl={url}
+              icon="star"
+              primary="Starred"
+              count={{
+                byRoom: {
+                  starred: -3,
+                },
+              }}
+            />
             <Action
               href="/trash"
               icon="delete"
