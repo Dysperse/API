@@ -522,7 +522,7 @@ function Column({ board, mutationUrls, column, index }) {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ p: 2 }} id={`container-${index}`}>
+        <Box sx={{ p: 2, mb: { xs: 15, sm: 0 } }} id={`container-${index}`}>
           <CreateTask
             mutationUrl={mutationUrls.tasks}
             boardId={board.id}
@@ -548,6 +548,9 @@ function Column({ board, mutationUrls, column, index }) {
               px: "10px!important",
               py: "5px!important",
               mb: 1,
+              ...(columnTasks.filter((task) => task.completed).length === 0 && {
+                display: "none",
+              }),
               mt: 1,
               ...(showCompleted && {
                 background: global.user.darkMode
