@@ -92,6 +92,10 @@ export function Agenda({
           navigator.vibrate(50);
           setDrawerOpen(true);
         }}
+        onContextMenu={() => {
+          navigator.vibrate(50);
+          setDrawerOpen(true);
+        }}
         sx={{
           position: "fixed",
           bottom: {
