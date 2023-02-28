@@ -229,6 +229,7 @@ export const Task: any = React.memo(function Task({
           <ListItemText
             sx={{
               my: 0,
+              mr: 1,
             }}
             primary={
               <Box
@@ -282,7 +283,6 @@ export const Task: any = React.memo(function Task({
                   <Tooltip title="Important" placement="right">
                     <Box
                       sx={{
-                        mr: 1,
                         borderRadius: 2,
                         width: 20,
                         display: "flex",
@@ -291,8 +291,6 @@ export const Task: any = React.memo(function Task({
                         height: 20,
                         flexShrink: 0,
                         ml: "auto",
-                        position: "relative",
-                        right: -3,
                         background:
                           colors.orange[global.user.darkMode ? "A700" : "200"],
                       }}
