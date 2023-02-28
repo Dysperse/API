@@ -901,7 +901,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         <IconButton onClick={handlePrev} disabled={currentColumn === 0}>
           <Icon>west</Icon>
         </IconButton>
-        <IconButton
+        <Button
           onClick={() => {
             const container: any = document.getElementById(
               `container-${currentColumn}`
@@ -910,17 +910,17 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             el?.click();
           }}
           sx={{
-            "&:active": {
-              background: `${
-                global.user.darkMode
-                  ? "hsla(240,11%,25%, 0.3)"
-                  : "rgba(0,0,0,0.1)"
-              }`,
-            },
+            px: 2,
+            minWidth: "unset",
+            background: `${
+              global.user.darkMode
+                ? "hsla(240,11%,25%, 0.3)"
+                : "rgba(0,0,0,0.1)"
+            }!important`,
           }}
         >
-          <Icon className="outlined">new_window</Icon>
-        </IconButton>
+          <Icon className="outlined">add</Icon>
+        </Button>
         <IconButton
           onClick={handleNext}
           disabled={currentColumn === data.length - 1}
