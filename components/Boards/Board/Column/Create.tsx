@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
@@ -17,10 +17,10 @@ import { toastStyles } from "../../../../lib/useCustomTheme";
 import { Puller } from "../../../Puller";
 
 export default function CreateColumn({
-  setCurrentColumn,
   hide,
-  mutationUrl,
+  setCurrentColumn,
   id,
+  mutationUrl,
   mobile = false,
 }: any) {
   const [open, setOpen] = useState(false);
@@ -31,6 +31,47 @@ export default function CreateColumn({
   const [emoji, setEmoji] = useState(
     "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
   );
+
+  const handleSubmit = useCallback(() => {
+    setLoading(true);
+    if (ref?.current?.value.trim() === "") {
+      toast.error("Enter a name for this column 👀", toastStyles);
+      setLoading(false);
+      return;
+    }
+    fetchApiWithoutHook("property/boards/column/create", {
+      title: ref?.current?.value,
+      emoji,
+      id: id,
+    })
+      .then(() => {
+        toast.success("Created column!", toastStyles);
+        setOpen(false);
+        mutate(mutationUrl)
+          .then(() => {
+            setCurrentColumn((e) => e + 1);
+            setLoading(false);
+            setEmoji(
+              "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
+            );
+            setOpen(false);
+          })
+          .catch(() => {
+            setLoading(false);
+            toast.error(
+              "Something went wrong while updating the board. Try reloading the page.",
+              toastStyles
+            );
+          });
+      })
+      .catch(() => {
+        setLoading(false);
+        toast.error(
+          "An error occurred while creating the column. Try again later.",
+          toastStyles
+        );
+      });
+  }, []);
 
   useEffect(() => {
     if (open || mobileOpen) {
@@ -68,57 +109,55 @@ export default function CreateColumn({
                   : "1px solid rgba(200, 200, 200, 0.9)",
               }),
           height: "auto",
-          p: 3,
-          px: 4,
           borderRadius: 5,
         }}
       >
-        <Button
-          onClick={() => setShowEmojiPicker(true)}
-          sx={{
-            px: 0,
-            background: global.user.darkMode
-              ? "hsl(240,11%,17%)"
-              : "rgba(200, 200, 200, 0.3)!important",
-            borderRadius: 5,
-          }}
-        >
-          <picture>
-            <img src={emoji} alt="emoji" />
-          </picture>
-        </Button>
-        <TextField
-          onKeyDown={(e) => {
-            e.stopPropagation();
-            if (e.key === "Enter") {
-              document.getElementById("createColumnButton")?.click();
-            }
-            if (e.key === "Escape") {
-              setOpen(false);
-              setMobileOpen(false);
-            }
-          }}
-          id="create-column-title"
-          inputRef={ref}
-          variant="standard"
-          placeholder="Column name"
-          InputProps={{
-            disableUnderline: true,
-            sx: {
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+          <Button
+            onClick={() => setShowEmojiPicker(true)}
+            size="small"
+            sx={{
+              px: 1,
               background: global.user.darkMode
-                ? "hsl(240,11%,20%)"
-                : "rgba(200, 200, 200, 0.3)",
-              fontWeight: "600",
-              mb: 2,
-              mt: 1,
-              fontSize: 20,
-              px: 2,
-              py: 1,
-              borderRadius: 2,
-              textDecoration: "underline",
-            },
-          }}
-        />
+                ? "hsl(240,11%,17%)"
+                : "rgba(200, 200, 200, 0.3)!important",
+              borderRadius: 5,
+            }}
+          >
+            <picture>
+              <img src={emoji} alt="emoji" />
+            </picture>
+          </Button>
+          <TextField
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              if (e.key === "Enter") {
+                document.getElementById("createColumnButton")?.click();
+              }
+              if (e.key === "Escape") {
+                setOpen(false);
+                setMobileOpen(false);
+              }
+            }}
+            id="create-column-title"
+            inputRef={ref}
+            variant="standard"
+            placeholder="Column name"
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                background: global.user.darkMode
+                  ? "hsl(240,11%,20%)"
+                  : "rgba(200, 200, 200, 0.3)",
+                fontWeight: "600",
+                fontSize: 20,
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+              },
+            }}
+          />
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -133,8 +172,8 @@ export default function CreateColumn({
               setMobileOpen(false);
               setOpen(false);
             }}
-            variant="outlined"
             fullWidth
+            variant="outlined"
           >
             Cancel
           </Button>
@@ -148,46 +187,7 @@ export default function CreateColumn({
               color: "white",
               border: "1px solid transparent !important",
             }}
-            onClick={() => {
-              setLoading(true);
-              if (ref?.current?.value.trim() === "") {
-                toast.error("Enter a name for this column 👀", toastStyles);
-                setLoading(false);
-                return;
-              }
-              fetchApiWithoutHook("property/boards/column/create", {
-                title: ref?.current?.value,
-                emoji,
-                id: id,
-              })
-                .then(() => {
-                  toast.success("Created column!", toastStyles);
-                  setOpen(false);
-                  mutate(mutationUrl)
-                    .then(() => {
-                      setCurrentColumn((e) => e + 1);
-                      setLoading(false);
-                      setEmoji(
-                        "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
-                      );
-                      setOpen(false);
-                    })
-                    .catch(() => {
-                      setLoading(false);
-                      toast.error(
-                        "Something went wrong while updating the board. Try reloading the page.",
-                        toastStyles
-                      );
-                    });
-                })
-                .catch(() => {
-                  setLoading(false);
-                  toast.error(
-                    "An error occurred while creating the column. Try again later.",
-                    toastStyles
-                  );
-                });
-            }}
+            onClick={handleSubmit}
           >
             Create
           </LoadingButton>

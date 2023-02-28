@@ -110,7 +110,6 @@ export function TasksLayout() {
   const [open, setOpen] = useState(false);
 
   const ref: any = useRef();
-  const menuRef: any = useRef();
 
   useHotkeys("alt+c", (e) => {
     e.preventDefault();
@@ -198,7 +197,7 @@ export function TasksLayout() {
       </Box>
       <Divider
         sx={{
-          my: 1,
+          my: { xs: 2, sm: 1 },
           width: "90%",
           mx: "auto",
           opacity: 0.6,
@@ -233,7 +232,7 @@ export function TasksLayout() {
           ))}
       <Divider
         sx={{
-          mb: 1,
+          mb: { xs: 2, sm: 1 },
           ...(data &&
             (data.length === 0 || !data.find((board) => board.archived)) && {
               display: "none",
@@ -278,7 +277,6 @@ export function TasksLayout() {
       </Collapse>
       <Divider
         sx={{
-          mb: 1,
           display: { sm: "none" },
           ...(data &&
             (data.length === 0 || !data.find((board) => board.archived)) && {
@@ -310,7 +308,10 @@ export function TasksLayout() {
               justifyContent: "start",
             }}
           >
-            <Icon className={activeTab === "new" ? "" : "outlined"}>
+            <Icon
+              className={activeTab === "new" ? "" : "outlined"}
+              sx={{ ml: -0.5 }}
+            >
               add_circle
             </Icon>
             Create

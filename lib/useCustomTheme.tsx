@@ -122,14 +122,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           outlined: {
             color: `${colors[themeColor][darkMode ? 50 : 800]}!important`,
             borderColor:
-              (!darkMode ? colors[themeColor][100] : "hsla(240,11%,70%,.5)") +
+              (!darkMode ? colors[themeColor][100] : "hsla(240,11%,80%,.5)") +
               "!important",
             "&:hover": {
               background: `${
                 darkMode ? "hsl(240,11%,30%)" : colors[themeColor][50]
               }!important`,
               borderColor:
-                (!darkMode ? colors[themeColor][100] : "hsla(240,11%,70%,.8)") +
+                (!darkMode ? colors[themeColor][100] : "hsla(240,11%,85%,.8)") +
                 "!important",
             },
           },
@@ -313,7 +313,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             border:
               "1px solid " +
               (darkMode ? "hsl(240,11%,20%)" : "rgba(200,200,200,.3)"),
-            background: darkMode ? "hsl(240,11%,12%)" : "#fff",
+            background: darkMode ? "hsl(240,11%,17%)" : "#fff",
             boxShadow: "none!important",
             filter:
               "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",

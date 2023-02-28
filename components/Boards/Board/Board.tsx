@@ -961,8 +961,20 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
       </SwipeableDrawer>
       <IconButton
         size="large"
-        onClick={() => setMobileOpen(true)}
+        onContextMenu={() => {
+          navigator.vibrate(50);
+          setDrawerOpen(true);
+        }}
+        onClick={() => {
+          navigator.vibrate(50);
+          setMobileOpen(true);
+        }}
         sx={{
+          transition: "transform .2s",
+          "&:active": {
+            transition: "none",
+            transform: "scale(0.9)",
+          },
           position: "fixed",
           bottom: {
             xs: "65px",
