@@ -86,7 +86,7 @@ export function ImageViewer({ url, trimHeight = false }) {
             }}
             size="small"
           >
-            Open original
+            Open in browser
           </Button>
         </Box>
       </Dialog>
