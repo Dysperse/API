@@ -37,7 +37,7 @@ export default function InviteButton({ styles }) {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 
-  useHotkeys(["ctrl", ","], (e) => {
+  useHotkeys(["ctrl+,"], (e) => {
     e.preventDefault();
     document.getElementById("settingsTrigger")?.click();
   });
