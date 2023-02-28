@@ -22,7 +22,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -397,7 +397,7 @@ export function CreateTask({
             p: 3,
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
             background: global.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
-            border: "1px solid",
+            border: { sm: "1px solid" },
             borderColor: global.user.darkMode
               ? "hsl(240, 11%, 25%)"
               : "rgba(200,200,200,.5)",
