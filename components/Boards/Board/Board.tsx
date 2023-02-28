@@ -769,7 +769,26 @@ const BoardInfo = ({
                 <Chip
                   onClick={async () => {
                     toast(
-                      "Resyncing to Canvas LMS - this may take a while",
+                      <div className="flex items-center gap-5">
+                        <picture>
+                          <img
+                            src="https://i.ibb.co/4sNZm4T/image.png"
+                            alt="Canvas logo"
+                            className="h-10 w-10 rounded-full"
+                          />
+                        </picture>
+                        <div>
+                          <Typography>Resyncing to Canvas LMS</Typography>
+                          <Typography variant="body2">
+                            this may take a while
+                          </Typography>
+                        </div>
+                        <CircularProgress
+                          disableShrink
+                          size={13}
+                          sx={{ color: "inherit", animationDuration: ".4s" }}
+                        />
+                      </div>,
                       toastStyles
                     );
                     await fetchApiWithoutHook("property/integrations/run", {

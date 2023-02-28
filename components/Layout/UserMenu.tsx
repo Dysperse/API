@@ -178,10 +178,10 @@ export default function InviteButton({ styles }) {
               py: 1.5,
               borderRadius: 0,
               gap: 2,
-              color: "inherit",
+              color: `hsl(240,11%,${global.user.darkMode ? 90 : 10}%)`,
             }}
           >
-            <Icon className="outlined">person</Icon>
+            <Icon className="outlined">account_circle</Icon>
             My account
           </Button>
         </Settings>
@@ -200,21 +200,21 @@ export default function InviteButton({ styles }) {
           sx={{
             background:
               colors[global.property.profile.color][
-                global.user.darkMode ? 900 : 200
+                global.user.darkMode ? "A400" : 200
               ],
             "&:hover": {
               background:
                 colors[global.property.profile.color][
-                  global.user.darkMode ? 800 : 300
+                  global.user.darkMode ? "A700" : 300
                 ],
             },
             ...(Boolean(anchorEl) && {
               background:
                 colors[global.property.profile.color][
-                  global.user.darkMode ? 800 : 300
+                  global.user.darkMode ? "A700" : 300
                 ],
             }),
-            color: global.user.darkMode ? "#fff" : "#000",
+            color: global.user.darkMode ? "#000" : "#000",
           }}
         >
           <Icon className="outlined">people</Icon>

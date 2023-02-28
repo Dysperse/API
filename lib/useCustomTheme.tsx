@@ -1,5 +1,4 @@
 import { Grow, Slide } from "@mui/material";
-import hexToRgba from "hex-to-rgba";
 import React from "react";
 import { colors } from "./colors";
 
@@ -33,15 +32,15 @@ const DrawerTransition = React.forwardRef(function Transition(
 
 export const toastStyles = {
   style: {
-    borderRadius: "30px",
+    borderRadius: "25px",
     paddingLeft: "15px",
-    background: hexToRgba(colors["brown"][900], 0.8),
+    background: `hsla(240,11%,20%, 0.9)`,
     backdropFilter: "blur(10px)",
-    color: colors[global.themeColor ?? "brown"][50],
+    color: `hsl(240,11%,90%)`,
   },
   iconTheme: {
-    primary: colors["brown"][50],
-    secondary: colors["brown"][700],
+    primary: `hsl(240,11%,90%)`,
+    secondary: `hsl(240,11%,30%)`,
   },
 };
 

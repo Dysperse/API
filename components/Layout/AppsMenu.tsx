@@ -260,7 +260,7 @@ export default function AppsMenu({ styles }) {
             py: 1.5,
             borderRadius: 0,
             gap: 2,
-            color: "inherit",
+            color: `hsl(240,11%,${global.user.darkMode ? 90 : 10}%)`,
           }}
         >
           <Icon className="outlined">workspaces</Icon>
