@@ -217,7 +217,7 @@ export default function InviteButton({ styles }) {
             color: global.user.darkMode ? "#000" : "#000",
           }}
         >
-          <Icon className="outlined">people</Icon>
+          <Icon className="outlined">hive</Icon>
         </Avatar>
       </Box>
       <IconButton
@@ -227,8 +227,8 @@ export default function InviteButton({ styles }) {
         }}
         onClick={handleClick}
       >
-        <Tooltip title="Groups" placement="bottom-end">
-          <Icon className="outlined">motion_mode</Icon>
+        <Tooltip title="Account menu" placement="bottom-end">
+          <Icon className="outlined">hive</Icon>
         </Tooltip>
       </IconButton>
     </>

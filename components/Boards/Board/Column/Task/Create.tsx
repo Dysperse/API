@@ -398,9 +398,11 @@ export function CreateTask({
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
             background: global.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
             border: { sm: "1px solid" },
-            borderColor: global.user.darkMode
-              ? "hsl(240, 11%, 25%)"
-              : "rgba(200,200,200,.5)",
+            borderColor: {
+              sm: global.user.darkMode
+                ? "hsl(240, 11%, 25%)"
+                : "rgba(200,200,200,.5)",
+            },
           }}
         >
           <form onSubmit={handleSubmit}>

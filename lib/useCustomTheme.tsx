@@ -354,18 +354,30 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         },
       } as any,
       MuiTooltip: {
+        defaultProps: {
+          enterDelay: 0,
+          arrow: true,
+        },
         styleOverrides: {
-          tooltip: {
-            borderRadius: "5px",
-            fontSize: "14px",
-            color: darkMode ? "hsl(240, 11%, 30%)" : colors[themeColor]["900"],
-            background: darkMode
-              ? "hsl(240, 11%, 90%)"
-              : colors[themeColor]["100"],
-            padding: "5px 13px",
-            boxShadow:
-              "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-          },
+          tooltip: ({ theme }) =>
+            theme.unstable_sx({
+              "& .MuiTooltip-arrow::before": {
+                background: darkMode
+                  ? "hsl(240, 11%, 90%)"
+                  : colors[themeColor]["100"],
+              },
+              borderRadius: "5px",
+              fontSize: "14px",
+              color: darkMode
+                ? "hsl(240, 11%, 30%)"
+                : colors[themeColor]["900"],
+              background: darkMode
+                ? "hsl(240, 11%, 90%)"
+                : colors[themeColor]["100"],
+              padding: "6px 14px",
+              boxShadow:
+                "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+            }),
         },
       },
     },

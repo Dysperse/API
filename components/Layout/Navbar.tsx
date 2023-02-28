@@ -153,11 +153,18 @@ export function Navbar(): JSX.Element {
             mx: { md: "auto" },
           }}
         >
-          <Tooltip title="Jump to" placement="bottom">
+          <Tooltip
+            title="Jump to"
+            placement="bottom"
+            PopperProps={{
+              sx: {
+                mt: "-5px!important",
+              },
+            }}
+          >
             <IconButton
               onClick={() => openSpotlight()}
               color="inherit"
-              size="small"
               sx={styles}
             >
               <Icon className="outlined">bolt</Icon>
