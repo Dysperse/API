@@ -17,6 +17,10 @@
 .MuiTooltip-arrow::before {
   // margin-top: -1px;
 }
+a,
+img {
+  -webkit-user-drag: none;
+}
 
 .overflow-hidden {
   overflow: hidden !important;
