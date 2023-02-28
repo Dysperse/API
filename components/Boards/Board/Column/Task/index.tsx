@@ -299,8 +299,9 @@ export const Task: any = React.memo(function Task({
                         onClick={(e) => e.stopPropagation()}
                         sx={{
                           fontSize: "15px!important",
-                          color:
-                            colors.orange[global.user.darkMode ? 200 : 900],
+                          color: global.user.darkMode
+                            ? "hsl(240,11%,10%)"
+                            : colors.orange[900],
                           fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
                         }}
                       >
