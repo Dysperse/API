@@ -96,7 +96,7 @@ export function Agenda({
           position: "fixed",
           bottom: {
             xs: "65px",
-            sm: "30px",
+            md: "30px",
           },
           transition: "transform .2s",
           "&:active": {
@@ -115,10 +115,10 @@ export function Agenda({
             xs: global.user.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid rgba(200,200,200,.3)",
-            sm: "unset",
+            md: "unset",
           },
           fontWeight: "700",
-          display: { sm: "none" },
+          display: { md: "none" },
           fontSize: "15px",
           color: global.user.darkMode ? "#fff" : "#000",
         }}
@@ -131,13 +131,13 @@ export function Agenda({
           position: "fixed",
           bottom: {
             xs: "65px",
-            sm: "30px",
+            md: "30px",
           },
           opacity: trigger ? 0 : 1,
           transform: trigger ? "scale(0.9)" : "scale(1)",
           mr: {
             xs: 1.5,
-            sm: 3,
+            md: 3,
           },
           zIndex: 9,
           background: global.user.darkMode
@@ -197,8 +197,8 @@ export function Agenda({
           display: "flex",
           maxWidth: "100vw",
           overflowX: "scroll",
-          height: { sm: "100vh" },
-          mt: { xs: -2, sm: 0 },
+          height: { md: "100vh" },
+          mt: { xs: -2, md: 0 },
         }}
       >
         {days.map((day) => (
