@@ -626,7 +626,7 @@ const BoardInfo = ({
         }).then(() => mutate(mutationUrls.boardData)),
         {
           loading: "Updating...",
-          success: "Updating board!",
+          success: "Updated board!",
           error: "An error occurred while updating the board",
         },
         toastStyles
