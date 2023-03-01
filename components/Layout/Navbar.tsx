@@ -163,7 +163,10 @@ export function Navbar(): JSX.Element {
             }}
           >
             <IconButton
-              onClick={() => openSpotlight()}
+              onClick={() => {
+                navigator.vibrate(50);
+                openSpotlight();
+              }}
               color="inherit"
               sx={styles}
             >

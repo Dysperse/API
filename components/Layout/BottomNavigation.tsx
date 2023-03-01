@@ -1,4 +1,4 @@
-import { Box, Snackbar, useScrollTrigger } from "@mui/material";
+import { Box, useScrollTrigger } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
@@ -164,13 +164,19 @@ export function BottomNav() {
 
         <Box
           sx={styles(
-            router.asPath === "/items" || router.asPath.includes("rooms")
+            router.asPath === "/items" ||
+              router.asPath.includes("rooms") ||
+              router.asPath === "/starred" ||
+              router.asPath === "/trash"
           )}
           onClick={() => router.push("/items")}
         >
           <span
             className={`material-symbols-${
-              router.asPath === "/items" || router.asPath.includes("rooms")
+              router.asPath === "/items" ||
+              router.asPath.includes("rooms") ||
+              router.asPath === "/starred" ||
+              router.asPath === "/trash"
                 ? "rounded"
                 : "outlined"
             }`}
