@@ -228,7 +228,7 @@ export function CreateTask({
         toast.error("You can't have an empty task... 🤦", toastStyles);
         return;
       }
-
+      navigator.vibrate(50);
       setLoading(true);
       fetchApiWithoutHook("property/boards/column/task/create", {
         title,
