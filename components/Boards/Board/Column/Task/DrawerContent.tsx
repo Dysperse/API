@@ -1,4 +1,3 @@
-import { Calendar } from "@mantine/dates";
 import {
   Button,
   Checkbox,
@@ -19,6 +18,7 @@ import { green } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
+import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
@@ -213,51 +213,17 @@ export default function DrawerContent({
         onClose={() => setOpen(false)}
         PaperProps={{ sx: { p: 3 } }}
       >
-        <Calendar
+        <DatePicker
           value={new Date(data.due)}
-          firstDayOfWeek="sunday"
           onChange={(e: any) => {
             setTaskData((prev) => ({
               ...prev,
-              due: e?.toISOString(),
+              due: e ? null : e?.toISOString(),
             }));
             handleEdit(data.id, "due", e.toISOString());
 
             setOpen(false);
           }}
-          fullWidth
-          styles={(theme) => ({
-            // Weekend color
-            day: {
-              borderRadius: 19,
-              transition: "border-radius .2s",
-              "&:hover": {
-                background:
-                  colors[themeColor][global.user.darkMode ? 900 : 100],
-              },
-              color: colors[themeColor][500],
-              "&[data-outside]": {
-                color: `${
-                  global.user.darkMode
-                    ? theme.colors.dark[3]
-                    : theme.colors.gray[5]
-                }!important`,
-              },
-              "&[data-selected]": {
-                backgroundColor:
-                  colors[themeColor][global.user.darkMode ? 100 : 900],
-                color: global.user.darkMode
-                  ? "#000!important"
-                  : "#fff!important",
-                borderRadius: 9,
-                position: "relative",
-              },
-
-              "&[data-weekend]": {
-                color: colors[themeColor][500],
-              },
-            },
-          })}
         />
       </Dialog>
       <TextField
