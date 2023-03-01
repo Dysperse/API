@@ -18,6 +18,7 @@ import {
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useAccountStorage } from "../../pages/_app";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();
@@ -44,10 +45,13 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
     }, 100);
   };
 
+  const storage = useAccountStorage();
+
   return (
     <>
       <Button
         size="large"
+        disabled={storage?.isReached === true}
         variant="contained"
         onClick={() => setOpen(true)}
         sx={{
@@ -83,6 +87,7 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
             sx={{ mt: 2 }}
             fullWidth
             onClick={handleSubmit}
+            disabled={storage?.isReached === true}
           >
             <Icon>add</Icon>
             Create
@@ -106,6 +111,7 @@ export default function CategoryModal({
   item: ItemType;
 }) {
   const [open, setOpen] = useState(false);
+  const storage = useAccountStorage();
   const { data, url, error } = useApi("property/inventory/categories");
 
   return (
@@ -136,6 +142,7 @@ export default function CategoryModal({
           {data &&
             [...new Set(data)].map((category: any) => (
               <ListItemButton
+                disabled={storage?.isReached === true}
                 key={category}
                 sx={{ gap: 2, borderRadius: 999 }}
                 onClick={() => {

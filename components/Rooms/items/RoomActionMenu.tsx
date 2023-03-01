@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
+import { useAccountStorage } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 
 export function RoomActionMenu({
@@ -21,6 +22,7 @@ export function RoomActionMenu({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const storage = useAccountStorage();
 
   return (
     <IconButton
@@ -58,10 +60,10 @@ export function RoomActionMenu({
           e.stopPropagation();
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose} disabled={storage?.isReached === true}>
           <Icon className="outlined">edit</Icon>Rename
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose} disabled={storage?.isReached === true}>
           <Icon className="outlined">lock</Icon>Make{" "}
           {isPrivate ? "private" : "public"}
         </MenuItem>

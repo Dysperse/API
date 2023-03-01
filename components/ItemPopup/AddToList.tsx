@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useAccountStorage } from "../../pages/_app";
 
 function BoardModal({ itemId, title, list }) {
   const [open, setOpen] = useState(false);
@@ -169,6 +170,7 @@ export default function AddToListModal({
 }) {
   const [open, setOpen] = useState<boolean>(false);
   useStatusBar(open);
+  const storage = useAccountStorage();
 
   return (
     <>
@@ -213,7 +215,9 @@ export default function AddToListModal({
       <ListItemButton
         sx={styles}
         onClick={() => setOpen(true)}
-        disabled={global.permission === "read-only"}
+        disabled={
+          global.permission === "read-only" || storage?.isReached === true
+        }
       >
         <Icon>receipt_long</Icon> Add to list
       </ListItemButton>
