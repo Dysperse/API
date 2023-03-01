@@ -8,6 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
@@ -15,11 +16,13 @@ import { useStatusBar } from "../../hooks/useStatusBar";
 import { useAccountStorage } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
-import { Agenda } from "./Agenda";
-import { Board } from "./Board/Board";
 import { CreateBoard } from "./Board/Create";
 import { Loading } from "./Loading";
 import { Tab } from "./Tab";
+
+const Agenda = dynamic(() => import("./Agenda").then((mod) => mod.Agenda));
+const Board = dynamic(() => import("./Board/Board").then((mod) => mod.Board));
+const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog));
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
@@ -57,6 +60,9 @@ export function TasksLayout() {
         break;
       case "#/agenda/year":
         setActiveTab("__agenda.year");
+        break;
+      case "#/agenda/backlog":
+        setActiveTab("__agenda.backlog");
         break;
     }
   }, [data]);
@@ -195,6 +201,22 @@ export function TasksLayout() {
             calendar_month
           </Icon>
           Years
+        </Button>
+
+        <Button
+          id="__agenda.year"
+          size="large"
+          sx={styles(activeTab === "__agenda.backlog")}
+          onMouseDown={() => setActiveTab("__agenda.backlog")}
+          onClick={() => {
+            window.location.hash = "#/agenda/backlog";
+            setActiveTab("__agenda.backlog");
+          }}
+        >
+          <Icon className={activeTab === "__agenda.backlog" ? "" : "outlined"}>
+            select
+          </Icon>
+          Backlog
         </Button>
       </Box>
       <Divider
@@ -397,6 +419,7 @@ export function TasksLayout() {
         {activeTab.includes("__agenda.year") && (
           <Agenda setDrawerOpen={setOpen} view="year" />
         )}
+        {activeTab.includes("__agenda.backlog") && <Backlog />}
         {data &&
           data.map(
             (board) =>
