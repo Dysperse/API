@@ -442,3 +442,8 @@ input:-webkit-autofill {
   display: flex !important;
   align-items: center;
 }
+
+.react-calendar__tile--range {
+  padding: 10px;
+  border-radius: 5px;
+}
