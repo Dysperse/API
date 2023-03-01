@@ -14,7 +14,7 @@ import {
   InputAdornment,
   Skeleton,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import Image from "next/image";
 import { useStatusBar } from "../../../hooks/useStatusBar";
@@ -86,7 +86,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                       alt="emoji"
                     />
                   </picture>
-                  <Box
+                  <Typography
                     sx={{
                       fontSize: 18,
                       fontWeight: 600,
@@ -96,7 +96,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                     }}
                   >
                     {column.name}
-                  </Box>
+                  </Typography>
                 </Box>
               ))}
             </Box>
