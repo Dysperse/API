@@ -1,21 +1,19 @@
-import { SelectChangeEvent } from "@mui/material/Select";
-import { stepConnectorClasses } from "@mui/material/StepConnector";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Loading } from "../components/Layout/Loading";
-import { Color } from "../components/Onboarding/Color";
-import { InventoryList } from "../components/Onboarding/InventoryList";
-import { cards } from "../components/Rooms/CreateItem/cards";
-import { updateSettings } from "../components/Settings/updateSettings";
-import { colors } from "../lib/colors";
-
 import {
+  Alert,
   Box,
   Button,
   Chip,
+  CircularProgress,
   FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Icon,
   InputLabel,
+  ListItemButton,
+  ListItemText,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   Step,
   StepConnector,
@@ -26,6 +24,58 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select";
+import { stepConnectorClasses } from "@mui/material/StepConnector";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { templates } from "../components/Boards/Board/Create";
+import { Loading } from "../components/Layout/Loading";
+import { Color } from "../components/Onboarding/Color";
+import { InventoryList } from "../components/Onboarding/InventoryList";
+import { cards } from "../components/Rooms/CreateItem/cards";
+import { updateSettings } from "../components/Settings/updateSettings";
+import { fetchApiWithoutHook } from "../hooks/useApi";
+import { colors } from "../lib/colors";
+
+function BoardTemplate({ template }) {
+  const [loading, setLoading] = useState(false);
+  const [added, setAdded] = useState(false);
+
+  return (
+    <ListItemButton
+      onClick={() => {
+        setLoading(true);
+        fetchApiWithoutHook("property/boards/create", {
+          board: JSON.stringify(template),
+        }).then(async () => {
+          setAdded(true);
+          setLoading(false);
+        });
+      }}
+      key={template.name}
+      disabled={added}
+      sx={{ mt: 1, transition: "none" }}
+    >
+      <Box>
+        <Box>
+          <ListItemText
+            primary={template.name}
+            secondary={template.description.replace("NEW: ", "")}
+          />
+        </Box>
+        <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
+          {template.columns.map((column, index) => (
+            <picture key={index}>
+              <img src={column.emoji} width="25px" height="25px" alt="emoji" />
+            </picture>
+          ))}
+        </Box>
+      </Box>
+      {loading && <CircularProgress sx={{ ml: "auto" }} />}
+      {added && <Icon sx={{ ml: "auto" }}>check_circle</Icon>}
+    </ListItemButton>
+  );
+}
 
 function StepContent({ forStep, currentStep, setCurrentStep, content }) {
   return forStep === currentStep ? (
@@ -33,7 +83,7 @@ function StepContent({ forStep, currentStep, setCurrentStep, content }) {
       {content}
       <Box
         sx={{
-          display: currentStep === 1 || currentStep === 4 ? "none" : "flex",
+          display: currentStep === 1 || currentStep === 5 ? "none" : "flex",
           justifyContent: "flex-end",
           mt: 2,
         }}
@@ -133,6 +183,7 @@ export default function Onboarding() {
   ];
 
   const [type, setType] = useState(global.property.profile.type || "apartment");
+  const [bestDescription, setBestDescription] = useState("Student");
 
   const handleChange = (event: SelectChangeEvent) => {
     setType(event.target.value as string);
@@ -189,20 +240,82 @@ export default function Onboarding() {
       <Color handleNext={() => setStep(step + 1)} color="white" />
     </>,
     <>
-      <Typography variant="h5">Your group</Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          fontWeight: 400,
-          marginTop: 2,
-          mb: 1.5,
-        }}
-      >
-        Tell us a little bit about your {type}.
+      <Typography variant="h6" sx={{ mt: 0, mb: 1 }}>
+        <span style={{ opacity: 0.6 }}>#3 </span>
+        What best describes <i>you</i>?
+      </Typography>
+      <FormControl>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="female"
+          name="radio-buttons-group"
+          value={bestDescription}
+          onChange={(_, value) => {
+            setBestDescription(value);
+          }}
+        >
+          {[
+            {
+              icon: "book",
+              name: "Student",
+              description:
+                "You're a high-school student trying to organize your assignments & tests.",
+            },
+            {
+              icon: "school",
+              name: "College student",
+              description:
+                "You're a college student trying to organize your assignments & tests.",
+            },
+            {
+              icon: "cast_for_education",
+              name: "Educator",
+              description:
+                "You're an educator trying to organize your lesson plans.",
+            },
+            {
+              icon: "directions_run",
+              name: "Adult",
+              description:
+                "You're an independent adult trying to organize your life",
+            },
+          ].map((type) => (
+            <FormControlLabel
+              key={type.name}
+              value={type.name}
+              control={<Radio />}
+              label={
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1.5,
+                    my: 1,
+                  }}
+                >
+                  <Icon
+                    sx={{ fontSize: "36px !important" }}
+                    className="outlined"
+                  >
+                    {type.icon}
+                  </Icon>
+                  <div>
+                    <Typography>{type.name}</Typography>
+                    <Typography variant="body2">{type.description}</Typography>
+                  </div>
+                </Box>
+              }
+            />
+          ))}
+        </RadioGroup>
+      </FormControl>
+      <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
+        <span style={{ opacity: 0.6 }}>#4 </span>
+        About your group
       </Typography>
       <FormControl fullWidth margin="dense">
         <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>
-          Type
+          Group type
         </InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -221,6 +334,10 @@ export default function Onboarding() {
           <MenuItem value="apartment">Apartment</MenuItem>
           <MenuItem value="home">Home</MenuItem>
         </Select>
+        <FormHelperText>
+          What type of residence do you live in? You can also select &quot;study
+          group&quot;.
+        </FormHelperText>
       </FormControl>
       <TextField
         variant="filled"
@@ -245,6 +362,32 @@ export default function Onboarding() {
         }}
         margin="dense"
       />
+    </>,
+    <>
+      <Typography variant="h6" sx={{ mb: 1 }}>
+        <span style={{ opacity: 0.6 }}>#5 </span>
+        Let&apos;s create some boards
+      </Typography>
+      <Typography>
+        Boards are sweet places where you can plan &amp; organize anything, from
+        shopping lists, to lesson plans.
+      </Typography>
+      <Alert icon={<Icon>lightbulb</Icon>} severity="warning" sx={{ mt: 2 }}>
+        You told us you were{" "}
+        {bestDescription == "Adult" || bestDescription == "Educator"
+          ? "an"
+          : "a"}{" "}
+        <u>
+          <b>{bestDescription.toLocaleLowerCase()}</b>
+        </u>
+        . If you want to change this, scroll down and hit &quot;Back&quot;
+      </Alert>
+
+      {templates
+        .filter((template) => template.for.includes(bestDescription))
+        .map((template) => (
+          <BoardTemplate template={template} />
+        ))}
     </>,
     <>
       <Typography variant="h5">Add some items</Typography>
@@ -305,6 +448,7 @@ export default function Onboarding() {
     const container: any = document.getElementById("onboardingContainer");
     container.scrollTo({ top: 0 });
   }, [step]);
+
   return (
     <Box>
       <Box
