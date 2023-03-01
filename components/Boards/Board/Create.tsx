@@ -14,7 +14,7 @@ import {
   InputAdornment,
   Skeleton,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import Image from "next/image";
 import { useStatusBar } from "../../../hooks/useStatusBar";
