@@ -61,6 +61,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                 borderBottomRightRadius: 0,
                 overflowX: "auto",
                 display: "flex",
+                flexDirection: "column",
               }}
             >
               {template.columns.map((column, index) => (
@@ -100,11 +101,6 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                     }}
                   >
                     {column.name}
-                  </Box>
-                  <Box sx={{ mt: -1 }}>
-                    <Skeleton animation={false} height={15} width={100} />
-                    <Skeleton animation={false} height={15} width={90} />
-                    <Skeleton animation={false} height={15} width={50} />
                   </Box>
                 </Box>
               ))}

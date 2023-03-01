@@ -194,14 +194,12 @@ function PropertyInfo({
 export default function Group({
   data,
   children,
-  handleClose,
 }: {
   data: {
     id: string;
     accessToken: string;
   };
   children: JSX.Element;
-  handleClose: () => unknown;
 }) {
   const [propertyData, setPropertyData] = useState<null | any>(null);
   const [error, setError] = useState<null | string>(null);

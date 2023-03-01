@@ -127,7 +127,7 @@ export function DailyCheckInDrawer() {
             variant="body2"
             gutterBottom
             sx={{
-              fontSize: "12px",
+              fontSize: "13px",
               display: "flex",
               alignItems: "center",
               gap: 1,

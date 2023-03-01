@@ -189,7 +189,7 @@ export function Sidebar() {
         onClick={() => router.push("/items")}
         onMouseDown={() => router.push("/items")}
       >
-        <Tooltip title="Inventory" placement="right">
+        <Tooltip title="Items" placement="right">
           <span
             className={`material-symbols-${
               router.asPath === "/items" || router.asPath.includes("rooms")

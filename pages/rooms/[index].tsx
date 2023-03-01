@@ -7,7 +7,7 @@ import Categories from "../items";
  * Top-level component for the room page
  * @returns {any}
  */
-export default function Room({ mutationUrl }) {
+export default function Room() {
   const index = window.location.pathname.split("/rooms/")[1];
   const router = useRouter();
 

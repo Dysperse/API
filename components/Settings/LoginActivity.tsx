@@ -15,6 +15,7 @@ import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { ConfirmationModal } from "../ConfirmationModal";
+import { ErrorHandler } from "../Error";
 
 const Session: any = React.memo(function Session({
   mutationUrl,
@@ -117,6 +118,9 @@ export default function LoginActivity() {
           Log out of all devices
         </Button>
       </ConfirmationModal>
+      {error && (
+        <ErrorHandler error="An error occured while trying to fetch your logged-in devices" />
+      )}
       {data && (
         <Virtuoso
           style={{ height: "400px", width: "100%" }}

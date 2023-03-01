@@ -122,7 +122,6 @@ export default function InviteButton({ styles }) {
         {properties.map((group: any) => (
           <Group
             key={group.propertyId}
-            handleClose={() => setOpen(false)}
             data={{
               id: group.propertyId,
               accessToken: group.accessToken,

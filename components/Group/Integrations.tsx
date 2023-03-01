@@ -17,6 +17,7 @@ import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { ErrorHandler } from "../Error";
 
 function Integration({ integration }) {
   const [open, setOpen] = useState(false);
@@ -54,6 +55,9 @@ function Integration({ integration }) {
 
   return (
     <>
+      {error && (
+        <ErrorHandler error="An error occured while trying to get your boards" />
+      )}
       <ListItemButton sx={{ mb: 1, gap: 2 }} onClick={() => setOpen(true)}>
         <Avatar src={integration.image} />
         <ListItemText
