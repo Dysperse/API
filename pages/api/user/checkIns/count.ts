@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       date: true,
     },
     orderBy: {
-      date: "asc",
+      date: "desc",
     },
   });
   res.json(data);

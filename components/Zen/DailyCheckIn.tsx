@@ -293,35 +293,32 @@ export function DailyCheckInDrawer() {
             >
               <div></div>
               {data &&
-                data
-                  .reverse()
-                  .slice(0, lastBy)
-                  .map(({ date, mood }, index) => (
-                    <Chip
-                      key={index}
-                      label={capitalizeFirstLetter(
-                        dayjs(date)
-                          .from(dayjs().startOf("day"))
-                          .replace("a day ago", "yesterday")
-                          .replace("a few seconds ago", "today")
-                      )}
-                      sx={{
-                        p: 1,
-                        gap: 1,
-                        borderRadius: 9999,
-                        height: "auto",
-                        maxHeight: "unset",
-                        ...(global.user.darkMode && {
-                          background: "hsl(240,11%,20%)",
-                        }),
-                      }}
-                      avatar={
-                        <Avatar
-                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${mood}.png`}
-                        />
-                      }
-                    />
-                  ))}
+                data.slice(0, lastBy).map(({ date, mood }, index) => (
+                  <Chip
+                    key={index}
+                    label={capitalizeFirstLetter(
+                      dayjs(date)
+                        .from(dayjs().startOf("day"))
+                        .replace("a day ago", "yesterday")
+                        .replace("a few seconds ago", "today")
+                    )}
+                    sx={{
+                      p: 1,
+                      gap: 1,
+                      borderRadius: 9999,
+                      height: "auto",
+                      maxHeight: "unset",
+                      ...(global.user.darkMode && {
+                        background: "hsl(240,11%,20%)",
+                      }),
+                    }}
+                    avatar={
+                      <Avatar
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${mood}.png`}
+                      />
+                    }
+                  />
+                ))}
             </div>
           </Box>
         </Box>
