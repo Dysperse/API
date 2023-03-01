@@ -85,7 +85,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
               onChange={(e) => setIsPrivate(e.target.checked)}
             />
             <FormLabel>
-              <b>Private</b>
+              <b>{isPrivate ? "Private" : "Public"}</b>
               <br />
               {isPrivate
                 ? "Only you can see this " +
