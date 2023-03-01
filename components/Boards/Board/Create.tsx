@@ -31,7 +31,6 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
         PaperProps={{
           sx: {
             borderRadius: 5,
-            maxWidth: "100vw",
             width: "100%",
           },
         }}
@@ -45,7 +44,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             width: "100%!important",
             background: global.user.darkMode
               ? "hsl(240, 11%, 13%)"
-              : "rgba(200,200,200,.3)",
+              : "rgba(200,200,200,.2)",
             transition: "transform 0.2s",
             userSelect: "none",
           }}
@@ -55,13 +54,11 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               sx={{
                 background: global.user.darkMode
                   ? "hsl(240, 11%, 17%)"
-                  : "rgba(200,200,200,.2)",
+                  : "rgba(200,200,200,.1)",
                 color: global.user.darkMode ? "#fff" : "#000",
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
                 overflowX: "auto",
-                display: "flex",
-                flexDirection: "column",
               }}
             >
               {template.columns.map((column, index) => (
@@ -69,16 +66,16 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                   key={column.id}
                   sx={{
                     width: "100%",
-                    display: "inline-flex",
+                    display: "flex",
                     minWidth: "200px",
                     overflowX: "auto",
                     p: { xs: 1.5, sm: 2.5 },
                     gap: 2,
-                    borderRight:
+                    borderBottom:
                       index !== template.columns.length - 1
-                        ? "1px solid rgba(0,0,0,.1)"
+                        ? "1px solid rgba(200,200,200,.3)"
                         : "none",
-                    flexDirection: "column",
+                    alignItems: "center",
                   }}
                 >
                   <picture>
@@ -93,8 +90,6 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                     sx={{
                       fontSize: 18,
                       fontWeight: 600,
-                      mt: -0.7,
-                      maxWidth: "100%",
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
