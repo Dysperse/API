@@ -987,9 +987,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         open={mobileOpen}
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
-        sx={{
-          zIndex: 999,
-        }}
+        sx={{ zIndex: 999 }}
         PaperProps={{
           sx: {
             borderRadius: "20px",

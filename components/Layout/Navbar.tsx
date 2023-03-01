@@ -12,8 +12,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Offline } from "react-detect-offline";
-import { colors } from "../../lib/colors";
+import { useNetworkState } from "react-use";
 import { capitalizeFirstLetter } from "../ItemPopup";
 import { UpdateButton } from "./UpdateButton";
 import InviteButton from "./UserMenu";
@@ -23,6 +22,8 @@ import InviteButton from "./UserMenu";
  * @returns {any}
  */
 export function Navbar(): JSX.Element {
+  const network = useNetworkState();
+
   const router = useRouter();
   const styles = () => {
     return {
@@ -177,42 +178,13 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
           <UpdateButton />
         </Box>
-        <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
-          <Offline>
-            <Tooltip title="You're offline">
-              <IconButton
-                color="inherit"
-                sx={{
-                  p: 0,
-                  mr: { xs: 0.2, md: 0.6 },
-                  color: global.user.darkMode
-                    ? "hsl(240, 11%, 90%)"
-                    : "#606060",
-                  "&:hover": {
-                    background: "rgba(200,200,200,.3)",
-                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-                  },
-                  "&:focus-within": {
-                    background: `${
-                      global.user.darkMode
-                        ? colors[themeColor]["900"]
-                        : colors[themeColor]["50"]
-                    }!important`,
-                    color: global.user.darkMode ? "hsl(240, 11%, 95%)" : "#000",
-                  },
-                  transition: "all .2s",
-                  "&:active": {
-                    opacity: 0.5,
-                    transform: "scale(0.95)",
-                    transition: "none",
-                  },
-                }}
-              >
-                <Icon className="outlined">offline_bolt</Icon>
-              </IconButton>
-            </Tooltip>
-          </Offline>
-        </Box>
+        {!network.online && (
+          <Tooltip title="You're offline">
+            <IconButton color="inherit" sx={styles}>
+              <Icon className="outlined">offline_bolt</Icon>
+            </IconButton>
+          </Tooltip>
+        )}
         <InviteButton styles={styles} />
         <Tooltip title="Support">
           <IconButton

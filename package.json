@@ -56,7 +56,6 @@
     "memory-cache": "^0.2.0",
     "mui-one-time-password-input": "^1.0.4",
     "next": "^13.2.1",
-    "next-compose-plugins": "^2.2.1",
     "next-pwa": "^5.6.0",
     "node-2fa": "^2.0.3",
     "npm": "^9.5.1",
