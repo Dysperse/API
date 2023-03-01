@@ -1092,9 +1092,7 @@ export function Board({ mutationUrl, board, setDrawerOpen }) {
           justifyContent: "center",
         }}
       >
-        <CircularProgress
-        
-        />
+        <CircularProgress />
       </Box>
     );
   }

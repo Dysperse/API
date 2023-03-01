@@ -142,9 +142,7 @@ const WebcamComponent = ({
         }}
         onClick={capture}
       >
-        <CircularProgress
-       
-        />
+        <CircularProgress />
       </Box>
       <Box
         sx={{

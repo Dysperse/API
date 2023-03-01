@@ -12,8 +12,7 @@ export function Loading() {
         justifyContent: "center",
       }}
     >
-      <CircularProgress
-      />
+      <CircularProgress />
     </Box>
   );
 }
