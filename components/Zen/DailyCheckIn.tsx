@@ -6,12 +6,12 @@ import {
   CardActionArea,
   Chip,
   Dialog,
-  Drawer,
   Icon,
   IconButton,
   LinearProgress,
   Menu,
   MenuItem,
+  SwipeableDrawer,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -83,6 +83,7 @@ export function DailyCheckInDrawer() {
   const drawerStyles = {
     width: "100%",
     maxWidth: "600px",
+    borderRadius: 0,
   };
 
   const { data, error } = useApi("user/checkIns/count");
@@ -146,8 +147,9 @@ export function DailyCheckInDrawer() {
         </Box>
         <Icon>arrow_forward_ios</Icon>
       </CardActionArea>
-      <Drawer
-        anchor="right"
+      <SwipeableDrawer
+        anchor="bottom"
+        onOpen={handleOpen}
         onClose={handleClose}
         open={open}
         PaperProps={{ sx: drawerStyles }}
@@ -366,7 +368,7 @@ export function DailyCheckInDrawer() {
           </Box>
         ))}
         <Box sx={{ mt: 5 }} />
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 }
