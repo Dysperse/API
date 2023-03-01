@@ -386,7 +386,7 @@ export default function Onboarding() {
       {templates
         .filter((template) => template.for.includes(bestDescription))
         .map((template) => (
-          <BoardTemplate template={template} />
+          <BoardTemplate template={template} key={template.name} />
         ))}
     </>,
     <>
