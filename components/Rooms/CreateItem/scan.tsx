@@ -143,15 +143,7 @@ const WebcamComponent = ({
         onClick={capture}
       >
         <CircularProgress
-          size={45}
-          sx={{
-            opacity: loading ? 1 : 0,
-            animationDuration: ".5s",
-            "& .MuiCircularProgress-circle": {
-              strokeLinecap: "round",
-            },
-          }}
-          disableShrink
+       
         />
       </Box>
       <Box

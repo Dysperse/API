@@ -1,6 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
@@ -10,6 +10,7 @@ import { Prompt } from "../TwoStepVerificationPrompt";
 import { isEmail } from "./MemberList";
 
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -63,11 +64,7 @@ function LinkToken({ color }) {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{
-          sx: {
-            maxWidth: "400px",
-
-            background: colors[color][100],
-          },
+          sx: { maxWidth: "400px" },
         }}
       >
         <Puller />
@@ -139,7 +136,6 @@ export function AddPersonModal({
   members: string[];
 }) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [permission, setPermission] = React.useState("member");
 
@@ -153,9 +149,11 @@ export function AddPersonModal({
     []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   }, [open]);
+
+  const ref: any = useRef();
 
   return (
     <>
@@ -184,7 +182,6 @@ export function AddPersonModal({
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: colors[color][global.user.darkMode ? 900 : 50],
             width: {
               sm: "50vw",
             },
@@ -200,35 +197,12 @@ export function AddPersonModal({
         <Puller />
         <Box sx={{ p: 4 }}>
           <Typography variant="h5">Invite a person</Typography>
-          <Box
-            sx={{
-              fontSize: "15px",
-              my: 4,
-              background: global.user.darkMode
-                ? "hsl(240, 11%, 30%)"
-                : colors[color][100],
-              borderRadius: 5,
-              display: "block",
-              p: 2,
-              userSelect: "none",
-              textAlign: "center",
-            }}
-          >
-            <span
-              className="material-symbols-rounded"
-              style={{
-                display: "block",
-                marginBottom: "10px",
-              }}
-            >
-              warning
-            </span>
+          <Alert severity="warning" sx={{ my: 2 }}>
             Make sure you trust who you are inviting. Anyone with access can
             view your lists, rooms, and inventory
-          </Box>
+          </Alert>
           <TextField
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            inputRef={ref}
             variant="filled"
             label="Enter an email address"
           />
@@ -263,6 +237,7 @@ export function AddPersonModal({
           <LoadingButton
             loading={loading}
             onClick={() => {
+              const value = ref.current.value;
               if (members.find((member) => member === value)) {
                 toast.error(
                   "This person is already a member of this house",

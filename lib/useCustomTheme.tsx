@@ -50,6 +50,23 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiPaper: {
         defaultProps: { elevation: 0 },
       },
+      MuiCircularProgress: {
+        defaultProps: {
+          disableShrink: true,
+          thickness: 8,
+          size: 24,
+        },
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              animationDuration: ".5s",
+              color: global.user.darkMode ? "#fff" : "#000",
+              "& .MuiCircularProgress-circle": {
+                // strokeLinecap: "round",
+              },
+            }),
+        },
+      },
       MuiIcon: {
         defaultProps: {
           baseClassName: "material-symbols-rounded",

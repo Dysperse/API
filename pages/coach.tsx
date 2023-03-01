@@ -108,17 +108,7 @@ export const Task: any = React.memo(function Task({ task }: any) {
               right: 0,
             }}
           >
-            <CircularProgress
-              disableShrink
-              sx={{
-                "& .MuiCircularProgress-circle": {
-                  strokeLinecap: "round",
-                  strokeWidth: 1,
-                  // Gradient
-                },
-                animationDuration: "550ms",
-              }}
-            />
+            <CircularProgress />
           </Box>
           <Checkbox
             disableRipple
