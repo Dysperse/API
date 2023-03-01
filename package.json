@@ -24,7 +24,6 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mantine/core": "^5.10.4",
-    "@mantine/dates": "^5.10.4",
     "@mantine/hooks": "^5.10.4",
     "@mantine/spotlight": "^5.10.4",
     "@marsidev/react-turnstile": "^0.0.7",

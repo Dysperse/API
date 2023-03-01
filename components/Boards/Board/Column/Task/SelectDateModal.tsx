@@ -1,7 +1,7 @@
-import { Calendar } from "@mantine/dates";
 import { Box, Button, Icon, SwipeableDrawer, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useState } from "react";
+import DatePicker from "react-calendar";
 import { colors } from "../../../../../lib/colors";
 import { Puller } from "../../../../Puller";
 import { formatDate } from "./formatDate";
@@ -38,46 +38,12 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
           <Puller />
         </Box>
         <Box sx={{ p: 3, textAlign: "center" }}>
-          <Calendar
-            value={date}
-            firstDayOfWeek="sunday"
+          <DatePicker
+            value={new Date(date)}
             onChange={(e) => {
               setDate(e);
               setOpen(false);
             }}
-            fullWidth
-            styles={(theme) => ({
-              // Weekend color
-              day: {
-                borderRadius: 19,
-                transition: "border-radius .2s",
-                "&:hover": {
-                  background:
-                    colors[themeColor][global.user.darkMode ? 900 : 100],
-                },
-                color: colors[themeColor][500],
-                "&[data-outside]": {
-                  color: `${
-                    global.user.darkMode
-                      ? theme.colors.dark[3]
-                      : theme.colors.gray[5]
-                  }!important`,
-                },
-                "&[data-selected]": {
-                  backgroundColor:
-                    colors[themeColor][global.user.darkMode ? 100 : 900],
-                  color: global.user.darkMode
-                    ? "#000!important"
-                    : "#fff!important",
-                  borderRadius: 9,
-                  position: "relative",
-                },
-
-                "&[data-weekend]": {
-                  color: colors[themeColor][500],
-                },
-              },
-            })}
           />
           <Box
             sx={{
