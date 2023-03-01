@@ -356,7 +356,10 @@ export default function Home() {
                         : "rgba(200,200,200,.3)!important",
                     }),
                   }}
-                  onClick={() => setEditMode(!editMode)}
+                  onClick={() => {
+                    navigator.vibrate(50);
+                    setEditMode(!editMode);
+                  }}
                 >
                   <Icon className="outlined">
                     {editMode ? "check" : "edit"}
@@ -366,7 +369,10 @@ export default function Home() {
               {!editMode && (
                 <Tooltip title="Jump to" placement="bottom-start">
                   <IconButton
-                    onClick={() => openSpotlight()}
+                    onClick={() => {
+                      navigator.vibrate(50);
+                      openSpotlight();
+                    }}
                     sx={{
                       display: { sm: "none" },
                     }}

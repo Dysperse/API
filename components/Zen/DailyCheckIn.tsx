@@ -141,7 +141,11 @@ export function DailyCheckInDrawer() {
             <Chip
               label="beta"
               size="small"
-              sx={{ fontSize: "12px", height: "auto" }}
+              sx={{
+                fontSize: "12px",
+                height: "auto",
+                background: `hsl(240,11%,${global.user.darkMode ? 20 : 90}%)`,
+              }}
             />
           </Typography>
           <Typography sx={{ fontWeight: "900" }}>
