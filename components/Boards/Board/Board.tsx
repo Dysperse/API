@@ -298,6 +298,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
   return (
     <>
       <SwipeableDrawer
+        swipeAreaWidth={30}
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
@@ -1092,9 +1093,7 @@ export function Board({ mutationUrl, board, setDrawerOpen }) {
           justifyContent: "center",
         }}
       >
-        <CircularProgress
-        
-        />
+        <CircularProgress />
       </Box>
     );
   }
