@@ -71,7 +71,7 @@ export function Storage({
           To keep Dysperse free and up for everyone, we implement{" "}
           <i>generous</i> limits. Since you&apos;ve reached your account storage
           limits, you won&apos;t be able to create any more tasks or items. Try
-          deleting these to free up space.
+          deleting these to free up some space.
         </Alert>
       )}
       <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
