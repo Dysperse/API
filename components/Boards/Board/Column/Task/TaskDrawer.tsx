@@ -113,7 +113,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               />
             </Box>
           )}
-          {data && data !== "deleted" && (
+          {data && !loading && data !== "deleted" && (
             <DrawerContent
               isAgenda={isAgenda}
               data={data}
