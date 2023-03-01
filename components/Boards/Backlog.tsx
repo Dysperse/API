@@ -38,7 +38,7 @@ export function Backlog() {
         )}
       </Box>
       <Box sx={{ px: 4, pb: 5 }}>
-        {data.length !== 0 && (
+        {data.length == 0 && (
           <Box
             sx={{
               textAlign: "center",
