@@ -406,18 +406,25 @@ input:-webkit-autofill {
     font-size: 18px;
     border-radius: 10px;
     flex-grow: 1 !important;
+    padding: 10px;
     &:hover {
-      background: rgba(200, 200, 200, 0.3);
+      background: rgba(200, 200, 200, 0.2);
+    }
+    &:active {
+      background: rgba(200, 200, 200, 0.4);
     }
   }
 
   &__navigation button.react-calendar__navigation__arrow {
-    font-size: 28px;
+    font-size: 32px;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 10px;
     &:hover {
-      background: rgba(200, 200, 200, 0.3);
+      background: rgba(200, 200, 200, 0.2);
+    }
+    &:active {
+      background: rgba(200, 200, 200, 0.4);
     }
   }
 
@@ -434,5 +441,4 @@ input:-webkit-autofill {
 .react-calendar__navigation {
   display: flex !important;
   align-items: center;
-  gap: 10px;
 }
