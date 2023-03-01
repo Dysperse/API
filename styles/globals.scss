@@ -317,14 +317,21 @@ input:-webkit-autofill {
   padding: 16px;
   border-radius: 4px;
 
+  &__tile {
+    border: 2px solid transparent;
+  }
+
   &__tile--active {
     background-color: #3f51b5;
-    color: #fff;
+    color: #fff !important;
+    &.react-calendar__tile--now {
+      background-color: #f44336 !important;
+      color: #fff !important;
+    }
   }
 
   &__tile--now {
-    background-color: #f44336;
-    color: #fff !important;
+    border-color: #f44336;
   }
 
   &__navigation button {
@@ -443,7 +450,15 @@ input:-webkit-autofill {
   align-items: center;
 }
 
-.react-calendar__tile--range {
+.react-calendar__year-view .react-calendar__tile--range,
+.react-calendar__decade-view .react-calendar__tile--range,
+.react-calendar__century-view .react-calendar__tile--range {
   padding: 10px;
   border-radius: 5px;
+  &:hover {
+    background: rgba(200, 200, 200, 0.2);
+  }
+  &:active {
+    background: rgba(200, 200, 200, 0.4);
+  }
 }

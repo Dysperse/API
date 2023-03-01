@@ -37,45 +37,44 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
         >
           <Puller />
         </Box>
-        <Box sx={{ p: 3, textAlign: "center" }}>
-          <DatePicker
-            value={new Date(date)}
-            onChange={(e) => {
-              setDate(e);
+        <DatePicker
+          value={new Date(date)}
+          onChange={(e) => {
+            setDate(e);
+            setOpen(false);
+          }}
+        />
+        <Box
+          sx={{
+            mt: 1,
+            gap: 1,
+            display: "flex",
+            p: 2,
+            width: "100%",
+          }}
+        >
+          <Button
+            fullWidth
+            sx={{ borderRadius: 9 }}
+            variant="outlined"
+            onClick={() => {
+              setDate(null);
               setOpen(false);
             }}
-          />
-          <Box
-            sx={{
-              mt: 1,
-              gap: 1,
-              display: "flex",
-              width: "100%",
+          >
+            Clear date
+          </Button>
+          <Button
+            fullWidth
+            sx={{ borderRadius: 9 }}
+            variant="contained"
+            onClick={() => {
+              setDate(today);
+              setOpen(false);
             }}
           >
-            <Button
-              fullWidth
-              sx={{ borderRadius: 9 }}
-              variant="outlined"
-              onClick={() => {
-                setDate(null);
-                setOpen(false);
-              }}
-            >
-              Clear date
-            </Button>
-            <Button
-              fullWidth
-              sx={{ borderRadius: 9 }}
-              variant="contained"
-              onClick={() => {
-                setDate(today);
-                setOpen(false);
-              }}
-            >
-              Today
-            </Button>
-          </Box>
+            Today
+          </Button>
         </Box>
       </SwipeableDrawer>
       <Tooltip title="Select date (alt • f)" placement="top">
