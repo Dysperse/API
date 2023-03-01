@@ -170,41 +170,6 @@ img {
   flex: 0 0 100%;
 }
 
-// 2FA authentication code styling
-.auth-code-input {
-  padding: 10px;
-  width: 50px;
-  height: 50px;
-  outline: none;
-  border-radius: 10px;
-  border: 0;
-  background: rgba(0, 0, 0, 0.1);
-  color: #000;
-  font-family: "DM Serif Display", serif !important;
-  font-size: 24px;
-  text-align: center;
-}
-
-.dark .auth-code-input {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-@media screen and (max-width: 900px) {
-  .auth-code-input {
-    width: 35px;
-    height: 35px;
-    font-size: 12px;
-  }
-}
-
-.auth-code-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
 input:-webkit-autofill {
   -webkit-background-clip: text;
 }

@@ -10,10 +10,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { authStyles, Layout } from "../../components/Auth/Layout";
@@ -344,10 +344,9 @@ export default function Prompt() {
               <Typography sx={{ mb: 2 }}>
                 Please type in your 2FA code via your authenticator app.
               </Typography>
-              <AuthCode
-                containerClassName="auth-code-container font-heading"
-                inputClassName="auth-code-input"
-                allowedCharacters="numeric"
+              <MuiOtpInput
+                length={6}
+                value={formik.values.twoFactorCode}
                 onChange={(value) =>
                   formik.setFieldValue("twoFactorCode", value)
                 }

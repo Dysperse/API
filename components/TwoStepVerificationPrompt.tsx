@@ -1,7 +1,7 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
+import { MuiOtpInput } from "mui-one-time-password-input";
 import React, { useState } from "react";
-import AuthCode from "react-auth-code-input";
 import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { toastStyles } from "../lib/useCustomTheme";
@@ -73,11 +73,7 @@ export function Prompt({
         disableSwipeToOpen
       >
         <Puller />
-        <Box
-          sx={{
-            p: 3,
-          }}
-        >
+        <Box sx={{ p: 3 }}>
           {userHasEnabled2fa ? (
             <>
               <Typography
@@ -103,10 +99,9 @@ export function Prompt({
                   textAlign: "center",
                 }}
               >
-                <AuthCode
-                  containerClassName="auth-code-container"
-                  inputClassName="auth-code-input"
-                  allowedCharacters="numeric"
+                <MuiOtpInput
+                  value={code}
+                  length={6}
                   onChange={(value) => setCode(value)}
                 />
               </Box>
