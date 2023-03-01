@@ -25,6 +25,7 @@ const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
 );
 
+import { useAccountStorage } from "../../../../../pages/_app";
 import { TaskDrawer } from "./TaskDrawer";
 
 const renderText = (
@@ -76,6 +77,7 @@ export const Task: any = React.memo(function Task({
   mutationUrl,
   task,
 }: any): JSX.Element {
+  const storage = useAccountStorage();
   const [taskData, setTaskData] = useState(task);
 
   useEffect(() => {
@@ -241,7 +243,8 @@ export const Task: any = React.memo(function Task({
                 <Checkbox
                   disabled={
                     (board && board.archived) ||
-                    global.permission === "read-only"
+                    global.permission === "read-only" ||
+                    storage?.isReached === true
                   }
                   disableRipple
                   checked={taskData.completed}

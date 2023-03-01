@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
 import { useStatusBar } from "../../hooks/useStatusBar";
+import { useAccountStorage } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 import { Agenda } from "./Agenda";
@@ -23,6 +24,7 @@ import { Tab } from "./Tab";
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
   const [activeTab, setActiveTab] = useState("loading");
+  const storage = useAccountStorage();
 
   useEffect(() => {
     if (!data) {
@@ -296,6 +298,7 @@ export function TasksLayout() {
       >
         <Tooltip title="alt • c" placement="right">
           <Button
+            disabled={storage?.isReached === true}
             ref={ref}
             size="large"
             onClick={() => {
@@ -305,6 +308,7 @@ export function TasksLayout() {
             sx={{
               ...styles(activeTab === "new"),
               px: 2,
+              ...(storage?.isReached === true && { opacity: 0.5 }),
               justifyContent: "start",
             }}
           >

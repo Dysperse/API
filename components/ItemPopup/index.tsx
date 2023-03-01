@@ -18,6 +18,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useAccountStorage } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 
@@ -141,10 +142,11 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   };
 
   const categories = JSON.parse(itemData.category);
-
+  const storage = useAccountStorage();
   return (
     <Box sx={{ px: 4, pt: 1 }}>
       <TextField
+        disabled={storage?.isReached === true}
         placeholder="Item title"
         multiline
         defaultValue={capitalizeFirstLetter(itemData.name)}
@@ -163,6 +165,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       />
       <TextField
         multiline
+        disabled={storage?.isReached === true}
         placeholder="Add a quantity"
         onChange={preventLineBreaks}
         onKeyDown={preventLineBreaks}
@@ -210,6 +213,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       <TextField
         multiline
         variant="standard"
+        disabled={storage?.isReached === true}
         InputProps={{
           disableUnderline: true,
           sx: { ...styles, borderRadius: 5, mb: 2, p: 3 },

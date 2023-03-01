@@ -24,6 +24,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
+import { useAccountStorage } from "../../../../../pages/_app";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { Puller } from "../../../../Puller";
 import { CreateTask } from "./Create";
@@ -36,6 +37,7 @@ export default function DrawerContent({
   mutationUrl,
   data,
 }) {
+  const storage = useAccountStorage();
   const handlePriorityChange = useCallback(async () => {
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
     toast.promise(
@@ -160,6 +162,7 @@ export default function DrawerContent({
     <>
       {/* Task name input */}
       <TextField
+        disabled={storage?.isReached === true}
         multiline
         fullWidth
         defaultValue={parseEmojis(data.name.trim())}
@@ -182,7 +185,12 @@ export default function DrawerContent({
           e.key === "Enter" && !e.shiftKey && e.target.blur()
         }
         multiline
-        placeholder="Click to add description"
+        placeholder={
+          storage?.isReached === true
+            ? "You've reached your account storage limits and you can't add a description."
+            : "Click to add description"
+        }
+        disabled={storage?.isReached === true}
         fullWidth
         defaultValue={parseEmojis(data.description)}
         variant="standard"
@@ -232,9 +240,11 @@ export default function DrawerContent({
         value={data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")}
         placeholder="Set a due date"
         onClick={() => setOpen(true)}
+        disabled={storage?.isReached === true}
         InputProps={{
           readOnly: true,
           sx: {
+            ...(storage?.isReached === true && { pointerEvents: "none" }),
             "&, & *": {
               cursor: "unset",
             },
@@ -281,7 +291,11 @@ export default function DrawerContent({
             width: "100%",
           }}
         >
-          <Button onClick={handleComplete} sx={iconStyles}>
+          <Button
+            onClick={handleComplete}
+            sx={iconStyles}
+            disabled={storage?.isReached === true}
+          >
             <Icon
               className="shadow-md dark:shadow-xl"
               sx={{
@@ -295,7 +309,11 @@ export default function DrawerContent({
             </Icon>
             {data.completed ? "Completed" : "Incomplete"}
           </Button>
-          <Button onClick={handlePriorityChange} sx={iconStyles}>
+          <Button
+            onClick={handlePriorityChange}
+            sx={iconStyles}
+            disabled={storage?.isReached === true}
+          >
             <Icon
               className={`${data.pinned && "pinned"} shadow-md dark:shadow-xl`}
               sx={{
@@ -393,7 +411,11 @@ export default function DrawerContent({
               Yesterday
             </MenuItem>
           </SwipeableDrawer>
-          <Button sx={iconStyles} onClick={handleClick}>
+          <Button
+            sx={iconStyles}
+            onClick={handleClick}
+            disabled={storage?.isReached === true}
+          >
             <Icon className="outlined shadow-md dark:shadow-xl">schedule</Icon>
             Reschedule
           </Button>

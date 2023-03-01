@@ -2,10 +2,9 @@ import { Analytics } from "@vercel/analytics/react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { NextRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import useSWR from "swr";
-
 import { Error } from "../components/Layout/Error";
 import { Loading } from "../components/Layout/Loading";
 import { colors } from "../lib/colors";
@@ -30,6 +29,11 @@ const AuthLoading = dynamic(() => import("../components/Auth/AuthLoading"), {
   loading: () => <Loading />,
 });
 dayjs.extend(relativeTime);
+
+export let useAccountStorage: () => null | {
+  isReached: boolean | "error" | "loading";
+  setIsReached: (newValue: boolean | "error" | "loading") => any;
+} = () => null;
 
 /**
  * Main function, including layout and theme.
@@ -61,6 +65,13 @@ function RenderWithLayout({
   const themeColor = data.user.color;
   global.user = data.user;
   global.themeColor = themeColor;
+
+  const [isReached, setIsReached]: any = useState<
+    boolean | "error" | "loading"
+  >("loading");
+  useAccountStorage = () => {
+    return { isReached, setIsReached };
+  };
 
   useEffect(() => {
     if (data.user.darkMode) {

@@ -1,6 +1,12 @@
-import { Box, CssBaseline, Snackbar, Toolbar } from "@mui/material";
+import { Box, Button, CssBaseline, Snackbar, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useApi } from "../../hooks/useApi";
+import { useAccountStorage } from "../../pages/_app";
+import { ApiResponse } from "../../types/client";
+import Group from "../Group";
+import { getTotal, max } from "../Group/Storage";
 import { BottomNav } from "./BottomNavigation";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
@@ -25,6 +31,22 @@ function ResponsiveDrawer({
 }): JSX.Element {
   const router = useRouter();
 
+  // Check if user has reached storage limits
+  const { data, error, url }: ApiResponse = useApi("property/storage");
+  const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
+
+  const storage = useAccountStorage();
+
+  useEffect(() => {
+    if (error) {
+      storage?.setIsReached("error");
+    } else {
+      storage?.setIsReached(hasReachedLimit);
+    }
+  }, [hasReachedLimit, storage]);
+
+  const [dismissed, setDismissed] = useState(false);
+
   return (
     <Box
       onContextMenu={(e) => e.preventDefault()}
@@ -33,11 +55,56 @@ function ResponsiveDrawer({
       }}
     >
       <Snackbar
+        open={!dismissed && hasReachedLimit && !error}
+        autoHideDuration={6000}
+        onClose={() => null}
+        sx={{
+          mb: { xs: 7, sm: 2 },
+          transition: "all .3s",
+          zIndex: 999,
+          userSelect: "none",
+        }}
+        action={
+          <>
+            <Button
+              size="small"
+              color="inherit"
+              sx={{ color: global.user.darkMode ? "#000" : "#fff" }}
+              onClick={() => setDismissed(true)}
+            >
+              Hide for now
+            </Button>
+            <Group
+              data={{
+                id: global.property.propertyId,
+                accessToken: global.property.accessToken,
+              }}
+            >
+              <Button
+                color="inherit"
+                size="small"
+                sx={{ color: global.user.darkMode ? "#000" : "#fff" }}
+              >
+                More info
+              </Button>
+            </Group>
+          </>
+        }
+        message="You've reached the storage limits for this group."
+      />
+      <Snackbar
         open={!navigator.onLine}
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
         message="You're offline. Please check your network connection."
+      />
+      <Snackbar
+        open={Boolean(error)}
+        autoHideDuration={6000}
+        onClose={() => null}
+        sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+        message="An error occured while trying to get your account storage information"
       />
       <Navbar />
       {router && (

@@ -1,13 +1,14 @@
-import { colors } from "../../lib/colors";
-import AddPopup from "./CreateItem";
-
 import { Box, Fab } from "@mui/material";
+import { colors } from "../../lib/colors";
+import { useAccountStorage } from "../../pages/_app";
+import AddPopup from "./CreateItem";
 
 /**
  * Floating action button
  * @returns {any}
  */
 export function FloatingActionButton({ sm = false }) {
+  const storage = useAccountStorage();
   return global.property.role === "read-only" ? null : (
     <Box
       sx={{
@@ -23,6 +24,7 @@ export function FloatingActionButton({ sm = false }) {
           variant="extended"
           color="primary"
           disableRipple
+          disabled={storage?.isReached === true}
           sx={{
             borderRadius: "20px",
             px: 3,

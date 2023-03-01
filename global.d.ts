@@ -5,7 +5,6 @@ export {};
 declare global {
   var themeColor: Color;
   var workbox: any;
-
   var user: User;
   var property: Property;
 }

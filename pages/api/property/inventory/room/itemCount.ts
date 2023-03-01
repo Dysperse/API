@@ -1,22 +1,19 @@
 import { prisma } from "../../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../../lib/validatePermissions";
 
-const handler = async (req, res) => {
- await validatePermissions(res, {
-   minimum: "read-only",
-   credentials: [req.query.property, req.query.accessToken],
- });
+export const getItemCount = async (res, property, accessToken, room) => {
+  await validatePermissions(res, {
+    minimum: "read-only",
+    credentials: [property, accessToken],
+  });
 
   const data = await prisma.item.findMany({
     where: {
-      room: req.query.room,
       property: {
-        id: req.query.property,
+        id: property,
       },
     },
-    select: {
-      room: true,
-    },
+    select: { room: true },
   });
 
   // Create object of room names and have the values be the number of times the room name occures
@@ -29,10 +26,19 @@ const handler = async (req, res) => {
     return acc;
   }, {});
 
-  res.json({
+  return {
     count: data.length,
     byRoom: grouped,
-  });
+  };
 };
 
-export default handler;
+export default async function handler(req, res) {
+  const data = await getItemCount(
+    res,
+    req.query.property,
+    req.query.accessToken,
+    req.query.room
+  );
+
+  res.json(data);
+}

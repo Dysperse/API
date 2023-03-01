@@ -89,7 +89,7 @@ export function Sidebar() {
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
-        zIndex: "999!important",
+        zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",
         background: {
