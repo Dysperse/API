@@ -298,7 +298,6 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
   return (
     <>
       <SwipeableDrawer
-        swipeAreaWidth={30}
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
@@ -984,6 +983,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         />
       )}
       <SwipeableDrawer
+        swipeAreaWidth={30}
         open={mobileOpen}
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
