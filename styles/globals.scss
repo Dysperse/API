@@ -462,3 +462,8 @@ input:-webkit-autofill {
     background: rgba(200, 200, 200, 0.4);
   }
 }
+
+table {
+  border-spacing: 0px !important;
+  border: none !important;
+}
