@@ -22,7 +22,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
   const [loading, setLoading] = React.useState(false);
   const [name, setName] = React.useState("");
   const [isPrivate, setIsPrivate] = React.useState(false);
-const storage = useAccountStorage();
+  const storage = useAccountStorage();
 
   const handleSubmit = () => {
     setLoading(true);
