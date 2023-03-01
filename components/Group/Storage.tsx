@@ -4,7 +4,7 @@ import { colors } from "../../lib/colors";
 import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../Error";
 
-export const max = 1;
+export const max = 500;
 export const multipliers = { items: 1.5, tasks: 0.5 };
 export const getTotal = (data, tasks, items) =>
   Math.round(
