@@ -45,7 +45,7 @@ const Action = React.memo(function Action({
   isPrivate?: boolean;
   onClick?;
   isCustom?: boolean;
-  disabled: boolean;
+  disabled?: boolean;
 }) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
