@@ -14,6 +14,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
 import { toastStyles } from "../../../../lib/useCustomTheme";
+import { useAccountStorage } from "../../../../pages/_app";
 import { Puller } from "../../../Puller";
 
 export default function CreateColumn({
@@ -23,6 +24,8 @@ export default function CreateColumn({
   mutationUrl,
   mobile = false,
 }: any) {
+  const storage = useAccountStorage();
+
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -247,7 +250,7 @@ export default function CreateColumn({
       <Box>
         {!open && mobile ? (
           <MenuItem
-            disabled={hide || open || mobileOpen}
+            disabled={hide || open || mobileOpen || storage?.isReached === true}
             onClick={() => {
               setMobileOpen(true);
             }}

@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
+import { useAccountStorage } from "../../../pages/_app";
 import { capitalizeFirstLetter } from "../../ItemPopup";
 
 const WebcamComponent = ({
@@ -142,9 +143,7 @@ const WebcamComponent = ({
         }}
         onClick={capture}
       >
-        <CircularProgress
-       
-        />
+        <CircularProgress />
       </Box>
       <Box
         sx={{
@@ -201,15 +200,19 @@ export default function ImageRecognition({
       : "#fff";
   }, [open]);
 
+  const storage = useAccountStorage();
+
   return (
     <>
       <Box sx={{ pt: 2 }}>
         <Fab
           id="scanTrigger"
+          disabled={storage?.isReached === true}
           size="large"
           onClick={() => setOpen(true)}
           sx={{
-            color: "#000",
+            ...(storage?.isReached === true && { opacity: 0.6 }),
+            color: "#000!important",
             boxShadow: "none!important",
             background: "linear-gradient(45deg, #fc00ff, #00dbde)!important",
             "&:hover": {

@@ -20,6 +20,7 @@ import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
+import { useAccountStorage } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { cards } from "./cards";
 
@@ -99,6 +100,8 @@ export function CreateItemModal({
       });
   }, [category, quantity, room, title]);
 
+  const storage = useAccountStorage();
+
   return (
     <>
       {trigger}
@@ -149,7 +152,10 @@ export function CreateItemModal({
             >
               {room}
             </Typography>
-            <IconButton onClick={handleSubmit}>
+            <IconButton
+              onClick={handleSubmit}
+              disabled={storage?.isReached === true}
+            >
               {loading ? <CircularProgress size={24} /> : <Icon>check</Icon>}
             </IconButton>
           </Toolbar>

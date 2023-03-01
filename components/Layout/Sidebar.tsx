@@ -89,7 +89,7 @@ export function Sidebar() {
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
-        zIndex: "999!important",
+        zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",
         background: {
@@ -184,7 +184,10 @@ export function Sidebar() {
       </Box>
       <Box
         sx={styles(
-          router.asPath === "/items" || router.asPath.includes("rooms")
+          router.asPath === "/items" ||
+            router.asPath === "/trash" ||
+            router.asPath === "/starred" ||
+            router.asPath.includes("rooms")
         )}
         onClick={() => router.push("/items")}
         onMouseDown={() => router.push("/items")}
@@ -192,7 +195,10 @@ export function Sidebar() {
         <Tooltip title="Items" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath === "/items" || router.asPath.includes("rooms")
+              router.asPath === "/items" ||
+              router.asPath === "/trash" ||
+              router.asPath === "/starred" ||
+              router.asPath.includes("rooms")
                 ? "rounded"
                 : "outlined"
             }`}

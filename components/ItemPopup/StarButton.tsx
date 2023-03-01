@@ -1,5 +1,6 @@
 import { Icon, ListItemButton } from "@mui/material";
 import type { Item } from "@prisma/client";
+import { useAccountStorage } from "../../pages/_app";
 
 /**
  * Description
@@ -25,11 +26,15 @@ export default function StarButton({
   item: Item;
   handleItemStar: () => void;
 }): JSX.Element {
+  const storage = useAccountStorage();
+
   return (
     <ListItemButton
       sx={styles}
       onClick={handleItemStar}
-      disabled={global.permission === "read-only"}
+      disabled={
+        global.permission === "read-only" || storage?.isReached === true
+      }
     >
       <Icon className={item.starred ? "" : "outlined"}>grade</Icon>
       {!item.starred ? "Star" : "Unstar"}

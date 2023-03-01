@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
+import { useAccountStorage } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
 
@@ -19,6 +20,8 @@ export default function BoardSettings({ mutationUrl, board }) {
     mutate(mutationUrl);
     setAnchorEl(null);
   };
+
+  const storage = useAccountStorage();
 
   return (
     <>
@@ -64,7 +67,7 @@ export default function BoardSettings({ mutationUrl, board }) {
               ml: "auto",
               flex: "0 0 auto",
             }}
-            disabled={board.archived}
+            disabled={board.archived || storage?.isReached === true}
           >
             <Icon
               className={board.pinned ? "" : "outlined"}
@@ -120,7 +123,7 @@ export default function BoardSettings({ mutationUrl, board }) {
             await mutate(mutationUrl);
           }}
         >
-          <MenuItem>
+          <MenuItem disabled={storage?.isReached === true}>
             <Icon className="outlined">
               {!board.public ? "visibility" : "visibility_off"}
             </Icon>

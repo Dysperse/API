@@ -19,6 +19,7 @@ import {
   SwipeableDrawer,
 } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useAccountStorage } from "../../pages/_app";
 
 /**
  * @description A room
@@ -86,6 +87,8 @@ export default function MoveToRoom({ item, styles }) {
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+  const storage = useAccountStorage();
+
   return (
     <>
       <SwipeableDrawer
@@ -156,7 +159,9 @@ export default function MoveToRoom({ item, styles }) {
       <ListItemButton
         sx={styles}
         onClick={() => setOpen(true)}
-        disabled={global.permission === "read-only"}
+        disabled={
+          global.permission === "read-only" || storage?.isReached === true
+        }
       >
         <Icon>place_item</Icon>
         Move

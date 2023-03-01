@@ -30,6 +30,7 @@ const Action = React.memo(function Action({
   onClick,
   isPrivate = false,
   isCustom = false,
+  disabled = false,
 }: {
   disableLoading?: boolean;
   count?: {
@@ -44,6 +45,7 @@ const Action = React.memo(function Action({
   isPrivate?: boolean;
   onClick?;
   isCustom?: boolean;
+  disabled: boolean;
 }) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -63,6 +65,7 @@ const Action = React.memo(function Action({
 
   return (
     <ListItemButton
+      disabled={disabled}
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();

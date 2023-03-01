@@ -8,6 +8,7 @@ import {
   neutralizeBack,
   revivalBack,
 } from "../../../../../hooks/useBackButton";
+import { useAccountStorage } from "../../../../../pages/_app";
 import { ErrorHandler } from "../../../../Error";
 import { Puller } from "../../../../Puller";
 import DrawerContent from "./DrawerContent";

@@ -17,7 +17,7 @@ import {
   Grow,
   Icon,
   IconButton,
-  ListItem,
+  ListItemButton,
   SwipeableDrawer,
   TextField,
   Tooltip,
@@ -27,6 +27,7 @@ import {
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
+import { useAccountStorage } from "../../../../../pages/_app";
 import { capitalizeFirstLetter } from "../../../../ItemPopup";
 
 function ImageModal({ image, setImage, styles }) {
@@ -105,6 +106,7 @@ export function CreateTask({
   column,
   checkList = false,
 }: any) {
+  const storage = useAccountStorage();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -636,7 +638,8 @@ export function CreateTask({
           </form>
         </Box>
       </SwipeableDrawer>
-      <ListItem
+      <ListItemButton
+        disabled={storage?.isReached === true}
         id="createTask"
         className="task createTask"
         sx={{
@@ -706,7 +709,7 @@ export function CreateTask({
         <Typography sx={{ ml: label ? -1.5 : 0.5 }}>
           {parent ? "New subtask" : label || "New list item"}
         </Typography>
-      </ListItem>
+      </ListItemButton>
     </>
   );
 }

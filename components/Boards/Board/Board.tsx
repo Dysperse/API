@@ -21,6 +21,7 @@ import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
+import { useAccountStorage } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import BoardSettings from "./BoardSettings";
 import { Task } from "./Column/Task";
@@ -117,6 +118,7 @@ function ColumnSettings({
   mutationUrls,
   column,
 }) {
+  const storage = useAccountStorage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -183,6 +185,7 @@ function ColumnSettings({
               onChange={(e) => setTitle(e.target.value)}
               id={"renameInput"}
               inputRef={ref}
+              disabled={storage?.isReached === true}
               onKeyDown={(e) => {
                 if (e.code === "Enter") {
                   buttonRef.current.click();
@@ -201,6 +204,7 @@ function ColumnSettings({
             <Button
               ref={buttonRef}
               size="large"
+              disabled={storage?.isReached === true}
               onClick={async () => {
                 toast.promise(
                   fetchApiWithoutHook("property/boards/column/edit", {
@@ -268,7 +272,10 @@ function ColumnSettings({
           <Icon className="outlined">west</Icon>Move left
         </MenuItem>
         <Divider />
-        <MenuItem onClick={() => setOpen(true)}>
+        <MenuItem
+          onClick={() => setOpen(true)}
+          disabled={storage?.isReached === true}
+        >
           <Icon className="outlined">edit</Icon>
           Edit
         </MenuItem>
@@ -895,8 +902,9 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   );
 
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  const storage = useAccountStorage();
   const isMobile = useMediaQuery("(max-width: 900px)");
+
   return (
     <Box
       className="snap-x snap-mandatory sm:snap-none"
@@ -954,7 +962,9 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             const el: any = container.querySelector(".createTask");
             el?.click();
           }}
+          disabled={storage?.isReached === true}
           sx={{
+            display: { sm: "none" },
             px: 1.5,
             minWidth: "unset",
             background: `${

@@ -13,6 +13,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
+import { useAccountStorage } from "../../../pages/_app";
 import { Puller } from "../../Puller";
 import Action from "../../Rooms/Action";
 
@@ -21,6 +22,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
   const [loading, setLoading] = React.useState(false);
   const [name, setName] = React.useState("");
   const [isPrivate, setIsPrivate] = React.useState(false);
+  const storage = useAccountStorage();
 
   const handleSubmit = () => {
     setLoading(true);
@@ -118,6 +120,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
         mutationUrl={mutationUrl}
         disableLoading
         icon="add_circle"
+        disabled={storage?.isReached === true}
         primary={
           global.property.profile.type === "study group"
             ? "New container"
