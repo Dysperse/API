@@ -61,7 +61,6 @@
     "npm": "^9.5.1",
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
-    "react-detect-offline": "^2.4.5",
     "react-dom": "^18.2.0",
     "react-emoji-render": "^2.0.1",
     "react-hot-toast": "^2.4.0",
