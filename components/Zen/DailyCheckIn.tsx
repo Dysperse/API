@@ -90,15 +90,10 @@ export function DailyCheckInDrawer() {
   const [lastBy, setLastBy] = useState<number>(7);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = (count: any = -1) => {
-    if (count !== -1) setLastBy(count);
-    setAnchorEl(null);
-  };
 
-  const [emblaRef] = useEmblaCarousel(
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
+    setAnchorEl(event.currentTarget);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       dragFree: true,
       align: "start",
@@ -107,6 +102,12 @@ export function DailyCheckInDrawer() {
     },
     [WheelGesturesPlugin()]
   );
+
+  const handleMenuClose = (count: any = -1) => {
+    if (count !== -1) setLastBy(count);
+    setAnchorEl(null);
+    setTimeout(() => emblaApi?.reInit(), 100);
+  };
 
   return (
     <>
