@@ -84,6 +84,8 @@ export function DailyCheckInDrawer() {
     width: "100%",
     maxWidth: "600px",
     borderRadius: 0,
+    height: "100vh",
+    maxHeight: "100vh",
   };
 
   const { data, error } = useApi("user/checkIns/count");
