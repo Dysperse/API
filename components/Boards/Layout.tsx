@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Collapse,
   Divider,
   Icon,
@@ -22,9 +23,32 @@ import { CreateBoard } from "./Board/Create";
 import { Loading } from "./Loading";
 import { Tab } from "./Tab";
 
-const Agenda = dynamic(() => import("./Agenda").then((mod) => mod.Agenda));
-const Board = dynamic(() => import("./Board").then((mod) => mod.Board));
-const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog));
+const DynamicLoader = () => (
+  <Box
+    sx={{
+      width: "100%",
+      height: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
+
+const Agenda = dynamic(() => import("./Agenda").then((mod) => mod.Agenda), {
+  loading: () => <DynamicLoader />,
+  ssr: false,
+});
+const Board = dynamic(() => import("./Board").then((mod) => mod.Board), {
+  loading: () => <DynamicLoader />,
+  ssr: false,
+});
+const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog), {
+  loading: () => <DynamicLoader />,
+  ssr: false,
+});
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
