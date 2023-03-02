@@ -132,7 +132,9 @@ export function Navbar(): JSX.Element {
             }}
             variant="h6"
           >
-            {window.location.href.includes("agenda")
+            {router.asPath.includes("backlog")
+              ? "Backlog"
+              : window.location.href.includes("agenda")
               ? capitalizeFirstLetter(
                   isMobile &&
                     window.location.hash.split("agenda/")[1].includes("week")

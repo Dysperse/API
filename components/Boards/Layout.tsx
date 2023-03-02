@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   Collapse,
   Divider,
   Icon,
@@ -173,6 +174,16 @@ export function TasksLayout() {
             select
           </Icon>
           Backlog
+          <span>
+            <Chip
+              label="beta"
+              sx={{
+                color: "#000",
+                background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+              }}
+              size="small"
+            />
+          </span>
         </Button>
         <Button
           id="__agenda.week"
