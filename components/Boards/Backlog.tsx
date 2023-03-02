@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { useApi } from "../../hooks/useApi"; 
+import { useApi } from "../../hooks/useApi";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
 
@@ -102,7 +102,10 @@ export function Backlog({ setDrawerOpen }) {
               justifyContent: "center",
               flexDirection: "column",
               userSelect: "none",
-              height: {xs: "calc(100vh - var(--navbar-height) - 55px)", sm: "100vh"},
+              height: {
+                xs: "calc(100vh - var(--navbar-height) - 55px)",
+                sm: "100vh",
+              },
             }}
           >
             <Image
