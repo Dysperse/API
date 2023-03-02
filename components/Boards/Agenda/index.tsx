@@ -1,4 +1,11 @@
-import { Box, Button, Icon, IconButton, useScrollTrigger } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  useMediaQuery,
+  useScrollTrigger,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -29,17 +36,24 @@ export function Agenda({
     threshold: 0,
     target: window ? window : undefined,
   });
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const e = view === "week" ? "day" : view === "month" ? "month" : "year";
 
-  let startOfWeek = dayjs().add(navigation, view).startOf(view);
-  let endOfWeek = dayjs().add(navigation, view).endOf(view);
+  let startOfWeek = dayjs()
+    .add(navigation, isMobile ? e : view)
+    .startOf(isMobile ? e : view);
+
+  let endOfWeek = dayjs()
+    .add(navigation, isMobile ? e : view)
+    .endOf(isMobile ? e : view);
 
   switch (view) {
     case "month":
-      endOfWeek = endOfWeek.add(2, "month");
+      endOfWeek = endOfWeek.add(isMobile ? 0 : 2, "month");
       break;
     case "year":
-      endOfWeek = endOfWeek.add(3, "year");
+      endOfWeek = endOfWeek.add(isMobile ? 0 : 3, "year");
       break;
   }
 
@@ -47,8 +61,8 @@ export function Agenda({
 
   for (let i = 0; i <= endOfWeek.diff(startOfWeek, e); i++) {
     const currentDay = startOfWeek.add(i, e);
-
     const heading = view === "week" ? "D" : view === "month" ? "MMMM" : "YYYY";
+
     days.push({
       unchanged: currentDay,
       heading,
@@ -61,6 +75,7 @@ export function Agenda({
     setNavigation(navigation - 1);
     document.getElementById("agendaContainer")?.scrollTo(0, 0);
   }, [navigation]);
+
   const handleNext = useCallback(() => {
     setNavigation(navigation + 1);
     document.getElementById("agendaContainer")?.scrollTo(0, 0);
@@ -83,6 +98,8 @@ export function Agenda({
     startTime: startOfWeek.toISOString(),
     endTime: endOfWeek.toISOString(),
   });
+
+  console.log(days);
 
   return (
     <>

@@ -8,11 +8,10 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useNetworkState } from "react-use";
+import { useMedia, useNetworkState } from "react-use";
 import { capitalizeFirstLetter } from "../ItemPopup";
 import { UpdateButton } from "./UpdateButton";
 import InviteButton from "./UserMenu";
@@ -23,7 +22,7 @@ import InviteButton from "./UserMenu";
  */
 export function Navbar(): JSX.Element {
   const network = useNetworkState();
-
+  const isMobile = useMedia("(max-width:600px)");
   const router = useRouter();
   const styles = () => {
     return {
@@ -47,8 +46,6 @@ export function Navbar(): JSX.Element {
       },
     };
   };
-
-  const isMobile = useMediaQuery("(max-width: 900px)");
 
   return (
     <AppBar
@@ -136,7 +133,12 @@ export function Navbar(): JSX.Element {
             variant="h6"
           >
             {window.location.href.includes("agenda")
-              ? capitalizeFirstLetter(window.location.hash.split("agenda/")[1])
+              ? capitalizeFirstLetter(
+                  isMobile &&
+                    window.location.hash.split("agenda/")[1].includes("week")
+                    ? "Day"
+                    : window.location.hash.split("agenda/")[1]
+                )
               : router.asPath.includes("tasks")
               ? "Tasks"
               : router.asPath.includes("items") ||

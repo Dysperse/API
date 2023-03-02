@@ -7,6 +7,7 @@ import {
   SwipeableDrawer,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
@@ -137,6 +138,7 @@ export function TasksLayout() {
   });
 
   const [archiveOpen, setArchiveOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const children = (
     <>
@@ -185,7 +187,7 @@ export function TasksLayout() {
           <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
             view_week
           </Icon>
-          This week
+          {isMobile ? "Day" : "This week"}
         </Button>
         <Button
           id="__agenda.month"
