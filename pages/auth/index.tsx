@@ -93,8 +93,6 @@ export default function Prompt() {
           }),
         }).then((res) => res.json());
 
-        ref.current?.reset();
-
         if (
           res.message &&
           res.message.includes(`Can't reach database server`)
@@ -105,20 +103,25 @@ export default function Prompt() {
           );
           setButtonLoading(false);
           setStep(1);
+          ref.current?.reset();
           return;
         }
 
         if (res.twoFactor) {
           setStep(3);
           setButtonLoading(false);
+          ref.current?.reset();
+
           return;
         } else if (res.error) {
           setStep(1);
+          ref.current?.reset();
           throw new Error(res.error);
         }
         if (res.message) {
           setStep(1);
           toast.error(res.message, toastStyles);
+          ref.current?.reset();
           setButtonLoading(false);
           return;
         }
@@ -134,7 +137,9 @@ export default function Prompt() {
             toastStyles
           );
           mutate("/api/user").then(() => {
-            window.close();
+            if (window.location.href.includes("close=true")) {
+              window.close();
+            }
           });
           return;
         }
@@ -176,10 +181,18 @@ export default function Prompt() {
 
   const [step, setStep] = useState(1);
   const [togglePassword, setTogglePassword] = useState(false);
-  const handleTogglePassword = useCallback(
-    () => setTogglePassword((e) => !e),
-    [setTogglePassword]
-  );
+  const handleTogglePassword = useCallback(() => {
+    if (!togglePassword) {
+      if (
+        confirm(
+          "Are you sure you want to show your password? Make sure nobody is around you 🤫"
+        )
+      )
+        setTogglePassword((e) => !e);
+    } else {
+      setTogglePassword((e) => !e);
+    }
+  }, [togglePassword, setTogglePassword]);
 
   return (
     <Layout>
@@ -287,7 +300,6 @@ export default function Prompt() {
                     borderRadius: 99,
                     ml: "auto",
                     mr: 1,
-                    mt: { sm: 2 },
                     textTransform: "none",
                     transition: "none",
                   }}

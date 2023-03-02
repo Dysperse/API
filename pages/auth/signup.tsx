@@ -44,16 +44,14 @@ export default function Prompt() {
           if (res.error) {
             throw new Error(res.message);
           }
-          if (window.location.href.includes("?close=true")) {
-            mutate("/api/user").then(() => {
+          mutate("/api/user").then(() => {
+            if (window.location.href.includes("close=true")) {
               window.close();
-              router.push("/");
-            });
-            return;
-          }
-          mutate("/api/user");
-          router.push("/");
-          toast.success("Welcome to Dysperse!", toastStyles);
+            }
+            toast.success("Welcome to Dysperse!", toastStyles);
+            router.push("/");
+          });
+          return;
         })
         .catch((err) => {
           setButtonLoading(false);

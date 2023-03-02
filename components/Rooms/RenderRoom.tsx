@@ -14,6 +14,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
 
 /**
  * Renders a room based on the inventory data passed in the data object
@@ -76,11 +77,26 @@ export function RenderRoom({
                     p: 3,
                   }}
                 >
-                  <CardContent>
+                  <CardContent
+                    sx={{
+                      textAlign: "center",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Image
+                      src="/images/noItems.png"
+                      width={256}
+                      height={256}
+                      style={{
+                        ...(global.user.darkMode && { filter: "invert(100%)" }),
+                      }}
+                      alt="No items found"
+                    />
                     <Typography
                       variant="h5"
                       sx={{
-                        mt: 1,
                         fontWeight: "700",
                       }}
                     >

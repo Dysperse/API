@@ -1,12 +1,15 @@
 import {
   Box,
   Button,
+  Chip,
+  CircularProgress,
   Collapse,
   Divider,
   Icon,
   SwipeableDrawer,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
@@ -20,9 +23,32 @@ import { CreateBoard } from "./Board/Create";
 import { Loading } from "./Loading";
 import { Tab } from "./Tab";
 
-const Agenda = dynamic(() => import("./Agenda").then((mod) => mod.Agenda));
-const Board = dynamic(() => import("./Board/Board").then((mod) => mod.Board));
-const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog));
+const DynamicLoader = () => (
+  <Box
+    sx={{
+      width: "100%",
+      height: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
+
+const Agenda = dynamic(() => import("./Agenda").then((mod) => mod.Agenda), {
+  loading: () => <DynamicLoader />,
+  ssr: false,
+});
+const Board = dynamic(() => import("./Board").then((mod) => mod.Board), {
+  loading: () => <DynamicLoader />,
+  ssr: false,
+});
+const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog), {
+  loading: () => <DynamicLoader />,
+  ssr: false,
+});
 
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
@@ -137,6 +163,7 @@ export function TasksLayout() {
   });
 
   const [archiveOpen, setArchiveOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const children = (
     <>
@@ -158,6 +185,31 @@ export function TasksLayout() {
       </Typography>
       <Box onClick={() => setOpen(false)}>
         <Button
+          id="__agenda.year"
+          size="large"
+          sx={styles(activeTab === "__agenda.backlog")}
+          onMouseDown={() => setActiveTab("__agenda.backlog")}
+          onClick={() => {
+            window.location.hash = "#/agenda/backlog";
+            setActiveTab("__agenda.backlog");
+          }}
+        >
+          <Icon className={activeTab === "__agenda.backlog" ? "" : "outlined"}>
+            blur_circular
+          </Icon>
+          Backlog
+          <span style={{ marginLeft: "auto" }}>
+            <Chip
+              label="beta"
+              sx={{
+                color: "#000",
+                background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+              }}
+              size="small"
+            />
+          </span>
+        </Button>
+        <Button
           id="__agenda.week"
           size="large"
           sx={styles(activeTab === "__agenda.week")}
@@ -170,7 +222,7 @@ export function TasksLayout() {
           <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
             view_week
           </Icon>
-          This week
+          {isMobile ? "Day" : "This week"}
         </Button>
         <Button
           id="__agenda.month"
@@ -201,22 +253,6 @@ export function TasksLayout() {
             calendar_month
           </Icon>
           Years
-        </Button>
-
-        <Button
-          id="__agenda.year"
-          size="large"
-          sx={styles(activeTab === "__agenda.backlog")}
-          onMouseDown={() => setActiveTab("__agenda.backlog")}
-          onClick={() => {
-            window.location.hash = "#/agenda/backlog";
-            setActiveTab("__agenda.backlog");
-          }}
-        >
-          <Icon className={activeTab === "__agenda.backlog" ? "" : "outlined"}>
-            select
-          </Icon>
-          Backlog
         </Button>
       </Box>
       <Divider
@@ -419,7 +455,9 @@ export function TasksLayout() {
         {activeTab.includes("__agenda.year") && (
           <Agenda setDrawerOpen={setOpen} view="year" />
         )}
-        {activeTab.includes("__agenda.backlog") && <Backlog />}
+        {activeTab.includes("__agenda.backlog") && (
+          <Backlog setDrawerOpen={setOpen} />
+        )}
         {data &&
           data.map(
             (board) =>

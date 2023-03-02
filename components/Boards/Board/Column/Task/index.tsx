@@ -10,7 +10,7 @@ import {
   Checkbox,
   Chip,
   Icon,
-  ListItem,
+  ListItemButton,
   ListItemText,
   styled,
   Tooltip,
@@ -193,11 +193,12 @@ export const Task: any = React.memo(function Task({
   ) : (
     <>
       <TaskDrawer id={taskData.id} mutationUrl={mutationUrl} isAgenda>
-        <ListItem
+        <ListItemButton
           itemRef={ref}
           tabIndex={0}
           className="task mb-1.5"
           sx={{
+            transition: "none",
             ...(isSubTask && {
               ml: "20px",
               width: "calc(100% - 20px)",
@@ -211,20 +212,18 @@ export const Task: any = React.memo(function Task({
             cursor: "unset!important",
             ...(global.user.darkMode && {
               "&:hover": {
-                backgroundColor: "hsl(240,11%,19%)!important",
+                backgroundColor: "hsl(240,11%,15%)!important",
               },
               "&:active": {
-                backgroundColor: "hsl(240,11%,16%)!important",
+                backgroundColor: "hsl(240,11%,18%)!important",
               },
             }),
-            ...(!checkList && {
-              boxShadow: {
-                sm: "none!important",
-              },
-              border: {
-                sm: "none!important",
-              },
-            }),
+            boxShadow: {
+              sm: "none!important",
+            },
+            border: {
+              sm: "none !important",
+            },
             gap: "10px!important",
           }}
         >
@@ -381,7 +380,7 @@ export const Task: any = React.memo(function Task({
               </Typography>
             }
           />
-        </ListItem>
+        </ListItemButton>
       </TaskDrawer>
       {taskData &&
         taskData.subTasks &&

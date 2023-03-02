@@ -11,6 +11,11 @@ const handler = async (req, res) => {
     where: {
       AND: [
         { completed: false },
+        {
+          NOT: {
+            due: null,
+          },
+        },
         // Prevent selecting subtasks
         {
           parentTasks: {

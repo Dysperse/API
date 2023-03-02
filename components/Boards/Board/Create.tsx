@@ -578,6 +578,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
             onClick={() => length !== 0 && setDrawerOpen(true)}
             sx={{
               zIndex: 9,
+              pointerEvents: { sm: "none" },
               lineHeight: 1.5,
               letterSpacing: 0.15,
               borderRadius: 2,
