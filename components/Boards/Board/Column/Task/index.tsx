@@ -198,6 +198,7 @@ export const Task: any = React.memo(function Task({
           tabIndex={0}
           className="task mb-1.5"
           sx={{
+            transition: "none",
             ...(isSubTask && {
               ml: "20px",
               width: "calc(100% - 20px)",
@@ -211,10 +212,10 @@ export const Task: any = React.memo(function Task({
             cursor: "unset!important",
             ...(global.user.darkMode && {
               "&:hover": {
-                backgroundColor: "hsl(240,11%,19%)!important",
+                backgroundColor: "hsl(240,11%,15%)!important",
               },
               "&:active": {
-                backgroundColor: "hsl(240,11%,16%)!important",
+                backgroundColor: "hsl(240,11%,18%)!important",
               },
             }),
             boxShadow: {

@@ -171,10 +171,10 @@ export function TasksLayout() {
           }}
         >
           <Icon className={activeTab === "__agenda.backlog" ? "" : "outlined"}>
-            select
+            blur_on
           </Icon>
           Backlog
-          <span>
+          <span style={{ marginLeft: "auto" }}>
             <Chip
               label="beta"
               sx={{
