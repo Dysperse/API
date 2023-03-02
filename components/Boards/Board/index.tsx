@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
   useMediaQuery,
-  useScrollTrigger,
+  useScrollTrigger
 } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
@@ -23,7 +23,7 @@ import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
 import { useAccountStorage } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
-import BoardSettings from "./BoardSettings";
+import BoardSettings from "./settings";
 import { Task } from "./Column/Task";
 import { CreateTask } from "./Column/Task/Create";
 

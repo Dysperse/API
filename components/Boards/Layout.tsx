@@ -21,7 +21,7 @@ import { Loading } from "./Loading";
 import { Tab } from "./Tab";
 
 const Agenda = dynamic(() => import("./Agenda").then((mod) => mod.Agenda));
-const Board = dynamic(() => import("./Board/Board").then((mod) => mod.Board));
+const Board = dynamic(() => import("./Board").then((mod) => mod.Board));
 const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog));
 
 export function TasksLayout() {
