@@ -158,6 +158,21 @@ export function TasksLayout() {
       </Typography>
       <Box onClick={() => setOpen(false)}>
         <Button
+          id="__agenda.year"
+          size="large"
+          sx={styles(activeTab === "__agenda.backlog")}
+          onMouseDown={() => setActiveTab("__agenda.backlog")}
+          onClick={() => {
+            window.location.hash = "#/agenda/backlog";
+            setActiveTab("__agenda.backlog");
+          }}
+        >
+          <Icon className={activeTab === "__agenda.backlog" ? "" : "outlined"}>
+            select
+          </Icon>
+          Backlog
+        </Button>
+        <Button
           id="__agenda.week"
           size="large"
           sx={styles(activeTab === "__agenda.week")}
@@ -201,22 +216,6 @@ export function TasksLayout() {
             calendar_month
           </Icon>
           Years
-        </Button>
-
-        <Button
-          id="__agenda.year"
-          size="large"
-          sx={styles(activeTab === "__agenda.backlog")}
-          onMouseDown={() => setActiveTab("__agenda.backlog")}
-          onClick={() => {
-            window.location.hash = "#/agenda/backlog";
-            setActiveTab("__agenda.backlog");
-          }}
-        >
-          <Icon className={activeTab === "__agenda.backlog" ? "" : "outlined"}>
-            select
-          </Icon>
-          Backlog
         </Button>
       </Box>
       <Divider
@@ -419,7 +418,9 @@ export function TasksLayout() {
         {activeTab.includes("__agenda.year") && (
           <Agenda setDrawerOpen={setOpen} view="year" />
         )}
-        {activeTab.includes("__agenda.backlog") && <Backlog />}
+        {activeTab.includes("__agenda.backlog") && (
+          <Backlog setDrawerOpen={setOpen} />
+        )}
         {data &&
           data.map(
             (board) =>
