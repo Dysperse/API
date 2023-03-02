@@ -84,7 +84,7 @@ export function Layout({ children }): JSX.Element {
               display: "inline-flex",
               color: "#000",
               alignItems: "center",
-              gap: 3,
+              gap: 2.5,
               userSelect: "none",
               mx: 4,
               pr: 2,
@@ -102,22 +102,28 @@ export function Layout({ children }): JSX.Element {
             <picture>
               <img
                 src="https://assets.dysperse.com/v6/dark.png"
-                width="50"
-                height="50"
+                width="45"
+                height="45"
                 alt="logo"
                 style={{
-                  borderRadius: "28px",
+                  borderRadius: "19px",
                 }}
                 draggable={false}
               />
             </picture>
-            <Typography variant="h6" sx={{ mt: -0.5 }}>
+            <Typography sx={{ fontWeight: "200!important", fontSize: "18px" }}>
               Dysperse
               <Chip
                 label="alpha"
                 color="info"
                 size="small"
-                sx={{ ml: 2, px: 1, background: "#200923" }}
+                sx={{
+                  pointerEvents: "none",
+                  ml: 2,
+                  px: 1,
+                  background: "#200923",
+                  fontWeight: "900",
+                }}
               />
             </Typography>
           </Box>

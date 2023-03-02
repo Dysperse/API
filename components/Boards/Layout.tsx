@@ -195,7 +195,7 @@ export function TasksLayout() {
           }}
         >
           <Icon className={activeTab === "__agenda.backlog" ? "" : "outlined"}>
-            blur_circular
+            auto_mode
           </Icon>
           Backlog
           <span style={{ marginLeft: "auto" }}>

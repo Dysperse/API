@@ -35,12 +35,12 @@ export default function Prompt() {
     "PRO TIP: Accidentally placed an item in the wrong room? You can move an item by selecting the desired room.",
     "PRO TIP: You can view your home's audit log by clicking on the changelog icon in the navigation bar.",
     "PRO TIP: You can switch between light and dark mode by visiting your appearance settings.",
-    "DID YOU KNOW: Dysperse is built using ReactJS",
-    "DID YOU KNOW: Dysperse is sponsored by the amazing people @ Vercel.",
+    "DID YOU KNOW: Dysperse is built using React and Next",
+    "DID YOU KNOW: Dysperse is sponsored by Neon and Vercel",
     "DID YOU KNOW: Dysperse was built with the intention of being a free, open-source alternative to other task management apps, which would be all-in-one.",
     "DID YOU KNOW: You can sign up to be a volunteer by visiting dysperse.com/join",
     "DID YOU KNOW: Dysperse was built with the intention of becoming a home inventory app, but has since evolved into much more!",
-    "DID YOU KNOW: Dysperse is the #1 home inventory app available on the web.",
+    "DID YOU KNOW: Dysperse is the first cloud home inventory app available on the web.",
     "PRO TIP: Join the Dysperse Discord server by visiting dysperse.com/discord",
     "DID YOU KNOW: Dysperse uses AES-256 encryption to protect your data.",
     "PRO TIP: Dysperse saves your dark mode preference, so you don't have to worry about it changing when you switch devices.",
@@ -52,6 +52,7 @@ export default function Prompt() {
   const [proTip, setProTip] = useState(
     proTips[Math.floor(Math.random() * proTips.length)]
   );
+  
 
   global.themeColor = "brown";
   const router = useRouter();
@@ -223,19 +224,17 @@ export default function Prompt() {
         <form onSubmit={formik.handleSubmit}>
           {step === 1 ? (
             <Box sx={{ pt: 3 }}>
-              <Box sx={{ px: 1 }}>
-                <Typography
-                  variant="h3"
-                  sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
-                  className="font-heading"
-                >
-                  Welcome back!
-                </Typography>
-                <Typography sx={{ my: 2, mb: 3 }}>
-                  We&apos;re so excited to see you again! Please sign in with
-                  your Dysperse ID.
-                </Typography>
-              </Box>
+              <Typography
+                variant="h3"
+                sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
+                className="font-heading"
+              >
+                Welcome back!
+              </Typography>
+              <Typography sx={{ my: 1.5, mb: 3 }}>
+                We&apos;re so excited to see you again! Please sign in with your
+                Dysperse ID.
+              </Typography>
               <TextField
                 disabled={buttonLoading}
                 label="Your email address"
