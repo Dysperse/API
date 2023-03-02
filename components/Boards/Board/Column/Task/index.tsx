@@ -133,7 +133,8 @@ export const Task: any = React.memo(function Task({
   const ref: any = useRef();
 
   const handleCompletion = useCallback(
-    async (e) => {navigator.vibrate(50)
+    async (e) => {
+      navigator.vibrate(50);
       setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
       try {
         await fetchApiWithoutHook("property/boards/column/task/mark", {
