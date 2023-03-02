@@ -13,7 +13,7 @@ import { Task } from "./Board/Column/Task";
 
 export function Backlog({ setDrawerOpen }) {
   const { data, url, error } = useApi("property/boards/backlog", {
-    date: dayjs().startOf("day").toISOString(),
+    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
 
   if (!data) {
