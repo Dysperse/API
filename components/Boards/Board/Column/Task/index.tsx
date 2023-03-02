@@ -198,6 +198,7 @@ export const Task: any = React.memo(function Task({
           tabIndex={0}
           className="task mb-1.5"
           sx={{
+            mb: "5px !important",
             transition: "none",
             ...(isSubTask && {
               ml: "20px",
