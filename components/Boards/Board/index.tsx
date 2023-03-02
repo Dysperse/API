@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
   useMediaQuery,
-  useScrollTrigger
+  useScrollTrigger,
 } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
