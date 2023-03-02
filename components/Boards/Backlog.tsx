@@ -78,15 +78,20 @@ export function Backlog({ setDrawerOpen }) {
         <Icon>menu</Icon>
       </IconButton>
 
-      <Box sx={{ p: 5, pb: 0 }}>
-        <Typography className="font-heading" variant="h4" gutterBottom>
-          Backlog
-        </Typography>
-        <Typography sx={{ mb: 2 }}>{data.length} unfinished tasks</Typography>
-        {error && (
-          <ErrorHandler error="Yikes! An error occured while trying to fetch your backlog. Please try again later." />
-        )}
-      </Box>
+      {!data ||
+        (data && data.length !== 0 && (
+          <Box sx={{ p: 5, pb: 0 }}>
+            <Typography className="font-heading" variant="h4" gutterBottom>
+              Backlog
+            </Typography>
+            <Typography sx={{ mb: 2 }}>
+              {data.length} unfinished tasks
+            </Typography>
+            {error && (
+              <ErrorHandler error="Yikes! An error occured while trying to fetch your backlog. Please try again later." />
+            )}
+          </Box>
+        ))}
       <Box sx={{ px: 4, pb: 15, maxWidth: "100vw" }}>
         {data.length == 0 && (
           <Box
@@ -96,7 +101,8 @@ export function Backlog({ setDrawerOpen }) {
               alignItems: "center",
               justifyContent: "center",
               flexDirection: "column",
-              height: "calc(100vh - 180px)",
+              userSelect: "none",
+              height: "100vh",
             }}
           >
             <Image
@@ -108,7 +114,6 @@ export function Backlog({ setDrawerOpen }) {
                 ...(global.user.darkMode && {
                   filter: "invert(100%)",
                 }),
-                marginTop: "-40px",
               }}
             />
             <Box sx={{ width: "300px", maxWidth: "calc(100vw - 40px)", mb: 2 }}>
