@@ -390,7 +390,7 @@ export default function Onboarding() {
         ))}
     </>,
     <>
-<Typography variant="h6" sx={{ mb: 1 }}>
+      <Typography variant="h6" sx={{ mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#6 </span>
         Add some items
       </Typography>
@@ -418,8 +418,8 @@ export default function Onboarding() {
           mb: 1.5,
         }}
       >
-        You can always come back to this page by clicking
-        on the &quot;Onboarding&quot; button in the sidebar.
+        You can always come back to this page by clicking on the
+        &quot;Onboarding&quot; button in the sidebar.
       </Typography>
 
       <Button
