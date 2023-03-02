@@ -439,7 +439,7 @@ export default function Onboarding() {
           );
         }}
       >
-        Let&apos;go!
+        Let&apos;s go &rarr;
       </Button>
     </>,
   ];
