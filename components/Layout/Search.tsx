@@ -1,21 +1,13 @@
-import { SpotlightProvider } from "@mantine/spotlight";
-import { Divider, Icon } from "@mui/material";
+import { Badge, Group, UnstyledButton } from "@mantine/core";
+import { SpotlightActionProps, SpotlightProvider } from "@mantine/spotlight";
+import { Divider, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { updateSettings } from "../Settings/updateSettings";
-
-import {
-  Badge,
-  createStyles,
-  Group,
-  Text,
-  UnstyledButton,
-} from "@mantine/core";
-import { SpotlightActionProps } from "@mantine/spotlight";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { capitalizeFirstLetter } from "../ItemPopup";
+import { updateSettings } from "../Settings/updateSettings";
 
 function CustomAction({
   action,
@@ -25,37 +17,13 @@ function CustomAction({
   onTrigger,
   ...others
 }: SpotlightActionProps) {
-  const useStyles: any = createStyles((theme: any | null) => ({
-    action: {
-      position: "relative",
-      display: "block",
-      width: "100%",
-      padding: "10px 12px",
-      borderRadius: theme.radius.sm,
-    },
-
-    actionHovered: {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[4]
-          : theme.colors.gray[1],
-    },
-  }));
-
-  const { classes, cx } = useStyles(null, {
-    styles,
-    classNames,
-    name: "Spotlight",
-  });
-
   return (
     <UnstyledButton
-      className={cx(classes.action, { [classes.actionHovered]: hovered })}
-      tabIndex={-1}
       onMouseDown={(event) => event.preventDefault()}
       onClick={onTrigger}
       {...others}
       sx={{
+        userSelect: "none",
         "&:hover": {
           background: "#eee",
           color: "#000",
@@ -76,12 +44,9 @@ function CustomAction({
         <Group noWrap>
           {action.icon}
           <div style={{ flex: 1 }}>
-            <Text>{action.title}</Text>
-
+            <Typography>{action.title}</Typography>
             {action.description && (
-              <Text color="dimmed" size="xs">
-                {action.description}
-              </Text>
+              <Typography>{action.description}</Typography>
             )}
           </div>
 
@@ -103,6 +68,30 @@ export default function SearchPopup({ styles }) {
       title: "Boards",
       onTrigger: () => router.push("/tasks"),
       icon: <Icon className="outlined">verified</Icon>,
+    },
+    {
+      title: "Weekly agenda",
+      onTrigger: () => router.push("/tasks#/agenda/week"),
+      icon: <Icon className="outlined">view_week</Icon>,
+      badge: "Agenda",
+    },
+    {
+      title: "Monthly agenda",
+      onTrigger: () => router.push("/tasks#/agenda/month"),
+      icon: <Icon className="outlined">calendar_view_month</Icon>,
+      badge: "Agenda",
+    },
+    {
+      title: "Yearly agenda",
+      onTrigger: () => router.push("/tasks#/agenda/year"),
+      icon: <Icon className="outlined">calendar_month</Icon>,
+      badge: "Agenda",
+    },
+    {
+      title: "Backlog",
+      onTrigger: () => router.push("/tasks#/agenda/backlog"),
+      icon: <Icon className="outlined">auto_mode</Icon>,
+      badge: "Agenda",
     },
     {
       title: "Coach",

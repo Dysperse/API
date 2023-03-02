@@ -267,6 +267,13 @@ input:-webkit-autofill {
 .mantine-Input-icon {
   padding-left: 15px;
 }
+.mantine-UnstyledButton-root {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 15px;
+}
 .mantine-Input-wrapper:focus-within input {
   border-color: #ddd;
   background: #fff !important;

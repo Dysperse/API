@@ -29,7 +29,6 @@
     "@marsidev/react-turnstile": "^0.0.7",
     "@mui/lab": "^5.0.0-alpha.120",
     "@mui/material": "^5.11.10",
-    "@next/bundle-analyzer": "^13.2.1",
     "@prisma/client": "^4.10.1",
     "@sentry/nextjs": "^7.38.0",
     "@sentry/node": "^7.38.0",
@@ -75,7 +74,6 @@
     "sass": "^1.58.3",
     "swr": "^2.0.4",
     "web-push": "^3.5.0",
-    "webpack-bundle-analyzer": "^4.8.0",
     "window-popup": "^1.1.0"
   },
   "keywords": [
