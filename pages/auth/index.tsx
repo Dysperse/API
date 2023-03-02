@@ -93,8 +93,6 @@ export default function Prompt() {
           }),
         }).then((res) => res.json());
 
-        ref.current?.reset();
-
         if (
           res.message &&
           res.message.includes(`Can't reach database server`)
@@ -105,20 +103,25 @@ export default function Prompt() {
           );
           setButtonLoading(false);
           setStep(1);
+          ref.current?.reset();
           return;
         }
 
         if (res.twoFactor) {
           setStep(3);
           setButtonLoading(false);
+          ref.current?.reset();
+
           return;
         } else if (res.error) {
           setStep(1);
+          ref.current?.reset();
           throw new Error(res.error);
         }
         if (res.message) {
           setStep(1);
           toast.error(res.message, toastStyles);
+          ref.current?.reset();
           setButtonLoading(false);
           return;
         }
