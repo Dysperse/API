@@ -137,7 +137,9 @@ export default function Prompt() {
             toastStyles
           );
           mutate("/api/user").then(() => {
-            window.close();
+            if (window.location.href.includes("close=true")) {
+              window.close();
+            }
           });
           return;
         }
