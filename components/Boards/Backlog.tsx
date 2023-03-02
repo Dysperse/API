@@ -102,7 +102,7 @@ export function Backlog({ setDrawerOpen }) {
               justifyContent: "center",
               flexDirection: "column",
               userSelect: "none",
-              height: {xs: "calc(100vh - var(--navbar-height) - 55px)", sm: "100vh"{,
+              height: {xs: "calc(100vh - var(--navbar-height) - 55px)", sm: "100vh"},
             }}
           >
             <Image
