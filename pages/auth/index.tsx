@@ -176,10 +176,18 @@ export default function Prompt() {
 
   const [step, setStep] = useState(1);
   const [togglePassword, setTogglePassword] = useState(false);
-  const handleTogglePassword = useCallback(
-    () => setTogglePassword((e) => !e),
-    [setTogglePassword]
-  );
+  const handleTogglePassword = useCallback(() => {
+    if (!togglePassword) {
+      if (
+        confirm(
+          "Are you sure you want to show your password? Make sure nobody is around you 🤫"
+        )
+      )
+        setTogglePassword((e) => !e);
+    } else {
+      setTogglePassword((e) => !e);
+    }
+  }, [togglePassword, setTogglePassword]);
 
   return (
     <Layout>
@@ -287,7 +295,6 @@ export default function Prompt() {
                     borderRadius: 99,
                     ml: "auto",
                     mr: 1,
-                    mt: { sm: 2 },
                     textTransform: "none",
                     transition: "none",
                   }}
