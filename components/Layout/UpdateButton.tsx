@@ -43,7 +43,7 @@ export function UpdateButton() {
       wb.register();
     }
   }, []);
-const session = useSession();
+  const session = useSession();
 
   return button ? (
     <Tooltip title="A newer version of this app is available. Click to download">

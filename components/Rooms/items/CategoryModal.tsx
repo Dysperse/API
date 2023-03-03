@@ -33,7 +33,7 @@ const CategoryModal = React.memo(function CategoryModal({
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-const session = useSession();
+  const session = useSession();
 
   return (
     <>
