@@ -17,6 +17,7 @@ import { useSession } from "../../pages/_app";
  * Function to change theme color (Not dark mode!)
  */
 function ThemeColorSettings() {
+  const session = useSession();
   return (
     <Box>
       <ListSubheader>Theme color</ListSubheader>
@@ -38,7 +39,7 @@ function ThemeColorSettings() {
         >
           <ListItem
             secondaryAction={
-              <Radio edge="end" checked={themeColor === color.toLowerCase()} />
+              <Radio edge="end" checked={session?.themeColor === color.toLowerCase()} />
             }
             disablePadding
             sx={{ textTransform: "capitalize" }}

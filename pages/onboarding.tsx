@@ -104,6 +104,7 @@ function StepContent({ forStep, currentStep, setCurrentStep, content }) {
     </Box>
   ) : null;
 }
+
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
@@ -112,12 +113,12 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: colors[themeColor ?? "brown"][500],
+      borderColor: colors["brown"][500],
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: colors[themeColor ?? "brown"][500],
+      borderColor: colors["brown"][500],
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -135,10 +136,10 @@ const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
     height: 22,
     alignItems: "center",
     ...(ownerState.active && {
-      color: colors[themeColor ?? "brown"][500],
+      color: colors["brown"][500],
     }),
     "& .QontoStepIcon-completedIcon": {
-      color: colors[themeColor ?? "brown"][500],
+      color: colors["brown"][500],
       zIndex: 1,
       fontSize: 18,
     },
@@ -154,6 +155,7 @@ const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
 
 function QontoStepIcon(props: StepIconProps) {
   const { active, completed, className } = props;
+  const session = useSession();
 
   return (
     <QontoStepIconRoot ownerState={{ active }} className={className}>
@@ -161,7 +163,7 @@ function QontoStepIcon(props: StepIconProps) {
         <span
           className="material-symbols-rounded"
           style={{
-            color: colors[themeColor ?? "brown"][500],
+            color: colors[session?.themeColor ?? "brown"][500],
           }}
         >
           check
