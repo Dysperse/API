@@ -96,6 +96,7 @@ model Property {
   Task                Task[]
 }
 
+// List of invited members to properties with their user permissions
 model PropertyInvite {
   id          String   @id @unique @default(uuid())
   userId      String
