@@ -3,7 +3,7 @@ import {
   Box,
   Checkbox,
   CircularProgress,
-  Typography
+  Typography,
 } from "@mui/material";
 import { CircularProgressProps } from "@mui/material/CircularProgress";
 import dayjs from "dayjs";
@@ -31,7 +31,7 @@ export function CircularProgressWithLabel(
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
             color:
-              session && session?.user? && session?.user?.darkMode
+              session && session?.user && session?.user?.darkMode
                 ? "#fff"
                 : "#000",
             transition: "all .2s",

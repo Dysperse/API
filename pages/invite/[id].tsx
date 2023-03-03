@@ -132,7 +132,7 @@ export default function Onboarding() {
           <LoadingButton
             loading={loading}
             disabled={
-              session?.user? &&
+             session?.user&&
               session?.user?.user &&
               session?.user?.user.properties.find(
                 (p) => p.propertyId === data.property.id

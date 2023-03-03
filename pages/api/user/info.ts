@@ -59,7 +59,7 @@ const handler = async (req, res) => {
   res.setHeader("Cache-Control", "s-maxage=86400");
   try {
     const session = await getUserData(req.query.token);
-    if (session && session?.user? !== false) {
+    if (session && session?.user !== false) {
       res.send(JSON.stringify(session, null, 2));
     } else {
       res.status(401).json({ message: "Invalid token" });
