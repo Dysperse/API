@@ -302,31 +302,14 @@ input:-webkit-autofill {
   background: hsl(240, 11%, 15%);
 }
 
-.dark .mantine-Spotlight-action {
+.dark .mantine-UnstyledButton-root {
   color: hsl(240, 11%, 90%);
   &:hover {
     background: hsl(240, 11%, 20%);
     color: #fff;
   }
 }
-// @media screen and (max-width: 900px) {
-//   .mantine-Spotlight-inner {
-//     position: fixed;
-//     bottom: 0 !important;
-//     top: unset !important;
-//     transform: none !important;
-//     height: calc(100vh - 100px);
-//     justify-content: end !important;
-//   }
-//   .mantine-Spotlight-root {
-//     margin: 0;
-//     height: calc(100vh - 100px) !important;
-//     max-height: unset !important;
-//   }
-//   .mantine-Spotlight-spotlight {
-//     border-radius: 15px 15px 0 0;
-//   }
-// }
+
 .react-calendar {
   background-color: #fff;
   padding: 16px;
