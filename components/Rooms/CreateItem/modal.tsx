@@ -17,10 +17,9 @@ import { cloneElement, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
-import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
-import { useAccountStorage } from "../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { cards } from "./cards";
 
@@ -44,8 +43,7 @@ export function CreateItemModal({
     setCategory("[]");
   }, []);
 
-  useStatusBar(open);
-
+  const session = useSession();
   const [title, setTitle] = useState("");
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("[]");
@@ -83,10 +81,10 @@ export function CreateItemModal({
         setOpen(false);
         mutate(
           `/api/property/inventory/list/?${new URLSearchParams({
-            sessionId: global.user.token,
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
-            userIdentifier: global.user.identifier,
+            sessionId: session?.user?.token,
+            property: session.property.propertyId,
+            accessToken: session.property.accessToken,
+            userIdentifier: session?.user?.identifier,
             room: room.toString().toLowerCase(),
           }).toString()}`
         );
@@ -113,7 +111,7 @@ export function CreateItemModal({
             width: "100vw",
             borderRadius: { xs: "0!important", sm: "20px 20px 0 0" },
             height: "100vh",
-            background: global.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
+            background: session?.user?.darkMode ? "hsl(240,11%,15%)" : "#fff",
           },
         }}
         anchor="bottom"
@@ -124,12 +122,12 @@ export function CreateItemModal({
             borderTopLeftRadius: { xs: 0, sm: "20px" },
             borderTopRightRadius: { xs: 0, sm: "20px" },
             zIndex: 99,
-            background: global.user.darkMode
+            background: session?.user?.darkMode
               ? "hsla(240,11%,20%,0.1)"
               : "rgba(255,255,255,.3)",
-            color: global.user.darkMode ? "#fff" : "#000",
+            color: session?.user?.darkMode ? "#fff" : "#000",
             borderBottom: "1px solid",
-            borderColor: global.user.darkMode
+            borderColor: session?.user?.darkMode
               ? "hsla(240,11%,20%,0.8)"
               : "rgba(200,200,200,.3)",
           }}
@@ -222,9 +220,9 @@ export function CreateItemModal({
                     flex: "0 0 175px",
                     overflow: "hidden",
                     height: "150px",
-                    background: global.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsl(240, 11%, 20%)"
-                      : colors[themeColor][50],
+                      : colors[session?.themeColor || "grey"][50],
                     transition: "transform .2s",
                     "&:active": {
                       transform: "scale(.95)",
@@ -238,9 +236,9 @@ export function CreateItemModal({
                   <Box
                     sx={{
                       height: "80px",
-                      background: global.user.darkMode
+                      background: session?.user?.darkMode
                         ? "hsl(240, 11%, 25%)"
-                        : colors[themeColor][100],
+                        : colors[session?.themeColor || "grey"][100],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",

@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";
 import { updateSettings } from "./updateSettings";
@@ -79,6 +80,7 @@ export default function Notifications() {
     updateSettings("notificationSubscription", JSON.stringify(sub));
     console.log("web push subscribed!");
   };
+  const session = useSession();
 
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();
@@ -97,7 +99,7 @@ export default function Notifications() {
     }
 
     fetchApiWithoutHook("/test-notification", {
-      subscription: global.user.notificationSubscription,
+      subscription: session?.user?.notificationSubscription,
     });
   };
 
@@ -131,8 +133,8 @@ export default function Notifications() {
   };
 
   const enabledOnAnotherDevice =
-    (!isSubscribed && global.user.notificationSubscription) ||
-    global.user.notificationSubscription !== JSON.stringify(subscription);
+    (!isSubscribed && session?.user?.notificationSubscription) ||
+    session?.user?.notificationSubscription !== JSON.stringify(subscription);
 
   return isInPwa || process.env.NODE_ENV == "development" ? (
     data ? (

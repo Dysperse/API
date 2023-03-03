@@ -24,7 +24,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
-import { useAccountStorage } from "../../../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../../../pages/_app";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { Puller } from "../../../../Puller";
 import { CreateTask } from "./Create";
@@ -38,6 +38,8 @@ export default function DrawerContent({
   data,
 }) {
   const storage = useAccountStorage();
+  const session = useSession();
+
   const handlePriorityChange = useCallback(async () => {
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
     toast.promise(
@@ -129,9 +131,9 @@ export default function DrawerContent({
     borderRadius: 5,
     gap: 1,
     py: 2,
-    color: global.user.darkMode ? "hsl(240,11%,80%)" : "hsl(240,11%,30%)",
+    color: session?.user?.darkMode ? "hsl(240,11%,80%)" : "hsl(240,11%,30%)",
     "&:hover": {
-      background: global.user.darkMode
+      background: session?.user?.darkMode
         ? "hsl(240, 11%, 22%)"
         : "rgba(200, 200, 200, .3)",
     },
@@ -141,14 +143,14 @@ export default function DrawerContent({
           '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
       },
       width: 40,
-      color: global.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,10%)",
+      color: session?.user?.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,10%)",
       height: 40,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 99999,
       border: "1px solid",
-      borderColor: global.user.darkMode
+      borderColor: session?.user?.darkMode
         ? "hsl(240, 11%, 30%)"
         : "rgba(200, 200, 200, .3)",
     },
@@ -202,11 +204,11 @@ export default function DrawerContent({
             },
             mt: 2,
             borderRadius: 5,
-            background: global.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240,11%,20%)"
               : "rgba(200,200,200,.3)",
             "&:focus-within, &:hover": {
-              background: global.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240,11%,22%)"
                 : "rgba(200,200,200,.4)",
             },
@@ -249,11 +251,11 @@ export default function DrawerContent({
               cursor: "unset",
             },
             borderRadius: 5,
-            background: global.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240,11%,20%)"
               : "rgba(200,200,200,.3)",
             "&:focus-within, &:hover": {
-              background: global.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240,11%,22%)"
                 : "rgba(200,200,200,.4)",
             },
@@ -276,7 +278,7 @@ export default function DrawerContent({
       <Box
         sx={{
           display: "flex",
-          background: global.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,20%)"
             : "rgba(200,200,200,.3)",
           borderRadius: 5,
@@ -360,16 +362,16 @@ export default function DrawerContent({
                   cursor: "unset",
                   gap: 2,
                   "&:focus-visible, &:hover": {
-                    background: global.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsl(240,11%,30%)"
                       : "rgba(200,200,200,.3)",
-                    color: global.user.darkMode
-                      ? colors[themeColor][100]
+                    color: session?.user?.darkMode
+                      ? colors[session?.themeColor || "grey"][100]
                       : "#000",
                     "& .MuiSvgIcon-root": {
-                      color: global.user.darkMode
-                        ? colors[themeColor][200]
-                        : colors[themeColor][800],
+                      color: session?.user?.darkMode
+                        ? colors[session?.themeColor || "grey"][200]
+                        : colors[session?.themeColor || "grey"][800],
                     },
                   },
                   padding: "8.5px 12px",
@@ -378,11 +380,11 @@ export default function DrawerContent({
                   marginBottom: "1px",
                   "& .MuiSvgIcon-root": {
                     fontSize: 25,
-                    color: colors[themeColor][700],
+                    color: colors[session?.themeColor || "grey"][700],
                     marginRight: 1.9,
                   },
                   "&:active": {
-                    background: global.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsl(240,11%,35%)"
                       : "#eee",
                   },
@@ -423,7 +425,7 @@ export default function DrawerContent({
       </Box>
       <Box
         sx={{
-          background: global.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,20%)"
             : "rgba(200,200,200,.3)",
           borderRadius: 5,

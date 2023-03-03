@@ -14,7 +14,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../hooks/useApi";
 import { colors } from "../../../../lib/colors";
 import { toastStyles } from "../../../../lib/useCustomTheme";
-import { useAccountStorage } from "../../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../../pages/_app";
 import { Puller } from "../../../Puller";
 
 export default function CreateColumn({
@@ -25,7 +25,7 @@ export default function CreateColumn({
   mobile = false,
 }: any) {
   const storage = useAccountStorage();
-
+  const session = useSession();
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -101,13 +101,13 @@ export default function CreateColumn({
                 mb: 2,
               }
             : {
-                backgroundColor: global.user.darkMode
+                backgroundColor: session?.user?.darkMode
                   ? "hsl(240,11%,13%)"
                   : "rgba(200, 200, 200, 0.3)",
                 width: "400px",
                 flex: "0 0 auto",
                 mr: 2,
-                border: global.user.darkMode
+                border: session?.user?.darkMode
                   ? "1px solid hsl(240,11%,30%)!important"
                   : "1px solid rgba(200, 200, 200, 0.9)",
               }),
@@ -121,7 +121,7 @@ export default function CreateColumn({
             size="small"
             sx={{
               px: 1,
-              background: global.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240,11%,17%)"
                 : "rgba(200, 200, 200, 0.3)!important",
               borderRadius: 5,
@@ -149,7 +149,7 @@ export default function CreateColumn({
             InputProps={{
               disableUnderline: true,
               sx: {
-                background: global.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240,11%,20%)"
                   : "rgba(200, 200, 200, 0.3)",
                 fontWeight: "600",
@@ -186,7 +186,9 @@ export default function CreateColumn({
             variant="contained"
             fullWidth
             sx={{
-              background: `${colors[themeColor][900]}!important`,
+              background: `${
+                colors[session?.themeColor || "grey"][900]
+              }!important`,
               color: "white",
               border: "1px solid transparent !important",
             }}
@@ -224,7 +226,7 @@ export default function CreateColumn({
       >
         <EmojiPicker
           skinTonePickerLocation={"PREVIEW" as any}
-          theme={(global.user.darkMode ? "dark" : "light") as any}
+          theme={(session?.user?.darkMode ? "dark" : "light") as any}
           lazyLoadEmojis
           width="100%"
           onEmojiClick={(event) => {

@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
-import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
 import { CreateItemModal } from "./modal";
@@ -22,6 +21,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { useSession } from "../../../pages/_app";
 
 /**
  * Item popup option
@@ -40,6 +40,7 @@ function AddItemOption({
   icon: JSX.Element | string;
   title: JSX.Element | string;
 }): JSX.Element {
+  const session = useSession();
   return (
     <Grid item xs={12} sm={4} spacing={2}>
       <CreateItemModal room={title}>
@@ -62,20 +63,20 @@ function AddItemOption({
             disableRipple
             sx={{
               "&:hover": {
-                background: global.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240,11%,15%)!important"
-                  : `${colors[themeColor][100]}!important`,
+                  : `${colors[session?.themeColor || "grey"][100]}!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: global.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240,11%,18%)!important"
-                  : `${colors[themeColor][100]}!important`,
+                  : `${colors[session?.themeColor || "grey"][100]}!important`,
               },
               "&:active": {
-                background: global.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240,11%,25%)!important"
-                  : `${colors[themeColor][100]}!important`,
+                  : `${colors[session?.themeColor || "grey"][100]}!important`,
               },
             }}
           >
@@ -112,15 +113,12 @@ function AddItemOption({
 function MoreRooms(): JSX.Element {
   const { error, data } = useApi("property/rooms");
   const [open, setOpen] = React.useState<boolean>(false);
-  useStatusBar(open, 2);
+  const session = useSession();
+  const handleClickOpen = () => setOpen(true);
 
   if (error) {
     return <>An error occured while trying to fetch your rooms. </>;
   }
-  /**
-   * Handle drawer toggle
-   */
-  const handleClickOpen = () => setOpen(true);
 
   return (
     <>
@@ -217,18 +215,24 @@ function MoreRooms(): JSX.Element {
               },
               "&:hover": {
                 background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                  colors[session?.themeColor || "grey"][
+                    session?.user?.darkMode ? 900 : 100
+                  ]
                 }!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
                 background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                  colors[session?.themeColor || "grey"][
+                    session?.user?.darkMode ? 900 : 100
+                  ]
                 }!important`,
               },
               "&:active": {
                 background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                  colors[session?.themeColor || "grey"][
+                    session?.user?.darkMode ? 900 : 100
+                  ]
                 }!important`,
               },
             }}
@@ -267,17 +271,18 @@ function MoreRooms(): JSX.Element {
  * @returns JSX.Element
  */
 function Content(): JSX.Element {
+  const session = useSession();
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        {global.property.profile.type !== "study group" &&
-          global.property.profile.type !== "dorm" && (
+        {session.property.profile.type !== "study group" &&
+          session.property.profile.type !== "dorm" && (
             <AddItemOption
               title="Kitchen"
               icon={<Icon className="outlined">blender</Icon>}
             />
           )}
-        {global.property.profile.type !== "study group" && (
+        {session.property.profile.type !== "study group" && (
           <>
             <AddItemOption
               title="Bedroom"
@@ -294,8 +299,8 @@ function Content(): JSX.Element {
             />
           </>
         )}
-        {global.property.profile.type !== "study group" &&
-          global.property.profile.type !== "dorm" && (
+        {session.property.profile.type !== "study group" &&
+          session.property.profile.type !== "dorm" && (
             <>
               <AddItemOption
                 title="Garage"
@@ -316,7 +321,7 @@ function Content(): JSX.Element {
               <MoreRooms />
             </>
           )}
-        {global.property.profile.type === "study group" && (
+        {session.property.profile.type === "study group" && (
           <AddItemOption
             title="Backpack"
             icon={<Icon className="outlined">backpack</Icon>}
@@ -339,6 +344,7 @@ export default function AddPopup({
   children: JSX.Element;
 }): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
+  const session = useSession();
 
   useHotkeys("ctrl+s", (e) => {
     e.preventDefault();
@@ -348,8 +354,6 @@ export default function AddPopup({
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-
-  useStatusBar(open);
 
   /**
    * Toggles the drawer's open state
@@ -364,7 +368,7 @@ export default function AddPopup({
    * handleAddItemDrawerOpen
    */
   const handleAddItemDrawerOpen = () => {
-    if (global.property.role !== "read-only") {
+    if (session.property.role !== "read-only") {
       setOpen(true);
     }
   };

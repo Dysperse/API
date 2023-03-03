@@ -12,6 +12,7 @@ import { Item } from "@prisma/client";
 import React from "react";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
+import { useSession } from "../../../pages/_app";
 import { ItemCard } from "../ItemCard";
 
 /**
@@ -32,6 +33,7 @@ const CategoryModal = React.memo(function CategoryModal({
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+  const session = useSession();
 
   return (
     <>
@@ -110,7 +112,7 @@ const CategoryModal = React.memo(function CategoryModal({
           borderRadius: 4,
           transition: "none!important",
           cursor: "unset!important",
-          ...(global.user.darkMode && {
+          ...(session?.user?.darkMode && {
             "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",
             },

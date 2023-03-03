@@ -17,11 +17,12 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { useStatusBar } from "../../../hooks/useStatusBar";
+import { useSession } from "../../../pages/_app";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState(false);
-  useStatusBar(open);
+
+  const session = useSession();
 
   return (
     <>
@@ -42,7 +43,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               pointerEvents: "none",
             }),
             width: "100%!important",
-            background: global.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240, 11%, 13%)"
               : "rgba(200,200,200,.2)",
             transition: "transform 0.2s",
@@ -52,10 +53,10 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
           <Box>
             <Box
               sx={{
-                background: global.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240, 11%, 17%)"
                   : "rgba(200,200,200,.1)",
-                color: global.user.darkMode ? "#fff" : "#000",
+                color: session?.user?.darkMode ? "#fff" : "#000",
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
                 overflowX: "auto",
@@ -111,7 +112,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
         <Box sx={{ p: 2, display: "flex", justifyContent: "center" }}>
           <Button
             variant="contained"
-            disabled={loading || global.permission === "read-only"}
+            disabled={loading || session?.permission === "read-only"}
             size="large"
             sx={{ borderRadius: 99, mx: "auto" }}
             onClick={() => {
@@ -126,7 +127,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             }}
           >
             <Icon className="outlined">edit</Icon>
-            {global.permission === "read-only"
+            {session?.permission === "read-only"
               ? "You do not have permission to create a board"
               : "Create new board"}
           </Button>
@@ -147,7 +148,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             }),
             mb: 2,
             width: "100%!important",
-            background: global.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240, 11%, 13%)"
               : "rgba(200,200,200,.3)",
             borderRadius: 5,
@@ -155,12 +156,12 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             cursor: "pointer",
             userSelect: "none",
             "&:hover": {
-              background: global.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240, 11%, 16%)"
                 : "rgba(200,200,200,.4)",
             },
             "&:active": {
-              background: global.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240, 11%, 17%)"
                 : "rgba(200,200,200,.5)",
               transform: "scale(.98)",
@@ -171,10 +172,10 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
           <Box>
             <Box
               sx={{
-                background: global.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240, 11%, 17%)"
                   : "rgba(200,200,200,.2)",
-                color: global.user.darkMode ? "#fff" : "#000",
+                color: session?.user?.darkMode ? "#fff" : "#000",
                 borderRadius: 5,
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
@@ -509,7 +510,7 @@ export const templates = [
 
 export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
-
+  const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");
   const checklists = [
     "Shopping list",
@@ -669,7 +670,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                 >
                   <Card
                     sx={{
-                      ...(global.permission === "read-only" && {
+                      ...(session?.permission === "read-only" && {
                         pointerEvents: "none",
                         opacity: 0.5,
                       }),
@@ -678,7 +679,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                         pointerEvents: "none",
                       }),
                       width: "100%!important",
-                      background: global.user.darkMode
+                      background: session?.user?.darkMode
                         ? "hsl(240, 11%, 13%)"
                         : "rgba(200,200,200,.3)",
                       borderRadius: 5,
@@ -687,12 +688,12 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                       cursor: "pointer",
                       userSelect: "none",
                       "&:hover": {
-                        background: global.user.darkMode
+                        background: session?.user?.darkMode
                           ? "hsl(240, 11%, 16%)"
                           : "rgba(200,200,200,.4)",
                       },
                       "&:active": {
-                        background: global.user.darkMode
+                        background: session?.user?.darkMode
                           ? "hsl(240, 11%, 18%)"
                           : "rgba(200,200,200,.5)",
                         transform: "scale(.98)",

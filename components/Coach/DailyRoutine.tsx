@@ -18,10 +18,10 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { CircularProgressWithLabel } from "../../pages/coach";
+import { useSession } from "../../pages/_app";
 
 function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
   const handleClick = React.useCallback(() => {
@@ -45,7 +45,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           toastStyles
         );
       });
-  }, [task.durationDays, task.id, task.progress, mutationUrl]);
+  }, [task.durationDays, task.id, task.progress, mutationUrl, setCurrentIndex]);
 
   return (
     <Box sx={{ p: 4 }}>
@@ -143,7 +143,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
 export function DailyRoutine({ zen = false, editMode = false }: any) {
   const { data, url } = useApi("user/routines");
   const [open, setOpen] = React.useState(false);
-
+  const session = useSession();
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
@@ -187,9 +187,9 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         sx={{
           width: "100%",
           px: "15px !important",
-          background: global.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+          background: session?.user?.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
           border: "1px solid",
-          borderColor: global.user.darkMode
+          borderColor: session?.user?.darkMode
             ? "hsl(240, 11%, 20%)"
             : "rgba(200, 200, 200, 0.3)",
         }}
@@ -246,7 +246,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         {tasksRemaining.length == 0 && sortedTasks.length !== 0 && (
           <Icon
             sx={{
-              color: colors.green[global.user.darkMode ? "A400" : "A700"],
+              color: colors.green[session?.user?.darkMode ? "A400" : "A700"],
               fontSize: "30px!important",
             }}
           >
@@ -278,11 +278,11 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         borderRadius: 5,
         display: "flex",
         alignItems: "center",
-        background: global.user.darkMode
+        background: session?.user?.darkMode
           ? "hsl(240,11%,16%)"
           : "hsl(240,11%,95%)",
         "&:hover": {
-          background: global.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,16%)"
             : "hsl(240,11%,90%)",
         },
@@ -415,8 +415,6 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
       indexWhereUserLeftOff === -1 ? sortedTasks.length : indexWhereUserLeftOff
     );
   }, [indexWhereUserLeftOff, sortedTasks.length]);
-
-  useStatusBar(open, undefined, true);
 
   return (
     <>

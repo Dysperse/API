@@ -25,7 +25,7 @@ const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
 );
 
-import { useAccountStorage } from "../../../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../../../pages/_app";
 import { TaskDrawer } from "./TaskDrawer";
 
 const renderText = (
@@ -80,16 +80,15 @@ export const Task: any = React.memo(function Task({
   const storage = useAccountStorage();
   const [taskData, setTaskData] = useState(task);
 
-  useEffect(() => {
-    setTaskData(task);
-  }, [task]);
+  useEffect(() => setTaskData(task), [task]);
+  const session = useSession();
 
   const BpIcon: any = styled("span")(() => ({
     borderRadius: 10,
     width: 23,
     height: 23,
     boxShadow: `${
-      global.user.darkMode
+      session?.user?.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
         : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
     }, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)`,
@@ -110,19 +109,19 @@ export const Task: any = React.memo(function Task({
 
   const BpCheckedIcon: any = styled(BpIcon)({
     boxShadow: `${
-      global.user.darkMode
+      session?.user?.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
         : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
     }, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)`,
     backgroundColor: `${
-      colors[taskData.color || "grey"][global.user.darkMode ? 50 : "A700"]
+      colors[taskData.color || "grey"][session?.user?.darkMode ? 50 : "A700"]
     }!important`,
     "&:before": {
       display: "block",
       width: 23,
       height: 24,
       backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23${
-        global.user.darkMode ? "000" : "fff"
+        session?.user?.darkMode ? "000" : "fff"
       }' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")`,
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -206,13 +205,13 @@ export const Task: any = React.memo(function Task({
               width: "calc(100% - 20px)",
             }),
             color:
-              colors[taskData.color][global.user.darkMode ? "A100" : "A700"],
+              colors[taskData.color][session?.user?.darkMode ? "A100" : "A700"],
             p: {
               xs: 1,
               sm: 0,
             },
             cursor: "unset!important",
-            ...(global.user.darkMode && {
+            ...(session?.user?.darkMode && {
               "&:hover": {
                 backgroundColor: "hsl(240,11%,15%)!important",
               },
@@ -244,7 +243,7 @@ export const Task: any = React.memo(function Task({
                 <Checkbox
                   disabled={
                     (board && board.archived) ||
-                    global.permission === "read-only" ||
+                    session?.permission === "read-only" ||
                     storage?.isReached === true
                   }
                   disableRipple
@@ -296,14 +295,16 @@ export const Task: any = React.memo(function Task({
                         flexShrink: 0,
                         ml: "auto",
                         background:
-                          colors.orange[global.user.darkMode ? "A700" : "200"],
+                          colors.orange[
+                            session?.user?.darkMode ? "A700" : "200"
+                          ],
                       }}
                     >
                       <Icon
                         onClick={(e) => e.stopPropagation()}
                         sx={{
                           fontSize: "15px!important",
-                          color: global.user.darkMode
+                          color: session?.user?.darkMode
                             ? "hsl(240,11%,10%)"
                             : colors.orange[900],
                           fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,

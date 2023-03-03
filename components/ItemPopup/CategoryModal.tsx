@@ -18,7 +18,7 @@ import {
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { toastStyles } from "../../lib/useCustomTheme";
-import { useAccountStorage } from "../../pages/_app";
+import { useAccountStorage, useSession } from "../../pages/_app";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();
@@ -113,6 +113,7 @@ export default function CategoryModal({
   const [open, setOpen] = useState(false);
   const storage = useAccountStorage();
   const { data, url, error } = useApi("property/inventory/categories");
+  const session = useSession();
 
   return (
     <>
@@ -212,19 +213,19 @@ export default function CategoryModal({
         </Box>
       </SwipeableDrawer>
       <Chip
-        disabled={global.permission === "read-only"}
+        disabled={session?.permission === "read-only"}
         label={item.category === "[]" ? <>+ &nbsp;&nbsp;Add a category</> : "+"}
         onClick={() => setOpen(true)}
         sx={{
           px: 1.5,
           mr: 1,
-          background: global.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,20%)"
-            : `${colors[themeColor][200]}!important`,
+            : `${colors[session?.themeColor || "grey"][200]}!important`,
           "&:hover": {
-            background: global.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240,11%,25%)"
-              : `${colors[themeColor][300]}!important`,
+              : `${colors[session?.themeColor || "grey"][300]}!important`,
           },
           transition: "none",
         }}

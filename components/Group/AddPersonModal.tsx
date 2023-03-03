@@ -22,6 +22,7 @@ import {
   Typography,
 } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../../pages/_app";
 
 function LinkToken({ color }) {
   const [open, setOpen] = React.useState(false);
@@ -31,6 +32,7 @@ function LinkToken({ color }) {
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+  const session = useSession();
 
   return (
     <>
@@ -39,7 +41,7 @@ function LinkToken({ color }) {
         onClick={() => {
           setLoading(true);
           fetchApiWithoutHook("property/members/inviteLink/create", {
-            inviterName: global.user.name,
+            inviterName: session?.user?.name,
             timestamp: new Date().toISOString(),
           }).then((res) => {
             setLoading(false);
@@ -106,7 +108,9 @@ function LinkToken({ color }) {
             sx={{
               mt: 1,
               borderRadius: 999,
-              background: `${colors[themeColor][900]}!important`,
+              background: `${
+                colors[session?.themeColor || "grey"][900]
+              }!important`,
             }}
             onClick={() => {
               window.open(url, "_blank");
@@ -154,20 +158,21 @@ export function AddPersonModal({
   }, [open]);
 
   const ref: any = useRef();
+  const session = useSession();
 
   return (
     <>
       <Prompt callback={() => setOpen(true)}>
         <Button
           variant="contained"
-          disabled={disabled || global.property.permission !== "owner"}
+          disabled={disabled || session.property.permission !== "owner"}
           sx={{
             px: 2,
             ml: "auto",
             boxShadow: 0,
-            ...(global.property.permission === "owner" && {
+            ...(session.property.permission === "owner" && {
               backgroundColor: `${
-                colors[color][global.user.darkMode ? 800 : 900]
+                colors[color][session?.user?.darkMode ? 800 : 900]
               }!important`,
               color: `${colors[color][50]}!important`,
             }),
@@ -247,8 +252,8 @@ export function AddPersonModal({
               }
               if (isEmail(value)) {
                 fetchApiWithoutHook("property/members/add", {
-                  inviterName: global.user.name,
-                  name: global.property.profile.name,
+                  inviterName: session?.user?.name,
+                  name: session.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,
                   email: value,

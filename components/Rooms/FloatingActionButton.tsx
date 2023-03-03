@@ -1,6 +1,6 @@
 import { Box, Fab } from "@mui/material";
 import { colors } from "../../lib/colors";
-import { useAccountStorage } from "../../pages/_app";
+import { useAccountStorage, useSession } from "../../pages/_app";
 import AddPopup from "./CreateItem";
 
 /**
@@ -9,7 +9,9 @@ import AddPopup from "./CreateItem";
  */
 export function FloatingActionButton({ sm = false }) {
   const storage = useAccountStorage();
-  return global.property.role === "read-only" ? null : (
+  const session = useSession();
+
+  return session.property.role === "read-only" ? null : (
     <Box
       sx={{
         position: { xs: "fixed", sm: "unset" },
@@ -36,25 +38,25 @@ export function FloatingActionButton({ sm = false }) {
             justifyContent: "center",
             backdropFilter: "blur(15px)",
             background: `${
-              global.user.darkMode
+              session?.user?.darkMode
                 ? "rgba(57, 57, 71, .7)"
-                : colors[themeColor][100]
+                : colors[session?.themeColor || "grey"][100]
             }!important`,
-            color: global.user.darkMode
+            color: session?.user?.darkMode
               ? "hsl(240, 11%, 95%)"
-              : colors[themeColor]["900"],
+              : colors[session?.themeColor || "grey"]["900"],
             "&:hover": {
-              background: global.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240, 11%, 50%)"
-                : colors[themeColor]["100"],
+                : colors[session?.themeColor || "grey"]["100"],
             },
             "&:active": {
               boxShadow: "none",
               transform: "scale(.96)",
               transition: "none",
-              background: global.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240, 11%, 60%)"
-                : colors[themeColor]["100"],
+                : colors[session?.themeColor || "grey"]["100"],
             },
             transition: "transform .2s",
 

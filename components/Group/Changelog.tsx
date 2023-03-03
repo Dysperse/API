@@ -18,14 +18,15 @@ import dayjs from "dayjs";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
+import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 
 export function Changelog({ disabled }) {
   const [open, setOpen] = React.useState(false);
-  useStatusBar(open);
+
   const { error, data } = useApi("property/inbox");
+  const session = useSession();
 
   useHotkeys(
     "ctrl+i",
@@ -63,7 +64,7 @@ export function Changelog({ disabled }) {
                 pb: 1,
                 zIndex: 9,
                 width: "100%",
-                background: global.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsla(240,11%,15%)"
                   : "rgba(255,255,255,.9)",
               }}
@@ -75,7 +76,10 @@ export function Changelog({ disabled }) {
                 color="inherit"
                 onClick={() => setOpen(false)}
                 sx={{
-                  color: colors[themeColor][global.user.darkMode ? 50 : 900],
+                  color:
+                    colors[session?.themeColor || "grey"][
+                      session?.user?.darkMode ? 50 : 900
+                    ],
                 }}
               >
                 <Icon>close</Icon>
@@ -121,16 +125,16 @@ export function Changelog({ disabled }) {
                             <TimelineDot
                               sx={{
                                 background:
-                                  colors[themeColor][
-                                    global.user.darkMode ? 900 : 200
+                                  colors[session?.themeColor || "grey"][
+                                    session?.user?.darkMode ? 900 : 200
                                   ],
                               }}
                             />
                             <TimelineConnector
                               sx={{
                                 background:
-                                  colors[themeColor][
-                                    global.user.darkMode ? 900 : 100
+                                  colors[session?.themeColor || "grey"][
+                                    session?.user?.darkMode ? 900 : 100
                                   ],
                               }}
                             />
@@ -138,7 +142,7 @@ export function Changelog({ disabled }) {
                           <TimelineContent>
                             <Typography gutterBottom>
                               <b>
-                                {data[index].who === global.user.name
+                                {data[index].who === session?.user?.name
                                   ? "You"
                                   : data[index].who}
                               </b>{" "}
@@ -160,7 +164,7 @@ export function Changelog({ disabled }) {
                   variant="body1"
                   sx={{
                     mt: 2,
-                    background: colors[themeColor][100],
+                    background: colors[session?.themeColor || "grey"][100],
                     p: 3,
                     borderRadius: 5,
                   }}

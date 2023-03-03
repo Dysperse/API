@@ -18,7 +18,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
-import { useAccountStorage } from "../../pages/_app";
+import { useAccountStorage, useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 
@@ -32,33 +32,35 @@ export const capitalizeFirstLetter = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
+  const session = useSession();
+
   const styles = {
     borderRadius: 0,
     transition: "none",
     py: 1.5,
     cursor: "unset!important",
     gap: 2,
-    color: global.user.darkMode
+    color: session?.user?.darkMode
       ? "hsl(240, 11%, 90%)"
-      : colors[themeColor]["800"],
-    background: global.user.darkMode
+      : colors[session?.themeColor || "grey"]["800"],
+    background: session?.user?.darkMode
       ? "hsl(240, 11%, 20%)"
-      : colors[themeColor][100],
+      : colors[session?.themeColor || "grey"][100],
     "&:hover, &:active, &:focus-within": {
-      background: global.user.darkMode
+      background: session?.user?.darkMode
         ? "hsl(240, 11%, 25%)"
-        : colors[themeColor][100],
-      color: global.user.darkMode
+        : colors[session?.themeColor || "grey"][100],
+      color: session?.user?.darkMode
         ? "hsl(240, 11%, 95%)"
-        : colors[themeColor][900],
+        : colors[session?.themeColor || "grey"][900],
     },
   };
 
   const inputStyles = {
     "&:hover, &:active, &:focus-within": {
-      background: global.user.darkMode
+      background: session?.user?.darkMode
         ? "hsl(240, 11%, 20%)"
-        : colors[themeColor][100],
+        : colors[session?.themeColor || "grey"][100],
     },
     borderRadius: 2,
     pl: "10px",
@@ -143,6 +145,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const categories = JSON.parse(itemData.category);
   const storage = useAccountStorage();
+
   return (
     <Box sx={{ px: 4, pt: 1 }}>
       <TextField
@@ -197,9 +200,10 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
               key={category}
               sx={{
                 background:
-                  (global.user.darkMode
+                  (session?.user?.darkMode
                     ? "hsl(240,11%,25%)"
-                    : colors[themeColor][100]) + "!important",
+                    : colors[session?.themeColor || "grey"][100]) +
+                  "!important",
               }}
             />
           )
@@ -228,9 +232,9 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
           py: 0,
           borderRadius: 5,
           overflow: "hidden",
-          background: global.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240, 11%, 20%)"
-            : colors[themeColor][200],
+            : colors[session?.themeColor || "grey"][200],
         }}
       >
         <AddToListModal item={itemData} styles={styles} />
@@ -247,7 +251,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
         className="body2"
         sx={{
           my: 2,
-          color: global.user.darkMode ? "#aaa" : "hsl(240,11%,50%)",
+          color: session?.user?.darkMode ? "#aaa" : "hsl(240,11%,50%)",
         }}
       >
         <i>Last edit was {dayjs(itemData.lastModified).fromNow()}</i>

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
-import { useAccountStorage } from "../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 
 export function RoomActionMenu({
@@ -23,10 +23,11 @@ export function RoomActionMenu({
     setAnchorEl(null);
   };
   const storage = useAccountStorage();
+  const session = useSession();
 
   return (
     <IconButton
-      disabled={global.permission === "read-only" || !isCustom}
+      disabled={session?.permission === "read-only" || !isCustom}
       size="small"
       ref={itemRef}
       onClick={(e: any) => {
@@ -39,14 +40,14 @@ export function RoomActionMenu({
         e.stopPropagation();
       }}
       sx={{
-        ...(global.permission === "read-only" && {
+        ...(session?.permission === "read-only" && {
           display: { sm: "none" },
         }),
         ...(open && {
           background:
-            (global.user.darkMode
+            (session?.user?.darkMode
               ? "hsl(240,11%,20%)"
-              : colors[themeColor][100]) + "!important",
+              : colors[session?.themeColor || "grey"][100]) + "!important",
         }),
       }}
     >
@@ -86,7 +87,7 @@ export function RoomActionMenu({
       </Menu>
 
       <Icon className="outlined">
-        {global.permission === "read-only" ? (
+        {session?.permission === "read-only" ? (
           "chevron_right"
         ) : isPrivate ? (
           "lock"
@@ -96,7 +97,7 @@ export function RoomActionMenu({
           <Box
             sx={{
               display: { sm: "none!important" },
-              color: global.user.darkMode ? "#fff" : "#404040",
+              color: session?.user?.darkMode ? "#fff" : "#404040",
             }}
             className="material-symbols-rounded"
           >

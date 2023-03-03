@@ -19,6 +19,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useSession } from "../../pages/_app";
 
 /**
  * Edit property
@@ -49,6 +50,7 @@ export function EditProperty({
     updateSettings("type", type, false, null, true);
     setAnchorEl(null);
   }, []);
+  const session = useSession();
 
   /**
    * Callback for updating note blur event
@@ -57,11 +59,11 @@ export function EditProperty({
   const handleUpdateName = React.useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
       const target = event.target as HTMLInputElement;
-      if (target.value !== global.property.profile.name) {
+      if (target.value !== session.property.profile.name) {
         updateSettings("name", target.value, false, null, true);
       }
     },
-    []
+    [session.property.profile.name]
   );
 
   useEffect(() => {
@@ -71,7 +73,6 @@ export function EditProperty({
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),
   });
-
   return (
     <>
       {trigger}
@@ -87,7 +88,7 @@ export function EditProperty({
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: global.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
+            background: session?.user?.darkMode ? "hsl(240,11%,25%)" : "#fff",
             px: 3,
             width: { xs: "100vw", sm: "50vw" },
             py: 2,
@@ -106,10 +107,12 @@ export function EditProperty({
             sx={{
               height: "var(--navbar-height)",
               px: 2,
-              background: global.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
+              background: session?.user?.darkMode ? "hsl(240,11%,25%)" : "#fff",
               borderBottom: "1px solid",
-              borderColor: global.user.darkMode ? "hsl(240,11%,20%)" : "#eee",
-              color: global.user.darkMode ? "#fff" : "#000",
+              borderColor: session?.user?.darkMode
+                ? "hsl(240,11%,20%)"
+                : "#eee",
+              color: session?.user?.darkMode ? "#fff" : "#000",
               boxShadow: "none",
             }}
           >
@@ -134,7 +137,7 @@ export function EditProperty({
           <TextField
             variant="filled"
             sx={{ color: "white" }}
-            defaultValue={global.property.profile.name || "Untitled property"}
+            defaultValue={session.property.profile.name || "Untitled property"}
             id="nameInput"
             label="Home name / Family name / Address"
             onKeyDown={(e: any) => {
@@ -151,7 +154,7 @@ export function EditProperty({
             sx={{
               mt: 2,
             }}
-            disabled={global.property.permission === "read-only"}
+            disabled={session.property.permission === "read-only"}
             onClick={handleClick}
             onMouseDown={handleClick}
           >
@@ -164,15 +167,15 @@ export function EditProperty({
               }}
             >
               <Icon className="outlined">
-                {global.property.profile.type === "dorm"
+                {session.property.profile.type === "dorm"
                   ? "cottage"
-                  : global.property.profile.type === "apartment"
+                  : session.property.profile.type === "apartment"
                   ? "location_city"
-                  : global.property.profile.type === "study group"
+                  : session.property.profile.type === "study group"
                   ? "school"
                   : "home"}
               </Icon>
-              {global.property.profile.type}
+              {session.property.profile.type}
             </Typography>
           </Button>
           <FormControl fullWidth sx={{ my: 4 }}>

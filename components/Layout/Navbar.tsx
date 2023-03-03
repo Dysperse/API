@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useMedia, useNetworkState } from "react-use";
+import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
 import { UpdateButton } from "./UpdateButton";
 import InviteButton from "./UserMenu";
@@ -23,6 +24,7 @@ import InviteButton from "./UserMenu";
 export function Navbar(): JSX.Element {
   const network = useNetworkState();
   const isMobile = useMedia("(max-width:600px)");
+  const session = useSession();
   const router = useRouter();
   const styles = () => {
     return {
@@ -30,16 +32,16 @@ export function Navbar(): JSX.Element {
       borderRadius: 94,
       p: 0.8,
       m: 0,
-      color: global.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
+      color: session?.user?.darkMode ? "hsl(240,11%,90%)" : "#606060",
       transition: "opacity .2s",
       "&:hover": {
-        background: global.user.darkMode
+        background: session?.user?.darkMode
           ? "hsl(240,11%,15%)"
           : "rgba(200,200,200,.3)",
-        color: global.user.darkMode ? "hsl(240,11%,100%)" : "#000",
+        color: session?.user?.darkMode ? "hsl(240,11%,100%)" : "#000",
       },
       "&:active": {
-        background: global.user.darkMode
+        background: session?.user?.darkMode
           ? "hsl(240,11%,20%)"
           : "rgba(200,200,200,.5)",
         transition: "none",
@@ -68,22 +70,22 @@ export function Navbar(): JSX.Element {
           cursor: "unset!important",
         },
         color: {
-          xs: global.user.darkMode ? "white" : "black",
-          md: global.user.darkMode ? "white" : "black",
+          xs: session?.user?.darkMode ? "white" : "black",
+          md: session?.user?.darkMode ? "white" : "black",
         },
         pr: 0.4,
         height: "calc(70px + env(titlebar-area-height, 0px))",
         WebkitAppRegion: "drag",
         background: {
-          xs: global.user.darkMode
+          xs: session?.user?.darkMode
             ? "rgba(23, 23, 28, .8)"
             : "rgba(255,255,255,.8)",
-          md: global.user.darkMode
+          md: session?.user?.darkMode
             ? "rgba(23, 23, 28, .8)"
             : "rgba(255,255,255,.7)",
         },
         borderBottom: {
-          xs: global.user.darkMode
+          xs: session?.user?.darkMode
             ? "1px solid hsla(240,11%,15%)"
             : "1px solid rgba(200,200,200,.3)",
           md: "unset",
@@ -119,7 +121,7 @@ export function Navbar(): JSX.Element {
             alt="Logo"
             style={{
               borderRadius: "999px",
-              ...(global.user.darkMode && {
+              ...(session?.user?.darkMode && {
                 filter: "invert(100%)",
               }),
             }}

@@ -2,6 +2,7 @@ import React from "react";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 
 import { Autocomplete, Chip, TextField } from "@mui/material";
+import { useSession } from "../../pages/_app";
 
 /**
  * Custom rooms add component
@@ -9,6 +10,7 @@ import { Autocomplete, Chip, TextField } from "@mui/material";
  * @returns {any}
  */
 export function CustomRooms({ houseType }: { houseType: string }) {
+  const session = useSession();
   const fixedOptions = [
     ...(houseType === "dorm" ? [] : ["Kitchen"]),
     "Bedroom",
@@ -36,10 +38,9 @@ export function CustomRooms({ houseType }: { houseType: string }) {
         (option: string) => fixedOptions.indexOf(option) === -1
       ),
     ]);
-
     fetchApiWithoutHook("property/inventory/room/create", {
-      property: global.property.propertyId,
-      accessToken: global.property.accessToken,
+      property: session.property.propertyId,
+      accessToken: session.property.accessToken,
       name: newValue
         .filter((option: string) => fixedOptions.indexOf(option) === -1)
         .toString(),

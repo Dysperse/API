@@ -1,10 +1,13 @@
 import { Box } from "@mui/material";
+import { useSession } from "../pages/_app";
 
 /**
  * @name Puller
  * @description A puller is a component that pulls in swipeable drawers from bottom of the screen.
  */
-export function Puller({ variant }: { variant?: "side" }) {
+export function Puller() {
+  const session = useSession();
+
   return (
     <>
       <Box
@@ -21,13 +24,13 @@ export function Puller({ variant }: { variant?: "side" }) {
         }}
       >
         <Box
-          className={variant === "side" ? "puller-side" : "puller"}
+          className="puller"
           sx={{
             width: "50px",
             mx: "auto",
             height: "2px",
-            background: global.user
-              ? global.user.darkMode
+            background: session?.user
+              ? session?.user?.darkMode
                 ? "hsl(240, 11%, 35%)"
                 : "#ddd"
               : "#ddd",

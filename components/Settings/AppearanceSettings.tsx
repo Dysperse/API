@@ -11,11 +11,13 @@ import {
   RadioGroup,
 } from "@mui/material";
 import { colors } from "../../lib/colors";
+import { useSession } from "../../pages/_app";
 
 /**
  * Function to change theme color (Not dark mode!)
  */
 function ThemeColorSettings() {
+  const session = useSession();
   return (
     <Box>
       <ListSubheader>Theme color</ListSubheader>
@@ -37,7 +39,10 @@ function ThemeColorSettings() {
         >
           <ListItem
             secondaryAction={
-              <Radio edge="end" checked={themeColor === color.toLowerCase()} />
+              <Radio
+                edge="end"
+                checked={session?.themeColor === color.toLowerCase()}
+              />
             }
             disablePadding
             sx={{ textTransform: "capitalize" }}
@@ -73,6 +78,8 @@ function ThemeColorSettings() {
  * Top-level component for the appearance settings page.
  */
 export default function AppearanceSettings() {
+  const session = useSession();
+
   return (
     <Box>
       <ThemeColorSettings />
@@ -85,7 +92,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "false")}
-              checked={!global.user.darkMode}
+              checked={!session?.user?.darkMode}
             />
           }
           disablePadding
@@ -118,7 +125,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "true")}
-              checked={global.user.darkMode}
+              checked={session?.user?.darkMode}
             />
           }
           disablePadding

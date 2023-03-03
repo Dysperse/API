@@ -10,6 +10,7 @@ import {
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import React from "react";
+import { useSession } from "../../pages/_app";
 import { RoomActionMenu } from "./items//RoomActionMenu";
 
 /**
@@ -62,6 +63,7 @@ const Action = React.memo(function Action({
     }
     setLoading(true);
   }, [href, onClick, router]);
+  const session = useSession();
 
   return (
     <ListItemButton
@@ -78,14 +80,14 @@ const Action = React.memo(function Action({
         mb: 0.2,
         "&:hover": {
           background: {
-            sm: global.user.darkMode
+            sm: session?.user?.darkMode
               ? "hsl(240,11%,13%)!important"
               : "hsl(240,11%,90%)!important",
           },
         },
         cursor: "unset!important",
         "&:active": {
-          background: global.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,13%)!important"
             : "hsl(240,11%,90%) !important",
         },
@@ -99,14 +101,14 @@ const Action = React.memo(function Action({
             primary.toLowerCase()
           ))
           ? {
-              background: global.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240,11%,13%)!important"
                 : "hsl(240,11%,90%)!important",
             }
           : {
               background: "transparent!important",
             }),
-        ...(global.user.darkMode && {
+        ...(session?.user?.darkMode && {
           "&:hover .MuiAvatar-root": {
             background: "hsl(240,11%,17%)",
           },
@@ -117,8 +119,8 @@ const Action = React.memo(function Action({
         <Avatar
           sx={{
             borderRadius: 4,
-            color: global.user.darkMode ? "#fff" : "#000",
-            background: global.user.darkMode
+            color: session?.user?.darkMode ? "#fff" : "#000",
+            background: session?.user?.darkMode
               ? "hsl(240,11%,17%)"
               : "hsl(240,11%,80%)",
           }}
@@ -164,7 +166,7 @@ const Action = React.memo(function Action({
           <CircularProgress
             size={15}
             sx={{
-              color: global.user.darkMode ? "#fff" : "#000",
+              color: session?.user?.darkMode ? "#fff" : "#000",
               ml: "auto",
               mt: "8px",
               mr: 1,

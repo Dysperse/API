@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import DatePicker from "react-calendar";
 import { colors } from "../../../../../lib/colors";
+import { useSession } from "../../../../../pages/_app";
 import { Puller } from "../../../../Puller";
 import { formatDate } from "./formatDate";
 
@@ -14,6 +15,7 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
 }: any) {
   const [open, setOpen] = useState(false);
   const today = formatDate(new Date());
+  const session = useSession();
 
   return (
     <>
@@ -88,7 +90,10 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
             background: "transparent!important",
             borderRadius: 9999,
             transition: "all .2s",
-            color: colors[themeColor][global.user.darkMode ? 50 : 900],
+            color:
+              colors[session?.themeColor || "grey"][
+                session?.user?.darkMode ? 50 : 900
+              ],
             ...(!date && {
               gap: 0,
               minWidth: "auto",
@@ -96,10 +101,14 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
             px: 2,
             ...(date && {
               background: `${
-                colors[themeColor][global.user.darkMode ? 900 : 50]
+                colors[session?.themeColor || "grey"][
+                  session?.user?.darkMode ? 900 : 50
+                ]
               }!important`,
               color: `${
-                colors[themeColor][global.user.darkMode ? 50 : 900]
+                colors[session?.themeColor || "grey"][
+                  session?.user?.darkMode ? 50 : 900
+                ]
               }!important`,
             }),
           }}

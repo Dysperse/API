@@ -13,6 +13,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../../pages/_app";
 import type { ApiResponse } from "../../types/client";
 import type { Member as MemberType } from "../../types/houseProfile";
 import { ErrorHandler } from "../Error";
@@ -58,7 +59,7 @@ function Member({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const session = useSession();
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
@@ -97,7 +98,7 @@ function Member({
                 fetchApiWithoutHook("property/members/modifyPermissions", {
                   id: member.id,
                   permission: "read-only",
-                  changerName: global.user.name,
+                  changerName: session?.user?.name,
                   affectedName: member.user.name,
                   timestamp: new Date().toISOString(),
                 }).then(() => {
@@ -115,7 +116,7 @@ function Member({
                 fetchApiWithoutHook("property/members/modifyPermissions", {
                   id: member.id,
                   permission: "member",
-                  changerName: global.user.name,
+                  changerName: session?.user?.name,
                   affectedName: member.user.name,
                   timestamp: new Date().toISOString(),
                 }).then(() => {
@@ -128,12 +129,12 @@ function Member({
               Member
             </MenuItem>
 
-            {global.property.permission !== "owner" ||
+            {session.property.permission !== "owner" ||
             member.permission === "owner" ? null : (
               <MenuItem
                 sx={{
                   color:
-                    colors.red[global.user.darkMode ? "A200" : "A400"] +
+                    colors.red[session?.user?.darkMode ? "A200" : "A400"] +
                     "!important",
                 }}
                 onClick={() => {
@@ -150,7 +151,7 @@ function Member({
                     setLoading(true);
                     fetchApiWithoutHook("property/members/remove", {
                       id: member.id,
-                      removerName: global.user.name,
+                      removerName: session?.user?.name,
                       removeeName: member.user.name,
                       timestamp: new Date().toISOString(),
                     }).then(() => {
@@ -171,13 +172,13 @@ function Member({
           <CardActionArea
             onClick={handleClick}
             disabled={
-              propertyId !== global.property.propertyId ||
-              global.permission !== "owner" ||
-              member.user.email === global.user.email
+              propertyId !== session.property.propertyId ||
+              session?.permission !== "owner" ||
+              member.user.email === session?.user?.email
             }
             sx={{
-              ...((global.permission !== "owner" ||
-                member.user.email === global.user.email) && {
+              ...((session?.permission !== "owner" ||
+                member.user.email === session?.user?.email) && {
                 pointerEvents: "none",
               }),
               width: "100%",
@@ -214,9 +215,9 @@ function Member({
               style={{
                 marginLeft: "auto",
                 opacity:
-                  propertyId !== global.property.propertyId ||
-                  global.permission !== "owner" ||
-                  member.user.email === global.user.email
+                  propertyId !== session.property.propertyId ||
+                  session?.permission !== "owner" ||
+                  member.user.email === session?.user?.email
                     ? "0"
                     : "1",
               }}
@@ -254,7 +255,7 @@ export function MemberList({
       propertyAccessToken: accessToken,
     }
   );
-
+  const session = useSession();
   const images =
     data && !data.error
       ? [
@@ -304,7 +305,7 @@ export function MemberList({
         {data && !data.error && (
           <AddPersonModal
             color={color}
-            disabled={propertyId !== global.property.propertyId}
+            disabled={propertyId !== session.property.propertyId}
             members={loading ? [] : data.map((member) => member.user.email)}
           />
         )}
@@ -318,7 +319,7 @@ export function MemberList({
             userSelect: "none",
             px: 2.5,
             borderRadius: 5,
-            background: global.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240,11%,20%)"
               : colors[color][50],
           }}

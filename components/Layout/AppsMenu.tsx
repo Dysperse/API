@@ -13,8 +13,8 @@ import {
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { colors } from "../../lib/colors";
+import { useSession } from "../../pages/_app";
 
 /**
  * Product list
@@ -59,15 +59,10 @@ function Products({ styles }) {
     setExpanded(panel);
   };
 
+  const session = useSession();
+
   return (
-    <div
-      onMouseLeave={() => {
-        handleChange(1);
-      }}
-      onBlur={() => {
-        handleChange(1);
-      }}
-    >
+    <div onMouseLeave={() => handleChange(1)} onBlur={() => handleChange(1)}>
       {apps.map((category) => (
         <Accordion
           key={category.label.toString()}
@@ -84,9 +79,9 @@ function Products({ styles }) {
               fontWeight: "500",
               minHeight: "35px!important",
               maxHeight: "35px!important",
-              color: global.user.darkMode
+              color: session?.user?.darkMode
                 ? "hsl(240, 11%, 90%)"
-                : colors[global.themeColor][900],
+                : colors[session?.themeColor][900],
             }}
           >
             {category.label}
@@ -95,9 +90,9 @@ function Products({ styles }) {
             <Typography
               variant="body2"
               sx={{
-                color: global.user.darkMode
+                color: session?.user?.darkMode
                   ? "hsl(240, 11%, 80%)"
-                  : colors[global.themeColor][700],
+                  : colors[session?.themeColor][700],
               }}
             >
               {category.description}
@@ -138,7 +133,7 @@ function Apps({ styles }) {
   const handleChange = (panel: number) => {
     setExpanded(panel);
   };
-
+  const session = useSession();
   return (
     <div onMouseLeave={() => handleChange(0)} onBlur={() => handleChange(0)}>
       {apps.map((category) => (
@@ -156,9 +151,9 @@ function Apps({ styles }) {
               fontWeight: "500",
               minHeight: "35px!important",
               maxHeight: "35px!important",
-              color: global.user.darkMode
+              color: session?.user?.darkMode
                 ? "hsl(240, 11%, 90%)"
-                : colors[global.themeColor][900],
+                : colors[session?.themeColor][900],
             }}
           >
             {category.label}
@@ -168,9 +163,9 @@ function Apps({ styles }) {
               variant="body2"
               sx={{
                 maxWidth: "200px",
-                color: global.user.darkMode
+                color: session?.user?.darkMode
                   ? "hsl(240, 11%, 80%)"
-                  : colors[global.themeColor][700],
+                  : colors[session?.themeColor][700],
               }}
             >
               {category.label === "Web" ? (
@@ -192,7 +187,7 @@ function Apps({ styles }) {
  */
 export default function AppsMenu({ styles }) {
   const [open, setOpen] = React.useState<boolean>(false);
-  useStatusBar(open);
+
   useHotkeys(
     "ctrl+q",
     (e) => {
@@ -217,7 +212,7 @@ export default function AppsMenu({ styles }) {
   React.useEffect(() => {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
-
+  const session = useSession();
   const appMenuStyles = {
     accordion: {
       boxShadow: "none!important",
@@ -226,9 +221,9 @@ export default function AppsMenu({ styles }) {
       cursor: "pointer",
       background: "transparent",
       "&:hover, &.Mui-expanded": {
-        background: global.user.darkMode
+        background: session?.user?.darkMode
           ? "hsl(240,11%,30%)"
-          : colors[global.themeColor][50],
+          : colors[session?.themeColor][50],
       },
       transition: "all .2s, background 0s",
       "&:before": {
@@ -248,7 +243,7 @@ export default function AppsMenu({ styles }) {
   };
   return (
     <>
-      {global.user ? (
+      {session?.user ? (
         <Button
           color="inherit"
           size="large"
@@ -260,7 +255,7 @@ export default function AppsMenu({ styles }) {
             py: 1.5,
             borderRadius: 0,
             gap: 2,
-            color: `hsl(240,11%,${global.user.darkMode ? 90 : 10}%)`,
+            color: `hsl(240,11%,${session?.user?.darkMode ? 90 : 10}%)`,
           }}
         >
           <Icon className="outlined">workspaces</Icon>
@@ -306,9 +301,9 @@ export default function AppsMenu({ styles }) {
             sx={{
               borderTop:
                 "1px solid " +
-                (global.user.darkMode
+                (session?.user?.darkMode
                   ? "hsl(240,11%,30%)"
-                  : colors[themeColor][50]),
+                  : colors[session?.themeColor || "grey"][50]),
               mt: 2,
               pt: 2,
             }}

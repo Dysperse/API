@@ -26,6 +26,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../../pages/_app";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -91,6 +92,7 @@ function CreateGoal({ mutationUrl }) {
       );
     }
   };
+  const session = useSession();
 
   return (
     <>
@@ -104,7 +106,7 @@ function CreateGoal({ mutationUrl }) {
           sx: {
             backgroundColor: "hsl(240,11%,90%)",
             color: "hsl(240,11%,10%)",
-            ...(global.user.darkMode && {
+            ...(session?.user?.darkMode && {
               backgroundColor: "hsl(240,11%,10%)",
               color: "hsl(240,11%,70%)",
             }),
@@ -117,7 +119,7 @@ function CreateGoal({ mutationUrl }) {
             sx={{
               zIndex: 10,
               background: "transparent",
-              color: global.user.darkMode ? "#fff" : "hsl(240,11%,5%)",
+              color: session?.user?.darkMode ? "#fff" : "hsl(240,11%,5%)",
             }}
             position="sticky"
           >
@@ -258,11 +260,12 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
   };
 
   const [loading, setLoading] = React.useState(false);
+  const session = useSession();
 
   return (
     <div
       style={{
-        background: global.user.darkMode ? "hsl(240,11%,15%)" : "",
+        background: session?.user?.darkMode ? "hsl(240,11%,15%)" : "",
       }}
     >
       <Box
@@ -392,7 +395,7 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
                           pointerEvents: "none",
                           opacity: 0.5,
                         }),
-                        background: global.user.darkMode
+                        background: session?.user?.darkMode
                           ? "hsl(240,11%,20%)"
                           : "rgba(200,200,200,.3)",
                         borderRadius: 5,

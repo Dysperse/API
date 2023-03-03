@@ -36,6 +36,7 @@ import { cards } from "../components/Rooms/CreateItem/cards";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { fetchApiWithoutHook } from "../hooks/useApi";
 import { colors } from "../lib/colors";
+import { useSession } from "./_app";
 
 function BoardTemplate({ template }) {
   const [loading, setLoading] = useState(false);
@@ -103,6 +104,7 @@ function StepContent({ forStep, currentStep, setCurrentStep, content }) {
     </Box>
   ) : null;
 }
+
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
@@ -111,12 +113,12 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: colors[themeColor ?? "brown"][500],
+      borderColor: colors["brown"][500],
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: colors[themeColor ?? "brown"][500],
+      borderColor: colors["brown"][500],
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -134,10 +136,10 @@ const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
     height: 22,
     alignItems: "center",
     ...(ownerState.active && {
-      color: colors[themeColor ?? "brown"][500],
+      color: colors["brown"][500],
     }),
     "& .QontoStepIcon-completedIcon": {
-      color: colors[themeColor ?? "brown"][500],
+      color: colors["brown"][500],
       zIndex: 1,
       fontSize: 18,
     },
@@ -153,6 +155,7 @@ const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
 
 function QontoStepIcon(props: StepIconProps) {
   const { active, completed, className } = props;
+  const session = useSession();
 
   return (
     <QontoStepIconRoot ownerState={{ active }} className={className}>
@@ -160,7 +163,7 @@ function QontoStepIcon(props: StepIconProps) {
         <span
           className="material-symbols-rounded"
           style={{
-            color: colors[themeColor ?? "brown"][500],
+            color: colors[session?.themeColor ?? "brown"][500],
           }}
         >
           check
@@ -181,8 +184,11 @@ export default function Onboarding() {
     "Add some items",
     "You're all set!",
   ];
+  const session = useSession();
 
-  const [type, setType] = useState(global.property.profile.type || "apartment");
+  const [type, setType] = useState(
+    session.property.profile.type || "apartment"
+  );
   const [bestDescription, setBestDescription] = useState("Student");
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -350,7 +356,7 @@ export default function Onboarding() {
         onKeyDown={(e: any) => {
           if (e.key == "Enter") e.target.blur();
         }}
-        defaultValue={global.property.profile.name}
+        defaultValue={session.property.profile.name}
         onBlur={(event) => {
           updateSettings(
             "name",
@@ -390,7 +396,7 @@ export default function Onboarding() {
         ))}
     </>,
     <>
-<Typography variant="h6" sx={{ mb: 1 }}>
+      <Typography variant="h6" sx={{ mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#6 </span>
         Add some items
       </Typography>
@@ -418,8 +424,8 @@ export default function Onboarding() {
           mb: 1.5,
         }}
       >
-        You can always come back to this page by clicking
-        on the &quot;Onboarding&quot; button in the sidebar.
+        You can always come back to this page by clicking on the
+        &quot;Onboarding&quot; button in the sidebar.
       </Typography>
 
       <Button
@@ -435,7 +441,8 @@ export default function Onboarding() {
             "onboardingComplete",
             "true",
             false,
-            () => {
+            async () => {
+              await fetchApiWithoutHook("purge");
               router.push("/");
             },
             false
@@ -488,9 +495,11 @@ export default function Onboarding() {
           overflowY: "auto",
           maxWidth: "calc(100vw - 40px)",
           width: "500px",
-          backgroundColor: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+          backgroundColor: session?.user?.darkMode
+            ? "hsl(240,11%,10%)"
+            : "#fff",
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
-          color: global.user.darkMode ? "white" : "hsl(240,11%,10%)",
+          color: session?.user?.darkMode ? "white" : "hsl(240,11%,10%)",
           borderRadius: "10px",
           padding: { xs: "7px", sm: "20px" },
         }}

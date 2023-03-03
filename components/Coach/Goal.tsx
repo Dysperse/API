@@ -13,18 +13,21 @@ import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
+import { useSession } from "../../pages/_app";
 import { MoreOptions } from "./MoreOptions";
 import { TrophyModal } from "./TrophyModal";
 
 export function Goal({ goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState(false);
+  const session = useSession();
+
   useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
     tag.setAttribute(
       "content",
       open
-        ? colors[themeColor][900]
-        : global.user.darkMode
+        ? colors[session?.themeColor || "grey"][900]
+        : session?.user?.darkMode
         ? "hsl(240,11%,10%)"
         : "#fff"
     );
@@ -40,12 +43,12 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         className="border shadow-md active:scale-[.98]"
         onClick={() => setOpen(true)}
         sx={{
-          ...(global.user.darkMode && {
+          ...(session?.user?.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
           }),
           borderRadius: 5,
           "&:hover": {
-            background: global.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240%,11%,20%)"
               : "hsl(240,11%,95%)",
           },
@@ -56,10 +59,10 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           transition: "transform .2s!important",
           px: 3,
           background: {
-            sm: global.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
+            sm: session?.user?.darkMode ? "hsl(240,11%,13%)" : "#fff",
           },
           borderBottom: {
-            xs: global.user.darkMode
+            xs: session?.user?.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid #ddd",
             sm: "none",
@@ -173,7 +176,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         PaperProps={{
           sx: {
             width: "100vw",
-            ...(global.user.darkMode && {
+            ...(session?.user?.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
             maxWidth: "500px",
@@ -204,11 +207,13 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         <Box
           sx={{
             mt: "-70px",
-            background: `linear-gradient(45deg, ${colors[themeColor]["A400"]}, ${colors[themeColor]["A100"]})`,
+            background: `linear-gradient(45deg, ${
+              colors[session?.themeColor || "grey"]["A400"]
+            }, ${colors[session?.themeColor || "grey"]["A100"]})`,
             height: "300px",
             minHeight: "300px",
             mb: 5,
-            color: colors[themeColor][50],
+            color: colors[session?.themeColor || "grey"][50],
             p: 5,
           }}
           className="flex"

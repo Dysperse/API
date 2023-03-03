@@ -9,6 +9,7 @@ import {
 import type { Item as ItemType } from "@prisma/client";
 import Item from "../../components/ItemPopup";
 import { colors } from "../../lib/colors";
+import { useSession } from "../../pages/_app";
 
 /**
  * Item card
@@ -22,6 +23,8 @@ export function ItemCard({
   displayRoom?: boolean;
   item: ItemType;
 }) {
+  const session = useSession();
+
   return (
     <Item id={item.id as any} mutationUrl={mutationUrl}>
       <Card
@@ -33,22 +36,24 @@ export function ItemCard({
           maxWidth: "calc(100vw - 32.5px)",
           userSelect: "none",
           borderRadius: 5,
-          color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
+          color: session?.user?.darkMode ? "hsl(240,11%,80%)" : "#303030",
           background: `${
-            global.user.darkMode ? "hsl(240, 11%, 17%)" : "rgba(200,200,200,.3)"
+            session?.user?.darkMode
+              ? "hsl(240, 11%, 17%)"
+              : "rgba(200,200,200,.3)"
           }!important`,
           "&:hover": {
-            color: global.user.darkMode ? "hsl(240,11%,90%)" : "#000",
+            color: session?.user?.darkMode ? "hsl(240,11%,90%)" : "#000",
             background: `${
-              global.user.darkMode
+              session?.user?.darkMode
                 ? "hsl(240, 11%, 20%)"
                 : "rgba(200,200,200,.4)"
             }!important`,
           },
           "&:active": {
-            color: global.user.darkMode ? "hsl(240,11%,95%)" : "#000",
+            color: session?.user?.darkMode ? "hsl(240,11%,95%)" : "#000",
             background: `${
-              global.user.darkMode
+              session?.user?.darkMode
                 ? "hsl(240, 11%, 23%)"
                 : "rgba(200,200,200,.6)"
             }!important`,
@@ -56,7 +61,7 @@ export function ItemCard({
           mb: { xs: 2, sm: 0 },
           border: "2px solid transparent",
           ...(item.starred && {
-            borderColor: colors.orange[global.user.darkMode ? "A400" : 900],
+            borderColor: colors.orange[session?.user?.darkMode ? "A400" : 900],
           }),
           "& *:not(.MuiTouchRipple-root *, .override *)": {
             background: "transparent",
@@ -104,7 +109,7 @@ export function ItemCard({
                     (category: string, index) => {
                       return (
                         <Chip
-                          disabled={global.permission === "read-only"}
+                          disabled={session?.permission === "read-only"}
                           size="small"
                           key={index}
                           label={category}
@@ -113,7 +118,7 @@ export function ItemCard({
                             px: 1,
                             mr: 1,
                             color: "inherit",
-                            background: global.user.darkMode
+                            background: session?.user?.darkMode
                               ? "hsla(240,11%,40%,.3)"
                               : "rgba(200,200,200,.3)",
                             textTransform: "capitalize",

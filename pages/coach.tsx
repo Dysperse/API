@@ -14,19 +14,26 @@ import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { fetchApiWithoutHook } from "../hooks/useApi";
 import { toastStyles } from "../lib/useCustomTheme";
+import { useSession } from "./_app";
 
 export function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
 ) {
+  const session = useSession();
+
   return (
     <Box sx={{ position: "relative", display: "inline-flex" }}>
       <CircularProgress
         variant="determinate"
         {...props}
+        size={20}
         sx={{
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
-            color: global.user.darkMode ? "#fff" : "#000",
+            color:
+              session && session?.user && session?.user?.darkMode
+                ? "#fff"
+                : "#000",
             transition: "all .2s",
             strokeWidth: props.value === 100 ? 1 : 2,
           },
@@ -108,7 +115,7 @@ export const Task: any = React.memo(function Task({ task }: any) {
               right: 0,
             }}
           >
-            <CircularProgress />
+            <CircularProgress size={20} />
           </Box>
           <Checkbox
             disableRipple

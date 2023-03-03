@@ -20,6 +20,7 @@ import {
 import dynamic from "next/dynamic";
 import { CreateRoom } from "../components/Rooms/items/CreateRoom";
 import { Rooms } from "../components/Rooms/items/Rooms";
+import { useSession } from "./_app";
 
 const Action = dynamic(() => import("../components/Rooms/Action"));
 
@@ -89,6 +90,7 @@ export default function Inventory({ children = null }: any) {
   };
   const [viewBy, setViewBy] = React.useState("Room");
   const { data } = useApi("property/inventory/room/itemCount");
+  const session = useSession();
 
   const { data: dataRooms, url, error } = useApi("property/rooms");
 
@@ -112,9 +114,9 @@ export default function Inventory({ children = null }: any) {
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
           background: {
-            sm: global.user.darkMode
+            sm: session?.user?.darkMode
               ? "hsl(240,11%,7%)"
-              : global.user.darkMode
+              : session?.user?.darkMode
               ? "hsl(240,11%,7%)"
               : "hsl(240,11%,95%)",
           },
@@ -150,7 +152,9 @@ export default function Inventory({ children = null }: any) {
             sx={{
               ...(viewBy === "room" && {
                 background:
-                  colors[global.themeColor][global.user.darkMode ? 700 : 300],
+                  colors[session.themeColor][
+                    session?.user?.darkMode ? 700 : 300
+                  ],
               }),
             }}
           >
@@ -164,7 +168,9 @@ export default function Inventory({ children = null }: any) {
             sx={{
               ...(viewBy === "Category" && {
                 background:
-                  colors[global.themeColor][global.user.darkMode ? 700 : 300],
+                  colors[session.themeColor][
+                    session?.user?.darkMode ? 700 : 300
+                  ],
               }),
             }}
           >
@@ -179,7 +185,7 @@ export default function Inventory({ children = null }: any) {
           }}
         >
           <h1 className="font-heading my-10 text-4xl font-light underline sm:hidden">
-            {global.property.profile.type === "study group"
+            {session.property.profile.type === "study group"
               ? "Belongings"
               : "Inventory"}
           </h1>
@@ -191,7 +197,7 @@ export default function Inventory({ children = null }: any) {
         </Box>
         {viewBy === "Room" ? (
           <>
-            {global.property.profile.type === "study group" ? (
+            {session.property.profile.type === "study group" ? (
               <>
                 <Action
                   mutationUrl={url}
@@ -330,7 +336,10 @@ export default function Inventory({ children = null }: any) {
             height: "calc(100vh - 70px)",
             width: "100%",
             fontWeight: "500",
-            color: colors[themeColor][global.user.darkMode ? 50 : 800],
+            color:
+              colors[session?.themeColor || "grey"][
+                session?.user?.darkMode ? 50 : 800
+              ],
           }}
         >
           <Box
@@ -344,11 +353,11 @@ export default function Inventory({ children = null }: any) {
           >
             <Typography
               variant="h6"
-              sx={{ ...(global.permission !== "read-only" && { mb: 2 }) }}
+              sx={{ ...(session?.permission !== "read-only" && { mb: 2 }) }}
             >
               <u>No room selected</u>
             </Typography>
-            {global.permission !== "read-only" && <FloatingActionButton sm />}
+            {session?.permission !== "read-only" && <FloatingActionButton sm />}
           </Box>
         </Box>
       )}

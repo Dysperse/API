@@ -14,6 +14,7 @@ import React from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";
 
@@ -22,11 +23,13 @@ const Session: any = React.memo(function Session({
   index,
   data,
 }: any) {
+  const session = useSession();
+
   return (
     <ListItem
       sx={{
-        ...(data[index].id === global.user.token && {
-          background: global.user.darkMode
+        ...(data[index].id === session?.user?.token && {
+          background: session?.user?.darkMode
             ? "hsl(240,11%,30%)"
             : "rgba(200,200,200,.3)",
         }),
@@ -45,7 +48,7 @@ const Session: any = React.memo(function Session({
         secondary={
           <span className="flex items-center">
             IP address: {data[index].ip}
-            {data[index].id === global.user.token && (
+            {data[index].id === session?.user?.token && (
               <Chip
                 size="small"
                 label="Current device"
@@ -62,7 +65,7 @@ const Session: any = React.memo(function Session({
       />
       <Tooltip
         title={
-          data[index].id === global.user.token
+          data[index].id === session?.user?.token
             ? "You're currently signed in on this device"
             : "Sign out"
         }
@@ -78,7 +81,7 @@ const Session: any = React.memo(function Session({
               await mutate(mutationUrl);
             }}
           >
-            <IconButton disabled={data[index].id === global.user.token}>
+            <IconButton disabled={data[index].id === session?.user?.token}>
               <Icon>logout</Icon>
             </IconButton>
           </ConfirmationModal>

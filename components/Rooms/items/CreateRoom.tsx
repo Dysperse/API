@@ -13,7 +13,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { colors } from "../../../lib/colors";
 import { toastStyles } from "../../../lib/useCustomTheme";
-import { useAccountStorage } from "../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../pages/_app";
 import { Puller } from "../../Puller";
 import Action from "../../Rooms/Action";
 
@@ -23,6 +23,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
   const [name, setName] = React.useState("");
   const [isPrivate, setIsPrivate] = React.useState(false);
   const storage = useAccountStorage();
+  const session = useSession();
 
   const handleSubmit = () => {
     setLoading(true);
@@ -64,7 +65,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
         >
           <Typography variant="h6" className="font-bold">
             Create{" "}
-            {global.property.profile.type === "study group"
+            {session.property.profile.type === "study group"
               ? "container"
               : "room"}
           </Typography>
@@ -72,7 +73,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
             value={name}
             onChange={(e) => setName(e.target.value)}
             label={
-              global.property.profile.type === "study group"
+              session.property.profile.type === "study group"
                 ? "Container name (Example: backpack, drawer, etc.)"
                 : "Room name"
             }
@@ -91,11 +92,11 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
               <br />
               {isPrivate
                 ? "Only you can see this " +
-                  (global.property.profile.type === "study group"
+                  (session.property.profile.type === "study group"
                     ? "container"
                     : "room") +
                   " and its contents"
-                : (global.property.profile.type === "study group"
+                : (session.property.profile.type === "study group"
                     ? "Container"
                     : "Room") + " will be visible to other group members"}
             </FormLabel>
@@ -105,7 +106,8 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
             fullWidth
             loading={loading}
             sx={{
-              background: colors[themeColor][900] + "!important",
+              background:
+                colors[session?.themeColor || "grey"][900] + "!important",
               mt: 2,
               borderRadius: 999,
             }}
@@ -122,7 +124,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
         icon="add_circle"
         disabled={storage?.isReached === true}
         primary={
-          global.property.profile.type === "study group"
+          session.property.profile.type === "study group"
             ? "New container"
             : "New room"
         }

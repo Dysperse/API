@@ -19,6 +19,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Changelog } from "./Changelog";
 import { EditProperty } from "./EditProperty";
@@ -37,6 +38,8 @@ function PropertyInfo({
   propertyData: any;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
+  const session = useSession();
+
   return (
     <Box>
       <AppBar
@@ -46,15 +49,15 @@ function PropertyInfo({
           top: 0,
           left: 0,
           zIndex: 999,
-          background: global.user.darkMode
+          background: session?.user?.darkMode
             ? "hsla(240,11%,15%, 0.5)"
             : "rgba(255,255,255,.5)",
           backdropFilter: "blur(10px)",
           borderBottom: "1px solid transparent",
-          borderColor: global.user.darkMode
+          borderColor: session?.user?.darkMode
             ? "hsla(240,11%,30%, .5)"
             : "rgba(200,200,200,.3)",
-          color: global.user.darkMode ? "#fff" : "#000",
+          color: session?.user?.darkMode ? "#fff" : "#000",
         }}
       >
         <Toolbar>
@@ -63,7 +66,7 @@ function PropertyInfo({
           </IconButton>
           <Typography sx={{ fontWeight: "700" }}>Group info</Typography>
           <Changelog
-            disabled={propertyData.profile.id !== global.property.propertyId}
+            disabled={propertyData.profile.id !== session.property.propertyId}
           />
         </Toolbar>
       </AppBar>
@@ -74,17 +77,17 @@ function PropertyInfo({
           p: 4,
         }}
       >
-        {propertyData.propertyId !== global.property.propertyId && (
+        {propertyData.propertyId !== session.property.propertyId && (
           <Alert
             severity="info"
             sx={{
               mb: 2,
-              background: !global.user.darkMode
+              background: !session?.user?.darkMode
                 ? "rgba(200,200,200,.3)"
                 : "hsl(240,11%,15%)",
-              color: global.user.darkMode ? "#fff" : "#000",
+              color: session?.user?.darkMode ? "#fff" : "#000",
               "& *": {
-                color: global.user.darkMode ? "#fff" : "#000",
+                color: session?.user?.darkMode ? "#fff" : "#000",
               },
             }}
             action={
@@ -92,17 +95,17 @@ function PropertyInfo({
                 loading={loading}
                 sx={{
                   "&:hover": {
-                    background: global.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsl(240,11%,20%)"
                       : "rgba(200,200,200,.3)",
                   },
-                  color: global.user.darkMode ? "#fff" : "#000",
+                  color: session?.user?.darkMode ? "#fff" : "#000",
                 }}
                 onClick={async () => {
                   try {
                     setLoading(true);
                     const res = await fetchApiWithoutHook("property/join", {
-                      email: global.user.email,
+                      email: session?.user?.email,
                       accessToken1: propertyData.accessToken,
                     });
                     await mutate("/api/user");
@@ -150,14 +153,14 @@ function PropertyInfo({
               sx={{
                 position: "absolute",
                 color: "#000!important",
-                ...(propertyData.profile.id !== global.property.propertyId && {
+                ...(propertyData.profile.id !== session.property.propertyId && {
                   opacity: 0.3,
                 }),
                 top: 0,
                 right: 0,
                 m: 2,
               }}
-              disabled={propertyData.profile.id !== global.property.propertyId}
+              disabled={propertyData.profile.id !== session.property.propertyId}
             >
               <Icon className="outlined">edit</Icon>
             </IconButton>
@@ -183,7 +186,7 @@ function PropertyInfo({
           accessToken={accessToken}
         />
         {propertyData &&
-          propertyData.profile.id == global.property.propertyId && (
+          propertyData.profile.id == session.property.propertyId && (
             <Integrations />
           )}
       </Box>
@@ -206,18 +209,19 @@ export default function Group({
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
   const isDesktop = useMediaQuery("(min-width: 600px)");
+  const session = useSession();
 
   useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
     if (open) {
       tag?.setAttribute(
         "content",
-        global.user.darkMode ? "hsl(240,11%,15%)" : "#fff"
+        session?.user?.darkMode ? "hsl(240,11%,15%)" : "#fff"
       );
     } else {
       tag?.setAttribute(
         "content",
-        global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
+        session?.user?.darkMode ? "hsl(240,11%,10%)" : "#fff"
       );
     }
   });
@@ -256,7 +260,7 @@ export default function Group({
         anchor={isDesktop ? "right" : "bottom"}
         PaperProps={{
           sx: {
-            background: global.user.darkMode ? "" : "#fff",
+            background: session?.user?.darkMode ? "" : "#fff",
             height: error ? "auto" : "100vh",
             width: "100%",
             maxWidth: "600px",

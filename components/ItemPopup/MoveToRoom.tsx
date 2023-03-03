@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import { Puller } from "../Puller";
 
 import {
@@ -19,7 +18,7 @@ import {
   SwipeableDrawer,
 } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
-import { useAccountStorage } from "../../pages/_app";
+import { useAccountStorage, useSession } from "../../pages/_app";
 
 /**
  * @description A room
@@ -83,11 +82,12 @@ function Room({
  */
 export default function MoveToRoom({ item, styles }) {
   const [open, setOpen] = useState<boolean>(false);
-  useStatusBar(open);
+
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
   const storage = useAccountStorage();
+  const session = useSession();
 
   return (
     <>
@@ -109,7 +109,7 @@ export default function MoveToRoom({ item, styles }) {
             maxHeight: "95vh",
 
             mx: "auto",
-            ...(global.user.darkMode && {
+            ...(session?.user?.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },
@@ -160,7 +160,7 @@ export default function MoveToRoom({ item, styles }) {
         sx={styles}
         onClick={() => setOpen(true)}
         disabled={
-          global.permission === "read-only" || storage?.isReached === true
+          session?.permission === "read-only" || storage?.isReached === true
         }
       >
         <Icon>place_item</Icon>

@@ -52,9 +52,7 @@ export default function Prompt() {
   const [proTip, setProTip] = useState(
     proTips[Math.floor(Math.random() * proTips.length)]
   );
-  
 
-  global.themeColor = "brown";
   const router = useRouter();
 
   // Login form

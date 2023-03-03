@@ -5,6 +5,7 @@
  * @returns {any}
  */
 import { Icon, ListItemButton } from "@mui/material";
+import { useSession } from "../../pages/_app";
 
 export default function DeleteButton({
   handleItemDelete,
@@ -21,11 +22,12 @@ export default function DeleteButton({
         };
   };
 }): JSX.Element {
+  const session = useSession();
   return (
     <ListItemButton
       sx={styles}
       onClick={handleItemDelete}
-      disabled={global.permission === "read-only"}
+      disabled={session?.permission === "read-only"}
     >
       <Icon>delete</Icon>
       Delete
