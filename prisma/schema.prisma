@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Models for user accounts
+// TODO: Add separate table for user settings, such as theme colors, dark mode, etc. 
 model User {
   id                       String                @id @unique @default(uuid())
   identifier               String                @unique @default(uuid())
@@ -51,6 +53,7 @@ model Integration {
   user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
+// Customizable notification settings (1 row per user)
 model NotificationSettings {
   id                String  @id @unique @default(uuid())
   todoListUpdates   Boolean @default(true)
@@ -59,6 +62,8 @@ model NotificationSettings {
   user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
+// User sessions are stored on the server
+// Important: If there's way too much storage being used, just truncate this table 😭
 model Session {
   id        String    @id @unique @default(uuid())
   ip        String    @default("Unknown")
@@ -67,6 +72,7 @@ model Session {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// oAuth token passed to apps such as availability
 model OAuthToken {
   id          String @id @unique @default(uuid())
   userId      String
@@ -74,6 +80,7 @@ model OAuthToken {
   user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// Property modal box
 model Property {
   id                  String               @id @unique @default(uuid())
   name                String               @default("My property")
