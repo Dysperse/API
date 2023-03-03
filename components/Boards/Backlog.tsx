@@ -16,6 +16,7 @@ export function Backlog({ setDrawerOpen }) {
   const { data, url, error } = useApi("property/boards/backlog", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
+  const session = useSession();
 
   if (!data) {
     return (
@@ -32,7 +33,6 @@ export function Backlog({ setDrawerOpen }) {
       </Box>
     );
   }
-  const session = useSession();
 
   return (
     <Box>

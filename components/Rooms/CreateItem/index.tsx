@@ -19,7 +19,7 @@ import {
   List,
   Skeleton,
   SwipeableDrawer,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useSession } from "../../../pages/_app";
 
@@ -113,15 +113,12 @@ function AddItemOption({
 function MoreRooms(): JSX.Element {
   const { error, data } = useApi("property/rooms");
   const [open, setOpen] = React.useState<boolean>(false);
+  const session = useSession();
+  const handleClickOpen = () => setOpen(true);
 
   if (error) {
     return <>An error occured while trying to fetch your rooms. </>;
   }
-  /**
-   * Handle drawer toggle
-   */
-  const handleClickOpen = () => setOpen(true);
-  const session = useSession();
 
   return (
     <>
@@ -342,6 +339,7 @@ export default function AddPopup({
 }): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
+
   useHotkeys("ctrl+s", (e) => {
     e.preventDefault();
     document.getElementById("add_trigger")?.click();

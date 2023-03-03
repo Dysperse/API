@@ -19,6 +19,7 @@ export async function updateSettings(
   callback: null | (() => void) = null,
   property = false
 ) {
+  // eslint-disable-next-line
   const session = useSession();
 
   toast.promise(
