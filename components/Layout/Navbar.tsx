@@ -51,9 +51,8 @@ export function Navbar(): JSX.Element {
 
   return (
     <AppBar
-      elevation={0}
-      position="fixed"
       sx={{
+        position: "fixed",
         paddingTop: "env(titlebar-area-height, 0px)",
         ...((!router ||
           router.asPath === "/zen" ||
@@ -65,33 +64,19 @@ export function Navbar(): JSX.Element {
           },
         }),
         transition: "top .4s",
-        zIndex: 999,
         "& *": {
           cursor: "unset!important",
         },
         color: {
           xs: session?.user?.darkMode ? "white" : "black",
-          md: session?.user?.darkMode ? "white" : "black",
         },
         pr: 0.4,
         height: "calc(70px + env(titlebar-area-height, 0px))",
         WebkitAppRegion: "drag",
-        background: {
-          xs: session?.user?.darkMode
-            ? "rgba(23, 23, 28, .8)"
-            : "rgba(255,255,255,.8)",
-          md: session?.user?.darkMode
-            ? "rgba(23, 23, 28, .8)"
-            : "rgba(255,255,255,.7)",
-        },
-        borderBottom: {
-          xs: session?.user?.darkMode
-            ? "1px solid hsla(240,11%,15%)"
-            : "1px solid rgba(200,200,200,.3)",
-          md: "unset",
-        },
-        backdropFilter: "blur(10px)",
         display: { md: "none" },
+        background: session?.user?.darkMode
+          ? "hsla(240,11%,10%, 0.5)"
+          : "rgba(255,255,255,.5)",
       }}
     >
       <CssBaseline />

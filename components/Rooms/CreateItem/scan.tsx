@@ -247,12 +247,11 @@ export default function ImageRecognition({
         }}
       >
         <AppBar
-          elevation={0}
-          position="static"
           sx={{
             zIndex: 999,
             color: "#fff",
             height: "var(--navbar-height)",
+            border: 0,
             background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
           }}
         >

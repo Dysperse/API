@@ -1,8 +1,3 @@
-import React, { cloneElement, useEffect } from "react";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { updateSettings } from "../Settings/updateSettings";
-import { Color } from "./Color";
-
 import {
   Alert,
   AppBar,
@@ -19,17 +14,16 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import React, { cloneElement, useCallback, useEffect } from "react";
+import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useSession } from "../../pages/_app";
+import { updateSettings } from "../Settings/updateSettings";
+import { Color } from "./Color";
 
 /**
  * Edit property
  */
-export function EditProperty({
-  children,
-  propertyId,
-  accessToken,
-  color,
-}: any) {
+export function EditProperty({ children, color }: any) {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -37,7 +31,7 @@ export function EditProperty({
    * Handles click event
    * @param event Event
    */
-  const handleClick = React.useCallback(
+  const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
     },
@@ -46,7 +40,7 @@ export function EditProperty({
   /**
    * Set property type
    */
-  const handleCloseMenu = React.useCallback((type) => {
+  const handleCloseMenu = useCallback((type) => {
     updateSettings("type", type, false, null, true);
     setAnchorEl(null);
   }, []);
@@ -102,20 +96,7 @@ export function EditProperty({
             pt: 10,
           }}
         >
-          <AppBar
-            position="absolute"
-            sx={{
-              height: "var(--navbar-height)",
-              px: 2,
-              background: session?.user?.darkMode ? "hsl(240,11%,25%)" : "#fff",
-              borderBottom: "1px solid",
-              borderColor: session?.user?.darkMode
-                ? "hsl(240,11%,20%)"
-                : "#eee",
-              color: session?.user?.darkMode ? "#fff" : "#000",
-              boxShadow: "none",
-            }}
-          >
+          <AppBar>
             <Toolbar>
               <IconButton
                 edge="start"

@@ -47,6 +47,29 @@ export const toastStyles = {
 export const useCustomTheme = ({ darkMode, themeColor }): any => {
   return {
     components: {
+      MuiAppBar: {
+        defaultProps: {
+          elevation: 0,
+        },
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              position: "sticky",
+              top: 0,
+              left: 0,
+              zIndex: 999,
+              background: darkMode
+                ? "hsla(240,11%,15%, 0.5)"
+                : "rgba(255,255,255,.5)",
+              backdropFilter: "blur(10px)",
+              borderBottom: "1px solid transparent",
+              borderColor: darkMode
+                ? "hsla(240,11%,30%, .5)"
+                : "rgba(200,200,200,.3)",
+              color: darkMode ? "#fff" : "#000",
+            }),
+        },
+      },
       MuiPaper: {
         defaultProps: { elevation: 0 },
       },

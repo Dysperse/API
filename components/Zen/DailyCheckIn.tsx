@@ -165,24 +165,7 @@ export function DailyCheckInDrawer() {
         open={open}
         PaperProps={{ sx: drawerStyles }}
       >
-        <AppBar
-          elevation={0}
-          sx={{
-            position: "sticky",
-            top: 0,
-            left: 0,
-            zIndex: 999,
-            background: session?.user?.darkMode
-              ? "hsla(240,11%,15%, 0.5)"
-              : "rgba(255,255,255,.5)",
-            backdropFilter: "blur(10px)",
-            borderBottom: "1px solid transparent",
-            borderColor: session?.user?.darkMode
-              ? "hsla(240,11%,30%, .5)"
-              : "rgba(200,200,200,.3)",
-            color: session?.user?.darkMode ? "#fff" : "#000",
-          }}
-        >
+        <AppBar>
           <Toolbar>
             <IconButton onClick={handleClose}>
               <Icon>close</Icon>

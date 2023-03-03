@@ -184,12 +184,10 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         }}
       >
         <AppBar
-          elevation={0}
-          position="static"
           sx={{
-            zIndex: 999,
-            color: "#000",
+            border: 0,
             background: "transparent",
+            color: "#000",
           }}
         >
           <Toolbar className="flex" sx={{ height: "70px" }}>

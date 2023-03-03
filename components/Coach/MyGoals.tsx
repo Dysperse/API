@@ -56,15 +56,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           },
         }}
       >
-        <AppBar
-          elevation={0}
-          sx={{
-            background: "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,0))",
-            zIndex: 1,
-            color: "#fff",
-          }}
-          position="absolute"
-        >
+        <AppBar>
           <Toolbar sx={{ height: "64px" }}>
             <IconButton color="inherit" onClick={() => setOpen(false)}>
               <span
