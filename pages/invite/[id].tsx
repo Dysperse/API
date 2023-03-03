@@ -21,9 +21,7 @@ export default function Onboarding() {
 
   const { data } = useApi(
     "property/members/inviteLink/info",
-    {
-      token: id as string,
-    },
+    { token: id as string },
     true
   );
 

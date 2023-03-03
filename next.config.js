@@ -1,5 +1,3 @@
-// const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-
 const { withSentryConfig } = require("@sentry/nextjs");
 
 const withPWA = require("next-pwa")({
@@ -23,14 +21,14 @@ const moduleExports = {
           destination: "/zen",
           permanent: false,
         },
-        // {
-        //   source: "/home",
-        //   destination: "/tasks",
-        //   permanent: false,
-        // },
         {
           source: "/signup",
           destination: "/auth/signup",
+          permanent: true,
+        },
+        {
+          source: "/login",
+          destination: "/auth",
           permanent: true,
         },
         {
