@@ -121,7 +121,7 @@ function RenderWithLayout({
     data.user.properties.find((property: Property) => property.selected) ||
     data.user.properties[0];
 
-  session = selectedProperty;
+  global.property = selectedProperty;
   global.permission = selectedProperty.permission;
 
   useSession = () => {
