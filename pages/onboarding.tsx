@@ -442,7 +442,7 @@ export default function Onboarding() {
             "true",
             false,
             async () => {
-              await fetchApiWithoutHook("/api/purge");
+              await fetchApiWithoutHook("purge");
               router.push("/");
             },
             false
