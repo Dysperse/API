@@ -11,6 +11,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 import { colors } from "../../lib/colors";
+import { useSession } from "../../pages/_app";
 
 /**
  * Function to change theme color (Not dark mode!)
@@ -73,6 +74,8 @@ function ThemeColorSettings() {
  * Top-level component for the appearance settings page.
  */
 export default function AppearanceSettings() {
+  const session = useSession();
+
   return (
     <Box>
       <ThemeColorSettings />
@@ -85,7 +88,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "false")}
-              checked={!global.user.darkMode}
+              checked={!session.user.darkMode}
             />
           }
           disablePadding
@@ -118,7 +121,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "true")}
-              checked={global.user.darkMode}
+              checked={session.user.darkMode}
             />
           }
           disablePadding

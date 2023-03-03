@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
-import { useStatusBar } from "../../../../../hooks/useStatusBar";
 import { colors } from "../../../../../lib/colors";
 import { SelectDateModal } from "./SelectDateModal";
 
@@ -27,11 +26,12 @@ import {
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
-import { useAccountStorage } from "../../../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../../../pages/_app";
 import { capitalizeFirstLetter } from "../../../../ItemPopup";
 
 function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState(false);
+  const session = useSession();
 
   return (
     <>
@@ -45,7 +45,7 @@ function ImageModal({ image, setImage, styles }) {
             ...styles,
             mx: 0.5,
             background: image
-              ? global.user.darkMode
+              ? session.user.darkMode
                 ? "hsl(240,11%,20%)"
                 : "#ddd !important"
               : "",
@@ -119,7 +119,6 @@ export function CreateTask({
   const [image, setImage] = useState<any>(null);
 
   const [showDescription, setShowDescription] = useState(false);
-  useStatusBar(open);
 
   useHotkeys(
     "alt+s",
@@ -182,10 +181,12 @@ export function CreateTask({
     }
   );
 
+  const session = useSession();
+
   const styles = {
-    color: global.user.darkMode ? "hsl(240,11%,90%)" : "#505050",
+    color: session.user.darkMode ? "hsl(240,11%,90%)" : "#505050",
     "&:hover": {
-      color: global.user.darkMode ? "#fff" : "#000",
+      color: session.user.darkMode ? "#fff" : "#000",
     },
     borderRadius: 3,
     transition: "none",
@@ -275,10 +276,10 @@ export function CreateTask({
 
   const chipStyles = {
     border: "1px solid",
-    borderColor: global.user.darkMode
+    borderColor: session.user.darkMode
       ? "hsl(240, 11%, 25%)"
       : "rgba(200,200,200,.5)",
-    background: global.user.darkMode
+    background: session.user.darkMode
       ? "hsl(240,11%,20%)!important"
       : "#fff !important",
     transition: "all .2s",
@@ -402,10 +403,10 @@ export function CreateTask({
           sx={{
             p: 3,
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            background: global.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
+            background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
             border: { sm: "1px solid" },
             borderColor: {
-              sm: global.user.darkMode
+              sm: session.user.darkMode
                 ? "hsl(240, 11%, 25%)"
                 : "rgba(200,200,200,.5)",
             },
@@ -519,15 +520,15 @@ export function CreateTask({
                   mb: 2,
                   borderRadius: 5,
                   background:
-                    colors[themeColor][global.user.darkMode ? 900 : 100],
-                  color: colors[themeColor][!global.user.darkMode ? 900 : 100],
+                    colors[themeColor][session.user.darkMode ? 900 : 100],
+                  color: colors[themeColor][!session.user.darkMode ? 900 : 100],
                 }}
                 icon={
                   <span
                     className="material-symbols-rounded"
                     style={{
                       color:
-                        colors[themeColor][global.user.darkMode ? 100 : 800],
+                        colors[themeColor][session.user.darkMode ? 100 : 800],
                     }}
                   >
                     info
@@ -552,7 +553,7 @@ export function CreateTask({
                   sx={{
                     ...styles,
                     background: pinned
-                      ? global.user.darkMode
+                      ? session.user.darkMode
                         ? "hsl(240,11%,20%)"
                         : "#ddd !important"
                       : "",
@@ -582,7 +583,7 @@ export function CreateTask({
                     ...styles,
                     mx: 0.5,
                     background: showDescription
-                      ? global.user.darkMode
+                      ? session.user.darkMode
                         ? "hsl(240,11%,20%)"
                         : "#ddd !important"
                       : "",
@@ -622,7 +623,7 @@ export function CreateTask({
                     color="inherit"
                     sx={{
                       ...(title.trim() !== "" && {
-                        color: global.user.darkMode ? "#fff" : "#000",
+                        color: session.user.darkMode ? "#fff" : "#000",
                       }),
                       "&:active": {
                         transform: "scale(.95)",
@@ -650,7 +651,7 @@ export function CreateTask({
         className="task createTask"
         sx={{
           transition: "none",
-          color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
+          color: colors["grey"][session.user.darkMode ? "A100" : "A700"],
           p: {
             xs: 1,
             sm: "0!important",
@@ -662,7 +663,7 @@ export function CreateTask({
             py: "0!important",
           }),
           cursor: "unset!important",
-          ...(global.user.darkMode && {
+          ...(session.user.darkMode && {
             "&:hover": {
               backgroundColor: "hsl(240,11%,16%)!important",
             },
@@ -695,9 +696,9 @@ export function CreateTask({
           style={{
             border:
               "2px solid " +
-              (global.user.darkMode ? "hsl(240,11%,70%)" : "#808080"),
+              (session.user.darkMode ? "hsl(240,11%,70%)" : "#808080"),
             borderRadius: "10px",
-            color: global.user.darkMode
+            color: session.user.darkMode
               ? "hsl(240,11%,90%)"
               : checkList
               ? "#303030"

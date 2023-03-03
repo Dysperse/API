@@ -2,6 +2,7 @@ import { Box, useScrollTrigger } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
+import { useSession } from "../../pages/_app";
 
 /**
  * Bottom navigation bar
@@ -20,11 +21,12 @@ export function BottomNav() {
     flex: "0 0 35px",
     width: "60px",
   };
+  const session = useSession();
 
   const styles = (active) => {
     return {
       textTransform: "none",
-      color: global.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
+      color: session.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
       "& span": {
         transition: "opacity .2s",
       },
@@ -47,12 +49,12 @@ export function BottomNav() {
       ...(active && {
         fontWeight: 700,
         color: `${
-          global.user.darkMode ? "#fff" : colors[themeColor][900]
+          session.user.darkMode ? "#fff" : colors[themeColor][900]
         }!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           ...iconStyles,
           background: `${
-            global.user.darkMode
+            session.user.darkMode
               ? "hsl(240,11%,17%)"
               : hexToRgba(colors[themeColor][300], 0.5)
           }!important`,
@@ -91,12 +93,12 @@ export function BottomNav() {
           "&, & *": {
             overflow: "hidden!important",
           },
-          background: global.user.darkMode
+          background: session.user.darkMode
             ? "hsla(240, 11%, 10%, .9)"
             : "rgba(255,255,255,.4)",
-          borderTop: global.user.darkMode
+          borderTop: session.user.darkMode
             ? "1px solid hsla(240, 11%, 20%, .8)"
-            : global.user.darkMode
+            : session.user.darkMode
             ? "1px solid hsla(240,11%,15%)"
             : "1px solid rgba(200,200,200,.3)",
           backdropFilter: "blur(10px)",

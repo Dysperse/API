@@ -22,6 +22,7 @@ import {
   Typography,
 } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../../pages/_app";
 
 function LinkToken({ color }) {
   const [open, setOpen] = React.useState(false);
@@ -31,6 +32,7 @@ function LinkToken({ color }) {
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
+  const session = useSession();
 
   return (
     <>
@@ -39,7 +41,7 @@ function LinkToken({ color }) {
         onClick={() => {
           setLoading(true);
           fetchApiWithoutHook("property/members/inviteLink/create", {
-            inviterName: global.user.name,
+            inviterName: session.user.name,
             timestamp: new Date().toISOString(),
           }).then((res) => {
             setLoading(false);
@@ -154,6 +156,7 @@ export function AddPersonModal({
   }, [open]);
 
   const ref: any = useRef();
+  const session = useSession();
 
   return (
     <>
@@ -167,7 +170,7 @@ export function AddPersonModal({
             boxShadow: 0,
             ...(global.property.permission === "owner" && {
               backgroundColor: `${
-                colors[color][global.user.darkMode ? 800 : 900]
+                colors[color][session.user.darkMode ? 800 : 900]
               }!important`,
               color: `${colors[color][50]}!important`,
             }),
@@ -247,7 +250,7 @@ export function AddPersonModal({
               }
               if (isEmail(value)) {
                 fetchApiWithoutHook("property/members/add", {
-                  inviterName: global.user.name,
+                  inviterName: session.user.name,
                   name: global.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,

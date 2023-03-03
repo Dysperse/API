@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useStatusBar } from "../hooks/useStatusBar";
 import { toastStyles } from "../lib/useCustomTheme";
 
 export function ConfirmationModal({
@@ -43,8 +42,6 @@ export function ConfirmationModal({
       handleClick();
     }
   }, [open, disabled, handleClick]);
-
-  useStatusBar(open, 1);
 
   return (
     <>

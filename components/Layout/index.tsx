@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useApi } from "../../hooks/useApi";
-import { useAccountStorage } from "../../pages/_app";
+import { useAccountStorage, useSession } from "../../pages/_app";
 import { ApiResponse } from "../../types/client";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
@@ -46,6 +46,7 @@ function ResponsiveDrawer({
   }, [hasReachedLimit, storage]);
 
   const [dismissed, setDismissed] = useState(false);
+  const session = useSession();
 
   return (
     <Box
@@ -69,7 +70,7 @@ function ResponsiveDrawer({
             <Button
               size="small"
               color="inherit"
-              sx={{ color: global.user.darkMode ? "#000" : "#fff" }}
+              sx={{ color: session.user.darkMode ? "#000" : "#fff" }}
               onClick={() => setDismissed(true)}
             >
               Hide for now
@@ -83,7 +84,7 @@ function ResponsiveDrawer({
               <Button
                 color="inherit"
                 size="small"
-                sx={{ color: global.user.darkMode ? "#000" : "#fff" }}
+                sx={{ color: session.user.darkMode ? "#000" : "#fff" }}
               >
                 More info
               </Button>

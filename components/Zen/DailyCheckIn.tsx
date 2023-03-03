@@ -25,6 +25,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
 
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
@@ -110,6 +111,7 @@ export function DailyCheckInDrawer() {
     setAnchorEl(null);
     setTimeout(() => emblaApi?.reInit(), 100);
   };
+  const session = useSession();
 
   return (
     <>
@@ -144,7 +146,7 @@ export function DailyCheckInDrawer() {
               sx={{
                 fontSize: "12px",
                 height: "auto",
-                background: `hsl(240,11%,${global.user.darkMode ? 20 : 90}%)`,
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
               }}
             />
           </Typography>
@@ -168,15 +170,15 @@ export function DailyCheckInDrawer() {
             top: 0,
             left: 0,
             zIndex: 999,
-            background: global.user.darkMode
+            background: session.user.darkMode
               ? "hsla(240,11%,15%, 0.5)"
               : "rgba(255,255,255,.5)",
             backdropFilter: "blur(10px)",
             borderBottom: "1px solid transparent",
-            borderColor: global.user.darkMode
+            borderColor: session.user.darkMode
               ? "hsla(240,11%,30%, .5)"
               : "rgba(200,200,200,.3)",
-            color: global.user.darkMode ? "#fff" : "#000",
+            color: session.user.darkMode ? "#fff" : "#000",
           }}
         >
           <Toolbar>
@@ -264,7 +266,7 @@ export function DailyCheckInDrawer() {
               style={{
                 stroke: colors[themeColor]["A400"],
                 strokeWidth: 3,
-                fill: global.user.darkMode ? "hsl(240,11%,15%)" : "white",
+                fill: session.user.darkMode ? "hsl(240,11%,15%)" : "white",
               }}
             />
           </Sparklines>
@@ -317,7 +319,7 @@ export function DailyCheckInDrawer() {
                       borderRadius: 9999,
                       height: "auto",
                       maxHeight: "unset",
-                      ...(global.user.darkMode && {
+                      ...(session.user.darkMode && {
                         background: "hsl(240,11%,20%)",
                       }),
                     }}
@@ -418,13 +420,14 @@ export function DailyCheckIn() {
     },
     [today, mutationUrl, mood]
   );
+  const session = useSession();
 
   return (
     <Box
       sx={{
-        background: global.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+        background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
         border: "1px solid",
-        borderColor: global.user.darkMode
+        borderColor: session.user.darkMode
           ? "hsl(240, 11%, 20%)"
           : "rgba(200, 200, 200, 0.3)",
         borderRadius: 5,

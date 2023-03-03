@@ -5,6 +5,7 @@ import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { Box, Button, Icon, Menu, MenuItem, TextField } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useSession } from "../../pages/_app";
 
 /**
  * Search bar
@@ -27,13 +28,14 @@ function SearchBar({
       target.blur();
     }
   };
+  const session = useSession();
 
   return (
     <Button
       id="basic-button"
       disableRipple
       sx={{
-        backgroundColor: global.user.darkMode
+        backgroundColor: session.user.darkMode
           ? "hsl(240,11%,15%)!important"
           : `${grey[200]}!important`,
         borderRadius: 10,
@@ -43,13 +45,13 @@ function SearchBar({
         textAlign: "left",
         color: `${grey[600]}!important`,
         "&:focus-within": {
-          background: global.user.darkMode
+          background: session.user.darkMode
             ? "hsl(240,11%,10%)!important"
             : "#fff!important",
           "&, & .MuiInput-root *": {
             cursor: "text",
           },
-          border: global.user.darkMode
+          border: session.user.darkMode
             ? "1px solid hsl(240,11%,60%)"
             : "1px solid rgba(0,0,0,.5)",
           boxShadow:
@@ -164,6 +166,8 @@ export function Toolbar({
     },
     [ref]
   );
+  const session = useSession();
+
   return (
     <Box
       sx={{
@@ -182,15 +186,16 @@ export function Toolbar({
         ref={ref}
         sx={{
           background:
-            (global.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)") +
+            (session.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)") +
             "!important",
           "&:hover": {
             background:
-              (global.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)") +
-              "!important",
-            color: global.user.darkMode ? "#fff" : "#000",
+              (session.user.darkMode
+                ? "hsl(240,11%,20%)"
+                : "hsl(240,11%,90%)") + "!important",
+            color: session.user.darkMode ? "#fff" : "#000",
           },
-          color: global.user.darkMode ? "#aaa" : "#707070",
+          color: session.user.darkMode ? "#aaa" : "#707070",
           borderRadius: 10,
           ml: 1,
           mt: { xs: 1, sm: 0 },

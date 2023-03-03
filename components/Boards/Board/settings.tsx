@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
-import { useAccountStorage } from "../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
 
@@ -22,6 +22,7 @@ export default function BoardSettings({ mutationUrl, board }) {
   };
 
   const storage = useAccountStorage();
+  const session = useSession();
 
   return (
     <>
@@ -90,7 +91,7 @@ export default function BoardSettings({ mutationUrl, board }) {
             id={board.id}
             mutationUrl={mutationUrl}
             hide={
-              global.user.email !== "manusvathgurudath@gmail.com" &&
+              session.user.email !== "manusvathgurudath@gmail.com" &&
               ((board && board.columns.length === 1) ||
                 (board && board.columns.length >= 5))
             }

@@ -12,6 +12,7 @@ import {
 import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
 import { useApi } from "../../hooks/useApi";
+import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
 
@@ -19,13 +20,15 @@ const ExploreGoals = dynamic(() => import("./ExploreGoals"));
 
 export function MyGoals({ setHideRoutine }): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  // useStatusBar(open);
+  const session = useSession();
+
+  //
   const { data, error, url } = useApi("user/routines");
   useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
     tag.setAttribute(
       "content",
-      open ? "#814f41" : global.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
+      open ? "#814f41" : session.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
     );
   });
 
@@ -47,7 +50,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           sx: {
             width: "100vw",
             maxWidth: "700px",
-            ...(global.user.darkMode && {
+            ...(session.user.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
           },
@@ -120,7 +123,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                   py: 0.5,
                   borderRadius: 999,
                   gap: "10px",
-                  backgroundColor: global.user.darkMode
+                  backgroundColor: session.user.darkMode
                     ? "hsl(240,11%,14%)"
                     : "rgba(200,200,200,.3)",
                 }}
@@ -136,7 +139,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                     }}
                   />
                 </picture>
-                <span>{global.user.trophies}</span>
+                <span>{session.user.trophies}</span>
               </Box>
             </Box>
           )}
@@ -246,10 +249,10 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         style={{
           textAlign: "left",
           cursor: "unset",
-          ...(global.user.darkMode && {
+          ...(session.user.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
           }),
-          color: global.user.darkMode ? "#fff" : "#000",
+          color: session.user.darkMode ? "#fff" : "#000",
         }}
       >
         <div>

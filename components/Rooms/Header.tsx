@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
+import { useSession } from "../../pages/_app";
 import { CreateItemModal } from "./CreateItem/modal";
 /**
  * Header component for the room
@@ -26,13 +27,14 @@ export function Header({
   itemCount: number;
 }) {
   const router = useRouter();
+  const session = useSession();
 
   return (
     <ListItem
       sx={{
         transition: "transform .2s !important",
         overflow: "hidden",
-        background: global.user.darkMode
+        background: session.user.darkMode
           ? "hsl(240,11%,15%, 0.6)!important"
           : "hsla(240,11%,96%, 0.6)!important",
         position: "sticky",
@@ -42,7 +44,7 @@ export function Header({
         backdropFilter: "blur(10px)",
         py: 3,
         "&:focus": {
-          background: global.user.darkMode
+          background: session.user.darkMode
             ? "hsl(240,11%,27%)"
             : "hsla(240,11%,97%, 0.8)",
         },

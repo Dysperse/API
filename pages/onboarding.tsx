@@ -36,6 +36,7 @@ import { cards } from "../components/Rooms/CreateItem/cards";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { fetchApiWithoutHook } from "../hooks/useApi";
 import { colors } from "../lib/colors";
+import { useSession } from "./_app";
 
 function BoardTemplate({ template }) {
   const [loading, setLoading] = useState(false);
@@ -390,7 +391,7 @@ export default function Onboarding() {
         ))}
     </>,
     <>
-<Typography variant="h6" sx={{ mb: 1 }}>
+      <Typography variant="h6" sx={{ mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#6 </span>
         Add some items
       </Typography>
@@ -418,8 +419,8 @@ export default function Onboarding() {
           mb: 1.5,
         }}
       >
-        You can always come back to this page by clicking
-        on the &quot;Onboarding&quot; button in the sidebar.
+        You can always come back to this page by clicking on the
+        &quot;Onboarding&quot; button in the sidebar.
       </Typography>
 
       <Button
@@ -451,6 +452,7 @@ export default function Onboarding() {
     const container: any = document.getElementById("onboardingContainer");
     container.scrollTo({ top: 0 });
   }, [step]);
+  const session = useSession();
 
   return (
     <Box>
@@ -488,9 +490,9 @@ export default function Onboarding() {
           overflowY: "auto",
           maxWidth: "calc(100vw - 40px)",
           width: "500px",
-          backgroundColor: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+          backgroundColor: session.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
-          color: global.user.darkMode ? "white" : "hsl(240,11%,10%)",
+          color: session.user.darkMode ? "white" : "hsl(240,11%,10%)",
           borderRadius: "10px",
           padding: { xs: "7px", sm: "20px" },
         }}

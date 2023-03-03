@@ -3,6 +3,7 @@ import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { memo, useEffect } from "react";
 import { colors } from "../../../lib/colors";
+import { useSession } from "../../../pages/_app";
 import { Task } from "../Board/Column/Task";
 import { CreateTask } from "../Board/Column/Task/Create";
 
@@ -52,13 +53,15 @@ export const Column: any = memo(function Column({
     tasksWithinTimeRange.length -
     tasksWithinTimeRange.filter((task) => task.completed).length;
 
+    const session = useSession();
+
   return (
     <Box
       className="snap-center"
       {...(isToday && { id: "activeHighlight" })}
       sx={{
         borderRight: "1px solid",
-        borderColor: global.user.darkMode
+        borderColor: session.user.darkMode
           ? "hsl(240,11%,16%)"
           : "rgba(200,200,200,.2)",
         zIndex: 1,
@@ -76,14 +79,14 @@ export const Column: any = memo(function Column({
     >
       <Box
         sx={{
-          color: global.user.darkMode ? "#fff" : "#000",
+          color: session.user.darkMode ? "#fff" : "#000",
           py: 3.5,
           px: 4,
-          background: global.user.darkMode
+          background: session.user.darkMode
             ? "hsla(240,11%,16%, 0.2)"
             : "rgba(200,200,200,.05)",
           borderBottom: "1px solid",
-          borderColor: global.user.darkMode
+          borderColor: session.user.darkMode
             ? "hsla(240,11%,18%, 0.2)"
             : "rgba(200,200,200,.3)",
           userSelect: "none",
@@ -101,7 +104,7 @@ export const Column: any = memo(function Column({
             ...(isToday && {
               color: "hsl(240,11%,10%)",
               background:
-                colors[themeColor][global.user.darkMode ? "A200" : "A100"],
+                colors[themeColor][session.user.darkMode ? "A200" : "A100"],
               px: 0.5,
               ml: -0.5,
             }),
@@ -163,7 +166,7 @@ export const Column: any = memo(function Column({
               ) : (
                 <Icon
                   sx={{
-                    color: green[global.user.darkMode ? "A700" : "800"],
+                    color: green[session.user.darkMode ? "A700" : "800"],
                   }}
                   className="outlined"
                 >

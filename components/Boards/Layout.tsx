@@ -15,8 +15,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../hooks/useApi";
-import { useStatusBar } from "../../hooks/useStatusBar";
-import { useAccountStorage } from "../../pages/_app";
+import { useAccountStorage, useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 import { CreateBoard } from "./Board/Create";
@@ -93,6 +92,8 @@ export function TasksLayout() {
     }
   }, [data]);
 
+  const session = useSession();
+
   const styles = (condition: boolean) => ({
     transition: "none!important",
     px: 1.5,
@@ -105,11 +106,11 @@ export function TasksLayout() {
     mr: 1,
     mb: 0.5,
     fontSize: "15px",
-    ...(global.user.darkMode && {
+    ...(session.user.darkMode && {
       color: "hsl(240,11%, 80%)",
     }),
     "&:hover, &:focus": {
-      background: global.user.darkMode
+      background: session.user.darkMode
         ? "hsl(240,11%,15%)"
         : `hsl(240,11%,95%)!important`,
     },
@@ -119,24 +120,24 @@ export function TasksLayout() {
     ...(!condition
       ? {
           "&:hover": {
-            background: global.user.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,20%)"
               : `hsl(240,11%,93%)!important`,
           },
-          color: global.user.darkMode
+          color: session.user.darkMode
             ? "hsl(240,11%,80%)!important"
             : `hsl(240,11%,30%)!important`,
         }
       : {
-          background: global.user.darkMode
+          background: session.user.darkMode
             ? "hsl(240,11%,20%)!important"
             : `hsl(240,11%,85%)!important`,
           "&:hover, &:focus": {
-            background: global.user.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,20%)!important"
               : `hsl(240,11%,85%)!important`,
           },
-          color: global.user.darkMode
+          color: session.user.darkMode
             ? "hsl(240,11%,95%)!important"
             : `hsl(240,11%,10%)!important`,
         }),
@@ -177,7 +178,7 @@ export function TasksLayout() {
           opacity: 0.5,
           fontSize: "13px",
           px: 1.5,
-          color: global.user.darkMode ? "#fff" : "#000",
+          color: session.user.darkMode ? "#fff" : "#000",
           userSelect: "none",
         }}
       >
@@ -272,7 +273,7 @@ export function TasksLayout() {
           fontSize: "13px",
           userSelect: "none",
           px: 1.5,
-          color: global.user.darkMode ? "#fff" : "#000",
+          color: session.user.darkMode ? "#fff" : "#000",
         }}
       >
         Boards
@@ -383,13 +384,11 @@ export function TasksLayout() {
     </>
   );
 
-  useStatusBar(open);
-
   return (
     <Box
       sx={{
         display: "flex",
-        background: global.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+        background: session.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
       }}
     >
       <SwipeableDrawer
@@ -415,7 +414,7 @@ export function TasksLayout() {
           flex: { xs: "100%", md: "0 0 250px" },
           ml: -1,
           p: 3,
-          background: global.user.darkMode
+          background: session.user.darkMode
             ? "hsl(240,11%,7%)"
             : "hsl(240,11%,95%)",
           display: { xs: "none", md: "flex" },

@@ -11,11 +11,14 @@ const popup = require("window-popup").windowPopup;
 
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../_app";
 
 export default function Onboarding() {
   const router = useRouter();
   const id = window.location.pathname.split("/invite/")[1];
   const [loading, setLoading] = React.useState(false);
+  const session = useSession();
+
   const { data } = useApi(
     "property/members/inviteLink/info",
     {
@@ -129,9 +132,9 @@ export default function Onboarding() {
           <LoadingButton
             loading={loading}
             disabled={
-              global.user &&
-              global.user.user &&
-              global.user.user.properties.find(
+              session.user &&
+              session.user.user &&
+              session.user.user.properties.find(
                 (p) => p.propertyId === data.property.id
               )
             }
@@ -150,12 +153,12 @@ export default function Onboarding() {
             }}
             onClick={() => {
               setLoading(true);
-              if (global.user.user && global.user.user.email) {
+              if (session.user.user && session.user.user.email) {
                 fetchApiWithoutHook(
                   "property/members/inviteLink/accept",
                   {
                     token: id as string,
-                    email: global.user.user.email,
+                    email: session.user.user.email,
                     property: data.property.id,
                   },
                   true
@@ -182,9 +185,9 @@ export default function Onboarding() {
               }
             }}
           >
-            {global.user &&
-            global.user.user &&
-            global.user.user.properties.find(
+            {session.user &&
+            session.user.user &&
+            session.user.user.properties.find(
               (p) => p.propertyId === data.property.id
             )
               ? "You're already in this group"

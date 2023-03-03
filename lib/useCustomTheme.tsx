@@ -60,10 +60,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           root: ({ theme }) =>
             theme.unstable_sx({
               animationDuration: ".5s",
-              color: global.user.darkMode ? "#fff" : "#000",
-              "& .MuiCircularProgress-circle": {
-                // strokeLinecap: "round",
-              },
+              color: darkMode ? "#fff" : "#000",
             }),
         },
       },

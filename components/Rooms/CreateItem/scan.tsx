@@ -16,7 +16,7 @@ import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
-import { useAccountStorage } from "../../../pages/_app";
+import { useAccountStorage, useSession } from "../../../pages/_app";
 import { capitalizeFirstLetter } from "../../ItemPopup";
 
 const WebcamComponent = ({
@@ -195,11 +195,12 @@ export default function ImageRecognition({
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
     tag.content = open
       ? "#000000"
-      : global.user.darkMode
+      : session.user.darkMode
       ? "hsl(240,11%,10%)"
       : "#fff";
   }, [open]);
 
+  const session = useSession();
   const storage = useAccountStorage();
 
   return (

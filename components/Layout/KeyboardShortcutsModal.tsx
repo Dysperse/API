@@ -1,11 +1,10 @@
 import { Box, Dialog, Icon, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useStatusBar } from "../../hooks/useStatusBar";
 
 export default function KeyboardShortcutsModal() {
   const [open, setOpen] = React.useState(false);
-  useStatusBar(open);
+
   useHotkeys(
     "ctrl+/",
     (e) => {

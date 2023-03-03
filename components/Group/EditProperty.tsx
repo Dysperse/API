@@ -19,6 +19,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useSession } from "../../pages/_app";
 
 /**
  * Edit property
@@ -71,7 +72,7 @@ export function EditProperty({
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),
   });
-
+  const session = useSession();
   return (
     <>
       {trigger}
@@ -87,7 +88,7 @@ export function EditProperty({
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: global.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
+            background: session.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
             px: 3,
             width: { xs: "100vw", sm: "50vw" },
             py: 2,
@@ -106,10 +107,10 @@ export function EditProperty({
             sx={{
               height: "var(--navbar-height)",
               px: 2,
-              background: global.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
+              background: session.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
               borderBottom: "1px solid",
-              borderColor: global.user.darkMode ? "hsl(240,11%,20%)" : "#eee",
-              color: global.user.darkMode ? "#fff" : "#000",
+              borderColor: session.user.darkMode ? "hsl(240,11%,20%)" : "#eee",
+              color: session.user.darkMode ? "#fff" : "#000",
               boxShadow: "none",
             }}
           >

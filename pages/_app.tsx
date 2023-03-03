@@ -35,6 +35,15 @@ export let useAccountStorage: () => null | {
   setIsReached: (newValue: boolean | "error" | "loading") => any;
 } = () => null;
 
+export let useSession: () =>
+  | any
+  | {
+      user: any;
+      property: any;
+      permission: string;
+      themeColor: string;
+    } = () => null;
+
 /**
  * Main function, including layout and theme.
  * @param data User session data
@@ -114,6 +123,15 @@ function RenderWithLayout({
 
   global.property = selectedProperty;
   global.permission = selectedProperty.permission;
+
+  useSession = () => {
+    return {
+      user: data.user,
+      property: selectedProperty,
+      permission: selectedProperty.permission,
+      themeColor,
+    };
+  };
 
   // Used in `globals.scss`
   document.documentElement.style.setProperty(

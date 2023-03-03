@@ -8,11 +8,14 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
+import { useSession } from "../../pages/_app";
 
 /**
  * Top-level component for the account settings page.
  */
 export default function AppearanceSettings() {
+  const session = useSession();
+
   return (
     <Box>
       <ListItem>
@@ -20,7 +23,7 @@ export default function AppearanceSettings() {
           primary={
             <TextField
               variant="filled"
-              defaultValue={global.user && global.user.name}
+              defaultValue={session.user && session.user.name}
               label="Name"
               onBlur={(e) => updateSettings("name", e.target.value)}
               onKeyDown={(e: any) => {
@@ -37,7 +40,7 @@ export default function AppearanceSettings() {
               disabled
               sx={{ mb: 2 }}
               variant="filled"
-              defaultValue={global.user && global.user.email}
+              defaultValue={session.user && session.user.email}
               label="Email"
             />
           }

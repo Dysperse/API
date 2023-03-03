@@ -1,5 +1,6 @@
 import { Icon, IconButton } from "@mui/material";
 import { memo } from "react";
+import { useSession } from "../../pages/_app";
 import { updateSettings } from "../Settings/updateSettings";
 
 export const CardOptions = memo(function CardOptions({
@@ -14,17 +15,19 @@ export const CardOptions = memo(function CardOptions({
       return newArray;
     });
   };
+  const session = useSession();
+
   return (
     <IconButton
       size="large"
       onClick={handleDelete}
       sx={{
         mb: 1.5,
-        background: global.user.darkMode
+        background: session.user.darkMode
           ? "hsla(240,11%,60%,.1)!important"
           : "rgba(200,200,200,.3)!important",
         "&:hover": {
-          background: global.user.darkMode
+          background: session.user.darkMode
             ? "hsla(240,11%,90%,.1)!important"
             : "rgba(200,200,200,.5)!important",
         },

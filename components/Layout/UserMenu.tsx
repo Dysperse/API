@@ -18,7 +18,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { preload } from "swr";
 import { useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { useStatusBar } from "../../hooks/useStatusBar";
+import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import Settings from "../Settings/index";
 import AppsMenu from "./AppsMenu";
@@ -31,7 +31,6 @@ const Group = dynamic(() => import("../Group"));
  */
 export default function InviteButton({ styles }) {
   const [open, setOpen] = React.useState(false);
-  useStatusBar(open);
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
@@ -66,9 +65,10 @@ export default function InviteButton({ styles }) {
     },
     [open]
   );
+  const session = useSession();
 
   const { data, loading, url, fetcher, error } = useApi("user/properties");
-  const properties = [...global.user.properties, ...(data || [])]
+  const properties = [...session.user.properties, ...(data || [])]
     .filter((group) => group)
     .reduce((acc, curr) => {
       if (!acc.find((property) => property.propertyId === curr.propertyId)) {
@@ -136,7 +136,7 @@ export default function InviteButton({ styles }) {
                 borderRadius: 0,
                 transition: "none",
                 ...(group.propertyId === global.property.propertyId && {
-                  background: global.user.darkMode
+                  background: session.user.darkMode
                     ? "hsla(240,11%,20%)"
                     : "rgba(200,200,200,.4)!important",
                 }),
@@ -154,7 +154,7 @@ export default function InviteButton({ styles }) {
                 primary={<b>{group.profile.name}</b>}
                 secondary={group.profile.type}
                 sx={{
-                  color: global.user.darkMode ? "#fff" : "#000",
+                  color: session.user.darkMode ? "#fff" : "#000",
                   textTransform: "capitalize",
                 }}
               />
@@ -177,7 +177,7 @@ export default function InviteButton({ styles }) {
               py: 1.5,
               borderRadius: 0,
               gap: 2,
-              color: `hsl(240,11%,${global.user.darkMode ? 90 : 10}%)`,
+              color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
             }}
           >
             <Icon className="outlined">account_circle</Icon>
@@ -199,21 +199,21 @@ export default function InviteButton({ styles }) {
           sx={{
             background:
               colors[global.property.profile.color][
-                global.user.darkMode ? "A400" : 200
+                session.user.darkMode ? "A400" : 200
               ],
             "&:hover": {
               background:
                 colors[global.property.profile.color][
-                  global.user.darkMode ? "A700" : 300
+                  session.user.darkMode ? "A700" : 300
                 ],
             },
             ...(Boolean(anchorEl) && {
               background:
                 colors[global.property.profile.color][
-                  global.user.darkMode ? "A700" : 300
+                  session.user.darkMode ? "A700" : 300
                 ],
             }),
-            color: global.user.darkMode ? "#000" : "#000",
+            color: session.user.darkMode ? "#000" : "#000",
           }}
         >
           <Icon className="outlined">hive</Icon>

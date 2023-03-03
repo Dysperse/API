@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { toastStyles } from "../../lib/useCustomTheme";
+import { useSession } from "../../pages/_app";
 
 /**
  * Function to update a user's setting and save it to the database.
@@ -18,19 +19,21 @@ export async function updateSettings(
   callback: null | (() => void) = null,
   property = false
 ) {
+  const session = useSession();
+
   toast.promise(
     new Promise(async (resolve, reject) => {
       try {
         let url = `/api/user/update?${new URLSearchParams({
-          sessionId: global.user.token,
-          token: global.user.token,
+          sessionId: session.user.token,
+          token: session.user.token,
           [key]: value,
         }).toString()}`;
         if (property) {
           url = `/api/property/update?${new URLSearchParams({
             property: global.property.propertyId,
             accessToken: global.property.accessToken,
-            userName: global.user.name,
+            userName: session.user.name,
             timestamp: new Date().toISOString(),
             [key]: value,
             changedKey: key,

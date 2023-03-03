@@ -20,6 +20,7 @@ import {
 import dynamic from "next/dynamic";
 import { CreateRoom } from "../components/Rooms/items/CreateRoom";
 import { Rooms } from "../components/Rooms/items/Rooms";
+import { useSession } from "./_app";
 
 const Action = dynamic(() => import("../components/Rooms/Action"));
 
@@ -89,6 +90,7 @@ export default function Inventory({ children = null }: any) {
   };
   const [viewBy, setViewBy] = React.useState("Room");
   const { data } = useApi("property/inventory/room/itemCount");
+  const session = useSession();
 
   const { data: dataRooms, url, error } = useApi("property/rooms");
 
@@ -112,9 +114,9 @@ export default function Inventory({ children = null }: any) {
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
           background: {
-            sm: global.user.darkMode
+            sm: session.user.darkMode
               ? "hsl(240,11%,7%)"
-              : global.user.darkMode
+              : session.user.darkMode
               ? "hsl(240,11%,7%)"
               : "hsl(240,11%,95%)",
           },
@@ -150,7 +152,7 @@ export default function Inventory({ children = null }: any) {
             sx={{
               ...(viewBy === "room" && {
                 background:
-                  colors[global.themeColor][global.user.darkMode ? 700 : 300],
+                  colors[global.themeColor][session.user.darkMode ? 700 : 300],
               }),
             }}
           >
@@ -164,7 +166,7 @@ export default function Inventory({ children = null }: any) {
             sx={{
               ...(viewBy === "Category" && {
                 background:
-                  colors[global.themeColor][global.user.darkMode ? 700 : 300],
+                  colors[global.themeColor][session.user.darkMode ? 700 : 300],
               }),
             }}
           >
@@ -330,7 +332,7 @@ export default function Inventory({ children = null }: any) {
             height: "calc(100vh - 70px)",
             width: "100%",
             fontWeight: "500",
-            color: colors[themeColor][global.user.darkMode ? 50 : 800],
+            color: colors[themeColor][session.user.darkMode ? 50 : 800],
           }}
         >
           <Box

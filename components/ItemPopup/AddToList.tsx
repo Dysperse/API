@@ -1,7 +1,6 @@
 import type { Item as ItemType } from "@prisma/client";
 import { useState } from "react";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
-import { useStatusBar } from "../../hooks/useStatusBar";
 import type { ApiResponse } from "../../types/client";
 
 import {
@@ -169,7 +168,7 @@ export default function AddToListModal({
   item: ItemType;
 }) {
   const [open, setOpen] = useState<boolean>(false);
-  useStatusBar(open);
+
   const storage = useAccountStorage();
 
   return (

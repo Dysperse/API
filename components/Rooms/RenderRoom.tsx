@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
+import { useSession } from "../../pages/_app";
 
 /**
  * Renders a room based on the inventory data passed in the data object
@@ -34,9 +35,8 @@ export function RenderRoom({
   const router = useRouter();
   const [items, setItems] = useState(data);
 
-  useEffect(() => {
-    setItems(data);
-  }, [data]);
+  useEffect(() => setItems(data), [data]);
+  const session = useSession();
 
   return (
     <Box key={index}>
@@ -70,7 +70,7 @@ export function RenderRoom({
                 <Card
                   sx={{
                     mb: 2,
-                    background: global.user.darkMode
+                    background: session.user.darkMode
                       ? "hsla(240,11%,15%)"
                       : "rgba(200,200,200,.3)",
                     borderRadius: 5,
@@ -90,7 +90,7 @@ export function RenderRoom({
                       width={256}
                       height={256}
                       style={{
-                        ...(global.user.darkMode && { filter: "invert(100%)" }),
+                        ...(session.user.darkMode && { filter: "invert(100%)" }),
                       }}
                       alt="No items found"
                     />

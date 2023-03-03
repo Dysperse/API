@@ -44,14 +44,15 @@ import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 import { getActions } from "../components/Zen/getActions";
 import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
-import { useStatusBar } from "../hooks/useStatusBar";
 import { colors } from "../lib/colors";
 import { toastStyles } from "../lib/useCustomTheme";
+import { useSession } from "./_app";
 
 function CardGallery({ editMode, items, setItems }) {
   const [open, setOpen] = useState(false);
-  useStatusBar(open);
+
   const actions = getActions(global.property.profile.type);
+  const session = useSession();
 
   return (
     <>
@@ -83,11 +84,11 @@ function CardGallery({ editMode, items, setItems }) {
                     sx={{
                       width: "100%",
                       px: "15px !important",
-                      background: global.user.darkMode
+                      background: session.user.darkMode
                         ? "hsl(240, 11%, 10%)"
                         : "#fff",
                       border: "1px solid",
-                      borderColor: global.user.darkMode
+                      borderColor: session.user.darkMode
                         ? "hsl(240, 11%, 20%)"
                         : "rgba(200, 200, 200, 0.3)",
                     }}
@@ -162,9 +163,10 @@ function SortableItem(props) {
 
   const data =
     actions[category] && actions[category].find((e) => e.key === action);
+  const session = useSession();
 
   const activeStyles = {
-    background: global.user.darkMode
+    background: session.user.darkMode
       ? "hsla(240,11%,60%,.5)"
       : "rgba(200,200,200,.5)!important",
     backdropFilter: "blur(10px)",
@@ -205,9 +207,9 @@ function SortableItem(props) {
             sx={{
               width: "100%",
               px: "15px !important",
-              background: global.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+              background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
               border: "1px solid",
-              borderColor: global.user.darkMode
+              borderColor: session.user.darkMode
                 ? "hsl(240, 11%, 20%)"
                 : "rgba(200, 200, 200, 0.3)",
               opacity: "1!important",
@@ -249,6 +251,7 @@ export default function Home() {
     e.preventDefault();
     setEditMode((e) => !e);
   });
+  const session = useSession();
 
   useEffect(() => {
     editMode ? neutralizeBack(() => setEditMode(false)) : revivalBack();
@@ -300,7 +303,7 @@ export default function Home() {
 
   const order = {
     top: ["tasks", "goals"],
-    bottom: JSON.parse(global.user.zenCardOrder) || [
+    bottom: JSON.parse(session.user.zenCardOrder) || [
       "goals.study_plan",
       "inventory.starred",
       "inventory.scan",
@@ -331,7 +334,7 @@ export default function Home() {
               gap: 1,
               height: "var(--navbar-height)",
               position: { xs: editMode ? "fixed" : "absolute", sm: "static" },
-              background: global.user.darkMode
+              background: session.user.darkMode
                 ? "hsla(240,11%,10%, .5)"
                 : "rgba(255,255,255,.5)",
               top: 0,
@@ -351,7 +354,7 @@ export default function Home() {
                   sx={{
                     mr: 0.5,
                     ...(editMode && {
-                      background: global.user.darkMode
+                      background: session.user.darkMode
                         ? "hsl(240,11%,25%)!important"
                         : "rgba(200,200,200,.3)!important",
                     }),
@@ -406,9 +409,9 @@ export default function Home() {
                 variant="h5"
               >
                 {greeting}
-                {global.user.name.includes(" ")
-                  ? global.user.name.split(" ")[0]
-                  : global.user.name}
+                {session.user.name.includes(" ")
+                  ? session.user.name.split(" ")[0]
+                  : session.user.name}
                 !
               </Typography>
             </Box>
@@ -423,7 +426,7 @@ export default function Home() {
               mt: 2,
               "& .MuiListItemButton-root": {
                 ...(editMode && {
-                  background: global.user.darkMode
+                  background: session.user.darkMode
                     ? "hsla(240,11%,60%,.1)"
                     : "rgba(200,200,200,.3)",
                   transformOrigin: "top center",
@@ -456,11 +459,11 @@ export default function Home() {
                     sx={{
                       width: "100%",
                       px: "15px !important",
-                      background: global.user.darkMode
+                      background: session.user.darkMode
                         ? "hsl(240, 11%, 10%)"
                         : "#fff",
                       border: "1px solid",
-                      borderColor: global.user.darkMode
+                      borderColor: session.user.darkMode
                         ? "hsl(240, 11%, 20%)"
                         : "rgba(200, 200, 200, 0.3)",
                     }}
@@ -498,7 +501,7 @@ export default function Home() {
                           sx={{
                             color:
                               colors.green[
-                                global.user.darkMode ? "A400" : "A700"
+                                session.user.darkMode ? "A400" : "A700"
                               ],
                             fontSize: "30px!important",
                           }}

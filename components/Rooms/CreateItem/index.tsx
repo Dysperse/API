@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
-import { useStatusBar } from "../../../hooks/useStatusBar";
 import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
 import { CreateItemModal } from "./modal";
@@ -22,6 +21,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { useSession } from "../../../pages/_app";
 
 /**
  * Item popup option
@@ -40,6 +40,7 @@ function AddItemOption({
   icon: JSX.Element | string;
   title: JSX.Element | string;
 }): JSX.Element {
+  const session = useSession();
   return (
     <Grid item xs={12} sm={4} spacing={2}>
       <CreateItemModal room={title}>
@@ -62,18 +63,18 @@ function AddItemOption({
             disableRipple
             sx={{
               "&:hover": {
-                background: global.user.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,15%)!important"
                   : `${colors[themeColor][100]}!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: global.user.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,18%)!important"
                   : `${colors[themeColor][100]}!important`,
               },
               "&:active": {
-                background: global.user.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,25%)!important"
                   : `${colors[themeColor][100]}!important`,
               },
@@ -112,7 +113,6 @@ function AddItemOption({
 function MoreRooms(): JSX.Element {
   const { error, data } = useApi("property/rooms");
   const [open, setOpen] = React.useState<boolean>(false);
-  useStatusBar(open, 2);
 
   if (error) {
     return <>An error occured while trying to fetch your rooms. </>;
@@ -121,6 +121,7 @@ function MoreRooms(): JSX.Element {
    * Handle drawer toggle
    */
   const handleClickOpen = () => setOpen(true);
+  const session = useSession();
 
   return (
     <>
@@ -217,18 +218,18 @@ function MoreRooms(): JSX.Element {
               },
               "&:hover": {
                 background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                  colors[themeColor][session.user.darkMode ? 900 : 100]
                 }!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
                 background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                  colors[themeColor][session.user.darkMode ? 900 : 100]
                 }!important`,
               },
               "&:active": {
                 background: `${
-                  colors[themeColor][global.user.darkMode ? 900 : 100]
+                  colors[themeColor][session.user.darkMode ? 900 : 100]
                 }!important`,
               },
             }}
@@ -348,8 +349,6 @@ export default function AddPopup({
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
-
-  useStatusBar(open);
 
   /**
    * Toggles the drawer's open state
