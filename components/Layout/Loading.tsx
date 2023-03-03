@@ -7,6 +7,7 @@ import {
   ThemeProvider,
   Toolbar,
 } from "@mui/material";
+import { useSession } from "../../pages/_app";
 
 /**
  * Loading screen
@@ -17,6 +18,7 @@ export function Loading(): JSX.Element {
   const defaultDarkMode =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const session = useSession();
 
   return (
     <ThemeProvider
@@ -42,7 +44,7 @@ export function Loading(): JSX.Element {
           WebkitAppRegion: "drag",
           left: 0,
           background:
-            (global.user && global.user.darkMode) || defaultDarkMode
+            (session.user && session.user.darkMode) || defaultDarkMode
               ? "hsl(240,11%,5%)"
               : "#fff",
           width: "100%",
@@ -115,7 +117,7 @@ export function Loading(): JSX.Element {
               height: "100vh",
               gap: 2,
               background:
-                (global.user && global.user.darkMode) || defaultDarkMode
+                (session.user && session.user.darkMode) || defaultDarkMode
                   ? "hsl(240,11%,10%)"
                   : "rgba(200,200,200,.3)",
               justifyContent: "center",
@@ -164,7 +166,7 @@ export function Loading(): JSX.Element {
               sx={{
                 display: { xs: "none", sm: "block" },
                 background:
-                  (global.user && global.user.darkMode) || defaultDarkMode
+                  (session.user && session.user.darkMode) || defaultDarkMode
                     ? "hsl(240,11%,13%)"
                     : "rgba(200,200,200,.2)",
                 width: 300,
@@ -244,7 +246,8 @@ export function Loading(): JSX.Element {
                       flex: "0 0 300px",
                       borderRight: "1px solid",
                       borderColor:
-                        (global.user && global.user.darkMode) || defaultDarkMode
+                        (session.user && session.user.darkMode) ||
+                        defaultDarkMode
                           ? "hsl(240,11%,13%)"
                           : "rgba(200,200,200,.3)",
                     }}
@@ -255,7 +258,7 @@ export function Loading(): JSX.Element {
                         borderBottom: "1px solid",
                         borderTop: { xs: "1px solid", sm: "none" },
                         borderColor:
-                          (global.user && global.user.darkMode) ||
+                          (session.user && session.user.darkMode) ||
                           defaultDarkMode
                             ? "hsl(240,11%,13%)!important"
                             : "rgba(200,200,200,.3)!important",

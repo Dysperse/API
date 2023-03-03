@@ -66,7 +66,7 @@ function PropertyInfo({
           </IconButton>
           <Typography sx={{ fontWeight: "700" }}>Group info</Typography>
           <Changelog
-            disabled={propertyData.profile.id !== global.property.propertyId}
+            disabled={propertyData.profile.id !== session.property.propertyId}
           />
         </Toolbar>
       </AppBar>
@@ -77,7 +77,7 @@ function PropertyInfo({
           p: 4,
         }}
       >
-        {propertyData.propertyId !== global.property.propertyId && (
+        {propertyData.propertyId !== session.property.propertyId && (
           <Alert
             severity="info"
             sx={{
@@ -153,14 +153,14 @@ function PropertyInfo({
               sx={{
                 position: "absolute",
                 color: "#000!important",
-                ...(propertyData.profile.id !== global.property.propertyId && {
+                ...(propertyData.profile.id !== session.property.propertyId && {
                   opacity: 0.3,
                 }),
                 top: 0,
                 right: 0,
                 m: 2,
               }}
-              disabled={propertyData.profile.id !== global.property.propertyId}
+              disabled={propertyData.profile.id !== session.property.propertyId}
             >
               <Icon className="outlined">edit</Icon>
             </IconButton>
@@ -186,7 +186,7 @@ function PropertyInfo({
           accessToken={accessToken}
         />
         {propertyData &&
-          propertyData.profile.id == global.property.propertyId && (
+          propertyData.profile.id == session.property.propertyId && (
             <Integrations />
           )}
       </Box>

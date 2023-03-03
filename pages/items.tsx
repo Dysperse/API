@@ -152,7 +152,7 @@ export default function Inventory({ children = null }: any) {
             sx={{
               ...(viewBy === "room" && {
                 background:
-                  colors[global.themeColor][session.user.darkMode ? 700 : 300],
+                  colors[session.themeColor][session.user.darkMode ? 700 : 300],
               }),
             }}
           >
@@ -166,7 +166,7 @@ export default function Inventory({ children = null }: any) {
             sx={{
               ...(viewBy === "Category" && {
                 background:
-                  colors[global.themeColor][session.user.darkMode ? 700 : 300],
+                  colors[session.themeColor][session.user.darkMode ? 700 : 300],
               }),
             }}
           >
@@ -181,7 +181,7 @@ export default function Inventory({ children = null }: any) {
           }}
         >
           <h1 className="font-heading my-10 text-4xl font-light underline sm:hidden">
-            {global.property.profile.type === "study group"
+            {session.property.profile.type === "study group"
               ? "Belongings"
               : "Inventory"}
           </h1>
@@ -193,7 +193,7 @@ export default function Inventory({ children = null }: any) {
         </Box>
         {viewBy === "Room" ? (
           <>
-            {global.property.profile.type === "study group" ? (
+            {session.property.profile.type === "study group" ? (
               <>
                 <Action
                   mutationUrl={url}

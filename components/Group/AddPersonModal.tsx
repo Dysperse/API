@@ -163,12 +163,12 @@ export function AddPersonModal({
       <Prompt callback={() => setOpen(true)}>
         <Button
           variant="contained"
-          disabled={disabled || global.property.permission !== "owner"}
+          disabled={disabled || session.property.permission !== "owner"}
           sx={{
             px: 2,
             ml: "auto",
             boxShadow: 0,
-            ...(global.property.permission === "owner" && {
+            ...(session.property.permission === "owner" && {
               backgroundColor: `${
                 colors[color][session.user.darkMode ? 800 : 900]
               }!important`,
@@ -251,7 +251,7 @@ export function AddPersonModal({
               if (isEmail(value)) {
                 fetchApiWithoutHook("property/members/add", {
                   inviterName: session.user.name,
-                  name: global.property.profile.name,
+                  name: session.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,
                   email: value,

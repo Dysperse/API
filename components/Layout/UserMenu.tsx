@@ -128,14 +128,14 @@ export default function InviteButton({ styles }) {
             }}
           >
             <ListItemButton
-              {...(group.propertyId === global.property.propertyId && {
+              {...(group.propertyId === session.property.propertyId && {
                 id: "activeProperty",
               })}
               sx={{
                 gap: 2,
                 borderRadius: 0,
                 transition: "none",
-                ...(group.propertyId === global.property.propertyId && {
+                ...(group.propertyId === session.property.propertyId && {
                   background: session.user.darkMode
                     ? "hsla(240,11%,20%)"
                     : "rgba(200,200,200,.4)!important",
@@ -198,18 +198,18 @@ export default function InviteButton({ styles }) {
         <Avatar
           sx={{
             background:
-              colors[global.property.profile.color][
+              colors[session.property.profile.color][
                 session.user.darkMode ? "A400" : 200
               ],
             "&:hover": {
               background:
-                colors[global.property.profile.color][
+                colors[session.property.profile.color][
                   session.user.darkMode ? "A700" : 300
                 ],
             },
             ...(Boolean(anchorEl) && {
               background:
-                colors[global.property.profile.color][
+                colors[session.property.profile.color][
                   session.user.darkMode ? "A700" : 300
                 ],
             }),

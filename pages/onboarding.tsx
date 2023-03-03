@@ -182,8 +182,11 @@ export default function Onboarding() {
     "Add some items",
     "You're all set!",
   ];
+  const session = useSession();
 
-  const [type, setType] = useState(global.property.profile.type || "apartment");
+  const [type, setType] = useState(
+    session.property.profile.type || "apartment"
+  );
   const [bestDescription, setBestDescription] = useState("Student");
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -351,7 +354,7 @@ export default function Onboarding() {
         onKeyDown={(e: any) => {
           if (e.key == "Enter") e.target.blur();
         }}
-        defaultValue={global.property.profile.name}
+        defaultValue={session.property.profile.name}
         onBlur={(event) => {
           updateSettings(
             "name",
@@ -452,7 +455,6 @@ export default function Onboarding() {
     const container: any = document.getElementById("onboardingContainer");
     container.scrollTo({ top: 0 });
   }, [step]);
-  const session = useSession();
 
   return (
     <Box>

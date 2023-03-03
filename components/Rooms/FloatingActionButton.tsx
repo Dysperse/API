@@ -11,7 +11,7 @@ export function FloatingActionButton({ sm = false }) {
   const storage = useAccountStorage();
   const session = useSession();
 
-  return global.property.role === "read-only" ? null : (
+  return session.property.role === "read-only" ? null : (
     <Box
       sx={{
         position: { xs: "fixed", sm: "unset" },

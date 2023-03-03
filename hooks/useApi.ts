@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
+import { useSession } from "../pages/_app";
 
 const getInfo = (
   path,
@@ -27,17 +28,19 @@ const getInfo = (
 };
 
 export function useApi(path, initialParams = {}, removeDefaultParams = false) {
+  const session = useSession();
   const { url } = useMemo(
     () =>
       getInfo(
         path,
         initialParams,
-        global.property,
-        global.user,
+        session.property,
+        session.user,
         removeDefaultParams
       ),
-    [path, initialParams, removeDefaultParams, global.property, global.user]
+    [path, initialParams, removeDefaultParams, session.property, session.user]
   );
+
   const fetcher = (url) => fetch(url).then((res) => res.json());
   // preload(url, fetcher);
 
@@ -69,11 +72,13 @@ export async function fetchApiWithoutHook(
   initialParams = {},
   removeDefaultParams = false
 ) {
+  const session = useSession();
+
   const { url } = getInfo(
     path,
     initialParams,
-    global.property,
-    global.user,
+    session.property,
+    session.user,
     removeDefaultParams
   );
   const res = await fetch(url);

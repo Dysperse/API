@@ -185,7 +185,7 @@ export default function SearchPopup({ styles }) {
         })
       : []),
 
-    ...(global.property.profile.type !== "study group"
+    ...(session.property.profile.type !== "study group"
       ? [
           "Kitchen:blender",
           "Bedroom:bedroom_parent",

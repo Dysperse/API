@@ -268,17 +268,18 @@ function MoreRooms(): JSX.Element {
  * @returns JSX.Element
  */
 function Content(): JSX.Element {
+  const session = useSession();
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Grid container sx={{ p: 1 }}>
-        {global.property.profile.type !== "study group" &&
-          global.property.profile.type !== "dorm" && (
+        {session.property.profile.type !== "study group" &&
+          session.property.profile.type !== "dorm" && (
             <AddItemOption
               title="Kitchen"
               icon={<Icon className="outlined">blender</Icon>}
             />
           )}
-        {global.property.profile.type !== "study group" && (
+        {session.property.profile.type !== "study group" && (
           <>
             <AddItemOption
               title="Bedroom"
@@ -295,8 +296,8 @@ function Content(): JSX.Element {
             />
           </>
         )}
-        {global.property.profile.type !== "study group" &&
-          global.property.profile.type !== "dorm" && (
+        {session.property.profile.type !== "study group" &&
+          session.property.profile.type !== "dorm" && (
             <>
               <AddItemOption
                 title="Garage"
@@ -317,7 +318,7 @@ function Content(): JSX.Element {
               <MoreRooms />
             </>
           )}
-        {global.property.profile.type === "study group" && (
+        {session.property.profile.type === "study group" && (
           <AddItemOption
             title="Backpack"
             icon={<Icon className="outlined">backpack</Icon>}
@@ -340,7 +341,7 @@ export default function AddPopup({
   children: JSX.Element;
 }): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
-
+  const session = useSession();
   useHotkeys("ctrl+s", (e) => {
     e.preventDefault();
     document.getElementById("add_trigger")?.click();
@@ -363,7 +364,7 @@ export default function AddPopup({
    * handleAddItemDrawerOpen
    */
   const handleAddItemDrawerOpen = () => {
-    if (global.property.role !== "read-only") {
+    if (session.property.role !== "read-only") {
       setOpen(true);
     }
   };

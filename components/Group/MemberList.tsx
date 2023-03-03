@@ -5,7 +5,7 @@ import {
   Menu,
   MenuItem,
   Skeleton,
-  Typography,
+  Typography
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -129,7 +129,7 @@ function Member({
               Member
             </MenuItem>
 
-            {global.property.permission !== "owner" ||
+            {session.property.permission !== "owner" ||
             member.permission === "owner" ? null : (
               <MenuItem
                 sx={{
@@ -172,7 +172,7 @@ function Member({
           <CardActionArea
             onClick={handleClick}
             disabled={
-              propertyId !== global.property.propertyId ||
+              propertyId !== session.property.propertyId ||
               global.permission !== "owner" ||
               member.user.email === session.user.email
             }
@@ -215,7 +215,7 @@ function Member({
               style={{
                 marginLeft: "auto",
                 opacity:
-                  propertyId !== global.property.propertyId ||
+                  propertyId !== session.property.propertyId ||
                   global.permission !== "owner" ||
                   member.user.email === session.user.email
                     ? "0"
@@ -305,7 +305,7 @@ export function MemberList({
         {data && !data.error && (
           <AddPersonModal
             color={color}
-            disabled={propertyId !== global.property.propertyId}
+            disabled={propertyId !== session.property.propertyId}
             members={loading ? [] : data.map((member) => member.user.email)}
           />
         )}

@@ -77,8 +77,8 @@ function ResponsiveDrawer({
             </Button>
             <Group
               data={{
-                id: global.property.propertyId,
-                accessToken: global.property.accessToken,
+                id: session.property.propertyId,
+                accessToken: session.property.accessToken,
               }}
             >
               <Button

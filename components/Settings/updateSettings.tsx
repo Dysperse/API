@@ -31,8 +31,8 @@ export async function updateSettings(
         }).toString()}`;
         if (property) {
           url = `/api/property/update?${new URLSearchParams({
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
+            property: session.property.propertyId,
+            accessToken: session.property.accessToken,
             userName: session.user.name,
             timestamp: new Date().toISOString(),
             [key]: value,

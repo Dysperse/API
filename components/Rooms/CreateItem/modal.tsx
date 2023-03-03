@@ -82,8 +82,8 @@ export function CreateItemModal({
         mutate(
           `/api/property/inventory/list/?${new URLSearchParams({
             sessionId: session.user.token,
-            property: global.property.propertyId,
-            accessToken: global.property.accessToken,
+            property: session.property.propertyId,
+            accessToken: session.property.accessToken,
             userIdentifier: session.user.identifier,
             room: room.toString().toLowerCase(),
           }).toString()}`

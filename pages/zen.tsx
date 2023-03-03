@@ -50,9 +50,8 @@ import { useSession } from "./_app";
 
 function CardGallery({ editMode, items, setItems }) {
   const [open, setOpen] = useState(false);
-
-  const actions = getActions(global.property.profile.type);
   const session = useSession();
+  const actions = getActions(session.property.profile.type);
 
   return (
     <>
@@ -157,13 +156,13 @@ function SortableItem(props) {
     },
   });
 
-  const actions = getActions(global.property.profile.type);
+  const session = useSession();
+  const actions = getActions(session.property.profile.type);
   const category = props.id.split(".")[0];
   const action = props.id.split(".")[1];
 
   const data =
     actions[category] && actions[category].find((e) => e.key === action);
-  const session = useSession();
 
   const activeStyles = {
     background: session.user.darkMode
