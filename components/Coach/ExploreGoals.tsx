@@ -22,7 +22,7 @@ import {
   Tabs,
   TextField,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import Image from "next/image";
 import { toastStyles } from "../../lib/useCustomTheme";
@@ -92,7 +92,7 @@ function CreateGoal({ mutationUrl }) {
       );
     }
   };
-const session = useSession();
+  const session = useSession();
 
   return (
     <>
@@ -260,7 +260,7 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
   };
 
   const [loading, setLoading] = React.useState(false);
-const session = useSession();
+  const session = useSession();
 
   return (
     <div

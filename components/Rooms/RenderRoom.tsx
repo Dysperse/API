@@ -90,7 +90,9 @@ export function RenderRoom({
                       width={256}
                       height={256}
                       style={{
-                        ...(session.user.darkMode && { filter: "invert(100%)" }),
+                        ...(session.user.darkMode && {
+                          filter: "invert(100%)",
+                        }),
                       }}
                       alt="No items found"
                     />

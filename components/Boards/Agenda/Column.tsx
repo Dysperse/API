@@ -53,7 +53,7 @@ export const Column: any = memo(function Column({
     tasksWithinTimeRange.length -
     tasksWithinTimeRange.filter((task) => task.completed).length;
 
-    const session = useSession();
+  const session = useSession();
 
   return (
     <Box
