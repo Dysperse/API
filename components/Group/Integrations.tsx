@@ -20,7 +20,7 @@ import { toastStyles } from "../../lib/useCustomTheme";
 import { ErrorHandler } from "../Error";
 
 function Integration({ integration }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [params, setParams] = useState(
     integration.params.reduce((acc, curr) => ((acc[curr.name] = ""), acc), {})
   );

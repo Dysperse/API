@@ -16,7 +16,7 @@ export default function Prompt() {
   const router = useRouter();
 
   // Login form
-  const [buttonLoading, setButtonLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {

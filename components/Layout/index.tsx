@@ -45,7 +45,7 @@ function ResponsiveDrawer({
     }
   }, [error, hasReachedLimit, storage]);
 
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState<boolean>(false);
   const session = useSession();
 
   return (

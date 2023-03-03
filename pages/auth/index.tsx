@@ -56,8 +56,8 @@ export default function Prompt() {
   const router = useRouter();
 
   // Login form
-  const [buttonLoading, setButtonLoading] = useState(false);
-  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     twoFactorModalOpen
@@ -179,7 +179,7 @@ export default function Prompt() {
   }, []);
 
   const [step, setStep] = useState(1);
-  const [togglePassword, setTogglePassword] = useState(false);
+  const [togglePassword, setTogglePassword] = useState<boolean>(false);
   const handleTogglePassword = useCallback(() => {
     if (!togglePassword) {
       if (

@@ -19,7 +19,7 @@ import { Goal } from "./Goal";
 const ExploreGoals = dynamic(() => import("./ExploreGoals"));
 
 export function MyGoals({ setHideRoutine }): JSX.Element {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
 
   //

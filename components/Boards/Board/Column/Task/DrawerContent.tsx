@@ -123,7 +123,7 @@ export default function DrawerContent({
     [data.id, setTaskData, data.due, handleEdit]
   );
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const iconStyles = {
     width: "100%",

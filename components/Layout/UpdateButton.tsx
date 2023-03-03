@@ -4,7 +4,7 @@ import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 
 export function UpdateButton() {
-  const [button, setButton] = useState(false);
+  const [button, setButton] = useState<boolean>(false);
   useEffect(() => {
     if (
       typeof window !== "undefined" &&

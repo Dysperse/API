@@ -9,7 +9,7 @@ import Link from "next/link";
 import React from "react";
 
 export function Error({ message }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   return (
     <Box
       sx={{

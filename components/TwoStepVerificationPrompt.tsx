@@ -19,17 +19,18 @@ export function Prompt({
   children: JSX.Element;
   callback: () => any;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const trigger = React.cloneElement(children, {
     onClick: () => setOpen(true),
   });
   const session = useSession();
   const userHasEnabled2fa =
-   session && session?.user.twoFactorSecret !== "" && session?.user.twoFactorSecret !== "false";
+    session &&
+    session?.user.twoFactorSecret !== "" &&
+    session?.user.twoFactorSecret !== "false";
 
-  const [buttonLoading, setButtonLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const [code, setCode] = useState("");
-  
 
   /**
    * Handles verification of 2fa code

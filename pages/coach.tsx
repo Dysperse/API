@@ -94,7 +94,7 @@ export const Task: any = React.memo(function Task({ task }: any) {
         );
       });
   }, [task.durationDays, task.id, task.progress]);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   return (
     <Box className="flex items-center" sx={{ mb: 2, gap: 1 }}>
@@ -167,7 +167,7 @@ export default function Render() {
     greeting = "Good night, ";
   }
 
-  const [hideRoutine, setHideRoutine] = useState(false);
+  const [hideRoutine, setHideRoutine] = useState<boolean>(false);
   return (
     <Box sx={{ position: "relative" }}>
       <Head>

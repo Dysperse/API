@@ -6,7 +6,7 @@ import {
 } from "../../../../../hooks/useBackButton";
 
 export function ImageViewer({ url, trimHeight = false }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });

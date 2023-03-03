@@ -20,7 +20,7 @@ import Image from "next/image";
 import { useSession } from "../../../pages/_app";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const session = useSession();
 
@@ -536,7 +536,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
     };
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>

@@ -38,7 +38,7 @@ const base64ToUint8Array = (base64) => {
 export default function Notifications() {
   const { data, url, error } = useApi("user/notificationSettings");
 
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const [subscription, setSubscription] = useState<any>(null);
   const [registration, setRegistration] = useState<any>(null);
 

@@ -13,7 +13,7 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
   date,
   setDate,
 }: any) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const today = formatDate(new Date());
   const session = useSession();
 

@@ -49,7 +49,7 @@ import { toastStyles } from "../lib/useCustomTheme";
 import { useSession } from "./_app";
 
 function CardGallery({ editMode, items, setItems }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
   const actions = getActions(session.property.profile.type);
 
@@ -245,7 +245,7 @@ function SortableItem(props) {
 export default function Home() {
   const router = useRouter();
   const time = new Date().getHours();
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
   useHotkeys("alt+e", (e) => {
     e.preventDefault();
     setEditMode((e) => !e);

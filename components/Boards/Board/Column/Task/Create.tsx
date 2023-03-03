@@ -30,7 +30,7 @@ import { useAccountStorage, useSession } from "../../../../../pages/_app";
 import { capitalizeFirstLetter } from "../../../../ItemPopup";
 
 function ImageModal({ image, setImage, styles }) {
-  const [imageUploading, setImageUploading] = useState(false);
+  const [imageUploading, setImageUploading] = useState<boolean>(false);
   const session = useSession();
 
   return (
@@ -108,17 +108,17 @@ export function CreateTask({
   checkList = false,
 }: any) {
   const storage = useAccountStorage();
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
-  const [pinned, setPinned] = useState(false);
+  const [pinned, setPinned] = useState<boolean>(false);
   const [image, setImage] = useState<any>(null);
 
-  const [showDescription, setShowDescription] = useState(false);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
 
   useHotkeys(
     "alt+s",

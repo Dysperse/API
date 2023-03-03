@@ -25,8 +25,8 @@ import { toastStyles } from "../../lib/useCustomTheme";
 import { useSession } from "../../pages/_app";
 
 function LinkToken({ color }) {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState("");
   const url = `https://${window.location.hostname}/invite/${token}`;
   React.useEffect(() => {
@@ -139,7 +139,7 @@ export function AddPersonModal({
   color: string;
   members: string[];
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [permission, setPermission] = React.useState("member");
 

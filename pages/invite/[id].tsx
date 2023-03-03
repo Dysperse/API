@@ -16,7 +16,7 @@ import { useSession } from "../_app";
 export default function Onboarding() {
   const router = useRouter();
   const id = window.location.pathname.split("/invite/")[1];
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const session = useSession();
 
   const { data } = useApi(

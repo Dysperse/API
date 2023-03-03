@@ -18,7 +18,7 @@ export default function Prompt() {
   const router = useRouter();
   const { mutate } = useSWRConfig();
   // Login form
-  const [buttonLoading, setButtonLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {

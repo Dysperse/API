@@ -18,10 +18,10 @@ import { Puller } from "../../Puller";
 import Action from "../../Rooms/Action";
 
 export function CreateRoom({ mutationUrl }): JSX.Element {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [name, setName] = React.useState("");
-  const [isPrivate, setIsPrivate] = React.useState(false);
+  const [isPrivate, setIsPrivate] = React.useState<boolean>(false);
   const storage = useAccountStorage();
   const session = useSession();
 

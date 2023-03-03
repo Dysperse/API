@@ -3,7 +3,7 @@ import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export default function KeyboardShortcutsModal() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   useHotkeys(
     "ctrl+/",

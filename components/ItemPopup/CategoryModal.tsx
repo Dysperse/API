@@ -22,7 +22,7 @@ import { useAccountStorage, useSession } from "../../pages/_app";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const handleSubmit = () => {
     const category = ref.current.value;
     if (JSON.parse(item.category).includes(category)) {
@@ -110,7 +110,7 @@ export default function CategoryModal({
   setItemData: any;
   item: ItemType;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const storage = useAccountStorage();
   const { data, url, error } = useApi("property/inventory/categories");
   const session = useSession();

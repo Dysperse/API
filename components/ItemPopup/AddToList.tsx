@@ -21,7 +21,7 @@ import { toastStyles } from "../../lib/useCustomTheme";
 import { useAccountStorage, useSession } from "../../pages/_app";
 
 function BoardModal({ itemId, title, list }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
   const handleClick = async (column) => {
     try {

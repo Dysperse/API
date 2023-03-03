@@ -39,8 +39,8 @@ import { colors } from "../lib/colors";
 import { useSession } from "./_app";
 
 function BoardTemplate({ template }) {
-  const [loading, setLoading] = useState(false);
-  const [added, setAdded] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [added, setAdded] = useState<boolean>(false);
 
   return (
     <ListItemButton

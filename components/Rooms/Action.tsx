@@ -49,7 +49,7 @@ const Action = React.memo(function Action({
   disabled?: boolean;
 }) {
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const itemCount = count
     ? count.byRoom[primary.toLowerCase()]
       ? count.byRoom[primary.toLowerCase()]

@@ -30,7 +30,7 @@ const Group = dynamic(() => import("../Group"));
  * @returns {any}
  */
 export default function InviteButton({ styles }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();

@@ -18,7 +18,7 @@ import { MoreOptions } from "./MoreOptions";
 import { TrophyModal } from "./TrophyModal";
 
 export function Goal({ goal, mutationUrl }: any): JSX.Element {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
 
   useEffect(() => {

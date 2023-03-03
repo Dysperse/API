@@ -26,8 +26,8 @@ const CategoryModal = React.memo(function CategoryModal({
   mutationUrl: string;
   category: string;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {

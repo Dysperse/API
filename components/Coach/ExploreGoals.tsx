@@ -35,14 +35,14 @@ interface TabPanelProps {
 }
 
 function CreateGoal({ mutationUrl }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const [time, setTime] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setTime(event.target.value as string);
   };
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const titleRef: any = React.useRef();
   const descriptionRef: any = React.useRef();
@@ -259,7 +259,7 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
     setValue(newValue);
   };
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const session = useSession();
 
   return (

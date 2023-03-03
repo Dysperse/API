@@ -16,9 +16,9 @@ import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 
 export function TrophyModal({ goal, mutationUrl }) {
-  const [open, setOpen] = React.useState(false);
-  const [stepTwoOpen, setStepTwoOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [stepTwoOpen, setStepTwoOpen] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const { width, height } = useWindowSize();
 
   useEffect(() => {

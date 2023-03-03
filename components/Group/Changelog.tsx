@@ -23,7 +23,7 @@ import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 
 export function Changelog({ disabled }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const { error, data } = useApi("property/inbox");
   const session = useSession();

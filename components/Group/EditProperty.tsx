@@ -24,7 +24,7 @@ import { Color } from "./Color";
  * Edit property
  */
 export function EditProperty({ children, color }: any) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   /**

@@ -26,8 +26,8 @@ const WebcamComponent = ({
   facingMode,
   room,
 }) => {
-  const [forever, setForever] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [forever, setForever] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const webcamRef: any = React.useRef(null);
 
   const capture = React.useCallback(async () => {

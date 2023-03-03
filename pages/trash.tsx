@@ -11,7 +11,7 @@ import { toastStyles } from "../lib/useCustomTheme";
 import Categories from "./items";
 
 function DeleteCard({ item }) {
-  const [hidden, setHidden] = React.useState(false);
+  const [hidden, setHidden] = React.useState<boolean>(false);
   return hidden ? null : (
     <Box
       key={item.id}

@@ -128,7 +128,7 @@ function ColumnSettings({
   const [emoji, setEmoji] = useState(column.emoji);
   const ref: any = useRef();
   const buttonRef: any = useRef();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
 
   return (
@@ -294,7 +294,7 @@ function ColumnSettings({
 }
 
 function EmojiPickerModal({ emoji, setEmoji }: any) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
 
   return (
@@ -355,7 +355,7 @@ function Column({ board, mutationUrls, column, index }) {
   const [emoji, setEmoji] = useState(column.emoji);
   const ref: any = useRef();
   const buttonRef: any = useRef();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
 
   return (
@@ -891,7 +891,7 @@ const BoardInfo = ({
 };
 
 function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
-  const [showInfo, setShowInfo] = useState(true);
+  const [showInfo, setShowInfo] = useState<boolean>(true);
 
   const trigger = useScrollTrigger({
     threshold: 0,
@@ -908,7 +908,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     [setCurrentColumn]
   );
 
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const storage = useAccountStorage();
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");

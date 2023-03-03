@@ -142,7 +142,7 @@ export function TasksLayout() {
             : `hsl(240,11%,10%)!important`,
         }),
   });
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const ref: any = useRef();
 
@@ -163,7 +163,7 @@ export function TasksLayout() {
     document.getElementById("__agenda.year")?.click();
   });
 
-  const [archiveOpen, setArchiveOpen] = useState(false);
+  const [archiveOpen, setArchiveOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const children = (

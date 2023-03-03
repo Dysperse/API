@@ -36,7 +36,7 @@ function Room({
   room: string;
   setOpen: (open: boolean) => void;
 }) {
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState<boolean>(false);
   return (
     <ListItemButton
       onClick={() => {

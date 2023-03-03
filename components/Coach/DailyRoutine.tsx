@@ -142,7 +142,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
 
 export function DailyRoutine({ zen = false, editMode = false }: any) {
   const { data, url } = useApi("user/routines");
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
   React.useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
