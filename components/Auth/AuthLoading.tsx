@@ -64,6 +64,7 @@ export default function AuthLoading() {
         }}
       >
         <CircularProgress
+          thickness={4}
           disableShrink
           ref={(i: any) => i && i.click()}
           size={20}
