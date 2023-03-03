@@ -72,8 +72,6 @@ function RenderWithLayout({
     : "light";
 
   const themeColor = data.user.color;
-  global.user = data.user;
-  global.themeColor = themeColor;
 
   const [isReached, setIsReached]: any = useState<
     boolean | "error" | "loading"
@@ -95,14 +93,14 @@ function RenderWithLayout({
 
   const userTheme = createTheme(
     useCustomTheme({
-      darkMode: global.user.darkMode,
+      darkMode: data.user.darkMode,
       themeColor: themeColor,
     })
   );
 
   // If theme is dark, add `.dark` class to body
   useEffect(() => {
-    document.body.classList[global.user.darkMode ? "add" : "remove"]("dark");
+    document.body.classList[data.user.darkMode ? "add" : "remove"]("dark");
   }, [theme]);
 
   // Return an error if user doesn't have any properties attached to their account
@@ -121,9 +119,6 @@ function RenderWithLayout({
     data.user.properties.find((property: Property) => property.selected) ||
     data.user.properties[0];
 
-  global.property = selectedProperty;
-  global.permission = selectedProperty.permission;
-
   useSession = () => {
     return {
       user: data.user,
@@ -136,7 +131,7 @@ function RenderWithLayout({
   // Used in `globals.scss`
   document.documentElement.style.setProperty(
     "--backdropTheme",
-    global.user.darkMode ? "rgba(23, 23, 28, .4)" : "rgba(255,255,255,.3)"
+    data.user.darkMode ? "rgba(23, 23, 28, .4)" : "rgba(255,255,255,.3)"
   );
   document.documentElement.style.setProperty(
     "--themeDark",
@@ -241,7 +236,7 @@ function RenderRoot({
     router.pathname === "/canny-auth";
 
   const { data, isLoading, error, isError } = useUser();
-  global.user = data;
+  data.user = data;
 
   return disableLayout ? (
     <NoSsr>

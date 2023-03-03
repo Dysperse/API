@@ -54,7 +54,6 @@ export default function Prompt() {
   );
   
 
-  global.themeColor = "brown";
   const router = useRouter();
 
   // Login form

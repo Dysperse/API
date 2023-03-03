@@ -16,7 +16,6 @@ import { toastStyles } from "../../lib/useCustomTheme";
  */
 export default function Prompt() {
   const router = useRouter();
-  global.themeColor = "brown";
   const { mutate } = useSWRConfig();
   // Login form
   const [buttonLoading, setButtonLoading] = useState(false);
