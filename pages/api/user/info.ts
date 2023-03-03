@@ -45,7 +45,7 @@ export const getUserData = async (token: string) => {
     return { user: false };
   }
   let _session: any = session;
-  _session?.user?.token = token;
+  _session.user.token = token;
   return session;
 };
 
