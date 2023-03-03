@@ -88,7 +88,10 @@ function RenderWithLayout({
         ?.setAttribute("content", "hsl(240, 11%, 10%)");
       document
         .querySelector(`link[rel="shortcut icon"]`)
-        ?.setAttribute("href", "https://assets.dysperse.com/v6/dark.png");
+        ?.setAttribute(
+          "href",
+          "https://assets.dysperse.com/v6/dark-rounded.png"
+        );
     }
   }, [data]);
 
