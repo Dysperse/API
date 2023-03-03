@@ -485,14 +485,24 @@ function Column({ board, mutationUrls, column, index }) {
           }}
         >
           <Box sx={{ display: "flex", my: 1, gap: 3, alignItems: "center" }}>
-            <picture>
+            <picture
+              style={{
+                flexShrink: 0,
+              }}
+            >
               <img src={column.emoji} width={50} height={50} />
             </picture>
-            <Box>
+            <Box sx={{ flexGrow: 1 }}>
               <Typography
                 variant="h4"
                 className="font-heading"
                 sx={{
+                  "& span": {
+                    overflow: "hidden",
+                    maxWidth: { xs: "100%", sm: "140px" },
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  },
                   fontSize: "30px",
                   borderRadius: 1,
                   width: "auto",
@@ -502,7 +512,7 @@ function Column({ board, mutationUrls, column, index }) {
                   justifyContent: "center",
                 }}
               >
-                {column.name}
+                <span>{column.name}</span>
               </Typography>
               <Typography
                 sx={{
