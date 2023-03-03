@@ -243,7 +243,7 @@ export default function AppsMenu({ styles }) {
   };
   return (
     <>
-      {session?.user? ? (
+      {session?.user ? (
         <Button
           color="inherit"
           size="large"

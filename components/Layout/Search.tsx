@@ -160,7 +160,7 @@ export default function SearchPopup({ styles }) {
         })
       : []),
 
-    ...(session?.user? && session?.user?.properties
+    ...(session?.user && session?.user?.properties
       ? session?.user?.properties.map((property: any) => {
           return {
             title: property.profile.name,
