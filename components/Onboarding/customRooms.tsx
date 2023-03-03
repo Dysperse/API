@@ -10,7 +10,7 @@ import { useSession } from "../../pages/_app";
  * @returns {any}
  */
 export function CustomRooms({ houseType }: { houseType: string }) {
-  const session = useSession(); 
+  const session = useSession();
   const fixedOptions = [
     ...(houseType === "dorm" ? [] : ["Kitchen"]),
     "Bedroom",
