@@ -106,7 +106,7 @@ function CreateGoal({ mutationUrl }) {
           sx: {
             backgroundColor: "hsl(240,11%,90%)",
             color: "hsl(240,11%,10%)",
-            ...(session.user.darkMode && {
+            ...(session?.user?.darkMode && {
               backgroundColor: "hsl(240,11%,10%)",
               color: "hsl(240,11%,70%)",
             }),
@@ -119,7 +119,7 @@ function CreateGoal({ mutationUrl }) {
             sx={{
               zIndex: 10,
               background: "transparent",
-              color: session.user.darkMode ? "#fff" : "hsl(240,11%,5%)",
+              color: session?.user?.darkMode ? "#fff" : "hsl(240,11%,5%)",
             }}
             position="sticky"
           >
@@ -265,7 +265,7 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
   return (
     <div
       style={{
-        background: session.user.darkMode ? "hsl(240,11%,15%)" : "",
+        background: session?.user?.darkMode ? "hsl(240,11%,15%)" : "",
       }}
     >
       <Box
@@ -395,7 +395,7 @@ export default function ExploreGoals({ setOpen, mutationUrl }) {
                           pointerEvents: "none",
                           opacity: 0.5,
                         }),
-                        background: session.user.darkMode
+                        background: session?.user?.darkMode
                           ? "hsl(240,11%,20%)"
                           : "rgba(200,200,200,.3)",
                         borderRadius: 5,

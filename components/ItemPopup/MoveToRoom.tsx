@@ -109,7 +109,7 @@ export default function MoveToRoom({ item, styles }) {
             maxHeight: "95vh",
 
             mx: "auto",
-            ...(session.user.darkMode && {
+            ...(session?.user?.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },

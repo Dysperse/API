@@ -166,7 +166,7 @@ function ColumnSettings({
               py: 2,
               mb: 1,
               borderBottom: `1px solid ${
-                session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+                session?.user?.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
               }`,
             }}
           >
@@ -320,7 +320,7 @@ function EmojiPickerModal({ emoji, setEmoji }: any) {
         {open && (
           <EmojiPicker
             skinTonePickerLocation={"PREVIEW" as any}
-            theme={(session.user.darkMode ? "dark" : "light") as any}
+            theme={(session?.user?.darkMode ? "dark" : "light") as any}
             lazyLoadEmojis={true}
             width="100%"
             onEmojiClick={(event) => {
@@ -393,7 +393,7 @@ function Column({ board, mutationUrls, column, index }) {
               py: 2,
               mb: 1,
               borderBottom: `1px solid ${
-                session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+                session?.user?.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
               }`,
             }}
           >
@@ -452,7 +452,7 @@ function Column({ board, mutationUrls, column, index }) {
         className="snap-center"
         sx={{
           borderLeft: "1px solid",
-          borderColor: session.user.darkMode
+          borderColor: session?.user?.darkMode
             ? "hsl(240,11%,16%)"
             : "rgba(200,200,200,.2)",
           zIndex: 1,
@@ -467,14 +467,14 @@ function Column({ board, mutationUrls, column, index }) {
       >
         <Box
           sx={{
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: session?.user?.darkMode ? "#fff" : "#000",
             p: 3,
             px: 4,
-            background: session.user.darkMode
+            background: session?.user?.darkMode
               ? "hsla(240,11%,16%, 0.2)"
               : "rgba(200,200,200,.05)",
             borderBottom: "1px solid",
-            borderColor: session.user.darkMode
+            borderColor: session?.user?.darkMode
               ? "hsla(240,11%,18%, 0.2)"
               : "rgba(200,200,200,.3)",
             userSelect: "none",
@@ -556,11 +556,11 @@ function Column({ board, mutationUrls, column, index }) {
               }),
               mt: 1,
               ...(showCompleted && {
-                background: session.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240,11%,20%)!important"
                   : "rgba(200,200,200,.3)!important",
               }),
-              color: session.user.darkMode ? "#fff" : "#000",
+              color: session?.user?.darkMode ? "#fff" : "#000",
             }}
             onClick={toggleShowCompleted}
           >
@@ -650,15 +650,15 @@ const BoardInfo = ({
         minHeight: { xs: "100%", md: "unset" },
         background: {
           md: showInfo
-            ? session.user.darkMode
+            ? session?.user?.darkMode
               ? "hsla(240,11%,15%, 0.8)"
               : "hsla(240, 11%, 95%, 0.5)"
-            : session.user.darkMode
+            : session?.user?.darkMode
             ? "hsla(240,11%,13%, 0.8)"
             : "rgba(200,200,200,.1)",
         },
         border: { xs: "1px solid", md: "none" },
-        borderColor: session.user.darkMode
+        borderColor: session?.user?.darkMode
           ? "hsla(240,11%,13%, 0.8)!important"
           : "rgba(200,200,200,.4)!important",
         position: { md: "sticky" },
@@ -717,7 +717,7 @@ const BoardInfo = ({
                   fontSize: "40px",
                   py: 0.5,
                   "&:focus-within": {
-                    background: session.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsl(240,11%,18%)"
                       : "rgba(200,200,200,.2)",
                   },
@@ -740,7 +740,7 @@ const BoardInfo = ({
                   ml: -1,
                   py: 1,
                   "&:focus-within": {
-                    background: session.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsl(240,11%,18%)"
                       : "rgba(200,200,200,.2)",
                   },
@@ -928,7 +928,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             md: 3,
           },
           zIndex: 99,
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsla(240,11%,14%,0.5)"
             : "rgba(255,255,255,.5)",
           border: "1px solid",
@@ -937,11 +937,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
-          borderColor: session.user.darkMode
+          borderColor: session?.user?.darkMode
             ? "hsla(240,11%,25%, 0.5)"
             : "rgba(200,200,200, 0.5)",
           right: 0,
-          color: session.user.darkMode ? "#fff" : "#000",
+          color: session?.user?.darkMode ? "#fff" : "#000",
           display: "flex",
           alignItems: "center",
           p: 0.5,
@@ -966,7 +966,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             px: 1.5,
             minWidth: "unset",
             background: `${
-              session.user.darkMode
+              session?.user?.darkMode
                 ? "hsla(240,11%,25%, 0.3)"
                 : "rgba(0,0,0,0.1)"
             }!important`,
@@ -1037,14 +1037,14 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           },
           left: "10px",
           zIndex: 9,
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsla(240,11%,14%,0.5)!important"
             : "rgba(255,255,255,.5)!important",
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           backdropFilter: "blur(10px)",
           border: {
-            xs: session.user.darkMode
+            xs: session?.user?.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid rgba(200,200,200,.3)",
             md: "unset",
@@ -1052,7 +1052,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           fontWeight: "700",
           display: { md: "none" },
           fontSize: "15px",
-          color: session.user.darkMode ? "#fff" : "#000",
+          color: session?.user?.darkMode ? "#fff" : "#000",
         }}
       >
         <Icon>menu</Icon>

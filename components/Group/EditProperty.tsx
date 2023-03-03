@@ -88,7 +88,7 @@ export function EditProperty({
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: session.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
+            background: session?.user?.darkMode ? "hsl(240,11%,25%)" : "#fff",
             px: 3,
             width: { xs: "100vw", sm: "50vw" },
             py: 2,
@@ -107,10 +107,12 @@ export function EditProperty({
             sx={{
               height: "var(--navbar-height)",
               px: 2,
-              background: session.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
+              background: session?.user?.darkMode ? "hsl(240,11%,25%)" : "#fff",
               borderBottom: "1px solid",
-              borderColor: session.user.darkMode ? "hsl(240,11%,20%)" : "#eee",
-              color: session.user.darkMode ? "#fff" : "#000",
+              borderColor: session?.user?.darkMode
+                ? "hsl(240,11%,20%)"
+                : "#eee",
+              color: session?.user?.darkMode ? "#fff" : "#000",
               boxShadow: "none",
             }}
           >

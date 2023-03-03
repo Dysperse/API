@@ -43,7 +43,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               pointerEvents: "none",
             }),
             width: "100%!important",
-            background: session.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240, 11%, 13%)"
               : "rgba(200,200,200,.2)",
             transition: "transform 0.2s",
@@ -53,10 +53,10 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
           <Box>
             <Box
               sx={{
-                background: session.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240, 11%, 17%)"
                   : "rgba(200,200,200,.1)",
-                color: session.user.darkMode ? "#fff" : "#000",
+                color: session?.user?.darkMode ? "#fff" : "#000",
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
                 overflowX: "auto",
@@ -148,7 +148,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             }),
             mb: 2,
             width: "100%!important",
-            background: session.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240, 11%, 13%)"
               : "rgba(200,200,200,.3)",
             borderRadius: 5,
@@ -156,12 +156,12 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             cursor: "pointer",
             userSelect: "none",
             "&:hover": {
-              background: session.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240, 11%, 16%)"
                 : "rgba(200,200,200,.4)",
             },
             "&:active": {
-              background: session.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240, 11%, 17%)"
                 : "rgba(200,200,200,.5)",
               transform: "scale(.98)",
@@ -172,10 +172,10 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
           <Box>
             <Box
               sx={{
-                background: session.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240, 11%, 17%)"
                   : "rgba(200,200,200,.2)",
-                color: session.user.darkMode ? "#fff" : "#000",
+                color: session?.user?.darkMode ? "#fff" : "#000",
                 borderRadius: 5,
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
@@ -679,7 +679,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                         pointerEvents: "none",
                       }),
                       width: "100%!important",
-                      background: session.user.darkMode
+                      background: session?.user?.darkMode
                         ? "hsl(240, 11%, 13%)"
                         : "rgba(200,200,200,.3)",
                       borderRadius: 5,
@@ -688,12 +688,12 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                       cursor: "pointer",
                       userSelect: "none",
                       "&:hover": {
-                        background: session.user.darkMode
+                        background: session?.user?.darkMode
                           ? "hsl(240, 11%, 16%)"
                           : "rgba(200,200,200,.4)",
                       },
                       "&:active": {
-                        background: session.user.darkMode
+                        background: session?.user?.darkMode
                           ? "hsl(240, 11%, 18%)"
                           : "rgba(200,200,200,.5)",
                         transform: "scale(.98)",

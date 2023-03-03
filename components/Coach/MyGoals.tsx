@@ -28,7 +28,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
     tag.setAttribute(
       "content",
-      open ? "#814f41" : session.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
+      open ? "#814f41" : session?.user?.darkMode ? "hsl(240,11%,10%)" : "#fff"
     );
   });
 
@@ -50,7 +50,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           sx: {
             width: "100vw",
             maxWidth: "700px",
-            ...(session.user.darkMode && {
+            ...(session?.user?.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
           },
@@ -123,7 +123,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                   py: 0.5,
                   borderRadius: 999,
                   gap: "10px",
-                  backgroundColor: session.user.darkMode
+                  backgroundColor: session?.user?.darkMode
                     ? "hsl(240,11%,14%)"
                     : "rgba(200,200,200,.3)",
                 }}
@@ -139,7 +139,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                     }}
                   />
                 </picture>
-                <span>{session.user.trophies}</span>
+                <span>{session?.user?.trophies}</span>
               </Box>
             </Box>
           )}
@@ -249,10 +249,10 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         style={{
           textAlign: "left",
           cursor: "unset",
-          ...(session.user.darkMode && {
+          ...(session?.user?.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
           }),
-          color: session.user.darkMode ? "#fff" : "#000",
+          color: session?.user?.darkMode ? "#fff" : "#000",
         }}
       >
         <div>

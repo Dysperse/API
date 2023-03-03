@@ -63,18 +63,18 @@ function AddItemOption({
             disableRipple
             sx={{
               "&:hover": {
-                background: session.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240,11%,15%)!important"
                   : `${colors[themeColor][100]}!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: session.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240,11%,18%)!important"
                   : `${colors[themeColor][100]}!important`,
               },
               "&:active": {
-                background: session.user.darkMode
+                background: session?.user?.darkMode
                   ? "hsl(240,11%,25%)!important"
                   : `${colors[themeColor][100]}!important`,
               },
@@ -215,18 +215,18 @@ function MoreRooms(): JSX.Element {
               },
               "&:hover": {
                 background: `${
-                  colors[themeColor][session.user.darkMode ? 900 : 100]
+                  colors[themeColor][session?.user?.darkMode ? 900 : 100]
                 }!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
                 background: `${
-                  colors[themeColor][session.user.darkMode ? 900 : 100]
+                  colors[themeColor][session?.user?.darkMode ? 900 : 100]
                 }!important`,
               },
               "&:active": {
                 background: `${
-                  colors[themeColor][session.user.darkMode ? 900 : 100]
+                  colors[themeColor][session?.user?.darkMode ? 900 : 100]
                 }!important`,
               },
             }}

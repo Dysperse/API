@@ -146,7 +146,9 @@ export function DailyCheckInDrawer() {
               sx={{
                 fontSize: "12px",
                 height: "auto",
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+                background: `hsl(240,11%,${
+                  session?.user?.darkMode ? 20 : 90
+                }%)`,
               }}
             />
           </Typography>
@@ -170,15 +172,15 @@ export function DailyCheckInDrawer() {
             top: 0,
             left: 0,
             zIndex: 999,
-            background: session.user.darkMode
+            background: session?.user?.darkMode
               ? "hsla(240,11%,15%, 0.5)"
               : "rgba(255,255,255,.5)",
             backdropFilter: "blur(10px)",
             borderBottom: "1px solid transparent",
-            borderColor: session.user.darkMode
+            borderColor: session?.user?.darkMode
               ? "hsla(240,11%,30%, .5)"
               : "rgba(200,200,200,.3)",
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: session?.user?.darkMode ? "#fff" : "#000",
           }}
         >
           <Toolbar>
@@ -266,7 +268,7 @@ export function DailyCheckInDrawer() {
               style={{
                 stroke: colors[themeColor]["A400"],
                 strokeWidth: 3,
-                fill: session.user.darkMode ? "hsl(240,11%,15%)" : "white",
+                fill: session?.user?.darkMode ? "hsl(240,11%,15%)" : "white",
               }}
             />
           </Sparklines>
@@ -319,7 +321,7 @@ export function DailyCheckInDrawer() {
                       borderRadius: 9999,
                       height: "auto",
                       maxHeight: "unset",
-                      ...(session.user.darkMode && {
+                      ...(session?.user?.darkMode && {
                         background: "hsl(240,11%,20%)",
                       }),
                     }}
@@ -425,9 +427,9 @@ export function DailyCheckIn() {
   return (
     <Box
       sx={{
-        background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+        background: session?.user?.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
         border: "1px solid",
-        borderColor: session.user.darkMode
+        borderColor: session?.user?.darkMode
           ? "hsl(240, 11%, 20%)"
           : "rgba(200, 200, 200, 0.3)",
         borderRadius: 5,

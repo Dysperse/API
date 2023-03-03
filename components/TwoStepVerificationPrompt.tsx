@@ -39,7 +39,7 @@ export function Prompt({
       const res = await fetch(
         `/api/user/2fa/verify?${new URLSearchParams({
           code: code,
-          token: session.user.token,
+          token: session?.user?.token,
         }).toString()}`
       );
       const data = await res.json();

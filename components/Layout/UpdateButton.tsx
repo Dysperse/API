@@ -52,7 +52,7 @@ export function UpdateButton() {
         onClick={() => window.location.reload()}
         sx={{
           mr: -1,
-          color: session.user.darkMode
+          color: session?.user?.darkMode
             ? "hsl(240, 11%, 90%)"
             : colors.green[700],
           transition: "none !important",

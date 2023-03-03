@@ -25,7 +25,7 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const userId = session.user.id;
+  const userId = session?.user?.id;
   console.log(req.query.zenCardOrder);
   const user = await prisma.user.update({
     where: {

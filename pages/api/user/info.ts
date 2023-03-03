@@ -45,7 +45,7 @@ export const getUserData = async (token: string) => {
     return { user: false };
   }
   let _session: any = session;
-  _session.user.token = token;
+  _session?.user?.token = token;
   return session;
 };
 
@@ -59,7 +59,7 @@ const handler = async (req, res) => {
   res.setHeader("Cache-Control", "s-maxage=86400");
   try {
     const session = await getUserData(req.query.token);
-    if (session && session.user !== false) {
+    if (session && session?.user? !== false) {
       res.send(JSON.stringify(session, null, 2));
     } else {
       res.status(401).json({ message: "Invalid token" });

@@ -132,9 +132,9 @@ export default function Onboarding() {
           <LoadingButton
             loading={loading}
             disabled={
-              session.user &&
-              session.user.user &&
-              session.user.user.properties.find(
+              session?.user? &&
+              session?.user?.user &&
+              session?.user?.user.properties.find(
                 (p) => p.propertyId === data.property.id
               )
             }
@@ -153,12 +153,12 @@ export default function Onboarding() {
             }}
             onClick={() => {
               setLoading(true);
-              if (session.user.user && session.user.user.email) {
+              if (session?.user?.user && session?.user?.user.email) {
                 fetchApiWithoutHook(
                   "property/members/inviteLink/accept",
                   {
                     token: id as string,
-                    email: session.user.user.email,
+                    email: session?.user?.user.email,
                     property: data.property.id,
                   },
                   true
@@ -185,9 +185,9 @@ export default function Onboarding() {
               }
             }}
           >
-            {session.user &&
-            session.user.user &&
-            session.user.user.properties.find(
+            {session?.user? &&
+            session?.user?.user &&
+            session?.user?.user.properties.find(
               (p) => p.propertyId === data.property.id
             )
               ? "You're already in this group"

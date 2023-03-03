@@ -34,7 +34,7 @@ export function Header({
       sx={{
         transition: "transform .2s !important",
         overflow: "hidden",
-        background: session.user.darkMode
+        background: session?.user?.darkMode
           ? "hsl(240,11%,15%, 0.6)!important"
           : "hsla(240,11%,96%, 0.6)!important",
         position: "sticky",
@@ -44,7 +44,7 @@ export function Header({
         backdropFilter: "blur(10px)",
         py: 3,
         "&:focus": {
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,27%)"
             : "hsla(240,11%,97%, 0.8)",
         },

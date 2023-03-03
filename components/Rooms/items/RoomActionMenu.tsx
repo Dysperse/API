@@ -45,7 +45,7 @@ export function RoomActionMenu({
         }),
         ...(open && {
           background:
-            (session.user.darkMode
+            (session?.user?.darkMode
               ? "hsl(240,11%,20%)"
               : colors[themeColor][100]) + "!important",
         }),
@@ -97,7 +97,7 @@ export function RoomActionMenu({
           <Box
             sx={{
               display: { sm: "none!important" },
-              color: session.user.darkMode ? "#fff" : "#404040",
+              color: session?.user?.darkMode ? "#fff" : "#404040",
             }}
             className="material-symbols-rounded"
           >

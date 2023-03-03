@@ -106,11 +106,11 @@ export function TasksLayout() {
     mr: 1,
     mb: 0.5,
     fontSize: "15px",
-    ...(session.user.darkMode && {
+    ...(session?.user?.darkMode && {
       color: "hsl(240,11%, 80%)",
     }),
     "&:hover, &:focus": {
-      background: session.user.darkMode
+      background: session?.user?.darkMode
         ? "hsl(240,11%,15%)"
         : `hsl(240,11%,95%)!important`,
     },
@@ -120,24 +120,24 @@ export function TasksLayout() {
     ...(!condition
       ? {
           "&:hover": {
-            background: session.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240,11%,20%)"
               : `hsl(240,11%,93%)!important`,
           },
-          color: session.user.darkMode
+          color: session?.user?.darkMode
             ? "hsl(240,11%,80%)!important"
             : `hsl(240,11%,30%)!important`,
         }
       : {
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,20%)!important"
             : `hsl(240,11%,85%)!important`,
           "&:hover, &:focus": {
-            background: session.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240,11%,20%)!important"
               : `hsl(240,11%,85%)!important`,
           },
-          color: session.user.darkMode
+          color: session?.user?.darkMode
             ? "hsl(240,11%,95%)!important"
             : `hsl(240,11%,10%)!important`,
         }),
@@ -178,7 +178,7 @@ export function TasksLayout() {
           opacity: 0.5,
           fontSize: "13px",
           px: 1.5,
-          color: session.user.darkMode ? "#fff" : "#000",
+          color: session?.user?.darkMode ? "#fff" : "#000",
           userSelect: "none",
         }}
       >
@@ -273,7 +273,7 @@ export function TasksLayout() {
           fontSize: "13px",
           userSelect: "none",
           px: 1.5,
-          color: session.user.darkMode ? "#fff" : "#000",
+          color: session?.user?.darkMode ? "#fff" : "#000",
         }}
       >
         Boards
@@ -388,7 +388,7 @@ export function TasksLayout() {
     <Box
       sx={{
         display: "flex",
-        background: session.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+        background: session?.user?.darkMode ? "hsl(240,11%,10%)" : "#fff",
       }}
     >
       <SwipeableDrawer
@@ -414,7 +414,7 @@ export function TasksLayout() {
           flex: { xs: "100%", md: "0 0 250px" },
           ml: -1,
           p: 3,
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,7%)"
             : "hsl(240,11%,95%)",
           display: { xs: "none", md: "flex" },

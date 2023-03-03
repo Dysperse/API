@@ -131,9 +131,9 @@ export default function DrawerContent({
     borderRadius: 5,
     gap: 1,
     py: 2,
-    color: session.user.darkMode ? "hsl(240,11%,80%)" : "hsl(240,11%,30%)",
+    color: session?.user?.darkMode ? "hsl(240,11%,80%)" : "hsl(240,11%,30%)",
     "&:hover": {
-      background: session.user.darkMode
+      background: session?.user?.darkMode
         ? "hsl(240, 11%, 22%)"
         : "rgba(200, 200, 200, .3)",
     },
@@ -143,14 +143,14 @@ export default function DrawerContent({
           '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
       },
       width: 40,
-      color: session.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,10%)",
+      color: session?.user?.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,10%)",
       height: 40,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 99999,
       border: "1px solid",
-      borderColor: session.user.darkMode
+      borderColor: session?.user?.darkMode
         ? "hsl(240, 11%, 30%)"
         : "rgba(200, 200, 200, .3)",
     },
@@ -204,11 +204,11 @@ export default function DrawerContent({
             },
             mt: 2,
             borderRadius: 5,
-            background: session.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240,11%,20%)"
               : "rgba(200,200,200,.3)",
             "&:focus-within, &:hover": {
-              background: session.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240,11%,22%)"
                 : "rgba(200,200,200,.4)",
             },
@@ -251,11 +251,11 @@ export default function DrawerContent({
               cursor: "unset",
             },
             borderRadius: 5,
-            background: session.user.darkMode
+            background: session?.user?.darkMode
               ? "hsl(240,11%,20%)"
               : "rgba(200,200,200,.3)",
             "&:focus-within, &:hover": {
-              background: session.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsl(240,11%,22%)"
                 : "rgba(200,200,200,.4)",
             },
@@ -278,7 +278,7 @@ export default function DrawerContent({
       <Box
         sx={{
           display: "flex",
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,20%)"
             : "rgba(200,200,200,.3)",
           borderRadius: 5,
@@ -362,14 +362,14 @@ export default function DrawerContent({
                   cursor: "unset",
                   gap: 2,
                   "&:focus-visible, &:hover": {
-                    background: session.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsl(240,11%,30%)"
                       : "rgba(200,200,200,.3)",
-                    color: session.user.darkMode
+                    color: session?.user?.darkMode
                       ? colors[themeColor][100]
                       : "#000",
                     "& .MuiSvgIcon-root": {
-                      color: session.user.darkMode
+                      color: session?.user?.darkMode
                         ? colors[themeColor][200]
                         : colors[themeColor][800],
                     },
@@ -384,7 +384,7 @@ export default function DrawerContent({
                     marginRight: 1.9,
                   },
                   "&:active": {
-                    background: session.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsl(240,11%,35%)"
                       : "#eee",
                   },
@@ -425,7 +425,7 @@ export default function DrawerContent({
       </Box>
       <Box
         sx={{
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,20%)"
             : "rgba(200,200,200,.3)",
           borderRadius: 5,

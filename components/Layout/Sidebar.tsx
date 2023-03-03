@@ -47,7 +47,7 @@ export function Sidebar() {
   const session = useSession();
   const styles = (active: any = false) => {
     return {
-      color: session.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,30%)",
+      color: session?.user?.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,30%)",
       borderRadius: 3,
       my: 0.5,
       maxHeight: "9999px",
@@ -62,23 +62,23 @@ export function Sidebar() {
         justifyContent: "center",
       },
       "&:hover .material-symbols-outlined": {
-        background: session.user.darkMode
+        background: session?.user?.darkMode
           ? "hsl(240,11%,14%)"
           : "hsl(240,11%,90%)",
-        color: session.user.darkMode ? "#fff" : "#000",
+        color: session?.user?.darkMode ? "#fff" : "#000",
       },
       "&:focus-visible span": {
-        boxShadow: session.user.darkMode
+        boxShadow: session?.user?.darkMode
           ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
           : "0px 0px 0px 1.5px var(--themeDark) !important",
       },
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,17%)"
             : "hsl(240,11%,85%)",
-          color: session.user.darkMode
+          color: session?.user?.darkMode
             ? "hsl(240,11%,95%)"
             : "hsl(240,11%,10%)",
         },
@@ -96,7 +96,7 @@ export function Sidebar() {
         filter: "none!important",
         overflowX: "hidden",
         background: {
-          sm: session.user.darkMode
+          sm: session?.user?.darkMode
             ? router.asPath === "/zen" || router.asPath === "/coach"
               ? "hsla(240,11%,8%)"
               : "hsla(240,11%,5%)"
@@ -126,7 +126,7 @@ export function Sidebar() {
         style={{
           borderRadius: "999px",
           marginTop: "15px",
-          ...(session.user.darkMode && {
+          ...(session?.user?.darkMode && {
             filter: "invert(100%)",
           }),
         }}

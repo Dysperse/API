@@ -112,7 +112,7 @@ const CategoryModal = React.memo(function CategoryModal({
           borderRadius: 4,
           transition: "none!important",
           cursor: "unset!important",
-          ...(session.user.darkMode && {
+          ...(session?.user?.darkMode && {
             "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",
             },

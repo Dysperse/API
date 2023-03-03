@@ -59,14 +59,14 @@ export function Backlog({ setDrawerOpen }) {
           },
           left: "10px",
           zIndex: 9,
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsla(240,11%,14%,0.5)!important"
             : "rgba(255,255,255,.5)!important",
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           backdropFilter: "blur(10px)",
           border: {
-            xs: session.user.darkMode
+            xs: session?.user?.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid rgba(200,200,200,.3)",
             md: "unset",
@@ -74,7 +74,7 @@ export function Backlog({ setDrawerOpen }) {
           fontWeight: "700",
           display: { md: "none" },
           fontSize: "15px",
-          color: session.user.darkMode ? "#fff" : "#000",
+          color: session?.user?.darkMode ? "#fff" : "#000",
         }}
       >
         <Icon>menu</Icon>
@@ -116,7 +116,7 @@ export function Backlog({ setDrawerOpen }) {
               height={256}
               alt="Backlog"
               style={{
-                ...(session.user.darkMode && {
+                ...(session?.user?.darkMode && {
                   filter: "invert(100%)",
                 }),
               }}

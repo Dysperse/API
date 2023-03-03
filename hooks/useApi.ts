@@ -35,10 +35,10 @@ export function useApi(path, initialParams = {}, removeDefaultParams = false) {
         path,
         initialParams,
         session.property,
-        session.user,
+        session?.user?,
         removeDefaultParams
       ),
-    [path, initialParams, removeDefaultParams, session.property, session.user]
+    [path, initialParams, removeDefaultParams, session.property, session?.user?]
   );
 
   const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -78,7 +78,7 @@ export async function fetchApiWithoutHook(
     path,
     initialParams,
     session.property,
-    session.user,
+    session?.user?,
     removeDefaultParams
   );
   const res = await fetch(url);

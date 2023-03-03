@@ -83,11 +83,11 @@ function CardGallery({ editMode, items, setItems }) {
                     sx={{
                       width: "100%",
                       px: "15px !important",
-                      background: session.user.darkMode
+                      background: session?.user?.darkMode
                         ? "hsl(240, 11%, 10%)"
                         : "#fff",
                       border: "1px solid",
-                      borderColor: session.user.darkMode
+                      borderColor: session?.user?.darkMode
                         ? "hsl(240, 11%, 20%)"
                         : "rgba(200, 200, 200, 0.3)",
                     }}
@@ -165,7 +165,7 @@ function SortableItem(props) {
     actions[category] && actions[category].find((e) => e.key === action);
 
   const activeStyles = {
-    background: session.user.darkMode
+    background: session?.user?.darkMode
       ? "hsla(240,11%,60%,.5)"
       : "rgba(200,200,200,.5)!important",
     backdropFilter: "blur(10px)",
@@ -206,9 +206,11 @@ function SortableItem(props) {
             sx={{
               width: "100%",
               px: "15px !important",
-              background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+              background: session?.user?.darkMode
+                ? "hsl(240, 11%, 10%)"
+                : "#fff",
               border: "1px solid",
-              borderColor: session.user.darkMode
+              borderColor: session?.user?.darkMode
                 ? "hsl(240, 11%, 20%)"
                 : "rgba(200, 200, 200, 0.3)",
               opacity: "1!important",
@@ -302,7 +304,7 @@ export default function Home() {
 
   const order = {
     top: ["tasks", "goals"],
-    bottom: JSON.parse(session.user.zenCardOrder) || [
+    bottom: JSON.parse(session?.user?.zenCardOrder) || [
       "goals.study_plan",
       "inventory.starred",
       "inventory.scan",
@@ -333,7 +335,7 @@ export default function Home() {
               gap: 1,
               height: "var(--navbar-height)",
               position: { xs: editMode ? "fixed" : "absolute", sm: "static" },
-              background: session.user.darkMode
+              background: session?.user?.darkMode
                 ? "hsla(240,11%,10%, .5)"
                 : "rgba(255,255,255,.5)",
               top: 0,
@@ -353,7 +355,7 @@ export default function Home() {
                   sx={{
                     mr: 0.5,
                     ...(editMode && {
-                      background: session.user.darkMode
+                      background: session?.user?.darkMode
                         ? "hsl(240,11%,25%)!important"
                         : "rgba(200,200,200,.3)!important",
                     }),
@@ -408,9 +410,9 @@ export default function Home() {
                 variant="h5"
               >
                 {greeting}
-                {session.user.name.includes(" ")
-                  ? session.user.name.split(" ")[0]
-                  : session.user.name}
+                {session?.user?.name.includes(" ")
+                  ? session?.user?.name.split(" ")[0]
+                  : session?.user?.name}
                 !
               </Typography>
             </Box>
@@ -425,7 +427,7 @@ export default function Home() {
               mt: 2,
               "& .MuiListItemButton-root": {
                 ...(editMode && {
-                  background: session.user.darkMode
+                  background: session?.user?.darkMode
                     ? "hsla(240,11%,60%,.1)"
                     : "rgba(200,200,200,.3)",
                   transformOrigin: "top center",
@@ -458,11 +460,11 @@ export default function Home() {
                     sx={{
                       width: "100%",
                       px: "15px !important",
-                      background: session.user.darkMode
+                      background: session?.user?.darkMode
                         ? "hsl(240, 11%, 10%)"
                         : "#fff",
                       border: "1px solid",
-                      borderColor: session.user.darkMode
+                      borderColor: session?.user?.darkMode
                         ? "hsl(240, 11%, 20%)"
                         : "rgba(200, 200, 200, 0.3)",
                     }}
@@ -500,7 +502,7 @@ export default function Home() {
                           sx={{
                             color:
                               colors.green[
-                                session.user.darkMode ? "A400" : "A700"
+                                session?.user?.darkMode ? "A400" : "A700"
                               ],
                             fontSize: "30px!important",
                           }}

@@ -70,7 +70,7 @@ export function RenderRoom({
                 <Card
                   sx={{
                     mb: 2,
-                    background: session.user.darkMode
+                    background: session?.user?.darkMode
                       ? "hsla(240,11%,15%)"
                       : "rgba(200,200,200,.3)",
                     borderRadius: 5,
@@ -90,7 +90,7 @@ export function RenderRoom({
                       width={256}
                       height={256}
                       style={{
-                        ...(session.user.darkMode && {
+                        ...(session?.user?.darkMode && {
                           filter: "invert(100%)",
                         }),
                       }}

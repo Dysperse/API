@@ -187,9 +187,9 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         sx={{
           width: "100%",
           px: "15px !important",
-          background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+          background: session?.user?.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
           border: "1px solid",
-          borderColor: session.user.darkMode
+          borderColor: session?.user?.darkMode
             ? "hsl(240, 11%, 20%)"
             : "rgba(200, 200, 200, 0.3)",
         }}
@@ -246,7 +246,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         {tasksRemaining.length == 0 && sortedTasks.length !== 0 && (
           <Icon
             sx={{
-              color: colors.green[session.user.darkMode ? "A400" : "A700"],
+              color: colors.green[session?.user?.darkMode ? "A400" : "A700"],
               fontSize: "30px!important",
             }}
           >
@@ -278,11 +278,11 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         borderRadius: 5,
         display: "flex",
         alignItems: "center",
-        background: session.user.darkMode
+        background: session?.user?.darkMode
           ? "hsl(240,11%,16%)"
           : "hsl(240,11%,95%)",
         "&:hover": {
-          background: session.user.darkMode
+          background: session?.user?.darkMode
             ? "hsl(240,11%,16%)"
             : "hsl(240,11%,90%)",
         },

@@ -29,8 +29,8 @@ export function Puller() {
             width: "50px",
             mx: "auto",
             height: "2px",
-            background: session.user
-              ? session.user.darkMode
+            background: session?.user?
+              ? session?.user?.darkMode
                 ? "hsl(240, 11%, 35%)"
                 : "#ddd"
               : "#ddd",

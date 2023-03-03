@@ -91,7 +91,7 @@ export default function BoardSettings({ mutationUrl, board }) {
             id={board.id}
             mutationUrl={mutationUrl}
             hide={
-              session.user.email !== "manusvathgurudath@gmail.com" &&
+              session?.user?.email !== "manusvathgurudath@gmail.com" &&
               ((board && board.columns.length === 1) ||
                 (board && board.columns.length >= 5))
             }
