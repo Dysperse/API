@@ -110,7 +110,6 @@ export default function Prompt() {
           setStep(3);
           setButtonLoading(false);
           ref.current?.reset();
-
           return;
         } else if (res.error) {
           setStep(1);
@@ -144,6 +143,7 @@ export default function Prompt() {
         }
         // Success
         toast.promise(
+          // thou shalt load forever
           new Promise(() => {}),
           {
             loading: "Logging you in...",
