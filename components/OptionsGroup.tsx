@@ -31,7 +31,9 @@ export function OptionsGroup({ currentOption, setOption, options }) {
             color: session?.user?.darkMode ? "#000" : "#fff",
             ...(currentOption !== option && {
               background: `${
-                session?.user?.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)"
+                session?.user?.darkMode
+                  ? "hsl(240,11%,20%)"
+                  : "hsl(240,11%,90%)"
               }!important`,
               "&:hover": {
                 background: `${
