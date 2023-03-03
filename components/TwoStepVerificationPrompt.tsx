@@ -25,11 +25,12 @@ export function Prompt({
   });
   const session = useSession();
   const userHasEnabled2fa =
-   session && session?.user.twoFactorSecret !== "" && session?.user.twoFactorSecret !== "false";
+    session &&
+    session?.user.twoFactorSecret !== "" &&
+    session?.user.twoFactorSecret !== "false";
 
   const [buttonLoading, setButtonLoading] = useState(false);
   const [code, setCode] = useState("");
-  
 
   /**
    * Handles verification of 2fa code
