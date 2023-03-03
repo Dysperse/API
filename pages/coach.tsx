@@ -190,7 +190,7 @@ export default function Render() {
         <Box className="max-w-[100vw] p-3 px-6 pt-0">
           <MyGoals setHideRoutine={setHideRoutine} />
           {!hideRoutine && (
-            <Alert severity="info" icon="🔥">
+            <Alert severity="info" icon="🔥" sx={{ mb: 15 }}>
               Your goals are only visible to you
             </Alert>
           )}
