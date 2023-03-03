@@ -10,6 +10,7 @@ import { useSession } from "../../pages/_app";
  * @returns {any}
  */
 export function CustomRooms({ houseType }: { houseType: string }) {
+  const session = useSession(); 
   const fixedOptions = [
     ...(houseType === "dorm" ? [] : ["Kitchen"]),
     "Bedroom",
@@ -37,7 +38,6 @@ export function CustomRooms({ houseType }: { houseType: string }) {
         (option: string) => fixedOptions.indexOf(option) === -1
       ),
     ]);
-    const session = useSession();
     fetchApiWithoutHook("property/inventory/room/create", {
       property: session.property.propertyId,
       accessToken: session.property.accessToken,
