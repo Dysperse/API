@@ -253,9 +253,7 @@ export default function CreateColumn({
         {!open && mobile ? (
           <MenuItem
             disabled={hide || open || mobileOpen || storage?.isReached === true}
-            onClick={() => {
-              setMobileOpen(true);
-            }}
+            onClick={() => setMobileOpen(true)}
           >
             <Icon className="outlined">post_add</Icon> New column
           </MenuItem>
