@@ -5,7 +5,7 @@ import {
   Menu,
   MenuItem,
   Skeleton,
-  Typography
+  Typography,
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
