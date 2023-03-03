@@ -91,14 +91,14 @@ export const Task: any = React.memo(function Task({
     boxShadow: `${
       global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "brown"]["A700"]}`
+        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
     }, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)`,
     backgroundColor: "transparent",
     ".Mui-focusVisible &": {
       boxShadow: `0px 0px 0px 2px inset ${
-        colors[taskData.color ?? "brown"][700]
+        colors[taskData.color ?? "grey"][700]
       }, 0px 0px 0px 15px inset ${hexToRgba(
-        colors[taskData.color ?? "brown"][900],
+        colors[taskData.color ?? "grey"][900],
         0.1
       )}`,
     },
@@ -112,10 +112,10 @@ export const Task: any = React.memo(function Task({
     boxShadow: `${
       global.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "brown"][500]}`
+        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
     }, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)`,
     backgroundColor: `${
-      colors[taskData.color || "brown"][global.user.darkMode ? 50 : 500]
+      colors[taskData.color || "grey"][global.user.darkMode ? 50 : "A700"]
     }!important`,
     "&:before": {
       display: "block",

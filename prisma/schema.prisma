@@ -181,7 +181,7 @@ model Task {
   name        String
   description String?
   due         DateTime?
-  color       String    @default("brown")
+  color       String    @default("grey")
   pinned      Boolean   @default(false)
   completed   Boolean   @default(false)
   image       String?

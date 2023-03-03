@@ -37,7 +37,8 @@ function ImageModal({ image, setImage, styles }) {
     <>
       <Tooltip title="Attach an image (alt • s)" placement="top">
         <IconButton
-          onClick={() => {navigator.vibrate(50)
+          onClick={() => {
+            navigator.vibrate(50);
             document.getElementById("imageAttachment")?.click();
           }}
           sx={{
@@ -355,19 +356,20 @@ export function CreateTask({
                 priority
               </Icon>
             }
-            onClick={() => navigator.vibrate(50)&& setPinned(!pinned)}
+            onClick={() => navigator.vibrate(50) && setPinned(!pinned)}
           />
           <Chip
             label="Today"
             sx={chipStyles}
             icon={<Icon>today</Icon>}
-            onClick={() =>navigator.vibrate(50)&& setDate(new Date())}
+            onClick={() => navigator.vibrate(50) && setDate(new Date())}
           />
           <Chip
             label="Tomorrow"
             sx={chipStyles}
             icon={<Icon>today</Icon>}
-            onClick={() => {navigator.vibrate(50)
+            onClick={() => {
+              navigator.vibrate(50);
               const tomorrow = new Date();
               tomorrow.setDate(tomorrow.getDate() + 1);
               setDate(tomorrow);
@@ -377,7 +379,8 @@ export function CreateTask({
             label="In one month"
             sx={chipStyles}
             icon={<Icon>today</Icon>}
-            onClick={() => {navigator.vibrate(50)
+            onClick={() => {
+              navigator.vibrate(50);
               const tomorrow = new Date();
               tomorrow.setDate(tomorrow.getDate() + 30);
               setDate(tomorrow);
@@ -387,7 +390,8 @@ export function CreateTask({
             label="In one year"
             sx={chipStyles}
             icon={<Icon>today</Icon>}
-            onClick={() => {navigator.vibrate(50)
+            onClick={() => {
+              navigator.vibrate(50);
               const tomorrow = new Date();
               tomorrow.setDate(tomorrow.getDate() + 365);
               setDate(tomorrow);
@@ -540,7 +544,8 @@ export function CreateTask({
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <Tooltip title="Mark as important (alt • a)" placement="top">
                 <IconButton
-                  onClick={() => {navigator.vibrate(50)
+                  onClick={() => {
+                    navigator.vibrate(50);
                     setPinned(!pinned);
                     titleRef.current?.focus();
                   }}
@@ -562,7 +567,8 @@ export function CreateTask({
               <ImageModal styles={styles} image={image} setImage={setImage} />
               <Tooltip title="Description (alt • d)" placement="top">
                 <IconButton
-                  onClick={() => {navigator.vibrate(50)
+                  onClick={() => {
+                    navigator.vibrate(50);
                     setShowDescription(!showDescription);
                     setTimeout(() => {
                       {
@@ -643,7 +649,7 @@ export function CreateTask({
         id="createTask"
         className="task createTask"
         sx={{
-          mb: 1,
+          transition: "none",
           color: colors["grey"][global.user.darkMode ? "A100" : "A700"],
           p: {
             xs: 1,

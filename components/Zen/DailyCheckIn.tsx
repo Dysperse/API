@@ -128,12 +128,12 @@ export function DailyCheckInDrawer() {
       >
         <Box sx={{ width: "100%" }}>
           <Typography
-            variant="body2"
-            gutterBottom
+            variant="body1"
             sx={{
               fontSize: "13px",
               display: "flex",
               alignItems: "center",
+              mb: 0.4,
               gap: 1,
             }}
           >
