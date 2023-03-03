@@ -236,7 +236,6 @@ function RenderRoot({
     router.pathname === "/canny-auth";
 
   const { data, isLoading, error, isError } = useUser();
-  data.user = data;
 
   return disableLayout ? (
     <NoSsr>
