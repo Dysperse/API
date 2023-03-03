@@ -30,7 +30,10 @@ export function CircularProgressWithLabel(
         sx={{
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
-            color: session.user.darkMode ? "#fff" : "#000",
+            color:
+              session && session.user && session.user.darkMode
+                ? "#fff"
+                : "#000",
             transition: "all .2s",
             strokeWidth: props.value === 100 ? 1 : 2,
           },
