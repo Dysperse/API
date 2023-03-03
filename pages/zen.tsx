@@ -58,9 +58,7 @@ function CardGallery({ editMode, items, setItems }) {
       <SwipeableDrawer
         open={open}
         PaperProps={{
-          sx: {
-            maxHeight: "95vh",
-          },
+          sx: { maxHeight: "95vh" },
         }}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
