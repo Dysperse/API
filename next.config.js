@@ -5,6 +5,7 @@ const withPWA = require("next-pwa")({
   reloadOnOnline: false,
   dynamicStartUrl: false,
   cacheOnFrontEndNav: true,
+  // i have no idea what im doing 💀
   maximumFileSizeToCacheInBytes: 1000000,
 });
 
