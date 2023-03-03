@@ -468,6 +468,7 @@ export default function DrawerContent({
           column={{ id: "-1", name: "" }}
           parent={data.id}
           label="Create a subtask"
+          placeholder={`Add a subtask to "${data.name}"`}
           checkList={false}
           mutationUrl={mutationUrl}
           boardId={1}
