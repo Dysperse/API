@@ -50,7 +50,6 @@ const handler = async (req, res) => {
         undefined,
     },
   });
-  console.log("Access token: " + req.query.accessToken);
   cacheData.del(req.query.sessionId);
   res.json(user);
 };

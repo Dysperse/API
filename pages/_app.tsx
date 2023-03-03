@@ -226,7 +226,7 @@ function RenderRoot({
     "/_offline",
     "/404",
     "/scan",
-    "/signup",
+     "/signup",
     "/auth",
     "/auth/signup",
     "/canny-auth",
