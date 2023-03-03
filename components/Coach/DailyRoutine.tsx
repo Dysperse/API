@@ -45,7 +45,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           toastStyles
         );
       });
-  }, [task.durationDays, task.id, task.progress, mutationUrl]);
+  }, [task.durationDays, task.id, task.progress, mutationUrl, setCurrentIndex]);
 
   return (
     <Box sx={{ p: 4 }}>

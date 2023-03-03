@@ -63,7 +63,7 @@ export function EditProperty({
         updateSettings("name", target.value, false, null, true);
       }
     },
-    []
+    [session.property.profile.name]
   );
 
   useEffect(() => {

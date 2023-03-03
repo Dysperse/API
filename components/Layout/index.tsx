@@ -43,7 +43,7 @@ function ResponsiveDrawer({
     } else {
       storage?.setIsReached(hasReachedLimit);
     }
-  }, [hasReachedLimit, storage]);
+  }, [error, hasReachedLimit, storage]);
 
   const [dismissed, setDismissed] = useState(false);
   const session = useSession();
