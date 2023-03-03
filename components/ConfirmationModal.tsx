@@ -6,7 +6,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { toastStyles } from "../lib/useCustomTheme";
 
@@ -25,7 +25,7 @@ export function ConfirmationModal({
     onClick: () => setOpen(true),
   });
 
-  const handleClick = async () => {
+  const handleClick: any = useCallback(async () => {
     try {
       setLoading(true);
       await callback();
@@ -35,7 +35,7 @@ export function ConfirmationModal({
       setLoading(false);
       toast.error(`An error occured: ${e.message}`, toastStyles);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (open && disabled) {
