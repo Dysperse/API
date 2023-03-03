@@ -26,7 +26,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
     tag.setAttribute(
       "content",
       open
-        ? colors[themeColor][900]
+        ? colors[session?.themeColor || "grey"][900]
         : session?.user?.darkMode
         ? "hsl(240,11%,10%)"
         : "#fff"
@@ -207,11 +207,13 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         <Box
           sx={{
             mt: "-70px",
-            background: `linear-gradient(45deg, ${colors[themeColor]["A400"]}, ${colors[themeColor]["A100"]})`,
+            background: `linear-gradient(45deg, ${
+              colors[session?.themeColor || "grey"]["A400"]
+            }, ${colors[session?.themeColor || "grey"]["A100"]})`,
             height: "300px",
             minHeight: "300px",
             mb: 5,
-            color: colors[themeColor][50],
+            color: colors[session?.themeColor || "grey"][50],
             p: 5,
           }}
           className="flex"

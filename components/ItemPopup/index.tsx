@@ -42,17 +42,17 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     gap: 2,
     color: session?.user?.darkMode
       ? "hsl(240, 11%, 90%)"
-      : colors[themeColor]["800"],
+      : colors[session?.themeColor || "grey"]["800"],
     background: session?.user?.darkMode
       ? "hsl(240, 11%, 20%)"
-      : colors[themeColor][100],
+      : colors[session?.themeColor || "grey"][100],
     "&:hover, &:active, &:focus-within": {
       background: session?.user?.darkMode
         ? "hsl(240, 11%, 25%)"
-        : colors[themeColor][100],
+        : colors[session?.themeColor || "grey"][100],
       color: session?.user?.darkMode
         ? "hsl(240, 11%, 95%)"
-        : colors[themeColor][900],
+        : colors[session?.themeColor || "grey"][900],
     },
   };
 
@@ -60,7 +60,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     "&:hover, &:active, &:focus-within": {
       background: session?.user?.darkMode
         ? "hsl(240, 11%, 20%)"
-        : colors[themeColor][100],
+        : colors[session?.themeColor || "grey"][100],
     },
     borderRadius: 2,
     pl: "10px",
@@ -202,7 +202,8 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
                 background:
                   (session?.user?.darkMode
                     ? "hsl(240,11%,25%)"
-                    : colors[themeColor][100]) + "!important",
+                    : colors[session?.themeColor || "grey"][100]) +
+                  "!important",
               }}
             />
           )
@@ -233,7 +234,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
           overflow: "hidden",
           background: session?.user?.darkMode
             ? "hsl(240, 11%, 20%)"
-            : colors[themeColor][200],
+            : colors[session?.themeColor || "grey"][200],
         }}
       >
         <AddToListModal item={itemData} styles={styles} />

@@ -342,7 +342,8 @@ export function CreateTask({
               ml: { xs: 1, sm: 0.3 },
               transition: "transform .2s",
               ...(pinned && {
-                background: colors[themeColor]["900"] + "!important",
+                background:
+                  colors[session?.themeColor || "grey"]["900"] + "!important",
                 color: "#fff!important",
               }),
             }}
@@ -520,16 +521,22 @@ export function CreateTask({
                   mb: 2,
                   borderRadius: 5,
                   background:
-                    colors[themeColor][session?.user?.darkMode ? 900 : 100],
+                    colors[session?.themeColor || "grey"][
+                      session?.user?.darkMode ? 900 : 100
+                    ],
                   color:
-                    colors[themeColor][!session?.user?.darkMode ? 900 : 100],
+                    colors[session?.themeColor || "grey"][
+                      !session?.user?.darkMode ? 900 : 100
+                    ],
                 }}
                 icon={
                   <span
                     className="material-symbols-rounded"
                     style={{
                       color:
-                        colors[themeColor][session?.user?.darkMode ? 100 : 800],
+                        colors[session?.themeColor || "grey"][
+                          session?.user?.darkMode ? 100 : 800
+                        ],
                     }}
                   >
                     info

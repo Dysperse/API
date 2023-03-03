@@ -222,7 +222,7 @@ export function CreateItemModal({
                     height: "150px",
                     background: session?.user?.darkMode
                       ? "hsl(240, 11%, 20%)"
-                      : colors[themeColor][50],
+                      : colors[session?.themeColor || "grey"][50],
                     transition: "transform .2s",
                     "&:active": {
                       transform: "scale(.95)",
@@ -238,7 +238,7 @@ export function CreateItemModal({
                       height: "80px",
                       background: session?.user?.darkMode
                         ? "hsl(240, 11%, 25%)"
-                        : colors[themeColor][100],
+                        : colors[session?.themeColor || "grey"][100],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",

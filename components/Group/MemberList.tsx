@@ -173,11 +173,11 @@ function Member({
             onClick={handleClick}
             disabled={
               propertyId !== session.property.propertyId ||
-              global.permission !== "owner" ||
+              session?.permission !== "owner" ||
               member.user.email === session?.user?.email
             }
             sx={{
-              ...((global.permission !== "owner" ||
+              ...((session?.permission !== "owner" ||
                 member.user.email === session?.user?.email) && {
                 pointerEvents: "none",
               }),
@@ -216,7 +216,7 @@ function Member({
                 marginLeft: "auto",
                 opacity:
                   propertyId !== session.property.propertyId ||
-                  global.permission !== "owner" ||
+                  session?.permission !== "owner" ||
                   member.user.email === session?.user?.email
                     ? "0"
                     : "1",

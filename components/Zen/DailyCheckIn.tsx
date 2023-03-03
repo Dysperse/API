@@ -259,14 +259,14 @@ export function DailyCheckInDrawer() {
             <SparklinesLine
               style={{
                 strokeWidth: 4,
-                stroke: colors[themeColor]["A700"],
+                stroke: colors[session?.themeColor || "grey"]["A700"],
                 fill: "none",
               }}
             />
             <SparklinesSpots
               size={4}
               style={{
-                stroke: colors[themeColor]["A400"],
+                stroke: colors[session?.themeColor || "grey"]["A400"],
                 strokeWidth: 3,
                 fill: session?.user?.darkMode ? "hsl(240,11%,15%)" : "white",
               }}

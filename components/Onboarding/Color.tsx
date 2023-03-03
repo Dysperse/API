@@ -1,6 +1,7 @@
 import { CardActionArea, Icon } from "@mui/material";
 import { mutate } from "swr";
 import { colors } from "../../lib/colors";
+import { useSession } from "../../pages/_app";
 import { updateSettings } from "../Settings/updateSettings";
 
 /**
@@ -10,6 +11,7 @@ import { updateSettings } from "../Settings/updateSettings";
  * @returns {any}
  */
 export function Color({ color, handleNext }) {
+  const session = useSession();
   return (
     <CardActionArea
       onClick={() => {
@@ -19,7 +21,6 @@ export function Color({ color, handleNext }) {
           updateSettings("color", color.toLowerCase());
         }
         mutate("/api/user");
-
         handleNext();
       }}
       sx={{
@@ -40,7 +41,7 @@ export function Color({ color, handleNext }) {
             : colors[color]["A700"] + "!important",
       }}
     >
-      {color === global.themeColor && (
+      {color === session?.themeColor && (
         <Icon style={{ color: color === "lime" ? "#000" : "#fff" }}>check</Icon>
       )}
     </CardActionArea>

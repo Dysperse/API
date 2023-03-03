@@ -118,36 +118,49 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           contained: {
             boxShadow: "none!important",
             background: `${
-              darkMode ? "hsl(240,11%,20%)" : colors[themeColor][100]
+              darkMode
+                ? "hsl(240,11%,20%)"
+                : colors[session?.themeColor || "grey"][100]
             }!important`,
-            color: colors[themeColor][darkMode ? 50 : 900],
+            color: colors[session?.themeColor || "grey"][darkMode ? 50 : 900],
             "&:hover": {
               background: `${
-                darkMode ? "hsl(240,11%,30%)" : colors[themeColor]["A100"]
+                darkMode
+                  ? "hsl(240,11%,30%)"
+                  : colors[session?.themeColor || "grey"]["A100"]
               }!important`,
             },
             "&:disabled": {
               cursor: "not-allowed!important",
               opacity: 0.5,
-              color: colors[themeColor][!darkMode ? 900 : 50],
+              color:
+                colors[session?.themeColor || "grey"][!darkMode ? 900 : 50],
             },
           },
           outlined: {
-            color: `${colors[themeColor][darkMode ? 50 : 800]}!important`,
+            color: `${
+              colors[session?.themeColor || "grey"][darkMode ? 50 : 800]
+            }!important`,
             borderColor:
-              (!darkMode ? colors[themeColor][100] : "hsla(240,11%,80%,.5)") +
-              "!important",
+              (!darkMode
+                ? colors[session?.themeColor || "grey"][100]
+                : "hsla(240,11%,80%,.5)") + "!important",
             "&:hover": {
               background: `${
-                darkMode ? "hsl(240,11%,30%)" : colors[themeColor][50]
+                darkMode
+                  ? "hsl(240,11%,30%)"
+                  : colors[session?.themeColor || "grey"][50]
               }!important`,
               borderColor:
-                (!darkMode ? colors[themeColor][100] : "hsla(240,11%,85%,.8)") +
-                "!important",
+                (!darkMode
+                  ? colors[session?.themeColor || "grey"][100]
+                  : "hsla(240,11%,85%,.8)") + "!important",
             },
           },
           text: {
-            color: `${colors[themeColor][darkMode ? 50 : 700]}`,
+            color: `${
+              colors[session?.themeColor || "grey"][darkMode ? 50 : 700]
+            }`,
           },
 
           root: ({ theme }) =>
@@ -264,7 +277,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 ml: -1,
                 borderRadius: "10px",
                 minWidth: 180,
-                color: darkMode ? colors[themeColor][200] : "#505050",
+                color: darkMode
+                  ? colors[session?.themeColor || "grey"][200]
+                  : "#505050",
                 border: "1px solid",
                 background: darkMode
                   ? "hsl(240,11%,14%)!important"
@@ -282,11 +297,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                     background: darkMode
                       ? "hsl(240,11%,30%)"
                       : "rgba(200,200,200,.3)",
-                    color: darkMode ? colors[themeColor][100] : "#000",
+                    color: darkMode
+                      ? colors[session?.themeColor || "grey"][100]
+                      : "#000",
                     "& .MuiSvgIcon-root": {
                       color: darkMode
-                        ? colors[themeColor][200]
-                        : colors[themeColor][800],
+                        ? colors[session?.themeColor || "grey"][200]
+                        : colors[session?.themeColor || "grey"][800],
                     },
                   },
                   padding: "8.5px 12px",
@@ -295,7 +312,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   marginBottom: "1px",
                   "& .MuiSvgIcon-root": {
                     fontSize: 25,
-                    color: colors[themeColor][700],
+                    color: colors[session?.themeColor || "grey"][700],
                     marginRight: 1.9,
                   },
                   "&:active": {
@@ -378,16 +395,16 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "& .MuiTooltip-arrow::before": {
                 background: darkMode
                   ? "hsl(240, 11%, 90%)"
-                  : colors[themeColor]["100"],
+                  : colors[session?.themeColor || "grey"]["100"],
               },
               borderRadius: "5px",
               fontSize: "14px",
               color: darkMode
                 ? "hsl(240, 11%, 30%)"
-                : colors[themeColor]["900"],
+                : colors[session?.themeColor || "grey"]["900"],
               background: darkMode
                 ? "hsl(240, 11%, 90%)"
-                : colors[themeColor]["100"],
+                : colors[session?.themeColor || "grey"]["100"],
               padding: "6px 14px",
               boxShadow:
                 "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
@@ -449,7 +466,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
     },
     palette: {
       primary: {
-        main: colors[themeColor][darkMode ? "A200" : "A700"],
+        main: colors[session?.themeColor || "grey"][darkMode ? "A200" : "A700"],
       },
       mode: darkMode ? "dark" : "light",
       ...(darkMode && {

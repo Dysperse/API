@@ -104,7 +104,7 @@ export const Column: any = memo(function Column({
             ...(isToday && {
               color: "hsl(240,11%,10%)",
               background:
-                colors[themeColor][session?.user?.darkMode ? "A200" : "A100"],
+                colors[session?.themeColor || "grey"][session?.user?.darkMode ? "A200" : "A100"],
               px: 0.5,
               ml: -0.5,
             }),

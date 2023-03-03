@@ -336,7 +336,10 @@ export default function Inventory({ children = null }: any) {
             height: "calc(100vh - 70px)",
             width: "100%",
             fontWeight: "500",
-            color: colors[themeColor][session?.user?.darkMode ? 50 : 800],
+            color:
+              colors[session?.themeColor || "grey"][
+                session?.user?.darkMode ? 50 : 800
+              ],
           }}
         >
           <Box
@@ -350,11 +353,11 @@ export default function Inventory({ children = null }: any) {
           >
             <Typography
               variant="h6"
-              sx={{ ...(global.permission !== "read-only" && { mb: 2 }) }}
+              sx={{ ...(session?.permission !== "read-only" && { mb: 2 }) }}
             >
               <u>No room selected</u>
             </Typography>
-            {global.permission !== "read-only" && <FloatingActionButton sm />}
+            {session?.permission !== "read-only" && <FloatingActionButton sm />}
           </Box>
         </Box>
       )}

@@ -40,15 +40,15 @@ export function FloatingActionButton({ sm = false }) {
             background: `${
               session?.user?.darkMode
                 ? "rgba(57, 57, 71, .7)"
-                : colors[themeColor][100]
+                : colors[session?.themeColor || "grey"][100]
             }!important`,
             color: session?.user?.darkMode
               ? "hsl(240, 11%, 95%)"
-              : colors[themeColor]["900"],
+              : colors[session?.themeColor || "grey"]["900"],
             "&:hover": {
               background: session?.user?.darkMode
                 ? "hsl(240, 11%, 50%)"
-                : colors[themeColor]["100"],
+                : colors[session?.themeColor || "grey"]["100"],
             },
             "&:active": {
               boxShadow: "none",
@@ -56,7 +56,7 @@ export function FloatingActionButton({ sm = false }) {
               transition: "none",
               background: session?.user?.darkMode
                 ? "hsl(240, 11%, 60%)"
-                : colors[themeColor]["100"],
+                : colors[session?.themeColor || "grey"]["100"],
             },
             transition: "transform .2s",
 

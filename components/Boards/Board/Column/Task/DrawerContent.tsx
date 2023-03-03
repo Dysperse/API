@@ -366,12 +366,12 @@ export default function DrawerContent({
                       ? "hsl(240,11%,30%)"
                       : "rgba(200,200,200,.3)",
                     color: session?.user?.darkMode
-                      ? colors[themeColor][100]
+                      ? colors[session?.themeColor || "grey"][100]
                       : "#000",
                     "& .MuiSvgIcon-root": {
                       color: session?.user?.darkMode
-                        ? colors[themeColor][200]
-                        : colors[themeColor][800],
+                        ? colors[session?.themeColor || "grey"][200]
+                        : colors[session?.themeColor || "grey"][800],
                     },
                   },
                   padding: "8.5px 12px",
@@ -380,7 +380,7 @@ export default function DrawerContent({
                   marginBottom: "1px",
                   "& .MuiSvgIcon-root": {
                     fontSize: 25,
-                    color: colors[themeColor][700],
+                    color: colors[session?.themeColor || "grey"][700],
                     marginRight: 1.9,
                   },
                   "&:active": {

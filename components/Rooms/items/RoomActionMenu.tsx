@@ -27,7 +27,7 @@ export function RoomActionMenu({
 
   return (
     <IconButton
-      disabled={global.permission === "read-only" || !isCustom}
+      disabled={session?.permission === "read-only" || !isCustom}
       size="small"
       ref={itemRef}
       onClick={(e: any) => {
@@ -40,14 +40,14 @@ export function RoomActionMenu({
         e.stopPropagation();
       }}
       sx={{
-        ...(global.permission === "read-only" && {
+        ...(session?.permission === "read-only" && {
           display: { sm: "none" },
         }),
         ...(open && {
           background:
             (session?.user?.darkMode
               ? "hsl(240,11%,20%)"
-              : colors[themeColor][100]) + "!important",
+              : colors[session?.themeColor || "grey"][100]) + "!important",
         }),
       }}
     >
@@ -87,7 +87,7 @@ export function RoomActionMenu({
       </Menu>
 
       <Icon className="outlined">
-        {global.permission === "read-only" ? (
+        {session?.permission === "read-only" ? (
           "chevron_right"
         ) : isPrivate ? (
           "lock"

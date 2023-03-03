@@ -243,7 +243,7 @@ export const Task: any = React.memo(function Task({
                 <Checkbox
                   disabled={
                     (board && board.archived) ||
-                    global.permission === "read-only" ||
+                    session?.permission === "read-only" ||
                     storage?.isReached === true
                   }
                   disableRipple

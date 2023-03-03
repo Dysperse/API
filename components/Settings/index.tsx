@@ -68,11 +68,11 @@ function SettingsMenu({
           "&:hover": {
             background: session?.user?.darkMode
               ? "hsl(240,11%,25%)"
-              : colors[themeColor][50],
+              : colors[session?.themeColor || "grey"][50],
             "& .MuiAvatar-root": {
               background: session?.user?.darkMode
                 ? "hsl(240,11%,35%)"
-                : colors[themeColor][100],
+                : colors[session?.themeColor || "grey"][100],
             },
           },
         }}
@@ -84,7 +84,7 @@ function SettingsMenu({
               borderRadius: 4,
               background: session?.user?.darkMode
                 ? "hsl(240,11%,30%)"
-                : colors[themeColor][100],
+                : colors[session?.themeColor || "grey"][100],
             }}
           >
             <Icon className="outlined">{icon}</Icon>
@@ -294,13 +294,13 @@ export default function FullScreenDialog({
                 "&:hover, &:focus": {
                   background: session?.user?.darkMode
                     ? "hsl(240,11%,25%)"
-                    : colors[themeColor][50],
+                    : colors[session?.themeColor || "grey"][50],
                 },
                 userSelect: "none",
                 "& .MuiAvatar-root": {
                   background: session?.user?.darkMode
                     ? "hsl(240,11%,35%)"
-                    : colors[themeColor][100],
+                    : colors[session?.themeColor || "grey"][100],
                 },
               }}
             >
@@ -309,7 +309,9 @@ export default function FullScreenDialog({
                   sx={{
                     color: session?.user?.darkMode ? "#fff" : "#000",
                     background:
-                      colors[themeColor][session?.user?.darkMode ? 900 : 100],
+                      colors[session?.themeColor || "grey"][
+                        session?.user?.darkMode ? 900 : 100
+                      ],
                     borderRadius: 4,
                   }}
                 >

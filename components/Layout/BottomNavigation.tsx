@@ -49,14 +49,16 @@ export function BottomNav() {
       ...(active && {
         fontWeight: 700,
         color: `${
-          session?.user?.darkMode ? "#fff" : colors[themeColor][900]
+          session?.user?.darkMode
+            ? "#fff"
+            : colors[session?.themeColor || "grey"][900]
         }!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           ...iconStyles,
           background: `${
             session?.user?.darkMode
               ? "hsl(240,11%,17%)"
-              : hexToRgba(colors[themeColor][300], 0.5)
+              : hexToRgba(colors[session?.themeColor || "grey"][300], 0.5)
           }!important`,
         },
       }),

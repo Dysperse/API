@@ -108,7 +108,9 @@ function LinkToken({ color }) {
             sx={{
               mt: 1,
               borderRadius: 999,
-              background: `${colors[themeColor][900]}!important`,
+              background: `${
+                colors[session?.themeColor || "grey"][900]
+              }!important`,
             }}
             onClick={() => {
               window.open(url, "_blank");

@@ -112,7 +112,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
         <Box sx={{ p: 2, display: "flex", justifyContent: "center" }}>
           <Button
             variant="contained"
-            disabled={loading || global.permission === "read-only"}
+            disabled={loading || session?.permission === "read-only"}
             size="large"
             sx={{ borderRadius: 99, mx: "auto" }}
             onClick={() => {
@@ -127,7 +127,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             }}
           >
             <Icon className="outlined">edit</Icon>
-            {global.permission === "read-only"
+            {session?.permission === "read-only"
               ? "You do not have permission to create a board"
               : "Create new board"}
           </Button>
@@ -670,7 +670,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                 >
                   <Card
                     sx={{
-                      ...(global.permission === "read-only" && {
+                      ...(session?.permission === "read-only" && {
                         pointerEvents: "none",
                         opacity: 0.5,
                       }),

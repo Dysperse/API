@@ -76,7 +76,10 @@ export function Changelog({ disabled }) {
                 color="inherit"
                 onClick={() => setOpen(false)}
                 sx={{
-                  color: colors[themeColor][session?.user?.darkMode ? 50 : 900],
+                  color:
+                    colors[session?.themeColor || "grey"][
+                      session?.user?.darkMode ? 50 : 900
+                    ],
                 }}
               >
                 <Icon>close</Icon>
@@ -122,7 +125,7 @@ export function Changelog({ disabled }) {
                             <TimelineDot
                               sx={{
                                 background:
-                                  colors[themeColor][
+                                  colors[session?.themeColor || "grey"][
                                     session?.user?.darkMode ? 900 : 200
                                   ],
                               }}
@@ -130,7 +133,7 @@ export function Changelog({ disabled }) {
                             <TimelineConnector
                               sx={{
                                 background:
-                                  colors[themeColor][
+                                  colors[session?.themeColor || "grey"][
                                     session?.user?.darkMode ? 900 : 100
                                   ],
                               }}
@@ -161,7 +164,7 @@ export function Changelog({ disabled }) {
                   variant="body1"
                   sx={{
                     mt: 2,
-                    background: colors[themeColor][100],
+                    background: colors[session?.themeColor || "grey"][100],
                     p: 3,
                     borderRadius: 5,
                   }}

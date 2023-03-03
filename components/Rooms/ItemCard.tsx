@@ -109,7 +109,7 @@ export function ItemCard({
                     (category: string, index) => {
                       return (
                         <Chip
-                          disabled={global.permission === "read-only"}
+                          disabled={session?.permission === "read-only"}
                           size="small"
                           key={index}
                           label={category}

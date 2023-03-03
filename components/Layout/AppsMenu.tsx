@@ -81,7 +81,7 @@ function Products({ styles }) {
               maxHeight: "35px!important",
               color: session?.user?.darkMode
                 ? "hsl(240, 11%, 90%)"
-                : colors[global.themeColor][900],
+                : colors[session?.themeColor][900],
             }}
           >
             {category.label}
@@ -92,7 +92,7 @@ function Products({ styles }) {
               sx={{
                 color: session?.user?.darkMode
                   ? "hsl(240, 11%, 80%)"
-                  : colors[global.themeColor][700],
+                  : colors[session?.themeColor][700],
               }}
             >
               {category.description}
@@ -153,7 +153,7 @@ function Apps({ styles }) {
               maxHeight: "35px!important",
               color: session?.user?.darkMode
                 ? "hsl(240, 11%, 90%)"
-                : colors[global.themeColor][900],
+                : colors[session?.themeColor][900],
             }}
           >
             {category.label}
@@ -165,7 +165,7 @@ function Apps({ styles }) {
                 maxWidth: "200px",
                 color: session?.user?.darkMode
                   ? "hsl(240, 11%, 80%)"
-                  : colors[global.themeColor][700],
+                  : colors[session?.themeColor][700],
               }}
             >
               {category.label === "Web" ? (
@@ -223,7 +223,7 @@ export default function AppsMenu({ styles }) {
       "&:hover, &.Mui-expanded": {
         background: session?.user?.darkMode
           ? "hsl(240,11%,30%)"
-          : colors[global.themeColor][50],
+          : colors[session?.themeColor][50],
       },
       transition: "all .2s, background 0s",
       "&:before": {
@@ -303,7 +303,7 @@ export default function AppsMenu({ styles }) {
                 "1px solid " +
                 (session?.user?.darkMode
                   ? "hsl(240,11%,30%)"
-                  : colors[themeColor][50]),
+                  : colors[session?.themeColor || "grey"][50]),
               mt: 2,
               pt: 2,
             }}

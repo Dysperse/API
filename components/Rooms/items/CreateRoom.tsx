@@ -106,7 +106,8 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
             fullWidth
             loading={loading}
             sx={{
-              background: colors[themeColor][900] + "!important",
+              background:
+                colors[session?.themeColor || "grey"][900] + "!important",
               mt: 2,
               borderRadius: 999,
             }}

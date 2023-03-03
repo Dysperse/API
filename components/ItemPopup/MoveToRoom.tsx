@@ -160,7 +160,7 @@ export default function MoveToRoom({ item, styles }) {
         sx={styles}
         onClick={() => setOpen(true)}
         disabled={
-          global.permission === "read-only" || storage?.isReached === true
+          session?.permission === "read-only" || storage?.isReached === true
         }
       >
         <Icon>place_item</Icon>

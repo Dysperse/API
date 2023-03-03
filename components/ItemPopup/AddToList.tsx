@@ -18,11 +18,11 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { toastStyles } from "../../lib/useCustomTheme";
-import { useAccountStorage } from "../../pages/_app";
+import { useAccountStorage, useSession } from "../../pages/_app";
 
 function BoardModal({ itemId, title, list }) {
   const [open, setOpen] = useState(false);
-
+  const session = useSession();
   const handleClick = async (column) => {
     try {
       await fetchApiWithoutHook("property/boards/column/task/create", {
@@ -68,7 +68,7 @@ function BoardModal({ itemId, title, list }) {
           {list.columns.map((column) => (
             <ListItemButton
               key={column.id}
-              disabled={global.permission === "read-only"}
+              disabled={session?.permission === "read-only"}
               sx={{
                 borderRadius: 5,
                 py: 0.5,
@@ -95,7 +95,7 @@ function BoardModal({ itemId, title, list }) {
       </Dialog>
       <ListItemButton
         sx={{ borderRadius: 5, py: 0.5, px: 2, transition: "none" }}
-        disabled={global.permission === "read-only"}
+        disabled={session?.permission === "read-only"}
         onClick={() => setOpen(true)}
       >
         <ListItemText primary={list.name} secondary={list.description} />
@@ -170,6 +170,7 @@ export default function AddToListModal({
   const [open, setOpen] = useState<boolean>(false);
 
   const storage = useAccountStorage();
+  const session = useSession();
 
   return (
     <>
@@ -215,7 +216,7 @@ export default function AddToListModal({
         sx={styles}
         onClick={() => setOpen(true)}
         disabled={
-          global.permission === "read-only" || storage?.isReached === true
+          session?.permission === "read-only" || storage?.isReached === true
         }
       >
         <Icon>receipt_long</Icon> Add to list

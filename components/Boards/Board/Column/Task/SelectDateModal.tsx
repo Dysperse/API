@@ -90,7 +90,10 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
             background: "transparent!important",
             borderRadius: 9999,
             transition: "all .2s",
-            color: colors[themeColor][session?.user?.darkMode ? 50 : 900],
+            color:
+              colors[session?.themeColor || "grey"][
+                session?.user?.darkMode ? 50 : 900
+              ],
             ...(!date && {
               gap: 0,
               minWidth: "auto",
@@ -98,10 +101,14 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
             px: 2,
             ...(date && {
               background: `${
-                colors[themeColor][session?.user?.darkMode ? 900 : 50]
+                colors[session?.themeColor || "grey"][
+                  session?.user?.darkMode ? 900 : 50
+                ]
               }!important`,
               color: `${
-                colors[themeColor][session?.user?.darkMode ? 50 : 900]
+                colors[session?.themeColor || "grey"][
+                  session?.user?.darkMode ? 50 : 900
+                ]
               }!important`,
             }),
           }}
