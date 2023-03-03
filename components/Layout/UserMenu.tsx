@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { preload } from "swr";
 import { useApi } from "../../hooks/useApi";
@@ -32,7 +32,7 @@ const Group = dynamic(() => import("../Group"));
 export default function InviteButton({ styles }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 

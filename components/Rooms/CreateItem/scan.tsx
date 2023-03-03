@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
@@ -191,7 +191,7 @@ export default function ImageRecognition({
   const [open, setOpen] = React.useState(foreverRequired);
   const [facingMode, setFacingMode] = React.useState("environment");
 
-  React.useEffect(() => {
+  useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
     tag.content = open
       ? "#000000"

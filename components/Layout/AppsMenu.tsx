@@ -10,7 +10,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
@@ -209,7 +209,7 @@ export default function AppsMenu({ styles }) {
    */
   const handleClose = () => setOpen(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
   const session = useSession();

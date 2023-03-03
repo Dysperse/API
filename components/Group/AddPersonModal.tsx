@@ -29,7 +29,7 @@ function LinkToken({ color }) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState("");
   const url = `https://${window.location.hostname}/invite/${token}`;
-  React.useEffect(() => {
+  useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
   const session = useSession();

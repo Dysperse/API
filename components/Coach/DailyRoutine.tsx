@@ -6,7 +6,7 @@ import {
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -144,7 +144,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
   const { data, url } = useApi("user/routines");
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
-  React.useEffect(() => {
+  useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 

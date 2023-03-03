@@ -1,5 +1,5 @@
 import type { Item } from "@prisma/client";
-import React from "react";
+import React, { useEffect } from "react";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 
 import { Box, Button, Icon, Menu, MenuItem, TextField } from "@mui/material";
@@ -154,7 +154,7 @@ export function Toolbar({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  React.useEffect(() => {
+  useEffect(() => {
     open ? neutralizeBack(handleClose) : revivalBack();
   });
   const ref: any = React.useRef();

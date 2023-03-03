@@ -7,7 +7,7 @@ import {
   Slider,
   SwipeableDrawer,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -33,7 +33,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
     );
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
 

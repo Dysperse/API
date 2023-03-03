@@ -1,7 +1,7 @@
 import { SentryFinish, SentryInit } from "./sentry";
 
 const handler = {
-  async fetch(): Promise<Response> {
+  async fetch(): Promise<any> {
     return new Response("\u{1F389}Push server is running!");
   },
   async scheduled(_: any, env: any) {

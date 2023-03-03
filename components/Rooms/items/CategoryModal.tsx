@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
-import React from "react";
+import React, { useEffect } from "react";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
 import { useSession } from "../../../pages/_app";
@@ -30,7 +30,7 @@ const CategoryModal = React.memo(function CategoryModal({
   const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
   const session = useSession();
