@@ -39,7 +39,10 @@ function ThemeColorSettings() {
         >
           <ListItem
             secondaryAction={
-              <Radio edge="end" checked={session?.themeColor === color.toLowerCase()} />
+              <Radio
+                edge="end"
+                checked={session?.themeColor === color.toLowerCase()}
+              />
             }
             disablePadding
             sx={{ textTransform: "capitalize" }}
