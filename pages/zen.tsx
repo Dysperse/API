@@ -119,7 +119,7 @@ function CardGallery({ editMode, items, setItems }) {
           ))}
         </Box>
       </SwipeableDrawer>
-      <Box sx={{ display: "flex", mt: 5 }}>
+      <Box sx={{ display: "flex", mt: 10 }}>
         <Button
           variant="contained"
           sx={{
