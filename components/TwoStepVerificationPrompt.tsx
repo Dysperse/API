@@ -23,12 +23,13 @@ export function Prompt({
   const trigger = React.cloneElement(children, {
     onClick: () => setOpen(true),
   });
+  const session = useSession();
   const userHasEnabled2fa =
-    user.twoFactorSecret !== "" && user.twoFactorSecret !== "false";
+   session && session?.user.twoFactorSecret !== "" && session?.user.twoFactorSecret !== "false";
 
   const [buttonLoading, setButtonLoading] = useState(false);
   const [code, setCode] = useState("");
-  const session = useSession();
+  
 
   /**
    * Handles verification of 2fa code
