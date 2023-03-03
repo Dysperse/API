@@ -14,6 +14,7 @@ const Layout = dynamic(() => import("../components/Layout"), {
 });
 
 // CSS files
+import "../styles/calendar.scss";
 import "../styles/globals.scss";
 
 // Types
