@@ -73,9 +73,7 @@ export function ConfirmationModal({
           <Button
             variant="outlined"
             size="large"
-            onClick={() => {
-              setOpen(false);
-            }}
+            onClick={() => setOpen(false)}
           >
             Cancel
           </Button>

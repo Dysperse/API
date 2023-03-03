@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 export default function AuthLoading() {
   const router = useRouter();
+
   return (
     <Box
       sx={{
@@ -71,9 +72,7 @@ export default function AuthLoading() {
           sx={{
             color: "#000",
           }}
-          onClick={() => {
-            router.push("/auth");
-          }}
+          onClick={() => router.push("/auth")}
         />
       </Box>
     </Box>
