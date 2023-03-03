@@ -19,7 +19,7 @@ import {
   List,
   Skeleton,
   SwipeableDrawer,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useSession } from "../../../pages/_app";
 
