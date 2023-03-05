@@ -330,9 +330,7 @@ export default function Prompt() {
                   }
                   onSuccess={(token) => {
                     setCaptchaToken(token);
-                    setTimeout((e) => {
-                      handleSubmit(null);
-                    }, 500);
+                    setTimeout(() => handleSubmit(null), 500);
                   }}
                 />
               </NoSsr>

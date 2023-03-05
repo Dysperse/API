@@ -28,7 +28,8 @@ const getInfo = (
 };
 
 export function useApi(path, initialParams = {}, removeDefaultParams = false) {
-  const session = useSession();
+  let session = useSession() || { property: "", user: "" };
+
   const { url } = useMemo(
     () =>
       getInfo(
