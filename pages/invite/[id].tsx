@@ -124,12 +124,10 @@ export default function Onboarding() {
             </span>
             {data.property.type}
           </Typography>
-
           <Typography variant="body2">
             Join &ldquo;{data.property.name}&rdquo;&nbsp;to start collaborate on
             tasks, goals, documents, inventory, and more.
           </Typography>
-
           <LoadingButton
             loading={loading}
             disabled={
