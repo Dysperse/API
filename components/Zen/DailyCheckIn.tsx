@@ -416,7 +416,7 @@ export function DailyCheckIn() {
           ? "hsl(240, 11%, 20%)"
           : "rgba(200, 200, 200, 0.3)",
         borderRadius: 5,
-        mb: -6,
+        mb: -11,
       }}
       className="shadow-md"
     >
