@@ -285,7 +285,7 @@ export default function Prompt() {
                   id="_loading"
                   sx={authStyles.submit}
                   size="large"
-                  disabled={email.trim() === "" || password.trim().length < 5}
+                  disabled={email.trim() === "" || password.trim().length < 8}
                   onClick={() => setStep(2)}
                 >
                   Continue

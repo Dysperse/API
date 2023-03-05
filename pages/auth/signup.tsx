@@ -142,6 +142,12 @@ export default function Prompt() {
                 sx={{ mb: 1.5 }}
                 name="password"
                 type="password"
+                {...((password.length < 8 ||
+                  !/\d/.test(password) ||
+                  !/[a-z]/i.test(password)) && {
+                  helperText:
+                    "Password must be more than 5 characters long, containing at least one letter and number",
+                })}
                 onChange={(e: any) => setPassword(e.target.value)}
                 variant="outlined"
               />
@@ -186,8 +192,10 @@ export default function Prompt() {
                   disabled={
                     name.trim() == "" ||
                     email.trim() == "" ||
-                    password.trim().length < 5 ||
-                    confirmPassword.trim().length < 5 ||
+                    password.length < 8 ||
+                    !/\d/.test(password) ||
+                    !/[a-z]/i.test(password) ||
+                    confirmPassword.trim().length < 8 ||
                     password !== confirmPassword
                   }
                   size="large"
