@@ -70,7 +70,8 @@ export default function Prompt() {
   const [password, setPassword] = useState("");
   const [twoFactorCode, setTwoFactorCode] = useState("");
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(async (e) => {
+    e.preventDefault();
     setButtonLoading(true);
     try {
       const res = await fetch("/api/auth/login", {
@@ -279,22 +280,12 @@ export default function Prompt() {
                   loading={buttonLoading}
                   type="submit"
                   variant="contained"
+                  disableRipple
                   disableElevation
                   id="_loading"
-                  sx={{
-                    background: `hsl(240,11%,80%) !important`,
-                    color: "#202020!important",
-                    "&:hover": {
-                      background: `hsl(240,11%,75%) !important`,
-                      color: "#000!important",
-                    },
-                    borderRadius: 99,
-                    ml: "auto",
-                    mr: 1,
-                    textTransform: "none",
-                    transition: "none",
-                  }}
+                  sx={authStyles.submit}
                   size="large"
+                  disabled={email.trim() === "" || password.trim().length < 5}
                   onClick={() => setStep(2)}
                 >
                   Continue
@@ -333,8 +324,8 @@ export default function Prompt() {
                 }
                 onSuccess={(token) => {
                   setCaptchaToken(token);
-                  setTimeout(() => {
-                    handleSubmit();
+                  setTimeout((e) => {
+                    handleSubmit(e);
                   }, 500);
                 }}
               />

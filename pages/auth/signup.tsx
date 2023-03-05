@@ -1,8 +1,7 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { useSWRConfig } from "swr";
@@ -20,44 +19,42 @@ export default function Prompt() {
   // Login form
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-    onSubmit: (values) => {
-      setButtonLoading(true);
-      fetch("/api/auth/signup", {
-        method: "POST",
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          password: values.password,
-          confirmPassword: values.confirmPassword,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.error) {
-            throw new Error(res.message);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    setButtonLoading(true);
+    fetch("/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        confirmPassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          throw new Error(res.message);
+        }
+        mutate("/api/user").then(() => {
+          if (window.location.href.includes("close=true")) {
+            window.close();
           }
-          mutate("/api/user").then(() => {
-            if (window.location.href.includes("close=true")) {
-              window.close();
-            }
-            toast.success("Welcome to Dysperse!", toastStyles);
-            router.push("/");
-          });
-          return;
-        })
-        .catch((err) => {
-          setButtonLoading(false);
-          toast.error(err.message, toastStyles);
+          toast.success("Welcome to Dysperse!", toastStyles);
+          router.push("/");
         });
-    },
-  });
+        return;
+      })
+      .catch((err) => {
+        setButtonLoading(false);
+        toast.error(err.message, toastStyles);
+      });
+  }, []);
 
   useEffect(() => {
     if (typeof document !== "undefined")
@@ -96,7 +93,7 @@ export default function Prompt() {
             </picture>
             <Typography variant="h6">Dysperse</Typography>
           </Box>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>
                 <Typography
@@ -116,10 +113,10 @@ export default function Prompt() {
                 disabled={buttonLoading}
                 label="Your name"
                 placeholder="Jeff Bezos"
-                value={formik.values.name}
+                value={name}
                 name="name"
                 fullWidth
-                onChange={formik.handleChange}
+                onChange={(e: any) => setName(e.target.value)}
                 sx={{ mb: 1.5 }}
                 variant="outlined"
               />
@@ -128,9 +125,9 @@ export default function Prompt() {
                 disabled={buttonLoading}
                 label="Your email address"
                 placeholder="jeffbezos@gmail.com"
-                value={formik.values.email}
+                value={email}
                 name="email"
-                onChange={formik.handleChange}
+                onChange={(e: any) => setEmail(e.target.value)}
                 fullWidth
                 sx={{ mb: 1.5 }}
                 variant="outlined"
@@ -139,13 +136,13 @@ export default function Prompt() {
                 required
                 disabled={buttonLoading}
                 label="Password"
-                value={formik.values.password}
+                value={password}
                 placeholder="********"
                 fullWidth
                 sx={{ mb: 1.5 }}
                 name="password"
                 type="password"
-                onChange={formik.handleChange}
+                onChange={(e: any) => setPassword(e.target.value)}
                 variant="outlined"
               />
               <TextField
@@ -155,10 +152,10 @@ export default function Prompt() {
                 type="password"
                 placeholder="********"
                 label="Repeat password"
-                value={formik.values.confirmPassword}
+                value={confirmPassword}
                 sx={{ mb: 1.5 }}
                 name="confirmPassword"
-                onChange={formik.handleChange}
+                onChange={(e: any) => setConfirmPassword(e.target.value)}
                 variant="outlined"
               />
               <Link href="/?close=true" legacyBehavior>
@@ -184,7 +181,15 @@ export default function Prompt() {
                   variant="contained"
                   id="_loading"
                   disableElevation
+                  disableRipple
                   sx={authStyles.submit}
+                  disabled={
+                    name.trim() == "" ||
+                    email.trim() == "" ||
+                    password.trim().length < 5 ||
+                    confirmPassword.trim().length < 5 ||
+                    password !== confirmPassword
+                  }
                   size="large"
                 >
                   Continue

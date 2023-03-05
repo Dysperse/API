@@ -15,11 +15,19 @@ const darkTheme = createTheme({
 
 export const authStyles = {
   submit: {
-    background: `hsl(240,11%,80%) !important`,
+    background: `hsl(240,11%,85%) !important`,
     color: "#202020!important",
     "&:hover": {
+      background: `hsl(240,11%,80%) !important`,
+      color: "#000!important",
+    },
+    "&:active": {
       background: `hsl(240,11%,75%) !important`,
       color: "#000!important",
+    },
+    "&:disabled": {
+      background: `hsl(240,11%,87%) !important`,
+      color: `hsl(240,11%,60%) !important`,
     },
     borderRadius: 99,
     ml: "auto",
@@ -33,6 +41,9 @@ export const authStyles = {
     borderRadius: { sm: 5 },
     top: 0,
     left: 0,
+    "&, & *": {
+      cursor: "unset!important",
+    },
     position: { xs: "fixed", sm: "unset" },
     mx: "auto",
     maxWidth: "100vw",
