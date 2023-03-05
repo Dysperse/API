@@ -10,7 +10,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -66,85 +65,62 @@ export default function Prompt() {
       : revivalBack();
   });
 
-  const formik = useFormik({
-    initialValues: {
-      token: "",
-      email: "",
-      password: "",
-      twoFactorCode: "",
-    },
-    onSubmit: async (values) => {
-      setButtonLoading(true);
-      try {
-        const res = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: {
-            Credentials: "same-origin",
-          },
-          body: new URLSearchParams({
-            appId: window.location.pathname.split("oauth/")[1],
-            email: values.email,
-            password: values.password,
-            twoFactorCode: values.twoFactorCode,
-            token: values.token,
-            ...(router.pathname.includes("?application=") && {
-              application: router.pathname.split("?application=")[1],
-            }),
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [twoFactorCode, setTwoFactorCode] = useState("");
+
+  const handleSubmit = useCallback(async () => {
+    setButtonLoading(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          Credentials: "same-origin",
+        },
+        body: new URLSearchParams({
+          appId: window.location.pathname.split("oauth/")[1],
+          email,
+          password,
+          twoFactorCode,
+          token: captchaToken,
+          ...(router.pathname.includes("?application=") && {
+            application: router.pathname.split("?application=")[1],
           }),
-        }).then((res) => res.json());
+        }),
+      }).then((res) => res.json());
 
-        if (
-          res.message &&
-          res.message.includes(`Can't reach database server`)
-        ) {
-          toast.error(
-            "Oh no! Our servers are down. Please try again later!",
-            toastStyles
-          );
-          setButtonLoading(false);
-          setStep(1);
-          ref.current?.reset();
-          return;
-        }
+      if (res.message && res.message.includes(`Can't reach database server`)) {
+        toast.error(
+          "Oh no! Our servers are down. Please try again later!",
+          toastStyles
+        );
+        setButtonLoading(false);
+        setStep(1);
+        ref.current?.reset();
+        return;
+      }
 
-        if (res.twoFactor) {
-          setStep(3);
-          setButtonLoading(false);
-          ref.current?.reset();
-          return;
-        } else if (res.error) {
-          setStep(1);
-          ref.current?.reset();
-          throw new Error(res.error);
-        }
-        if (res.message) {
-          setStep(1);
-          toast.error(res.message, toastStyles);
-          ref.current?.reset();
-          setButtonLoading(false);
-          return;
-        }
-        if (router && router.pathname.includes("?close=true")) {
-          // Success
-          toast.promise(
-            new Promise(() => {}),
-            {
-              loading: "Logging you in...",
-              success: "Success!",
-              error: "An error occured. Please try again later",
-            },
-            toastStyles
-          );
-          mutate("/api/user").then(() => {
-            if (window.location.href.includes("close=true")) {
-              window.close();
-            }
-          });
-          return;
-        }
+      if (res.twoFactor) {
+        setStep(3);
+        setButtonLoading(false);
+        ref.current?.reset();
+        return;
+      } else if (res.error) {
+        setStep(1);
+        ref.current?.reset();
+        throw new Error(res.error);
+      }
+      if (res.message) {
+        setStep(1);
+        toast.error(res.message, toastStyles);
+        ref.current?.reset();
+        setButtonLoading(false);
+        return;
+      }
+      if (router && router.pathname.includes("?close=true")) {
         // Success
         toast.promise(
-          // thou shalt load forever
           new Promise(() => {}),
           {
             loading: "Logging you in...",
@@ -153,22 +129,39 @@ export default function Prompt() {
           },
           toastStyles
         );
-
-        if (router.pathname.includes("?application=")) {
-          router.pathname =
-            "https://availability.dysperse.com/api/oauth/redirect?token=" +
-            res.accessToken;
-        } else {
-          mutate("/api/user");
-          router.push("/");
-          router.pathname = "/";
-        }
-      } catch (e) {
-        setStep(1);
-        setButtonLoading(false);
+        mutate("/api/user").then(() => {
+          if (window.location.href.includes("close=true")) {
+            window.close();
+          }
+        });
+        return;
       }
-    },
-  });
+      // Success
+      toast.promise(
+        // thou shalt load forever
+        new Promise(() => {}),
+        {
+          loading: "Logging you in...",
+          success: "Success!",
+          error: "An error occured. Please try again later",
+        },
+        toastStyles
+      );
+
+      if (router.pathname.includes("?application=")) {
+        router.pathname =
+          "https://availability.dysperse.com/api/oauth/redirect?token=" +
+          res.accessToken;
+      } else {
+        mutate("/api/user");
+        router.push("/");
+        router.pathname = "/";
+      }
+    } catch (e) {
+      setStep(1);
+      setButtonLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     document
@@ -220,7 +213,7 @@ export default function Prompt() {
           </picture>
           <Typography variant="h6">Dysperse</Typography>
         </Box>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           {step === 1 ? (
             <Box sx={{ pt: 3 }}>
               <Typography
@@ -238,11 +231,11 @@ export default function Prompt() {
                 disabled={buttonLoading}
                 label="Your email address"
                 placeholder="jeffbezos@gmail.com"
-                value={formik.values.email}
+                value={email}
                 spellCheck={false}
                 fullWidth
                 name="email"
-                onChange={formik.handleChange}
+                onChange={(e: any) => setEmail(e.target.value)}
                 sx={{ mb: 1.5 }}
                 variant="outlined"
               />
@@ -250,11 +243,11 @@ export default function Prompt() {
                 disabled={buttonLoading}
                 label="Password"
                 placeholder="******"
-                value={formik.values.password}
+                value={password}
                 fullWidth
                 sx={{ mb: 1.5 }}
                 name="password"
-                onChange={formik.handleChange}
+                onChange={(e: any) => setPassword(e.target.value)}
                 type={togglePassword ? "text" : "password"}
                 variant="outlined"
                 InputProps={{
@@ -339,9 +332,9 @@ export default function Prompt() {
                   toast.error("Expired. Please try again", toastStyles)
                 }
                 onSuccess={(token) => {
-                  formik.setFieldValue("token", token);
+                  setCaptchaToken(token);
                   setTimeout(() => {
-                    formik.handleSubmit();
+                    handleSubmit();
                   }, 500);
                 }}
               />
@@ -356,10 +349,8 @@ export default function Prompt() {
               </Typography>
               <MuiOtpInput
                 length={6}
-                value={formik.values.twoFactorCode}
-                onChange={(value) =>
-                  formik.setFieldValue("twoFactorCode", value)
-                }
+                value={twoFactorCode}
+                onChange={(value) => setTwoFactorCode(value)}
               />
               <LoadingButton
                 variant="contained"
@@ -371,13 +362,13 @@ export default function Prompt() {
                   float: "right",
                   mt: 3,
                   borderRadius: 99,
-                  ...(formik.values.twoFactorCode.length == 6 && {
+                  ...(twoFactorCode.length == 6 && {
                     background: `#200923!important`,
                   }),
                   textTransform: "none",
                   gap: 2,
                 }}
-                disabled={formik.values.twoFactorCode.length < 6}
+                disabled={twoFactorCode.length < 6}
               >
                 Continue
                 <span className="material-symbols-rounded">east</span>
