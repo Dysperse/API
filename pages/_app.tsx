@@ -21,7 +21,7 @@ import "../styles/globals.scss";
 import { Property, Session } from "../types/session";
 
 // Day.JS
-import { Box, Button, createTheme, NoSsr, ThemeProvider } from "@mui/material";
+import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useCustomTheme } from "../lib/useCustomTheme";
@@ -235,17 +235,15 @@ function RenderRoot({
     "/auth/signup",
     "/canny-auth",
   ];
-  const disableLayout =
-    urlsToDisplayWithoutLayout.includes(router.pathname) ||
-    router.pathname === "/canny-auth";
 
+  const disableLayout = urlsToDisplayWithoutLayout.includes(router.pathname);
   const { data, isLoading, error, isError } = useUser();
 
   return disableLayout ? (
-    <NoSsr>
+    <>
       <Component {...pageProps} />
       <Toaster containerClassName="noDrag" />
-    </NoSsr>
+    </>
   ) : (
     <>
       <Analytics />

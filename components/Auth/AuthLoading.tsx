@@ -18,9 +18,9 @@ export default function AuthLoading() {
       <Box
         sx={{
           display: "inline-flex",
-          color: "#200923",
+          color: "#000",
           alignItems: "center",
-          gap: 3,
+          gap: 2.5,
           userSelect: "none",
           mx: 4,
           pr: 2,
@@ -33,26 +33,36 @@ export default function AuthLoading() {
             transitionDuration: "0s",
           },
         }}
+        onClick={() => window.open("//dysperse.com")}
       >
         <picture>
           <img
             src="https://assets.dysperse.com/v6/dark.png"
-            width="50"
-            height="50"
+            width="45"
+            height="45"
             alt="logo"
             style={{
-              borderRadius: "28px",
+              borderRadius: "19px",
             }}
             draggable={false}
           />
         </picture>
-        <Typography variant="h6" sx={{ mt: -0.5 }}>
+        <Typography
+          sx={{ fontWeight: "200!important", fontSize: "18px" }}
+          component="div"
+        >
           Dysperse
           <Chip
             label="alpha"
             color="info"
             size="small"
-            sx={{ ml: 2, px: 1, background: "#200923" }}
+            sx={{
+              pointerEvents: "none",
+              ml: 2,
+              px: 1,
+              background: "#200923",
+              fontWeight: "900",
+            }}
           />
         </Typography>
       </Box>
@@ -65,10 +75,10 @@ export default function AuthLoading() {
         }}
       >
         <CircularProgress
-          thickness={4}
+          thickness={8}
           disableShrink
           ref={(i: any) => i && i.click()}
-          size={20}
+          size={24}
           sx={{
             color: "#000",
           }}

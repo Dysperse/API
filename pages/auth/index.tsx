@@ -6,6 +6,7 @@ import {
   Icon,
   IconButton,
   InputAdornment,
+  NoSsr,
   TextField,
   Typography,
 } from "@mui/material";
@@ -396,53 +397,57 @@ export default function Prompt() {
         )}
       </Box>
 
-      <Box
-        onClick={() => {
-          setProTip(proTips[Math.floor(Math.random() * proTips.length)]);
-          window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: "smooth",
-          });
-        }}
-        sx={{
-          cursor: "pointer",
-          transition: "all .2s",
-          "&:active": {
-            transform: "scale(.98)",
-            transition: "none",
-          },
-          userSelect: "none",
-          background: "hsl(240,11%,90%)",
-          borderRadius: { sm: 5 },
-          mx: "auto",
-          maxWidth: "100vw",
-          display: { xs: "none", sm: "flex" },
-          overflowY: "auto",
-          width: { sm: "450px" },
-          p: { xs: 2 },
-          mt: { sm: 2 },
-          mb: 2,
-          height: { xs: "100vh", sm: "auto" },
-        }}
-      >
-        <Typography
-          variant="body2"
+      <NoSsr>
+        <Box
+          onClick={() => {
+            setProTip(proTips[Math.floor(Math.random() * proTips.length)]);
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            });
+          }}
           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 3,
+            cursor: "pointer",
+            transition: "all .2s",
+            "&:active": {
+              transform: "scale(.98)",
+              transition: "none",
+            },
+            userSelect: "none",
+            background: "hsl(240,11%,90%)",
+            borderRadius: { sm: 5 },
+            mx: "auto",
+            maxWidth: "100vw",
+            display: { xs: "none", sm: "flex" },
+            overflowY: "auto",
+            width: { sm: "450px" },
+            p: { xs: 2 },
+            mt: { sm: 2 },
+            mb: 2,
+            height: { xs: "100vh", sm: "auto" },
           }}
         >
-          <Icon className="material-symbols-outlined outlined">lightbulb</Icon>
-          <span>
-            <i>
-              <b>{proTip.split(":")[0]}</b>
-            </i>
-            <br />
-            {proTip.split(":")[1]}
-          </span>
-        </Typography>
-      </Box>
+          <Typography
+            variant="body2"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
+            <Icon className="material-symbols-outlined outlined">
+              lightbulb
+            </Icon>
+            <span>
+              <i>
+                <b>{proTip.split(":")[0]}</b>
+              </i>
+              <br />
+              {proTip.split(":")[1]}
+            </span>
+          </Typography>
+        </Box>
+      </NoSsr>
     </Layout>
   );
 }

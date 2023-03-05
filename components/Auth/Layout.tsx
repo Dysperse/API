@@ -111,7 +111,10 @@ export function Layout({ children }): JSX.Element {
                 draggable={false}
               />
             </picture>
-            <Typography sx={{ fontWeight: "200!important", fontSize: "18px" }}>
+            <Typography
+              sx={{ fontWeight: "200!important", fontSize: "18px" }}
+              component="div"
+            >
               Dysperse
               <Chip
                 label="alpha"
