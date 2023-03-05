@@ -245,6 +245,7 @@ export function Loading(): JSX.Element {
                       width: "300px",
                       flex: "0 0 300px",
                       borderRight: "1px solid",
+                      height: "100vh",
                       borderColor:
                         (session?.user && session?.user?.darkMode) ||
                         defaultDarkMode
