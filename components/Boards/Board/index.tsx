@@ -116,6 +116,7 @@ function ColumnSettings({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
+      navigator.vibrate(50);
       setAnchorEl(event.currentTarget);
     },
     [setAnchorEl]
