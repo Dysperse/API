@@ -3,6 +3,14 @@ import { capitalizeFirstLetter } from "../ItemPopup";
 
 export const getActions = (type) => {
   return {
+    tasks: [
+      {
+        key: "backlog",
+        primary: "Backlog",
+        icon: "auto_mode",
+        onClick: () => router.push("/tasks/#/agenda/backlog"),
+      },
+    ],
     goals: [
       { key: "study_plan", primary: "Create a study plan", icon: "school" },
       { key: "set_goal", primary: "Set a goal", icon: "mindfulness" },
