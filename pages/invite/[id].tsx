@@ -65,7 +65,7 @@ export default function Onboarding() {
         >
           The invite link is invalid or has already been used.
         </Box>
-      ) : data ? (
+      ) : data && data.property ? (
         <Box
           sx={{
             position: "fixed",
