@@ -54,7 +54,7 @@ export async function createSession(id: any, res, ip: any) {
  */
 export default async function handler(req, res) {
   // FIRST, Validate the captcha
-  console.log(req.body.token);
+  console.log("Token: " + req.body.token);
   const endpoint = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
   const secret: any = process.env.CAPTCHA_KEY;
   const body = `secret=${encodeURIComponent(
@@ -68,6 +68,8 @@ export default async function handler(req, res) {
       "content-type": "application/x-www-form-urlencoded",
     },
   });
+
+  console.log(req.body.token);
 
   const data = await captchaRequest.json();
   console.log(data);

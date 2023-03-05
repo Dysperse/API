@@ -79,80 +79,59 @@ export default function Prompt() {
   const [password, setPassword] = useState("");
   const [twoFactorCode, setTwoFactorCode] = useState("");
 
-  const handleSubmit = useCallback(
-    async (e?: any) => {
-      if (e) e.preventDefault();
-      setButtonLoading(true);
-      try {
-        const res = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: {
-            Credentials: "same-origin",
-          },
-          body: new URLSearchParams({
-            appId: window.location.pathname.split("oauth/")[1],
-            email,
-            password,
-            twoFactorCode,
-            token: captchaToken,
-            ...(router.pathname.includes("?application=") && {
-              application: router.pathname.split("?application=")[1],
-            }),
+  const handleSubmit = async (e?: any) => {
+    if (e) e.preventDefault();
+    setButtonLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          Credentials: "same-origin",
+        },
+        body: new URLSearchParams({
+          appId: window.location.pathname.split("oauth/")[1],
+          email,
+          password,
+          twoFactorCode,
+          token: captchaToken,
+          ...(router.pathname.includes("?application=") && {
+            application: router.pathname.split("?application=")[1],
           }),
-        }).then((res) => res.json());
+        }),
+      }).then((res) => res.json());
 
-        if (
-          res.message &&
-          res.message.includes(`Can't reach database server`)
-        ) {
-          toast.error(
-            "Oh no! Our servers are down. Please try again later!",
-            toastStyles
-          );
-          setButtonLoading(false);
-          setStep(1);
-          ref.current?.reset();
-          return;
-        }
+      if (res.message && res.message.includes(`Can't reach database server`)) {
+        toast.error(
+          "Oh no! Our servers are down. Please try again later!",
+          toastStyles
+        );
+        setButtonLoading(false);
+        setStep(1);
+        ref.current?.reset();
+        return;
+      }
 
-        if (res.twoFactor) {
-          setStep(3);
-          setButtonLoading(false);
-          ref.current?.reset();
-          return;
-        } else if (res.error) {
-          setStep(1);
-          ref.current?.reset();
-          throw new Error(res.error);
-        }
-        if (res.message) {
-          setStep(1);
-          toast.error(res.message, toastStyles);
-          ref.current?.reset();
-          setButtonLoading(false);
-          return;
-        }
-        if (router && router.pathname.includes("?close=true")) {
-          // Success
-          toast.promise(
-            new Promise(() => {}),
-            {
-              loading: "Logging you in...",
-              success: "Success!",
-              error: "An error occured. Please try again later",
-            },
-            toastStyles
-          );
-          mutate("/api/user").then(() => {
-            if (window.location.href.includes("close=true")) {
-              window.close();
-            }
-          });
-          return;
-        }
+      if (res.twoFactor) {
+        setStep(3);
+        setButtonLoading(false);
+        ref.current?.reset();
+        return;
+      } else if (res.error) {
+        setStep(1);
+        ref.current?.reset();
+        throw new Error(res.error);
+      }
+      if (res.message) {
+        setStep(1);
+        toast.error(res.message, toastStyles);
+        ref.current?.reset();
+        setButtonLoading(false);
+        return;
+      }
+      if (router && router.pathname.includes("?close=true")) {
         // Success
         toast.promise(
-          // thou shalt load forever
           new Promise(() => {}),
           {
             loading: "Logging you in...",
@@ -161,23 +140,39 @@ export default function Prompt() {
           },
           toastStyles
         );
-
-        if (router.pathname.includes("?application=")) {
-          router.pathname =
-            "https://availability.dysperse.com/api/oauth/redirect?token=" +
-            res.accessToken;
-        } else {
-          mutate("/api/user");
-          router.push("/");
-          router.pathname = "/";
-        }
-      } catch (e) {
-        setStep(1);
-        setButtonLoading(false);
+        mutate("/api/user").then(() => {
+          if (window.location.href.includes("close=true")) {
+            window.close();
+          }
+        });
+        return;
       }
-    },
-    [captchaToken, email, password, router, twoFactorCode]
-  );
+      // Success
+      toast.promise(
+        // thou shalt load forever
+        new Promise(() => {}),
+        {
+          loading: "Logging you in...",
+          success: "Success!",
+          error: "An error occured. Please try again later",
+        },
+        toastStyles
+      );
+
+      if (router.pathname.includes("?application=")) {
+        router.pathname =
+          "https://availability.dysperse.com/api/oauth/redirect?token=" +
+          res.accessToken;
+      } else {
+        mutate("/api/user");
+        router.push("/");
+        router.pathname = "/";
+      }
+    } catch (e) {
+      setStep(1);
+      setButtonLoading(false);
+    }
+  };
 
   useEffect(() => {
     document
@@ -187,6 +182,10 @@ export default function Prompt() {
         window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
       );
   }, []);
+
+  useEffect(() => {
+    if (captchaToken !== "" && !buttonLoading) handleSubmit();
+  }, [captchaToken, handleSubmit]);
 
   const [step, setStep] = useState(1);
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
@@ -336,18 +335,21 @@ export default function Prompt() {
                   ref={ref}
                   siteKey="0x4AAAAAAABo1BKboDBdlv8r"
                   onError={() => {
-                    toast.error(
-                      "An error occured. Please try again later",
-                      toastStyles
-                    );
+                    ref.current?.reset();
+                    toast.error("An error occured. Retrying...", toastStyles);
                   }}
-                  onExpire={() =>
-                    toast.error("Expired. Please try again", toastStyles)
-                  }
-                  onSuccess={(token) => {
-                    setCaptchaToken(token);
-                    setTimeout(() => handleSubmit(null), 500);
+                  onExpire={() => {
+                    ref.current?.reset();
+                    toast.error("Expired. Retrying...", toastStyles);
                   }}
+                  autoResetOnExpire
+                  scriptOptions={{
+                    defer: true,
+                  }}
+                  options={{
+                    retry: "auto",
+                  }}
+                  onSuccess={(token) => setCaptchaToken(token)}
                 />
               </NoSsr>
             </Box>
