@@ -90,7 +90,7 @@ export function BottomNav() {
             display: "none",
           },
           zIndex: 999,
-          height: "53px",
+          height: "55px",
           userSelect: "none",
           "&, & *": {
             overflow: "hidden!important",
