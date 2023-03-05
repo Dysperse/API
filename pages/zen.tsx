@@ -390,31 +390,34 @@ export default function Home() {
               display: "flex",
               gap: 4,
               my: 4,
-              mb: { xs: 0, sm: 4 },
+              mb: { sm: -10 },
               alignItems: { sm: "center" },
               flexDirection: { xs: "column", sm: "row" },
             }}
           >
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography
-                className="font-heading"
-                sx={{
-                  fontSize: {
-                    xs: "40px",
-                    sm: "50px",
-                  },
-                  mb: 1,
-                }}
-                variant="h5"
-              >
-                {greeting}
-                {session?.user?.name.includes(" ")
-                  ? session?.user?.name.split(" ")[0]
-                  : session?.user?.name}
-                !
-              </Typography>
-            </Box>
-            <Box>
+            <Typography
+              className="font-heading"
+              sx={{
+                flexGrow: 1,
+                fontSize: {
+                  xs: "40px",
+                  sm: "50px",
+                },
+              }}
+              variant="h5"
+            >
+              {greeting}
+              {session?.user?.name.includes(" ")
+                ? session?.user?.name.split(" ")[0]
+                : session?.user?.name}
+              !
+            </Typography>
+            <Box
+              sx={{
+                flex: { sm: "0 0 400px" },
+                flexShrink: 0,
+              }}
+            >
               <DailyCheckIn />
             </Box>
           </Box>
@@ -488,7 +491,15 @@ export default function Home() {
                                 data &&
                                 data.length -
                                   data.filter((task) => task.completed).length
-                              } tasks remaining for today`
+                              } ${
+                                data &&
+                                data.length -
+                                  data.filter((task) => task.completed)
+                                    .length !==
+                                  1
+                                  ? "tasks"
+                                  : "task"
+                              } left for today`
                           : !editMode && "Loading..."
                       }
                     />
