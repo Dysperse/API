@@ -15,7 +15,10 @@ import { useSession } from "../_app";
 
 export default function Onboarding() {
   const router = useRouter();
-  const id = window.location.pathname.split("/invite/")[1];
+  const id =
+    typeof window !== "undefined"
+      ? window.location.pathname.split("/invite/")[1]
+      : "";
   const [loading, setLoading] = React.useState<boolean>(false);
   const session = useSession();
 
