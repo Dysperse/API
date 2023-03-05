@@ -53,5 +53,4 @@ Hey! I'm Manu. I started Dysperse as a middle school project. Ever since, Dysper
 ## Sponsors <3
 
 <a href="https://vercel.com/?utm_source=smartlist&utm_campaign=oss"><img src="https://user-images.githubusercontent.com/77016441/183126898-2412e41b-40fe-4981-bf9f-5e8349f77d4e.png" alt="Vercel" width="250px"></a>
-
 <a href="https://neon.tech"><img src="https://dysperse.com/neon.png" alt="Neon" width="250px"></a>
