@@ -315,25 +315,27 @@ export default function Prompt() {
               <Typography sx={{ my: 2, mb: 3 }}>
                 Hang on while we verify that you&apos;re a human.
               </Typography>
-              <Turnstile
-                ref={ref}
-                siteKey="0x4AAAAAAABo1BKboDBdlv8r"
-                onError={() => {
-                  toast.error(
-                    "An error occured. Please try again later",
-                    toastStyles
-                  );
-                }}
-                onExpire={() =>
-                  toast.error("Expired. Please try again", toastStyles)
-                }
-                onSuccess={(token) => {
-                  setCaptchaToken(token);
-                  setTimeout((e) => {
-                    handleSubmit(null);
-                  }, 500);
-                }}
-              />
+              <NoSsr>
+                <Turnstile
+                  ref={ref}
+                  siteKey="0x4AAAAAAABo1BKboDBdlv8r"
+                  onError={() => {
+                    toast.error(
+                      "An error occured. Please try again later",
+                      toastStyles
+                    );
+                  }}
+                  onExpire={() =>
+                    toast.error("Expired. Please try again", toastStyles)
+                  }
+                  onSuccess={(token) => {
+                    setCaptchaToken(token);
+                    setTimeout((e) => {
+                      handleSubmit(null);
+                    }, 500);
+                  }}
+                />
+              </NoSsr>
             </Box>
           ) : (
             <Box>
