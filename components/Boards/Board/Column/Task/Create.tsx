@@ -698,6 +698,9 @@ export function CreateTask({
           if (defaultDate) {
             setDate(defaultDate);
           }
+          setTimeout(() => {
+            titleRef.current?.focus();
+          }, 100);
         }}
       >
         <span
