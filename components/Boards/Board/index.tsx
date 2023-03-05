@@ -914,9 +914,25 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
 
+  const touchStartX: any = useRef(null);
+
+  function handleTouchStart(e) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e) {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchDistance = touchEndX - touchStartX.current;
+    if (touchDistance > 50) {
+      setMobileOpen(true);
+    }
+  }
+
   return (
     <Box
       className="snap-x snap-mandatory sm:snap-none"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       sx={{
         display: "flex",
         maxWidth: "100vw",
