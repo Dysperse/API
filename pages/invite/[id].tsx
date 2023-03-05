@@ -9,7 +9,7 @@ import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
 
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { useSession } from "../_app";
 
@@ -29,7 +29,7 @@ export default function Onboarding() {
   );
 
   return (
-    <Box>
+    <NoSsr>
       <Box
         sx={{
           width: "100vw",
@@ -206,6 +206,6 @@ export default function Onboarding() {
           <CircularProgress size="small" />
         </Box>
       )}
-    </Box>
+    </NoSsr>
   );
 }

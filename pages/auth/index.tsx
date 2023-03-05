@@ -70,8 +70,8 @@ export default function Prompt() {
   const [password, setPassword] = useState("");
   const [twoFactorCode, setTwoFactorCode] = useState("");
 
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(async (e?: any) => {
+    if (e) e.preventDefault();
     setButtonLoading(true);
     try {
       const res = await fetch("/api/auth/login", {
@@ -330,7 +330,7 @@ export default function Prompt() {
                 onSuccess={(token) => {
                   setCaptchaToken(token);
                   setTimeout((e) => {
-                    handleSubmit(e);
+                    handleSubmit(null);
                   }, 500);
                 }}
               />
