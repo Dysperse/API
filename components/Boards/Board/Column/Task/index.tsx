@@ -196,9 +196,9 @@ export const Task: any = React.memo(function Task({
         <ListItemButton
           itemRef={ref}
           tabIndex={0}
-          className="task mb-1.5"
+          className="task"
           sx={{
-            mb: "5px !important",
+            mb: "10px !important",
             transition: "none",
             ...(isSubTask && {
               ml: "20px",

@@ -688,9 +688,10 @@ export function CreateTask({
             },
           }),
           mt: {
-            xs: 1.5,
+            xs: -0.5,
             sm: checkList ? 1.5 : label ? -1 : 0,
           },
+          mb: "10px !important",
         }}
         onClick={() => {
           setOpen(true);
@@ -704,18 +705,19 @@ export function CreateTask({
           style={{
             border:
               "2px solid " +
-              (session?.user?.darkMode ? "hsl(240,11%,70%)" : "#808080"),
+              (session?.user?.darkMode ? "hsl(240,11%,60%)" : "#808080"),
             borderRadius: "10px",
             color: session?.user?.darkMode
-              ? "hsl(240,11%,90%)"
+              ? "hsl(240,11%,80%)"
               : checkList
               ? "#303030"
               : "#808080",
             marginLeft: label ? "10px" : "15px",
             marginRight: label ? "20px" : "5px",
             fontSize: "20px",
-            marginTop: "10px",
-            marginBottom: "10px",
+            marginTop: "13px",
+            marginBottom: "13px",
+            fontVariationSettings: `'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important`,
           }}
         >
           add
