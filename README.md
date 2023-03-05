@@ -35,11 +35,9 @@ Dysperse offers several unique features and benefits that may make it a more app
 
 These features and benefits, along with the app's mission to empower people to take control of their productivity and organization, may make it a more appealing option for users compared to other productivity apps.
 
-
 ### A bit about us
 
 As the COVID-19 pandemic hit, I started to face new challenges in terms of productivity and organization. With me working from home, the lines between personal and professional lives became blurred, and I felt the need for a tool to help me manage my tasks and responsibilities. Additionally, the pandemic created a sense of uncertainty and anxiety, which made it more difficult to focus and stay motivated. I saw this as an opportunity and decided to start working on an app that addresses these issues and empowers people to take control of their productivity and organization in the face of such adversity. That's how the idea of Dysperse came to life.
-
 
 ### By students, for students & families
 
