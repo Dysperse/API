@@ -691,7 +691,7 @@ export function CreateTask({
             xs: -0.5,
             sm: checkList ? 1.5 : label ? -1 : 0,
           },
-          mb: "10px !important",
+          mb: "0px !important",
         }}
         onClick={() => {
           setOpen(true);
@@ -718,8 +718,8 @@ export function CreateTask({
             marginLeft: label ? "10px" : "15px",
             marginRight: label ? "20px" : "5px",
             fontSize: "20px",
-            marginTop: "13px",
-            marginBottom: "13px",
+            marginTop: "10px",
+            marginBottom: "10px",
             fontVariationSettings: `'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important`,
           }}
         >

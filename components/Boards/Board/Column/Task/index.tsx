@@ -1,10 +1,3 @@
-import dayjs from "dayjs";
-import hexToRgba from "hex-to-rgba";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
-import { colors } from "../../../../../lib/colors";
-
 import {
   Box,
   Checkbox,
@@ -16,8 +9,14 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
+import hexToRgba from "hex-to-rgba";
 import dynamic from "next/dynamic";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
+import toast from "react-hot-toast";
+import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 import Item from "../../../../ItemPopup";
 
@@ -198,7 +197,6 @@ export const Task: any = React.memo(function Task({
           tabIndex={0}
           className="task"
           sx={{
-            mb: "10px !important",
             transition: "none",
             ...(isSubTask && {
               ml: "20px",

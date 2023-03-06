@@ -11,7 +11,7 @@
     @apply mr-1.5 select-none rounded-xl bg-gray-200 px-2 py-1 text-sm font-semibold dark:bg-gray-800;
   }
   .task {
-    @apply cursor-auto select-none gap-0.5 rounded-xl border border-gray-100 p-1 shadow-sm hover:border-gray-300 hover:bg-gray-100 active:border-gray-300 active:bg-gray-200 dark:border-[hsl(240,11%,18%)] dark:bg-transparent dark:hover:bg-[hsl(240,11%,18%)] sm:p-0 sm:hover:bg-gray-100 sm:active:bg-gray-100;
+    @apply cursor-auto select-none gap-0.5 rounded-xl border border-gray-100 p-1 shadow-sm hover:border-gray-300 hover:bg-gray-100 active:border-gray-300 active:bg-gray-200 dark:border-[hsl(240,11%,18%)] dark:bg-transparent dark:hover:bg-[hsl(240,11%,18%)] sm:p-0 sm:py-0.5 sm:hover:bg-gray-100 sm:active:bg-gray-100;
     @media (max-width: 600px) {
       body:not(.dark) & {
         border: 1px solid rgba(200, 200, 200, 0.3) !important;
