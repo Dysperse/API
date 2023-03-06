@@ -112,7 +112,7 @@ export default function Prompt() {
                 name="password"
                 type="password"
                 onChange={formik.handleChange}
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 variant="filled"
               />
               <TextField
@@ -123,7 +123,7 @@ export default function Prompt() {
                 name="confirmPassword"
                 type="password"
                 onChange={formik.handleChange}
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 variant="filled"
               />
               <Box sx={{ pb: { xs: 15, sm: 0 } }} />

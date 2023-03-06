@@ -123,7 +123,7 @@ export default function Prompt() {
                 value={formik.values.email}
                 name="email"
                 onChange={formik.handleChange}
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 variant="filled"
               />
 

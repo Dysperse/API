@@ -29,6 +29,22 @@ export const authStyles = {
       background: `hsl(240,11%,87%) !important`,
       color: `hsl(240,11%,60%) !important`,
     },
+    [`@media (prefers-color-scheme: dark)`]: {
+      background: `hsl(240,11%,15%) !important`,
+      color: `hsl(240,11%,90%) !important`,
+      "&:hover": {
+        background: `hsl(240,11%,20%) !important`,
+        color: "#fff!important",
+      },
+      "&:active": {
+        background: `hsl(240,11%,22.5%) !important`,
+        color: "#fff!important",
+      },
+      "&:disabled": {
+        background: `hsl(240,11%,15%) !important`,
+        color: `hsl(240,11%,40%) !important`,
+      },
+    },
     borderRadius: 99,
     ml: "auto",
     mr: 1,
@@ -36,8 +52,44 @@ export const authStyles = {
     textTransform: "none",
     transition: "none",
   },
+  input: {
+    color: "red",
+    mb: 1.5,
+    [`@media (prefers-color-scheme: dark)`]: {
+      "& input": {
+        color: "hsl(240,11%,90%) !important",
+        "&::placeholder": {
+          color: "hsl(240,11%,70%) !important",
+        },
+      },
+      "& label": {
+        color: "hsl(240,11%,90%) !important",
+      },
+      "& label.Mui-focused": {
+        color: "white",
+      },
+      "& .MuiInput-underline:after": {
+        borderBottomColor: "hsl(240,11%,70%)",
+      },
+      "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+          borderColor: "hsl(240,11%,30%)",
+        },
+        "&:hover fieldset": {
+          borderColor: "hsl(240,11%,30%)",
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: "hsl(240,11%,70%)",
+        },
+      },
+    },
+  },
   container: {
     background: "hsl(240,11%,90%)",
+    [`@media (prefers-color-scheme: dark)`]: {
+      background: "hsl(240,11%,10%)",
+      color: "hsl(240,11%,90%)",
+    },
     borderRadius: { sm: 5 },
     top: 0,
     left: 0,
@@ -64,6 +116,13 @@ export const authStyles = {
     color: "#505050",
     transition: "none",
     "&:hover": { color: "#000" },
+
+    [`@media (prefers-color-scheme: dark)`]: {
+      color: "hsl(240,11%,90%)",
+      "&:hover": {
+        color: "hsl(240,11%,100%)",
+      },
+    },
   },
 };
 /**
@@ -81,6 +140,9 @@ export function Layout({ children }): JSX.Element {
         <Box
           sx={{
             background: "hsl(240,11%,95%)",
+            [`@media (prefers-color-scheme: dark)`]: {
+              background: "hsl(240,11%,5%)",
+            },
             position: "fixed",
             top: 0,
             left: 0,
@@ -94,6 +156,9 @@ export function Layout({ children }): JSX.Element {
             sx={{
               display: "inline-flex",
               color: "#000",
+              [`@media (prefers-color-scheme: dark)`]: {
+                color: "#fff",
+              },
               alignItems: "center",
               gap: 2.5,
               userSelect: "none",

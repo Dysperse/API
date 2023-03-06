@@ -73,6 +73,12 @@ export default function Prompt() {
           <Box
             sx={{
               color: "#202020",
+              [`@media (prefers-color-scheme: dark)`]: {
+                color: "hsl(240,11%,90%)",
+                "&:hover": {
+                  color: "hsl(240,11%,100%)",
+                },
+              },
               alignItems: "center",
               gap: 2,
               userSelect: "none",
@@ -117,7 +123,7 @@ export default function Prompt() {
                 name="name"
                 fullWidth
                 onChange={(e: any) => setName(e.target.value)}
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 variant="outlined"
               />
               <TextField
@@ -129,7 +135,7 @@ export default function Prompt() {
                 name="email"
                 onChange={(e: any) => setEmail(e.target.value)}
                 fullWidth
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 variant="outlined"
               />
               <TextField
@@ -139,7 +145,7 @@ export default function Prompt() {
                 value={password}
                 placeholder="********"
                 fullWidth
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 name="password"
                 type="password"
                 {...((password.length < 8 ||
@@ -159,7 +165,7 @@ export default function Prompt() {
                 placeholder="********"
                 label="Repeat password"
                 value={confirmPassword}
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 name="confirmPassword"
                 onChange={(e: any) => setConfirmPassword(e.target.value)}
                 variant="outlined"

@@ -208,6 +208,12 @@ export default function Prompt() {
         <Box
           sx={{
             color: "#202020",
+            [`@media (prefers-color-scheme: dark)`]: {
+              color: "hsl(240,11%,90%)",
+              "&:hover": {
+                color: "hsl(240,11%,100%)",
+              },
+            },
             alignItems: "center",
             gap: 2,
             userSelect: "none",
@@ -251,7 +257,7 @@ export default function Prompt() {
                 fullWidth
                 name="email"
                 onChange={(e: any) => setEmail(e.target.value)}
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 variant="outlined"
               />
               <TextField
@@ -260,7 +266,7 @@ export default function Prompt() {
                 placeholder="******"
                 value={password}
                 fullWidth
-                sx={{ mb: 1.5 }}
+                sx={authStyles.input}
                 name="password"
                 onChange={(e: any) => setPassword(e.target.value)}
                 type={togglePassword ? "text" : "password"}
@@ -268,7 +274,14 @@ export default function Prompt() {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={handleTogglePassword}>
+                      <IconButton
+                        onClick={handleTogglePassword}
+                        sx={{
+                          [`@media (prefers-color-scheme: dark)`]: {
+                            color: "hsl(240,11%,70%)",
+                          },
+                        }}
+                      >
                         <span className="material-symbols-outlined">
                           {togglePassword ? "visibility_off" : "visibility"}
                         </span>
@@ -286,6 +299,9 @@ export default function Prompt() {
                   left: 0,
                   py: 1,
                   background: "hsl(240,11%,90%)",
+                  [`@media (prefers-color-scheme: dark)`]: {
+                    background: "hsl(240,11%,10%)",
+                  },
                   width: { xs: "100vw", sm: "auto" },
                 }}
               >
