@@ -7,7 +7,7 @@ import {
   Slider,
   SwipeableDrawer,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -20,7 +20,6 @@ import { TrophyModal } from "./TrophyModal";
 export function Goal({ goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
-
 
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
