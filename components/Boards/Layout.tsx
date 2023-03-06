@@ -61,7 +61,7 @@ export function TasksLayout() {
     }
 
     const pinnedBoard = data.find((board) => board.pinned);
-    if (pinnedBoard) {
+    if (pinnedBoard || !window.location.hash.includes("agenda")) {
       const hashBoard = data.find(
         (x) => x.id === window.location.hash?.replace("#", "")
       );
