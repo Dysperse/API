@@ -21,17 +21,6 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
 
-  useEffect(() => {
-    const tag: any = document.querySelector(`meta[name="theme-color"]`);
-    tag.setAttribute(
-      "content",
-      open
-        ? colors[session?.themeColor || "grey"][900]
-        : session?.user?.darkMode
-        ? "hsl(240,11%,10%)"
-        : "#fff"
-    );
-  });
 
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
@@ -168,7 +157,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         </div>
       </Box>
       <SwipeableDrawer
-        anchor="right"
+        anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
