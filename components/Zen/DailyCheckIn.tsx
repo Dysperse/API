@@ -440,7 +440,7 @@ export function DailyCheckIn() {
               width: 35,
               height: 35,
               cursor: "pointer!important",
-              ...(mood && {
+              ...((mood || !data) && {
                 opacity: mood === emoji ? 1 : 0.5,
               }),
               ...(mood === emoji && {
