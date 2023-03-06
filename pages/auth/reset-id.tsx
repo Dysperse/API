@@ -150,6 +150,9 @@ export default function Prompt() {
                   zIndex: 1,
                   py: 1,
                   background: "#c4b5b5",
+                  [`@media (prefers-color-scheme: dark)`]: {
+                    background: "hsl(240,11%,10%)",
+                  },
                   width: { xs: "100vw", sm: "100%" },
                 }}
               >
