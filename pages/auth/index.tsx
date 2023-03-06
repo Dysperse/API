@@ -8,7 +8,7 @@ import {
   InputAdornment,
   NoSsr,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
