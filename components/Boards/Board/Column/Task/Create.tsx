@@ -202,14 +202,21 @@ export function CreateTask({
     if (title.toLowerCase().includes("today")) {
       setDate(new Date());
     } else if (
-      title.toLowerCase().includes("tomorrow") ||
-      title.toLowerCase().includes("tmrw") ||
-      title.toLowerCase().includes("tmr") ||
-      title.toLowerCase().includes("tmw")
+      title.toLowerCase().includes(" tomorrow") ||
+      title.toLowerCase().includes(" tmrw") ||
+      title.toLowerCase().includes(" tmr") ||
+      title.toLowerCase().includes(" tmw")
     ) {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       setDate(tomorrow);
+      setTitle((title) =>
+        title
+          .replace(" tomorrow", " ")
+          .replace(" tmrw", " ")
+          .replace(" tmr", " ")
+          .replace(" tmw", " ")
+      );
     } else if (title.toLowerCase().includes("next week")) {
       const nextWeek = new Date();
       nextWeek.setDate(nextWeek.getDate() + 7);
