@@ -184,6 +184,9 @@ export default function Prompt() {
                   zIndex: 1,
                   py: 1,
                   background: "hsl(240,11%,90%)",
+                  [`@media (prefers-color-scheme: dark)`]: {
+                    background: "hsl(240,11%,10%)",
+                  },
                   width: { xs: "100vw", sm: "100%" },
                 }}
               >

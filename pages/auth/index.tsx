@@ -8,7 +8,7 @@ import {
   InputAdornment,
   NoSsr,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
@@ -35,6 +35,7 @@ const validateEmail = (email) => {
 export default function Prompt() {
   const ref: any = useRef();
   const proTips = [
+    "SECURITY TIP: Dysperse staff will NEVER ask for your password.",
     "PRO TIP: You can customize your theme color by visiting your appearance settings.",
     "DID YOU KNOW: Dysperse started in 2020, and has been growing ever since.",
     "PRO TIP: Hit CTRL / to view a list of all the keyboard shortcuts.",
@@ -436,6 +437,10 @@ export default function Prompt() {
             },
             userSelect: "none",
             background: "hsl(240,11%,90%)",
+            [`@media (prefers-color-scheme: dark)`]: {
+              background: "hsl(240,11%,10%)",
+              color: "hsl(240,11%,90%)",
+            },
             borderRadius: { sm: 5 },
             mx: "auto",
             maxWidth: "100vw",
