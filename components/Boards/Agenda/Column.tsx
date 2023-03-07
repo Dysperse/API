@@ -179,7 +179,13 @@ export const Column: any = memo(function Column({
           </Typography>
         )}
       </Box>
-      <Box sx={{ px: { xs: 0, sm: 2 }, py: 3, pb: { xs: 15, sm: 0 } }}>
+      <Box
+        sx={{
+          px: { xs: 0, sm: 2 },
+          pt: { xs: 0, sm: 3 },
+          pb: { xs: 15, sm: 0 },
+        }}
+      >
         <Box sx={{ my: 0.5 }}>
           <CreateTask
             column={{ id: "-1", name: "" }}

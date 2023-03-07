@@ -213,8 +213,6 @@ export const Task: any = React.memo(function Task({
             py: { xs: 1.5, sm: 0.5 },
             px: { xs: 2.5, sm: 1.5 },
             gap: 1.5,
-            "&:active": { transform: "scale(0.95)" },
-            transition: "transform .2s",
           }}
         >
           <ListItemText
