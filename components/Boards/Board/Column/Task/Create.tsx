@@ -663,42 +663,22 @@ export function CreateTask({
       <ListItemButton
         disabled={storage?.isReached === true}
         id="createTask"
-        className="task createTask"
+        className="createTask"
         sx={{
-          transition: "none",
-          color: colors["grey"][session?.user?.darkMode ? "A100" : "A700"],
-          p: {
-            xs: 1,
-            sm: "0!important",
-          },
-          ...(label && {
-            border: { sm: "none!important" },
-            borderColor: { sm: "transparent!important" },
-            boxShadow: "none!important",
-            py: "0!important",
-          }),
-          cursor: "unset!important",
-          ...(session?.user?.darkMode && {
-            "&:hover": {
-              backgroundColor: "hsl(240,11%,16%)!important",
-            },
-            "&:active": {
-              backgroundColor: "hsl(240,11%,19%)!important",
-            },
-          }),
-          ...(!checkList && {
-            boxShadow: {
-              sm: "none!important",
-            },
-            border: {
-              sm: "none!important",
-            },
-          }),
-          mt: {
-            xs: -0.5,
-            sm: checkList ? 1.5 : label ? -1 : 0,
-          },
-          mb: "0px !important",
+          mt: -2,
+
+          color: `hsl(240, 11%, ${session?.user?.darkMode ? 90 : 40}%)`,
+          fontWeight: 700,
+          borderRadius: 0,
+          ml: { xs: -2, sm: 0 },
+          mr: { xs: -2, sm: 0 },
+
+          borderBottom: "1px solid",
+          borderColor: `hsl(240, 11%, ${session?.user?.darkMode ? 80 : 95}%)`,
+
+          py: 1.5,
+          px: { xs: 2.5, sm: 1.5 },
+          gap: 1.5,
         }}
         onClick={() => {
           setOpen(true);
@@ -710,30 +690,23 @@ export function CreateTask({
           }, 100);
         }}
       >
-        <span
-          className="material-symbols-outlined"
+        <Icon
+          className="outlined"
           style={{
-            border:
-              "2px solid " +
-              (session?.user?.darkMode ? "hsl(240,11%,60%)" : "#808080"),
+            height: "auto",
+            width: "auto",
+            border: "2px solid",
+            borderColor: `hsl(240, 11%, ${session?.user?.darkMode ? 60 : 50}%)`,
             borderRadius: "10px",
-            color: session?.user?.darkMode
-              ? "hsl(240,11%,80%)"
-              : checkList
-              ? "#303030"
-              : "#808080",
-            marginLeft: label ? "10px" : "15px",
-            marginRight: label ? "20px" : "5px",
-            fontSize: "20px",
-            marginTop: "10px",
-            marginBottom: "10px",
+            color: `hsl(240, 11%, ${session?.user?.darkMode ? 60 : 50}%)`,
+            fontSize: "22px",
             fontVariationSettings: `'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important`,
           }}
         >
           add
-        </span>
+        </Icon>
 
-        <Typography sx={{ ml: label ? -1.5 : 0.5 }}>
+        <Typography sx={{ ml: label ? -1.5 : 0.5, fontWeight: 700 }}>
           {parent ? "New subtask" : label || "New list item"}
         </Typography>
       </ListItemButton>

@@ -457,6 +457,7 @@ function Column({ board, mutationUrls, column, index }) {
             ? "hsl(240,11%,16%)"
             : "rgba(200,200,200,.2)",
           zIndex: 1,
+          height: "100%",
           flexGrow: 1,
           flexBasis: 0,
           ml: "-1px",
@@ -469,11 +470,11 @@ function Column({ board, mutationUrls, column, index }) {
         <Box
           sx={{
             color: session?.user?.darkMode ? "#fff" : "#000",
-            p: 3,
+            p: 2,
             px: 4,
             background: session?.user?.darkMode
               ? "hsla(240,11%,16%, 0.2)"
-              : "rgba(200,200,200,.05)",
+              : { xs: "rgba(255,255,255,.05)", sm: "rgba(200,200,200,.05)" },
             borderBottom: "1px solid",
             borderColor: session?.user?.darkMode
               ? "hsla(240,11%,18%, 0.2)"
@@ -485,7 +486,18 @@ function Column({ board, mutationUrls, column, index }) {
             top: 0,
           }}
         >
-          <Box sx={{ display: "flex", my: 1, gap: 3, alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              my: 1,
+              gap: 3,
+              alignItems: "center",
+              "& picture img": {
+                width: { xs: "40px", sm: "50px" },
+                height: { xs: "40px", sm: "50px" },
+              },
+            }}
+          >
             <picture
               style={{
                 flexShrink: 0,
@@ -504,10 +516,10 @@ function Column({ board, mutationUrls, column, index }) {
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                   },
-                  fontSize: "30px",
+                  fontSize: { xs: "25px", sm: "30px" },
                   borderRadius: 1,
                   width: "auto",
-                  mb: 0.5,
+                  mb: 0.7,
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -519,7 +531,7 @@ function Column({ board, mutationUrls, column, index }) {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  fontSize: "18px",
+                  fontSize: { xs: "15px", sm: "18px" },
                 }}
               >
                 {columnTasks.length} tasks
@@ -559,28 +571,25 @@ function Column({ board, mutationUrls, column, index }) {
             fullWidth
             size="large"
             sx={{
-              px: "10px!important",
-              py: "5px!important",
+              px: { xs: "15px!important", sm: "10px!important" },
+              py: { xs: "10px!important", sm: "5px!important" },
               mb: 1,
               ...(columnTasks.filter((task) => task.completed).length === 0 && {
                 display: "none",
               }),
-              mt: 1,
+              mt: { sm: 1 },
               ...(showCompleted && {
                 background: session?.user?.darkMode
                   ? "hsl(240,11%,20%)!important"
                   : "rgba(200,200,200,.3)!important",
               }),
-              color: session?.user?.darkMode ? "#fff" : "#000",
+              color: session?.user?.darkMode ? "#fff" : "hsl(240,11%,30%)",
             }}
             onClick={toggleShowCompleted}
           >
-            Completed{" "}
-            <Chip
-              size="small"
-              sx={{ borderRadius: 2, ml: 1 }}
-              label={columnTasks.filter((task) => task.completed).length}
-            />
+            <Typography sx={{ fontWeight: 700 }}>
+              {columnTasks.filter((task) => task.completed).length} completed
+            </Typography>
             <Icon
               sx={{
                 ml: "auto",
@@ -923,7 +932,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   function handleTouchEnd(e) {
     const touchEndX = e.changedTouches[0].clientX;
     const touchDistance = touchEndX - touchStartX.current;
-    if (touchDistance > 7) {
+    if (touchDistance > 20) {
       setMobileOpen(true);
       navigator.vibrate(50);
     }
@@ -939,7 +948,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         maxWidth: "100vw",
         overflowX: "scroll",
         mt: { xs: -2, md: 0 },
-        height: { md: "100vh" },
+        height: { sm: "" },
+        minHeight: "100vh",
       }}
     >
       <Box
@@ -998,6 +1008,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
                 ? "hsla(240,11%,25%, 0.3)"
                 : "rgba(0,0,0,0.1)"
             }!important`,
+            color: session?.user?.darkMode ? "#fff" : "#000",
           }}
         >
           <Icon className="outlined">add</Icon>

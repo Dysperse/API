@@ -84,8 +84,9 @@ export const Task: any = React.memo(function Task({
 
   const BpIcon: any = styled("span")(() => ({
     borderRadius: 10,
-    width: 23,
-    height: 23,
+    width: 25,
+    transform: "translateX(-7px)",
+    height: 25,
     boxShadow: `${
       session?.user?.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
@@ -195,46 +196,34 @@ export const Task: any = React.memo(function Task({
         <ListItemButton
           itemRef={ref}
           tabIndex={0}
-          className="task"
           sx={{
-            transition: "none",
             ...(isSubTask && {
               ml: "20px",
               width: "calc(100% - 20px)",
             }),
             color:
               colors[taskData.color][session?.user?.darkMode ? "A100" : "A700"],
-            p: {
-              xs: 1,
-              sm: 0,
-            },
-            cursor: "unset!important",
-            ...(session?.user?.darkMode && {
-              "&:hover": {
-                backgroundColor: "hsl(240,11%,15%)!important",
-              },
-              "&:active": {
-                backgroundColor: "hsl(240,11%,18%)!important",
-              },
-            }),
-            boxShadow: {
-              sm: "none!important",
-            },
-            border: {
-              sm: "none !important",
-            },
-            gap: "10px!important",
+
+            fontWeight: 700,
+            borderRadius: 0,
+            ml: { xs: -2, sm: 0 },
+            mr: { xs: -2, sm: 0 },
+
+            borderBottom: "1px solid",
+            borderColor: `hsl(240, 11%, ${session?.user?.darkMode ? 80 : 95}%)`,
+
+            py: 1.5,
+            px: { xs: 2.5, sm: 1.5 },
+            gap: 1.5,
           }}
         >
           <ListItemText
-            sx={{
-              my: 0,
-              mr: 1,
-            }}
+            sx={{ m: 0, p: "0!important" }}
             primary={
               <Box
                 sx={{
                   display: "flex",
+                  // background: "red",
                   alignItems: "center",
                 }}
               >
