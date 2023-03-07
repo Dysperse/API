@@ -49,6 +49,37 @@ const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog), {
   ssr: false,
 });
 
+export const boardSwitcherStyles = (v) => {
+  return {
+    transition: "transform .2s",
+    "&:active": {
+      transition: "none",
+      transform: "scale(0.9)",
+    },
+    position: "fixed",
+    bottom: {
+      xs: "65px",
+      md: "30px",
+    },
+    left: "10px",
+    zIndex: 9,
+    background: v
+      ? "hsla(240,11%,14%,0.5)!important"
+      : "rgba(255,255,255,.5)!important",
+    boxShadow:
+      "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+    backdropFilter: "blur(10px)",
+    border: {
+      xs: v ? "1px solid hsla(240,11%,15%)" : "1px solid rgba(200,200,200,.3)",
+      md: "unset",
+    },
+    fontWeight: "700",
+    display: { md: "none" },
+    fontSize: "15px",
+    color: v ? "#fff" : "#000",
+  };
+};
+
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
   const [activeTab, setActiveTab] = useState("loading");

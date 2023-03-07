@@ -671,11 +671,12 @@ export function CreateTask({
           fontWeight: 700,
           borderRadius: { xs: 0, sm: 3 },
           borderBottom: { xs: "1px solid", sm: "none" },
-          borderColor: `hsl(240, 11%, ${session?.user?.darkMode ? 80 : 95}%)`,
-          py: { xs: 1.5, sm: 0.5 },
+          borderColor: `hsl(240, 11%, ${
+            session?.user?.darkMode ? 80 : 95
+          }%) !important`,
+          py: { xs: 1.5, sm: 1 },
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
-          mb: { sm: 1 },
         }}
         onClick={() => {
           setOpen(true);
