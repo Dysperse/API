@@ -205,10 +205,10 @@ export const Task: any = React.memo(function Task({
               colors[taskData.color][session?.user?.darkMode ? "A100" : "A700"],
 
             fontWeight: 700,
-            borderRadius: 0,
-            borderBottom: "1px solid",
+            borderRadius: { xs: 0, sm: 3 },
+            borderBottom: { xs: "1px solid", sm: "none" },
             borderColor: `hsl(240, 11%, ${session?.user?.darkMode ? 80 : 95}%)`,
-            py: 1.5,
+            py: { xs: 1.5, sm: 0.5 },
             px: { xs: 2.5, sm: 1.5 },
             gap: 1.5,
           }}
