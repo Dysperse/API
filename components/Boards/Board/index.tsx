@@ -936,7 +936,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   function handleTouchEnd(e) {
     const touchEndX = e.changedTouches[0].clientX;
     const touchDistance = touchEndX - touchStartX.current;
-    if (touchDistance > 20) {
+    if (touchDistance > 50) {
       setMobileOpen(true);
       navigator.vibrate(50);
     }
