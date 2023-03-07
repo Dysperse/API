@@ -21,7 +21,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -663,6 +663,7 @@ export function CreateTask({
       <ListItemButton
         disabled={storage?.isReached === true}
         id="createTask"
+        disableRipple
         className="createTask"
         sx={{
           ...(!label && { display: { xs: "none", sm: "flex" } }),
@@ -673,9 +674,18 @@ export function CreateTask({
           borderColor: `hsl(240, 11%, ${
             session?.user?.darkMode ? 80 : 95
           }%) !important`,
-          py: { xs: 1.5, sm: 1 },
+          transition: "none",
+          py: { xs: 2, sm: 1 },
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
+          mb: { xs: -0.5 },
+          mt: { xs: -0.5 },
+
+          "&:active": {
+            background: `hsl(240, 11%, ${
+              session?.user?.darkMode ? 80 : 94
+            }%) !important`,
+          },
         }}
         onClick={() => {
           setOpen(true);
@@ -687,21 +697,30 @@ export function CreateTask({
           }, 100);
         }}
       >
-        <Icon
-          className="outlined"
-          style={{
-            height: "auto",
-            width: "auto",
-            border: "2px solid",
-            borderColor: `hsl(240, 11%, ${session?.user?.darkMode ? 60 : 50}%)`,
+        <Box
+          sx={{
+            boxShadow: `${`inset 0 0 0 1.5px hsl(240, 11%, ${
+              session?.user?.darkMode ? 60 : 40
+            }%)`}`,
             borderRadius: "10px",
-            color: `hsl(240, 11%, ${session?.user?.darkMode ? 60 : 50}%)`,
-            fontSize: "22px",
-            fontVariationSettings: `'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important`,
+            display: "flex",
+            width: 25,
+            height: 25,
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          add
-        </Icon>
+          <Icon
+            className="outlined"
+            style={{
+              color: `hsl(240, 11%, ${session?.user?.darkMode ? 60 : 40}%)`,
+              fontSize: "21px",
+              fontVariationSettings: `'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important`,
+            }}
+          >
+            add
+          </Icon>
+        </Box>
 
         <Typography sx={{ fontWeight: 700 }}>
           {parent ? "New subtask" : label || "New list item"}

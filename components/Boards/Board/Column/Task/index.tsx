@@ -7,7 +7,7 @@ import {
   ListItemText,
   styled,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
@@ -84,14 +84,14 @@ export const Task: any = React.memo(function Task({
 
   const BpIcon: any = styled("span")(() => ({
     borderRadius: 10,
-    width: 25,
     transform: "translateX(-7px)",
+    width: 25,
     height: 25,
     boxShadow: `${
       session?.user?.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
         : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
-    }, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)`,
+    }`,
     backgroundColor: "transparent",
     ".Mui-focusVisible &": {
       boxShadow: `0px 0px 0px 2px inset ${
@@ -112,15 +112,15 @@ export const Task: any = React.memo(function Task({
       session?.user?.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
         : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
-    }, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.04)`,
+    }`,
     backgroundColor: `${
       colors[taskData.color || "grey"][session?.user?.darkMode ? 50 : "A700"]
     }!important`,
     "&:before": {
       display: "block",
-      width: 23,
-      height: 24,
-      backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23${
+      width: 25,
+      height: 25,
+      backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 20' fill='none' stroke='%23${
         session?.user?.darkMode ? "000" : "fff"
       }' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")`,
       backgroundPosition: "center",
@@ -195,6 +195,7 @@ export const Task: any = React.memo(function Task({
       <TaskDrawer id={taskData.id} mutationUrl={mutationUrl} isAgenda>
         <ListItemButton
           itemRef={ref}
+          disableRipple
           tabIndex={0}
           sx={{
             ...(isSubTask && {
@@ -210,9 +211,16 @@ export const Task: any = React.memo(function Task({
             borderColor: `hsl(240, 11%, ${
               session?.user?.darkMode ? 80 : 95
             }%) !important`,
-            py: { xs: 1.5, sm: 0.5 },
+            transition: "none",
+            py: { xs: 0.7, sm: 0.5 },
             px: { xs: 2.5, sm: 1.5 },
             gap: 1.5,
+
+            "&:active": {
+              background: `hsl(240, 11%, ${
+                session?.user?.darkMode ? 80 : 94
+              }%) !important`,
+            },
           }}
         >
           <ListItemText
@@ -258,7 +266,6 @@ export const Task: any = React.memo(function Task({
                       verticalAlign: "top !important",
                     },
                     ...(taskData.completed && {
-                      textDecoration: "line-through",
                       opacity: 0.7,
                     }),
                   }}
