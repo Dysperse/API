@@ -676,6 +676,8 @@ export function CreateTask({
           py: { xs: 1.5, sm: 1 },
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
+          "&:active": { transform: "scale(0.95)" },
+          transition: "transform .2s",
         }}
         onClick={() => {
           setOpen(true);
@@ -703,7 +705,7 @@ export function CreateTask({
           add
         </Icon>
 
-        <Typography sx={{ ml: label ? -1.5 : 0.5, fontWeight: 700 }}>
+        <Typography sx={{ fontWeight: 700 }}>
           {parent ? "New subtask" : label || "New list item"}
         </Typography>
       </ListItemButton>

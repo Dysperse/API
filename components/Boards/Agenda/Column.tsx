@@ -81,7 +81,7 @@ export const Column: any = memo(function Column({
         sx={{
           color: session?.user?.darkMode ? "#fff" : "#000",
           py: 3.5,
-          px: { xs: 2, sm: 4 },
+          px: 4,
           background: session?.user?.darkMode
             ? "hsla(240,11%,16%, 0.2)"
             : "rgba(200,200,200,.05)",
@@ -179,7 +179,7 @@ export const Column: any = memo(function Column({
           </Typography>
         )}
       </Box>
-      <Box sx={{ p: 2, py: 3, pb: { xs: 15, sm: 0 } }}>
+      <Box sx={{ px: { xs: 0, sm: 2 }, py: 3, pb: { xs: 15, sm: 0 } }}>
         <Box sx={{ my: 0.5 }}>
           <CreateTask
             column={{ id: "-1", name: "" }}
