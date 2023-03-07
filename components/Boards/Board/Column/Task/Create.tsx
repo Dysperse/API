@@ -665,17 +665,13 @@ export function CreateTask({
         id="createTask"
         className="createTask"
         sx={{
-          mt: -2,
+          display: { xs: "none", sm: "flex" },
 
           color: `hsl(240, 11%, ${session?.user?.darkMode ? 90 : 40}%)`,
           fontWeight: 700,
           borderRadius: 0,
-          ml: { xs: -2, sm: 0 },
-          mr: { xs: -2, sm: 0 },
-
           borderBottom: "1px solid",
           borderColor: `hsl(240, 11%, ${session?.user?.darkMode ? 80 : 95}%)`,
-
           py: 1.5,
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
