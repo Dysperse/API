@@ -665,8 +665,7 @@ export function CreateTask({
         id="createTask"
         className="createTask"
         sx={{
-          display: { xs: "none", sm: "flex" },
-
+          ...(!label && { display: { xs: "none", sm: "flex" } }),
           color: `hsl(240, 11%, ${session?.user?.darkMode ? 90 : 40}%)`,
           fontWeight: 700,
           borderRadius: { xs: 0, sm: 3 },
