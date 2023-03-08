@@ -606,7 +606,7 @@ export function DailyCheckIn() {
         }}
       >
         {moodOptions.map((emoji) => (
-          <Emoji
+          <Emoji key={emoji}
             emoji={emoji}
             handleMoodChange={handleMoodChange}
             mood={mood}
