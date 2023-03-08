@@ -363,7 +363,7 @@ export const Task: any = React.memo(function Task({
                       }}
                     >
                       <Icon
-                        sx={{  transform: "scale(.8)" }}
+                        sx={{ ml: 0.1, transform: "scale(.8)" }}
                         className="outlined"
                       >
                         schedule
