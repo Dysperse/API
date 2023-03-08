@@ -6,6 +6,7 @@ import {
   CardActionArea,
   Chip,
   Dialog,
+  Grid,
   Icon,
   IconButton,
   LinearProgress,
@@ -27,8 +28,147 @@ import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
+import { Puller } from "../Puller";
 
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
+
+function Emoji({ emoji, mood, data, handleMoodChange }) {
+  const [open, setOpen] = useState(false);
+  const handleSubmit = useCallback(
+    () => handleMoodChange(emoji),
+    [handleMoodChange, emoji]
+  );
+
+  const handleOpen = useCallback(() => setOpen(true), [setOpen]);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
+  const reasons = [
+    { icon: "favorite", name: "Relationships" },
+    { icon: "work", name: "Work" },
+    { icon: "school", name: "School" },
+    { icon: "sports_basketball", name: "Hobbies" },
+    { icon: "ecg_heart", name: "Health" },
+    { icon: "newspaper", name: "Current events" },
+  ];
+  const session = useSession();
+
+  return (
+    <>
+      <SwipeableDrawer
+        open={open}
+        onOpen={handleOpen}
+        onClose={handleClose}
+        anchor="bottom"
+        disableSwipeToOpen
+      >
+        <Puller />
+        <Box sx={{ p: 3, pt: 0 }}>
+          <Typography
+            sx={{
+              fontWeight: "700",
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              mb: 2,
+              pb: 2,
+              borderBottom: "1px solid",
+              borderColor: `hsl(240,11%,${session?.user?.darkMode ? 20 : 90}%)`,
+            }}
+          >
+            <picture style={{ flexShrink: 0, flexGrow: 0 }}>
+              <img
+                alt="emoji"
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                width="40px"
+                height="40px"
+              />
+            </picture>
+            Is there anything in particular that is making you feel this way?
+          </Typography>
+          <Grid container spacing={{ xs: 1, sm: 2 }}>
+            {reasons.map((reason) => (
+              <Grid item xs={6} sm={4} key={reason.name}>
+                <CardActionArea
+                  sx={{
+                    textAlign: "center",
+                    py: 2,
+                    borderRadius: 4,
+                    px: 1,
+                    background: `hsl(240,11%,${
+                      session?.user?.darkMode ? 10 : 97
+                    }%)!important`,
+                  }}
+                >
+                  <IconButton
+                    sx={{
+                      border: "1px solid",
+                      borderRadius: "100%",
+                      width: 45,
+                      mb: 1,
+                      height: 45,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderColor: `hsl(240,11%,${
+                        session?.user?.darkMode ? 20 : 90
+                      }%)`,
+                    }}
+                  >
+                    <Icon
+                      sx={{
+                        fontSize: "26px!important",
+                      }}
+                      className="outlined"
+                    >
+                      {reason.icon}
+                    </Icon>
+                  </IconButton>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {reason.name}
+                  </Typography>
+                </CardActionArea>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </SwipeableDrawer>
+      <IconButton
+        key={emoji}
+        sx={{
+          p: 0,
+          width: 35,
+          height: 35,
+          cursor: "pointer!important",
+          ...((mood || !data) && {
+            opacity: mood === emoji ? 1 : 0.5,
+          }),
+          ...(mood === emoji && {
+            transform: "scale(1.1)",
+          }),
+          "&:active": {
+            transition: "none",
+            transform: "scale(0.9)",
+          },
+          transition: "transform .2s",
+        }}
+        onClick={handleOpen}
+      >
+        <picture>
+          <img
+            alt="emoji"
+            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+          />
+        </picture>
+      </IconButton>
+    </>
+  );
+}
 
 function InfoModal() {
   const [open, setOpen] = useState<boolean>(false);
@@ -159,6 +299,7 @@ export function DailyCheckInDrawer() {
         <Icon>arrow_forward_ios</Icon>
       </CardActionArea>
       <SwipeableDrawer
+        disableSwipeToOpen
         anchor="bottom"
         onOpen={handleOpen}
         onClose={handleClose}
@@ -416,7 +557,6 @@ export function DailyCheckIn() {
           ? "hsl(240, 11%, 20%)"
           : "rgba(200, 200, 200, 0.3)",
         borderRadius: 5,
-        mb: { xs: -11, sm: 0 },
       }}
       className="shadow-md"
     >
@@ -433,34 +573,12 @@ export function DailyCheckIn() {
         }}
       >
         {moodOptions.map((emoji) => (
-          <IconButton
-            key={emoji}
-            sx={{
-              p: 0,
-              width: 35,
-              height: 35,
-              cursor: "pointer!important",
-              ...((mood || !data) && {
-                opacity: mood === emoji ? 1 : 0.5,
-              }),
-              ...(mood === emoji && {
-                transform: "scale(1.1)",
-              }),
-              "&:active": {
-                transition: "none",
-                transform: "scale(0.9)",
-              },
-              transition: "transform .2s",
-            }}
-            onClick={() => handleMoodChange(emoji)}
-          >
-            <picture>
-              <img
-                alt="emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-              />
-            </picture>
-          </IconButton>
+          <Emoji
+            emoji={emoji}
+            handleMoodChange={handleMoodChange}
+            mood={mood}
+            data={data}
+          />
         ))}
       </Box>
     </Box>

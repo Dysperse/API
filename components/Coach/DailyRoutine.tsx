@@ -187,6 +187,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         sx={{
           width: "100%",
           px: "15px !important",
+          gap: 2,
           background: session?.user?.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
           border: "1px solid",
           borderColor: session?.user?.darkMode
@@ -318,12 +319,6 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         </Typography>
       </Box>
       <CircularProgressWithLabel
-        sx={{
-          "&, & *": {
-            width: "50px!important",
-            height: "50px!important",
-          },
-        }}
         value={
           data
             ? (doneTasks.length /
