@@ -1,4 +1,4 @@
-import { Box, Icon, Typography } from "@mui/material";
+import { Box, Divider, Icon, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -241,6 +241,11 @@ export const Column: any = memo(function Column({
                   mutationUrl={mutationUrl}
                   boardId={1}
                 />
+                {tasksWithinTimeRange == 0 ? (
+                  <></>
+                ) : (
+                  <Divider sx={{ mt: 2, mb: -1 }} />
+                )}
               </Box>
             </Box>
           ) : (
