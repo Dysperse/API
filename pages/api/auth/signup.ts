@@ -17,8 +17,8 @@ const validateEmail = (email) => {
  */
 export default async function handler(req, res) {
   const body = JSON.parse(req.body);
-  console.log(body);
-  if (!validateEmail(body.email)) {
+
+  if (!validateEmail(body.email.toLowerCase())) {
     return res
       .status(401)
       .json({ error: true, message: "Please type in a valid email address" });
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   //  Find if email is already in use
   const emailInUse = await prisma.user.findUnique({
     where: {
-      email: body.email,
+      email: body.email.toLowerCase(),
     },
   });
 
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
   const user = await prisma.user.create({
     data: {
       name,
-      email,
+      email: body.email.toLowerCase(),
       password: hashedPassword,
     },
   });
