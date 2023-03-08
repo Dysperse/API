@@ -17,7 +17,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -52,7 +51,9 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
     { icon: "more_horiz", name: "Something else", w: 12 },
   ];
   const session = useSession();
-  const [currentReason, setCurrentReason] = useState<null | string>(null);
+  const [currentReason, setCurrentReason] = useState<null | string>(
+    (data && data[0] && data[0].reason) || null
+  );
 
   return (
     <>
@@ -94,7 +95,7 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
           <LinearProgress
             value={75}
             variant="determinate"
-            sx={{ borderRadius: 999, mb: 2 }}
+            sx={{ borderRadius: 999, mb: 2, height: 2 }}
           />
           <Grid container spacing={{ xs: 1, sm: 2 }}>
             {reasons.map((reason) => (
@@ -130,7 +131,7 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
                     }%)!important`,
                     gap: 2,
                     ...(currentReason === reason.name && {
-                      borderColor: green["A700"],
+                      borderColor: colors[session?.themeColor][700],
                       boxShadow:
                         "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
                       background: session?.user?.darkMode
@@ -167,7 +168,13 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
             disableRipple
             size="large"
             variant="contained"
-            disabled={!currentReason}
+            disabled={
+              !currentReason ||
+              (data &&
+                data[0] &&
+                data[0].reason &&
+                currentReason === data[0].reason)
+            }
             onClick={() => {
               handleClose();
               handleMoodChange(emoji, currentReason);

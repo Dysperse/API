@@ -153,7 +153,6 @@ export default function Home() {
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <DailyCheckIn />
           <DailyRoutine zen />
-
           <ListItemButton
             sx={{
               width: "100%",
