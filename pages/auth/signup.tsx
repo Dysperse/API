@@ -156,7 +156,7 @@ export default function Prompt() {
                         },
                       }}
                     >
-                      Password must be more than 5 characters long, containing
+                      Password must be more than 8 characters long, containing
                       at least one letter and number
                     </Typography>
                   ),
