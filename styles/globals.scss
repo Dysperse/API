@@ -171,7 +171,17 @@ input:-webkit-autofill {
   -webkit-background-clip: text;
 }
 @media (prefers-color-scheme: dark) {
-  -webkit-text-fill-color: #fff;
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #fff;
+  }
 }
 
 // Trophy animation
