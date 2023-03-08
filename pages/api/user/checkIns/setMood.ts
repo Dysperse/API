@@ -31,6 +31,7 @@ export default async function handler(req, res) {
         },
         data: {
           mood: req.query.mood,
+          reason: req.query.reason,
         },
       });
       console.log(data);
@@ -40,6 +41,7 @@ export default async function handler(req, res) {
         data: {
           date: new Date(req.query.date),
           mood: req.query.mood,
+          reason: req.query.reason,
           user: {
             connect: {
               identifier: req.query.userIdentifier,

@@ -3,6 +3,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
   CardActionArea,
   Chip,
   Dialog,
@@ -16,6 +17,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -34,10 +36,6 @@ export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
 
 function Emoji({ emoji, mood, data, handleMoodChange }) {
   const [open, setOpen] = useState(false);
-  const handleSubmit = useCallback(
-    () => handleMoodChange(emoji),
-    [handleMoodChange, emoji]
-  );
 
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
@@ -49,8 +47,12 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
     { icon: "sports_basketball", name: "Hobbies" },
     { icon: "ecg_heart", name: "Health" },
     { icon: "newspaper", name: "Current events" },
+    { icon: "group", name: "Family/Friends" },
+    { icon: "payments", name: "Finances" },
+    { icon: "more_horiz", name: "Something else", w: 12 },
   ];
   const session = useSession();
+  const [currentReason, setCurrentReason] = useState<null | string>(null);
 
   return (
     <>
@@ -60,19 +62,16 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
         onClose={handleClose}
         anchor="bottom"
         disableSwipeToOpen
+        PaperProps={{}}
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>
           <Typography
             sx={{
-              fontWeight: "700",
               display: "flex",
               alignItems: "center",
               gap: 2,
-              mb: 2,
               pb: 2,
-              borderBottom: "1px solid",
-              borderColor: `hsl(240,11%,${session?.user?.darkMode ? 20 : 90}%)`,
             }}
           >
             <picture style={{ flexShrink: 0, flexGrow: 0 }}>
@@ -83,59 +82,104 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
                 height="40px"
               />
             </picture>
-            Is there anything in particular that is making you feel this way?
+            <Box>
+              <Typography sx={{ fontWeight: 700 }}>
+                What is making you feel this way?
+              </Typography>
+              <Typography variant="body2">
+                Select the most relevant option.
+              </Typography>
+            </Box>
           </Typography>
+          <LinearProgress
+            value={75}
+            variant="determinate"
+            sx={{ borderRadius: 999, mb: 2 }}
+          />
           <Grid container spacing={{ xs: 1, sm: 2 }}>
             {reasons.map((reason) => (
-              <Grid item xs={6} sm={4} key={reason.name}>
-                <CardActionArea
+              <Grid
+                item
+                xs={reason.w || 6}
+                sm={reason.w || 4}
+                key={reason.name}
+              >
+                <Box
+                  onClick={() =>
+                    setCurrentReason(
+                      currentReason && reason.name === currentReason
+                        ? null
+                        : reason.name
+                    )
+                  }
                   sx={{
-                    textAlign: "center",
+                    border: "2px solid transparent",
+                    userSelect: "none",
                     py: 2,
                     borderRadius: 4,
-                    px: 1,
+                    px: 2,
+                    transition: "transform .2s",
+                    alignItems: "center",
+                    "&:active": {
+                      transform: "scale(0.95)",
+                      transition: "none",
+                    },
+                    display: "flex",
                     background: `hsl(240,11%,${
                       session?.user?.darkMode ? 10 : 97
                     }%)!important`,
+                    gap: 2,
+                    ...(currentReason === reason.name && {
+                      borderColor: green["A700"],
+                      boxShadow:
+                        "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+                      background: session?.user?.darkMode
+                        ? "hsl(240,11%,10%) !important"
+                        : "#fff !important",
+                    }),
                   }}
                 >
-                  <IconButton
+                  <Icon
                     sx={{
-                      border: "1px solid",
-                      borderRadius: "100%",
-                      width: 45,
-                      mb: 1,
-                      height: 45,
-                      display: "inline-flex",
-                      alignItems: "center",
-                      borderColor: `hsl(240,11%,${
-                        session?.user?.darkMode ? 20 : 90
-                      }%)`,
+                      fontSize: "26px!important",
                     }}
+                    className="outlined"
                   >
-                    <Icon
-                      sx={{
-                        fontSize: "26px!important",
-                      }}
-                      className="outlined"
-                    >
-                      {reason.icon}
-                    </Icon>
-                  </IconButton>
+                    {reason.icon}
+                  </Icon>
                   <Typography
                     variant="body2"
                     sx={{
                       whiteSpace: "nowrap",
                       textOverflow: "ellipsis",
                       overflow: "hidden",
+                      flexGrow: 1,
                     }}
                   >
                     {reason.name}
                   </Typography>
-                </CardActionArea>
+                </Box>
               </Grid>
             ))}
           </Grid>
+          <Button
+            fullWidth
+            disableRipple
+            size="large"
+            variant="contained"
+            disabled={!currentReason}
+            onClick={() => {
+              handleClose();
+              handleMoodChange(emoji, currentReason);
+            }}
+            sx={{
+              mt: 2,
+              transition: "opacity .2s!important",
+              "&:active": { opacity: 0.5, transition: "none!important" },
+            }}
+          >
+            Done
+          </Button>
         </Box>
       </SwipeableDrawer>
       <IconButton
@@ -528,11 +572,12 @@ export function DailyCheckIn() {
   }, [data, mood, setMood]);
 
   const handleMoodChange: any = useCallback(
-    async (emoji: string) => {
+    async (emoji: string, reason: string) => {
       try {
         await fetchApiWithoutHook("user/checkIns/setMood", {
           date: today,
           mood: emoji,
+          reason,
           delete: emoji === mood ? "true" : "false",
         });
         await mutate(mutationUrl);
