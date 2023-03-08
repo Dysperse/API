@@ -577,6 +577,7 @@ function Column({ board, mutationUrls, column, index }) {
                 mx: "auto",
                 py: { sm: 2 },
                 maxWidth: "calc(100% - 50px)",
+                textAlign: { xs: "center", sm: "left" },
                 alignItems: { xs: "center", sm: "start" },
                 flexDirection: "column",
                 "& img": {

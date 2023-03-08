@@ -197,6 +197,7 @@ export const Column: any = memo(function Column({
                 mx: "auto",
                 py: { sm: 2 },
                 alignItems: { xs: "center", sm: "start" },
+                textAlign: { xs: "center", sm: "left" },
                 flexDirection: "column",
                 "& img": {
                   display: { sm: "none" },
