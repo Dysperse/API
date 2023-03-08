@@ -170,6 +170,9 @@ img {
 input:-webkit-autofill {
   -webkit-background-clip: text;
 }
+@media (prefers-color-scheme: dark) {
+  -webkit-text-fill-color: #fff;
+}
 
 // Trophy animation
 .animate-trophy {
