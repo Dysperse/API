@@ -403,6 +403,9 @@ export default function Home() {
                   xs: "40px",
                   sm: "50px",
                 },
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "100%",
               }}
               variant="h5"
             >
