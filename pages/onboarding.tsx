@@ -78,68 +78,22 @@ function BoardTemplate({ template }) {
   );
 }
 
-function StepContent({ forStep, currentStep, setCurrentStep, content }) {
-  return forStep === currentStep ? (
-    <Box>
-      {content}
-      <Box
-        sx={{
-          display: currentStep === 1 || currentStep === 5 ? "none" : "flex",
-          justifyContent: "flex-end",
-          mt: 2,
-        }}
-      >
-        <Button
-          onClick={() => setCurrentStep(currentStep + 1)}
-          variant="contained"
-          size="large"
-          className="rippleDark"
-          sx={{
-            borderRadius: 9999,
-          }}
-        >
-          Next
-        </Button>
-      </Box>
-    </Box>
-  ) : null;
-}
+function QontoStepIcon(props: StepIconProps) {
+  const { active, completed, className } = props;
+  const session = useSession();
 
-const QontoConnector = styled(StepConnector)(({ theme }) => ({
-  [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 10,
-    left: "calc(-50% + 16px)",
-    right: "calc(50% + 16px)",
-  },
-  [`&.${stepConnectorClasses.active}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      borderColor: colors["brown"][500],
-    },
-  },
-  [`&.${stepConnectorClasses.completed}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      borderColor: colors["brown"][500],
-    },
-  },
-  [`& .${stepConnectorClasses.line}`]: {
-    borderColor:
-      theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
-    borderTopWidth: 3,
-    borderRadius: 1,
-  },
-}));
-
-const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
-  ({ theme, ownerState }) => ({
+  const QontoStepIconRoot = styled("div")<{
+    ownerState: { active?: boolean };
+  }>(({ theme, ownerState }) => ({
     color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",
     display: "flex",
     height: 22,
     alignItems: "center",
     ...(ownerState.active && {
-      color: colors["brown"][500],
+      color: colors[session.themeColor || "brown"][500],
     }),
     "& .QontoStepIcon-completedIcon": {
-      color: colors["brown"][500],
+      color: colors[session.themeColor || "brown"][500],
       zIndex: 1,
       fontSize: 18,
     },
@@ -150,13 +104,7 @@ const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
       marginLeft: "10px",
       backgroundColor: "currentColor",
     },
-  })
-);
-
-function QontoStepIcon(props: StepIconProps) {
-  const { active, completed, className } = props;
-  const session = useSession();
-
+  }));
   return (
     <QontoStepIconRoot ownerState={{ active }} className={className}>
       {completed ? (
@@ -204,17 +152,11 @@ export default function Onboarding() {
 
   const content = [
     <>
-      <Typography variant="h5">Welcome to Dysperse!</Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          fontWeight: 400,
-          marginTop: 2,
-        }}
-      >
+      <Typography variant="h5" gutterBottom>
+        Welcome to Dysperse!
+      </Typography>
+      <Typography variant="body1" sx={{ fontWeight: 400 }}>
         Thank you for choosing Dysperse! We&apos;re excited to have you here.
-        <br />
-        <br />
         Let&apos;s get started by customizing your group and dashboard 🔥
       </Typography>
     </>,
@@ -317,7 +259,7 @@ export default function Onboarding() {
       </FormControl>
       <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#4 </span>
-        About your group
+        Tell us a bit about your <i>group</i>.
       </Typography>
       <FormControl fullWidth margin="dense">
         <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>
@@ -327,9 +269,7 @@ export default function Onboarding() {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={type}
-          sx={{ pl: 0.2 }}
           variant="filled"
-          label="Age"
           onChange={handleChange}
         >
           <MenuItem value="study group">
@@ -428,29 +368,30 @@ export default function Onboarding() {
         &quot;Onboarding&quot; button in the sidebar.
       </Typography>
 
-      <Button
-        variant="contained"
-        size="large"
-        sx={{
-          width: "100%",
-          borderRadius: 99999,
-          mt: 2,
-        }}
-        onClick={() => {
-          updateSettings(
-            "onboardingComplete",
-            "true",
-            false,
-            async () => {
-              await fetchApiWithoutHook("purge");
-              router.push("/");
-            },
-            false
-          );
-        }}
-      >
-        Let&apos;s go &rarr;
-      </Button>
+      <Box sx={{ display: "flex", justifyContent: "end" }}>
+        <Button
+          variant="contained"
+          size="large"
+          sx={{
+            borderRadius: 99999,
+            mt: 2,
+          }}
+          onClick={() => {
+            updateSettings(
+              "onboardingComplete",
+              "true",
+              false,
+              async () => {
+                await fetchApiWithoutHook("purge");
+                router.push("/");
+              },
+              false
+            );
+          }}
+        >
+          Let&apos;s go <Icon>east</Icon>
+        </Button>
+      </Box>
     </>,
   ];
   const [step, setStep] = useState(0);
@@ -458,6 +399,58 @@ export default function Onboarding() {
     const container: any = document.getElementById("onboardingContainer");
     container.scrollTo({ top: 0 });
   }, [step]);
+
+  function StepContent({ forStep, currentStep, setCurrentStep, content }) {
+    return forStep === currentStep ? (
+      <Box>
+        {content}
+        <Box
+          sx={{
+            display: currentStep === 1 || currentStep === 5 ? "none" : "flex",
+            justifyContent: "flex-end",
+            mt: 2,
+          }}
+        >
+          <Button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            variant="contained"
+            size="large"
+            sx={{
+              borderRadius: 9999,
+              px: 3,
+            }}
+          >
+            Next
+            <Icon>east</Icon>
+          </Button>
+        </Box>
+      </Box>
+    ) : null;
+  }
+
+  const QontoConnector = styled(StepConnector)(({ theme }) => ({
+    [`&.${stepConnectorClasses.alternativeLabel}`]: {
+      top: 10,
+      left: "calc(-50% + 16px)",
+      right: "calc(50% + 16px)",
+    },
+    [`&.${stepConnectorClasses.active}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: colors[session.themeColor || "brown"][500],
+      },
+    },
+    [`&.${stepConnectorClasses.completed}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: colors[session.themeColor || "brown"][500],
+      },
+    },
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor:
+        theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
+      borderTopWidth: 3,
+      borderRadius: 1,
+    },
+  }));
 
   return (
     <Box>
@@ -500,20 +493,21 @@ export default function Onboarding() {
             : "#fff",
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
           color: session?.user?.darkMode ? "white" : "hsl(240,11%,10%)",
-          borderRadius: "10px",
-          padding: { xs: "7px", sm: "20px" },
+          borderRadius: "20px",
+          padding: { xs: "7px", sm: "28px" },
         }}
         id="onboardingContainer"
       >
         <Stepper
           sx={{
             p: 1,
+            mt: 2,
             position: "sticky",
             backdropFilter: "blur(20px)",
             zIndex: 999,
-            top: 0,
+            top: "20px",
             borderRadius: 999,
-            width: "100",
+            width: "100%",
           }}
           activeStep={step}
           connector={<QontoConnector />}
@@ -524,7 +518,7 @@ export default function Onboarding() {
             </Step>
           ))}
         </Stepper>
-        <Box sx={{ mt: 2, p: 2 }}>
+        <Box sx={{ p: 2, px: 3 }}>
           {content.map((_, i) => (
             <StepContent
               key={i}
