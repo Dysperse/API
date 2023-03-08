@@ -17,6 +17,7 @@ const validateEmail = (email) => {
  */
 export default async function handler(req, res) {
   const body = JSON.parse(req.body);
+  console.log(body);
   if (!validateEmail(body.email)) {
     return res
       .status(401)

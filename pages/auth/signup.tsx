@@ -24,34 +24,39 @@ export default function Prompt() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    setButtonLoading(true);
-    fetch("/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify({
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      setButtonLoading(true);
+      const body = {
         name,
         email,
         password,
         confirmPassword,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          throw new Error(res.message);
-        }
-        mutate("/api/user").then(() => {
-          toast.success("Welcome to Dysperse!", toastStyles);
-          router.push("/");
-        });
-        return;
+      };
+      console.log("REQ:", body);
+      fetch("/api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify(body),
       })
-      .catch((err) => {
-        setButtonLoading(false);
-        toast.error(err.message, toastStyles);
-      });
-  }, []);
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.error) {
+            throw new Error(res.message);
+          }
+          mutate("/api/user").then(() => {
+            toast.success("Welcome to Dysperse!", toastStyles);
+            router.push("/");
+          });
+          return;
+        })
+        .catch((err) => {
+          setButtonLoading(false);
+          toast.error(err.message, toastStyles);
+        });
+    },
+    [name, email, password, confirmPassword]
+  );
 
   useEffect(() => {
     if (typeof document !== "undefined")
