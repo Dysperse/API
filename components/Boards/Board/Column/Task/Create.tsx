@@ -677,7 +677,7 @@ export function CreateTask({
           py: { xs: 2, sm: 1 },
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
-          mt: { xs: -0.5, sm: 2 },
+          mt: { xs: -0.5, sm: label ? 0 : 2 },
 
           "&:active": {
             background: `hsl(240, 11%, ${
