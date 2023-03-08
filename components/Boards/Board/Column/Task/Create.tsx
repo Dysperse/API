@@ -678,7 +678,7 @@ export function CreateTask({
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
           mt: { xs: -0.5, sm: label ? 0 : 2 },
-
+          ...(label && { mb: -0.5 }),
           "&:active": {
             background: `hsl(240, 11%, ${
               session?.user?.darkMode ? 80 : 94
