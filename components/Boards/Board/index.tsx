@@ -576,7 +576,6 @@ function Column({ board, mutationUrls, column, index }) {
                 justifyContent: "center",
                 mx: "auto",
                 py: { sm: 2 },
-                maxWidth: "calc(100% - 50px)",
                 textAlign: { xs: "center", sm: "left" },
                 alignItems: { xs: "center", sm: "start" },
                 flexDirection: "column",
@@ -597,7 +596,7 @@ function Column({ board, mutationUrls, column, index }) {
                 alt="No items found"
               />
 
-              <Box sx={{ px: 1.5 }}>
+              <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
                   Nothing much here...
                 </Typography>
