@@ -15,10 +15,12 @@ import { useSession } from "../../pages/_app";
  */
 
 export function Loading(): JSX.Element {
-  const defaultDarkMode =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
   const session = useSession();
+  const defaultDarkMode =
+    (!session &&
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+    (session && session.user && session.user.darkMode);
 
   return (
     <ThemeProvider
