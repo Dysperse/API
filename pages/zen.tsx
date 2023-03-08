@@ -320,7 +320,7 @@ export default function Home() {
       <div className="px-7">
         <Box
           sx={{
-            mt: { xs: "calc(var(--navbar-height) * -1)", sm: "-50px" },
+            mt: { xs: "calc(var(--navbar-height) * -1)", md: "-50px" },
             pt: 8,
           }}
         >
@@ -332,7 +332,7 @@ export default function Home() {
               pr: 2,
               gap: 1,
               height: "var(--navbar-height)",
-              position: { xs: editMode ? "fixed" : "absolute", sm: "static" },
+              position: { xs: editMode ? "fixed" : "absolute", md: "static" },
               background: session?.user?.darkMode
                 ? "hsla(240,11%,10%, .5)"
                 : "rgba(255,255,255,.5)",
@@ -376,7 +376,7 @@ export default function Home() {
                       openSpotlight();
                     }}
                     sx={{
-                      display: { sm: "none" },
+                      display: { md: "none" },
                     }}
                   >
                     <Icon className="outlined">bolt</Icon>

@@ -34,7 +34,6 @@ export function BottomNav() {
         ...iconStyles,
       },
       fontWeight: "200",
-      cursor: "pointer",
       width: "100%",
       display: "flex",
       mx: "auto",

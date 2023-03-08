@@ -475,7 +475,7 @@ function Column({ board, mutationUrls, column, index }) {
             px: 4,
             background: session?.user?.darkMode
               ? "hsla(240,11%,16%, 0.2)"
-              : { xs: "rgba(255,255,255,.05)", sm: "rgba(200,200,200,.05)" },
+              : { xs: "rgba(255,255,255,.05)", md: "rgba(200,200,200,.05)" },
             borderBottom: "1px solid",
             borderColor: session?.user?.darkMode
               ? "hsla(240,11%,18%, 0.2)"
@@ -951,7 +951,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         display: "flex",
         maxWidth: "100vw",
         overflowX: "scroll",
-        mt: { xs: -2, md: 0 },
+        mt: { xs: -2, sm: 0 },
         height: { sm: "" },
         minHeight: "100vh",
       }}
