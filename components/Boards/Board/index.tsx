@@ -16,6 +16,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
+import Image from "next/image";
 import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
@@ -553,11 +554,55 @@ function Column({ board, mutationUrls, column, index }) {
           sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}
           id={`container-${index}`}
         >
-          <CreateTask
-            mutationUrl={mutationUrls.tasks}
-            boardId={board.id}
-            column={column}
-          />
+          {columnTasks.length === 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mx: "auto",
+                py: { sm: 3 },
+                maxWidth: "calc(100% - 50px)",
+                alignItems: { xs: "center", sm: "start" },
+                flexDirection: "column",
+                "& img": {
+                  display: { sm: "none" },
+                },
+              }}
+            >
+              <Image
+                src="/images/noTasks.png"
+                width={256}
+                height={256}
+                style={{
+                  ...(session?.user?.darkMode && {
+                    filter: "invert(100%)",
+                  }),
+                }}
+                alt="No items found"
+              />
+
+              <Box sx={{ px: 1.5 }}>
+                <Typography variant="h6" gutterBottom>
+                  Nothing much here...
+                </Typography>
+                <Typography gutterBottom sx={{ mb: 1 }}>
+                  You haven&apos;t added any list items to this column
+                </Typography>
+              </Box>
+              <CreateTask
+                mutationUrl={mutationUrls.tasks}
+                boardId={board.id}
+                column={column}
+              />
+            </Box>
+          ) : (
+            <CreateTask
+              mutationUrl={mutationUrls.tasks}
+              boardId={board.id}
+              column={column}
+            />
+          )}
+
           {columnTasks
             .filter((task) => !task.completed)
             .map((task) => (

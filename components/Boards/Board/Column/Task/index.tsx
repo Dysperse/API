@@ -7,7 +7,7 @@ import {
   ListItemText,
   styled,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
@@ -363,7 +363,7 @@ export const Task: any = React.memo(function Task({
                       }}
                     >
                       <Icon
-                        sx={{ mx: 1, transform: "scale(.9)" }}
+                        sx={{  transform: "scale(.8)" }}
                         className="outlined"
                       >
                         schedule

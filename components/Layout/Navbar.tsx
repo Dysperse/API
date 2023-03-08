@@ -169,24 +169,7 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
           <UpdateButton />
         </Box>
-        {!network.online && (
-          <Tooltip title="You're offline">
-            <IconButton color="inherit" sx={styles}>
-              <Icon className="outlined">offline_bolt</Icon>
-            </IconButton>
-          </Tooltip>
-        )}
         <InviteButton styles={styles} />
-        <Tooltip title="Support">
-          <IconButton
-            sx={{ ...styles, display: { xs: "none", md: "inline-flex" } }}
-            color="inherit"
-            disabled={!window.navigator.onLine}
-            onClick={() => window.open("https://dysperse.com/support")}
-          >
-            <Icon className="outlined">help</Icon>
-          </IconButton>
-        </Tooltip>
       </Toolbar>
     </AppBar>
   );

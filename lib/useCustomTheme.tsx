@@ -62,10 +62,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 ? "hsla(240,11%,15%, 0.5)"
                 : "rgba(255,255,255,.5)",
               backdropFilter: "blur(10px)",
-              borderBottom: "1px solid transparent",
+              borderBottom: "1px solid",
               borderColor: darkMode
                 ? "hsla(240,11%,30%, .5)"
-                : "rgba(200,200,200,.3)",
+                : "hsla(240,11%,90%,.6)",
               color: darkMode ? "#fff" : "#000",
             }),
         },
