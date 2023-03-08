@@ -355,12 +355,13 @@ export default function Onboarding() {
       <InventoryList data={[...cards]} />
     </>,
     <>
-      <Typography variant="h5">You&apos;re all set!</Typography>
+      <Typography gutterBottom variant="h5">
+        You&apos;re all set!
+      </Typography>
       <Typography
         variant="body1"
         sx={{
           fontWeight: 400,
-          marginTop: 2,
           mb: 1.5,
         }}
       >
