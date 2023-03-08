@@ -569,7 +569,7 @@ function Column({ board, mutationUrls, column, index }) {
           sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}
           id={`container-${index}`}
         >
-          {columnTasks.length === 0 ? (
+          {columnTasks.filter((task) => !task.completed).length === 0 ? (
             <Box
               sx={{
                 display: "flex",
@@ -641,7 +641,9 @@ function Column({ board, mutationUrls, column, index }) {
               ...(columnTasks.filter((task) => task.completed).length === 0 && {
                 display: "none",
               }),
-              mt: { sm: 1 },
+              mt: 2,
+              mx: { xs: "20px", sm: 0 },
+              width: "calc(100% - 40px)",
               ...(showCompleted && {
                 background: session?.user?.darkMode
                   ? "hsl(240,11%,20%)!important"
