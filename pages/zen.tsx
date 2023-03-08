@@ -3,10 +3,13 @@ import {
   Box,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemText,
   Toolbar,
   Tooltip,
   Typography,
 } from "@mui/material";
+import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -150,6 +153,64 @@ export default function Home() {
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <DailyCheckIn />
           <DailyRoutine zen />
+
+          <ListItemButton
+            sx={{
+              width: "100%",
+              px: "15px !important",
+              background: session?.user?.darkMode
+                ? "hsl(240, 11%, 10%)"
+                : "#fff",
+              gap: 1.5,
+              border: "1px solid",
+              borderColor: session?.user?.darkMode
+                ? "hsl(240, 11%, 20%)"
+                : "rgba(200, 200, 200, 0.3)",
+            }}
+            className="shadow-md"
+            disableRipple={editMode}
+            onClick={() => !editMode && router.push("/tasks/#/agenda/week")}
+          >
+            <Icon>task_alt</Icon>
+            <ListItemText
+              primary={<b>Today&apos;s agenda</b>}
+              secondary={
+                !editMode && data
+                  ? data && data.length == 0
+                    ? "You don't have any tasks scheduled for today"
+                    : data &&
+                      data.length -
+                        data.filter((task) => task.completed).length ==
+                        0
+                    ? "Great job! You finished all your tasks today!"
+                    : `You have ${
+                        data &&
+                        data.length -
+                          data.filter((task) => task.completed).length
+                      } ${
+                        data &&
+                        data.length -
+                          data.filter((task) => task.completed).length !==
+                          1
+                          ? "tasks"
+                          : "task"
+                      } left for today`
+                  : !editMode && "Loading..."
+              }
+            />
+            {data &&
+              data.length - data.filter((task) => task.completed).length ==
+                0 && (
+                <Icon
+                  sx={{
+                    color: green[session?.user?.darkMode ? "A400" : "A700"],
+                    fontSize: "30px!important",
+                  }}
+                >
+                  check_circle
+                </Icon>
+              )}
+          </ListItemButton>
         </Box>
         <Toolbar />
       </div>
