@@ -313,31 +313,19 @@ export function DailyCheckInDrawer() {
         }}
       >
         <Box sx={{ width: "100%" }}>
+          <Typography sx={{ fontWeight: "900", mb: 0.4 }}>
+            How are you feeling today?
+          </Typography>
           <Typography
-            variant="body1"
+            variant="body2"
+            color="text.secondary"
             sx={{
-              fontSize: "13px",
               display: "flex",
               alignItems: "center",
-              mb: 0.4,
               gap: 1,
             }}
           >
-            Mental health{" "}
-            <Chip
-              label="beta"
-              size="small"
-              sx={{
-                fontSize: "12px",
-                height: "auto",
-                background: `hsl(240,11%,${
-                  session?.user?.darkMode ? 20 : 90
-                }%)`,
-              }}
-            />
-          </Typography>
-          <Typography sx={{ fontWeight: "900" }}>
-            How are you feeling today?
+            Identify and track your emotions
           </Typography>
         </Box>
         <Icon>arrow_forward_ios</Icon>
