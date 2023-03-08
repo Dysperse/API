@@ -227,6 +227,9 @@ export default function Prompt() {
                     name.trim() == "" ||
                     email.trim() == "" ||
                     password.length < 8 ||
+                    !/\d/.test(password) ||
+                    !/[a-z]/i.test(password) ||
+                    confirmPassword.trim().length < 8 ||
                     password !== confirmPassword
                   }
                   size="large"
