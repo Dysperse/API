@@ -375,6 +375,7 @@ export default function Onboarding() {
           sx={{
             borderRadius: 99999,
             mt: 2,
+            px: 3,
           }}
           onClick={() => {
             updateSettings(
