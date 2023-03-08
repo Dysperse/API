@@ -7,7 +7,7 @@ import {
   Slider,
   SwipeableDrawer,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -21,7 +21,6 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
 
-
   useEffect(() => {
     open ? neutralizeBack(() => setOpen(false)) : revivalBack();
   });
@@ -29,7 +28,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   return (
     <Box>
       <Box
-        className="border shadow-md active:scale-[.98]"
+        className="mb-5 border shadow-md active:scale-[.98] sm:mb-0"
         onClick={() => setOpen(true)}
         sx={{
           ...(session?.user?.darkMode && {
@@ -56,6 +55,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
               : "1px solid #ddd",
             sm: "none",
           },
+          mb: { xs: 3, sm: 0 },
           userSelect: "none",
         }}
       >
