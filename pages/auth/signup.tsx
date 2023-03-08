@@ -42,9 +42,6 @@ export default function Prompt() {
           throw new Error(res.message);
         }
         mutate("/api/user").then(() => {
-          if (window.location.href.includes("close=true")) {
-            window.close();
-          }
           toast.success("Welcome to Dysperse!", toastStyles);
           router.push("/");
         });
@@ -151,8 +148,18 @@ export default function Prompt() {
                 {...((password.length < 8 ||
                   !/\d/.test(password) ||
                   !/[a-z]/i.test(password)) && {
-                  helperText:
-                    "Password must be more than 5 characters long, containing at least one letter and number",
+                  helperText: (
+                    <Typography
+                      sx={{
+                        [`@media (prefers-color-scheme: dark)`]: {
+                          color: "hsl(240,11%,90%)",
+                        },
+                      }}
+                    >
+                      Password must be more than 5 characters long, containing
+                      at least one letter and number
+                    </Typography>
+                  ),
                 })}
                 onChange={(e: any) => setPassword(e.target.value)}
                 variant="outlined"
@@ -169,6 +176,19 @@ export default function Prompt() {
                 name="confirmPassword"
                 onChange={(e: any) => setConfirmPassword(e.target.value)}
                 variant="outlined"
+                {...(password !== confirmPassword && {
+                  helperText: (
+                    <Typography
+                      sx={{
+                        [`@media (prefers-color-scheme: dark)`]: {
+                          color: "hsl(240,11%,90%)",
+                        },
+                      }}
+                    >
+                      Passwords do not match
+                    </Typography>
+                  ),
+                })}
               />
               <Link href="/?close=true" legacyBehavior>
                 <Button sx={authStyles.link}>I already have an account</Button>
