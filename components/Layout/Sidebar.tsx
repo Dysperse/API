@@ -12,7 +12,7 @@ export function Sidebar() {
   const router = useRouter();
 
   useHotkeys(
-    "ctrl+1",
+    "ctrl+shift+1",
     (e) => {
       e.preventDefault();
       router.push("/zen");
@@ -21,7 +21,7 @@ export function Sidebar() {
   );
 
   useHotkeys(
-    "ctrl+4",
+    "ctrl+shift+4",
     (e) => {
       e.preventDefault();
       router.push("/items");
@@ -29,7 +29,7 @@ export function Sidebar() {
     [open]
   );
   useHotkeys(
-    "ctrl+3",
+    "ctrl+shift+3",
     (e) => {
       e.preventDefault();
       router.push("/coach");
@@ -37,7 +37,7 @@ export function Sidebar() {
     [open]
   );
   useHotkeys(
-    "ctrl+2",
+    "ctrl+shift+2",
     (e) => {
       e.preventDefault();
       router.push("/tasks");
