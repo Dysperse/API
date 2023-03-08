@@ -226,7 +226,22 @@ function ColumnSettings({
           </Box>
         </>
       </SwipeableDrawer>
-      <IconButton onClick={handleClick} size="small">
+      <IconButton
+        onClick={handleClick}
+        size="small"
+        sx={{
+          ...(Boolean(anchorEl) && {
+            background: `${
+              session?.user?.darkMode
+                ? "hsla(240,11%,25%, 0.3)"
+                : "rgba(0,0,0,0.05)"
+            }!important`,
+            color: session?.user?.darkMode
+              ? "#fff!important"
+              : "#000!important",
+          }),
+        }}
+      >
         <Icon
           className="outlined"
           sx={{
@@ -472,11 +487,11 @@ function Column({ board, mutationUrls, column, index }) {
         <Box
           sx={{
             color: session?.user?.darkMode ? "#fff" : "#000",
-            p: 2,
+            p: { xs: 2, sm: 3 },
             px: 4,
             background: session?.user?.darkMode
               ? "hsla(240,11%,16%, 0.2)"
-              : { xs: "rgba(255,255,255,.05)", md: "rgba(200,200,200,.05)" },
+              : "rgba(255,255,255,.05)",
             borderBottom: "1px solid",
             borderColor: session?.user?.darkMode
               ? "hsla(240,11%,18%, 0.2)"
@@ -560,7 +575,7 @@ function Column({ board, mutationUrls, column, index }) {
                 display: "flex",
                 justifyContent: "center",
                 mx: "auto",
-                py: { sm: 3 },
+                py: { sm: 2 },
                 maxWidth: "calc(100% - 50px)",
                 alignItems: { xs: "center", sm: "start" },
                 flexDirection: "column",
@@ -585,7 +600,7 @@ function Column({ board, mutationUrls, column, index }) {
                 <Typography variant="h6" gutterBottom>
                   Nothing much here...
                 </Typography>
-                <Typography gutterBottom sx={{ mb: 1 }}>
+                <Typography gutterBottom sx={{ mb: -1.5 }}>
                   You haven&apos;t added any list items to this column
                 </Typography>
               </Box>

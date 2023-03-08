@@ -1,11 +1,4 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useCallback, useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
-import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
-import { colors } from "../../../../../lib/colors";
-import { SelectDateModal } from "./SelectDateModal";
-
 import {
   Alert,
   Box,
@@ -24,10 +17,16 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
 import { capitalizeFirstLetter } from "../../../../ItemPopup";
+import { SelectDateModal } from "./SelectDateModal";
 
 function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState<boolean>(false);
@@ -678,8 +677,7 @@ export function CreateTask({
           py: { xs: 2, sm: 1 },
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
-          mb: { xs: -0.5 },
-          mt: { xs: -0.5 },
+          mt: { xs: -0.5, sm: 2 },
 
           "&:active": {
             background: `hsl(240, 11%, ${
