@@ -343,9 +343,7 @@ export const Task: any = React.memo(function Task({
                     }),
                   }}
                 >
-                  <Twemoji>
-                    {renderText(taskData.description || " ", params)}
-                  </Twemoji>
+                  <Twemoji>{taskData.description}</Twemoji>
                 </Typography>
                 {taskData.due && !isAgenda && (
                   <Tooltip

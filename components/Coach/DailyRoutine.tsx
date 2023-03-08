@@ -6,7 +6,7 @@ import {
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -318,6 +318,12 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         </Typography>
       </Box>
       <CircularProgressWithLabel
+        sx={{
+          "&, & *": {
+            width: "50px!important",
+            height: "50px!important",
+          },
+        }}
         value={
           data
             ? (doneTasks.length /
