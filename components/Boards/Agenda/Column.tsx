@@ -1,6 +1,7 @@
 import { Box, Icon, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
+import Image from "next/image";
 import { memo, useEffect } from "react";
 import { colors } from "../../../lib/colors";
 import { useSession } from "../../../pages/_app";
@@ -187,18 +188,69 @@ export const Column: any = memo(function Column({
         }}
       >
         <Box sx={{ my: 0.5 }}>
-          <CreateTask
-            column={{ id: "-1", name: "" }}
-            defaultDate={day.unchanged}
-            label="Set a goal"
-            placeholder={
-              "Set a goal to be achieved " +
-              placeholder.replace("in a day", "tomorrow")
-            }
-            checkList={false}
-            mutationUrl={mutationUrl}
-            boardId={1}
-          />
+          {tasksWithinTimeRange.filter((task) => !task.completed).length ===
+          0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mx: "auto",
+                py: { sm: 2 },
+                maxWidth: "calc(100% - 50px)",
+                alignItems: { xs: "center", sm: "start" },
+                flexDirection: "column",
+                "& img": {
+                  display: { sm: "none" },
+                },
+              }}
+            >
+              <Image
+                src="/images/noTasks.png"
+                width={256}
+                height={256}
+                style={{
+                  ...(session?.user?.darkMode && {
+                    filter: "invert(100%)",
+                  }),
+                }}
+                alt="No items found"
+              />
+
+              <Box sx={{ px: 1.5 }}>
+                <Typography variant="h6" gutterBottom>
+                  Nothing much here...
+                </Typography>
+                <Typography gutterBottom sx={{ mb: -1.5 }}>
+                  You haven&apos;t added any list items to this column
+                </Typography>
+              </Box>
+              <CreateTask
+                column={{ id: "-1", name: "" }}
+                defaultDate={day.unchanged}
+                label="Set a goal"
+                placeholder={
+                  "Set a goal to be achieved " +
+                  placeholder.replace("in a day", "tomorrow")
+                }
+                checkList={false}
+                mutationUrl={mutationUrl}
+                boardId={1}
+              />
+            </Box>
+          ) : (
+            <CreateTask
+              column={{ id: "-1", name: "" }}
+              defaultDate={day.unchanged}
+              label="Set a goal"
+              placeholder={
+                "Set a goal to be achieved " +
+                placeholder.replace("in a day", "tomorrow")
+              }
+              checkList={false}
+              mutationUrl={mutationUrl}
+              boardId={1}
+            />
+          )}
         </Box>
         {[
           ...tasksWithinTimeRange.filter(
