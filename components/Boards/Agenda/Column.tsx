@@ -196,7 +196,6 @@ export const Column: any = memo(function Column({
                 justifyContent: "center",
                 mx: "auto",
                 py: { sm: 2 },
-                maxWidth: "calc(100% - 50px)",
                 alignItems: { xs: "center", sm: "start" },
                 flexDirection: "column",
                 "& img": {
@@ -216,26 +215,32 @@ export const Column: any = memo(function Column({
                 alt="No items found"
               />
 
-              <Box sx={{ px: 1.5 }}>
+              <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
-                  Nothing much here...
+                  {tasksWithinTimeRange == 0
+                    ? "Nothing much here..."
+                    : "Let's go!"}
                 </Typography>
-                <Typography gutterBottom sx={{ mb: -1.5 }}>
-                  You haven&apos;t added any list items to this column
+                <Typography gutterBottom>
+                  {tasksWithinTimeRange == 0
+                    ? "You haven't added any list items to this column"
+                    : "You finished all your goals for this time range!"}
                 </Typography>
               </Box>
-              <CreateTask
-                column={{ id: "-1", name: "" }}
-                defaultDate={day.unchanged}
-                label="Set a goal"
-                placeholder={
-                  "Set a goal to be achieved " +
-                  placeholder.replace("in a day", "tomorrow")
-                }
-                checkList={false}
-                mutationUrl={mutationUrl}
-                boardId={1}
-              />
+              <Box sx={{ width: "100%", mt: 1 }}>
+                <CreateTask
+                  column={{ id: "-1", name: "" }}
+                  defaultDate={day.unchanged}
+                  label="Set a goal"
+                  placeholder={
+                    "Set a goal to be achieved " +
+                    placeholder.replace("in a day", "tomorrow")
+                  }
+                  checkList={false}
+                  mutationUrl={mutationUrl}
+                  boardId={1}
+                />
+              </Box>
             </Box>
           ) : (
             <CreateTask
