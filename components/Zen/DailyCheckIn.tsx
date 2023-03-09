@@ -16,7 +16,7 @@ import {
   SwipeableDrawer,
   Toolbar,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
