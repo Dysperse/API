@@ -15,7 +15,8 @@ import {
   MenuItem,
   SwipeableDrawer,
   Toolbar,
-  Typography,
+  Tooltip,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
@@ -520,8 +521,21 @@ export function DailyCheckInDrawer() {
           variant="h6"
           sx={{ p: 4, pb: 1, pt: 4, display: "flex", alignItems: "center" }}
         >
-          By mood
-          <IconButton sx={{ ml: "auto" }} onClick={() => setShowKey(!showKey)}>
+          By mood &amp; reason
+          <IconButton
+            sx={{
+              ml: "auto",
+              ...(showKey && {
+                background: session?.user?.darkMode
+                  ? "hsl(240,11%,30%)!important"
+                  : "rgba(200,200,200,.3)!important",
+                color: session?.user?.darkMode
+                  ? "#fff!important"
+                  : "#000!important",
+              }),
+            }}
+            onClick={() => setShowKey(!showKey)}
+          >
             <Icon className="outlined">help</Icon>
           </IconButton>
         </Typography>
@@ -588,6 +602,33 @@ export function DailyCheckInDrawer() {
                       (a) => a.reason === reason.name && a.mood === emoji
                     )
                 )
+                .sort((prevReason, reason) => {
+                  const prevLength = data
+                    ? (data.filter(
+                        (a) => a.reason === prevReason.name && a.mood === emoji
+                      ).length /
+                        data.filter((a) => a.mood === emoji).length) *
+                      100
+                    : 0;
+
+                  const nextLength = data
+                    ? (data.filter(
+                        (a) => a.reason === reason.name && a.mood === emoji
+                      ).length /
+                        data.filter((a) => a.mood === emoji).length) *
+                      100
+                    : 0;
+
+                  if (prevLength > nextLength) {
+                    return -1;
+                  }
+                  if (prevLength < nextLength) {
+                    return 1;
+                  }
+
+                  // names must be equal
+                  return 0;
+                })
                 .map((reason) => (
                   <Box
                     sx={{
@@ -597,7 +638,9 @@ export function DailyCheckInDrawer() {
                       mb: 1,
                     }}
                   >
-                    <Icon className="outlined">{reason.icon}</Icon>
+                    <Tooltip title={reason.name} placement="right">
+                      <Icon className="outlined">{reason.icon}</Icon>
+                    </Tooltip>
                     <LinearProgress
                       variant="determinate"
                       sx={{
@@ -623,6 +666,12 @@ export function DailyCheckInDrawer() {
             </Box>
           </Box>
         ))}
+        <Box sx={{ px: 3 }}>
+          <Alert icon="🧠">
+            Your mental health is private, and other members won&apos;t be able
+            to view anything here
+          </Alert>
+        </Box>
         <Box sx={{ mt: 5 }} />
       </SwipeableDrawer>
     </>
