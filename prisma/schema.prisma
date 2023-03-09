@@ -222,6 +222,7 @@ model RoutineItem {
 model DailyCheckIn {
   id     String   @id @unique @default(uuid())
   mood   String
+  reason String @default("Something else")
   date   DateTime
   userId String
   user   User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)

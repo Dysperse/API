@@ -26,7 +26,7 @@ export function CircularProgressWithLabel(
       <CircularProgress
         variant="determinate"
         {...props}
-        size={20}
+        size={40}
         sx={{
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
@@ -36,6 +36,8 @@ export function CircularProgressWithLabel(
                 : "#000",
             transition: "all .2s",
             strokeWidth: props.value === 100 ? 1 : 2,
+            width: 100,
+            height: 100,
           },
         }}
       />

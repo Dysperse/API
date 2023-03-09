@@ -3,9 +3,11 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
   CardActionArea,
   Chip,
   Dialog,
+  Grid,
   Icon,
   IconButton,
   LinearProgress,
@@ -13,6 +15,7 @@ import {
   MenuItem,
   SwipeableDrawer,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -27,8 +30,211 @@ import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
+import { Puller } from "../Puller";
 
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
+export const reasons = [
+  { icon: "favorite", name: "Relationships" },
+  { icon: "work", name: "Work" },
+  { icon: "school", name: "School" },
+  { icon: "sports_basketball", name: "Hobbies" },
+  { icon: "ecg_heart", name: "Health" },
+  { icon: "newspaper", name: "Current events" },
+  { icon: "group", name: "Family/Friends" },
+  { icon: "payments", name: "Finances" },
+  { icon: "pending", name: "Something else", w: 12 },
+];
+function Emoji({ emoji, mood, data, handleMoodChange }) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = useCallback(() => setOpen(true), [setOpen]);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
+  const session = useSession();
+  const [currentReason, setCurrentReason] = useState<null | string>(
+    (data && data[0] && data[0].reason) || null
+  );
+
+  return (
+    <>
+      <SwipeableDrawer
+        open={open}
+        onOpen={handleOpen}
+        onClose={handleClose}
+        anchor="bottom"
+        disableSwipeToOpen
+        PaperProps={{}}
+      >
+        <Puller />
+        <Box sx={{ p: 3, pt: 0 }}>
+          <Typography
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              pb: 2,
+            }}
+          >
+            <picture style={{ flexShrink: 0, flexGrow: 0 }}>
+              <img
+                alt="emoji"
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                width="40px"
+                height="40px"
+              />
+            </picture>
+            <Box>
+              <Typography sx={{ fontWeight: 700 }}>
+                {data && data[0] && mood === emoji
+                  ? "Your mood"
+                  : "What is making you feel this way?"}
+              </Typography>
+              <Typography variant="body2">
+                {data && data[0] && mood === emoji
+                  ? ""
+                  : "Select the most relevant option."}
+              </Typography>
+            </Box>
+          </Typography>
+          {!(data && data[0] && mood === emoji) && (
+            <LinearProgress
+              value={75}
+              variant="determinate"
+              sx={{ borderRadius: 999, mb: 2, height: 2 }}
+            />
+          )}
+          {!(data && data[0] && mood === emoji) && (
+            <Grid
+              container
+              spacing={{
+                xs: 1,
+                sm: 2,
+              }}
+            >
+              {reasons.map((reason) => (
+                <Grid
+                  item
+                  xs={reason.w || 6}
+                  sm={reason.w || 4}
+                  key={reason.name}
+                >
+                  <Box
+                    onClick={() =>
+                      setCurrentReason(
+                        currentReason && reason.name === currentReason
+                          ? null
+                          : reason.name
+                      )
+                    }
+                    sx={{
+                      border: "2px solid transparent",
+                      userSelect: "none",
+                      py: 2,
+                      borderRadius: 4,
+                      px: 2,
+                      transition: "transform .2s",
+                      alignItems: "center",
+                      "&:active": {
+                        transform: "scale(0.95)",
+                        transition: "none",
+                      },
+                      display: "flex",
+                      background: `hsl(240,11%,${
+                        session?.user?.darkMode ? 10 : 97
+                      }%)!important`,
+                      gap: 2,
+                      ...(currentReason === reason.name && {
+                        borderColor: colors[session?.themeColor][700],
+                        boxShadow:
+                          "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+                        background: session?.user?.darkMode
+                          ? "hsl(240,11%,10%) !important"
+                          : "#fff !important",
+                      }),
+                    }}
+                  >
+                    <Icon
+                      sx={{
+                        fontSize: "26px!important",
+                      }}
+                      className="outlined"
+                    >
+                      {reason.icon}
+                    </Icon>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        flexGrow: 1,
+                      }}
+                    >
+                      {reason.name}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+          <Button
+            fullWidth
+            disableRipple
+            size="large"
+            variant="contained"
+            disabled={
+              mood !== emoji &&
+              (!currentReason ||
+                (data &&
+                  data[0] &&
+                  data[0].reason &&
+                  currentReason === data[0].reason))
+            }
+            onClick={() => {
+              handleClose();
+              handleMoodChange(emoji, currentReason);
+            }}
+            sx={{
+              mt: 2,
+              transition: "opacity .2s!important",
+              "&:active": { opacity: 0.5, transition: "none!important" },
+            }}
+          >
+            {data && data[0] && mood === emoji ? "Delete" : "Done"}
+          </Button>
+        </Box>
+      </SwipeableDrawer>
+      <IconButton
+        key={emoji}
+        sx={{
+          p: 0,
+          width: 35,
+          height: 35,
+          cursor: "pointer!important",
+          ...((mood || !data) && {
+            opacity: mood === emoji ? 1 : 0.5,
+          }),
+          ...(mood === emoji && {
+            transform: "scale(1.1)",
+          }),
+          "&:active": {
+            transition: "none",
+            transform: "scale(0.9)",
+          },
+          transition: "transform .2s",
+        }}
+        onClick={handleOpen}
+      >
+        <picture>
+          <img
+            alt="emoji"
+            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+          />
+        </picture>
+      </IconButton>
+    </>
+  );
+}
 
 function InfoModal() {
   const [open, setOpen] = useState<boolean>(false);
@@ -111,6 +317,9 @@ export function DailyCheckInDrawer() {
     setAnchorEl(null);
     setTimeout(() => emblaApi?.reInit(), 100);
   };
+
+  const [showKey, setShowKey] = useState(false);
+
   const session = useSession();
 
   return (
@@ -129,36 +338,25 @@ export function DailyCheckInDrawer() {
         }}
       >
         <Box sx={{ width: "100%" }}>
+          <Typography sx={{ fontWeight: "900", mb: 0.4 }}>
+            How are you feeling today?
+          </Typography>
           <Typography
-            variant="body1"
+            variant="body2"
+            color="text.secondary"
             sx={{
-              fontSize: "13px",
               display: "flex",
               alignItems: "center",
-              mb: 0.4,
               gap: 1,
             }}
           >
-            Mental health{" "}
-            <Chip
-              label="beta"
-              size="small"
-              sx={{
-                fontSize: "12px",
-                height: "auto",
-                background: `hsl(240,11%,${
-                  session?.user?.darkMode ? 20 : 90
-                }%)`,
-              }}
-            />
-          </Typography>
-          <Typography sx={{ fontWeight: "900" }}>
-            How are you feeling today?
+            Identify and track your emotions
           </Typography>
         </Box>
         <Icon>arrow_forward_ios</Icon>
       </CardActionArea>
       <SwipeableDrawer
+        disableSwipeToOpen
         anchor="bottom"
         onOpen={handleOpen}
         onClose={handleClose}
@@ -319,13 +517,62 @@ export function DailyCheckInDrawer() {
           </Box>
         </Box>
 
-        <Typography variant="h6" sx={{ p: 4, pb: 1, pt: 4 }}>
-          By mood
+        <Typography
+          variant="h6"
+          sx={{ p: 4, pb: 1, pt: 4, display: "flex", alignItems: "center" }}
+        >
+          By mood &amp; reason
+          <IconButton
+            sx={{
+              ml: "auto",
+              ...(showKey && {
+                background: session?.user?.darkMode
+                  ? "hsl(240,11%,30%)!important"
+                  : "rgba(200,200,200,.3)!important",
+                color: session?.user?.darkMode
+                  ? "#fff!important"
+                  : "#000!important",
+              }),
+            }}
+            onClick={() => setShowKey(!showKey)}
+          >
+            <Icon className="outlined">help</Icon>
+          </IconButton>
         </Typography>
+
+        {showKey && (
+          <Box
+            sx={{
+              px: 3,
+              mb: 2,
+            }}
+          >
+            {reasons.map((reason) => (
+              <Chip
+                key={reason.name}
+                label={reason.name}
+                sx={{ m: 0.5 }}
+                variant="outlined"
+                icon={
+                  <span style={{ marginTop: "5px" }}>
+                    <Icon className="outlined">{reason.icon}</Icon>
+                  </span>
+                }
+              />
+            ))}
+          </Box>
+        )}
+
         {moodOptions.map((emoji) => (
           <Box
             key={emoji}
-            sx={{ px: 4, py: 1, display: "flex", alignItems: "center", gap: 2 }}
+            sx={{
+              px: 4,
+              py: 1,
+              display: "flex",
+              gap: 2,
+              mb: 2,
+            }}
           >
             <IconButton
               key={emoji}
@@ -342,25 +589,91 @@ export function DailyCheckInDrawer() {
                 />
               </picture>
             </IconButton>
-            <LinearProgress
-              variant="determinate"
+            <Box
               sx={{
                 flexGrow: 1,
-                "&, & *": {
-                  borderRadius: 999,
-                },
-                height: 15,
+                pt: 0.8,
               }}
-              value={
-                data
-                  ? (data.filter(({ mood }) => mood === emoji).length /
-                      data.length) *
-                    100
-                  : 0
-              }
-            />
+            >
+              {reasons
+                .filter(
+                  (reason) =>
+                    data &&
+                    data.find(
+                      (a) => a.reason === reason.name && a.mood === emoji
+                    )
+                )
+                .sort((prevReason, reason) => {
+                  const prevLength = data
+                    ? (data.filter(
+                        (a) => a.reason === prevReason.name && a.mood === emoji
+                      ).length /
+                        data.filter((a) => a.mood === emoji).length) *
+                      100
+                    : 0;
+
+                  const nextLength = data
+                    ? (data.filter(
+                        (a) => a.reason === reason.name && a.mood === emoji
+                      ).length /
+                        data.filter((a) => a.mood === emoji).length) *
+                      100
+                    : 0;
+
+                  if (prevLength > nextLength) {
+                    return -1;
+                  }
+                  if (prevLength < nextLength) {
+                    return 1;
+                  }
+
+                  // names must be equal
+                  return 0;
+                })
+                .map((reason) => (
+                  <Box
+                    key={reason.name}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      mb: 1,
+                    }}
+                  >
+                    <Tooltip title={reason.name} placement="right">
+                      <Icon className="outlined">{reason.icon}</Icon>
+                    </Tooltip>
+                    <LinearProgress
+                      variant="determinate"
+                      sx={{
+                        width: "100%",
+                        "&, & *": {
+                          borderRadius: 999,
+                        },
+                        height: 5,
+                      }}
+                      value={
+                        data
+                          ? (data.filter(
+                              (a) =>
+                                a.reason === reason.name && a.mood === emoji
+                            ).length /
+                              data.filter((a) => a.mood === emoji).length) *
+                            100
+                          : 0
+                      }
+                    />
+                  </Box>
+                ))}
+            </Box>
           </Box>
         ))}
+        <Box sx={{ px: 3 }}>
+          <Alert icon="🧠">
+            Your mental health is private, and other members won&apos;t be able
+            to view anything here
+          </Alert>
+        </Box>
         <Box sx={{ mt: 5 }} />
       </SwipeableDrawer>
     </>
@@ -387,11 +700,12 @@ export function DailyCheckIn() {
   }, [data, mood, setMood]);
 
   const handleMoodChange: any = useCallback(
-    async (emoji: string) => {
+    async (emoji: string, reason: string) => {
       try {
         await fetchApiWithoutHook("user/checkIns/setMood", {
           date: today,
           mood: emoji,
+          reason,
           delete: emoji === mood ? "true" : "false",
         });
         await mutate(mutationUrl);
@@ -416,7 +730,6 @@ export function DailyCheckIn() {
           ? "hsl(240, 11%, 20%)"
           : "rgba(200, 200, 200, 0.3)",
         borderRadius: 5,
-        mb: { xs: -11, sm: 0 },
       }}
       className="shadow-md"
     >
@@ -433,34 +746,13 @@ export function DailyCheckIn() {
         }}
       >
         {moodOptions.map((emoji) => (
-          <IconButton
+          <Emoji
             key={emoji}
-            sx={{
-              p: 0,
-              width: 35,
-              height: 35,
-              cursor: "pointer!important",
-              ...((mood || !data) && {
-                opacity: mood === emoji ? 1 : 0.5,
-              }),
-              ...(mood === emoji && {
-                transform: "scale(1.1)",
-              }),
-              "&:active": {
-                transition: "none",
-                transform: "scale(0.9)",
-              },
-              transition: "transform .2s",
-            }}
-            onClick={() => handleMoodChange(emoji)}
-          >
-            <picture>
-              <img
-                alt="emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-              />
-            </picture>
-          </IconButton>
+            emoji={emoji}
+            handleMoodChange={handleMoodChange}
+            mood={mood}
+            data={data}
+          />
         ))}
       </Box>
     </Box>
