@@ -549,6 +549,7 @@ export function DailyCheckInDrawer() {
           >
             {reasons.map((reason) => (
               <Chip
+                key={reason.name}
                 label={reason.name}
                 sx={{ m: 0.5 }}
                 variant="outlined"
@@ -631,6 +632,7 @@ export function DailyCheckInDrawer() {
                 })
                 .map((reason) => (
                   <Box
+                    key={reason.name}
                     sx={{
                       display: "flex",
                       alignItems: "center",
