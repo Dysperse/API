@@ -704,7 +704,7 @@ export function CreateTask({
             display: "flex",
             width: 25,
             height: 25,
-            ml: 1,
+            ml: 0.5,
             alignItems: "center",
             justifyContent: "center",
           }}
