@@ -32,24 +32,23 @@ import { capitalizeFirstLetter } from "../ItemPopup";
 import { Puller } from "../Puller";
 
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
-
+export const reasons = [
+  { icon: "favorite", name: "Relationships" },
+  { icon: "work", name: "Work" },
+  { icon: "school", name: "School" },
+  { icon: "sports_basketball", name: "Hobbies" },
+  { icon: "ecg_heart", name: "Health" },
+  { icon: "newspaper", name: "Current events" },
+  { icon: "group", name: "Family/Friends" },
+  { icon: "payments", name: "Finances" },
+  { icon: "pending", name: "Something else", w: 12 },
+];
 function Emoji({ emoji, mood, data, handleMoodChange }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const reasons = [
-    { icon: "favorite", name: "Relationships" },
-    { icon: "work", name: "Work" },
-    { icon: "school", name: "School" },
-    { icon: "sports_basketball", name: "Hobbies" },
-    { icon: "ecg_heart", name: "Health" },
-    { icon: "newspaper", name: "Current events" },
-    { icon: "group", name: "Family/Friends" },
-    { icon: "payments", name: "Finances" },
-    { icon: "more_horiz", name: "Something else", w: 12 },
-  ];
   const session = useSession();
   const [currentReason, setCurrentReason] = useState<null | string>(
     (data && data[0] && data[0].reason) || null
@@ -85,95 +84,110 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
             </picture>
             <Box>
               <Typography sx={{ fontWeight: 700 }}>
-                What is making you feel this way?
+                {data && data[0] && mood === emoji
+                  ? "Your mood"
+                  : "What is making you feel this way?"}
               </Typography>
               <Typography variant="body2">
-                Select the most relevant option.
+                {data && data[0] && mood === emoji
+                  ? ""
+                  : "Select the most relevant option."}
               </Typography>
             </Box>
           </Typography>
-          <LinearProgress
-            value={75}
-            variant="determinate"
-            sx={{ borderRadius: 999, mb: 2, height: 2 }}
-          />
-          <Grid container spacing={{ xs: 1, sm: 2 }}>
-            {reasons.map((reason) => (
-              <Grid
-                item
-                xs={reason.w || 6}
-                sm={reason.w || 4}
-                key={reason.name}
-              >
-                <Box
-                  onClick={() =>
-                    setCurrentReason(
-                      currentReason && reason.name === currentReason
-                        ? null
-                        : reason.name
-                    )
-                  }
-                  sx={{
-                    border: "2px solid transparent",
-                    userSelect: "none",
-                    py: 2,
-                    borderRadius: 4,
-                    px: 2,
-                    transition: "transform .2s",
-                    alignItems: "center",
-                    "&:active": {
-                      transform: "scale(0.95)",
-                      transition: "none",
-                    },
-                    display: "flex",
-                    background: `hsl(240,11%,${
-                      session?.user?.darkMode ? 10 : 97
-                    }%)!important`,
-                    gap: 2,
-                    ...(currentReason === reason.name && {
-                      borderColor: colors[session?.themeColor][700],
-                      boxShadow:
-                        "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-                      background: session?.user?.darkMode
-                        ? "hsl(240,11%,10%) !important"
-                        : "#fff !important",
-                    }),
-                  }}
+          {!(data && data[0] && mood === emoji) && (
+            <LinearProgress
+              value={75}
+              variant="determinate"
+              sx={{ borderRadius: 999, mb: 2, height: 2 }}
+            />
+          )}
+          {!(data && data[0] && mood === emoji) && (
+            <Grid
+              container
+              spacing={{
+                xs: 1,
+                sm: 2,
+              }}
+            >
+              {reasons.map((reason) => (
+                <Grid
+                  item
+                  xs={reason.w || 6}
+                  sm={reason.w || 4}
+                  key={reason.name}
                 >
-                  <Icon
+                  <Box
+                    onClick={() =>
+                      setCurrentReason(
+                        currentReason && reason.name === currentReason
+                          ? null
+                          : reason.name
+                      )
+                    }
                     sx={{
-                      fontSize: "26px!important",
+                      border: "2px solid transparent",
+                      userSelect: "none",
+                      py: 2,
+                      borderRadius: 4,
+                      px: 2,
+                      transition: "transform .2s",
+                      alignItems: "center",
+                      "&:active": {
+                        transform: "scale(0.95)",
+                        transition: "none",
+                      },
+                      display: "flex",
+                      background: `hsl(240,11%,${
+                        session?.user?.darkMode ? 10 : 97
+                      }%)!important`,
+                      gap: 2,
+                      ...(currentReason === reason.name && {
+                        borderColor: colors[session?.themeColor][700],
+                        boxShadow:
+                          "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+                        background: session?.user?.darkMode
+                          ? "hsl(240,11%,10%) !important"
+                          : "#fff !important",
+                      }),
                     }}
-                    className="outlined"
                   >
-                    {reason.icon}
-                  </Icon>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      flexGrow: 1,
-                    }}
-                  >
-                    {reason.name}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
+                    <Icon
+                      sx={{
+                        fontSize: "26px!important",
+                      }}
+                      className="outlined"
+                    >
+                      {reason.icon}
+                    </Icon>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        flexGrow: 1,
+                      }}
+                    >
+                      {reason.name}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          )}
           <Button
             fullWidth
             disableRipple
             size="large"
             variant="contained"
             disabled={
-              !currentReason ||
-              (data &&
-                data[0] &&
-                data[0].reason &&
-                currentReason === data[0].reason)
+              mood !== emoji &&
+              (!currentReason ||
+                (data &&
+                  data[0] &&
+                  data[0].reason &&
+                  currentReason === data[0].reason))
             }
             onClick={() => {
               handleClose();
@@ -185,7 +199,7 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
               "&:active": { opacity: 0.5, transition: "none!important" },
             }}
           >
-            Done
+            {data && data[0] && mood === emoji ? "Delete" : "Done"}
           </Button>
         </Box>
       </SwipeableDrawer>
@@ -302,6 +316,9 @@ export function DailyCheckInDrawer() {
     setAnchorEl(null);
     setTimeout(() => emblaApi?.reInit(), 100);
   };
+
+  const [showKey, setShowKey] = useState(false);
+
   const session = useSession();
 
   return (
@@ -499,13 +516,48 @@ export function DailyCheckInDrawer() {
           </Box>
         </Box>
 
-        <Typography variant="h6" sx={{ p: 4, pb: 1, pt: 4 }}>
+        <Typography
+          variant="h6"
+          sx={{ p: 4, pb: 1, pt: 4, display: "flex", alignItems: "center" }}
+        >
           By mood
+          <IconButton sx={{ ml: "auto" }} onClick={() => setShowKey(!showKey)}>
+            <Icon className="outlined">help</Icon>
+          </IconButton>
         </Typography>
+
+        {showKey && (
+          <Box
+            sx={{
+              px: 3,
+              mb: 2,
+            }}
+          >
+            {reasons.map((reason) => (
+              <Chip
+                label={reason.name}
+                sx={{ m: 0.5 }}
+                variant="outlined"
+                icon={
+                  <span style={{ marginTop: "5px" }}>
+                    <Icon className="outlined">{reason.icon}</Icon>
+                  </span>
+                }
+              />
+            ))}
+          </Box>
+        )}
+
         {moodOptions.map((emoji) => (
           <Box
             key={emoji}
-            sx={{ px: 4, py: 1, display: "flex", alignItems: "center", gap: 2 }}
+            sx={{
+              px: 4,
+              py: 1,
+              display: "flex",
+              gap: 2,
+              mb: 2,
+            }}
           >
             <IconButton
               key={emoji}
@@ -522,23 +574,53 @@ export function DailyCheckInDrawer() {
                 />
               </picture>
             </IconButton>
-            <LinearProgress
-              variant="determinate"
+            <Box
               sx={{
                 flexGrow: 1,
-                "&, & *": {
-                  borderRadius: 999,
-                },
-                height: 15,
+                pt: 0.8,
               }}
-              value={
-                data
-                  ? (data.filter(({ mood }) => mood === emoji).length /
-                      data.length) *
-                    100
-                  : 0
-              }
-            />
+            >
+              {reasons
+                .filter(
+                  (reason) =>
+                    data &&
+                    data.find(
+                      (a) => a.reason === reason.name && a.mood === emoji
+                    )
+                )
+                .map((reason) => (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      mb: 1,
+                    }}
+                  >
+                    <Icon className="outlined">{reason.icon}</Icon>
+                    <LinearProgress
+                      variant="determinate"
+                      sx={{
+                        width: "100%",
+                        "&, & *": {
+                          borderRadius: 999,
+                        },
+                        height: 5,
+                      }}
+                      value={
+                        data
+                          ? (data.filter(
+                              (a) =>
+                                a.reason === reason.name && a.mood === emoji
+                            ).length /
+                              data.filter((a) => a.mood === emoji).length) *
+                            100
+                          : 0
+                      }
+                    />
+                  </Box>
+                ))}
+            </Box>
           </Box>
         ))}
         <Box sx={{ mt: 5 }} />

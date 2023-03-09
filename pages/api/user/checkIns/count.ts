@@ -8,6 +8,7 @@ export default async function handler(req, res) {
     },
     select: {
       mood: true,
+      reason: true,
       date: true,
     },
     orderBy: {
