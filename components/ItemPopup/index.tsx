@@ -45,7 +45,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       : colors[session?.themeColor || "grey"]["800"],
     background: session?.user?.darkMode
       ? "hsl(240, 11%, 20%)"
-      : colors[session?.themeColor || "grey"][100],
+      : colors[session?.themeColor || "grey"][50],
     "&:hover, &:active, &:focus-within": {
       background: session?.user?.darkMode
         ? "hsl(240, 11%, 25%)"

@@ -2,6 +2,10 @@ import { openSpotlight } from "@mantine/spotlight";
 import { Masonry } from "@mui/lab";
 import {
   Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  Chip,
   Icon,
   IconButton,
   ListItemButton,
@@ -15,11 +19,59 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
 import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useSession } from "./_app";
+
+function RecentItems() {
+  const { data, url, error } = useApi("property/boards/recent");
+  return (
+    <>
+      <Typography variant="h6" sx={{ mb: 2, ml: 1 }}>
+        Recently edited
+      </Typography>
+      <Box
+        sx={{
+          overflow: "scroll",
+          display: "flex",
+          gap: 2,
+          mb: 2,
+        }}
+      >
+        {data &&
+          data.map((item) => (
+            <TaskDrawer id={item.id} key={item.id} mutationUrl={url}>
+              <Card
+                sx={{ width: { xs: "90vw", sm: "300px" }, borderRadius: 5 }}
+                variant="outlined"
+              >
+                <CardActionArea sx={{ height: "100%" }}>
+                  <CardContent sx={{ height: "100%" }}>
+                    <Typography
+                      sx={{
+                        fontWeight: 700,
+                        mb: 1,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {item.name}
+                    </Typography>
+                    {item.due && <Chip label={dayjs(item.due).fromNow()} />}
+                    {item.pinned && <Chip label="Important" />}
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </TaskDrawer>
+          ))}
+      </Box>
+    </>
+  );
+}
 
 export default function Home() {
   const router = useRouter();
@@ -110,7 +162,8 @@ export default function Home() {
                   xs: "40px",
                   sm: "50px",
                 },
-                textAlign: "center",
+                userSelect: "none",
+                textAlign: { md: "center" },
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: "100%",
@@ -125,84 +178,93 @@ export default function Home() {
             </Typography>
           </Box>
         </Box>
-        <Masonry columns={2}>
-          <DailyCheckIn />
-          <DailyRoutine zen />
-          <ListItemButton
-            sx={{
-              px: "15px !important",
-              background: session?.user?.darkMode
-                ? "hsl(240, 11%, 10%)"
-                : "#fff",
-              gap: 1.5,
-              border: "1px solid",
-              borderColor: session?.user?.darkMode
-                ? "hsl(240, 11%, 20%)"
-                : "rgba(200, 200, 200, 0.3)",
-            }}
-            className="shadow-md"
-            disableRipple={editMode}
-            onClick={() => !editMode && router.push("/tasks/#/agenda/week")}
-          >
-            <Icon>task_alt</Icon>
-            <ListItemText
-              primary={<b>Today&apos;s agenda</b>}
-              secondary={
-                !editMode && data
-                  ? data && data.length == 0
-                    ? "You don't have any tasks scheduled for today"
-                    : data &&
-                      data.length -
-                        data.filter((task) => task.completed).length ==
-                        0
-                    ? "Great job! You finished all your tasks today!"
-                    : `You have ${
-                        data &&
+        <RecentItems />
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
+          <Box>
+            <DailyCheckIn />
+          </Box>
+          <Box>
+            <DailyRoutine zen />
+          </Box>
+          <Box>
+            <ListItemButton
+              sx={{
+                px: "15px !important",
+                background: session?.user?.darkMode
+                  ? "hsl(240, 11%, 10%)"
+                  : "#fff",
+                gap: 2,
+                border: "1px solid",
+                borderColor: session?.user?.darkMode
+                  ? "hsl(240, 11%, 20%)"
+                  : "rgba(200, 200, 200, 0.3)",
+              }}
+              className="shadow-md"
+              disableRipple={editMode}
+              onClick={() => !editMode && router.push("/tasks/#/agenda/week")}
+            >
+              <Icon sx={{ ml: 1 }}>task_alt</Icon>
+              <ListItemText
+                primary={<b>Today&apos;s agenda</b>}
+                secondary={
+                  !editMode && data
+                    ? data && data.length == 0
+                      ? "You don't have any tasks scheduled for today"
+                      : data &&
                         data.length -
-                          data.filter((task) => task.completed).length
-                      } ${
-                        data &&
-                        data.length -
-                          data.filter((task) => task.completed).length !==
-                          1
-                          ? "tasks"
-                          : "task"
-                      } left for today`
-                  : !editMode && "Loading..."
-              }
-            />
-            {data &&
-              data.length - data.filter((task) => task.completed).length ==
-                0 && (
-                <Icon
-                  sx={{
-                    color: green[session?.user?.darkMode ? "A400" : "A700"],
-                    fontSize: "30px!important",
-                  }}
-                >
-                  check_circle
-                </Icon>
-              )}
-          </ListItemButton>
-          <ListItemButton
-            sx={{
-              px: "15px !important",
-              background: session?.user?.darkMode
-                ? "hsl(240, 11%, 10%)"
-                : "#fff",
-              gap: 1.5,
-              border: "1px solid",
-              borderColor: session?.user?.darkMode
-                ? "hsl(240, 11%, 20%)"
-                : "rgba(200, 200, 200, 0.3)",
-            }}
-            className="shadow-md"
-            disableRipple={editMode}
-            onClick={() => !editMode && router.push("/tasks/#/backlog")}
-          >
-            <Icon>auto_mode</Icon>
-            <b>Backlog</b>
-          </ListItemButton>
+                          data.filter((task) => task.completed).length ==
+                          0
+                      ? "Great job! You finished all your tasks today!"
+                      : `You have ${
+                          data &&
+                          data.length -
+                            data.filter((task) => task.completed).length
+                        } ${
+                          data &&
+                          data.length -
+                            data.filter((task) => task.completed).length !==
+                            1
+                            ? "tasks"
+                            : "task"
+                        } left for today`
+                    : !editMode && "Loading..."
+                }
+              />
+              {data &&
+                data.length - data.filter((task) => task.completed).length ==
+                  0 && (
+                  <Icon
+                    sx={{
+                      color: green[session?.user?.darkMode ? "A400" : "A700"],
+                      fontSize: "30px!important",
+                    }}
+                  >
+                    check_circle
+                  </Icon>
+                )}
+            </ListItemButton>
+          </Box>
+          <Box>
+            <ListItemButton
+              sx={{
+                px: "15px !important",
+                background: session?.user?.darkMode
+                  ? "hsl(240, 11%, 10%)"
+                  : "#fff",
+                gap: 2,
+                border: "1px solid",
+                borderColor: session?.user?.darkMode
+                  ? "hsl(240, 11%, 20%)"
+                  : "rgba(200, 200, 200, 0.3)",
+              }}
+              className="shadow-md"
+              disableRipple={editMode}
+              onClick={() => !editMode && router.push("/tasks/#/backlog")}
+            >
+              <Icon sx={{ ml: 1 }}>auto_mode</Icon>
+              <b>Backlog</b>
+            </ListItemButton>
+          </Box>
         </Masonry>
         <Toolbar />
       </div>

@@ -194,6 +194,7 @@ model Task {
   completed   Boolean   @default(false)
   image       String?
   columnId    String?
+  lastUpdated DateTime  @default(now())
   column      Column?   @relation(fields: [columnId], references: [id], onDelete: Cascade)
 
   parentTasks Task[] @relation("subtasks")
@@ -222,7 +223,7 @@ model RoutineItem {
 model DailyCheckIn {
   id     String   @id @unique @default(uuid())
   mood   String
-  reason String @default("Something else")
+  reason String   @default("Something else")
   date   DateTime
   userId String
   user   User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
