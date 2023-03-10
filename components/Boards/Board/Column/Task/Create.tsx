@@ -35,24 +35,26 @@ function ImageModal({ image, setImage, styles }) {
     const key = "da1f275ffca5b40715ac3a44aa77cf42";
     const form = new FormData();
     form.append("image", e.target.files[0]);
-
     setImageUploading(true);
-    fetch(`https://api.imgbb.com/1/upload?name=image&key=${key}`, {
-      method: "POST",
-      body: form,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setImage(JSON.stringify(res.data));
-        console.log("Image uploaded!!!", res.data);
-        setImageUploading(false);
-      })
-      .catch(() => {
-        toast.error(
-          "Yikes! An error occured while trying to upload your image. Please try again later"
-        );
-        setImageUploading(false);
-      });
+
+    try {
+      const res = await fetch(
+        `https://api.imgbb.com/1/upload?name=image&key=${key}`,
+        {
+          method: "POST",
+          body: form,
+        }
+      ).then((res) => res.json());
+
+      setImage(JSON.stringify(res.data));
+      console.log("Image uploaded!!!", res.data);
+      setImageUploading(false);
+    } catch (e) {
+      toast.error(
+        "Yikes! An error occured while trying to upload your image. Please try again later"
+      );
+      setImageUploading(false);
+    }
   };
 
   return (
