@@ -82,7 +82,7 @@ function ImageModal({ image, setImage, styles }) {
           })
             .then((res) => res.json())
             .then((res) => {
-              setImage(res.data);
+              setImage(JSON.stringify(res.data));
               console.log("Image uploaded!!!", res.data);
               setImageUploading(false);
             })
@@ -118,7 +118,7 @@ export function CreateTask({
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
   const [pinned, setPinned] = useState<boolean>(false);
-  const [image, setImage] = useState<any>(null);
+  const [image, setImage] = useState<string | null>(null);
 
   const [showDescription, setShowDescription] = useState<boolean>(false);
 
@@ -247,7 +247,7 @@ export function CreateTask({
       fetchApiWithoutHook("property/boards/column/task/create", {
         title,
         description,
-        ...(image && { image: image.url }),
+        ...(image && { image: JSON.parse(image).url }),
         date,
         pinned: pinned ? "true" : "false",
         due: date ? date.toISOString() : "false",
@@ -441,7 +441,7 @@ export function CreateTask({
                   <img
                     alt="Uploaded"
                     draggable={false}
-                    src={image.url}
+                    src={JSON.parse(image).url}
                     style={{
                       width: "100%",
                       height: "100%",
