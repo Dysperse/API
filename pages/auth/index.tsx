@@ -8,7 +8,7 @@ import {
   InputAdornment,
   NoSsr,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
@@ -141,11 +141,7 @@ export default function Prompt() {
           },
           toastStyles
         );
-        mutate("/api/user").then(() => {
-          if (window.location.href.includes("close=true")) {
-            window.close();
-          }
-        });
+        mutate("/api/user").then();
         return;
       }
       // Success
