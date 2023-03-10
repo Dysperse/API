@@ -83,6 +83,7 @@ function ImageModal({ image, setImage, styles }) {
             .then((res) => res.json())
             .then((res) => {
               setImage(res.data);
+              console.log("Image uploaded!!!", res.data);
               setImageUploading(false);
             })
             .catch(() => {
