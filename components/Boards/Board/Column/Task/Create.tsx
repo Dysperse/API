@@ -66,7 +66,7 @@ function ImageModal({ image, setImage, styles }) {
           sx={{
             ...styles,
             mx: 0.5,
-            ...(session?.user?.darkMode && {
+            ...(image && {
               background: session?.user?.darkMode
                 ? "hsl(240,11%,20%)"
                 : "#ddd !important",
@@ -429,6 +429,8 @@ export function CreateTask({
                 <picture>
                   <img
                     alt="Uploaded"
+                    width="100%"
+                    height="100%"
                     draggable={false}
                     src={JSON.parse(image).url}
                     style={{
@@ -450,7 +452,7 @@ export function CreateTask({
                     borderRadius: 999,
                     zIndex: 999,
                   }}
-                  onClick={() => setImage(null)}W
+                  onClick={() => setImage(null)}
                 >
                   <Icon className="outlined" sx={{ fontSize: "20px" }}>
                     delete
