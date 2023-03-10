@@ -86,7 +86,10 @@ function ImageModal({ image, setImage, styles }) {
               setImage(res.data);
               setImageUploading(false);
             })
-            .catch((err) => {
+            .catch(() => {
+              toast.error(
+                "Yikes! An error occured while trying to upload your image. Please try again later"
+              );
               setImageUploading(false);
             });
         }}
