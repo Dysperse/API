@@ -82,35 +82,12 @@ export default function Home() {
                 ml: "auto",
               }}
             >
-              <Tooltip title={editMode ? "Save" : "Edit start"}>
-                <IconButton
-                  sx={{
-                    mr: 0.5,
-                    ...(editMode && {
-                      background: session?.user?.darkMode
-                        ? "hsl(240,11%,25%)!important"
-                        : "rgba(200,200,200,.3)!important",
-                    }),
-                  }}
-                  onClick={() => {
-                    navigator.vibrate(50);
-                    setEditMode(!editMode);
-                  }}
-                >
-                  <Icon className="outlined">
-                    {editMode ? "check" : "edit"}
-                  </Icon>
-                </IconButton>
-              </Tooltip>
               {!editMode && (
                 <Tooltip title="Jump to" placement="bottom-start">
                   <IconButton
                     onClick={() => {
                       navigator.vibrate(50);
                       openSpotlight();
-                    }}
-                    sx={{
-                      display: { md: "none" },
                     }}
                   >
                     <Icon className="outlined">bolt</Icon>
@@ -153,6 +130,7 @@ export default function Home() {
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <DailyCheckIn />
           <DailyRoutine zen />
+
           <ListItemButton
             sx={{
               width: "100%",
@@ -209,6 +187,26 @@ export default function Home() {
                   check_circle
                 </Icon>
               )}
+          </ListItemButton>
+          <ListItemButton
+            sx={{
+              width: "100%",
+              px: "15px !important",
+              background: session?.user?.darkMode
+                ? "hsl(240, 11%, 10%)"
+                : "#fff",
+              gap: 1.5,
+              border: "1px solid",
+              borderColor: session?.user?.darkMode
+                ? "hsl(240, 11%, 20%)"
+                : "rgba(200, 200, 200, 0.3)",
+            }}
+            className="shadow-md"
+            disableRipple={editMode}
+            onClick={() => !editMode && router.push("/tasks/#/backlog")}
+          >
+            <Icon>auto_mode</Icon>
+            <b>Backlog</b>
           </ListItemButton>
         </Box>
         <Toolbar />
