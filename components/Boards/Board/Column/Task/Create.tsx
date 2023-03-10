@@ -59,6 +59,7 @@ function ImageModal({ image, setImage, styles }) {
     <>
       <Tooltip title="Attach an image (alt • s)" placement="top">
         <IconButton
+          size="small"
           onClick={() => {
             navigator.vibrate(50);
             document.getElementById("imageAttachment")?.click();
@@ -66,24 +67,17 @@ function ImageModal({ image, setImage, styles }) {
           sx={{
             ...styles,
             mx: 0.5,
-            background: image
-              ? session?.user?.darkMode
+            ...(session?.user?.darkMode && {
+              background: session?.user?.darkMode
                 ? "hsl(240,11%,20%)"
-                : "#ddd !important"
-              : "",
+                : "#ddd !important",
+            }),
           }}
-          size="small"
         >
           {imageUploading ? (
             <CircularProgress size={20} sx={{ mx: 0.5 }} />
           ) : (
-            <span
-              className={
-                image ? "material-symbols-rounded" : "material-symbols-outlined"
-              }
-            >
-              image
-            </span>
+            <Icon {...(image && { className: "outlined" })}>image</Icon>
           )}
         </IconButton>
       </Tooltip>
@@ -92,7 +86,13 @@ function ImageModal({ image, setImage, styles }) {
         id="imageAttachment"
         name="imageAttachment"
         style={{
-          display: "none",
+          opacity: 0,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: 0,
+          height: 0,
+          pointerEvents: "none",
         }}
         onChange={handleUpload}
         accept="image/png, image/jpeg"
