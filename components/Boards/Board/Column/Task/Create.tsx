@@ -674,7 +674,7 @@ export function CreateTask({
             session?.user?.darkMode ? 80 : 95
           }%) !important`,
           transition: "none",
-          py: { xs: 2, sm: 1 },
+          py: { xs: 2, sm: 1.5 },
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
           mt: { xs: -0.5, sm: label ? 0 : 2 },
@@ -704,7 +704,7 @@ export function CreateTask({
             display: "flex",
             width: 25,
             height: 25,
-            ml: 0.5,
+            ml: 0.3,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -721,7 +721,7 @@ export function CreateTask({
           </Icon>
         </Box>
 
-        <Typography sx={{ fontWeight: 700 }}>
+        <Typography sx={{ fontWeight: 700, ml: 0.5 }}>
           {parent ? "New subtask" : label || "New list item"}
         </Typography>
       </ListItemButton>
